@@ -9,29 +9,51 @@
 #include "set.h"
 #include "state.c"
 
+static void setupInstances(int instanceMax, int attributeCount) {
+  int adminSize = (instanceMax+1)*sizeof(AdminEntry)/sizeof(Aword);
+  int attributeAreaSize = (instanceMax+1)*attributeCount*sizeof(AttributeEntry)/sizeof(Aword);
+  int i;
+
+  header = allocate(sizeof(ACodeHeader));
+  header->attributesAreaSize = attributeAreaSize;
+  header->instanceMax = instanceMax;
+
+  admin = allocate((instanceMax+1)*sizeof(AdminEntry));
+  for (i = 0; i < adminSize; i++) ((Aword *)admin)[i] = i;
+
+  attributes = allocate((instanceMax+1)*attributeCount*sizeof(AttributeEntry));
+  for (i = 0; i < attributeAreaSize; i++) ((Aword *)attributes)[i] = i;
+
+}
+
+static void buildGameStateStack(int depth, int attributeCount) {
+  int i;
+
+  if (depth == 0)
+    gameState = NULL;
+  else {
+    gameState = allocate(depth*sizeof(GameState));
+    for (i = 0; i<depth; i++) {
+      gameState[i].admin = allocate((header->instanceMax+1)*sizeof(AdminEntry));
+      gameState[i].attributes = allocate((header->instanceMax+1)*attributeCount*sizeof(AttributeEntry));
+    }
+  }
+
+  gameStateTop = depth;
+  gameStateSize = depth;
+}
+
+
 static void testPushGameState() {
   int instanceCount = 3;
   int adminSize = (instanceCount+1)*sizeof(AdminEntry)/sizeof(Aword);
   int attributeCount = 5;
   int attributeAreaSize = attributeCount*instanceCount*sizeof(AttributeEntry)/sizeof(Aword);
-  int i;
 
-  header = allocate(sizeof(ACodeHeader));
-  header->instanceMax = instanceCount;
-  admin = allocate(adminSize*sizeof(Aword));
-  header->attributesAreaSize = attributeAreaSize;
-  attributes = allocate(attributeAreaSize*sizeof(Aword));
+  buildGameStateStack(0, instanceCount);
+  setupInstances(instanceCount, attributeCount);
+
   eventQueueTop = 0;
-
-  for (i = 0; i < attributeAreaSize; i++)
-    ((Aword *)attributes)[i] = i;
-  for (i = 0; i < adminSize; i++)
-    ((Aword *)admin)[i] = i;
-
-  gameState = NULL;
-  gameStateTop = 0;
-  gameStateSize = 0;
-  gameStateChanged = TRUE;
 
   pushGameState();
 
@@ -41,23 +63,20 @@ static void testPushGameState() {
   ASSERT(memcmp(gameState->admin, admin, adminSize*sizeof(Aword)) == 0);
 }
 
+
 static void testPushPopGameStateWithSet() {
   int instanceCount = 1;
-  int adminSize = (instanceCount+1)*sizeof(AdminEntry)/sizeof(Aword);
   int attributeCount = 1;
-  int attributeAreaSize = attributeCount*instanceCount*sizeof(AttributeEntry)/sizeof(Aword);
   Set *originalSet = newSet(3);
   SetInitEntry *initEntry;
 
-  header = allocate(sizeof(ACodeHeader));
-  header->instanceMax = instanceCount;
-  admin = allocate(adminSize*sizeof(Aword));
-  header->attributesAreaSize = attributeAreaSize;
-  attributes = allocate(attributeAreaSize*sizeof(Aword));
+  setupInstances(instanceCount, attributeCount);
+
   admin[1].attributes = attributes;
   attributes[0].code = 1;
   attributes[0].value = (Aword)originalSet;
   addToSet(originalSet, 7);
+
   eventQueueTop = 0;
 
   /* Set up a set initialization */
@@ -68,9 +87,7 @@ static void testPushPopGameStateWithSet() {
   initEntry->attributeCode = 1;
   memory[1+sizeof(SetInitEntry)/sizeof(Aword)] = EOF;
 
-  gameState = NULL;
-  gameStateTop = 0;
-  gameStateSize = 0;
+  buildGameStateStack(0, instanceCount);
 
   pushGameState();
 
@@ -92,19 +109,12 @@ static void testPushPopGameStateWithSet() {
 }
 
 static void testPopGameState() {
-  int instanceMax = 2;
-  attributes = allocate((instanceMax+1)*sizeof(AttributeEntry));
-  admin = allocate((instanceMax+1)*sizeof(AdminEntry));
+  int instanceCount = 2;
+  setupInstances(instanceCount, 3);
+  buildGameStateStack(0, instanceCount);
 
-  header->attributesAreaSize = (instanceMax+1)*sizeof(AttributeEntry)/sizeof(Aword);
-  header->instanceMax = instanceMax;
-
-  gameState = NULL;
-  gameStateTop = 0;
-  gameStateSize = 0;
   attributes[0].value = 12;
   attributes[2].value = 3;
-  gameStateChanged = TRUE;
 
   pushGameState();
 
@@ -123,9 +133,12 @@ static void testPopGameState() {
   admin[2].step = 3886;
   admin[2].waitCount = 38869878;
 
-  gameStateChanged = TRUE;
   pushGameState();
 
+  eventQueueTop = 0;
+  eventQueue[1].time = 1;
+  attributes[0].value = 55;
+  attributes[2].value = 55;
   admin[2].location = 55;
   admin[2].alreadyDescribed = 55;
   admin[2].visitsCount = 55;
@@ -133,18 +146,18 @@ static void testPopGameState() {
   admin[2].step = 55;
   admin[2].waitCount = 55;
 
-  eventQueueTop = 0;
-  eventQueue[1].time = 1;
   popGameState();
+
+  ASSERT(eventQueueTop == 2);
+  ASSERT(eventQueue[1].time == 47);
+  ASSERT(attributes[0].value == 11);
+  ASSERT(attributes[2].value == 4);
   ASSERT(admin[2].location == 12);
   ASSERT(admin[2].alreadyDescribed == 2);
   ASSERT(admin[2].visitsCount == 13);
   ASSERT(admin[2].script == 33);
   ASSERT(admin[2].step == 3886);
   ASSERT(admin[2].waitCount == 38869878);
-
-  ASSERT(eventQueueTop == 2);
-  ASSERT(eventQueue[1].time == 47);
 
   popGameState();
 
@@ -153,24 +166,28 @@ static void testPopGameState() {
 }
 
 static void testPopEvents() {
+  int instanceCount = 1;
+
   eventQueue = NULL;
   eventQueueTop = 0;
-  gameState = allocate(sizeof(GameState));
-  gameStateSize = 1;
-  gameStateTop = 0;
+
+  buildGameStateStack(1, instanceCount);
+
   popEvents();
+  /* TODO: Why no ASSERTs? */
 }
 
 static void testRememberCommand() {
+  int instanceCount = 1;
   int i;
   char *command = "n, w, e and south";
+
   playerWords[0].code = EOF;
   for (i = 0; i < 4; i++)
     playerWords[i].code = i;
   playerWords[4].code = EOF;
 
-  gameStateTop = 1;
-  gameState = allocate(sizeof(GameState));
+  buildGameStateStack(1, instanceCount);
 
   firstWord = 0;
   lastWord = 3;
@@ -182,7 +199,21 @@ static void testRememberCommand() {
   ASSERT(strncmp(gameState[0].playerCommand, command, 3) == 0);
 }
 
+static void testUndoStackFreesMemory() {
+  int instanceCount = 1;
+
+  buildGameStateStack(1, instanceCount);
+  gameState[0].admin = allocate(100);
+
+  initUndoStack();
+
+  ASSERT(gameStateTop == 0);
+  ASSERT(gameState[0].admin == NULL);
+  ASSERT(gameState[0].attributes == NULL);
+}
+
 void registerStateUnitTests() {
+  registerUnitTest(testUndoStackFreesMemory);
   registerUnitTest(testRememberCommand);
   registerUnitTest(testPushGameState);
   registerUnitTest(testPopEvents);

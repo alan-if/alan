@@ -11,8 +11,8 @@
 
 
 typedef struct Case {
-  void (*theCase)();
-  struct Case *next;
+	void (*theCase)();
+	struct Case *next;
 } Case;
 
 static Case *caseList = NULL;
@@ -27,21 +27,21 @@ static void loadACD(char fileName[]);
 
 Aword convertFromACD(Aword w)
 {
-  Aword s;                      /* The swapped ACODE word */
-  char *wp, *sp;
-  int i;
-  
-  wp = (char *) &w;
-  sp = (char *) &s;
+	Aword s;                      /* The swapped ACODE word */
+	char *wp, *sp;
+	int i;
 
-  if (littleEndian())
-    for (i = 0; i < sizeof(Aword); i++)
-      sp[sizeof(Aword)-1 - i] = wp[i];
-  else
-    for (i = 0; i < sizeof(Aword); i++)
-      sp[i] = wp[i];
+	wp = (char *) &w;
+	sp = (char *) &s;
 
-  return s;
+	if (littleEndian())
+		for (i = 0; i < sizeof(Aword); i++)
+			sp[sizeof(Aword)-1 - i] = wp[i];
+	else
+		for (i = 0; i < sizeof(Aword); i++)
+			sp[i] = wp[i];
+
+	return s;
 }
 
 
@@ -80,78 +80,78 @@ extern lmSev readSev();
 
 int main()
 {
-  lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
+	lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
 
-  registerDescriptionUnitTests();
-  registerLstUnitTests();
-  registerPropUnitTests();
-  registerResourceUnitTests();
-  registerClaUnitTests();
-  registerIfidUnitTests();
-  registerInsUnitTests();
-  registerAdvUnitTests();
-  registerSymUnitTests();
-  registerWhrUnitTests();
-  registerVrbUnitTests();
-  registerEmitUnitTests();
-  registerExtUnitTests();
-  registerExpUnitTests();
-  registerAtrUnitTests();
-  registerAddUnitTests();
-  registerResUnitTests();
-  registerStxUnitTests();
-  registerStmUnitTests();
-  registerElmUnitTests();
-  registerWrdUnitTests();
-  registerParamUnitTests();
+	registerDescriptionUnitTests();
+	registerLstUnitTests();
+	registerPropUnitTests();
+	registerResourceUnitTests();
+	registerClaUnitTests();
+	registerIfidUnitTests();
+	registerInsUnitTests();
+	registerAdvUnitTests();
+	registerSymUnitTests();
+	registerWhrUnitTests();
+	registerVrbUnitTests();
+	registerEmitUnitTests();
+	registerExtUnitTests();
+	registerExpUnitTests();
+	registerAtrUnitTests();
+	registerAddUnitTests();
+	registerResUnitTests();
+	registerStxUnitTests();
+	registerStmUnitTests();
+	registerElmUnitTests();
+	registerWrdUnitTests();
+	registerParamUnitTests();
 
-  unitTest();
+	unitTest();
 
-  return 0;
+	return 0;
 }
 
 void registerUnitTest(void (*aCase)())
 {
-  if (lastCase == NULL) {
-    caseList = calloc(sizeof(Case), 1);
-    caseList->theCase = aCase;
-    lastCase = caseList;
-  } else {
-    lastCase->next = calloc(sizeof(Case), 1);
-    lastCase = lastCase->next;
-    lastCase->theCase = aCase;
-  }
-  lastCase->next = NULL;
+	if (lastCase == NULL) {
+		caseList = calloc(sizeof(Case), 1);
+		caseList->theCase = aCase;
+		lastCase = caseList;
+	} else {
+		lastCase->next = calloc(sizeof(Case), 1);
+		lastCase = lastCase->next;
+		lastCase->theCase = aCase;
+	}
+	lastCase->next = NULL;
 }
 
 static void reverse(Aword *w)
 {
-  *w = reversed(*w);
+	*w = reversed(*w);
 }
 
 static void reverseHdr(ACodeHeader *header)
 {
-  int i;
+	int i;
 
-  /* Reverse all words in the header except the first (version marking) */
-  for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
-    reverse(&((Aword *)header)[i]);
+	/* Reverse all words in the header except the first (version marking) */
+	for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
+		reverse(&((Aword *)header)[i]);
 }
 
 static void loadACD(char fileName[])
 {
-  ACodeHeader temporaryHeader;
-  int readSize = 0;
-  FILE *acdFile = fopen(fileName, "rb");
+	ACodeHeader temporaryHeader;
+	int readSize = 0;
+	FILE *acdFile = fopen(fileName, "rb");
 
-  readSize = fread(&temporaryHeader, 1, sizeof(temporaryHeader), acdFile);
+	readSize = fread(&temporaryHeader, 1, sizeof(temporaryHeader), acdFile);
 
-  if (littleEndian())
-    reverseHdr(&temporaryHeader);
+	if (littleEndian())
+		reverseHdr(&temporaryHeader);
 
-  memory = calloc(4*temporaryHeader.size, 1);
+	memory = calloc(4*temporaryHeader.size, 1);
 
-  rewind(acdFile);
-  fread(memory, sizeof(Aword), temporaryHeader.size, acdFile);
+	rewind(acdFile);
+	fread(memory, sizeof(Aword), temporaryHeader.size, acdFile);
 
 }

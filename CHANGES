@@ -1,3 +1,6 @@
+Changes in V3.0alpha6:
+- Bug: Fixed some UNDO problems, e.g. UNDO directly after restart would crash
+
 Changes in V3.0alpha5:
 - Feature: nested locations, by locating locations in each other you
   can create nested scopes. You can even do this during run-time, perhaps
@@ -9,7 +12,7 @@ Changes in V3.0alpha5:
 - Bug: added inherited reference attributes could sometimes cause a crash.
 - A pronoun in player input, matching multiple parameters, now gives an
   error message.
-- Bug: An empty container clause was terminated by a full stop would cause
+- Bug: An empty container clause terminated by a full stop would cause
   random errors caused by uninitialized data.
 - Bug: Renaming the WinArun interpreter to a game name would crash on game
   save.
@@ -55,7 +58,7 @@ Changes in V3.0alpha1:
 - Fixed inheritance of Initialize clause.
 
 Changes in v3.0dev36:
-- Printing of  pronouns
+- Printing of pronouns
 - SET statement can now set a literal set value; Set x Of l To {}.
 - SET statement can now set a set to the value of another set; Set set1 Of i1 To set2 Of i1.
 - IN can now test set membership in set literal; If int Of i In {1,3,5,7} Then...

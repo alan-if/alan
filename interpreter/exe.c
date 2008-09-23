@@ -221,6 +221,11 @@ void quitGame(void)
 {
   char buf[80];
 
+  if (gameStateChanged) {
+    rememberCommands();
+    pushGameState();
+  }
+
   current.location = where(HERO, TRUE);
   para();
   while (TRUE) {

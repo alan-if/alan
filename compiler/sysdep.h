@@ -153,7 +153,7 @@
 #define NATIVECHARSET 2
 #endif
 
-/* Old Macs uses other CHARSET, Mac OS X uses ISO */
+/* Old Macs uses other CHARSER, Mac OS X uses ISO */
 #ifdef __mac__
 #undef ISO
 #define ISO 0
@@ -163,14 +163,9 @@
 
 #endif
 
-
 /**************************/
 /* Strings for file modes */
 /**************************/
-/* Can open() as text ? */
-/*#define HAVE_OTEXT*/
-
-/* fopen() modes */
 #define READ_MODE "rb"
 #define WRITE_MODE "wb"
 
@@ -281,10 +276,6 @@ extern char *strdup(char *str);
 
 /* Some have stricmp() others strcasecmp() */
 #ifdef __macosx__
-#define stricmp(s1, s2) strcasecmp(s1, s2)
-#endif
-
-#ifdef __linux__
 #define stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 

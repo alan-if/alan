@@ -1,3 +1,2 @@
 ../../compiler/alan -debug randomDepend
 ../../interpreter/arun -n randomDepend < randomDepend.input
-cat randomDepend.out > randomDepend.output

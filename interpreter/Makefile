@@ -121,7 +121,7 @@ checkTarget:
 	-@if test "`cat .arch`" != "$(ARCH)"; then \
 		echo Removing objects for \'`cat .arch`\', re-building for \'$(ARCH)\'... ; \
 		rm *.o; \
-		echo $(ARCH) > .arch; \
+		/bin/echo -n $(ARCH) > .arch; \
 	fi
 
 

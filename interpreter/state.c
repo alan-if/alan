@@ -50,7 +50,6 @@ static int gameStateSize = 0;
 static GameState *gameState = NULL;
 
 
-
 /*----------------------------------------------------------------------*/
 static void ensureSpaceForGameState() {
   static int extent = 10;
@@ -142,6 +141,7 @@ static void freeGameState() {
     free(gameState[gameStateTop].playerCommand);
     gameState[gameStateTop].playerCommand = NULL;
   }
+  memset(&gameState[gameStateTop], 0, sizeof(GameState));
 }
 
 
@@ -154,13 +154,26 @@ void forgetGameState(void) {
 
 
 /*======================================================================*/
+void initUndoStack() {
+  while(gameStateTop>0) {
+    forgetGameState();
+  }
+}
+
+
+/*======================================================================*/
 void rememberCommands(void) {
   int n;
-  GameState *state = &gameState[gameStateTop-1];
+  GameState *state;
 
-  n = playerWords[lastWord].end - playerWords[firstWord].start;
-  state->playerCommand = allocate(n+1);
-  strncpy(state->playerCommand, playerWords[firstWord].start, n);
+  /* If any previous player commands, remember it */
+  if (gameStateTop > 0) {
+    state = &gameState[gameStateTop-1];
+
+    n = playerWords[lastWord].end - playerWords[firstWord].start;
+    state->playerCommand = allocate(n+1);
+    strncpy(state->playerCommand, playerWords[firstWord].start, n);
+  }
 }
 
 
@@ -312,16 +325,18 @@ static char *recreatePlayerCommand() {
 
 /*======================================================================*/
 void undo(void) {
-  gameStateTop--;
-  if (gameStateTop > 0) {
+  if (gameStateTop > 1) {
+    gameStateTop--;
     char *words = strdup(recreatePlayerCommand());
     popGameState();
     current.location = where(HERO, TRUE);
     setupParameterForString(1, words);
     printMessage(M_UNDONE);
     free(words);
-  } else
+  } else {
+    gameStateTop = 0;
     printMessage(M_NO_UNDO);
+  }
   forceNewPlayerInput();
-  longjmp(errorLabel, 2);	/* UNDO return value */
+  longjmp(returnLabel, UNDO_RETURN);
 }

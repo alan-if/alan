@@ -3,184 +3,101 @@
 <task>
 <desc>Alan</desc>
 <notes/>
-<priority>2</priority>
-<origest>633.89</origest>
-<currest>641.89</currest>
+<priority>1</priority>
+<origest>639.89</origest>
+<currest>647.89</currest>
 <elapsed>459.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
-<priority>2</priority>
-<origest>86</origest>
-<currest>87</currest>
-<elapsed>16</elapsed>
+<priority>1</priority>
+<origest>76</origest>
+<currest>76</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
-<task>
-<desc>Version 3.0alpha5</desc>
-<notes/>
-<priority>2</priority>
-<origest>15</origest>
-<currest>16</currest>
-<elapsed>16</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Library: open bodies says "Can't"</desc>
-<notes>Probably
-Add To Every object
-    Verb open_with
-	When obj1
-	    Check obj2 In hero
-	        Else "You don't have" Say The obj2. "."
-	    Does
-	    	"You can't open" Say The obj1. "with" Say The obj2. "."
-    End Verb.
-End Add To.
-
-Should actually be an "AND obj1 Is openable"</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Nested locations</desc>
-<notes>Done. But needs documentation update!! Prohibited to create recursive location structures, complier checks and generates run-time error!</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Compile time check for recursive "location in location"</desc>
-<notes>In compiler, or in interpreter?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Generate IFID for the game</desc>
-<notes>Generate a type 4 (completely random) UUID and place it in a separate file, if does not exists, else it is read. The IFID is put in the game.
-
-Verify that the content of the ifid-file is a valid UUID.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>ISA expressions should allow attribute expressions as left hand side</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow more general expression in 'Locate At', e.g. Random In</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Rules should be run also after initial locate to the start location</desc>
-<notes>regression/outdoorItems should display the items at the first look.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: crash on inherited added reference attribute</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Pronoun matching multiple parameters should give an error message</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Run-time check for recursive locations</desc>
-<notes>Do this when locating an instance.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: Container '.' causes problems</desc>
-<notes>See bugs/containerdot</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Renaming the WinArun to a game name seems to generate a GPF when saving</desc>
-<notes>Michael Zerbo reported this in a mail 2006-10-01</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: negative constants sometimes cause SYSTEM ERROR: generating too large constant</desc>
-<notes>bugs/2084/2084.alan exhibits this problem.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Dump Container Extract Checks and Statements</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Bug: positioning of import statements are wrong</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Version 3.0alpha6</desc>
 <notes/>
-<priority>2</priority>
-<origest>27</origest>
-<currest>27</currest>
+<priority>1</priority>
+<origest>32</origest>
+<currest>32</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>UNDO problems</desc>
+<notes>Anssi reported that
+
+- undo directly after restart crashes
+- undo cancels all events
+</notes>
+<priority>1</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ensure that checksum calculation is done in the same way as the generating compiler did</desc>
+<notes>Running a pre-alpha5 game with Alpha5 always generates a checksum error since Alpha5 header has grown.
+
+So if game version is pre-Alpha5 the checksum should be calculated with a pre-Alpha5 header length.</notes>
+<priority>1</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Nested location are not described in the manual?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
+<notes>E.g.
+  put = put (o)*
+  put_in = put (o) in (c)
+
+makes put generally multiple, but
+
+  put = put (o)
+  put_in = put (o)* in (c)
+
+makes it not accepting multiple.
+
+Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
+
+Must be fixed so that it is the syntax that stores the flags.Or possibly that the compiler checks the indicators match for all syntax synonyms.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Does verbs in outer nested locations get executed?</desc>
+<notes>E.g.
+
+The l1 Isa location
+  Verb x
+End The l1.
+
+The l2 Isa location At l1
+  Verb x
+End The l2.
+
+The verbs should be executed in the same way as for parameters, so just traverse, find verbs and add them to the list.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Investigate the resolve()/allLength problem</desc>
 <notes>In parse.c:resolve() there is a test for allLength &gt; 0, with a comment that "ALL has already done this", but there is also a "TODO: NO IT HASN'T"
@@ -257,28 +174,6 @@ primarily intended to allow authors to insert identificating values into the Aco
 <isopen>1</isopen>
 </task>
 <task>
-<desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
-<notes>E.g.
-  put = put (o)*
-  put_in = put (o) in (c)
-
-makes put generally multiple, but
-
-  put = put (o)
-  put_in = put (o)* in (c)
-
-makes it not accepting multiple.
-
-Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
-
-Must be fixed so that it is the syntax that stores the flags.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Breakpoints set on a line higher than the highest in a file should give an error</desc>
 <notes>Don't we store the linenumbers in the game? If so it should only be possible to set in those lines.</notes>
 <priority>2</priority>
@@ -303,6 +198,15 @@ sökväg.
 
 I showImage ignorerar du align-argumentet.
 </notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Description on translation</desc>
+<notes>Is the things in the manual insufficient?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -448,7 +352,7 @@ pointing to "count" since that is the left hand side of the assumed expression
 </task>
 <task>
 <desc>Literal should not inherit from Thing?</desc>
-<notes>It should be a separate base class, or should it.</notes>
+<notes>It should be a separate base class, or should it?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -2150,8 +2054,8 @@ What do you want to do with the ball?
 <desc>AlanIDE</desc>
 <notes/>
 <priority>2</priority>
-<origest>27</origest>
-<currest>34</currest>
+<origest>28</origest>
+<currest>35</currest>
 <elapsed>10</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2266,8 +2170,8 @@ What do you want to do with the ball?
 <desc>AlanIDE v0.0.8</desc>
 <notes/>
 <priority>2</priority>
-<origest>11</origest>
-<currest>15</currest>
+<origest>12</origest>
+<currest>16</currest>
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 <task>
@@ -2277,6 +2181,15 @@ What do you want to do with the ball?
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Format source action</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>5</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -2325,6 +2238,17 @@ What do you want to do with the ball?
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Add relative option to library path</desc>
+<notes>The compiler is run with the project as its working directory. This constitutes a problem if the the library preference is not an absolute path. When set it is validated w.r.t. the AlanIDE install directory, so when the compiler is run a relative path will not point correctly.
+
+An option to set relative path that is not verified (just a string?) can be a solution. See mail traffic on alan-if</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Decorate resource icons and editor tabs with compilation status</desc>
 <notes/>
 <priority>2</priority>
@@ -2366,15 +2290,6 @@ What do you want to do with the ball?
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Format source action</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>5</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -2695,10 +2610,167 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <desc>DONE</desc>
 <notes/>
 <priority>2</priority>
-<origest>428.89</origest>
-<currest>428.89</currest>
-<elapsed>428.89</elapsed>
+<origest>443.89</origest>
+<currest>444.89</currest>
+<elapsed>444.89</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Version 3.0alpha5</desc>
+<notes/>
+<priority>2</priority>
+<origest>15</origest>
+<currest>16</currest>
+<elapsed>16</elapsed>
 <isopen>0</isopen>
+<task>
+<desc>Library: open bodies says "Can't"</desc>
+<notes>Probably
+Add To Every object
+    Verb open_with
+	When obj1
+	    Check obj2 In hero
+	        Else "You don't have" Say The obj2. "."
+	    Does
+	    	"You can't open" Say The obj1. "with" Say The obj2. "."
+    End Verb.
+End Add To.
+
+Should actually be an "AND obj1 Is openable"</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Nested locations</desc>
+<notes>Done. But needs documentation update!! Prohibited to create recursive location structures, complier checks and generates run-time error!</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Compile time check for recursive "location in location"</desc>
+<notes>In compiler, or in interpreter?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Generate IFID for the game</desc>
+<notes>Generate a type 4 (completely random) UUID and place it in a separate file, if does not exists, else it is read. The IFID is put in the game.
+
+Verify that the content of the ifid-file is a valid UUID.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>ISA expressions should allow attribute expressions as left hand side</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow more general expression in 'Locate At', e.g. Random In</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Rules should be run also after initial locate to the start location</desc>
+<notes>regression/outdoorItems should display the items at the first look.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: crash on inherited added reference attribute</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Pronoun matching multiple parameters should give an error message</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Run-time check for recursive locations</desc>
+<notes>Do this when locating an instance.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: Container '.' causes problems</desc>
+<notes>See bugs/containerdot</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Renaming the WinArun to a game name seems to generate a GPF when saving</desc>
+<notes>Michael Zerbo reported this in a mail 2006-10-01</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: negative constants sometimes cause SYSTEM ERROR: generating too large constant</desc>
+<notes>bugs/2084/2084.alan exhibits this problem.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Dump Container Extract Checks and Statements</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Bug: positioning of import statements are wrong</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 <task>
 <desc>Increment: version 3.0alpha4</desc>
 <notes/>

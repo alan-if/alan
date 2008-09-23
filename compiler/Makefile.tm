@@ -31,7 +31,7 @@ x :
 tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp
 
-.lmkstamp : alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
+lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk $(LMKQ) -generate tables alan
 	imp alan.lmt
 	touch .lmkstamp

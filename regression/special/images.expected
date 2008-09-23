@@ -1,4 +1,4 @@
-ls: images.a3r: No such file or directory
+ls: cannot access images.a3r: No such file or directory
 images.a3r
 
         No warnings or errors detected.

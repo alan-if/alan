@@ -70,7 +70,12 @@ extern int pageLength, pageWidth;
 
 /* Long jump buffer for restart, errors and undo */
 extern jmp_buf restartLabel;
-extern jmp_buf errorLabel;
+
+extern jmp_buf returnLabel;
+#define NO_JUMP_RETURN 0
+#define ERROR_RETURN 1
+#define UNDO_RETURN 2
+
 extern jmp_buf forfeitLabel;
 
 extern Bool verbose;

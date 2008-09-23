@@ -121,7 +121,7 @@ Bool skipSpace = FALSE;
 
 /* Restart jump buffer */
 jmp_buf restartLabel;		/* Restart long jump return point */
-jmp_buf errorLabel;		/* Error (or undo) long jump return point */
+jmp_buf returnLabel;		/* Error (or undo) long jump return point */
 jmp_buf forfeitLabel;		/* Player forfeit by an empty command */
 
 
@@ -215,7 +215,7 @@ void error(MsgKind msgno)	/* IN - The error message number */
   /* Print an error message and longjmp to main loop. */
   if (msgno != MSGMAX)
     printMessage(msgno);
-  longjmp(errorLabel, 1);	/* 1 = "normal" error */
+  longjmp(returnLabel, ERROR_RETURN);
 }
 
 
@@ -1546,7 +1546,9 @@ void run(void)
 
   setjmp(restartLabel);	/* Return here if he wanted to restart */
 
-  if (setjmp(errorLabel) == 0)
+  initUndoStack();
+
+  if (setjmp(returnLabel) == NO_JUMP_RETURN)
     init();			/* Initialise and start the adventure */
 
   while (TRUE) {
@@ -1557,14 +1559,14 @@ void run(void)
     current.tick++;
 
     /* Return here if error during execution */
-    switch (setjmp(errorLabel)) {
-    case 0:			/* 0 = no long jump return */
+    switch (setjmp(returnLabel)) {
+    case NO_JUMP_RETURN:
       break;
-    case 1:			/* 1 = normal error */
+    case ERROR_RETURN:
       forgetGameState();
       forceNewPlayerInput();
       break;
-    case 2:			/* 2 = undo return */
+    case UNDO_RETURN:
       forceNewPlayerInput();
       break;
     default:
@@ -1578,10 +1580,12 @@ void run(void)
 
     /* Move all characters, hero first */
     pushGameState();
+
+    /* TODO: Why 'playerChangedState since gameStateChanged is sufficient */
     playerChangedState = FALSE;
     moveActor(header->theHero);
-
     playerChangedState = gameStateChanged;
+
     if (gameStateChanged)
       rememberCommands();
     else
