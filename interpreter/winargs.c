@@ -61,7 +61,7 @@ void args(int argc, char * argv[])
 
   if (adventureFileName == NULL) {
     /* No game given, try program name */
-    if (!matchInterpreterName(programName)) {
+    if (differentInterpreterName(programName)) {
       FILE *adventureFile;
       adventureFileName = duplicate(programName,
 				    strlen(programName)

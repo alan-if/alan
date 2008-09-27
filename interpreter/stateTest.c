@@ -64,7 +64,7 @@ static void testPushGameState() {
 }
 
 
-static void testPushPopGameStateWithSet() {
+static void testPushAndPopAttributesWithSet() {
   int instanceCount = 1;
   int attributeCount = 1;
   Set *originalSet = newSet(3);
@@ -108,7 +108,7 @@ static void testPushPopGameStateWithSet() {
   ASSERT(equalSets((Set*)attributes[0].value, originalSet));
 }
 
-static void testPopGameState() {
+static void testPushAndPopAttributeState() {
   int instanceCount = 2;
   setupInstances(instanceCount, 3);
   buildGameStateStack(0, instanceCount);
@@ -121,11 +121,38 @@ static void testPopGameState() {
   ASSERT(gameState != NULL);
   ASSERT(gameStateTop == 1);
 
-  eventQueue = allocate(5*sizeof(EventQueueEntry));
-  eventQueueTop = 2;
-  eventQueue[1].time = 47;
   attributes[0].value = 11;
   attributes[2].value = 4;
+
+  pushGameState();
+
+  attributes[0].value = 55;
+  attributes[2].value = 55;
+
+  popGameState();
+
+  ASSERT(attributes[0].value == 11);
+  ASSERT(attributes[2].value == 4);
+
+  popGameState();
+
+  ASSERT(attributes[0].value == 12);
+  ASSERT(attributes[2].value == 3);
+}
+
+static void testPushAndPopAdminState() {
+  int instanceCount = 2;
+  setupInstances(instanceCount, 3);
+  buildGameStateStack(0, instanceCount);
+
+  admin[1].location = 12;
+  admin[2].script = 3;
+
+  pushGameState();
+
+  ASSERT(gameState != NULL);
+  ASSERT(gameStateTop == 1);
+
   admin[2].location = 12;
   admin[2].alreadyDescribed = 2;
   admin[2].visitsCount = 13;
@@ -135,10 +162,6 @@ static void testPopGameState() {
 
   pushGameState();
 
-  eventQueueTop = 0;
-  eventQueue[1].time = 1;
-  attributes[0].value = 55;
-  attributes[2].value = 55;
   admin[2].location = 55;
   admin[2].alreadyDescribed = 55;
   admin[2].visitsCount = 55;
@@ -148,10 +171,6 @@ static void testPopGameState() {
 
   popGameState();
 
-  ASSERT(eventQueueTop == 2);
-  ASSERT(eventQueue[1].time == 47);
-  ASSERT(attributes[0].value == 11);
-  ASSERT(attributes[2].value == 4);
   ASSERT(admin[2].location == 12);
   ASSERT(admin[2].alreadyDescribed == 2);
   ASSERT(admin[2].visitsCount == 13);
@@ -161,20 +180,37 @@ static void testPopGameState() {
 
   popGameState();
 
-  ASSERT(attributes[0].value == 12);
-  ASSERT(attributes[2].value == 3);
+  ASSERT(admin[1].location = 12);
+  ASSERT(admin[2].script = 3);
 }
 
-static void testPopEvents() {
+static void testPushAndPopEvents() {
   int instanceCount = 1;
+
+  buildGameStateStack(1, instanceCount);
 
   eventQueue = NULL;
   eventQueueTop = 0;
 
-  buildGameStateStack(1, instanceCount);
+  pushGameState();
 
-  popEvents();
-  /* TODO: Why no ASSERTs? */
+  eventQueue = allocate(5*sizeof(EventQueueEntry));
+  eventQueueTop = 2;
+  eventQueue[1].time = 47;
+
+  pushGameState();
+
+  eventQueueTop = 0;
+  eventQueue[1].time = 1;
+
+  popGameState();
+
+  ASSERT(eventQueueTop == 2);
+  ASSERT(eventQueue[1].time == 47);
+
+  popGameState();
+
+  ASSERT(eventQueueTop == 0);
 }
 
 static void testRememberCommand() {
@@ -216,7 +252,8 @@ void registerStateUnitTests() {
   registerUnitTest(testUndoStackFreesMemory);
   registerUnitTest(testRememberCommand);
   registerUnitTest(testPushGameState);
-  registerUnitTest(testPopEvents);
-  registerUnitTest(testPopGameState);
-  registerUnitTest(testPushPopGameStateWithSet);
+  registerUnitTest(testPushAndPopAttributeState);
+  registerUnitTest(testPushAndPopAdminState);
+  registerUnitTest(testPushAndPopEvents);
+  registerUnitTest(testPushAndPopAttributesWithSet);
 }

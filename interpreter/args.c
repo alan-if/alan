@@ -26,10 +26,12 @@
 
 /*======================================================================*/
 char *gameName(char *fullPathName) {
-  char *foundGameName;
-  foundGameName = strdup(baseNameStart(fullPathName));
-  
-  foundGameName[strlen(foundGameName)-4] = '\0'; /* Strip off .A3C */
+  char *foundGameName = "";
+
+  if (fullPathName != NULL) {
+    foundGameName = strdup(baseNameStart(fullPathName));
+    foundGameName[strlen(foundGameName)-4] = '\0'; /* Strip off .A3C */
+  }
   return foundGameName;
 }
 
@@ -111,8 +113,8 @@ static void switches(int argc, char *argv[])
 
 
 /*----------------------------------------------------------------------*/
-static Bool matchInterpreterName(char *string) {
-  return strcasecmp(string, PROGNAME) == 0;
+static Bool differentInterpreterName(char *string) {
+  return strcasecmp(string, PROGNAME) != 0;
 }
 
 

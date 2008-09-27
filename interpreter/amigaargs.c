@@ -34,7 +34,7 @@ extern struct WBStartup *_WBenchMsg; /* From libnix */
 #endif
 
 /*----------------------------------------------------------------------*/
-static Bool matchInterpreterName(char *string) {
+static Bool differentInterpreterName(char *string) {
   return stricmp(prgnam, PROGNAME) != 0;
 }
 
@@ -125,7 +125,7 @@ void amigaargs(int argc, char * argv[])
     switches(argc, argv);
     if (adventureFileName[0] == '\0')
       /* No game given, try program name */
-      if (matchInterpreterName(prgnam)) {
+      if (differentInterpreterName(prgnam)) {
 	adventureFileName = duplicate(argv[0], strlen(argv[0]) + strlen(ACODEEXTENSION) + 1);
 	strcat(adventureFileName, ACODEEXTENSION);
       }
