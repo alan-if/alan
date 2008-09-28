@@ -89,10 +89,21 @@ static void testSpaceEquivalent(){
   ASSERT(isSpaceEquivalent(" "));
 }
 
+static void testMemoryStartForPre3_0alpha5IsShorter() {
+  char version[4];
+  version[3] = 3;
+  version[2] = 0;
+  version[1] = 4;
+  version[0] = 'a';
+
+  ASSERT(sizeof(ACodeHeader)/sizeof(Aword)-1==memoryStart(version));
+}
+
 void registerMainUnitTests()
 {
   registerUnitTest(testSpaceEquivalent);
   registerUnitTest(testPunctuationNext);
   registerUnitTest(testUpdateColumn);
   registerUnitTest(testCopyAttributes);
+  registerUnitTest(testMemoryStartForPre3_0alpha5IsShorter);
 }

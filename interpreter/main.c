@@ -1077,6 +1077,19 @@ static void checkVersion(ACodeHeader *header)
   }
 }
 
+/*----------------------------------------------------------------------
+  Calculate where the actual memory starts. Might be different for
+  different versions.
+*/
+static int memoryStart(char version[4]) {
+  /* Pre 3.0alpha5 had a shorter header */
+  if (version[3] == 3 && version[2] == 0 && version[0] == 'a' && version[1] <5)
+    return sizeof(Pre3_0alpha5Header)/sizeof(Aword);
+  else
+    return sizeof(ACodeHeader)/sizeof(Aword);
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void load(void)
@@ -1091,6 +1104,7 @@ static void load(void)
   rewind(codfil);
   if (strncmp((char *)&tmphdr, "ALAN", 4) != 0)
     apperr("Not an Alan game file, does not start with \"ALAN\"");
+
   checkVersion(&tmphdr);
 
   /* Allocate and load memory */
@@ -1112,7 +1126,7 @@ static void load(void)
     syserr("Could not read all ACD code.");
 
   /* Calculate checksum */
-  for (i = sizeof(tmphdr)/sizeof(Aword); i < memTop; i++) {
+  for (i = memoryStart(tmphdr.version); i < memTop; i++) {
     crc += memory[i]&0xff;
     crc += (memory[i]>>8)&0xff;
     crc += (memory[i]>>16)&0xff;
