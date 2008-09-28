@@ -373,7 +373,7 @@ static void showEvents(void)
       if ((scheduled = (eventQueue[i].event == event)))
 	break;
     if (scheduled) {
-      sprintf(str, "Scheduled for +%d, at ", eventQueue[i].time-current.tick);
+      sprintf(str, "Scheduled for +%d, at ", eventQueue[i].after);
       output(str);
       say(eventQueue[i].where);
     } else

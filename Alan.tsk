@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>639.89</origest>
-<currest>647.89</currest>
-<elapsed>459.89</elapsed>
+<origest>641.89</origest>
+<currest>650.89</currest>
+<elapsed>461.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>76</origest>
-<currest>76</currest>
-<elapsed>0</elapsed>
+<origest>78</origest>
+<currest>79</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
 <notes/>
 <priority>1</priority>
-<origest>32</origest>
-<currest>32</currest>
-<elapsed>0</elapsed>
+<origest>34</origest>
+<currest>35</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>UNDO problems</desc>
@@ -33,8 +33,8 @@
 </notes>
 <priority>1</priority>
 <origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
+<currest>2</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -49,8 +49,28 @@ So if game version is pre-Alpha5 the checksum should be calculated with a pre-Al
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Ensure that there are no extra words when undo is used</desc>
+<notes>'undo trinket' triggers undo, it should give an error message</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Nested location are not described in the manual?</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Define MAC_PLATFORM et al. and GUI/CLI/GLK in the makefile</desc>
+<notes>It is hard to find reliable compiler defined macros. It is better to feed them to the builds from the Makefile.
+
+Possibly the Makefile can automatically find which platform it is using 'uname'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

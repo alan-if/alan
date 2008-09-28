@@ -110,7 +110,7 @@ typedef struct RulEntry {	/* RULE TABLE */
 } RulEntry;
 
 typedef struct EventQueueEntry { /* EVENT QUEUE ENTRIES */
-  int time;
+  int after;
   int event;
   int where;
 } EventQueueEntry;

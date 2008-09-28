@@ -196,17 +196,17 @@ static void testPushAndPopEvents() {
 
   eventQueue = allocate(5*sizeof(EventQueueEntry));
   eventQueueTop = 2;
-  eventQueue[1].time = 47;
+  eventQueue[1].after = 47;
 
   pushGameState();
 
   eventQueueTop = 0;
-  eventQueue[1].time = 1;
+  eventQueue[1].after = 1;
 
   popGameState();
 
   ASSERT(eventQueueTop == 2);
-  ASSERT(eventQueue[1].time == 47);
+  ASSERT(eventQueue[1].after == 47);
 
   popGameState();
 

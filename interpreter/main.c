@@ -901,13 +901,15 @@ void checkobj(obj)
 
 /*----------------------------------------------------------------------
 
-  eventCheck()
+  runPendingEvents()
 
   Check if any events are pending. If so execute them.
   */
-static void eventCheck(void)
+static void runPendingEvents(void)
 {
-  while (eventQueueTop != 0 && eventQueue[eventQueueTop-1].time == current.tick) {
+  int i;
+
+  while (eventQueueTop != 0 && eventQueue[eventQueueTop-1].after == 0) {
     eventQueueTop--;
     if (isLocation(eventQueue[eventQueueTop].where))
       current.location = eventQueue[eventQueueTop].where;
@@ -920,6 +922,9 @@ static void eventCheck(void)
     }
     interpret(events[eventQueue[eventQueueTop].event].code);
   }
+
+  for (i = 0; i<eventQueueTop; i++)
+    eventQueue[i].after--;
 }
 
 
@@ -1555,7 +1560,7 @@ void run(void)
     if (debugOption)
       debug(FALSE, 0, 0);
 
-    eventCheck();
+    runPendingEvents();
     current.tick++;
 
     /* Return here if error during execution */

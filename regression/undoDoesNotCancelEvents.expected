@@ -23,15 +23,15 @@ It is changed.
 
 > l
 L1
+It is not changed.
+
+> l
+L1
+It is not changed.
+
+> l
+L1
 It is not changed. This is event e.
-
-> l
-L1
-It is not changed.
-
-> l
-L1
-It is not changed.
 
 > l
 L1
