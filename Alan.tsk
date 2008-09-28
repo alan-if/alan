@@ -6,7 +6,7 @@
 <priority>1</priority>
 <origest>641.89</origest>
 <currest>650.89</currest>
-<elapsed>461.89</elapsed>
+<elapsed>463.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>1</priority>
 <origest>78</origest>
 <currest>79</currest>
-<elapsed>2</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
@@ -22,7 +22,7 @@
 <priority>1</priority>
 <origest>34</origest>
 <currest>35</currest>
-<elapsed>2</elapsed>
+<elapsed>4</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>UNDO problems</desc>
@@ -45,7 +45,7 @@ So if game version is pre-Alpha5 the checksum should be calculated with a pre-Al
 <priority>1</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -54,7 +54,7 @@ So if game version is pre-Alpha5 the checksum should be calculated with a pre-Al
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
