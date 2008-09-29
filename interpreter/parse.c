@@ -203,7 +203,7 @@ static void getLine(void)
 	debug(FALSE, 0, 0);
 	token = NULL;
       } else if (strcmp("undo", token) == 0) {
-	token = gettoken(isobuf);
+	token = gettoken(NULL);
 	if (token != NULL) /* More tokens? */
 	  error(M_WHAT);
 	undo();

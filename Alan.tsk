@@ -4,25 +4,25 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>641.89</origest>
-<currest>650.89</currest>
-<elapsed>463.89</elapsed>
+<origest>642.89</origest>
+<currest>651.89</currest>
+<elapsed>464.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>78</origest>
-<currest>79</currest>
-<elapsed>4</elapsed>
+<origest>79</origest>
+<currest>80</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
 <notes/>
 <priority>1</priority>
-<origest>34</origest>
-<currest>35</currest>
-<elapsed>4</elapsed>
+<origest>35</origest>
+<currest>36</currest>
+<elapsed>5</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>UNDO problems</desc>
@@ -63,14 +63,42 @@ So if game version is pre-Alpha5 the checksum should be calculated with a pre-Al
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Does verbs in outer nested locations get executed?</desc>
+<notes>E.g.
+
+The l1 Isa location
+  Verb x
+End The l1.
+
+The l2 Isa location At l1
+  Verb x
+End The l2.
+
+The verbs should be executed in the same way as for parameters, so just traverse, find verbs and add them to the list.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Define MAC_PLATFORM et al. and GUI/CLI/GLK in the makefile</desc>
-<notes>It is hard to find reliable compiler defined macros. It is better to feed them to the builds from the Makefile.
+<desc>Introduce Where expression?</desc>
+<notes>Inspecting and acting on locations where an instance currently is, is hard since the only way to do that is to use many If instance At.
 
-Possibly the Makefile can automatically find which platform it is using 'uname'</notes>
+A way to find the where an instance is can be introduced by adding
+
+1) a pseudo-attribute 'location':
+    Describe location Of This.
+    Make location of This lit.
+
+Or
+2) an expression
+    Describe Where This.
+    Make Where This lit.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -93,25 +121,6 @@ makes it not accepting multiple.
 Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
 
 Must be fixed so that it is the syntax that stores the flags.Or possibly that the compiler checks the indicators match for all syntax synonyms.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Does verbs in outer nested locations get executed?</desc>
-<notes>E.g.
-
-The l1 Isa location
-  Verb x
-End The l1.
-
-The l2 Isa location At l1
-  Verb x
-End The l2.
-
-The verbs should be executed in the same way as for parameters, so just traverse, find verbs and add them to the list.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -258,6 +267,17 @@ No, a WHEN must apply to checks also, which means that only checks with a matchi
 <task>
 <desc>Floyd example</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Define MAC_PLATFORM et al. and GUI/CLI/GLK in the makefile</desc>
+<notes>It is hard to find reliable compiler defined macros. It is better to feed them to the builds from the Makefile.
+
+Possibly the Makefile can automatically find which platform it is using 'uname'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
