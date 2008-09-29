@@ -1,5 +1,7 @@
 Changes in V3.0alpha6:
-- Bug: Fixed some UNDO problems, e.g. UNDO directly after restart would crash
+- Bug: Fixed UNDO directly after restart would crash
+- Bug: Fixed scheduled events imminent to run would get lost after undo
+  (typically the ones scheduled After 0)
 
 Changes in V3.0alpha5:
 - Feature: nested locations, by locating locations in each other you
