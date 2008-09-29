@@ -114,7 +114,7 @@ test : unittests
 #
 
 spa.o: spa.c spa.h
-	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o
+	gcc $(CFLAGS) -c spa.c -o spa.o
 
 smScanx.o: smScanx.c
 

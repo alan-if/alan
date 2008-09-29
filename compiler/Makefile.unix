@@ -3,9 +3,6 @@
 
 CC = gcc
 
-# i386 architecture
-# OSDEFS = -DSTDIONONCONST
-
 LDFLAGS = -g
 
 CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)

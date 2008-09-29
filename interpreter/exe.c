@@ -221,11 +221,6 @@ void quitGame(void)
 {
   char buf[80];
 
-  if (gameStateChanged) {
-    rememberCommands();
-    pushGameState();
-  }
-
   current.location = where(HERO, TRUE);
   para();
   while (TRUE) {
@@ -245,7 +240,17 @@ void quitGame(void)
     } else if (strcmp(buf, "quit") == 0) {
       terminate(0);
     } else if (strcmp(buf, "undo") == 0) {
-      undo();
+      if (gameStateChanged) {
+	rememberCommands();
+	pushGameState();
+	undo();
+      } else {
+	if (gameStatesToPop())
+	  sayUndoneCommand(playerWordsAsCommandString());
+	else
+	  printMessage(M_NO_UNDO);
+	longjmp(returnLabel, UNDO_RETURN);
+      }
     }
   }
   syserr("Fallthrough in QUIT");

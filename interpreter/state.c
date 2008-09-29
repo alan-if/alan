@@ -50,6 +50,11 @@ static int gameStateSize = 0;
 static GameState *gameState = NULL;
 
 
+/*======================================================================*/
+Bool gameStatesToPop() {
+  return gameStateTop > 0;
+}
+
 /*----------------------------------------------------------------------*/
 static void ensureSpaceForGameState() {
   static int extent = 10;
@@ -162,17 +167,25 @@ void initUndoStack() {
 
 
 /*======================================================================*/
-void rememberCommands(void) {
+char *playerWordsAsCommandString(void) {
   int n;
+  char *commandString;
+  n = playerWords[lastWord].end - playerWords[firstWord].start;
+  commandString = allocate(n+1);
+  strncpy(commandString, playerWords[firstWord].start, n);
+  return commandString;
+}
+
+
+
+/*======================================================================*/
+void rememberCommands(void) {
   GameState *state;
 
   /* If any previous player commands, remember it */
   if (gameStateTop > 0) {
     state = &gameState[gameStateTop-1];
-
-    n = playerWords[lastWord].end - playerWords[firstWord].start;
-    state->playerCommand = allocate(n+1);
-    strncpy(state->playerCommand, playerWords[firstWord].start, n);
+    state->playerCommand = playerWordsAsCommandString();
   }
 }
 
@@ -305,15 +318,15 @@ static void popScores() {
 
 
 /*======================================================================*/
-Bool popGameState(void) {
-  if (gameStateTop == 0) return FALSE;
+void popGameState(void) {
+  if (gameStateTop == 0) syserr("Popping non-existing game state");
   gameStateTop--;
   popEvents();
   popInstances();
   popScores();
   freeGameState();
-  return TRUE;
 }
+
 
 /*----------------------------------------------------------------------*/
 static char *recreatePlayerCommand() {
@@ -323,20 +336,25 @@ static char *recreatePlayerCommand() {
 }
 
 
+/*----------------------------------------------------------------------*/
+void sayUndoneCommand(char *words) {
+  current.location = where(HERO, TRUE);
+  setupParameterForString(1, words);
+  printMessage(M_UNDONE);
+}
+
+
 /*======================================================================*/
 void undo(void) {
-  if (gameStateTop > 1) {
-    gameStateTop--;
+  forgetGameState();
+  if (gameStatesToPop()) {
     char *words = strdup(recreatePlayerCommand());
     popGameState();
-    current.location = where(HERO, TRUE);
-    setupParameterForString(1, words);
-    printMessage(M_UNDONE);
+    sayUndoneCommand(words);
     free(words);
   } else {
     gameStateTop = 0;
     printMessage(M_NO_UNDO);
   }
-  forceNewPlayerInput();
   longjmp(returnLabel, UNDO_RETURN);
 }

@@ -6,24 +6,24 @@
 <priority>1</priority>
 <origest>642.89</origest>
 <currest>651.89</currest>
-<elapsed>464.89</elapsed>
+<elapsed>465.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>79</origest>
-<currest>80</currest>
-<elapsed>5</elapsed>
+<origest>81</origest>
+<currest>82</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
 <notes/>
 <priority>1</priority>
-<origest>35</origest>
-<currest>36</currest>
+<origest>4</origest>
+<currest>5</currest>
 <elapsed>5</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>UNDO problems</desc>
 <notes>Anssi reported that
@@ -66,6 +66,129 @@ So if game version is pre-Alpha5 the checksum should be calculated with a pre-Al
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Better debugger</desc>
+<notes/>
+<priority>2</priority>
+<origest>7</origest>
+<currest>7</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Move debug out to Adbg</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Better debugger command language</desc>
+<notes>The command language for the debugger should be something like:
+
+break
+break [source : ] line
+unbreak
+unbreak [source : ] line
+trace (stack|source|...)
+untrace
+next
+instances
+instance i
+show { instance : } attribute
+set { instance : } attribute = value
+list [ file : ] line
+where</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should be able to set breaks on lines in other source files</desc>
+<notes>How to reference other files? Syntax for a line-number?
+&lt;file name&gt;:&lt;line number&gt;
+
+Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should verify date of source file</desc>
+<notes>How do we do this? How do we know the date of the .a3c file? Is it possible to stat() the open code file?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Debugger should be able to set (and declare) level of trace</desc>
+<notes>Current 's' and 't' commands are not compatible with the command line switch -t &lt;n&gt;
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Symbolic instance and class references in debugger</desc>
+<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>WinAdbg should debug in a separate window</desc>
+<notes>This involves managing two separate in- and output streams. The simple glkio mapping will come into play, possibly it is possible to let the debugger switch streams.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0beta1</desc>
+<notes/>
+<priority>2</priority>
+<origest>40</origest>
+<currest>40</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>"undo" as a response to "quit?" undoes wrong command</desc>
+<notes>If the last command did not change any state, the undo logic will find the most recent one that did, which might be very wrong. From "tv time":
+
+&gt; cut box
+...
+&gt;...
+&gt; move tv
+quit? undo
+'cut box' undone.
+
+
+Analysis:
+This can not be fixed since we don't know the difference between a quit command executed by the player to actually quit and the quit executed by the game as a fail. Pending the FAIL command planned for 3.1
+
+The fail-code should investigate to see if the last command did change some state and only execute undo() if it did, else return to the game.
+
+As a stop gap this could be done by the quit code. In case of a player quit the undo would just mean "return to game".</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Does verbs in outer nested locations get executed?</desc>
 <notes>E.g.
@@ -79,6 +202,24 @@ The l2 Isa location At l1
 End The l2.
 
 The verbs should be executed in the same way as for parameters, so just traverse, find verbs and add them to the list.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Website: divide games listing into v2/v3</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Website: describe collaboration using alandemo project on sourceforge</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -477,116 +618,6 @@ For each syntax found, if it has parameters save the verb name in list. When enc
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
-<task>
-<desc>Better debugger</desc>
-<notes/>
-<priority>2</priority>
-<origest>7</origest>
-<currest>7</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Move debug out to Adbg</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Better debugger command language</desc>
-<notes>The command language for the debugger should be something like:
-
-break
-break [source : ] line
-unbreak
-unbreak [source : ] line
-trace (stack|source|...)
-untrace
-next
-instances
-instance i
-show { instance : } attribute
-set { instance : } attribute = value
-list [ file : ] line
-where</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should be able to set breaks on lines in other source files</desc>
-<notes>How to reference other files? Syntax for a line-number?
-&lt;file name&gt;:&lt;line number&gt;
-
-Also need to separate the path and the basename since the user will want to use just the basename. This must be done by changing the SourceFileEntry to contain two structs of fpos/len one for the path and one for the basename.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should verify date of source file</desc>
-<notes>How do we do this? How do we know the date of the .a3c file? Is it possible to stat() the open code file?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Debugger should be able to set (and declare) level of trace</desc>
-<notes>Current 's' and 't' commands are not compatible with the command line switch -t &lt;n&gt;
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Symbolic instance and class references in debugger</desc>
-<notes>To do this we must generate the programmer names also, this is the symbol to use.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>WinAdbg should debug in a separate window</desc>
-<notes>This involves managing two separate in- and output streams. The simple glkio mapping will come into play, possibly it is possible to let the debugger switch streams.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Version 3.0beta1</desc>
-<notes/>
-<priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>FAIL statement</desc>
-<notes>Since QUIT can not know if a player entered a quit or failed a command the undo mechanism can not be handled well. If we introduce a FAIL statement and instruction it can have the undo, but quit should not.
-
-This requires a new instruction and new messages. This must be introduced so that earlier (alpha) games can still be played, i.e. last in the lists of instructions and messages.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
 <task>
 <desc>Unify error messages</desc>
 <notes>Check error messages and try to unify such as
@@ -596,26 +627,6 @@ Multiple VERB '%1'
 with
 
 Multiple %1 '%2'</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>"undo" as a response to "quit?" undoes wrong command</desc>
-<notes>If the last command did not change any state, the undo logic will find the most recent one that did, which might be very wrong. From "tv time":
-
-&gt; cut box
-...
-&gt;...
-&gt; move tv
-quit? undo
-'cut box' undone.
-
-
-Analysis:
-This can not be fixed. Pending the FAIL command planned for 3.1</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -724,8 +735,8 @@ Pronouns</notes>
 <desc>Version 3.1dev1</desc>
 <notes/>
 <priority>2</priority>
-<origest>26</origest>
-<currest>26</currest>
+<origest>27</origest>
+<currest>27</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -788,6 +799,17 @@ method
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>FAIL statement</desc>
+<notes>Since QUIT can not know if a player entered a quit or failed a command the undo mechanism can not be handled well. If we introduce a FAIL statement and instruction it can have the undo, but quit should not.
+
+This requires a new instruction and new messages. This must be introduced so that earlier (alpha) games can still be played, i.e. last in the lists of instructions and messages.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 </task>
 <task>
 <desc>New options for separator and punctuation character sets</desc>
@@ -2213,7 +2235,7 @@ What do you want to do with the ball?
 <origest>12</origest>
 <currest>16</currest>
 <elapsed>1</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Feature based product/application to allow net-updates</desc>
 <notes/>
@@ -2341,7 +2363,7 @@ An option to set relative path that is not verified (just a string?) can be a so
 <origest>3</origest>
 <currest>3</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>New Class wizard</desc>
 <notes/>
@@ -2381,7 +2403,7 @@ Require a converter preference setting.</notes>
 <origest>5</origest>
 <currest>7</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Build dependency structure for imports</desc>
 <notes/>
@@ -5328,7 +5350,7 @@ This clause should not be run if the actor x is already in the room.</notes>
 <origest>19</origest>
 <currest>19</currest>
 <elapsed>19</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -8470,8 +8492,8 @@ Should there be any IDKINDS? How about having a SYMBOL pointer instead?</notes>
 <desc>Misc</desc>
 <notes/>
 <priority>2</priority>
-<origest>8</origest>
-<currest>8</currest>
+<origest>6</origest>
+<currest>6</currest>
 <elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
@@ -8563,24 +8585,6 @@ cvs server: pre3/write.tst.expected was removed, no comparison available
 
 Added File:::::::::::::::::
 cvs server: write.input is a new entry, no comparison available</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Website: divide games listing into v2/v3</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Website: describe collaboration using alandemo project on sourceforge</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

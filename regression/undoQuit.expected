@@ -30,11 +30,11 @@ It is lit.
 > q
 
 Do you want to UNDO, RESTART, RESTORE or QUIT ? undo
-'light' undone.
+'q' undone.
 
 > l
 Loc
-It is not lit.
+It is lit.
 
 > 
 

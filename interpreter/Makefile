@@ -4,8 +4,7 @@
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
-CYGWIN	= -mno-cygwin
-CYGWIN	= 
+CYGWIN	= #-mno-cygwin
 
 OPTIMIZE = -ggdb
 EXE	= arun.exe
@@ -31,7 +30,7 @@ TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
 GARGLKROOT = ../../Gargoyle/garglk
 GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
 GARGLKINCLUDE = -I$(GARGLKROOT)
-GARGLKLIB = -L$(GARGLKROOT)/../build/debug/garglk -lgarglk -lpng -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg ../../../fmodapi374win/api/lib/libfmod.a
+GARGLKLIB = -L$(GARGLKROOT)/../build/debug/garglk -lgarglk -lpng -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a
 
 
 #Set up for specific target
@@ -94,6 +93,11 @@ winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 
 glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
 	gcc -o $@ $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp $@ ../bin
+
+gararun: checkTarget $(GARARUNOBJECTS) arun.res
+	gcc -o $@ $(OPTIMIZE) $(GARARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
 

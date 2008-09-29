@@ -17,11 +17,11 @@ It is changed.
 > q
 
 Do you want to UNDO, RESTART, RESTORE or QUIT ? undo
-'change' undone.
+'q' undone.
 
 > l
 Loc
-It is not changed.
+It is changed.
 
 > 
 

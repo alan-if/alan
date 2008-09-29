@@ -192,13 +192,8 @@ PRIVATE struct {		/* Code reduction data structure */
     FILE *deffile;
     char *iomode;
 } fileDefault[2] = {		/* We assume _SPA_OutFile-_SPA_InFile == 1 */
-#ifdef STDIONONCONST
     { NULL, "r" },		/* Set file before use! */
     { NULL, "w" }
-#else
-    { stdin, "r" },
-    { stdout, "w" }
-#endif
 };
 #define mode(T) (fileDefault[(T)-_SPA_InFile].iomode)
 #define file(T) (fileDefault[(T)-_SPA_InFile].deffile)
@@ -749,11 +744,7 @@ PUBLIC char SpaAlertLevel = 'I';
     File for alert messages (default stderr)
 */
 PUBLIC FILE *SpaAlertFile
-#ifdef STDIONONCONST
-	= NULL;	/* In this env stderr isn't a constant */
-#else
-	= stderr;
-#endif
+	= NULL;	/* Set stderr at runtime! */
 
 /*----------------------------------------------------------------------
     Returns error severity as a number [0..6].
@@ -854,11 +845,10 @@ IS {
     register int a, n;
     register char *s;
 
-#ifdef STDIONONCONST
+    /* Set input and output channels */
     fileDefault[0].deffile = stdin;
     fileDefault[1].deffile = stdout;
     if (!SpaAlertFile) SpaAlertFile = stderr;
-#endif
 
     pArgC= argc;
     pArgV= (char **)argv;

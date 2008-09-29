@@ -119,11 +119,11 @@ extern unsigned char smDosMap[256];
 extern unsigned char smDosDFAcolVal[256];
 extern unsigned char smDosDFAerrCol[256];
 
-static int charset;
+static int currentCharSet;
 
 void setCharacterSet(int set)
 {
-  charset = set;
+  currentCharSet = set;
   switch (set) {
   case 0:
     smMap = &smIsoMap[0];
@@ -194,8 +194,8 @@ int smScAction(
   case 140:		/* IDENTIFIER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
-        if (charset != NATIVECHARSET)
-          toNative(smToken->chars, smToken->chars, charset);
+        if (currentCharSet != NATIVECHARSET)
+          toNative(smToken->chars, smToken->chars, currentCharSet);
     
 }
     break;
@@ -226,8 +226,8 @@ int smScAction(
 
       smToken->fpos = ftell(txtfil); /* Remember where it starts */
       smThis->smText[smThis->smLength-1] = '\0';
-      if (charset != 0) /* Convert string from non ISO characters if needed */
-        toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1], charset);
+      if (currentCharSet != 0) /* Convert string from non ISO characters if needed */
+        toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1], currentCharSet);
 
       for (i = 1; i < smThis->smLength-1; i++) {
 	/* Write the character */

@@ -1600,7 +1600,7 @@ void run(void)
     /* Move all characters, hero first */
     pushGameState();
 
-    /* TODO: Why 'playerChangedState since gameStateChanged is sufficient */
+    /* TODO: Why 'playerChangedState' since gameStateChanged is sufficient */
     playerChangedState = FALSE;
     moveActor(header->theHero);
     playerChangedState = gameStateChanged;
