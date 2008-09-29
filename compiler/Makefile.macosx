@@ -3,7 +3,7 @@
 
 CC = gcc
 
-OSDEFS = -D__POSIX__ -D__macosx__
+OSDEFS = -D__POSIX__ -D__macosx__ -DSTDIONONCONST
 
 LDFLAGS = -g
 CPP	= $(CC) -MM -ansi

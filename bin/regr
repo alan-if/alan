@@ -10,10 +10,10 @@
 
 run ()
 {
-    echo -n "$theCase : "
+    /bin/echo -n "$theCase : "
     if [ ! -f $theCase.suspended ]
     then
-	echo "########## $theCase ##########" >$theCase.output
+	/bin/echo "########## $theCase ##########" >$theCase.output
 	./.regr $theCase >>$theCase.output 2>&1
 	theCases=`expr $theCases + 1`
     fi
@@ -24,22 +24,22 @@ verify()
     if [ -f $theCase.suspended ]
     then
 	suspended=`expr $suspended + 1`
-	echo "Suspended..."
+	/bin/echo "Suspended..."
     else if [ -f $theCase.expected ]
     then
 	if diff -q -b $theCase.output $theCase.expected 1> /dev/null
 	then
 	    ok=`expr $ok + 1`
-	    echo -n "
+	    /bin/echo -n "
 [K"
 	    rm $theCase.output
 	else
 	    failed=`expr $failed + 1`
-	    echo "*** FAILED!!! ***"
+	    /bin/echo "*** FAILED!!! ***"
 	fi
     else
 	new=`expr $new + 1`
-	echo "NEW!"
+	/bin/echo "NEW!"
     fi
     fi
 }
@@ -51,9 +51,10 @@ recurse()
     then
 	if [ -f $d/.regr ]
 	then
-	    echo "Recursing: $d"
+	    chmod u+x $d/.regr
+	    /bin/echo "Recursing: $d"
 	    cd $d; regr; cd ..
-	    echo "Leaving: $d"
+	    /bin/echo "Leaving: $d"
 	fi
     fi
   done
@@ -101,24 +102,24 @@ if [ -f .case ] ; then
   fi
   if test $new -ne 0
   then
-    echo -n "$new new, "
+    /bin/echo -n "$new new, "
   fi
   if test $suspended -ne 0
   then
-    echo -n "$suspended suspended, "
+    /bin/echo -n "$suspended suspended, "
   fi
   if test $failed -eq 0
   then
     if test $new -eq 0
     then
-      echo All $theCases OK!
+      /bin/echo All $theCases OK!
     else
-      echo $ok OK!
+      /bin/echo $ok OK!
     fi
   else
-    echo "*** $failed FAILED! ***"
+    /bin/echo "*** $failed FAILED! ***"
   fi
 else
-  echo No cases to run in `pwd`
+  /bin/echo No cases to run in `pwd`
 fi
 

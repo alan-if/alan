@@ -119,7 +119,7 @@ extern unsigned char smDosMap[256];
 extern unsigned char smDosDFAcolVal[256];
 extern unsigned char smDosDFAerrCol[256];
 
-static int charset;
+extern int charset;
 
 void setCharacterSet(int set)
 {

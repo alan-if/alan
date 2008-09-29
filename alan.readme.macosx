@@ -2,9 +2,9 @@ About the Alan distribution for Mac OSX:
 
 This distribution does not contain anything apart from the executable
 compiler and interpreter. As of now there is only a command line
-version available. A recommended GUI is teh AlanIDE, available from
-http://www.alanif.se.
+version available. A recommended programming-GUI is the AlanIDE, available
+from http://www.alanif.se.
 
-The port was made on a MAcOSX 10.3 G3 by Thomas Nilsson (thomas at
+The port was made on a MacBook with MacOSX 10.5.4 by Thomas Nilsson (thomas at
 junovagen.se).
 
