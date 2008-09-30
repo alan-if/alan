@@ -216,6 +216,31 @@ Bool confirm(MsgKind msgno)
 }
 
 
+
+
+/*----------------------------------------------------------------------*/
+static void sayUndoneCommand(char *words) {
+  current.location = where(HERO, TRUE);
+  setupParameterForString(1, words);
+  printMessage(M_UNDONE);
+}
+
+
+/*======================================================================*/
+void undo(void) {
+  forgetGameState();
+  if (!stateStackIsEmpty()) {
+    char *words = strdup(recreatePlayerCommand());
+    popGameState();
+    sayUndoneCommand(words);
+    free(words);
+  } else {
+    printMessage(M_NO_UNDO);
+  }
+  longjmp(returnLabel, UNDO_RETURN);
+}
+
+
 /*======================================================================*/
 void quitGame(void)
 {
@@ -245,7 +270,7 @@ void quitGame(void)
 	pushGameState();
 	undo();
       } else {
-	if (gameStatesToPop())
+	if (!stateStackIsEmpty())
 	  sayUndoneCommand(playerWordsAsCommandString());
 	else
 	  printMessage(M_NO_UNDO);

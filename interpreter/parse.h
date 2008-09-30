@@ -46,5 +46,6 @@ extern void setupParameterForInstance(int parameter, Aint instance);
 extern void setupParameterForInteger(int parameter, Aint value);
 extern void setupParameterForString(int parameter, char *value);
 extern void restoreParameters();
+extern char *playerWordsAsCommandString(void);
 
 #endif

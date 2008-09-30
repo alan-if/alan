@@ -63,6 +63,18 @@ void forceNewPlayerInput() {
 }
 
 
+/*======================================================================*/
+char *playerWordsAsCommandString(void) {
+  int n;
+  char *commandString;
+  n = playerWords[lastWord].end - playerWords[firstWord].start;
+  commandString = allocate(n+1);
+  strncpy(commandString, playerWords[firstWord].start, n);
+  return commandString;
+}
+
+
+
 /*----------------------------------------------------------------------*\
 
   SCAN DATA & PROCEDURES

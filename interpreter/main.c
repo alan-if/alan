@@ -1565,7 +1565,7 @@ void run(void)
 
   setjmp(restartLabel);	/* Return here if he wanted to restart */
 
-  initUndoStack();
+  initStateStack();
 
   if (setjmp(returnLabel) == NO_JUMP_RETURN)
     init();			/* Initialise and start the adventure */

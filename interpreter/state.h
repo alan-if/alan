@@ -12,12 +12,11 @@
 extern Bool gameStateChanged;
 
 /* Functions: */
-extern Bool gameStatesToPop();
-extern void initUndoStack(void);
+extern Bool stateStackIsEmpty();
+extern void initStateStack(void);
 extern void pushGameState(void);
 extern void forgetGameState(void);
 extern void rememberCommands(void);
 extern void popGameState(void);
-extern char *playerWordsAsCommandString(void);
-extern void sayUndoneCommand(char *words);
+extern char *recreatePlayerCommand(void);
 #endif

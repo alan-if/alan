@@ -241,7 +241,7 @@ static void testUndoStackFreesMemory() {
   buildGameStateStack(1, instanceCount);
   gameState[0].admin = allocate(100);
 
-  initUndoStack();
+  initStateStack();
 
   ASSERT(gameStateTop == 0);
   ASSERT(gameState[0].admin == NULL);
