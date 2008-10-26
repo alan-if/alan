@@ -1,0 +1,10 @@
+*~
+*.a3c
+*.lis
+*.tmp
+*.dat
+*.diff
+*.output
+*.exe.stackdump
+*.sav
+*.ifid

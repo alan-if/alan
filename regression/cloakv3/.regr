@@ -1,0 +1,1 @@
+../../compiler/alan $1 -import ../../lib ; ../../interpreter/arun -n -r $1 < $1.input
