@@ -336,6 +336,11 @@ static      char c;
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
+  'contains' = 'contains'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
   'of' = 'of'
     %%
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';

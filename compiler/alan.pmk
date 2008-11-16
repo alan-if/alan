@@ -407,6 +407,7 @@ static int val(char str[])
 				      	%ID.id,
 					%<statements>.stms);
     %%
+
     ;
 
 ---> <SYNTAX>				-- RETURNS: stxs
@@ -2634,6 +2635,11 @@ ID
     ! 'opaque'			-- Must be allowed since there is a predefined attribute.
     %%
 	%ID.id = newId(%'opaque'.srcp, %'opaque'.chars);
+    %%
+
+    ! 'contains'
+    %%
+	%ID.id = newId(%'contains'.srcp, %'contains'.chars);
     %%
 
     ! 'on'

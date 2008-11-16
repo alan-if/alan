@@ -8,7 +8,7 @@
 # REMEMBER: You have to set both the Path to include the ToolMaker
 # directory and the TMHOME environment variable to point there!
 
-
+TMHOME	= /c/Program/ToolMaker
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 EXTRAS = \
@@ -31,7 +31,7 @@ x :
 tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp
 
-lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
+.lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk $(LMKQ) -generate tables alan
 	imp alan.lmt
 	touch .lmkstamp

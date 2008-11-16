@@ -327,6 +327,13 @@ static      char c;
 }
     break;
 
+  case 128:		/* 'contains'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
   case  28:		/* 'of'*/ 
     {
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
