@@ -59,6 +59,8 @@ AltInfoArray.o: AltInfoArray.c AltInfoArray.h AltInfo.h types.h sysdep.h \
   acode.h main.h parse.h
 CheckEntryArray.o: CheckEntryArray.c CheckEntryArray.h types.h sysdep.h \
   acode.h main.h inter.h stack.h
+Container.o: Container.c Container.h types.h sysdep.h acode.h main.h \
+  exe.h syserr.h inter.h
 act.o: act.c act.h types.h sysdep.h acode.h main.h inter.h exe.h stack.h \
   parse.h debug.h syserr.h options.h AltInfo.h AltInfoArray.h \
   CheckEntryArray.h

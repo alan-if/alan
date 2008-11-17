@@ -39,6 +39,8 @@
 #include "decode.h"
 
 #include "CheckEntryArray.h"
+#include "Container.h"
+
 
 #define WIDTH 80
 
@@ -740,10 +742,10 @@ Aint getContainerMember(Aint container, Aint index, Abool directly) {
 static void locateIntoContainer(Aword theInstance, Aword theContainer) {
   if (!isA(theInstance, container[instance[theContainer].container].class))
     printMessageUsing2Parameters(M_CANNOTCONTAIN, theContainer, theInstance);
-  else if (checkContainerLimits(theContainer, theInstance))
-    error(MSGMAX);		/* Return to player without any message */
-  else
+  else if (passesContainerLimits(theContainer, theInstance))
     admin[theInstance].location = theContainer;
+  else
+    error(MSGMAX);		/* Return to player without any message */
 }
 
 
