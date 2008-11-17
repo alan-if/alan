@@ -1,6 +1,3 @@
-unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h interTest.c \
-  inter.c inter.h main.h parse.h exe.h stack.h debug.h set.h options.h \
-  stack.c
 unit2.o: unit2.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -23,7 +20,7 @@ AltInfoTests.o: AltInfoTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/constraint.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h altInfo.c AltInfo.h types.h \
-  sysdep.h acode.h options.h main.h inter.h parse.h debug.h \
+  sysdep.h acode.h options.h main.h inter.h Stack.h parse.h debug.h \
   CheckEntryArray.h
 actTests.o: actTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
@@ -32,8 +29,8 @@ actTests.o: actTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/constraint.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h act.c act.h types.h sysdep.h \
-  acode.h main.h inter.h exe.h stack.h parse.h debug.h syserr.h options.h \
-  AltInfo.h AltInfoArray.h CheckEntryArray.h
+  acode.h main.h inter.h Stack.h exe.h stack.h parse.h debug.h syserr.h \
+  options.h AltInfo.h AltInfoArray.h CheckEntryArray.h
 exeTests.o: exeTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -42,8 +39,17 @@ exeTests.o: exeTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h set.h acode.h types.h sysdep.h \
   exe.c exe.h act.h state.h debug.h params.h parse.h syserr.h options.h \
-  readline.h main.h inter.h stack.h decode.h CheckEntryArray.h \
+  readline.h main.h inter.h Stack.h stack.h decode.h CheckEntryArray.h \
   Container.h
+interTests.o: interTests.c ../../../Development/cgreen/cgreen.h \
+  ../../../Development/cgreen/unit.h \
+  ../../../Development/cgreen/reporter.h \
+  ../../../Development/cgreen/mocks.h \
+  ../../../Development/cgreen/constraint.h \
+  ../../../Development/cgreen/text_reporter.h \
+  ../../../Development/cgreen/assertions.h inter.c inter.h types.h \
+  sysdep.h acode.h Stack.h main.h parse.h exe.h stack.h syserr.h debug.h \
+  set.h options.h
 mainTests.o: mainTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -52,8 +58,8 @@ mainTests.o: mainTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h main.c sysdep.h acode.h \
   types.h set.h state.h main.h syserr.h parse.h options.h readline.h \
-  alan.version.h version.h args.h inter.h rules.h reverse.h debug.h \
-  stack.h exe.h term.h
+  alan.version.h version.h args.h inter.h Stack.h rules.h reverse.h \
+  debug.h stack.h exe.h term.h
 parseTests.o: parseTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -61,8 +67,8 @@ parseTests.o: parseTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/constraint.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h parse.c parse.h types.h \
-  sysdep.h acode.h readline.h main.h inter.h exe.h state.h act.h term.h \
-  debug.h params.h options.h syserr.h
+  sysdep.h acode.h readline.h main.h inter.h Stack.h exe.h state.h act.h \
+  term.h debug.h params.h options.h syserr.h
 reverseTests.o: reverseTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -101,8 +107,8 @@ stackTests.o: stackTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/mocks.h \
   ../../../Development/cgreen/constraint.h \
   ../../../Development/cgreen/text_reporter.h \
-  ../../../Development/cgreen/assertions.h stack.c types.h sysdep.h \
-  acode.h main.h syserr.h stack.h
+  ../../../Development/cgreen/assertions.h stack.c stack.h acode.h \
+  types.h sysdep.h main.h syserr.h
 sysdepTests.o: sysdepTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -111,45 +117,47 @@ sysdepTests.o: sysdepTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h sysdep.c sysdep.h
 AltInfo.o: AltInfo.c AltInfo.h types.h sysdep.h acode.h options.h main.h \
-  inter.h parse.h debug.h CheckEntryArray.h
+  inter.h Stack.h parse.h debug.h CheckEntryArray.h
 AltInfoArray.o: AltInfoArray.c AltInfoArray.h AltInfo.h types.h sysdep.h \
   acode.h main.h parse.h
 CheckEntryArray.o: CheckEntryArray.c CheckEntryArray.h types.h sysdep.h \
-  acode.h main.h inter.h stack.h
+  acode.h main.h inter.h Stack.h stack.h
 Container.o: Container.c Container.h types.h sysdep.h acode.h main.h \
-  exe.h syserr.h inter.h
-act.o: act.c act.h types.h sysdep.h acode.h main.h inter.h exe.h stack.h \
-  parse.h debug.h syserr.h options.h AltInfo.h AltInfoArray.h \
+  exe.h syserr.h inter.h Stack.h
+act.o: act.c act.h types.h sysdep.h acode.h main.h inter.h Stack.h exe.h \
+  stack.h parse.h debug.h syserr.h options.h AltInfo.h AltInfoArray.h \
   CheckEntryArray.h
 args.o: args.c sysdep.h args.h types.h acode.h options.h main.h winargs.c
 debug.o: debug.c types.h sysdep.h acode.h alan.version.h version.h \
-  readline.h inter.h main.h parse.h stack.h exe.h options.h debug.h
+  readline.h inter.h Stack.h main.h parse.h stack.h exe.h options.h \
+  debug.h
 decode.o: decode.c main.h types.h sysdep.h acode.h decode.h syserr.h
 exe.o: exe.c exe.h acode.h types.h sysdep.h act.h set.h state.h debug.h \
-  params.h parse.h syserr.h options.h readline.h main.h inter.h stack.h \
-  decode.h CheckEntryArray.h Container.h
-inter.o: inter.c inter.h types.h sysdep.h acode.h main.h parse.h exe.h \
-  stack.h syserr.h debug.h set.h options.h
+  params.h parse.h syserr.h options.h readline.h main.h inter.h Stack.h \
+  stack.h decode.h CheckEntryArray.h Container.h
+inter.o: inter.c inter.h types.h sysdep.h acode.h Stack.h main.h parse.h \
+  exe.h stack.h syserr.h debug.h set.h options.h
 main.o: main.c sysdep.h acode.h types.h set.h state.h main.h syserr.h \
   parse.h options.h readline.h alan.version.h version.h args.h inter.h \
-  rules.h reverse.h debug.h stack.h exe.h term.h
+  Stack.h rules.h reverse.h debug.h stack.h exe.h term.h
 options.o: options.c options.h types.h sysdep.h acode.h
 params.o: params.c types.h sysdep.h acode.h params.h main.h
 parse.o: parse.c parse.h types.h sysdep.h acode.h readline.h main.h \
-  inter.h exe.h state.h act.h term.h debug.h params.h options.h syserr.h
+  inter.h Stack.h exe.h state.h act.h term.h debug.h params.h options.h \
+  syserr.h
 readline.o: readline.c sysdep.h readline.h types.h acode.h main.h
 reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h
-rules.o: rules.c types.h sysdep.h acode.h main.h inter.h debug.h exe.h \
-  stack.h options.h rules.h
+rules.o: rules.c types.h sysdep.h acode.h main.h inter.h Stack.h debug.h \
+  exe.h stack.h options.h rules.h
 save.o: save.c save.h types.h sysdep.h acode.h main.h exe.h set.h \
   readline.h options.h syserr.h
 set.o: set.c set.h acode.h types.h sysdep.h main.h syserr.h exe.h
-stack.o: stack.c types.h sysdep.h acode.h main.h syserr.h stack.h
+stack.o: stack.c stack.h acode.h types.h sysdep.h main.h syserr.h
 state.o: state.c sysdep.h types.h acode.h syserr.h main.h set.h exe.h \
   parse.h
 sysdep.o: sysdep.c sysdep.h
 syserr.o: syserr.c syserr.h main.h types.h sysdep.h acode.h inter.h \
-  debug.h options.h
+  Stack.h debug.h options.h
 term.o: term.c main.h types.h sysdep.h acode.h term.h
 glkstart.o: glkstart.c args.h types.h sysdep.h acode.h main.h \
   ../../WindowsGLK/Include/glk.h glkstart.h glkio.h resources.h \

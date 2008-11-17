@@ -151,15 +151,6 @@ alan.version.c:  ../alan.version
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Unit testing
-#
-
-unit1 : checkTarget $(UNIT1OBJECTS) Makefile $(LIBS)
-	gcc -o unit $(UNIT1OBJECTS) $(LDFLAGS) $(LIBS)
-	@./unit
-
-
-#
 # CGreen unit tests
 #
 CGREENROOT = ../../../Development/cgreen
@@ -172,13 +163,7 @@ unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
 	gcc -o unit2 $(UNIT2OBJECTS) $(LDFLAGS) $(LIBS)
 	@./unit2
 
-
-#++++++++++++++++++++++++++++++++
-#
-# We must run unit test both with homecooked and cgreen framework for now
-#
-unitTest: unit1 unit2
-
+unitTest: unit2
 
 #+++++++++++++++++++++++++++++++++
 #
@@ -205,7 +190,7 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
 #
 DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
 depend:
-	@-for f in $(UNIT1SRC) $(UNIT2SRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c ; \
+	@-for f in $(UNIT2SRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c ; \
 	  do \
 	  $(CPP) $(CFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
 	done

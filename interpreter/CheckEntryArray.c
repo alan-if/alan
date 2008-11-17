@@ -20,7 +20,7 @@ Bool tryChecks(Aaddr adr,	/* IN - ACODE address to check array */
   } else {
     while (!endOfTable(chk)) {
       interpret(chk->exp);
-      if (!(Abool)pop()) {
+      if (!(Abool)pop(NULL)) {
 	if (execute)
 	  interpret(chk->stms);
 	return(FALSE);

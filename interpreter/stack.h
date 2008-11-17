@@ -8,17 +8,28 @@
 
 \*----------------------------------------------------------------------*/
 
-/* TYPES */
+/* IMPORTS: */
+#include "acode.h"
 
-/* Functions: */
 
-extern void dumpStack();
-extern Aword pop(void);
-extern void push(Aword item);
-extern Aword top(void);
-extern void newFrame(Aint noOfLocals);
-extern void setLocal(Aint blocksBelow, Aint variableNumber, Aword value);
-extern Aword getLocal(Aint level, Aint variable);
-extern void endFrame(void);
+/* TYPES: */
+
+typedef struct StackStructure *Stack;
+
+
+/* FUNCTIONS: */
+
+extern Stack createStack(int size);
+extern void deleteStack(Stack stack);
+extern void dumpStack(Stack theStack);
+extern Aword pop(Stack stack);
+extern void push(Stack stack, Aword item);
+extern Aword top(Stack theStack);
+extern int stackDepth(Stack theStack);
+
+extern void newFrame(Stack theStack, Aint noOfLocals);
+extern void setLocal(Stack theStack, Aint blocksBelow, Aint variableNumber, Aword value);
+extern Aword getLocal(Stack theStack, Aint level, Aint variable);
+extern void endFrame(Stack theStack);
 
 #endif

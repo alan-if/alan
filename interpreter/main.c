@@ -1498,14 +1498,14 @@ static void moveActor(int theActor)
 		   scriptName(theActor, admin[theActor].script),
 		   admin[theActor].script, admin[theActor].step+1);
 	  interpret(step->exp);
-	  if (!(Abool)pop())
+	  if (!(Abool)pop(NULL))
 	    break;		/* Break loop, don't execute step*/
 	}
 	/* OK, so finally let him do his thing */
 	admin[theActor].step++;		/* Increment step number before executing... */
 	if (!endOfTable(step+1) && (step+1)->after != 0) {
 	  interpret((step+1)->after);
-	  admin[theActor].waitCount = pop();
+	  admin[theActor].waitCount = pop(NULL);
 	}
 	if (traceActor(theActor))
 	  printf("), SCRIPT %ld(%s), STEP %ld, Executing:>\n",

@@ -166,7 +166,8 @@ static Bool syserrHandlerCalled;
 
 jmp_buf syserrLabel;
 
-extern void syserrHandler(char *message) {
+
+static void syserrHandler(char *message) {
   syserrHandlerCalled = TRUE;
   printf("%s\n", message);
   longjmp(syserrLabel, TRUE);
@@ -283,7 +284,7 @@ static void testGetMembers() {
   memory = code;
   memTop = 100;
   interpret(1);
-  assert_true(pop() == 0);
+  assert_true(pop(NULL) == 0);
 }
 
 
@@ -307,8 +308,16 @@ void testContainerSize() {
 }
 
 
+static void tearDown() {
+  setSyserrHandler(NULL);
+}
+
+
 TestSuite *exeTests() {
   TestSuite *suite = create_test_suite();
+
+  teardown(suite, tearDown);
+
   add_test(suite, testCountTrailingBlanks);
   add_test(suite, testSkipWordForwards);
   add_test(suite, testSkipWordBackwards);
@@ -322,5 +331,6 @@ TestSuite *exeTests() {
   add_test(suite, testWhere);
   add_test(suite, testGetMembers);
   add_test(suite, testContainerSize);
+
   return suite;
 }

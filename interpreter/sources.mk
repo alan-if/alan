@@ -1,36 +1,5 @@
 # Declaration of sources required for various types of builds
 #
-
-# UNIT1 is a home brewed unit test framework where all unit tested source
-# gets included in a single source file
-UNIT1SRC = \
-	unit.c
-
-# But that means that there is a lot of source files that are required
-# in that build in order to resolve all dependencies
-UNIT1REQUIREDSRCS = \
-	AltInfo.c \
-	AltInfoArray.c \
-	CheckEntryArray.c \
-	Container.c \
-	act.c \
-	args.c \
-	debug.c \
-	decode.c \
-	exe.c \
-	main.c \
-	options.c \
-	params.c \
-	parse.c \
-	readline.c \
-	reverse.c \
-	rules.c \
-	save.c \
-	set.c \
-	state.c \
-	sysdep.c \
-	term.c \
-
 # UNIT2 is the excellent CGreen unit test, stub and mocking framework by
 # Marcus Baker (http://sourceforge.net/projects/cgreen)
 UNIT2SRC = \
@@ -39,6 +8,7 @@ UNIT2SRC = \
 	AltInfoTests.c \
 	actTests.c \
 	exeTests.c \
+	interTests.c \
 	mainTests.c \
 	parseTests.c \
 	reverseTests.c \
@@ -54,7 +24,6 @@ UNIT2REQUIREDSRCS = \
 	args.c \
 	debug.c \
 	decode.c \
-	inter.c \
 	options.c \
 	params.c \
 	readline.c \
@@ -88,9 +57,6 @@ MAINSRCS = \
 	sysdep.c \
 	syserr.c \
 	term.c \
-
-UNIT1SRCS = $(UNIT1SRC) $(UNIT1REQUIREDSRCS)
-UNIT1OBJECTS = ${UNIT1SRCS:.c=.o} alan.version.o
 
 UNIT2SRCS = $(UNIT2SRC) $(UNIT2REQUIREDSRCS)
 UNIT2OBJECTS = ${UNIT2SRCS:.c=.o} alan.version.o

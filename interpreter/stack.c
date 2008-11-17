@@ -6,11 +6,19 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "stack.h"
 
 #include "types.h"
 #include "main.h"
 #include "syserr.h"
-#include "stack.h"
+
+/* ABSTRACT TYPE */
+typedef struct StackStructure {
+  Aint *stack;
+  int stackSize;
+  int stackp;
+  int framePointer;
+} StackStructure;
 
 
 /* PRIVATE DATA */
@@ -21,47 +29,87 @@
 static Aword stack[STACKSIZE];
 static int stackp = 0;
 
+
 /*======================================================================*/
-void resetStack(void)
+Stack createStack(int size)
 {
-  stackp = 0;
+  StackStructure *theStack = NEW(StackStructure);
+
+  theStack->stack = allocate(size*sizeof(Aword));
+  theStack->stackSize = size;
+  theStack->framePointer = -1;
+
+  return theStack;
 }
 
 
 /*======================================================================*/
-void dumpStack(void)
+void deleteStack(Stack theStack)
+{
+  free(theStack->stack);
+  free(theStack);
+}
+
+
+/*======================================================================*/
+int stackDepth(Stack theStack) {
+  return theStack->stackp;
+}
+
+
+/*======================================================================*/
+void dumpStack(Stack theStack)
 {
   int i;
 
   printf("[");
-  for (i = 0; i < stackp; i++)
-    printf("%ld ", stack[i]);
+  if (theStack == NULL)
+    for (i = 0; i < stackp; i++)
+      printf("%ld ", stack[i]);
+  else
+    for (i = 0; i < theStack->stackp; i++)
+      printf("%ld ", theStack->stack[i]);
   printf("]");
 }
 
 
 /*======================================================================*/
-void push(Aword i)
+void push(Stack theStack, Aword i)
 {
-  if (stackp == STACKSIZE)
-    syserr("Out of stack space.");
-  stack[stackp++] = i;
+  if (theStack == NULL) {
+    if (stackp == STACKSIZE)
+      syserr("Out of stack space.");
+    stack[stackp++] = i;
+  } else {
+    if (theStack->stackp == theStack->stackSize)
+      syserr("Out of stack space.");
+    theStack->stack[(theStack->stackp)++] = i;
+  }    
 }
 
 
 /*======================================================================*/
-Aword pop(void)
+Aword pop(Stack theStack)
 {
-  if (stackp == 0)
-    syserr("Stack underflow.");
-  return(stack[--stackp]);
+  if (theStack == NULL) {
+    if (stackp == 0)
+      syserr("Stack underflow.");
+    return(stack[--stackp]);
+  } else {
+    if (theStack->stackp == 0)
+      syserr("Stack underflow.");
+    return theStack->stack[--(theStack->stackp)];
+  }
 }
 
 
 /*======================================================================*/
-Aword top(void)
+Aword top(Stack theStack)
 {
-  return(stack[stackp-1]);
+  if (theStack == NULL)
+    return(stack[stackp-1]);
+  else
+    return(theStack->stack[theStack->stackp-1]);
 }
 
 
@@ -69,52 +117,83 @@ Aword top(void)
 static int framePointer = -1;
 
 /*======================================================================*/
-void newFrame(Aint noOfLocals)
+void newFrame(Stack theStack, Aint noOfLocals)
 {
-  push(framePointer);
-  framePointer = stackp;
-  for (;noOfLocals > 0; noOfLocals--) push(0);
+  push(theStack, framePointer);
+  if (theStack == NULL)
+    framePointer = stackp;
+  else
+    theStack->framePointer = theStack->stackp;
+  for (;noOfLocals > 0; noOfLocals--) push(theStack, 0);
 }
 
 
 /*======================================================================*/
 /* Local variables are numbered 1 and up and stored on their index-1 */
-Aword getLocal(Aint framesBelow, Aint variableNumber)
+Aword getLocal(Stack theStack, Aint framesBelow, Aint variableNumber)
 {
-  int frame = framePointer;
-  int frameCount;
-
-  if (framesBelow != 0)
-    for (frameCount = framesBelow; frameCount != 0; frameCount--)
-      frame = stack[frame-1];
-
   if (variableNumber < 1)
     syserr("Reading a non-existing block-local variable.");
 
-  return stack[frame + variableNumber-1];
+  if (theStack == NULL) {
+    int frame = framePointer;
+    int frameCount;
+
+    if (framesBelow != 0)
+      for (frameCount = framesBelow; frameCount != 0; frameCount--)
+	frame = stack[frame-1];
+
+    return stack[frame + variableNumber-1];
+  } else {
+    int frame = theStack->framePointer;
+    int frameCount;
+
+    if (framesBelow != 0)
+      for (frameCount = framesBelow; frameCount != 0; frameCount--)
+	frame = theStack->stack[frame-1];
+
+    return theStack->stack[frame + variableNumber-1];
+  }
 }
 
+
 /*======================================================================*/
-void setLocal(Aint framesBelow, Aint variableNumber, Aword value)
+void setLocal(Stack theStack, Aint framesBelow, Aint variableNumber, Aword value)
 {
-  int frame = framePointer;
-  int frameCount;
-
-  if (framesBelow != 0)
-    for (frameCount = framesBelow; frameCount != 0; frameCount--)
-      frame = stack[frame-1];
-
   if (variableNumber < 1)
     syserr("Writing a non-existing block-local variable.");
 
-  stack[frame + variableNumber-1] = value;
+  if (theStack == NULL) {
+    int frame = framePointer;
+    int frameCount;
+
+    if (framesBelow != 0)
+      for (frameCount = framesBelow; frameCount != 0; frameCount--)
+	frame = stack[frame-1];
+
+    stack[frame + variableNumber-1] = value;
+  } else {
+    int frame = theStack->framePointer;
+    int frameCount;
+
+    if (framesBelow != 0)
+      for (frameCount = framesBelow; frameCount != 0; frameCount--)
+	frame = theStack->stack[frame-1];
+
+    theStack->stack[frame + variableNumber-1] = value;
+  }
 }
 
 /*======================================================================*/
-void endFrame(void)
+void endFrame(Stack theStack)
 {
-  stackp = framePointer;
-  framePointer = pop();
+  if (theStack == NULL) {
+    stackp = framePointer;
+    framePointer = pop(NULL);
+  } else {
+    theStack->stackp = theStack->framePointer;
+    theStack->framePointer = pop(theStack);
+  }
 }
 
 

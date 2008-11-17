@@ -254,7 +254,7 @@ static void testGetMembers() {
   memory = code;
   memTop = 100;
   interpret(1);
-  ASSERT(pop() == 0);
+  ASSERT(pop(NULL) == 0);
 }
 
 

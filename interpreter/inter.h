@@ -9,24 +9,21 @@
 \*----------------------------------------------------------------------*/
 
 #include "types.h"
+#include "Stack.h"
 
-/* Types: */
+/* TYPES: */
 
-/* Data: */
+
+/* DATA: */
 
 extern Bool stopAtNextLine;
 extern int currentLine;
 extern int depth;
 
 
-/* Functions: */
+/* FUNCTIONS: */
 
-#ifdef _PROTOTYPES_
-
+extern void setInterpreterStack(Stack stack);
 extern void interpret(Aaddr adr);
-
-#else
-extern void interpret();
-#endif
 
 #endif
