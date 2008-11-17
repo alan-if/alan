@@ -1,7 +1,6 @@
 unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h interTest.c \
   inter.c inter.h main.h parse.h exe.h stack.h debug.h set.h options.h \
-  stack.c setTest.c set.c mainTest.c main.c state.h readline.h \
-  alan.version.h version.h args.h rules.h term.h
+  stack.c
 unit2.o: unit2.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -45,6 +44,16 @@ exeTests.o: exeTests.c ../../../Development/cgreen/cgreen.h \
   exe.c exe.h act.h state.h debug.h params.h parse.h syserr.h options.h \
   readline.h main.h inter.h stack.h decode.h CheckEntryArray.h \
   Container.h
+mainTests.o: mainTests.c ../../../Development/cgreen/cgreen.h \
+  ../../../Development/cgreen/unit.h \
+  ../../../Development/cgreen/reporter.h \
+  ../../../Development/cgreen/mocks.h \
+  ../../../Development/cgreen/constraint.h \
+  ../../../Development/cgreen/text_reporter.h \
+  ../../../Development/cgreen/assertions.h main.c sysdep.h acode.h \
+  types.h set.h state.h main.h syserr.h parse.h options.h readline.h \
+  alan.version.h version.h args.h inter.h rules.h reverse.h debug.h \
+  stack.h exe.h term.h
 parseTests.o: parseTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -70,6 +79,14 @@ saveTests.o: saveTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h save.c save.h types.h sysdep.h \
   acode.h main.h exe.h set.h readline.h options.h syserr.h
+setTests.o: setTests.c ../../../Development/cgreen/cgreen.h \
+  ../../../Development/cgreen/unit.h \
+  ../../../Development/cgreen/reporter.h \
+  ../../../Development/cgreen/mocks.h \
+  ../../../Development/cgreen/constraint.h \
+  ../../../Development/cgreen/text_reporter.h \
+  ../../../Development/cgreen/assertions.h set.c set.h acode.h types.h \
+  sysdep.h main.h syserr.h exe.h
 stateTests.o: stateTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \

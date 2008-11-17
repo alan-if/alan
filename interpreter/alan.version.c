@@ -15,5 +15,5 @@ Product alan = {
   {"3.0alpha7", 3, 0, 7, 1226932932, "alpha"}
 };
 
-static char *alanId =
+static char *alanId __attribute__ ((unused)) =
   "@(#)RELEASE ";

@@ -74,8 +74,6 @@ void unitAssert(int x, char sourceFile[], int lineNumber);
 #define ASSERT(x) (unitAssert((x), __FILE__, __LINE__))
 
 #include "interTest.c"
-#include "setTest.c"
-#include "mainTest.c"
 
 #include <stdio.h>
 
@@ -140,8 +138,6 @@ int main()
 
   if (setjmp(uniterr_label) == 0) {
     registerInterUnitTests();
-    registerSetUnitTests();
-    registerMainUnitTests();
 
     unitTest();
   }

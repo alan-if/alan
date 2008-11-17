@@ -18,6 +18,7 @@ UNIT1REQUIREDSRCS = \
 	debug.c \
 	decode.c \
 	exe.c \
+	main.c \
 	options.c \
 	params.c \
 	parse.c \
@@ -25,6 +26,7 @@ UNIT1REQUIREDSRCS = \
 	reverse.c \
 	rules.c \
 	save.c \
+	set.c \
 	state.c \
 	sysdep.c \
 	term.c \
@@ -37,9 +39,11 @@ UNIT2SRC = \
 	AltInfoTests.c \
 	actTests.c \
 	exeTests.c \
+	mainTests.c \
 	parseTests.c \
 	reverseTests.c \
 	saveTests.c \
+	setTests.c \
 	stateTests.c \
 	stackTests.c \
 	sysdepTests.c \
@@ -51,12 +55,10 @@ UNIT2REQUIREDSRCS = \
 	debug.c \
 	decode.c \
 	inter.c \
-	main.c \
 	options.c \
 	params.c \
 	readline.c \
 	rules.c \
-	set.c \
 	syserr.c \
 	term.c \
 
