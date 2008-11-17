@@ -29,7 +29,7 @@
 #include "parse.h"
 #include "stack.h"
 #include "exe.h"
-
+#include "options.h"
 #include "debug.h"
 
 #ifdef HAVE_GLK

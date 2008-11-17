@@ -6,6 +6,9 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "exe.h"
+
+
 #include "sysdep.h"
 #include "types.h"
 #include "act.h"
@@ -15,8 +18,7 @@
 #include "params.h"
 #include "parse.h"
 #include "syserr.h"
-
-#include "exe.h"
+#include "options.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -738,7 +740,7 @@ Aint getContainerMember(Aint container, Aint index, Abool directly) {
 static void locateIntoContainer(Aword theInstance, Aword theContainer) {
   if (!isA(theInstance, container[instance[theContainer].container].class))
     printMessageUsing2Parameters(M_CANNOTCONTAIN, theContainer, theInstance);
-  else if (checklim(theContainer, theInstance))
+  else if (checkContainerLimits(theContainer, theInstance))
     error(MSGMAX);		/* Return to player without any message */
   else
     admin[theInstance].location = theContainer;
@@ -861,7 +863,7 @@ void locate(Aint id, Aword whr)
 	traceSay(id);
 	printf("(%ld, container %ld), Checking:>\n", id, containerId);
       }
-      if (!trycheck(theContainer->extractChecks, EXECUTE)) {
+      if (!tryChecks(theContainer->extractChecks, EXECUTE)) {
 	fail = TRUE;
 	return;
       }
@@ -1282,7 +1284,7 @@ static Bool inheritedDescriptionCheck(Aint classId)
   if (classId == 0) return TRUE;
   if (!inheritedDescriptionCheck(class[classId].parent)) return FALSE;
   if (class[classId].descriptionChecks == 0) return TRUE;
-  return trycheck(class[classId].descriptionChecks, TRUE);
+  return tryChecks(class[classId].descriptionChecks, TRUE);
 }
 
 /*----------------------------------------------------------------------*/
@@ -1290,7 +1292,7 @@ static Bool descriptionCheck(Aint instanceId)
 {
   if (inheritedDescriptionCheck(instance[instanceId].parent)) {
     if (instance[instanceId].checks == 0) return TRUE;
-    return trycheck(instance[instanceId].checks, TRUE);
+    return tryChecks(instance[instanceId].checks, TRUE);
   } else
     return FALSE;
 }

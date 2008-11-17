@@ -7,6 +7,8 @@ VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 CYGWIN	= #-mno-cygwin
 
 OPTIMIZE = -ggdb
+CC = gcc
+
 EXE	= arun.exe
 
 COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
@@ -27,16 +29,16 @@ TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
 
 #Settings for Gargoyle GLK variant (experimental!)
-GARGLKROOT = ../../Gargoyle/garglk
+GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
 GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
 GARGLKINCLUDE = -I$(GARGLKROOT)
-GARGLKLIB = -L$(GARGLKROOT)/../build/debug/garglk -lgarglk -lpng -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a
+GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk -mno-cygwin
 
 
 #Set up for specific target
 winarun: GLKDEFS = $(WINGLKDEFS)
 winarun: CFLAGS = $(COMPILEFLAGS) $(WINGLKINCLUDE) $(GLKDEFS)
-winarun: CYGWIN = -mno-cygwin -mwindows
+winarun: CYGWIN = -mwindows -mno-cygwin 
 winarun: LIBS = $(WINGLKLIB)
 winarun: EXE = winarun.exe
 
@@ -80,7 +82,7 @@ arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
 all:
 	$(MAKE) arun
 	$(MAKE) winarun
-#	$(MAKE) glkarun
+	$(MAKE) glkarun
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" arun
@@ -152,13 +154,36 @@ alan.version.c:  ../alan.version
 # Unit testing
 #
 
-unit : checkTarget $(TESTOBJECTS)
-	gcc -o unit $(TESTOBJECTS) $(LDFLAGS) $(LIBS)
-
-unitTest: unit
+unit1 : checkTarget $(UNIT1OBJECTS) Makefile $(LIBS)
+	gcc -o unit $(UNIT1OBJECTS) $(LDFLAGS) $(LIBS)
 	@./unit
 
+
+#
+# CGreen unit tests
+#
+CGREENROOT = ../../../Development/cgreen
+CGREENINCLUDE = -I$(CGREENROOT)
+unit2: CYGWIN = #-mno-cygwin
+unit2: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE) $(CYGWIN)
+unit2: LIBS = $(CGREENROOT)/cgreen.a
+
+unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
+	gcc -o unit2 $(UNIT2OBJECTS) $(LDFLAGS) $(LIBS)
+	@./unit2
+
+
+#++++++++++++++++++++++++++++++++
+#
+# We must run unit test both with homecooked and cgreen framework for now
+#
+unitTest: unit1 unit2
+
+
+#+++++++++++++++++++++++++++++++++
+#
 # Run all tests!
+#
 test: unitTest
 
 
@@ -174,14 +199,15 @@ dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
 
 
 #
-# Dependencies are generate only for command line case
+# Dependencies are generated only for command line case
 # Dependencies on libraries are only in the way for other cases,
 # so special dependencies that we need are set explicitly below
 #
+DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
 depend:
-	@-for f in $(UNITSRCS) $(BUILDSRCS) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c; \
+	@-for f in $(UNIT1SRC) $(UNIT2SRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c ; \
 	  do \
-	  $(CPP) $(CFLAGS) $$f >> dependencies.new; \
+	  $(CPP) $(CFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
 	done
 	mv dependencies.new dependencies.mk
 

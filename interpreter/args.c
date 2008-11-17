@@ -12,6 +12,7 @@
 #include "sysdep.h"
 #include "args.h"
 
+#include "options.h"
 #include "main.h"
 
 #ifdef HAVE_GLK
@@ -72,7 +73,7 @@ static void switches(int argc, char *argv[])
 	logOption = FALSE;
 	break;
       case 'v':
-	verbose = TRUE;
+	verboseOption = TRUE;
 	break;
       case 'n':
 	statusLineOption = FALSE;

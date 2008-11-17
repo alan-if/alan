@@ -149,12 +149,12 @@ static void reverseDictionary(Aword adr)
 
 static void reverseChks(Aword adr)
 {
-  ChkEntry *e = (ChkEntry *) &memory[adr];
+  CheckEntry *e = (CheckEntry *) &memory[adr];
 
   if (alreadyDone(adr)) return;
 
   if (!endOfTable(e)) {
-    reverseTable(adr, sizeof(ChkEntry));
+    reverseTable(adr, sizeof(CheckEntry));
     while (!endOfTable(e)) {
       reverseStms(e->exp);
       reverseStms(e->stms);

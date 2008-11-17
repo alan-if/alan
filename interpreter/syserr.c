@@ -3,7 +3,9 @@
 #include "main.h"
 #include "inter.h"
 #include "debug.h"
+#include "options.h"
 
+static void (*handler)(char *) = NULL;
 
 /*----------------------------------------------------------------------*/
 static void runtimeError(char *errorClassification, char *errorDescription) {
@@ -45,14 +47,27 @@ of an Adventure that never was.$n$n");
 
 
 /*======================================================================*/
+void setSyserrHandler(void (*f)(char *))
+{
+  handler = f;
+}
+
+
+/*======================================================================*/
 void syserr(char *description)
 {
-  runtimeError("SYSTEM ERROR: ", description);
+  if (handler == NULL)
+    runtimeError("SYSTEM ERROR: ", description);
+  else
+    handler(description);
 }
 
 
 /*======================================================================*/
 void apperr(char *description)
 {
-  runtimeError("APPLICATION ERROR: ", description);
+  if (handler == NULL)
+    runtimeError("APPLICATION ERROR: ", description);
+  else
+    handler(description);
 }

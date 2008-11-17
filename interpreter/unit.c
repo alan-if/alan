@@ -73,14 +73,12 @@ void apperr(char msg[]) {
 void unitAssert(int x, char sourceFile[], int lineNumber);
 #define ASSERT(x) (unitAssert((x), __FILE__, __LINE__))
 
-#include "exeTest.c"
 #include "saveTest.c"
 #include "stateTest.c"
 #include "parseTest.c"
 #include "stackTest.c"
 #include "interTest.c"
 #include "reverseTest.c"
-#include "sysdepTest.c"
 #include "setTest.c"
 #include "mainTest.c"
 
@@ -146,14 +144,12 @@ int main()
 #endif
 
   if (setjmp(uniterr_label) == 0) {
-    registerExeUnitTests();
     registerSaveUnitTests();
     registerStateUnitTests();
     registerParseUnitTests();
     registerStackUnitTests();
     registerInterUnitTests();
     registerReverseUnitTests();
-    registerSysdepUnitTests();
     registerSetUnitTests();
     registerMainUnitTests();
 

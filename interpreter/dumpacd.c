@@ -191,11 +191,11 @@ static void dumpAtrs(int level, Aword atrs)
 /*----------------------------------------------------------------------*/
 static void dumpChks(int level, Aword chks)
 {
-  ChkEntry *chk;
+  CheckEntry *chk;
 
   if (chks == 0) return;
 
-  for (chk = (ChkEntry *)pointerTo(chks); !endOfTable(chk); chk++) {
+  for (chk = (CheckEntry *)pointerTo(chks); !endOfTable(chk); chk++) {
     indent(level);
     printf("CHECK:\n");
     indent(level+1);

@@ -6,10 +6,10 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "parse.h"
+
 #include <stdio.h>
 #include <ctype.h>
-
-#include "types.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -23,8 +23,8 @@
 #include "term.h"
 #include "debug.h"
 #include "params.h"
+#include "options.h"
 #include "syserr.h"
-#include "parse.h"
 
 #ifdef HAVE_GLK
 #include "glkio.h"
@@ -440,7 +440,7 @@ static void nonverb(void) {
     if (playerWords[wordIndex].code != EOF && !isConj(playerWords[wordIndex].code))
       error(M_WHAT);
     else
-      go(dictionary[playerWords[wordIndex-1].code].code);
+      go(current.location, dictionary[playerWords[wordIndex-1].code].code);
     if (playerWords[wordIndex].code != EOF)
       wordIndex++;
   } else

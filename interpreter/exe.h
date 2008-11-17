@@ -8,6 +8,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "acode.h"
+#include "types.h"
 
 /* Functions: */
 extern void sys(Aword fpos, Aword len);

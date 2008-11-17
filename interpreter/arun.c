@@ -10,6 +10,7 @@
 #include "sysdep.h"
 #include "main.h"
 #include "term.h"
+#include "options.h"
 
 #ifdef HAVE_SHORT_FILENAMES
 #include "av.h"
@@ -76,7 +77,7 @@ int main(
   }
 #endif
 
-  if ((debugOption && ! regressionTestOption) || verbose) {
+  if ((debugOption && ! regressionTestOption) || verboseOption) {
     if (debugOption) printf("<");
     printf("Arun, Adventure Interpreter version %s (%s %s)",
 	   alan.version.string, alan.date, alan.time);

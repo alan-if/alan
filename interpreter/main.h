@@ -2,8 +2,6 @@
 #define _MAIN_H_
 /*----------------------------------------------------------------------*\
 
-  MAIN.H
-
   Header file for main unit of ARUN Alan System interpreter
 
 \*----------------------------------------------------------------------*/
@@ -78,18 +76,6 @@ extern jmp_buf returnLabel;
 
 extern jmp_buf forfeitLabel;
 
-extern Bool verbose;
-extern Bool ignoreErrorOption;
-extern Bool debugOption;
-extern Bool sectionTraceOption;
-extern Bool tracePushOption;
-extern Bool traceStackOption;
-extern Bool traceSourceOption;
-extern Bool singleStepOption;
-extern Bool transcriptOption;
-extern Bool logOption;
-extern Bool statusLineOption;
-extern Bool regressionTestOption;
 extern Bool fail;
 extern Bool anyOutput;
 extern Bool needSpace;

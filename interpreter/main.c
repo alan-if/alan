@@ -15,6 +15,7 @@
 #include "main.h"
 #include "syserr.h"
 #include "parse.h"
+#include "options.h"
 
 #include <time.h>
 #ifdef USE_READLINE
@@ -85,18 +86,6 @@ Aword *freq;			/* Cumulative character frequencies */
 
 int dictsize;
 
-Bool verbose = FALSE;
-Bool ignoreErrorOption = FALSE;
-Bool debugOption = FALSE;
-Bool sectionTraceOption = FALSE;
-Bool tracePushOption = FALSE;
-Bool traceStackOption = FALSE;
-Bool traceSourceOption = FALSE;
-Bool singleStepOption = FALSE;
-Bool transcriptOption = FALSE;
-Bool logOption = FALSE;
-Bool statusLineOption = TRUE;
-Bool regressionTestOption = FALSE;
 Bool fail = FALSE;
 Bool anyOutput = FALSE;
 
@@ -899,12 +888,7 @@ void checkobj(obj)
 \*----------------------------------------------------------------------*/
 
 
-/*----------------------------------------------------------------------
-
-  runPendingEvents()
-
-  Check if any events are pending. If so execute them.
-  */
+/*----------------------------------------------------------------------*/
 static void runPendingEvents(void)
 {
   int i;
@@ -926,7 +910,6 @@ static void runPendingEvents(void)
   for (i = 0; i<eventQueueTop; i++)
     eventQueue[i].after--;
 }
-
 
 
 

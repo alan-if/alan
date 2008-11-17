@@ -87,10 +87,10 @@ typedef struct ActEntry {	/* ACTOR TABLE */
   Aaddr dscr;			/* Address of description code */
 } ActEntry;
 
-typedef struct ChkEntry {	/* CHECK TABLE */
+typedef struct CheckEntry {	/* CHECK TABLE */
   Aaddr exp;			/* ACODE address to expression code */
   Aaddr stms;			/* ACODE address to statement code */
-} ChkEntry;
+} CheckEntry;
 
 typedef struct VerbEntry {	/* VERB TABLE */
   Aword code;			/* Code for the verb */

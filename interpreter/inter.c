@@ -6,6 +6,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "inter.h"
+
 
 #include <stdio.h>
 
@@ -18,8 +20,7 @@
 #include "sysdep.h"
 #include "debug.h"
 #include "set.h"
-
-#include "inter.h"
+#include "options.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK

@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "exe.h"
 #include "stack.h"
+#include "options.h"
 
 #include "rules.h"
 

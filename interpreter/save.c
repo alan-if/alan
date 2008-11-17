@@ -6,12 +6,15 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "sysdep.h"
+#include "save.h"
+
 #include "types.h"
+#include "sysdep.h"
 #include "main.h"
 #include "exe.h"
 #include "set.h"
 #include "readline.h"
+#include "options.h"
 #include "syserr.h"
 
 
@@ -116,7 +119,7 @@ static void saveGame(AFILE saveFile) {
 }
 
 
-/*----------------------------------------------------------------------*/
+/*======================================================================*/
 void save(void)
 {
 #ifdef HAVE_GLK
@@ -312,7 +315,7 @@ static void restoreGame(AFILE saveFile)
 }
 
 
-/*----------------------------------------------------------------------*/
+/*======================================================================*/
 void restore(void)
 {
 #ifdef HAVE_GLK
