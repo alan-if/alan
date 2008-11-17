@@ -1,5 +1,5 @@
-#ifndef _CHECKARRAY_H_
-#define _CHECKARRAY_H_
+#ifndef _CHECKENTRYARRAY_H_
+#define _CHECKENTRYARRAY_H_
 /*----------------------------------------------------------------------*\
 
   Array of CheckEntries
@@ -15,7 +15,7 @@
 
 /* TYPES */
 
-typedef CheckEntry CheckArray[];
+typedef CheckEntry CheckEntryArray[];
 
 
 /* DATA */

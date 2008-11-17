@@ -11,7 +11,7 @@
 #include "inter.h"
 #include "parse.h"
 #include "debug.h"
-#include "CheckArray.h"
+#include "CheckEntryArray.h"
 
 
 /*======================================================================*/

@@ -26,7 +26,7 @@
 #include "options.h"
 #include "AltInfo.h"
 #include "AltInfoArray.h"
-#include "CheckArray.h"
+#include "CheckEntryArray.h"
 
 
 /*----------------------------------------------------------------------*/

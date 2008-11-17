@@ -38,7 +38,7 @@
 #include "stack.h"
 #include "decode.h"
 
-#include "CheckArray.h"
+#include "CheckEntryArray.h"
 
 #define WIDTH 80
 
