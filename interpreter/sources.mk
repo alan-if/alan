@@ -39,6 +39,7 @@ UNIT2SRC = \
 	parseTests.c \
 	saveTests.c \
 	stateTests.c \
+	stackTests.c \
 	sysdepTests.c \
 
 UNIT2REQUIREDSRCS = \
@@ -55,7 +56,6 @@ UNIT2REQUIREDSRCS = \
 	reverse.c \
 	rules.c \
 	set.c \
-	stack.c \
 	syserr.c \
 	term.c \
 

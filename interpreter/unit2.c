@@ -7,6 +7,7 @@ TestSuite *exeTests();
 TestSuite *parseTests();
 TestSuite *saveTests();
 TestSuite *stateTests();
+TestSuite *stackTests();
 TestSuite *sysdepTests();
 
 int main(int argc, char **argv) {
@@ -17,6 +18,7 @@ int main(int argc, char **argv) {
     add_suite(suite, exeTests());
     add_suite(suite, parseTests());
     add_suite(suite, saveTests());
+    add_suite(suite, stackTests());
     add_suite(suite, stateTests());
     add_suite(suite, sysdepTests());
     if (argc > 1) {

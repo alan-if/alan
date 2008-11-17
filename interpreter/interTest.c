@@ -8,6 +8,9 @@
 
 #include "inter.c"
 
+// This stinks...
+#include "stack.c"
+
 
 static void testBlockInstructions()
 {
