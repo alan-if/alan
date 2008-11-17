@@ -1,12 +1,5 @@
-/*======================================================================*\
+#include "cgreen.h"
 
-  saveTest.c
-
-  Unit tests for save module in the Alan interpreter
-
-\*======================================================================*/
-
-#include "set.h"
 #include "save.c"
 
 
@@ -76,12 +69,12 @@ static void testSaveRestore() {
   fclose(saveFile);
   unlink("testSaveFile");
 
-  ASSERT(admin[1].attributes[0].code == 11);
-  ASSERT(admin[1].attributes[0].value == 11);
-  ASSERT(admin[2].attributes[0].code == 22);
-  ASSERT(admin[2].attributes[0].value == 22);
-  ASSERT(admin[3].attributes[0].code == 33);
-  ASSERT(admin[3].attributes[0].value == 33);
+  assert_equal(11, admin[1].attributes[0].code);
+  assert_equal(11, admin[1].attributes[0].value);
+  assert_equal(22, admin[2].attributes[0].code);
+  assert_equal(22, admin[2].attributes[0].value);
+  assert_equal(33, admin[3].attributes[0].code);
+  assert_equal(33, admin[3].attributes[0].value);
 }
 
 static void testSaveStrings() {
@@ -135,7 +128,7 @@ static void testSaveStrings() {
   fclose(saveFile);
   unlink(testFileName);
 
-  ASSERT(strcmp((char *)admin[1].attributes[0].value, testString) == 0);
+  assert_equal(0, strcmp((char *)admin[1].attributes[0].value, testString));
 }
 
 static void testSaveSets() {
@@ -211,7 +204,7 @@ static void testSaveSets() {
   unlink(testFileName);
 
   for (i = 0; i < 4; i++)
-    ASSERT(equalSets((Set *)admin[1].attributes[i].value, testSet[i]));
+    assert_true(equalSets((Set *)admin[1].attributes[i].value, testSet[i]));
 }
 
 void testSaveRestoreScore() {
@@ -240,9 +233,9 @@ void testSaveRestoreScore() {
   saveFile = fopen(fileName, "rb");
   restoreScores(saveFile);
 
-  ASSERT(header->scoreCount == scoreCount);
-  ASSERT(memcmp(scores, oldScores, scoreCount*sizeof(Aword)) == 0);
-  ASSERT(fgetc(saveFile) == EOF);
+  assert_equal(scoreCount, header->scoreCount);
+  assert_equal(0, memcmp(scores, oldScores, scoreCount*sizeof(Aword)));
+  assert_equal(EOF, fgetc(saveFile));
 
   fclose(saveFile);
   unlink(fileName);
@@ -252,9 +245,11 @@ void testSaveRestoreScore() {
 }
 
 
-void registerSaveUnitTests() {
-  registerUnitTest(testSaveRestore);
-  registerUnitTest(testSaveStrings);
-  registerUnitTest(testSaveSets);
-  registerUnitTest(testSaveRestoreScore);
+TestSuite *saveTests() {
+  TestSuite *suite = create_test_suite();
+  add_test(suite, testSaveRestore);
+  add_test(suite, testSaveStrings);
+  add_test(suite, testSaveSets);
+  add_test(suite, testSaveRestoreScore);
+  return suite;
 }

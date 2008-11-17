@@ -9,21 +9,22 @@ UNIT1SRC = \
 # But that means that there is a lot of source files that are required
 # in that build in order to resolve all dependencies
 UNIT1REQUIREDSRCS = \
-	exe.c \
-	rules.c \
-	debug.c \
-	args.c \
-	decode.c \
-	term.c \
-	readline.c \
-	params.c \
-	sysdep.c \
-	act.c \
-	options.c \
 	AltInfo.c \
 	AltInfoArray.c \
 	CheckEntryArray.c \
 	Container.c \
+	act.c \
+	args.c \
+	debug.c \
+	decode.c \
+	exe.c \
+	options.c \
+	params.c \
+	readline.c \
+	rules.c \
+	save.c \
+	sysdep.c \
+	term.c \
 
 # UNIT2 is the excellent CGreen unit test, stub and mocking framework by
 # Marcus Baker (http://sourceforge.net/projects/cgreen)
@@ -32,29 +33,29 @@ UNIT2SRC = \
 	AltInfoArrayTests.c \
 	AltInfoTests.c \
 	actTests.c \
-	sysdepTests.c \
 	exeTests.c \
+	saveTests.c \
+	sysdepTests.c \
 
 UNIT2REQUIREDSRCS = \
-	rules.c \
-	debug.c \
-	args.c \
-	decode.c \
-	term.c \
-	readline.c \
-	params.c \
-	stack.c \
-	inter.c \
-	reverse.c \
-	syserr.c \
-	parse.c \
-	main.c \
-	set.c \
-	state.c \
-	save.c \
-	options.c \
 	CheckEntryArray.c \
 	Container.c \
+	args.c \
+	debug.c \
+	decode.c \
+	inter.c \
+	main.c \
+	options.c \
+	params.c \
+	parse.c \
+	readline.c \
+	reverse.c \
+	rules.c \
+	set.c \
+	stack.c \
+	state.c \
+	syserr.c \
+	term.c \
 
 # All sources for the main build
 MAINSRCS = \
