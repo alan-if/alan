@@ -1,13 +1,8 @@
-/*======================================================================*\
-
-  parseTest.c
-
-  Unit tests for parse module in the Alan interpreter
-
-\*======================================================================*/
+#include "cgreen.h"
 
 #include "parse.c"
 
+/*----------------------------------------------------------------------*/
 static void makeEOS(ElementEntry *element) {
   element->code = EOS;
 }
@@ -36,6 +31,8 @@ static void makeDictionaryEntry(int index, int code, int classBits) {
   dictionary[index].classBits = classBits;
 }
 
+
+/*----------------------------------------------------------------------*/
 static void testMatchEndOfSyntax() {
   ElementEntry *element;
   ElementEntry *elementTable;
@@ -50,20 +47,20 @@ static void testMatchEndOfSyntax() {
   /* First try an empty parse tree */
   makeEOF(elementTable);
   element = matchEndOfSyntax(elementTable);
-  ASSERT(element == NULL);
+  assert_equal(NULL, element);
 
   /* Then one with a single EOS */
   makeEOS(&elementTable[0]);
   makeEOF(&elementTable[1]);
 
   element = matchEndOfSyntax(elementTable);
-  ASSERT(element != NULL);
-  ASSERT(element->code == EOS);
+  assert_not_equal(NULL, element);
+  assert_equal(EOS, element->code);
 
   free(memory);
 }
 
-
+/*----------------------------------------------------------------------*/
 static void testMatchParameterElement() {
   ElementEntry *element;
   ElementEntry *elementTable;
@@ -78,27 +75,28 @@ static void testMatchParameterElement() {
   /* First test an empty parse tree */
   makeEOF(elementTable);
   element = matchEndOfSyntax(elementTable);
-  ASSERT(element == NULL);
+  assert_equal(NULL, element);
 
   /* Then one with a single EOS */
   makeParameterElement(&elementTable[0]);
   makeEOF(&elementTable[1]);
 
   element = matchParameterElement(elementTable);
-  ASSERT(element != NULL);
-  ASSERT(element->code == 0);
+  assert_not_equal(NULL, element);
+  assert_equal(0, element->code);
 
   /* Parameter entry at the end */
   makeEOS(&elementTable[0]);
   makeParameterElement(&elementTable[1]);
   makeEOF(&elementTable[2]);
   element = matchParameterElement(elementTable);
-  ASSERT(element != NULL);
-  ASSERT(element->code == 0);
+  assert_not_equal(NULL, element);
+  assert_equal(0, element->code);
 
   free(memory);
 }
 
+/*----------------------------------------------------------------------*/
 static void testMatchParseTree() {
   ElementEntry *element;
   ElementEntry *elementTable;
@@ -115,20 +113,20 @@ static void testMatchParseTree() {
   /* First test EOF with empty parse tree */
   makeEOF(elementTable);
   element = matchParseTree(NULL, elementTable, &plural);
-  ASSERT(element == NULL);
+  assert_equal(NULL, element);
 
   /* Test EOF with EOS */
   makeEOS(&elementTable[0]);
   makeEOF(&elementTable[1]);
   element = matchParseTree(NULL, elementTable, &plural);
-  ASSERT(element == elementTable);
+  assert_equal(elementTable, element);
 
   /* Test EOF with word, EOS */
   makeWordElement(&elementTable[0], 1, 0);
   makeEOS(&elementTable[1]);
   makeEOF(&elementTable[2]);
   element = matchParseTree(NULL, elementTable, &plural);
-  ASSERT(element == &elementTable[1]);
+  assert_equal(&elementTable[1], element);
 
   /* Test word, EOF with word, EOS */
   dictionary = makeDictionary(100);
@@ -139,11 +137,12 @@ static void testMatchParseTree() {
   makeEOS(&elementTable[1]);
   makeEOF(&elementTable[2]);
   element = matchParseTree(parameters, elementTable, &plural);
-  ASSERT(element == &elementTable[1]);
+  assert_equal(&elementTable[1], element);
   free(dictionary);
   free(memory);
 }
 
+/*----------------------------------------------------------------------*/
 static void testSetupParameterForWord() {
   ACodeHeader acdHeader;
   header = &acdHeader;
@@ -159,18 +158,20 @@ static void testSetupParameterForWord() {
   litCount = 0;
   setupParameterForWord(1, 1);
 
-  ASSERT(parameters[0].instance == instanceFromLiteral(1));
-  ASSERT(parameters[1].instance == EOF);
+  assert_equal(instanceFromLiteral(1), parameters[0].instance);
+  assert_equal(EOF, parameters[1].instance);
 
   free(dictionary);
   free(memory);
 }
 
 
-void registerParseUnitTests()
+TestSuite *parseTests()
 {
-  registerUnitTest(testSetupParameterForWord);
-  registerUnitTest(testMatchEndOfSyntax);
-  registerUnitTest(testMatchParameterElement);
-  registerUnitTest(testMatchParseTree);
+  TestSuite *suite = create_test_suite();
+  add_test(suite, testSetupParameterForWord);
+  add_test(suite, testMatchEndOfSyntax);
+  add_test(suite, testMatchParameterElement);
+  add_test(suite, testMatchParseTree);
+  return suite;
 }

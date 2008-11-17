@@ -1,13 +1,8 @@
-/*======================================================================*\
+#include "cgreen.h"
 
-  stateTest.c
 
-  Unit tests for state module in the Alan interpreter
-
-\*======================================================================*/
-
-#include "set.h"
 #include "state.c"
+
 
 static void setupInstances(int instanceMax, int attributeCount) {
   int adminSize = (instanceMax+1)*sizeof(AdminEntry)/sizeof(Aword);
@@ -57,10 +52,10 @@ static void testPushGameState() {
 
   pushGameState();
 
-  ASSERT(gameState != NULL);
-  ASSERT(gameStateTop == 1);
-  ASSERT(memcmp(gameState->attributes, attributes, attributeAreaSize*sizeof(Aword)) == 0);
-  ASSERT(memcmp(gameState->admin, admin, adminSize*sizeof(Aword)) == 0);
+  assert_not_equal(NULL, gameState);
+  assert_equal(1, gameStateTop);
+  assert_true(memcmp(gameState->attributes, attributes, attributeAreaSize*sizeof(Aword)) == 0);
+  assert_true(memcmp(gameState->admin, admin, adminSize*sizeof(Aword)) == 0);
 }
 
 
@@ -91,21 +86,21 @@ static void testPushAndPopAttributesWithSet() {
 
   pushGameState();
 
-  ASSERT(gameState->sets[0] != (Aword)originalSet);
-  ASSERT(equalSets((Set*)gameState->sets[0], originalSet));
+  assert_not_equal(gameState->sets[0], (Aword)originalSet);
+  assert_true(equalSets((Set*)gameState->sets[0], originalSet));
 
   Set *modifiedSet = newSet(4);
   attributes[0].value = (Aword)modifiedSet;
   addToSet(modifiedSet, 11);
   addToSet(modifiedSet, 12);
-  ASSERT(!equalSets((Set*)gameState->sets[0], modifiedSet));
-  ASSERT(equalSets((Set*)attributes[0].value, modifiedSet));
+  assert_false(equalSets((Set*)gameState->sets[0], modifiedSet));
+  assert_true(equalSets((Set*)attributes[0].value, modifiedSet));
 
   popGameState();
 
-  ASSERT(attributes[0].value != (Aword)modifiedSet);
-  ASSERT(attributes[0].value != (Aword)originalSet);
-  ASSERT(equalSets((Set*)attributes[0].value, originalSet));
+  assert_not_equal(attributes[0].value, (Aword)modifiedSet);
+  assert_not_equal(attributes[0].value, (Aword)originalSet);
+  assert_true(equalSets((Set*)attributes[0].value, originalSet));
 }
 
 static void testPushAndPopAttributeState() {
@@ -118,8 +113,8 @@ static void testPushAndPopAttributeState() {
 
   pushGameState();
 
-  ASSERT(gameState != NULL);
-  ASSERT(gameStateTop == 1);
+  assert_not_equal(NULL, gameState);
+  assert_equal(1, gameStateTop);
 
   attributes[0].value = 11;
   attributes[2].value = 4;
@@ -131,29 +126,36 @@ static void testPushAndPopAttributeState() {
 
   popGameState();
 
-  ASSERT(attributes[0].value == 11);
-  ASSERT(attributes[2].value == 4);
+  assert_equal(11, attributes[0].value);
+  assert_equal(4, attributes[2].value);
 
   popGameState();
 
-  ASSERT(attributes[0].value == 12);
-  ASSERT(attributes[2].value == 3);
+  assert_equal(12, attributes[0].value);
+  assert_equal(3, attributes[2].value);
 }
 
-static void testPushAndPopAdminState() {
-  int instanceCount = 2;
-  setupInstances(instanceCount, 3);
-  buildGameStateStack(0, instanceCount);
 
-  admin[1].location = 12;
-  admin[2].script = 3;
+
+static void testPushAndPopAdminState() {
+  int INSTANCE_COUNT = 2;
+  int INSTANCE1_LOCATION = 12;
+  int INSTANCE2_LOCATION = 22;
+  int INSTANCE2_FIRST_SCRIPT = 3;
+
+  setupInstances(INSTANCE_COUNT, 3);
+  buildGameStateStack(0, INSTANCE_COUNT);
+
+  admin[1].location = INSTANCE1_LOCATION;
+  admin[2].script = INSTANCE2_FIRST_SCRIPT;
 
   pushGameState();
 
-  ASSERT(gameState != NULL);
-  ASSERT(gameStateTop == 1);
+  assert_not_equal(NULL, gameState);
+  assert_equal(1, gameStateTop);
 
-  admin[2].location = 12;
+  admin[2].location = INSTANCE2_LOCATION;
+;
   admin[2].alreadyDescribed = 2;
   admin[2].visitsCount = 13;
   admin[2].script = 33;
@@ -171,23 +173,24 @@ static void testPushAndPopAdminState() {
 
   popGameState();
 
-  ASSERT(admin[2].location == 12);
-  ASSERT(admin[2].alreadyDescribed == 2);
-  ASSERT(admin[2].visitsCount == 13);
-  ASSERT(admin[2].script == 33);
-  ASSERT(admin[2].step == 3886);
-  ASSERT(admin[2].waitCount == 38869878);
+  assert_equal(INSTANCE2_LOCATION, admin[2].location);
+  assert_equal(2, admin[2].alreadyDescribed);
+  assert_equal(13, admin[2].visitsCount);
+  assert_equal(33, admin[2].script);
+  assert_equal(3886, admin[2].step);
+  assert_equal(38869878, admin[2].waitCount);
 
   popGameState();
 
-  ASSERT(admin[1].location = 12);
-  ASSERT(admin[2].script = 3);
+  assert_equal(INSTANCE1_LOCATION, admin[1].location);
+  assert_equal(INSTANCE2_FIRST_SCRIPT, admin[2].script);
 }
 
 static void testPushAndPopEvents() {
   int instanceCount = 1;
 
   buildGameStateStack(1, instanceCount);
+  setupInstances(1, 1);
 
   eventQueue = NULL;
   eventQueueTop = 0;
@@ -205,12 +208,12 @@ static void testPushAndPopEvents() {
 
   popGameState();
 
-  ASSERT(eventQueueTop == 2);
-  ASSERT(eventQueue[1].after == 47);
+  assert_equal(2, eventQueueTop);
+  assert_equal(47, eventQueue[1].after);
 
   popGameState();
 
-  ASSERT(eventQueueTop == 0);
+  assert_equal(0, eventQueueTop);
 }
 
 static void testRememberCommand() {
@@ -231,8 +234,8 @@ static void testRememberCommand() {
   playerWords[lastWord].end = &command[4];
   rememberCommands();
 
-  ASSERT(strcmp(gameState[0].playerCommand, command) != 0);
-  ASSERT(strncmp(gameState[0].playerCommand, command, 3) == 0);
+  assert_true(strcmp(gameState[0].playerCommand, command) != 0);
+  assert_true(strncmp(gameState[0].playerCommand, command, 3) == 0);
 }
 
 static void testUndoStackFreesMemory() {
@@ -243,17 +246,19 @@ static void testUndoStackFreesMemory() {
 
   initStateStack();
 
-  ASSERT(gameStateTop == 0);
-  ASSERT(gameState[0].admin == NULL);
-  ASSERT(gameState[0].attributes == NULL);
+  assert_equal(0, gameStateTop);
+  assert_equal(NULL, gameState[0].admin);
+  assert_equal(NULL, gameState[0].attributes);
 }
 
-void registerStateUnitTests() {
-  registerUnitTest(testUndoStackFreesMemory);
-  registerUnitTest(testRememberCommand);
-  registerUnitTest(testPushGameState);
-  registerUnitTest(testPushAndPopAttributeState);
-  registerUnitTest(testPushAndPopAdminState);
-  registerUnitTest(testPushAndPopEvents);
-  registerUnitTest(testPushAndPopAttributesWithSet);
+TestSuite *stateTests() {
+  TestSuite *suite = create_test_suite();
+  add_test(suite, testUndoStackFreesMemory);
+  add_test(suite, testRememberCommand);
+  add_test(suite, testPushGameState);
+  add_test(suite, testPushAndPopAttributeState);
+  add_test(suite, testPushAndPopAdminState);
+  add_test(suite, testPushAndPopEvents);
+  add_test(suite, testPushAndPopAttributesWithSet);
+  return suite;
 }

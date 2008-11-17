@@ -1,8 +1,8 @@
-unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h stateTest.c \
-  set.h state.c main.h exe.h parse.h parseTest.c parse.c readline.h \
-  inter.h state.h act.h term.h debug.h params.h options.h stackTest.c \
-  stack.c stack.h interTest.c inter.c reverseTest.c reverse.c setTest.c \
-  set.c mainTest.c main.c alan.version.h version.h args.h rules.h
+unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h stackTest.c \
+  stack.c main.h stack.h interTest.c inter.c inter.h parse.h exe.h \
+  debug.h set.h options.h reverseTest.c reverse.c setTest.c set.c \
+  mainTest.c main.c state.h readline.h alan.version.h version.h args.h \
+  rules.h term.h
 unit2.o: unit2.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -46,6 +46,15 @@ exeTests.o: exeTests.c ../../../Development/cgreen/cgreen.h \
   exe.c exe.h act.h state.h debug.h params.h parse.h syserr.h options.h \
   readline.h main.h inter.h stack.h decode.h CheckEntryArray.h \
   Container.h
+parseTests.o: parseTests.c ../../../Development/cgreen/cgreen.h \
+  ../../../Development/cgreen/unit.h \
+  ../../../Development/cgreen/reporter.h \
+  ../../../Development/cgreen/mocks.h \
+  ../../../Development/cgreen/constraint.h \
+  ../../../Development/cgreen/text_reporter.h \
+  ../../../Development/cgreen/assertions.h parse.c parse.h types.h \
+  sysdep.h acode.h readline.h main.h inter.h exe.h state.h act.h term.h \
+  debug.h params.h options.h syserr.h
 saveTests.o: saveTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -54,6 +63,14 @@ saveTests.o: saveTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h save.c save.h types.h sysdep.h \
   acode.h main.h exe.h set.h readline.h options.h syserr.h
+stateTests.o: stateTests.c ../../../Development/cgreen/cgreen.h \
+  ../../../Development/cgreen/unit.h \
+  ../../../Development/cgreen/reporter.h \
+  ../../../Development/cgreen/mocks.h \
+  ../../../Development/cgreen/constraint.h \
+  ../../../Development/cgreen/text_reporter.h \
+  ../../../Development/cgreen/assertions.h state.c sysdep.h types.h \
+  acode.h syserr.h main.h set.h exe.h parse.h
 sysdepTests.o: sysdepTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
