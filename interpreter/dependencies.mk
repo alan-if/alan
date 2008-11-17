@@ -1,7 +1,7 @@
 unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h interTest.c \
   inter.c inter.h main.h parse.h exe.h stack.h debug.h set.h options.h \
-  stack.c reverseTest.c reverse.c setTest.c set.c mainTest.c main.c \
-  state.h readline.h alan.version.h version.h args.h rules.h term.h
+  stack.c setTest.c set.c mainTest.c main.c state.h readline.h \
+  alan.version.h version.h args.h rules.h term.h
 unit2.o: unit2.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -54,6 +54,14 @@ parseTests.o: parseTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/assertions.h parse.c parse.h types.h \
   sysdep.h acode.h readline.h main.h inter.h exe.h state.h act.h term.h \
   debug.h params.h options.h syserr.h
+reverseTests.o: reverseTests.c ../../../Development/cgreen/cgreen.h \
+  ../../../Development/cgreen/unit.h \
+  ../../../Development/cgreen/reporter.h \
+  ../../../Development/cgreen/mocks.h \
+  ../../../Development/cgreen/constraint.h \
+  ../../../Development/cgreen/text_reporter.h \
+  ../../../Development/cgreen/assertions.h reverse.c types.h sysdep.h \
+  acode.h main.h reverse.h
 saveTests.o: saveTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \

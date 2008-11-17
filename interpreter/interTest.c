@@ -8,7 +8,7 @@
 
 #include "inter.c"
 
-// This stinks...
+// This stinks... Should have its own stack and inject it into the interpreter
 #include "stack.c"
 
 
