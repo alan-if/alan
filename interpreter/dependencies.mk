@@ -4,6 +4,13 @@ unit.o: unit.c sysdep.h acode.h reverse.h types.h syserr.h saveTest.c \
   debug.h params.h stackTest.c stack.c stack.h interTest.c inter.c \
   reverseTest.c reverse.c setTest.c set.c mainTest.c main.c \
   alan.version.h version.h args.h rules.h
+unit2.o: unit2.c ../../../Development/cgreen/cgreen.h \
+  ../../../Development/cgreen/unit.h \
+  ../../../Development/cgreen/reporter.h \
+  ../../../Development/cgreen/mocks.h \
+  ../../../Development/cgreen/constraint.h \
+  ../../../Development/cgreen/text_reporter.h \
+  ../../../Development/cgreen/assertions.h
 AltInfoArrayTests.o: AltInfoArrayTests.c \
   ../../../Development/cgreen/cgreen.h ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -11,7 +18,7 @@ AltInfoArrayTests.o: AltInfoArrayTests.c \
   ../../../Development/cgreen/constraint.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h altInfoArray.c AltInfoArray.h \
-  AltInfo.h types.h sysdep.h acode.h main.h
+  AltInfo.h types.h sysdep.h acode.h main.h parse.h
 AltInfoTests.o: AltInfoTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -19,7 +26,7 @@ AltInfoTests.o: AltInfoTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/constraint.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h altInfo.c AltInfo.h types.h \
-  sysdep.h acode.h options.h main.h inter.h
+  sysdep.h acode.h options.h main.h inter.h parse.h debug.h CheckArray.h
 actTests.o: actTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -28,7 +35,7 @@ actTests.o: actTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h act.c act.h types.h sysdep.h \
   acode.h main.h inter.h exe.h stack.h parse.h debug.h syserr.h options.h \
-  AltInfo.h AltInfoArray.h
+  AltInfo.h AltInfoArray.h CheckArray.h
 sysdepTests.o: sysdepTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/unit.h \
   ../../../Development/cgreen/reporter.h \
@@ -44,20 +51,23 @@ exeTests.o: exeTests.c ../../../Development/cgreen/cgreen.h \
   ../../../Development/cgreen/text_reporter.h \
   ../../../Development/cgreen/assertions.h set.h acode.h types.h sysdep.h \
   exe.c exe.h act.h state.h debug.h params.h parse.h syserr.h options.h \
-  readline.h main.h inter.h stack.h decode.h
+  readline.h main.h inter.h stack.h decode.h CheckArray.h
 AltInfo.o: AltInfo.c AltInfo.h types.h sysdep.h acode.h options.h main.h \
-  inter.h
+  inter.h parse.h debug.h CheckArray.h
 AltInfoArray.o: AltInfoArray.c AltInfoArray.h AltInfo.h types.h sysdep.h \
-  acode.h main.h
+  acode.h main.h parse.h
+CheckArray.o: CheckArray.c CheckArray.h types.h sysdep.h acode.h main.h \
+  inter.h stack.h
 act.o: act.c act.h types.h sysdep.h acode.h main.h inter.h exe.h stack.h \
-  parse.h debug.h syserr.h options.h AltInfo.h AltInfoArray.h
+  parse.h debug.h syserr.h options.h AltInfo.h AltInfoArray.h \
+  CheckArray.h
 args.o: args.c sysdep.h args.h types.h acode.h options.h main.h winargs.c
 debug.o: debug.c types.h sysdep.h acode.h alan.version.h version.h \
   readline.h inter.h main.h parse.h stack.h exe.h options.h debug.h
 decode.o: decode.c main.h types.h sysdep.h acode.h decode.h syserr.h
 exe.o: exe.c exe.h acode.h types.h sysdep.h act.h set.h state.h debug.h \
   params.h parse.h syserr.h options.h readline.h main.h inter.h stack.h \
-  decode.h
+  decode.h CheckArray.h
 inter.o: inter.c inter.h types.h sysdep.h acode.h main.h parse.h exe.h \
   stack.h syserr.h debug.h set.h options.h
 main.o: main.c sysdep.h acode.h types.h set.h state.h main.h syserr.h \

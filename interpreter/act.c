@@ -26,6 +26,7 @@
 #include "options.h"
 #include "AltInfo.h"
 #include "AltInfoArray.h"
+#include "CheckArray.h"
 
 
 /*----------------------------------------------------------------------*/
@@ -91,39 +92,6 @@ Bool checkContainerLimits(
   return(FALSE);
 }
 
-
-
-/*======================================================================
-
-  Tries a check, returns TRUE if it passed, FALSE else.
-
-  */
-Bool tryChecks(Aaddr adr,	/* IN - ACODE address to check table */
-	      Bool execute	/* IN - Act if it fails ? */
-)
-{
-  // TODO: should be moved to CheckEntry.c when that is born...
-
-  CheckEntry *chk;
-
-  chk = (CheckEntry *) pointerTo(adr);
-  if (chk->exp == 0) {
-    if (execute)
-      interpret(chk->stms);
-    return(FALSE);
-  } else {
-    while (!endOfTable(chk)) {
-      interpret(chk->exp);
-      if (!(Abool)pop()) {
-	if (execute)
-	  interpret(chk->stms);
-	return(FALSE);
-      }
-      chk++;
-    }
-    return(TRUE);
-  }
-}
 
 
 /*======================================================================*/

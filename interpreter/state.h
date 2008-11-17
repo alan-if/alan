@@ -12,7 +12,7 @@
 extern Bool gameStateChanged;
 
 /* Functions: */
-extern Bool stateStackIsEmpty();
+extern Bool stateStackIsEmpty(void);
 extern void initStateStack(void);
 extern void pushGameState(void);
 extern void forgetGameState(void);

@@ -22,6 +22,7 @@ UNIT1REQUIREDSRCS = \
 	options.c \
 	AltInfo.c \
 	AltInfoArray.c \
+	CheckArray.c \
 
 # UNIT2 is the excellent CGreen unit test, stub and mocking framework by
 # Marcus Baker (http://sourceforge.net/projects/cgreen)
@@ -51,11 +52,13 @@ UNIT2REQUIREDSRCS = \
 	state.c \
 	save.c \
 	options.c \
+	CheckArray.c \
 
 # All sources for the main build
 MAINSRCS = \
 	AltInfo.c \
 	AltInfoArray.c \
+	CheckArray.c \
 	act.c \
 	args.c \
 	debug.c \
