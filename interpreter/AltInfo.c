@@ -102,9 +102,21 @@ Bool executedOk(AltInfo *altInfo)
   return !fail;
 }
 
-/*======================================================================*/
-Bool executable(AltInfo *altInfo) {
+
+/*----------------------------------------------------------------------*/
+static Bool executable(AltInfo *altInfo) {
   return altInfo->alt != NULL && altInfo->alt->action != 0;
 }
 
+/*======================================================================*/
+Bool anythingToExecute(AltInfo altInfo[])
+{
+  int altIndex;
+
+  /* Check for anything to execute... */
+  for (altIndex = 0; !altInfo[altIndex].end; altIndex++)
+    if (executable(&altInfo[altIndex]))
+      return TRUE;
+  return FALSE;
+}
 

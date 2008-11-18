@@ -24,5 +24,6 @@ extern int lastAltInfoIndex(AltInfoArray altInfos);
 extern void addGlobalAlternatives(AltInfoArray altInfos, AltEntryFinder finder);
 extern void addAlternativesFromLocation(AltInfoArray altInfos, Aint location, AltEntryFinder finder);
 extern void addAlternativesFromParameter(AltInfoArray altInfos, int paramIndex, AltEntryFinder);
+extern Bool checksPerformedOk(AltInfoArray altInfos, Bool execute);
 
 #endif

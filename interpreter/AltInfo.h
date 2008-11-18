@@ -41,8 +41,7 @@ typedef struct AltInfo {
 
 /* FUNCTIONS */
 extern void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class);
-extern Bool checksPerformedOk(AltInfo altInfo[], Bool execute);
 extern Bool executedOk(AltInfo *altInfo);
-extern Bool executable(AltInfo *altInfo);
 extern Bool checkPerformedOk(AltInfo *altInfo, Bool execute);
+extern Bool anythingToExecute(AltInfo altInfo[]);
 #endif

@@ -135,20 +135,6 @@ static AltInfo *findAllAlternatives(void) {
 }
 
 
-/*----------------------------------------------------------------------*/
-static Bool anythingToExecute(AltInfo altInfo[])
-{
-  int altIndex;
-
-  /* Check for anything to execute... */
-  for (altIndex = 0; !altInfo[altIndex].end; altIndex++)
-    if (executable(&altInfo[altIndex]))
-      return TRUE;
-  return FALSE;
-}
-
-
-
 /*======================================================================*/
 Bool possible(void)
 {

@@ -37,7 +37,7 @@ static AltInfo *nextFreeAltInfo(AltInfoArray altInfos) {
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativeFromThis(
+static void addAlternative(
     AltInfoArray altInfos,
     int level,
     Aint parameterNumber,
@@ -60,12 +60,7 @@ void addGlobalAlternatives(
     AltInfoArray altInfos,
     AltEntryFinder finder
 ) {
-  AltInfo *altInfoP = nextFreeAltInfo(altInfos);
-
-  altInfoP->alt = (*finder)(NO_PARAMETER, NO_INSTANCE, NO_CLASS);
-  if (altInfoP->alt != NULL) {
-    primeAltInfo(altInfoP, GLOBAL_LEVEL, NO_PARAMETER, NO_INSTANCE, NO_CLASS);
-  }
+  addAlternative(altInfos, GLOBAL_LEVEL, NO_PARAMETER, NO_CLASS, NO_INSTANCE, finder);
 }
 
 
@@ -85,7 +80,7 @@ static void addAlternativesFromParents(
 			       theInstance,
 			       finder);
 
-  addAlternativeFromThis(altInfos, level, parameterNumber, theClass, theInstance, finder);
+  addAlternative(altInfos, level, parameterNumber, theClass, theInstance, finder);
 }
 
 
@@ -95,8 +90,6 @@ void addAlternativesFromLocation(
     Aint location,
     AltEntryFinder finder
 ) {
-  AltInfo *altInfoP;
-
   if (admin[location].location != 0)
     addAlternativesFromLocation(altInfos, admin[location].location, finder);
 
@@ -107,11 +100,7 @@ void addAlternativesFromLocation(
 			     location,
 			     finder);
 
-  altInfoP = nextFreeAltInfo(altInfos);
-  altInfoP->alt = (*finder)(NO_PARAMETER, location, NO_CLASS);
-  if (altInfoP->alt != NULL) {
-    primeAltInfo(altInfoP, LOCATION_LEVEL, NO_PARAMETER, location, NO_CLASS);
-  }
+  addAlternative(altInfos, LOCATION_LEVEL, NO_PARAMETER, NO_CLASS, location, finder);
 }
 
 
@@ -122,7 +111,6 @@ void addAlternativesFromParameter(
     AltEntryFinder finder
 ) {
   Aint parent;
-  AltInfo *altInfoP;
   Aint theInstance = parameters[parameterNumber-1].instance;
 
   if (isLiteral(theInstance))
@@ -137,11 +125,7 @@ void addAlternativesFromParameter(
 			     finder);
 
   if (!isLiteral(theInstance)) {
-    altInfoP = nextFreeAltInfo(altInfos);
-    altInfoP->alt = (*finder)(parameterNumber, theInstance, NO_CLASS);
-    if (altInfoP->alt != NULL) {
-      primeAltInfo(altInfoP, PARAMETER_LEVEL, parameterNumber, theInstance, NO_CLASS);
-    }
+    addAlternative(altInfos, PARAMETER_LEVEL, parameterNumber, NO_CLASS, theInstance, finder);
   }
 }
 
