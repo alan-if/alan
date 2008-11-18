@@ -3,6 +3,17 @@
 #include "stack.c"
 
 
+static Stack theStack;
+
+static void setUp() {
+  theStack = createStack(50);
+}
+
+static void tearDown() {
+  deleteStack(theStack);
+}
+
+
 /*----------------------------------------------------------------------*/
 static void testNewFrame()
 {
@@ -32,52 +43,37 @@ static void testNewFrame()
 /*----------------------------------------------------------------------*/
 static void testNewFrameInStack()
 {
-  Stack myStack = createStack(50);
-
-  Aint originalSp;
-  int ORIGINAL_FRAMEPOINTER = 47;
-
-  framePointer = ORIGINAL_FRAMEPOINTER;
-  originalSp = stackp;
-
   /* Add a block with four local variables */
-  newFrame(myStack, 4);
-  assert_equal(1/*old fp*/ + 4/*Locals*/, stackDepth(myStack));
-  assert_equal(1, myStack->framePointer);
+  newFrame(theStack, 4);
+  assert_equal(1/*old fp*/ + 4/*Locals*/, stackDepth(theStack));
+  assert_equal(1, theStack->framePointer);
 
-  assert_equal(0, getLocal(myStack, 0,1));
-  setLocal(myStack, 0,1,14);
-  assert_equal(14, getLocal(myStack, 0,1));
-  assert_equal(14, myStack->stack[myStack->stackp - 4]);
-  assert_equal(ORIGINAL_FRAMEPOINTER, myStack->stack[myStack->stackp - 5]);
+  assert_equal(0, getLocal(theStack, 0,1));
+  setLocal(theStack, 0,1,14);
+  assert_equal(14, getLocal(theStack, 0,1));
+  assert_equal(14, theStack->stack[theStack->stackp - 4]);
+  assert_equal(-1, theStack->stack[theStack->stackp - 5]);
 
-  endFrame(myStack);
-  assert_equal(originalSp, stackp);
-  assert_equal(ORIGINAL_FRAMEPOINTER, framePointer);
+  endFrame(theStack);
+  assert_equal(0, stackDepth(theStack));
 }  
 
   
 /*----------------------------------------------------------------------*/
 static void testFrameInFrame()
 {
-  Aint originalSp;
-  int ORIGINAL_FRAMEPOINTER = 47;
-
-  framePointer = ORIGINAL_FRAMEPOINTER;
-  originalSp = stackp;
-
   /* Add a block with one local variable */
-  newFrame(NULL, 1);
-  setLocal(NULL, 0,1,14);
-  assert_equal(14, getLocal(NULL, 0,1));
+  newFrame(theStack, 1);
+  setLocal(theStack, 0,1,14);
+  assert_equal(14, getLocal(theStack, 0,1));
 
-  newFrame(NULL, 1);
-  setLocal(NULL, 0,1,15);
-  assert_equal(15, getLocal(NULL, 0,1));
-  assert_equal(14, getLocal(NULL, 1,1));
-  endFrame(NULL);
-  endFrame(NULL);
-  assert_equal(ORIGINAL_FRAMEPOINTER, framePointer);
+  newFrame(theStack, 1);
+  setLocal(theStack, 0,1,15);
+  assert_equal(15, getLocal(theStack, 0,1));
+  assert_equal(14, getLocal(theStack, 1,1));
+  endFrame(theStack);
+  endFrame(theStack);
+  assert_equal(0, stackDepth(theStack));
 }  
 
 /*----------------------------------------------------------------------*/
@@ -101,9 +97,14 @@ static void testPushAndPop()
 TestSuite *stackTests()
 {
   TestSuite *suite = create_test_suite();
+
+  setup(suite, setUp);
+  teardown(suite, tearDown);
+
   add_test(suite, testNewFrame);
   add_test(suite, testNewFrameInStack);
   add_test(suite, testFrameInFrame);
   add_test(suite, testPushAndPop);
+
   return suite;
 }

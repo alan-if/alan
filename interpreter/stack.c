@@ -119,12 +119,17 @@ static int framePointer = -1;
 /*======================================================================*/
 void newFrame(Stack theStack, Aint noOfLocals)
 {
-  push(theStack, framePointer);
-  if (theStack == NULL)
+  int n;
+
+  if (theStack == NULL) {
+    push(theStack, framePointer);
     framePointer = stackp;
-  else
+  } else {
+    push(theStack, theStack->framePointer);
     theStack->framePointer = theStack->stackp;
-  for (;noOfLocals > 0; noOfLocals--) push(theStack, 0);
+  }
+  for (n = noOfLocals; n > 0; n--)
+    push(theStack, 0);
 }
 
 

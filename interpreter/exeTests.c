@@ -283,8 +283,7 @@ static void testGetMembers() {
 
   memory = code;
   memTop = 100;
-  interpret(1);
-  assert_true(pop(NULL) == 0);
+  assert_equal(0, evaluate(1));
 }
 
 

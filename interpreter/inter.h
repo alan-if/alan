@@ -25,5 +25,6 @@ extern int depth;
 
 extern void setInterpreterStack(Stack stack);
 extern void interpret(Aaddr adr);
+extern Aword evaluate(Aaddr adr);
 
 #endif

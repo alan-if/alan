@@ -116,6 +116,7 @@ jmp_buf forfeitLabel;		/* Player forfeit by an empty command */
 
 /* PRIVATE DATA */
 static Bool onStatusLine = FALSE; /* Don't log when printing status */
+#define STACKSIZE 100
 
 
 /*======================================================================
@@ -1497,15 +1498,13 @@ static void moveActor(int theActor)
 	    printf("), SCRIPT %s(%ld), STEP %ld, Evaluating:>\n",
 		   scriptName(theActor, admin[theActor].script),
 		   admin[theActor].script, admin[theActor].step+1);
-	  interpret(step->exp);
-	  if (!(Abool)pop(NULL))
+	  if (!evaluate(step->exp))
 	    break;		/* Break loop, don't execute step*/
 	}
 	/* OK, so finally let him do his thing */
 	admin[theActor].step++;		/* Increment step number before executing... */
 	if (!endOfTable(step+1) && (step+1)->after != 0) {
-	  interpret((step+1)->after);
-	  admin[theActor].waitCount = pop(NULL);
+	  admin[theActor].waitCount = evaluate((step+1)->after);
 	}
 	if (traceActor(theActor))
 	  printf("), SCRIPT %ld(%s), STEP %ld, Executing:>\n",
@@ -1542,11 +1541,18 @@ void run(void)
 {
   int i;
   Bool playerChangedState;
+  Stack theStack;
 
   openFiles();
   load();			/* Load program */
 
-  setjmp(restartLabel);	/* Return here if he wanted to restart */
+  if (setjmp(restartLabel) != NO_JUMP_RETURN) {	/* Return here if he wanted to restart */
+    /* So, a RESTART! */
+    deleteStack(theStack);
+  }
+
+  theStack = createStack(STACKSIZE);
+  setInterpreterStack(theStack);
 
   initStateStack();
 

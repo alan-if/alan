@@ -46,8 +46,7 @@ void rules()
 	  else
 	    printf("), Evaluating:>\n");
 	}
-	interpret(ruls[i-1].exp);
-	if (pop(NULL)) {
+	if (evaluate(ruls[i-1].exp)) {
 	  change = TRUE;
 	  ruls[i-1].run = TRUE;
 	  if (sectionTraceOption) {

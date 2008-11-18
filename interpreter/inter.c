@@ -1313,3 +1313,9 @@ void interpret(Aaddr adr)
  exitInterpreter:
   depth--;
 }
+
+/*======================================================================*/
+Aword evaluate(Aaddr adr) {
+  interpret(adr);
+  return pop(stack);
+}

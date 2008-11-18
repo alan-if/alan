@@ -1671,8 +1671,7 @@ void use(Aword act, Aword scr)
   admin[act].step = 0;
   step = stepOf(act);
   if (step != NULL && step->after != 0) {
-    interpret(step->after);
-    admin[act].waitCount = pop(NULL);
+    admin[act].waitCount = evaluate(step->after);
   }
 
   gameStateChanged = TRUE;
