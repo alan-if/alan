@@ -2,6 +2,7 @@ Changes in V3.0alpha6:
 - Bug: Fixed UNDO directly after restart would crash
 - Bug: Fixed scheduled events imminent to run would get lost after undo
   (typically the ones scheduled After 0)
+- Bug: Fixed checksum calculation to work with pre-alpha5 games
 
 Changes in V3.0alpha5:
 - Feature: nested locations, by locating locations in each other you

@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>642.89</origest>
-<currest>651.89</currest>
-<elapsed>465.89</elapsed>
+<origest>644.89</origest>
+<currest>653.89</currest>
+<elapsed>466.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>81</origest>
-<currest>82</currest>
-<elapsed>6</elapsed>
+<origest>83</origest>
+<currest>84</currest>
+<elapsed>7</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
@@ -74,7 +74,7 @@ So if game version is pre-Alpha5 the checksum should be calculated with a pre-Al
 <origest>7</origest>
 <currest>7</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Move debug out to Adbg</desc>
 <notes/>
@@ -161,9 +161,9 @@ Also need to separate the path and the basename since the user will want to use 
 <desc>Version 3.0beta1</desc>
 <notes/>
 <priority>2</priority>
-<origest>40</origest>
-<currest>40</currest>
-<elapsed>1</elapsed>
+<origest>42</origest>
+<currest>42</currest>
+<elapsed>2</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>"undo" as a response to "quit?" undoes wrong command</desc>
@@ -191,7 +191,9 @@ As a stop gap this could be done by the quit code. In case of a player quit the 
 </task>
 <task>
 <desc>Does verbs in outer nested locations get executed?</desc>
-<notes>E.g.
+<notes>No they don't!
+
+E.g.
 
 The l1 Isa location
   Verb x
@@ -201,7 +203,45 @@ The l2 Isa location At l1
   Verb x
 End The l2.
 
-The verbs should be executed in the same way as for parameters, so just traverse, find verbs and add them to the list.</notes>
+The verbs should be executed in the same way as for parameters, so just traverse, find verbs and add them to the list.
+
+Note: also follow inheritance for all nested locations.
+
+Need to document the order.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Locating actors in containers should be prohibited</desc>
+<notes>See compiler/testing/actorInContainer which produces error message for the initial location but not for the Locate statement.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>GarArun</desc>
+<notes>Done:
+- should play special/resources including sound
+- distributed as a slot in replacement, name = Alan
+- uploaded to website
+
+Tasks:
+Check if windows-dist contains all the .DLL:s that the build seem to require, possibly check with Tor</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Scanner tables for various non-'ISO' platforms does not seem to get generated correctly</desc>
+<notes>Probably because the library file does not exist since the IMP does not work with Cygwin paths</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -210,16 +250,7 @@ The verbs should be executed in the same way as for parameters, so just traverse
 </task>
 <task>
 <desc>Website: divide games listing into v2/v3</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Website: describe collaboration using alandemo project on sourceforge</desc>
-<notes/>
+<notes>And list IFComp-games</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -239,7 +270,9 @@ A way to find the where an instance is can be introduced by adding
 Or
 2) an expression
     Describe Where This.
-    Make Where This lit.</notes>
+    Make Where This lit.
+
+They might both be valid if Where expression would refer to the container in where it is?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -300,16 +333,6 @@ Create a test case that exhibits the problem, if it exists.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Locating actors in containers should either work or be prohibited</desc>
-<notes>See compiler/testing/actorInContainer which produces error message for the initial location but not for the Locate statement.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Document Checks for "normal case"</desc>
 <notes>Remember Anssis problem with the Check which performed the normal case, this prohibited use of ALL to be applicable to a "normal situation"</notes>
 <priority>2</priority>
@@ -336,6 +359,15 @@ primarily intended to allow authors to insert identificating values into the Aco
 </task>
 <task>
 <desc>--warnings to turn off warning messages does not work</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Website: describe collaboration using alandemo project on sourceforge</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

@@ -4,7 +4,7 @@
 trace.alan
 
   826.          Does
-=====>          1
+=====>         1
 
   *1*   223 W : This Verb body might be executed for every matching parameter
                 in the syntax for 'insert_into', depending on the parameter
@@ -88,16 +88,16 @@ completely covered by dust, there is an old book laying on the floor here.
 
 > take all
 (old book)
-<VERB 21, in parameter #1 (old book), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (old book), inherited from class #4 (object), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (old book), inherited from class #4 (object), DOES:>
 Taken.
 
 > read the book
 
-<VERB 5, in parameter #1 (old book), inherited from class object(4), CHECK:>
+<VERB 5, in parameter #1 (old book), inherited from class #4 (object), CHECK:>
 
-<VERB 5, in parameter #1, DOES:>
+<VERB 5, in parameter #1 (old book), DOES:>
 As you carefully try to open the book it falls apart into dust and falls
 to the floor through your fingers.
 
@@ -116,14 +116,13 @@ the floor here.
 
 > take ladder
 
-<VERB 21, in parameter #1 (3 metre long ladder), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (3 metre long ladder), inherited from class #4 (object), CHECK:>
 
 <VERB 21, in parameter #1 (3 metre long ladder), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (3 metre long ladder), inherited from class #4 (object), DOES:>
 Taken.
-<VERB 21, in parameter #1, DOES:>
-
+<VERB 21, in parameter #1 (3 metre long ladder), DOES:>
 
 > west
 
@@ -155,18 +154,18 @@ seems in much better shape than the others.
 
 > take terminal
 
-<VERB 21, in parameter #1 (rather heavy computer terminal), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (rather heavy computer terminal), inherited from class #4 (object), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (rather heavy computer terminal), inherited from class #4 (object), DOES:>
 Taken.
-<VERB 21, in parameter #1, DOES:>
- OH! There was a coin under it!
+<VERB 21, in parameter #1 (rather heavy computer terminal), DOES:>
+OH! There was a coin under it!
 
 > take coin
 
-<VERB 21, in parameter #1 (small coin), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (small coin), inherited from class #4 (object), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (small coin), inherited from class #4 (object), DOES:>
 Taken.
 
 > west
@@ -214,21 +213,21 @@ metre long ladder.
 
 > connect terminal
 
-<VERB 28, in parameter #1, DOES:>
+<VERB 28, in parameter #1 (rather heavy computer terminal), DOES:>
 The terminal is now connected to the nearby computer.
 
 > kick computer
 
-<VERB 24, in parameter #1, DOES:>
+<VERB 24, in parameter #1 (computer), DOES:>
 Surprisingly, the old computer starts to whirr, the front panel lights
 begins to twinkle frantically, and the computer starts up. The connected
 terminal displays the message 'Please login. Enter USERID:'
 
 > type "nilgu"
 
-<VERB 22, in parameter #1 (nilgu), inherited from class string(8), CHECK:>
+<VERB 22, in parameter #1 (nilgu), inherited from class #8 (string), CHECK:>
 
-<VERB 22, in parameter #1, inherited from class string(8), DOES:>
+<VERB 22, in parameter #1 (nilgu), inherited from class #8 (string), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Wrong USERID.
@@ -253,13 +252,13 @@ scared them off.
 
 > raise ladder
 
-<VERB 26, in parameter #1, DOES:>
+<VERB 26, in parameter #1 (3 metre long ladder), DOES:>
 The ladder is just long enough to reach up through the hole in the
 ceiling, where it now is standing.
 
 > climb it
 
-<VERB 27, in parameter #1, DOES:>
+<VERB 27, in parameter #1 (3 metre long ladder), DOES:>
 The steps of the ladder feels a bit weak, some more than others, but you
 manage to climb all the way without falling down.
 
@@ -272,17 +271,17 @@ remains of one of the walls, a crow has built it's nest.
 
 > examine nest
 
-<VERB 4, in parameter #1 (birds nest), inherited from class object(4), CHECK:>
+<VERB 4, in parameter #1 (birds nest), inherited from class #4 (object), CHECK:>
 
-<VERB 4, in parameter #1, DOES:>
+<VERB 4, in parameter #1 (birds nest), DOES:>
 As you turn the nest over for examination, a set of keys falls out.
 Otherwise there is nothing special about the nest.
 
 > take keys
 
-<VERB 21, in parameter #1 (set of rusty keys), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (set of rusty keys), inherited from class #4 (object), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (set of rusty keys), inherited from class #4 (object), DOES:>
 Taken.
 
 > down
@@ -325,7 +324,7 @@ seems.
 
 > wind clock
 
-<VERB 30, in parameter #1, DOES:>
+<VERB 30, in parameter #1 (clock), DOES:>
 With a deafening BING BANG the clock begins to chime. From the corridor
 in the south a loud flapping of wings is heard.
 
@@ -360,39 +359,39 @@ possible to get out there anymore.
 
 > examine desk
 
-<VERB 4, in parameter #1 (desk), inherited from class object(4), CHECK:>
+<VERB 4, in parameter #1 (desk), inherited from class #4 (object), CHECK:>
 
-<VERB 4, in parameter #1, DOES:>
+<VERB 4, in parameter #1 (desk), DOES:>
 It is an old desk, made from oak. The top is completely covered by dust 
 where your fingers leave markings. The desk has one remaining drawer.
 
 > examine desk
 
-<VERB 4, in parameter #1 (desk), inherited from class object(4), CHECK:>
+<VERB 4, in parameter #1 (desk), inherited from class #4 (object), CHECK:>
 
-<VERB 4, in parameter #1, DOES:>
+<VERB 4, in parameter #1 (desk), DOES:>
 It is an old desk, made from oak. The top is completely covered by dust 
 that shows markings from fingers. The desk has one remaining drawer.
 
 > open drawer
 
-<VERB 9, in parameter #1 (drawer), inherited from class object(4), CHECK:>
+<VERB 9, in parameter #1 (drawer), inherited from class #4 (object), CHECK:>
 
-<VERB 9, in parameter #1, DOES:>
+<VERB 9, in parameter #1 (drawer), DOES:>
 Pulling out the drawer a manual falls to the floor.
 
 > take manual
 
-<VERB 21, in parameter #1 (dirty manual), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (dirty manual), inherited from class #4 (object), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (dirty manual), inherited from class #4 (object), DOES:>
 Taken.
 
 > read it
 
-<VERB 5, in parameter #1 (dirty manual), inherited from class object(4), CHECK:>
+<VERB 5, in parameter #1 (dirty manual), inherited from class #4 (object), CHECK:>
 
-<VERB 5, in parameter #1, DOES:>
+<VERB 5, in parameter #1 (dirty manual), DOES:>
 The text inside the manual reads:
     'You login by typing your Userid, and...'
     '... command is executed by typing it's name.' and
@@ -457,17 +456,17 @@ To the east is a folding door. It is closed.
 
 > unlock the door with the keys then open the door
 
-<VERB 8, in parameter #1 (door), inherited from class object(4), CHECK:>
+<VERB 8, in parameter #1 (door), inherited from class #4 (object), CHECK:>
 
-<VERB 8, in parameter #2 (set of rusty keys), inherited from class object(4), CHECK:>
+<VERB 8, in parameter #2 (set of rusty keys), inherited from class #4 (object), CHECK:>
 
-<VERB 8, in parameter #1, DOES:>
+<VERB 8, in parameter #1 (door), DOES:>
 The key clicks in the lock as the door unlocks.
 
 
-<VERB 9, in parameter #1 (door), inherited from class object(4), CHECK:>
+<VERB 9, in parameter #1 (door), inherited from class #4 (object), CHECK:>
 
-<VERB 9, in parameter #1, DOES:>
+<VERB 9, in parameter #1 (door), DOES:>
 The door opens, revealing the entrance to a dusty old cafeteria.
 
 > east
@@ -485,21 +484,21 @@ some candy.
 
 > insert coin into machine
 
-<VERB 13, in parameter #1 (small coin), inherited from class object(4), CHECK:>
+<VERB 13, in parameter #1 (small coin), inherited from class #4 (object), CHECK:>
 
 <VERB 13, in parameter #1 (small coin), CHECK:>
 
-<VERB 13, in parameter #2 (vending machine), inherited from class object(4), CHECK:>
+<VERB 13, in parameter #2 (vending machine), inherited from class #4 (object), CHECK:>
 
-<VERB 13, in parameter #1, DOES:>
+<VERB 13, in parameter #1 (small coin), DOES:>
 A clinking sound is heared from the machine and a candy bar falls out on
 the floor.
 
 > take candy bar
 
-<VERB 21, in parameter #1 (old mouldy candy bar), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (old mouldy candy bar), inherited from class #4 (object), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (old mouldy candy bar), inherited from class #4 (object), DOES:>
 Taken.
 
 > west
@@ -527,14 +526,14 @@ way down here. In the light from the sun some rats can be seen.
 
 > drop candy bar
 
-<VERB 1, in parameter #1 (old mouldy candy bar), inherited from class object(4), CHECK:>
+<VERB 1, in parameter #1 (old mouldy candy bar), inherited from class #4 (object), CHECK:>
 
-<VERB 1, in parameter #1, inherited from class object(4), DOES:>
+<VERB 1, in parameter #1 (old mouldy candy bar), inherited from class #4 (object), DOES:>
 Dropped.
-<VERB 1, in parameter #1, DOES:>
- The rats throw themselves at the candy devouring it furiously,
-nearly killing each other. When every little bit is gone they all fall
-asleep in the sunshine.
+<VERB 1, in parameter #1 (old mouldy candy bar), DOES:>
+The rats throw themselves at the candy devouring it furiously, nearly
+killing each other. When every little bit is gone they all fall asleep in
+the sunshine.
 
 > west
 
@@ -555,9 +554,9 @@ another shelf there is a spool of computer tape.
 
 > take tape
 
-<VERB 21, in parameter #1 (spool of computer tape), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (spool of computer tape), inherited from class #4 (object), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (spool of computer tape), inherited from class #4 (object), DOES:>
 Taken.
 
 > east
@@ -625,14 +624,14 @@ centre of the room. It's powered up and running.
 
 > mount tape
 
-<VERB 25, in parameter #1, DOES:>
+<VERB 25, in parameter #1 (spool of computer tape), DOES:>
 The tape is now securely mounted on the tape drive.
 
 > read manual
 
-<VERB 5, in parameter #1 (dirty manual), inherited from class object(4), CHECK:>
+<VERB 5, in parameter #1 (dirty manual), inherited from class #4 (object), CHECK:>
 
-<VERB 5, in parameter #1, DOES:>
+<VERB 5, in parameter #1 (dirty manual), DOES:>
 The text inside the manual reads:
     'You login by typing your Userid, and...'
     '... command is executed by typing it's name.' and
@@ -644,9 +643,9 @@ OOH! There is a hand written remark in the margin here, it says 'OscSv'.
 
 > type "nilgu"
 
-<VERB 22, in parameter #1 (nilgu), inherited from class string(8), CHECK:>
+<VERB 22, in parameter #1 (nilgu), inherited from class #8 (string), CHECK:>
 
-<VERB 22, in parameter #1, inherited from class string(8), DOES:>
+<VERB 22, in parameter #1 (nilgu), inherited from class #8 (string), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Wrong USERID.
@@ -654,9 +653,9 @@ Please login. Enter USERID:'
 
 > type "oscsv"
 
-<VERB 22, in parameter #1 (oscsv), inherited from class string(8), CHECK:>
+<VERB 22, in parameter #1 (oscsv), inherited from class #8 (string), CHECK:>
 
-<VERB 22, in parameter #1, inherited from class string(8), DOES:>
+<VERB 22, in parameter #1 (oscsv), inherited from class #8 (string), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'Welcome OscSv!
@@ -665,9 +664,9 @@ Enter command:'
 
 > type "svegr"
 
-<VERB 22, in parameter #1 (svegr), inherited from class string(8), CHECK:>
+<VERB 22, in parameter #1 (svegr), inherited from class #8 (string), CHECK:>
 
-<VERB 22, in parameter #1, inherited from class string(8), DOES:>
+<VERB 22, in parameter #1 (svegr), inherited from class #8 (string), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'ERROR: Unknown command.
@@ -675,9 +674,9 @@ Enter command:'
 
 > type "backup"
 
-<VERB 22, in parameter #1 (backup), inherited from class string(8), CHECK:>
+<VERB 22, in parameter #1 (backup), inherited from class #8 (string), CHECK:>
 
-<VERB 22, in parameter #1, inherited from class string(8), DOES:>
+<VERB 22, in parameter #1 (backup), inherited from class #8 (string), DOES:>
 
 <EVENT 1 (at Computer Room):>
 The tape starts to spin and after a few moments it stops. Then it starts
@@ -689,16 +688,16 @@ Enter command:'
 
 > take tape
 
-<VERB 21, in parameter #1 (spool of computer tape), inherited from class object(4), CHECK:>
+<VERB 21, in parameter #1 (spool of computer tape), inherited from class #4 (object), CHECK:>
 
-<VERB 21, in parameter #1, inherited from class object(4), DOES:>
+<VERB 21, in parameter #1 (spool of computer tape), inherited from class #4 (object), DOES:>
 Taken.
 
 > type "adventure"
 
-<VERB 22, in parameter #1 (adventure), inherited from class string(8), CHECK:>
+<VERB 22, in parameter #1 (adventure), inherited from class #8 (string), CHECK:>
 
-<VERB 22, in parameter #1, inherited from class string(8), DOES:>
+<VERB 22, in parameter #1 (adventure), inherited from class #8 (string), DOES:>
 
 <EVENT 1 (at Computer Room):>
 'Welcome to adventure!!

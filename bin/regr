@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Script for regression testing of Alan and Arun
 # Files:
