@@ -15,28 +15,11 @@ static void tearDown() {
 
 
 /*----------------------------------------------------------------------*/
-static void testNewFrame()
+static void testNewFrameAllocatesCorrectSpace()
 {
-  Aint originalSp;
-  int ORIGINAL_FRAMEPOINTER = 47;
-
-  framePointer = ORIGINAL_FRAMEPOINTER;
-  originalSp = stackp;
-
   /* Add a block with four local variables */
-  newFrame(NULL, 4);
-  assert_equal(originalSp + 1/*old fp*/ + 4/*Locals*/, stackp);
-  assert_equal(originalSp + 1, framePointer);
-
-  assert_equal(0, getLocal(NULL, 0,1));
-  setLocal(NULL, 0,1,14);
-  assert_equal(14, getLocal(NULL, 0,1));
-  assert_equal(14, stack[stackp - 4]);
-  assert_equal(ORIGINAL_FRAMEPOINTER, stack[stackp - 5]);
-
-  endFrame(NULL);
-  assert_equal(originalSp, stackp);
-  assert_equal(ORIGINAL_FRAMEPOINTER, framePointer);
+  newFrame(theStack, 4);
+  assert_equal(1/*old fp*/ + 4/*Locals*/, stackDepth(theStack));
 }  
 
   
@@ -101,7 +84,7 @@ TestSuite *stackTests()
   setup(suite, setUp);
   teardown(suite, tearDown);
 
-  add_test(suite, testNewFrame);
+  add_test(suite, testNewFrameAllocatesCorrectSpace);
   add_test(suite, testNewFrameInStack);
   add_test(suite, testFrameInFrame);
   add_test(suite, testPushAndPop);

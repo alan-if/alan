@@ -13,6 +13,7 @@
 #include "exe.c"
 
 
+/*----------------------------------------------------------------------*/
 static void testCountTrailingBlanks() {
   char *threeBlanks = "h   ";
   char *fiveBlanks = "     ";
@@ -24,6 +25,8 @@ static void testCountTrailingBlanks() {
   assert_true(countTrailingBlanks(empty, strlen(empty)-1) == 0);
 }
 
+
+/*----------------------------------------------------------------------*/
 static void testSkipWordForwards() {
   char *string = "a string of words";
 
@@ -34,6 +37,8 @@ static void testSkipWordForwards() {
   assert_true(skipWordForwards(string, strlen(string)-1) == strlen(string));
 }
 
+
+/*----------------------------------------------------------------------*/
 static void testSkipWordBackwards() {
   char *string = "a string of words";
   char *emptyString = "";
@@ -46,6 +51,8 @@ static void testSkipWordBackwards() {
   assert_true(skipWordBackwards(emptyString, strlen(emptyString)) == 0);
 }
 
+
+/*----------------------------------------------------------------------*/
 static void testStripCharsFromString() {
   char *characters;
   char *rest;
@@ -82,6 +89,8 @@ static void testStripCharsFromString() {
   assert_true(strcmp(rest, "")==0);
 }
 
+
+/*----------------------------------------------------------------------*/
 static void testStripWordsFromString() {
   char *testString = "this is four  words";
   char *empty = "";
@@ -133,7 +142,8 @@ static void writeAndOpenGetStringTestFile(int fpos, char *testString)
 }
 
 
-void testGetString()
+/*----------------------------------------------------------------------*/
+static void testGetString()
 {
   int fpos = 55;
   char testString[] = "hejhopp";
@@ -149,6 +159,7 @@ void testGetString()
 }
 
 
+/*----------------------------------------------------------------------*/
 static void testIncreaseEventQueue()
 {
   eventQueueSize = 0;
@@ -162,6 +173,8 @@ static void testIncreaseEventQueue()
 }
 
 
+
+/*----------------------------------------------------------------------*/
 static Bool syserrHandlerCalled;
 
 jmp_buf syserrLabel;
@@ -186,6 +199,7 @@ static int triedAndNoSyserrCaught() {
 }
 
 
+/*----------------------------------------------------------------------*/
 static void testWhereIllegalId() {
   header->instanceMax = 1;
 
@@ -200,6 +214,8 @@ static void testWhereIllegalId() {
   }
 }
 
+
+/*----------------------------------------------------------------------*/
 static void testHereIllegalId() {
   header->instanceMax = 1;
 
@@ -214,6 +230,8 @@ static void testHereIllegalId() {
   }
 }
 
+
+/*----------------------------------------------------------------------*/
 static void testLocateIllegalId() {
   header->instanceMax = 1;
 
@@ -239,6 +257,7 @@ static void testLocateIllegalId() {
 }
 
 
+/*----------------------------------------------------------------------*/
 static void testWhere() {
   admin = allocate(5*sizeof(AdminEntry));
   instance = allocate(5*sizeof(InstanceEntry));
@@ -274,6 +293,8 @@ static void testWhere() {
   free(header);
 }
 
+
+/*----------------------------------------------------------------------*/
 static void testGetMembers() {
   Set *set = newSet(0);
   Aword code[] = {0,	/* Dummy */
@@ -281,12 +302,16 @@ static void testGetMembers() {
 		  INSTRUCTION(I_SETSIZE),
 		  INSTRUCTION(I_RETURN)};
 
+  Stack stack = createStack(50);
+  setInterpreterStack(stack);
+
   memory = code;
   memTop = 100;
   assert_equal(0, evaluate(1));
 }
 
 
+/*----------------------------------------------------------------------*/
 void testContainerSize() {
   header = allocate(sizeof(ACodeHeader));
   instance = allocate(4*sizeof(InstanceEntry));
@@ -307,6 +332,7 @@ void testContainerSize() {
 }
 
 
+/*----------------------------------------------------------------------*/
 static void tearDown() {
   setSyserrHandler(NULL);
 }
