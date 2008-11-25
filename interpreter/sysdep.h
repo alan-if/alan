@@ -2,7 +2,7 @@
 
   sysdep.h
 
-  System dependencies file for Alan Adventure Language system 
+  System dependencies file for Alan Adventure Language system
 
   N.B. The test for symbols used here should really be of three types
   - processor name (like PC, x86, ...)
@@ -48,6 +48,12 @@
 #define __mac__
 #endif
 
+#ifdef __APPLE__
+// At least GCC 3.x does define this for Darwin
+#define __macosx__
+#define __unix__
+#endif
+
 #ifdef __MWERKS__
 #ifdef macintosh
 #define __mac__
@@ -65,7 +71,7 @@
 #endif
 
 #ifdef __MINGW32__
-#define __windows__ 
+#define __windows__
 #endif
 
 #ifdef __CYGWIN32__
@@ -117,7 +123,6 @@
 #define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>
-#include <unix.h>
 #endif
 
 #ifdef __MWERKS__
@@ -153,7 +158,7 @@
 #define NATIVECHARSET 2
 #endif
 
-/* Old Macs uses other CHARSER, Mac OS X uses ISO */
+/* Old Macs uses other CHARSET, Mac OS X uses ISO */
 #ifdef __mac__
 #undef ISO
 #define ISO 0
@@ -231,7 +236,7 @@
 #define USE_READLINE
 #endif
 
-#ifdef x__dos__
+#ifdef __dos__
 #define USE_READLINE
 #endif
 

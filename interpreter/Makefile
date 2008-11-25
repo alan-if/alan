@@ -74,7 +74,7 @@ GLKSRCS = glkstart.c glkio.c
 include sources.mk
 
 
-arun: checkTarget $(ARUNOBJECTS) unitTest dumpacd Makefile dependencies.mk
+arun: checkTarget $(ARUNOBJECTS) unitTest Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
@@ -83,6 +83,8 @@ all:
 	$(MAKE) arun
 	$(MAKE) winarun
 	$(MAKE) glkarun
+	$(MAKE) gararun
+	$(MAKE) dumpacd
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" arun
@@ -136,18 +138,24 @@ checkTarget:
 # Version number generation
 #
 alan.version.h :
-	cd ..; venum -write always -all alan
-	cp -p ../alan.version.h .
+	-@if test "`which venum`" != "" ; then \
+		cd ..; venum -write always -all alan ; \
+		cp -p ../alan.version.h . ; \
+	fi
 
 version.h :
-	cd ..; venum -write always -all alan
-	cp -p ../version.h .
+	-@if test "`which venum`" != "" ; then \
+		cd ..; venum -write always -all alan ; \
+		cp -p ../version.h . ; \
+	fi
 
 ../alan.version: $(VERSIONSRCS) 
-	cd ..; venum alan time
+	-@if test "`which venum`" != "" ; then \
+		cd ..; venum alan time ; \
+	fi
 
 alan.version.c:  ../alan.version
-	cp -p ../alan.version.c .
+#	cp -p ../alan.version.c .
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -162,9 +170,12 @@ unit2: LIBS = $(CGREENROOT)/cgreen.a
 unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
 	gcc -o unit2 $(UNIT2OBJECTS) $(LDFLAGS) $(LIBS)
 	@./unit2
+		
 
-unitTest: unit2
-
+unitTest:
+	if [ -f $(CGREENROOT) ] ; then \
+		make unit2 ; \
+	fi
 #+++++++++++++++++++++++++++++++++
 #
 # Run all tests!

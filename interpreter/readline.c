@@ -24,19 +24,19 @@
 extern HINSTANCE myInstance;	/* Catched by winglk.c */
 
 
-BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
-{ 
-    switch (message) 
-    { 
-        case WM_COMMAND: 
-            switch (LOWORD(wParam)) 
-            { 
-                case IDOK: 
-                    EndDialog(hwndDlg, wParam); 
-                    return TRUE; 
-            } 
-    } 
-    return FALSE; 
+BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+        case WM_COMMAND:
+            switch (LOWORD(wParam))
+            {
+                case IDOK:
+                    EndDialog(hwndDlg, wParam);
+                    return TRUE;
+            }
+    }
+    return FALSE;
 }
 
 #endif
@@ -224,7 +224,7 @@ static void restoretermio()
 
 \*----------------------------------------------------------------------*/
 
-static unsigned char buffer[LINELENGTH+1];
+static char buffer[LINELENGTH+1];
 static int bufidx;
 
 static unsigned char *history[HISTORYLENGTH];
@@ -268,7 +268,11 @@ static KeyMap keymap[] = {
   {0x0a, 0x0a, newLine},
   {0x1b, 0x1b, escHook},
   {0x1c, 0x7e, insertCh},
+#ifdef __macosx__
   {0x7f, 0x7f, delBwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
+#else
+  {0x7f, 0x7f, delFwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
+#endif
   {0x80, 0xff, insertCh},
   {0x00, 0x00, NULL}
 };
@@ -511,7 +515,7 @@ static void delBwd(char ch)
     write(1, " ", 1);
     for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
   }
-}  
+}
 
 static void delFwd(char ch)
 {
@@ -526,7 +530,7 @@ static void delFwd(char ch)
     write(1, " ", 1);
     for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
   }
-}  
+}
 
 static void escHook(char ch) {
   read(0, &ch, 1);
@@ -662,7 +666,7 @@ Bool readline(char usrbuf[])
     /* Reset line counter only if we read actual player input */
     lin = 1;
   }
-  strcpy(usrbuf, (char *)buffer);  
+  strcpy(usrbuf, (char *)buffer);
   return TRUE;
 }
 

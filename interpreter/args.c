@@ -41,7 +41,7 @@ char *gameName(char *fullPathName) {
 static void switches(int argc, char *argv[])
 {
   int i;
-  
+
   for (i = 1; i < argc; i++) {
 
     if (argv[i][0] == '-') {

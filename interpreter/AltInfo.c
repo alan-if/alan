@@ -6,6 +6,7 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "types.h"
 #include "options.h"
 #include "main.h"
 #include "inter.h"
