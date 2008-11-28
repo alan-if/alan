@@ -17,11 +17,22 @@ CFLAGS	= $(COMPILEFLAGS)
 ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)$(DMALLOC)
 LIBS	=
 
+#######################################################################
+#
+#Set up for specific targets
+#
 #Settings for Windows GLK variant
 WINGLKROOT = ../../WindowsGLK
 WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
+
+winarun: GLKDEFS = $(WINGLKDEFS)
+winarun: CFLAGS = $(COMPILEFLAGS) $(WINGLKINCLUDE) $(GLKDEFS)
+winarun: CYGWIN = -mwindows -mno-cygwin 
+winarun: LIBS = $(WINGLKLIB)
+winarun: EXE = winarun.exe
+
 
 # Settings for TermGLK
 TERMGLKROOT = ../../glkterm
@@ -29,25 +40,18 @@ TERMGLKDEFS = -DHAVE_GLK
 TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
 
-#Settings for Gargoyle GLK variant (experimental!)
-GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
-GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
-GARGLKINCLUDE = -I$(GARGLKROOT)
-GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk -mno-cygwin
-
-
-#Set up for specific target
-winarun: GLKDEFS = $(WINGLKDEFS)
-winarun: CFLAGS = $(COMPILEFLAGS) $(WINGLKINCLUDE) $(GLKDEFS)
-winarun: CYGWIN = -mwindows -mno-cygwin 
-winarun: LIBS = $(WINGLKLIB)
-winarun: EXE = winarun.exe
-
 glkarun: GLKDEFS = $(TERMGLKDEFS)
 glkarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
 glkarun: CYGWIN = 
 glkarun: LIBS = $(TERMGLKLIB)
 glkarun: EXE = glkarun.exe
+
+
+#Settings for Gargoyle GLK variant (experimental!)
+GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
+GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
+GARGLKINCLUDE = -I$(GARGLKROOT)
+GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk -mno-cygwin
 
 gararun: GLKDEFS = $(GARGLKDEFS)
 gararun: CFLAGS = $(COMPILEFLAGS) $(GARGLKINCLUDE) $(GLKDEFS)
@@ -55,10 +59,13 @@ gararun: CYGWIN =
 gararun: LIBS = $(GARGLKLIB)
 gararun: EXE = gararun.exe
 
+
+#Settings for memory debugging
 dmalloc: DMALLOC = -DDMALLOC
 dmalloc: CFLAGS = $(COMPILEFLAGS) $(DMALLOC)
 dmalloc: LIBS = /usr/local/lib/libdmalloc.a
 release: OPTIMIZE = -O4
+
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
@@ -74,6 +81,8 @@ GLKSRCS = glkstart.c glkio.c
 # Include common source lists 
 include sources.mk
 
+
+###############################################################
 all:
 	$(MAKE) $(SYSTEM)
 
