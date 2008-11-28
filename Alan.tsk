@@ -6,7 +6,7 @@
 <priority>1</priority>
 <origest>644.89</origest>
 <currest>653.89</currest>
-<elapsed>466.89</elapsed>
+<elapsed>467.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>1</priority>
 <origest>83</origest>
 <currest>84</currest>
-<elapsed>7</elapsed>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
@@ -163,7 +163,7 @@ Also need to separate the path and the basename since the user will want to use 
 <priority>2</priority>
 <origest>42</origest>
 <currest>42</currest>
-<elapsed>2</elapsed>
+<elapsed>3</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>"undo" as a response to "quit?" undoes wrong command</desc>
@@ -221,7 +221,7 @@ Need to document the order.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>

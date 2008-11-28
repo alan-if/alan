@@ -341,8 +341,10 @@ static void analyzeLocate(Statement *stm, Context *context)
     whr->directly = TRUE;
     break;
   case WHERE_IN:
-      if (inheritsFrom(what->class, locationSymbol))
+    if (inheritsFrom(what->class, locationSymbol))
 	lmLog(&what->srcp, 402, sevERR, "A Location");
+    else if (inheritsFrom(what->class, actorSymbol))
+	lmLog(&what->srcp, 402, sevERR, "An Actor");
     contentClass = contentOf(whr->what, context);
     if (contentClass != NULL && whtSymbol != NULL)
       if (!inheritsFrom(whtSymbol, contentClass))
@@ -356,6 +358,7 @@ static void analyzeLocate(Statement *stm, Context *context)
     SYSERR("Unexpected Where kind");
     break;
   }
+
 }
 
 

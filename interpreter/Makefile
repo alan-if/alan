@@ -3,7 +3,7 @@
 # one of the other makefiles, such as Makefile.unix
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
-SYSTEM = `uname -s`
+SYSTEM = `uname -o`
 
 CYGWIN	= #-mno-cygwin
 
@@ -12,7 +12,7 @@ CC = gcc
 
 EXE	= arun.exe
 
-COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall # -funsigned-char $(CRCLOG)
+COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
 CFLAGS	= $(COMPILEFLAGS)
 ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)$(DMALLOC)
 LIBS	=
@@ -76,16 +76,17 @@ include sources.mk
 
 all:
 	$(MAKE) $(SYSTEM)
-	
+
 Darwin: arun #dumpacd
-	
+
+
+Cygwin: arun winarun glkarun gararun dumpacd
+
+
 arun: checkTarget $(ARUNOBJECTS) unitTest Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
-
-cygwin: arun winarun glkarun gararun dumpacd
-
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" arun
@@ -171,12 +172,12 @@ unit2: LIBS = $(CGREENROOT)/libcgreen.a
 unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
 	gcc -o unit2 $(UNIT2OBJECTS) $(LDFLAGS) $(LIBS)
 	@./unit2
-		
 
 unitTest:
-	if [ -d $(CGREENROOT) ] ; then \
+	if test -d $(CGREENROOT) ; then \
 		make unit2 ; \
 	fi
+
 #+++++++++++++++++++++++++++++++++
 #
 # Run all tests!

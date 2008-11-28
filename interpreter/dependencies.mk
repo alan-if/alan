@@ -1,92 +1,3 @@
-unit2.o: unit2.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h
-AltInfoArrayTests.o: AltInfoArrayTests.c \
-  ../Cgreen/include/cgreen/cgreen.h ../Cgreen/include/cgreen/unit.h \
-  ../Cgreen/include/cgreen/reporter.h ../Cgreen/include/cgreen/mocks.h \
-  ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h AltInfoArray.c AltInfoArray.h \
-  AltInfo.h types.h sysdep.h acode.h main.h parse.h
-AltInfoTests.o: AltInfoTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h AltInfoArray.h AltInfo.h types.h \
-  sysdep.h acode.h
-actTests.o: actTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h act.c act.h types.h sysdep.h \
-  acode.h main.h parse.h AltInfo.h AltInfoArray.h CheckEntryArray.h
-exeTests.o: exeTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h set.h acode.h types.h sysdep.h \
-  exe.c exe.h act.h state.h debug.h params.h parse.h syserr.h options.h \
-  readline.h main.h inter.h Stack.h stack.h decode.h CheckEntryArray.h \
-  Container.h
-interTests.o: interTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h inter.c inter.h types.h sysdep.h \
-  acode.h Stack.h main.h parse.h exe.h stack.h syserr.h debug.h set.h \
-  options.h
-mainTests.o: mainTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h main.c sysdep.h acode.h types.h \
-  set.h state.h main.h syserr.h parse.h options.h readline.h \
-  alan.version.h version.h args.h inter.h Stack.h rules.h reverse.h \
-  debug.h stack.h exe.h term.h
-parseTests.o: parseTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h parse.c parse.h types.h sysdep.h \
-  acode.h readline.h main.h inter.h Stack.h exe.h state.h act.h term.h \
-  debug.h params.h options.h syserr.h
-reverseTests.o: reverseTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h reverse.c types.h sysdep.h \
-  acode.h main.h reverse.h
-saveTests.o: saveTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h save.c save.h types.h sysdep.h \
-  acode.h main.h exe.h set.h readline.h options.h syserr.h
-setTests.o: setTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h set.c set.h acode.h types.h \
-  sysdep.h main.h syserr.h exe.h
-stateTests.o: stateTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h state.c sysdep.h types.h acode.h \
-  syserr.h main.h set.h exe.h parse.h
-stackTests.o: stackTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h stack.c stack.h acode.h types.h \
-  sysdep.h main.h syserr.h
-sysdepTests.o: sysdepTests.c ../Cgreen/include/cgreen/cgreen.h \
-  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
-  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
-  ../Cgreen/include/cgreen/text_reporter.h \
-  ../Cgreen/include/cgreen/assertions.h sysdep.c sysdep.h
 AltInfo.o: AltInfo.c AltInfo.h types.h sysdep.h acode.h options.h main.h \
   inter.h Stack.h parse.h debug.h CheckEntryArray.h
 AltInfoArray.o: AltInfoArray.c AltInfoArray.h AltInfo.h types.h sysdep.h \
@@ -101,8 +12,7 @@ Location.o: Location.c Location.h acode.h types.h sysdep.h main.h \
   options.h parse.h inter.h Stack.h exe.h act.h CheckEntryArray.h debug.h
 act.o: act.c act.h types.h sysdep.h acode.h main.h parse.h AltInfo.h \
   AltInfoArray.h CheckEntryArray.h
-args.o: args.c sysdep.h args.h types.h acode.h options.h main.h \
-  unixargs.c
+args.o: args.c sysdep.h args.h types.h acode.h options.h main.h winargs.c
 debug.o: debug.c types.h sysdep.h acode.h alan.version.h version.h \
   readline.h inter.h Stack.h main.h parse.h stack.h exe.h options.h \
   debug.h
@@ -134,4 +44,9 @@ sysdep.o: sysdep.c sysdep.h
 syserr.o: syserr.c syserr.h main.h types.h sysdep.h acode.h inter.h \
   Stack.h debug.h options.h
 term.o: term.c main.h types.h sysdep.h acode.h term.h
+glkstart.o: glkstart.c args.h types.h sysdep.h acode.h main.h \
+  ../../WindowsGLK/Include/glk.h glkstart.h glkio.h resources.h \
+  ../../WindowsGLK/Include/gi_blorb.h
+glkio.o: glkio.c ../../WindowsGLK/Include/glk.h glkio.h
+dumpacd.o: dumpacd.c types.h sysdep.h acode.h reverse.h ../compiler/spa.h
 reverse.o: reverse.c types.h sysdep.h acode.h main.h reverse.h
