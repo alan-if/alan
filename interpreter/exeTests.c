@@ -7,7 +7,7 @@
 
 \*======================================================================*/
 
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 #include "set.h"
 #include "exe.c"
@@ -195,9 +195,12 @@ static int triedAndNoSyserrCaught() {
   else {
     assert_true(syserrHandlerCalled);
     return TRUE;
-  }    
+  }
 }
 
+static void failAssertion(void) {
+	assert_true(FALSE);
+}
 
 /*----------------------------------------------------------------------*/
 static void testWhereIllegalId() {
@@ -205,12 +208,12 @@ static void testWhereIllegalId() {
 
   if (triedAndNoSyserrCaught()) {
     where(0, TRUE);
-    fail();
+    failAssertion();
   }
 
   if (triedAndNoSyserrCaught()) {
     where(2, TRUE);
-    fail();
+    failAssertion();
   }
 }
 
@@ -221,12 +224,12 @@ static void testHereIllegalId() {
 
   if (triedAndNoSyserrCaught()) {
     isHere(0, FALSE);
-    fail();
+    failAssertion();
   }
 
   if (triedAndNoSyserrCaught()) {
     isHere(2, FALSE);
-    fail();
+    failAssertion();
   }
 }
 
@@ -237,22 +240,22 @@ static void testLocateIllegalId() {
 
   if (triedAndNoSyserrCaught()) {
     locate(0, 1);
-    fail();
+    failAssertion();
   }
 
   if (triedAndNoSyserrCaught()) {
     locate(2, 1);
-    fail();
+    failAssertion();
   }
 
   if (triedAndNoSyserrCaught()) {
     locate(1, 0);
-    fail();
+    failAssertion();
   }
 
   if (triedAndNoSyserrCaught()) {
     locate(1, 2);
-    fail();
+    failAssertion();
   }
 }
 
@@ -260,35 +263,35 @@ static void testLocateIllegalId() {
 /*----------------------------------------------------------------------*/
 static void testWhere() {
   admin = allocate(5*sizeof(AdminEntry));
-  instance = allocate(5*sizeof(InstanceEntry));
+  instances = allocate(5*sizeof(InstanceEntry));
   class = allocate(5*sizeof(ClassEntry));
   header = allocate(sizeof(ACodeHeader));
 
   header->locationClassId = 1;
   header->instanceMax = 4;
 
-  instance[1].parent = 1;	/* A location */
+  instances[1].parent = 1;	/* A location */
   admin[1].location = 3;
   assert_true(where(1, TRUE) == 0);	/* Locations are always nowhere */
   assert_true(where(1, FALSE) == 0);
 
-  instance[2].parent = 0;	/* Not a location */
+  instances[2].parent = 0;	/* Not a location */
   admin[2].location = 1;	/* At 1 */
   assert_true(where(2, TRUE) == 1);
   assert_true(where(2, FALSE) == 1);
 
-  instance[3].parent = 0;	/* Not a location */
+  instances[3].parent = 0;	/* Not a location */
   admin[3].location = 2;	/* In 2 which is at 1*/
   assert_true(where(3, TRUE) == 2);
   assert_true(where(3, FALSE) == 1);
 
-  instance[4].parent = 0;	/* Not a location */
+  instances[4].parent = 0;	/* Not a location */
   admin[4].location = 3;	/* In 3 which is in 2 which is at 1*/
   assert_true(where(4, TRUE) == 3);
   assert_true(where(4, FALSE) == 1);
 
   free(admin);
-  free(instance);
+  free(instances);
   free(class);
   free(header);
 }
@@ -314,11 +317,11 @@ static void testGetMembers() {
 /*----------------------------------------------------------------------*/
 void testContainerSize() {
   header = allocate(sizeof(ACodeHeader));
-  instance = allocate(4*sizeof(InstanceEntry));
+  instances = allocate(4*sizeof(InstanceEntry));
   admin = allocate(4*sizeof(AdminEntry));
 
   header->instanceMax = 3;
-  instance[1].container = 1;
+  instances[1].container = 1;
   admin[1].location = 0;
   admin[2].location = 1;
   admin[3].location = 2;
@@ -327,7 +330,7 @@ void testContainerSize() {
   assert_true(containerSize(1, FALSE) == 2);
 
   free(admin);
-  free(instance);
+  free(instances);
   free(header);
 }
 

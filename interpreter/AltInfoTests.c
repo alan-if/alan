@@ -1,20 +1,24 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
-#include "altInfo.c"
+#include "AltInfo.c"
+
+#include "AltInfoArray.h"
 
 
 static void canPrimeAltInfo() {
-  AltInfo altInfo;
+  AltInfo altInfos[2];
   const int level = 17;
   const int parameter = 18;
   const int instance = 19;
   const int class = 20;
 
-  primeAltInfo(&altInfo, level, parameter, instance, class);
-  assert_equal(level, altInfo.level);
-  assert_equal(parameter, altInfo.parameter);
-  assert_equal(instance, altInfo.instance);
-  assert_equal(class, altInfo.class);
+  primeAltInfo(altInfos, level, parameter, instance, class);
+
+  assert_equal(level, altInfos[0].level);
+  assert_equal(parameter, altInfos[0].parameter);
+  assert_equal(instance, altInfos[0].instance);
+  assert_equal(class, altInfos[0].class);
+  assert_equal(TRUE, altInfos[1].end);
 }
 
 

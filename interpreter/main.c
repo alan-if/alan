@@ -68,7 +68,7 @@ EventQueueEntry *eventQueue = NULL; /* Event queue */
 Aint eventQueueTop = 0;		/* Event queue top pointer */
 
 /* Amachine structures - Dynamic */
-InstanceEntry *instance;	/* Instance table pointer */
+InstanceEntry *instances;	/* Instance table pointer */
 AdminEntry *admin;		/* Administrative data about instances */
 AttributeEntry *attributes;	/* Dynamic attribute values */
 Aword *scores;			/* Score table pointer */
@@ -738,7 +738,7 @@ Bool isObject(Aword x)
 
 Bool isContainer(Aword x)
 {
-  return (x) != 0 && instance[x].container != 0;
+  return (x) != 0 && instances[x].container != 0;
 }
 
 Bool isActor(Aword x)
@@ -828,10 +828,10 @@ Bool exitto(int to, int from)
 {
   ExitEntry *theExit;
 
-  if (instance[from].exits == 0)
+  if (instances[from].exits == 0)
     return(FALSE); /* No exits */
 
-  for (theExit = (ExitEntry *) pointerTo(instance[from].exits); !endOfTable(theExit); theExit++)
+  for (theExit = (ExitEntry *) pointerTo(instances[from].exits); !endOfTable(theExit); theExit++)
     if (theExit->target == to)
       return(TRUE);
 
@@ -1182,8 +1182,8 @@ static void initStaticData(void)
 
   if (header->instanceTableAddress == 0)
     syserr("Instance table pointer == 0");
-  instance = (InstanceEntry *) pointerTo(header->instanceTableAddress);
-  instance--;			/* Back up one so that first is no. 1 */
+  instances = (InstanceEntry *) pointerTo(header->instanceTableAddress);
+  instances--;			/* Back up one so that first is no. 1 */
 
 
   if (header->classTableAddress == 0)
@@ -1235,7 +1235,7 @@ static Aint sizeOfAttributeData(void)
   int size = 0;
 
   for (i=1; i<=header->instanceMax; i++) {
-    AttributeEntry *attribute = pointerTo(instance[i].initialAttributes);
+    AttributeEntry *attribute = pointerTo(instances[i].initialAttributes);
     while (!endOfTable(attribute)) {
       size += AwordSizeOf(AttributeEntry);
       attribute++;
@@ -1257,7 +1257,7 @@ static AttributeEntry *initializeAttributes(int awordSize)
   int i;
 
   for (i=1; i<=header->instanceMax; i++) {
-    AttributeEntry *originalAttribute = pointerTo(instance[i].initialAttributes);
+    AttributeEntry *originalAttribute = pointerTo(instances[i].initialAttributes);
     admin[i].attributes = (AttributeEntry *)currentAttributeArea;
     while (!endOfTable(originalAttribute)) {
       *((AttributeEntry *)currentAttributeArea) = *originalAttribute;
@@ -1291,7 +1291,7 @@ static void initDynamicData(void)
 
   /* Set initial locations */
   for (instanceId = 1; instanceId <= header->instanceMax; instanceId++)
-    admin[instanceId].location = instance[instanceId].initialLocation;
+    admin[instanceId].location = instances[instanceId].initialLocation;
 }
 
 
@@ -1306,9 +1306,9 @@ static void runInheritedInitialize(Aint theClass) {
 
 /*----------------------------------------------------------------------*/
 static void runInitialize(Aint theInstance) {
-  runInheritedInitialize(instance[theInstance].parent);
-  if (instance[theInstance].initialize != 0)
-    interpret(instance[theInstance].initialize);
+  runInheritedInitialize(instances[theInstance].parent);
+  if (instances[theInstance].initialize != 0)
+    interpret(instances[theInstance].initialize);
 }
 
 

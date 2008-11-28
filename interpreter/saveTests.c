@@ -1,4 +1,4 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 #include "save.c"
 
@@ -22,11 +22,11 @@ static void testSaveRestore() {
   header->stringInitTable = 0;
 
   /* Initialize a fake instance table */
-  instance = malloc(4*sizeof(InstanceEntry));
-  instance[0].initialAttributes = 12; /* Shouldn't matter where.. */
-  instance[1].initialAttributes = 12; /* Shouldn't matter where.. */
-  instance[2].initialAttributes = 12; /* Shouldn't matter where.. */
-  instance[3].initialAttributes = 12; /* Shouldn't matter where.. */
+  instances = malloc(4*sizeof(InstanceEntry));
+  instances[0].initialAttributes = 12; /* Shouldn't matter where.. */
+  instances[1].initialAttributes = 12; /* Shouldn't matter where.. */
+  instances[2].initialAttributes = 12; /* Shouldn't matter where.. */
+  instances[3].initialAttributes = 12; /* Shouldn't matter where.. */
 
   /* Allocate an attribute area and initialize it */
   attributes = malloc(21*sizeof(AttributeEntry));
@@ -96,8 +96,8 @@ static void testSaveStrings() {
   header->attributesAreaSize = sizeof(AttributeEntry)/sizeof(Aword);
 
   /* Initialize a fake instance table */
-  instance = malloc(2*sizeof(InstanceEntry));
-  instance[1].parent = 0;
+  instances = malloc(2*sizeof(InstanceEntry));
+  instances[1].parent = 0;
 
   /* Allocate an attribute area and initialize it */
   attributes = malloc(2*sizeof(AttributeEntry));
@@ -153,8 +153,8 @@ static void testSaveSets() {
   header->stringInitTable = 0;
 
   /* Initialize a fake instance table */
-  instance = malloc(2*sizeof(InstanceEntry));
-  instance[1].parent = 0;
+  instances = malloc(2*sizeof(InstanceEntry));
+  instances[1].parent = 0;
 
   /* Set up the test sets */
   for (i = 0; i < 4; i++) {

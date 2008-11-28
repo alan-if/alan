@@ -1,4 +1,4 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 #include "stack.c"
 
@@ -20,9 +20,9 @@ static void testNewFrameAllocatesCorrectSpace()
   /* Add a block with four local variables */
   newFrame(theStack, 4);
   assert_equal(1/*old fp*/ + 4/*Locals*/, stackDepth(theStack));
-}  
+}
 
-  
+
 /*----------------------------------------------------------------------*/
 static void testNewFrameInStack()
 {
@@ -39,9 +39,9 @@ static void testNewFrameInStack()
 
   endFrame(theStack);
   assert_equal(0, stackDepth(theStack));
-}  
+}
 
-  
+
 /*----------------------------------------------------------------------*/
 static void testFrameInFrame()
 {
@@ -57,7 +57,7 @@ static void testFrameInFrame()
   endFrame(theStack);
   endFrame(theStack);
   assert_equal(0, stackDepth(theStack));
-}  
+}
 
 /*----------------------------------------------------------------------*/
 static void testPushAndPop()
@@ -75,7 +75,7 @@ static void testPushAndPop()
   assert_equal(1, pop(myStack));
   assert_equal(0, stackDepth(myStack));
 }
-  
+
 
 TestSuite *stackTests()
 {

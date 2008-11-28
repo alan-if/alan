@@ -37,6 +37,8 @@
 #include "glkio.h"
 #endif
 
+#define BREAKPOINTMAX 50
+
 
 /* PUBLIC: */
 int breakpointCount = 0;
@@ -125,7 +127,7 @@ static void showInstances(void)
     sprintf(str, "$i%3d: ", ins);
     output(str);
     say(ins);
-    if (instance[ins].container)
+    if (instances[ins].container)
       output("(container)");
     output(",");
     showInstanceLocation(ins);
@@ -147,8 +149,8 @@ static void showInstance(int ins)
   say(ins);
   sprintf(str, "(%d)", ins);
   output(str);
-  if (instance[ins].parent) {
-    sprintf(str, "Isa %s", (char *)pointerTo(class[instance[ins].parent].id));
+  if (instances[ins].parent) {
+    sprintf(str, "Isa %s", (char *)pointerTo(class[instances[ins].parent].id));
     output(str);
   }
 
@@ -161,9 +163,9 @@ static void showInstance(int ins)
   output("$iAttributes:");
   showAttributes(admin[ins].attributes);
 
-  if (instance[ins].container)
+  if (instances[ins].container)
     showContents(ins);
-      
+
   if (isA(ins, header->actorClassId)) {
     if (admin[ins].script == 0)
       output("$iIs idle");
@@ -332,7 +334,7 @@ static void showActors(void)
       say(act);
       sprintf(str, "(%d)", act);
       output(str);
-      if (instance[act].container)
+      if (instances[act].container)
 	output("(container)");
     }
   }
@@ -343,13 +345,13 @@ static void showActors(void)
 static void showActor(int act)
 {
   char str[80];
-  
+
   if (!isActor(act)) {
     sprintf(str, "Instance %d is not an actor.", act);
     output(str);
     return;
   }
-  
+
   showInstance(act);
 }
 
@@ -704,7 +706,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
         printf("Step on.");
       else
         printf("Step off.");
-      break;      
+      break;
     case 'T':
       if ((trc = !trc))
         printf("Trace on.");

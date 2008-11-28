@@ -12,9 +12,8 @@
 
 
 /* DATA: */
-#define BREAKPOINTMAX 50
 extern int breakpointCount;
-extern Breakpoint breakpoint[BREAKPOINTMAX];
+extern Breakpoint breakpoint[];
 
 /* FUNCTIONS: */
 extern void saveInfo(void);

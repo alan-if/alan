@@ -331,17 +331,17 @@ void allocateParameters(ParamEntry **area) {
 static ParamEntry savedParameters[3];
 
 /*----------------------------------------------------------------------*/
-static void setupParameterForWord(int parameter, int playerWordIndex) {
+static void setupParameterForWord(int parameterNumber, int playerWordIndex) {
 
   /* Trick message handling to output the word, create a string literal */
   createStringLiteral(pointerTo(dictionary[playerWords[playerWordIndex].code].string));
 
   allocateParameters(&parameters);
 
-  parameters[parameter-1].instance = instanceFromLiteral(litCount);	/* A faked literal */
-  parameters[parameter-1].useWords = TRUE;
-  parameters[parameter-1].firstWord = parameters[parameter-1].lastWord = playerWordIndex;
-  parameters[parameter].instance = EOF;
+  parameters[parameterNumber-1].instance = instanceFromLiteral(litCount);	/* A faked literal */
+  parameters[parameterNumber-1].useWords = TRUE;
+  parameters[parameterNumber-1].firstWord = parameters[parameterNumber-1].lastWord = playerWordIndex;
+  parameters[parameterNumber].instance = EOF;
 }
 
 
@@ -551,7 +551,7 @@ static void errorNoSuch(ParamEntry parameter) {
 static void buildAll(ParamEntry list[]) {
   int o, i = 0;
   Bool found = FALSE;
-  
+
   for (o = 1; o <= header->instanceMax; o++)
     if (isHere(o, FALSE)) {
       found = TRUE;
@@ -607,8 +607,8 @@ static Bool reachable(int instance)
   else
     return TRUE;
 }
-    
-	
+
+
 /*----------------------------------------------------------------------*/
 static void resolve(ParamEntry plst[])
 {
@@ -625,7 +625,7 @@ static void resolve(ParamEntry plst[])
   for (i=0; plst[i].instance != EOF; i++) {
     if (isLiteral(plst[i].instance))	/* Literals are always 'here' */
       continue;
-    if (instance[plst[i].instance].parent == header->entityClassId)
+    if (instances[plst[i].instance].parent == header->entityClassId)
       /* and so are pure entities */
       continue;
     if (!reachable(plst[i].instance)) {
@@ -750,8 +750,8 @@ static void unambig(ParamEntry plst[])
     plst[0].lastWord = lastWord;
   }
 }
-  
-  
+
+
 /*----------------------------------------------------------------------*/
 static void simple(ParamEntry olst[]) {
   static ParamEntry *tlst = NULL;
@@ -806,7 +806,7 @@ static void simple(ParamEntry olst[]) {
   }
 }
 
-  
+
 /*----------------------------------------------------------------------*/
 static void complex(ParamEntry olst[])
 {
@@ -842,7 +842,7 @@ static Bool restrictionCheck(RestrictionEntry *restriction)
   Bool ok = FALSE;
 
   if (restriction->class == RESTRICTIONCLASS_CONTAINER)
-    ok = instance[parameters[restriction->parameter-1].instance].container != 0;
+    ok = instances[parameters[restriction->parameter-1].instance].container != 0;
   else
     ok = isA(parameters[restriction->parameter-1].instance, restriction->class);
   return ok;
@@ -866,7 +866,7 @@ static void runRestriction(RestrictionEntry *restriction)
 /*----------------------------------------------------------------------*/
 static Aint mapSyntax(Aint syntaxNumber)
 {
-  /* 
+  /*
      Find the syntax map, use the verb code from it and remap the parameters
    */
   ParameterMapEntry *parameterMapTable;
@@ -1054,7 +1054,7 @@ static void try(ParamEntry multipleParameters[])
     error(M_WHAT);
   if (anyPlural)
     copyParameterList(multipleParameters, tlst);
-  
+
   /* Set verb code and map parameters */
   current.verb = mapSyntax(elms->flags); /* Flags of EOS element is
 					    actually syntax number! */
@@ -1078,7 +1078,7 @@ static void try(ParamEntry multipleParameters[])
 	       It wasn't ALL, we need to say something about it, so
 	       prepare a printout with $1/2/3
 	     */
-	    sprintf(marker, "($%ld)", restriction->parameter); 
+	    sprintf(marker, "($%ld)", restriction->parameter);
 	    output(marker);
 	    runRestriction(restriction);
 	    para();
@@ -1130,7 +1130,7 @@ static void try(ParamEntry multipleParameters[])
 }
 
 
-/*----------------------------------------------------------------------*/  
+/*----------------------------------------------------------------------*/
 static void match(ParamEntry *mlst) /* OUT - List of params allowed by multiple */
 {
   try(mlst);			/* ... to understand what he said */

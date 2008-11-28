@@ -3,6 +3,7 @@
 # one of the other makefiles, such as Makefile.unix
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
+SYSTEM = `uname -s`
 
 CYGWIN	= #-mno-cygwin
 
@@ -11,7 +12,7 @@ CC = gcc
 
 EXE	= arun.exe
 
-COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
+COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall # -funsigned-char $(CRCLOG)
 CFLAGS	= $(COMPILEFLAGS)
 ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)$(DMALLOC)
 LIBS	=
@@ -73,18 +74,18 @@ GLKSRCS = glkstart.c glkio.c
 # Include common source lists 
 include sources.mk
 
-
+all:
+	$(MAKE) $(SYSTEM)
+	
+Darwin: arun #dumpacd
+	
 arun: checkTarget $(ARUNOBJECTS) unitTest Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
 
-all:
-	$(MAKE) arun
-	$(MAKE) winarun
-	$(MAKE) glkarun
-	$(MAKE) gararun
-	$(MAKE) dumpacd
+cygwin: arun winarun glkarun gararun dumpacd
+
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" arun
@@ -161,11 +162,11 @@ alan.version.c:  ../alan.version
 #
 # CGreen unit tests
 #
-CGREENROOT = ../../../Development/cgreen
-CGREENINCLUDE = -I$(CGREENROOT)
+CGREENROOT = ../Cgreen
+CGREENINCLUDE = -I$(CGREENROOT)/include
 unit2: CYGWIN = #-mno-cygwin
 unit2: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE) $(CYGWIN)
-unit2: LIBS = $(CGREENROOT)/cgreen.a
+unit2: LIBS = $(CGREENROOT)/libcgreen.a
 
 unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
 	gcc -o unit2 $(UNIT2OBJECTS) $(LDFLAGS) $(LIBS)
@@ -173,7 +174,7 @@ unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
 		
 
 unitTest:
-	if [ -f $(CGREENROOT) ] ; then \
+	if [ -d $(CGREENROOT) ] ; then \
 		make unit2 ; \
 	fi
 #+++++++++++++++++++++++++++++++++

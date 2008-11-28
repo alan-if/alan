@@ -336,61 +336,23 @@ void schedule(Aword event, Aword where, Aword after)
 {  int i;
 
    if (event == 0) syserr("NULL event");
-  
+
    cancelEvent(event);
    /* Check for overflow */
    if (eventQueue == NULL || eventQueueTop == eventQueueSize)
      increaseEventQueue();
-  
+
    /* Bubble this event down */
    for (i = eventQueueTop; i >= 1 && eventQueue[i-1].after <= after; i--) {
      eventQueue[i].event = eventQueue[i-1].event;
      eventQueue[i].after = eventQueue[i-1].after;
      eventQueue[i].where = eventQueue[i-1].where;
    }
-  
+
    eventQueue[i].after = after;
    eventQueue[i].where = where;
    eventQueue[i].event = event;
    eventQueueTop++;
-}
-
-
-
-/*======================================================================*/
-AttributeEntry *findAttribute(AttributeEntry *attributeTable,
-			      Aint attributeCode)
-{
-  AttributeEntry *attribute = attributeTable;
-  while (attribute->code != attributeCode) {
-    attribute++;
-    if (endOfTable(attribute))
-      syserr("Attribute not found.");
-  }
-  return attribute;
-}
-
-
-
-
-/*======================================================================*/
-Aword getAttribute(AttributeEntry *attributeTable, Aint attributeCode)
-{
-  AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
-
-  return attribute->value;
-}
-  
-
-/*======================================================================*/
-void setAttribute(AttributeEntry *attributeTable,
-		  Aint attributeCode,
-		  Aword newValue)
-{
-  AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
-
-  attribute->value = newValue;
-  gameStateChanged = TRUE;
 }
 
 
@@ -740,7 +702,7 @@ Aint getContainerMember(Aint container, Aint index, Abool directly) {
 
 /*----------------------------------------------------------------------*/
 static void locateIntoContainer(Aword theInstance, Aword theContainer) {
-  if (!isA(theInstance, container[instance[theContainer].container].class))
+  if (!isA(theInstance, container[instances[theContainer].container].class))
     printMessageUsing2Parameters(M_CANNOTCONTAIN, theContainer, theInstance);
   else if (passesContainerLimits(theContainer, theInstance))
     admin[theInstance].location = theContainer;
@@ -827,13 +789,13 @@ static void locateActor(Aword movingActor, Aword whr)
 
   /* And execute possible entered */
   current.actor = movingActor;
-  if (instance[current.location].entered != 0) {
+  if (instances[current.location].entered != 0) {
     if (previousActorLocation != current.location) {
-      interpret(instance[current.location].entered);
+      interpret(instances[current.location].entered);
       current.instance = previousInstance;
     }
   } else
-    executeInheritedEntered(instance[current.location].parent);
+    executeInheritedEntered(instances[current.location].parent);
   current.actor = previousActor;
 
   if (current.actor != movingActor)
@@ -856,7 +818,7 @@ void locate(Aint id, Aword whr)
   /* First check if the instance is in a container, if so run extract checks */
   if (isContainer(admin[id].location)) {    /* In something? */
     current.instance = admin[id].location;
-    containerId = instance[admin[id].location].container;
+    containerId = instances[admin[id].location].container;
     theContainer = &container[containerId];
 
     if (theContainer->extractChecks != 0) {
@@ -880,7 +842,7 @@ void locate(Aint id, Aword whr)
       interpret(theContainer->extractStatements);
     }
   }
-    
+
   if (isActor(id))
     locateActor(id, whr);
   else if (isLocation(id))
@@ -946,7 +908,7 @@ Abool isA(Aint instanceId, Aint ancestor)
   if (isLiteral(instanceId))
     parent = literal[instanceId-header->instanceMax].class;
   else
-    parent = instance[instanceId].parent;
+    parent = instances[instanceId].parent;
   while (parent != 0 && parent != ancestor)
     parent = class[parent].parent;
 
@@ -1018,11 +980,11 @@ static Abool executeInheritedMentioned(Aword theClass) {
 
 /*----------------------------------------------------------------------*/
 static Abool mention(Aint id) {
-  if (instance[id].mentioned) {
-    interpret(instance[id].mentioned);
+  if (instances[id].mentioned) {
+    interpret(instances[id].mentioned);
     return TRUE;
   } else
-    return executeInheritedMentioned(instance[id].parent);
+    return executeInheritedMentioned(instances[id].parent);
 }
 
 
@@ -1036,10 +998,10 @@ static void sayLiteral(Aword lit)
   else {
     str = (char *)strdup((char *)literal[lit-header->instanceMax].value);
     sayString(str);
-  }    
+  }
 }
 
-	
+
 /*======================================================================*/
 void sayInstance(Aint id)
 {
@@ -1053,7 +1015,7 @@ void sayInstance(Aint id)
 	/* Found it so.. */
 	if (params[p].firstWord == EOF) /* Any words he used? */
 	  break;		/* No... */
-	else {				/* Yes, so use them... */ 
+	else {				/* Yes, so use them... */
 	  char *capitalized;
 	  /* Assuming the noun is the last word we can simply output the adjectives... */
 	  for (i = params[p].firstWord; i <= params[p].lastWord-1; i++)
@@ -1071,7 +1033,7 @@ void sayInstance(Aint id)
       }
 #endif
   if (!mention(id))
-    interpret(instance[id].name);
+    interpret(instances[id].name);
 }
 
 
@@ -1127,12 +1089,12 @@ static Bool sayInheritedDefiniteForm(Aword theClass) {
 
 /*----------------------------------------------------------------------*/
 static void sayDefinite(Aint id) {
-  if (instance[id].definite.address) {
-    interpret(instance[id].definite.address);
-    if (!instance[id].definite.isForm)
+  if (instances[id].definite.address) {
+    interpret(instances[id].definite.address);
+    if (!instances[id].definite.isForm)
       sayInstance(id);
   } else
-    if (!sayInheritedDefiniteForm(instance[id].parent))
+    if (!sayInheritedDefiniteForm(instances[id].parent))
       sayInstance(id);
 }
 
@@ -1154,12 +1116,12 @@ static Bool sayInheritedIndefiniteForm(Aword theClass) {
 
 /*----------------------------------------------------------------------*/
 static void sayIndefinite(Aint id) {
-  if (instance[id].indefinite.address) {
-    interpret(instance[id].indefinite.address);
-    if (!instance[id].indefinite.isForm)
+  if (instances[id].indefinite.address) {
+    interpret(instances[id].indefinite.address);
+    if (!instances[id].indefinite.isForm)
       sayInstance(id);
   } else
-    if (!sayInheritedIndefiniteForm(instance[id].parent))
+    if (!sayInheritedIndefiniteForm(instances[id].parent))
       sayInstance(id);
 }
 
@@ -1181,12 +1143,12 @@ static Bool sayInheritedNegativeForm(Aword theClass) {
 
 /*----------------------------------------------------------------------*/
 static void sayNegative(Aint id) {
-  if (instance[id].negative.address) {
-    interpret(instance[id].negative.address);
-    if (!instance[id].negative.isForm)
+  if (instances[id].negative.address) {
+    interpret(instances[id].negative.address);
+    if (!instances[id].negative.isForm)
       sayInstance(id);
   } else
-    if (!sayInheritedNegativeForm(instance[id].parent))
+    if (!sayInheritedNegativeForm(instances[id].parent))
       sayInstance(id);
 }
 
@@ -1206,10 +1168,10 @@ static void sayInheritedPronoun(Aint id) {
 
 /*----------------------------------------------------------------------*/
 static void sayPronoun(Aint id) {
-  if (instance[id].pronoun != 0)
-      output(wordWithCode(PRONOUN_BIT, instance[id].pronoun));
+  if (instances[id].pronoun != 0)
+      output(wordWithCode(PRONOUN_BIT, instances[id].pronoun));
   else
-    sayInheritedPronoun(instance[id].parent);
+    sayInheritedPronoun(instances[id].parent);
 }
 
 
@@ -1292,9 +1254,9 @@ static Bool inheritedDescriptionCheck(Aint classId)
 /*----------------------------------------------------------------------*/
 static Bool descriptionCheck(Aint instanceId)
 {
-  if (inheritedDescriptionCheck(instance[instanceId].parent)) {
-    if (instance[instanceId].checks == 0) return TRUE;
-    return tryChecks(instance[instanceId].checks, TRUE);
+  if (inheritedDescriptionCheck(instances[instanceId].parent)) {
+    if (instances[instanceId].checks == 0) return TRUE;
+    return tryChecks(instances[instanceId].checks, TRUE);
   } else
     return FALSE;
 }
@@ -1308,15 +1270,15 @@ static Abool inheritsDescriptionFrom(Aword classId)
     return inheritsDescriptionFrom(class[classId].parent);
   else
     return FALSE;
-}  
+}
 
 /*----------------------------------------------------------------------*/
 static Abool hasDescription(Aword instanceId)
 {
-  if (instance[instanceId].description != 0)
+  if (instances[instanceId].description != 0)
     return TRUE;
-  else if (instance[instanceId].parent != 0)
-    return inheritsDescriptionFrom(instance[instanceId].parent);
+  else if (instances[instanceId].parent != 0)
+    return inheritsDescriptionFrom(instances[instanceId].parent);
   else
     return FALSE;
 }
@@ -1338,13 +1300,13 @@ static void describeClass(Aint id)
 /*----------------------------------------------------------------------*/
 static void describeAnything(Aint id)
 {
-  if (instance[id].description != 0) {
+  if (instances[id].description != 0) {
     /* This instance has its own description, run it */
-    interpret(instance[id].description);
+    interpret(instances[id].description);
   } else {
     /* Search up the inheritance tree to find a description */
-    if (instance[id].parent != 0)
-      describeClass(instance[id].parent);
+    if (instances[id].parent != 0)
+      describeClass(instances[id].parent);
   }
   admin[id].alreadyDescribed = TRUE;
 }
@@ -1373,7 +1335,7 @@ static void describeContainer(Aint id)
 {
   if (!containerIsEmpty(id) && !attributeOf(id, OPAQUEATTRIBUTE))
     list(id);
-}    
+}
 
 
 /*----------------------------------------------------------------------*/
@@ -1384,7 +1346,7 @@ static void describeObject(Aword obj)
   else {
     printMessageUsingParameter(M_SEE_START, obj);
     printMessage(M_SEE_END);
-    if (instance[obj].container != 0)
+    if (instances[obj].container != 0)
       describeContainer(obj);
   }
   admin[obj].alreadyDescribed = TRUE;
@@ -1432,7 +1394,7 @@ static void describeActor(Aword act)
   else {
     printMessageUsingParameter(M_SEE_START, act);
     printMessage(M_SEE_END);
-    if (instance[act].container != 0)
+    if (instances[act].container != 0)
       describeContainer(act);
   }
   admin[act].alreadyDescribed = TRUE;
@@ -1487,7 +1449,7 @@ void describeInstances(void)
 	printMessageUsingParameter(M_SEE_COMMA, lastInstanceFound);
       admin[i].alreadyDescribed = TRUE;
 
-      if (instance[i].container && containerSize(i, TRUE) > 0 && !attributeOf(i, OPAQUEATTRIBUTE)) {
+      if (instances[i].container && containerSize(i, TRUE) > 0 && !attributeOf(i, OPAQUEATTRIBUTE)) {
 	if (found > 0)
 	  printMessageUsingParameter(M_SEE_AND, i);
 	printMessage(M_SEE_END);
@@ -1505,7 +1467,7 @@ void describeInstances(void)
     }
     printMessage(M_SEE_END);
   }
-  
+
   /* Finally all actors with a separate description */
   for (i = 1; i <= header->instanceMax; i++)
     if (admin[i].location == current.location && i != HERO && isActor(i)
@@ -1560,7 +1522,7 @@ void list(Aword cnt)
   current.instance = cnt;
 
   /* Find container table entry */
-  props = instance[cnt].container;
+  props = instances[cnt].container;
   if (props == 0) syserr("Trying to list something not a container.");
 
   for (i = 1; i <= header->instanceMax; i++) {
@@ -1619,8 +1581,8 @@ void showImage(Aword image, Aword align)
     ecode = glk_image_draw(glkMainWin, image, imagealign_MarginLeft, 0);
   }
 #endif
-}    
- 
+}
+
 
 /*======================================================================*/
 void playSound(Aword sound)
@@ -1640,8 +1602,8 @@ void playSound(Aword sound)
   }
 #endif
 #endif
-}    
- 
+}
+
 
 
 /*======================================================================*/

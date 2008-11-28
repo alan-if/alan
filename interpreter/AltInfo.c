@@ -16,6 +16,8 @@
 
 
 /*======================================================================*/
+// TODO This is actually an AltInfoArray function since primeAltInfo modifies the
+// next element in the array too!
 void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class)
 {
   altInfo->level = level;
@@ -104,20 +106,8 @@ Bool executedOk(AltInfo *altInfo)
 }
 
 
-/*----------------------------------------------------------------------*/
-static Bool executable(AltInfo *altInfo) {
-  return altInfo->alt != NULL && altInfo->alt->action != 0;
-}
-
 /*======================================================================*/
-Bool anythingToExecute(AltInfo altInfo[])
-{
-  int altIndex;
-
-  /* Check for anything to execute... */
-  for (altIndex = 0; !altInfo[altIndex].end; altIndex++)
-    if (executable(&altInfo[altIndex]))
-      return TRUE;
-  return FALSE;
+Bool executable(AltInfo *altInfo) {
+  return altInfo->alt != NULL && altInfo->alt->action != 0;
 }
 

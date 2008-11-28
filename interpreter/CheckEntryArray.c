@@ -7,7 +7,7 @@
 
 /*======================================================================*/
 Bool tryChecks(Aaddr adr,	/* IN - ACODE address to check array */
-	       Bool execute	/* IN - Execute the ELSE clause if it fails ? */
+	       Bool execute		/* IN - Execute the ELSE clause if it fails ? */
 )
 {
   CheckEntry *chk;

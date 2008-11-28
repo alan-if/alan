@@ -2,6 +2,7 @@
 
 /* Imports: */
 
+#include "AltInfo.h"
 #include "main.h"
 #include "parse.h"
 
@@ -96,7 +97,7 @@ void addAlternativesFromLocation(
   addAlternativesFromParents(altInfos,
 			     LOCATION_LEVEL,
 			     NO_PARAMETER,
-			     instance[location].parent,
+			     instances[location].parent,
 			     location,
 			     finder);
 
@@ -116,7 +117,7 @@ void addAlternativesFromParameter(
   if (isLiteral(theInstance))
     parent = literal[parameterNumber].class;
   else
-    parent = instance[theInstance].parent;
+    parent = instances[theInstance].parent;
   addAlternativesFromParents(altInfos,
 			     PARAMETER_LEVEL,
 			     parameterNumber,
@@ -141,6 +142,18 @@ Bool checksPerformedOk(AltInfoArray altInfo, Bool execute)
       return FALSE;
   }
   return TRUE;
+}
+
+/*======================================================================*/
+Bool anythingToExecute(AltInfo altInfo[])
+{
+  int altIndex;
+
+  /* Check for anything to execute... */
+  for (altIndex = 0; !altInfo[altIndex].end; altIndex++)
+    if (executable(&altInfo[altIndex]))
+      return TRUE;
+  return FALSE;
 }
 
 

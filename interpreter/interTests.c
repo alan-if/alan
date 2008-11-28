@@ -1,4 +1,4 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 #include "inter.c"
 
@@ -6,7 +6,7 @@
 
 
 static void syserrHandler(char *message) {
-  fail();
+	assert_true(FALSE);
 }
 
 static Stack theStack;
@@ -56,7 +56,7 @@ static void testBlockInstructions()
   memory = localsInstructionCode;
   interpret(1);
   assert_true(pop(theStack) == 33);
-}  
+}
 
 
 /*----------------------------------------------------------------------*/

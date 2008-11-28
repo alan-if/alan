@@ -15,69 +15,11 @@
 #include "glkio.h"
 #endif
 
-#include "types.h"
 #include "main.h"
-#include "inter.h"
-#include "exe.h"
-#include "stack.h"
 #include "parse.h"
-#include "debug.h"
-#include "syserr.h"
-#include "options.h"
 #include "AltInfo.h"
 #include "AltInfoArray.h"
 #include "CheckEntryArray.h"
-
-
-/*======================================================================*/
-void go(int location, int dir)
-{
-  ExitEntry *theExit;
-  Bool ok;
-  Aword oldloc;
-
-  theExit = (ExitEntry *) pointerTo(instance[location].exits);
-  if (instance[location].exits != 0)
-    while (!endOfTable(theExit)) {
-      if (theExit->code == dir) {
-	ok = TRUE;
-	if (theExit->checks != 0) {
-	  if (sectionTraceOption) {
-	    printf("\n<EXIT %d(%s) from ", dir,
-		   (char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string));
-	    traceSay(location);
-	    printf("(%d), Checking:>\n", location);
-	  }
-	  ok = tryChecks(theExit->checks, EXECUTE);
-	}
-	if (ok) {
-	  oldloc = location;
-	  if (theExit->action != 0) {
-	    if (sectionTraceOption) {
-	      printf("\n<EXIT %s(%d) from ", 
-		     (char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string), dir);
-	      traceSay(location);
-	      printf("(%d), Executing:>\n", location);
-	    }	    
-	    interpret(theExit->action);
-	  }
-	  /* Still at the same place? */
-	  if (where(HERO, FALSE) == oldloc) {
-	    if (sectionTraceOption) {
-	      printf("\n<EXIT %s(%d) from ",
-		     (char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string), dir);
-	      traceSay(location);
-	      printf("(%d), Moving:>\n", location);
-	    }
-	    locate(HERO, theExit->target);
-	  }
-	}
-	return;
-      }
-      theExit++;
-    }
-  error(M_NO_WAY);
-}
 
 
 /*----------------------------------------------------------------------*/
@@ -112,7 +54,7 @@ static AltEntry *alternativeFinder(
   if (theClass != NO_CLASS)
     return findAlternative(class[theClass].verbs, current.verb, parameter);
   else if (theInstance != NO_INSTANCE)
-    return findAlternative(instance[theInstance].verbs, current.verb, parameter);
+    return findAlternative(instances[theInstance].verbs, current.verb, parameter);
   else
     return findAlternative(header->verbTableAddress, current.verb, parameter);
 }
@@ -175,7 +117,7 @@ static void executeCommand(void)
 	  return;
       }
   }
-  
+
   /* Then execute any not declared as AFTER, i.e. the default */
   for (altIndex = 0; !altInfos[altIndex].end; altIndex++) {
     if (altInfos[altIndex].alt != 0)
@@ -202,16 +144,14 @@ static void executeCommand(void)
   such as THEM or lists of objects.
 
   */
-void action(
-     ParameterList plst		/* IN - Plural parameter list */
-)
+void action(ParameterList plst)
 {
   int i, mpos;
   char marker[10];
 
   if (plural) {
     /*
-       The code == 0 means this is a multiple position. We must loop
+       A parameter position with code == 0 means this is a multiple position. We must loop
        over this position (and replace it by each present in the plst)
      */
     for (mpos = 0; parameters[mpos].instance != 0; mpos++); /* Find multiple position */

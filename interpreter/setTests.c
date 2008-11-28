@@ -1,4 +1,4 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 #include "set.c"
 
@@ -22,7 +22,7 @@ static void testAddToSet() {
     assert_true(aSet.members[i] == i);
   }
   assert_true(aSet.size == 6);
-}  
+}
 
 static void testSetUnion() {
   Set *set0 = newSet(0);
@@ -83,7 +83,7 @@ static void testSetRemove() {
 
   removeFromSet(aSet, 1);
   assert_true(aSet->size == 0);
-}  
+}
 
 static void testInSet() {
   Set *aSet = newSet(0);
@@ -112,7 +112,7 @@ static void testCompareSets() {
   Set *set2 = newSet(0);
   Set *set3 = newSet(0);
   Set *set4 = newSet(0);
-  
+
   addToSet(set3, 4);
   addToSet(set4, 4);
 

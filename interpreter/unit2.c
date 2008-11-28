@@ -1,4 +1,4 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 TestSuite *actTests();
 TestSuite *altInfoArrayTests();

@@ -2,6 +2,7 @@
 #
 # UNIT2 is the excellent CGreen unit test, stub and mocking framework by
 # Marcus Baker (http://sourceforge.net/projects/cgreen)
+
 UNIT2SRC = \
 	unit2.c \
 	AltInfoArrayTests.c \
@@ -19,8 +20,10 @@ UNIT2SRC = \
 	sysdepTests.c \
 
 UNIT2REQUIREDSRCS = \
+	AttributeEntryArray.c \
 	CheckEntryArray.c \
 	Container.c \
+	Location.c \
 	args.c \
 	debug.c \
 	decode.c \
@@ -35,8 +38,10 @@ UNIT2REQUIREDSRCS = \
 MAINSRCS = \
 	AltInfo.c \
 	AltInfoArray.c \
+	AttributeEntryArray.c \
 	CheckEntryArray.c \
 	Container.c \
+	Location.c \
 	act.c \
 	args.c \
 	debug.c \

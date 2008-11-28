@@ -1,4 +1,4 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 #define RUNNING_UNITTESTS
 #include "main.c"
@@ -18,7 +18,7 @@ static void testCopyAttributes() {
   header = allocate(sizeof(ACodeHeader));
   header->instanceMax = 2;
   admin = allocate(3*sizeof(AdminEntry));
-  instance = allocate(3*sizeof(InstanceEntry));
+  instances = allocate(3*sizeof(InstanceEntry));
 
   /* Create two attribute lists which consists of two attributes each,
      each is terminated by EOF */
@@ -38,8 +38,8 @@ static void testCopyAttributes() {
   a[4].stringAddress = 230;
   a[5].code = EOF;
 
-  instance[1].initialAttributes = 1;
-  instance[2].initialAttributes = 10;
+  instances[1].initialAttributes = 1;
+  instances[2].initialAttributes = 10;
 
   attributeArea = initializeAttributes(5*sizeof(AttributeEntry)/sizeof(Aword));
 

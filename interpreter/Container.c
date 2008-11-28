@@ -7,12 +7,12 @@
 
 
 /*----------------------------------------------------------------------*/
-static int countInContainer(int cnt)	/* IN - the container to count in */
+static int countInContainer(int containerIndex)	/* IN - the container to count in */
 {
-  int i, j = 0;
+  int instanceIndex, j = 0;
   
-  for (i = 1; i <= header->instanceMax; i++)
-    if (in(i, cnt, TRUE))
+  for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
+    if (in(instanceIndex, containerIndex, TRUE))
       /* Then it's in this container also */
       j++;
   return(j);
@@ -21,18 +21,18 @@ static int countInContainer(int cnt)	/* IN - the container to count in */
 
 
 /*----------------------------------------------------------------------*/
-static int sumAttributesInContainer(
-    Aint cnt,			/* IN - the container to sum */
-    Aint atr			/* IN - the attribute to sum over */
+static int sumAttributeInContainer(
+    Aint containerIndex,			/* IN - the container to sum */
+    Aint attributeIndex			/* IN - the attribute to sum over */
 ) {
-  int i;
+  int instanceIndex;
   int sum = 0;
 
-  for (i = 1; i <= header->instanceMax; i++)
-    if (in(i, cnt, TRUE)) {		/* Then it's directly in this cont */
-      if (instance[i].container != 0)	/* This is also a container! */
-	sum = sum + sumAttributesInContainer(i, atr);
-      sum = sum + attributeOf(i, atr);
+  for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
+    if (in(instanceIndex, containerIndex, TRUE)) {		/* Then it's directly in this cont */
+      if (instances[instanceIndex].container != 0)	/* This is also a container! */
+	sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
+      sum = sum + attributeOf(instanceIndex, attributeIndex);
     }
   return(sum);
 }
@@ -50,7 +50,7 @@ Bool passesContainerLimits(
     syserr("Checking limits for a non-container.");
 
   /* Find the container properties */
-  props = instance[theContainer].container;
+  props = instances[theContainer].container;
 
   if (container[props].limits != 0) { /* Any limits at all? */
     for (lim = (LimEntry *) pointerTo(container[props].limits); !endOfTable(lim); lim++)
@@ -60,7 +60,7 @@ Bool passesContainerLimits(
 	  return(FALSE);
 	}
       } else {
-	if (sumAttributesInContainer(theContainer, lim->atr) + attributeOf(theAddedInstance, lim->atr) > lim->val) {
+	if (sumAttributeInContainer(theContainer, lim->atr) + attributeOf(theAddedInstance, lim->atr) > lim->val) {
 	  interpret(lim->stms);
 	  return(FALSE);
 	}

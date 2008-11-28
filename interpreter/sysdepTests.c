@@ -6,7 +6,7 @@
 
 \*======================================================================*/
 
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 #include "sysdep.c"
 
@@ -30,7 +30,7 @@ static void testStringEqualsIgnoringCase()
   assert_true(compareStrings("bcd", "abcD")!=0);
 }
 
-static void testIsLowerCase() 
+static void testIsLowerCase()
 {
   assert_true(isLowerCase(246));
 }

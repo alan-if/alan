@@ -1,4 +1,4 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
 #include "parse.c"
 
@@ -147,6 +147,7 @@ static void testSetupParameterForWord() {
   ACodeHeader acdHeader;
   header = &acdHeader;
   header->maxParameters = 10;
+  header->instanceMax = 10;
   dictionary = makeDictionary(20);
   memory = allocate(40*sizeof(Aword));
 
@@ -159,6 +160,10 @@ static void testSetupParameterForWord() {
   setupParameterForWord(1, 1);
 
   assert_equal(instanceFromLiteral(1), parameters[0].instance);
+  assert_equal(TRUE, parameters[0].useWords);
+  assert_equal(1, parameters[0].firstWord);
+  assert_equal(1, parameters[0].lastWord);
+
   assert_equal(EOF, parameters[1].instance);
 
   free(dictionary);

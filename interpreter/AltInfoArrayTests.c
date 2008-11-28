@@ -1,6 +1,6 @@
-#include "cgreen.h"
+#include "cgreen/cgreen.h"
 
-#include "altInfoArray.c"
+#include "AltInfoArray.c"
 
 /*----------------------------------------------------------------------*/
 static void canDuplicateAltInfoArray() {

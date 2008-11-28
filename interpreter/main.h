@@ -30,7 +30,7 @@ extern Aint eventQueueTop;		/* Event queue top pointer */
 extern CurVars current;
 
 /* Amachine data structures - Dynamic */
-extern InstanceEntry *instance; /* Instance table pointer */
+extern InstanceEntry *instances; /* Instance table pointer */
 extern AdminEntry *admin;	/* Administrative data about instances */
 extern AttributeEntry *attributes; /* Dynamic attribute values */
 extern Aword *scores;		/* Score table pointer */
