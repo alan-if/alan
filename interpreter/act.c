@@ -52,7 +52,7 @@ static AltEntry *alternativeFinder(
 )
 {
   if (theClass != NO_CLASS)
-    return findAlternative(class[theClass].verbs, current.verb, parameter);
+    return findAlternative(classes[theClass].verbs, current.verb, parameter);
   else if (theInstance != NO_INSTANCE)
     return findAlternative(instances[theInstance].verbs, current.verb, parameter);
   else

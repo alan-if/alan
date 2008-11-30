@@ -150,7 +150,7 @@ static void showInstance(int ins)
   sprintf(str, "(%d)", ins);
   output(str);
   if (instances[ins].parent) {
-    sprintf(str, "Isa %s", (char *)pointerTo(class[instances[ins].parent].id));
+    sprintf(str, "Isa %s", (char *)pointerTo(classes[instances[ins].parent].id));
     output(str);
   }
 
@@ -234,13 +234,13 @@ static void showClass(int c)
   char str[80];
 
   output("$t");
-  output((char *)pointerTo(class[c].id));
+  output((char *)pointerTo(classes[c].id));
   sprintf(str, "(%d)", c);
   output(str);
-  if (class[c].parent != 0) {
+  if (classes[c].parent != 0) {
     output("Isa");
-    output((char *)pointerTo(class[class[c].parent].id));
-    sprintf(str, "(%ld)", class[c].parent);
+    output((char *)pointerTo(classes[classes[c].parent].id));
+    sprintf(str, "(%ld)", classes[c].parent);
     output(str);
   }
 }
@@ -747,7 +747,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 void traceSay(int item)
 {
   /*
-    Say somethin, but make sure we don't disturb anything and that it is
+    Say something, but make sure we don't disturb anything and that it is
     shown to the player. Needed for tracing. During debugging things are
     set up to avoid this problem.
   */

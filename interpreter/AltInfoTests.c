@@ -18,7 +18,6 @@ static void canPrimeAltInfo() {
   assert_equal(parameter, altInfos[0].parameter);
   assert_equal(instance, altInfos[0].instance);
   assert_equal(class, altInfos[0].class);
-  assert_equal(TRUE, altInfos[1].end);
 }
 
 

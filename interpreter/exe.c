@@ -743,10 +743,10 @@ static void locateObject(Aword obj, Aword whr)
 /*----------------------------------------------------------------------*/
 static void executeInheritedEntered(Aint theClass) {
   if (theClass == 0) return;
-  if (class[theClass].entered)
-    interpret(class[theClass].entered);
+  if (classes[theClass].entered)
+    interpret(classes[theClass].entered);
   else
-    executeInheritedEntered(class[theClass].parent);
+    executeInheritedEntered(classes[theClass].parent);
 }
 
 
@@ -910,7 +910,7 @@ Abool isA(Aint instanceId, Aint ancestor)
   else
     parent = instances[instanceId].parent;
   while (parent != 0 && parent != ancestor)
-    parent = class[parent].parent;
+    parent = classes[parent].parent;
 
   return (parent != 0);
 }
@@ -970,11 +970,11 @@ Abool at(Aint theInstance, Aint other, Abool directly)
 static Abool executeInheritedMentioned(Aword theClass) {
   if (theClass == 0) return FALSE;
 
-  if (class[theClass].mentioned) {
-    interpret(class[theClass].mentioned);
+  if (classes[theClass].mentioned) {
+    interpret(classes[theClass].mentioned);
     return TRUE;
   } else
-    return executeInheritedMentioned(class[theClass].parent);
+    return executeInheritedMentioned(classes[theClass].parent);
 }
 
 
@@ -1078,11 +1078,11 @@ static Bool sayInheritedDefiniteForm(Aword theClass) {
     syserr("No default definite article");
     return FALSE;
   } else {
-    if (class[theClass].definite.address) {
-      interpret(class[theClass].definite.address);
-      return class[theClass].definite.isForm;
+    if (classes[theClass].definite.address) {
+      interpret(classes[theClass].definite.address);
+      return classes[theClass].definite.isForm;
     } else
-      return sayInheritedDefiniteForm(class[theClass].parent);
+      return sayInheritedDefiniteForm(classes[theClass].parent);
   }
 }
 
@@ -1105,11 +1105,11 @@ static Bool sayInheritedIndefiniteForm(Aword theClass) {
     syserr("No default indefinite article");
     return FALSE;
   } else {
-    if (class[theClass].indefinite.address) {
-      interpret(class[theClass].indefinite.address);
-      return class[theClass].indefinite.isForm;
+    if (classes[theClass].indefinite.address) {
+      interpret(classes[theClass].indefinite.address);
+      return classes[theClass].indefinite.isForm;
     } else
-      return sayInheritedIndefiniteForm(class[theClass].parent);
+      return sayInheritedIndefiniteForm(classes[theClass].parent);
   }
 }
 
@@ -1132,11 +1132,11 @@ static Bool sayInheritedNegativeForm(Aword theClass) {
     syserr("No default negative form");
     return FALSE;
   } else {
-    if (class[theClass].negative.address) {
-      interpret(class[theClass].negative.address);
-      return class[theClass].negative.isForm;
+    if (classes[theClass].negative.address) {
+      interpret(classes[theClass].negative.address);
+      return classes[theClass].negative.isForm;
     } else
-      return sayInheritedNegativeForm(class[theClass].parent);
+      return sayInheritedNegativeForm(classes[theClass].parent);
   }
 }
 
@@ -1158,10 +1158,10 @@ static void sayInheritedPronoun(Aint id) {
   if (id == 0)
     syserr("No default pronoun");
   else {
-    if (class[id].pronoun != 0)
-      output(wordWithCode(PRONOUN_BIT, class[id].pronoun));
+    if (classes[id].pronoun != 0)
+      output(wordWithCode(PRONOUN_BIT, classes[id].pronoun));
     else
-      sayInheritedPronoun(class[id].parent);
+      sayInheritedPronoun(classes[id].parent);
   }
 }
 
@@ -1246,9 +1246,9 @@ FORWARD void list(Aword cnt);
 static Bool inheritedDescriptionCheck(Aint classId)
 {
   if (classId == 0) return TRUE;
-  if (!inheritedDescriptionCheck(class[classId].parent)) return FALSE;
-  if (class[classId].descriptionChecks == 0) return TRUE;
-  return tryChecks(class[classId].descriptionChecks, TRUE);
+  if (!inheritedDescriptionCheck(classes[classId].parent)) return FALSE;
+  if (classes[classId].descriptionChecks == 0) return TRUE;
+  return tryChecks(classes[classId].descriptionChecks, TRUE);
 }
 
 /*----------------------------------------------------------------------*/
@@ -1264,10 +1264,10 @@ static Bool descriptionCheck(Aint instanceId)
 /*----------------------------------------------------------------------*/
 static Abool inheritsDescriptionFrom(Aword classId)
 {
-  if (class[classId].description != 0)
+  if (classes[classId].description != 0)
     return TRUE;
-  else if (class[classId].parent != 0)
-    return inheritsDescriptionFrom(class[classId].parent);
+  else if (classes[classId].parent != 0)
+    return inheritsDescriptionFrom(classes[classId].parent);
   else
     return FALSE;
 }
@@ -1286,13 +1286,13 @@ static Abool hasDescription(Aword instanceId)
 /*----------------------------------------------------------------------*/
 static void describeClass(Aint id)
 {
-  if (class[id].description != 0) {
+  if (classes[id].description != 0) {
     /* This class has a description, run it */
-    interpret(class[id].description);
+    interpret(classes[id].description);
   } else {
     /* Search up the inheritance tree, if any, to find a description */
-    if (class[id].parent != 0)
-      describeClass(class[id].parent);
+    if (classes[id].parent != 0)
+      describeClass(classes[id].parent);
   }
 }
 

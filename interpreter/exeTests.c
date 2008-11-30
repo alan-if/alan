@@ -264,7 +264,7 @@ static void testLocateIllegalId() {
 static void testWhere() {
   admin = allocate(5*sizeof(AdminEntry));
   instances = allocate(5*sizeof(InstanceEntry));
-  class = allocate(5*sizeof(ClassEntry));
+  classes = allocate(5*sizeof(ClassEntry));
   header = allocate(sizeof(ACodeHeader));
 
   header->locationClassId = 1;
@@ -292,7 +292,7 @@ static void testWhere() {
 
   free(admin);
   free(instances);
-  free(class);
+  free(classes);
   free(header);
 }
 

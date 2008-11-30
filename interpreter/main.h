@@ -37,7 +37,7 @@ extern Aword *scores;		/* Score table pointer */
 
 /* Amachine data structures - Static */
 extern DictionaryEntry *dictionary; /* Dictionary pointer */
-extern ClassEntry *class;	/* Class table pointer */
+extern ClassEntry *classes;	/* Class table pointer */
 extern ContainerEntry *container; /* Container table pointer */
 
 extern VerbEntry *vrbs;		/* Verb table pointer */

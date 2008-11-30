@@ -52,6 +52,7 @@ static void addAlternative(
   altInfoP->alt = (*finder)(parameterNumber, theInstance, theClass);
   if (altInfoP->alt != NULL) {
     primeAltInfo(altInfoP, level, parameterNumber, theInstance, theClass);
+    altInfoP[1].end = TRUE;
   }
 }
 
@@ -74,10 +75,10 @@ static void addAlternativesFromParents(
     Aint theInstance,
     AltEntryFinder finder
 ){
-  if (class[theClass].parent != 0)
+  if (classes[theClass].parent != 0)
     addAlternativesFromParents(altInfos, level,
 			       parameterNumber,
-			       class[theClass].parent,
+			       classes[theClass].parent,
 			       theInstance,
 			       finder);
 

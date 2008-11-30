@@ -75,7 +75,7 @@ Aword *scores;			/* Score table pointer */
 
 /* Amachine structures - Static */
 ContainerEntry *container;	/* Container table pointer */
-ClassEntry *class;		/* Class table pointer */
+ClassEntry *classes;		/* Class table pointer */
 DictionaryEntry *dictionary;	/* Dictionary pointer */
 VerbEntry *vrbs;		/* Verb table pointer */
 SyntaxEntry *stxs;		/* Syntax table pointer */
@@ -1188,8 +1188,8 @@ static void initStaticData(void)
 
   if (header->classTableAddress == 0)
     syserr("Class table pointer == 0");
-  class = (ClassEntry *) pointerTo(header->classTableAddress);
-  class--;			/* Back up one so that first is no. 1 */
+  classes = (ClassEntry *) pointerTo(header->classTableAddress);
+  classes--;			/* Back up one so that first is no. 1 */
 
   if (header->containerTableAddress != 0) {
     container = (ContainerEntry *) pointerTo(header->containerTableAddress);
@@ -1298,9 +1298,9 @@ static void initDynamicData(void)
 /*----------------------------------------------------------------------*/
 static void runInheritedInitialize(Aint theClass) {
   if (theClass == 0) return;
-  runInheritedInitialize(class[theClass].parent);
-  if (class[theClass].initialize)
-    interpret(class[theClass].initialize);
+  runInheritedInitialize(classes[theClass].parent);
+  if (classes[theClass].initialize)
+    interpret(classes[theClass].initialize);
 }
 
 

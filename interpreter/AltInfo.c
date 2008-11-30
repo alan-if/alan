@@ -16,8 +16,6 @@
 
 
 /*======================================================================*/
-// TODO This is actually an AltInfoArray function since primeAltInfo modifies the
-// next element in the array too!
 void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class)
 {
   altInfo->level = level;
@@ -26,11 +24,23 @@ void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int 
   altInfo->class = class;
   altInfo->done = FALSE;
   altInfo->end = FALSE;
-
-  altInfo++;
-  altInfo->end = TRUE;
-
 }
+
+/*----------------------------------------------------------------------*/
+static char *idOfClass(int theClass) {
+	return (char *)pointerTo(classes[theClass].id);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void traceInstanceAndItsClass(AltInfo *alt)
+{
+    traceSay(parameters[alt->parameter - 1].instance);
+    printf(")");
+    if (alt->class != NO_CLASS)
+      printf(", inherited from class #%d (%s)", alt->class, idOfClass(alt->class));
+}
+
 
 /*----------------------------------------------------------------------*/
 static void traceAltInfo(AltInfo *alt) {
@@ -39,15 +49,12 @@ static void traceAltInfo(AltInfo *alt) {
     printf("GLOBAL");
     break;
   case LOCATION_LEVEL:
-    printf("in LOCATION");
-    // TODO: need to handle nested locations and inheritance too
+    printf("in location #%d (", alt->instance);
+    traceInstanceAndItsClass(alt);
     break;
   case PARAMETER_LEVEL:
     printf("in parameter #%d (", alt->parameter);
-    traceSay(parameters[alt->parameter-1].instance);
-    printf(")");
-    if (alt->class != NO_CLASS)
-      printf(", inherited from class #%d (%s)", alt->class, (char *)pointerTo(class[alt->class].id));
+    traceInstanceAndItsClass(alt);
     break;
   }
 }

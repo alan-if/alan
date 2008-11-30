@@ -9,11 +9,17 @@ static void canDuplicateAltInfoArray() {
   static int COPYSIZE = 15;
   int i;
 
-  for (i = 0; i < COPYSIZE; i++)
-    original[i].end = FALSE;
+  for (i = 0; i < COPYSIZE; i++) {
+	  original[i].instance = i;
+	  original[i].end = FALSE;
+  }
   original[COPYSIZE].end = TRUE;
 
   duplicate = duplicateAltInfoArray(original);
+  for (i = 0; i < COPYSIZE; i++) {
+	  assert_equal(i, duplicate[i].instance);
+	  assert_equal(FALSE, duplicate[i].end);
+  }
   assert_true(duplicate[COPYSIZE].end);
   free(duplicate);
 }
