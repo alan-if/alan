@@ -57,7 +57,7 @@ static void ensureSpaceForGameState(StateStack stack)
 {
     if (stack->stackPointer == stack->stackSize) {
     	stack->stack = reallocateStack(stack->stack, (stack->stackSize+EXTENT)*sizeof(void*));
-    	stack->playerCommands = reallocateStack(stack->playerCommands, EXTENT*sizeof(char*));
+    	stack->playerCommands = reallocateStack(stack->playerCommands, (stack->stackSize+EXTENT)*sizeof(char*));
     	stack->stackSize += EXTENT;
     }
 }
