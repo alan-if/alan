@@ -17,6 +17,7 @@ CFLAGS	= $(COMPILEFLAGS)
 ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)$(DMALLOC)
 LIBS	=
 
+
 #######################################################################
 #
 #Set up for specific targets
@@ -101,40 +102,80 @@ arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk #unitTests
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	-@cp $@ ../bin
 
+clean:
+	-rm *.o
+
+
+#######################################################################
+#Settings for Windows GLK variant
+WINGLKROOT = ../../WindowsGLK
+WINGLKDEFS = -DHAVE_WINGLK
+WINGLKINCLUDE = -I$(WINGLKROOT)/Include
+WINGLKLIB = $(WINGLKROOT)/Glk.lib
+
+winarun: GLKDEFS = $(WINGLKDEFS)
+winarun: CFLAGS = $(COMPILEFLAGS) $(WINGLKINCLUDE) $(GLKDEFS)
+winarun: CYGWIN = -mwindows -mno-cygwin 
+winarun: LIBS = $(WINGLKLIB)
+winarun: EXE = winarun.exe
 
 winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	gcc -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
 
+arun.res: arun.rc arun.ico resources.h alan.version.c
+	echo $(VERSION)
+	sed "s/WINARUNVERSION/$(VERSION)/" arun.rc > arun.rc2
+	windres arun.rc2 -O coff -o $@
+
+#######################################################################
+# Settings for TermGLK => glkarun
+TERMGLKROOT = ../../glkterm
+TERMGLKDEFS = -DHAVE_GLK
+TERMGLKINCLUDE = -I$(TERMGLKROOT)
+TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
+
+glkarun: GLKDEFS = $(TERMGLKDEFS)
+glkarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
+glkarun: CYGWIN = 
+glkarun: LIBS = $(TERMGLKLIB)
+glkarun: EXE = glkarun.exe
+
 glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
 	gcc -o $@ $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
+
+#######################################################################
+#Settings for Gargoyle GLK variant (experimental!)
+GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
+GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
+GARGLKINCLUDE = -I$(GARGLKROOT)
+GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk -mno-cygwin
+
+gararun: GLKDEFS = $(GARGLKDEFS)
+gararun: CFLAGS = $(COMPILEFLAGS) $(GARGLKINCLUDE) $(GLKDEFS)
+gararun: CYGWIN = 
+gararun: LIBS = $(GARGLKLIB)
+gararun: EXE = gararun.exe
 
 gararun: checkTarget $(GARARUNOBJECTS) arun.res
 	gcc -o $@ $(OPTIMIZE) $(GARARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
 
-dmalloc: checkTarget $(ARUNOBJECTS) unitTest
+#######################################################################
+#Settings for memory debugging
+dmalloc: DMALLOC = -DDMALLOC
+dmalloc: CFLAGS = $(COMPILEFLAGS) $(DMALLOC)
+dmalloc: LIBS = /usr/local/lib/libdmalloc.a
+
+dmalloc: checkTarget $(ARUNOBJECTS)
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp arun.exe ../bin
 
-arun.res: arun.rc arun.ico resources.h alan.version.c
-	echo $(VERSION)
-	sed "s/WINARUNVERSION/$(VERSION)/" arun.rc > arun.rc2
-	windres arun.rc2 -O coff -o $@
-
-
-about: about.c arun.res
-	gcc -o $@ -ggdb -mno-cygwin -mwindows about.c arun.res
-
-headerGenerator: headerGenerator.c
-
-clean:
-	-rm *.o
 
 .PHONY: checkTarget
 checkTarget:
@@ -167,7 +208,10 @@ version.h :
 	fi
 
 alan.version.c:  ../alan.version
-#	cp -p ../alan.version.c .
+	-@if test "`which venum`" != "" ; then \
+		cp -p ../alan.version.c . ; \
+	fi
+
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -185,7 +229,7 @@ unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
 
 unitTest:
 	-@if test -d $(CGREENROOT) ; then \
-		make unit2 ; \
+		$(MAKE) unit2 ; \
 	fi
 
 #+++++++++++++++++++++++++++++++++
@@ -195,14 +239,15 @@ unitTest:
 test: unitTest
 
 
-#
-#
-#
-#
+#######################################################################
 dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
 	gcc -Wall -o dumpacd -ggdb -DSTDIONONCONST dumpacd.c ../compiler/spa.c reverse.c sysdep.c
 	cp $@ ../bin
 
+about: about.c arun.res
+	gcc -o $@ -ggdb -mno-cygwin -mwindows about.c arun.res
+
+headerGenerator: headerGenerator.c
 
 
 
