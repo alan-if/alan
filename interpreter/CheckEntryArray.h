@@ -11,6 +11,10 @@
 
 
 /* CONSTANTS */
+#ifndef EXECUTE_CHECK_BODY_ON_FAIL
+#define EXECUTE_CHECK_BODY_ON_FAIL TRUE
+#define DONT_EXECUTE_CHECK_BODY_ON_FAIL FALSE
+#endif
 
 
 /* TYPES */
@@ -22,6 +26,6 @@ typedef CheckEntry CheckEntryArray[];
 
 
 /* FUNCTIONS */
-extern Bool tryChecks(Aaddr adr, Bool act);
+extern Bool checksFailed(Aaddr adr, Bool execute);
 
 #endif

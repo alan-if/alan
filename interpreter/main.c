@@ -134,7 +134,7 @@ void terminate(int code)
 #include <fcntl.h>
   extern struct _dev *_devtab;
   char buf[85];
-  
+
   if (con) { /* Running from WB, created a console so kill it */
     /* Running from WB, so we created a console and
        hacked the Aztec C device table to use it for all I/O
@@ -203,6 +203,7 @@ void usage(void)
 void error(MsgKind msgno)	/* IN - The error message number */
 {
   /* Print an error message and longjmp to main loop. */
+	// TODO Add NO_MSG literal
   if (msgno != MSGMAX)
     printMessage(msgno);
   longjmp(returnLabel, ERROR_RETURN);
@@ -241,7 +242,7 @@ void statusline(void)
   col = pcol;
   onStatusLine = FALSE;
 
-  glk_set_window(glkMainWin); 
+  glk_set_window(glkMainWin);
 #else
 #ifdef HAVE_ANSI
   char line[100];
@@ -344,7 +345,7 @@ void newline(void)
     lin = 0;
   } else
     printAndLog("\n");
-  
+
   lin++;
 #else
   printAndLog("\n");
@@ -433,7 +434,7 @@ static void justify(char str[])
 #else
   int i;
   char ch;
-  
+
   if (col >= pageWidth && !skipSpace)
     newline();
 
@@ -608,7 +609,7 @@ static char *printSymbol(char *str)	/* IN - The string starting with '$' */
   case 't': {
     int i;
     int spaces = 4-(col-1)%4;
-    
+
     for (i = 0; i<spaces; i++) printAndLog(" ");
     col = col + spaces;
     needSpace = FALSE;
@@ -837,8 +838,8 @@ Bool exitto(int to, int from)
 
   return(FALSE);
 }
-    
-      
+
+
 
 #ifdef CHECKOBJ
 /*======================================================================
@@ -855,10 +856,10 @@ void checkobj(obj)
      Aword *obj;
 {
   Aword oldobj;
-  
+
   if (*obj != EOF)
     return;
-  
+
   oldobj = EOF;
   for (cur.obj = OBJMIN; cur.obj <= OBJMAX; cur.obj++) {
     /* If an object is present and it is possible to perform his action */
@@ -868,11 +869,11 @@ void checkobj(obj)
       else
 	error(WANT);          /* And we didn't find multiple objects */
     }
-  
+
   if (oldobj == EOF)
     error(WANT);              /* But we found ONE */
-  
-  *obj = cur.obj = oldobj;    
+
+  *obj = cur.obj = oldobj;
   output("($o)");             /* Then he surely meant this object */
 }
 #endif
@@ -1173,7 +1174,7 @@ static void initStaticData(void)
   for (dictsize = 0; !endOfTable(&dictionary[dictsize]); dictsize++);
 
   /* Scores */
-  
+
 
   /* All addresses to tables indexed by ids are converted to pointers,
      then adjusted to point to the (imaginary) element before the
@@ -1223,7 +1224,7 @@ static void initStaticData(void)
 static void initStrings(void)
 {
   StringInitEntry *init;
-  
+
   for (init = (StringInitEntry *) pointerTo(header->stringInitTable); !endOfTable(init); init++)
     setValue(init->instanceCode, init->attributeCode, (Aword)getStringFromFile(init->fpos, init->len));
 }
@@ -1389,7 +1390,7 @@ static void openFiles(void)
     }
   }
 }
-    
+
 
 /*----------------------------------------------------------------------*/
 static void init(void)
@@ -1508,7 +1509,7 @@ static void moveActor(int theActor)
 	}
 	if (traceActor(theActor))
 	  printf("), SCRIPT %ld(%s), STEP %ld, Executing:>\n",
-		 admin[theActor].script, 
+		 admin[theActor].script,
 		 scriptName(theActor, admin[theActor].script),
 		 admin[theActor].step);
 	interpret(step->stms);
@@ -1539,71 +1540,75 @@ static void moveActor(int theActor)
 /*======================================================================*/
 void run(void)
 {
-  int i;
-  Bool playerChangedState;
-  Stack theStack;
+	int i;
+	Bool playerChangedState;
+	Stack theStack;
 
-  openFiles();
-  load();			/* Load program */
+	openFiles();
+	load();			/* Load program */
 
-  if (setjmp(restartLabel) != NO_JUMP_RETURN) {	/* Return here if he wanted to restart */
-    /* So, a RESTART! */
-    deleteStack(theStack);
-  }
+	if (setjmp(restartLabel) != NO_JUMP_RETURN) {	/* Return here if he wanted to restart */
+		/* So, a RESTART! */
+		deleteStack(theStack);
+	}
 
-  theStack = createStack(STACKSIZE);
-  setInterpreterStack(theStack);
+	theStack = createStack(STACKSIZE);
+	setInterpreterStack(theStack);
 
-  initStateStack();
+	initStateStack();
 
-  if (setjmp(returnLabel) == NO_JUMP_RETURN)
-    init();			/* Initialise and start the adventure */
+	if (setjmp(returnLabel) == NO_JUMP_RETURN)
+		init();			/* Initialise and start the adventure */
 
-  while (TRUE) {
-    if (debugOption)
-      debug(FALSE, 0, 0);
+	while (TRUE) {
+		if (debugOption)
+			debug(FALSE, 0, 0);
 
-    runPendingEvents();
-    current.tick++;
+		runPendingEvents();
+		current.tick++;
 
-    /* Return here if error during execution */
-    switch (setjmp(returnLabel)) {
-    case NO_JUMP_RETURN:
-      break;
-    case ERROR_RETURN:
-      forgetGameState();
-      forceNewPlayerInput();
-      break;
-    case UNDO_RETURN:
-      forceNewPlayerInput();
-      break;
-    default:
-      syserr("Unexpected longjmp() return value");
-    }
+		/* Return here if error during execution */
+		switch (setjmp(returnLabel)) {
+		case NO_JUMP_RETURN:
+			break;
+		case ERROR_RETURN:
+			forgetGameState();
+			forceNewPlayerInput();
+			break;
+		case UNDO_RETURN:
+			forceNewPlayerInput();
+			break;
+		default:
+			syserr("Unexpected longjmp() return value");
+		}
 
 #ifdef DMALLOC
-    dmalloc_verify(0);
+		dmalloc_verify(0);
 #endif
-    depth = 0;
+		depth = 0;
 
-    /* Move all characters, hero first */
-    pushGameState();
+		/* Move all characters, hero first */
+		rememberGameState();
 
-    /* TODO: Why 'playerChangedState' since gameStateChanged is sufficient */
-    playerChangedState = FALSE;
-    moveActor(header->theHero);
-    playerChangedState = gameStateChanged;
+		/* TODO: Why 'playerChangedState' since gameStateChanged is sufficient
+		 * Actually it isn't since it might have been one of the events or other actors
+		 * that changed the state. Why is this important?
+		 * Yes, because for UNDO we want to undo the last command the player did that
+		 * changed the state, not any of the others. */
+		playerChangedState = FALSE;
+		moveActor(header->theHero);
+		playerChangedState = gameStateChanged;
 
-    if (gameStateChanged)
-      rememberCommands();
-    else
-      forgetGameState();
+		if (gameStateChanged)
+			rememberCommands();
+		else
+			forgetGameState();
 
-    rules();
-    for (i = 1; i <= header->instanceMax; i++)
-      if (i != header->theHero && isActor(i)) {
-	moveActor(i);
-	rules();
-      }
-  }
+		rules();
+		for (i = 1; i <= header->instanceMax; i++)
+			if (i != header->theHero && isActor(i)) {
+				moveActor(i);
+				rules();
+			}
+	}
 }

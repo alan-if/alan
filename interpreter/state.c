@@ -15,6 +15,7 @@
 #include "set.h"
 #include "exe.h"
 #include "parse.h"
+#include "StateStack.h"
 
 
 /* PUBLIC DATA */
@@ -39,32 +40,51 @@ typedef struct GameState {
      saving of attributes, instead they require special storage */
   Aword *sets;			/* Array of set pointers */
   Aword *strings;		/* Array of string pointers */
-
-  /* List of word indices the player said, EOF terminated */
-  char *playerCommand;
 } GameState;
 
 /* PRIVATE DATA */
-static int gameStateTop = 0;
-static int gameStateSize = 0;
-static GameState *gameState = NULL;
+static GameState gameState;
+static StateStack stateStack = NULL;
+
+static char *playerCommand;
+
+
+/*----------------------------------------------------------------------*/
+static void freeGameState() {
+
+  free(gameState.admin);
+  free(gameState.attributes);
+
+  if (gameState.eventQueueTop > 0) {
+    free(gameState.eventQueue);
+    gameState.eventQueue = NULL;
+  }
+  free(gameState.scores);
+
+  memset(&gameState, 0, sizeof(GameState));
+}
 
 
 /*======================================================================*/
-Bool stateStackIsEmpty() {
-  return gameStateTop == 0;
+void forgetGameState(void) {
+	char *playerCommand;
+	popGameState(stateStack, &gameState, &playerCommand);
+	freeGameState();
+	free(playerCommand);
 }
 
-/*----------------------------------------------------------------------*/
-static void ensureSpaceForGameState() {
-  static int extent = 10;
 
-  if (gameStateTop == gameStateSize) {
-    gameState = realloc(gameState, (gameStateSize+extent)*sizeof(GameState));
-    if (gameState == NULL)
-      syserr("Out of memory in 'ensureSpaceForGameState()'");
-    gameStateSize += extent;
-  }
+/*======================================================================*/
+void initStateStack() {
+	if (stateStack != NULL)
+		deleteStateStack(stateStack);
+	stateStack = createStateStack(sizeof(GameState));
+}
+
+
+/*======================================================================*/
+Bool anySavedState(void) {
+  return !stateStackIsEmpty(stateStack);
 }
 
 
@@ -73,7 +93,7 @@ static int setCount() {
   SetInitEntry *entry;
   int count = 0;
 
-  if (header->setInitTable != 0) 
+  if (header->setInitTable != 0)
     for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++)
       count++;
   return(count);
@@ -81,21 +101,22 @@ static int setCount() {
 
 
 /*----------------------------------------------------------------------*/
-static Aword *pushSets() {
-  SetInitEntry *entry;
-  int count = setCount();
-  Aword *sets;
-  int i;
+static Aword *collectSets() {
+	// TODO Why is this Aword*? shouldn't it be void**? Track it to getSetAttribute()
+	SetInitEntry *entry;
+	int count = setCount();
+	Aword *sets;
+	int i;
 
-  if (count == 0) return NULL;
+	if (count == 0) return NULL;
 
-  sets = allocate(count*sizeof(Set));
+	sets = allocate(count*sizeof(Set));
 
-  entry = pointerTo(header->setInitTable);
-  for (i = 0; i < count; i++)
-    sets[i] = getSetAttribute(entry[i].instanceCode, entry[i].attributeCode);
+	entry = pointerTo(header->setInitTable);
+	for (i = 0; i < count; i++)
+		sets[i] = getSetAttribute(entry[i].instanceCode, entry[i].attributeCode);
 
-  return sets;
+	return sets;
 }
 
 
@@ -112,107 +133,68 @@ static int stringCount() {
 
 
 /*----------------------------------------------------------------------*/
-static Aword *pushStrings() {
-  StringInitEntry *entry;
-  int count = stringCount();
-  Aword *strings;
-  int i;
+static Aword *collectStrings() {
+	// TODO Why is this Aword*? shouldn't it be void**? Track it to getSetAttribute()
+	StringInitEntry *entry;
+	int count = stringCount();
+	Aword *strings;
+	int i;
 
-  if (count == 0) return NULL;
+	if (count == 0) return NULL;
 
-  strings = allocate(count*sizeof(Set));
+	strings = allocate(count*sizeof(Set));
 
-  entry = pointerTo(header->stringInitTable);
-  for (i = 0; i < count; i++)
-    strings[i] = getStringAttribute(entry[i].instanceCode, entry[i].attributeCode);
+	entry = pointerTo(header->stringInitTable);
+	for (i = 0; i < count; i++)
+		strings[i] = getStringAttribute(entry[i].instanceCode, entry[i].attributeCode);
 
-  return strings;
-}
-
-
-/*----------------------------------------------------------------------*/
-static void freeGameState() {
-
-  free(gameState[gameStateTop].admin);
-  free(gameState[gameStateTop].attributes);
-
-  if (gameState[gameStateTop].eventQueueTop > 0) {
-    free(gameState[gameStateTop].eventQueue);
-    gameState[gameStateTop].eventQueue = NULL;
-  }
-  free(gameState[gameStateTop].scores);
-
-  if (gameState[gameStateTop].playerCommand != NULL) {
-    free(gameState[gameStateTop].playerCommand);
-    gameState[gameStateTop].playerCommand = NULL;
-  }
-  memset(&gameState[gameStateTop], 0, sizeof(GameState));
-}
-
-
-/*======================================================================*/
-void forgetGameState(void) {
-  if (gameStateTop == 0) syserr("Forgetting nonexisting gameState");
-  gameStateTop--;
-  freeGameState();
-}
-
-
-/*======================================================================*/
-void initStateStack() {
-  while(gameStateTop>0) {
-    forgetGameState();
-  }
+	return strings;
 }
 
 
 /*======================================================================*/
 void rememberCommands(void) {
-  GameState *state;
-
-  /* If any previous player commands, remember it */
-  if (gameStateTop > 0) {
-    state = &gameState[gameStateTop-1];
-    state->playerCommand = playerWordsAsCommandString();
-  }
+	char *command = playerWordsAsCommandString();
+	attachPlayerCommandsToLastState(stateStack, command);
+	free(command);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void pushEvents() {
-  gameState[gameStateTop].eventQueueTop = eventQueueTop;
+static void collectEvents() {
+  gameState.eventQueueTop = eventQueueTop;
   if (eventQueueTop > 0)
-    gameState[gameStateTop].eventQueue = duplicate(eventQueue, eventQueueTop*sizeof(EventQueueEntry));
+    gameState.eventQueue = duplicate(eventQueue, eventQueueTop*sizeof(EventQueueEntry));
 }
 
 
 /*----------------------------------------------------------------------*/
-static void pushInstanceData() {
-  gameState[gameStateTop].admin = duplicate(admin, (header->instanceMax+1)*sizeof(AdminEntry));
-  gameState[gameStateTop].attributes = duplicate(attributes, header->attributesAreaSize*sizeof(Aword));
-  gameState[gameStateTop].sets = pushSets();
-  gameState[gameStateTop].strings = pushStrings();
+static void collectInstanceData() {
+  gameState.admin = duplicate(admin, (header->instanceMax+1)*sizeof(AdminEntry));
+  gameState.attributes = duplicate(attributes, header->attributesAreaSize*sizeof(Aword));
+  gameState.sets = collectSets();
+  gameState.strings = collectStrings();
 }
 
 
 /*----------------------------------------------------------------------*/
-static void pushScores() {
-  gameState[gameStateTop].score = current.score;
-  gameState[gameStateTop].scores = duplicate(scores, header->scoreCount*sizeof(Aword));
+static void collectScores() {
+  gameState.score = current.score;
+  gameState.scores = duplicate(scores, header->scoreCount*sizeof(Aword));
 }
 
 
 /*======================================================================*/
-void pushGameState(void) {
+void rememberGameState(void) {
+	collectEvents();
+	collectInstanceData();
+	collectScores();
 
-  ensureSpaceForGameState();
-  pushEvents();
-  pushInstanceData();
-  pushScores();
-  gameState[gameStateTop].playerCommand = NULL;
+	if (stateStack == NULL)
+		initStateStack();
 
-  gameStateTop++;
-  gameStateChanged = FALSE;
+	pushGameState(stateStack, &gameState);
+	gameStateChanged = FALSE;
 }
 
 
@@ -229,7 +211,7 @@ static void freeSetAttributes(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void popSets(Aword *sets) {
+static void recallSets(Aword *sets) {
   SetInitEntry *entry;
   int count = setCount();
   int i;
@@ -255,7 +237,7 @@ static void freeStringAttributes(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void popStrings(Aword *strings) {
+static void recallStrings(Aword *strings) {
   StringInitEntry *entry;
   int count = stringCount();
   int i;
@@ -269,56 +251,53 @@ static void popStrings(Aword *strings) {
 
 
 /*----------------------------------------------------------------------*/
-static void popEvents() {
-  eventQueueTop = gameState[gameStateTop].eventQueueTop;
+static void recallEvents() {
+  eventQueueTop = gameState.eventQueueTop;
   if (eventQueueTop > 0) {
-    memcpy(eventQueue, gameState[gameStateTop].eventQueue,
+    memcpy(eventQueue, gameState.eventQueue,
 	   (eventQueueTop+1)*sizeof(EventQueueEntry));
   }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void popInstances() {
+static void recallInstances() {
 
-  if (admin == NULL) syserr("admin[] == NULL in popInstances()");
+  if (admin == NULL) syserr("admin[] == NULL in recallInstances()");
 
-  memcpy(admin, gameState[gameStateTop].admin,
+  memcpy(admin, gameState.admin,
  	 (header->instanceMax+1)*sizeof(AdminEntry));
 
   freeSetAttributes();		/* Need to free previous set values */
   freeStringAttributes();	/* Need to free previous string values */
 
-  memcpy(attributes, gameState[gameStateTop].attributes,
+  memcpy(attributes, gameState.attributes,
 	 header->attributesAreaSize*sizeof(Aword));
 
-  popSets(gameState[gameStateTop].sets);
-  popStrings(gameState[gameStateTop].strings);
+  recallSets(gameState.sets);
+  recallStrings(gameState.strings);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void popScores() {
-  current.score = gameState[gameStateTop].score;
-  memcpy(scores, gameState[gameStateTop].scores,
+static void recallScores() {
+  current.score = gameState.score;
+  memcpy(scores, gameState.scores,
 	 header->scoreCount*sizeof(Aword));
 }
 
 
 /*======================================================================*/
-void popGameState(void) {
-  if (gameStateTop == 0) syserr("Popping non-existing game state");
-  gameStateTop--;
-  popEvents();
-  popInstances();
-  popScores();
-  freeGameState();
+void recallGameState(void) {
+	popGameState(stateStack, &gameState, &playerCommand);
+	recallEvents();
+	recallInstances();
+	recallScores();
+	freeGameState();
 }
 
 
 /*======================================================================*/
 char *recreatePlayerCommand() {
-  GameState *state = &gameState[gameStateTop-1];
-
-  return state->playerCommand;
+  return playerCommand;
 }

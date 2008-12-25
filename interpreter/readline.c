@@ -618,6 +618,14 @@ static void echoOn()
 #endif
 }
 
+static void stripNewline(char *buffer) {
+	if (buffer[strlen(buffer)-1] == '\n')
+		buffer[strlen(buffer)-1] = '\0';
+}
+
+static void copyToUserBuffer(char *usrbuf, char *buffer) {
+	strcpy(usrbuf, (char *)buffer);
+}
 
 /*======================================================================
 
@@ -666,7 +674,8 @@ Bool readline(char usrbuf[])
     /* Reset line counter only if we read actual player input */
     lin = 1;
   }
-  strcpy(usrbuf, (char *)buffer);
+  stripNewline(buffer);
+  copyToUserBuffer(usrbuf, buffer);
   return TRUE;
 }
 

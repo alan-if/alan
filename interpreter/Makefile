@@ -64,7 +64,6 @@ gararun: EXE = gararun.exe
 dmalloc: DMALLOC = -DDMALLOC
 dmalloc: CFLAGS = $(COMPILEFLAGS) $(DMALLOC)
 dmalloc: LIBS = /usr/local/lib/libdmalloc.a
-release: OPTIMIZE = -O4
 
 
 # Define this to make interpreter log each crc calculation step
@@ -92,14 +91,16 @@ Darwin: arun #dumpacd
 Cygwin: arun winarun glkarun gararun dumpacd
 
 
-arun: checkTarget $(ARUNOBJECTS) unitTest Makefile dependencies.mk
+release:
+	$(MAKE) "OPTIMIZE=-O4" $(SYSTEM)
+
+
+
+arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk #unitTests
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	-@cp $@ ../bin
 
-release:
-	$(MAKE) "OPTIMIZE=-O4" arun
-	$(MAKE) "OPTIMIZE=-O4" winarun
 
 winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	gcc -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)

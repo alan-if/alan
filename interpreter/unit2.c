@@ -11,11 +11,14 @@ TestSuite *reverseTests();
 TestSuite *saveTests();
 TestSuite *setTests();
 TestSuite *stateTests();
+TestSuite *stateStackTests();
 TestSuite *stackTests();
 TestSuite *sysdepTests();
 
 int main(int argc, char **argv) {
     TestSuite *suite = create_test_suite();
+    TestReporter *reporter = create_cute_reporter();
+
     add_suite(suite, actTests());
     add_suite(suite, altInfoArrayTests());
     add_suite(suite, altInfoTests());
@@ -27,10 +30,11 @@ int main(int argc, char **argv) {
     add_suite(suite, saveTests());
     add_suite(suite, setTests());
     add_suite(suite, stackTests());
+    add_suite(suite, stateStackTests());
     add_suite(suite, stateTests());
     add_suite(suite, sysdepTests());
     if (argc > 1) {
-        return run_single_test(suite, argv[1], create_text_reporter());
+        return run_single_test(suite, argv[1], reporter);
     }
-    return run_test_suite(suite, create_text_reporter());
+    return run_test_suite(suite, reporter);
 }

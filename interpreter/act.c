@@ -22,74 +22,6 @@
 #include "CheckEntryArray.h"
 
 
-/*----------------------------------------------------------------------*/
-static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode,
-					    Aint parameter)
-{
-  AltEntry *alt;
-  VerbEntry *verbEntry;
-
-  if (verbTableAddress == 0) return NULL;
-
-  for (verbEntry = (VerbEntry *) pointerTo(verbTableAddress); !endOfTable(verbEntry); verbEntry++)
-    if (verbEntry->code == verbCode) {
-      for (alt = (AltEntry *) pointerTo(verbEntry->alts); !endOfTable(alt); alt++) {
-	if (alt->param == parameter || alt->param == 0)
-	  return alt;
-      }
-      return NULL;
-    }
-  return NULL;
-}
-
-
-
-/*----------------------------------------------------------------------*/
-static AltEntry *alternativeFinder(
-    Aint parameter,		/* IN - Which parameter to match */
-    Aint theInstance,		/* IN - Which instance to check */
-    Aint theClass		/* IN - Which class to check */
-)
-{
-  if (theClass != NO_CLASS)
-    return findAlternative(classes[theClass].verbs, current.verb, parameter);
-  else if (theInstance != NO_INSTANCE)
-    return findAlternative(instances[theInstance].verbs, current.verb, parameter);
-  else
-    return findAlternative(header->verbTableAddress, current.verb, parameter);
-}
-
-
-/*----------------------------------------------------------------------*/
-static AltInfo *findAllAlternatives(void) {
-  int parameter;
-  AltInfo altInfos[1000];
-  altInfos[0].end = TRUE;
-
-  addGlobalAlternatives(altInfos, &alternativeFinder);
-
-  addAlternativesFromLocation(altInfos, current.location, &alternativeFinder);
-
-  for (parameter = 1; parameters[parameter-1].instance != EOF; parameter++) {
-    addAlternativesFromParameter(altInfos, parameter, &alternativeFinder);
-  }
-  return duplicateAltInfoArray(altInfos);
-}
-
-
-/*======================================================================*/
-Bool possible(void)
-{
-  AltInfo *altInfos;
-
-  altInfos = findAllAlternatives();
-
-  if (!checksPerformedOk(altInfos, DONT_EXECUTE))
-    return FALSE;
-
-  return anythingToExecute(altInfos);
-}
-
 
 /*----------------------------------------------------------------------*/
 static void executeCommand(void)
@@ -101,7 +33,8 @@ static void executeCommand(void)
 
   altInfos = findAllAlternatives();
 
-  if (!checksPerformedOk(altInfos, EXECUTE)) return;
+  if (anyCheckFailed(altInfos, EXECUTE_CHECK_BODY_ON_FAIL))
+	  return;
 
   /* Check for anything to execute... */
   if (!anythingToExecute(altInfos))

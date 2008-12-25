@@ -15,6 +15,7 @@
 #include "readline.h"
 #endif
 
+#include "AltInfoArray.h"
 #include "main.h"
 #include "inter.h"
 #include "exe.h"
@@ -1017,15 +1018,15 @@ static SyntaxEntry *findSyntax(int verbCode) {
 
 /*----------------------------------------------------------------------*/
 static void disambiguate(ParamEntry candidates[], int position) {
-  int i;
-  for (i = 0; candidates[i].instance != EOF; i++) {
-    if (candidates[i].instance != 0) {	/* Already empty? */
-      parameters[position] = candidates[i];
-      if (!reachable(candidates[i].instance) || !possible())
-	candidates[i].instance = 0;	/* Remove this from list */
-    }
-  }
-  compress(candidates);
+	int i;
+	for (i = 0; candidates[i].instance != EOF; i++) {
+		if (candidates[i].instance != 0) {	/* Already empty? */
+			parameters[position] = candidates[i];
+			if (!reachable(candidates[i].instance) || !possible())
+				candidates[i].instance = 0;	/* Then remove this candidate from list */
+		}
+	}
+	compress(candidates);
 }
 
 
@@ -1110,8 +1111,7 @@ static void try(ParamEntry multipleParameters[])
 
   /* Finally, if ALL was used, try to find out what was applicable */
   if (allLength > 0) {
-    for (multiplePosition = 0; parameters[multiplePosition].instance != 0;
-	 multiplePosition++)
+    for (multiplePosition = 0; parameters[multiplePosition].instance != 0; multiplePosition++)
       ; /* Iterate over parameters to find multiple position */
     disambiguate(multipleParameters, multiplePosition);
     parameters[multiplePosition].instance = 0;		/* Restore multiple marker */

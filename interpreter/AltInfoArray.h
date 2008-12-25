@@ -8,6 +8,8 @@
 
 #include "AltInfo.h"
 
+/* CONSTANTS */
+
 
 /* TYPES */
 typedef AltEntry *(*AltEntryFinder)(Aint parameterNumber, Aint theInstance, Aint theClass);
@@ -21,10 +23,9 @@ typedef AltInfo AltInfoArray[];
 /* FUNCTIONS */
 extern AltInfo *duplicateAltInfoArray(AltInfoArray altInfos);
 extern int lastAltInfoIndex(AltInfoArray altInfos);
-extern void addGlobalAlternatives(AltInfoArray altInfos, AltEntryFinder finder);
-extern void addAlternativesFromLocation(AltInfoArray altInfos, Aint location, AltEntryFinder finder);
-extern void addAlternativesFromParameter(AltInfoArray altInfos, int paramIndex, AltEntryFinder);
-extern Bool checksPerformedOk(AltInfoArray altInfos, Bool execute);
+extern Bool anyCheckFailed(AltInfoArray altInfos, Bool execute);
 extern Bool anythingToExecute(AltInfoArray altInfos);
+extern Bool possible(void);
+extern AltInfo *findAllAlternatives(void);
 
 #endif

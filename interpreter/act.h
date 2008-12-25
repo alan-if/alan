@@ -15,13 +15,9 @@
 
 /* DATA */
 
-/* trycheck() execute flags */
-#define EXECUTE TRUE
-#define DONT_EXECUTE FALSE
 
 /* FUNCTIONS */
 
-extern Bool possible(void);
 extern Bool exitto(int to, int from);
 extern void action(ParamEntry *plst);
 extern void go(int location, int dir);

@@ -21,45 +21,22 @@ static void setupInstances(int instanceMax, int attributeCount) {
 
 }
 
-static void buildGameStateStack(int depth, int attributeCount) {
-  int i;
-
-  if (depth == 0)
-    gameState = NULL;
-  else {
-    gameState = allocate(depth*sizeof(GameState));
-    for (i = 0; i<depth; i++) {
-      gameState[i].admin = allocate((header->instanceMax+1)*sizeof(AdminEntry));
-      gameState[i].attributes = allocate((header->instanceMax+1)*attributeCount*sizeof(AttributeEntry));
-    }
-  }
-
-  gameStateTop = depth;
-  gameStateSize = depth;
-}
-
-
-static void testPushGameState() {
+Ensure pushGameStateCollectsAdminAndAttributesData() {
   int instanceCount = 3;
   int adminSize = (instanceCount+1)*sizeof(AdminEntry)/sizeof(Aword);
   int attributeCount = 5;
   int attributeAreaSize = attributeCount*instanceCount*sizeof(AttributeEntry)/sizeof(Aword);
 
-  buildGameStateStack(0, instanceCount);
   setupInstances(instanceCount, attributeCount);
-
   eventQueueTop = 0;
 
-  pushGameState();
+  rememberGameState();
 
-  assert_not_equal(NULL, gameState);
-  assert_equal(1, gameStateTop);
-  assert_true(memcmp(gameState->attributes, attributes, attributeAreaSize*sizeof(Aword)) == 0);
-  assert_true(memcmp(gameState->admin, admin, adminSize*sizeof(Aword)) == 0);
+  assert_true(memcmp(gameState.attributes, attributes, attributeAreaSize*sizeof(Aword)) == 0);
+  assert_true(memcmp(gameState.admin, admin, adminSize*sizeof(Aword)) == 0);
 }
 
-
-static void testPushAndPopAttributesWithSet() {
+Ensure pushAndPopCanHandleSetAttributes() {
   int instanceCount = 1;
   int attributeCount = 1;
   Set *originalSet = newSet(3);
@@ -82,54 +59,49 @@ static void testPushAndPopAttributesWithSet() {
   initEntry->attributeCode = 1;
   memory[1+sizeof(SetInitEntry)/sizeof(Aword)] = EOF;
 
-  buildGameStateStack(0, instanceCount);
 
-  pushGameState();
+  rememberGameState();
 
-  assert_not_equal(gameState->sets[0], (Aword)originalSet);
-  assert_true(equalSets((Set*)gameState->sets[0], originalSet));
+  assert_not_equal(gameState.sets[0], (Aword)originalSet);
+  assert_true(equalSets((Set*)gameState.sets[0], originalSet));
 
   Set *modifiedSet = newSet(4);
   attributes[0].value = (Aword)modifiedSet;
   addToSet(modifiedSet, 11);
   addToSet(modifiedSet, 12);
-  assert_false(equalSets((Set*)gameState->sets[0], modifiedSet));
+  assert_false(equalSets((Set*)gameState.sets[0], modifiedSet));
   assert_true(equalSets((Set*)attributes[0].value, modifiedSet));
 
-  popGameState();
+  recallGameState();
 
   assert_not_equal(attributes[0].value, (Aword)modifiedSet);
   assert_not_equal(attributes[0].value, (Aword)originalSet);
   assert_true(equalSets((Set*)attributes[0].value, originalSet));
 }
 
-static void testPushAndPopAttributeState() {
+Ensure canPushAndPopAttributeState() {
   int instanceCount = 2;
   setupInstances(instanceCount, 3);
-  buildGameStateStack(0, instanceCount);
 
   attributes[0].value = 12;
   attributes[2].value = 3;
 
-  pushGameState();
-
-  assert_not_equal(NULL, gameState);
-  assert_equal(1, gameStateTop);
+  rememberGameState();
 
   attributes[0].value = 11;
   attributes[2].value = 4;
 
-  pushGameState();
+  rememberGameState();
 
   attributes[0].value = 55;
   attributes[2].value = 55;
 
-  popGameState();
+  recallGameState();
 
   assert_equal(11, attributes[0].value);
   assert_equal(4, attributes[2].value);
 
-  popGameState();
+  recallGameState();
 
   assert_equal(12, attributes[0].value);
   assert_equal(3, attributes[2].value);
@@ -137,32 +109,28 @@ static void testPushAndPopAttributeState() {
 
 
 
-static void testPushAndPopAdminState() {
+Ensure canPushAndPopAdminState() {
   int INSTANCE_COUNT = 2;
   int INSTANCE1_LOCATION = 12;
   int INSTANCE2_LOCATION = 22;
   int INSTANCE2_FIRST_SCRIPT = 3;
 
   setupInstances(INSTANCE_COUNT, 3);
-  buildGameStateStack(0, INSTANCE_COUNT);
 
   admin[1].location = INSTANCE1_LOCATION;
   admin[2].script = INSTANCE2_FIRST_SCRIPT;
 
-  pushGameState();
-
-  assert_not_equal(NULL, gameState);
-  assert_equal(1, gameStateTop);
+  rememberGameState();
 
   admin[2].location = INSTANCE2_LOCATION;
-;
+
   admin[2].alreadyDescribed = 2;
   admin[2].visitsCount = 13;
   admin[2].script = 33;
   admin[2].step = 3886;
   admin[2].waitCount = 38869878;
 
-  pushGameState();
+  rememberGameState();
 
   admin[2].location = 55;
   admin[2].alreadyDescribed = 55;
@@ -171,7 +139,7 @@ static void testPushAndPopAdminState() {
   admin[2].step = 55;
   admin[2].waitCount = 55;
 
-  popGameState();
+  recallGameState();
 
   assert_equal(INSTANCE2_LOCATION, admin[2].location);
   assert_equal(2, admin[2].alreadyDescribed);
@@ -180,85 +148,116 @@ static void testPushAndPopAdminState() {
   assert_equal(3886, admin[2].step);
   assert_equal(38869878, admin[2].waitCount);
 
-  popGameState();
+  recallGameState();
 
   assert_equal(INSTANCE1_LOCATION, admin[1].location);
   assert_equal(INSTANCE2_FIRST_SCRIPT, admin[2].script);
 }
 
-static void testPushAndPopEvents() {
-  int instanceCount = 1;
-
-  buildGameStateStack(1, instanceCount);
+Ensure canPushAndPopEvents() {
   setupInstances(1, 1);
 
   eventQueue = NULL;
   eventQueueTop = 0;
 
-  pushGameState();
+  rememberGameState();
 
   eventQueue = allocate(5*sizeof(EventQueueEntry));
   eventQueueTop = 2;
   eventQueue[1].after = 47;
 
-  pushGameState();
+  rememberGameState();
 
   eventQueueTop = 0;
   eventQueue[1].after = 1;
 
-  popGameState();
+  recallGameState();
 
   assert_equal(2, eventQueueTop);
   assert_equal(47, eventQueue[1].after);
 
-  popGameState();
+  recallGameState();
 
   assert_equal(0, eventQueueTop);
 }
 
-static void testRememberCommand() {
-  int instanceCount = 1;
+Ensure doesNotCrashOnSequenceOfRememberForgetAndRecall() {
+	setupInstances(12, 4);
+	rememberGameState();
+	forgetGameState();
+	rememberGameState();
+	rememberGameState();
+	forgetGameState();
+	recallGameState();
+	rememberGameState();
+	forgetGameState();
+	rememberGameState();
+	rememberGameState();
+	rememberGameState();
+	forgetGameState();
+	rememberGameState();
+	forgetGameState();
+	recallGameState();
+	rememberGameState();
+	forgetGameState();
+	rememberGameState();
+	forgetGameState();
+	recallGameState();
+	rememberGameState();
+}
+
+Ensure canRememberPlayerCommand() {
   int i;
-  char *command = "n, w, e and south";
+  char *command = "go w, e and south";
 
   playerWords[0].code = EOF;
   for (i = 0; i < 4; i++)
     playerWords[i].code = i;
   playerWords[4].code = EOF;
 
-  buildGameStateStack(1, instanceCount);
-
   firstWord = 0;
   lastWord = 3;
   playerWords[firstWord].start = command;
   playerWords[lastWord].end = &command[4];
+
+  setupInstances(3, 3);
+
+  rememberGameState();
   rememberCommands();
+  recallGameState();
 
-  assert_true(strcmp(gameState[0].playerCommand, command) != 0);
-  assert_true(strncmp(gameState[0].playerCommand, command, 3) == 0);
+  assert_true(strcmp(playerCommand, command) != 0);
+  assert_true(strncmp(playerCommand, command, 3) == 0);
 }
 
-static void testUndoStackFreesMemory() {
-  int instanceCount = 1;
+Ensure freeGameStateFreesMemory() {
+	gameState.admin = allocate(1);
+	gameState.attributes = allocate(1);
+	gameState.eventQueue = allocate(1);
+	gameState.scores = allocate(1);
+	gameState.sets = allocate(1);
+	gameState.strings = allocate(1);
 
-  buildGameStateStack(1, instanceCount);
-  gameState[0].admin = allocate(100);
+	freeGameState();
 
-  initStateStack();
-
-  assert_equal(0, gameStateTop);
-  assert_equal(NULL, gameState[0].admin);
-  assert_equal(NULL, gameState[0].attributes);
+	assert_equal(gameState.admin, 0);
+	assert_equal(gameState.attributes, 0);
+	assert_equal(gameState.eventQueue, 0);
+	assert_equal(gameState.scores, 0);
+	assert_equal(gameState.sets, 0);
+	assert_equal(gameState.strings, 0);
 }
+
 
 TestSuite *stateTests() {
   TestSuite *suite = create_test_suite();
-  add_test(suite, testUndoStackFreesMemory);
-  add_test(suite, testRememberCommand);
-  add_test(suite, testPushGameState);
-  add_test(suite, testPushAndPopAttributeState);
-  add_test(suite, testPushAndPopAdminState);
-  add_test(suite, testPushAndPopEvents);
-  add_test(suite, testPushAndPopAttributesWithSet);
+  add_test(suite, freeGameStateFreesMemory);
+  add_test(suite, canRememberPlayerCommand);
+  add_test(suite, pushGameStateCollectsAdminAndAttributesData);
+  add_test(suite, canPushAndPopAttributeState);
+  add_test(suite, canPushAndPopAdminState);
+  add_test(suite, canPushAndPopEvents);
+  add_test(suite, pushAndPopCanHandleSetAttributes);
+  add_test(suite, doesNotCrashOnSequenceOfRememberForgetAndRecall);
   return suite;
 }

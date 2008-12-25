@@ -26,6 +26,7 @@ void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int 
   altInfo->end = FALSE;
 }
 
+
 /*----------------------------------------------------------------------*/
 static char *idOfClass(int theClass) {
 	return (char *)pointerTo(classes[theClass].id);
@@ -61,28 +62,31 @@ static void traceAltInfo(AltInfo *alt) {
 
 
 /*----------------------------------------------------------------------*/
-static void traceVerbCheck(AltInfo *alt)
+static void traceVerbCheck(AltInfo *alt, Bool execute)
 {
-  printf("\n<VERB %d, ", current.verb);
-  traceAltInfo(alt);
-  printf(", CHECK:>\n");
+	if (sectionTraceOption && execute) {
+		printf("\n<VERB %d, ", current.verb);
+		traceAltInfo(alt);
+		printf(", CHECK:>\n");
+	}
 }
 
 
 /*======================================================================*/
-Bool checkPerformedOk(AltInfo *alt, Bool execute)
+Bool checkFailed(AltInfo *altInfo, Bool execute)
 {
-  if (alt->alt != NULL && alt->alt->checks != 0) {
-    if (sectionTraceOption && execute)
-      traceVerbCheck(alt);
-    if (!tryChecks(alt->alt->checks, execute)) return FALSE;
-    if (fail) return FALSE;
-  }
-  return TRUE;
+	if (altInfo->alt != NULL && altInfo->alt->checks != 0) {
+		traceVerbCheck(altInfo, execute);
+		// TODO Why does this not generate a regression error with !
+		// Need a new regression case?
+		if (checksFailed(altInfo->alt->checks, execute)) return TRUE;
+		if (fail) return TRUE;
+	}
+	return FALSE;
 }
 
 
-/*======================================================================*/
+/*----------------------------------------------------------------------*/
 static void traceVerbExecution(AltInfo *alt)
 {
   if (sectionTraceOption) {

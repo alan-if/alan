@@ -7,6 +7,7 @@ UNIT2SRC = \
 	unit2.c \
 	AltInfoArrayTests.c \
 	AltInfoTests.c \
+	StateStackTests.c \
 	actTests.c \
 	exeTests.c \
 	interTests.c \
@@ -15,8 +16,8 @@ UNIT2SRC = \
 	reverseTests.c \
 	saveTests.c \
 	setTests.c \
-	stateTests.c \
 	stackTests.c \
+	stateTests.c \
 	sysdepTests.c \
 
 UNIT2REQUIREDSRCS = \
@@ -42,6 +43,7 @@ MAINSRCS = \
 	CheckEntryArray.c \
 	Container.c \
 	Location.c \
+	StateStack.c \
 	act.c \
 	args.c \
 	debug.c \

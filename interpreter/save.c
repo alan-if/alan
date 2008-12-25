@@ -344,11 +344,10 @@ void restore(void)
   gets(str);
 #endif
 
-  if (str[0] == '\0')
-    strcpy(str, saveFileName);
   col = 1;
-  if (str[0] == '\0')
-    strcpy(str, saveFileName);        /* Use the name temporarily */
+  if (str[0] == '\0') {
+	  strcpy(str, saveFileName);
+  }
   if ((saveFile = fopen(str, READ_MODE)) == NULL)
     error(M_SAVEMISSING);
   strcpy(saveFileName, str);          /* Save it for future use */

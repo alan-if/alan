@@ -14,7 +14,6 @@ static Stack theStack;
 
 
 /*----------------------------------------------------------------------*/
-
 static void setUp() {
   theStack = createStack(50);
   setInterpreterStack(theStack);

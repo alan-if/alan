@@ -19,10 +19,10 @@
 <folderInfo id="cdt.managedbuild.toolchain.gnu.macosx.base.1923774585.1163271343" name="/" resourcePath="">
 <toolChain id="cdt.managedbuild.toolchain.gnu.macosx.base.1844889432" name="cdt.managedbuild.toolchain.gnu.macosx.base" superClass="cdt.managedbuild.toolchain.gnu.macosx.base">
 <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.MachO" id="cdt.managedbuild.target.gnu.platform.macosx.base.1420709182" name="Debug Platform" osList="macosx" superClass="cdt.managedbuild.target.gnu.platform.macosx.base"/>
-<builder enableAutoBuild="false" id="cdt.managedbuild.target.gnu.builder.macosx.base.977574992" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" stopOnErr="false" superClass="cdt.managedbuild.target.gnu.builder.macosx.base"/>
+<builder enableAutoBuild="true" id="cdt.managedbuild.target.gnu.builder.macosx.base.977574992" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" stopOnErr="false" superClass="cdt.managedbuild.target.gnu.builder.macosx.base"/>
 <tool id="cdt.managedbuild.tool.macosx.c.linker.macosx.base.1600303934" name="MacOS X C Linker" superClass="cdt.managedbuild.tool.macosx.c.linker.macosx.base">
 <option id="macosx.c.link.option.paths.331356614" name="Library search path (-L)" superClass="macosx.c.link.option.paths" valueType="libPaths">
-<listOptionValue builtIn="false" value="../cgreen"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cgreen/src}&quot;"/>
 </option>
 <inputType id="cdt.managedbuild.tool.macosx.c.linker.input.1739072779" superClass="cdt.managedbuild.tool.macosx.c.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -31,13 +31,13 @@
 </tool>
 <tool id="cdt.managedbuild.tool.macosx.cpp.linker.macosx.base.578248478" name="MacOS X C++ Linker" superClass="cdt.managedbuild.tool.macosx.cpp.linker.macosx.base"/>
 <tool id="cdt.managedbuild.tool.gnu.assembler.macosx.base.1492005415" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.macosx.base">
-<option id="gnu.both.asm.option.include.paths.19772858" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath"/>
+<option id="gnu.both.asm.option.include.paths.19772858" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths"/>
 <inputType id="cdt.managedbuild.tool.gnu.assembler.input.1512561456" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.archiver.macosx.base.2065404916" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.macosx.base"/>
 <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.base.1324237384" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.base"/>
 <tool id="cdt.managedbuild.tool.gnu.c.compiler.macosx.base.1378687659" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.macosx.base">
-<option id="gnu.c.compiler.option.include.paths.427789122" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+<option id="gnu.c.compiler.option.include.paths.427789122" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cgreen/include}&quot;"/>
 </option>
 <inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1121554017" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -50,9 +50,7 @@
 </configuration>
 </storageModule>
 
-<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-<externalSettings containerId="Cgreen;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier"/>
-</storageModule>
+<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 <storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 <storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 
@@ -78,6 +76,9 @@
 </target>
 </buildTargets>
 </storageModule>
+
+
+
 <storageModule moduleId="scannerConfiguration">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">

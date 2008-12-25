@@ -20,6 +20,12 @@
 #define NO_INSTANCE (-1)
 #define NO_CLASS (-1)
 
+/* tryCheck() flags */
+#ifndef EXECUTE_CHECK_BODY_ON_FAIL
+#define EXECUTE_CHECK_BODY_ON_FAIL TRUE
+#define DONT_EXECUTE_CHECK_BODY_ON_FAIL FALSE
+#endif
+
 
 /* TYPES */
 
@@ -42,7 +48,7 @@ typedef struct AltInfo {
 /* FUNCTIONS */
 extern void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class);
 extern Bool executedOk(AltInfo *altInfo);
-extern Bool checkPerformedOk(AltInfo *altInfo, Bool execute);
+extern Bool checkFailed(AltInfo *altInfo, Bool execute);
 extern Bool executable(AltInfo *altInfo);
 
 #endif

@@ -84,7 +84,8 @@ extern Bool capitalize;
 #define endOfTable(x) eot((Aword *) (x))
 
 
-/* Functions: */
+/* FUNCTIONS: */
+
 #ifndef DMALLOC
 extern void *allocate(unsigned long len);
 #else

@@ -57,8 +57,8 @@ static void addAlternative(
 }
 
 
-/*======================================================================*/
-void addGlobalAlternatives(
+/*----------------------------------------------------------------------*/
+static void addGlobalAlternatives(
     AltInfoArray altInfos,
     AltEntryFinder finder
 ) {
@@ -86,8 +86,8 @@ static void addAlternativesFromParents(
 }
 
 
-/*======================================================================*/
-void addAlternativesFromLocation(
+/*----------------------------------------------------------------------*/
+static void addAlternativesFromLocation(
     AltInfoArray altInfos,
     Aint location,
     AltEntryFinder finder
@@ -106,8 +106,8 @@ void addAlternativesFromLocation(
 }
 
 
-/*======================================================================*/
-void addAlternativesFromParameter(
+/*----------------------------------------------------------------------*/
+static void addAlternativesFromParameter(
     AltInfoArray altInfos,
     int parameterNumber,
     AltEntryFinder finder
@@ -133,17 +133,18 @@ void addAlternativesFromParameter(
 
 
 /*======================================================================*/
-Bool checksPerformedOk(AltInfoArray altInfo, Bool execute)
+Bool anyCheckFailed(AltInfoArray altInfo, Bool execute)
 {
   int altIndex;
 
   for (altIndex = 0; !altInfo[altIndex].end; altIndex++) {
     current.instance = altInfo[altIndex].instance;
-    if (!checkPerformedOk(&altInfo[altIndex], execute))
-      return FALSE;
+    if (checkFailed(&altInfo[altIndex], execute))
+      return TRUE;
   }
-  return TRUE;
+  return FALSE;
 }
+
 
 /*======================================================================*/
 Bool anythingToExecute(AltInfo altInfo[])
@@ -155,6 +156,76 @@ Bool anythingToExecute(AltInfo altInfo[])
     if (executable(&altInfo[altIndex]))
       return TRUE;
   return FALSE;
+}
+
+
+/*======================================================================*/
+Bool possible(void)
+{
+	Bool anything;
+
+	AltInfo *allAlternatives = findAllAlternatives();
+
+	if (anyCheckFailed(allAlternatives, DONT_EXECUTE_CHECK_BODY_ON_FAIL))
+		return FALSE;
+
+	anything = anythingToExecute(allAlternatives);
+	free(allAlternatives);
+	return anything;
+}
+
+
+/*----------------------------------------------------------------------*/
+static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode,
+					    Aint parameter)
+{
+  AltEntry *alt;
+  VerbEntry *verbEntry;
+
+  if (verbTableAddress == 0) return NULL;
+
+  for (verbEntry = (VerbEntry *) pointerTo(verbTableAddress); !endOfTable(verbEntry); verbEntry++)
+    if (verbEntry->code == verbCode) {
+      for (alt = (AltEntry *) pointerTo(verbEntry->alts); !endOfTable(alt); alt++) {
+	if (alt->param == parameter || alt->param == 0)
+	  return alt;
+      }
+      return NULL;
+    }
+  return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static AltEntry *alternativeFinder(
+    Aint parameter,		/* IN - Which parameter to match */
+    Aint theInstance,		/* IN - Which instance to check */
+    Aint theClass		/* IN - Which class to check */
+)
+{
+  if (theClass != NO_CLASS)
+    return findAlternative(classes[theClass].verbs, current.verb, parameter);
+  else if (theInstance != NO_INSTANCE)
+    return findAlternative(instances[theInstance].verbs, current.verb, parameter);
+  else
+    return findAlternative(header->verbTableAddress, current.verb, parameter);
+}
+
+
+/*======================================================================*/
+AltInfo *findAllAlternatives(void) {
+  int parameter;
+  AltInfo altInfos[1000];
+  altInfos[0].end = TRUE;
+
+  addGlobalAlternatives(altInfos, &alternativeFinder);
+
+  addAlternativesFromLocation(altInfos, current.location, &alternativeFinder);
+
+  for (parameter = 1; parameters[parameter-1].instance != EOF; parameter++) {
+    addAlternativesFromParameter(altInfos, parameter, &alternativeFinder);
+  }
+  return duplicateAltInfoArray(altInfos);
 }
 
 

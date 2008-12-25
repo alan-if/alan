@@ -160,7 +160,7 @@ void setLocal(Stack theStack, Aint framesBelow, Aint variableNumber, Aword value
   if (framesBelow != 0)
     for (frameCount = framesBelow; frameCount != 0; frameCount--)
       frame = theStack->stack[frame-1];
-  
+
   theStack->stack[frame + variableNumber-1] = value;
 }
 

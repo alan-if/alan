@@ -1,13 +1,10 @@
 #include "Location.h"
 
-#include "acode.h"
-#include "types.h"
 #include "main.h"
 #include "options.h"
 #include "parse.h"
 #include "inter.h"
 #include "exe.h"
-#include "act.h"
 #include "CheckEntryArray.h"
 #include "debug.h"
 
@@ -31,7 +28,7 @@ void go(int location, int dir)
 						traceSay(location);
 						printf("(%d), Checking:>\n", location);
 					}
-					ok = tryChecks(theExit->checks, EXECUTE);
+					ok = !checksFailed(theExit->checks, EXECUTE_CHECK_BODY_ON_FAIL);
 				}
 				if (ok) {
 					oldloc = location;
