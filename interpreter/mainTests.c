@@ -3,12 +3,12 @@
 #define RUNNING_UNITTESTS
 #include "main.c"
 
-static void testUpdateColumn() {
+Ensure testUpdateColumn() {
   assert_true(updateColumn(0, "\n") == 1);
   assert_true(updateColumn(11, "123456789") == 20);
 }
 
-static void testCopyAttributes() {
+Ensure canCopyAttributes() {
   AttributeEntry *attributeArea;
   AttributeEntry *a = (AttributeEntry *)&memory[1];
 
@@ -60,7 +60,7 @@ static void testCopyAttributes() {
   assert_true(*(Aword*)&admin[2].attributes[2] == EOF);
 }
 
-static void testPunctuationNext() {
+Ensure testPunctuationNext() {
   assert_true(punctuationNext("."));
   assert_true(punctuationNext("!"));
   assert_true(punctuationNext("?"));
@@ -71,7 +71,7 @@ static void testPunctuationNext() {
   assert_true(!punctuationNext("$p."));
 }
 
-static void testSpaceEquivalent(){
+Ensure testSpaceEquivalent(){
   assert_true(isSpaceEquivalent("$p"));
   assert_true(isSpaceEquivalent("$pafdjljf"));
   assert_true(isSpaceEquivalent("$t"));
@@ -84,7 +84,7 @@ static void testSpaceEquivalent(){
   assert_true(isSpaceEquivalent(" "));
 }
 
-static void testMemoryStartForPre3_0alpha5IsShorter() {
+Ensure canHandleMemoryStartForPre3_0alpha5IsShorter() {
   char version[4];
   version[3] = 3;
   version[2] = 0;
@@ -94,6 +94,14 @@ static void testMemoryStartForPre3_0alpha5IsShorter() {
   assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==memoryStart(version));
 }
 
+Ensure canSetEof() {
+	ParamEntry parameters[10];
+
+	setEndOfList(&parameters[7]);
+	assert_false(isEndOfList(&parameters[0]));
+	assert_true(isEndOfList(&parameters[7]));
+}
+
 TestSuite *mainTests()
 {
   TestSuite *suite = create_test_suite();
@@ -101,8 +109,9 @@ TestSuite *mainTests()
   add_test(suite, testSpaceEquivalent);
   add_test(suite, testPunctuationNext);
   add_test(suite, testUpdateColumn);
-  add_test(suite, testCopyAttributes);
-  add_test(suite, testMemoryStartForPre3_0alpha5IsShorter);
+  add_test(suite, canCopyAttributes);
+  add_test(suite, canHandleMemoryStartForPre3_0alpha5IsShorter);
+  add_test(suite, canSetEof);
 
   return suite;
 }

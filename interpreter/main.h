@@ -68,20 +68,18 @@ extern int pageLength, pageWidth;
 
 /* Long jump buffer for restart, errors and undo */
 extern jmp_buf restartLabel;
-
 extern jmp_buf returnLabel;
+extern jmp_buf forfeitLabel;
 #define NO_JUMP_RETURN 0
 #define ERROR_RETURN 1
 #define UNDO_RETURN 2
 
-extern jmp_buf forfeitLabel;
 
 extern Bool fail;
 extern Bool anyOutput;
 extern Bool needSpace;
 extern Bool capitalize;
 
-#define endOfTable(x) eot((Aword *) (x))
 
 
 /* FUNCTIONS: */
@@ -102,7 +100,13 @@ extern void para(void);
 extern void newline(void);
 extern void printAndLog(char string[]);
 
-extern Bool eot(Aword *adr);
+#define isEndOfList(x) implementationOfIsEndOfList((Aword *) (x))
+extern Bool implementationOfIsEndOfList(Aword *adr);
+#define setEndOfList(x) implementationOfSetEndOfList((Aword *) (x))
+extern void implementationOfSetEndOfList(Aword *adr);
+#define clearList(x) implementationOfSetEndOfList((Aword *) &(x[0]))
+extern void implementationOfSetEndOfList(Aword *adr);
+
 extern Bool isObject(Aword x);
 extern Bool isContainer(Aword x);
 extern Bool isActor(Aword x);

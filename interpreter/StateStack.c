@@ -69,9 +69,7 @@ void pushGameState(StateStack stateStack, void *gameState) {
 	memcpy(element, gameState, stateStack->elementSize);
     ensureSpaceForGameState(stateStack);
     stateStack->playerCommands[stateStack->stackPointer] = NULL;
-	//printf("Push:StateStackPointer = %d, StateStack[StateStackPointer] = %p\n", stateStack->stackPointer, stateStack->stack[stateStack->stackPointer]);
     stateStack->stack[stateStack->stackPointer++] = element;
-	//printf("Push:StateStackPointer = %d, StateStack[%d] = %p\n", stateStack->stackPointer, stateStack->stackPointer, stateStack->stack[stateStack->stackPointer-1]);
 }
 
 
@@ -87,7 +85,6 @@ void popGameState(StateStack stateStack, void *gameState, char** playerCommand) 
 		syserr("Popping GameState from empty stack");
 	else {
 		stateStack->stackPointer--;
-		//printf("Pop:StateStackPointer = %d, StateStack[StateStackPointer] = %p\n", stateStack->stackPointer, stateStack->stack[stateStack->stackPointer]);
 		memcpy(gameState, stateStack->stack[stateStack->stackPointer], stateStack->elementSize);
 		free(stateStack->stack[stateStack->stackPointer]);
 		*playerCommand = stateStack->playerCommands[stateStack->stackPointer];

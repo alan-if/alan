@@ -24,7 +24,7 @@ LIBS	=
 #
 #Settings for Windows GLK variant
 WINGLKROOT = ../../WindowsGLK
-WINGLKDEFS = -DHAVE_WINGLK
+WINGLKDEFS = -DHAVE_WINGLK_X
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
 
@@ -86,7 +86,7 @@ include sources.mk
 all:
 	$(MAKE) $(SYSTEM)
 
-Darwin: arun #dumpacd
+Darwin: arun unit2 #dumpacd
 
 
 Cygwin: arun winarun glkarun gararun dumpacd
@@ -225,11 +225,11 @@ unit2: LIBS = $(CGREENROOT)/libcgreen.a
 
 unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
 	gcc -o unit2 $(UNIT2OBJECTS) $(LDFLAGS) $(LIBS)
-	@./unit2
 
 unitTest:
 	-@if test -d $(CGREENROOT) ; then \
 		$(MAKE) unit2 ; \
+		./unit2 ; \
 	fi
 
 #+++++++++++++++++++++++++++++++++

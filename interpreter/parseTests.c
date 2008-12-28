@@ -7,10 +7,6 @@ static void makeEOS(ElementEntry *element) {
   element->code = EOS;
 }
 
-static void makeEOF(ElementEntry *element) {
-  *((Aword *)element) = EOF;	/* End of table */
-}
-
 static void makeParameterElement(ElementEntry *element) {
   element->code = 0;
 }
@@ -33,7 +29,7 @@ static void makeDictionaryEntry(int index, int code, int classBits) {
 
 
 /*----------------------------------------------------------------------*/
-static void testMatchEndOfSyntax() {
+Ensure canMatchEndOfSyntax() {
   ElementEntry *element;
   ElementEntry *elementTable;
 
@@ -45,13 +41,13 @@ static void testMatchEndOfSyntax() {
   wordIndex = 0;
 
   /* First try an empty parse tree */
-  makeEOF(elementTable);
+  setEndOfList(elementTable);
   element = matchEndOfSyntax(elementTable);
   assert_equal(NULL, element);
 
   /* Then one with a single EOS */
   makeEOS(&elementTable[0]);
-  makeEOF(&elementTable[1]);
+  setEndOfList(&elementTable[1]);
 
   element = matchEndOfSyntax(elementTable);
   assert_not_equal(NULL, element);
@@ -61,7 +57,7 @@ static void testMatchEndOfSyntax() {
 }
 
 /*----------------------------------------------------------------------*/
-static void testMatchParameterElement() {
+Ensure canMatchParameterElement() {
   ElementEntry *element;
   ElementEntry *elementTable;
 
@@ -69,17 +65,17 @@ static void testMatchParameterElement() {
   elementTable = (ElementEntry *)&memory[50];
 
   /* No words */
-  playerWords[0].code = EOF;
+  setEndOfList(&playerWords[0]);
   wordIndex = 0;
 
   /* First test an empty parse tree */
-  makeEOF(elementTable);
+  setEndOfList(elementTable);
   element = matchEndOfSyntax(elementTable);
   assert_equal(NULL, element);
 
   /* Then one with a single EOS */
   makeParameterElement(&elementTable[0]);
-  makeEOF(&elementTable[1]);
+  setEndOfList(&elementTable[1]);
 
   element = matchParameterElement(elementTable);
   assert_not_equal(NULL, element);
@@ -88,7 +84,7 @@ static void testMatchParameterElement() {
   /* Parameter entry at the end */
   makeEOS(&elementTable[0]);
   makeParameterElement(&elementTable[1]);
-  makeEOF(&elementTable[2]);
+  setEndOfList(&elementTable[2]);
   element = matchParameterElement(elementTable);
   assert_not_equal(NULL, element);
   assert_equal(0, element->code);
@@ -97,7 +93,7 @@ static void testMatchParameterElement() {
 }
 
 /*----------------------------------------------------------------------*/
-static void testMatchParseTree() {
+Ensure testMatchParseTree() {
   ElementEntry *element;
   ElementEntry *elementTable;
   Bool plural;
@@ -111,20 +107,20 @@ static void testMatchParseTree() {
   wordIndex = 0;
 
   /* First test EOF with empty parse tree */
-  makeEOF(elementTable);
+  setEndOfList(elementTable);
   element = matchParseTree(NULL, elementTable, &plural);
   assert_equal(NULL, element);
 
   /* Test EOF with EOS */
   makeEOS(&elementTable[0]);
-  makeEOF(&elementTable[1]);
+  setEndOfList(&elementTable[1]);
   element = matchParseTree(NULL, elementTable, &plural);
   assert_equal(elementTable, element);
 
   /* Test EOF with word, EOS */
   makeWordElement(&elementTable[0], 1, 0);
   makeEOS(&elementTable[1]);
-  makeEOF(&elementTable[2]);
+  setEndOfList(&elementTable[2]);
   element = matchParseTree(NULL, elementTable, &plural);
   assert_equal(&elementTable[1], element);
 
@@ -135,7 +131,7 @@ static void testMatchParseTree() {
   playerWords[1].code = EOF;
   makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
   makeEOS(&elementTable[1]);
-  makeEOF(&elementTable[2]);
+  setEndOfList(&elementTable[2]);
   element = matchParseTree(parameters, elementTable, &plural);
   assert_equal(&elementTable[1], element);
   free(dictionary);
@@ -143,7 +139,7 @@ static void testMatchParseTree() {
 }
 
 /*----------------------------------------------------------------------*/
-static void testSetupParameterForWord() {
+Ensure testSetupParameterForWord() {
   ACodeHeader acdHeader;
   header = &acdHeader;
   header->maxParameters = 10;
@@ -164,19 +160,26 @@ static void testSetupParameterForWord() {
   assert_equal(1, parameters[0].firstWord);
   assert_equal(1, parameters[0].lastWord);
 
-  assert_equal(EOF, parameters[1].instance);
+  assert_true(isEndOfList(&parameters[1]));
 
   free(dictionary);
   free(memory);
 }
 
+Ensure canSeeBitsInFlag(void) {
+	assert_true(hasBit(-1, OMNIBIT));
+	assert_false(hasBit(0, OMNIBIT));
+	assert_true(hasBit(-1, MULTIPLEBIT));
+	assert_false(hasBit(0, MULTIPLEBIT));
+}
 
 TestSuite *parseTests()
 {
   TestSuite *suite = create_test_suite();
   add_test(suite, testSetupParameterForWord);
-  add_test(suite, testMatchEndOfSyntax);
-  add_test(suite, testMatchParameterElement);
+  add_test(suite, canMatchEndOfSyntax);
+  add_test(suite, canMatchParameterElement);
   add_test(suite, testMatchParseTree);
+  add_test(suite, canSeeBitsInFlag);
   return suite;
 }

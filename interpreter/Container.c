@@ -53,7 +53,7 @@ Bool passesContainerLimits(
   props = instances[theContainer].container;
 
   if (container[props].limits != 0) { /* Any limits at all? */
-    for (lim = (LimEntry *) pointerTo(container[props].limits); !endOfTable(lim); lim++)
+    for (lim = (LimEntry *) pointerTo(container[props].limits); !isEndOfList(lim); lim++)
       if (lim->atr == 1-I_COUNT) {
 	if (countInContainer(theContainer) >= lim->val) {
 	  interpret(lim->stms);

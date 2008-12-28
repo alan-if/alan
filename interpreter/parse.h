@@ -29,10 +29,8 @@ extern int firstWord;
 extern int lastWord;
 
 extern ParamEntry *parameters;	/* List of parameters */
-extern Bool plural;
 
 extern LiteralEntry literal[];
-extern int litCount;
 
 extern int verbWord;
 

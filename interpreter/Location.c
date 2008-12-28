@@ -18,7 +18,7 @@ void go(int location, int dir)
 
 	theExit = (ExitEntry *) pointerTo(instances[location].exits);
 	if (instances[location].exits != 0)
-		while (!endOfTable(theExit)) {
+		while (!isEndOfList(theExit)) {
 			if (theExit->code == dir) {
 				ok = TRUE;
 				if (theExit->checks != 0) {
@@ -57,6 +57,22 @@ void go(int location, int dir)
 			theExit++;
 		}
 	error(M_NO_WAY);
+}
+
+
+/*======================================================================*/
+Bool exitto(int to, int from)
+{
+  ExitEntry *theExit;
+
+  if (instances[from].exits == 0)
+    return FALSE; /* No exits */
+
+  for (theExit = (ExitEntry *) pointerTo(instances[from].exits); !isEndOfList(theExit); theExit++)
+    if (theExit->target == to)
+      return TRUE;
+
+  return FALSE;
 }
 
 

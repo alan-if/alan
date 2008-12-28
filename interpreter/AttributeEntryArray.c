@@ -12,7 +12,7 @@ AttributeEntry *findAttribute(AttributeEntry *attributeTable,
   AttributeEntry *attribute = attributeTable;
   while (attribute->code != attributeCode) {
     attribute++;
-    if (endOfTable(attribute))
+    if (isEndOfList(attribute))
       syserr("Attribute not found.");
   }
   return attribute;

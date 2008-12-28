@@ -16,7 +16,7 @@ Bool checksFailed(Aaddr adr,	/* IN - ACODE address to check array */
 			interpret(chk->stms);
 		return TRUE;
 	} else {
-		while (!endOfTable(chk)) {
+		while (!isEndOfList(chk)) {
 			if (!evaluate(chk->exp)) {
 				if (execute == EXECUTE_CHECK_BODY_ON_FAIL)
 					interpret(chk->stms);

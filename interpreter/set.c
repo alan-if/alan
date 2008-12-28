@@ -38,7 +38,7 @@ void initSets(SetInitEntry *initTable)
   SetInitEntry *init;
   int i;
   
-  for (init = initTable; !endOfTable(init); init++) {
+  for (init = initTable; !isEndOfList(init); init++) {
     Set *set = newSet(init->size);
     Aword *member = pointerTo(init->setAddress);
     for (i = 0; i < init->size; i++, member++)

@@ -18,8 +18,6 @@
 
 /* FUNCTIONS */
 
-extern Bool exitto(int to, int from);
-extern void action(ParamEntry *plst);
-extern void go(int location, int dir);
+extern void action(ParamEntry *parameters, ParamEntry *multipleMatches);
 
 #endif

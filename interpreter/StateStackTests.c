@@ -70,6 +70,14 @@ Ensure canPushAndPopAGameState() {
 	assert_equal(poppedGameState.eventQueue, originalGameState.eventQueue);
 }
 
+Ensure canPush100Times(void) {
+	GameState gameState;
+	int i;
+
+	for (i = 0; i<100; i++)
+		pushGameState(stateStack, &gameState);
+}
+
 Ensure canRememberPlayerCommands() {
 	GameState gameState;
 	char *expectedPlayerCommands = "some player commands";
@@ -115,6 +123,7 @@ TestSuite *stateStackTests() {
   add_test(suite, canSeeAnEmptyStateStack);
   add_test(suite, extendsANonAllocatedStack);
   add_test(suite, canPushAndPopAGameState);
+  add_test(suite, canPush100Times);
   add_test(suite, pushClearsPlayerCommand);
   add_test(suite, willGenerateSyserrorWhenPoppingFromEmptyStack);
   add_test(suite, canRememberPlayerCommands);

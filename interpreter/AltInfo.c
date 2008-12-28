@@ -36,7 +36,7 @@ static char *idOfClass(int theClass) {
 /*----------------------------------------------------------------------*/
 static void traceInstanceAndItsClass(AltInfo *alt)
 {
-    traceSay(parameters[alt->parameter - 1].instance);
+    traceSay(parameters[alt->parameter-1].instance);
     printf(")");
     if (alt->class != NO_CLASS)
       printf(", inherited from class #%d (%s)", alt->class, idOfClass(alt->class));

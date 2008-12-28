@@ -40,6 +40,7 @@
 
 #include "CheckEntryArray.h"
 #include "Container.h"
+#include "Location.h"
 
 
 #define WIDTH 80
@@ -1359,10 +1360,10 @@ static ScriptEntry *scriptOf(Aint act) {
 	ScriptEntry *scr;
 
 	if (admin[act].script != 0) {
-		for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !endOfTable(scr); scr++)
+		for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !isEndOfList(scr); scr++)
 			if (scr->code == admin[act].script)
 				break;
-		if (!endOfTable(scr))
+		if (!isEndOfList(scr))
 			return scr;
 	}
 	return NULL;
