@@ -51,19 +51,20 @@ void describeInstances(void);
 
 
 /*----------------------------------------------------------------------*/
-static void printMessageUsingParameter(MsgKind message, int i) {
-	setupParameterForInstance(1, i);
-	printMessage(message);
-	restoreParameters();
+static void printMessageWithInstanceParameter(MsgKind message, int i) {
+	ParamEntry *parameters = createParameterList(NULL);
+	addParameterForInstance(parameters, i);
+	printMessageWithParameters(message, parameters);
+	free(parameters);
 }
 
 /*----------------------------------------------------------------------*/
-static void printMessageUsing2Parameters(MsgKind message, int instance1,
-		int instance2) {
-	setupParameterForInstance(1, instance1);
-	setupParameterForInstance(2, instance2);
-	printMessage(message);
-	restoreParameters();
+static void printMessageUsing2InstanceParameters(MsgKind message, int instance1, int instance2) {
+	ParamEntry *parameters = createParameterList(NULL);
+	addParameterForInstance(parameters, instance1);
+	addParameterForInstance(parameters, instance2);
+	printMessageWithParameters(message, parameters);
+	free(parameters);
 }
 
 
@@ -183,9 +184,11 @@ char *getStringFromFile(Aword fpos, Aword len)
 void score(Aword sc)
 {
 	if (sc == 0) {
-		setupParameterForInteger(1, current.score);
-		setupParameterForInteger(2, header->maximumScore);
-		printMessage(M_SCORE);
+		ParamEntry *messageParameters = createParameterList(NULL);
+		addParameterForInteger(messageParameters, current.score);
+		addParameterForInteger(messageParameters, header->maximumScore);
+		printMessageWithParameters(M_SCORE, messageParameters);
+		free(messageParameters);
 	} else {
 		current.score += scores[sc-1];
 		scores[sc-1] = 0;
@@ -225,9 +228,13 @@ Bool confirm(MsgKind msgno)
 
 /*----------------------------------------------------------------------*/
 static void sayUndoneCommand(char *words) {
+	ParamEntry messageParameters[2];
+
 	current.location = where(HERO, TRUE);
-	setupParameterForString(1, words);
-	printMessage(M_UNDONE);
+	clearList(messageParameters);
+	addParameterForString(&messageParameters[0], words);
+	setEndOfList(&messageParameters[1]);
+	printMessageWithParameters(M_UNDONE, messageParameters);
 }
 
 
@@ -423,16 +430,16 @@ Aword attributeOf(Aint id, Aint atr)
 
 
 /*======================================================================*/
-Aword getStringAttribute(Aint id, Aint atr)
+char *getStringAttribute(Aint id, Aint atr)
 {
-	return (Aword) strdup((char *)attributeOf(id, atr));
+	return strdup((char *)attributeOf(id, atr));
 }
 
 
 /*======================================================================*/
-Aword getSetAttribute(Aint id, Aint atr)
+Set *getSetAttribute(Aint id, Aint atr)
 {
-	return (Aword) copySet((Set *)attributeOf(id, atr));
+	return copySet((Set *)attributeOf(id, atr));
 }
 
 
@@ -705,7 +712,7 @@ Aint getContainerMember(Aint container, Aint index, Abool directly) {
 /*----------------------------------------------------------------------*/
 static void locateIntoContainer(Aword theInstance, Aword theContainer) {
 	if (!isA(theInstance, container[instances[theContainer].container].class))
-		printMessageUsing2Parameters(M_CANNOTCONTAIN, theContainer, theInstance);
+		printMessageUsing2InstanceParameters(M_CANNOTCONTAIN, theContainer, theInstance);
 	else if (passesContainerLimits(theContainer, theInstance))
 		admin[theInstance].location = theContainer;
 	else
@@ -1346,7 +1353,7 @@ static void describeObject(Aword obj)
 	if (hasDescription(obj))
 		describeAnything(obj);
 	else {
-		printMessageUsingParameter(M_SEE_START, obj);
+		printMessageWithInstanceParameter(M_SEE_START, obj);
 		printMessage(M_SEE_END);
 		if (instances[obj].container != 0)
 			describeContainer(obj);
@@ -1385,21 +1392,21 @@ static StepEntry *stepOf(Aint act) {
 
 
 /*----------------------------------------------------------------------*/
-static void describeActor(Aword act)
+static void describeActor(Aint actor)
 {
-	ScriptEntry *scr = scriptOf(act);
+	ScriptEntry *scr = scriptOf(actor);
 
 	if (scr != NULL && scr->description != 0)
 		interpret(scr->description);
-	else if (hasDescription(act))
-		describeAnything(act);
+	else if (hasDescription(actor))
+		describeAnything(actor);
 	else {
-		printMessageUsingParameter(M_SEE_START, act);
+		printMessageWithInstanceParameter(M_SEE_START, actor);
 		printMessage(M_SEE_END);
-		if (instances[act].container != 0)
-			describeContainer(act);
+		if (instances[actor].container != 0)
+			describeContainer(actor);
 	}
-	admin[act].alreadyDescribed = TRUE;
+	admin[actor].alreadyDescribed = TRUE;
 }
 
 
@@ -1446,14 +1453,14 @@ void describeInstances(void)
 				&& !admin[i].alreadyDescribed
 				&& isObject(i)) {
 			if (found == 0)
-				printMessageUsingParameter(M_SEE_START, i);
+				printMessageWithInstanceParameter(M_SEE_START, i);
 			else if (found > 1)
-				printMessageUsingParameter(M_SEE_COMMA, lastInstanceFound);
+				printMessageWithInstanceParameter(M_SEE_COMMA, lastInstanceFound);
 			admin[i].alreadyDescribed = TRUE;
 
 			if (instances[i].container && containerSize(i, TRUE) > 0 && !attributeOf(i, OPAQUEATTRIBUTE)) {
 				if (found > 0)
-					printMessageUsingParameter(M_SEE_AND, i);
+					printMessageWithInstanceParameter(M_SEE_AND, i);
 				printMessage(M_SEE_END);
 				describeContainer(i);
 				found = 0;
@@ -1465,7 +1472,7 @@ void describeInstances(void)
 
 	if (found > 0) {
 		if (found > 1) {
-			printMessageUsingParameter(M_SEE_AND, lastInstanceFound);
+			printMessageWithInstanceParameter(M_SEE_AND, lastInstanceFound);
 		}
 		printMessage(M_SEE_END);
 	}
@@ -1536,15 +1543,15 @@ void list(Aword cnt)
 						interpret(container[props].header);
 					else {
 						if (isActor(container[props].owner))
-							printMessageUsingParameter(M_CARRIES, container[props].owner);
+							printMessageWithInstanceParameter(M_CARRIES, container[props].owner);
 						else
-							printMessageUsingParameter(M_CONTAINS, container[props].owner);
+							printMessageWithInstanceParameter(M_CONTAINS, container[props].owner);
 					}
 					foundInstance[0] = i;
 				} else if (found == 1)
 					foundInstance[1] = i;
 				else {
-					printMessageUsingParameter(M_CONTAINS_COMMA, i);
+					printMessageWithInstanceParameter(M_CONTAINS_COMMA, i);
 				}
 				found++;
 			}
@@ -1553,16 +1560,16 @@ void list(Aword cnt)
 
 	if (found > 0) {
 		if (found > 1)
-			printMessageUsingParameter(M_CONTAINS_AND, foundInstance[1]);
-		printMessageUsingParameter(M_CONTAINS_END, foundInstance[0]);
+			printMessageWithInstanceParameter(M_CONTAINS_AND, foundInstance[1]);
+		printMessageWithInstanceParameter(M_CONTAINS_END, foundInstance[0]);
 	} else {
 		if (container[props].empty != 0)
 			interpret(container[props].empty);
 		else {
 			if (isActor(container[props].owner))
-				printMessageUsingParameter(M_EMPTYHANDED, container[props].owner);
+				printMessageWithInstanceParameter(M_EMPTYHANDED, container[props].owner);
 			else
-				printMessageUsingParameter(M_EMPTY, container[props].owner);
+				printMessageWithInstanceParameter(M_EMPTY, container[props].owner);
 		}
 	}
 	needSpace = TRUE;

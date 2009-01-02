@@ -96,6 +96,7 @@ extern void error(MsgKind msg);
 extern void statusline(void);
 extern void output(char string[]);
 extern void printMessage(MsgKind msg);
+extern void printMessageWithParameters(MsgKind msg, ParamEntry *messageParameters);
 extern void para(void);
 extern void newline(void);
 extern void printAndLog(char string[]);

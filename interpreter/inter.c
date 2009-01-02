@@ -747,7 +747,7 @@ void interpret(Aaddr adr)
 					Aint id = pop(stack);
 					if (singleStepOption)
 						printf("STRATTR \t%7ld, %7ld\t", id, atr);
-					push(stack, getStringAttribute(id, atr));
+					push(stack, (Aword)getStringAttribute(id, atr));
 					traceStringTopValue();
 					break;
 				}
@@ -756,7 +756,7 @@ void interpret(Aaddr adr)
 					Aint id = pop(stack);
 					if (singleStepOption)
 						printf("ATTRSET \t%7ld, %7ld", id, atr);
-					push(stack, getSetAttribute(id, atr));
+					push(stack, (Aword)getSetAttribute(id, atr));
 					tracePointerTopValue();
 					break;
 				}

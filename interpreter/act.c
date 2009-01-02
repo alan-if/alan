@@ -71,7 +71,7 @@ static void executeCommand(void)
 /* A parameter position with code == 0 means this is a multiple position. We must loop
  * over this position (and replace it by each present in the matched list)
  */
-static int findMultiplePosition(ParameterList parameters) {
+static int findMultiplePosition(ParamEntry *parameters) {
 	int multiplePosition;
 	for (multiplePosition = 0; parameters[multiplePosition].instance != -1; multiplePosition++)
 		if (parameters[multiplePosition].instance == 0)

@@ -91,7 +91,7 @@ typedef enum ClaKind {		/* NOTE! These must have the same order as */
   CLA_COBJ = (int)CLA_STR<<1,
   CLA_CACT = (int)CLA_COBJ<<1
 } ClaKind;
-  
+
 
 /* Verb Qualifiers */
 typedef enum QualClass {
@@ -358,7 +358,7 @@ typedef struct ParameterMapEntry {	/* PARAMETER MAPPING TABLE */
 
 typedef struct EventEntry {	/* EVENT TABLE */
   Aaddr stringAddress;		/* Address to name string */
-  Aaddr code;		
+  Aaddr code;
 } EventEntry;
 
 typedef struct ScriptEntry {	/* SCRIPT TABLE */
@@ -384,12 +384,12 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
 typedef struct SourceFileEntry { /* SOURCE FILE NAME TABLE */
   Aword fpos;
   Aint len;
-} SourceFileEntry; 
+} SourceFileEntry;
 
 typedef struct SourceLineEntry { /* SOURCE LINE TABLE */
   Aint file;
   Aint line;
-} SourceLineEntry; 
+} SourceLineEntry;
 
 typedef struct StringInitEntry { /* STRING INITIALISATION TABLE */
   Aword fpos;			/* File position */
@@ -576,5 +576,7 @@ typedef enum MsgKind {
   M_WHICH_PRONOUN_FIRST,
   MSGMAX
 } MsgKind;
+
+#define NO_MSG MSGMAX
 
 #endif

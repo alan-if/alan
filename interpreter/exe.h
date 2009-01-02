@@ -10,6 +10,7 @@
 
 #include "acode.h"
 #include "types.h"
+#include "set.h"
 
 /* Functions: */
 extern void sys(Aword fpos, Aword len);
@@ -22,11 +23,11 @@ extern void say(Aint instance);
 extern void sayForm(Aint instance, SayForm form);
 extern void sayInteger(Aword val);
 extern void sayString(char *str);
-extern Aword getStringAttribute(Aint id, Aint atr);
+extern char *getStringAttribute(Aint id, Aint atr);
 extern Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aint id, Aint atr);
 extern Aword concat(Aword s1, Aword s2);
 extern void setStringAttribute(Aint id, Aint atr, char *str);
-extern Aword getSetAttribute(Aint id, Aint atr);
+extern Set *getSetAttribute(Aint id, Aint atr);
 extern void include(Aint id, Aint atr, Aword member);
 extern void exclude(Aint id, Aint atr, Aword member);
 extern char *getStringFromFile(Aword fpos, Aword len);

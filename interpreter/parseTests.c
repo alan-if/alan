@@ -139,8 +139,10 @@ Ensure testMatchParseTree() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure testSetupParameterForWord() {
+Ensure canSetupParameterForWord() {
   ACodeHeader acdHeader;
+  ParamEntry *messageParameters = createParameterList(NULL);
+
   header = &acdHeader;
   header->maxParameters = 10;
   header->instanceMax = 10;
@@ -153,19 +155,22 @@ Ensure testSetupParameterForWord() {
 
   playerWords[1].code = 2;
   litCount = 0;
-  setupParameterForWord(1, 1);
+  addParameterForWords(messageParameters, 1, 1);
 
-  assert_equal(instanceFromLiteral(1), parameters[0].instance);
-  assert_equal(TRUE, parameters[0].useWords);
-  assert_equal(1, parameters[0].firstWord);
-  assert_equal(1, parameters[0].lastWord);
+  assert_equal(instanceFromLiteral(1), messageParameters[0].instance);
+  assert_equal(TRUE, messageParameters[0].useWords);
+  assert_equal(1, messageParameters[0].firstWord);
+  assert_equal(1, messageParameters[0].lastWord);
 
-  assert_true(isEndOfList(&parameters[1]));
+  assert_true(isEndOfList(&messageParameters[1]));
 
   free(dictionary);
   free(memory);
+  free(messageParameters);
 }
 
+
+/*----------------------------------------------------------------------*/
 Ensure canSeeBitsInFlag(void) {
 	assert_true(hasBit(-1, OMNIBIT));
 	assert_false(hasBit(0, OMNIBIT));
@@ -173,13 +178,60 @@ Ensure canSeeBitsInFlag(void) {
 	assert_false(hasBit(0, MULTIPLEBIT));
 }
 
+
+/*----------------------------------------------------------------------*/
+Ensure canSetupInstanceParametersForMessages() {
+	ParamEntry *parameters = createParameterList(NULL);
+
+	addParameterForInstance(parameters, 2);
+
+	assert_true(isLiteral(parameters[0].instance));
+	assert_equal(parameters[0].instance, 2);
+	assert_true(isEndOfList(&parameters[1]));
+
+	free(parameters);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure canSetupStringParametersForMessages() {
+	ParamEntry *parameters = createParameterList(NULL);
+
+	addParameterForString(parameters, "a string");
+
+	assert_true(isLiteral(parameters[0].instance));
+	assert_string_equal((char *)literal[parameters[0].instance].value, "a string");
+	assert_true(isEndOfList(&parameters[1]));
+
+	free(parameters);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure canSetupIntegerParametersForMessages() {
+	ParamEntry *parameters = createParameterList(NULL);
+
+	addParameterForInteger(parameters, 14);
+
+	assert_true(isLiteral(parameters[0].instance));
+	assert_equal((char *)literal[parameters[0].instance].value, 14);
+	assert_true(isEndOfList(&parameters[1]));
+
+	free(parameters);
+}
+
+
+
 TestSuite *parseTests()
 {
   TestSuite *suite = create_test_suite();
-  add_test(suite, testSetupParameterForWord);
+  add_test(suite, canSetupParameterForWord);
   add_test(suite, canMatchEndOfSyntax);
   add_test(suite, canMatchParameterElement);
   add_test(suite, testMatchParseTree);
   add_test(suite, canSeeBitsInFlag);
+  add_test(suite, canSetupInstanceParametersForMessages);
+  add_test(suite, canSetupStringParametersForMessages);
+  add_test(suite, canSetupIntegerParametersForMessages);
   return suite;
 }

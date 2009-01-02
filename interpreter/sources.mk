@@ -13,6 +13,7 @@ UNIT2SRC = \
 	interTests.c \
 	mainTests.c \
 	parseTests.c \
+	paramsTests.c \
 	reverseTests.c \
 	saveTests.c \
 	setTests.c \
@@ -29,7 +30,6 @@ UNIT2REQUIREDSRCS = \
 	debug.c \
 	decode.c \
 	options.c \
-	params.c \
 	readline.c \
 	rules.c \
 	syserr.c \

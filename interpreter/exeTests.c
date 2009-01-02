@@ -14,7 +14,7 @@
 
 
 /*----------------------------------------------------------------------*/
-static void testCountTrailingBlanks() {
+Ensure canCountTrailingBlanks() {
   char *threeBlanks = "h   ";
   char *fiveBlanks = "     ";
   char *empty = "";
@@ -27,7 +27,7 @@ static void testCountTrailingBlanks() {
 
 
 /*----------------------------------------------------------------------*/
-static void testSkipWordForwards() {
+Ensure canSkipWordForwards() {
   char *string = "a string of words";
 
   assert_true(skipWordForwards(string, 0) == 1);
@@ -39,7 +39,7 @@ static void testSkipWordForwards() {
 
 
 /*----------------------------------------------------------------------*/
-static void testSkipWordBackwards() {
+Ensure canSkipWordBackwards() {
   char *string = "a string of words";
   char *emptyString = "";
 
@@ -53,7 +53,7 @@ static void testSkipWordBackwards() {
 
 
 /*----------------------------------------------------------------------*/
-static void testStripCharsFromString() {
+Ensure canStripCharsFromString() {
   char *characters;
   char *rest;
   char *result;
@@ -91,7 +91,7 @@ static void testStripCharsFromString() {
 
 
 /*----------------------------------------------------------------------*/
-static void testStripWordsFromString() {
+Ensure canStripWordsFromString() {
   char *testString = "this is four  words";
   char *empty = "";
   char *result;
@@ -143,7 +143,7 @@ static void writeAndOpenGetStringTestFile(int fpos, char *testString)
 
 
 /*----------------------------------------------------------------------*/
-static void testGetString()
+Ensure canGetString()
 {
   int fpos = 55;
   char testString[] = "hejhopp";
@@ -203,7 +203,7 @@ static void failAssertion(void) {
 }
 
 /*----------------------------------------------------------------------*/
-static void testWhereIllegalId() {
+Ensure syserrOnWhereForIllegalId() {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -219,7 +219,7 @@ static void testWhereIllegalId() {
 
 
 /*----------------------------------------------------------------------*/
-static void testHereIllegalId() {
+Ensure syserrOnHereForIllegalId() {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -235,7 +235,7 @@ static void testHereIllegalId() {
 
 
 /*----------------------------------------------------------------------*/
-static void testLocateIllegalId() {
+Ensure syserrOnLocateIllegalId() {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -261,7 +261,7 @@ static void testLocateIllegalId() {
 
 
 /*----------------------------------------------------------------------*/
-static void testWhere() {
+Ensure callingWhereReturnsExpectedValues() {
   admin = allocate(5*sizeof(AdminEntry));
   instances = allocate(5*sizeof(InstanceEntry));
   classes = allocate(5*sizeof(ClassEntry));
@@ -298,7 +298,7 @@ static void testWhere() {
 
 
 /*----------------------------------------------------------------------*/
-static void testGetMembers() {
+Ensure canGetMembersOfASet() {
   Set *set = newSet(0);
   Aword code[] = {0,	/* Dummy */
 		  (Aword) set,
@@ -315,7 +315,7 @@ static void testGetMembers() {
 
 
 /*----------------------------------------------------------------------*/
-void testContainerSize() {
+Ensure canGetContainerSize() {
   header = allocate(sizeof(ACodeHeader));
   instances = allocate(4*sizeof(InstanceEntry));
   admin = allocate(4*sizeof(AdminEntry));
@@ -335,7 +335,7 @@ void testContainerSize() {
 }
 
 
-/*----------------------------------------------------------------------*/
+
 static void tearDown() {
   setSyserrHandler(NULL);
 }
@@ -346,19 +346,19 @@ TestSuite *exeTests() {
 
   teardown(suite, tearDown);
 
-  add_test(suite, testCountTrailingBlanks);
-  add_test(suite, testSkipWordForwards);
-  add_test(suite, testSkipWordBackwards);
-  add_test(suite, testStripCharsFromString);
-  add_test(suite, testStripWordsFromString);
-  add_test(suite, testGetString);
+  add_test(suite, canCountTrailingBlanks);
+  add_test(suite, canSkipWordForwards);
+  add_test(suite, canSkipWordBackwards);
+  add_test(suite, canStripCharsFromString);
+  add_test(suite, canStripWordsFromString);
+  add_test(suite, canGetString);
   add_test(suite, testIncreaseEventQueue);
-  add_test(suite, testWhereIllegalId);
-  add_test(suite, testHereIllegalId);
-  add_test(suite, testLocateIllegalId);
-  add_test(suite, testWhere);
-  add_test(suite, testGetMembers);
-  add_test(suite, testContainerSize);
+  add_test(suite, syserrOnWhereForIllegalId);
+  add_test(suite, syserrOnHereForIllegalId);
+  add_test(suite, syserrOnLocateIllegalId);
+  add_test(suite, callingWhereReturnsExpectedValues);
+  add_test(suite, canGetMembersOfASet);
+  add_test(suite, canGetContainerSize);
 
   return suite;
 }

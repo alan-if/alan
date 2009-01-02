@@ -6,6 +6,7 @@ TestSuite *altInfoTests();
 TestSuite *exeTests();
 TestSuite *interTests();
 TestSuite *mainTests();
+TestSuite *paramsTests();
 TestSuite *parseTests();
 TestSuite *reverseTests();
 TestSuite *saveTests();
@@ -25,6 +26,7 @@ int main(int argc, char **argv) {
     add_suite(suite, exeTests());
     add_suite(suite, interTests());
     add_suite(suite, mainTests());
+    add_suite(suite, paramsTests());
     add_suite(suite, parseTests());
     add_suite(suite, reverseTests());
     add_suite(suite, saveTests());

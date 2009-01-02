@@ -26,20 +26,20 @@ Bool gameStateChanged = FALSE;
 typedef struct GameState {
   /* Event queue */
   EventQueueEntry *eventQueue;
-  int eventQueueTop;		/* Event queue top pointer */
+  int eventQueueTop;			/* Event queue top pointer */
 
   /* Scores */
   int score;
-  Aword *scores;		/* Score table pointer */
+  Aword *scores;				/* Score table pointer */
 
   /* Instance data */
-  AdminEntry *admin;		/* Administrative data about instances */
+  AdminEntry *admin;			/* Administrative data about instances */
   AttributeEntry *attributes;	/* Attributes data area */
   /* Sets and strings are dynamically allocated areas for which the
      attribute is just a pointer to. So they are not catched by the
      saving of attributes, instead they require special storage */
-  Aword *sets;			/* Array of set pointers */
-  Aword *strings;		/* Array of string pointers */
+  Set **sets;					/* Array of set pointers */
+  char **strings;				/* Array of string pointers */
 } GameState;
 
 /* PRIVATE DATA */
@@ -101,11 +101,10 @@ static int setCount() {
 
 
 /*----------------------------------------------------------------------*/
-static Aword *collectSets() {
-	// TODO Why is this Aword*? shouldn't it be void**? Track it to getSetAttribute()
+static Set **collectSets() {
 	SetInitEntry *entry;
 	int count = setCount();
-	Aword *sets;
+	Set **sets;
 	int i;
 
 	if (count == 0) return NULL;
@@ -133,11 +132,10 @@ static int stringCount() {
 
 
 /*----------------------------------------------------------------------*/
-static Aword *collectStrings() {
-	// TODO Why is this Aword*? shouldn't it be void**? Track it to getSetAttribute()
+static char **collectStrings() {
 	StringInitEntry *entry;
 	int count = stringCount();
-	Aword *strings;
+	char **strings;
 	int i;
 
 	if (count == 0) return NULL;
@@ -211,7 +209,7 @@ static void freeSetAttributes(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void recallSets(Aword *sets) {
+static void recallSets(Set **sets) {
   SetInitEntry *entry;
   int count = setCount();
   int i;
@@ -220,7 +218,7 @@ static void recallSets(Aword *sets) {
 
   entry = pointerTo(header->setInitTable);
   for (i = 0; i < count; i++)
-    setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, sets[i]);
+    setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, (Aword)sets[i]);
 }
 
 
@@ -237,7 +235,7 @@ static void freeStringAttributes(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void recallStrings(Aword *strings) {
+static void recallStrings(char **strings) {
   StringInitEntry *entry;
   int count = stringCount();
   int i;
@@ -246,7 +244,7 @@ static void recallStrings(Aword *strings) {
 
   entry = pointerTo(header->stringInitTable);
   for (i = 0; i < count; i++)
-    setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, strings[i]);
+    setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, (Aword)strings[i]);
 }
 
 

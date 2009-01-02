@@ -89,7 +89,7 @@ all:
 Darwin: arun unit2 #dumpacd
 
 
-Cygwin: arun winarun glkarun gararun dumpacd
+Cygwin: arun unit2 winarun glkarun gararun dumpacd
 
 
 release:

@@ -43,9 +43,9 @@ extern void parse(void);
 extern void initParse(void);
 extern int literalFromInstance(Aint instance);
 extern Aint instanceFromLiteral(int literalIndex);
-extern void setupParameterForInstance(int parameter, Aint instance);
-extern void setupParameterForInteger(int parameter, Aint value);
-extern void setupParameterForString(int parameter, char *value);
+extern void addParameterForInstance(ParamEntry *parameter, Aint instance);
+extern void addParameterForInteger(ParamEntry *parameter, Aint value);
+extern void addParameterForString(ParamEntry *parameter, char *value);
 extern void restoreParameters();
 extern char *playerWordsAsCommandString(void);
 

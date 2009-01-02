@@ -15,6 +15,7 @@
 #include "main.h"
 #include "syserr.h"
 #include "parse.h"
+#include "params.h"
 #include "options.h"
 
 #include <time.h>
@@ -203,8 +204,7 @@ void usage(void)
 void error(MsgKind msgno)	/* IN - The error message number */
 {
   /* Print an error message and longjmp to main loop. */
-	// TODO Add NO_MSG literal
-  if (msgno != MSGMAX)
+  if (msgno != NO_MSG)
     printMessage(msgno);
   longjmp(returnLabel, ERROR_RETURN);
 }
@@ -710,9 +710,24 @@ void output(char original[])
 
 
 /*======================================================================*/
+// TODO replace old printMessage with newPrintMessage
 void printMessage(MsgKind msg)		/* IN - message number */
 {
   interpret(msgs[msg].stms);
+}
+
+/*======================================================================*/
+void printMessageWithParameters(MsgKind msg, ParamEntry *messageParameters)
+{
+	ParamEntry *savedParameters = createParameterList(NULL);
+	copyParameterList(savedParameters, parameters);
+	if (messageParameters != NULL)
+		copyParameterList(parameters, messageParameters);
+
+	interpret(msgs[msg].stms);
+
+	copyParameterList(parameters, savedParameters);
+	free(savedParameters);
 }
 
 

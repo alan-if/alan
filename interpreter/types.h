@@ -31,6 +31,7 @@
 #define LITMAX (header->locmax+1+litCount)
 
 #define HERO (header->theHero)
+#define ENTITY (header->entityClassId)
 #define OBJECT (header->objectClassId)
 #define LOCATION (header->locationClassId)
 #define THING (header->thingClassId)
@@ -128,8 +129,6 @@ typedef struct ParamEntry {	/* PARAMETER */
 				   player */
   Aword lastWord;		/* d:o to last */
 } ParamEntry;
-
-typedef ParamEntry ParameterList[MAXPARAMS+1];
 
 typedef enum LiteralType {
   NO_LITERAL, NUMERIC_LITERAL, STRING_LITERAL
