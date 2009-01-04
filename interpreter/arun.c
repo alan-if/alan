@@ -84,7 +84,7 @@ int main(
     if (debugOption) printf(">");
     newline();
   }
-  
+
 #ifdef HAVE_WINGLK
   winglk_app_set_name(adventureName);
   winglk_window_set_title(adventureName);

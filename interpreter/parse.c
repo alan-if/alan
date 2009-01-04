@@ -266,7 +266,7 @@ static void scan(void) {
 	if (continued) {
 		/* Player used '.' to separate commands. Read next */
 		para();
-		token = gettoken(NULL);
+		token = gettoken(NULL); /* Or did he just finish the command with a full stop? */
 		if (token == NULL)
 			getLine();
 		continued = FALSE;
@@ -293,7 +293,7 @@ static void scan(void) {
 				createStringLiteral(&unquotedString[1]);
 				free(unquotedString);
 			}
-			playerWords[i++].code = dictsize + litCount; /* Word outside dictionary = literal */
+			playerWords[i++].code = dictionarySize + litCount; /* Word outside dictionary = literal */
 		} else if (token[0] == ',') {
 			playerWords[i++].code = conjWord;
 		} else if (token[0] == '.') {
@@ -312,16 +312,6 @@ static void scan(void) {
  Parameter allocation, saving and restoring
 
  \*----------------------------------------------------------------------*/
-
-/*======================================================================*/
-static void allocateParamEntryArea(ParamEntry **area) {
-	if (*area == NULL) {
-		*area = (ParamEntry *) allocate(sizeof(ParamEntry)
-				* (header->instanceMax + 1));
-		(*area)->instance = EOF;
-	}
-}
-
 
 /* For parameters which are literals we need to trick message handling to output the word
  * and create a string literal instance if anyone wants to refer to an attribute of it
@@ -405,10 +395,9 @@ static int allLength; /* No. of objects matching 'all' */
 
 /*----------------------------------------------------------------------*/
 static void nonverb(void) {
-	if (isDir(playerWords[wordIndex].code)) {
+	if (isDirectionWord(wordIndex)) {
 		wordIndex++;
-		if (!isEndOfList(&playerWords[wordIndex])
-				&& !isConj(playerWords[wordIndex].code))
+		if (!isEndOfList(&playerWords[wordIndex]) && !isConjunctionWord(wordIndex))
 			error(M_WHAT);
 		else
 			go(current.location,
@@ -440,23 +429,23 @@ static void errorWhichOne(ParamEntry alternative[]) {
 /*----------------------------------------------------------------------*/
 static void errorWhichPronoun(int pronounWordIndex, ParamEntry alternatives[]) {
 	int p; /* Index into the list of alternatives */
-	ParamEntry *parameters = createParameterList(NULL);
+	ParamEntry *messageParameters = createParameterList(NULL);
 
-	addParameterForWord(parameters, pronounWordIndex);
-	printMessageWithParameters(M_WHICH_PRONOUN_START, parameters);
+	addParameterForWord(messageParameters, pronounWordIndex);
+	printMessageWithParameters(M_WHICH_PRONOUN_START, messageParameters);
 
-	parameters[0] = alternatives[0];
-	setEndOfList(&parameters[1]);
-	printMessageWithParameters(M_WHICH_PRONOUN_FIRST, parameters);
+	messageParameters[0] = alternatives[0];
+	setEndOfList(&messageParameters[1]);
+	printMessageWithParameters(M_WHICH_PRONOUN_FIRST, messageParameters);
 
 	for (p = 1; !isEndOfList(&alternatives[p+1]); p++) {
-		parameters[0] = alternatives[p];
-		printMessageWithParameters(M_WHICH_ONE_COMMA, parameters);
+		messageParameters[0] = alternatives[p];
+		printMessageWithParameters(M_WHICH_ONE_COMMA, messageParameters);
 	}
-	parameters[0] = alternatives[p];
-	printMessageWithParameters(M_WHICH_ONE_OR, parameters);
-	free(parameters);
-	error(NO_MSG); /* Return with empty error message */
+	messageParameters[0] = alternatives[p];
+	printMessageWithParameters(M_WHICH_ONE_OR, messageParameters);
+	free(messageParameters);
+	error(NO_MSG);
 }
 
 /*----------------------------------------------------------------------*/
@@ -487,7 +476,8 @@ static int fakePlayerWordForAll() {
 		;
 	setEndOfList(&playerWords[p+1]); /* Make room for one more word */
 	allWordIndex = p;
-	for (d = 0; d < dictsize; d++)
+	// TODO extract to Dictionary.c
+	for (d = 0; d < dictionarySize; d++)
 		if (isAll(d)) {
 			playerWords[p].code = d;
 			return p;
@@ -616,111 +606,151 @@ static Aword *nounReferencesForWord(int wordIndex) {
 
 
 /*----------------------------------------------------------------------*/
-static Aword *adjectivReferencesForWord(int wordIndex) {
+static Aword *adjectiveReferencesForWord(int wordIndex) {
 	return (Aword *) pointerTo(dictionary[playerWords[wordIndex].code].adjectiveRefs);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void unambiguousNounPhrase(ParamEntry parsedNouns[]) {
+static void transformLiteralIntoSingleParameter(ParamEntry parsedParameters[]) {
+	parsedParameters[0].instance = instanceFromLiteral(playerWords[wordIndex].code - dictionarySize);
+	parsedParameters[0].firstWord = EOF; /* No words used! */
+	setEndOfList(&parsedParameters[1]);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void transformPronounIntoSingleParameter(ParamEntry parsedParameters[]) {
+	static ParamEntry *pronounInstances = NULL;
+	pronounInstances = createParameterList(pronounInstances);
+
+	int pronounMatches = getPronounInstances(playerWords[wordIndex].code, pronounInstances);
+	if (pronounMatches == 0)
+		errorWhat(wordIndex);
+	else if (pronounMatches > 1)
+		errorWhichPronoun(wordIndex, pronounInstances);
+	else {
+		parsedParameters[0].instance = pronounInstances[0].instance;
+		parsedParameters[0].firstWord = EOF; /* No words used! */
+		setEndOfList(&parsedParameters[1]);
+	}
+}
+
+
+/*----------------------------------------------------------------------*/
+static Bool anotherAdjective(int wordIndex) {
+	// TODO !endOfWords(wordIndex)
+	return !isEndOfList(&playerWords[wordIndex]) && isAdjectiveWord(wordIndex);
+}
+
+
+/*----------------------------------------------------------------------*/
+static Bool lastPossibleNoun(int wordIndex) {
+	return isNounWord(wordIndex) && (isEndOfList(&playerWords[wordIndex+1]) || !isNounWord(wordIndex+1));
+}
+
+
+/*----------------------------------------------------------------------*/
+static void updateWithAdjectiveReferences(int wordIndex, ParamEntry parsedParameters[], Bool foundPreviousReferences) {
+	static ParamEntry *references = NULL; /* Instances referenced by a word */
+	references = createParameterList(references);
+
+	copyReferences(references, adjectiveReferencesForWord(wordIndex));
+	if (foundPreviousReferences)
+		intersect(parsedParameters, references);
+	else
+		copyParameterList(parsedParameters, references);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void updateWithNounReferences(int wordIndex, ParamEntry parsedParameters[], Bool foundPreviousReferences) {
+	static ParamEntry *references = NULL; /* Instances referenced by a word */
+	references = createParameterList(references);
+
+	copyReferences(references, nounReferencesForWord(wordIndex));
+	if (foundPreviousReferences)
+		intersect(parsedParameters, references);
+	else
+		copyParameterList(parsedParameters, references);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void unambiguousNounPhrase(ParamEntry parsedParameters[]) {
+	// TODO This is really to long, need to break out some parts
 	int i;
-	Bool foundNoun = FALSE; /* Adjective or noun found ? */
-	static ParamEntry *references; /* Instances referenced by a word */
-	static ParamEntry *savedNouns; /* Saved list for backup at EOF */
 	int firstWord, lastWord; /* The words the player used */
 
-	allocateParamEntryArea(&references);
-	allocateParamEntryArea(&savedNouns);
+	static ParamEntry *savedParameters = NULL; /* Saved list for backup at EOF */
 
-	if (isLiteralWord(playerWords[wordIndex].code)) {
-		/* Transform the word into a reference to the literal value */
-		/* words > dictsize are literals with index = word-dictsize */
-		parsedNouns[0].instance = (playerWords[wordIndex].code - dictsize)
-				+ header->instanceMax;
-		parsedNouns[0].firstWord = EOF; /* No words used! */
-		setEndOfList(&parsedNouns[1]);
+	savedParameters = createParameterList(savedParameters);
+
+	clearList(parsedParameters);
+
+	if (isLiteralWord(wordIndex)) {
+		transformLiteralIntoSingleParameter(parsedParameters);
 		wordIndex++;
+	} else if (isPronounWord(wordIndex)) {
+		transformPronounIntoSingleParameter(parsedParameters);
+		wordIndex++; /* Consume the pronoun */
 	} else {
+		Bool found = FALSE; /* Adjective or noun found ? */
 
-		clearList(parsedNouns);
-		if (isPronoun(playerWords[wordIndex].code)) {
-			ParamEntry *pronounInstances = createParameterList(NULL);
-			int pronounMatches = getPronounInstances(playerWords[wordIndex].code, pronounInstances);
-			if (pronounMatches == 0)
-				errorWhat(wordIndex);
-			else if (pronounMatches > 1) {
-				/* Set up parameters for error message... */
-				parameters[0].instance = 0; /* Just make it anything != EOF */
-				setEndOfList(&parameters[1]);
-				errorWhichPronoun(wordIndex, pronounInstances);
-			}
-			wordIndex++; /* Consume the pronoun */
-			parsedNouns[0].instance = pronounInstances[0].instance;
-			parsedNouns[0].firstWord = EOF; /* No words used! */
-			setEndOfList(&parsedNouns[1]);
-			free(pronounInstances);
-			return;
-		}
+		static ParamEntry *references = NULL; /* Instances referenced by a word */
+		references = createParameterList(references);
 
 		firstWord = wordIndex;
-		while (!isEndOfList(&playerWords[wordIndex]) && isAdjective(playerWords[wordIndex].code)) {
-			/* If this word can be a noun and there is no noun following, break the loop */
-			if (isNoun(playerWords[wordIndex].code) && (isEndOfList(&playerWords[wordIndex+1]) || !isNoun(playerWords[wordIndex+1].code)))
+		while (anotherAdjective(wordIndex)) {
+			if (lastPossibleNoun(wordIndex))
 				break;
-			copyReferences(references, adjectivReferencesForWord(wordIndex));
-			copyParameterList(savedNouns, parsedNouns); /* To save it for backtracking */
-			if (foundNoun)
-				intersect(parsedNouns, references);
-			else {
-				copyParameterList(parsedNouns, references);
-				foundNoun = TRUE;
-			}
+			copyParameterList(savedParameters, parsedParameters); /* To save it for backtracking */
+			updateWithAdjectiveReferences(wordIndex, parsedParameters, found);
+			found = TRUE;
 			wordIndex++;
 		}
 		if (!isEndOfList(&playerWords[wordIndex])) {
-			if (isNoun(playerWords[wordIndex].code)) {
-				copyReferences(references, nounReferencesForWord(wordIndex));
-				if (foundNoun)
-					intersect(parsedNouns, references);
-				else {
-					copyParameterList(parsedNouns, references);
-					foundNoun = TRUE;
-				}
+			if (isNounWord(wordIndex)) {
+				updateWithNounReferences(wordIndex, parsedParameters, found);
+				found = TRUE;
 				wordIndex++;
 			} else
 				error(M_NOUN);
-		} else if (foundNoun) {
+		} else if (found) {
 			/* Perhaps the last word was also a noun? */
-			if (isNoun(playerWords[wordIndex - 1].code)) {
+			if (isNounWord(wordIndex - 1)) {
+				printf("DEBUG:When does this get executed?");
 				// TODO When does this get executed?
-				copyParameterList(parsedNouns, savedNouns); /* Restore to before last adjective */
+				copyParameterList(parsedParameters, savedParameters); /* Restore to before last adjective */
 				copyReferences(references, nounReferencesForWord(wordIndex-1));
-				if (isEndOfList(&parsedNouns[0]))
-					copyParameterList(parsedNouns, references);
+				if (isEndOfList(&parsedParameters[0]))
+					copyParameterList(parsedParameters, references);
 				else
-					intersect(parsedNouns, references);
+					intersect(parsedParameters, references);
 			} else
 				error(M_NOUN);
+		} else {
+			//printf("end and not found");
 		}
 		lastWord = wordIndex - 1;
 
 		/* Allow remote objects, but resolve ambiguities by reachability */
-		if (listLength(parsedNouns) > 1) {
-			for (i = 0; !isEndOfList(&parsedNouns[i]); i++)
-				if (!reachable(parsedNouns[i].instance))
-					parsedNouns[i].instance = 0;
-			compress(parsedNouns);
+		if (listLength(parsedParameters) > 1) {
+			for (i = 0; !isEndOfList(&parsedParameters[i]); i++)
+				if (!reachable(parsedParameters[i].instance))
+					parsedParameters[i].instance = 0;
+			compress(parsedParameters);
 		}
 #ifdef DISAMBIGUATE_USING_CHECKS
-		if (listLength(parsedNouns)> 1)
-		disambiguateUsingChecks(parsedNouns, parameterPosition);
+		if (listLength(parsedParameters)> 1)
+		disambiguateUsingChecks(parsedParameters, parameterPosition);
 		/* We don't have the parameterPosition here.
 		 Maybe we can do this later? */
 #endif
 
-		if (listLength(parsedNouns) > 1)
-			errorWhichOne(parsedNouns);
-		else if (foundNoun && listLength(parsedNouns) == 0) {
+		if (listLength(parsedParameters) > 1)
+			errorWhichOne(parsedParameters);
+		else if (found && listLength(parsedParameters) == 0) {
 			ParamEntry parameter;
 			parameter.instance = 0; /* Just make it anything != EOF */
 			parameter.firstWord = firstWord;
@@ -728,8 +758,8 @@ static void unambiguousNounPhrase(ParamEntry parsedNouns[]) {
 			errorNoSuch(parameter);
 		}
 
-		parsedNouns[0].firstWord = firstWord;
-		parsedNouns[0].lastWord = lastWord;
+		parsedParameters[0].firstWord = firstWord;
+		parsedParameters[0].lastWord = lastWord;
 
 	}
 }
@@ -750,8 +780,8 @@ static void simple(ParamEntry olst[]) {
 		 we check if it is also a pronoun, if it is but there is a list of
 		 multi parameters from the previous command, we assume that is
 		 what he ment */
-		if (isThem(playerWords[wordIndex].code) && ((isPronoun(playerWords[wordIndex].code)
-				&& listLength(previousMultipleMatches) > 0) || !isPronoun(playerWords[wordIndex].code))) {
+		if (isThemWord(wordIndex) && ((isPronounWord(wordIndex)
+				&& listLength(previousMultipleMatches) > 0) || !isPronounWord(wordIndex))) {
 			plural = TRUE;
 			for (i = 0; !isEndOfList(&previousMultipleMatches[i]); i++)
 				if (!reachable(previousMultipleMatches[i].instance))
@@ -772,10 +802,10 @@ static void simple(ParamEntry olst[]) {
 			}
 		}
 		mergeLists(tlst, olst);
-		if (playerWords[wordIndex].code != EOF && (isConj(
-				playerWords[wordIndex].code) && (isAdjective(
-				playerWords[wordIndex + 1].code) || isNoun(
-				playerWords[wordIndex + 1].code)))) {
+		// TODO Can we use isEndOfList() for playerWords also?
+		if (playerWords[wordIndex].code != EOF
+				&& (isConjunctionWord(wordIndex) && (isAdjectiveWord(wordIndex+1)
+						|| isNounWord(wordIndex+1)))) {
 			/* More parameters in a conjunction separated list ? */
 			savplur = plural;
 			savidx = wordIndex;
@@ -799,7 +829,7 @@ static void complex(ParamEntry olst[]) {
 		plural = TRUE;
 		buildAll(alst); /* Build list of all objects */
 		wordIndex++;
-		if (!isEndOfList(&playerWords[wordIndex]) && isBut(playerWords[wordIndex].code)) {
+		if (!isEndOfList(&playerWords[wordIndex]) && isButWord(wordIndex)) {
 			butWordIndex = wordIndex;
 			wordIndex++;
 			simple(olst);
@@ -923,9 +953,9 @@ static ElementEntry *matchWordElement(ElementEntry *elms, Aint wordCode) {
 }
 
 /*----------------------------------------------------------------------*/
-static Bool isParameterWord(int word) {
-	return isNoun(word) || isAdjective(word) || isAll(word) || isLiteralWord(
-			word) || isIt(word) || isThem(word) || isPronoun(word);
+static Bool isParameterWord(int wordIndex) {
+	return isNounWord(wordIndex) || isAdjectiveWord(wordIndex) || isAllWord(wordIndex)
+	|| isLiteralWord(wordIndex) || isItWord(wordIndex) || isThemWord(wordIndex) || isPronounWord(wordIndex);
 }
 
 /*----------------------------------------------------------------------*/
@@ -938,7 +968,7 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
 		ElementEntry *elms;
 
 		/* End of input? */
-		if (isEndOfList(&playerWords[wordIndex]) || isConj(playerWords[wordIndex].code)) {
+		if (isEndOfList(&playerWords[wordIndex]) || isConjunctionWord(wordIndex)) {
 			elms = matchEndOfSyntax(currentEntry);
 			if (elms == NULL)
 				return NULL;
@@ -946,7 +976,7 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
 				return elms;
 		}
 
-		if (isParameterWord(playerWords[wordIndex].code)) {
+		if (isParameterWord(wordIndex)) {
 			elms = matchParameterElement(currentEntry);
 			if (elms != NULL) {
 				parseParameter(elms->flags, anyPlural, multipleList);
@@ -956,7 +986,7 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
 			 and try with a preposition... */
 		}
 
-		if (isPreposition(playerWords[wordIndex].code)) {
+		if (isPrepositionWord(wordIndex)) {
 			/* A preposition? Or rather, an intermediate word? */
 			elms = matchWordElement(currentEntry,
 					dictionary[playerWords[wordIndex].code].code);
@@ -967,7 +997,7 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
 			}
 		}
 
-		if (isBut(playerWords[wordIndex].code))
+		if (isButWord(wordIndex))
 			errorButAfterAll(wordIndex);
 
 		/* If we get here we couldn't match anything... */
@@ -1102,7 +1132,7 @@ static void try(ParamEntry multipleParameters[]) {
 static void match(ParamEntry *mlst) /* OUT - List of params allowed by multiple */
 {
 	try(mlst); /* ... to understand what he said */
-	if (!isEndOfList(&playerWords[wordIndex]) && !isConj(playerWords[wordIndex].code))
+	if (!isEndOfList(&playerWords[wordIndex]) && !isConjunctionWord(wordIndex))
 		error(M_WHAT);
 	if (!isEndOfList(&playerWords[wordIndex])) /* More on this line? */
 		wordIndex++; /* If so skip the AND */
@@ -1123,10 +1153,9 @@ void initParse(void) {
 	parameters = createParameterList(parameters);
 	previousMultipleMatches = createParameterList(previousMultipleMatches);
 
-	for (dictionaryIndex = 0; dictionaryIndex < dictsize; dictionaryIndex++)
+	for (dictionaryIndex = 0; dictionaryIndex < dictionarySize; dictionaryIndex++)
 		if (isPronoun(dictionaryIndex)) {
-			pronounList[pronounIndex].pronoun
-					= dictionary[dictionaryIndex].code;
+			pronounList[pronounIndex].pronoun = dictionary[dictionaryIndex].code;
 			pronounList[pronounIndex].instance = 0;
 			pronounIndex++;
 		}
@@ -1138,7 +1167,7 @@ static int pronounForInstance(int instance) {
 	 for this instance */
 	int w;
 
-	for (w = 0; w < dictsize; w++)
+	for (w = 0; w < dictionarySize; w++)
 		if (isPronoun(w)) {
 			Aword *reference = pointerTo(dictionary[w].pronounRefs);
 			while (*reference != EOF) {
@@ -1191,7 +1220,7 @@ void parse(void) {
 	clearList(parameters);
 
 	firstWord = wordIndex;
-	if (isVerb(playerWords[wordIndex].code)) {
+	if (isVerbWord(wordIndex)) {
 		verbWord = playerWords[wordIndex].code;
 		verbWordCode = dictionary[verbWord].code;
 		wordIndex++;
@@ -1204,7 +1233,7 @@ void parse(void) {
 		nonverb();
 	}
 	lastWord = wordIndex - 1;
-	if (isConj(playerWords[lastWord].code))
+	if (isConjunctionWord(lastWord))
 		lastWord--;
 
 	copyParameterList(previousMultipleMatches, multipleMatches);

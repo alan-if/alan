@@ -17,12 +17,12 @@ static void makeWordElement(ElementEntry *element, int code, int next) {
 }
 
 static DictionaryEntry *makeDictionary(int size) {
-  dictsize = size;
+  dictionarySize = size;
   return allocate(size*sizeof(DictionaryEntry));
 }
 
 static void makeDictionaryEntry(int index, int code, int classBits) {
-  if (index > dictsize) syserr("makeDictionaryEntry() out of size");
+  if (index > dictionarySize) syserr("makeDictionaryEntry() out of size");
   dictionary[index].code = code;
   dictionary[index].classBits = classBits;
 }

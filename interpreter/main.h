@@ -47,7 +47,7 @@ extern EventEntry *events;	/* Event table pointer */
 extern MessageEntry *msgs;	/* Message table pointer */
 extern Aword *freq;		/* Cumulated frequencies */
 
-extern int dictsize;		/* Number of entries in dictionary */
+extern int dictionarySize;		/* Number of entries in dictionary */
 
 /* The text and message file */
 extern FILE *textFile;
@@ -84,7 +84,7 @@ extern Bool capitalize;
 
 /* FUNCTIONS: */
 
-#ifndef DMALLOC
+#ifndef SMARTALLOC
 extern void *allocate(unsigned long len);
 #else
 #define allocate(s) calloc(s, 1)
@@ -108,27 +108,29 @@ extern void implementationOfSetEndOfList(Aword *adr);
 #define clearList(x) implementationOfSetEndOfList((Aword *) &(x[0]))
 extern void implementationOfSetEndOfList(Aword *adr);
 
-extern Bool isObject(Aword x);
-extern Bool isContainer(Aword x);
-extern Bool isActor(Aword x);
-extern Bool isLocation(Aword x);
-extern Bool isLiteral(Aword x);
-extern Bool isNumeric(Aword x);
-extern Bool isString(Aword x);
+extern Bool isObject(int instance);
+extern Bool isContainer(int instance);
+extern Bool isActor(int instance);
+extern Bool isLocation(int instance);
+extern Bool isLiteral(int instance);
+extern Bool isNumeric(int instance);
+extern Bool isString(int instance);
 
-extern Bool isVerb(int word);
-extern Bool isConj(int word);
-extern Bool isBut(int word);
-extern Bool isThem(int word);
-extern Bool isIt(int word);
-extern Bool isNoun(int word);
-extern Bool isAdjective(int word);
-extern Bool isPreposition(int word);
-extern Bool isAll(int word);
-extern Bool isDir(int word);
-extern Bool isNoise(int word);
-extern Bool isPronoun(int word);
-extern Bool isLiteralWord(int word);
+extern Bool isVerbWord(int wordIndex);
+extern Bool isConjunctionWord(int wordIndex);
+extern Bool isButWord(int wordIndex);
+extern Bool isThemWord(int wordIndex);
+extern Bool isItWord(int wordIndex);
+extern Bool isNounWord(int wordIndex);
+extern Bool isAdjectiveWord(int wordIndex);
+extern Bool isPrepositionWord(int wordIndex);
+extern Bool isAll(int wordCode);
+extern Bool isAllWord(int wordIndex);
+extern Bool isDirectionWord(int wordIndex);
+extern Bool isNoise(int wordCode);
+extern Bool isPronoun(int wordCode);
+extern Bool isPronounWord(int wordIndex);
+extern Bool isLiteralWord(int wordIndex);
 
 
 /* Run the game! */

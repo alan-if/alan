@@ -12,6 +12,13 @@
 #include "sysdep.h"
 #include "acode.h"
 
+
+/* MEMORY DEBUGGING? */
+#ifdef SMARTALLOC
+#include "smartall.h"
+#endif
+
+
 /* PREPROCESSOR */
 #define FORWARD
 #define NEW(type) ((type *)allocate(sizeof(type)))

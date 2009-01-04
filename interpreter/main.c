@@ -85,7 +85,7 @@ EventEntry *events;		/* Event table pointer */
 MessageEntry *msgs;			/* Message table pointer */
 Aword *freq;			/* Cumulative character frequencies */
 
-int dictsize;
+int dictionarySize;
 
 Bool fail = FALSE;
 Bool anyOutput = FALSE;
@@ -386,7 +386,7 @@ void clear(void)
 }
 
 
-#ifndef DMALLOC
+#ifndef SMARTALLOC
 /*======================================================================*/
 void *allocate(unsigned long lengthInBytes)
 {
@@ -403,7 +403,7 @@ void *allocate(unsigned long lengthInBytes)
 /*======================================================================*/
 void *duplicate(void *original, unsigned long len)
 {
-  void *p = allocate(len);
+  void *p = allocate(len+1);
 
   memcpy(p, original, len);
   return p;
@@ -710,7 +710,6 @@ void output(char original[])
 
 
 /*======================================================================*/
-// TODO replace old printMessage with newPrintMessage
 void printMessage(MsgKind msg)		/* IN - message number */
 {
   interpret(msgs[msg].stms);
@@ -753,95 +752,143 @@ Bool implementationOfIsEndOfList(Aword *adr)
 }
 
 
-Bool isObject(Aword x)
+/* Instance query methods */
+// TODO Move to Instance.c
+
+Bool isObject(int instance)
 {
-  return isA((x), OBJECT);
+  return isA(instance, OBJECT);
 }
 
-Bool isContainer(Aword x)
+Bool isContainer(int instance)
 {
-  return (x) != 0 && instances[x].container != 0;
+  return instance != 0 && instances[instance].container != 0;
 }
 
-Bool isActor(Aword x)
+Bool isActor(int instance)
 {
-  return isA((x), ACTOR);
+  return isA(instance, ACTOR);
 }
 
-Bool isLocation(Aword x)
+Bool isLocation(int instance)
 {
-  return isA((x), LOCATION);
-}
-
-
-Bool isLiteral(Aword x)
-{
-  return (x) > header->instanceMax;
-}
-
-Bool isNumeric(Aword x)
-{
-  return isLiteral(x) && literal[(x)-header->instanceMax].type == NUMERIC_LITERAL;
-}
-
-Bool isString(Aword x)
-{
-  return isLiteral(x) && literal[(x)-header->instanceMax].type == STRING_LITERAL;
+  return isA(instance, LOCATION);
 }
 
 
+Bool isLiteral(int instance)
+{
+  return instance > header->instanceMax;
+}
+
+Bool isNumeric(int instance)
+{
+  return isLiteral(instance) && literal[literalFromInstance(instance)].type == NUMERIC_LITERAL;
+}
+
+Bool isString(int instance)
+{
+  return isLiteral(instance) && literal[literalFromInstance(instance)].type == STRING_LITERAL;
+}
+
+
+
+/* Word class query methods, move to Word.c */
 /* Word classes are numbers but in the dictionary they are generated as bits */
-Bool isVerb(int word) {
-  return word < dictsize && (dictionary[word].classBits&VERB_BIT)!=0;
+static Bool isVerb(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&VERB_BIT)!=0;
 }
 
-Bool isConj(int word) {
-  return word < dictsize && (dictionary[word].classBits&CONJUNCTION_BIT)!=0;
+Bool isVerbWord(int wordIndex) {
+	return isVerb(playerWords[wordIndex].code);
 }
 
-Bool isBut(int word) {
-  return word < dictsize && (dictionary[word].classBits&EXCEPT_BIT)!=0;
+static Bool isConjunction(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&CONJUNCTION_BIT)!=0;
 }
 
-Bool isThem(int word) {
-  return word < dictsize && (dictionary[word].classBits&THEM_BIT)!=0;
+Bool isConjunctionWord(int wordIndex) {
+	return isConjunction(playerWords[wordIndex].code);
 }
 
-Bool isIt(int word) {
-  return word < dictsize && (dictionary[word].classBits&IT_BIT)!=0;
+static Bool isBut(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&EXCEPT_BIT)!=0;
 }
 
-Bool isNoun(int word) {
-  return word < dictsize && (dictionary[word].classBits&NOUN_BIT)!=0;
+Bool isButWord(int wordIndex) {
+	return isBut(playerWords[wordIndex].code);
 }
 
-Bool isAdjective(int word) {
-  return word < dictsize && (dictionary[word].classBits&ADJECTIVE_BIT)!=0;
+static Bool isThem(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&THEM_BIT)!=0;
 }
 
-Bool isPreposition(int word) {
-  return word < dictsize && (dictionary[word].classBits&PREPOSITION_BIT)!=0;
+Bool isThemWord(int wordIndex) {
+	return isThem(playerWords[wordIndex].code);
 }
 
-Bool isAll(int word) {
-  return word < dictsize && (dictionary[word].classBits&ALL_BIT)!=0;
+static Bool isIt(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&IT_BIT)!=0;
 }
 
-Bool isDir(int word) {
-  return word < dictsize && (dictionary[word].classBits&DIRECTION_BIT)!=0;
+Bool isItWord(int wordIndex) {
+	return isIt(playerWords[wordIndex].code);
 }
 
-Bool isNoise(int word) {
-  return word < dictsize && (dictionary[word].classBits&NOISE_BIT)!=0;
+static Bool isNoun(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&NOUN_BIT)!=0;
 }
 
-Bool isPronoun(int word) {
-  return word < dictsize && (dictionary[word].classBits&PRONOUN_BIT)!=0;
+Bool isNounWord(int wordIndex) {
+	return isNoun(playerWords[wordIndex].code);
 }
 
+static Bool isAdjective(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&ADJECTIVE_BIT)!=0;
+}
 
-Bool isLiteralWord(int word) {
-  return word >= dictsize;
+Bool isAdjectiveWord(int wordIndex) {
+	return isAdjective(playerWords[wordIndex].code);
+}
+
+static Bool isPreposition(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&PREPOSITION_BIT)!=0;
+}
+
+Bool isPrepositionWord(int wordIndex) {
+	return isPreposition(playerWords[wordIndex].code);
+}
+
+Bool isAll(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&ALL_BIT)!=0;
+}
+
+Bool isAllWord(int wordIndex) {
+	return isAll(playerWords[wordIndex].code);
+}
+
+static Bool isDir(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&DIRECTION_BIT)!=0;
+}
+
+Bool isDirectionWord(int wordIndex) {
+	return isDir(playerWords[wordIndex].code);
+}
+
+Bool isNoise(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&NOISE_BIT)!=0;
+}
+
+Bool isPronoun(int wordCode) {
+  return wordCode < dictionarySize && (dictionary[wordCode].classBits&PRONOUN_BIT)!=0;
+}
+
+Bool isPronounWord(int wordIndex) {
+	return isPronoun(playerWords[wordIndex].code);
+}
+
+Bool isLiteralWord(int wordIndex) {
+  return playerWords[wordIndex].code >= dictionarySize;
 }
 
 
@@ -1176,7 +1223,7 @@ static void initStaticData(void)
   /* Dictionary */
   dictionary = (DictionaryEntry *) pointerTo(header->dictionary);
   /* Find out number of entries in dictionary */
-  for (dictsize = 0; !isEndOfList(&dictionary[dictsize]); dictsize++);
+  for (dictionarySize = 0; !isEndOfList(&dictionary[dictionarySize]); dictionarySize++);
 
   /* Scores */
 
@@ -1423,8 +1470,8 @@ static void init(void)
   getPageSize();
 
   /* Find first conjunction and use that for ',' handling */
-  for (i = 0; i < dictsize; i++)
-    if (isConj(i)) {
+  for (i = 0; i < dictionarySize; i++)
+    if (isConjunction(i)) {
       conjWord = i;
       break;
     }

@@ -59,7 +59,8 @@ static void freeGameState() {
     free(gameState.eventQueue);
     gameState.eventQueue = NULL;
   }
-  free(gameState.scores);
+  if (gameState.scores)
+	  free(gameState.scores);
 
   memset(&gameState, 0, sizeof(GameState));
 }
@@ -70,7 +71,8 @@ void forgetGameState(void) {
 	char *playerCommand;
 	popGameState(stateStack, &gameState, &playerCommand);
 	freeGameState();
-	free(playerCommand);
+	if (playerCommand != NULL)
+		free(playerCommand);
 }
 
 
@@ -178,7 +180,10 @@ static void collectInstanceData() {
 /*----------------------------------------------------------------------*/
 static void collectScores() {
   gameState.score = current.score;
-  gameState.scores = duplicate(scores, header->scoreCount*sizeof(Aword));
+  if (scores == NULL)
+	  gameState.scores = NULL;
+  else
+	  gameState.scores = duplicate(scores, header->scoreCount*sizeof(Aword));
 }
 
 

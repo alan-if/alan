@@ -3,31 +3,37 @@
 
 #include "state.c"
 
+#define INSTANCEMAX 7
+#define ATTRIBUTECOUNT 5
 
-static void setupInstances(int instanceMax, int attributeCount) {
-  int adminSize = (instanceMax+1)*sizeof(AdminEntry)/sizeof(Aword);
-  int attributeAreaSize = (instanceMax+1)*attributeCount*sizeof(AttributeEntry)/sizeof(Aword);
+static void setupInstances(void) {
+  int adminSize = (INSTANCEMAX+1)*sizeof(AdminEntry)/sizeof(Aword);
+  int attributeAreaSize = (INSTANCEMAX+1)*ATTRIBUTECOUNT*sizeof(AttributeEntry)/sizeof(Aword);
   int i;
 
   header = allocate(sizeof(ACodeHeader));
   header->attributesAreaSize = attributeAreaSize;
-  header->instanceMax = instanceMax;
+  header->instanceMax = INSTANCEMAX;
 
-  admin = allocate((instanceMax+1)*sizeof(AdminEntry));
+  admin = allocate((INSTANCEMAX+1)*sizeof(AdminEntry));
   for (i = 0; i < adminSize; i++) ((Aword *)admin)[i] = i;
 
-  attributes = allocate((instanceMax+1)*attributeCount*sizeof(AttributeEntry));
+  attributes = allocate((INSTANCEMAX+1)*ATTRIBUTECOUNT*sizeof(AttributeEntry));
   for (i = 0; i < attributeAreaSize; i++) ((Aword *)attributes)[i] = i;
 
 }
 
-Ensure pushGameStateCollectsAdminAndAttributesData() {
-  int instanceCount = 3;
-  int adminSize = (instanceCount+1)*sizeof(AdminEntry)/sizeof(Aword);
-  int attributeCount = 5;
-  int attributeAreaSize = attributeCount*instanceCount*sizeof(AttributeEntry)/sizeof(Aword);
+static void teardownInstances() {
+	free(header);
+	free(admin);
+	free(attributes);
+}
 
-  setupInstances(instanceCount, attributeCount);
+
+Ensure pushGameStateCollectsAdminAndAttributesData() {
+  int adminSize = (INSTANCEMAX+1)*sizeof(AdminEntry)/sizeof(Aword);
+  int attributeAreaSize = ATTRIBUTECOUNT*INSTANCEMAX*sizeof(AttributeEntry)/sizeof(Aword);
+
   eventQueueTop = 0;
 
   rememberGameState();
@@ -37,12 +43,8 @@ Ensure pushGameStateCollectsAdminAndAttributesData() {
 }
 
 Ensure pushAndPopCanHandleSetAttributes() {
-  int instanceCount = 1;
-  int attributeCount = 1;
   Set *originalSet = newSet(3);
   SetInitEntry *initEntry;
-
-  setupInstances(instanceCount, attributeCount);
 
   admin[1].attributes = attributes;
   attributes[0].code = 1;
@@ -80,8 +82,6 @@ Ensure pushAndPopCanHandleSetAttributes() {
 }
 
 Ensure canPushAndPopAttributeState() {
-  int instanceCount = 2;
-  setupInstances(instanceCount, 3);
 
   attributes[0].value = 12;
   attributes[2].value = 3;
@@ -110,12 +110,9 @@ Ensure canPushAndPopAttributeState() {
 
 
 Ensure canPushAndPopAdminState() {
-  int INSTANCE_COUNT = 2;
   int INSTANCE1_LOCATION = 12;
   int INSTANCE2_LOCATION = 22;
   int INSTANCE2_FIRST_SCRIPT = 3;
-
-  setupInstances(INSTANCE_COUNT, 3);
 
   admin[1].location = INSTANCE1_LOCATION;
   admin[2].script = INSTANCE2_FIRST_SCRIPT;
@@ -155,8 +152,6 @@ Ensure canPushAndPopAdminState() {
 }
 
 Ensure canPushAndPopEvents() {
-  setupInstances(1, 1);
-
   eventQueue = NULL;
   eventQueueTop = 0;
 
@@ -182,7 +177,6 @@ Ensure canPushAndPopEvents() {
 }
 
 Ensure doesNotCrashOnSequenceOfRememberForgetAndRecall() {
-	setupInstances(12, 4);
 	rememberGameState();
 	forgetGameState();
 	rememberGameState();
@@ -220,8 +214,6 @@ Ensure canRememberPlayerCommand() {
   playerWords[firstWord].start = command;
   playerWords[lastWord].end = &command[4];
 
-  setupInstances(3, 3);
-
   rememberGameState();
   rememberCommands();
   recallGameState();
@@ -251,6 +243,10 @@ Ensure freeGameStateFreesMemory() {
 
 TestSuite *stateTests() {
   TestSuite *suite = create_test_suite();
+
+  setup(suite, setupInstances);
+  teardown(suite, teardownInstances);
+
   add_test(suite, freeGameStateFreesMemory);
   add_test(suite, canRememberPlayerCommand);
   add_test(suite, pushGameStateCollectsAdminAndAttributesData);
@@ -259,5 +255,6 @@ TestSuite *stateTests() {
   add_test(suite, canPushAndPopEvents);
   add_test(suite, pushAndPopCanHandleSetAttributes);
   add_test(suite, doesNotCrashOnSequenceOfRememberForgetAndRecall);
+
   return suite;
 }

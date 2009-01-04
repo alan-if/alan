@@ -1072,7 +1072,7 @@ static char *wordWithCode(Aint classBit, Aint code) {
 	int w;
 	char str[50];
 
-	for (w = 0; w < dictsize; w++)
+	for (w = 0; w < dictionarySize; w++)
 		if (dictionary[w].code == code && ((classBit&dictionary[w].classBits) != 0))
 			return pointerTo(dictionary[w].string);
 	sprintf(str, "Could not find word of class %ld with code %ld.", classBit, code);

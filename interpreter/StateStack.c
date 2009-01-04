@@ -18,6 +18,15 @@ typedef struct StateStackStructure {
 } StateStackStructure;
 
 
+/*----------------------------------------------------------------------*/
+static void *reallocateStack(void *from, int newSize)
+{
+	void *newArea = realloc(from, newSize*sizeof(void*));
+    if (newArea == NULL)
+    	syserr("Out of memory in 'ensureSpaceForGameState()'");
+    return newArea;
+}
+
 /*======================================================================*/
 StateStack createStateStack(int elementSize) {
 	StateStack stack = NEW(StateStackStructure);
@@ -32,7 +41,10 @@ StateStack createStateStack(int elementSize) {
 void deleteStateStack(StateStack stateStack) {
 	while (stateStack->stackPointer >0)
 		free(stateStack->stack[--stateStack->stackPointer]);
-	free(stateStack->stack);
+	if (stateStack->stackSize > 0) {
+		free(stateStack->stack);
+		free(stateStack->playerCommands);
+	}
 	free(stateStack);
 }
 
@@ -44,20 +56,11 @@ Bool stateStackIsEmpty(StateStack stateStack) {
 
 
 /*----------------------------------------------------------------------*/
-static void *reallocateStack(void *from, int newSize)
-{
-	void * newArea = realloc(from, newSize);
-    if (newArea == NULL)
-    	syserr("Out of memory in 'ensureSpaceForGameState()'");
-    return newArea;
-}
-
-/*----------------------------------------------------------------------*/
 static void ensureSpaceForGameState(StateStack stack)
 {
     if (stack->stackPointer == stack->stackSize) {
-    	stack->stack = reallocateStack(stack->stack, (stack->stackSize+EXTENT)*sizeof(void*));
-    	stack->playerCommands = reallocateStack(stack->playerCommands, (stack->stackSize+EXTENT)*sizeof(char*));
+    	stack->stack = reallocateStack(stack->stack, stack->stackSize+EXTENT);
+    	stack->playerCommands = reallocateStack(stack->playerCommands, stack->stackSize+EXTENT);
     	stack->stackSize += EXTENT;
     }
 }

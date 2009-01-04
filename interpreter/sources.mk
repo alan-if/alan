@@ -20,6 +20,7 @@ UNIT2SRC = \
 	stackTests.c \
 	stateTests.c \
 	sysdepTests.c \
+	smartall.c
 
 UNIT2REQUIREDSRCS = \
 	AttributeEntryArray.c \
@@ -64,6 +65,7 @@ MAINSRCS = \
 	sysdep.c \
 	syserr.c \
 	term.c \
+	smartall.c
 
 UNIT2SRCS = $(UNIT2SRC) $(UNIT2REQUIREDSRCS)
 UNIT2OBJECTS = ${UNIT2SRCS:.c=.o} alan.version.o

@@ -6,76 +6,19 @@ VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 SYSTEM = `uname -s`
 
 CYGWIN	= #-mno-cygwin
-
 OPTIMIZE = -ggdb
+COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG) $(SMARTALLOC)
+CFLAGS	= $(COMPILEFLAGS) 
 CC = gcc
-
-EXE	= arun.exe
-
-COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG)
-CFLAGS	= $(COMPILEFLAGS)
-ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)$(DMALLOC)
-LIBS	=
-
-
-#######################################################################
-#
-#Set up for specific targets
-#
-#Settings for Windows GLK variant
-WINGLKROOT = ../../WindowsGLK
-WINGLKDEFS = -DHAVE_WINGLK_X
-WINGLKINCLUDE = -I$(WINGLKROOT)/Include
-WINGLKLIB = $(WINGLKROOT)/Glk.lib
-
-winarun: GLKDEFS = $(WINGLKDEFS)
-winarun: CFLAGS = $(COMPILEFLAGS) $(WINGLKINCLUDE) $(GLKDEFS)
-winarun: CYGWIN = -mwindows -mno-cygwin 
-winarun: LIBS = $(WINGLKLIB)
-winarun: EXE = winarun.exe
-
-
-# Settings for TermGLK
-TERMGLKROOT = ../../glkterm
-TERMGLKDEFS = -DHAVE_GLK
-TERMGLKINCLUDE = -I$(TERMGLKROOT)
-TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
-
-glkarun: GLKDEFS = $(TERMGLKDEFS)
-glkarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
-glkarun: CYGWIN = 
-glkarun: LIBS = $(TERMGLKLIB)
-glkarun: EXE = glkarun.exe
-
-
-#Settings for Gargoyle GLK variant (experimental!)
-GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
-GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
-GARGLKINCLUDE = -I$(GARGLKROOT)
-GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk -mno-cygwin
-
-gararun: GLKDEFS = $(GARGLKDEFS)
-gararun: CFLAGS = $(COMPILEFLAGS) $(GARGLKINCLUDE) $(GLKDEFS)
-gararun: CYGWIN = 
-gararun: LIBS = $(GARGLKLIB)
-gararun: EXE = gararun.exe
+LDFLAGS = $(CYGWIN)
 
 
 #Settings for memory debugging
-dmalloc: DMALLOC = -DDMALLOC
-dmalloc: CFLAGS = $(COMPILEFLAGS) $(DMALLOC)
-dmalloc: LIBS = /usr/local/lib/libdmalloc.a
+SMARTALLOC = -DSMARTALLOC
 
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
-
-
-CPP	= gcc -MM -ansi
-
-LDFLAGS = $(CYGWIN) $(VERBOSE)
-
-GLKSRCS = glkstart.c glkio.c
 
 
 # Include common source lists 
@@ -91,23 +34,32 @@ Darwin: arun unit2 #dumpacd
 
 Cygwin: arun unit2 winarun glkarun gararun dumpacd
 
+clean:
+	-rm *.o
 
+
+
+#######################################################################
+# Settings for Release
+release: SMARTALLOC =
+release: OPTIMIZE=-O4
 release:
-	$(MAKE) "OPTIMIZE=-O4" $(SYSTEM)
+	$(MAKE) $(SYSTEM)
 
 
+
+#######################################################################
+# Settings for Standard Arun
 
 arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk #unitTests
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	-@cp $@ ../bin
 
-clean:
-	-rm *.o
 
-
+GLKSRCS = glkstart.c glkio.c
 #######################################################################
-#Settings for Windows GLK variant
+# Settings for Windows GLK variant
 WINGLKROOT = ../../WindowsGLK
 WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
@@ -117,7 +69,6 @@ winarun: GLKDEFS = $(WINGLKDEFS)
 winarun: CFLAGS = $(COMPILEFLAGS) $(WINGLKINCLUDE) $(GLKDEFS)
 winarun: CYGWIN = -mwindows -mno-cygwin 
 winarun: LIBS = $(WINGLKLIB)
-winarun: EXE = winarun.exe
 
 winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
 	gcc -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
@@ -140,12 +91,12 @@ glkarun: GLKDEFS = $(TERMGLKDEFS)
 glkarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
 glkarun: CYGWIN = 
 glkarun: LIBS = $(TERMGLKLIB)
-glkarun: EXE = glkarun.exe
 
 glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
 	gcc -o $@ $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
+
 
 #######################################################################
 #Settings for Gargoyle GLK variant (experimental!)
@@ -158,25 +109,15 @@ gararun: GLKDEFS = $(GARGLKDEFS)
 gararun: CFLAGS = $(COMPILEFLAGS) $(GARGLKINCLUDE) $(GLKDEFS)
 gararun: CYGWIN = 
 gararun: LIBS = $(GARGLKLIB)
-gararun: EXE = gararun.exe
 
 gararun: checkTarget $(GARARUNOBJECTS) arun.res
 	gcc -o $@ $(OPTIMIZE) $(GARARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
 
+
 #######################################################################
-#Settings for memory debugging
-dmalloc: DMALLOC = -DDMALLOC
-dmalloc: CFLAGS = $(COMPILEFLAGS) $(DMALLOC)
-dmalloc: LIBS = /usr/local/lib/libdmalloc.a
-
-dmalloc: checkTarget $(ARUNOBJECTS)
-	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
-	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp arun.exe ../bin
-
-
+ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)$(DMALLOC)$(SMARTALLOC)
 .PHONY: checkTarget
 checkTarget:
 	-@if test -f .arch; then :; else echo "none" > .arch; fi
@@ -240,6 +181,7 @@ test: unitTest
 
 
 #######################################################################
+# Misc programs
 dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
 	gcc -Wall -o dumpacd -ggdb -DSTDIONONCONST dumpacd.c ../compiler/spa.c reverse.c sysdep.c
 	cp $@ ../bin
@@ -256,6 +198,7 @@ headerGenerator: headerGenerator.c
 # Dependencies on libraries are only in the way for other cases,
 # so special dependencies that we need are set explicitly below
 #
+CPP	= gcc -MM -ansi
 DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
 depend:
 	@-for f in $(UNIT2SRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c ; \

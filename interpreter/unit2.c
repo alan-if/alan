@@ -1,5 +1,9 @@
 #include "cgreen/cgreen.h"
 
+#ifdef SMARTALLOC
+#include "smartall.h"
+#endif
+
 TestSuite *actTests();
 TestSuite *altInfoArrayTests();
 TestSuite *altInfoTests();
@@ -17,8 +21,9 @@ TestSuite *stackTests();
 TestSuite *sysdepTests();
 
 int main(int argc, char **argv) {
+	int return_code;
     TestSuite *suite = create_test_suite();
-    TestReporter *reporter = create_cute_reporter();
+    TestReporter *reporter = create_text_reporter();
 
     add_suite(suite, actTests());
     add_suite(suite, altInfoArrayTests());
@@ -36,7 +41,12 @@ int main(int argc, char **argv) {
     add_suite(suite, stateTests());
     add_suite(suite, sysdepTests());
     if (argc > 1) {
-        return run_single_test(suite, argv[1], reporter);
+        return_code = run_single_test(suite, argv[1], reporter);
+    } else {
+    	return_code = run_test_suite(suite, reporter);
     }
-    return run_test_suite(suite, reporter);
+#ifdef SMARTALLOC
+    sm_dump(1);
+#endif
+    return return_code;
 }
