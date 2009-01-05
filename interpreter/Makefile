@@ -29,7 +29,7 @@ include sources.mk
 all:
 	$(MAKE) $(SYSTEM)
 
-Darwin: arun unit2 #dumpacd
+Darwin: unitTest arun #dumpacd
 
 
 CYGWIN: unitTest arun winarun glkarun gararun dumpacd
