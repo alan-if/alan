@@ -32,7 +32,7 @@ extern CurVars current;
 /* Amachine data structures - Dynamic */
 extern InstanceEntry *instances; /* Instance table pointer */
 extern AdminEntry *admin;	/* Administrative data about instances */
-extern AttributeEntry *attributes; /* Dynamic attribute values */
+extern Attribute *attributes; /* Dynamic attribute values */
 extern Aword *scores;		/* Score table pointer */
 
 /* Amachine data structures - Static */
@@ -96,7 +96,7 @@ extern void error(MsgKind msg);
 extern void statusline(void);
 extern void output(char string[]);
 extern void printMessage(MsgKind msg);
-extern void printMessageWithParameters(MsgKind msg, ParamEntry *messageParameters);
+extern void printMessageWithParameters(MsgKind msg, Parameter *messageParameters);
 extern void para(void);
 extern void newline(void);
 extern void printAndLog(char string[]);

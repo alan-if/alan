@@ -284,7 +284,7 @@ static void reverseInstances(Aword adr)
     reverseTable(adr, sizeof(InstanceEntry));
     while (!isEndOfList(e)) {
       reverseStms(e->name);
-      reverseTable(e->initialAttributes, sizeof(AttributeEntry));
+      reverseTable(e->initialAttributes, sizeof(Attribute));
       reverseStms(e->initialize);
       reverseStms(e->definite.address);
       reverseStms(e->indefinite.address);

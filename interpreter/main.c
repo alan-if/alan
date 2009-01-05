@@ -71,7 +71,7 @@ Aint eventQueueTop = 0;		/* Event queue top pointer */
 /* Amachine structures - Dynamic */
 InstanceEntry *instances;	/* Instance table pointer */
 AdminEntry *admin;		/* Administrative data about instances */
-AttributeEntry *attributes;	/* Dynamic attribute values */
+Attribute *attributes;	/* Dynamic attribute values */
 Aword *scores;			/* Score table pointer */
 
 /* Amachine structures - Static */
@@ -716,9 +716,9 @@ void printMessage(MsgKind msg)		/* IN - message number */
 }
 
 /*======================================================================*/
-void printMessageWithParameters(MsgKind msg, ParamEntry *messageParameters)
+void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
 {
-	ParamEntry *savedParameters = createParameterList(NULL);
+	Parameter *savedParameters = allocateParameterArray(NULL);
 	copyParameterList(savedParameters, parameters);
 	if (messageParameters != NULL)
 		copyParameterList(parameters, messageParameters);
@@ -1288,9 +1288,9 @@ static Aint sizeOfAttributeData(void)
   int size = 0;
 
   for (i=1; i<=header->instanceMax; i++) {
-    AttributeEntry *attribute = pointerTo(instances[i].initialAttributes);
+    Attribute *attribute = pointerTo(instances[i].initialAttributes);
     while (!isEndOfList(attribute)) {
-      size += AwordSizeOf(AttributeEntry);
+      size += AwordSizeOf(Attribute);
       attribute++;
     }
     size += 1;			/* For EOF */
@@ -1303,25 +1303,25 @@ static Aint sizeOfAttributeData(void)
 
 
 /*----------------------------------------------------------------------*/
-static AttributeEntry *initializeAttributes(int awordSize)
+static Attribute *initializeAttributes(int awordSize)
 {
   Aword *attributeArea = allocate(awordSize*sizeof(Aword));
   Aword *currentAttributeArea = attributeArea;
   int i;
 
   for (i=1; i<=header->instanceMax; i++) {
-    AttributeEntry *originalAttribute = pointerTo(instances[i].initialAttributes);
-    admin[i].attributes = (AttributeEntry *)currentAttributeArea;
+    Attribute *originalAttribute = pointerTo(instances[i].initialAttributes);
+    admin[i].attributes = (Attribute *)currentAttributeArea;
     while (!isEndOfList(originalAttribute)) {
-      *((AttributeEntry *)currentAttributeArea) = *originalAttribute;
-      currentAttributeArea += AwordSizeOf(AttributeEntry);
+      *((Attribute *)currentAttributeArea) = *originalAttribute;
+      currentAttributeArea += AwordSizeOf(Attribute);
       originalAttribute++;
     }
     *((Aword*)currentAttributeArea) = EOF;
     currentAttributeArea += 1;
   }
 
-  return (AttributeEntry *)attributeArea;
+  return (Attribute *)attributeArea;
 }
 
 

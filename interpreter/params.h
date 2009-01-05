@@ -8,14 +8,15 @@
 #ifndef PARAMS_H
 #include "types.h"
 
-extern ParamEntry *createParameterList(ParamEntry *currentList);
-extern ParamEntry *findEndOfList(ParamEntry *parameters);
-extern void compress(ParamEntry *a);
-extern int listLength(ParamEntry *a);
-extern Bool inList(ParamEntry *l, Aword e);
-extern void copyParameterList(ParamEntry *to, ParamEntry *from);
-extern void subtractListFromList(ParamEntry *a, ParamEntry *b);
-extern void mergeLists(ParamEntry *a, ParamEntry *b);
-extern void intersect(ParamEntry *a, ParamEntry *b);
-extern void copyReferences(ParamEntry *p, Aword *r);
+extern Parameter *allocateParameterArray(Parameter *currentList);
+extern Parameter *findEndOfList(Parameter *parameters);
+extern int findMultiplePosition(Parameter parameters[]);
+extern void compress(Parameter *a);
+extern int listLength(Parameter *a);
+extern Bool inList(Parameter *l, Aword e);
+extern void copyParameterList(Parameter *to, Parameter *from);
+extern void subtractListFromList(Parameter *a, Parameter *b);
+extern void mergeLists(Parameter *a, Parameter *b);
+extern void intersect(Parameter *a, Parameter *b);
+extern void copyReferences(Parameter *p, Aword *r);
 #endif

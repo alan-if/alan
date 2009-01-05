@@ -97,8 +97,8 @@ Ensure testMatchParseTree() {
   ElementEntry *element;
   ElementEntry *elementTable;
   Bool plural;
-  ParamEntry parameters[10];
-  ParamEntry multipleParameters[10];
+  Parameter parameters[10];
+  Parameter multipleParameters[10];
 
   memory = allocate(100*sizeof(Aword));
   elementTable = (ElementEntry *)&memory[50];
@@ -142,7 +142,7 @@ Ensure testMatchParseTree() {
 /*----------------------------------------------------------------------*/
 Ensure canSetupParameterForWord() {
   ACodeHeader acdHeader;
-  ParamEntry *messageParameters = createParameterList(NULL);
+  Parameter *messageParameters = allocateParameterArray(NULL);
 
   header = &acdHeader;
   header->maxParameters = 10;
@@ -182,7 +182,7 @@ Ensure canSeeBitsInFlag(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupInstanceParametersForMessages() {
-	ParamEntry *parameters = createParameterList(NULL);
+	Parameter *parameters = allocateParameterArray(NULL);
 
 	addParameterForInstance(parameters, 2);
 
@@ -196,7 +196,7 @@ Ensure canSetupInstanceParametersForMessages() {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupStringParametersForMessages() {
-	ParamEntry *parameters = createParameterList(NULL);
+	Parameter *parameters = allocateParameterArray(NULL);
 
 	addParameterForString(parameters, "a string");
 
@@ -210,7 +210,7 @@ Ensure canSetupStringParametersForMessages() {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupIntegerParametersForMessages() {
-	ParamEntry *parameters = createParameterList(NULL);
+	Parameter *parameters = allocateParameterArray(NULL);
 
 	addParameterForInteger(parameters, 14);
 

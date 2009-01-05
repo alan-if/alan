@@ -22,26 +22,39 @@
 
 
 /*======================================================================*/
-ParamEntry *createParameterList(ParamEntry *currentList) {
-	ParamEntry *list;
+Parameter *allocateParameterArray(Parameter *currentList) {
+	Parameter *list;
 	if (currentList != NULL)
 		return currentList;
-	list = allocate(sizeof(ParamEntry)*(MAXPARAMS+1));
+	list = allocate(sizeof(Parameter)*(MAXPARAMS+1));
 	setEndOfList(list);
 	return list;
 }
 
 
 /*======================================================================*/
-ParamEntry *findEndOfList(ParamEntry *parameters) {
-	ParamEntry *parameter;
+Parameter *findEndOfList(Parameter *parameters) {
+	Parameter *parameter;
 	for (parameter = parameters; !isEndOfList(parameter); parameter++);
 	return parameter;
 }
 
 
 /*======================================================================*/
-void compress(ParamEntry theList[])
+/* A parameter position with code == 0 means this is a multiple position. We must loop
+ * over this position (and replace it by each present in the matched list)
+ */
+int findMultiplePosition(Parameter parameters[]) {
+	int multiplePosition;
+	for (multiplePosition = 0; parameters[multiplePosition].instance != -1; multiplePosition++)
+		if (parameters[multiplePosition].instance == 0)
+			return multiplePosition;
+	return -1;
+}
+
+
+/*======================================================================*/
+void compress(Parameter theList[])
 {
   int i, j;
 
@@ -53,7 +66,7 @@ void compress(ParamEntry theList[])
 
 
 /*======================================================================*/
-int listLength(ParamEntry theList[])
+int listLength(Parameter theList[])
 {
   int i = 0;
 
@@ -64,7 +77,7 @@ int listLength(ParamEntry theList[])
 
 
 /*======================================================================*/
-Bool inList(ParamEntry theList[], Aword theCode)
+Bool inList(Parameter theList[], Aword theCode)
 {
   int i;
 
@@ -74,7 +87,7 @@ Bool inList(ParamEntry theList[], Aword theCode)
 
 
 /*======================================================================*/
-void copyParameterList(ParamEntry to[], ParamEntry from[])
+void copyParameterList(Parameter to[], Parameter from[])
 {
   int i;
 
@@ -85,7 +98,7 @@ void copyParameterList(ParamEntry to[], ParamEntry from[])
 
 
 /*======================================================================*/
-void subtractListFromList(ParamEntry theList[], ParamEntry remove[])
+void subtractListFromList(Parameter theList[], Parameter remove[])
 {
   int i;
 
@@ -97,7 +110,7 @@ void subtractListFromList(ParamEntry theList[], ParamEntry remove[])
 
 
 /*======================================================================*/
-void mergeLists(ParamEntry one[], ParamEntry other[])
+void mergeLists(Parameter one[], Parameter other[])
 {
   int i,last;
 
@@ -111,7 +124,7 @@ void mergeLists(ParamEntry one[], ParamEntry other[])
 
 
 /*======================================================================*/
-void intersect(ParamEntry one[], ParamEntry other[])
+void intersect(Parameter one[], Parameter other[])
 {
   int i, last = 0;
 
@@ -123,7 +136,7 @@ void intersect(ParamEntry one[], ParamEntry other[])
 
 
 /*======================================================================*/
-void copyReferences(ParamEntry parameterList[], Aword references[])
+void copyReferences(Parameter parameterList[], Aword references[])
 {
   int i;
 

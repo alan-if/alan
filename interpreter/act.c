@@ -20,6 +20,7 @@
 #include "AltInfo.h"
 #include "AltInfoArray.h"
 #include "CheckEntryArray.h"
+#include "params.h"
 
 
 
@@ -68,17 +69,6 @@ static void executeCommand(void)
 }
 
 
-/* A parameter position with code == 0 means this is a multiple position. We must loop
- * over this position (and replace it by each present in the matched list)
- */
-static int findMultiplePosition(ParamEntry *parameters) {
-	int multiplePosition;
-	for (multiplePosition = 0; parameters[multiplePosition].instance != -1; multiplePosition++)
-		if (parameters[multiplePosition].instance == 0)
-			return multiplePosition;
-	return -1;
-}
-
 /*======================================================================
 
   action()
@@ -87,7 +77,7 @@ static int findMultiplePosition(ParamEntry *parameters) {
   such as THEM or lists of objects.
 
  */
-void action(ParamEntry *parameters, ParamEntry *matched)
+void action(Parameter parameters[], Parameter multipleMatches[])
 {
 	int i, multiplePosition;
 	char marker[10];
@@ -95,11 +85,11 @@ void action(ParamEntry *parameters, ParamEntry *matched)
 	multiplePosition = findMultiplePosition(parameters);
 	if (multiplePosition != -1) {
 		sprintf(marker, "($%d)", multiplePosition+1); /* Prepare a printout with $1/2/3 */
-		for (i = 0; matched[i].instance != EOF; i++) {
-			parameters[multiplePosition] = matched[i];
+		for (i = 0; multipleMatches[i].instance != EOF; i++) {
+			parameters[multiplePosition] = multipleMatches[i];
 			output(marker);
 			executeCommand();
-			if (matched[i+1].instance != EOF)
+			if (multipleMatches[i+1].instance != EOF)
 				para();
 		}
 		parameters[multiplePosition].instance = 0;

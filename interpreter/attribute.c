@@ -1,4 +1,4 @@
-#include "AttributeEntryArray.h"
+#include "Attribute.h"
 
 #include "main.h"
 #include "syserr.h"
@@ -6,10 +6,9 @@
 
 
 /*======================================================================*/
-AttributeEntry *findAttribute(AttributeEntry *attributeTable,
-			      Aint attributeCode)
+Attribute *findAttribute(Attribute *attributeTable, int attributeCode)
 {
-  AttributeEntry *attribute = attributeTable;
+  Attribute *attribute = attributeTable;
   while (attribute->code != attributeCode) {
     attribute++;
     if (isEndOfList(attribute))
@@ -20,20 +19,18 @@ AttributeEntry *findAttribute(AttributeEntry *attributeTable,
 
 
 /*======================================================================*/
-Aword getAttribute(AttributeEntry *attributeTable, Aint attributeCode)
+Aword getAttribute(Attribute *attributeTable, int attributeCode)
 {
-  AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
+  Attribute *attribute = findAttribute(attributeTable, attributeCode);
 
   return attribute->value;
 }
 
 
 /*======================================================================*/
-void setAttribute(AttributeEntry *attributeTable,
-		  Aint attributeCode,
-		  Aword newValue)
+void setAttribute(Attribute *attributeTable, int attributeCode, Aword newValue)
 {
-  AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
+  Attribute *attribute = findAttribute(attributeTable, attributeCode);
 
   attribute->value = newValue;
   gameStateChanged = TRUE;

@@ -4,7 +4,7 @@
 
 
 Ensure canFindLastParameterInAList() {
-	ParamEntry parameters[10];
+	Parameter parameters[10];
 
 	memset(parameters, 45, sizeof(parameters));
 	setEndOfList(&parameters[5]);

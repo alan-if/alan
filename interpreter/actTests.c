@@ -4,7 +4,7 @@
 
 
 Ensure can_find_multiple_position(void) {
-	ParamEntry parameters[10];
+	Parameter parameters[10];
 	int i;
 
 	for (i=0; i<10; i++)
@@ -16,7 +16,7 @@ Ensure can_find_multiple_position(void) {
 }
 
 Ensure returns_minus_one_for_no_multiple_position(void) {
-	ParamEntry parameters[10];
+	Parameter parameters[10];
 	int i;
 
 	for (i=0; i<10; i++)

@@ -307,7 +307,7 @@ typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
 				   string pointer, a set has a pointer
 				   to a dynamically allocated set */
   Aaddr stringAddress;		/* Address to the name */
-} AttributeEntry;
+} Attribute;
 
 typedef struct ExitEntry {	/* EXIT TABLE structure */
   Aword code;			/* Direction code */

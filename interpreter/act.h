@@ -18,6 +18,6 @@
 
 /* FUNCTIONS */
 
-extern void action(ParamEntry *parameters, ParamEntry *multipleMatches);
+extern void action(Parameter *parameters, Parameter *multipleMatches);
 
 #endif

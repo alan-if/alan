@@ -228,7 +228,7 @@ static void restoreAdmin(AFILE saveFile) {
   /* Restore admin for instances, remember to reset attribute area pointer */
   int i;
   for (i = 1; i <= header->instanceMax; i++) {
-    AttributeEntry *currentAttributesArea = admin[i].attributes;
+    Attribute *currentAttributesArea = admin[i].attributes;
     fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
     admin[i].attributes = currentAttributesArea;
   }

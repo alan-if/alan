@@ -71,7 +71,7 @@ typedef struct CurVars {
 
 typedef struct AdminEntry {	/* Administrative data about instances */
   Aint location;
-  AttributeEntry *attributes;
+  Attribute *attributes;
   Abool alreadyDescribed;
   Aint visitsCount;
   Aint script;
@@ -135,7 +135,7 @@ typedef struct ParamEntry {	/* PARAMETER */
   Aword firstWord;		/* Index to first word used by
 				   player */
   Aword lastWord;		/* d:o to last */
-} ParamEntry;
+} Parameter;
 
 typedef enum LiteralType {
   NO_LITERAL, NUMERIC_LITERAL, STRING_LITERAL

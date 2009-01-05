@@ -52,7 +52,7 @@ void describeInstances(void);
 
 /*----------------------------------------------------------------------*/
 static void printMessageWithInstanceParameter(MsgKind message, int i) {
-	ParamEntry *parameters = createParameterList(NULL);
+	Parameter *parameters = allocateParameterArray(NULL);
 	addParameterForInstance(parameters, i);
 	printMessageWithParameters(message, parameters);
 	free(parameters);
@@ -60,7 +60,7 @@ static void printMessageWithInstanceParameter(MsgKind message, int i) {
 
 /*----------------------------------------------------------------------*/
 static void printMessageUsing2InstanceParameters(MsgKind message, int instance1, int instance2) {
-	ParamEntry *parameters = createParameterList(NULL);
+	Parameter *parameters = allocateParameterArray(NULL);
 	addParameterForInstance(parameters, instance1);
 	addParameterForInstance(parameters, instance2);
 	printMessageWithParameters(message, parameters);
@@ -184,7 +184,7 @@ char *getStringFromFile(Aword fpos, Aword len)
 void score(Aword sc)
 {
 	if (sc == 0) {
-		ParamEntry *messageParameters = createParameterList(NULL);
+		Parameter *messageParameters = allocateParameterArray(NULL);
 		addParameterForInteger(messageParameters, current.score);
 		addParameterForInteger(messageParameters, header->maximumScore);
 		printMessageWithParameters(M_SCORE, messageParameters);
@@ -228,7 +228,7 @@ Bool confirm(MsgKind msgno)
 
 /*----------------------------------------------------------------------*/
 static void sayUndoneCommand(char *words) {
-	ParamEntry messageParameters[2];
+	Parameter messageParameters[2];
 
 	current.location = where(HERO, TRUE);
 	clearList(messageParameters);

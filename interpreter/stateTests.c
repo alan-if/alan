@@ -8,7 +8,7 @@
 
 static void setupInstances(void) {
   int adminSize = (INSTANCEMAX+1)*sizeof(AdminEntry)/sizeof(Aword);
-  int attributeAreaSize = (INSTANCEMAX+1)*ATTRIBUTECOUNT*sizeof(AttributeEntry)/sizeof(Aword);
+  int attributeAreaSize = (INSTANCEMAX+1)*ATTRIBUTECOUNT*sizeof(Attribute)/sizeof(Aword);
   int i;
 
   header = allocate(sizeof(ACodeHeader));
@@ -18,7 +18,7 @@ static void setupInstances(void) {
   admin = allocate((INSTANCEMAX+1)*sizeof(AdminEntry));
   for (i = 0; i < adminSize; i++) ((Aword *)admin)[i] = i;
 
-  attributes = allocate((INSTANCEMAX+1)*ATTRIBUTECOUNT*sizeof(AttributeEntry));
+  attributes = allocate((INSTANCEMAX+1)*ATTRIBUTECOUNT*sizeof(Attribute));
   for (i = 0; i < attributeAreaSize; i++) ((Aword *)attributes)[i] = i;
 
 }
@@ -32,7 +32,7 @@ static void teardownInstances() {
 
 Ensure pushGameStateCollectsAdminAndAttributesData() {
   int adminSize = (INSTANCEMAX+1)*sizeof(AdminEntry)/sizeof(Aword);
-  int attributeAreaSize = ATTRIBUTECOUNT*INSTANCEMAX*sizeof(AttributeEntry)/sizeof(Aword);
+  int attributeAreaSize = ATTRIBUTECOUNT*INSTANCEMAX*sizeof(Attribute)/sizeof(Aword);
 
   eventQueueTop = 0;
 
