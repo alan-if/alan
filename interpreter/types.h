@@ -71,7 +71,7 @@ typedef struct CurVars {
 
 typedef struct AdminEntry {	/* Administrative data about instances */
   Aint location;
-  Attribute *attributes;
+  AttributeEntry *attributes;
   Abool alreadyDescribed;
   Aint visitsCount;
   Aint script;

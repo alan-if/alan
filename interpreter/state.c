@@ -34,7 +34,7 @@ typedef struct GameState {
 
   /* Instance data */
   AdminEntry *admin;			/* Administrative data about instances */
-  Attribute *attributes;	/* Attributes data area */
+  AttributeEntry *attributes;	/* Attributes data area */
   /* Sets and strings are dynamically allocated areas for which the
      attribute is just a pointer to. So they are not catched by the
      saving of attributes, instead they require special storage */

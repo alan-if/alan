@@ -17,7 +17,7 @@ static void testSaveRestore() {
   /* Init header */
   header = allocate(sizeof(ACodeHeader));
   header->instanceMax = 3;
-  header->attributesAreaSize = 21*sizeof(Attribute)/sizeof(Aword);
+  header->attributesAreaSize = 21*sizeof(AttributeEntry)/sizeof(Aword);
   header->scoreCount = 0;
   header->stringInitTable = 0;
 
@@ -29,7 +29,7 @@ static void testSaveRestore() {
   instances[3].initialAttributes = 12; /* Shouldn't matter where.. */
 
   /* Allocate an attribute area and initialize it */
-  attributes = malloc(21*sizeof(Attribute));
+  attributes = malloc(21*sizeof(AttributeEntry));
   for (i = 0; i<20; i++) {
     attributes[i].code = i;
     attributes[i].value = i;
@@ -55,7 +55,7 @@ static void testSaveRestore() {
   free(attributes);
 
   /* Get another attribute area and initialize admin areas */
-  attributes = malloc(21*sizeof(Attribute));
+  attributes = malloc(21*sizeof(AttributeEntry));
   for (i = 0; i<21; i++) {
     attributes[20-i].code = i;
     attributes[20-i].value = i;
@@ -93,14 +93,14 @@ static void testSaveStrings() {
 
   /* Init header for one instance with one attribute */
   header->instanceMax = 1;
-  header->attributesAreaSize = sizeof(Attribute)/sizeof(Aword);
+  header->attributesAreaSize = sizeof(AttributeEntry)/sizeof(Aword);
 
   /* Initialize a fake instance table */
   instances = malloc(2*sizeof(InstanceEntry));
   instances[1].parent = 0;
 
   /* Allocate an attribute area and initialize it */
-  attributes = malloc(2*sizeof(Attribute));
+  attributes = malloc(2*sizeof(AttributeEntry));
   attributes[0].code = 1;
   attributes[0].value = (Aword)strdup(testString);
   attributes[0].stringAddress = 0;
@@ -148,7 +148,7 @@ static void testSaveSets() {
 
   /* Init header for one instance with four attributes */
   header->instanceMax = 1;
-  header->attributesAreaSize = 4*sizeof(Attribute)/sizeof(Aword);
+  header->attributesAreaSize = 4*sizeof(AttributeEntry)/sizeof(Aword);
   header->scoreCount = 0;
   header->stringInitTable = 0;
 
@@ -164,7 +164,7 @@ static void testSaveSets() {
   }
 
   /* Allocate an attribute area and initialize it */
-  attributes = malloc(5*sizeof(Attribute));
+  attributes = malloc(5*sizeof(AttributeEntry));
   for (i = 0; i < 4; i++) {
     attributes[i].code = i+1;
     attributes[i].value = (Aword)copySet(testSet[i]);

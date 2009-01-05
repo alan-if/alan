@@ -9,11 +9,11 @@ Ensure testUpdateColumn() {
 }
 
 Ensure canCopyAttributes() {
-  Attribute *attributeArea;
-  Attribute *a = (Attribute *)&memory[1];
+  AttributeEntry *attributeArea;
+  AttributeEntry *a = (AttributeEntry *)&memory[1];
 
-  memory = allocate(6*sizeof(Attribute));
-  a = (Attribute *)&memory[1];
+  memory = allocate(6*sizeof(AttributeEntry));
+  a = (AttributeEntry *)&memory[1];
 
   header = allocate(sizeof(ACodeHeader));
   header->instanceMax = 2;
@@ -41,7 +41,7 @@ Ensure canCopyAttributes() {
   instances[1].initialAttributes = 1;
   instances[2].initialAttributes = 10;
 
-  attributeArea = initializeAttributes(5*sizeof(Attribute)/sizeof(Aword));
+  attributeArea = initializeAttributes(5*sizeof(AttributeEntry)/sizeof(Aword));
 
   assert_true(admin[1].attributes[0].code == 13);
   assert_true(admin[1].attributes[0].value == 15);

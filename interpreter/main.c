@@ -71,7 +71,7 @@ Aint eventQueueTop = 0;		/* Event queue top pointer */
 /* Amachine structures - Dynamic */
 InstanceEntry *instances;	/* Instance table pointer */
 AdminEntry *admin;		/* Administrative data about instances */
-Attribute *attributes;	/* Dynamic attribute values */
+AttributeEntry *attributes;	/* Dynamic attribute values */
 Aword *scores;			/* Score table pointer */
 
 /* Amachine structures - Static */
@@ -1288,9 +1288,9 @@ static Aint sizeOfAttributeData(void)
   int size = 0;
 
   for (i=1; i<=header->instanceMax; i++) {
-    Attribute *attribute = pointerTo(instances[i].initialAttributes);
+    AttributeEntry *attribute = pointerTo(instances[i].initialAttributes);
     while (!isEndOfList(attribute)) {
-      size += AwordSizeOf(Attribute);
+      size += AwordSizeOf(AttributeEntry);
       attribute++;
     }
     size += 1;			/* For EOF */
@@ -1303,25 +1303,25 @@ static Aint sizeOfAttributeData(void)
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *initializeAttributes(int awordSize)
+static AttributeEntry *initializeAttributes(int awordSize)
 {
   Aword *attributeArea = allocate(awordSize*sizeof(Aword));
   Aword *currentAttributeArea = attributeArea;
   int i;
 
   for (i=1; i<=header->instanceMax; i++) {
-    Attribute *originalAttribute = pointerTo(instances[i].initialAttributes);
-    admin[i].attributes = (Attribute *)currentAttributeArea;
+    AttributeEntry *originalAttribute = pointerTo(instances[i].initialAttributes);
+    admin[i].attributes = (AttributeEntry *)currentAttributeArea;
     while (!isEndOfList(originalAttribute)) {
-      *((Attribute *)currentAttributeArea) = *originalAttribute;
-      currentAttributeArea += AwordSizeOf(Attribute);
+      *((AttributeEntry *)currentAttributeArea) = *originalAttribute;
+      currentAttributeArea += AwordSizeOf(AttributeEntry);
       originalAttribute++;
     }
     *((Aword*)currentAttributeArea) = EOF;
     currentAttributeArea += 1;
   }
 
-  return (Attribute *)attributeArea;
+  return (AttributeEntry *)attributeArea;
 }
 
 

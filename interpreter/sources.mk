@@ -23,7 +23,7 @@ UNIT2SRC = \
 	smartall.c
 
 UNIT2REQUIREDSRCS = \
-	Attribute.c \
+	AttributeEntry.c \
 	CheckEntryArray.c \
 	Container.c \
 	Location.c \
@@ -40,7 +40,7 @@ UNIT2REQUIREDSRCS = \
 MAINSRCS = \
 	AltInfo.c \
 	AltInfoArray.c \
-	Attribute.c \
+	AttributeEntry.c \
 	CheckEntryArray.c \
 	Container.c \
 	Location.c \

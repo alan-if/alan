@@ -47,9 +47,9 @@ Breakpoint breakpoint[BREAKPOINTMAX];
 #define debugPrefix "adbg: "
 
 /*----------------------------------------------------------------------*/
-static void showAttributes(Attribute *attributes)
+static void showAttributes(AttributeEntry *attributes)
 {
-  Attribute *at;
+  AttributeEntry *at;
   int i;
   char str[80];
 

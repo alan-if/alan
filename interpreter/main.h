@@ -32,7 +32,7 @@ extern CurVars current;
 /* Amachine data structures - Dynamic */
 extern InstanceEntry *instances; /* Instance table pointer */
 extern AdminEntry *admin;	/* Administrative data about instances */
-extern Attribute *attributes; /* Dynamic attribute values */
+extern AttributeEntry *attributes; /* Dynamic attribute values */
 extern Aword *scores;		/* Score table pointer */
 
 /* Amachine data structures - Static */
