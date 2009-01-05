@@ -5,7 +5,7 @@
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 SYSTEM = `uname -s | sed 's/_.*$$//'`
 
-CYGWIN	= #-mno-cygwin
+CYGWIN	= -mno-cygwin
 OPTIMIZE = -ggdb
 COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG) $(SMARTALLOC)
 CFLAGS	= $(COMPILEFLAGS) 
@@ -14,7 +14,7 @@ LDFLAGS = $(CYGWIN)
 
 
 #Settings for memory debugging
-SMARTALLOC = -DSMARTALLOC
+SMARTALLOC = #-DSMARTALLOC
 
 
 # Define this to make interpreter log each crc calculation step
@@ -32,7 +32,11 @@ all:
 Darwin: unitTest arun #dumpacd
 
 
-CYGWIN: unitTest arun winarun glkarun gararun dumpacd
+CYGWIN: unitTest arun dumpacd
+	$(MAKE)	winarun
+	$(MAKE) glkarun
+	$(MAKE) gararun
+
 
 clean:
 	-rm *.o
@@ -51,7 +55,7 @@ release:
 #######################################################################
 # Settings for Standard Arun
 
-arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk #unitTest
+arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	-@cp $@ ../bin
@@ -101,7 +105,7 @@ glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
 #######################################################################
 #Settings for Gargoyle GLK variant (experimental!)
 GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
-GARGLKDEFS = -DHAVE_GARGLK -DHAVE_GLK -mno-cygwin -mwindows
+GARGLKDEFS = -DHAVE_GARGLK -mno-cygwin -mwindows
 GARGLKINCLUDE = -I$(GARGLKROOT)
 GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk -mno-cygwin
 

@@ -18,7 +18,6 @@
 #ifndef _SYSDEP_H_
 #define _SYSDEP_H_
 
-#undef HAVE_WINGLK
 
 /* Place definitions of OS and compiler here if necessary */
 #ifdef AZTEC_C
@@ -86,6 +85,10 @@
 
 
 #ifdef HAVE_WINGLK
+#define HAVE_GLK
+#endif
+
+#ifdef HAVE_GARGLK
 #define HAVE_GLK
 #endif
 
