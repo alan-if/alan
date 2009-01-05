@@ -3,7 +3,7 @@
   dumpacd
 
 
-  Dump an .ACD file in something like a symblic format.
+  Dump an .ACD file in something like a symbolic format.
 
 \*----------------------------------------------------------------------*/
 

@@ -3,7 +3,7 @@
 # one of the other makefiles, such as Makefile.unix
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
-SYSTEM = `uname -s`
+SYSTEM = `uname -s | sed 's/_.*$$//'`
 
 CYGWIN	= #-mno-cygwin
 OPTIMIZE = -ggdb
@@ -32,7 +32,7 @@ all:
 Darwin: arun unit2 #dumpacd
 
 
-Cygwin: arun unit2 winarun glkarun gararun dumpacd
+CYGWIN: unitTest arun winarun glkarun gararun dumpacd
 
 clean:
 	-rm *.o
@@ -51,7 +51,7 @@ release:
 #######################################################################
 # Settings for Standard Arun
 
-arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk #unitTests
+arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk #unitTest
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	-@cp $@ ../bin

@@ -6,16 +6,17 @@
 
 \*----------------------------------------------------------------------*/
 
-
-#include "types.h"
-#include "main.h"
-
 #include "reverse.h"
+
+
+extern Aword memory[];
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static Aword *addressesDone = NULL;
 static int numberDone = 0;
 static int doneSize = 0;
+
+#define endOfTable(x) ((*(Aword *) x) == EOF)
 
 static Bool alreadyDone(Aaddr address)
 {
@@ -84,7 +85,7 @@ static void reverseTable(Aword adr, int len)
 
   if (adr == 0) return;
 
-  while (!isEndOfList(e)) {
+  while (!endOfTable(e)) {
     if (len < sizeof(Aword)) {
       printf("***Wrong size in 'reverseTable()' ***");
       exit(-1);
@@ -117,9 +118,9 @@ static void reverseMsgs(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(MessageEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->stms);
       e++;
     }
@@ -133,9 +134,9 @@ static void reverseDictionary(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(DictionaryEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       if ((e->classBits & SYNONYM_BIT) == 0) { /* Do not do this for synonyms */
 	reverseTable(e->adjectiveRefs, sizeof(Aword));
 	reverseTable(e->nounRefs, sizeof(Aword));
@@ -153,9 +154,9 @@ static void reverseChks(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(CheckEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->exp);
       reverseStms(e->stms);
       e++;
@@ -170,9 +171,9 @@ static void reverseAlts(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(AltEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->action);
       e++;
@@ -187,9 +188,9 @@ static void reverseVerbs(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(VerbEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseAlts(e->alts);
       e++;
     }
@@ -203,9 +204,9 @@ static void reverseSteps(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(StepEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->after);
       reverseStms(e->exp);
       reverseStms(e->stms);
@@ -221,9 +222,9 @@ static void reverseScrs(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ScriptEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->description);
       reverseSteps(e->steps);
       e++;
@@ -238,9 +239,9 @@ static void reverseExits(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ExitEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseChks(e->checks);
       reverseStms(e->action);
       e++;
@@ -255,9 +256,9 @@ static void reverseClasses(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ClassEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->name);
       reverseStms(e->initialize);
       reverseChks(e->descriptionChecks);
@@ -280,9 +281,9 @@ static void reverseInstances(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(InstanceEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->name);
       reverseTable(e->initialAttributes, sizeof(AttributeEntry));
       reverseStms(e->initialize);
@@ -306,9 +307,9 @@ static void reverseRestrictions(Aword adr)
   RestrictionEntry *e = (RestrictionEntry *) &memory[adr];
 
   if (alreadyDone(adr)) return;
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(RestrictionEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->stms);
       e++;
     }
@@ -322,9 +323,9 @@ static void reverseElms(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ElementEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       if (e->code == EOS) reverseRestrictions(e->next);
       else reverseElms(e->next);
       e++;
@@ -339,9 +340,9 @@ static void reverseSyntaxTable(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(SyntaxEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseElms(e->elms);
       e++;
     }
@@ -355,9 +356,9 @@ static void reverseParameterTable(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ParameterMapEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseTable(e->parameterMapping, sizeof(Aword));
       e++;
     }
@@ -371,9 +372,9 @@ static void reverseEvts(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(EventEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->code);
       e++;
     }
@@ -387,9 +388,9 @@ static void reverseLims(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(LimEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->stms);
       e++;
     }
@@ -403,9 +404,9 @@ static void reverseContainers(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(ContainerEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseLims(e->limits);
       reverseStms(e->header);
       reverseStms(e->empty);
@@ -423,9 +424,9 @@ static void reverseRuls(Aword adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(RulEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseStms(e->exp);
       reverseStms(e->stms);
       e++;
@@ -440,9 +441,9 @@ static void reverseSetInitTable(Aaddr adr)
 
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
+  if (!endOfTable(e)) {
     reverseTable(adr, sizeof(SetInitEntry));
-    while (!isEndOfList(e)) {
+    while (!endOfTable(e)) {
       reverseTable(e->setAddress, sizeof(Aword));
       e++;
     }
@@ -471,6 +472,7 @@ void reverseHdr(ACodeHeader *hdr)
   */
 void reverseACD(void)
 {
+  ACodeHeader *header = (ACodeHeader *)memory;
   reverseHdr(header);
   reverseDictionary(header->dictionary);
   reverseSyntaxTable(header->syntaxTableAddress);
