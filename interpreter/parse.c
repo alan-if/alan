@@ -390,7 +390,6 @@ typedef struct PronounEntry { /* To remember parameter/pronoun relations */
 
 static PronounEntry *pronounList = NULL;
 static int allWordIndex; /* Word index of the ALL_WORD found */
-static int butWordIndex; /* Word index of the BUT_WORD found */
 static int allLength; /* No. of objects matching 'all' */
 
 /*----------------------------------------------------------------------*/
@@ -458,7 +457,7 @@ static void errorWhat(int playerWordIndex) {
 }
 
 /*----------------------------------------------------------------------*/
-static void errorAfterBut() {
+static void errorAfterBut(int butWordIndex) {
 	ParamEntry *messageParameters = createParameterList(NULL);
 	addParameterForWord(messageParameters, butWordIndex);
 	printMessageWithParameters(M_AFTER_BUT, messageParameters);
@@ -574,6 +573,7 @@ static Bool reachable(int instance) {
 
 /*----------------------------------------------------------------------*/
 static void resolve(ParamEntry matchedParameters[]) {
+	// TODO Similarity to disambiguate*()???
 	/* In case the syntax did not indicate omnipotent powers (allowed
 	 access to remote object), we need to remove non-present
 	 parameters */
@@ -677,22 +677,51 @@ static void updateWithNounReferences(int wordIndex, ParamEntry parsedParameters[
 
 
 /*----------------------------------------------------------------------*/
-static void unambiguousNounPhrase(ParamEntry parsedParameters[]) {
-	// TODO This is really to long, need to break out some parts
+static void disambiguateParameter(ParamEntry candidates[]) {
 	int i;
+#ifndef DISAMBIGUATE_USING_CHECKS
+	for (i = 0; !isEndOfList(&candidates[i]); i++)
+		if (!reachable(candidates[i].instance))
+			candidates[i].instance = 0;
+	compress(candidates);
+#else
+	disambiguateUsingChecks(candidates, parameterPosition);
+	/* We don't have the parameterPosition here.
+		 Maybe we can do this later? */
+#endif
+}
+
+/*----------------------------------------------------------------------*/
+static void disambiguateCandidatesForPosition(ParamEntry parameters[], int position, ParamEntry candidates[]) {
+	int i;
+	for (i = 0; !isEndOfList(&candidates[i]); i++) {
+		if (candidates[i].instance != 0) { /* Already empty? */
+			parameters[position] = candidates[i];
+			if (!reachable(candidates[i].instance) || !possible())
+				candidates[i].instance = 0; /* Then remove this candidate from list */
+		}
+	}
+	parameters[position].instance = 0; /* Restore multiple marker */
+	compress(candidates);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void unambiguousNounPhrase(ParamEntry parameterCandidates[]) {
+	// TODO This is really to long, need to break out some parts
 	int firstWord, lastWord; /* The words the player used */
 
 	static ParamEntry *savedParameters = NULL; /* Saved list for backup at EOF */
 
 	savedParameters = createParameterList(savedParameters);
 
-	clearList(parsedParameters);
+	clearList(parameterCandidates);
 
 	if (isLiteralWord(wordIndex)) {
-		transformLiteralIntoSingleParameter(parsedParameters);
+		transformLiteralIntoSingleParameter(parameterCandidates);
 		wordIndex++;
 	} else if (isPronounWord(wordIndex)) {
-		transformPronounIntoSingleParameter(parsedParameters);
+		transformPronounIntoSingleParameter(parameterCandidates);
 		wordIndex++; /* Consume the pronoun */
 	} else {
 		Bool found = FALSE; /* Adjective or noun found ? */
@@ -704,14 +733,14 @@ static void unambiguousNounPhrase(ParamEntry parsedParameters[]) {
 		while (anotherAdjective(wordIndex)) {
 			if (lastPossibleNoun(wordIndex))
 				break;
-			copyParameterList(savedParameters, parsedParameters); /* To save it for backtracking */
-			updateWithAdjectiveReferences(wordIndex, parsedParameters, found);
+			copyParameterList(savedParameters, parameterCandidates); /* To save it for backtracking */
+			updateWithAdjectiveReferences(wordIndex, parameterCandidates, found);
 			found = TRUE;
 			wordIndex++;
 		}
 		if (!isEndOfList(&playerWords[wordIndex])) {
 			if (isNounWord(wordIndex)) {
-				updateWithNounReferences(wordIndex, parsedParameters, found);
+				updateWithNounReferences(wordIndex, parameterCandidates, found);
 				found = TRUE;
 				wordIndex++;
 			} else
@@ -721,12 +750,13 @@ static void unambiguousNounPhrase(ParamEntry parsedParameters[]) {
 			if (isNounWord(wordIndex - 1)) {
 				printf("DEBUG:When does this get executed?");
 				// TODO When does this get executed?
-				copyParameterList(parsedParameters, savedParameters); /* Restore to before last adjective */
+				// Maybe if conjunctions can be nouns?
+				copyParameterList(parameterCandidates, savedParameters); /* Restore to before last adjective */
 				copyReferences(references, nounReferencesForWord(wordIndex-1));
-				if (isEndOfList(&parsedParameters[0]))
-					copyParameterList(parsedParameters, references);
+				if (isEndOfList(&parameterCandidates[0]))
+					copyParameterList(parameterCandidates, references);
 				else
-					intersect(parsedParameters, references);
+					intersect(parameterCandidates, references);
 			} else
 				error(M_NOUN);
 		} else {
@@ -734,23 +764,12 @@ static void unambiguousNounPhrase(ParamEntry parsedParameters[]) {
 		}
 		lastWord = wordIndex - 1;
 
-		/* Allow remote objects, but resolve ambiguities by reachability */
-		if (listLength(parsedParameters) > 1) {
-			for (i = 0; !isEndOfList(&parsedParameters[i]); i++)
-				if (!reachable(parsedParameters[i].instance))
-					parsedParameters[i].instance = 0;
-			compress(parsedParameters);
-		}
-#ifdef DISAMBIGUATE_USING_CHECKS
-		if (listLength(parsedParameters)> 1)
-		disambiguateUsingChecks(parsedParameters, parameterPosition);
-		/* We don't have the parameterPosition here.
-		 Maybe we can do this later? */
-#endif
+		if (listLength(parameterCandidates) > 1)
+			disambiguateParameter(parameterCandidates);
 
-		if (listLength(parsedParameters) > 1)
-			errorWhichOne(parsedParameters);
-		else if (found && listLength(parsedParameters) == 0) {
+		if (listLength(parameterCandidates) > 1)
+			errorWhichOne(parameterCandidates);
+		else if (found && listLength(parameterCandidates) == 0) {
 			ParamEntry parameter;
 			parameter.instance = 0; /* Just make it anything != EOF */
 			parameter.firstWord = firstWord;
@@ -758,8 +777,8 @@ static void unambiguousNounPhrase(ParamEntry parsedParameters[]) {
 			errorNoSuch(parameter);
 		}
 
-		parsedParameters[0].firstWord = firstWord;
-		parsedParameters[0].lastWord = lastWord;
+		parameterCandidates[0].firstWord = firstWord;
+		parameterCandidates[0].lastWord = lastWord;
 
 	}
 }
@@ -819,39 +838,38 @@ static void simple(ParamEntry olst[]) {
 }
 
 /*----------------------------------------------------------------------*/
-static void complex(ParamEntry olst[]) {
-	static ParamEntry *alst = NULL;
+static void complex(ParamEntry parsedParameters[]) {
+	static ParamEntry *allList = NULL;
 
-	if (alst == NULL)
-		alst = (ParamEntry *) allocate((MAXENTITY+1) * sizeof(ParamEntry));
+	if (allList == NULL)
+		allList = (ParamEntry *) allocate((MAXENTITY+1) * sizeof(ParamEntry));
 
 	if (isAll(playerWords[wordIndex].code)) {
 		plural = TRUE;
-		buildAll(alst); /* Build list of all objects */
+		buildAll(allList); /* Build list of all objects */
 		wordIndex++;
 		if (!isEndOfList(&playerWords[wordIndex]) && isButWord(wordIndex)) {
-			butWordIndex = wordIndex;
+			int butWordIndex = wordIndex;
 			wordIndex++;
-			simple(olst);
-			if (listLength(olst) == 0)
-				errorAfterBut();
-			subtractListFromList(alst, olst);
-			if (listLength(alst) == 0)
+			simple(parsedParameters);
+			if (listLength(parsedParameters) == 0)
+				errorAfterBut(butWordIndex);
+			subtractListFromList(allList, parsedParameters);
+			if (listLength(allList) == 0)
 				error(M_NOT_MUCH);
 		}
-		copyParameterList(olst, alst);
-		allLength = listLength(olst);
+		copyParameterList(parsedParameters, allList);
+		allLength = listLength(parsedParameters);
 	} else
-		simple(olst); /* Look for simple noun group */
+		simple(parsedParameters); /* Look for simple noun group */
 }
 
 /*----------------------------------------------------------------------*/
-static Bool restrictionCheck(RestrictionEntry *restriction) {
+static Bool restrictionCheck(RestrictionEntry *restriction, ParamEntry parameters[]) {
 	if (restriction->class == RESTRICTIONCLASS_CONTAINER)
-		return instances[parameters[restriction->parameter - 1].instance].container
-				!= 0;
+		return instances[parameters[restriction->parameterNumber-1].instance].container != 0;
 	else
-		return isA(parameters[restriction->parameter - 1].instance,
+		return isA(parameters[restriction->parameterNumber-1].instance,
 				restriction->class);
 }
 
@@ -859,7 +877,7 @@ static Bool restrictionCheck(RestrictionEntry *restriction) {
 static void runRestriction(RestrictionEntry *restriction) {
 	if (sectionTraceOption)
 		printf("\n<SYNTAX parameter #%ld Is Not of class %ld:>\n",
-				restriction->parameter, restriction->class);
+				restriction->parameterNumber, restriction->class);
 	if (restriction->stms)
 		interpret(restriction->stms);
 	else
@@ -867,10 +885,8 @@ static void runRestriction(RestrictionEntry *restriction) {
 }
 
 /*----------------------------------------------------------------------*/
-static Aint mapSyntax(Aint syntaxNumber) {
-	/*
-	 Find the syntax map, use the verb code from it and remap the parameters
-	 */
+static int mapSyntax(int syntaxNumber, ParamEntry parameters[]) {
+	/* Find the syntax map, use the verb code from it and remap the parameters */
 	ParameterMapEntry *parameterMapTable;
 	Aword *parameterMap;
 	Aint parameterNumber;
@@ -879,14 +895,13 @@ static Aint mapSyntax(Aint syntaxNumber) {
 	for (parameterMapTable = pointerTo(header->parameterMapAddress); !isEndOfList(parameterMapTable); parameterMapTable++)
 		if (parameterMapTable->syntaxNumber == syntaxNumber)
 			break;
-	if (isEndOfList(parameterMapTable)) syserr(
-				"Could not find syntax in mapping table.");
+	if (isEndOfList(parameterMapTable))
+		syserr("Could not find syntax in mapping table.");
 
 	parameterMap = pointerTo(parameterMapTable->parameterMapping);
 	copyParameterList(originalParameters, parameters);
 	for (parameterNumber = 1; !isEndOfList(&originalParameters[parameterNumber-1]); parameterNumber++)
-		parameters[parameterNumber - 1]
-				= originalParameters[parameterMap[parameterNumber - 1] - 1];
+		parameters[parameterNumber-1] = originalParameters[parameterMap[parameterNumber-1]-1];
 
 	return parameterMapTable->verbCode;
 }
@@ -896,8 +911,7 @@ static Bool hasBit(Aword flags, Aword bit) {
 }
 
 /*----------------------------------------------------------------------*/
-static void parseParameter(Aword flags, Bool *anyPlural,
-		ParamEntry multipleList[]) {
+static void parseParameter(ParamEntry parameters[], Aword flags, Bool *anyPlural, ParamEntry multipleList[]) {
 	ParamEntry *parsedParameters = createParameterList(NULL); /* List of parameters parsed, possibly multiple */
 
 	plural = FALSE;
@@ -919,6 +933,7 @@ static void parseParameter(Aword flags, Bool *anyPlural,
 		}
 	} else
 		parameters[paramidx++] = parsedParameters[0];
+
 	setEndOfList(&parameters[paramidx]);
 
 	free(parsedParameters);
@@ -959,15 +974,14 @@ static Bool isParameterWord(int wordIndex) {
 }
 
 /*----------------------------------------------------------------------*/
-static ElementEntry *matchParseTree(ParamEntry multipleList[],
-		ElementEntry *elms, Bool *anyPlural) {
+static ElementEntry *matchParseTree(ParamEntry parameters[], ElementEntry *elms, Bool *anyPlural, ParamEntry multipleList[]) {
 	ElementEntry *currentEntry = elms;
 
-	while (TRUE) { /* Traverse the possible branches to
-	 find a match */
+	while (TRUE) { /* Traverse the possible branches to find a match */
 		ElementEntry *elms;
 
 		/* End of input? */
+		// TODO If conjunction word is also some other type of word, like noun?
 		if (isEndOfList(&playerWords[wordIndex]) || isConjunctionWord(wordIndex)) {
 			elms = matchEndOfSyntax(currentEntry);
 			if (elms == NULL)
@@ -979,7 +993,7 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
 		if (isParameterWord(wordIndex)) {
 			elms = matchParameterElement(currentEntry);
 			if (elms != NULL) {
-				parseParameter(elms->flags, anyPlural, multipleList);
+				parseParameter(parameters, elms->flags, anyPlural, multipleList);
 				currentEntry = (ElementEntry *) pointerTo(elms->next);
 				continue;
 			} /* didn't allow a parameter so fall through
@@ -988,8 +1002,7 @@ static ElementEntry *matchParseTree(ParamEntry multipleList[],
 
 		if (isPrepositionWord(wordIndex)) {
 			/* A preposition? Or rather, an intermediate word? */
-			elms = matchWordElement(currentEntry,
-					dictionary[playerWords[wordIndex].code].code);
+			elms = matchWordElement(currentEntry, dictionary[playerWords[wordIndex].code].code);
 			if (elms != NULL) {
 				wordIndex++; /* Word matched, go to next */
 				currentEntry = (ElementEntry *) pointerTo(elms->next);
@@ -1017,105 +1030,115 @@ static SyntaxEntry *findSyntax(int verbCode) {
 	return (NULL);
 }
 
+
 /*----------------------------------------------------------------------*/
-static void disambiguate(ParamEntry candidates[], int position) {
-	int i;
-	for (i = 0; !isEndOfList(&candidates[i]); i++) {
-		if (candidates[i].instance != 0) { /* Already empty? */
-			parameters[position] = candidates[i];
-			if (!reachable(candidates[i].instance) || !possible())
-				candidates[i].instance = 0; /* Then remove this candidate from list */
-		}
-	}
-	compress(candidates);
+static int findMultiplePosition(ParamEntry parameters[]) {
+	int multiplePosition;
+	for (multiplePosition = 0; parameters[multiplePosition].instance != 0; multiplePosition++)
+		; /* Iterate over parameters to find the multiple position */
+	return multiplePosition;
 }
 
+
 /*----------------------------------------------------------------------*/
-static void try(ParamEntry multipleParameters[]) {
-	ElementEntry *elms; /* Pointer to element list */
-	SyntaxEntry *stx; /* Pointer to syntax parse list */
-	RestrictionEntry *restriction; /* Pointer to class restrictions */
-	Bool anyPlural = FALSE; /* Any parameter that was plural? */
-	int i, multiplePosition;
-	static ParamEntry *tlst = NULL; /* List of params found by complex() */
-	static Bool *checked = NULL; /* Corresponding parameter checked? */
+static void uncheckAllParameterPositions(ParamEntry parameters[], Bool checked[]) {
+	int position;
+	for (position = 0; !isEndOfList(&parameters[position]); position++)
+		checked[position] = FALSE;
+}
 
-	if (tlst == NULL) {
-		tlst = (ParamEntry *) allocate((MAXENTITY+1) * sizeof(ParamEntry));
-		checked = (Bool *) allocate((MAXENTITY+1) * sizeof(Bool));
-	}
 
-	stx = findSyntax(verbWordCode);
-	if (stx == NULL)
-		error(M_WHAT);
-
-	elms = matchParseTree(tlst, (ElementEntry *) pointerTo(stx->elms), &anyPlural);
-	if (elms == NULL)
-		error(M_WHAT);
-	if (anyPlural)
-		copyParameterList(multipleParameters, tlst);
-
-	/* Set verb code and map parameters */
-	current.verb = mapSyntax(elms->flags); /* Flags of EOS element is
-	 actually syntax number! */
-
-	/* Now perform class restriction checks */
-	if (elms->next == 0) /* No verb code, verb not declared! */
-		error(M_CANT0);
-
-	for (multiplePosition = 0; !isEndOfList(&parameters[multiplePosition]); multiplePosition++)
-		/* Mark all parameters unchecked */
-		checked[multiplePosition] = FALSE;
+/*----------------------------------------------------------------------*/
+static void checkRestrictedParameters(ParamEntry parameters[], ElementEntry elms[], ParamEntry multipleCandidates[], Bool checked[]) {
+	RestrictionEntry *restriction;
 	for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfList(restriction); restriction++) {
-		if (parameters[restriction->parameter - 1].instance == 0) {
-			/* This was a multiple parameter, so check all and remove failing */
-			for (i = 0; multipleParameters[i].instance != EOF; i++) {
-				parameters[restriction->parameter - 1] = multipleParameters[i];
-				if (!restrictionCheck(restriction)) {
+		if (parameters[restriction->parameterNumber-1].instance == 0) {
+			/* This was a multiple parameter position, so check all multipleCandidates and remove failing */
+			int i;
+			for (i = 0; !isEndOfList(&multipleCandidates[i]); i++) {
+				parameters[restriction->parameterNumber-1] = multipleCandidates[i];
+				if (!restrictionCheck(restriction, parameters)) {
 					/* Multiple could be both an explicit list of params and an ALL */
 					if (allLength == 0) {
 						char marker[80];
 						/* It wasn't ALL, we need to say something about it, so
 						 * prepare a printout with $1/2/3
 						 */
-						sprintf(marker, "($%ld)", restriction->parameter);
+						sprintf(marker, "($%ld)", restriction->parameterNumber);
 						output(marker);
 						runRestriction(restriction);
 						para();
 					}
-					multipleParameters[i].instance = 0; /* In any case remove it from the list */
+					multipleCandidates[i].instance = 0; /* In any case remove it from the list */
 				}
 			}
-			parameters[restriction->parameter - 1].instance = 0;
+			parameters[restriction->parameterNumber-1].instance = 0;
 		} else {
-			if (!restrictionCheck(restriction)) {
+			if (!restrictionCheck(restriction, parameters)) {
 				runRestriction(restriction);
 				error(MSGMAX); /* Return to player without saying anything */
 			}
 		}
-		checked[restriction->parameter - 1] = TRUE; /* Remember that it's already checked */
+		checked[restriction->parameterNumber - 1] = TRUE; /* Remember that it's already checked */
 	}
-	/* Now check the rest of the parameters, must be objects */
-	for (multiplePosition = 0; parameters[multiplePosition].instance != EOF; multiplePosition++)
-		if (!checked[multiplePosition]) {
-			if (parameters[multiplePosition].instance == 0) {
-				/* This was a multiple parameter, check all and remove failing */
-				for (i = 0; !isEndOfList(&multipleParameters[i]); i++)
-					if (multipleParameters[i].instance != 0) /* Skip any empty slots */
-						if (!isObject(multipleParameters[i].instance))
-							multipleParameters[i].instance = 0;
-			} else if (!isObject(parameters[multiplePosition].instance))
+}
+
+
+/*----------------------------------------------------------------------*/
+static void checkNonRestrictedParameters(ParamEntry parameters[], Bool checked[], ParamEntry multipleCandidates[]) {
+	int parameterPosition;
+	for (parameterPosition = 0; parameters[parameterPosition].instance != EOF; parameterPosition++)
+		if (!checked[parameterPosition]) {
+			if (parameters[parameterPosition].instance == 0) {
+				/* This was a multiple parameter position, check all multiple candidates and remove failing */
+				int i;
+				for (i = 0; !isEndOfList(&multipleCandidates[i]); i++)
+					if (multipleCandidates[i].instance != 0) /* Skip any empty slots */
+						if (!isObject(multipleCandidates[i].instance))
+							multipleCandidates[i].instance = 0;
+			} else if (!isObject(parameters[parameterPosition].instance))
 				error(M_CANT0);
 		}
+}
+
+
+/*----------------------------------------------------------------------*/
+static void try(ParamEntry parameters[], ParamEntry multipleParameters[]) {
+	// TODO This is much too long, try to refactor out some functions
+	ElementEntry *elms; /* Pointer to element list */
+	SyntaxEntry *stx; /* Pointer to syntax parse list */
+	Bool anyPlural = FALSE; /* Any parameter that was plural? */
+	static Bool *checked = NULL; /* Corresponding parameter checked? */
+
+	if (checked == NULL)
+		checked = (Bool *) allocate((MAXENTITY+1) * sizeof(Bool));
+
+	stx = findSyntax(verbWordCode);
+	if (stx == NULL)
+		error(M_WHAT);
+
+	elms = matchParseTree(parameters, (ElementEntry *) pointerTo(stx->elms), &anyPlural, multipleParameters);
+	if (elms == NULL)
+		error(M_WHAT);
+
+	/* Set verb code and map parameters */
+	/* Flags field of EOS element is actually the syntax number! */
+	current.verb = mapSyntax(elms->flags, parameters);
+
+	/* Now perform class restriction checks */
+	if (elms->next == 0) /* No verb code, verb not declared! */
+		error(M_CANT0);
+
+	uncheckAllParameterPositions(parameters, checked);
+	checkRestrictedParameters(parameters, elms, multipleParameters, checked);
+	checkNonRestrictedParameters(parameters, checked, multipleParameters);
 
 	/* Finally, if ALL was used, try to find out what was applicable */
 	if (allLength > 0) {
-		for (multiplePosition = 0; parameters[multiplePosition].instance != 0; multiplePosition++)
-			; /* Iterate over parameters to find multiple position */
-		disambiguate(multipleParameters, multiplePosition);
-		parameters[multiplePosition].instance = 0; /* Restore multiple marker */
+		int multiplePosition = findMultiplePosition(parameters);
+		disambiguateCandidatesForPosition(parameters, multiplePosition, multipleParameters);
 		if (listLength(multipleParameters) == 0) {
-			setEndOfList(&parameters[0]);
+			clearList(parameters);
 			errorWhat(allWordIndex);
 		}
 	} else if (anyPlural) {
@@ -1125,17 +1148,22 @@ static void try(ParamEntry multipleParameters[]) {
 			/* word, assuming we have already said enough */
 			error(MSGMAX);
 	}
-	plural = anyPlural; /* Remember that we found plural objects */
+	plural = anyPlural; /* Remember if we found plural objects */
 }
 
+
 /*----------------------------------------------------------------------*/
-static void match(ParamEntry *mlst) /* OUT - List of params allowed by multiple */
+static void match(ParamEntry parameters[], ParamEntry multipleParameters[])
 {
-	try(mlst); /* ... to understand what he said */
-	if (!isEndOfList(&playerWords[wordIndex]) && !isConjunctionWord(wordIndex))
-		error(M_WHAT);
-	if (!isEndOfList(&playerWords[wordIndex])) /* More on this line? */
-		wordIndex++; /* If so skip the AND */
+	try(parameters, multipleParameters); /* ... to understand what he said */
+
+	/* More on this line? */
+	if (!isEndOfList(&playerWords[wordIndex])) {
+		if (isConjunctionWord(wordIndex))
+			wordIndex++; /* If so skip the conjunction */
+		else
+			error(M_WHAT);
+	}
 }
 
 /*======================================================================*/
@@ -1191,7 +1219,7 @@ static void enterPronoun(int pronoun, int instanceCode) {
 }
 
 /*----------------------------------------------------------------------*/
-static void notePronounParameters(ParamEntry *parameters) {
+static void notePronounParameters(ParamEntry parameters[]) {
 	/* For all parameters note which ones can be referred to by a pronoun */
 	ParamEntry *p;
 
@@ -1205,8 +1233,9 @@ static void notePronounParameters(ParamEntry *parameters) {
 
 
 /*======================================================================*/
-void parse(void) {
-	ParamEntry *multipleMatches = createParameterList(NULL); /* Multiple objects list */
+void parse(ParamEntry parameters[]) {
+	static ParamEntry *multipleMatches = NULL;
+	multipleMatches = createParameterList(multipleMatches);
 
 	if (isEndOfList(&playerWords[wordIndex])) {
 		wordIndex = 0;
@@ -1224,7 +1253,7 @@ void parse(void) {
 		verbWord = playerWords[wordIndex].code;
 		verbWordCode = dictionary[verbWord].code;
 		wordIndex++;
-		match(multipleMatches);
+		match(parameters, multipleMatches);
 		notePronounParameters(parameters);
 		action(parameters, multipleMatches);
 	} else {
@@ -1236,6 +1265,8 @@ void parse(void) {
 	if (isConjunctionWord(lastWord))
 		lastWord--;
 
-	copyParameterList(previousMultipleMatches, multipleMatches);
-	free(multipleMatches);
+	if (plural)
+		copyParameterList(previousMultipleMatches, multipleMatches);
+	else
+		clearList(previousMultipleMatches);
 }

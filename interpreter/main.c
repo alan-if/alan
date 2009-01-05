@@ -1525,7 +1525,7 @@ static void moveActor(int theActor)
   if (theActor == HERO) {
     /* Ask him! */
     if (setjmp(forfeitLabel) == 0) {
-      parse();
+      parse(parameters);
       capitalize = TRUE;
       fail = FALSE;			/* fail only aborts one actor */
     }

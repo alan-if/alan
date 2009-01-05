@@ -118,12 +118,10 @@ static void addAlternativesFromParameter(
 		parent = literal[parameterNumber].class;
 	else
 		parent = instances[theInstance].parent;
-	addAlternativesFromParents(altInfos, PARAMETER_LEVEL, parameterNumber,
-			parent, theInstance, finder);
+	addAlternativesFromParents(altInfos, PARAMETER_LEVEL, parameterNumber, parent, theInstance, finder);
 
-	if (!isLiteral(theInstance)) {
+	if (!isLiteral(theInstance))
 		addAlternative(altInfos, PARAMETER_LEVEL, parameterNumber, NO_CLASS, theInstance, finder);
-	}
 }
 
 

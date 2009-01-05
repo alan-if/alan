@@ -98,6 +98,7 @@ Ensure testMatchParseTree() {
   ElementEntry *elementTable;
   Bool plural;
   ParamEntry parameters[10];
+  ParamEntry multipleParameters[10];
 
   memory = allocate(100*sizeof(Aword));
   elementTable = (ElementEntry *)&memory[50];
@@ -108,20 +109,20 @@ Ensure testMatchParseTree() {
 
   /* First test EOF with empty parse tree */
   setEndOfList(elementTable);
-  element = matchParseTree(NULL, elementTable, &plural);
+  element = matchParseTree(parameters, elementTable, &plural, multipleParameters);
   assert_equal(NULL, element);
 
   /* Test EOF with EOS */
   makeEOS(&elementTable[0]);
   setEndOfList(&elementTable[1]);
-  element = matchParseTree(NULL, elementTable, &plural);
+  element = matchParseTree(parameters, elementTable, &plural, multipleParameters);
   assert_equal(elementTable, element);
 
   /* Test EOF with word, EOS */
   makeWordElement(&elementTable[0], 1, 0);
   makeEOS(&elementTable[1]);
   setEndOfList(&elementTable[2]);
-  element = matchParseTree(NULL, elementTable, &plural);
+  element = matchParseTree(parameters, elementTable, &plural, multipleParameters);
   assert_equal(&elementTable[1], element);
 
   /* Test word, EOF with word, EOS */
@@ -132,7 +133,7 @@ Ensure testMatchParseTree() {
   makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
   makeEOS(&elementTable[1]);
   setEndOfList(&elementTable[2]);
-  element = matchParseTree(parameters, elementTable, &plural);
+  element = matchParseTree(parameters, elementTable, &plural, multipleParameters);
   assert_equal(&elementTable[1], element);
   free(dictionary);
   free(memory);

@@ -59,7 +59,7 @@ int listLength(ParamEntry theList[])
 
   while (!isEndOfList(&theList[i]))
     i++;
-  return (i);
+  return i;
 }
 
 

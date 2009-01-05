@@ -39,7 +39,7 @@ extern int verbWord;
 
 /* Parse a new player command */
 extern void forceNewPlayerInput();
-extern void parse(void);
+extern void parse(ParamEntry parameters[]);
 extern void initParse(void);
 extern int literalFromInstance(Aint instance);
 extern Aint instanceFromLiteral(int literalIndex);

@@ -322,7 +322,7 @@ typedef struct ExitEntry {	/* EXIT TABLE structure */
 #define RESTRICTIONCLASS_STRING (-4)
 
 typedef struct RestrictionEntry { /* PARAMETER RESTRICTION TABLE */
-  Aint parameter;		/* Parameter number */
+  Aint parameterNumber;		/* Parameter number */
   Aint class;			/* Parameter class code */
   Aaddr stms;			/* Exception statements */
 } RestrictionEntry;
