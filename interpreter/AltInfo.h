@@ -30,15 +30,22 @@
 /* TYPES */
 
 typedef struct AltInfo {
-	Bool end;			/* Indicator of end in AltInfoArray, first empty has TRUE here */
+	Bool end;		/* Indicator of end in AltInfoArray, first empty has TRUE here */
+				/* TODO: Really used? Probably needs to be kept
+				   for compatibility reasons...
+				 */
 	AltEntry *alt;
 	Bool done;
-	int level;			/* 0 - Global, 1 - location, 2 - parameter */
-	int class;			/* In which class, only used for tracing */
+	int level;		/* 0 - Global, 1 - location, 2 - parameter */
+	int class;		/* In which class, only used for tracing */
 	int instance;		/* In which instance the Alternative was found,
-						   used to set current.instance and tracing */
+				   used to set current.instance and tracing */
 	int parameter;		/* In which parameter, only used for tracing */
 } AltInfo;
+
+typedef AltEntry *(*AltEntryFinder)(int parameterNumber, int theInstance, int theClass);
+
+typedef AltInfo AltInfoArray[];
 
 
 
@@ -50,5 +57,11 @@ extern void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instanc
 extern Bool executedOk(AltInfo *altInfo);
 extern Bool checkFailed(AltInfo *altInfo, Bool execute);
 extern Bool executable(AltInfo *altInfo);
+extern AltInfo *duplicateAltInfoArray(AltInfoArray altInfos);
+extern int lastAltInfoIndex(AltInfoArray altInfos);
+extern Bool anyCheckFailed(AltInfoArray altInfos, Bool execute);
+extern Bool anythingToExecute(AltInfoArray altInfos);
+extern Bool possible(void);
+extern AltInfo *findAllAlternatives(void);
 
 #endif
