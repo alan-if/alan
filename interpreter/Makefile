@@ -1,4 +1,6 @@
-# Makefile for Alan interpreter to be built with CygWin32/Mingw32
+# Makefile for Alan interpreters, arun, winarun et al.
+# Windows: CygWin32/Mingw32
+# Darwin: GCC
 # Note: uses a lot of special stuff, if you are porting, start from
 # one of the other makefiles, such as Makefile.unix
 
@@ -14,7 +16,7 @@ LDFLAGS = $(CYGWIN)
 
 
 #Settings for memory debugging
-SMARTALLOC = #-DSMARTALLOC
+SMARTALLOC = -DSMARTALLOC
 
 
 # Define this to make interpreter log each crc calculation step
@@ -29,6 +31,7 @@ include sources.mk
 all:
 	$(MAKE) $(SYSTEM)
 
+Darwin: CYGWIN =
 Darwin: unitTest arun #dumpacd
 
 
@@ -51,7 +54,6 @@ release:
 
 #######################################################################
 # Settings for Standard Arun
-
 arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
