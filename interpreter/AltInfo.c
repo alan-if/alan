@@ -6,14 +6,14 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "types.h"
-#include "options.h"
-#include "main.h"
-#include "inter.h"
-#include "parse.h"
-#include "debug.h"
-#include "lists.h"
 #include "CheckEntryArray.h"
+#include "debug.h"
+#include "inter.h"
+#include "lists.h"
+#include "main.h"
+#include "options.h"
+#include "parse.h"
+#include "types.h"
 
 
 /*======================================================================*/
