@@ -6,7 +6,7 @@
 #include "inter.h"
 #include "exe.h"
 #include "lists.h"
-#include "CheckEntryArray.h"
+#include "checkentry.h"
 #include "debug.h"
 
 

@@ -1,4 +1,4 @@
-#include "CheckEntryArray.h"
+#include "checkentry.h"
 
 #include "main.h"
 #include "inter.h"

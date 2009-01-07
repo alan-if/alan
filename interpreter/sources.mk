@@ -23,7 +23,7 @@ UNIT2SRC = \
 
 UNIT2REQUIREDSRCS = \
 	AttributeEntry.c \
-	CheckEntryArray.c \
+	checkentry.c \
 	Container.c \
 	Location.c \
 	args.c \
@@ -40,7 +40,7 @@ UNIT2REQUIREDSRCS = \
 MAINSRCS = \
 	AltInfo.c \
 	AttributeEntry.c \
-	CheckEntryArray.c \
+	checkentry.c \
 	Container.c \
 	Location.c \
 	StateStack.c \
