@@ -38,7 +38,7 @@
 #include "stack.h"
 #include "decode.h"
 
-#include "CheckEntryArray.h"
+#include "checkentry.h"
 #include "Container.h"
 #include "Location.h"
 

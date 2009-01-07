@@ -38,7 +38,7 @@ UNIT2REQUIREDSRCS = \
 
 # All sources for the main build
 MAINSRCS = \
-	altinfo.c \
+	AltInfo.c \
 	AttributeEntry.c \
 	CheckEntryArray.c \
 	Container.c \

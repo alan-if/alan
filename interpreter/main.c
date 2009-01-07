@@ -157,7 +157,8 @@ void terminate(int code)
 #endif
 #endif
     newline();
-  free(memory);
+  if (memory)
+      free(memory);
   if (transcriptOption)
 #ifdef HAVE_GLK
     glk_stream_close(logFile, NULL);

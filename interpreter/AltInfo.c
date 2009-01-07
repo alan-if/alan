@@ -1,4 +1,4 @@
-#include "altinfo.h"
+#include "AltInfo.h"
 
 /*----------------------------------------------------------------------*\
 
@@ -6,7 +6,7 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "CheckEntryArray.h"
+#include "checkentry.h"
 #include "debug.h"
 #include "inter.h"
 #include "lists.h"

@@ -18,7 +18,7 @@
 #include "main.h"
 #include "parse.h"
 #include "AltInfo.h"
-#include "CheckEntryArray.h"
+#include "checkentry.h"
 #include "params.h"
 
 
