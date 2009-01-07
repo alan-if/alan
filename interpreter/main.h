@@ -101,13 +101,6 @@ extern void para(void);
 extern void newline(void);
 extern void printAndLog(char string[]);
 
-#define isEndOfList(x) implementationOfIsEndOfList((Aword *) (x))
-extern Bool implementationOfIsEndOfList(Aword *adr);
-#define setEndOfList(x) implementationOfSetEndOfList((Aword *) (x))
-extern void implementationOfSetEndOfList(Aword *adr);
-#define clearList(x) implementationOfSetEndOfList((Aword *) &(x[0]))
-extern void implementationOfSetEndOfList(Aword *adr);
-
 extern Bool isObject(int instance);
 extern Bool isContainer(int instance);
 extern Bool isActor(int instance);

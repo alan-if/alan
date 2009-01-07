@@ -230,7 +230,9 @@
 
 /******************************/
 /* Use the READLINE function? */
+/* Why not?                   */
 /******************************/
+#define USE_READLINE
 #ifdef HAVE_GLK
 /* Glk always uses readline(), no matter what the OS */
 #define USE_READLINE

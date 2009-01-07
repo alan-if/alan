@@ -12,11 +12,8 @@
 
 
 #include "types.h"
-#ifdef HAVE_SHORT_FILENAMES
-#include "av.h"
-#else
+
 #include "alan.version.h"
-#endif
 
 
 #ifdef USE_READLINE
@@ -24,6 +21,7 @@
 #endif
 
 #include "types.h"
+#include "lists.h"
 #include "inter.h"
 #include "main.h"
 #include "parse.h"

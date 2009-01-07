@@ -5,6 +5,7 @@
 #include "parse.h"
 #include "inter.h"
 #include "exe.h"
+#include "lists.h"
 #include "CheckEntryArray.h"
 #include "debug.h"
 

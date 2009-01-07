@@ -8,7 +8,7 @@
 
 #include "exe.h"
 
-
+#include "lists.h"
 #include "sysdep.h"
 #include "types.h"
 #include "act.h"

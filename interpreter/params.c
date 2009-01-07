@@ -2,21 +2,12 @@
 
   params.c
 
-  Various utility functions for handling parameters:
-
-  compress()		Compact a list, i.e remove any NULL elements
-  listlength()		Count number of elements
-  inList()		Check if an element is in the list
-  subtractList()	Subract two lists
-  listCopy()		Copy one list onto another
-  mergeLists()		Merge the paramElems of one list into the first
-  intersect()		Take the intersection of two lists
-  copyReferences()	Copy the refs (in dictionary) to a paramList
+  Various utility functions for handling parameters
 
 \*----------------------------------------------------------------------*/
 
 #include "types.h"
-
+#include "lists.h"
 #include "params.h"
 #include "main.h"
 

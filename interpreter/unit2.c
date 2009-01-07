@@ -5,7 +5,6 @@
 #endif
 
 TestSuite *actTests();
-TestSuite *altInfoArrayTests();
 TestSuite *altInfoTests();
 TestSuite *exeTests();
 TestSuite *interTests();
@@ -26,7 +25,6 @@ int main(int argc, char **argv) {
     TestReporter *reporter = create_text_reporter();
 
     add_suite(suite, actTests());
-    add_suite(suite, altInfoArrayTests());
     add_suite(suite, altInfoTests());
     add_suite(suite, exeTests());
     add_suite(suite, interTests());

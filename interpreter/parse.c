@@ -14,12 +14,13 @@
 #include "readline.h"
 #endif
 
-#include "AltInfoArray.h"
+#include "AltInfo.h"
 #include "main.h"
 #include "inter.h"
 #include "exe.h"
 #include "act.h"
 #include "term.h"
+#include "lists.h"
 #include "debug.h"
 #include "params.h"
 #include "options.h"
@@ -170,6 +171,7 @@ static void getLine(void) {
 			quitGame();
 		}
 #else
+		fflush(stdout);
 		if (fgets(buf, LISTLEN, stdin) == NULL) {
 			newline();
 			quitGame();

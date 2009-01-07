@@ -5,7 +5,6 @@
 
 UNIT2SRC = \
 	unit2.c \
-	AltInfoArrayTests.c \
 	AltInfoTests.c \
 	StateStackTests.c \
 	actTests.c \
@@ -30,6 +29,7 @@ UNIT2REQUIREDSRCS = \
 	args.c \
 	debug.c \
 	decode.c \
+	lists.c \
 	options.c \
 	readline.c \
 	rules.c \
@@ -38,8 +38,7 @@ UNIT2REQUIREDSRCS = \
 
 # All sources for the main build
 MAINSRCS = \
-	AltInfo.c \
-	AltInfoArray.c \
+	altinfo.c \
 	AttributeEntry.c \
 	CheckEntryArray.c \
 	Container.c \
@@ -51,6 +50,7 @@ MAINSRCS = \
 	decode.c \
 	exe.c \
 	inter.c \
+	lists.c \
 	main.c \
 	options.c \
 	params.c \

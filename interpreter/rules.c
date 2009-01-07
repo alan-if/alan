@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include "types.h"
+#include "lists.h"
 #include "main.h"
 #include "inter.h"
 #include "debug.h"

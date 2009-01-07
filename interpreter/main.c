@@ -12,6 +12,7 @@
 #include "types.h"
 #include "set.h"
 #include "state.h"
+#include "lists.h"
 #include "main.h"
 #include "syserr.h"
 #include "parse.h"
@@ -738,19 +739,6 @@ void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
   isObj, isLoc, isAct, IsCnt & isNum
 
 \*----------------------------------------------------------------------*/
-
-/* How to know we are at end of a table, first Aword == EOF */
-void implementationOfSetEndOfList(Aword *adr)
-{
-  *adr = EOF;
-}
-
-
-Bool implementationOfIsEndOfList(Aword *adr)
-{
-  return *adr == EOF;
-}
-
 
 /* Instance query methods */
 // TODO Move to Instance.c

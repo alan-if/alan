@@ -13,6 +13,7 @@
 #include "main.h"
 #include "exe.h"
 #include "set.h"
+#include "lists.h"
 #include "readline.h"
 #include "options.h"
 #include "syserr.h"

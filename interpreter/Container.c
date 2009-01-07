@@ -4,6 +4,7 @@
 #include "exe.h"
 #include "syserr.h"
 #include "inter.h"
+#include "lists.h"
 
 
 /*----------------------------------------------------------------------*/

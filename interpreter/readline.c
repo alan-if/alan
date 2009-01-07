@@ -643,6 +643,7 @@ Bool readline(char usrbuf[])
   static FILE *commandFile;
 
   if (readingCommands) {
+    fflush(stdout);
     if (!fgets(buffer, 255, commandFile)) {
       fclose(commandFile);
       readingCommands = FALSE;

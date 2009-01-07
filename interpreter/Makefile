@@ -32,10 +32,7 @@ all:
 Darwin: unitTest arun #dumpacd
 
 
-CYGWIN: unitTest arun dumpacd
-	$(MAKE)	winarun
-	$(MAKE) glkarun
-	$(MAKE) gararun
+CYGWIN: unitTest arun dumpacd winarun glkarun gararun
 
 
 clean:
@@ -186,8 +183,8 @@ test: unitTest
 
 #######################################################################
 # Misc programs
-dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
-	gcc -Wall -o dumpacd -ggdb -DSTDIONONCONST dumpacd.c ../compiler/spa.c reverse.c sysdep.c
+dumpacd: dumpacd.o reverse.o lists.o sysdep.o  ../compiler/spa.c
+	gcc -Wall -o dumpacd -ggdb $(CYGWIN) dumpacd.o reverse.o lists.o sysdep.o -DSTDIONONCONST ../compiler/spa.c
 	cp $@ ../bin
 
 about: about.c arun.res
