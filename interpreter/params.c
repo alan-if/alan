@@ -5,11 +5,13 @@
   Various utility functions for handling parameters
 
 \*----------------------------------------------------------------------*/
+#include "params.h"
 
+/* IMPORTS */
 #include "types.h"
 #include "lists.h"
-#include "params.h"
-#include "main.h"
+#include "memory.h"
+
 
 
 /*======================================================================*/

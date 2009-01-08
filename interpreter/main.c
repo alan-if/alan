@@ -37,6 +37,9 @@
 #include "dictionary.h"
 #include "class.h"
 #include "score.h"
+#include "decode.h"
+#include "msg.h"
+#include "event.h"
 
 #include <time.h>
 #ifdef USE_READLINE
@@ -56,18 +59,10 @@
 
 /* PUBLIC DATA */
 
-/* The event queue */
-int eventQueueSize = 0;
-EventQueueEntry *eventQueue = NULL; /* Event queue */
-Aint eventQueueTop = 0;		/* Event queue top pointer */
-
 /* Amachine structures - Static */
 VerbEntry *vrbs;		/* Verb table pointer */
 SyntaxEntry *stxs;		/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
-EventEntry *events;		/* Event table pointer */
-MessageEntry *msgs;			/* Message table pointer */
-Aword *freq;			/* Cumulative character frequencies */
 
 
 /* Restart jump buffer */
@@ -263,8 +258,8 @@ static void checkVersion(ACodeHeader *header)
     */
 
   char interpreterVersion[4];
-  Abool developmentVersion;
-  Abool alphaVersion;
+  Bool developmentVersion;
+  Bool alphaVersion;
   int compareLength;
   char gameState = header->version[3];
 

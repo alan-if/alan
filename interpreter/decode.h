@@ -8,13 +8,15 @@
 
 \*----------------------------------------------------------------------*/
 
+/* IMPORTS */
 #include "types.h"
 
-/* Types: */
+/* TYPES */
 
-/* Data: */
+/* DATA */
+extern Aword *freq;     /* Cumulated character frequencies for text decoding */
 
-/* Functions: */
+/* FUNCTIONS */
 
 #ifdef _PROTOTYPES_
 extern void startDecoding(void);

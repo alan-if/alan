@@ -33,10 +33,7 @@
 #include "memory.h"
 #include "output.h"
 #include "class.h"
-
-// TODO Remove dependency on main.h
-// TODO Move events & eventQueue to event.c
-#include "main.h"
+#include "event.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK

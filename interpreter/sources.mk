@@ -32,9 +32,11 @@ UNIT2REQUIREDSRCS = \
 	debug.c \
 	decode.c \
 	dictionary.c \
+	event.c \
 	instance.c \
 	lists.c \
 	memory.c \
+	msg.c \
 	options.c \
 	readline.c \
 	rules.c \
@@ -57,12 +59,14 @@ MAINSRCS = \
 	debug.c \
 	decode.c \
 	dictionary.c \
+	event.c \
 	exe.c \
 	instance.c \
 	inter.c \
 	lists.c \
 	main.c \
 	memory.c \
+	msg.c \
 	options.c \
 	output.c \
 	params.c \

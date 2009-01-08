@@ -13,11 +13,6 @@
 
 /* DATA */
 
-/* Event queue */
-extern int eventQueueSize;
-extern EventQueueEntry *eventQueue;
-extern Aint eventQueueTop;		/* Event queue top pointer */
-
 /* Amachine data structures - Dynamic */
 
 /* Amachine data structures - Static */
@@ -25,9 +20,6 @@ extern Aint eventQueueTop;		/* Event queue top pointer */
 extern VerbEntry *vrbs;		/* Verb table pointer */
 extern SyntaxEntry *stxs;	/* Syntax table pointer */
 extern RulEntry *ruls;		/* Rule table pointer */
-extern EventEntry *events;	/* Event table pointer */
-extern MessageEntry *msgs;	/* Message table pointer */
-extern Aword *freq;		/* Cumulated character frequencies for text decoding */
 
 /* Long jump buffer for restart, errors and undo */
 extern jmp_buf restartLabel;

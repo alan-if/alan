@@ -1,11 +1,9 @@
 #include "output.h"
 
-/* Imports: */
-#include "sysdep.h"
+/* IMPORTS */
 #include "options.h"
 #include "memory.h"
 #include "parse.h"
-#include "exe.h"
 #include "lists.h"
 #include "term.h"
 #include "syserr.h"
@@ -13,13 +11,14 @@
 #include "exe.h"
 #include "inter.h"
 #include "params.h"
+#include "msg.h"
 
 // TODO Remove dependency on main.h
-// TODO Move msgs to msg.c
+// TODO Move long jump labels
 #include "main.h"
 
 
-/* Public Data: */
+/* PUBLIC DATA */
 Bool anyOutput = FALSE;
 Bool capitalize = FALSE;
 Bool needSpace = FALSE;

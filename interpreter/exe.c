@@ -34,9 +34,10 @@
 #include "dictionary.h"
 #include "class.h"
 #include "score.h"
+#include "event.h"
 
 // TODO Remove dependency on main.h
-// TODO Move EventQueue and jump labels
+// TODO Move jump labels
 #include "main.h"
 
 #ifdef USE_READLINE

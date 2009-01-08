@@ -17,10 +17,7 @@
 #include "AttributeEntry.h"
 #include "memory.h"
 #include "score.h"
-
-// TODO Remove dependency on main.h
-// TODO Move eventQueue to event.c
-#include "main.h"
+#include "event.h"
 
 
 /* PUBLIC DATA */

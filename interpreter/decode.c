@@ -5,15 +5,20 @@
   Arithmetic decoding module in Arun
 
 \*----------------------------------------------------------------------*/
+#include "decode.h"
 
 #include <stdio.h>
 
-#include "main.h"
-#include "decode.h"
 #include "syserr.h"
 #include "exe.h"
+#include "memory.h"
 
 
+/* PUBLIC DATA */
+Aword *freq;            /* Cumulative character frequencies */
+
+
+/* PRIVATE DATA */
 /* Bit output */
 static int decodeBuffer;	/* Bits to be input */
 static int bitsToGo;		/* Bits still in buffer */

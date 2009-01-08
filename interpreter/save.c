@@ -21,11 +21,7 @@
 #include "output.h"
 #include "args.h"
 #include "score.h"
-
-// TODO Remove dependency on main.h
-// TODO Move EventQueue out from main.h
-#include "main.h"
-
+#include "event.h"
 
 #ifndef HAVE_GLK
 static char saveFileName[256];
