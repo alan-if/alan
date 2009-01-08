@@ -10,13 +10,16 @@
 
 #include "types.h"
 #include "sysdep.h"
-#include "main.h"
 #include "exe.h"
 #include "set.h"
 #include "lists.h"
 #include "readline.h"
 #include "options.h"
 #include "syserr.h"
+#include "instance.h"
+
+// TODO Remove dependency on main.h
+#include "main.h"
 
 
 #ifndef HAVE_GLK

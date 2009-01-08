@@ -6,15 +6,16 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "debug.h"
+
+
+/* Imports: */
+
 #include <stdio.h>
 #include <ctype.h>
 #include <stdarg.h>
 
-
-#include "types.h"
-
 #include "alan.version.h"
-
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -23,12 +24,15 @@
 #include "types.h"
 #include "lists.h"
 #include "inter.h"
-#include "main.h"
 #include "parse.h"
 #include "stack.h"
 #include "exe.h"
 #include "options.h"
-#include "debug.h"
+#include "utils.h"
+#include "instance.h"
+
+// TODO Remove dependency on main.h
+#include "main.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK
@@ -208,7 +212,7 @@ static void showObject(int obj)
 
 }
 
-
+#ifdef UNDEF_WHEN_NEEDED
 /*----------------------------------------------------------------------*/
 static void showcnts(void)
 {
@@ -225,6 +229,45 @@ static void showcnts(void)
 
 }
 
+
+/*----------------------------------------------------------------------*/
+static void showContainer(int cnt)
+{
+  char str[80];
+
+  if (cnt < 1 || cnt > header->containerMax) {
+    sprintf(str, "Container number out of range. Between 1 and %ld, please.", header->containerMax);
+    output(str);
+    return;
+  }
+
+  sprintf(str, "Container %d :", cnt);
+  output(str);
+  if (container[cnt].owner != 0) {
+    cnt = container[cnt].owner;
+    say(cnt);
+    sprintf(str, "$iLocation: %ld", where(cnt, TRUE));
+    output(str);
+  }
+  showContents(cnt);
+}
+
+
+/*----------------------------------------------------------------------*/
+static int sourceFileNumber(char *fileName) {
+  SourceFileEntry *entries = pointerTo(header->sourceFileTable);
+  int n;
+
+  for (n = 0; *(Aword*)&entries[n] != EOF; n++) {
+    char *entryName;
+    entryName = getStringFromFile(entries[n].fpos, entries[n].len);
+    if (strcmp(entryName, fileName) == 0) return n;
+    entryName = baseNameStart(entryName);
+    if (strcmp(entryName, fileName) == 0) return n;
+  }
+  return -1;
+}
+#endif
 
 /*----------------------------------------------------------------------*/
 static void showClass(int c)
@@ -254,29 +297,6 @@ static void showClasses(void)
     output("$n");
     showClass(c);
   }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void showContainer(int cnt)
-{
-  char str[80];
-
-  if (cnt < 1 || cnt > header->containerMax) {
-    sprintf(str, "Container number out of range. Between 1 and %ld, please.", header->containerMax);
-    output(str);
-    return;
-  }
-
-  sprintf(str, "Container %d :", cnt);
-  output(str);
-  if (container[cnt].owner != 0) {
-    cnt = container[cnt].owner;
-    say(cnt);
-    sprintf(str, "$iLocation: %ld", where(cnt, TRUE));
-    output(str);
-  }
-  showContents(cnt);
 }
 
 
@@ -379,22 +399,6 @@ static void showEvents(void)
     } else
       output("Not scheduled.");
   }
-}
-
-
-/*----------------------------------------------------------------------*/
-static int sourceFileNumber(char *fileName) {
-  SourceFileEntry *entries = pointerTo(header->sourceFileTable);
-  int n;
-
-  for (n = 0; *(Aword*)&entries[n] != EOF; n++) {
-    char *entryName;
-    entryName = getStringFromFile(entries[n].fpos, entries[n].len);
-    if (strcmp(entryName, fileName) == 0) return n;
-    entryName = baseNameStart(entryName);
-    if (strcmp(entryName, fileName) == 0) return n;
-  }
-  return -1;
 }
 
 

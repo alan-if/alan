@@ -15,7 +15,6 @@
 #endif
 
 #include "AltInfo.h"
-#include "main.h"
 #include "inter.h"
 #include "exe.h"
 #include "act.h"
@@ -26,6 +25,10 @@
 #include "options.h"
 #include "syserr.h"
 #include "Location.h"
+#include "instance.h"
+
+// TODO Remove dependency on main.h
+#include "main.h"
 
 #ifdef HAVE_GLK
 #include "glkio.h"
@@ -330,6 +333,8 @@ static void addParameterForWord(Parameter *parameters, int wordIndex) {
 	setEndOfList(parameter+1);
 }
 
+
+#ifdef UNDEF_WHEN_NEEDED
 /*----------------------------------------------------------------------*/
 static void addParameterForWords(Parameter *parameters, int firstWordIndex, int lastWordIndex) {
 	Parameter *parameter = findEndOfList(parameters);
@@ -342,6 +347,8 @@ static void addParameterForWords(Parameter *parameters, int firstWordIndex, int 
 	parameter->lastWord = lastWordIndex;
 	setEndOfList(parameter+1);
 }
+#endif
+
 
 /*======================================================================*/
 void addParameterForInteger(Parameter *parameters, Aint value) {
@@ -1268,6 +1275,7 @@ void parse(Parameter parameters[]) {
 		wordIndex++;
 		match(parameters, multipleMatches);
 		notePronounParameters(parameters);
+		fail = FALSE;
 		action(parameters, multipleMatches);
 	} else {
 		clearList(previousMultipleMatches);

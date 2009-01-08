@@ -10,16 +10,20 @@
 
 /* Import */
 
+#include "types.h"
+
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK
 #include "glkio.h"
 #endif
 
-#include "main.h"
 #include "parse.h"
 #include "AltInfo.h"
 #include "checkentry.h"
 #include "params.h"
+
+// TODO Remove dependency on main.h
+#include "main.h"
 
 
 
@@ -28,8 +32,6 @@ static void executeCommand(void)
 {
 	AltInfo *altInfos;
 	int altIndex;
-
-	fail = FALSE;
 
 	altInfos = findAllAlternatives();
 

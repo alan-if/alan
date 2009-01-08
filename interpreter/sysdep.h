@@ -52,6 +52,7 @@
 // At least GCC 3.x does define this for Darwin
 #define __macosx__
 #define __unix__
+#undef HAVE_WINGLK
 #endif
 
 #ifdef __MWERKS__

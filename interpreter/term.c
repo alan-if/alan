@@ -75,7 +75,7 @@ void getPageSize(void)
 
   struct Process * proc;
   struct InfoData *id;
-  struct Window *win; 
+  struct Window *win;
   struct TextFont *textFont;
   struct StandardPacket *packet;
 
@@ -118,3 +118,71 @@ void getPageSize(void)
 #endif
 #endif
 }
+
+/*======================================================================*/
+void statusline(void)
+{
+#ifdef HAVE_GLK
+  glui32 glkWidth;
+  char line[100];
+  int pcol = col;
+
+  if (!statusLineOption) return;
+  if (glkStatusWin == NULL)
+    return;
+
+  glk_set_window(glkStatusWin);
+  glk_window_clear(glkStatusWin);
+  glk_window_get_size(glkStatusWin, &glkWidth, NULL);
+
+  onStatusLine = TRUE;
+  col = 1;
+  glk_window_move_cursor(glkStatusWin, 1, 0);
+  sayInstance(where(HERO, TRUE));
+
+  if (header->maximumScore > 0)
+    sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maximumScore, current.tick);
+  else
+    sprintf(line, "%d moves", current.tick);
+  glk_window_move_cursor(glkStatusWin, glkWidth-strlen(line)-1, 0);
+  glk_put_string(line);
+  needSpace = FALSE;
+
+  col = pcol;
+  onStatusLine = FALSE;
+
+  glk_set_window(glkMainWin);
+#else
+#ifdef HAVE_ANSI
+  char line[100];
+  int i;
+  int pcol = col;
+
+  if (!statusLineOption) return;
+  /* ansi_position(1,1); ansi_bold_on(); */
+  printf("\x1b[1;1H");
+  printf("\x1b[7m");
+
+  onStatusLine = TRUE;
+  col = 1;
+  sayInstance(where(HERO, FALSE));
+
+  if (header->maximumScore > 0)
+    sprintf(line, "Score %d(%ld)/%d moves", current.score, header->maximumScore, current.tick);
+  else
+    sprintf(line, "%ld moves", (long)current.tick);
+  for (i=0; i < pageWidth - col - strlen(line); i++) putchar(' ');
+  printf(line);
+  printf("\x1b[m");
+  printf("\x1b[%d;1H", pageLength);
+
+  needSpace = FALSE;
+  capitalize = TRUE;
+
+  onStatusLine = FALSE;
+  col = pcol;
+#endif
+#endif
+}
+
+

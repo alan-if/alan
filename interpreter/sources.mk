@@ -29,12 +29,14 @@ UNIT2REQUIREDSRCS = \
 	args.c \
 	debug.c \
 	decode.c \
+	instance.c \
 	lists.c \
 	options.c \
 	readline.c \
 	rules.c \
 	syserr.c \
 	term.c \
+	utils.c \
 
 # All sources for the main build
 MAINSRCS = \
@@ -49,6 +51,7 @@ MAINSRCS = \
 	debug.c \
 	decode.c \
 	exe.c \
+	instance.c \
 	inter.c \
 	lists.c \
 	main.c \
@@ -65,6 +68,7 @@ MAINSRCS = \
 	sysdep.c \
 	syserr.c \
 	term.c \
+	utils.c \
 	smartall.c
 
 UNIT2SRCS = $(UNIT2SRC) $(UNIT2REQUIREDSRCS)

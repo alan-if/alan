@@ -1,8 +1,8 @@
-#ifndef _CHECKENTRYARRAY_H_
-#define _CHECKENTRYARRAY_H_
+#ifndef _CHECKENTRY_H_
+#define _CHECKENTRY_H_
 /*----------------------------------------------------------------------*\
 
-  Array of CheckEntries
+  CheckEntries
 
 \*----------------------------------------------------------------------*/
 

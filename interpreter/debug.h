@@ -8,14 +8,23 @@
 
 \*----------------------------------------------------------------------*/
 
-/* TYPES: */
+/* Imports: */
+#include "types.h"
 
 
-/* DATA: */
+/* Types: */
+
+typedef struct Breakpoint {
+  int line;
+  int file;
+} Breakpoint;
+
+
+/* Data: */
 extern int breakpointCount;
 extern Breakpoint breakpoint[];
 
-/* FUNCTIONS: */
+/* Functions: */
 extern void saveInfo(void);
 extern void restoreInfo(void);
 extern Bool breakpointIndex(int file, int line);

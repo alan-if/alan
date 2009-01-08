@@ -30,9 +30,6 @@ extern Aint eventQueueTop;		/* Event queue top pointer */
 extern CurVars current;
 
 /* Amachine data structures - Dynamic */
-extern InstanceEntry *instances; /* Instance table pointer */
-extern AdminEntry *admin;	/* Administrative data about instances */
-extern AttributeEntry *attributes; /* Dynamic attribute values */
 extern Aword *scores;		/* Score table pointer */
 
 /* Amachine data structures - Static */
@@ -90,10 +87,7 @@ extern void *allocate(unsigned long len);
 #define allocate(s) calloc(s, 1)
 #endif
 extern void *duplicate(void *original, unsigned long len);
-extern void terminate(int code);
-extern void usage(void);
 extern void error(MsgKind msg);
-extern void statusline(void);
 extern void output(char string[]);
 extern void printMessage(MsgKind msg);
 extern void printMessageWithParameters(MsgKind msg, Parameter *messageParameters);

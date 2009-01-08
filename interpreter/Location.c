@@ -1,6 +1,6 @@
 #include "Location.h"
 
-#include "main.h"
+#include "instance.h"
 #include "options.h"
 #include "parse.h"
 #include "inter.h"
@@ -8,6 +8,9 @@
 #include "lists.h"
 #include "checkentry.h"
 #include "debug.h"
+
+// TODO: Remove dependency on main.h
+#include "main.h"
 
 
 /*======================================================================*/

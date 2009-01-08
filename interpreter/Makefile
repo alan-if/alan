@@ -32,7 +32,7 @@ all:
 	$(MAKE) $(SYSTEM)
 
 Darwin: CYGWIN =
-Darwin: unitTest arun #dumpacd
+Darwin: arun #unitTest dumpacd
 
 
 CYGWIN: unitTest arun dumpacd winarun glkarun gararun
@@ -82,6 +82,7 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 	echo $(VERSION)
 	sed "s/WINARUNVERSION/$(VERSION)/" arun.rc > arun.rc2
 	windres arun.rc2 -O coff -o $@
+
 
 #######################################################################
 # Settings for TermGLK => glkarun

@@ -1,17 +1,20 @@
 #include "Container.h"
 
-#include "main.h"
+#include "instance.h"
 #include "exe.h"
 #include "syserr.h"
 #include "inter.h"
 #include "lists.h"
+
+// TODO Remove dependency on main.h
+#include "main.h"
 
 
 /*----------------------------------------------------------------------*/
 static int countInContainer(int containerIndex)	/* IN - the container to count in */
 {
   int instanceIndex, j = 0;
-  
+
   for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
     if (in(instanceIndex, containerIndex, TRUE))
       /* Then it's in this container also */

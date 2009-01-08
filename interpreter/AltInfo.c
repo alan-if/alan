@@ -10,10 +10,13 @@
 #include "debug.h"
 #include "inter.h"
 #include "lists.h"
-#include "main.h"
+#include "instance.h"
 #include "options.h"
 #include "parse.h"
 #include "types.h"
+
+// TODO Remove dependency on main.h
+#include "main.h"
 
 
 /*======================================================================*/

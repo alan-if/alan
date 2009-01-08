@@ -1,5 +1,5 @@
-#ifndef TERM
-#define TERM
+#ifndef TERM_H
+#define TERM_H
 /*----------------------------------------------------------------------*\
 
   term.h
@@ -7,15 +7,6 @@
   Header file for terminal functions in ARUN, the Alan interpreter
 
 \*----------------------------------------------------------------------*/
-
-
-#ifdef _PROTOTYPES_
-
-extern void getPageSize(void);
-
-#else
-extern void getPageSize();
-#endif /* _PROTOTYPES_ */
 
 #ifdef HAVE_TERMIO
 
@@ -29,5 +20,8 @@ extern void getPageSize();
 #endif
 
 #endif /* HAVE_TERMIO */
+
+extern void getPageSize(void);
+extern void statusline(void);
 
 #endif

@@ -18,17 +18,14 @@
 #include "parse.h"
 #include "params.h"
 #include "options.h"
+#include "utils.h"
 
 #include <time.h>
 #ifdef USE_READLINE
 #include "readline.h"
 #endif
 
-#ifdef HAVE_SHORT_FILENAMES
-#include "av.h"
-#else
 #include "alan.version.h"
-#endif
 
 #include "args.h"
 #include "parse.h"
@@ -40,6 +37,7 @@
 #include "exe.h"
 #include "term.h"
 #include "set.h"
+#include "instance.h"
 
 #ifdef HAVE_GLK
 #include "glk.h"
@@ -70,9 +68,6 @@ EventQueueEntry *eventQueue = NULL; /* Event queue */
 Aint eventQueueTop = 0;		/* Event queue top pointer */
 
 /* Amachine structures - Dynamic */
-InstanceEntry *instances;	/* Instance table pointer */
-AdminEntry *admin;		/* Administrative data about instances */
-AttributeEntry *attributes;	/* Dynamic attribute values */
 Aword *scores;			/* Score table pointer */
 
 /* Amachine structures - Static */
@@ -121,87 +116,6 @@ static Bool onStatusLine = FALSE; /* Don't log when printing status */
 #define STACKSIZE 100
 
 
-/*======================================================================
-
-  terminate()
-
-  Terminate the execution of the adventure, e.g. close windows,
-  return buffers...
-
- */
-void terminate(int code)
-{
-#ifdef __amiga__
-#ifdef AZTEC_C
-#include <fcntl.h>
-  extern struct _dev *_devtab;
-  char buf[85];
-
-  if (con) { /* Running from WB, created a console so kill it */
-    /* Running from WB, so we created a console and
-       hacked the Aztec C device table to use it for all I/O
-       so now we need to make it close it (once!) */
-    _devtab[1].fd = _devtab[2].fd = 0;
-  } else
-#else
-  /* Geek Gadgets GCC */
-#include <workbench/startup.h>
-#include <clib/dos_protos.h>
-#include <clib/intuition_protos.h>
-
-  if (_WBenchMsg != NULL) {
-    Close(window);
-    if (_WBenchMsg->sm_ArgList != NULL)
-      UnLock(CurrentDir(cd));
-  } else
-#endif
-#endif
-    newline();
-  if (memory)
-      free(memory);
-  if (transcriptOption)
-#ifdef HAVE_GLK
-    glk_stream_close(logFile, NULL);
-#else
-    fclose(logFile);
-#endif
-
-#ifdef __MWERKS__
-  printf("Command-Q to close window.");
-#endif
-
-#ifdef HAVE_GLK
-  glk_exit();
-#else
-  exit(code);
-#endif
-}
-
-/*======================================================================*/
-void usage(void)
-{
-  printf("\nArun, Adventure Interpreter version %s (%s %s)\n\n",
-	 alan.version.string, alan.date, alan.time);
-  printf("Usage:\n\n");
-  printf("    %s [<switches>] <adventure>\n\n", PROGNAME);
-  printf("where the possible optional switches are:\n");
-#ifdef HAVE_GLK
-  glk_set_style(style_Preformatted);
-#endif
-  printf("    -v       verbose mode\n");
-  printf("    -l       log transcript to a file\n");
-  printf("    -c       log player commands to a file\n");
-  printf("    -n       no Status Line\n");
-  printf("    -d       enter debug mode\n");
-  printf("    -t[<n>]  trace game execution, higher <n> gives more trace\n");
-  printf("    -i       ignore version and checksum errors\n");
-  printf("    -r       refrain from printing timestamps and paging (making regression testing easier)\n");
-#ifdef HAVE_GLK
-  glk_set_style(style_Normal);
-#endif
-}
-
-
 /*======================================================================*/
 void error(MsgKind msgno)	/* IN - The error message number */
 {
@@ -209,73 +123,6 @@ void error(MsgKind msgno)	/* IN - The error message number */
   if (msgno != NO_MSG)
     printMessage(msgno);
   longjmp(returnLabel, ERROR_RETURN);
-}
-
-
-/*======================================================================*/
-void statusline(void)
-{
-#ifdef HAVE_GLK
-  glui32 glkWidth;
-  char line[100];
-  int pcol = col;
-
-  if (!statusLineOption) return;
-  if (glkStatusWin == NULL)
-    return;
-
-  glk_set_window(glkStatusWin);
-  glk_window_clear(glkStatusWin);
-  glk_window_get_size(glkStatusWin, &glkWidth, NULL);
-
-  onStatusLine = TRUE;
-  col = 1;
-  glk_window_move_cursor(glkStatusWin, 1, 0);
-  sayInstance(where(HERO, TRUE));
-
-  if (header->maximumScore > 0)
-    sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maximumScore, current.tick);
-  else
-    sprintf(line, "%d moves", current.tick);
-  glk_window_move_cursor(glkStatusWin, glkWidth-strlen(line)-1, 0);
-  glk_put_string(line);
-  needSpace = FALSE;
-
-  col = pcol;
-  onStatusLine = FALSE;
-
-  glk_set_window(glkMainWin);
-#else
-#ifdef HAVE_ANSI
-  char line[100];
-  int i;
-  int pcol = col;
-
-  if (!statusLineOption) return;
-  /* ansi_position(1,1); ansi_bold_on(); */
-  printf("\x1b[1;1H");
-  printf("\x1b[7m");
-
-  onStatusLine = TRUE;
-  col = 1;
-  sayInstance(where(HERO, FALSE));
-
-  if (header->maximumScore > 0)
-    sprintf(line, "Score %d(%ld)/%d moves", current.score, header->maximumScore, current.tick);
-  else
-    sprintf(line, "%ld moves", (long)current.tick);
-  for (i=0; i < pageWidth - col - strlen(line); i++) putchar(' ');
-  printf(line);
-  printf("\x1b[m");
-  printf("\x1b[%d;1H", pageLength);
-
-  needSpace = FALSE;
-  capitalize = TRUE;
-
-  onStatusLine = FALSE;
-  col = pcol;
-#endif
-#endif
 }
 
 
@@ -336,7 +183,7 @@ void newline(void)
 #ifndef HAVE_GLK
   char buf[256];
 
-  if (!regressionTestOption && lin >= pageLength - 1) {
+  if (!regressionTestOption && lin >= header->pageLength - 1) {
     printAndLog("\n");
     needSpace = FALSE;
     printMessage(M_MORE);

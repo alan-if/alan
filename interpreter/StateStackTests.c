@@ -2,6 +2,8 @@
 
 #include "StateStack.c"
 
+#include "instance.h"
+
 /* PRIVATE TYPES */
 typedef struct GameState {
   /* Event queue */

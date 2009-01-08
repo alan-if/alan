@@ -69,17 +69,6 @@ typedef struct CurVars {
     sourceFile;
 } CurVars;
 
-typedef struct AdminEntry {	/* Administrative data about instances */
-  Aint location;
-  AttributeEntry *attributes;
-  Abool alreadyDescribed;
-  Aint visitsCount;
-  Aint script;
-  Aint step;
-  Aint waitCount;
-} AdminEntry;
-
-
 /* The various tables */
 typedef struct ActEntry {	/* ACTOR TABLE */
   Aword loc;			/* Location */
@@ -146,10 +135,5 @@ typedef struct LiteralEntry {	/* LITERAL */
   LiteralType type;
   Aword value;
 } LiteralEntry;
-
-typedef struct Breakpoint {	/* BREAKPOINT */
-  int line;
-  int file;
-} Breakpoint;
 
 #endif

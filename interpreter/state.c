@@ -11,12 +11,14 @@
 #include "sysdep.h"
 #include "types.h"
 #include "syserr.h"
-#include "main.h"
 #include "set.h"
 #include "exe.h"
 #include "parse.h"
 #include "StateStack.h"
+#include "instance.h"
 
+// TODO Remove dependency on main.h
+#include "main.h"
 
 /* PUBLIC DATA */
 Bool gameStateChanged = FALSE;

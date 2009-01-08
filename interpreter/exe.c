@@ -19,6 +19,8 @@
 #include "parse.h"
 #include "syserr.h"
 #include "options.h"
+#include "term.h"
+#include "utils.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -31,7 +33,7 @@
 #include "glkio.h"
 #endif
 
-#include "main.h"
+#include "instance.h"
 #include "parse.h"
 #include "inter.h"
 #include "act.h"
@@ -42,6 +44,9 @@
 #include "Container.h"
 #include "Location.h"
 
+// TODO Remove dependency on main.h
+// TODO memory.c
+#include "main.h"
 
 #define WIDTH 80
 

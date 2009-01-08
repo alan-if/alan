@@ -156,7 +156,7 @@ Ensure canSetupParameterForWord() {
 
   playerWords[1].code = 2;
   litCount = 0;
-  addParameterForWords(messageParameters, 1, 1);
+  addParameterForWord(messageParameters, 1);
 
   assert_equal(instanceFromLiteral(1), messageParameters[0].instance);
   assert_equal(TRUE, messageParameters[0].useWords);
