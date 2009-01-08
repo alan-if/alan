@@ -5,8 +5,10 @@
 #include "syserr.h"
 #include "inter.h"
 #include "lists.h"
+#include "memory.h"
 
 // TODO Remove dependency on main.h
+// TODO Move container to container.c
 #include "main.h"
 
 

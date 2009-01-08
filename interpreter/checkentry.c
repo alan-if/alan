@@ -4,6 +4,7 @@
 #include "inter.h"
 #include "stack.h"
 #include "lists.h"
+#include "memory.h"
 
 
 /*======================================================================*/

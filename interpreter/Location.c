@@ -8,8 +8,10 @@
 #include "lists.h"
 #include "checkentry.h"
 #include "debug.h"
+#include "memory.h"
 
-// TODO: Remove dependency on main.h
+// TODO Remove dependency on main.h
+// TODO Move dictionary to dictionary.c
 #include "main.h"
 
 

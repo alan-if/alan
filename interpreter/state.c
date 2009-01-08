@@ -5,20 +5,21 @@
   State and undo manager unit of Alan interpreter
 
 \*----------------------------------------------------------------------*/
+#include "state.h"
 
-#include <string.h>
+/* IMPORTS */
 
-#include "sysdep.h"
-#include "types.h"
 #include "syserr.h"
-#include "set.h"
 #include "exe.h"
 #include "parse.h"
 #include "StateStack.h"
 #include "instance.h"
+#include "AttributeEntry.h"
+#include "memory.h"
 
 // TODO Remove dependency on main.h
 #include "main.h"
+
 
 /* PUBLIC DATA */
 Bool gameStateChanged = FALSE;
@@ -268,7 +269,8 @@ static void recallEvents() {
 /*----------------------------------------------------------------------*/
 static void recallInstances() {
 
-  if (admin == NULL) syserr("admin[] == NULL in recallInstances()");
+  if (admin == NULL)
+      syserr("admin[] == NULL in recallInstances()");
 
   memcpy(admin, gameState.admin,
  	 (header->instanceMax+1)*sizeof(AdminEntry));

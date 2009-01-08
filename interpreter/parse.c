@@ -26,8 +26,10 @@
 #include "syserr.h"
 #include "Location.h"
 #include "instance.h"
+#include "memory.h"
 
 // TODO Remove dependency on main.h
+// TODO Move output handling to output.c
 #include "main.h"
 
 #ifdef HAVE_GLK

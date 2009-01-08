@@ -47,7 +47,7 @@ void terminate(int code)
     newline();
   if (memory)
       free(memory);
-  if (transcriptOption)
+  if (transcriptOption|| logOption)
 #ifdef HAVE_GLK
     glk_stream_close(logFile, NULL);
 #else

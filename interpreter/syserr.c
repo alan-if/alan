@@ -1,9 +1,14 @@
 #include "syserr.h"
 
-#include "main.h"
 #include "inter.h"
 #include "debug.h"
 #include "options.h"
+#include "utils.h"
+
+// TODO Remove dependency on main.h
+// TODO Move current to exe or inter
+#include "main.h"
+
 
 static void (*handler)(char *) = NULL;
 
@@ -21,12 +26,6 @@ of an Adventure that never was.$n$n");
     printf("%s", readSourceLine(current.sourceFile, current.sourceLine));
   }
 
-  if (transcriptOption || logOption)
-#ifdef HAVE_GLK
-    glk_stream_close(logFile, NULL);
-#else
-  fclose(logFile);
-#endif
   newline();
 
 #ifdef __amiga__

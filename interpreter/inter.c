@@ -12,7 +12,6 @@
 #include <stdio.h>
 
 #include "types.h"
-#include "main.h"
 #include "parse.h"
 #include "exe.h"
 #include "stack.h"
@@ -21,6 +20,11 @@
 #include "debug.h"
 #include "set.h"
 #include "options.h"
+#include "save.h"
+#include "memory.h"
+
+// TODO Remove dependency on main.h
+#include "main.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK

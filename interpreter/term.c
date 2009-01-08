@@ -6,8 +6,12 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "main.h"
 #include "term.h"
+#include "memory.h"
+
+// TODO Remove dependency on main.h
+// TODO Move pageLength and pageWidth to here?
+#include "main.h"
 
 #ifdef __windows__
 

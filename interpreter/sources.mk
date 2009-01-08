@@ -31,6 +31,7 @@ UNIT2REQUIREDSRCS = \
 	decode.c \
 	instance.c \
 	lists.c \
+	memory.c \
 	options.c \
 	readline.c \
 	rules.c \
@@ -55,6 +56,7 @@ MAINSRCS = \
 	inter.c \
 	lists.c \
 	main.c \
+	memory.c \
 	options.c \
 	params.c \
 	parse.c \

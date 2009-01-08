@@ -19,7 +19,7 @@
 <folderInfo id="cdt.managedbuild.toolchain.gnu.macosx.base.1923774585.1163271343" name="/" resourcePath="">
 <toolChain id="cdt.managedbuild.toolchain.gnu.macosx.base.1844889432" name="cdt.managedbuild.toolchain.gnu.macosx.base" superClass="cdt.managedbuild.toolchain.gnu.macosx.base">
 <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.MachO" id="cdt.managedbuild.target.gnu.platform.macosx.base.1420709182" name="Debug Platform" osList="macosx" superClass="cdt.managedbuild.target.gnu.platform.macosx.base"/>
-<builder enableAutoBuild="true" id="cdt.managedbuild.target.gnu.builder.macosx.base.977574992" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" stopOnErr="true" superClass="cdt.managedbuild.target.gnu.builder.macosx.base"/>
+<builder enableAutoBuild="true" id="cdt.managedbuild.target.gnu.builder.macosx.base.977574992" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" stopOnErr="false" superClass="cdt.managedbuild.target.gnu.builder.macosx.base"/>
 <tool id="cdt.managedbuild.tool.macosx.c.linker.macosx.base.1600303934" name="MacOS X C Linker" superClass="cdt.managedbuild.tool.macosx.c.linker.macosx.base">
 <option id="macosx.c.link.option.paths.331356614" name="Library search path (-L)" superClass="macosx.c.link.option.paths" valueType="libPaths">
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Cgreen/src}&quot;"/>

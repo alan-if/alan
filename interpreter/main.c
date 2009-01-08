@@ -38,6 +38,7 @@
 #include "term.h"
 #include "set.h"
 #include "instance.h"
+#include "memory.h"
 
 #ifdef HAVE_GLK
 #include "glk.h"
@@ -48,13 +49,6 @@
 #endif
 
 /* PUBLIC DATA */
-
-/* The Amachine memory */
-Aword *memory = NULL;
-static ACodeHeader dummyHeader;	/* Dummy to use until memory allocated */
-ACodeHeader *header = &dummyHeader;
-
-int memTop = 0;			/* Top of load memory */
 
 int conjWord;			/* First conjunction in dictonary, for ',' */
 

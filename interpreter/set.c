@@ -10,12 +10,14 @@
 	simply be done by setting the size to zero.
 
 \*----------------------------------------------------------------------*/
-
 #include "set.h"
+
+/* Imports: */
 #include "lists.h"
 #include "main.h"
 #include "syserr.h"
 #include "exe.h"
+#include "memory.h"
 
 #define EXTENT 5
 
@@ -38,7 +40,7 @@ void initSets(SetInitEntry *initTable)
 {
   SetInitEntry *init;
   int i;
-  
+
   for (init = initTable; !isEndOfList(init); init++) {
     Set *set = newSet(init->size);
     Aword *member = pointerTo(init->setAddress);
@@ -84,7 +86,7 @@ Aword getSetMember(Set *theSet, Aint theMember) {
 Bool inSet(Set *theSet, Aword member)
 {
   int i;
-	
+
   for (i = 1; i <= theSet->size; i++)
     if (getSetMember(theSet, i) == member)
       return TRUE;
@@ -97,7 +99,7 @@ Set *setUnion(Set *set1, Set *set2)
 {
   Set *theUnion = newSet(set1->size+set2->size);
   int i;
-	
+
   for (i = 0; i < set1->size; i++)
     addToSet(theUnion, set1->members[i]);
   for (i = 0; i < set2->size; i++)

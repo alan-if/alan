@@ -8,19 +8,35 @@
 
 #include "exe.h"
 
+
+/* Imports: */
+
 #include "lists.h"
 #include "sysdep.h"
 #include "types.h"
-#include "act.h"
-#include "set.h"
 #include "state.h"
-#include "debug.h"
 #include "params.h"
 #include "parse.h"
 #include "syserr.h"
 #include "options.h"
 #include "term.h"
 #include "utils.h"
+#include "instance.h"
+#include "parse.h"
+#include "inter.h"
+#include "stack.h"
+#include "decode.h"
+#include "checkentry.h"
+#include "Container.h"
+#include "Location.h"
+#include "save.h"
+#include "debug.h"
+#include "AttributeEntry.h"
+#include "memory.h"
+
+// TODO Remove dependency on main.h
+// TODO print & files
+#include "main.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -33,20 +49,6 @@
 #include "glkio.h"
 #endif
 
-#include "instance.h"
-#include "parse.h"
-#include "inter.h"
-#include "act.h"
-#include "stack.h"
-#include "decode.h"
-
-#include "checkentry.h"
-#include "Container.h"
-#include "Location.h"
-
-// TODO Remove dependency on main.h
-// TODO memory.c
-#include "main.h"
 
 #define WIDTH 80
 

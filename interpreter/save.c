@@ -17,8 +17,10 @@
 #include "options.h"
 #include "syserr.h"
 #include "instance.h"
+#include "memory.h"
 
 // TODO Remove dependency on main.h
+// TODO Move EventQueue, scores & current out from main.h
 #include "main.h"
 
 

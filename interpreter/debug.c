@@ -30,6 +30,7 @@
 #include "options.h"
 #include "utils.h"
 #include "instance.h"
+#include "memory.h"
 
 // TODO Remove dependency on main.h
 #include "main.h"

@@ -15,8 +15,6 @@
 /* Functions: */
 extern void sys(Aword fpos, Aword len);
 extern Bool confirm(MsgKind msgno);
-extern Aword getAttribute(AttributeEntry *attributeTable, Aint attributeCode);
-extern void setAttribute(AttributeEntry *attributeTable, Aint attributeCode, Aword value);
 extern Aword attributeOf(Aint instance, Aint atr);
 extern void sayInstance(Aint id);
 extern void say(Aint instance);
@@ -53,8 +51,6 @@ extern void cancelEvent(Aword evt);
 extern void undo(void);
 extern void quitGame(void);
 extern void restartGame(void);
-extern void save(void);
-extern void restore(void);
 extern Aword randomInteger(Aword from, Aword to);
 extern Aword randomInContainer(Aint cont);
 extern Abool btw(Aint val, Aint from, Aint to);

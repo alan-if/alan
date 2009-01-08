@@ -14,6 +14,7 @@
 #include "options.h"
 #include "parse.h"
 #include "types.h"
+#include "memory.h"
 
 // TODO Remove dependency on main.h
 #include "main.h"
