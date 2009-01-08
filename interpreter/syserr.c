@@ -4,9 +4,10 @@
 #include "debug.h"
 #include "options.h"
 #include "utils.h"
+#include "exe.h"
 
 // TODO Remove dependency on main.h
-// TODO Move current to exe or inter
+// TODO Move output to output.c
 #include "main.h"
 
 

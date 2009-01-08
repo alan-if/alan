@@ -8,9 +8,14 @@
 
 \*----------------------------------------------------------------------*/
 
+/* Imports: */
 #include "acode.h"
 #include "types.h"
 #include "set.h"
+
+/* Data: */
+extern CurVars current;
+
 
 /* Functions: */
 extern void sys(Aword fpos, Aword len);

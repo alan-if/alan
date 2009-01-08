@@ -15,8 +15,10 @@
 #include "parse.h"
 #include "types.h"
 #include "memory.h"
+#include "exe.h"
 
 // TODO Remove dependency on main.h
+// TODO Move classes to classes.h
 #include "main.h"
 
 

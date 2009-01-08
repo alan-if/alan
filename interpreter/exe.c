@@ -42,12 +42,18 @@
 #include "readline.h"
 #endif
 
-
 #ifdef HAVE_GLK
 #include "glk.h"
 #define MAP_STDIO_TO_GLK
 #include "glkio.h"
 #endif
+
+
+/* Public Data */
+
+/* Amachine variables */
+CurVars current;
+
 
 
 #define WIDTH 80

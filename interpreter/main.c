@@ -53,9 +53,6 @@
 int conjWord;			/* First conjunction in dictonary, for ',' */
 
 
-/* Amachine variables */
-CurVars current;
-
 /* The event queue */
 int eventQueueSize = 0;
 EventQueueEntry *eventQueue = NULL; /* Event queue */

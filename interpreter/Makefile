@@ -204,6 +204,7 @@ headerGenerator: headerGenerator.c
 #
 CPP	= gcc -MM -ansi
 DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
+depend: CYGWIN =
 depend:
 	@-for f in $(UNIT2SRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c ; \
 	  do \

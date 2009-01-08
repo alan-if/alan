@@ -20,9 +20,6 @@ extern int eventQueueSize;
 extern EventQueueEntry *eventQueue;
 extern Aint eventQueueTop;		/* Event queue top pointer */
 
-/* Amachine variables */
-extern CurVars current;
-
 /* Amachine data structures - Dynamic */
 extern Aword *scores;		/* Score table pointer */
 

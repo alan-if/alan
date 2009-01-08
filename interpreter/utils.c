@@ -7,6 +7,7 @@
 #include "main.h"
 #include "options.h"
 #include "args.h"
+#include "memory.h"
 
 
 /*======================================================================
