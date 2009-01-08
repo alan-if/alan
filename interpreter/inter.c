@@ -22,6 +22,7 @@
 #include "options.h"
 #include "save.h"
 #include "memory.h"
+#include "output.h"
 
 // TODO Remove dependency on main.h
 #include "main.h"

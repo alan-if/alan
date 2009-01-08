@@ -4,10 +4,14 @@
 /* Imports: */
 #include <stdio.h>
 #include "alan.version.h"
-#include "main.h"
 #include "options.h"
 #include "args.h"
 #include "memory.h"
+#include "output.h"
+
+// TODO Remove dependency on main.h
+// TODO Move logFile to output.c?
+#include "main.h"
 
 
 /*======================================================================

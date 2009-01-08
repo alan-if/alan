@@ -2,7 +2,7 @@
 # Windows: CygWin32/Mingw32
 # Darwin: GCC
 # Note: uses a lot of special stuff, if you are porting, start from
-# one of the other makefiles, such as Makefile.unix
+# one of the other makefiles, such as Makefile.unix (which are not up-to-date)
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 SYSTEM = `uname -s | sed 's/_.*$$//'`
@@ -16,7 +16,7 @@ LDFLAGS = $(CYGWIN)
 
 
 #Settings for memory debugging
-SMARTALLOC = -DSMARTALLOC
+SMARTALLOC = #-DSMARTALLOC
 
 
 # Define this to make interpreter log each crc calculation step
@@ -32,7 +32,7 @@ all:
 	$(MAKE) $(SYSTEM)
 
 Darwin: CYGWIN =
-Darwin: arun #unitTest dumpacd
+Darwin: unit2 arun #dumpacd
 
 
 CYGWIN: unitTest arun dumpacd winarun glkarun gararun

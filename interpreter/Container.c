@@ -7,9 +7,9 @@
 #include "lists.h"
 #include "memory.h"
 
-// TODO Remove dependency on main.h
-// TODO Move container to container.c
-#include "main.h"
+
+/* PUBLIC DATA */
+ContainerEntry *container;  /* Container table pointer */
 
 
 /*----------------------------------------------------------------------*/

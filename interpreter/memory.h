@@ -6,21 +6,27 @@
 
 \*----------------------------------------------------------------------*/
 
-/* Imports: */
+/* IMPORTS */
 #include "acode.h"
 
-/* Constants: */
+/* CONSTANTS */
 
 
-/* Types: */
+/* TYPES */
 
 
-/* Data: */
+/* DATA */
 extern Aword *memory;
 extern ACodeHeader *header;
 extern int memTop;
 
 
-/* Functions: */
+/* FUNCTIONS */
+#ifndef SMARTALLOC
+extern void *allocate(unsigned long len);
+#else
+#define allocate(s) calloc(s, 1)
+#endif
+extern void *duplicate(void *original, unsigned long len);
 
 #endif /* MEMORY_H_ */

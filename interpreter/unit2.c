@@ -18,6 +18,7 @@ TestSuite *stateTests();
 TestSuite *stateStackTests();
 TestSuite *stackTests();
 TestSuite *sysdepTests();
+TestSuite *outputTests();
 
 int main(int argc, char **argv) {
 	int return_code;
@@ -38,6 +39,7 @@ int main(int argc, char **argv) {
     add_suite(suite, stateStackTests());
     add_suite(suite, stateTests());
     add_suite(suite, sysdepTests());
+    add_suite(suite, outputTests());
     if (argc > 1) {
         return_code = run_single_test(suite, argv[1], reporter);
     } else {

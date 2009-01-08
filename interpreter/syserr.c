@@ -5,10 +5,7 @@
 #include "options.h"
 #include "utils.h"
 #include "exe.h"
-
-// TODO Remove dependency on main.h
-// TODO Move output to output.c
-#include "main.h"
+#include "output.h"
 
 
 static void (*handler)(char *) = NULL;

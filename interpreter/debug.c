@@ -31,8 +31,11 @@
 #include "utils.h"
 #include "instance.h"
 #include "memory.h"
+#include "output.h"
+#include "class.h"
 
 // TODO Remove dependency on main.h
+// TODO Move events & eventQueue to event.c
 #include "main.h"
 
 #ifdef HAVE_GLK

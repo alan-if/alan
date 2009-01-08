@@ -13,6 +13,9 @@
 #include "args.h"
 
 #include "options.h"
+#include "utils.h"
+// TODO Remove dependency on main.h
+// TODO Move filenames to somewhere else?
 #include "main.h"
 
 #ifdef HAVE_GLK

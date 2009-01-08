@@ -6,27 +6,21 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "sysdep.h"
+#include "main.h"
 
+/* Imports: */
+#include "sysdep.h"
 #include "acode.h"
 #include "types.h"
+
 #include "set.h"
 #include "state.h"
 #include "lists.h"
-#include "main.h"
 #include "syserr.h"
 #include "parse.h"
 #include "params.h"
 #include "options.h"
 #include "utils.h"
-
-#include <time.h>
-#ifdef USE_READLINE
-#include "readline.h"
-#endif
-
-#include "alan.version.h"
-
 #include "args.h"
 #include "parse.h"
 #include "inter.h"
@@ -39,6 +33,17 @@
 #include "set.h"
 #include "instance.h"
 #include "memory.h"
+#include "output.h"
+#include "Container.h"
+#include "dictionary.h"
+
+#include <time.h>
+#ifdef USE_READLINE
+#include "readline.h"
+#endif
+
+#include "alan.version.h"
+
 
 #ifdef HAVE_GLK
 #include "glk.h"
@@ -62,9 +67,7 @@ Aint eventQueueTop = 0;		/* Event queue top pointer */
 Aword *scores;			/* Score table pointer */
 
 /* Amachine structures - Static */
-ContainerEntry *container;	/* Container table pointer */
 ClassEntry *classes;		/* Class table pointer */
-DictionaryEntry *dictionary;	/* Dictionary pointer */
 VerbEntry *vrbs;		/* Verb table pointer */
 SyntaxEntry *stxs;		/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
@@ -72,10 +75,7 @@ EventEntry *events;		/* Event table pointer */
 MessageEntry *msgs;			/* Message table pointer */
 Aword *freq;			/* Cumulative character frequencies */
 
-int dictionarySize;
-
 Bool fail = FALSE;
-Bool anyOutput = FALSE;
 
 
 /* The files and filenames */
@@ -87,14 +87,6 @@ strid_t logFile;
 #else
 FILE *logFile;
 #endif
-
-/* Screen formatting info */
-int col, lin;
-int pageLength, pageWidth;
-
-Bool capitalize = FALSE;
-Bool needSpace = FALSE;
-Bool skipSpace = FALSE;
 
 /* Restart jump buffer */
 jmp_buf restartLabel;		/* Restart long jump return point */
@@ -169,387 +161,6 @@ void printAndLog(char string[])
 
 
 /*======================================================================*/
-void newline(void)
-{
-#ifndef HAVE_GLK
-  char buf[256];
-
-  if (!regressionTestOption && lin >= header->pageLength - 1) {
-    printAndLog("\n");
-    needSpace = FALSE;
-    printMessage(M_MORE);
-    statusline();
-    fflush(stdout);
-    fgets(buf, 256, stdin);
-    getPageSize();
-    lin = 0;
-  } else
-    printAndLog("\n");
-
-  lin++;
-#else
-  printAndLog("\n");
-#endif
-  col = 1;
-  needSpace = FALSE;
-}
-
-
-/*======================================================================*/
-void para(void)
-{
-  /* Make a new paragraph, i.e one empty line (one or two newlines). */
-
-#ifdef HAVE_GLK
-  if (glk_gestalt(gestalt_Graphics, 0) == 1)
-    glk_window_flow_break(glkMainWin);
-#endif
-  if (col != 1)
-    newline();
-  newline();
-  capitalize = TRUE;
-}
-
-
-/*======================================================================*/
-void clear(void)
-{
-#ifdef HAVE_GLK
-  glk_window_clear(glkMainWin);
-#else
-#ifdef HAVE_ANSI
-  if (!statusLineOption) return;
-  printf("\x1b[2J");
-  printf("\x1b[%d;1H", pageLength);
-#endif
-#endif
-}
-
-
-#ifndef SMARTALLOC
-/*======================================================================*/
-void *allocate(unsigned long lengthInBytes)
-{
-  void *p = (void *)calloc((size_t)lengthInBytes, 1);
-
-  if (p == NULL)
-    syserr("Out of memory.");
-
-  return p;
-}
-#endif
-
-
-/*======================================================================*/
-void *duplicate(void *original, unsigned long len)
-{
-  void *p = allocate(len+1);
-
-  memcpy(p, original, len);
-  return p;
-}
-
-
-/*----------------------------------------------------------------------*/
-static void capitalizeFirst(char *str) {
-  int i = 0;
-
-  /* Skip over space... */
-  while (i < strlen(str) && isSpace(str[i])) i++;
-  if (i < strlen(str)) {
-    str[i] = toUpper(str[i]);
-    capitalize = FALSE;
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void justify(char str[])
-{
-  if (capitalize)
-    capitalizeFirst(str);
-
-#ifdef HAVE_GLK
-  printAndLog(str);
-#else
-  int i;
-  char ch;
-
-  if (col >= pageWidth && !skipSpace)
-    newline();
-
-  while (strlen(str) > pageWidth - col) {
-    i = pageWidth - col - 1;
-    while (!isSpace(str[i]) && i > 0) /* First find wrap point */
-      i--;
-    if (i == 0 && col == 1)	/* If it doesn't fit at all */
-      /* Wrap immediately after this word */
-      while (!isSpace(str[i]) && str[i] != '\0')
-	i++;
-    if (i > 0) {		/* If it fits ... */
-      ch = str[i];		/* Save space or NULL */
-      str[i] = '\0';		/* Terminate string */
-      printAndLog(str);		/* and print it */
-      skipSpace = FALSE;		/* If skipping, now we're done */
-      str[i] = ch;		/* Restore character */
-      /* Skip white after printed portion */
-      for (str = &str[i]; isSpace(str[0]) && str[0] != '\0'; str++);
-    }
-    newline();			/* Then start a new line */
-    while(isSpace(str[0])) str++; /* Skip any leading space on next part */
-  }
-  printAndLog(str);		/* Print tail */
-#endif
-  col = col + strlen(str);	/* Update column */
-}
-
-
-/*----------------------------------------------------------------------*/
-static void space(void)
-{
-  if (skipSpace)
-    skipSpace = FALSE;
-  else {
-    if (needSpace) {
-      printAndLog(" ");
-      col++;
-    }
-  }
-  needSpace = FALSE;
-}
-
-
-/*----------------------------------------------------------------------*/
-static void sayPlayerWordsForParameter(int p) {
-  int i;
-
-  for (i = parameters[p].firstWord; i <= parameters[p].lastWord; i++) {
-    justify((char *)pointerTo(dictionary[playerWords[i].code].string));
-    if (i < parameters[p].lastWord)
-      justify(" ");
-  }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void sayParameter(int p, int form)
-{
-  int i;
-
-  for (i = 0; i <= p; i++)
-    if (isEndOfList(&parameters[i]))
-      syserr("Nonexistent parameter referenced.");
-
-#ifdef ALWAYS_SAY_PARAMETERS_USING_PLAYER_WORDS
-  if (params[p].firstWord != EOF) /* Any words he used? */
-    /* Yes, so use them... */
-    sayPlayerWordsForParameter(p);
-  else
-    sayForm(params[p].code, form);
-#else
-  if (parameters[p].useWords) {
-    /* Ambiguous instance referenced, so use the words he used */
-    sayPlayerWordsForParameter(p);
-  } else
-    sayForm(parameters[p].instance, form);
-#endif
-}
-
-
-/*----------------------------------------------------------------------
-
-  Print an expanded symbolic reference.
-
-  N = newline
-  I = indent on a new line
-  P = new paragraph
-  L = current location name
-  O = current object -> first parameter!
-  <n> = n:th parameter
-  +<n> = definite form of n:th parameter
-  0<n> = indefinite form of n:th parameter
-  !<n> = pronoun for the n:th parameter
-  V = current verb
-  A = current actor
-  T = tabulation
-  $ = no space needed after this, and don't capitalize
- */
-static char *printSymbol(char *str)	/* IN - The string starting with '$' */
-{
-  int advance = 2;
-
-  if (*str == '\0') printAndLog("$");
-  else switch (toLower(str[1])) {
-  case 'n':
-    newline();
-    needSpace = FALSE;
-    break;
-  case 'i':
-    newline();
-    printAndLog("    ");
-    col = 5;
-    needSpace = FALSE;
-    break;
-  case 'o':
-    space();
-    sayParameter(0, 0);
-    needSpace = TRUE;		/* We did print something non-white */
-    break;
-  case '+':
-  case '0':
-  case '-':
-  case '!':
-    space();
-    if (isdigit(str[2])) {
-      int form;
-      switch (str[1]) {
-      case '+': form = SAY_DEFINITE; break;
-      case '0': form = SAY_INDEFINITE; break;
-      case '-': form = SAY_NEGATIVE; break;
-      case '!': form = SAY_PRONOUN; break;
-      default: form = SAY_SIMPLE; break;
-      }
-      sayParameter(str[2]-'1', form);
-      needSpace = TRUE;
-    }
-    advance = 3;
-    break;
-  case '1':
-  case '2':
-  case '3':
-  case '4':
-  case '5':
-  case '6':
-  case '7':
-  case '8':
-  case '9':
-    space();
-    sayParameter(str[1]-'1', SAY_SIMPLE);
-    needSpace = TRUE;		/* We did print something non-white */
-    break;
-  case 'l':
-    space();
-    say(current.location);
-    needSpace = TRUE;		/* We did print something non-white */
-    break;
-  case 'a':
-    space();
-    say(current.actor);
-    needSpace = TRUE;		/* We did print something non-white */
-    break;
-  case 'v':
-    space();
-    justify((char *)pointerTo(dictionary[verbWord].string));
-    needSpace = TRUE;		/* We did print something non-white */
-    break;
-  case 'p':
-    para();
-    needSpace = FALSE;
-    break;
-  case 't': {
-    int i;
-    int spaces = 4-(col-1)%4;
-
-    for (i = 0; i<spaces; i++) printAndLog(" ");
-    col = col + spaces;
-    needSpace = FALSE;
-    break;
-  }
-  case '$':
-    skipSpace = TRUE;
-    capitalize = FALSE;
-    break;
-  default:
-    printAndLog("$");
-    break;
-  }
-
-  return &str[advance];
-}
-
-
-/*----------------------------------------------------------------------*/
-static Bool inhibitSpace(char *str) {
-  return str[0] == '$' && str[1] == '$';
-}
-
-
-/*----------------------------------------------------------------------*/
-static Bool isSpaceEquivalent(char str[]) {
-  if (str[0] == ' ')
-    return TRUE;
-  else
-    return strncmp(str, "$p", 2) == 0
-      || strncmp(str, "$n", 2) == 0
-      || strncmp(str, "$i", 2) == 0
-      || strncmp(str, "$t", 2) == 0;
-}
-
-
-/*----------------------------------------------------------------------*/
-static Bool punctuationNext(char *str) {
-  char *punctuation = strchr(".,!?", str[0]);
-  Bool end = str[1] == '\0';
-  Bool space = isSpaceEquivalent(&str[1]);
-  return (punctuation != NULL && (end || space));
-}
-
-
-/*----------------------------------------------------------------------*/
-static char lastCharOf(char *str) {
-  return str[strlen(str)-1];
-}
-
-
-/*======================================================================*/
-void output(char original[])
-{
-  char ch;
-  char *str, *copy;
-  char *symptr;
-
-  copy = strdup(original);
-  str = copy;
-
-  if (inhibitSpace(str) || punctuationNext(str))
-    needSpace = FALSE;
-  else
-    space();			/* Output space if needed (& not inhibited) */
-
-  /* Output string up to symbol and handle the symbol */
-  while ((symptr = strchr(str, '$')) != (char *) NULL) {
-    ch = *symptr;		/* Terminate before symbol */
-    *symptr = '\0';
-    if (strlen(str) > 0) {
-      skipSpace = FALSE;	/* Only let skipSpace through if it is
-				   last in the string */
-      if (lastCharOf(str) == ' ') {
-	str[strlen(str)-1] = '\0'; /* Truncate space character */
-	justify(str);		/* Output part before '$' */
-	needSpace = TRUE;
-      } else {
-	justify(str);		/* Output part before '$' */
-	needSpace = FALSE;
-      }
-    }
-    *symptr = ch;		/* restore '$' */
-    str = printSymbol(symptr);	/* Print the symbolic reference and advance */
-  }
-
-  if (str[0] != 0) {
-    justify(str);			/* Output trailing part */
-    skipSpace = FALSE;
-    if (lastCharOf(str) != ' ')
-      needSpace = TRUE;
-  }
-  if (needSpace)
-    capitalize = strchr("!?.", str[strlen(str)-1]) != 0;
-  anyOutput = TRUE;
-  free(copy);
-}
-
-
-/*======================================================================*/
 void printMessage(MsgKind msg)		/* IN - message number */
 {
   interpret(msgs[msg].stms);
@@ -567,155 +178,6 @@ void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
 
 	copyParameterList(parameters, savedParameters);
 	free(savedParameters);
-}
-
-
-/*----------------------------------------------------------------------*\
-
-  Various check functions
-
-  endOfTable()
-  isObj, isLoc, isAct, IsCnt & isNum
-
-\*----------------------------------------------------------------------*/
-
-/* Instance query methods */
-// TODO Move to Instance.c
-
-Bool isObject(int instance)
-{
-  return isA(instance, OBJECT);
-}
-
-Bool isContainer(int instance)
-{
-  return instance != 0 && instances[instance].container != 0;
-}
-
-Bool isActor(int instance)
-{
-  return isA(instance, ACTOR);
-}
-
-Bool isLocation(int instance)
-{
-  return isA(instance, LOCATION);
-}
-
-
-Bool isLiteral(int instance)
-{
-  return instance > header->instanceMax;
-}
-
-Bool isNumeric(int instance)
-{
-  return isLiteral(instance) && literal[literalFromInstance(instance)].type == NUMERIC_LITERAL;
-}
-
-Bool isString(int instance)
-{
-  return isLiteral(instance) && literal[literalFromInstance(instance)].type == STRING_LITERAL;
-}
-
-
-
-/* Word class query methods, move to Word.c */
-/* Word classes are numbers but in the dictionary they are generated as bits */
-static Bool isVerb(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&VERB_BIT)!=0;
-}
-
-Bool isVerbWord(int wordIndex) {
-	return isVerb(playerWords[wordIndex].code);
-}
-
-static Bool isConjunction(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&CONJUNCTION_BIT)!=0;
-}
-
-Bool isConjunctionWord(int wordIndex) {
-	return isConjunction(playerWords[wordIndex].code);
-}
-
-static Bool isBut(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&EXCEPT_BIT)!=0;
-}
-
-Bool isButWord(int wordIndex) {
-	return isBut(playerWords[wordIndex].code);
-}
-
-static Bool isThem(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&THEM_BIT)!=0;
-}
-
-Bool isThemWord(int wordIndex) {
-	return isThem(playerWords[wordIndex].code);
-}
-
-static Bool isIt(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&IT_BIT)!=0;
-}
-
-Bool isItWord(int wordIndex) {
-	return isIt(playerWords[wordIndex].code);
-}
-
-static Bool isNoun(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&NOUN_BIT)!=0;
-}
-
-Bool isNounWord(int wordIndex) {
-	return isNoun(playerWords[wordIndex].code);
-}
-
-static Bool isAdjective(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&ADJECTIVE_BIT)!=0;
-}
-
-Bool isAdjectiveWord(int wordIndex) {
-	return isAdjective(playerWords[wordIndex].code);
-}
-
-static Bool isPreposition(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&PREPOSITION_BIT)!=0;
-}
-
-Bool isPrepositionWord(int wordIndex) {
-	return isPreposition(playerWords[wordIndex].code);
-}
-
-Bool isAll(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&ALL_BIT)!=0;
-}
-
-Bool isAllWord(int wordIndex) {
-	return isAll(playerWords[wordIndex].code);
-}
-
-static Bool isDir(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&DIRECTION_BIT)!=0;
-}
-
-Bool isDirectionWord(int wordIndex) {
-	return isDir(playerWords[wordIndex].code);
-}
-
-Bool isNoise(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&NOISE_BIT)!=0;
-}
-
-Bool isPronoun(int wordCode) {
-  return wordCode < dictionarySize && (dictionary[wordCode].classBits&PRONOUN_BIT)!=0;
-}
-
-Bool isPronounWord(int wordIndex) {
-	return isPronoun(playerWords[wordIndex].code);
-}
-
-Bool isLiteralWord(int wordIndex) {
-  return playerWords[wordIndex].code >= dictionarySize;
 }
 
 
@@ -805,7 +267,7 @@ static void runPendingEvents(void)
 static FILE *codfil;
 static char codfnm[256] = "";
 static char txtfnm[256] = "";
-static char logfnm[256] = "";
+static char logFileName[256] = "";
 
 
 /*----------------------------------------------------------------------*/
@@ -1255,13 +717,13 @@ static void openFiles(void)
   /* If logging open log file */
   if (transcriptOption || logOption) {
     time(&tick);
-    sprintf(logfnm, "%s%d%s.log", adventureName, (int)tick, usr);
+    sprintf(logFileName, "%s%d%s.log", adventureName, (int)tick, usr);
 #ifdef HAVE_GLK
     glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
-    frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logfnm, 0);
+    frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logFileName, 0);
     logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
 #else
-    logFile = fopen(logfnm, "w");
+    logFile = fopen(logFileName, "w");
 #endif
     if (logFile == NULL) {
       transcriptOption = FALSE;

@@ -1,12 +1,12 @@
-#ifndef _CONTAINER_H_
-#define _CONTAINER_H_
+#ifndef CLASSES_H_
+#define CLASSES_H_
 /*----------------------------------------------------------------------*\
 
-  Containers
+	classes
 
 \*----------------------------------------------------------------------*/
 
-#include "types.h"
+/* IMPORTS */
 #include "acode.h"
 
 
@@ -17,10 +17,9 @@
 
 
 /* DATA */
-extern ContainerEntry *container; /* Container table pointer */
+extern ClassEntry *classes; /* Class table pointer */
 
 
 /* FUNCTIONS */
-extern Bool passesContainerLimits(Aint container, Aint addedInstance);
 
-#endif
+#endif /* CLASSES_H_ */

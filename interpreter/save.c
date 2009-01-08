@@ -18,6 +18,7 @@
 #include "syserr.h"
 #include "instance.h"
 #include "memory.h"
+#include "output.h"
 
 // TODO Remove dependency on main.h
 // TODO Move EventQueue, scores & current out from main.h

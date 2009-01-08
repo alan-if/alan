@@ -19,6 +19,7 @@ UNIT2SRC = \
 	stackTests.c \
 	stateTests.c \
 	sysdepTests.c \
+	outputTests.c \
 	smartall.c
 
 UNIT2REQUIREDSRCS = \
@@ -29,6 +30,7 @@ UNIT2REQUIREDSRCS = \
 	args.c \
 	debug.c \
 	decode.c \
+	dictionary.c \
 	instance.c \
 	lists.c \
 	memory.c \
@@ -51,6 +53,7 @@ MAINSRCS = \
 	args.c \
 	debug.c \
 	decode.c \
+	dictionary.c \
 	exe.c \
 	instance.c \
 	inter.c \
@@ -58,6 +61,7 @@ MAINSRCS = \
 	main.c \
 	memory.c \
 	options.c \
+	output.c \
 	params.c \
 	parse.c \
 	readline.c \

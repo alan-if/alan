@@ -16,9 +16,10 @@
 #include "types.h"
 #include "memory.h"
 #include "exe.h"
+#include "class.h"
 
 // TODO Remove dependency on main.h
-// TODO Move classes to classes.h
+// TODO Move fail to ?
 #include "main.h"
 
 

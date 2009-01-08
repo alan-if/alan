@@ -8,6 +8,7 @@
 
 /* Imports: */
 #include "acode.h"
+#include "types.h"
 
 /* Constants: */
 
@@ -31,6 +32,13 @@ extern AttributeEntry *attributes; /* Dynamic attribute values */
 
 
 /* Functions: */
+extern Bool isObject(int instance);
+extern Bool isContainer(int instance);
+extern Bool isActor(int instance);
+extern Bool isLocation(int instance);
+extern Bool isLiteral(int instance);
+extern Bool isNumeric(int instance);
+extern Bool isString(int instance);
 
 
 #endif /* INSTANCES_H_ */

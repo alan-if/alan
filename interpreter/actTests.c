@@ -3,6 +3,9 @@
 #include "act.c"
 
 
+#include "lists.h"
+
+
 Ensure can_find_multiple_position(void) {
 	Parameter parameters[10];
 	int i;
@@ -10,7 +13,7 @@ Ensure can_find_multiple_position(void) {
 	for (i=0; i<10; i++)
 		parameters[i].instance = 2;
 	parameters[7].instance = 0;
-	parameters[9].instance = -1;
+	setEndOfList(&parameters[9]);
 
 	assert_equal(findMultiplePosition(parameters), 7);
 }

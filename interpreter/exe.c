@@ -10,13 +10,11 @@
 
 
 /* Imports: */
+#include "types.h"
 
 #include "lists.h"
-#include "sysdep.h"
-#include "types.h"
 #include "state.h"
 #include "params.h"
-#include "parse.h"
 #include "syserr.h"
 #include "options.h"
 #include "term.h"
@@ -24,7 +22,6 @@
 #include "instance.h"
 #include "parse.h"
 #include "inter.h"
-#include "stack.h"
 #include "decode.h"
 #include "checkentry.h"
 #include "Container.h"
@@ -33,9 +30,12 @@
 #include "debug.h"
 #include "AttributeEntry.h"
 #include "memory.h"
+#include "output.h"
+#include "dictionary.h"
+#include "class.h"
 
 // TODO Remove dependency on main.h
-// TODO print & files
+// TODO Move print & files to ?
 #include "main.h"
 
 #ifdef USE_READLINE
@@ -880,7 +880,8 @@ void locate(Aint id, Aword whr)
 
 
 /*======================================================================*/
-Aword isHere(Aint id, Abool directly)
+// TODO Remove Abool A-types should only be used for storage, else native types
+Abool isHere(Aint id, Abool directly)
 {
 	verifyId(id, "HERE");
 

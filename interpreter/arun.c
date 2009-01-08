@@ -11,6 +11,9 @@
 #include "main.h"
 #include "term.h"
 #include "options.h"
+#include "utils.h"
+#include "memory.h"
+#include "output.h"
 
 #ifdef HAVE_SHORT_FILENAMES
 #include "av.h"

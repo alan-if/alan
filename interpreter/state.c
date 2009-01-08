@@ -18,6 +18,8 @@
 #include "memory.h"
 
 // TODO Remove dependency on main.h
+// TODO Move scores to scores.c
+// TODO Move eventQueue to event.c
 #include "main.h"
 
 

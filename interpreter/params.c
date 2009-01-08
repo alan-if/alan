@@ -37,7 +37,7 @@ Parameter *findEndOfList(Parameter *parameters) {
  */
 int findMultiplePosition(Parameter parameters[]) {
 	int multiplePosition;
-	for (multiplePosition = 0; parameters[multiplePosition].instance != -1; multiplePosition++)
+	for (multiplePosition = 0; !isEndOfList(&parameters[multiplePosition]); multiplePosition++)
 		if (parameters[multiplePosition].instance == 0)
 			return multiplePosition;
 	return -1;

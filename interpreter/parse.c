@@ -7,6 +7,8 @@
 
 #include "parse.h"
 
+
+/* IMPORTS */
 #include <stdio.h>
 #include <ctype.h>
 
@@ -27,38 +29,49 @@
 #include "Location.h"
 #include "instance.h"
 #include "memory.h"
+#include "output.h"
+#include "dictionary.h"
 
 // TODO Remove dependency on main.h
-// TODO Move output handling to output.c
+// TODO Move printAndLog to output.c
 #include "main.h"
 
 #ifdef HAVE_GLK
 #include "glkio.h"
 #endif
 
+
+/* PRIVATE CONSTANTS */
+
 #define LISTLEN 100
+
+
 /* PUBLIC DATA */
+Parameter *parameters; /* List of params */
 
 /* List of parsed words, index into dictionary */
 Word playerWords[LISTLEN/2] = { { EOF, NULL, NULL}};
 int wordIndex; /* An index into it the list of playerWords */
 int firstWord, lastWord;  /* Index for the first and last words for this command */
 
-static Bool plural = FALSE;
-
-/* Syntax Parameters */
-static int paramidx;
-Parameter *parameters; /* List of params */
-static Parameter *previousMultipleMatches; /* Previous multiple list */
+/* What did the user say? */
+int verbWord; /* The word he used, dictionary index */
+int verbWordCode; /* The code for that verb */
 
 
 /* Literals */
 LiteralEntry literal[MAXPARAMS+1];
+
+
+/* PRIVATE DATA */
+static Bool plural = FALSE;
+
+/* Syntax Parameters */
+static int paramidx;
+static Parameter *previousMultipleMatches; /* Previous multiple list */
+
 static int litCount;
 
-/* What did the user say? */
-int verbWord; /* The word he used, dictionary index */
-int verbWordCode; /* The code for that verb */
 
 /*======================================================================*/
 void forceNewPlayerInput() {
@@ -501,7 +514,6 @@ static int fakePlayerWordForAll() {
 		;
 	setEndOfList(&playerWords[p+1]); /* Make room for one more word */
 	allWordIndex = p;
-	// TODO extract to Dictionary.c
 	for (d = 0; d < dictionarySize; d++)
 		if (isAll(d)) {
 			playerWords[p].code = d;
