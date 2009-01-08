@@ -38,6 +38,7 @@ UNIT2REQUIREDSRCS = \
 	options.c \
 	readline.c \
 	rules.c \
+	score.c \
 	syserr.c \
 	term.c \
 	utils.c \
@@ -70,6 +71,7 @@ MAINSRCS = \
 	reverse.c \
 	rules.c \
 	save.c \
+	score.c \
 	set.c \
 	stack.c \
 	state.c \

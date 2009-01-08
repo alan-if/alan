@@ -14,9 +14,6 @@
 
 #include "options.h"
 #include "utils.h"
-// TODO Remove dependency on main.h
-// TODO Move filenames to somewhere else?
-#include "main.h"
 
 #ifdef HAVE_GLK
 #include "glk.h"
@@ -27,6 +24,13 @@
 #include <windows.h>
 #endif
 
+
+/* PUBLIC DATA */
+/* The files and filenames */
+char *adventureName;        /* The name of the game */
+char *adventureFileName;
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /*======================================================================*/
 char *gameName(char *fullPathName) {

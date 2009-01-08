@@ -15,7 +15,7 @@
 #include "params.h"
 
 // TODO Remove dependency on main.h
-// TODO Move printAndLog to where?
+// TODO Move msgs to msg.c
 #include "main.h"
 
 

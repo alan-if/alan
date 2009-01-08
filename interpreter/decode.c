@@ -11,6 +11,7 @@
 #include "main.h"
 #include "decode.h"
 #include "syserr.h"
+#include "exe.h"
 
 
 /* Bit output */

@@ -33,7 +33,7 @@
 #include "dictionary.h"
 
 // TODO Remove dependency on main.h
-// TODO Move printAndLog to output.c
+// TODO Move jumpLables to exe.c
 #include "main.h"
 
 #ifdef HAVE_GLK

@@ -16,9 +16,9 @@
 #include "instance.h"
 #include "AttributeEntry.h"
 #include "memory.h"
+#include "score.h"
 
 // TODO Remove dependency on main.h
-// TODO Move scores to scores.c
 // TODO Move eventQueue to event.c
 #include "main.h"
 

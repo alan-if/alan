@@ -6,22 +6,23 @@
 
 \*----------------------------------------------------------------------*/
 
-/* Imports: */
+/* IMPORTS */
 #include "acode.h"
 #include "types.h"
 
-/* Constants: */
+/* CONSTANTS */
 
 
-/* Types: */
+/* TYPES */
 
 
-/* Data: */
-extern DictionaryEntry *dictionary; /* Dictionary pointer */
-extern int dictionarySize;      /* Number of entries in dictionary */
+/* DATA */
+extern DictionaryEntry *dictionary;
+extern int dictionarySize;
+extern int conjWord;        /* First conjunction in dictionary */
 
 
-/* Functions: */
+/* FUNCTIONS */
 extern Bool isVerbWord(int wordIndex);
 extern Bool isConjunctionWord(int wordIndex);
 extern Bool isButWord(int wordIndex);

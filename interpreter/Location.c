@@ -10,10 +10,7 @@
 #include "debug.h"
 #include "memory.h"
 #include "dictionary.h"
-
-// TODO Remove dependency on main.h
-// TODO Move error() to where?
-#include "main.h"
+#include "output.h"
 
 
 /*======================================================================*/

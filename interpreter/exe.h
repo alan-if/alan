@@ -8,16 +8,23 @@
 
 \*----------------------------------------------------------------------*/
 
-/* Imports: */
+/* IMPORTS */
 #include "acode.h"
 #include "types.h"
 #include "set.h"
 
-/* Data: */
+/* DATA */
 extern CurVars current;
 
+/* The text and message file */
+extern FILE *textFile;
 
-/* Functions: */
+/* Global failure flag */
+extern Bool fail;
+
+
+
+/* FUNCTIONS */
 extern void sys(Aword fpos, Aword len);
 extern Bool confirm(MsgKind msgno);
 extern Aword attributeOf(Aint instance, Aint atr);

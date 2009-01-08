@@ -9,10 +9,6 @@
 #include "memory.h"
 #include "output.h"
 
-// TODO Remove dependency on main.h
-// TODO Move logFile to output.c?
-#include "main.h"
-
 
 /*======================================================================
 

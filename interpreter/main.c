@@ -36,6 +36,7 @@
 #include "Container.h"
 #include "dictionary.h"
 #include "class.h"
+#include "score.h"
 
 #include <time.h>
 #ifdef USE_READLINE
@@ -55,16 +56,10 @@
 
 /* PUBLIC DATA */
 
-int conjWord;			/* First conjunction in dictionary, for ',' */
-
-
 /* The event queue */
 int eventQueueSize = 0;
 EventQueueEntry *eventQueue = NULL; /* Event queue */
 Aint eventQueueTop = 0;		/* Event queue top pointer */
-
-/* Amachine structures - Dynamic */
-Aword *scores;			/* Score table pointer */
 
 /* Amachine structures - Static */
 VerbEntry *vrbs;		/* Verb table pointer */
@@ -73,15 +68,6 @@ RulEntry *ruls;			/* Rule table pointer */
 EventEntry *events;		/* Event table pointer */
 MessageEntry *msgs;			/* Message table pointer */
 Aword *freq;			/* Cumulative character frequencies */
-
-Bool fail = FALSE;
-
-
-/* The files and filenames */
-char *adventureName;		/* The name of the game */
-char *adventureFileName;
-
-FILE *textFile;
 
 
 /* Restart jump buffer */

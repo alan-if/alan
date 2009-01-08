@@ -19,6 +19,14 @@ extern Bool anyOutput;
 extern Bool needSpace;
 extern Bool capitalize;
 
+/* Log file */
+#ifdef HAVE_GLK
+#include "glk.h"
+strid_t logFile;
+#else
+FILE *logFile;
+#endif
+
 
 /* FUNCTIONS */
 extern void error(MsgKind msg);

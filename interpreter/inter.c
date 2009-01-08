@@ -23,9 +23,7 @@
 #include "save.h"
 #include "memory.h"
 #include "output.h"
-
-// TODO Remove dependency on main.h
-#include "main.h"
+#include "score.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK

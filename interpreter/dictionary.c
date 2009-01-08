@@ -7,6 +7,7 @@
 /* PUBLIC DATA */
 DictionaryEntry *dictionary;    /* Dictionary pointer */
 int dictionarySize;
+int conjWord;           /* First conjunction in dictionary, for ',' */
 
 
 

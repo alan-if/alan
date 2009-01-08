@@ -33,9 +33,10 @@
 #include "output.h"
 #include "dictionary.h"
 #include "class.h"
+#include "score.h"
 
 // TODO Remove dependency on main.h
-// TODO Move print & files to ?
+// TODO Move EventQueue and jump labels
 #include "main.h"
 
 #ifdef USE_READLINE
@@ -49,15 +50,20 @@
 #endif
 
 
-/* Public Data */
+/* PUBLIC DATA */
 
 /* Amachine variables */
 CurVars current;
+Bool fail = FALSE;
+FILE *textFile;
 
 
+/* PRIVATE CONSTANTS */
 
 #define WIDTH 80
 
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /* Forward: */
 void describeInstances(void);

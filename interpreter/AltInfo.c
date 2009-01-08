@@ -18,10 +18,6 @@
 #include "exe.h"
 #include "class.h"
 
-// TODO Remove dependency on main.h
-// TODO Move fail to ?
-#include "main.h"
-
 
 /*======================================================================*/
 void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class)

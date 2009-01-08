@@ -19,9 +19,11 @@
 #include "instance.h"
 #include "memory.h"
 #include "output.h"
+#include "args.h"
+#include "score.h"
 
 // TODO Remove dependency on main.h
-// TODO Move EventQueue, scores & current out from main.h
+// TODO Move EventQueue out from main.h
 #include "main.h"
 
 
