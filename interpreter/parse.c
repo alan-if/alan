@@ -31,10 +31,9 @@
 #include "memory.h"
 #include "output.h"
 #include "dictionary.h"
+#include "syntax.h"
+#include "word.h"
 
-// TODO Remove dependency on main.h
-// TODO Move jumpLables to exe.c
-#include "main.h"
 
 #ifdef HAVE_GLK
 #include "glkio.h"
@@ -43,24 +42,8 @@
 
 /* PRIVATE CONSTANTS */
 
-#define LISTLEN 100
-
 
 /* PUBLIC DATA */
-Parameter *parameters; /* List of params */
-
-/* List of parsed words, index into dictionary */
-Word playerWords[LISTLEN/2] = { { EOF, NULL, NULL}};
-int wordIndex; /* An index into it the list of playerWords */
-int firstWord, lastWord;  /* Index for the first and last words for this command */
-
-/* What did the user say? */
-int verbWord; /* The word he used, dictionary index */
-int verbWordCode; /* The code for that verb */
-
-
-/* Literals */
-LiteralEntry literal[MAXPARAMS+1];
 
 
 /* PRIVATE DATA */
@@ -98,8 +81,8 @@ char *playerWordsAsCommandString(void) {
 
 /* PRIVATE DATA */
 
-static char buf[LISTLEN+1]; /* The input buffer */
-static char isobuf[LISTLEN+1]; /* The input buffer in ISO */
+static char buf[1000]; /* The input buffer */
+static char isobuf[1000]; /* The input buffer in ISO */
 static Bool eol = TRUE; /* Looking at End of line? Yes, initially */
 static char *token;
 

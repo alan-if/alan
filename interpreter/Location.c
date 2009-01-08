@@ -2,7 +2,7 @@
 
 #include "instance.h"
 #include "options.h"
-#include "parse.h"
+#include "word.h"
 #include "inter.h"
 #include "exe.h"
 #include "lists.h"

@@ -40,6 +40,7 @@
 #include "decode.h"
 #include "msg.h"
 #include "event.h"
+#include "syntax.h"
 
 #include <time.h>
 #ifdef USE_READLINE
@@ -61,14 +62,6 @@
 
 /* Amachine structures - Static */
 VerbEntry *vrbs;		/* Verb table pointer */
-SyntaxEntry *stxs;		/* Syntax table pointer */
-RulEntry *ruls;			/* Rule table pointer */
-
-
-/* Restart jump buffer */
-jmp_buf restartLabel;		/* Restart long jump return point */
-jmp_buf returnLabel;		/* Error (or undo) long jump return point */
-jmp_buf forfeitLabel;		/* Player forfeit by an empty command */
 
 
 /* PRIVATE DATA */
@@ -453,9 +446,10 @@ static void initStaticData(void)
   if (scores == NULL)
     scores = duplicate((Aword *) pointerTo(header->scores), header->scoreCount*sizeof(Aword));
   else
-    memcpy(scores, pointerTo(header->scores),
-	   header->scoreCount*sizeof(Aword));
+    memcpy(scores, pointerTo(header->scores), header->scoreCount*sizeof(Aword));
 
+  if (literal == NULL)
+      literal = allocate(sizeof(Aword)*(MAXPARAMS+1));
 
   stxs = (SyntaxEntry *) pointerTo(header->syntaxTableAddress);
   vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);

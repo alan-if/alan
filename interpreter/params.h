@@ -1,3 +1,5 @@
+#ifndef PARAMS_H
+#define PARAMS_H
 /*----------------------------------------------------------------------*\
 
   params.h
@@ -5,9 +7,16 @@
   Various utility functions for handling parameters
 
 \*----------------------------------------------------------------------*/
-#ifndef PARAMS_H
+
+/* IMPORTS */
 #include "types.h"
 
+
+/* DATA */
+extern Parameter *parameters;   /* List of parameters */
+
+
+/* FUNCTIONS */
 extern Parameter *allocateParameterArray(Parameter *currentList);
 extern Parameter *findEndOfList(Parameter *parameters);
 extern int findMultiplePosition(Parameter parameters[]);

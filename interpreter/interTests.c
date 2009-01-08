@@ -2,8 +2,6 @@
 
 #include "inter.c"
 
-#include "stack.h"
-
 
 static void syserrHandler(char *message) {
 	assert_true(FALSE);

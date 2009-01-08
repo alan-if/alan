@@ -15,16 +15,13 @@
 #define LOCATION_LEVEL (1)
 #define PARAMETER_LEVEL (2)
 
-
 #define NO_PARAMETER (-1)
 #define NO_INSTANCE (-1)
 #define NO_CLASS (-1)
 
 /* tryCheck() flags */
-#ifndef EXECUTE_CHECK_BODY_ON_FAIL
 #define EXECUTE_CHECK_BODY_ON_FAIL TRUE
 #define DONT_EXECUTE_CHECK_BODY_ON_FAIL FALSE
-#endif
 
 
 /* TYPES */

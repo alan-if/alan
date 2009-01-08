@@ -3,7 +3,7 @@
 /* IMPORTS */
 #include "options.h"
 #include "memory.h"
-#include "parse.h"
+#include "word.h"
 #include "lists.h"
 #include "term.h"
 #include "syserr.h"
@@ -12,10 +12,6 @@
 #include "inter.h"
 #include "params.h"
 #include "msg.h"
-
-// TODO Remove dependency on main.h
-// TODO Move long jump labels
-#include "main.h"
 
 
 /* PUBLIC DATA */
@@ -34,6 +30,9 @@ strid_t logFile;
 #else
 FILE *logFile;
 #endif
+
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 
 /*======================================================================*/

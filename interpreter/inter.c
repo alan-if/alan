@@ -5,7 +5,6 @@
   Interpreter unit for Alan interpreter Arun
 
 \*----------------------------------------------------------------------*/
-
 #include "inter.h"
 
 
@@ -24,6 +23,7 @@
 #include "memory.h"
 #include "output.h"
 #include "score.h"
+#include "params.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK

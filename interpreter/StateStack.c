@@ -1,8 +1,14 @@
+/*----------------------------------------------------------------------*\
+
+  StateStack.c
+
+\*----------------------------------------------------------------------*/
 #include "StateStack.h"
 
 /* IMPORTS: */
-#include "main.h"
 #include "syserr.h"
+#include "memory.h"
+
 
 /* CONSTANTS: */
 #define EXTENT 10

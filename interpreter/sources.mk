@@ -41,9 +41,11 @@ UNIT2REQUIREDSRCS = \
 	readline.c \
 	rules.c \
 	score.c \
+	syntax.c \
 	syserr.c \
 	term.c \
 	utils.c \
+	word.c \
 
 # All sources for the main build
 MAINSRCS = \
@@ -79,10 +81,12 @@ MAINSRCS = \
 	set.c \
 	stack.c \
 	state.c \
+	syntax.c \
 	sysdep.c \
 	syserr.c \
 	term.c \
 	utils.c \
+	word.c \
 	smartall.c
 
 UNIT2SRCS = $(UNIT2SRC) $(UNIT2REQUIREDSRCS)

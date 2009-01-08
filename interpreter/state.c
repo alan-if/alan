@@ -11,7 +11,7 @@
 
 #include "syserr.h"
 #include "exe.h"
-#include "parse.h"
+#include "word.h"
 #include "StateStack.h"
 #include "instance.h"
 #include "AttributeEntry.h"

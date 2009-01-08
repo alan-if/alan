@@ -1,6 +1,5 @@
 #include "AttributeEntry.h"
 
-#include "main.h"
 #include "syserr.h"
 #include "state.h"
 #include "lists.h"

@@ -32,7 +32,7 @@ all:
 	$(MAKE) $(SYSTEM)
 
 Darwin: CYGWIN =
-Darwin: unit2 arun #dumpacd
+Darwin: arun unit2 #dumpacd
 
 
 CYGWIN: unitTest arun dumpacd winarun glkarun gararun
@@ -56,7 +56,7 @@ release:
 # Settings for Standard Arun
 arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
-	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	-@if ! test -d ../bin; then mkdir ../bin ; fi
 	-@cp $@ ../bin
 
 

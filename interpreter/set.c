@@ -14,7 +14,6 @@
 
 /* Imports: */
 #include "lists.h"
-#include "main.h"
 #include "syserr.h"
 #include "exe.h"
 #include "memory.h"

@@ -93,7 +93,7 @@ Ensure canMatchParameterElement() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure testMatchParseTree() {
+Ensure canMatchParseTree() {
   ElementEntry *element;
   ElementEntry *elementTable;
   Bool plural;
@@ -229,7 +229,7 @@ TestSuite *parseTests()
   add_test(suite, canSetupParameterForWord);
   add_test(suite, canMatchEndOfSyntax);
   add_test(suite, canMatchParameterElement);
-  add_test(suite, testMatchParseTree);
+  add_test(suite, canMatchParseTree);
   add_test(suite, canSeeBitsInFlag);
   add_test(suite, canSetupInstanceParametersForMessages);
   add_test(suite, canSetupStringParametersForMessages);

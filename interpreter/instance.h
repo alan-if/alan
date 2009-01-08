@@ -27,6 +27,8 @@ typedef struct AdminEntry { /* Administrative data about instances */
 
 /* Data: */
 extern InstanceEntry *instances; /* Instance table pointer */
+extern LiteralEntry *literal;
+
 extern AdminEntry *admin;   /* Administrative data about instances */
 extern AttributeEntry *attributes; /* Dynamic attribute values */
 

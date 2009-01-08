@@ -13,6 +13,10 @@
 #include "memory.h"
 
 
+/* PUBLIC DATA */
+Parameter *parameters; /* List of params */
+
+
 
 /*======================================================================*/
 Parameter *allocateParameterArray(Parameter *currentList) {

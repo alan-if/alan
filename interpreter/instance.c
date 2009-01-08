@@ -9,6 +9,9 @@
 /* PUBLIC DATA */
 
 InstanceEntry *instances;   /* Instance table pointer */
+static LiteralEntry literalTable[100];
+LiteralEntry *literal = literalTable;
+
 AdminEntry *admin;      /* Administrative data about instances */
 AttributeEntry *attributes; /* Dynamic attribute values */
 

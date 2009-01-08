@@ -5,39 +5,37 @@
   Rule handling unit of Alan interpreter module, ARUN.
 
 \*----------------------------------------------------------------------*/
+#include "rules.h"
 
-#include <stdio.h>
 
-#include "types.h"
+/* IMPORTS */
 #include "lists.h"
-#include "main.h"
 #include "inter.h"
 #include "debug.h"
 #include "exe.h"
-#include "stack.h"
 #include "options.h"
-
-#include "rules.h"
 
 #ifdef HAVE_GLK
 #include "glkio.h"
 #endif
 
-#ifdef _PROTOTYPES_
+
+/* PUBLIC DATA */
+RulEntry *ruls;         /* Rule table pointer */
+
+
+/*=======================================================================*/
 void rules(void)
-#else
-void rules()
-#endif
 {
   Bool change = TRUE;
   int i;
-  
+
   for (i = 1; !isEndOfList(&ruls[i-1]); i++)
     ruls[i-1].run = FALSE;
-  
+
   while (change) {
     change = FALSE;
-    for (i = 1; !isEndOfList(&ruls[i-1]); i++) 
+    for (i = 1; !isEndOfList(&ruls[i-1]); i++)
       if (!ruls[i-1].run) {
 	if (sectionTraceOption) {
 	  printf("\n<RULE %d (at ", i);

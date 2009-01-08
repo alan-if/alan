@@ -188,7 +188,7 @@ Bool readline(char buffer[])
 
 #include "readline.h"
 
-#include "main.h"
+#include "memory.h"
 
 
 #ifdef HAVE_TERMIO

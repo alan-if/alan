@@ -1,22 +1,24 @@
-#ifndef _RULES_H_
-#define _RULES_H_
+#ifndef SYNTAX_H_
+#define SYNTAX_H_
 /*----------------------------------------------------------------------*\
 
-  rules.h
-
-  Header file for rules handler in Alan interpreter
+	syntax
 
 \*----------------------------------------------------------------------*/
 
-/* TYPES */
+/* IMPORTS */
 #include "types.h"
+
+/* CONSTANTS */
+
+
+/* TYPES */
 
 
 /* DATA */
-extern RulEntry *ruls;      /* Rule table pointer */
+extern SyntaxEntry *stxs;   /* Syntax table pointer */
 
 
 /* FUNCTIONS */
-extern void rules(void);
 
-#endif
+#endif /* SYNTAX_H_ */

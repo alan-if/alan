@@ -6,17 +6,18 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "types.h"
+
 #include "checkentry.h"
 #include "debug.h"
 #include "inter.h"
 #include "lists.h"
 #include "instance.h"
 #include "options.h"
-#include "parse.h"
-#include "types.h"
 #include "memory.h"
 #include "exe.h"
 #include "class.h"
+#include "params.h"
 
 
 /*======================================================================*/

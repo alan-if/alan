@@ -1,6 +1,6 @@
 /* glkstart.c: Unix-specific startup code
-    Adapted for Alan by Joe Mason <jcmason@uwaterloo.ca> 
-    Based on the sample file designed by 
+    Adapted for Alan by Joe Mason <jcmason@uwaterloo.ca>
+    Based on the sample file designed by
     Andrew Plotkin <erkyrath@netcom.com>
     http://www.eblong.com/zarf/glk/index.html
 
@@ -39,7 +39,7 @@ static strid_t resourceFile;
 
 /*----------------------------------------------------------------------*/
 static void openGlkWindows() {
-  glkMainWin = glk_window_open(0, 0, 0, wintype_TextBuffer, 0); 
+  glkMainWin = glk_window_open(0, 0, 0, wintype_TextBuffer, 0);
   if (glkMainWin == NULL)
   {
     printf("FATAL ERROR: Cannot open initial window");
@@ -75,7 +75,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
 {
   /* first, open a window for error output */
   openGlkWindows();
-  
+
   /* now process the command line arguments */
   args(data->argc, data->argv);
 
@@ -121,10 +121,10 @@ static void splitArgs(char *commandLine) {
 	*cp = '\0';
 	cp++;
       }
-    }    
+    }
   }
 }
-    
+
 
 /*======================================================================*/
 int winglk_startup_code(const char* cmdline)

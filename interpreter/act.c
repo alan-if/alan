@@ -17,14 +17,9 @@
 #include "glkio.h"
 #endif
 
-#include "parse.h"
 #include "AltInfo.h"
-#include "checkentry.h"
 #include "params.h"
 #include "output.h"
-
-// TODO Remove dependency on main.h
-#include "main.h"
 
 
 

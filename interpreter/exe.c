@@ -36,10 +36,6 @@
 #include "score.h"
 #include "event.h"
 
-// TODO Remove dependency on main.h
-// TODO Move jump labels
-#include "main.h"
-
 #ifdef USE_READLINE
 #include "readline.h"
 #endif
@@ -57,6 +53,11 @@
 CurVars current;
 Bool fail = FALSE;
 FILE *textFile;
+
+/* Restart jump buffer */
+jmp_buf restartLabel;       /* Restart long jump return point */
+jmp_buf returnLabel;        /* Error (or undo) long jump return point */
+jmp_buf forfeitLabel;       /* Player forfeit by an empty command */
 
 
 /* PRIVATE CONSTANTS */
@@ -89,7 +90,7 @@ static void printMessageUsing2InstanceParameters(MsgKind message, int instance1,
 
 
 /*======================================================================*/
-void setStyle(Aint style)
+void setStyle(int style)
 {
 #ifdef HAVE_GLK
 	switch (style) {
@@ -384,7 +385,7 @@ void schedule(Aword event, Aword where, Aword after)
 
 
 /*======================================================================*/
-void setValue(Aint id, Aint atr, Aword val)
+void setValue(int id, int atr, Aword val)
 {
 	char str[80];
 
@@ -393,14 +394,14 @@ void setValue(Aint id, Aint atr, Aword val)
 		if (isLocation(id))	/* May have changed so describe next time */
 			admin[id].visitsCount = 0;
 	} else {
-		sprintf(str, "Can't SET/MAKE instance (%ld).", id);
+		sprintf(str, "Can't SET/MAKE instance (%d).", id);
 		syserr(str);
 	}
 }
 
 
 /*======================================================================*/
-void setStringAttribute(Aint id, Aint atr, char *str)
+void setStringAttribute(int id, int atr, char *str)
 {
 	free((char *)attributeOf(id, atr));
 	setValue(id, atr, (Aword)str);
@@ -408,7 +409,7 @@ void setStringAttribute(Aint id, Aint atr, char *str)
 
 
 /*======================================================================*/
-void setSetAttribute(Aint id, Aint atr, Aword set)
+void setSetAttribute(int id, int atr, Aword set)
 {
 	freeSet((Set *)attributeOf(id, atr));
 	setValue(id, atr, (Aword)set);
@@ -416,14 +417,14 @@ void setSetAttribute(Aint id, Aint atr, Aword set)
 
 
 /*----------------------------------------------------------------------*/
-static Aword literalAttribute(Aword lit, Aint atr)
+static Aword literalAttribute(int lit, int atr)
 {
 	char str[80];
 
 	if (atr == 1)
 		return literal[literalFromInstance(lit)].value;
 	else {
-		sprintf(str, "Unknown attribute for literal (%ld).", atr);
+		sprintf(str, "Unknown attribute for literal (%d).", atr);
 		syserr(str);
 	}
 	return(EOF);
@@ -431,7 +432,7 @@ static Aword literalAttribute(Aword lit, Aint atr)
 
 
 /*======================================================================*/
-Aword attributeOf(Aint id, Aint atr)
+Aword attributeOf(int id, int atr)
 {
 	char str[80];
 
@@ -441,7 +442,7 @@ Aword attributeOf(Aint id, Aint atr)
 		if (id > 0 && id <= header->instanceMax)
 			return getAttribute(admin[id].attributes, atr);
 		else {
-			sprintf(str, "Can't ATTRIBUTE item (%ld).", id);
+			sprintf(str, "Can't ATTRIBUTE item (%d).", id);
 			syserr(str);
 		}
 	}
@@ -450,14 +451,14 @@ Aword attributeOf(Aint id, Aint atr)
 
 
 /*======================================================================*/
-char *getStringAttribute(Aint id, Aint atr)
+char *getStringAttribute(int id, int atr)
 {
 	return strdup((char *)attributeOf(id, atr));
 }
 
 
 /*======================================================================*/
-Set *getSetAttribute(Aint id, Aint atr)
+Set *getSetAttribute(int id, int atr)
 {
 	return copySet((Set *)attributeOf(id, atr));
 }
@@ -616,7 +617,7 @@ static char *stripWordsFromStringBackwards(Aint count, char *initialString, char
 
 
 /*======================================================================*/
-Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars, Aint id, Aint atr)
+Aword strip(Bool stripFromBeginningNotEnd, int count, Bool stripWordsNotChars, int id, int atr)
 {
 	char *initialString = (char *)attributeOf(id, atr);
 	char *theStripped;
@@ -639,14 +640,14 @@ Aword strip(Abool stripFromBeginningNotEnd, Aint count, Abool stripWordsNotChars
 
 
 /*----------------------------------------------------------------------*/
-static void verifyId(Aint id, char action[]) {
+static void verifyId(int id, char action[]) {
 	char message[200];
 
 	if (id == 0) {
-		sprintf(message, "Can't %s instance (%ld).", action, id);
+		sprintf(message, "Can't %s instance (%d).", action, id);
 		syserr(message);
 	} else if (id > header->instanceMax) {
-		sprintf(message, "Can't %s instance (%ld > instanceMax).", action, id);
+		sprintf(message, "Can't %s instance (%d > instanceMax).", action, id);
 		syserr(message);
 	}
 }
@@ -654,7 +655,7 @@ static void verifyId(Aint id, char action[]) {
 
 /*======================================================================*/
 /* Return the current position of an instance, directly or not */
-Aword where(Aint id, Abool directly)
+int where(int id, Bool directly)
 {
 	verifyId(id, "WHERE");
 
@@ -670,7 +671,7 @@ Aword where(Aint id, Abool directly)
 
 /*======================================================================*/
 /* Return the *location* of an instance, transitively, i.e. not directly */
-Aword location(Aint id)
+int location(int id)
 {
 	int loc;
 	int container = 0;
@@ -700,7 +701,7 @@ Aword location(Aint id)
 
 
 /*======================================================================*/
-Aint containerSize(Aint container, Abool directly) {
+int containerSize(int container, Bool directly) {
 	Aint i;
 	Aint count = 0;
 
@@ -713,7 +714,7 @@ Aint containerSize(Aint container, Abool directly) {
 
 
 /*======================================================================*/
-Aint getContainerMember(Aint container, Aint index, Abool directly) {
+int getContainerMember(int container, int index, Bool directly) {
 	Aint i;
 	Aint count = 0;
 
@@ -835,11 +836,11 @@ static void locateActor(Aword movingActor, Aword whr)
 
 
 /*======================================================================*/
-void locate(Aint id, Aword whr)
+void locate(int id, int whr)
 {
-	Aword containerId;
+	int containerId;
 	ContainerEntry *theContainer;
-	Aword previousInstance = current.instance;
+	int previousInstance = current.instance;
 
 	verifyId(id, "LOCATE");
 	verifyId(whr, "LOCATE AT");
@@ -854,7 +855,7 @@ void locate(Aint id, Aword whr)
 			if (sectionTraceOption) {
 				printf("\n<EXTRACT from ");
 				traceSay(id);
-				printf("(%ld, container %ld), Checking:>\n", id, containerId);
+				printf("(%d, container %d), Checking:>\n", id, containerId);
 			}
 			if (checksFailed(theContainer->extractChecks, EXECUTE_CHECK_BODY_ON_FAIL)) {
 				fail = TRUE;
@@ -866,7 +867,7 @@ void locate(Aint id, Aword whr)
 			if (sectionTraceOption) {
 				printf("\n<EXTRACT from ");
 				traceSay(id);
-				printf("(%ld, container %ld), Executing:>\n", id, containerId);
+				printf("(%d, container %d), Executing:>\n", id, containerId);
 			}
 			interpret(theContainer->extractStatements);
 		}
@@ -883,12 +884,8 @@ void locate(Aint id, Aword whr)
 }
 
 
-/*----------------------------------------------------------------------*/
-
-
 /*======================================================================*/
-// TODO Remove Abool A-types should only be used for storage, else native types
-Abool isHere(Aint id, Abool directly)
+Bool isHere(int id, Bool directly)
 {
 	verifyId(id, "HERE");
 
@@ -900,7 +897,7 @@ Abool isHere(Aint id, Abool directly)
 
 
 /*======================================================================*/
-Abool isNearby(Aint instance, Abool directly)
+Bool isNearby(int instance, Bool directly)
 {
 	verifyId(instance, "NEARBY");
 
@@ -912,7 +909,7 @@ Abool isNearby(Aint instance, Abool directly)
 
 
 /*======================================================================*/
-Abool isNear(Aint id, Aint other, Abool directly)
+Bool isNear(int id, int other, Bool directly)
 {
 	Aint l1, l2;
 
@@ -931,7 +928,7 @@ Abool isNear(Aint id, Aint other, Abool directly)
 
 
 /*======================================================================*/
-Abool isA(Aint instanceId, Aint ancestor)
+Bool isA(int instanceId, int ancestor)
 {
 	int parent;
 
@@ -949,7 +946,7 @@ Abool isA(Aint instanceId, Aint ancestor)
 
 /*======================================================================*/
 /* Look in a container to see if the instance is in it. */
-Abool in(Aint theInstance, Aint container, Abool directly)
+Bool in(int theInstance, int container, Bool directly)
 {
 	int loc;
 
@@ -973,7 +970,7 @@ Abool in(Aint theInstance, Aint container, Abool directly)
 
 /*======================================================================*/
 /* Look see if an instance is AT another. */
-Abool at(Aint theInstance, Aint other, Abool directly)
+Bool at(int theInstance, int other, Bool directly)
 {
 	if (theInstance == 0 || other == 0) return FALSE;
 
@@ -997,7 +994,7 @@ Abool at(Aint theInstance, Aint other, Abool directly)
 
 
 /*----------------------------------------------------------------------*/
-static Abool executeInheritedMentioned(Aword theClass) {
+static Bool executeInheritedMentioned(int theClass) {
 	if (theClass == 0) return FALSE;
 
 	if (classes[theClass].mentioned) {
@@ -1009,7 +1006,7 @@ static Abool executeInheritedMentioned(Aword theClass) {
 
 
 /*----------------------------------------------------------------------*/
-static Abool mention(Aint id) {
+static Bool mention(int id) {
 	if (instances[id].mentioned) {
 		interpret(instances[id].mentioned);
 		return TRUE;
@@ -1019,7 +1016,7 @@ static Abool mention(Aint id) {
 
 
 /*----------------------------------------------------------------------*/
-static void sayLiteral(Aword lit)
+static void sayLiteral(int lit)
 {
 	char *str;
 
@@ -1033,7 +1030,7 @@ static void sayLiteral(Aword lit)
 
 
 /*======================================================================*/
-void sayInstance(Aint id)
+void sayInstance(int id)
 {
 #ifdef SAY_INSTANCE_WITH_PLAYER_WORDS_IF_PARAMETER
 	int p, i;
@@ -1068,12 +1065,12 @@ void sayInstance(Aint id)
 
 
 /*======================================================================*/
-void sayInteger(Aword val)
+void sayInteger(int val)
 {
 	char buf[25];
 
 	if (isHere(HERO, FALSE)) {
-		sprintf(buf, "%ld", val);
+		sprintf(buf, "%d", val);
 		output(buf);
 	}
 }
@@ -1234,7 +1231,7 @@ static void sayArticleOrForm(Aint id, SayForm form)
 
 
 /*======================================================================*/
-void say(Aint id)
+void say(int id)
 {
 	Aword previousInstance = current.instance;
 	current.instance = id;
@@ -1252,7 +1249,7 @@ void say(Aint id)
 
 
 /*======================================================================*/
-void sayForm(Aint id, SayForm form)
+void sayForm(int id, SayForm form)
 {
 	Aword previousInstance = current.instance;
 	current.instance = id;
@@ -1270,7 +1267,7 @@ void sayForm(Aint id, SayForm form)
 \***********************************************************************/
 
 
-FORWARD void list(Aword cnt);
+FORWARD void list(int cnt);
 
 /*----------------------------------------------------------------------*/
 static Bool inheritedDescriptionCheck(Aint classId)
@@ -1435,9 +1432,9 @@ static void describeActor(Aint actor)
 static Bool descriptionOk;
 
 /*======================================================================*/
-void describe(Aint id)
+void describe(int id)
 {
-	Aword previousInstance = current.instance;
+	int previousInstance = current.instance;
 
 	current.instance = id;
 	verifyId(id, "DESCRIBE");
@@ -1541,7 +1538,7 @@ void look(void)
 
 
 /*======================================================================*/
-void list(Aword cnt)
+void list(int cnt)
 {
 	int i;
 	Aword props;
@@ -1599,7 +1596,7 @@ void list(Aword cnt)
 
 
 /*======================================================================*/
-void showImage(Aword image, Aword align)
+void showImage(int image, int align)
 {
 #ifdef HAVE_GLK
 	glui32 ecode;
@@ -1615,7 +1612,7 @@ void showImage(Aword image, Aword align)
 
 
 /*======================================================================*/
-void playSound(Aword sound)
+void playSound(int sound)
 {
 #ifdef HAVE_GLK
 #ifdef GLK_MODULE_SOUND
@@ -1637,7 +1634,7 @@ void playSound(Aword sound)
 
 
 /*======================================================================*/
-void empty(Aword cnt, Aword whr)
+void empty(int cnt, int whr)
 {
 	int i;
 
@@ -1649,13 +1646,13 @@ void empty(Aword cnt, Aword whr)
 
 
 /*======================================================================*/
-void use(Aword act, Aword scr)
+void use(int act, int scr)
 {
 	char str[80];
 	StepEntry *step;
 
 	if (!isActor(act)) {
-		sprintf(str, "Instance is not an Actor (%ld).", act);
+		sprintf(str, "Instance is not an Actor (%d).", act);
 		syserr(str);
 	}
 
@@ -1670,12 +1667,12 @@ void use(Aword act, Aword scr)
 }
 
 /*======================================================================*/
-void stop(Aword act)
+void stop(int act)
 {
 	char str[80];
 
 	if (!isActor(act)) {
-		sprintf(str, "Instance is not an Actor (%ld).", act);
+		sprintf(str, "Instance is not an Actor (%d).", act);
 		syserr(str);
 	}
 
@@ -1689,7 +1686,7 @@ void stop(Aword act)
 
 
 /*----------------------------------------------------------------------*/
-Aword randomInteger(Aword from, Aword to)
+int randomInteger(int from, int to)
 {
 	if (to == from)
 		return to;
@@ -1702,7 +1699,7 @@ Aword randomInteger(Aword from, Aword to)
 
 
 /*----------------------------------------------------------------------*/
-Abool btw(Aint val, Aint low, Aint high)
+Bool btw(int val, int low, int high)
 {
 	if (high > low)
 		return low <= val && val <= high;
@@ -1713,9 +1710,9 @@ Abool btw(Aint val, Aint low, Aint high)
 
 
 /*======================================================================*/
-Aword contains(Aword string, Aword substring)
+Bool contains(Aword string, Aword substring)
 {
-	Abool found;
+	Bool found;
 
 	strlow((char *)string);
 	strlow((char *)substring);
@@ -1730,7 +1727,7 @@ Aword contains(Aword string, Aword substring)
 
 
 /*======================================================================*/
-Abool streq(char a[], char b[])
+Bool streq(char a[], char b[])
 {
 	Bool eq;
 
