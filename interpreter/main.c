@@ -5,7 +5,6 @@
   Main module of interpreter for ALAN Adventure Language
 
 \*----------------------------------------------------------------------*/
-
 #include "main.h"
 
 /* Imports: */
@@ -36,6 +35,7 @@
 #include "output.h"
 #include "Container.h"
 #include "dictionary.h"
+#include "class.h"
 
 #include <time.h>
 #ifdef USE_READLINE
@@ -55,7 +55,7 @@
 
 /* PUBLIC DATA */
 
-int conjWord;			/* First conjunction in dictonary, for ',' */
+int conjWord;			/* First conjunction in dictionary, for ',' */
 
 
 /* The event queue */
@@ -67,7 +67,6 @@ Aint eventQueueTop = 0;		/* Event queue top pointer */
 Aword *scores;			/* Score table pointer */
 
 /* Amachine structures - Static */
-ClassEntry *classes;		/* Class table pointer */
 VerbEntry *vrbs;		/* Verb table pointer */
 SyntaxEntry *stxs;		/* Syntax table pointer */
 RulEntry *ruls;			/* Rule table pointer */
@@ -81,12 +80,9 @@ Bool fail = FALSE;
 /* The files and filenames */
 char *adventureName;		/* The name of the game */
 char *adventureFileName;
+
 FILE *textFile;
-#ifdef HAVE_GLK
-strid_t logFile;
-#else
-FILE *logFile;
-#endif
+
 
 /* Restart jump buffer */
 jmp_buf restartLabel;		/* Restart long jump return point */
@@ -95,18 +91,7 @@ jmp_buf forfeitLabel;		/* Player forfeit by an empty command */
 
 
 /* PRIVATE DATA */
-static Bool onStatusLine = FALSE; /* Don't log when printing status */
 #define STACKSIZE 100
-
-
-/*======================================================================*/
-void error(MsgKind msgno)	/* IN - The error message number */
-{
-  /* Print an error message and longjmp to main loop. */
-  if (msgno != NO_MSG)
-    printMessage(msgno);
-  longjmp(returnLabel, ERROR_RETURN);
-}
 
 
 #if defined(HAVE_GLK) || defined(RUNNING_UNITTESTS)
@@ -119,66 +104,6 @@ static int updateColumn(int currentColumn, char *string) {
     return currentColumn + strlen(string);
 }
 #endif
-
-
-/*======================================================================*/
-void printAndLog(char string[])
-{
-#ifdef HAVE_GLK
-  static int column = 0;
-  char *stringCopy;
-  char *stringPart;
-#endif
-
-  printf(string);
-  if (!onStatusLine && transcriptOption) {
-#ifdef HAVE_GLK
-    if (strlen(string) > 70-column) {
-      stringCopy = strdup(string);	/* Make sure we can write NULLs */
-      stringPart = stringCopy;
-      while (strlen(stringPart) > 70-column) {
-	int p;
-	for (p = 70-column; p>0 && !isspace(stringPart[p]); p--);
-	stringPart[p] = '\0';
-	glk_put_string_stream(logFile, stringPart);
-	glk_put_char_stream(logFile, '\n');
-	column = 0;
-	stringPart = &stringPart[p+1];
-      }
-      glk_put_string_stream(logFile, stringPart);
-      column = updateColumn(column, stringPart);
-      free(stringCopy);
-    } else {
-      glk_put_string_stream(logFile, string);
-      column = updateColumn(column, string);
-    }
-#else
-    fprintf(logFile, string);
-#endif
-  }
-}
-
-
-
-/*======================================================================*/
-void printMessage(MsgKind msg)		/* IN - message number */
-{
-  interpret(msgs[msg].stms);
-}
-
-/*======================================================================*/
-void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
-{
-	Parameter *savedParameters = allocateParameterArray(NULL);
-	copyParameterList(savedParameters, parameters);
-	if (messageParameters != NULL)
-		copyParameterList(parameters, messageParameters);
-
-	interpret(msgs[msg].stms);
-
-	copyParameterList(parameters, savedParameters);
-	free(savedParameters);
-}
 
 
 

@@ -60,12 +60,6 @@ extern Bool fail;
 
 /* FUNCTIONS: */
 
-extern void error(MsgKind msg);
-extern void printMessage(MsgKind msg);
-extern void printMessageWithParameters(MsgKind msg, Parameter *messageParameters);
-extern void printAndLog(char string[]);
-
-
 /* Run the game! */
 extern void run(void);
 

@@ -11,6 +11,7 @@
 #include "types.h"
 #include "main.h"
 #include "syserr.h"
+#include "memory.h"
 
 /* ABSTRACT TYPE */
 typedef struct StackStructure {

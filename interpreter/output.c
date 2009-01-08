@@ -10,6 +10,9 @@
 #include "term.h"
 #include "syserr.h"
 #include "dictionary.h"
+#include "exe.h"
+#include "inter.h"
+#include "params.h"
 
 // TODO Remove dependency on main.h
 // TODO Move printAndLog to where?
@@ -25,6 +28,45 @@ Bool skipSpace = FALSE;
 /* Screen formatting info */
 int col, lin;
 int pageLength, pageWidth;
+
+/* Logfile */
+#ifdef HAVE_GLK
+strid_t logFile;
+#else
+FILE *logFile;
+#endif
+
+
+/*======================================================================*/
+void printMessage(MsgKind msg)      /* IN - message number */
+{
+  interpret(msgs[msg].stms);
+}
+
+
+/*======================================================================*/
+void error(MsgKind msgno)   /* IN - The error message number */
+{
+  /* Print an error message and longjmp to main loop. */
+  if (msgno != NO_MSG)
+    printMessage(msgno);
+  longjmp(returnLabel, ERROR_RETURN);
+}
+
+
+/*======================================================================*/
+void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
+{
+    Parameter *savedParameters = allocateParameterArray(NULL);
+    copyParameterList(savedParameters, parameters);
+    if (messageParameters != NULL)
+        copyParameterList(parameters, messageParameters);
+
+    interpret(msgs[msg].stms);
+
+    copyParameterList(parameters, savedParameters);
+    free(savedParameters);
+}
 
 
 /*======================================================================*/
@@ -94,6 +136,45 @@ static void capitalizeFirst(char *str) {
   if (i < strlen(str)) {
     str[i] = toUpper(str[i]);
     capitalize = FALSE;
+  }
+}
+
+
+static Bool onStatusLine = FALSE; /* Don't log when printing status */
+/*======================================================================*/
+void printAndLog(char string[])
+{
+#ifdef HAVE_GLK
+  static int column = 0;
+  char *stringCopy;
+  char *stringPart;
+#endif
+
+  printf(string);
+  if (!onStatusLine && transcriptOption) {
+#ifdef HAVE_GLK
+    if (strlen(string) > 70-column) {
+      stringCopy = strdup(string);  /* Make sure we can write NULLs */
+      stringPart = stringCopy;
+      while (strlen(stringPart) > 70-column) {
+    int p;
+    for (p = 70-column; p>0 && !isspace(stringPart[p]); p--);
+    stringPart[p] = '\0';
+    glk_put_string_stream(logFile, stringPart);
+    glk_put_char_stream(logFile, '\n');
+    column = 0;
+    stringPart = &stringPart[p+1];
+      }
+      glk_put_string_stream(logFile, stringPart);
+      column = updateColumn(column, stringPart);
+      free(stringCopy);
+    } else {
+      glk_put_string_stream(logFile, string);
+      column = updateColumn(column, string);
+    }
+#else
+    fprintf(logFile, string);
+#endif
   }
 }
 

@@ -28,6 +28,7 @@ UNIT2REQUIREDSRCS = \
 	Container.c \
 	Location.c \
 	args.c \
+	class.c \
 	debug.c \
 	decode.c \
 	dictionary.c \
@@ -51,6 +52,7 @@ MAINSRCS = \
 	StateStack.c \
 	act.c \
 	args.c \
+	class.c \
 	debug.c \
 	decode.c \
 	dictionary.c \

@@ -30,12 +30,14 @@ extern Bool isItWord(int wordIndex);
 extern Bool isNounWord(int wordIndex);
 extern Bool isAdjectiveWord(int wordIndex);
 extern Bool isPrepositionWord(int wordIndex);
-extern Bool isAll(int wordCode);
 extern Bool isAllWord(int wordIndex);
 extern Bool isDirectionWord(int wordIndex);
-extern Bool isNoise(int wordCode);
-extern Bool isPronoun(int wordCode);
 extern Bool isPronounWord(int wordIndex);
 extern Bool isLiteralWord(int wordIndex);
+
+extern Bool isConjunction(int wordCode);
+extern Bool isAll(int wordCode);
+extern Bool isNoise(int wordCode);
+extern Bool isPronoun(int wordCode);
 
 #endif /* DICTIONARY_H_ */
