@@ -1,4 +1,4 @@
-#include "AttributeEntry.h"
+#include "attribute.h"
 
 #include "syserr.h"
 #include "current.h"

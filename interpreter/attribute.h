@@ -1,5 +1,5 @@
-#ifndef ATTRIBUTEENTRY_H_
-#define ATTRIBUTEENTRY_H_
+#ifndef ATTRIBUTE_H_
+#define ATTRIBUTE_H_
 
 #include "acode.h"
 

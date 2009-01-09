@@ -23,7 +23,7 @@ UNIT2SRC = \
 	smartall.c
 
 UNIT2REQUIREDSRCS = \
-	AttributeEntry.c \
+	attribute.c \
 	checkentry.c \
 	Container.c \
 	Location.c \
@@ -51,7 +51,7 @@ UNIT2REQUIREDSRCS = \
 # All sources for the main build
 MAINSRCS = \
 	AltInfo.c \
-	AttributeEntry.c \
+	attribute.c \
 	checkentry.c \
 	Container.c \
 	Location.c \

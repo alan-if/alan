@@ -2,21 +2,23 @@
 
   reverse.c
 
-  Handles all reversing of data
+  Handles all reversing of data on little-endian machines, like PC:s
 
 \*----------------------------------------------------------------------*/
 #include "reverse.h"
 
+/* IMPORTS */
 
 #include "types.h"
 #include "lists.h"
 #include "checkentry.h"
 #include "rules.h"
 
-
 extern Aword *memory;
 
+
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
 static Aword *addressesDone = NULL;
 static int numberDone = 0;
 static int doneSize = 0;

@@ -2,14 +2,13 @@
 #define _ACT_H_
 /*----------------------------------------------------------------------*\
 
-  ACT.H
-
   Header file for action unit of ARUN Alan System interpreter
 
 \*----------------------------------------------------------------------*/
 
 /* IMPORTS */
 #include "params.h"
+
 
 /* DATA */
 

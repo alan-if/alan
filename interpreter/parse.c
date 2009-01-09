@@ -23,7 +23,6 @@
 #include "term.h"
 #include "lists.h"
 #include "debug.h"
-#include "params.h"
 #include "options.h"
 #include "syserr.h"
 #include "Location.h"

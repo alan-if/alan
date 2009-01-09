@@ -22,7 +22,8 @@ static DictionaryEntry *makeDictionary(int size) {
 }
 
 static void makeDictionaryEntry(int index, int code, int classBits) {
-  if (index > dictionarySize) syserr("makeDictionaryEntry() out of size");
+  if (index > dictionarySize)
+      syserr("makeDictionaryEntry() outside size of dictionary");
   dictionary[index].code = code;
   dictionary[index].classBits = classBits;
 }
