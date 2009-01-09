@@ -7,6 +7,7 @@
 
 /* IMPORTS */
 #include "types.h"
+#include "memory.h"
 
 
 /* CONSTANTS */
@@ -29,3 +30,12 @@ int verbWordCode; /* The code for that verb */
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+/*======================================================================*/
+char *playerWordsAsCommandString(void) {
+    char *commandString;
+    int size = playerWords[lastWord].end - playerWords[firstWord].start;
+    commandString = allocate(size + 1);
+    strncpy(commandString, playerWords[firstWord].start, size);
+    commandString[size] = '\0';
+    return commandString;
+}

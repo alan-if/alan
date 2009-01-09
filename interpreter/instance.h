@@ -9,6 +9,7 @@
 /* Imports: */
 #include "acode.h"
 #include "types.h"
+#include "set.h"
 
 /* Constants: */
 
@@ -27,7 +28,7 @@ typedef struct AdminEntry { /* Administrative data about instances */
 
 /* Data: */
 extern InstanceEntry *instances; /* Instance table pointer */
-extern LiteralEntry *literal;
+extern LiteralEntry *literals;
 
 extern AdminEntry *admin;   /* Administrative data about instances */
 extern AttributeEntry *attributes; /* Dynamic attribute values */
@@ -41,6 +42,14 @@ extern Bool isLocation(int instance);
 extern Bool isLiteral(int instance);
 extern Bool isNumeric(int instance);
 extern Bool isString(int instance);
+
+extern Aword getInstanceAttribute(int instance, int attribute);
+extern char *getInstanceStringAttribute(int instane, int attribute);
+extern Set *getInstanceSetAttribute(int instance, int attribute);
+
+extern void setInstanceAttribute(int instance, int atr, Aword value);
+extern void setInstanceStringAttribute(int instance, int attribute, char *string);
+extern void setInstanceSetAttribute(int instance, int atr, Aword set);
 
 
 #endif /* INSTANCES_H_ */

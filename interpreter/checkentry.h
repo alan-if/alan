@@ -18,11 +18,14 @@
 
 
 /* TYPES */
-
-typedef CheckEntry CheckEntryArray[];
+typedef struct CheckEntry { /* CHECK TABLE */
+  Aaddr exp;            /* ACODE address to expression code */
+  Aaddr stms;           /* ACODE address to statement code */
+} CheckEntry;
 
 
 /* DATA */
+typedef CheckEntry CheckEntryArray[];
 
 
 /* FUNCTIONS */

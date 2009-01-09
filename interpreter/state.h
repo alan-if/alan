@@ -8,15 +8,14 @@
 
 \*----------------------------------------------------------------------*/
 
-/* Imports: */
+/* IMPORTS */
 #include "types.h"
 
 
-/* Data: */
-extern Bool gameStateChanged;
+/* DATA */
 
 
-/* Functions: */
+/* FUNCTIONS */
 extern Bool anySavedState(void);
 extern void initStateStack(void);
 extern void rememberGameState(void);

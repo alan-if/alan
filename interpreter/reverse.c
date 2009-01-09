@@ -10,6 +10,8 @@
 
 #include "types.h"
 #include "lists.h"
+#include "checkentry.h"
+#include "rules.h"
 
 
 extern Aword *memory;
@@ -37,7 +39,7 @@ static Bool alreadyDone(Aaddr address)
   if (doneSize == numberDone) {
     doneSize += 100;
     addressesDone = realloc(addressesDone, doneSize*sizeof(Aword));
-  }    
+  }
   addressesDone[numberDone] = address;
   numberDone++;
 
@@ -61,7 +63,7 @@ Aword reversed(Aword w) /* IN - The ACODE word to swap bytes of */
   Aword s;                      /* The swapped ACODE word */
   char *wp, *sp;
   int i;
-  
+
   wp = (char *) &w;
   sp = (char *) &s;
 
@@ -90,7 +92,7 @@ static void reverseTable(Aword adr, int len)
     if (len < sizeof(Aword)) {
       printf("***Wrong size in 'reverseTable()' ***");
       exit(-1);
-    }	       
+    }
     for (i = 0; i < len/sizeof(Aword); i++) {
       reverse(e);
       e++;
@@ -126,27 +128,27 @@ static void reverseMsgs(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseDictionary(Aword adr)
 {
-  DictionaryEntry *e = (DictionaryEntry *) &memory[adr];
+    DictionaryEntry *e = (DictionaryEntry *) &memory[adr];
 
-  if (alreadyDone(adr)) return;
+    if (alreadyDone(adr)) return;
 
-  if (!isEndOfList(e)) {
-    reverseTable(adr, sizeof(DictionaryEntry));
-    while (!isEndOfList(e)) {
-      if ((e->classBits & SYNONYM_BIT) == 0) { /* Do not do this for synonyms */
-	reverseTable(e->adjectiveRefs, sizeof(Aword));
-	reverseTable(e->nounRefs, sizeof(Aword));
-	reverseTable(e->pronounRefs, sizeof(Aword));
-      }
-      e++;
+    if (!isEndOfList(e)) {
+        reverseTable(adr, sizeof(DictionaryEntry));
+        while (!isEndOfList(e)) {
+            if ((e->classBits & SYNONYM_BIT) == 0) { /* Do not do this for synonyms */
+                reverseTable(e->adjectiveRefs, sizeof(Aword));
+                reverseTable(e->nounRefs, sizeof(Aword));
+                reverseTable(e->pronounRefs, sizeof(Aword));
+            }
+            e++;
+        }
     }
-  }
-}    
+}
 
 
 static void reverseChks(Aword adr)
@@ -163,7 +165,7 @@ static void reverseChks(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseAlts(Aword adr)
@@ -180,7 +182,7 @@ static void reverseAlts(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseVerbs(Aword adr)
@@ -196,7 +198,7 @@ static void reverseVerbs(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseSteps(Aword adr)
@@ -214,7 +216,7 @@ static void reverseSteps(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseScrs(Aword adr)
@@ -231,7 +233,7 @@ static void reverseScrs(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseExits(Aword adr)
@@ -248,7 +250,7 @@ static void reverseExits(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseClasses(Aword adr)
@@ -315,7 +317,7 @@ static void reverseRestrictions(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseElms(Aword adr)
@@ -332,7 +334,7 @@ static void reverseElms(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseSyntaxTable(Aword adr)
@@ -348,7 +350,7 @@ static void reverseSyntaxTable(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseParameterTable(Aword adr)
@@ -364,7 +366,7 @@ static void reverseParameterTable(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseEvts(Aword adr)
@@ -380,7 +382,7 @@ static void reverseEvts(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseLims(Aword adr)
@@ -396,7 +398,7 @@ static void reverseLims(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseContainers(Aword adr)
@@ -416,7 +418,7 @@ static void reverseContainers(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseRuls(Aword adr)
@@ -433,7 +435,7 @@ static void reverseRuls(Aword adr)
       e++;
     }
   }
-}    
+}
 
 
 static void reverseSetInitTable(Aaddr adr)
@@ -492,7 +494,7 @@ void reverseACD(void)
   reverseTable(header->sourceLineTable, sizeof(SourceLineEntry));
   reverseStms(header->start);
   reverseMsgs(header->messageTableAddress);
- 
+
   reverseTable(header->scores, sizeof(Aword));
   reverseTable(header->freq, sizeof(Aword));
 

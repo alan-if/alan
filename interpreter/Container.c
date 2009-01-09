@@ -9,7 +9,7 @@
 
 
 /* PUBLIC DATA */
-ContainerEntry *container;  /* Container table pointer */
+ContainerEntry *containers;  /* Container table pointer */
 
 
 /*----------------------------------------------------------------------*/
@@ -38,7 +38,7 @@ static int sumAttributeInContainer(
     if (in(instanceIndex, containerIndex, TRUE)) {		/* Then it's directly in this cont */
       if (instances[instanceIndex].container != 0)	/* This is also a container! */
 	sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
-      sum = sum + attributeOf(instanceIndex, attributeIndex);
+      sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
     }
   return(sum);
 }
@@ -58,15 +58,15 @@ Bool passesContainerLimits(
   /* Find the container properties */
   props = instances[theContainer].container;
 
-  if (container[props].limits != 0) { /* Any limits at all? */
-    for (lim = (LimEntry *) pointerTo(container[props].limits); !isEndOfList(lim); lim++)
+  if (containers[props].limits != 0) { /* Any limits at all? */
+    for (lim = (LimEntry *) pointerTo(containers[props].limits); !isEndOfList(lim); lim++)
       if (lim->atr == 1-I_COUNT) {
 	if (countInContainer(theContainer) >= lim->val) {
 	  interpret(lim->stms);
 	  return(FALSE);
 	}
       } else {
-	if (sumAttributeInContainer(theContainer, lim->atr) + attributeOf(theAddedInstance, lim->atr) > lim->val) {
+	if (sumAttributeInContainer(theContainer, lim->atr) + getInstanceAttribute(theAddedInstance, lim->atr) > lim->val) {
 	  interpret(lim->stms);
 	  return(FALSE);
 	}

@@ -20,6 +20,7 @@
 #include "AltInfo.h"
 #include "params.h"
 #include "output.h"
+#include "msg.h"
 
 
 

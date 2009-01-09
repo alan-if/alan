@@ -10,6 +10,19 @@
 
 /* IMPORTS */
 #include "types.h"
+#include "acode.h"
+
+
+/* TYPES */
+typedef struct ParamEntry { /* PARAMETER */
+  Aword instance;       /* Instance code for the parameter
+                   (0=multiple) */
+  Abool useWords;       /* Indicate to use words instead of
+                   instance code when saying */
+  Aword firstWord;      /* Index to first word used by
+                   player */
+  Aword lastWord;       /* d:o to last */
+} Parameter;
 
 
 /* DATA */

@@ -10,7 +10,7 @@
 
 #include "types.h"
 #include "sysdep.h"
-#include "exe.h"
+#include "current.h"
 #include "set.h"
 #include "lists.h"
 #include "readline.h"
@@ -22,6 +22,9 @@
 #include "args.h"
 #include "score.h"
 #include "event.h"
+#include "msg.h"
+// TODO Remove dependency on exe.h, where()
+#include "exe.h"
 
 #ifndef HAVE_GLK
 static char saveFileName[256];
@@ -42,7 +45,7 @@ static void saveStrings(AFILE saveFile) {
   if (header->stringInitTable != 0)
     for (initEntry = (StringInitEntry *)pointerTo(header->stringInitTable);
 	 !isEndOfList(initEntry); initEntry++) {
-      char *attr = (char *)getStringAttribute(initEntry->instanceCode, initEntry->attributeCode);
+      char *attr = (char *)getInstanceStringAttribute(initEntry->instanceCode, initEntry->attributeCode);
       Aint length = strlen(attr) + 1;
       fwrite((void *)&length, sizeof(length), 1, saveFile);
       fwrite((void *)attr, 1, length, saveFile);
@@ -57,7 +60,7 @@ static void saveSets(AFILE saveFile) {
   if (header->setInitTable != 0)
     for (initEntry = (SetInitEntry *)pointerTo(header->setInitTable);
 	 !isEndOfList(initEntry); initEntry++) {
-      Set *attr = (Set *)getSetAttribute(initEntry->instanceCode, initEntry->attributeCode);
+      Set *attr = (Set *)getInstanceSetAttribute(initEntry->instanceCode, initEntry->attributeCode);
       fwrite((void *)&attr->size, sizeof(attr->size), 1, saveFile);
       fwrite((void *)attr->members, sizeof(attr->members[0]), attr->size, saveFile);
     }
@@ -183,7 +186,7 @@ static void restoreStrings(AFILE saveFile) {
       fread((void *)&length, sizeof(Aint), 1, saveFile);
       string = allocate(length+1);
       fread((void *)string, 1, length, saveFile);
-      setValue(initEntry->instanceCode, initEntry->attributeCode, (Aword)string);
+      setInstanceAttribute(initEntry->instanceCode, initEntry->attributeCode, (Aword)string);
     }
 }
 
@@ -206,7 +209,7 @@ static void restoreSets(AFILE saveFile) {
 	fread((void *)&member, sizeof(member), 1, saveFile);
 	addToSet(set, member);
       }
-      setValue(initEntry->instanceCode, initEntry->attributeCode, (Aword)set);
+      setInstanceAttribute(initEntry->instanceCode, initEntry->attributeCode, (Aword)set);
     }
 }
 

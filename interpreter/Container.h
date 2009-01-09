@@ -17,7 +17,7 @@
 
 
 /* DATA */
-extern ContainerEntry *container; /* Container table pointer */
+extern ContainerEntry *containers; /* Container table pointer */
 
 
 /* FUNCTIONS */

@@ -4,13 +4,15 @@
 #include "options.h"
 #include "word.h"
 #include "inter.h"
-#include "exe.h"
 #include "lists.h"
 #include "checkentry.h"
 #include "debug.h"
 #include "memory.h"
 #include "dictionary.h"
 #include "output.h"
+#include "msg.h"
+// TODO Remove dependency on exe.h, where() & locate()
+#include "exe.h"
 
 
 /*======================================================================*/

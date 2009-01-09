@@ -3,6 +3,7 @@
 #include "StateStack.c"
 
 #include "instance.h"
+#include "event.h"
 
 /* PRIVATE TYPES */
 typedef struct GameState {

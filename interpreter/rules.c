@@ -12,7 +12,7 @@
 #include "lists.h"
 #include "inter.h"
 #include "debug.h"
-#include "exe.h"
+#include "current.h"
 #include "options.h"
 
 #ifdef HAVE_GLK

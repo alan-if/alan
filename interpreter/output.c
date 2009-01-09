@@ -8,10 +8,13 @@
 #include "term.h"
 #include "syserr.h"
 #include "dictionary.h"
-#include "exe.h"
+#include "current.h"
 #include "inter.h"
 #include "params.h"
 #include "msg.h"
+#include "readline.h"
+// TODO Remove dependency on exe.h, returnLable
+#include "exe.h"
 
 
 /* PUBLIC DATA */
@@ -33,38 +36,6 @@ FILE *logFile;
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
-/*======================================================================*/
-void printMessage(MsgKind msg)      /* IN - message number */
-{
-  interpret(msgs[msg].stms);
-}
-
-
-/*======================================================================*/
-void error(MsgKind msgno)   /* IN - The error message number */
-{
-  /* Print an error message and longjmp to main loop. */
-  if (msgno != NO_MSG)
-    printMessage(msgno);
-  longjmp(returnLabel, ERROR_RETURN);
-}
-
-
-/*======================================================================*/
-void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
-{
-    Parameter *savedParameters = allocateParameterArray(NULL);
-    copyParameterList(savedParameters, parameters);
-    if (messageParameters != NULL)
-        copyParameterList(parameters, messageParameters);
-
-    interpret(msgs[msg].stms);
-
-    copyParameterList(parameters, savedParameters);
-    free(savedParameters);
-}
 
 
 /*======================================================================*/
@@ -461,3 +432,25 @@ void output(char original[])
   anyOutput = TRUE;
   free(copy);
 }
+
+
+/*======================================================================*/
+Bool confirm(MsgKind msgno)
+{
+    char buf[80];
+
+    /* This is a bit of a hack since we really want to compare the input,
+     it could be affirmative, but for now any input is NOT! */
+    printMessage(msgno);
+
+#ifdef USE_READLINE
+    if (!readline(buf)) return TRUE;
+#else
+    if (gets(buf) == NULL) return TRUE;
+#endif
+    col = 1;
+
+    return (buf[0] == '\0');
+}
+
+

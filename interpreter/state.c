@@ -10,7 +10,7 @@
 /* IMPORTS */
 
 #include "syserr.h"
-#include "exe.h"
+#include "current.h"
 #include "word.h"
 #include "StateStack.h"
 #include "instance.h"
@@ -18,10 +18,11 @@
 #include "memory.h"
 #include "score.h"
 #include "event.h"
+#include "set.h"
+#include "exe.h"
 
 
 /* PUBLIC DATA */
-Bool gameStateChanged = FALSE;
 
 
 /* PRIVATE TYPES */
@@ -117,7 +118,7 @@ static Set **collectSets() {
 
 	entry = pointerTo(header->setInitTable);
 	for (i = 0; i < count; i++)
-		sets[i] = getSetAttribute(entry[i].instanceCode, entry[i].attributeCode);
+		sets[i] = getInstanceSetAttribute(entry[i].instanceCode, entry[i].attributeCode);
 
 	return sets;
 }
@@ -148,7 +149,7 @@ static char **collectStrings() {
 
 	entry = pointerTo(header->stringInitTable);
 	for (i = 0; i < count; i++)
-		strings[i] = getStringAttribute(entry[i].instanceCode, entry[i].attributeCode);
+		strings[i] = getInstanceStringAttribute(entry[i].instanceCode, entry[i].attributeCode);
 
 	return strings;
 }

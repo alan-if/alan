@@ -8,8 +8,16 @@
 
 \*----------------------------------------------------------------------*/
 
+/* IMPORTS */
+#include "acode.h"
+
 /* TYPES */
-#include "types.h"
+
+typedef struct RulEntry {   /* RULE TABLE */
+  Abool run;            /* Is rule already run? */
+  Aaddr exp;            /* Address to expression code */
+  Aaddr stms;           /* Address to run */
+} RulEntry;
 
 
 /* DATA */

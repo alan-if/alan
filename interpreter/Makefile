@@ -32,7 +32,7 @@ all:
 	$(MAKE) $(SYSTEM)
 
 Darwin: CYGWIN =
-Darwin: arun unit2 #dumpacd
+Darwin: unitTest arun #dumpacd
 
 
 CYGWIN: unitTest arun dumpacd winarun glkarun gararun

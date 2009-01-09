@@ -201,7 +201,7 @@ Ensure canSetupStringParametersForMessages() {
 	addParameterForString(parameters, "a string");
 
 	assert_true(isLiteral(parameters[0].instance));
-	assert_string_equal((char *)literal[parameters[0].instance].value, "a string");
+	assert_string_equal((char *)literals[parameters[0].instance].value, "a string");
 	assert_true(isEndOfList(&parameters[1]));
 
 	free(parameters);
@@ -215,7 +215,7 @@ Ensure canSetupIntegerParametersForMessages() {
 	addParameterForInteger(parameters, 14);
 
 	assert_true(isLiteral(parameters[0].instance));
-	assert_equal((char *)literal[parameters[0].instance].value, 14);
+	assert_equal((char *)literals[parameters[0].instance].value, 14);
 	assert_true(isEndOfList(&parameters[1]));
 
 	free(parameters);

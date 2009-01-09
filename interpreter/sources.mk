@@ -29,6 +29,7 @@ UNIT2REQUIREDSRCS = \
 	Location.c \
 	args.c \
 	class.c \
+	current.c \
 	debug.c \
 	decode.c \
 	dictionary.c \
@@ -58,6 +59,7 @@ MAINSRCS = \
 	act.c \
 	args.c \
 	class.c \
+	current.c \
 	debug.c \
 	decode.c \
 	dictionary.c \

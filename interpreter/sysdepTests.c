@@ -11,7 +11,7 @@
 #include "sysdep.c"
 
 
-static void testStringEqualsIgnoringCase()
+Ensure canCompareStringsIgnoringCase()
 {
   assert_true(compareStrings("abcd", "abcd")==0);
   assert_true(compareStrings("abcd", "Abcd")==0);
@@ -30,7 +30,7 @@ static void testStringEqualsIgnoringCase()
   assert_true(compareStrings("bcd", "abcD")!=0);
 }
 
-static void testIsLowerCase()
+Ensure canSeeLowerCase()
 {
   assert_true(isLowerCase(246));
 }
@@ -38,8 +38,8 @@ static void testIsLowerCase()
 
 TestSuite *sysdepTests() {
   TestSuite *suite = create_test_suite();
-  add_test(suite, testIsLowerCase);
-  add_test(suite, testStringEqualsIgnoringCase);
+  add_test(suite, canSeeLowerCase);
+  add_test(suite, canCompareStringsIgnoringCase);
   return suite;
 }
 

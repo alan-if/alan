@@ -35,6 +35,9 @@
 #include "class.h"
 #include "score.h"
 #include "event.h"
+#include "current.h"
+#include "word.h"
+#include "msg.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -49,12 +52,11 @@
 
 /* PUBLIC DATA */
 
-/* Amachine variables */
-CurVars current;
 Bool fail = FALSE;
 FILE *textFile;
 
 /* Restart jump buffer */
+// TODO move to longjump, and abstract them into functions?
 jmp_buf restartLabel;       /* Restart long jump return point */
 jmp_buf returnLabel;        /* Error (or undo) long jump return point */
 jmp_buf forfeitLabel;       /* Player forfeit by an empty command */
@@ -225,28 +227,6 @@ void visits(Aword v)
 }
 
 
-/*======================================================================*/
-Bool confirm(MsgKind msgno)
-{
-	char buf[80];
-
-	/* This is a bit of a hack since we really want to compare the input,
-     it could be affirmative, but for now any input is NOT! */
-	printMessage(msgno);
-
-#ifdef USE_READLINE
-	if (!readline(buf)) return TRUE;
-#else
-	if (gets(buf) == NULL) return TRUE;
-#endif
-	col = 1;
-
-	return (buf[0] == '\0');
-}
-
-
-
-
 /*----------------------------------------------------------------------*/
 static void sayUndoneCommand(char *words) {
 	Parameter messageParameters[2];
@@ -384,86 +364,7 @@ void schedule(Aword event, Aword where, Aword after)
 }
 
 
-/*======================================================================*/
-void setValue(int id, int atr, Aword val)
-{
-	char str[80];
-
-	if (id > 0 && id <= header->instanceMax) {
-		setAttribute(admin[id].attributes, atr, val);
-		if (isLocation(id))	/* May have changed so describe next time */
-			admin[id].visitsCount = 0;
-	} else {
-		sprintf(str, "Can't SET/MAKE instance (%d).", id);
-		syserr(str);
-	}
-}
-
-
-/*======================================================================*/
-void setStringAttribute(int id, int atr, char *str)
-{
-	free((char *)attributeOf(id, atr));
-	setValue(id, atr, (Aword)str);
-}
-
-
-/*======================================================================*/
-void setSetAttribute(int id, int atr, Aword set)
-{
-	freeSet((Set *)attributeOf(id, atr));
-	setValue(id, atr, (Aword)set);
-}
-
-
-/*----------------------------------------------------------------------*/
-static Aword literalAttribute(int lit, int atr)
-{
-	char str[80];
-
-	if (atr == 1)
-		return literal[literalFromInstance(lit)].value;
-	else {
-		sprintf(str, "Unknown attribute for literal (%d).", atr);
-		syserr(str);
-	}
-	return(EOF);
-}
-
-
-/*======================================================================*/
-Aword attributeOf(int id, int atr)
-{
-	char str[80];
-
-	if (isLiteral(id))
-		return literalAttribute(id, atr);
-	else {
-		if (id > 0 && id <= header->instanceMax)
-			return getAttribute(admin[id].attributes, atr);
-		else {
-			sprintf(str, "Can't ATTRIBUTE item (%d).", id);
-			syserr(str);
-		}
-	}
-	return(EOF);
-}
-
-
-/*======================================================================*/
-char *getStringAttribute(int id, int atr)
-{
-	return strdup((char *)attributeOf(id, atr));
-}
-
-
-/*======================================================================*/
-Set *getSetAttribute(int id, int atr)
-{
-	return copySet((Set *)attributeOf(id, atr));
-}
-
-
+// TODO Move to string.c
 /*======================================================================*/
 Aword concat(Aword s1, Aword s2)
 {
@@ -619,7 +520,7 @@ static char *stripWordsFromStringBackwards(Aint count, char *initialString, char
 /*======================================================================*/
 Aword strip(Bool stripFromBeginningNotEnd, int count, Bool stripWordsNotChars, int id, int atr)
 {
-	char *initialString = (char *)attributeOf(id, atr);
+	char *initialString = (char *)getInstanceAttribute(id, atr);
 	char *theStripped;
 	char *theRest;
 
@@ -634,20 +535,20 @@ Aword strip(Bool stripFromBeginningNotEnd, int count, Bool stripWordsNotChars, i
 		else
 			theStripped = stripCharsFromStringBackwards(count, initialString, &theRest);
 	}
-	setStringAttribute(id, atr, theRest);
+	setInstanceStringAttribute(id, atr, theRest);
 	return (Aword)theStripped;
 }
 
 
 /*----------------------------------------------------------------------*/
-static void verifyId(int id, char action[]) {
+static void verifyId(int instance, char *action) {
 	char message[200];
 
-	if (id == 0) {
-		sprintf(message, "Can't %s instance (%d).", action, id);
+	if (instance == 0) {
+		sprintf(message, "Can't %s instance (%d).", action, instance);
 		syserr(message);
-	} else if (id > header->instanceMax) {
-		sprintf(message, "Can't %s instance (%d > instanceMax).", action, id);
+	} else if (instance > header->instanceMax) {
+		sprintf(message, "Can't %s instance (%d > instanceMax).", action, instance);
 		syserr(message);
 	}
 }
@@ -655,30 +556,30 @@ static void verifyId(int id, char action[]) {
 
 /*======================================================================*/
 /* Return the current position of an instance, directly or not */
-int where(int id, Bool directly)
+int where(int instance, Bool directly)
 {
-	verifyId(id, "WHERE");
+	verifyId(instance, "WHERE");
 
-	if (isLocation(id))
+	if (isLocation(instance))
 		return 0;
 	else if (directly)
-		return admin[id].location;
+		return admin[instance].location;
 	else
-		return location(id);
+		return locationOf(instance);
 }
 
 
 
 /*======================================================================*/
 /* Return the *location* of an instance, transitively, i.e. not directly */
-int location(int id)
+int locationOf(int instance)
 {
 	int loc;
 	int container = 0;
 
-	verifyId(id, "LOCATION");
+	verifyId(instance, "LOCATION");
 
-	loc = admin[id].location;
+	loc = admin[instance].location;
 	while (loc != 0 && !isLocation(loc)) {
 		container = loc;
 		loc = admin[loc].location;
@@ -687,13 +588,13 @@ int location(int id)
 		return loc;
 	else {
 		if (container == 0)
-			if (!isA(id, THING) && !isLocation(id))
-				return location(HERO);
+			if (!isA(instance, THING) && !isLocation(instance))
+				return locationOf(HERO);
 			else
 				return 0;		/* Nowhere */
 		else
 			if (!isA(container, THING) && !isLocation(container))
-				return location(HERO);
+				return locationOf(HERO);
 			else
 				return 0;		/* Nowhere */
 	}
@@ -732,7 +633,7 @@ int getContainerMember(int container, int index, Bool directly) {
 
 /*----------------------------------------------------------------------*/
 static void locateIntoContainer(Aword theInstance, Aword theContainer) {
-	if (!isA(theInstance, container[instances[theContainer].container].class))
+	if (!isA(theInstance, containers[instances[theContainer].container].class))
 		printMessageUsing2InstanceParameters(M_CANNOTCONTAIN, theContainer, theInstance);
 	else if (passesContainerLimits(theContainer, theInstance))
 		admin[theInstance].location = theContainer;
@@ -849,7 +750,7 @@ void locate(int id, int whr)
 	if (isContainer(admin[id].location)) {    /* In something? */
 		current.instance = admin[id].location;
 		containerId = instances[admin[id].location].container;
-		theContainer = &container[containerId];
+		theContainer = &containers[containerId];
 
 		if (theContainer->extractChecks != 0) {
 			if (sectionTraceOption) {
@@ -933,7 +834,7 @@ Bool isA(int instanceId, int ancestor)
 	int parent;
 
 	if (isLiteral(instanceId))
-		parent = literal[instanceId-header->instanceMax].class;
+		parent = literals[instanceId-header->instanceMax].class;
 	else
 		parent = instances[instanceId].parent;
 	while (parent != 0 && parent != ancestor)
@@ -982,11 +883,11 @@ Bool at(int theInstance, int other, Bool directly)
 	} else {
 		if (!isLocation(other))
 			/* If the other is not a location, compare their locations */
-			return location(theInstance) == location(other);
-		else if (location(theInstance) == other)
+			return locationOf(theInstance) == locationOf(other);
+		else if (locationOf(theInstance) == other)
 			return TRUE;
-		else if (location(other) != 0)
-			return at(theInstance, location(other), FALSE);
+		else if (locationOf(other) != 0)
+			return at(theInstance, locationOf(other), FALSE);
 		else
 			return FALSE;
 	}
@@ -1021,9 +922,9 @@ static void sayLiteral(int lit)
 	char *str;
 
 	if (isNumeric(lit))
-		sayInteger(literal[lit-header->instanceMax].value);
+		sayInteger(literals[lit-header->instanceMax].value);
 	else {
-		str = (char *)strdup((char *)literal[lit-header->instanceMax].value);
+		str = (char *)strdup((char *)literals[lit-header->instanceMax].value);
 		sayString(str);
 	}
 }
@@ -1086,90 +987,90 @@ void sayString(char *str)
 
 
 /*----------------------------------------------------------------------*/
-static char *wordWithCode(Aint classBit, Aint code) {
+static char *wordWithCode(int classBit, int code) {
 	int w;
 	char str[50];
 
 	for (w = 0; w < dictionarySize; w++)
 		if (dictionary[w].code == code && ((classBit&dictionary[w].classBits) != 0))
 			return pointerTo(dictionary[w].string);
-	sprintf(str, "Could not find word of class %ld with code %ld.", classBit, code);
+	sprintf(str, "Could not find word of class %d with code %d.", classBit, code);
 	syserr(str);
 	return NULL;
 }
 
 
 /*----------------------------------------------------------------------*/
-static Bool sayInheritedDefiniteForm(Aword theClass) {
-	if (theClass == 0) {
+static Bool sayInheritedDefiniteForm(int class) {
+	if (class == 0) {
 		syserr("No default definite article");
 		return FALSE;
 	} else {
-		if (classes[theClass].definite.address) {
-			interpret(classes[theClass].definite.address);
-			return classes[theClass].definite.isForm;
+		if (classes[class].definite.address) {
+			interpret(classes[class].definite.address);
+			return classes[class].definite.isForm;
 		} else
-			return sayInheritedDefiniteForm(classes[theClass].parent);
+			return sayInheritedDefiniteForm(classes[class].parent);
 	}
 }
 
 
 /*----------------------------------------------------------------------*/
-static void sayDefinite(Aint id) {
-	if (instances[id].definite.address) {
-		interpret(instances[id].definite.address);
-		if (!instances[id].definite.isForm)
-			sayInstance(id);
+static void sayDefinite(int instance) {
+	if (instances[instance].definite.address) {
+		interpret(instances[instance].definite.address);
+		if (!instances[instance].definite.isForm)
+			sayInstance(instance);
 	} else
-		if (!sayInheritedDefiniteForm(instances[id].parent))
-			sayInstance(id);
+		if (!sayInheritedDefiniteForm(instances[instance].parent))
+			sayInstance(instance);
 }
 
 
 /*----------------------------------------------------------------------*/
-static Bool sayInheritedIndefiniteForm(Aword theClass) {
-	if (theClass == 0) {
+static Bool sayInheritedIndefiniteForm(int class) {
+	if (class == 0) {
 		syserr("No default indefinite article");
 		return FALSE;
 	} else {
-		if (classes[theClass].indefinite.address) {
-			interpret(classes[theClass].indefinite.address);
-			return classes[theClass].indefinite.isForm;
+		if (classes[class].indefinite.address) {
+			interpret(classes[class].indefinite.address);
+			return classes[class].indefinite.isForm;
 		} else
-			return sayInheritedIndefiniteForm(classes[theClass].parent);
+			return sayInheritedIndefiniteForm(classes[class].parent);
 	}
 }
 
 
 /*----------------------------------------------------------------------*/
-static void sayIndefinite(Aint id) {
-	if (instances[id].indefinite.address) {
-		interpret(instances[id].indefinite.address);
-		if (!instances[id].indefinite.isForm)
-			sayInstance(id);
+static void sayIndefinite(int instance) {
+	if (instances[instance].indefinite.address) {
+		interpret(instances[instance].indefinite.address);
+		if (!instances[instance].indefinite.isForm)
+			sayInstance(instance);
 	} else
-		if (!sayInheritedIndefiniteForm(instances[id].parent))
-			sayInstance(id);
+		if (!sayInheritedIndefiniteForm(instances[instance].parent))
+			sayInstance(instance);
 }
 
 
 /*----------------------------------------------------------------------*/
-static Bool sayInheritedNegativeForm(Aword theClass) {
-	if (theClass == 0) {
+static Bool sayInheritedNegativeForm(int class) {
+	if (class == 0) {
 		syserr("No default negative form");
 		return FALSE;
 	} else {
-		if (classes[theClass].negative.address) {
-			interpret(classes[theClass].negative.address);
-			return classes[theClass].negative.isForm;
+		if (classes[class].negative.address) {
+			interpret(classes[class].negative.address);
+			return classes[class].negative.isForm;
 		} else
-			return sayInheritedNegativeForm(classes[theClass].parent);
+			return sayInheritedNegativeForm(classes[class].parent);
 	}
 }
 
 
 /*----------------------------------------------------------------------*/
-static void sayNegative(Aint id) {
+static void sayNegative(int id) {
 	if (instances[id].negative.address) {
 		interpret(instances[id].negative.address);
 		if (!instances[id].negative.isForm)
@@ -1181,7 +1082,7 @@ static void sayNegative(Aint id) {
 
 
 /*----------------------------------------------------------------------*/
-static void sayInheritedPronoun(Aint id) {
+static void sayInheritedPronoun(int id) {
 	if (id == 0)
 		syserr("No default pronoun");
 	else {
@@ -1203,7 +1104,7 @@ static void sayPronoun(Aint id) {
 
 
 /*----------------------------------------------------------------------*/
-static void sayArticleOrForm(Aint id, SayForm form)
+static void sayArticleOrForm(int id, SayForm form)
 {
 	if (!isLiteral(id))
 		switch (form) {
@@ -1249,12 +1150,12 @@ void say(int id)
 
 
 /*======================================================================*/
-void sayForm(int id, SayForm form)
+void sayForm(int instance, SayForm form)
 {
 	Aword previousInstance = current.instance;
-	current.instance = id;
+	current.instance = instance;
 
-	sayArticleOrForm(id, form);
+	sayArticleOrForm(instance, form);
 
 	current.instance = previousInstance;
 }
@@ -1267,121 +1168,121 @@ void sayForm(int id, SayForm form)
 \***********************************************************************/
 
 
-FORWARD void list(int cnt);
+FORWARD void list(int container);
 
 /*----------------------------------------------------------------------*/
-static Bool inheritedDescriptionCheck(Aint classId)
+static Bool inheritedDescriptionCheck(int class)
 {
-	if (classId == 0) return TRUE;
-	if (!inheritedDescriptionCheck(classes[classId].parent)) return FALSE;
-	if (classes[classId].descriptionChecks == 0) return TRUE;
-	return !checksFailed(classes[classId].descriptionChecks, TRUE);
+	if (class == 0) return TRUE;
+	if (!inheritedDescriptionCheck(classes[class].parent)) return FALSE;
+	if (classes[class].descriptionChecks == 0) return TRUE;
+	return !checksFailed(classes[class].descriptionChecks, TRUE);
 }
 
 /*----------------------------------------------------------------------*/
-static Bool descriptionCheck(Aint instanceId)
+static Bool descriptionCheck(int instance)
 {
-	if (inheritedDescriptionCheck(instances[instanceId].parent)) {
-		if (instances[instanceId].checks == 0) return TRUE;
-		return !checksFailed(instances[instanceId].checks, TRUE);
+	if (inheritedDescriptionCheck(instances[instance].parent)) {
+		if (instances[instance].checks == 0) return TRUE;
+		return !checksFailed(instances[instance].checks, TRUE);
 	} else
 		return FALSE;
 }
 
 /*----------------------------------------------------------------------*/
-static Abool inheritsDescriptionFrom(Aword classId)
+static Bool inheritsDescriptionFrom(int class)
 {
-	if (classes[classId].description != 0)
+	if (classes[class].description != 0)
 		return TRUE;
-	else if (classes[classId].parent != 0)
-		return inheritsDescriptionFrom(classes[classId].parent);
+	else if (classes[class].parent != 0)
+		return inheritsDescriptionFrom(classes[class].parent);
 	else
 		return FALSE;
 }
 
 /*----------------------------------------------------------------------*/
-static Abool hasDescription(Aword instanceId)
+static Bool hasDescription(int instance)
 {
-	if (instances[instanceId].description != 0)
+	if (instances[instance].description != 0)
 		return TRUE;
-	else if (instances[instanceId].parent != 0)
-		return inheritsDescriptionFrom(instances[instanceId].parent);
+	else if (instances[instance].parent != 0)
+		return inheritsDescriptionFrom(instances[instance].parent);
 	else
 		return FALSE;
 }
 
 /*----------------------------------------------------------------------*/
-static void describeClass(Aint id)
+static void describeClass(int instance)
 {
-	if (classes[id].description != 0) {
+	if (classes[instance].description != 0) {
 		/* This class has a description, run it */
-		interpret(classes[id].description);
+		interpret(classes[instance].description);
 	} else {
 		/* Search up the inheritance tree, if any, to find a description */
-		if (classes[id].parent != 0)
-			describeClass(classes[id].parent);
+		if (classes[instance].parent != 0)
+			describeClass(classes[instance].parent);
 	}
 }
 
 
 /*----------------------------------------------------------------------*/
-static void describeAnything(Aint id)
+static void describeAnything(int instance)
 {
-	if (instances[id].description != 0) {
+	if (instances[instance].description != 0) {
 		/* This instance has its own description, run it */
-		interpret(instances[id].description);
+		interpret(instances[instance].description);
 	} else {
 		/* Search up the inheritance tree to find a description */
-		if (instances[id].parent != 0)
-			describeClass(instances[id].parent);
+		if (instances[instance].parent != 0)
+			describeClass(instances[instance].parent);
 	}
-	admin[id].alreadyDescribed = TRUE;
+	admin[instance].alreadyDescribed = TRUE;
 }
 
 
 /*----------------------------------------------------------------------*/
-static Bool describeable(Aint i) {
-	return isObject(i) || isActor(i);
+static Bool describeable(int instance) {
+	return isObject(instance) || isActor(instance);
 }
 
 
 /*----------------------------------------------------------------------*/
-static Bool containerIsEmpty(Aword cnt)
+static Bool containerIsEmpty(int container)
 {
 	int i;
 
 	for (i = 1; i <= header->instanceMax; i++)
-		if (describeable(i) && in(i, cnt, FALSE))
+		if (describeable(i) && in(i, container, FALSE))
 			return FALSE;
 	return TRUE;
 }
 
 
 /*----------------------------------------------------------------------*/
-static void describeContainer(Aint id)
+static void describeContainer(int id)
 {
-	if (!containerIsEmpty(id) && !attributeOf(id, OPAQUEATTRIBUTE))
+	if (!containerIsEmpty(id) && !getInstanceAttribute(id, OPAQUEATTRIBUTE))
 		list(id);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void describeObject(Aword obj)
+static void describeObject(int object)
 {
-	if (hasDescription(obj))
-		describeAnything(obj);
+	if (hasDescription(object))
+		describeAnything(object);
 	else {
-		printMessageWithInstanceParameter(M_SEE_START, obj);
+		printMessageWithInstanceParameter(M_SEE_START, object);
 		printMessage(M_SEE_END);
-		if (instances[obj].container != 0)
-			describeContainer(obj);
+		if (instances[object].container != 0)
+			describeContainer(object);
 	}
-	admin[obj].alreadyDescribed = TRUE;
+	admin[object].alreadyDescribed = TRUE;
 }
 
 
 /*----------------------------------------------------------------------*/
-static ScriptEntry *scriptOf(Aint act) {
+static ScriptEntry *scriptOf(int act) {
 	ScriptEntry *scr;
 
 	if (admin[act].script != 0) {
@@ -1396,7 +1297,7 @@ static ScriptEntry *scriptOf(Aint act) {
 
 
 /*----------------------------------------------------------------------*/
-static StepEntry *stepOf(Aint act) {
+static StepEntry *stepOf(int act) {
 	StepEntry *step;
 	ScriptEntry *scr = scriptOf(act);
 
@@ -1410,7 +1311,7 @@ static StepEntry *stepOf(Aint act) {
 
 
 /*----------------------------------------------------------------------*/
-static void describeActor(Aint actor)
+static void describeActor(int actor)
 {
 	ScriptEntry *scr = scriptOf(actor);
 
@@ -1476,7 +1377,7 @@ void describeInstances(void)
 				printMessageWithInstanceParameter(M_SEE_COMMA, lastInstanceFound);
 			admin[i].alreadyDescribed = TRUE;
 
-			if (instances[i].container && containerSize(i, TRUE) > 0 && !attributeOf(i, OPAQUEATTRIBUTE)) {
+			if (instances[i].container && containerSize(i, TRUE) > 0 && !getInstanceAttribute(i, OPAQUEATTRIBUTE)) {
 				if (found > 0)
 					printMessageWithInstanceParameter(M_SEE_AND, i);
 				printMessage(M_SEE_END);
@@ -1538,7 +1439,7 @@ void look(void)
 
 
 /*======================================================================*/
-void list(int cnt)
+void list(int container)
 {
 	int i;
 	Aword props;
@@ -1546,24 +1447,24 @@ void list(int cnt)
 	int found = 0;
 	Aint previousThis = current.instance;
 
-	current.instance = cnt;
+	current.instance = container;
 
 	/* Find container table entry */
-	props = instances[cnt].container;
+	props = instances[container].container;
 	if (props == 0) syserr("Trying to list something not a container.");
 
 	for (i = 1; i <= header->instanceMax; i++) {
 		if (describeable(i)) {
 			/* We can only see objects and actors directly in this container... */
-			if (admin[i].location == cnt) { /* Yes, it's in this container */
+			if (admin[i].location == container) { /* Yes, it's in this container */
 				if (found == 0) {
-					if (container[props].header != 0)
-						interpret(container[props].header);
+					if (containers[props].header != 0)
+						interpret(containers[props].header);
 					else {
-						if (isActor(container[props].owner))
-							printMessageWithInstanceParameter(M_CARRIES, container[props].owner);
+						if (isActor(containers[props].owner))
+							printMessageWithInstanceParameter(M_CARRIES, containers[props].owner);
 						else
-							printMessageWithInstanceParameter(M_CONTAINS, container[props].owner);
+							printMessageWithInstanceParameter(M_CONTAINS, containers[props].owner);
 					}
 					foundInstance[0] = i;
 				} else if (found == 1)
@@ -1581,13 +1482,13 @@ void list(int cnt)
 			printMessageWithInstanceParameter(M_CONTAINS_AND, foundInstance[1]);
 		printMessageWithInstanceParameter(M_CONTAINS_END, foundInstance[0]);
 	} else {
-		if (container[props].empty != 0)
-			interpret(container[props].empty);
+		if (containers[props].empty != 0)
+			interpret(containers[props].empty);
 		else {
-			if (isActor(container[props].owner))
-				printMessageWithInstanceParameter(M_EMPTYHANDED, container[props].owner);
+			if (isActor(containers[props].owner))
+				printMessageWithInstanceParameter(M_EMPTYHANDED, containers[props].owner);
 			else
-				printMessageWithInstanceParameter(M_EMPTY, container[props].owner);
+				printMessageWithInstanceParameter(M_EMPTY, containers[props].owner);
 		}
 	}
 	needSpace = TRUE;

@@ -26,7 +26,7 @@
 #include "inter.h"
 #include "parse.h"
 #include "stack.h"
-#include "exe.h"
+#include "current.h"
 #include "options.h"
 #include "utils.h"
 #include "instance.h"
@@ -34,6 +34,7 @@
 #include "output.h"
 #include "class.h"
 #include "event.h"
+#include "exe.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK
@@ -224,8 +225,8 @@ static void showcnts(void)
   for (cnt = 1; cnt <= header->containerMax; cnt++) {
     sprintf(str, "$i%3d: ", cnt);
     output(str);
-    if (container[cnt].owner != 0)
-      say(container[cnt].owner);
+    if (containers[cnt].owner != 0)
+      say(containers[cnt].owner);
   }
 
 }
@@ -244,8 +245,8 @@ static void showContainer(int cnt)
 
   sprintf(str, "Container %d :", cnt);
   output(str);
-  if (container[cnt].owner != 0) {
-    cnt = container[cnt].owner;
+  if (containers[cnt].owner != 0) {
+    cnt = containers[cnt].owner;
     say(cnt);
     sprintf(str, "$iLocation: %ld", where(cnt, TRUE));
     output(str);

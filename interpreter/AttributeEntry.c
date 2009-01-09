@@ -1,7 +1,7 @@
 #include "AttributeEntry.h"
 
 #include "syserr.h"
-#include "state.h"
+#include "current.h"
 #include "lists.h"
 
 

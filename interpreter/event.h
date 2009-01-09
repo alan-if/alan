@@ -14,6 +14,11 @@
 
 
 /* TYPES */
+typedef struct EventQueueEntry { /* EVENT QUEUE ENTRIES */
+  int after;
+  int event;
+  int where;
+} EventQueueEntry;
 
 
 /* DATA */

@@ -10,8 +10,6 @@
 #ifdef HAVE_GLK
 
 #include "readline.h"
-#include "exe.h"
-#include "main.h"
 #include "options.h"
 
 #include "glk.h"

@@ -12,6 +12,7 @@
 
 #include "types.h"
 #include "parse.h"
+#include "current.h"
 #include "exe.h"
 #include "stack.h"
 #include "syserr.h"
@@ -24,6 +25,7 @@
 #include "output.h"
 #include "score.h"
 #include "params.h"
+#include "instance.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK
@@ -608,7 +610,7 @@ void interpret(Aaddr adr)
 					Abool val = pop(stack);
 					if (singleStepOption)
 						printf("MAKE \t%7ld, %7ld, %s\t\t\t", id, atr, booleanValue(val));
-					setValue(id, atr, val);
+					setInstanceAttribute(id, atr, val);
 					break;
 				}
 				case I_SET: {
@@ -618,7 +620,7 @@ void interpret(Aaddr adr)
 					if (singleStepOption) {
 						printf("SET \t%7ld, %7ld, %7ld\t\t\t\t", id, atr, val);
 					}
-					setValue(id, atr, val);
+					setInstanceAttribute(id, atr, val);
 					break;
 				}
 				case I_SETSTR: {
@@ -628,7 +630,7 @@ void interpret(Aaddr adr)
 					if (singleStepOption) {
 						printf("SETSTR\t%7ld, %7ld, %s\t\t\t\t", id, atr, stringValue(str));
 					}
-					setStringAttribute(id, atr, (char *)str);
+					setInstanceStringAttribute(id, atr, (char *)str);
 					break;
 				}
 				case I_SETSET: {
@@ -638,7 +640,7 @@ void interpret(Aaddr adr)
 					if (singleStepOption) {
 						printf("SETSET\t%7ld, %7ld, %7s\t\t", id, atr, pointerValue(set));
 					}
-					setSetAttribute(id, atr, set);
+					setInstanceSetAttribute(id, atr, set);
 					break;
 				}
 				case I_NEWSET: {
@@ -741,7 +743,7 @@ void interpret(Aaddr adr)
 					Aint id = pop(stack);
 					if (singleStepOption)
 						printf("ATTRIBUTE %7ld, %7ld\t", id, atr);
-					push(stack, attributeOf(id, atr));
+					push(stack, getInstanceAttribute(id, atr));
 					traceIntegerTopValue();
 					break;
 				}
@@ -750,7 +752,7 @@ void interpret(Aaddr adr)
 					Aint id = pop(stack);
 					if (singleStepOption)
 						printf("STRATTR \t%7ld, %7ld\t", id, atr);
-					push(stack, (Aword)getStringAttribute(id, atr));
+					push(stack, (Aword)getInstanceStringAttribute(id, atr));
 					traceStringTopValue();
 					break;
 				}
@@ -759,7 +761,7 @@ void interpret(Aaddr adr)
 					Aint id = pop(stack);
 					if (singleStepOption)
 						printf("ATTRSET \t%7ld, %7ld", id, atr);
-					push(stack, (Aword)getSetAttribute(id, atr));
+					push(stack, (Aword)getInstanceSetAttribute(id, atr));
 					tracePointerTopValue();
 					break;
 				}
@@ -799,7 +801,7 @@ void interpret(Aaddr adr)
 					Aword id = pop(stack);
 					if (singleStepOption)
 						printf("LOCATION \t%7ld\t\t", id);
-					push(stack, location(id));
+					push(stack, locationOf(id));
 					traceInstanceTopValue();
 					break;
 				}

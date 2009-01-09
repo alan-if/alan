@@ -4,7 +4,7 @@
 #include "debug.h"
 #include "options.h"
 #include "utils.h"
-#include "exe.h"
+#include "current.h"
 #include "output.h"
 
 
@@ -51,6 +51,7 @@ void setSyserrHandler(void (*f)(char *))
 
 
 /*======================================================================*/
+// TODO Make syserr() use ... as printf()
 void syserr(char *description)
 {
   if (handler == NULL)

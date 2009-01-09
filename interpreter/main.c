@@ -41,6 +41,7 @@
 #include "msg.h"
 #include "event.h"
 #include "syntax.h"
+#include "current.h"
 
 #include <time.h>
 #ifdef USE_READLINE
@@ -433,8 +434,8 @@ static void initStaticData(void)
   classes--;			/* Back up one so that first is no. 1 */
 
   if (header->containerTableAddress != 0) {
-    container = (ContainerEntry *) pointerTo(header->containerTableAddress);
-    container--;
+    containers = (ContainerEntry *) pointerTo(header->containerTableAddress);
+    containers--;
   }
 
   if (header->eventTableAddress != 0) {
@@ -448,8 +449,8 @@ static void initStaticData(void)
   else
     memcpy(scores, pointerTo(header->scores), header->scoreCount*sizeof(Aword));
 
-  if (literal == NULL)
-      literal = allocate(sizeof(Aword)*(MAXPARAMS+1));
+  if (literals == NULL)
+      literals = allocate(sizeof(Aword)*(MAXPARAMS+1));
 
   stxs = (SyntaxEntry *) pointerTo(header->syntaxTableAddress);
   vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
@@ -467,7 +468,7 @@ static void initStrings(void)
   StringInitEntry *init;
 
   for (init = (StringInitEntry *) pointerTo(header->stringInitTable); !isEndOfList(init); init++)
-    setValue(init->instanceCode, init->attributeCode, (Aword)getStringFromFile(init->fpos, init->len));
+    setInstanceAttribute(init->instanceCode, init->attributeCode, (Aword)getStringFromFile(init->fpos, init->len));
 }
 
 /*----------------------------------------------------------------------*/

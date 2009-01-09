@@ -15,9 +15,11 @@
 #include "instance.h"
 #include "options.h"
 #include "memory.h"
-#include "exe.h"
+#include "current.h"
 #include "class.h"
 #include "params.h"
+// TODO Remove depedency on exe.h, move fail to current.c ?
+#include "exe.h"
 
 
 /*======================================================================*/
@@ -236,7 +238,7 @@ static void addAlternativesFromParameter(
 	Aint theInstance = parameters[parameterNumber-1].instance;
 
 	if (isLiteral(theInstance))
-		parent = literal[parameterNumber].class;
+		parent = literals[parameterNumber].class;
 	else
 		parent = instances[theInstance].parent;
 	addAlternativesFromParents(altInfos, PARAMETER_LEVEL, parameterNumber, parent, theInstance, finder);

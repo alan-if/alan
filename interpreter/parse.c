@@ -18,7 +18,7 @@
 
 #include "AltInfo.h"
 #include "inter.h"
-#include "exe.h"
+#include "current.h"
 #include "act.h"
 #include "term.h"
 #include "lists.h"
@@ -33,6 +33,9 @@
 #include "dictionary.h"
 #include "syntax.h"
 #include "word.h"
+#include "msg.h"
+// TODO Remove dependency on exe.h
+#include "exe.h"
 
 
 #ifdef HAVE_GLK
@@ -61,15 +64,6 @@ void forceNewPlayerInput() {
 	setEndOfList(&playerWords[wordIndex]);
 }
 
-/*======================================================================*/
-char *playerWordsAsCommandString(void) {
-	char *commandString;
-	int size = playerWords[lastWord].end - playerWords[firstWord].start;
-	commandString = allocate(size + 1);
-	strncpy(commandString, playerWords[firstWord].start, size);
-	commandString[size] = '\0';
-	return commandString;
-}
 
 /*----------------------------------------------------------------------*
  SCAN DATA & PROCEDURES
@@ -159,6 +153,7 @@ static char *gettoken(char *buf) {
 }
 
 /*----------------------------------------------------------------------*/
+// TODO replace dependency to exe.c with injection of quitGame() and undo()
 static void getLine(void) {
 	para();
 	do {
@@ -221,12 +216,12 @@ static void getLine(void) {
 }
 
 /*======================================================================*/
-int literalFromInstance(Aint instance) {
+int literalFromInstance(int instance) {
 	return instance - header->instanceMax;
 }
 
 /*======================================================================*/
-Aint instanceFromLiteral(int literalIndex) {
+int instanceFromLiteral(int literalIndex) {
 	return literalIndex + header->instanceMax;
 }
 
@@ -236,9 +231,9 @@ static void createIntegerLiteral(int integerValue) {
 	if (litCount > MAXPARAMS)
 		syserr("Too many player command parameters.");
 
-	literal[litCount].class = header->integerClassId;
-	literal[litCount].type = NUMERIC_LITERAL;
-	literal[litCount].value = integerValue;
+	literals[litCount].class = header->integerClassId;
+	literals[litCount].type = NUMERIC_LITERAL;
+	literals[litCount].value = integerValue;
 }
 
 /*----------------------------------------------------------------------*/
@@ -246,9 +241,9 @@ static void createStringLiteral(char *unquotedString) {
 	litCount++;
 	if (litCount > MAXPARAMS)
 		syserr("Too many player command parameters.");
-	literal[litCount].class = header->stringClassId;
-	literal[litCount].type = STRING_LITERAL;
-	literal[litCount].value = (Aword) strdup(unquotedString);
+	literals[litCount].class = header->stringClassId;
+	literals[litCount].type = STRING_LITERAL;
+	literals[litCount].value = (Aword) strdup(unquotedString);
 }
 
 /*----------------------------------------------------------------------*/
@@ -256,8 +251,8 @@ static void freeLiterals() {
 	int i;
 
 	for (i = 0; i < litCount; i++)
-		if (literal[i].type == STRING_LITERAL && literal[i].value != 0)
-			free((char*) literal[i].value);
+		if (literals[i].type == STRING_LITERAL && literals[i].value != 0)
+			free((char*) literals[i].value);
 }
 
 static Bool continued = FALSE;
@@ -349,7 +344,7 @@ static void addParameterForWords(Parameter *parameters, int firstWordIndex, int 
 
 
 /*======================================================================*/
-void addParameterForInteger(Parameter *parameters, Aint value) {
+void addParameterForInteger(Parameter *parameters, int value) {
 	Parameter *parameter = findEndOfList(parameters);
 
 	createIntegerLiteral(value);
@@ -371,7 +366,7 @@ void addParameterForString(Parameter *parameters, char *value) {
 }
 
 /*======================================================================*/
-void addParameterForInstance(Parameter *parameters, Aint instance) {
+void addParameterForInstance(Parameter *parameters, int instance) {
 	Parameter *parameter = findEndOfList(parameters);
 
 	parameter->instance = instance;
@@ -584,7 +579,7 @@ static Bool inOpaqueContainer(int originalInstance) {
 	int instance = admin[originalInstance].location;
 
 	while (isContainer(instance)) {
-		if (attributeOf(instance, OPAQUEATTRIBUTE))
+		if (getInstanceAttribute(instance, OPAQUEATTRIBUTE))
 			return TRUE;
 		instance = admin[instance].location;
 	}
