@@ -98,7 +98,7 @@ static void switches(int argc, char *argv[])
 					break;
 				default:
 					printf("Unrecognized switch, -%c\n", argv[i][1]);
-					usage();
+					usage(argv[0]);
 					terminate(0);
 			}
 		} else {
@@ -111,8 +111,7 @@ static void switches(int argc, char *argv[])
 			} else
 				adventureFileName = strdup(argv[i]);
 
-			if (!compareStrings(&adventureFileName[strlen(adventureFileName)-4],
-					ACODEEXTENSION) == 0) {
+			if (!compareStrings(&adventureFileName[strlen(adventureFileName)-4], ACODEEXTENSION) == 0) {
 				adventureFileName = realloc(adventureFileName, strlen(adventureFileName)+5);
 				strcat(adventureFileName, ACODEEXTENSION);
 			}

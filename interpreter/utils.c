@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include "alan.version.h"
 #include "options.h"
-#include "args.h"
 #include "memory.h"
 #include "output.h"
 
@@ -67,12 +66,12 @@ void terminate(int code)
 }
 
 /*======================================================================*/
-void usage(void)
+void usage(char *programName)
 {
   printf("\nArun, Adventure Interpreter version %s (%s %s)\n\n",
      alan.version.string, alan.date, alan.time);
   printf("Usage:\n\n");
-  printf("    %s [<switches>] <adventure>\n\n", PROGNAME);
+  printf("    %s [<switches>] <adventure>\n\n", programName);
   printf("where the possible optional switches are:\n");
 #ifdef HAVE_GLK
   glk_set_style(style_Preformatted);

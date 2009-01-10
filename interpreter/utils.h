@@ -16,6 +16,6 @@
 
 /* FUNCTIONS: */
 extern void terminate(int code);
-extern void usage(void);
+extern void usage(char *programName);
 
 #endif /* UTILS_H_ */

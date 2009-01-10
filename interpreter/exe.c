@@ -9,12 +9,11 @@
 #include "exe.h"
 
 
-/* Imports: */
+/* IMPORTS */
 #include "types.h"
 
 #include "lists.h"
 #include "state.h"
-#include "params.h"
 #include "syserr.h"
 #include "options.h"
 #include "term.h"
@@ -54,8 +53,8 @@
 Bool fail = FALSE;
 FILE *textFile;
 
-/* Restart jump buffer */
-// TODO move to longjump, and abstract them into functions?
+/* Long jump buffers */
+// TODO move to longjump.c? or error.c, and abstract them into functions?
 jmp_buf restartLabel;       /* Restart long jump return point */
 jmp_buf returnLabel;        /* Error (or undo) long jump return point */
 jmp_buf forfeitLabel;       /* Player forfeit by an empty command */
@@ -540,7 +539,7 @@ Aword strip(Bool stripFromBeginningNotEnd, int count, Bool stripWordsNotChars, i
 
 
 /*----------------------------------------------------------------------*/
-static void verifyId(int instance, char *action) {
+static void verifyInstance(int instance, char *action) {
 	char message[200];
 
 	if (instance == 0) {
@@ -557,7 +556,7 @@ static void verifyId(int instance, char *action) {
 /* Return the current position of an instance, directly or not */
 int where(int instance, Bool directly)
 {
-	verifyId(instance, "WHERE");
+	verifyInstance(instance, "WHERE");
 
 	if (isLocation(instance))
 		return 0;
@@ -576,7 +575,7 @@ int locationOf(int instance)
 	int loc;
 	int container = 0;
 
-	verifyId(instance, "LOCATION");
+	verifyInstance(instance, "LOCATION");
 
 	loc = admin[instance].location;
 	while (loc != 0 && !isLocation(loc)) {
@@ -742,8 +741,8 @@ void locate(int id, int whr)
 	ContainerEntry *theContainer;
 	int previousInstance = current.instance;
 
-	verifyId(id, "LOCATE");
-	verifyId(whr, "LOCATE AT");
+	verifyInstance(id, "LOCATE");
+	verifyInstance(whr, "LOCATE AT");
 
 	/* First check if the instance is in a container, if so run extract checks */
 	if (isContainer(admin[id].location)) {    /* In something? */
@@ -787,7 +786,7 @@ void locate(int id, int whr)
 /*======================================================================*/
 Bool isHere(int id, Bool directly)
 {
-	verifyId(id, "HERE");
+	verifyInstance(id, "HERE");
 
 	if (directly)
 		return(admin[id].location == current.location);
@@ -799,7 +798,7 @@ Bool isHere(int id, Bool directly)
 /*======================================================================*/
 Bool isNearby(int instance, Bool directly)
 {
-	verifyId(instance, "NEARBY");
+	verifyInstance(instance, "NEARBY");
 
 	if (isLocation(instance))
 		return exitto(current.location, instance);
@@ -809,16 +808,16 @@ Bool isNearby(int instance, Bool directly)
 
 
 /*======================================================================*/
-Bool isNear(int id, int other, Bool directly)
+Bool isNear(int instance, int other, Bool directly)
 {
 	Aint l1, l2;
 
-	verifyId(id, "NEAR");
+	verifyInstance(instance, "NEAR");
 
-	if (isLocation(id))
-		l1 = id;
+	if (isLocation(instance))
+		l1 = instance;
 	else
-		l1 = where(id, directly);
+		l1 = where(instance, directly);
 	if (isLocation(other))
 		l2 = other;
 	else
@@ -828,14 +827,14 @@ Bool isNear(int id, int other, Bool directly)
 
 
 /*======================================================================*/
-Bool isA(int instanceId, int ancestor)
+Bool isA(int instance, int ancestor)
 {
 	int parent;
 
-	if (isLiteral(instanceId))
-		parent = literals[instanceId-header->instanceMax].class;
+	if (isLiteral(instance))
+		parent = literals[instance-header->instanceMax].class;
 	else
-		parent = instances[instanceId].parent;
+		parent = instances[instance].parent;
 	while (parent != 0 && parent != ancestor)
 		parent = classes[parent].parent;
 
@@ -846,7 +845,7 @@ Bool isA(int instanceId, int ancestor)
 
 /*======================================================================*/
 /* Look in a container to see if the instance is in it. */
-Bool in(int theInstance, int container, Bool directly)
+Bool in(int instance, int container, Bool directly)
 {
 	int loc;
 
@@ -854,9 +853,9 @@ Bool in(int theInstance, int container, Bool directly)
 		syserr("IN in a non-container.");
 
 	if (directly)
-		return admin[theInstance].location == container;
+		return admin[instance].location == container;
 	else {
-		loc = admin[theInstance].location;
+		loc = admin[instance].location;
 		while (loc != 0)
 			if (loc == container)
 				return TRUE;
@@ -870,23 +869,23 @@ Bool in(int theInstance, int container, Bool directly)
 
 /*======================================================================*/
 /* Look see if an instance is AT another. */
-Bool at(int theInstance, int other, Bool directly)
+Bool at(int instance, int other, Bool directly)
 {
-	if (theInstance == 0 || other == 0) return FALSE;
+	if (instance == 0 || other == 0) return FALSE;
 
 	if (directly) {
 		if (isLocation(other))
-			return admin[theInstance].location == other;
+			return admin[instance].location == other;
 		else
-			return admin[theInstance].location == admin[other].location;
+			return admin[instance].location == admin[other].location;
 	} else {
 		if (!isLocation(other))
 			/* If the other is not a location, compare their locations */
-			return locationOf(theInstance) == locationOf(other);
-		else if (locationOf(theInstance) == other)
+			return locationOf(instance) == locationOf(other);
+		else if (locationOf(instance) == other)
 			return TRUE;
 		else if (locationOf(other) != 0)
-			return at(theInstance, locationOf(other), FALSE);
+			return at(instance, locationOf(other), FALSE);
 		else
 			return FALSE;
 	}
@@ -894,43 +893,43 @@ Bool at(int theInstance, int other, Bool directly)
 
 
 /*----------------------------------------------------------------------*/
-static Bool executeInheritedMentioned(int theClass) {
-	if (theClass == 0) return FALSE;
+static Bool executeInheritedMentioned(int class) {
+	if (class == 0) return FALSE;
 
-	if (classes[theClass].mentioned) {
-		interpret(classes[theClass].mentioned);
+	if (classes[class].mentioned) {
+		interpret(classes[class].mentioned);
 		return TRUE;
 	} else
-		return executeInheritedMentioned(classes[theClass].parent);
+		return executeInheritedMentioned(classes[class].parent);
 }
 
 
 /*----------------------------------------------------------------------*/
-static Bool mention(int id) {
-	if (instances[id].mentioned) {
-		interpret(instances[id].mentioned);
+static Bool mention(int instance) {
+	if (instances[instance].mentioned) {
+		interpret(instances[instance].mentioned);
 		return TRUE;
 	} else
-		return executeInheritedMentioned(instances[id].parent);
+		return executeInheritedMentioned(instances[instance].parent);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void sayLiteral(int lit)
+static void sayLiteral(int literal)
 {
 	char *str;
 
-	if (isNumeric(lit))
-		sayInteger(literals[lit-header->instanceMax].value);
+	if (isNumeric(literal))
+		sayInteger(literals[literal-header->instanceMax].value);
 	else {
-		str = (char *)strdup((char *)literals[lit-header->instanceMax].value);
+		str = (char *)strdup((char *)literals[literal-header->instanceMax].value);
 		sayString(str);
 	}
 }
 
 
 /*======================================================================*/
-void sayInstance(int id)
+void sayInstance(int instance)
 {
 #ifdef SAY_INSTANCE_WITH_PLAYER_WORDS_IF_PARAMETER
 	int p, i;
@@ -938,7 +937,7 @@ void sayInstance(int id)
 	/* Find the id in the parameters... */
 	if (params != NULL)
 		for (p = 0; params[p].code != EOF; p++)
-			if (params[p].code == id) {
+			if (params[p].code == instance) {
 				/* Found it so.. */
 				if (params[p].firstWord == EOF) /* Any words he used? */
 					break;		/* No... */
@@ -959,29 +958,29 @@ void sayInstance(int id)
 				return;
 			}
 #endif
-	if (!mention(id))
-		interpret(instances[id].name);
+	if (!mention(instance))
+		interpret(instances[instance].name);
 }
 
 
 /*======================================================================*/
-void sayInteger(int val)
+void sayInteger(int value)
 {
 	char buf[25];
 
 	if (isHere(HERO, FALSE)) {
-		sprintf(buf, "%d", val);
+		sprintf(buf, "%d", value);
 		output(buf);
 	}
 }
 
 
 /*======================================================================*/
-void sayString(char *str)
+void sayString(char *string)
 {
 	if (isHere(HERO, FALSE))
-		output(str);
-	free(str);
+		output(string);
+	free(string);
 }
 
 
@@ -1069,36 +1068,36 @@ static Bool sayInheritedNegativeForm(int class) {
 
 
 /*----------------------------------------------------------------------*/
-static void sayNegative(int id) {
-	if (instances[id].negative.address) {
-		interpret(instances[id].negative.address);
-		if (!instances[id].negative.isForm)
-			sayInstance(id);
+static void sayNegative(int instance) {
+	if (instances[instance].negative.address) {
+		interpret(instances[instance].negative.address);
+		if (!instances[instance].negative.isForm)
+			sayInstance(instance);
 	} else
-		if (!sayInheritedNegativeForm(instances[id].parent))
-			sayInstance(id);
+		if (!sayInheritedNegativeForm(instances[instance].parent))
+			sayInstance(instance);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void sayInheritedPronoun(int id) {
-	if (id == 0)
+static void sayInheritedPronoun(int instance) {
+	if (instance == 0)
 		syserr("No default pronoun");
 	else {
-		if (classes[id].pronoun != 0)
-			output(wordWithCode(PRONOUN_BIT, classes[id].pronoun));
+		if (classes[instance].pronoun != 0)
+			output(wordWithCode(PRONOUN_BIT, classes[instance].pronoun));
 		else
-			sayInheritedPronoun(classes[id].parent);
+			sayInheritedPronoun(classes[instance].parent);
 	}
 }
 
 
 /*----------------------------------------------------------------------*/
-static void sayPronoun(Aint id) {
-	if (instances[id].pronoun != 0)
-		output(wordWithCode(PRONOUN_BIT, instances[id].pronoun));
+static void sayPronoun(int instance) {
+	if (instances[instance].pronoun != 0)
+		output(wordWithCode(PRONOUN_BIT, instances[instance].pronoun));
 	else
-		sayInheritedPronoun(instances[id].parent);
+		sayInheritedPronoun(instances[instance].parent);
 }
 
 
@@ -1140,7 +1139,7 @@ void say(int id)
 		if (isLiteral(id))
 			sayLiteral(id);
 		else {
-			verifyId(id, "SAY");
+			verifyInstance(id, "SAY");
 			sayInstance(id);
 		}
 	}
@@ -1337,7 +1336,7 @@ void describe(int id)
 	int previousInstance = current.instance;
 
 	current.instance = id;
-	verifyId(id, "DESCRIBE");
+	verifyInstance(id, "DESCRIBE");
 	if (descriptionCheck(id)) {
 		descriptionOk = TRUE;
 		if (isObject(id)) {

@@ -24,7 +24,7 @@
 #include "event.h"
 #include "msg.h"
 // TODO Remove dependency on exe.h, where()
-#include "exe.h"
+//#include "exe.h"
 
 #ifndef HAVE_GLK
 static char saveFileName[256];
