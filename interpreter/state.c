@@ -14,7 +14,7 @@
 #include "word.h"
 #include "StateStack.h"
 #include "instance.h"
-#include "AttributeEntry.h"
+#include "attribute.h"
 #include "memory.h"
 #include "score.h"
 #include "event.h"

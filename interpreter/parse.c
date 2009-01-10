@@ -595,7 +595,7 @@ static Bool reachable(int instance) {
 
 /*----------------------------------------------------------------------*/
 static void resolve(Parameter matchedParameters[]) {
-	// TODO Similarity to disambiguate*()???
+	// TODO Similar to disambiguate*() but this does error()
 	/* In case the syntax did not indicate omnipotent powers (allowed
 	 access to remote object), we need to remove non-present
 	 parameters */
@@ -607,13 +607,6 @@ static void resolve(Parameter matchedParameters[]) {
 
 	/* Resolve ambiguities by presence */
 	for (i = 0; !isEndOfList(&matchedParameters[i]); i++) {
-		if (isLiteral(matchedParameters[i].instance)) /* Literals are always 'here' */
-			continue;
-		if (instances[matchedParameters[i].instance].parent == ENTITY)
-			// TODO This should really traverse the inheritance to ensure
-			// Location and Object is not in it.
-			/* Pure entities are also here */
-			continue;
 		if (!reachable(matchedParameters[i].instance)) {
 			errorNoSuch(matchedParameters[i]);
 		}
@@ -661,14 +654,13 @@ static void transformPronounIntoSingleParameter(Parameter parsedParameters[]) {
 
 /*----------------------------------------------------------------------*/
 static Bool anotherAdjective(int wordIndex) {
-	// TODO !endOfWords(wordIndex)
 	return !endOfWords(wordIndex) && isAdjectiveWord(wordIndex);
 }
 
 
 /*----------------------------------------------------------------------*/
 static Bool lastPossibleNoun(int wordIndex) {
-	return isNounWord(wordIndex) && (isEndOfList(&playerWords[wordIndex+1]) || !isNounWord(wordIndex+1));
+	return isNounWord(wordIndex) && (endOfWords(wordIndex+1) || !isNounWord(wordIndex+1));
 }
 
 
@@ -843,8 +835,7 @@ static void simple(Parameter olst[]) {
 			}
 		}
 		mergeLists(tlst, olst);
-		// TODO Can we use isEndOfList() for playerWords also?
-		if (playerWords[wordIndex].code != EOF
+		if (!endOfWords(wordIndex)
 				&& (isConjunctionWord(wordIndex) && (isAdjectiveWord(wordIndex+1)
 						|| isNounWord(wordIndex+1)))) {
 			/* More parameters in a conjunction separated list ? */
@@ -866,7 +857,7 @@ static void complex(Parameter parsedParameters[]) {
 	if (allList == NULL)
 		allList = (Parameter *) allocate((MAXENTITY+1) * sizeof(Parameter));
 
-	if (isAll(playerWords[wordIndex].code)) {
+	if (isAllWord(wordIndex)) {
 		plural = TRUE;
 		buildAll(allList); /* Build list of all objects */
 		wordIndex++;

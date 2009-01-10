@@ -779,6 +779,9 @@ static void moveActor(int theActor)
   current.instance = previousInstance;
 }
 
+#define RESTARTED (setjmp(restartLabel) != NO_JUMP_RETURN)
+#define ERROR_RETURNED (setjmp(returnLabel) != NO_JUMP_RETURN)
+
 /*======================================================================*/
 void run(void)
 {
@@ -789,8 +792,7 @@ void run(void)
 	openFiles();
 	load();			/* Load program */
 
-	if (setjmp(restartLabel) != NO_JUMP_RETURN) {	/* Return here if he wanted to restart */
-		/* So, a RESTART! */
+	if (RESTARTED) {
 		deleteStack(theStack);
 	}
 
@@ -799,8 +801,8 @@ void run(void)
 
 	initStateStack();
 
-	if (setjmp(returnLabel) == NO_JUMP_RETURN)
-		init();			/* Initialise and start the adventure */
+	if (!ERROR_RETURNED)   /* Can happen in start section to... */
+		init();			   /* Initialise and start the adventure */
 
 	while (TRUE) {
 		if (debugOption)
@@ -853,4 +855,7 @@ void run(void)
 				rules();
 			}
 	}
+#ifdef SMARTALLOC
+	sm_dump(0);
+#endif
 }

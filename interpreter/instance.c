@@ -6,7 +6,7 @@
 #include "exe.h"
 #include "instance.h"
 #include "syserr.h"
-#include "AttributeEntry.h"
+#include "attribute.h"
 
 
 /* PUBLIC DATA */

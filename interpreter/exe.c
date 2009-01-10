@@ -363,7 +363,7 @@ void schedule(Aword event, Aword where, Aword after)
 }
 
 
-// TODO Move to string.c
+// TODO Move to string.c?
 /*======================================================================*/
 Aword concat(Aword s1, Aword s2)
 {

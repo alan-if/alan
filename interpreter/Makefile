@@ -16,7 +16,7 @@ LDFLAGS = $(CYGWIN)
 
 
 #Settings for memory debugging
-SMARTALLOC = #-DSMARTALLOC
+SMARTALLOC = -DSMARTALLOC
 
 
 # Define this to make interpreter log each crc calculation step
