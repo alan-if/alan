@@ -70,7 +70,7 @@ int main(
 
   if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
     printf("You should supply a game file to play.\n");
-    usage();
+    usage(PROGNAME);
     terminate(0);
   }
 #endif

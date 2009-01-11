@@ -13,6 +13,7 @@
 #include "args.h"
 
 #include "options.h"
+#include "memory.h"
 #include "utils.h"
 
 #ifdef HAVE_GLK

@@ -9,6 +9,7 @@
 
 #include "types.h"
 #include "acode.h"
+#include "checkentry.h"
 
 #include "reverse.h"
 
