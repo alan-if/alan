@@ -19,7 +19,6 @@
 #include "score.h"
 #include "event.h"
 #include "set.h"
-#include "exe.h"
 
 
 /* PUBLIC DATA */

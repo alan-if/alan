@@ -18,7 +18,10 @@
 
 extern Bool stopAtNextLine;
 extern int currentLine;
-extern int depth;
+extern int recursionDepth;
+
+/* Global failure flag */
+extern Bool fail;
 
 
 /* FUNCTIONS: */

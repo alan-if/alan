@@ -67,18 +67,4 @@ typedef struct LimEntry {	/* LIMIT Type */
   Aaddr stms;			/* Statements if fail */
 } LimEntry;
 
-typedef struct MessageEntry {	/* MESSAGE TABLE */
-  Aaddr stms;			/* Address to statements*/
-} MessageEntry;
-
-typedef enum LiteralType {
-  NO_LITERAL, NUMERIC_LITERAL, STRING_LITERAL
-} LiteralType;
-
-typedef struct LiteralEntry {	/* LITERAL */
-  Aint class;			/* Class id of the literal type */
-  LiteralType type;
-  Aword value;
-} LiteralEntry;
-
 #endif

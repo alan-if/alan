@@ -21,10 +21,8 @@
 #include "readline.h"
 #endif
 
-#include "types.h"
 #include "lists.h"
 #include "inter.h"
-#include "stack.h"
 #include "current.h"
 #include "options.h"
 #include "utils.h"

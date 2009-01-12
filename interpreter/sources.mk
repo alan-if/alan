@@ -1,7 +1,7 @@
 # Declaration of sources required for various types of builds
 #
 # UNIT2 is the excellent CGreen unit test, stub and mocking framework by
-# Marcus Baker (http://sourceforge.net/projects/cgreen)
+# Marcus Baker et al. (http://sourceforge.net/projects/cgreen)
 
 UNIT2SRC = \
 	unit2.c \
@@ -23,6 +23,7 @@ UNIT2SRC = \
 	smartall.c
 
 UNIT2REQUIREDSRCS = \
+	actor.c \
 	attribute.c \
 	checkentry.c \
 	Container.c \
@@ -36,6 +37,7 @@ UNIT2REQUIREDSRCS = \
 	event.c \
 	instance.c \
 	lists.c \
+	literal.c \
 	memory.c \
 	msg.c \
 	options.c \
@@ -50,6 +52,7 @@ UNIT2REQUIREDSRCS = \
 
 # All sources for the main build
 MAINSRCS = \
+	actor.c \
 	AltInfo.c \
 	attribute.c \
 	checkentry.c \
@@ -68,6 +71,7 @@ MAINSRCS = \
 	instance.c \
 	inter.c \
 	lists.c \
+	literal.c \
 	main.c \
 	memory.c \
 	msg.c \

@@ -16,8 +16,7 @@
 #include "dictionary.h"
 #include "output.h"
 #include "msg.h"
-// TODO Remove dependency on exe.h, where() & locate()
-#include "exe.h"
+#include "current.h"
 
 
 /*======================================================================*/
@@ -84,6 +83,34 @@ Bool exitto(int to, int from)
       return TRUE;
 
   return FALSE;
+}
+
+/*======================================================================*/
+void look(void)
+{
+    int i;
+
+    /* Set describe flag for all objects and actors */
+    for (i = 1; i <= header->instanceMax; i++)
+        admin[i].alreadyDescribed = FALSE;
+
+    if (anyOutput)
+        para();
+
+#ifdef HAVE_GLK
+    glk_set_style(style_Subheader);
+#endif
+
+    sayInstance(current.location);
+
+#ifdef HAVE_GLK
+    glk_set_style(style_Normal);
+#endif
+
+    newline();
+    capitalize = TRUE;
+    if (describe(current.location))
+        describeInstances();
 }
 
 

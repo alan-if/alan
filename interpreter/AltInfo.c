@@ -18,8 +18,7 @@
 #include "current.h"
 #include "class.h"
 #include "params.h"
-// TODO Remove depedency on exe.h, move fail to current.c ?
-#include "exe.h"
+#include "literal.h"
 
 
 /*======================================================================*/

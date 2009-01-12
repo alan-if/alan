@@ -15,7 +15,6 @@
 
 #include "sysdep.h"
 #include "args.h"
-#include "main.h"
 
 #include <libraries/dosextens.h>
 
@@ -74,7 +73,7 @@ wb_parse(void)
     dop = GetDiskObject((UBYTE *)_WBenchMsg->sm_ArgList[1].wa_Name);
     CurrentDir(olddir);
   }
-  if (dop != 0 && (cp = (char *)FindToolType((UBYTE **)dop->do_ToolTypes, 
+  if (dop != 0 && (cp = (char *)FindToolType((UBYTE **)dop->do_ToolTypes,
 					     (UBYTE *)"WINDOW")) != NULL)
     ;
   else /* Could not find a WINDOW tool type */

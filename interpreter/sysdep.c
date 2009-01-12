@@ -66,12 +66,12 @@ size_t strftime (
 
 /* Note to Glk maintainers: 'native' characters are used for output, in this
    case, Glk's Latin-1.  ISO characters are Alan's internal representation,
-   stored in the .DAT file, and must be converted to native before printing.  
-   Glk could just use the ISO routines directly, but its safer to maintain 
+   stored in the .DAT file, and must be converted to native before printing.
+   Glk could just use the ISO routines directly, but its safer to maintain
    its own tables to guard against future changes in either Alan or Glk (ie. a
    move to Unicode).
  */
- 
+
 static char spcChrs[] =
 {
   0x0A, /* linefeed */
@@ -108,7 +108,7 @@ static char lowChrs[] =
 };
 
 /* FIXME: ss <small sharp s> and y diaeresis have no UC analogues
-   Are they really considered LC? 
+   Are they really considered LC?
  */
 
 static char uppChrs[] =

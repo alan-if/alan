@@ -9,12 +9,9 @@
 #include "syserr.h"
 #include "dictionary.h"
 #include "current.h"
-#include "inter.h"
-#include "params.h"
 #include "msg.h"
 #include "readline.h"
-// TODO Remove dependency on exe.h, returnLable
-#include "exe.h"
+#include "instance.h"
 
 
 /* PUBLIC DATA */

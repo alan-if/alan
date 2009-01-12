@@ -2,6 +2,8 @@
 
 #include "parse.c"
 
+#include "literal.h"
+
 /*----------------------------------------------------------------------*/
 static void makeEOS(ElementEntry *element) {
   element->code = EOS;

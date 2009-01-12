@@ -1,8 +1,6 @@
 #include "syserr.h"
 
-#include "inter.h"
 #include "debug.h"
-#include "options.h"
 #include "utils.h"
 #include "current.h"
 #include "output.h"

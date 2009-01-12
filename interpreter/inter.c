@@ -10,15 +10,10 @@
 
 #include <stdio.h>
 
-#include "types.h"
-#include "parse.h"
 #include "current.h"
 #include "exe.h"
-#include "stack.h"
 #include "syserr.h"
-#include "sysdep.h"
 #include "debug.h"
-#include "set.h"
 #include "options.h"
 #include "save.h"
 #include "memory.h"
@@ -26,6 +21,7 @@
 #include "score.h"
 #include "params.h"
 #include "instance.h"
+#include "Container.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK
@@ -34,6 +30,7 @@
 
 
 Bool stopAtNextLine = FALSE;
+Bool fail = FALSE;
 
 
 /* PRIVATE DATA */
@@ -348,17 +345,17 @@ static char *printForm(SayForm form) {
 
 
 static Aaddr invocation[1000];
-int depth = 0;
+int recursionDepth = 0;
 
 /*----------------------------------------------------------------------*/
 static void checkForRecursion(Aaddr adr) {
 	int i;
 
-	for (i = 0; i < depth; i++)
+	for (i = 0; i < recursionDepth; i++)
 		if (invocation[i] == adr)
 			syserr("Interpreter recursion.");
-	invocation[depth++] = adr;
-	if (depth > 1000)
+	invocation[recursionDepth++] = adr;
+	if (recursionDepth > 1000)
 		syserr("Interpreter call stack too deep.");
 }
 
@@ -1316,7 +1313,7 @@ void interpret(Aaddr adr)
 		}
 	}
 	exitInterpreter:
-	depth--;
+	recursionDepth--;
 }
 
 /*======================================================================*/

@@ -13,6 +13,7 @@
 #include "lists.h"
 #include "checkentry.h"
 #include "rules.h"
+#include "msg.h"
 
 extern Aword *memory;
 

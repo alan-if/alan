@@ -9,7 +9,7 @@ SYSTEM = `uname -s | sed 's/_.*$$//'`
 
 CYGWIN	= -mno-cygwin
 OPTIMIZE = -ggdb
-COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall -funsigned-char $(CRCLOG) $(SMARTALLOC)
+COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall $(CRCLOG) $(SMARTALLOC) -MMD
 CFLAGS	= $(COMPILEFLAGS) 
 CC = gcc
 LDFLAGS = $(CYGWIN)
@@ -57,7 +57,7 @@ release:
 arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	-@if ! test -d ../bin; then mkdir ../bin ; fi
-	-@cp $@ ../bin
+	cp $@ ../bin
 
 
 GLKSRCS = glkstart.c glkio.c

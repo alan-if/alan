@@ -8,16 +8,9 @@
 #include "main.h"
 
 /* Imports: */
-#include "sysdep.h"
-#include "acode.h"
-#include "types.h"
-
-#include "set.h"
 #include "state.h"
 #include "lists.h"
 #include "syserr.h"
-#include "parse.h"
-#include "params.h"
 #include "options.h"
 #include "utils.h"
 #include "args.h"
@@ -26,10 +19,8 @@
 #include "rules.h"
 #include "reverse.h"
 #include "debug.h"
-#include "stack.h"
 #include "exe.h"
 #include "term.h"
-#include "set.h"
 #include "instance.h"
 #include "memory.h"
 #include "output.h"
@@ -42,6 +33,8 @@
 #include "event.h"
 #include "syntax.h"
 #include "current.h"
+#include "literal.h"
+
 
 #include <time.h>
 #ifdef USE_READLINE
@@ -829,7 +822,7 @@ void run(void)
 #ifdef DMALLOC
 		dmalloc_verify(0);
 #endif
-		depth = 0;
+		recursionDepth = 0;
 
 		/* Move all characters, hero first */
 		rememberGameState();

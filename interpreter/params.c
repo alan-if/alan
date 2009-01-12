@@ -8,9 +8,9 @@
 #include "params.h"
 
 /* IMPORTS */
-#include "types.h"
 #include "lists.h"
 #include "memory.h"
+#include "literal.h"
 
 
 /* PUBLIC DATA */
@@ -142,4 +142,27 @@ void copyReferences(Parameter parameterList[], Aword references[])
     parameterList[i].firstWord = EOF;
   }
   setEndOfList(&parameterList[i]);
+}
+
+
+/*======================================================================*/
+void addParameterForInteger(Parameter *parameters, int value) {
+    Parameter *parameter = findEndOfList(parameters);
+
+    createIntegerLiteral(value);
+    parameter->instance = instanceFromLiteral(litCount);
+    parameter->useWords = FALSE;
+
+    setEndOfList(parameter+1);
+}
+
+/*======================================================================*/
+void addParameterForString(Parameter *parameters, char *value) {
+    Parameter *parameter = findEndOfList(parameters);
+
+    createStringLiteral(value);
+    parameter->instance = instanceFromLiteral(litCount);
+    parameter->useWords = FALSE;
+
+    setEndOfList(parameter+1);
 }

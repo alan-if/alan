@@ -33,7 +33,8 @@
 #include "syntax.h"
 #include "word.h"
 #include "msg.h"
-// TODO Remove dependency on exe.h
+#include "literal.h"
+// TODO Remove dependency on exe.h (quitGame(), undo() and longjump)
 #include "exe.h"
 
 
@@ -54,8 +55,6 @@ static Bool plural = FALSE;
 /* Syntax Parameters */
 static int paramidx;
 static Parameter *previousMultipleMatches; /* Previous multiple list */
-
-static int litCount;
 
 
 /*======================================================================*/
@@ -214,45 +213,6 @@ static void getLine(void) {
 	eol = FALSE;
 }
 
-/*======================================================================*/
-int literalFromInstance(int instance) {
-	return instance - header->instanceMax;
-}
-
-/*======================================================================*/
-int instanceFromLiteral(int literalIndex) {
-	return literalIndex + header->instanceMax;
-}
-
-/*----------------------------------------------------------------------*/
-static void createIntegerLiteral(int integerValue) {
-	litCount++;
-	if (litCount > MAXPARAMS)
-		syserr("Too many player command parameters.");
-
-	literals[litCount].class = header->integerClassId;
-	literals[litCount].type = NUMERIC_LITERAL;
-	literals[litCount].value = integerValue;
-}
-
-/*----------------------------------------------------------------------*/
-static void createStringLiteral(char *unquotedString) {
-	litCount++;
-	if (litCount > MAXPARAMS)
-		syserr("Too many player command parameters.");
-	literals[litCount].class = header->stringClassId;
-	literals[litCount].type = STRING_LITERAL;
-	literals[litCount].value = (Aword) strdup(unquotedString);
-}
-
-/*----------------------------------------------------------------------*/
-static void freeLiterals() {
-	int i;
-
-	for (i = 0; i < litCount; i++)
-		if (literals[i].type == STRING_LITERAL && literals[i].value != 0)
-			free((char*) literals[i].value);
-}
 
 static Bool continued = FALSE;
 /*----------------------------------------------------------------------*/
@@ -271,7 +231,6 @@ static void scan(void) {
 		getLine();
 
 	freeLiterals();
-	litCount = 0;
 	playerWords[0].code = 0; // TODO This means what?
 	i = 0;
 	do {
@@ -340,39 +299,6 @@ static void addParameterForWords(Parameter *parameters, int firstWordIndex, int 
 	setEndOfList(parameter+1);
 }
 #endif
-
-
-/*======================================================================*/
-void addParameterForInteger(Parameter *parameters, int value) {
-	Parameter *parameter = findEndOfList(parameters);
-
-	createIntegerLiteral(value);
-	parameter->instance = instanceFromLiteral(litCount);
-	parameter->useWords = FALSE;
-
-	setEndOfList(parameter+1);
-}
-
-/*======================================================================*/
-void addParameterForString(Parameter *parameters, char *value) {
-	Parameter *parameter = findEndOfList(parameters);
-
-	createStringLiteral(value);
-	parameter->instance = instanceFromLiteral(litCount);
-	parameter->useWords = FALSE;
-
-	setEndOfList(parameter+1);
-}
-
-/*======================================================================*/
-void addParameterForInstance(Parameter *parameters, int instance) {
-	Parameter *parameter = findEndOfList(parameters);
-
-	parameter->instance = instance;
-	parameter->useWords = FALSE;
-
-	setEndOfList(parameter+1);
-}
 
 
 /*----------------------------------------------------------------------*

@@ -1,11 +1,13 @@
 #include "Container.h"
 
 #include "instance.h"
-#include "exe.h"
 #include "syserr.h"
 #include "inter.h"
 #include "lists.h"
 #include "memory.h"
+#include "current.h"
+#include "msg.h"
+#include "output.h"
 
 
 /* PUBLIC DATA */
@@ -25,7 +27,6 @@ static int countInContainer(int containerIndex)	/* IN - the container to count i
 }
 
 
-
 /*----------------------------------------------------------------------*/
 static int sumAttributeInContainer(
     Aint containerIndex,			/* IN - the container to sum */
@@ -41,6 +42,26 @@ static int sumAttributeInContainer(
       sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
     }
   return(sum);
+}
+
+
+/*----------------------------------------------------------------------*/
+static Bool containerIsEmpty(int container)
+{
+    int i;
+
+    for (i = 1; i <= header->instanceMax; i++)
+        if (describeable(i) && in(i, container, FALSE))
+            return FALSE;
+    return TRUE;
+}
+
+
+/*======================================================================*/
+void describeContainer(int container)
+{
+    if (!containerIsEmpty(container) && !getInstanceAttribute(container, OPAQUEATTRIBUTE))
+        list(container);
 }
 
 
@@ -74,3 +95,75 @@ Bool passesContainerLimits(
   }
   return(TRUE);
 }
+
+
+/*======================================================================*/
+int containerSize(int container, Bool directly) {
+    Aint i;
+    Aint count = 0;
+
+    for (i = 1; i <= header->instanceMax; i++) {
+        if (in(i, container, directly))
+            count++;
+    }
+    return(count);
+}
+
+/*======================================================================*/
+void list(int container)
+{
+    int i;
+    Aword props;
+    Aword foundInstance[2] = {0,0};
+    int found = 0;
+    Aint previousThis = current.instance;
+
+    current.instance = container;
+
+    /* Find container table entry */
+    props = instances[container].container;
+    if (props == 0) syserr("Trying to list something not a container.");
+
+    for (i = 1; i <= header->instanceMax; i++) {
+        if (describeable(i)) {
+            /* We can only see objects and actors directly in this container... */
+            if (admin[i].location == container) { /* Yes, it's in this container */
+                if (found == 0) {
+                    if (containers[props].header != 0)
+                        interpret(containers[props].header);
+                    else {
+                        if (isActor(containers[props].owner))
+                            printMessageWithInstanceParameter(M_CARRIES, containers[props].owner);
+                        else
+                            printMessageWithInstanceParameter(M_CONTAINS, containers[props].owner);
+                    }
+                    foundInstance[0] = i;
+                } else if (found == 1)
+                    foundInstance[1] = i;
+                else {
+                    printMessageWithInstanceParameter(M_CONTAINS_COMMA, i);
+                }
+                found++;
+            }
+        }
+    }
+
+    if (found > 0) {
+        if (found > 1)
+            printMessageWithInstanceParameter(M_CONTAINS_AND, foundInstance[1]);
+        printMessageWithInstanceParameter(M_CONTAINS_END, foundInstance[0]);
+    } else {
+        if (containers[props].empty != 0)
+            interpret(containers[props].empty);
+        else {
+            if (isActor(containers[props].owner))
+                printMessageWithInstanceParameter(M_EMPTYHANDED, containers[props].owner);
+            else
+                printMessageWithInstanceParameter(M_EMPTY, containers[props].owner);
+        }
+    }
+    needSpace = TRUE;
+    current.instance = previousThis;
+}
+
+

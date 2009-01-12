@@ -7,5 +7,6 @@
 
 extern Bool exitto(int to, int from);
 extern void go(int location, int dir);
+extern void look(void);
 
 #endif /* LOCATION_H_ */

@@ -8,10 +8,7 @@
 
 #include "save.h"
 
-#include "types.h"
-#include "sysdep.h"
 #include "current.h"
-#include "set.h"
 #include "lists.h"
 #include "readline.h"
 #include "options.h"
@@ -23,8 +20,6 @@
 #include "score.h"
 #include "event.h"
 #include "msg.h"
-// TODO Remove dependency on exe.h, where()
-//#include "exe.h"
 
 #ifndef HAVE_GLK
 static char saveFileName[256];
