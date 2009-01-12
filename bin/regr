@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 #
-# Script for regression testing of Alan and Arun
+# Script for regression testing of Responsives Developer Training Camp
 # Files:
 #   .regr - the command to be run using the case name as the single arg
 #           also indicates that this directory should be recursed into
 #   .case - the extension (including period) to be considered test cases
 #           if available indicates that there are cases in this directory
 #
+/bin/echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" > TEST-regr.xml
+/bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
+dir=`basename "$PWD"`
 
 run ()
 {
@@ -21,6 +24,7 @@ run ()
 
 verify()
 {
+    /bin/echo "<testcase name=\"$theCase\" classname=\"$dir\">" >> TEST-regr.xml
     if [ -f $theCase.suspended ]
     then
 	suspended=`expr $suspended + 1`
@@ -30,18 +34,25 @@ verify()
 	if diff -q -b $theCase.output $theCase.expected 1> /dev/null
 	then
 	    ok=`expr $ok + 1`
-	    echo -n "
-[K"
+	    tput cr
+	    tput ce
 	    rm $theCase.output
 	else
 	    failed=`expr $failed + 1`
-	    echo "*** FAILED!!! ***"
+	    /bin/echo "*** FAILED!!! ***"
+	    /bin/echo -n  "<failure message=\"Output does not match expected\">" >> TEST-regr.xml
+	    diff -c -b $theCase.output $theCase.expected 1>> TEST-regr.xml
+	     /bin/echo -n "</failure>" >> TEST-regr.xml
 	fi
     else
 	new=`expr $new + 1`
-	echo "NEW!"
+	/bin/echo -n  "<error type=\"New\" message=\"No expected output defined for case '$theCase'\">" >> TEST-regr.xml
+	/bin/echo "The file '$theCase.output' does not exist" >> TEST-regr.xml
+	/bin/echo -n "</error>" >> TEST-regr.xml
+	/bin/echo "NEW!"
     fi
     fi
+    /bin/echo "</testcase>" >> TEST-regr.xml
 }
 
 recurse()
@@ -122,3 +133,4 @@ else
   echo No cases to run in `pwd`
 fi
 
+/bin/echo "</testsuite>" >> TEST-regr.xml
