@@ -73,6 +73,7 @@ Syntax 'restore' = 'restore'.
 Verb 'restore'
     Does
       Restore.
+      "Restored."
       Look.
 End Verb 'restore'.
 
