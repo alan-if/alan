@@ -11,7 +11,7 @@
 #include "srcp_x.h"
 #include "lmList.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 #include "opt.h"		/* OPTIONS */
 #include "emit.h"

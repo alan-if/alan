@@ -47,3 +47,7 @@ alan.pmi
 alan.smt2
 alan.pmt2
 wintest.c
+*.blc
+unittest.jpg
+unittest
+unit

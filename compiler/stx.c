@@ -25,7 +25,7 @@
 
 #include "lmList.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "emit.h"
 
 
@@ -343,7 +343,7 @@ static void generateParseTree(Syntax *stx)
 
 
   progressCounter();
-  
+
   if (!stx->generated) {
     /* First word is a verb which points to all stxs starting with that word */
     wrd = findWord(stx->elements->element.elm->id->string);
@@ -465,7 +465,7 @@ Aaddr generateParameterMappingTable(void)
   return parameterMappingTableAddress;
 }
 
-  
+
 /*======================================================================*/
 void dumpSyntax(Syntax *stx)
 {

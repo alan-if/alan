@@ -10,7 +10,7 @@
 
 
 #include "util.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 #include "types.h"
 #include "smScan.h"
@@ -712,7 +712,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].nams = concat(pmSeSt[pmStkP+1].nams, pmSeSt[pmStkP+2].nam, NAME_LIST);
 
         if (pmSeSt[pmStkP+2].pronouns != NULL) {
-            if (pmSeSt[pmStkP+1].pronouns != NULL) 
+            if (pmSeSt[pmStkP+1].pronouns != NULL)
                 /* WHERE clause already declared */
 	        lmLogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "PRONOUN", "class/instance", NULL);
 	    else {
@@ -722,7 +722,7 @@ int rule			/* IN production number */
         }
 
         if (pmSeSt[pmStkP+2].whr != NULL) {
-            if (pmSeSt[pmStkP+1].whr != NULL) 
+            if (pmSeSt[pmStkP+1].whr != NULL)
                 /* WHERE clause already declared */
 	        lmLogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "WHERE", "class/instance", NULL);
 	    else
@@ -735,7 +735,7 @@ int rule			/* IN production number */
             if (pmSeSt[pmStkP+1].initialize != NULL)
                 /* INITIALIZE properties already declared */
 	        lmLogv(&pmSeSt[pmStkP+2].initialize->srcp, 204, sevERR, "INITIALIZE property", "class/instance", NULL);
-	    else 
+	    else
 	        pmSeSt[pmStkP+1].initialize = pmSeSt[pmStkP+2].initialize;
         }
 
@@ -743,7 +743,7 @@ int rule			/* IN production number */
             if (pmSeSt[pmStkP+1].cnt != NULL)
                 /* CONTAINER properties already declared */
 	        lmLogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
-	    else 
+	    else
 	        pmSeSt[pmStkP+1].cnt = pmSeSt[pmStkP+2].cnt;
         }
 
@@ -762,7 +762,7 @@ int rule			/* IN production number */
             if (pmSeSt[pmStkP+1].description != NULL && pmSeSt[pmStkP+1].description->does != NULL)
 	        /* DESCRIPTION DOES already declared */
 	        lmLogv(&pmSeSt[pmStkP+2].description->doesSrcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
-	    else 
+	    else
 		if (pmSeSt[pmStkP+1].description != NULL)
 		  pmSeSt[pmStkP+1].description->does = pmSeSt[pmStkP+2].description->does;
           }

@@ -9,7 +9,7 @@
 
 /* USE: */
 #include "types.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* Types: */

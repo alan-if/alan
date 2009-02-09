@@ -16,7 +16,7 @@
 #include "exp.h"
 #include "lst.h"
 #include "resource.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* Types: */
@@ -56,7 +56,7 @@ typedef enum StmKind {		/* STATEMENT kinds */
   EACH_STATEMENT,
   STRIP_STATEMENT
 } StmKind;
-    
+
 
 typedef struct Statement {	/* STATEMENT */
   Srcp srcp;			/* Source position */

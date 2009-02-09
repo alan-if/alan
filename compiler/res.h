@@ -4,7 +4,7 @@
 
 				RES.H
 		Syntax Element Class Restriction Nodes
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 
@@ -14,7 +14,7 @@
 #include "id.h"
 #include "types.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* Types: */

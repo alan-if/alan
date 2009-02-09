@@ -4,13 +4,13 @@
 
 				CHK.H
 			     Check Nodes
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 /* USE: */
 #include "exp.h"
 #include "lst.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* TYPES: */

@@ -19,7 +19,7 @@
 #include "dump_x.h"
 
 #include "lmList.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "emit.h"
 
 
@@ -105,9 +105,9 @@ void analyzeWhere(Where *whr, Context *context) {
     analyzeExpression(whr->what, context);
     if (whr->what->type != ERROR_TYPE) {
       if (whr->what->type == SET_TYPE)
-	whr->kind = WHERE_INSET;
+          whr->kind = WHERE_INSET;
       else
-	verifyContainerExpression(whr->what, context, "Expression after IN");
+          verifyContainerExpression(whr->what, context, "Expression after IN");
     }
     break;
   case WHERE_INSET:

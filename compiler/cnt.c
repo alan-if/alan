@@ -26,7 +26,7 @@
 #include "lim.h"
 
 #include "lmList.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "emit.h"
 
 
@@ -259,7 +259,7 @@ Aaddr generateContainers(ACodeHeader *header)
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
       if (lst->element.cnt->ownerProperties != NULL)
 	generateContainerBody(lst->element.cnt->body);
-  
+
     adr = nextEmitAddress();	/* Save ACODE address to container list */
     /* Container list */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)

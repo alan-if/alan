@@ -27,7 +27,7 @@
 #include "ins.h"
 #include "opt.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 #include "lmList.h"
 #include "encode.h"
@@ -433,7 +433,7 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol)
 	} else
 	  SYSERR("Unimplemented complex attribute type");
       }
-    } else if (thisAttribute->type == SET_TYPE 
+    } else if (thisAttribute->type == SET_TYPE
 	  && thisAttribute->set->fields.set.memberType == UNINITIALIZED_TYPE)
       /* Empty set initializations are not allowed unless inherited */
 	lmLog(&thisAttribute->srcp, 413, sevERR, "");
@@ -529,19 +529,19 @@ static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
     case CLASS_CONTEXT:
       if (thisContext->class == NULL)
 	SYSERR("Context->class == NULL");
-      
+
       atr = findAttribute(thisContext->class->props->attributes, attribute);
       contextFound = TRUE;
       break;
-      
+
     case INSTANCE_CONTEXT:
       if (thisContext->instance == NULL)
 	SYSERR("context->instance == NULL");
-      
+
       atr = findAttribute(thisContext->instance->props->attributes, attribute);
       contextFound = TRUE;
       break;
-      
+
     default:
       thisContext = thisContext->previous;
     }
@@ -639,7 +639,7 @@ Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute
   Aaddr adr;
   List *lst;
 
-  /* First generate the names of the attributes if needed */ 
+  /* First generate the names of the attributes if needed */
   if ((Bool) opts[OPTDEBUG].value) {
     for (lst = atrs; lst != NULL; lst = lst->next) {
       lst->element.atr->stringAddress = nextEmitAddress();

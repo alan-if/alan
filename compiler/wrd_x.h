@@ -11,7 +11,7 @@
 
 
 /* USE: */
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "ins.h"
 #include "stx.h"
 

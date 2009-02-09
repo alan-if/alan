@@ -47,7 +47,7 @@
 
 #include "emit.h"
 #include "encode.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 
@@ -87,7 +87,7 @@ static void analyzeStartAt(void)
   /* START has the same environment as a RULE */
   Context *context = newRuleContext();
 
-  if (adv.whr != NULL) 
+  if (adv.whr != NULL)
     switch (adv.whr->kind) {
     case WHERE_AT: {
       What *what = adv.whr->what->fields.wht.wht;
@@ -376,9 +376,9 @@ void dumpAdventure(enum dmpKd dmp)
 void summary(void)
 {
   char str[80];
-  
+
   lmSkipLines(8);
-  
+
   lmLiPrint("");
   lmLiPrint("        Summary");
   lmLiPrint("        -------");

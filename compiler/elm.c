@@ -21,7 +21,7 @@
 #include "lst.h"		/* LST-nodes */
 
 #include "emit.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* PUBLIC: */
@@ -358,7 +358,7 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
       break;
     }
   }
-  
+
   /* Finally, generate this level */
   elmadr = generateEntries(entries, entry);
 

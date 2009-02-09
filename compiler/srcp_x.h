@@ -8,7 +8,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "srcp.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 /* USE: */
 #include "types.h"

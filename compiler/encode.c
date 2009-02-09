@@ -11,7 +11,7 @@
 #include "util.h"
 #include "sysdep.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "opt.h"		/* Options */
 #include "emit.h"
 
@@ -249,7 +249,7 @@ void encode(long int *fpos,	/* INOUT - The file position */
   gefreq()
 
   Generate the frequency table so that the interpreter can unpack the
-  text again. 
+  text again.
 
   */
 Aaddr gefreq(void)

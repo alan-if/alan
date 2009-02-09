@@ -17,7 +17,7 @@
 #include "util.h"
 #include "options.h"
 #include "emit.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 

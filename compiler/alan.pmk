@@ -13,7 +13,7 @@
 %%IMPORT
 
 #include "util.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 #include "types.h"
 #include "smScan.h"

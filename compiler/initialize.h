@@ -8,7 +8,7 @@
 \*----------------------------------------------------------------------*/
 
 /* USE: */
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "srcp.h"
 #include "lst.h"
 

@@ -4,7 +4,7 @@
 
 				STX.H
 			      Syntax Nodes
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 
@@ -13,7 +13,7 @@
 #include "lst.h"
 #include "id.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* TYPES: */

@@ -7,7 +7,7 @@
 \*======================================================================*/
 
 #include "sysdep.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 typedef struct Case {
@@ -49,7 +49,7 @@ Aword convertFromACD(Aword w)
 
 /* Faking the List system */
 #include "lmList.h"
-/* From unitList.c */  
+/* From unitList.c */
 extern int readEcode();
 extern lmSev readSev();
 

@@ -22,7 +22,7 @@
 #include "opt.h"                /* Options */
 
 #include "emit.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* PUBLIC: */
@@ -43,7 +43,7 @@ Event *newEvent(Srcp *srcp, IdNode *id, List *stms)
   new->srcp = *srcp;
   new->id = id;
   new->stms = stms;
-  
+
   new->id->symbol = newSymbol(id, EVENT_SYMBOL);
 
   return(new);
@@ -90,7 +90,7 @@ Aaddr generateEvents(ACodeHeader *header)
   List *lst;	/* Traversal pointer */
   Aaddr adr;
   EventEntry entry;
-  
+
   /* First all the events */
   for (lst = adv.evts; lst != NULL; lst = lst->next)
     generateEvent(lst->element.evt);

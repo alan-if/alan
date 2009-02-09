@@ -2,7 +2,7 @@
 
   pmErr.c
 
-  Parser error handler 
+  Parser error handler
 
 \*----------------------------------------------------------------------*/
 
@@ -10,7 +10,7 @@
 
 
 #include "util.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 #include "types.h"
 #include "smScan.h"

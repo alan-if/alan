@@ -16,7 +16,7 @@
 #include "id.h"
 #include "type.h"
 #include "lst.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* TYPES: */

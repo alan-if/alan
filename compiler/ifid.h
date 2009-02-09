@@ -9,7 +9,7 @@
 
 /* USE: */
 #include "srcp.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* TYPES: */

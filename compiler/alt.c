@@ -22,7 +22,7 @@
 #include "elm.h"
 
 #include "emit.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* PUBLIC: */
@@ -158,7 +158,7 @@ static void generateAlternative(Alternative *alt)
     generateStatements(alt->stms);
     emit0(I_RETURN);
   }
-  
+
   /* Then possible CHECKs */
   if (alt->chks == NULL)
     alt->chkadr = 0;

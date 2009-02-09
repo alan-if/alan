@@ -2,7 +2,7 @@
 #
 
 # Cygwin or MingW?
-PLATFORM = -mno-cygwin
+#PLATFORM = -mno-cygwin
 #PLATFORM = 
 OPTIMIZE = -ggdb
 
@@ -34,6 +34,11 @@ include sources.mk
 all : alan ../bin/rndalan
 
 alan: checkTarget tm $(MAINOBJECTS) unittests
+	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
+	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+	cp alan.exe ../bin
+
+alanmain: $(MAINOBJECTS)
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
@@ -121,13 +126,13 @@ smScanx.o: smScanx.c
 #
 # Common sysdep
 #
-sysdep.c : ../interpreter/sysdep.c
-	cp -f ../interpreter/sysdep.c .
-	chmod a-w sysdep.c
-
-sysdep.h : ../interpreter/sysdep.h
-	cp -f ../interpreter/sysdep.h .
-	chmod a-w sysdep.h
+#sysdep.c : ../interpreter/sysdep.c
+#	cp -f ../interpreter/sysdep.c .
+#	chmod a-w sysdep.c
+#
+#sysdep.h : ../interpreter/sysdep.h
+#	cp -f ../interpreter/sysdep.h .
+#	chmod a-w sysdep.h
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

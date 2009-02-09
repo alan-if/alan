@@ -4,7 +4,7 @@
 
 			       PROP.H
 			    Property Nodes
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 
@@ -17,7 +17,7 @@
 #include "initialize.h"
 #include "article.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* Currently we handle the following properties:

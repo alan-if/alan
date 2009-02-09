@@ -22,7 +22,7 @@
 #include "alt.h"
 #include "ins.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "emit.h"
 
 
@@ -102,7 +102,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
   }
   stx = syntaxLists->element.stx;	/* Use first syntax */
   theVerb->stx = stx;
-    
+
   /* Check compatible parameter lists for all the verbs? */
   ids = theVerb->ids->next;
   for (lst = syntaxLists->next; lst != NULL; lst = lst->next) {
@@ -220,7 +220,7 @@ Aaddr generateVerbs(List *vrbs)
   /* First generate action procedures for all verbs */
   for (lst = vrbs; lst != NULL; lst = lst->next)
     generateVerb(lst->element.vrb);
-  
+
   /* and then the verb table */
   vrbadr = nextEmitAddress();
   for (lst = vrbs; lst != NULL; lst = lst->next)

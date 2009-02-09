@@ -4,7 +4,7 @@
 
 				STP.H
 			      Step Nodes
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 
@@ -12,7 +12,7 @@
 #include "srcp.h"
 #include "exp.h"
 #include "lst.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* TYPES: */

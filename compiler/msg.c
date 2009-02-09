@@ -22,7 +22,7 @@
 
 #include "emit.h"
 #include "encode.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 
@@ -298,7 +298,7 @@ void prepareMessages(void)
     msg = newMessage(NULL, NULL, stms);
     /* Save the message text */
 #ifdef __mac__
-    { 
+    {
       char buf[256];
 
       toIso(buf, msgp);
@@ -306,7 +306,7 @@ void prepareMessages(void)
     }
 #else
 #ifdef __dos__
-    { 
+    {
       char buf[256];
 
       toIso(buf, msgp);

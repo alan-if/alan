@@ -110,7 +110,7 @@ void analyzeResource(Resource *resource) {
       lmLog(&resource->srcp, 801, sevWAR, "");
   else
     lmLog(&resource->srcp, 801, sevWAR, "");
-  
+
   resourceFile = fopen(resource->fileName->string, READ_MODE);
   if (!resourceFile)
     lmLog(&resource->srcp, 153, sevERR, "");
@@ -146,7 +146,7 @@ static void copyResourceFile(char *prefix, char fileName[], int resourceNumber)
   char resourceFileName[1000];
 
   sprintf(resourceFileName, "%s%d%s", prefix, resourceNumber, extension);
-  
+
   if (!unlink(resourceFileName) && errno != ENOENT && errno != 0) {
     char errorString[1000];
     sprintf(errorString, "Could not remove old resource file for %s (%s)", resourceFileName, strerror(errno));
@@ -260,7 +260,7 @@ void dumpResource(Resource *resource) {
   put("kind: "); put(resourceKindAsString(resource->kind)); nl();
   put("chunk: "); put(chunkTypeAsString(resource->chunk)); nl();
   put("fileName: "); dumpId(resource->fileName);
-  out();  
+  out();
 }
 
 
@@ -336,7 +336,7 @@ static void str_long(char *f, unsigned int v)
     v2=(v>>8)&0xFF,
     v3=(v>>16)&0xFF,
     v4=(v>>24)&0xFF;
-  
+
   f[0]=v4;
   f[1]=v3;
   f[2]=v2;
@@ -351,7 +351,7 @@ static void str_short(char *f, unsigned int v)
 {
   unsigned char v1=v&0xFF,
     v2=(v>>8)&0xFF;
-  
+
   f[0]=v2;
   f[1]=v1;
 }
@@ -364,8 +364,8 @@ static void write_id(FILE *f, unsigned char *s)
 {
   int i;
   unsigned char sp=' ';
-  
-  for (i=0; i<strlen(s); i++)
+
+  for (i=0; i<strlen((char*)s); i++)
     fwrite(&s[i],1,1,f);
   for (;i<4;i++)
     fwrite(&sp, 1,1,f);
@@ -377,8 +377,8 @@ static void str_id(char *f, unsigned char *s)
 {
   int i;
   unsigned char sp=' ';
-  
-  for (i=0; i<strlen(s); i++)
+
+  for (i=0; i<strlen((char*)s); i++)
    f[i]=s[i];
   for (;i<4;i++)
    f[i]=sp;
@@ -450,7 +450,7 @@ static void buildIndex(FILE *f)
   blorb[0]=(struct Chunk *)my_malloc(sizeof(struct Chunk));
   /* Write the chunk type */
   strcpy(blorb[0]->type,"RIdx");
-  strcpy(blorb[0]->use,"0"); 
+  strcpy(blorb[0]->use,"0");
   /* Load all the chunks */
   while(!feof(f)) {
     lineNumber++;
@@ -465,7 +465,7 @@ static void buildIndex(FILE *f)
   /* Write the length of the resource index chunk, and allocate its data space */
   blorb[0]->length=(12*n)+4;
   blorb[0]->data=(char *)my_malloc(blorb[0]->length);
-  blorbIndex=(long *)my_malloc(n*sizeof(unsigned long));
+  blorbIndex=(unsigned long *)my_malloc(n*sizeof(unsigned long));
   /* The first thing in the data chunk is the number of entries */
   str_long(blorb[0]->data,n);
   /* Now, scroll through the chunks, noting each one in the index chunk */

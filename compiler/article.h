@@ -13,7 +13,7 @@
 #include "srcp.h"
 #include "lst.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* Types */

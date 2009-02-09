@@ -4,7 +4,7 @@
 
 				ALT.H
 		       Verb Alternatives Nodes
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 
@@ -15,7 +15,7 @@
 #include "id.h"
 #include "context.h"
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* TYPES: */

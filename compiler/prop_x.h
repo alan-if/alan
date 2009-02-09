@@ -4,13 +4,13 @@
 
 			       PROP_X.H
 			Property Nodes Export
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 #include "prop.h"
 
 /* USE: */
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "ins.h"
 #include "initialize.h"
 #include "description.h"

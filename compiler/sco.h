@@ -4,10 +4,10 @@
 
 				SCO.H
 				Scores
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 /* Types: */
 

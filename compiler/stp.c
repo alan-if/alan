@@ -19,7 +19,7 @@
 
 #include "lmList.h"
 #include "emit.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 
@@ -93,7 +93,7 @@ Aaddr generateSteps(List *stps)
     generateStatements(step->stms);
     emit0(I_RETURN);
   }
-  
+
   /* Now generate a step table */
   adr = nextEmitAddress();
   for (lst = stps; lst != NULL; lst = lst->next) {

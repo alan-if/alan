@@ -4,12 +4,12 @@
 
 				MSG.H
 			       Messages
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 
 /* USE: */
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "id.h"
 
 

@@ -30,7 +30,7 @@
 #include "opt.h"
 
 #include "emit.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "encode.h"
 
 
@@ -534,7 +534,7 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
     if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
       lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
     break;
-            
+
   case LE_OPERATOR:
   case GE_OPERATOR:
   case LT_OPERATOR:
@@ -580,7 +580,7 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
 
   default:
     SYSERR("Unrecognized binary operator");
-    break;    
+    break;
   }
 }
 
@@ -597,7 +597,7 @@ static void analyzeClassingFilter(char *message,
 				  Context *context,
 				  Expression *theFilter)
 {
-  /* Actually, the following expressions, taht can act as filters,
+  /* Actually, the following expressions, that can act as filters,
      restricts the class of the instances we match:
      WHERE/AT - a THING
      WHERE/IN - the class the container takes
@@ -640,12 +640,15 @@ static void analyzeClassingFilter(char *message,
   case WHERE_EXPRESSION:
     analyzeWhereFilter(theFilter, context);
     switch (theFilter->fields.whr.whr->kind) {
+    case WHERE_INSET:
+        // TODO Find the class and type of items in the set
+        theFilter->class = theFilter->fields.whr.whr->what->class;
+        theFilter->type = theFilter->fields.whr.whr->what->type;
+        break;
     case WHERE_IN:
-    case WHERE_INSET: {
-      theFilter->class = theFilter->fields.whr.whr->what->class;
+      theFilter->class = contentOf(theFilter->fields.whr.whr->what, context);
       theFilter->type = theFilter->fields.whr.whr->what->type;
       break;
-    }
     case WHERE_HERE:
     case WHERE_AT:
       theFilter->class = thingSymbol;
@@ -935,7 +938,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
     exp->type = INSTANCE_TYPE;
     classId = classIdInContext(context);
     if (classId)
-      exp->class = classId->symbol; 
+      exp->class = classId->symbol;
     break;
 
   default:
@@ -1007,11 +1010,11 @@ void analyzeExpression(Expression *expression,
     return;
 
   switch (expression->kind) {
-    
+
   case WHERE_EXPRESSION:
     analyzeWhereExpression(expression, context);
     break;
-    
+
   case ATTRIBUTE_EXPRESSION:
     analyzeAttributeExpression(expression, context);
     break;
@@ -1019,15 +1022,15 @@ void analyzeExpression(Expression *expression,
   case BINARY_EXPRESSION:
     analyzeBinaryExpression(expression, context);
     break;
-    
+
   case INTEGER_EXPRESSION:
     expression->type = INTEGER_TYPE;
     break;
-    
+
   case STRING_EXPRESSION:
     expression->type = STRING_TYPE;
     break;
-    
+
   case SET_EXPRESSION:
     analyzeSetExpression(expression, context);
     break;
@@ -1035,7 +1038,7 @@ void analyzeExpression(Expression *expression,
   case AGGREGATE_EXPRESSION:
     analyzeAggregate(expression, context);
     break;
-    
+
   case RANDOM_EXPRESSION:
     analyzeRandom(expression, context);
     break;
@@ -1436,47 +1439,47 @@ void generateExpression(Expression *exp)
     emitConstant(0);
     return;
   }
-  
+
   if ((Bool)opts[OPTDEBUG].value)
     generateSrcp(exp->srcp);
 
   switch (exp->kind) {
-    
+
   case BINARY_EXPRESSION:
     generateBinaryExpression(exp);
     break;
-    
+
   case WHERE_EXPRESSION:
     generateWhereExpression(exp);
     break;
-    
+
   case ATTRIBUTE_EXPRESSION:
     generateAttributeExpression(exp);
     break;
-    
+
   case INTEGER_EXPRESSION:
     emitConstant(exp->fields.val.val);
     break;
-    
+
   case STRING_EXPRESSION:
     if (!exp->fields.str.encoded)
       encode(&exp->fields.str.fpos, &exp->fields.str.len);
     exp->fields.str.encoded = TRUE;
     emit2(I_GETSTR, exp->fields.str.fpos, exp->fields.str.len);
     break;
-    
+
   case AGGREGATE_EXPRESSION:
     generateAggregateExpression(exp);
     break;
-    
+
   case RANDOM_EXPRESSION:
     generateRandomExpression(exp);
     break;
-    
+
   case RANDOM_IN_EXPRESSION:
     generateRandomInExpression(exp);
     break;
-    
+
   case SCORE_EXPRESSION:
     generateScoreExpression(exp);
     break;
@@ -1603,7 +1606,7 @@ void dumpExpression(Expression *exp)
     break;
   case WHAT_EXPRESSION:
     put("WHT ");
-    break; 
+    break;
   case BETWEEN_EXPRESSION:
     if (exp->not) put("NOT ");
     put("BTW ");

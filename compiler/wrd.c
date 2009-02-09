@@ -13,7 +13,7 @@
 #include "lst_x.h"
 
 #include "lmList.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "util.h"
 #include "opt.h"
 #include "emit.h"
@@ -185,7 +185,7 @@ int newAdjectiveWord(char *theWord, Instance *reference) {
 
   Prepare the dictionary by inserting some words dependent on the
   selected language, for example.
- 
+
   */
 void prepareWords(void)
 {
@@ -323,12 +323,12 @@ static void generateWordReferences(Word *wrd)
 {
   if (wrd == NULL)
     return;
-  
+
   /* First generate for lower */
   generateWordReferences(wrd->low);
-  
+
   generateWordReference(wrd);
-  
+
   /* Then for higher */
   generateWordReferences(wrd->high);
 
@@ -341,14 +341,14 @@ static void generateWordStrings(Word *wrd)
 {
   if (wrd == NULL)
     return;
-  
+
   /* First generate for lower */
   generateWordStrings(wrd->low);
-  
+
   /* Then this node */
   wrd->stradr = nextEmitAddress();	/* Save address to string */
   emitString(wrd->string);
-  
+
   /* Then for higher */
   generateWordStrings(wrd->high);
 
@@ -366,7 +366,7 @@ static void generateWordEntry(Word *wrd) {
   if (wrd->classbits == SYNONYM_BIT) {
     /* If a synonym generate same as for original but mark as synonym */
     /* The reference is actually a pointer to the original Word */
-    Word *original = (Word *)wrd->ref[SYNONYM_WORD]->element.word; 
+    Word *original = (Word *)wrd->ref[SYNONYM_WORD]->element.word;
     de.classBits = original->classbits|SYNONYM_BIT;
     de.code = original->code;
     de.adjectiveRefs = original->adjectiveRefAddress;

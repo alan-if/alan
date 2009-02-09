@@ -23,7 +23,7 @@
 
 #include "emit.h"
 #include "lmList.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* PUBLIC: */
@@ -208,7 +208,7 @@ static Aaddr generateExitStatements(Exit *ext)
 
   if (ext->stms == NULL)
     return(0);
-  
+
   generateStatements(ext->stms);
   emit0(I_RETURN);
   return(stmadr);
@@ -244,7 +244,7 @@ Aaddr generateExits(List *exits)
 {
   List *lst;			/* Traversal pointer */
   Aaddr extadr;			/* The adress where the exits start */
-  
+
   if (exits == NULL)
     return(0);
 
@@ -255,7 +255,7 @@ Aaddr generateExits(List *exits)
     lst->element.ext->stmadr = generateExitStatements(lst->element.ext);
     emit0(I_RETURN);
   }
-  
+
   extadr = nextEmitAddress();
   for (lst = exits; lst != NULL; lst = lst->next)
     generateExitEntry(lst->element.ext);

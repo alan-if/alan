@@ -20,7 +20,7 @@
 
 #include "lmList.h"
 #include "emit.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* PUBLIC: */
@@ -70,7 +70,7 @@ static void resolveParameterClass(Restriction *res, Symbol *parameter)
 
   /* Analyse the class list and evaluate possibly to a class symbol ref. */
   switch (res->kind) {
-  case ID_RESTRICTION: 
+  case ID_RESTRICTION:
     classSymbol = lookup(res->classId->string);
     if (classSymbol != NULL)
       if (classSymbol->kind != CLASS_SYMBOL) {
@@ -188,7 +188,7 @@ static void generateRestrictionEntry(Restriction *res)
 {
   RestrictionEntry restriction;
 
-  restriction.parameter = res->parameterId->code;
+  restriction.parameterNumber = res->parameterId->code;
   switch (res->kind) {
   case ID_RESTRICTION:
     restriction.class = res->classId->code;

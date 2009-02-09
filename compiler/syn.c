@@ -19,7 +19,7 @@
 #include "dump_x.h"
 
 #include "lmList.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 #include "emit.h"

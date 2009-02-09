@@ -6,7 +6,7 @@
 #include "sym.h"
 #include "id.h"
 #include "exp.h"
-#include "../interpreter/acode.h"
+#include "acode.h"
 
 
 /* TYPES: */

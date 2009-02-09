@@ -4,12 +4,12 @@
 
 				EXT.H
 			      Exit Nodes
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 
 /* USE: */
-#include "../interpreter/acode.h"
+#include "acode.h"
 #include "srcp.h"
 #include "lst.h"
 #include "id.h"
