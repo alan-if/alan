@@ -196,7 +196,7 @@ typedef struct pmGrammar {
 #define SYN_ERR 2		/* Normal syntax error */
 #define OFLW_ERR 3		/* Parse stack overflow */
 #define TAB_ERR 4		/* Parse table error */
-
+	   
 /* Error severity *\
 \* -------------- */
 #define WAR_SEV 1		/* Warnings */
@@ -2237,7 +2237,7 @@ typedef struct {
     char *name;			/* Name string */
     char *psym;			/* Print name */
 } VocTab[143];
-
+			     
 static VocTab voc = {{1,255,255,"EndOfText",""}
 ,{2,1,1,"Identifier","<identifier>"}
 ,{3,2,1,"Integer",""}
@@ -2389,7 +2389,7 @@ static VocTab voc = {{1,255,255,"EndOfText",""}
 \* ------------------------------------- */
 short pmStkP;			/* Stack pointer */
 Token pmSySt[PmStkMax];	/* Symbol stack */
-pmGrammar pmSeSt[PmStkMax];	/* Semantic stack */
+pmGrammar pmSeSt[PmStkMax];	/* Semantic stack */ 
 static UByte2 currstat;		/* Current state number */
 static UByte2 arg;		/* Argument */
 static UByte1 action;		/* Action type */
@@ -2508,7 +2508,7 @@ static void paInit(void)
 	token->code = voc[token->code-TermMin].scc;\
 	paAbort(token, OFLW_ERR, SYS_SEV);\
     }\
-}
+} 
 
 #define pushStat()\
 {\
@@ -2518,7 +2518,7 @@ static void paInit(void)
 	token->code = voc[token->code-TermMin].scc;\
 	paAbort(token, OFLW_ERR, SYS_SEV);\
     }\
-}
+} 
 
 
 
@@ -2580,7 +2580,7 @@ typedef struct {
     short severity;
 } ERR_REC;
 
-static ERR_REC errdescr;
+static ERR_REC errdescr; 
 
 
 /*----------------------------------------------------------------------------
@@ -2618,7 +2618,7 @@ UByte1 sym			/* IN symbol code */
 
     /* Copy stack
      */
-    for (i = 0; i <= stack_p; i++) t_stk[i] = stack[i];
+    for (i = 0; i <= stack_p; i++) t_stk[i] = stack[i]; 
 
     state = stack[stack_p];
 
@@ -2630,7 +2630,7 @@ UByte1 sym			/* IN symbol code */
 	    return(PMFALSE);
 
 	case SHIFT_ACT:
-	case SHIFTRED_ACT:
+	case SHIFTRED_ACT:	
 	case ACCEPT_ACT:
 	    return(PMTRUE);
 
@@ -2646,8 +2646,8 @@ UByte1 sym			/* IN symbol code */
 	}/*switch*/
     }/*for*/
 }/*legalAct()*/
-
-
+			     
+	
 /*----------------------------------------------------------------------------
  * gLegSym - Get legal symbols
  *----------------------------------------------------------------------------
@@ -2703,7 +2703,7 @@ Token *token			/* INOUT symbol to delete, new symbol */
 	*token = la_buff[la_ptr];
     } else {
 	do {
-
+	    
 
     smScan(lexContext, token);
 
@@ -2735,7 +2735,7 @@ Token *gen_symb		/* OUT created symbol */
     pmISym(voc[isym - TermMin].scc, voc[isym - TermMin].name,
 	   voc[isym - TermMin].psym, gen_symb);
     if (errdescr.method == DEL_REC) errdescr.method = REP_REC;
-    else if (errdescr.method != REP_REC) errdescr.method = IN_REC;
+    else if (errdescr.method != REP_REC) errdescr.method = IN_REC; 
 
     gen_symb->code = isym;
 }/*inSym()*/
@@ -2818,7 +2818,7 @@ REC_POI *point			/* OUT recovery point description */
 	        ParseStack stk;	/* Temporary stack */
 	        short sp;	/* Temporary stack pointer */
 
-		sp = stack_p;
+		sp = stack_p; 
 		for (i = 0; i <= stack_p; i++) stk[i] = t_stk[i];
 		sepa_acc = PMFALSE;
 
@@ -2832,7 +2832,7 @@ REC_POI *point			/* OUT recovery point description */
 			sepa_acc = PMTRUE;
 			break;
 
-		    case SHIFT_ACT:
+		    case SHIFT_ACT: 
 			sepa_acc = PMTRUE;
 			ePush(sep_arg, stk, &sp);
 			break;
@@ -2867,11 +2867,11 @@ REC_POI *point			/* OUT recovery point description */
 		    }/*if*/
 		}/*if*/
 	    }/*if*/
-
+		  
 	    if (!*found) {
 		switch (action) {
 
-		case ERROR_ACT:
+		case ERROR_ACT: 
 		    paAbort(token, TAB_ERR, SYS_SEV);
 		    break;
 
@@ -2945,7 +2945,7 @@ REC_POI *point			/* OUT descriptor of where to restart */
 		*stack_p = new_stkp;
 		point->r_state = stack[*stack_p];
 		errdescr.method = BAK_REC;
-	    } else
+	    } else 
 	        delSym(token);
 	}/*if*/
     } while (!rp_found);
@@ -2958,7 +2958,7 @@ REC_POI *point			/* OUT descriptor of where to restart */
  */
 static void reach(
 ParseStack stack,		/* INOUT current stack */
-short *stack_p,			/* INOUT current stack pointer */
+short *stack_p,			/* INOUT current stack pointer */	
 Token *token,			/* INOUT current symbol */
 REC_POI *point			/* IN recovery point descriptor */
 )
@@ -3034,7 +3034,7 @@ static void multiple(
 ParseStack err_stk,		/* INOUT current parse stack */
 short *err_stkp,		/* INOUT current stack pointer */
 Token *err_tok,		/* INOUT current token */
-UByte2 *newstat		/* OUT state after recovery */
+UByte2 *newstat		/* OUT state after recovery */	
 )
 {
     REC_POI  point;		/* Recovery point descriptor */
@@ -3091,7 +3091,7 @@ Token *curtok			/* IN current token */
     while ((la_buff[la_end].code != ENDMARK) && (la_end < PmLaMax)) {
 	la_end++;
 	do {
-
+            
 
     smScan(lexContext, token);
 
@@ -3150,7 +3150,7 @@ short *cost			/* OUT adaption cost */
 
     /* Copy stack
      */
-    for (i = 0; i <= stack_p; i++) t_stk[i] = stack[i];
+    for (i = 0; i <= stack_p; i++) t_stk[i] = stack[i];	
 
     done = PMFALSE;
     sh_cnt = 0;
@@ -3158,10 +3158,10 @@ short *cost			/* OUT adaption cost */
 
     while (!done) {
 	actTbl(state, sym, &action, &arg);
-
+	
 	switch (action) {
 
-	case ERROR_ACT:
+	case ERROR_ACT: 
 	    done = PMTRUE;
 	    break;
 
@@ -3192,7 +3192,7 @@ short *cost			/* OUT adaption cost */
 		stack_p -= gto.rhsz[arg-ProdMin];
 		gtoTbl(t_stk[stack_p], gto.lhs[arg-ProdMin], &action, &arg);
 		ePush(state, t_stk, &stack_p);
-	    } while (action != SHIFT_ACT);
+	    } while (action != SHIFT_ACT); 
 
 	    state = arg;
 	    t_stk[stack_p] = state;
@@ -3356,7 +3356,7 @@ Token *token			/* OUT new token */
 	*token = la_buff[la_ptr];
     } else {
 	do {
-
+	    
 
     smScan(lexContext, token);
 
@@ -3407,11 +3407,11 @@ UByte2 *newstat		/* OUT recovery state */
 	_pmInsert(sym, token);
 	break;
 
-    case DEL_REC:
+    case DEL_REC:  
 	_pmDelete(token);
 	break;
 
-    case REP_REC:
+    case REP_REC: 
 	_pmReplace(sym, token);
 	break;
 
@@ -3422,7 +3422,7 @@ UByte2 *newstat		/* OUT recovery state */
 	*token = la_buff[la_ptr];
     } else {
 	do {
-
+	    
 
     smScan(lexContext, token);
 
@@ -3466,8 +3466,8 @@ UByte2 *rec_stat		/* OUT state after recovery */
     single(legal_sy, err_stk, err_stkp, err_symb, rec_stat);
     if (errdescr.method == NONE_REC) {
 	multiple(err_stk, err_stkp, err_symb, rec_stat);
-	pmMess(&errdescr.err_tok, errdescr.method, errdescr.eClass,
-	       errdescr.severity);
+	pmMess(&errdescr.err_tok, errdescr.method, errdescr.eClass, 
+	       errdescr.severity); 
     } else {
 	pmMess(&errdescr.err_tok, errdescr.method, SYN_ERR, errdescr.severity);
     }/*if*/
@@ -3490,7 +3490,7 @@ void pmParse(void)
 	*token = la_buff[la_ptr];
     } else {
 	do {
-
+	    
 
     smScan(lexContext, token);
 
@@ -3527,7 +3527,7 @@ void pmParse(void)
 	*token = la_buff[la_ptr];
     } else {
 	do {
-
+	    
 
     smScan(lexContext, token);
 
@@ -3552,7 +3552,7 @@ void pmParse(void)
 	*token = la_buff[la_ptr];
     } else {
 	do {
-
+	    
 
     smScan(lexContext, token);
 
@@ -3572,7 +3572,7 @@ void pmParse(void)
  	case REDUCE_ACT:
 	  reduce:
 	    do {
-		pmStkP -= gto.rhsz[arg - ProdMin];
+		pmStkP -= gto.rhsz[arg - ProdMin];	
 		pmPaSema(arg);
 		gtoTbl(parsStk[pmStkP], gto.lhs[arg - ProdMin], &action, &arg);
 		pushStat();

@@ -2,7 +2,7 @@
 
   pmErr.c
 
-  Parser error handler
+  Parser error handler 
 
 \*----------------------------------------------------------------------*/
 
