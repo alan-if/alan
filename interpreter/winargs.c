@@ -62,11 +62,13 @@ void args(int argc, char * argv[])
   if (adventureFileName == NULL) {
     /* No game given, try program name */
     if (differentInterpreterName(programName)) {
+      // TODO break out as a function
       FILE *adventureFile;
       adventureFileName = duplicate(programName,
 				    strlen(programName)
 				    +strlen(ACODEEXTENSION)+1);
       strcat(adventureFileName, ACODEEXTENSION);
+      // TODO break out as utils::fileExists()
       if ((adventureFile = fopen(adventureFileName, "r")) == NULL) {
 	free(adventureFileName);
 	adventureFileName = NULL;

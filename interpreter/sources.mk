@@ -1,10 +1,10 @@
 # Declaration of sources required for various types of builds
 #
-# UNIT2 is the excellent CGreen unit test, stub and mocking framework by
+# UNITTESTS is the excellent CGreen unit test, stub and mocking framework by
 # Marcus Baker et al. (http://sourceforge.net/projects/cgreen)
 
-UNIT2SRC = \
-	unit2.c \
+UNITTESTSSRC = \
+	unittests.c \
 	AltInfoTests.c \
 	StateStackTests.c \
 	actTests.c \
@@ -22,7 +22,7 @@ UNIT2SRC = \
 	outputTests.c \
 	smartall.c
 
-UNIT2REQUIREDSRCS = \
+UNITTESTSREQUIREDSRCS = \
 	actor.c \
 	attribute.c \
 	checkentry.c \
@@ -94,17 +94,20 @@ MAINSRCS = \
 	utils.c \
 	word.c \
 	smartall.c
+MAINOBJECTS = ${MAINSRCS:.c=.o}
 
-UNIT2SRCS = $(UNIT2SRC) $(UNIT2REQUIREDSRCS)
-UNIT2OBJECTS = ${UNIT2SRCS:.c=.o} alan.version.o
+UNITTESTSSRCS = $(UNITTESTSSRC) $(UNITTESTSREQUIREDSRCS)
 
+GLKSRCS = glkstart.c glkio.c
+GLKOBJECTS = ${GLKSRCS:.c=.o}
 
 VERSIONSRCS = $(MAINSRCS) arun.c
 VERSIONOBJECTS = ${VERSIONSRCS:.c=.o}
 
-ARUNOBJECTS = $(VERSIONOBJECTS) alan.version.o
-GLKOBJECTS = ${GLKSRCS:.c=.o}
-WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
-TERMARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
+# Final object sets to be used in targets
+UNITTESTSOBJECTS = ${UNITTESTSSRCS:.c=.o} alan.version.o
+ARUNOBJECTS = $(MAINOBJECTS) arun.o alan.version.o
+WINARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS} winglk.o arun.res
 GARARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
+TERMARUNOBJECTS = ${GLKOBJECTS} ${ARUNOBJECTS}
 

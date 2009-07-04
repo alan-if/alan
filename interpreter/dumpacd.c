@@ -12,6 +12,7 @@
 #include "checkentry.h"
 
 #include "reverse.h"
+#include "msg.h"
 
 #define endOfTable(x) ((*(Aword *) x) == EOF)
 
@@ -46,7 +47,7 @@ static void syserr(char str[])
 }
 
 
-static void error(char str[])
+static void errorMessage(char str[])
 {
   printf("ERROR - %s\n", str);
 }
@@ -566,7 +567,7 @@ static void dumpStatements(Aword pc)
       case V_CURACT: printf("CURACT"); break;
       case V_CURVRB: printf("CURVRB"); break;
       case V_SCORE: printf("CURSCORE"); break;
-      default: error("Unknown CURVAR instruction."); break;
+      default: errorMessage("Unknown CURVAR instruction."); break;
       }
       break;
       
@@ -671,7 +672,7 @@ static void dumpStatements(Aword pc)
       break;
 
     default:
-      error("Unknown instruction class");
+      errorMessage("Unknown instruction class");
       break;
     }
   }

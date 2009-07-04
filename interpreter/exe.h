@@ -10,6 +10,7 @@
 
 /* IMPORTS */
 #include <setjmp.h>
+#include "sysdep.h"
 #include "acode.h"
 #include "types.h"
 #include "set.h"

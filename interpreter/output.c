@@ -13,6 +13,9 @@
 #include "readline.h"
 #include "instance.h"
 
+#ifdef HAVE_GLK
+#include "glkio.h"
+#endif
 
 /* PUBLIC DATA */
 Bool anyOutput = FALSE;
@@ -34,6 +37,17 @@ FILE *logFile;
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+
+#if defined(HAVE_GLK) || defined(RUNNING_UNITTESTS)
+/*----------------------------------------------------------------------*/
+static int updateColumn(int currentColumn, char *string) {
+  char *newlinePosition = strrchr(string, '\n');
+  if (newlinePosition != NULL)
+    return &string[strlen(string)] - newlinePosition;
+  else
+    return currentColumn + strlen(string);
+}
+#endif
 
 /*======================================================================*/
 void newline(void)
@@ -106,7 +120,6 @@ static void capitalizeFirst(char *str) {
 }
 
 
-static Bool onStatusLine = FALSE; /* Don't log when printing status */
 /*======================================================================*/
 void printAndLog(char string[])
 {
@@ -119,6 +132,7 @@ void printAndLog(char string[])
   printf(string);
   if (!onStatusLine && transcriptOption) {
 #ifdef HAVE_GLK
+    // TODO Is this assuming only 70-char wide windows for GLK?
     if (strlen(string) > 70-column) {
       stringCopy = strdup(string);  /* Make sure we can write NULLs */
       stringPart = stringCopy;

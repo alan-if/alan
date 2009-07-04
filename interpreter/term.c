@@ -6,8 +6,37 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "sysdep.h"
+
+
+#ifdef HAVE_TERMIO
+
+#ifdef __linux__
+#include <sys/ioctl.h>
+#include <asm/ioctls.h>
+#endif
+
+#ifdef __FreeBSD__
+#include <sys/ioctl.h>
+#endif
+
+#endif /* HAVE_TERMIO */
+
+#ifdef HAVE_GLK
+#include "glkio.h"
+#endif
+
+/* IMPORTS */
 #include "memory.h"
 #include "output.h"
+#include "options.h"
+#include "instance.h"
+#include "current.h"
+
+
+/* PUBLIC DATA */
+Bool onStatusLine = FALSE; /* To know if where printing the status line or not */
+
 
 
 #ifdef __windows__

@@ -52,7 +52,6 @@
 // At least GCC 3.x does define this for Darwin
 #define __macosx__
 #define __unix__
-#undef HAVE_WINGLK
 #endif
 
 #ifdef __MWERKS__
@@ -110,14 +109,8 @@
 #include <ctype.h>
 #include <unistd.h>
 
-#ifdef __STDC__
-#define _PROTOTYPES_
-#include <stdlib.h>
-#include <string.h>
-#endif
 
-#ifdef __vms__
-/* Our VAXC doesn't define __STDC__ */
+#ifdef __STDC__
 #define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>

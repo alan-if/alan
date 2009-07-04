@@ -18,16 +18,10 @@ extern Aword *freq;     /* Cumulated character frequencies for text decoding */
 
 /* FUNCTIONS */
 
-#ifdef _PROTOTYPES_
 extern void startDecoding(void);
 extern int decodeChar(void);
 extern void *pushDecode(void);
 extern void popDecode(void *info);
-#else
-extern void startDecoding();
-extern int decodeChar();
-extern void *pushDecode();
-extern void popDecode();
-#endif
+
 #endif
 

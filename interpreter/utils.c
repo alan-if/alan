@@ -2,7 +2,6 @@
 
 
 /* Imports: */
-#include <stdio.h>
 #include "alan.version.h"
 #include "options.h"
 #include "memory.h"

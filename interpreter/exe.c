@@ -10,6 +10,7 @@
 
 /* IMPORTS */
 #include "types.h"
+#include "sysdep.h"
 
 #include "lists.h"
 #include "state.h"

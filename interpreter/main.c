@@ -62,18 +62,6 @@ VerbEntry *vrbs;		/* Verb table pointer */
 #define STACKSIZE 100
 
 
-#if defined(HAVE_GLK) || defined(RUNNING_UNITTESTS)
-/*----------------------------------------------------------------------*/
-static int updateColumn(int currentColumn, char *string) {
-  char *newlinePosition = strrchr(string, '\n');
-  if (newlinePosition != NULL)
-    return &string[strlen(string)] - newlinePosition;
-  else
-    return currentColumn + strlen(string);
-}
-#endif
-
-
 
 #ifdef CHECKOBJ
 /*======================================================================

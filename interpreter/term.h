@@ -8,19 +8,12 @@
 
 \*----------------------------------------------------------------------*/
 
-#ifdef HAVE_TERMIO
 
-#ifdef __linux__
-#include <sys/ioctl.h>
-#include <asm/ioctls.h>
-#endif
+/* DATA */
+Bool onStatusLine;
 
-#ifdef __FreeBSD__
-#include <sys/ioctl.h>
-#endif
 
-#endif /* HAVE_TERMIO */
-
+/* FUNCTIONS */
 extern void getPageSize(void);
 extern void statusline(void);
 

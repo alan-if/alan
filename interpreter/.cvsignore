@@ -3,6 +3,7 @@
 *.SYM
 *.o
 *.obj
+*.exe
 *~
 .HoldDirectoryFinderInfoForMacNFS
 .arch
@@ -13,7 +14,6 @@ Glk.dll
 alan.version.c
 alan.version.h
 arun
-arun.exe
 arun.pure_hardlink
 arun.pure_linkinfo
 arun.res
@@ -27,18 +27,10 @@ interpreter.zip
 spa.*
 version.c
 version.h
-unit.exe
-winarun.exe
-dumpacd.exe
 arun.rc2
 Makefile.show
 arun.bmp
 showtest.c
-termarun.exe
-headerGenerator.exe
-glkarun.exe
-gararun.exe
-unit2.exe
 unit2
 *.dot
 x

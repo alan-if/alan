@@ -14,7 +14,6 @@
 \*----------------------------------------------------------------------*/
 
 #include "sysdep.h"
-#include "args.h"
 
 #include <libraries/dosextens.h>
 

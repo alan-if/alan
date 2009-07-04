@@ -10,11 +10,6 @@
 
 /* Import */
 
-#ifdef HAVE_GLK
-#define MAP_STDIO_TO_GLK
-#include "glkio.h"
-#endif
-
 #include "AltInfo.h"
 #include "output.h"
 #include "msg.h"

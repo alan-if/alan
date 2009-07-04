@@ -1,13 +1,7 @@
 #include "cgreen/cgreen.h"
 
-#define RUNNING_UNITTESTS
 #include "main.c"
 
-
-Ensure testUpdateColumn() {
-  assert_true(updateColumn(0, "\n") == 1);
-  assert_true(updateColumn(11, "123456789") == 20);
-}
 
 Ensure canCopyAttributes() {
   AttributeEntry *attributeArea;
@@ -83,7 +77,6 @@ TestSuite *mainTests()
 {
   TestSuite *suite = create_test_suite();
 
-  add_test(suite, testUpdateColumn);
   add_test(suite, canCopyAttributes);
   add_test(suite, canHandleMemoryStartForPre3_0alpha5IsShorter);
   add_test(suite, canSetEof);

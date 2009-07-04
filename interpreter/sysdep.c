@@ -15,14 +15,11 @@
 
 #include <time.h>
 #include "sysdep.h"
+#include "syserr.h"
 
 
 #ifdef HAVE_GLK
 #include "glk.h"
-#endif
-
-#ifdef _PROTOTYPES_
-extern void syserr(char str[]);
 #endif
 
 
@@ -265,7 +262,7 @@ int isLowerCase(unsigned int c)          /* IN - ISO character to test */
   static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
   int i;
   for (i = 0; i < strlen(lowChrs); i++)
-    if (lowChrs[i] == c) return 1;
+    if (((unsigned int)lowChrs[i]) == c) return 1;
   return 0;
 }
 

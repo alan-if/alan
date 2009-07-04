@@ -4,6 +4,7 @@
 /* IMPORTS */
 #include "types.h"
 
+
 /* CONSTANTS */
 
 
@@ -11,7 +12,6 @@
 
 
 /* DATA */
-
 extern int col, lin; // TODO Move to current.column & current.line?
 extern int pageLength, pageWidth;
 

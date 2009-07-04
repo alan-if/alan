@@ -6,6 +6,9 @@
 
 #include "sysdep.h"
 #include "output.h"
+#include "term.h"
+#include "exe.h"
+#include "save.h"
 
 #ifdef HAVE_GLK
 

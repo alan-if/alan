@@ -21,6 +21,7 @@
 #include "glkio.h"
 #include "resources.h"
 #include "gi_blorb.h"
+#include "utils.h"
 
 glkunix_argumentlist_t glkunix_arguments[] = {
   { "-l", glkunix_arg_NoValue, "-l: log player command and game output" },
@@ -81,7 +82,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
 
   if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
     printf("You should supply a game file to play.\n");
-    usage();
+    usage("arun"); // TODO Find real programname from arguments
     terminate(0);
   }
 
@@ -154,7 +155,7 @@ int winglk_startup_code(const char* cmdline)
 							   "Alan Game Files (*.a3c)|*.a3c||");
     if (adventureFileName == NULL) {
       printf("You should supply a game file to play.\n");
-      usage();
+      usage("arun");  // TODO Use actual program name
       terminate(0);
     }
     adventureName = gameName(adventureFileName);
@@ -162,7 +163,7 @@ int winglk_startup_code(const char* cmdline)
     winglk_window_set_title(adventureName);
 #else
     printf("You should supply a game file to play.\n");
-    usage();
+    usage("Arun");
     terminate(0);
 #endif
   }

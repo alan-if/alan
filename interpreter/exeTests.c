@@ -11,6 +11,8 @@
 
 #include "exe.c"
 
+#include "class.h"
+#include "container.h"
 
 /*----------------------------------------------------------------------*/
 Ensure canCountTrailingBlanks() {

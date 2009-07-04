@@ -2,20 +2,27 @@
 # Windows: CygWin32/Mingw32
 # Darwin: GCC
 # Note: uses a lot of special stuff, if you are porting, start from
-# one of the other makefiles, such as Makefile.unix (which are not up-to-date)
+# one of the other makefiles, such as Makefile.unix (which are not up-to-date yet)
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
+
+# The SYSTEM is used to find out which applications can be built
+# On cygwin the flag -o gives a better name
 SYSTEM = `uname -s | sed 's/_.*$$//'`
 
-CYGWIN	= -mno-cygwin
+# On cygwin we try to build without cygwin1.dll if we can, applications can unset this if they need to
+PLATFORMFLAG = -mno-cygwin
+
 OPTIMIZE = -ggdb
-COMPILEFLAGS = $(OPTIMIZE) $(CYGWIN) -Wall $(CRCLOG) $(SMARTALLOC) -MMD
-CFLAGS	= $(COMPILEFLAGS) 
+STDCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORMFLAG) $(CRCLOG) $(SMARTALLOC) -funsigned-char
+COMPILEFLAGS = $(STDCOMPILEFLAGS)
+DEPENDFLAGS = -MM
+CFLAGS	= $(COMPILEFLAGS) -Wall
 CC = gcc
-LDFLAGS = $(CYGWIN)
+LDFLAGS = $(PLATFORMFLAG)
 
 
-#Settings for memory debugging
+#Settings for memory debugging which is used unless building RELEASE
 SMARTALLOC = -DSMARTALLOC
 
 
@@ -31,11 +38,21 @@ include sources.mk
 all:
 	$(MAKE) $(SYSTEM)
 
-Darwin: CYGWIN =
-Darwin: unitTest arun #dumpacd
+Darwin: PLATFORMFLAG =
+Darwin:
+	$(MAKE) unit
+	$(MAKE) arun
+	$(MAKE) dumpacd
 
 
-CYGWIN: unitTest arun dumpacd winarun glkarun gararun
+CYGWIN: PLATFORMFLAG = -mno-cygwin
+CYGWIN:
+	$(MAKE) unit
+	$(MAKE) arun
+	$(MAKE) winarun
+	$(MAKE) glkarun
+	$(MAKE) gararun
+	$(MAKE) dumpacd
 
 
 clean:
@@ -56,11 +73,9 @@ release:
 # Settings for Standard Arun
 arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
-	-@if ! test -d ../bin; then mkdir ../bin ; fi
 	cp $@ ../bin
 
 
-GLKSRCS = glkstart.c glkio.c
 #######################################################################
 # Settings for Windows GLK variant
 WINGLKROOT = ../../WindowsGLK
@@ -68,14 +83,12 @@ WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
 
-winarun: GLKDEFS = $(WINGLKDEFS)
-winarun: CFLAGS = $(COMPILEFLAGS) $(WINGLKINCLUDE) $(GLKDEFS)
-winarun: CYGWIN = -mwindows -mno-cygwin 
-winarun: LIBS = $(WINGLKLIB)
+winarun: COMPILEFLAGS = $(STDCOMPILEFLAGS) $(WINGLKINCLUDE) $(WINGLKDEFS)
+winarun: PLATFORMFLAG = -mno-cygwin 
+winarun: LIBS = $(WINGLKLIB) -mwindows
 
-winarun: checkTarget $(WINARUNOBJECTS) winglk.o arun.res
-	gcc -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) winglk.o arun.res $(LDFLAGS) $(LIBS)
-	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
+winarun: checkTarget $(WINARUNOBJECTS)
+	gcc -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	cp $@ ../bin
 
 arun.res: arun.rc arun.ico resources.h alan.version.c
@@ -91,39 +104,36 @@ TERMGLKDEFS = -DHAVE_GLK
 TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
 
-glkarun: GLKDEFS = $(TERMGLKDEFS)
-glkarun: CFLAGS = $(COMPILEFLAGS) $(TERMGLKINCLUDE) $(GLKDEFS)
-glkarun: CYGWIN = 
+glkarun: PLATFORMFLAG = # Cannot be build with -mno-cygwin since glkterm cannot be build with out cygwin since I have no curses library for windows
+glkarun: COMPILEFLAGS = $(STDCOMPILEFLAGS) $(TERMGLKINCLUDE) $(TERMGLKDEFS)
 glkarun: LIBS = $(TERMGLKLIB)
 
 glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
 	gcc -o $@ $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
-	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
 
 
 #######################################################################
-#Settings for Gargoyle GLK variant (experimental!)
+# Settings for Gargoyle GLK variant (experimental!)
 GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
-GARGLKDEFS = -DHAVE_GARGLK -mno-cygwin -mwindows
+GARGLKDEFS = -DHAVE_GARGLK
 GARGLKINCLUDE = -I$(GARGLKROOT)
-GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk -mno-cygwin
+GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk
 
-gararun: GLKDEFS = $(GARGLKDEFS)
-gararun: CFLAGS = $(COMPILEFLAGS) $(GARGLKINCLUDE) $(GLKDEFS)
-gararun: CYGWIN = 
+gararun: COMPILEFLAGS = $(STDCOMPILEFLAGS) $(GARGLKINCLUDE) $(GARGLKDEFS)
 gararun: LIBS = $(GARGLKLIB)
 
 gararun: checkTarget $(GARARUNOBJECTS) arun.res
 	gcc -o $@ $(OPTIMIZE) $(GARARUNOBJECTS) arun.res $(LDFLAGS) $(LIBS)
-	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
 
 
 #######################################################################
-ARCH	= $(CYGWIN)$(OPTIMIZE)$(GLKDEFS)$(DMALLOC)$(SMARTALLOC)
+ARCH	= `echo $(COMPILEFLAGS)`
 .PHONY: checkTarget
 checkTarget:
+	@echo "ARCH  = $(ARCH)"
+	@echo ".arch = `cat .arch`"
 	-@if test -f .arch; then :; else echo "none" > .arch; fi
 	-@if test "`cat .arch`" != "$(ARCH)"; then \
 		echo Removing objects for \'`cat .arch`\', re-building for \'$(ARCH)\'... ; \
@@ -164,17 +174,17 @@ alan.version.c:  ../alan.version
 #
 CGREENROOT = ../Cgreen
 CGREENINCLUDE = -I$(CGREENROOT)/include
-unit2: CYGWIN = #-mno-cygwin
-unit2: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE) $(CYGWIN)
-unit2: LIBS = $(CGREENROOT)/libcgreen.a
+unittests: PLATFORMFLAG = # Cannot run without -mno-cygwin since cgreen cannot be compiled with it yet
+unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
+unittests: LIBS = $(CGREENROOT)/libcgreen.a
 
-unit2: checkTarget $(UNIT2OBJECTS) Makefile $(LIBS)
-	gcc -o unit2 $(UNIT2OBJECTS) $(LDFLAGS) $(LIBS)
+unittests: checkTarget $(UNITTESTSOBJECTS) Makefile $(LIBS)
+	gcc -o unittests $(UNITTESTSOBJECTS) $(LDFLAGS) $(LIBS)
 
-unitTest:
+unit:
 	-@if test -d $(CGREENROOT) ; then \
-		$(MAKE) unit2 ; \
-		./unit2 ; \
+		$(MAKE) unittests ; \
+		./unittests ; \
 	fi
 
 #+++++++++++++++++++++++++++++++++
@@ -186,29 +196,32 @@ test: unitTest
 
 #######################################################################
 # Misc programs
-dumpacd: dumpacd.o reverse.o lists.o sysdep.o  ../compiler/spa.c
-	gcc -Wall -o dumpacd -ggdb $(CYGWIN) dumpacd.o reverse.o lists.o sysdep.o -DSTDIONONCONST ../compiler/spa.c
+#
+# Dump Acode file into text format
+dumpacd: checkTarget dumpacd.o reverse.o lists.o sysdep.o  ../compiler/spa.c smartall.o
+	gcc -Wall -o dumpacd -ggdb $(PLATFORMFLAG) dumpacd.o reverse.o lists.o sysdep.o smartall.o -DSTDIONONCONST ../compiler/spa.c
 	cp $@ ../bin
 
+# Test of about dialog
 about: about.c arun.res
-	gcc -o $@ -ggdb -mno-cygwin -mwindows about.c arun.res
+	gcc -o $@ -ggdb -mwindows about.c arun.res
 
+# Generate a header of a particular version
 headerGenerator: headerGenerator.c
 
 
 
-#
+###################################################################
 # Dependencies are generated only for command line case
 # Dependencies on libraries are only in the way for other cases,
 # so special dependencies that we need are set explicitly below
 #
 CPP	= gcc -MM -ansi
 DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
-depend: CYGWIN =
 depend:
-	@-for f in $(UNIT2SRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c ; \
+	@-for f in $(UNITTESTSSRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c ; \
 	  do \
-	  $(CPP) $(CFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
+	  $(CPP) $(DEPENDFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
 	done
 	mv dependencies.new dependencies.mk
 
