@@ -76,6 +76,7 @@ extern lmSev readSev();
 #include "resTest.c"
 #include "wrdTest.c"
 #include "paramTest.c"
+#include "idTests.c"
 
 
 int main()
@@ -104,6 +105,7 @@ int main()
 	registerElmUnitTests();
 	registerWrdUnitTests();
 	registerParamUnitTests();
+	registerIdUnitTests();
 
 	unitTest();
 
