@@ -40,10 +40,6 @@
 #endif
 #endif
 
-#ifdef vax
-#define __vms__
-#endif
-
 #ifdef THINK_C
 #define __mac__
 #endif
@@ -115,14 +111,6 @@
 #include <stdlib.h>
 #include <string.h>
 #endif
-
-#ifdef __vms__
-/* Our VAXC doesn't define __STDC__ */
-#define _PROTOTYPES_
-#include <stdlib.h>
-#include <string.h>
-#endif
-
 
 #ifdef __mac__
 #define _PROTOTYPES_
@@ -258,17 +246,6 @@
 #define MULTI
 #endif
 
-
-#ifdef __vms__
-
-#define MULTI
-
-extern char *strdup(char str[]);
-
-/* Cheat implementation of strftime */
-extern size_t strftime (char *, size_t, const char *, const struct tm *);
-
-#endif
 
 #ifdef __mac__
 
