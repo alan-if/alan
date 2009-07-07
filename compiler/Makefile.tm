@@ -26,7 +26,7 @@ TMSRCS = \
 all : x tm smScanx.c sysdep.h sysdep.c version.h alan.atg
 
 x :
-	echo TMLIB=$(TMLIB)
+	@echo TMLIB=$(TMLIB)
 
 tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp

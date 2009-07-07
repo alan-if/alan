@@ -18,8 +18,6 @@ dmalloc: PLATFORM =
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
 LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
 
-ARCH	= $(PLATFORM) $(OPTIMIZE)
-
 CPP	= gcc -MM -ansi
 LD	= gcc
 
@@ -88,6 +86,8 @@ tm:
 		make -f Makefile.tm ; \
 	fi
 
+
+ARCH	= `echo $(PLATFORM) $(OPTIMIZE)`
 .PHONY: checkTarget
 checkTarget:
 	-@if test -f .arch; then :; else echo "none" > .arch; fi

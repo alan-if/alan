@@ -25,7 +25,6 @@ BUILDSRCS = \
 	dump.c \
 	encode.c \
 	evt.c \
-	id.c \
 	initialize.c \
 	lim.c \
 	msg.c \
@@ -61,6 +60,7 @@ ALANSRCS = \
 	exp.c \
 	ext.c \
 	ins.c \
+	id.c \
 	ifid.c \
 	lst.c \
 	main.c \
