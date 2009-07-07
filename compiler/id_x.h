@@ -18,6 +18,8 @@
 
 
 /* METHODS: */
+extern char *generateIdName(void);
+extern Bool isGeneratedId(IdNode *id);
 extern IdNode *newId(Srcp srcp, char str[]);
 extern List *newIdList(List *list, char *str);
 extern Bool equalId(IdNode *id1, IdNode *id2);

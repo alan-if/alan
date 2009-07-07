@@ -665,8 +665,7 @@ Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
     sym = lookupInContext(id->string, context);
 
   if (!sym) {
-    if (id->string[0] != '$')
-      /* Error generated id, we don't want to report on those */
+    if (!isGeneratedId(id))
       lmLog(&id->srcp, 310, sevERR, id->string);
   } else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
     if ((requestedKinds&INSTANCE_SYMBOL) == 0) {

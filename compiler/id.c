@@ -21,6 +21,26 @@
 #include "lmList.h"
 
 
+
+/* CONSTANTS: */
+#define GENERATED_ID_PREFIX '$'
+
+/*======================================================================*/
+char *generateIdName(void) {
+  char generatedId[100];
+  static int idno = 1;
+
+  sprintf(generatedId, "%cgenid%d", GENERATED_ID_PREFIX, idno++);
+  return newString(generatedId);
+}
+
+
+/*======================================================================*/
+Bool isGeneratedId(IdNode *id) {
+  return id->string[0] == GENERATED_ID_PREFIX;
+}
+
+
 /*======================================================================*/
 IdNode *newId(Srcp srcp,	/* IN - Source Position */
 	      char *str)	/* IN - The string */

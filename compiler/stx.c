@@ -180,7 +180,7 @@ static void analyzeSyntax(Syntax *stx)
   /* Find which verb it defines */
   verbSymbol = lookup(stx->id->string);
   if (verbSymbol == NULL) {
-    if (stx->id->string[0] != '$') /* generated id? */
+    if (!isGeneratedId(stx->id))
       lmLog(&stx->id->srcp, 207, sevERR, stx->id->string);
   } else if (verbSymbol->kind != VERB_SYMBOL)
     lmLog(&stx->id->srcp, 208, sevERR, stx->id->string);
