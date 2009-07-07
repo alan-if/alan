@@ -33,7 +33,7 @@ VERB invent
 END VERB invent.
 
 
-THE worn ISA THING
+THE worn ISA thing IN hero
 CONTAINER
 	LIMITS
 		COUNT 10 THEN
