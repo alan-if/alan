@@ -653,10 +653,16 @@ static Bool multipleSymbolKinds(SymbolKind kind) {
   return FALSE;
 }
 
+
 /*======================================================================*/
 Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 {
-  Symbol *sym = lookupInContext(id->string, context);
+  Symbol *sym;
+
+  if (requestedKinds == CLASS_SYMBOL)
+    sym = lookup(id->string);
+  else
+    sym = lookupInContext(id->string, context);
 
   if (!sym) {
     if (id->string[0] != '$')
@@ -668,6 +674,7 @@ Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 	lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
       else
 	lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+      return NULL;
     }
   } else
     if (requestedKinds != 0)
@@ -1032,6 +1039,7 @@ static void dumpSymbolKind(SymbolKind kind)
   case DIRECTION_SYMBOL: put("DIRECTION"); break;
   case PARAMETER_SYMBOL: put("PARAMETER"); break;
   case EVENT_SYMBOL: put("EVENT"); break;
+  case LOCAL_SYMBOL: put("LOCAL"); break;
   default: put("*** UNKNOWN ***"); break;
   }
 }

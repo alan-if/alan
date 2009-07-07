@@ -114,7 +114,6 @@ void testVerbSymbols()
 }
 
 
-
 /* Test symbol table by inserting a symbol with an initial name */
 void testBuildSymbol1()
 {
