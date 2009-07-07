@@ -13,11 +13,7 @@ typedef struct {
         long real_elapsed;	/* s */
     } TIBUF, *TIBUFP;
 
-#ifdef VAX
-#define TICK (1000/100)		/* Factor to make ticks to ms */
-#else
 #define TICK (1000/60)		/* Factor to make ticks to ms */
-#endif
 
 typedef enum { TIP_PROC, TIP_CHILD, TIP_REAL } TI_TIME;
 typedef enum { TIP_S_F, TIP_M_S, TIP_M_S_F } TI_MODE;

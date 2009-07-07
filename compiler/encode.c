@@ -278,16 +278,6 @@ Aaddr gefreq(void)
  */
 void terminateEncoding(void)
 {
-#ifdef __vms__
-  int t;
-
-  /* Make sure text data file does not end in the last 512-byte block. */
-  /* VAX fseek() doesn't work correctly in the last block of a fixed */
-  /* record file!! (RMS stinks!!) */
-  for (t = 512-(txtlen%512)+1; t>0; t--)
-    putc(0, datfil);
-#endif
-
   fclose(datfil);
   fclose(txtfil);
 }
