@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>644.89</origest>
-<currest>653.89</currest>
-<elapsed>467.89</elapsed>
+<origest>653.89</origest>
+<currest>662.89</currest>
+<elapsed>470.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>83</origest>
-<currest>84</currest>
-<elapsed>8</elapsed>
+<origest>92</origest>
+<currest>93</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
@@ -23,7 +23,7 @@
 <origest>4</origest>
 <currest>5</currest>
 <elapsed>5</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>UNDO problems</desc>
 <notes>Anssi reported that
@@ -74,7 +74,7 @@ So if game version is pre-Alpha5 the checksum should be calculated with a pre-Al
 <origest>7</origest>
 <currest>7</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Move debug out to Adbg</desc>
 <notes/>
@@ -158,12 +158,12 @@ Also need to separate the path and the basename since the user will want to use 
 </task>
 </task>
 <task>
-<desc>Version 3.0beta1</desc>
+<desc>Version 3.0alpha7</desc>
 <notes/>
 <priority>2</priority>
-<origest>42</origest>
-<currest>42</currest>
-<elapsed>3</elapsed>
+<origest>17</origest>
+<currest>17</currest>
+<elapsed>6</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>"undo" as a response to "quit?" undoes wrong command</desc>
@@ -225,6 +225,58 @@ Need to document the order.</notes>
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Aggregations over things in restricted containers does not take class restriction into consideration (e.g when finding attributes)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Update standard library</desc>
+<notes>Desciption in Things
+
+Tasks:
+ - upload and announce</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>An Isa object expression or loop filter should only look up classes</desc>
+<notes>This is a problem in verbs with default syntax where the parameters have the same name as its class (object).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Modify Makefile to recompile only files dependent on GLK</desc>
+<notes>Currently ARCH includes GLK setting which makes it necessary to recompile all source files between the various GLK implementations.
+
+It would be better if only files dependent on the setting of GLK would be recompiled (and possibly also where the only ones getting the -D).
+
+This would require a grep for GLK in *.c to investigate.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Investigate why new version of Alan in Gargoyle does not play sounds and shows pictures.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>GarArun</desc>
 <notes>Done:
 - should play special/resources including sound
@@ -249,16 +301,7 @@ Check if windows-dist contains all the .DLL:s that the build seem to require, po
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Website: divide games listing into v2/v3</desc>
-<notes>And list IFComp-games</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Introduce Where expression?</desc>
+<desc>Introduce "Where" &amp; "Location Of" expressions?</desc>
 <notes>Inspecting and acting on locations where an instance currently is, is hard since the only way to do that is to use many If instance At.
 
 A way to find the where an instance is can be introduced by adding
@@ -280,6 +323,24 @@ They might both be valid if Where expression would refer to the container in whe
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Restore from a null fileref</desc>
+<notes>When you restore and the suggested filename does not exist we get the null fileref back. Should be checked and a message given.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Enhance the status line in GarArun using styles?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
 <notes>E.g.
   put = put (o)*
@@ -294,13 +355,54 @@ makes it not accepting multiple.
 
 Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
 
-Must be fixed so that it is the syntax that stores the flags.Or possibly that the compiler checks the indicators match for all syntax synonyms.</notes>
+Must be fixed so that it is the syntax that stores the flags.Or possibly that the compiler checks the indicators match for all syntax synonyms.
+
+Can this be done without changing game format?</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Allocate the playerWords[] dynamically</desc>
+<notes>Use a EXTENT and ENSURESPACEFOR() somewhere in scan()</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allow initializing an empty set by just giving a class name</desc>
+<notes>Currently sets must be initialized by adding at least one element. This requires that if you need to create an initially empty set the element must be removed.
+
+If a single identifier of a class is given in a set this is unambigously indicating which class the elements must be.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0beta1</desc>
+<notes/>
+<priority>2</priority>
+<origest>31</origest>
+<currest>31</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Investigate the resolve()/allLength problem</desc>
 <notes>In parse.c:resolve() there is a test for allLength &gt; 0, with a comment that "ALL has already done this", but there is also a "TODO: NO IT HASN'T"
@@ -315,8 +417,10 @@ Create a test case that exhibits the problem, if it exists.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
-<notes/>
+<desc>Define MAC_PLATFORM et al. and GUI/CLI/GLK in the makefile</desc>
+<notes>It is hard to find reliable compiler defined macros. It is better to feed them to the builds from the Makefile.
+
+Possibly the Makefile can automatically find which platform it is using 'uname'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -358,8 +462,8 @@ primarily intended to allow authors to insert identificating values into the Aco
 <isopen>1</isopen>
 </task>
 <task>
-<desc>--warnings to turn off warning messages does not work</desc>
-<notes/>
+<desc>Refactor and unit test the args &amp; switches functions</desc>
+<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -367,7 +471,7 @@ primarily intended to allow authors to insert identificating values into the Aco
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Website: describe collaboration using alandemo project on sourceforge</desc>
+<desc>--warnings to turn off warning messages does not work</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>
@@ -440,17 +544,6 @@ No, a WHEN must apply to checks also, which means that only checks with a matchi
 <task>
 <desc>Floyd example</desc>
 <notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Define MAC_PLATFORM et al. and GUI/CLI/GLK in the makefile</desc>
-<notes>It is hard to find reliable compiler defined macros. It is better to feed them to the builds from the Makefile.
-
-Possibly the Makefile can automatically find which platform it is using 'uname'</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -619,15 +712,6 @@ See compiler/testing/includeFile.alan</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Allocate the playerWords[] dynamically</desc>
-<notes>Use a EXTENT and ENSURESPACEFOR() somewhere in scan()</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Warn for DOES preceeded by an unconditional CHECK</desc>
 <notes>DONE for verbs
 
@@ -708,27 +792,45 @@ Pronouns</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
 <task>
-<desc>Refactor and unit test the args &amp; switches functions</desc>
-<notes>Refactor out "basename()" and "testprogramname()" or some such</notes>
+<desc>Version 3.0beta2</desc>
+<notes/>
+<priority>2</priority>
+<origest>5</origest>
+<currest>5</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>Clean up old sections in the manual</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>Version 3.0beta2</desc>
+<desc>Use MinGW instead of Cygwin</desc>
 <notes/>
 <priority>2</priority>
-<origest>2</origest>
-<currest>2</currest>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
 <task>
-<desc>Clean up old sections in the manual</desc>
+<desc>Website: describe collaboration using alandemo project on sourceforge</desc>
 <notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Website: divide games listing into v2/v3</desc>
+<notes>And list IFComp-games</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -35,7 +35,9 @@ verify()
 	then
 	    ok=`expr $ok + 1`
 	    tput cr
-	    tput ce
+	    /bin/echo -n "                                                            "
+	    tput cr
+	    #tput ce - This should really work, but doesn't on cygwin ;-(
 	    rm $theCase.output
 	else
 	    failed=`expr $failed + 1`

@@ -8,7 +8,7 @@
 # REMEMBER: You have to set both the Path to include the ToolMaker
 # directory and the TMHOME environment variable to point there!
 
-
+TMHOME	= /c/Program/ToolMaker
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 EXTRAS = \
