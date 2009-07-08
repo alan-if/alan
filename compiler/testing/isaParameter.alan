@@ -1,7 +1,8 @@
+Syntax v = v (p).
 The x Isa object
   Verb v
     Does
-      If object Isa object Then ""
+      If p Isa p Then ""
       End If.
   End Verb.
 End The x.
