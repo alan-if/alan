@@ -1,7 +1,7 @@
 # Makefile for Alan interpreter to be built with Glk for Unix (using gcc)
 
 # OS-specific definitions
-OSDEFS = -D__unix__ -DUSE_READLINE -DHAVE_ANSI
+OSDEFS = -D__unix__ -DHAVE_ANSI
 #OSDEFS = -D__unix__
 
 
@@ -51,7 +51,7 @@ include sources.mk
 # Main targets
 all: $(TARGET)
 
-arun : $(ARUNOBJECTS) unitTest
+arun : $(ARUNOBJECTS)
 	$(LINK) -o $(TARGET) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 
 glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
@@ -72,15 +72,6 @@ install: $(TARGET)
 
 clean:
 	rm -f $(TARGET) dumpacd *.o *~ .arch
-
-#----------------------------------------------------------------------
-# unit tests
-unit : $(TESTOBJECTS)
-	gcc -o unit $(TESTOBJECTS) $(LDFLAGS) $(LIBS)
-
-unitTest: unit
-	@./unit
-
 
 #---<< Glk objects >>---
 glkstart.o: glkstart.c glkstart.h glkio.h

@@ -97,6 +97,7 @@ void look(void)
     if (anyOutput)
         para();
 
+    // TODO Refactor to some non-GLK and move this to output
 #ifdef HAVE_GLK
     glk_set_style(style_Subheader);
 #endif

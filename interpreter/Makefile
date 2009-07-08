@@ -181,6 +181,7 @@ unittests: LIBS = $(CGREENROOT)/libcgreen.a
 unittests: checkTarget $(UNITTESTSOBJECTS) Makefile $(LIBS)
 	gcc -o unittests $(UNITTESTSOBJECTS) $(LDFLAGS) $(LIBS)
 
+.PHONY: unit
 unit:
 	-@if test -d $(CGREENROOT) ; then \
 		$(MAKE) unittests ; \
@@ -191,7 +192,7 @@ unit:
 #
 # Run all tests!
 #
-test: unitTest
+test: unit
 
 
 #######################################################################
