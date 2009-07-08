@@ -6,7 +6,7 @@
 <priority>1</priority>
 <origest>653.89</origest>
 <currest>662.89</currest>
-<elapsed>470.89</elapsed>
+<elapsed>472.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>1</priority>
 <origest>92</origest>
 <currest>93</currest>
-<elapsed>11</elapsed>
+<elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
@@ -161,9 +161,9 @@ Also need to separate the path and the basename since the user will want to use 
 <desc>Version 3.0alpha7</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
-<elapsed>6</elapsed>
+<origest>15</origest>
+<currest>15</currest>
+<elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>"undo" as a response to "quit?" undoes wrong command</desc>
@@ -255,6 +255,57 @@ Tasks:
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
+<notes>This caused code within the loop not to allow e.g. access to attributes of the specified class.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Restore from a null fileref</desc>
+<notes>When you restore and the suggested filename does not exist we get the null fileref back. Should be checked and a message given.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
+<notes>E.g.
+  put = put (o)*
+  put_in = put (o) in (c)
+
+makes put generally multiple, but
+
+  put = put (o)
+  put_in = put (o)* in (c)
+
+makes it not accepting multiple.
+
+Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
+
+Must be fixed so that it is the syntax that stores the flags. Can this be done without changing game format?
+Or possibly that the compiler checks that the indicators match for all syntax synonyms.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allocate the playerWords[] dynamically</desc>
+<notes>Use a EXTENT and ENSURESPACEFOR() somewhere in scan()</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Modify Makefile to recompile only files dependent on GLK</desc>
 <notes>Currently ARCH includes GLK setting which makes it necessary to recompile all source files between the various GLK implementations.
 
@@ -268,8 +319,8 @@ This would require a grep for GLK in *.c to investigate.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Investigate why new version of Alan in Gargoyle does not play sounds and shows pictures.</desc>
-<notes/>
+<desc>Scanner tables for various non-'ISO' platforms does not seem to get generated correctly</desc>
+<notes>Probably because the library file does not exist since the IMP does not work with Cygwin paths</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -292,14 +343,32 @@ Check if windows-dist contains all the .DLL:s that the build seem to require, po
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Scanner tables for various non-'ISO' platforms does not seem to get generated correctly</desc>
-<notes>Probably because the library file does not exist since the IMP does not work with Cygwin paths</notes>
+<desc>Enhance the status line in GarArun using styles?</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Investigate why new version of Alan in Gargoyle does not play sounds and shows pictures.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0beta1</desc>
+<notes/>
+<priority>2</priority>
+<origest>33</origest>
+<currest>33</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Introduce "Where" &amp; "Location Of" expressions?</desc>
 <notes>Inspecting and acting on locations where an instance currently is, is hard since the only way to do that is to use many If instance At.
@@ -323,57 +392,6 @@ They might both be valid if Where expression would refer to the container in whe
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Restore from a null fileref</desc>
-<notes>When you restore and the suggested filename does not exist we get the null fileref back. Should be checked and a message given.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Enhance the status line in GarArun using styles?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
-<notes>E.g.
-  put = put (o)*
-  put_in = put (o) in (c)
-
-makes put generally multiple, but
-
-  put = put (o)
-  put_in = put (o)* in (c)
-
-makes it not accepting multiple.
-
-Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
-
-Must be fixed so that it is the syntax that stores the flags.Or possibly that the compiler checks the indicators match for all syntax synonyms.
-
-Can this be done without changing game format?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allocate the playerWords[] dynamically</desc>
-<notes>Use a EXTENT and ENSURESPACEFOR() somewhere in scan()</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Allow initializing an empty set by just giving a class name</desc>
 <notes>Currently sets must be initialized by adding at least one element. This requires that if you need to create an initially empty set the element must be removed.
 
@@ -385,24 +403,6 @@ If a single identifier of a class is given in a set this is unambigously indicat
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-<task>
-<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
-<desc>Version 3.0beta1</desc>
-<notes/>
-<priority>2</priority>
-<origest>31</origest>
-<currest>31</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
 <task>
 <desc>Investigate the resolve()/allLength problem</desc>
 <notes>In parse.c:resolve() there is a test for allLength &gt; 0, with a comment that "ALL has already done this", but there is also a "TODO: NO IT HASN'T"

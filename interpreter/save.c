@@ -327,6 +327,7 @@ void restore(void)
   saveFileRef = glk_fileref_create_by_prompt(fileusage_SavedGame, filemode_Read, 0);
   if (saveFileRef == NULL) return;
   saveFile = glk_stream_open_file(saveFileRef, filemode_Read, 0);
+  if (saveFile == NULL) return;
 
 #else
   char str[1000];
