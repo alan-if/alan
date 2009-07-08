@@ -63,13 +63,6 @@ static void buffer(Aword w)
     fwrite(emitBuffer, BLOCKSIZE, 1, acdfil);
 }
 
-/* First attempt at trying a generic endian macro... */
-#define NATIVE(w)   \
-    ( (((Aword)((w)[3])      ) & 0x000000ff)    \
-    | (((Aword)((w)[2]) <<  8) & 0x0000ff00)    \
-    | (((Aword)((w)[1]) << 16) & 0x00ff0000)    \
-    | (((Aword)((w)[0]) << 24) & 0xff000000))
-
 
 /*----------------------------------------------------------------------*/
 static Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes in */
