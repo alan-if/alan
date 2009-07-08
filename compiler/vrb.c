@@ -148,7 +148,7 @@ Bool verbIdFound(IdNode *targetId, List *verbs)
 
 
 /*----------------------------------------------------------------------*/
-static void checkMultipleVerbs(List *verbs)
+static void checkMultipleVerbDeclarations(List *verbs)
 {
   List *thisVerbDeclaration, *otherVerbs;
   List *firstId;
@@ -177,7 +177,7 @@ void analyzeVerbs(List *verbs, Context *context)
   for (verb = verbs; verb != NULL; verb = verb->next)
     analyzeVerb(verb->element.vrb, context);
 
-  checkMultipleVerbs(verbs);
+  checkMultipleVerbDeclarations(verbs);
 }
 
 

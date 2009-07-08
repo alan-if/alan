@@ -19,6 +19,8 @@ extern void (*(dumpNodeTable[]))();
 
 /* FUNCTIONS: */
 
+// TODO Define iterator functions
+
 #define TRAVERSE(loopVariable,initExpression) for (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
 
 extern void initDumpNodeList();

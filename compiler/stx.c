@@ -31,6 +31,9 @@
 
 /* PUBLIC: */
 
+// TODO Refactor newSyntax() to create the EOS element and add a
+// addElement() function that can insert the syntax element before it
+// and also propagate the back pointer to the syntax
 
 /*======================================================================*/
 Syntax *newSyntax(Srcp srcp, IdNode *id, List *elements, List *restrictionList,

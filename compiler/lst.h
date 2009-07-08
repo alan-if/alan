@@ -7,9 +7,9 @@
 
 \*----------------------------------------------------------------------*/
 
-/* Use: */
+/* USE: */
 
-/* Types */
+/* TYPES */
 
 typedef enum ListKind {
   UNKNOWN_LIST,
@@ -27,7 +27,7 @@ typedef enum ListKind {
   ID_LIST,
   INSTANCE_LIST,
   LIMIT_LIST,
-  LIST_EENT,
+  ELEMENT_ENTRIES_LIST,
   LIST_LIST,
   MESSAGE_LIST,
   NAME_LIST,

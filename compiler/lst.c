@@ -146,6 +146,9 @@ List *tailOf(List *theList)
 }
 
 
+// TODO: Refactor to use newList(ListKind), remove kind from concat()
+// and let it propagate it instead
+// Probably should also disallow NULL as the list
 /*======================================================================*/
 List *concat(List *list /*@null@*/, void *element, ListKind kind)	
 {

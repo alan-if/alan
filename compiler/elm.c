@@ -106,56 +106,66 @@ static void analyzeElement(Element *elm)
   }
 }
 
+/*----------------------------------------------------------------------*/
+static void checkForDuplicatedParameterNames(List *parameters) {
+  List *elements, *list;
+
+  for (list = parameters; list != NULL; list = list->next) {
+    Element *outerElement = list->element.elm;
+    for (elements = list->next; elements != NULL; elements = elements->next) {
+      Element *innerElement = elements->element.elm;
+      if (equalId(outerElement->id, innerElement->id))
+        lmLog(&innerElement->id->srcp, 216, sevERR, innerElement->id->string);
+    }
+  }
+}
+
 
 /*======================================================================*/
-List *analyzeElements(List *elms,        /* IN - List to analyze */
-		      List *ress,        /* IN - The class restrictions */
-		      Syntax *stx        /* IN - The stx we're in */
+List *analyzeElements(List *elements,        /* IN - List to analyze */
+		      List *restrictions,        /* IN - The class restrictions */
+		      Syntax *syntax        /* IN - The stx we're in */
 )
 {
-  Element *elm = elms->element.elm; /* Set to be the first (yes, there is always at least one!) */
-  List *lst, *pars = NULL;
-  List *resLst;
-  int paramNo = 1;
+  Element *firstElement = elements->element.elm; /* Set to be the first (yes, there is always at least one!) */
+  List *list, *parameters = NULL;
+  List *restrictionList;
+  int parameterCount = 1;
   Bool multiple = FALSE;
 
-  if (elm->kind != WORD_ELEMENT)
+  if (firstElement->kind != WORD_ELEMENT)
     /* First element must be a player word */
-    lmLog(&elm->srcp, 209, sevERR, "");
+    lmLog(&firstElement->srcp, 209, sevERR, "");
   else
-    elm->id->code = newVerbWord(elm->id->string, stx);
+    firstElement->id->code = newVerbWord(firstElement->id->string, syntax);
 
   /* Analyze the elements, number parameters and find the restriction */
   /* Start with the second since the first is analyzed above */
-  for (lst = elms->next; lst != NULL; lst = lst->next) {
-    if (lst->element.elm->kind == PARAMETER_ELEMENT) {
-      lst->element.elm->id->code = paramNo++;
-      if ((lst->element.elm->flags & MULTIPLEBIT) != 0) {
+  for (list = elements->next; list != NULL; list = list->next) {
+    Element *element = list->element.elm;
+    if (element->kind == PARAMETER_ELEMENT) {
+      element->id->code = parameterCount++;
+      if ((element->flags & MULTIPLEBIT) != 0) {
         if (multiple)
-          lmLog(&lst->element.elm->srcp, 217, sevWAR, "");
+          lmLog(&element->srcp, 217, sevWAR, "");
         else
           multiple = TRUE;
       }
-      pars = concat(pars, lst->element.elm, ELEMENT_LIST);
+      parameters = concat(parameters, element, ELEMENT_LIST);
 
       /* Find first class restrictions */
-      for (resLst = ress; resLst; resLst = resLst->next) {
-        if (equalId(resLst->element.res->parameterId, lst->element.elm->id)) {
-	  lst->element.elm->res = resLst->element.res;
-	  resLst->element.res->parameterId->code = lst->element.elm->id->code;
+      for (restrictionList = restrictions; restrictionList; restrictionList = restrictionList->next) {
+        if (equalId(restrictionList->element.res->parameterId, element->id)) {
+	  element->res = restrictionList->element.res;
+	  restrictionList->element.res->parameterId->code = element->id->code;
         }
       }
     }
-    analyzeElement(lst->element.elm);
+    analyzeElement(element);
   }
 
-  /* Check for multiple definition of parameter names */
-  for (lst = pars; lst != NULL; lst = lst->next)
-    for (elms = lst->next; elms != NULL; elms = elms->next) {
-      if (equalId(lst->element.elm->id, elms->element.elm->id))
-        lmLog(&elms->element.elm->id->srcp, 216, sevERR, elms->element.elm->id->string);
-    }
-  return pars;
+  checkForDuplicatedParameterNames(parameters);
+  return parameters;
 }
 
 
@@ -187,13 +197,13 @@ static Bool equalElements(List *element1, List *element2)
   */
 static Aaddr advance(List *elmsList) /* IN - The list to advance */
 {
-  List *elms;
+  List *list;
   Aaddr resadr = 0;             /* Saved address to class restriction */
 
-  for (elms = elmsList; elms != NULL; elms = elms->next) {
-    elms->element.lst = elms->element.lst->next;
-    if (elms->element.lst->element.elm->kind == END_OF_SYNTAX)
-      resadr = elms->element.lst->element.elm->stx->restrictionsAddress;
+  for (list = elmsList; list != NULL; list = list->next) {
+    list->element.lst = list->element.lst->next;
+    if (list->element.lst->element.elm->kind == END_OF_SYNTAX)
+      resadr = list->element.lst->element.elm->stx->restrictionsAddress;
   }
   return resadr;
 }
@@ -224,7 +234,7 @@ static List *partition(List **elmsListP) /* INOUT - Address to pointer to the li
   if (*elmsListP == NULL)
     return NULL;
 
-  /* Remove the first element from the list to form the partition */
+  /* Remove the first element from the list to form the base for the new partition */
   rest = *elmsListP;
   part = first(&rest);
 
@@ -255,7 +265,7 @@ static ElementEntry *newEntryForPartition(List **entries) {
 
   entry = NEW(ElementEntry);
   entry->flags = 0;
-  *entries = concat(*entries, entry, LIST_EENT);
+  *entries = concat(*entries, entry, ELEMENT_ENTRIES_LIST);
   return(entry);
 }
 
@@ -277,8 +287,13 @@ static void entryForEOS(ElementEntry *entry, List *part, Aaddr restrictionTableA
 
 /*----------------------------------------------------------------------*/
 static void entryForParameter(ElementEntry *entry, List *part, Syntax *stx) {
+  List *element;
+
   entry->code = 0;
   entry->flags = part->element.lst->element.elm->flags;
+  TRAVERSE(element, part->next) {
+    entry->flags |= element->element.lst->element.elm->flags;
+  }
   entry->next = generateElements(part, stx);
 }
 
@@ -323,6 +338,10 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
     list. Also it should really request a partitioned list from
     partition() instead and then traverse that list. This requires
     rewriting partition() to deliver a list of partitions instead.
+
+    TODO This code would be much clearer if it used Collection instead
+    of Lists for the partitions.
+
   */
   List *elms = copyList(elementLists);
   List *part;                   /* The current partion */

@@ -654,15 +654,25 @@ static Bool multipleSymbolKinds(SymbolKind kind) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static Symbol *lookupClass(IdNode *id, Symbol *symbol) {
+  if (symbol != NULL && symbol->kind != CLASS_SYMBOL) {
+    Symbol *otherSymbol = lookup(id->string);
+    if (otherSymbol != NULL)
+      return otherSymbol;
+  }
+  return symbol;
+}
+
+
 /*======================================================================*/
 Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 {
   Symbol *sym;
 
+  sym = lookupInContext(id->string, context);
   if (requestedKinds == CLASS_SYMBOL)
-    sym = lookup(id->string);
-  else
-    sym = lookupInContext(id->string, context);
+    sym = lookupClass(id, sym);
 
   if (!sym) {
     if (!isGeneratedId(id))

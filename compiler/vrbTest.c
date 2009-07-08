@@ -27,7 +27,7 @@ void testMultipleVerbs()
 		       newVerb(&nulsrcp, verbIds3, NULL),
 		       VERB_LIST);
 
-  checkMultipleVerbs(verbs);
+  checkMultipleVerbDeclarations(verbs);
   ASSERT(readEcode() != 0);
   ASSERT(readSev() != 0);
 
