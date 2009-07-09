@@ -19,7 +19,7 @@
 
 extern Srcp nulsrcp;		/* NULL position for list */
 extern long allocated;		/* Calculated memory usage */
-extern Bool verbose;		/* Verbose output */
+extern Bool verboseFlag;		/* Verbose output */
 extern long counter;		/* And counter for verbose mode */
 
 

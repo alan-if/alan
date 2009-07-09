@@ -121,6 +121,13 @@ static void analyzeSourceFilenames() {
 
 
 
+/*----------------------------------------------------------------------*/
+static void verbose(char *msg) {
+  if (verboseFlag) printf("\n\t%s:\t", msg);
+}
+
+
+
 /*====================================================================== */
 void analyzeAdventure(void)
 {
@@ -140,34 +147,32 @@ void analyzeAdventure(void)
   prepareMessages();			/* Prepare standard and user messages */
   prepareScores();			/* Prepare score handling */
 
-  if (verbose) printf("\n\tSyntax definitions: ");
+  verbose("Syntax definitions");
   analyzeSyntaxes();
 
-  if (verbose) printf("\n\tVerbs: ");
+  verbose("Verbs");
   analyzeVerbs(adv.vrbs, NULL);
 
-  if (verbose) printf("\n\tClasses: ");
+  verbose("Classes");
   analyzeClasses();
 
-  if (verbose) printf("\n\tInstances: ");
+  verbose("Instances");
   analyzeInstances();
   theHero->fields.entity.props->whr = adv.whr;
 
   numberContainers();
 
-  if (verbose) printf("\n\tEvents: ");
+  verbose("Events");
   analyzeEvents();
 
-  if (verbose) printf("\n\tRules: ");
+  verbose("Rules");
   analyzeRules();
 
-  if (verbose) printf("\n\tSynonyms: ");
+  verbose("Synonyms");
   analyzeSynonyms();
 
-  if (verbose) printf("\n\tMessages:");
+  verbose("Message");
   analyzeMessages();
-
-  if (verbose) printf("\n");
 
   analyzeStartAt();
   analyzeAllWords();
@@ -205,43 +210,43 @@ void generateAdventure(char acodeFileName[],
 
   acodeHeader.ifids = generateIfids(adv.ifids);
 
-  if (verbose) printf("\n\tDictionary: ");
+  verbose("Dictionary");
   acodeHeader.dictionary = generateAllWords();
 
-  if (verbose) printf("\n\tSyntaxTable: ");
+  verbose("SyntaxTable");
   acodeHeader.syntaxTableAddress = generateParseTable();
 
-  if (verbose) printf("\n\tParameter Mapping: ");
+  verbose("Parameter Mapping");
   acodeHeader.parameterMapAddress = generateParameterMappingTable();
   acodeHeader.maxParameters = 10;	/* TODO calculate and move this to a better place */
 
-  if (verbose) printf("\n\tVerbs: ");
+  verbose("Verbs");
   acodeHeader.verbTableAddress = generateVerbs(adv.vrbs);
 
-  if (verbose) printf("\n\tClasses: ");
+  verbose("Classes");
   acodeHeader.classTableAddress = generateClasses();
 
-  if (verbose) printf("\n\tInstances: ");
+  verbose("Instances");
   generateInstances(&acodeHeader);
 
-  if (verbose) printf("\n\tContainers: ");
+  verbose("Containers");
   acodeHeader.containerTableAddress = generateContainers(&acodeHeader);
 
-  if (verbose) printf("\n\tScripts: ");
+  verbose("Scripts");
   acodeHeader.scriptTableAddress = generateScripts(&acodeHeader);
 
-  if (verbose) printf("\n\tEvents: ");
+  verbose("Events");
   acodeHeader.eventTableAddress = generateEvents(&acodeHeader);
 
-  if (verbose) printf("\n\tRules: ");
+  verbose("Rules");
   acodeHeader.ruleTableAddress = generateRules();
 
   generateScores(&acodeHeader);
 
-  if (verbose) printf("\n\tMessages: ");
+  verbose("Messages");
   acodeHeader.messageTableAddress = gemsgs();
 
-  if (verbose) printf("\n\tCharacter Encoding: ");
+  verbose("Character Encoding");
   acodeHeader.freq = gefreq();	/* Character frequencies */
 
 
@@ -268,7 +273,6 @@ void generateAdventure(char acodeFileName[],
   terminateEmit();
   emitTextDataToAcodeFile(dataFileName);
   emitHeader();
-  if (verbose) printf("\n");
 }
 
 

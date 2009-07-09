@@ -58,9 +58,7 @@ void analyzeEvents(void)
     Context *context = newEventContext();
 
     for (evts = adv.evts; evts != NULL; evts = evts->next) {
-      if (verbose) {
-	progressCounter();
-      }
+      progressCounter();
       context->event = evts->element.evt;
       analyzeStatements(evts->element.evt->stms, context);
     }

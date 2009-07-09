@@ -19,8 +19,8 @@ void testPartition()
   List *ep = concat(NULL, e, ELEMENT_LIST);
   List *epp = concat(NULL, ep, LIST_LIST);
 
-  ASSERT(partition(&p) == NULL);
-  ASSERT(partition(&epp) != NULL);
+  ASSERT(partitionElements(&p) == NULL);
+  ASSERT(partitionElements(&epp) != NULL);
 }
 
 void entryForParameterShouldMergeFlagsFromAllElements() {

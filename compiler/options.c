@@ -12,7 +12,7 @@
 #include "lst.h"
 
 char *srcptr;			/* Pointer to adventure name */
-Bool verbose;			/* Verbose mode */
+Bool verboseFlag;			/* Verbose mode */
 int charset;			/* Which charset to read source in */
 Bool warningFlag;			/* Show warnings */
 Bool infoFlag;			/* Show informational messages */

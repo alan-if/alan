@@ -221,7 +221,7 @@ static List *first(List **listP)
 
 
 /*----------------------------------------------------------------------*/
-static List *partition(List **elmsListP) /* INOUT - Address to pointer to the list */
+static List *partitionElements(List **elmsListP) /* INOUT - Address to pointer to the list */
 {
   /*
     Partitions a list of elmLists into one list containing all elms
@@ -344,7 +344,7 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
 
   */
   List *elms = copyList(elementLists);
-  List *part;                   /* The current partion */
+  List *partition;                   /* The current partion */
   Aaddr elmadr, restrictionTableAddress;
   List *entries = NULL;         /* List of next level entries */
   ElementEntry *entry;		/* One entry in the list */
@@ -358,22 +358,22 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
   restrictionTableAddress = advance(elms);
 
   level++;
-  for (part = partition(&elms); part != NULL; part = partition(&elms)) {
+  for (partition = partitionElements(&elms); partition != NULL; partition = partitionElements(&elms)) {
     /* Make one entry for this partition */
     entry = newEntryForPartition(&entries);
 
-    switch (part->element.lst->element.elm->kind) {
+    switch (partition->element.lst->element.elm->kind) {
 
     case END_OF_SYNTAX:		/* This partition was at end of syntax */
-      entryForEOS(entry, part, restrictionTableAddress);
+      entryForEOS(entry, partition, restrictionTableAddress);
       break;
 
     case PARAMETER_ELEMENT:
-      entryForParameter(entry, part, stx);
+      entryForParameter(entry, partition, stx);
       break;
 
     case WORD_ELEMENT:
-      entryForWord(entry, stx, part);
+      entryForWord(entry, stx, partition);
       break;
     }
   }

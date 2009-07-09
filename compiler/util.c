@@ -22,7 +22,7 @@
 Srcp nulsrcp			/* NULL position for list */
   = {0,0,0};
 
-Bool verbose;		/* Verbose output */
+Bool verboseFlag;		/* Verbose output */
 long counter;		/* And counter for verbose mode */
 long allocated;		/* Calculated memory usage */
 
@@ -36,7 +36,7 @@ long allocated;		/* Calculated memory usage */
 
 /*======================================================================*/
 void progressCounter() {
-  if (verbose) {
+  if (verboseFlag) {
     printf("%8ld\b\b\b\b\b\b\b\b", counter++);
     fflush(stdout);
   }
@@ -75,8 +75,8 @@ void unimpl(Srcp srcp,		/* IN  - Where? */
 
 /*----------------------------------------------------------------------
 
-	Find out whether error message is of one of the severities
-	being printed.
+  Find out whether error message is of one of the severities
+  being printed.
 
 */
 static int test_severity(char *err, lmSev sevs)

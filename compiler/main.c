@@ -69,7 +69,7 @@ static SPA_DECLARE(options)
 #ifndef THINK_C
      SPA_HELP("help", "this help", usage, xit)
 #endif
-     SPA_FLAG("verbose", "verbose messages", verbose, FALSE, NULL)
+     SPA_FLAG("verbose", "verbose messages", verboseFlag, FALSE, NULL)
      SPA_FLAG("warnings", "[don't] show warning messages", warningFlag, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infoFlag, FALSE, NULL)
      SPA_FUNCTION("include <path>", "additional directory to search after current when\nlooking for imported files (may be repeated)", addInclude)
@@ -255,7 +255,7 @@ int main(int argc,		/* IN - argument count */
   /* -- get arguments -- */
   nArgs = spaProcess(argc, argv, arguments, options, paramError);
   /* Say hello ! */
-  if (verbose)
+  if (verboseFlag)
     printf("%s\n\n", alan.longHeader);
 
   if (nArgs == 0) {

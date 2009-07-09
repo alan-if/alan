@@ -2,7 +2,7 @@
 #
 
 # Cygwin or MingW?
-#PLATFORM = -mno-cygwin
+PLATFORM = -mno-cygwin
 #PLATFORM = 
 OPTIMIZE = -ggdb
 
@@ -16,8 +16,9 @@ dmalloc: LIBS = /usr/local/lib/libdmalloc.a
 dmalloc: PLATFORM =
 
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
-LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
+LDFLAGS	= $(PLATFORM)
 
+CC	= gcc
 CPP	= gcc -MM -ansi
 LD	= gcc
 
@@ -45,11 +46,6 @@ rndalan.exe: rndalan.c
 
 ../bin/rndalan.exe : rndalan.exe
 	cp rndalan.exe ../bin
-
-dmalloc: checkTarget tm $(MAINOBJECTS) unittests
-	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) $(LIBS)
-	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp alan.exe ../bin
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" alan
@@ -119,7 +115,7 @@ test : unittests
 #
 
 spa.o: spa.c spa.h
-	gcc $(CFLAGS) -c spa.c -o spa.o
+	$(CC) $(CFLAGS) -c spa.c -o spa.o
 
 smScanx.o: smScanx.c
 

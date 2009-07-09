@@ -275,6 +275,13 @@ static void prepareNames(void)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void verbose(char *message) {
+  if (verboseFlag) printf("\n%s:\t", message);
+}
+
+
+
 
 /************************************************************************\
 
@@ -308,7 +315,8 @@ void compile(void) {
   }
 
   /* OK, found it so now compile it! */
-  if (verbose) printf("Parsing: ");
+  verbose("Parsing");
+
   startTimingCompilation();			/* Start timing compilation */
 #ifdef __MWERKS__
   _fcreator = '?\?\?\?';
@@ -338,7 +346,7 @@ void compile(void) {
   }
 
   /* Analyze the internal form */
-  if (verbose) printf("\nAnalyzing:");
+  verbose("Analyzing");
   startTiming();
   analyzeAdventure();			/* Analyze the adventure */
   endSemanticsTiming();			/* End of semantic pass */
@@ -356,7 +364,7 @@ void compile(void) {
   /* OK so far ? */
   if (lmSeverity() < sevERR) {
     /* Yes, so generate an adventure */
-    if (verbose) printf("Generating:");
+    verbose("Generating");
 #ifdef __MWERKS__
     _fcreator = 'Arun';
     _ftype = 'Adat';
