@@ -38,6 +38,8 @@ include sources.mk
 all:
 	$(MAKE) $(SYSTEM)
 
+fromsrc: arun
+
 Darwin: PLATFORMFLAG =
 Darwin:
 	$(MAKE) unit
