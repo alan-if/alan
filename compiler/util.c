@@ -178,7 +178,7 @@ static void listing(lmSev sevs)
 #else
 
 /*======================================================================*/
-void listing(char *listFileName, int lines, int columns,
+void createListing(char *listFileName, int lines, int columns,
 	     lmTyp listingType, lmSev severities) {
   if (ccFlag || ideFlag) {
     lmList(listFileName, lines, columns, 0, 0);	/* Sort and prepare for retrieval */
@@ -202,7 +202,7 @@ void syserr(char *errorMessage, const char *function, char *file, int line)
   sprintf(messageString, "%s in '%s()', %s:%d", errorMessage, function, file, line);
 
   lmLog(&nulsrcp, 997, sevSYS, messageString);
-  listing("", 0, 79, liTINY, sevALL);
+  createListing("", 0, 79, liTINY, sevALL);
   terminate(EXIT_FAILURE);
 }
 

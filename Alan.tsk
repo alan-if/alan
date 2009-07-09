@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>653.89</origest>
-<currest>662.89</currest>
+<origest>654.89</origest>
+<currest>663.89</currest>
 <elapsed>472.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>92</origest>
-<currest>93</currest>
+<origest>93</origest>
+<currest>94</currest>
 <elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
@@ -161,8 +161,8 @@ Also need to separate the path and the basename since the user will want to use 
 <desc>Version 3.0alpha7</desc>
 <notes/>
 <priority>2</priority>
-<origest>15</origest>
-<currest>15</currest>
+<origest>16</origest>
+<currest>16</currest>
 <elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
@@ -353,6 +353,15 @@ Check if windows-dist contains all the .DLL:s that the build seem to require, po
 </task>
 <task>
 <desc>Investigate why new version of Alan in Gargoyle does not play sounds and shows pictures.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Remove MWERKS support</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

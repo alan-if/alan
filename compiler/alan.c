@@ -68,7 +68,7 @@ static struct {
 
 
 /*----------------------------------------------------------------------*/
-static void startTimingTotal(void)
+static void startTotalTiming(void)
 {
   tistart(&totalTime);
 }
@@ -228,7 +228,7 @@ static char lstfnm[255];	/*   - " -   of listing file */
   Prepare all file names needed.
 
  */
-static void prepareNames(void)
+static void prepareFileNames(void)
 {
   /* Save source file name */
   strcpy(srcfnm, srcptr);
@@ -281,40 +281,29 @@ static void verbose(char *message) {
 }
 
 
-
-
-/************************************************************************\
-
-			ALAN Main Procedure
-
-\************************************************************************/
-
-void compile(void) {
-  lmSev sevs = 0;		/* Set of listing severities */
-
-  /* Start timer */
-  startTimingTotal();
-			
-  /* Process the arguments */
-  prepareNames();
-
-  /* -- compile -- */
-#ifdef MALLOC
-  malloc_debug(2);
-#endif
+/*----------------------------------------------------------------------*/
+static void bookmarkHeap() {
   heap = malloc((size_t)10000);		/* Remember where heap starts */
   free(heap);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void setupCompilation() {
   lmLiInit(alan.shortHeader, srcfnm, lm_ENGLISH_Messages);
   setCharacterSet(charset);
 
   if (!smScanEnter(srcfnm, FALSE)) {
     /* Failed to open the source file */
     lmLog(NULL, 199, sevFAT, srcfnm);
-    listing("", 0, 79, liMSG, sevALL);
+    createListing("", 0, 79, liMSG, sevALL);
     terminate(EXIT_FAILURE);
   }
+}
 
-  /* OK, found it so now compile it! */
+
+/*----------------------------------------------------------------------*/
+static void parse() {
   verbose("Parsing");
 
   startTimingCompilation();			/* Start timing compilation */
@@ -337,30 +326,23 @@ void compile(void) {
   startTiming();
   pmParse();
   endParseTiming();			/* End of parsing pass */
+}
 
-  if ((dumpFlags&DUMP_1) > 0) {
-    listing("", 0, 79, liTINY, sevs);
-    lmSkipLines(0);
-    dumpAdventure(dumpFlags);
-    terminate(EXIT_FAILURE);
-  }
 
-  /* Analyze the internal form */
+/*----------------------------------------------------------------------*/
+static void analyze() {
   verbose("Analyzing");
   startTiming();
   analyzeAdventure();			/* Analyze the adventure */
   endSemanticsTiming();			/* End of semantic pass */
-
-  if ((dumpFlags&DUMP_2) > 0) {
-    listing("", 0, 79, liTINY, sevs);
-    lmSkipLines(0);
-    dumpAdventure(dumpFlags);
-    terminate(EXIT_FAILURE);
-  }
-
-  /* All text is output so close text file */
+  /* All text is now output so close text file */
   fclose(txtfil);
 
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generate() {
   /* OK so far ? */
   if (lmSeverity() < sevERR) {
     /* Yes, so generate an adventure */
@@ -378,26 +360,33 @@ void compile(void) {
   } else {
     lmLog(NULL, 999, sevINF, "");
   }
-  endCompilationTiming();
+}
 
+
+/*----------------------------------------------------------------------*/
+static void removeTemporaryFiles() {
   if (dumpFlags == 0) {
     unlink(txtfnm);
     unlink(datfnm);
   }
+}
 
-  /* Check what messages to show on the screen */
-  sevs = sevALL;
-  if (!warningFlag)
-    sevs &= ~sevWAR;
-  if (!infoFlag)
-    sevs &= ~sevINF;
 
-  /* Create listing files and list messages on the screen */
-#ifdef __mac__
-  listing(sevs);
-#else
-  if (listingFlag) {			/* If -l option, create list file */
-    listing(lstfnm, lcount, ccount, fullFlag?liFULL:liTINY, sevs /*sevALL*/);
+/*----------------------------------------------------------------------*/
+static void dumpAndExitAfterPhase(int phase) {
+  if ((dumpFlags&phase) != 0) {
+    createListing("", 0, 79, liTINY, 0);
+    lmSkipLines(0);
+    dumpAdventure(dumpFlags);
+    terminate(EXIT_FAILURE);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void listingOnFile() {
+  if (listingFlag) {
+    createListing(lstfnm, lcount, ccount, fullFlag?liFULL:liTINY, sevALL);
     if (dumpFlags) {
       lmSkipLines(0);
       dumpAdventure(dumpFlags);
@@ -408,8 +397,20 @@ void compile(void) {
       statistics();
     }
   }
+}
 
-  listing("", 0, 79, listingFlag?liTINY:(fullFlag?liFULL:liTINY), sevs);
+
+/*----------------------------------------------------------------------*/
+static void listingOnScreen() {
+  lmSev sevs;
+
+  /* Check what messages to show on the screen */
+  sevs = sevALL;
+  if (!warningFlag)
+    sevs &= ~sevWAR;
+  if (!infoFlag)
+    sevs &= ~sevINF;
+  createListing("", 0, 79, listingFlag?liTINY:(fullFlag?liFULL:liTINY), sevs);
 
   if (dumpFlags != 0 && !listingFlag) {
     lmSkipLines(0);
@@ -422,15 +423,39 @@ void compile(void) {
     printTimes();
     statistics();
   }
+}
 
-  lmLiTerminate();
+
+
+
+
+
+/************************************************************************/
+void compile(void) {
+
+  startTotalTiming();
+  prepareFileNames();
+
+#ifdef MALLOC
+  malloc_debug(2);
 #endif
+
+  bookmarkHeap();
+  setupCompilation();
+  parse();
+  dumpAndExitAfterPhase(DUMP_AFTER_PARSE);
+  analyze();
+  dumpAndExitAfterPhase(DUMP_AFTER_ANALYSIS);
+  generate();
+  endCompilationTiming();
+  removeTemporaryFiles();
+  listingOnFile();
+  listingOnScreen();
+  lmLiTerminate();
 
 #ifdef MALLOC
   if (malloc_verify() == 0) printf("Error in heap!\n");
 #endif
-
-  /* if (ppflg) pp(); */
 
   if (lmSeverity() < sevERR)
     terminate(EXIT_SUCCESS);
