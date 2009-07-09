@@ -616,8 +616,8 @@ static void analyzeDepend(Statement *stm, Context *context)
  */
 
   for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
-    if (cases->element.stm->fields.depcase.exp != NULL) {
-      Expression *exp = cases->element.stm->fields.depcase.exp;
+    if (cases->member.stm->fields.depcase.exp != NULL) {
+      Expression *exp = cases->member.stm->fields.depcase.exp;
       /* Unless it is an ELSE clause, set left hand of case expression
 	 to be the depend expression */
       switch (exp->kind) {
@@ -642,11 +642,11 @@ static void analyzeDepend(Statement *stm, Context *context)
     } else
       /* If this is an ELSE-case there can not be any other afterwards */
       if (cases->next != NULL)
-	lmLog(&cases->element.stm->srcp, 335, sevERR, "");	
+	lmLog(&cases->member.stm->srcp, 335, sevERR, "");	
     
     /* Analyze the expression and the statements */
-    analyzeExpression(cases->element.stm->fields.depcase.exp, context);
-    analyzeStatements(cases->element.stm->fields.depcase.stms, context);
+    analyzeExpression(cases->member.stm->fields.depcase.exp, context);
+    analyzeStatements(cases->member.stm->fields.depcase.stms, context);
   }
 }
 
@@ -825,7 +825,7 @@ void analyzeStatements(List *stms,
 		       Context *context)
 {
   while (stms != NULL) {
-    analyzeStatement(stms->element.stm, context);
+    analyzeStatement(stms->member.stm, context);
     stms = stms->next;
   }
 }
@@ -1110,18 +1110,18 @@ static void generateDepend(Statement *stm)
   /* For each case: */
   for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
     /* If it is not the ELSE clause ... */
-    if (cases->element.stm->fields.depcase.exp != NULL) {
+    if (cases->member.stm->fields.depcase.exp != NULL) {
       /* Generate a DEPCASE (if not first case) and a DUP */
       if (cases != stm->fields.depend.cases)
 	emit0(I_DEPCASE);
       emit0(I_DUP);
       /* ...and the case expression (right hand + operator) */
-      generateFilter(cases->element.stm->fields.depcase.exp);
+      generateFilter(cases->member.stm->fields.depcase.exp);
       emit0(I_DEPEXEC);
     } else
       emit0(I_DEPELSE);
     /* ...and then the statements */
-    generateStatements(cases->element.stm->fields.depcase.stms);
+    generateStatements(cases->member.stm->fields.depcase.stms);
   }
   emit0(I_ENDDEP);
 }
@@ -1131,14 +1131,14 @@ static void generateDepend(Statement *stm)
 static void generateIntegerLoopLimit(Statement *statement) {
   List *filter;
 
-  if (statement->fields.each.filters->element.exp->kind == BETWEEN_EXPRESSION)
-    generateExpression(statement->fields.each.filters->element.exp->fields.btw.upperLimit);
+  if (statement->fields.each.filters->member.exp->kind == BETWEEN_EXPRESSION)
+    generateExpression(statement->fields.each.filters->member.exp->fields.btw.upperLimit);
   else
     TRAVERSE(filter, statement->fields.each.filters) {
-      if (filter->element.exp->kind == WHERE_EXPRESSION)
-	if (filter->element.exp->fields.whr.whr->kind == WHERE_INSET) {
-	  generateExpression(filter->element.exp->fields.whr.whr->what);
-	  statement->fields.each.setExpression = filter->element.exp;
+      if (filter->member.exp->kind == WHERE_EXPRESSION)
+	if (filter->member.exp->fields.whr.whr->kind == WHERE_INSET) {
+	  generateExpression(filter->member.exp->fields.whr.whr->what);
+	  statement->fields.each.setExpression = filter->member.exp;
 	  emit0(I_SETSIZE);
 	  return;
 	}
@@ -1190,7 +1190,7 @@ static void generateEach(Statement *statement)
 
   /* Push start index */
   if (statement->fields.each.type == INTEGER_TYPE)
-    generateIntegerLoopIndex(statement->fields.each.filters->element.exp);
+    generateIntegerLoopIndex(statement->fields.each.filters->member.exp);
   else
     emitConstant(1);
   
@@ -1210,7 +1210,7 @@ static void generateEach(Statement *statement)
   /* Generate filters */
   TRAVERSE(filter, statement->fields.each.filters) {
     emit2(I_GETLOCAL, 0, 1);
-    generateFilter(filter->element.exp);
+    generateFilter(filter->member.exp);
     emit0(I_NOT);
     emit0(I_IF);
     emit0(I_LOOPNEXT);
@@ -1418,7 +1418,7 @@ void generateStatements(List *stms)
   List *current = stms;
 
   for (current = stms; current != NULL; current = current->next) {
-    generateStatement(current->element.stm);
+    generateStatement(current->member.stm);
   }
 }
 

@@ -51,7 +51,7 @@ void analyzeSteps(List *stps, Context *context)
   List *lst;
 
   for (lst = stps; lst != NULL; lst = lst->next) {
-    Step *step = lst->element.stp;
+    Step *step = lst->member.stp;
     if (step->after != NULL) {
       analyzeExpression(step->after, context);
       if (step->after->type != INTEGER_TYPE)
@@ -76,7 +76,7 @@ Aaddr generateSteps(List *stps)
   StepEntry stepEntry;
 
   for (lst = stps; lst != NULL; lst = lst->next) {
-    Step *step = lst->element.stp;
+    Step *step = lst->member.stp;
     if (step->after != NULL) { /* After specified */
       step->afteradr = nextEmitAddress();
       generateExpression(step->after);
@@ -97,9 +97,9 @@ Aaddr generateSteps(List *stps)
   /* Now generate a step table */
   adr = nextEmitAddress();
   for (lst = stps; lst != NULL; lst = lst->next) {
-    stepEntry.after = lst->element.stp->afteradr;
-    stepEntry.exp = lst->element.stp->expadr;
-    stepEntry.stms = lst->element.stp->stmadr;
+    stepEntry.after = lst->member.stp->afteradr;
+    stepEntry.exp = lst->member.stp->expadr;
+    stepEntry.stms = lst->member.stp->stmadr;
     emitEntry(&stepEntry, sizeof(StepEntry));
   }
   emit(EOF);

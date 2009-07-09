@@ -153,7 +153,7 @@ static void testCopyList() {
 
   copy = copyList(l1);
   ASSERT(l1->next == NULL);
-  ASSERT(l1->element.id == copy->element.id);
+  ASSERT(l1->member.id == copy->member.id);
 
   copy = copyList(l4);
   ASSERT(length(copy) == length(l4));

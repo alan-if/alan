@@ -83,7 +83,7 @@ static Bool findReference(Instance *ref, List *referenceList)
   List *l;
 
   for (l = referenceList; l != NULL; l = l->next)
-    if (l->element.ins == ref)
+    if (l->member.ins == ref)
       return TRUE;
   return FALSE;
 }
@@ -295,7 +295,7 @@ static void generateWordReference(Word *wrd) {
   if (wrd->classbits&NOUN_BIT) {
     wrd->nounRefAddress = nextEmitAddress();
     for (lst = wrd->ref[NOUN_WORD]; lst != NULL; lst = lst->next)
-      generateId(lst->element.ins->props->id);
+      generateId(lst->member.ins->props->id);
     emit(EOF);
   } else
     wrd->nounRefAddress = 0;
@@ -303,7 +303,7 @@ static void generateWordReference(Word *wrd) {
   if (wrd->classbits&ADJECTIVE_BIT) {
     wrd->adjectiveRefAddress = nextEmitAddress();
     for (lst = wrd->ref[ADJECTIVE_WORD]; lst != NULL; lst = lst->next)
-      generateId(lst->element.ins->props->id);
+      generateId(lst->member.ins->props->id);
     emit(EOF);
   } else
     wrd->adjectiveRefAddress = 0;
@@ -311,7 +311,7 @@ static void generateWordReference(Word *wrd) {
   if (wrd->classbits&PRONOUN_BIT) {
     wrd->pronounRefAddress = nextEmitAddress();
     for (lst = wrd->ref[PRONOUN_WORD]; lst != NULL; lst = lst->next)
-      generateId(lst->element.ins->props->id);
+      generateId(lst->member.ins->props->id);
     emit(EOF);
   } else
     wrd->pronounRefAddress = 0;
@@ -366,7 +366,7 @@ static void generateWordEntry(Word *wrd) {
   if (wrd->classbits == SYNONYM_BIT) {
     /* If a synonym generate same as for original but mark as synonym */
     /* The reference is actually a pointer to the original Word */
-    Word *original = (Word *)wrd->ref[SYNONYM_WORD]->element.word;
+    Word *original = (Word *)wrd->ref[SYNONYM_WORD]->member.word;
     de.classBits = original->classbits|SYNONYM_BIT;
     de.code = original->code;
     de.adjectiveRefs = original->adjectiveRefAddress;

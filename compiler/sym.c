@@ -127,7 +127,7 @@ static void addLocal(Symbol *new)
   if (currentFrame->localSymbols == NULL)
     new->fields.local.number = 1;
   else
-    new->fields.local.number = currentFrame->localSymbols->element.sym->fields.local.number + 1;
+    new->fields.local.number = currentFrame->localSymbols->member.sym->fields.local.number + 1;
 
   new->fields.local.level = currentFrame->level;
 
@@ -298,13 +298,13 @@ static void setParameterClass(Symbol *s, int parameter, Symbol *class) {
   for (p = 1; p < parameter; p++)
     pl = pl->next;
 
-  pl->element.sym->fields.parameter.class = class;
+  pl->member.sym->fields.parameter.class = class;
   if (class == stringSymbol)
-    pl->element.sym->fields.parameter.type = STRING_TYPE;
+    pl->member.sym->fields.parameter.type = STRING_TYPE;
   else if (class == integerSymbol)
-    pl->element.sym->fields.parameter.type = INTEGER_TYPE;
+    pl->member.sym->fields.parameter.type = INTEGER_TYPE;
   else
-    pl->element.sym->fields.parameter.type = INSTANCE_TYPE;
+    pl->member.sym->fields.parameter.type = INSTANCE_TYPE;
 }
 
 
@@ -396,8 +396,8 @@ static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
   List *l;
 
   for (l = parameterSymbols; l != NULL; l = l->next)
-    if (compareStrings(idString, l->element.sym->fields.parameter.element->id->string) == 0)
-      return l->element.sym;
+    if (compareStrings(idString, l->member.sym->fields.parameter.element->id->string) == 0)
+      return l->member.sym;
   return NULL;
 }
 
@@ -408,9 +408,9 @@ Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols)
   List *p;
 
   for (p = parameterSymbols; p != NULL; p = p->next) {
-    if (p->element.sym->kind == PARAMETER_SYMBOL)
-      if (equalId(parameterId, p->element.sym->fields.parameter.element->id))
-	return p->element.sym;
+    if (p->member.sym->kind == PARAMETER_SYMBOL)
+      if (equalId(parameterId, p->member.sym->fields.parameter.element->id))
+	return p->member.sym;
   }
   return NULL;
 }
@@ -450,8 +450,8 @@ static Symbol *lookupInFrames(char *idString)
 
   while (thisFrame != NULL) {
     for (localSymbolList = thisFrame->localSymbols; localSymbolList != NULL; localSymbolList = localSymbolList->next) {
-      if (compareStrings(idString, localSymbolList->element.sym->string) == 0)
-	return localSymbolList->element.sym;
+      if (compareStrings(idString, localSymbolList->member.sym->string) == 0)
+	return localSymbolList->member.sym;
     }
     thisFrame = thisFrame->outerFrame;
   }
@@ -515,8 +515,8 @@ Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
       return NULL;
     }
     while (scripts != NULL) {
-      if (equalId(scriptName, scripts->element.script->id))
-	return scripts->element.script;
+      if (equalId(scriptName, scripts->member.script->id))
+	return scripts->member.script;
       scripts = scripts->next;
     }
     theSymbol = parentOf(theSymbol);
@@ -720,7 +720,7 @@ void setParameters(Symbol *verb, List *parameters)
     SYSERR("Not a parameter list");
 
   TRAVERSE(param, parameters) {
-    Symbol *parameterSymbol = newParameterSymbol(param->element.elm->id->string, param->element.elm);
+    Symbol *parameterSymbol = newParameterSymbol(param->member.elm->id->string, param->member.elm);
     parameterSymbols = concat(parameterSymbols, parameterSymbol, SYMBOL_LIST);
   }
 
@@ -805,7 +805,7 @@ static void numberAttributes(Symbol *symbol)
 
   for (theList = symbol->fields.entity.props->attributes; theList != NULL;
        theList = theList->next){
-    Attribute *thisAttribute = theList->element.atr;
+    Attribute *thisAttribute = theList->member.atr;
     inheritedAttribute = findInheritedAttribute(symbol, thisAttribute->id);
     if (inheritedAttribute != NULL) {
       thisAttribute->id->code = inheritedAttribute->id->code;
@@ -903,7 +903,7 @@ static void replicateAttributes(Symbol *symbol)
 
   /* Verify that there are no inherited, non-initialized, attributes */
   TRAVERSE(atr, propertiesOf(symbol)->attributes) {
-    Attribute *thisAttribute = atr->element.atr;
+    Attribute *thisAttribute = atr->member.atr;
     if (thisAttribute->type == REFERENCE_TYPE)
       if (!thisAttribute->initialized
 	  && symbol->kind != CLASS_SYMBOL)

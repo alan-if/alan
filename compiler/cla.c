@@ -179,7 +179,7 @@ void symbolizeClasses(void)
   List *l;
 
   for (l = allClasses; l; l = l->next)
-    symbolizeClass(l->element.cla);
+    symbolizeClass(l->member.cla);
 }
 
 
@@ -196,7 +196,7 @@ static void analyzeClass(Class *class)
 void analyzeAllClassAttributes() {
   List *l;
   TRAVERSE(l, allClasses) {
-    Properties *props = l->element.cla->props;
+    Properties *props = l->member.cla->props;
     analyzeAttributes(props->attributes, props->id->symbol);
   }
 }
@@ -208,7 +208,7 @@ void analyzeClasses(void)
   List *l;
 
   for (l = allClasses; l; l = l->next)
-    analyzeClass(l->element.cla);
+    analyzeClass(l->member.cla);
 }
 
 
@@ -287,7 +287,7 @@ static void generateClassEntry(Class *cla)
   entry.name = cla->props->nameAddress;
 
   if (cla->props->pronouns)
-    entry.pronoun = cla->props->pronouns->element.id->code;
+    entry.pronoun = cla->props->pronouns->member.id->code;
   else
     entry.pronoun = 0;
 
@@ -330,11 +330,11 @@ Aaddr generateClasses(void)
   acodeHeader.classMax = classCount;
 
   for (l = allClasses; l; l = l->next)
-    generateClassData(l->element.cla);
+    generateClassData(l->member.cla);
 
   adr = nextEmitAddress();
   for (l = allClasses; l; l = l->next)
-    generateClassEntry(l->element.cla);
+    generateClassEntry(l->member.cla);
   emit(EOF);
 
   return (adr);

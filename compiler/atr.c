@@ -133,10 +133,10 @@ static void checkMultipleAttributes(List *atrs)
   List *al2;
 
   TRAVERSE(al1, atrs) {
-    Attribute *thisAttribute = al1->element.atr;
+    Attribute *thisAttribute = al1->member.atr;
     /* Check multiple declaration */
     TRAVERSE(al2, al1->next) {
-      Attribute *nextAttribute = al2->element.atr;
+      Attribute *nextAttribute = al2->member.atr;
       if (equalId(thisAttribute->id, nextAttribute->id))
 	  lmLog(&nextAttribute->id->srcp, 218, sevERR, nextAttribute->id->string);
     }
@@ -152,7 +152,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
   checkMultipleAttributes(atrs);
 
   TRAVERSE(al, atrs) {
-    Attribute *thisAttribute = al->element.atr;
+    Attribute *thisAttribute = al->member.atr;
     if (thisAttribute->type == REFERENCE_TYPE) {
       symbolizeId(thisAttribute->reference);
       if (thisAttribute->reference->symbol) {
@@ -184,8 +184,8 @@ Attribute *findAttribute(List *attributes, IdNode *id)
   List *this;
 
   TRAVERSE(this, attributes)
-    if (equalId(this->element.atr->id, id))
-      return this->element.atr;
+    if (equalId(this->member.atr->id, id))
+      return this->member.atr;
   return NULL;
 }
 
@@ -212,7 +212,7 @@ List *sortAttributes(List *attributes)
 	    tmp1->element.atr->id->code == tmp2->element.atr->id->code)
 	  syserr("Sorting multiple attributes with same code.", NULL);
 #endif
-	if (tmp1->element.atr->id->code > tmp2->element.atr->id->code) {
+	if (tmp1->member.atr->id->code > tmp2->member.atr->id->code) {
 	  change = TRUE;
 	  tmp1->next = tmp2->next;
 	  tmp2->next = tmp1;
@@ -244,7 +244,7 @@ static List *copyAttributeList(List *theOriginal)
   List *traversal;
 
   for (traversal = theOriginal; traversal != NULL; traversal = traversal->next)
-    theCopy = concat(theCopy, copyAttribute(traversal->element.atr),
+    theCopy = concat(theCopy, copyAttribute(traversal->member.atr),
 		     ATTRIBUTE_LIST);
   return theCopy;
 }
@@ -268,13 +268,13 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
   while (own != NULL) {
     if (toAdd == NULL)
       break;
-    else if (own->element.atr->id->code == toAdd->element.atr->id->code) {
+    else if (own->member.atr->id->code == toAdd->member.atr->id->code) {
       own = own->next;
       toAdd = toAdd->next;
-    } else if (own->element.atr->id->code < toAdd->element.atr->id->code) {
+    } else if (own->member.atr->id->code < toAdd->member.atr->id->code) {
       own = own->next;
-    } else if (own->element.atr->id->code > toAdd->element.atr->id->code) {
-      insert(own, copyAttribute(toAdd->element.atr), ATTRIBUTE_LIST);
+    } else if (own->member.atr->id->code > toAdd->member.atr->id->code) {
+      insert(own, copyAttribute(toAdd->member.atr), ATTRIBUTE_LIST);
       toAdd = toAdd->next;
     }
   }
@@ -299,13 +299,13 @@ static Bool hasSingleIdentifierMember(List *members)
   if (members == NULL) return FALSE;
   return length(members) == 1
     && members->kind == EXPRESSION_LIST
-    && isWhatId(members->element.exp);
+    && isWhatId(members->member.exp);
 }
 
 /*----------------------------------------------------------------------*/
 static char *theSingleIdentifier(List *members)
 {
-  return members->element.exp->fields.wht.wht->id->string;
+  return members->member.exp->fields.wht.wht->id->string;
 }
 
 /*----------------------------------------------------------------------*/
@@ -402,7 +402,7 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol)
   List *theList;
 
   TRAVERSE (theList, atrs) {
-    Attribute *thisAttribute = theList->element.atr;
+    Attribute *thisAttribute = theList->member.atr;
     Attribute *inheritedAttribute = findInheritedAttribute(owningSymbol, thisAttribute->id);
 
     thisAttribute->definingSymbol = owningSymbol;
@@ -642,15 +642,15 @@ Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute
   /* First generate the names of the attributes if needed */
   if ((Bool) opts[OPTDEBUG].value) {
     for (lst = atrs; lst != NULL; lst = lst->next) {
-      lst->element.atr->stringAddress = nextEmitAddress();
-      emitString(lst->element.atr->id->string);
+      lst->member.atr->stringAddress = nextEmitAddress();
+      emitString(lst->member.atr->id->string);
     }
   }
 
   adr = nextEmitAddress();
 
   for (lst = atrs; lst != NULL; lst = lst->next) {
-    generateAttribute(lst->element.atr, instanceCode);
+    generateAttribute(lst->member.atr, instanceCode);
     attributeAreaSize += AwordSizeOf(AttributeEntry);
   }
   emit(EOF);
@@ -671,10 +671,10 @@ Aaddr generateStringInit(void)
   Aaddr adr = nextEmitAddress();
 
   for (atrs = adv.stringAttributes; atrs != NULL; atrs = atrs->next) {
-    entry.fpos = atrs->element.atr->fpos;
-    entry.len = atrs->element.atr->len;
-    entry.instanceCode = atrs->element.atr->instanceCode;
-    entry.attributeCode = atrs->element.atr->id->code;
+    entry.fpos = atrs->member.atr->fpos;
+    entry.len = atrs->member.atr->len;
+    entry.instanceCode = atrs->member.atr->instanceCode;
+    entry.attributeCode = atrs->member.atr->id->code;
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
@@ -688,8 +688,8 @@ void generateSet(Expression *exp) {
 
   TRAVERSE (elements, exp->fields.set.members)
     switch (exp->fields.set.memberType) {
-    case INSTANCE_TYPE: emit(symbolOfExpression(elements->element.exp, NULL)->code); break;
-    case INTEGER_TYPE: emit(elements->element.exp->fields.val.val); break;
+    case INSTANCE_TYPE: emit(symbolOfExpression(elements->member.exp, NULL)->code); break;
+    case INTEGER_TYPE: emit(elements->member.exp->fields.val.val); break;
     default: SYSERR("Generating unexpected type in Set attribute");
     }
   emit(EOF);
@@ -723,14 +723,14 @@ Aaddr generateSetInit(void)
   Aaddr adr;
 
   TRAVERSE (atrs, adv.setAttributes)
-    atrs->element.atr->setAddress = generateSetAttribute(atrs->element.atr);
+    atrs->member.atr->setAddress = generateSetAttribute(atrs->member.atr);
 
   adr = nextEmitAddress();
   TRAVERSE (atrs, adv.setAttributes) {
-    entry.size = length(atrs->element.atr->set->fields.set.members);
-    entry.setAddress = atrs->element.atr->setAddress;
-    entry.instanceCode = atrs->element.atr->instanceCode;
-    entry.attributeCode = atrs->element.atr->id->code;
+    entry.size = length(atrs->member.atr->set->fields.set.members);
+    entry.setAddress = atrs->member.atr->setAddress;
+    entry.instanceCode = atrs->member.atr->instanceCode;
+    entry.attributeCode = atrs->member.atr->id->code;
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);

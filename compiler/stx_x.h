@@ -11,6 +11,8 @@
 
 /* USE: */
 #include "context.h"
+#include "elm.h"
+
 
 /* DATA: */
 
@@ -19,6 +21,10 @@
 
 extern Syntax *newSyntax(Srcp srcp, IdNode *verb, List *elements,
 			 List *restrictions, Srcp restrictionSrcp);
+extern Syntax *newSyntaxWithEOS(Srcp srcp, IdNode *id, List *restrictionList,
+				Srcp restrictionSrcp);
+
+extern void addElement(Syntax *syntax, Element *element);
 
 /* Create a default syntax node */
 extern Syntax *defaultSyntax0(char vrbstr[]);

@@ -44,11 +44,11 @@ static void testNewWord()
 
   newPronounWord("p", &i1);
   ASSERT(strcmp(wordTree->string, "p") == 0);
-  ASSERT(wordTree->ref[PRONOUN_WORD]->element.ins == &i1);
+  ASSERT(wordTree->ref[PRONOUN_WORD]->member.ins == &i1);
 
   newSynonymWord("s", findWord("p"));
   ASSERT(strcmp(wordTree->high->string, "s") == 0);
-  ASSERT(wordTree->high->ref[SYNONYM_WORD]->element.word == findWord("p"));
+  ASSERT(wordTree->high->ref[SYNONYM_WORD]->member.word == findWord("p"));
 }
 
 static void testGenerateWordEntry()

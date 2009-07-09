@@ -56,17 +56,17 @@ void analyzeSynonyms(void)
 
   for (lst = adv.syns; lst != NULL; lst = lst->next) {
     progressCounter();
-    wrd = findWord(lst->element.syn->id->string);
+    wrd = findWord(lst->member.syn->id->string);
     if (wrd == NULL)		/* Couldn't find target word */
-      lmLog(&lst->element.syn->id->srcp, 321, sevWAR, lst->element.syn->id->string);
+      lmLog(&lst->member.syn->id->srcp, 321, sevWAR, lst->member.syn->id->string);
     else
-      for (slst = lst->element.syn->ids; slst != NULL; slst = slst->next) {
+      for (slst = lst->member.syn->ids; slst != NULL; slst = slst->next) {
 	/* Look up the synonym */
-	swrd = findWord(slst->element.id->string);
+	swrd = findWord(slst->member.id->string);
 	if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
-	  lmLog(&slst->element.id->srcp, 322, sevWAR, slst->element.id->string);
+	  lmLog(&slst->member.id->srcp, 322, sevWAR, slst->member.id->string);
 	else
-	  newSynonymWord(slst->element.id->string, wrd);
+	  newSynonymWord(slst->member.id->string, wrd);
       }
   }
 }

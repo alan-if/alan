@@ -19,7 +19,7 @@ void testCreateSetAttribute()
   Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
   ASSERT(atr->type == SET_TYPE);
   ASSERT(length(atr->set->fields.set.members) == 1);
-  ASSERT(atr->set->fields.set.members->element.exp->kind == INTEGER_EXPRESSION);
+  ASSERT(atr->set->fields.set.members->member.exp->kind == INTEGER_EXPRESSION);
 }
 
 void testSingleIdentifierInMember() {
@@ -153,8 +153,8 @@ static Instance *firstInstance, *secondInstance;
 
 static void numberTheAttributes(List *aList, int n1, int n2)
 {
-  aList->element.atr->id->code = n1;
-  aList->next->element.atr->id->code = n2;
+  aList->member.atr->id->code = n1;
+  aList->next->member.atr->id->code = n2;
 }
 
 
@@ -163,7 +163,7 @@ static Bool equalLists(List *list1, List *list2)
   List *t1 = list1;
   List *t2 = list2;
 
-  while (t1 != NULL && t2 != NULL && t1->element.atr->id->code && t2->element.atr->id->code) {
+  while (t1 != NULL && t2 != NULL && t1->member.atr->id->code && t2->member.atr->id->code) {
     t1 = t1->next;
     t2 = t2->next;
   }
@@ -269,23 +269,23 @@ void testAttributeListsInSymbolTable()
 
 static void numberAttributes123(List *l)
 {
-  l->element.atr->id->code = 1;
-  l->next->element.atr->id->code = 2;
-  l->next->next->element.atr->id->code = 3;
+  l->member.atr->id->code = 1;
+  l->next->member.atr->id->code = 2;
+  l->next->next->member.atr->id->code = 3;
 }
 
 static void numberAttributes321(List *l)
 {
-  l->element.atr->id->code = 3;
-  l->next->element.atr->id->code = 2;
-  l->next->next->element.atr->id->code = 1;
+  l->member.atr->id->code = 3;
+  l->next->member.atr->id->code = 2;
+  l->next->next->member.atr->id->code = 1;
 }
 
 static void numberAttributes231(List *l)
 {
-  l->element.atr->id->code = 2;
-  l->next->element.atr->id->code = 3;
-  l->next->next->element.atr->id->code = 1;
+  l->member.atr->id->code = 2;
+  l->next->member.atr->id->code = 3;
+  l->next->next->member.atr->id->code = 1;
 }
 
 static Bool attributesAreSorted(List *list)
@@ -294,9 +294,9 @@ static Bool attributesAreSorted(List *list)
   int previousCode = 0;
 
   for (l = list; l; l = l->next) {
-    if (l->element.atr->id->code <= previousCode)
+    if (l->member.atr->id->code <= previousCode)
       return FALSE;
-    previousCode = l->element.atr->id->code;
+    previousCode = l->member.atr->id->code;
   }
   return TRUE;
 }
@@ -359,7 +359,7 @@ static void testResolveThisAttributeForClass()
   Attribute *theResolvedAttribute;
 
   theResolvedAttribute = resolveAttributeOfThis(newId(nulsrcp, "x"), &context);
-  ASSERT(theResolvedAttribute == theAttributes->element.atr);
+  ASSERT(theResolvedAttribute == theAttributes->member.atr);
 }
 
 void registerAtrUnitTests()

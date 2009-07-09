@@ -173,11 +173,11 @@ Aaddr generateIfids(List *ifids)
   Aaddr ifidAddress = nextEmitAddress();
 
   TRAVERSE(lst, ifids)
-    generateIfid(lst->element.ifid);
+    generateIfid(lst->member.ifid);
 
   TRAVERSE(lst, ifids) {
-    emit(lst->element.ifid->nameAddress);
-    emit(lst->element.ifid->valueAddress);
+    emit(lst->member.ifid->nameAddress);
+    emit(lst->member.ifid->valueAddress);
   }
   emit(EOF);
   return ifidAddress;

@@ -59,8 +59,8 @@ void analyzeEvents(void)
 
     for (evts = adv.evts; evts != NULL; evts = evts->next) {
       progressCounter();
-      context->event = evts->element.evt;
-      analyzeStatements(evts->element.evt->stms, context);
+      context->event = evts->member.evt;
+      analyzeStatements(evts->member.evt->stms, context);
     }
 }
 
@@ -91,12 +91,12 @@ Aaddr generateEvents(ACodeHeader *header)
 
   /* First all the events */
   for (lst = adv.evts; lst != NULL; lst = lst->next)
-    generateEvent(lst->element.evt);
+    generateEvent(lst->member.evt);
 
   adr = nextEmitAddress();		/* Save address of event table */
   for (lst = adv.evts; lst != NULL; lst = lst->next) {
-    entry.stringAddress = lst->element.evt->namadr;
-    entry.code = lst->element.evt->stmadr;
+    entry.stringAddress = lst->member.evt->namadr;
+    entry.code = lst->member.evt->stmadr;
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);

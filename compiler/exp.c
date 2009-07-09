@@ -199,7 +199,7 @@ void symbolizeExpression(Expression *exp) {
       break;
     case SET_EXPRESSION:
       TRAVERSE(member, exp->fields.set.members)
-	symbolizeExpression(member->element.exp);
+	symbolizeExpression(member->member.exp);
       break;
     case RANDOM_EXPRESSION:
       symbolizeExpression(exp->fields.rnd.from);
@@ -335,7 +335,7 @@ Bool isConstantExpression(Expression *exp)
     {
       List *members;
       TRAVERSE(members, exp->fields.set.members) {
-	if (!isConstantExpression(members->element.exp))
+	if (!isConstantExpression(members->member.exp))
 	  return FALSE;
       }
       return TRUE;
@@ -763,25 +763,25 @@ Bool analyzeFilterExpressions(char *message, List *filters,
 
   /* Analyze the filters which may restrict to a class, return the class id */
   TRAVERSE(lst, filters) {
-    analyzeClassingFilter(message, context, lst->element.exp);
-    class = combineFilterClasses(class, lst->element.exp->class, lst->element.exp->srcp);
-    if (lst->element.exp->type == ERROR_TYPE)
+    analyzeClassingFilter(message, context, lst->member.exp);
+    class = combineFilterClasses(class, lst->member.exp->class, lst->member.exp->srcp);
+    if (lst->member.exp->type == ERROR_TYPE)
       error = TRUE;
-    if (lst->element.exp->kind == ISA_EXPRESSION) {
+    if (lst->member.exp->kind == ISA_EXPRESSION) {
       if (foundIsa)
-	lmLogv(&lst->element.exp->srcp, 224, sevWAR, "Isa (class)",
+	lmLogv(&lst->member.exp->srcp, 224, sevWAR, "Isa (class)",
 	       message, NULL);
       foundIsa = TRUE;
     }
-    if (expressionIsActualWhere(lst->element.exp)) {
+    if (expressionIsActualWhere(lst->member.exp)) {
       if (foundWhere)
-	lmLogv(&lst->element.exp->srcp, 224, sevERR, "Where", message, NULL);
+	lmLogv(&lst->member.exp->srcp, 224, sevERR, "Where", message, NULL);
       foundWhere = TRUE;
     }
   }
 
   TRAVERSE(lst, filters) {
-    analyzeNonClassingFilter(message,  context, lst->element.exp,
+    analyzeNonClassingFilter(message,  context, lst->member.exp,
 			     class, &foundWhere);
   }
 
@@ -1266,10 +1266,10 @@ static void generateIntegerAggregateLimit(Expression *exp) {
   List *filter;
 
   TRAVERSE(filter, exp->fields.agr.filters) {
-    if (filter->element.exp->kind == WHERE_EXPRESSION)
-      if (filter->element.exp->fields.whr.whr->kind == WHERE_INSET) {
-	generateExpression(filter->element.exp->fields.whr.whr->what);
-	exp->fields.agr.setExpression = filter->element.exp;
+    if (filter->member.exp->kind == WHERE_EXPRESSION)
+      if (filter->member.exp->fields.whr.whr->kind == WHERE_INSET) {
+	generateExpression(filter->member.exp->fields.whr.whr->what);
+	exp->fields.agr.setExpression = filter->member.exp;
 	emit0(I_SETSIZE);
 	return;
       }
@@ -1322,7 +1322,7 @@ static void generateAggregateExpression(Expression *exp)
 
   TRAVERSE(lst,exp->fields.agr.filters) {
     generateLoopValue(exp);
-    generateFilter(lst->element.exp);
+    generateFilter(lst->member.exp);
     emit0(I_NOT);
     emit0(I_IF);
     emit0(I_LOOPNEXT);
@@ -1426,7 +1426,7 @@ static void generateSetExpression(Expression *exp) {
 
   emit0(I_NEWSET);
   TRAVERSE(members, exp->fields.set.members) {
-    generateExpression(members->element.exp);
+    generateExpression(members->member.exp);
     emit0(I_INCLUDE);		/* Add member to set on top of stack */
   }
 }

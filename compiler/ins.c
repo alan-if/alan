@@ -98,7 +98,7 @@ void symbolizeInstances(void)
   List *l;
 
   for (l = allInstances; l; l = l->next)
-    symbolizeInstance(l->element.ins);
+    symbolizeInstance(l->member.ins);
 }
 
 
@@ -106,7 +106,7 @@ void symbolizeInstances(void)
 void analyzeAllInstanceAttributes() {
   List *l;
   TRAVERSE(l, allInstances) {
-    Properties *props = l->element.ins->props;
+    Properties *props = l->member.ins->props;
     analyzeAttributes(props->attributes, props->id->symbol);
   }
 }
@@ -122,9 +122,9 @@ static void analyzeNameWords(Instance *instance)
     newNounWord(instance->props->id->string, instance->props->id->code, instance);
   else {
     for (nameList = instance->props->names; nameList != NULL; nameList = nameList->next) {
-      for (list = nameList->element.lst; list->next != NULL; list = list->next)
-	newAdjectiveWord(list->element.id->string, instance);
-      newNounWord(list->element.id->string, list->element.id->code, instance);
+      for (list = nameList->member.lst; list->next != NULL; list = list->next)
+	newAdjectiveWord(list->member.id->string, instance);
+      newNounWord(list->member.id->string, list->member.id->code, instance);
     }
   }
 }
@@ -136,7 +136,7 @@ static void analyzePronouns(Instance *instance)
   List *p;
 
   TRAVERSE(p, instance->props->pronouns)
-    p->element.id->code = newPronounWord(p->element.id->string, instance);
+    p->member.id->code = newPronounWord(p->member.id->string, instance);
 }
 
 /*----------------------------------------------------------------------*/
@@ -158,7 +158,7 @@ void analyzeInstances(void)
   List *l;
 
   for (l = allInstances; l; l = l->next)
-    analyzeInstance(l->element.ins);
+    analyzeInstance(l->member.ins);
 }
 
 
@@ -186,7 +186,7 @@ static Aaddr generateInstanceTable(void)
   List *l;
 
   for (l = allInstances; l; l = l->next)
-    generateInstanceEntry(l->element.ins);
+    generateInstanceEntry(l->member.ins);
   emit(EOF);
   return address;
 }
@@ -198,7 +198,7 @@ void generateInstances(ACodeHeader *header)
   List *l;
 
   for (l = allInstances; l; l = l->next)
-    generateInstanceData(l->element.ins);
+    generateInstanceData(l->member.ins);
 
   header->instanceTableAddress = generateInstanceTable();
 

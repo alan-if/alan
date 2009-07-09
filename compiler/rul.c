@@ -84,7 +84,7 @@ void analyzeRules(void)
   List *rul;		/* Traversal pointer */
 
   for (rul = adv.ruls; rul != NULL; rul = rul->next)
-    analyzeRule(rul->element.rul);
+    analyzeRule(rul->member.rul);
 }
 
 
@@ -104,19 +104,19 @@ Aaddr generateRules(void)
 
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
     progressCounter();
-    lst->element.rul->expadr = nextEmitAddress();
-    generateExpression(lst->element.rul->exp);
+    lst->member.rul->expadr = nextEmitAddress();
+    generateExpression(lst->member.rul->exp);
     emit0(I_RETURN);
-    lst->element.rul->stmadr = nextEmitAddress();
-    generateStatements(lst->element.rul->stms);
+    lst->member.rul->stmadr = nextEmitAddress();
+    generateStatements(lst->member.rul->stms);
     emit0(I_RETURN);
   }
 
   adr = nextEmitAddress();
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
     emit(FALSE);		/* Rule run */
-    emit(lst->element.rul->expadr); /* Address to expression code */
-    emit(lst->element.rul->stmadr); /* Address to statements code */
+    emit(lst->member.rul->expadr); /* Address to expression code */
+    emit(lst->member.rul->stmadr); /* Address to statements code */
   }
   emit(EOF);
   return(adr);

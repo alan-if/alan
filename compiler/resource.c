@@ -62,8 +62,8 @@ Resource *newResource(Srcp srcp, IdNode *fileName) {
 /*----------------------------------------------------------------------*/
 int resourceNameComparer(List *element1, List *element2)
 {
-  return strcmp(element1->element.resource->fileName->string,
-		element2->element.resource->fileName->string);
+  return strcmp(element1->member.resource->fileName->string,
+		element2->member.resource->fileName->string);
 }
 
 
@@ -74,12 +74,12 @@ static void numberResources(List *resourceList)
   char *currentResourceName;
 
   TRAVERSE(currentResource, resourceList) {
-    currentResource->element.resource->fileName->code = resourceNumber;
-    currentResourceName = currentResource->element.resource->fileName->string;
+    currentResource->member.resource->fileName->code = resourceNumber;
+    currentResourceName = currentResource->member.resource->fileName->string;
     while (currentResource->next != NULL
 	   && resourceNameComparer(currentResource, currentResource->next) == 0) {
       currentResource = currentResource->next;
-      currentResource->element.resource->fileName->code = resourceNumber;
+      currentResource->member.resource->fileName->code = resourceNumber;
     }
     resourceNumber++;
   }
@@ -204,7 +204,7 @@ static void generateBlcFile(FILE *blcFile, List *resourceList)
   List *currentResource;
 
   TRAVERSE(currentResource, resourceList) {
-    Resource *resource = currentResource->element.resource;
+    Resource *resource = currentResource->member.resource;
     IdNode *fileName = resource->fileName;
     fprintf(blcFile, "%s %d %s %s\n", resourceKindAsString(resource->kind),
 	    fileName->code, chunkTypeAsString(resource->chunk), fileName->string);

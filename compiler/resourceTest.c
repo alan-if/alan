@@ -22,10 +22,10 @@ void testNumberImages()
   };
   List *resources;
 
-  e[1].element.resource = newResource(nulsrcp, i[1]);
-  e[2].element.resource = newResource(nulsrcp, i[2]);
-  e[3].element.resource = newResource(nulsrcp, i[3]);
-  e[4].element.resource = newResource(nulsrcp, i[4]);
+  e[1].member.resource = newResource(nulsrcp, i[1]);
+  e[2].member.resource = newResource(nulsrcp, i[2]);
+  e[3].member.resource = newResource(nulsrcp, i[3]);
+  e[4].member.resource = newResource(nulsrcp, i[4]);
 
   /* Zero elements */
   resources = NULL;
@@ -35,13 +35,13 @@ void testNumberImages()
 
   /* One element */
   e[1].next = NULL;
-  e[1].element.resource->fileName->code = 0;
+  e[1].member.resource->fileName->code = 0;
   resources = &e[1];
   resourceNumber = 1;
   numberResources(resources);
   ASSERT(resources == &e[1]);
   ASSERT(resources->next == NULL);
-  ASSERT(resources->element.resource->fileName->code == 1);
+  ASSERT(resources->member.resource->fileName->code == 1);
 
   /* Four elements */
   e[1].next = &e[2];
@@ -55,10 +55,10 @@ void testNumberImages()
   resourceNumber = 1;
   numberResources(resources);
 
-  ASSERT(e[1].element.resource->fileName->code == 1);
-  ASSERT(e[2].element.resource->fileName->code == 2);
-  ASSERT(e[3].element.resource->fileName->code == 2);
-  ASSERT(e[4].element.resource->fileName->code == 3);
+  ASSERT(e[1].member.resource->fileName->code == 1);
+  ASSERT(e[2].member.resource->fileName->code == 2);
+  ASSERT(e[3].member.resource->fileName->code == 2);
+  ASSERT(e[4].member.resource->fileName->code == 3);
 }
 
 
@@ -92,7 +92,7 @@ void testGenerateBlcFile() {
   resourceNumber = 1;
   resources = concat(NULL, newResource(nulsrcp, newId(nulsrcp, resourceName)), RESOURCE_LIST);
   analyzeResources(resources);
-  analyzeResource(resources->element.resource);
+  analyzeResource(resources->member.resource);
   blcFile = openNewBlcFile("unittest.blc");
   generateBlcFile(blcFile, resources);
   fclose(blcFile);

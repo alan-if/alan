@@ -126,11 +126,11 @@ Aword generateLimits(ContainerBody *info)
 
   /* First code for all limits */
   for (lst = info->limits; lst != NULL; lst = lst->next)
-    generateLimit(lst->element.lim);
+    generateLimit(lst->member.lim);
 
   limadr = nextEmitAddress();		/* Save ACODE address to limit table */
   for (lst = info->limits; lst != NULL; lst = lst->next)
-    generateLimitEntry(lst->element.lim);
+    generateLimitEntry(lst->member.lim);
   emit(EOF);
   return(limadr);
 }

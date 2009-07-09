@@ -82,7 +82,7 @@ typedef struct List {		/* GENERIC LISTS */
     struct Verb *vrb;
     struct Word *word;
     char *str;
-  } element;			/* Pointer to any type of element */
+  } member;			/* Pointer to any type of element */
   struct List *next;		/* Pointer to next list node */
 } List;
 

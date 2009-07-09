@@ -162,7 +162,7 @@ void analyzeContainer(Container *theContainer, Context *context)
 
     /* Analyze the limits */
     for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
-      analyzeLimit(lims->element.lim, id->symbol);
+      analyzeLimit(lims->member.lim, id->symbol);
 
     /* Analyze header and empty statments */
     analyzeStatements(theContainer->body->hstms, context);
@@ -186,8 +186,8 @@ void numberContainers(void)
      adv-list since that is the order the container bodies will be
      generated into the ContainerEntry table */
   for (lst = adv.cnts; lst != NULL; lst = lst->next)
-    if (lst->element.cnt->ownerProperties != NULL)
-      lst->element.cnt->code = ++containerCount;
+    if (lst->member.cnt->ownerProperties != NULL)
+      lst->member.cnt->code = ++containerCount;
 }
 
 
@@ -257,14 +257,14 @@ Aaddr generateContainers(ACodeHeader *header)
   else {
     /* Limits, header and empty statements for the container */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      if (lst->element.cnt->ownerProperties != NULL)
-	generateContainerBody(lst->element.cnt->body);
+      if (lst->member.cnt->ownerProperties != NULL)
+	generateContainerBody(lst->member.cnt->body);
 
     adr = nextEmitAddress();	/* Save ACODE address to container list */
     /* Container list */
     for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      if (lst->element.cnt->ownerProperties != NULL)
-	generateContainerEntry(lst->element.cnt);
+      if (lst->member.cnt->ownerProperties != NULL)
+	generateContainerEntry(lst->member.cnt);
   }
   emit(EOF);
 

@@ -326,25 +326,25 @@ void prepareMessages(void)
     List *garb;			/* The standard message stm list is garbage */
     /* Find what number the user defined message has */
     for (msgno = 0; defmsg[msgno].id != NULL; msgno++)
-      if (compareStrings(defmsg[msgno].id, umsgs->element.msg->id->string) == 0)
+      if (compareStrings(defmsg[msgno].id, umsgs->member.msg->id->string) == 0)
 	break;
     if (defmsg[msgno].id == NULL)
-      lmLog(&umsgs->element.msg->id->srcp, 700, sevERR, NULL);
+      lmLog(&umsgs->member.msg->id->srcp, 700, sevERR, NULL);
     else {
       /* Find that message in the system messages list */
-      for (lst = smsgs; lst != NULL && lst->element.msg->msgno != msgno; lst = lst->next);
+      for (lst = smsgs; lst != NULL && lst->member.msg->msgno != msgno; lst = lst->next);
       if (lst == NULL)
 	SYSERR("Reached end of system messages list");
 
       /* Update the message statements */
-      garb = lst->element.msg->stms;
-      lst->element.msg->stms = umsgs->element.msg->stms;
+      garb = lst->member.msg->stms;
+      lst->member.msg->stms = umsgs->member.msg->stms;
 
       /* And system print statement and list and user message node */
-      free(garb->element.stm);
+      free(garb->member.stm);
       free(garb);
-      free(umsgs->element.msg);
-      umsgs->element.msg = NULL;
+      free(umsgs->member.msg);
+      umsgs->member.msg = NULL;
     }
   }
 
@@ -430,7 +430,7 @@ void analyzeMessages(void)
 
   /* Nothing to do except to analyze the statements */
   for (lst = adv.msgs; lst; lst = lst->next) {
-    Message *msg = lst->element.msg;
+    Message *msg = lst->member.msg;
     progressCounter();
     analyzeStatements(msg->stms, contextFor(msg->msgno));
   }
@@ -467,12 +467,12 @@ Aaddr gemsgs(void)
   /* First generate the statements for each message */
   for (lst = adv.msgs; lst; lst = lst->next) {
     progressCounter();
-    gemsgent(lst->element.msg);
+    gemsgent(lst->member.msg);
   }
 
   adr = nextEmitAddress();		/* Save address to messages table */
   for (lst = adv.msgs; lst; lst = lst->next)
-    emit(lst->element.msg->stmadr);
+    emit(lst->member.msg->stmadr);
   emit(EOF);
   return(adr);
 }

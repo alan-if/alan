@@ -78,7 +78,7 @@ static void syntaxForSameVerbCanBeConnected()
 // getElement(list, n)
 static void canCreateNewSyntaxWithEOS() {
   Syntax *syntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
-  ASSERT(syntax->elements->element.elm->kind == END_OF_SYNTAX);
+  ASSERT(syntax->elements->member.elm->kind == END_OF_SYNTAX);
 }
 
 

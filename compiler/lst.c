@@ -90,10 +90,10 @@ void insert(List *thePoint, void *element, ListKind kind)
     SYSERR("Inserting wrong kind of element in list");
 
   /* Move the first element to a new list node */
-  newListNode = concat(NULL, thePoint->element.atr, kind);
+  newListNode = concat(NULL, thePoint->member.atr, kind);
 
   newListNode->next = thePoint->next;
-  thePoint->element.atr = element;
+  thePoint->member.atr = element;
   thePoint->next = newListNode;
 }
 
@@ -107,7 +107,7 @@ List *copyList(List *aList)
     return NULL;
 
   while (aList) {
-    new = concat(new, aList->element.id, aList->kind);
+    new = concat(new, aList->member.id, aList->kind);
     aList = aList->next;
   }
   return new;
@@ -115,15 +115,15 @@ List *copyList(List *aList)
 
 
 /*======================================================================*/
-extern void *getMember(List *theList, int elementNumber)
+extern void *getMember(List *theList, int number)
 {
   int i = 1;
 
-  if (elementNumber < 1) SYSERR("List element number must be > 0");
+  if (number < 1) SYSERR("List element number must be > 0");
 
   while (theList) {
-    if (i == elementNumber)
-      return (void *)theList->element.id; /* All member pointers are overlayed */
+    if (i == number)
+      return (void *)theList->member.id; /* All member pointers are overlayed */
     theList = theList->next;
     i++;
   }
@@ -174,7 +174,7 @@ void *getLastMember(List *theList)
 
   for (tail = theList; tail->next != NULL; tail = tail->next)
     ;
-  return (void *)tail->element.id;
+  return (void *)tail->member.id;
 }
 
 
@@ -192,7 +192,7 @@ List *concat(List *list /*@null@*/, void *element, ListKind kind)
 
   new = NEW(List);
 
-  new->element.cla = (struct Class *) element;
+  new->member.cla = (struct Class *) element;
   new->kind = kind;
 
   new->next = NULL;
@@ -315,7 +315,7 @@ void dumpList(List *theList, ListKind class)
   
   put("LST: "); dumpPointer(theList); indent();
   while (theList != NULL) {
-    dumpNode((void *)theList->element.atr, class);
+    dumpNode((void *)theList->member.atr, class);
     theList = theList->next;
     if (theList != NULL) nl();
   }
@@ -333,7 +333,7 @@ void dumpListOfLists(List *listOfList, ListKind listKind)
   
   put("LST: "); dumpPointer(listOfList); indent();
   while (listOfList != NULL) {
-    dumpList((void *)listOfList->element.lst, listKind);
+    dumpList((void *)listOfList->member.lst, listKind);
     listOfList = listOfList->next;
     if (listOfList != NULL) nl();
   }

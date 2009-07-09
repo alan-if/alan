@@ -51,16 +51,16 @@ Exit *newExit(Srcp *srcp, List *dirs, IdNode *target, List *chks, List *stms)
   new->stms = stms;
 
   for (lst = dirs; lst != NULL; lst = lst->next) {
-    sym = lookup(lst->element.id->string); /* Find any earlier definition */
+    sym = lookup(lst->member.id->string); /* Find any earlier definition */
     if (sym == NULL) {
-      lst->element.id->symbol = newSymbol(lst->element.id, DIRECTION_SYMBOL);
-      lst->element.id->code = lst->element.id->symbol->code;
-      newDirectionWord(lst->element.id->string, lst->element.id->symbol->code);
+      lst->member.id->symbol = newSymbol(lst->member.id, DIRECTION_SYMBOL);
+      lst->member.id->code = lst->member.id->symbol->code;
+      newDirectionWord(lst->member.id->string, lst->member.id->symbol->code);
     } else if (sym->kind == DIRECTION_SYMBOL) {
-      lst->element.id->symbol = sym;
-      lst->element.id->code = lst->element.id->symbol->code;
+      lst->member.id->symbol = sym;
+      lst->member.id->code = lst->member.id->symbol->code;
     } else
-      redefined(lst->element.id, sym);
+      redefined(lst->member.id, sym);
   }
 
   return(new);
@@ -85,7 +85,7 @@ void symbolizeExits(List *theExitList)
   List *lst;
 
   for (lst = theExitList; lst != NULL; lst = lst->next)
-    symbolizeExit(lst->element.ext);
+    symbolizeExit(lst->member.ext);
 }
 
 
@@ -107,7 +107,7 @@ Bool exitIdFound(IdNode *targetId, List *exits)
   List *theIdInList;
 
   for (theExit = exits; theExit != NULL; theExit = theExit->next) {
-    for (theIdInList = theExit->element.ext->directions; theIdInList != NULL; theIdInList = theIdInList->next)
+    for (theIdInList = theExit->member.ext->directions; theIdInList != NULL; theIdInList = theIdInList->next)
       if (findIdInList(targetId, theIdInList) != NULL)
 	return TRUE;
   }
@@ -121,25 +121,25 @@ void analyzeExits(List *exts, Context *context)
   List *ext, *dir, *lst, *other;
 
   for (lst = exts; lst != NULL; lst = lst->next)
-    analyzeExit(lst->element.ext, context);
+    analyzeExit(lst->member.ext, context);
 
   /* Check for multiple definitions of a direction */
   for (ext = exts; ext != NULL; ext = ext->next) {
-    dir = ext->element.ext->directions;
+    dir = ext->member.ext->directions;
     /* First check other directions in this EXIT */
     for (other = dir->next; other != NULL; other = other->next) {
-      if (other->element.id->symbol->code == dir->element.id->symbol->code) {
-	lmLog(&other->element.id->srcp, 202, sevWAR,
-	      other->element.id->string);
+      if (other->member.id->symbol->code == dir->member.id->symbol->code) {
+	lmLog(&other->member.id->srcp, 202, sevWAR,
+	      other->member.id->string);
 	break;
       }
     }
     /* Then the directions in the other EXITs */
     for (lst = ext->next; lst != NULL; lst = lst->next) {
-      for (other = lst->element.ext->directions; other != NULL; other = other->next)
-	if (other->element.id->symbol->code == dir->element.id->symbol->code) {
-	  lmLog(&other->element.id->srcp, 203, sevWAR,
-		other->element.id->string);
+      for (other = lst->member.ext->directions; other != NULL; other = other->next)
+	if (other->member.id->symbol->code == dir->member.id->symbol->code) {
+	  lmLog(&other->member.id->srcp, 203, sevWAR,
+		other->member.id->string);
 	  break;
 	}
     }
@@ -153,8 +153,8 @@ static Bool haveExit(List *ownExits, IdNode *direction) {
   List *directions;
 
   TRAVERSE(exits, ownExits) {
-    TRAVERSE(directions, exits->element.ext->directions) {
-      if (equalId(directions->element.id, direction))
+    TRAVERSE(directions, exits->member.ext->directions) {
+      if (equalId(directions->member.id, direction))
 	return TRUE;
     }
   }
@@ -167,8 +167,8 @@ static Exit *copyExitExcludingOwn(Exit *original, List *ownExits) {
   List *direction;
 
   TRAVERSE (direction, original->directions)
-    if (!haveExit(ownExits, direction->element.id))
-      directionsToCopy = concat(directionsToCopy, direction->element.id, ID_LIST);
+    if (!haveExit(ownExits, direction->member.id))
+      directionsToCopy = concat(directionsToCopy, direction->member.id, ID_LIST);
   return newExit(&original->srcp, directionsToCopy, original->target,
 		 original->chks, original->stms);
 }
@@ -188,14 +188,14 @@ List *combineExits(List *ownExits, List *exitsToAdd)
     Bool foundOneToAdd = FALSE;
     /* Each exit may have multiple directions so we must traverse that
        list to see if we should copy this Exit node */
-    TRAVERSE(direction, toAdd->element.ext->directions) {
-      if (!haveExit(ownExits, direction->element.id)) {
+    TRAVERSE(direction, toAdd->member.ext->directions) {
+      if (!haveExit(ownExits, direction->member.id)) {
 	foundOneToAdd = TRUE;
 	break;
       }
     }
     if (foundOneToAdd)
-      new = concat(new, copyExitExcludingOwn(toAdd->element.ext, ownExits), EXIT_LIST);
+      new = concat(new, copyExitExcludingOwn(toAdd->member.ext, ownExits), EXIT_LIST);
   }
   return combine(ownExits, new);
 }
@@ -229,7 +229,7 @@ static void generateExitEntry(Exit *ext) /* IN - The exit to generate */
   ExitEntry entry;
 
   for (dir = ext->directions; dir != NULL; dir = dir->next) {
-    entry.code = dir->element.id->symbol->code;
+    entry.code = dir->member.id->symbol->code;
     entry.checks = ext->chks? ext->chkadr : 0;
     entry.action = ext->stms? ext->stmadr : 0;
     entry.target = ext->target->symbol->code;
@@ -249,16 +249,16 @@ Aaddr generateExits(List *exits)
     return(0);
 
   for (lst = exits; lst != NULL; lst = lst->next) {
-    lst->element.ext->chkadr = nextEmitAddress();
-    if (lst->element.ext->chks != NULL)
-      lst->element.ext->chkadr = generateChecks(lst->element.ext->chks);
-    lst->element.ext->stmadr = generateExitStatements(lst->element.ext);
+    lst->member.ext->chkadr = nextEmitAddress();
+    if (lst->member.ext->chks != NULL)
+      lst->member.ext->chkadr = generateChecks(lst->member.ext->chks);
+    lst->member.ext->stmadr = generateExitStatements(lst->member.ext);
     emit0(I_RETURN);
   }
 
   extadr = nextEmitAddress();
   for (lst = exits; lst != NULL; lst = lst->next)
-    generateExitEntry(lst->element.ext);
+    generateExitEntry(lst->member.ext);
   emit(EOF);
   return(extadr);
 }

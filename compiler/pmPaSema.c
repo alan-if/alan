@@ -1549,7 +1549,7 @@ int rule			/* IN production number */
 	    pmSeSt[pmStkP+1].stm->fields.iff.els = pmSeSt[pmStkP+6].stms;
 	else {
 	    /* Connect the else_part to the elsif_list */
-	    (getLastListNode(pmSeSt[pmStkP+5].stms))->element.stm->fields.iff.els =
+	    (getLastListNode(pmSeSt[pmStkP+5].stms))->member.stm->fields.iff.els =
 			pmSeSt[pmStkP+6].stms;
 	    pmSeSt[pmStkP+5].stms->next = NULL;
 	    pmSeSt[pmStkP+1].stm->fields.iff.els = pmSeSt[pmStkP+5].stms;
@@ -1592,7 +1592,7 @@ int rule			/* IN production number */
 	/* else-part of the last element in the elsif_list to this */
 	/* IF-statement and also concat this element to the list so */
 	/* we'll know were the end is next time */
-	(getLastListNode(pmSeSt[pmStkP+1].stms))->element.stm->fields.iff.els = concat(NULL, stm, STATEMENT_LIST);
+	(getLastListNode(pmSeSt[pmStkP+1].stms))->member.stm->fields.iff.els = concat(NULL, stm, STATEMENT_LIST);
 	pmSeSt[pmStkP+1].stms = concat(pmSeSt[pmStkP+1].stms, stm, STATEMENT_LIST);
     }	break;}
     case 246: { /* <optional_else_part> =; */

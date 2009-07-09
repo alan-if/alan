@@ -100,15 +100,15 @@ void testVerbSymbols()
 	 p = parameters;
        l && p;
        l = l->next, p = p->next)
-    ASSERT(l->element.sym->fields.parameter.element == p->element.elm);
+    ASSERT(l->member.sym->fields.parameter.element == p->member.elm);
 
   foundSymbol = lookupInParameterList("p1", v1Symbol->fields.verb.parameterSymbols);
-  ASSERT(foundSymbol == v1Symbol->fields.verb.parameterSymbols->element.sym);
+  ASSERT(foundSymbol == v1Symbol->fields.verb.parameterSymbols->member.sym);
 
   context.kind = VERB_CONTEXT;
   context.verb = v1Symbol;
   foundSymbol = lookupInContext("p1", &context);
-  ASSERT(foundSymbol == v1Symbol->fields.verb.parameterSymbols->element.sym);
+  ASSERT(foundSymbol == v1Symbol->fields.verb.parameterSymbols->member.sym);
 
   
 }
@@ -397,11 +397,11 @@ static void testCreateMessageVerbs()
   ASSERT(v->kind == VERB_SYMBOL);
   ASSERT(length(v->fields.verb.parameterSymbols) == 2);
 
-  p = v->fields.verb.parameterSymbols->element.sym;
+  p = v->fields.verb.parameterSymbols->member.sym;
   ASSERT(p->kind == PARAMETER_SYMBOL);
   ASSERT(p->fields.parameter.type == INSTANCE_TYPE);
   ASSERT(p->fields.parameter.class == typeSymbol);
-  p = v->fields.verb.parameterSymbols->next->element.sym;
+  p = v->fields.verb.parameterSymbols->next->member.sym;
   ASSERT(p->kind == PARAMETER_SYMBOL);
   ASSERT(p->fields.parameter.type == INSTANCE_TYPE);
   ASSERT(p->fields.parameter.class == typeSymbol);
@@ -441,8 +441,8 @@ static void testInheritOpaqueAttribute() {
   replicateContainer(child);
 
   ASSERT(length(cProps->attributes) == 2);
-  ASSERT(cProps->attributes->element.atr->id->code == OPAQUEATTRIBUTE); /* Predefined OPAQUE */
-  ASSERT(cProps->attributes->element.atr->value == opaqueState);
+  ASSERT(cProps->attributes->member.atr->id->code == OPAQUEATTRIBUTE); /* Predefined OPAQUE */
+  ASSERT(cProps->attributes->member.atr->value == opaqueState);
 }
 
 /*----------------------------------------------------------------------*/

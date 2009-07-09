@@ -32,7 +32,7 @@ void testParameterReference()
   foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, context);
   ASSERT(foundSymbol != NULL);
   ASSERT(foundSymbol->kind == PARAMETER_SYMBOL);
-  ASSERT(foundSymbol->fields.parameter.element == parameters->element.elm);
+  ASSERT(foundSymbol->fields.parameter.element == parameters->member.elm);
 }
 
 

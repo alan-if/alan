@@ -31,9 +31,6 @@
 
 /* PUBLIC: */
 
-// TODO Refactor newSyntax() to create the EOS element and add a
-// addElement() function that can insert the syntax element before it
-// and also propagate the back pointer to the syntax
 
 /*======================================================================*/
 Syntax *newSyntax(Srcp srcp, IdNode *id, List *elements, List *restrictionList,
@@ -77,7 +74,7 @@ Syntax *newSyntaxWithEOS(Srcp srcp, IdNode *id, List *restrictionList,
   this->number = number++;
   this->elements = concat(NULL, newEndOfSyntax(), ELEMENT_LIST);
   //TODO Refactor ->element.x to ->member.x
-  this->elements->element.elm->stx = this;
+  this->elements->member.elm->stx = this;
   this->firstSyntax = TRUE;	/* Assume first and only so far */
   this->nextSyntaxForSameVerb = NULL;
   this->restrictions = restrictionList;
@@ -111,10 +108,10 @@ static void setDefaultRestriction(List *parameters)
     SYSERR("Not a symbol list");
 
   TRAVERSE(p, parameters)
-    if (p->element.sym->fields.parameter.element->res == NULL
-	|| p->element.sym->fields.parameter.element->res->classId == NULL) {
-      p->element.sym->fields.parameter.class = objectSymbol;
-      p->element.sym->fields.parameter.type = INSTANCE_TYPE;
+    if (p->member.sym->fields.parameter.element->res == NULL
+	|| p->member.sym->fields.parameter.element->res->classId == NULL) {
+      p->member.sym->fields.parameter.class = objectSymbol;
+      p->member.sym->fields.parameter.type = INSTANCE_TYPE;
     }
 }
 
@@ -132,9 +129,9 @@ Bool equalParameterLists(Syntax *stx1, Syntax *stx2)
   for (elm1 = stx1->parameters, elm2 = stx2->parameters;
        elm1 != NULL && elm2 != NULL;
        elm1 = elm1->next, elm2 = elm2->next) {
-    if (!equalId(elm1->element.elm->id, elm2->element.elm->id))
+    if (!equalId(elm1->member.elm->id, elm2->member.elm->id))
       return FALSE;
-    if (elm1->element.elm->flags != elm2->element.elm->flags)
+    if (elm1->member.elm->flags != elm2->member.elm->flags)
       return FALSE;
   }
   return elm1 == elm2;          /* Both NULL => equal */
@@ -151,7 +148,7 @@ static int countParameters(List *elms)
   int count = 0;
 
   TRAVERSE(lst, elms) {
-    if (lst->element.elm->kind == PARAMETER_ELEMENT)
+    if (lst->member.elm->kind == PARAMETER_ELEMENT)
       count++;
   }
   return count;
@@ -171,11 +168,11 @@ static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
   Bool found;
 
   TRAVERSE(elm1, stx1->elements) {
-    if (elm1->element.elm->kind == PARAMETER_ELEMENT) {
+    if (elm1->member.elm->kind == PARAMETER_ELEMENT) {
       found = FALSE;
       TRAVERSE(elm2, stx2->elements) {
-	if (elm2->element.elm->kind == PARAMETER_ELEMENT)
-	  if (equalId(elm1->element.elm->id, elm2->element.elm->id)){
+	if (elm2->member.elm->kind == PARAMETER_ELEMENT)
+	  if (equalId(elm1->member.elm->id, elm2->member.elm->id)){
 	    found = TRUE;
 	    break;
 	  }
@@ -193,7 +190,7 @@ static void setInitialParameterClass(Symbol* verbSymbol, Syntax *syntax) {
   List *parameters;
 
   TRAVERSE(parameters, verbSymbol->fields.verb.parameterSymbols) {
-    Symbol *parameterSymbol = parameters->element.sym;
+    Symbol *parameterSymbol = parameters->member.sym;
     parameterSymbol->fields.parameter.type = INSTANCE_TYPE;
 #ifdef RESTRICT_TO_OBJECT_BEFORE_RESTRICTION
     if (hasRestriction(parameterSymbol, syntax))
@@ -238,7 +235,7 @@ static void analyzeSyntax(Syntax *stx)
       setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
     }
     /* Link last syntax element to this stx to prepare for code generation */
-    (getLastListNode(stx->elements))->element.elm->stx = stx;
+    (getLastListNode(stx->elements))->member.elm->stx = stx;
   }
 }
 
@@ -250,17 +247,17 @@ static void connectSyntaxesForSameVerb(List *syntaxes) {
   TRAVERSE(lst, syntaxes) {
     error = FALSE;
     for (other = lst->next; other != NULL; other = other->next) {
-      if (equalId(other->element.stx->id, lst->element.stx->id)) {
-	lst->element.stx->nextSyntaxForSameVerb = other->element.stx;
-	other->element.stx->firstSyntax = FALSE;
-	if (!compatibleParameterLists(lst->element.stx, other->element.stx)) {
-	  lmLog(&other->element.stx->id->srcp, 206, sevERR,
-		lst->element.stx->id->string);
+      if (equalId(other->member.stx->id, lst->member.stx->id)) {
+	lst->member.stx->nextSyntaxForSameVerb = other->member.stx;
+	other->member.stx->firstSyntax = FALSE;
+	if (!compatibleParameterLists(lst->member.stx, other->member.stx)) {
+	  lmLog(&other->member.stx->id->srcp, 206, sevERR,
+		lst->member.stx->id->string);
 	  error = TRUE;
 	}
-	if (other->element.stx->restrictions != NULL) {
-	  lmLog(&other->element.stx->restrictionSrcp, 250, sevERR,
-		lst->element.stx->id->string);
+	if (other->member.stx->restrictions != NULL) {
+	  lmLog(&other->member.stx->restrictionSrcp, 250, sevERR,
+		lst->member.stx->id->string);
 	  error = TRUE;
 	}
 	break;			/* We only need to find one this time around,
@@ -269,8 +266,8 @@ static void connectSyntaxesForSameVerb(List *syntaxes) {
     }
     if (error) {
       char insertString[1000];
-      sprintf(insertString, "syntax for '%s'", lst->element.stx->id->string);
-      lmLog(&lst->element.stx->id->srcp, 205, sevWAR, insertString);
+      sprintf(insertString, "syntax for '%s'", lst->member.stx->id->string);
+      lmLog(&lst->member.stx->id->srcp, 205, sevWAR, insertString);
     }
   }
 }
@@ -285,7 +282,7 @@ void analyzeSyntaxes(void)
   connectSyntaxesForSameVerb(adv.stxs);
   /* Now do the analysis */
   for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    analyzeSyntax(lst->element.stx);
+    analyzeSyntax(lst->member.stx);
 }
 
 
@@ -385,7 +382,7 @@ static void generateParseTree(Syntax *stx)
 
   if (!stx->generated) {
     /* First word is a verb which points to all stxs starting with that word */
-    wrd = findWord(stx->elements->element.elm->id->string);
+    wrd = findWord(stx->elements->member.elm->id->string);
     /* Ignore words that are not verbs and prepositions */
     if (wrd->classbits&(1L<<PREPOSITION_WORD))
       lst = wrd->ref[PREPOSITION_WORD];
@@ -393,8 +390,8 @@ static void generateParseTree(Syntax *stx)
       lst = wrd->ref[VERB_WORD];
     /* Create a list of all parallell elements */
     while (lst) {
-      elements = concat(elements, lst->element.stx->elements, LIST_LIST);
-      lst->element.stx->generated = TRUE;
+      elements = concat(elements, lst->member.stx->elements, LIST_LIST);
+      lst->member.stx->generated = TRUE;
       lst = lst->next;
     }
     stx->elementsAddress = generateElements(elements, stx);
@@ -411,7 +408,7 @@ static void generateParseEntry(Syntax *stx)
 
   if (stx->elementsAddress != 0) {
     /* The code for the verb word */
-    entry.code = stx->elements->element.elm->id->code;
+    entry.code = stx->elements->member.elm->id->code;
     /* Address to syntax element tables */
     entry.elms = stx->elementsAddress;
     emitEntry(&entry, sizeof(entry));
@@ -425,7 +422,7 @@ static void generateRestrictionTable(void) {
 
   /* Generate all syntax parameter restriction checks */
   TRAVERSE(lst, adv.stxs) {
-    Syntax *stx = lst->element.stx;
+    Syntax *stx = lst->member.stx;
     Syntax *nextSyntax;
     if (stx->firstSyntax) {
       stx->restrictionsAddress = generateRestrictions(stx->restrictions, stx);
@@ -445,11 +442,11 @@ Aaddr generateParseTable(void) {
   generateRestrictionTable();
 
   TRAVERSE(lst, adv.stxs)
-    generateParseTree(lst->element.stx);
+    generateParseTree(lst->member.stx);
 
   parseTableAddress = nextEmitAddress();
   TRAVERSE(lst, adv.stxs)
-    generateParseEntry(lst->element.stx);
+    generateParseEntry(lst->member.stx);
   emit(EOF);
 
   return(parseTableAddress);
@@ -469,8 +466,8 @@ static void generateParameterMapping(Syntax *syntax)
     /* Generate a parameter mapping entry */
     TRAVERSE(originalPosition, originalParameters) {
       /* Find its original position */
-      if (strcmp(list->element.elm->id->string, originalPosition->element.sym->string) == 0) {
-	emit(originalPosition->element.sym->code);
+      if (strcmp(list->member.elm->id->string, originalPosition->member.sym->string) == 0) {
+	emit(originalPosition->member.sym->code);
 	found = TRUE;
 	break;
       }
@@ -490,13 +487,13 @@ Aaddr generateParameterMappingTable(void)
   ParameterMapEntry entry;
 
   TRAVERSE(list, adv.stxs)
-    generateParameterMapping(list->element.stx);
+    generateParameterMapping(list->member.stx);
 
   parameterMappingTableAddress = nextEmitAddress();
   TRAVERSE(list, adv.stxs) {
-    entry.syntaxNumber = list->element.stx->number;
-    entry.parameterMapping = list->element.stx->parameterMappingAddress;
-    entry.verbCode = list->element.stx->id->code;
+    entry.syntaxNumber = list->member.stx->number;
+    entry.parameterMapping = list->member.stx->parameterMappingAddress;
+    entry.verbCode = list->member.stx->id->code;
     emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);

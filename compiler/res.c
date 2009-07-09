@@ -56,8 +56,8 @@ Bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax)
   List *restrictionList;
 
   TRAVERSE(restrictionList, syntax->restrictions)
-    if (restrictionList->element.res->parameterId->symbol == parameterSymbol &&
-	restrictionList->element.res->kind != CONTAINER_RESTRICTION)
+    if (restrictionList->member.res->parameterId->symbol == parameterSymbol &&
+	restrictionList->member.res->kind != CONTAINER_RESTRICTION)
       return TRUE;
   return FALSE;
 }
@@ -127,9 +127,9 @@ void symbolizeRestrictions(List *restrictions, Symbol *theVerb) {
   Symbol *parameter;
 
   TRAVERSE(lst, restrictions) {
-    parameter = lookupParameter(lst->element.res->parameterId,
+    parameter = lookupParameter(lst->member.res->parameterId,
 				theVerb->fields.verb.parameterSymbols);
-    lst->element.res->parameterId->symbol = parameter;
+    lst->member.res->parameterId->symbol = parameter;
   }
 }
 
@@ -168,7 +168,7 @@ void analyzeRestrictions(
 
   TRAVERSE(lst, restrictions)
     /* Analyze the actual restriction conditions. */
-    analyzeRestriction(lst->element.res, theVerb);
+    analyzeRestriction(lst->member.res, theVerb);
 }
 
 
@@ -220,15 +220,15 @@ Aaddr generateRestrictions(List *restrictions, Syntax *stx)
   Aaddr address;
 
   TRAVERSE(lst, restrictions)
-    if (lst->element.res->stms != NULL)
-      generateRestrictionStatements(lst->element.res);
+    if (lst->member.res->stms != NULL)
+      generateRestrictionStatements(lst->member.res);
     else
-      lst->element.res->stmadr = 0;
+      lst->member.res->stmadr = 0;
 
   address = nextEmitAddress();
 
   TRAVERSE(lst, restrictions)
-    generateRestrictionEntry(lst->element.res);
+    generateRestrictionEntry(lst->member.res);
   emit(EOF);
 
   return(address);

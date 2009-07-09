@@ -23,9 +23,9 @@ static int saveName(List *names, IdNode *id)
   int len = 0;
 
   if (names != NULL) {
-    for (nameList = names->element.lst; nameList != NULL; nameList = nameList->next) {
-      buf = allocate(strlen(nameList->element.id->string)+2);
-      toIso(buf, nameList->element.id->string, charset);
+    for (nameList = names->member.lst; nameList != NULL; nameList = nameList->next) {
+      buf = allocate(strlen(nameList->member.id->string)+2);
+      toIso(buf, nameList->member.id->string, charset);
       if (nameList->next)
 	strcat(buf, " ");
       generateText(buf);

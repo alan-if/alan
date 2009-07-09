@@ -72,7 +72,7 @@ void analyzeChecks(List *chks,
 	    Context *context)
 {
   while (chks != NULL) {
-    anchk(chks->element.chk, context);
+    anchk(chks->member.chk, context);
     chks = chks->next;
   }
 }
@@ -89,26 +89,26 @@ Aword generateChecks(List *chks)
   if (chks == NULL) return 0;
 
   /* First checks */
-  if (chks->element.chk->exp == NULL) { /* An unconditional CHECK */
-    chks->element.chk->expadr = 0;
-    chks->element.chk->stmadr = nextEmitAddress();
-    generateStatements(chks->element.chk->stms);
+  if (chks->member.chk->exp == NULL) { /* An unconditional CHECK */
+    chks->member.chk->expadr = 0;
+    chks->member.chk->stmadr = nextEmitAddress();
+    generateStatements(chks->member.chk->stms);
     emit0(I_RETURN);
   } else
     for (lst = chks; lst != NULL; lst = lst->next) {
-      lst->element.chk->expadr = nextEmitAddress();
-      generateExpression(lst->element.chk->exp);
+      lst->member.chk->expadr = nextEmitAddress();
+      generateExpression(lst->member.chk->exp);
       emit0(I_RETURN);
-      lst->element.chk->stmadr = nextEmitAddress();
-      generateStatements(lst->element.chk->stms);
+      lst->member.chk->stmadr = nextEmitAddress();
+      generateStatements(lst->member.chk->stms);
       emit0(I_RETURN);
     }
 
   /* Then generate a check table */
   tbladr = nextEmitAddress();
   for (lst = chks; lst != NULL; lst = lst->next) {
-    emit(lst->element.chk->expadr);
-    emit(lst->element.chk->stmadr);
+    emit(lst->member.chk->expadr);
+    emit(lst->member.chk->stmadr);
   }
   emit(EOF);
 

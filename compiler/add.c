@@ -117,9 +117,9 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
   symbolizeAttributes(addedAttributes, TRUE);
 
   TRAVERSE(l, addedAttributes) {
-    Attribute *originalAttribute = findAttribute(originalAttributes, l->element.atr->id);
+    Attribute *originalAttribute = findAttribute(originalAttributes, l->member.atr->id);
     if (originalAttribute != NULL) /* It was found in the original */
-      lmLog(&l->element.atr->id->srcp, 336, sevERR, "an attribute which already exists");
+      lmLog(&l->member.atr->id->srcp, 336, sevERR, "an attribute which already exists");
   }
   originalProps->attributes = combine(originalProps->attributes,
 				      addedAttributes);
@@ -258,12 +258,12 @@ static void addVerbs(AddNode *add, Symbol *originalSymbol)
 
   if (add->props->verbs != NULL) {
     if (originalSymbol == entitySymbol)
-      lmLog(&add->props->verbs->element.vrb->srcp, 426, sevWAR, "");
+      lmLog(&add->props->verbs->member.vrb->srcp, 426, sevWAR, "");
     TRAVERSE(verbList, add->props->verbs) {
-      TRAVERSE(verbIdList, verbList->element.vrb->ids)
-	if (verbIdFound(verbIdList->element.id, originalProps->verbs)) {
+      TRAVERSE(verbIdList, verbList->member.vrb->ids)
+	if (verbIdFound(verbIdList->member.id, originalProps->verbs)) {
 	  inhibitAdd = TRUE;
-	  lmLogv(&verbIdList->element.id->srcp, 240, sevERR, "Verb", verbIdList->element.id->string, originalSymbol->string, NULL);
+	  lmLogv(&verbIdList->member.id->srcp, 240, sevERR, "Verb", verbIdList->member.id->string, originalSymbol->string, NULL);
 	}
     }
     if (!inhibitAdd)
@@ -285,14 +285,14 @@ static void addScripts(AddNode *add, Symbol *original)
   if (props->scripts == NULL) return;
 
   if (!inheritsFrom(original, actorSymbol)) {
-    lmLog(&add->props->scripts->element.script->srcp, 336, sevERR, "scripts to a class which is not a subclass of the predefined class 'actor'");
+    lmLog(&add->props->scripts->member.script->srcp, 336, sevERR, "scripts to a class which is not a subclass of the predefined class 'actor'");
     doNotAdd = TRUE;
   }
   TRAVERSE(addedScripts, props->scripts) {
-    Script *addedScript = addedScripts->element.script;
+    Script *addedScript = addedScripts->member.script;
     Bool duplicate = FALSE;
     TRAVERSE(originalScripts, originalProps->scripts) {
-      Script *originalScript = originalScripts->element.script;
+      Script *originalScript = originalScripts->member.script;
       if (equalId(addedScript->id, originalScript->id)) {
 	lmLogv(&addedScript->srcp, 240, sevERR,
 	       "Script", addedScript->id->string, add->toId->string, NULL);
@@ -335,15 +335,15 @@ static void addExits(AddNode *add, Symbol *originalSymbol)
   if (add->props->exits != NULL) {
     symbolizeExits(add->props->exits);
     if (!inheritsFrom(originalSymbol, locationSymbol)) {
-      lmLog(&add->props->exits->element.ext->srcp, 336, sevERR, "Exits to something not inheriting from the predefined class 'location'");
+      lmLog(&add->props->exits->member.ext->srcp, 336, sevERR, "Exits to something not inheriting from the predefined class 'location'");
       inhibitAdd = TRUE;
     }
 
     TRAVERSE(exitList, add->props->exits) {
-      TRAVERSE(exitIdList, exitList->element.ext->directions)
-	if (exitIdFound(exitIdList->element.id, originalProps->exits)) {
+      TRAVERSE(exitIdList, exitList->member.ext->directions)
+	if (exitIdFound(exitIdList->member.id, originalProps->exits)) {
 	  inhibitAdd = TRUE;
-	  lmLogv(&exitIdList->element.id->srcp, 240, sevERR, "Exit", exitIdList->element.id->string, originalSymbol->string, NULL);
+	  lmLogv(&exitIdList->member.id->srcp, 240, sevERR, "Exit", exitIdList->member.id->string, originalSymbol->string, NULL);
 	}
     }
     if (!inhibitAdd)
@@ -374,7 +374,7 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
     propsCount++;
 
     if (add->props->attributes)
-      lmLogv(&add->props->attributes->element.atr->srcp, 424, sevERR, "attributes", originalSymbol->string, NULL);
+      lmLogv(&add->props->attributes->member.atr->srcp, 424, sevERR, "attributes", originalSymbol->string, NULL);
     propsCount++;
 
     if (add->props->initialize)
@@ -406,7 +406,7 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
     propsCount++;
 
     if (add->props->scripts)
-      lmLogv(&add->props->scripts->element.script->srcp, 424, sevERR, "scripts", originalSymbol->string, NULL);
+      lmLogv(&add->props->scripts->member.script->srcp, 424, sevERR, "scripts", originalSymbol->string, NULL);
     propsCount++;
 
     if (add->props->enteredStatements)
@@ -414,7 +414,7 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
     propsCount++;
 
     if (add->props->exits)
-      lmLogv(&add->props->exits->element.ext->srcp, 424, sevERR, "exits", originalSymbol->string, NULL);
+      lmLogv(&add->props->exits->member.ext->srcp, 424, sevERR, "exits", originalSymbol->string, NULL);
     propsCount++;
 
     if (propsCount != NOOFPROPS)
@@ -457,7 +457,7 @@ void addAdditions(void)
   List *l;
 
   for (l = adv.adds; l != NULL; l = l->next)
-    addAddition(l->element.add);
+    addAddition(l->member.add);
 }
 
 

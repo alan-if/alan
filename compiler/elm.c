@@ -111,9 +111,9 @@ static void checkForDuplicatedParameterNames(List *parameters) {
   List *elements, *list;
 
   for (list = parameters; list != NULL; list = list->next) {
-    Element *outerElement = list->element.elm;
+    Element *outerElement = list->member.elm;
     for (elements = list->next; elements != NULL; elements = elements->next) {
-      Element *innerElement = elements->element.elm;
+      Element *innerElement = elements->member.elm;
       if (equalId(outerElement->id, innerElement->id))
         lmLog(&innerElement->id->srcp, 216, sevERR, innerElement->id->string);
     }
@@ -127,7 +127,7 @@ List *analyzeElements(List *elements,        /* IN - List to analyze */
 		      Syntax *syntax        /* IN - The stx we're in */
 )
 {
-  Element *firstElement = elements->element.elm; /* Set to be the first (yes, there is always at least one!) */
+  Element *firstElement = elements->member.elm; /* Set to be the first (yes, there is always at least one!) */
   List *list, *parameters = NULL;
   List *restrictionList;
   int parameterCount = 1;
@@ -142,7 +142,7 @@ List *analyzeElements(List *elements,        /* IN - List to analyze */
   /* Analyze the elements, number parameters and find the restriction */
   /* Start with the second since the first is analyzed above */
   for (list = elements->next; list != NULL; list = list->next) {
-    Element *element = list->element.elm;
+    Element *element = list->member.elm;
     if (element->kind == PARAMETER_ELEMENT) {
       element->id->code = parameterCount++;
       if ((element->flags & MULTIPLEBIT) != 0) {
@@ -155,9 +155,9 @@ List *analyzeElements(List *elements,        /* IN - List to analyze */
 
       /* Find first class restrictions */
       for (restrictionList = restrictions; restrictionList; restrictionList = restrictionList->next) {
-        if (equalId(restrictionList->element.res->parameterId, element->id)) {
-	  element->res = restrictionList->element.res;
-	  restrictionList->element.res->parameterId->code = element->id->code;
+        if (equalId(restrictionList->member.res->parameterId, element->id)) {
+	  element->res = restrictionList->member.res;
+	  restrictionList->member.res->parameterId->code = element->id->code;
         }
       }
     }
@@ -175,13 +175,13 @@ static Bool equalElements(List *element1, List *element2)
 {
   if (element1 == NULL || element2 == NULL)
     return element2 == element1;
-  else if (element1->element.elm->kind == element2->element.elm->kind)
-    switch (element1->element.elm->kind) {
+  else if (element1->member.elm->kind == element2->member.elm->kind)
+    switch (element1->member.elm->kind) {
     case END_OF_SYNTAX:
     case PARAMETER_ELEMENT:
       return TRUE;
     case WORD_ELEMENT:
-      return equalId(element1->element.elm->id, element2->element.elm->id);
+      return equalId(element1->member.elm->id, element2->member.elm->id);
     }
   else
     return FALSE;
@@ -201,9 +201,9 @@ static Aaddr advance(List *elmsList) /* IN - The list to advance */
   Aaddr resadr = 0;             /* Saved address to class restriction */
 
   for (list = elmsList; list != NULL; list = list->next) {
-    list->element.lst = list->element.lst->next;
-    if (list->element.lst->element.elm->kind == END_OF_SYNTAX)
-      resadr = list->element.lst->element.elm->stx->restrictionsAddress;
+    list->member.lst = list->member.lst->next;
+    if (list->member.lst->member.elm->kind == END_OF_SYNTAX)
+      resadr = list->member.lst->member.elm->stx->restrictionsAddress;
   }
   return resadr;
 }
@@ -240,7 +240,7 @@ static List *partitionElements(List **elmsListP) /* INOUT - Address to pointer t
 
   elms = rest;
   while (elms != NULL) {
-    if (equalElements(part->element.lst, elms->element.lst)) {
+    if (equalElements(part->member.lst, elms->member.lst)) {
       this = first(&elms);
       part = combine(part, this);
       if (rest == this)
@@ -276,10 +276,10 @@ static void entryForEOS(ElementEntry *entry, List *part, Aaddr restrictionTableA
   if (part->next != NULL) { /* More than one element in this partition? */
     /* That means that two syntax's are the same */
     for (lst = part; lst != NULL; lst = lst->next)
-      lmLog(&lst->element.lst->element.elm->stx->srcp, 334, sevWAR, "");
+      lmLog(&lst->member.lst->member.elm->stx->srcp, 334, sevWAR, "");
   }
   entry->code = EOS;        /* End Of Syntax */
-  entry->flags = part->element.lst->element.elm->stx->number; /* Syntax number */
+  entry->flags = part->member.lst->member.elm->stx->number; /* Syntax number */
   /* Point to the generated class restriction table */
   entry->next = restrictionTableAddress;
 }
@@ -290,9 +290,9 @@ static void entryForParameter(ElementEntry *entry, List *part, Syntax *stx) {
   List *element;
 
   entry->code = 0;
-  entry->flags = part->element.lst->element.elm->flags;
+  entry->flags = part->member.lst->member.elm->flags;
   TRAVERSE(element, part->next) {
-    entry->flags |= element->element.lst->element.elm->flags;
+    entry->flags |= element->member.lst->member.elm->flags;
   }
   entry->next = generateElements(part, stx);
 }
@@ -300,7 +300,7 @@ static void entryForParameter(ElementEntry *entry, List *part, Syntax *stx) {
 
 /*----------------------------------------------------------------------*/
 static void entryForWord(ElementEntry *entry, Syntax *stx, List *part) {
-  entry->code = part->element.lst->element.elm->id->code;
+  entry->code = part->member.lst->member.elm->id->code;
   entry->flags = 0;
   entry->next = generateElements(part, stx);
 }
@@ -312,7 +312,7 @@ static Aaddr generateEntries(List *entries, ElementEntry *entry) {
   Aaddr elmadr;
   elmadr = nextEmitAddress();
   for (lst = entries; lst; lst = lst->next)
-    emitEntry(lst->element.eent, sizeof(*entry));
+    emitEntry(lst->member.eent, sizeof(*entry));
   emit(EOF);
   return(elmadr);
 }
@@ -362,7 +362,7 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
     /* Make one entry for this partition */
     entry = newEntryForPartition(&entries);
 
-    switch (partition->element.lst->element.elm->kind) {
+    switch (partition->member.lst->member.elm->kind) {
 
     case END_OF_SYNTAX:		/* This partition was at end of syntax */
       entryForEOS(entry, partition, restrictionTableAddress);

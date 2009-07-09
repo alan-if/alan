@@ -321,7 +321,7 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   entry->name = props->nameAddress;
 
   if (props->pronouns)
-    entry->pronoun = props->pronouns->element.id->code;
+    entry->pronoun = props->pronouns->member.id->code;
   else
     entry->pronoun = 0;
 

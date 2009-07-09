@@ -95,8 +95,8 @@ IdNode *findIdInList(IdNode *theId, List *theList) {
   List *here;
 
   for (here = theList; here != NULL; here = here->next)
-    if (equalId(here->element.id, theId))
-      return here->element.id;
+    if (equalId(here->member.id, theId))
+      return here->member.id;
   return NULL;
 }
 

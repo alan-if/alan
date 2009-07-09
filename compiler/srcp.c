@@ -46,8 +46,8 @@ Bool inSrcps(Srcp srcp) {
 
   if (srcp.line != 0)
     TRAVERSE(list, srcps) {
-      if (list->element.srcp->file == srcp.file
-	  && list->element.srcp->line == srcp.line)
+      if (list->member.srcp->file == srcp.file
+	  && list->member.srcp->line == srcp.line)
 	return TRUE;
     }
   return FALSE;
@@ -76,9 +76,9 @@ void generateSrcp(Srcp srcp) {
 
 /*----------------------------------------------------------------------*/
 static int compareSrcps(List *srcp1, List *srcp2) {
-  if (srcp1->element.srcp->file != srcp2->element.srcp->file)
-    return srcp1->element.srcp->file > srcp2->element.srcp->file ? 1 : -1;
-  return srcp1->element.srcp->line > srcp2->element.srcp->line ? 1 : -1;
+  if (srcp1->member.srcp->file != srcp2->member.srcp->file)
+    return srcp1->member.srcp->file > srcp2->member.srcp->file ? 1 : -1;
+  return srcp1->member.srcp->line > srcp2->member.srcp->line ? 1 : -1;
 }
 
 
@@ -91,8 +91,8 @@ Aaddr generateSrcps(void) {
   if (opts[OPTDEBUG].value) {
     srcps = sortList(srcps, &compareSrcps);
     TRAVERSE(srcp, srcps) {
-      entry.file = srcp->element.srcp->file;
-      entry.line = srcp->element.srcp->line;
+      entry.file = srcp->member.srcp->file;
+      entry.line = srcp->member.srcp->line;
       emitEntry(&entry, sizeof(entry));
     }
     emit(EOF);

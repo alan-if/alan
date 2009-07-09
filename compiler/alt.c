@@ -83,11 +83,11 @@ static void analyzeAlternative(Alternative *alt,
 	  if (context->instance != NULL) {
 	    if (context->instance->props->parentId != NULL)
 	      if (inheritsFrom(context->instance->props->parentId->symbol,
-			       parameters->element.sym->fields.parameter.class))
+			       parameters->member.sym->fields.parameter.class))
 		matchedParameters++;
 	  } else if (context->class != NULL) {
 	    if (inheritsFrom(context->class->props->id->symbol,
-			     parameters->element.sym->fields.parameter.class))
+			     parameters->member.sym->fields.parameter.class))
 	      matchedParameters++;
 	  }
 	}
@@ -97,7 +97,7 @@ static void analyzeAlternative(Alternative *alt,
     }
   }
 
-  if (alt->chks != NULL && alt->chks->element.chk->exp == NULL && alt->stms != NULL)
+  if (alt->chks != NULL && alt->chks->member.chk->exp == NULL && alt->stms != NULL)
     lmLog(&alt->srcp, 227, sevWAR, "");
 
   analyzeChecks(alt->chks, context);
@@ -113,7 +113,7 @@ void analyzeAlternatives(List *alts,
   List *lst;
 
   for (lst = alts; lst != NULL; lst = lst->next)
-    analyzeAlternative(lst->element.alt, context);
+    analyzeAlternative(lst->member.alt, context);
 }
 
 
@@ -175,11 +175,11 @@ Aaddr generateAlternatives(List *alts)
   Aaddr altadr;
 
   for (lst = alts; lst != NULL; lst = lst->next)
-    generateAlternative(lst->element.alt);
+    generateAlternative(lst->member.alt);
 
   altadr = nextEmitAddress();
   for (lst = alts; lst != NULL; lst = lst->next)
-    generateAlternativeEntry(lst->element.alt);
+    generateAlternativeEntry(lst->member.alt);
   emit(EOF);
 
   return(altadr);

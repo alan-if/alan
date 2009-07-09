@@ -108,7 +108,7 @@ static void specialListing(lmSev sevs)
   List *fnm;
   List nofile;
 	
-  nofile.element.str = "<no file>";
+  nofile.member.str = "<no file>";
   for (i = 1; lmMsg(i, &srcp, err); i++) {
     if (test_severity(err, sevs)) {
       /* Advance to the correct file name */
@@ -122,13 +122,13 @@ static void specialListing(lmSev sevs)
 	fnm = &nofile;
       if (ccFlag)
 	sprintf(line, "\"%s\", line %d(%d): %s\n",
-		fnm->element.str, srcp.line, srcp.col, err);
+		fnm->member.str, srcp.line, srcp.col, err);
       else if (ideFlag)
 	sprintf(line, "\"%s\", line %d %d-%d: %s\n",
-		fnm->element.str, srcp.line, srcp.startpos, srcp.endpos, err);
+		fnm->member.str, srcp.line, srcp.startpos, srcp.endpos, err);
       else
 	sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
-		fnm->element.str, srcp.line, srcp.col, err, srcp.col);
+		fnm->member.str, srcp.line, srcp.col, err, srcp.col);
 
 #ifdef __mac__
       lmLiPrint(line);
