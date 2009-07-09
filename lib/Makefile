@@ -20,3 +20,6 @@ alanlibversion:
 
 newVersion:
 	cvs commit -m 'New Version' alanlib.version
+
+test:
+	cd testing; ../../bin/regr

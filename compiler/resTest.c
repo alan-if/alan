@@ -22,8 +22,9 @@ void testHasRestriction()
   addElement(syntax, newParameterElement(nulsrcp, parameterId1, 0));
   addElement(syntax, newParameterElement(nulsrcp, parameterId2, 0));
 
-  setParameters(verbSymbol, syntax->elements);
+  List *parameterList = concat(concat(NULL, getMember(syntax->elements, 1), ELEMENT_LIST), getMember(syntax->elements, 2), ELEMENT_LIST);
 
+  setParameters(verbSymbol, parameterList);
   ASSERT(hasRestriction(parameterId1->symbol, syntax));
   ASSERT(!hasRestriction(parameterId2->symbol, syntax));
 }

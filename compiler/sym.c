@@ -314,7 +314,7 @@ static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
   char name[50];
   int p;
   IdNode *id;
-  List *elementList = NULL;
+  List *parameterList = NULL;
 
   sprintf(name, "$message%d%s$", parameterCount, typeSymbol->string);
   symbol = newVerbSymbol(newId(nulsrcp, name));
@@ -322,13 +322,13 @@ static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
   for (p = 1; p <= parameterCount; p++) {
     sprintf(name, "parameter%d", p);
     id = newId(nulsrcp, name);
-    elementList = concat(elementList,
+    parameterList = concat(parameterList,
 			 newParameterElement(nulsrcp, id, 0),
 			 ELEMENT_LIST);
     id->code = p;
   }
   
-  setParameters(symbol, elementList);
+  setParameters(symbol, parameterList);
 
   for (p = 1; p <= parameterCount; p++)
     setParameterClass(symbol, p, typeSymbol);
@@ -703,7 +703,7 @@ Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 /*======================================================================*/
 void setParameters(Symbol *verb, List *parameters)
 {
-  /* Parameters are sent as a list of ElmNodes. Set it in the verb symbol. */
+  /* Parameters are sent as a list of Elments. Set it in the verb symbol. */
   List *parameterSymbols = NULL;
   List *param;
 
