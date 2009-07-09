@@ -103,7 +103,7 @@ unittests: unit
 
 .PHONY: unit
 unit : $(TESTOBJS)
-	$(LD) -o unit $(CFLAGS) $(TESTOBJS) alan.version.o $(LDFLAGS)
+	$(LD) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 
 .PHONY:test
 # Run all tests!

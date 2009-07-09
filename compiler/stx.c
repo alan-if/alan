@@ -73,7 +73,6 @@ Syntax *newSyntaxWithEOS(Srcp srcp, IdNode *id, List *restrictionList,
   this->id = id;
   this->number = number++;
   this->elements = concat(NULL, newEndOfSyntax(), ELEMENT_LIST);
-  //TODO Refactor ->element.x to ->member.x
   this->elements->member.elm->stx = this;
   this->firstSyntax = TRUE;	/* Assume first and only so far */
   this->nextSyntaxForSameVerb = NULL;

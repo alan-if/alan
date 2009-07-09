@@ -87,7 +87,6 @@ static void canAddElementBeforeEOS() {
   Element *firstElement = newParameterElement(nulsrcp, NULL, 0);
   addElement(syntax, firstElement);
   ASSERT(length(syntax->elements) == 2);
-  // TODO Refactor to use getLastElement()
   ASSERT(((Element *)getLastMember(syntax->elements))->kind == END_OF_SYNTAX);
 
   Element *secondElement = newParameterElement(nulsrcp, NULL, 0);
