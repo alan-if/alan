@@ -77,7 +77,7 @@ void initDumpNodeList()
   insert()
 
   Insert an element into a list at the point. Can not insert at end
-  (i.e. on NULL lists)
+  (e.g. on NULL lists)
 
   */
 void insert(List *thePoint, void *element, ListKind kind)
@@ -115,7 +115,7 @@ List *copyList(List *aList)
 
 
 /*======================================================================*/
-extern void *listElement(List *theList, int elementNumber)
+extern void *getMember(List *theList, int elementNumber)
 {
   int i = 1;
 
@@ -123,7 +123,7 @@ extern void *listElement(List *theList, int elementNumber)
 
   while (theList) {
     if (i == elementNumber)
-      return (void *)theList->element.id;
+      return (void *)theList->element.id; /* All member pointers are overlayed */
     theList = theList->next;
     i++;
   }
@@ -133,7 +133,39 @@ extern void *listElement(List *theList, int elementNumber)
 
 
 /*======================================================================*/
-List *tailOf(List *theList)
+extern List *getListNode(List *theList, int number)
+{
+  int i = 1;
+
+  if (number < 1) SYSERR("List element number must be > 0");
+
+  while (theList) {
+    if (i == number)
+      return theList;
+    theList = theList->next;
+    i++;
+  }
+  SYSERR("Not enough list elements");
+  return NULL;
+}
+
+
+/*======================================================================*/
+List *getLastListNode(List *theList)
+{
+  List *last;
+
+  if (theList == NULL)
+    return NULL;
+
+  for (last = theList; last->next != NULL; last = last->next)
+    ;
+  return last;
+}
+
+
+/*======================================================================*/
+void *getLastMember(List *theList)
 {
   List *tail;
 
@@ -142,8 +174,9 @@ List *tailOf(List *theList)
 
   for (tail = theList; tail->next != NULL; tail = tail->next)
     ;
-  return tail;
+  return (void *)tail->element.id;
 }
+
 
 
 // TODO: Refactor to use newList(ListKind), remove kind from concat()
@@ -166,7 +199,7 @@ List *concat(List *list /*@null@*/, void *element, ListKind kind)
   if (list == NULL) {
     return(new);
   } else {
-    tail = tailOf(list);
+    tail = getLastListNode(list);
     tail->next = new;	/* Concat at end of list */
     return(list);
   }
@@ -184,7 +217,7 @@ List *concat(List *list /*@null@*/, void *element, ListKind kind)
 List *combine(List *list1,	/* IN - Lists to combine */
 	      List *list2)
 {
-  List *tail = tailOf(list1);
+  List *tail = getLastListNode(list1);
 
   if (list1 == NULL) return(list2);
   if (list2 == NULL) return(list1);

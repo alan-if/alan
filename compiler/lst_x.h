@@ -19,7 +19,7 @@ extern void (*(dumpNodeTable[]))();
 
 /* FUNCTIONS: */
 
-// TODO Define iterator functions
+// TODO Define iterator functions?
 
 #define TRAVERSE(loopVariable,initExpression) for (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
 
@@ -28,11 +28,12 @@ extern List *concat(List *lst, void *elem, ListKind kind);
 extern List *combine(List *lst1, List *lst2);
 extern void insert(List *where, void *element, ListKind kind);
 extern int length(List *aList);
-extern List *tailOf(List *aList);
+extern List *getLastListNode(List *aList);
 extern List *sortList(List *aList, int comparer(List *e1, List *e2));
 extern List *copyList(List *aList);
-extern void *listElement(List *aList, int i);
-
+extern void *getMember(List *aList, int number);
+extern void *getLastMember(List *theList);
+extern List *getListNode(List *aList, int number);
 
 /* Dump a list of nodes */
 extern void dumpList(List *lst, ListKind nod);

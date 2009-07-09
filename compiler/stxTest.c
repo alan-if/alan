@@ -7,7 +7,7 @@
 #include "stx.c"
 
 
-void testCountParameters()
+static void canCountParameters()
 {
   List *elementList;
 
@@ -20,7 +20,7 @@ void testCountParameters()
 }
 
 
-void testCompatibleParameterLists()
+static void parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters()
 {
   Syntax s1, s2;
 
@@ -37,7 +37,7 @@ void testCompatibleParameterLists()
 
 
 
-void testConnectSyntaxForSameVerb()
+static void syntaxForSameVerbCanBeConnected()
 {
   List *elements = concat(NULL,
 			  newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0),
@@ -71,11 +71,39 @@ void testConnectSyntaxForSameVerb()
 }
 
 
+// TODO Refactor handling of the Element lists to:
+// newElementList()
+// getFirstElement(list)
+// getLastElement(list)
+// getElement(list, n)
+static void canCreateNewSyntaxWithEOS() {
+  Syntax *syntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
+  ASSERT(syntax->elements->element.elm->kind == END_OF_SYNTAX);
+}
+
+
+static void canAddElementBeforeEOS() {
+  Syntax *syntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
+  Element *firstElement = newParameterElement(nulsrcp, NULL, 0);
+  addElement(syntax, firstElement);
+  ASSERT(length(syntax->elements) == 2);
+  // TODO Refactor to use getLastElement()
+  ASSERT(((Element *)getLastMember(syntax->elements))->kind == END_OF_SYNTAX);
+
+  Element *secondElement = newParameterElement(nulsrcp, NULL, 0);
+  addElement(syntax, secondElement);
+  ASSERT(length(syntax->elements) == 3);
+  ASSERT(getMember(syntax->elements, 1) == firstElement);
+  ASSERT(getMember(syntax->elements, 2) == secondElement);
+  ASSERT(((Element *)getLastMember(syntax->elements))->kind == END_OF_SYNTAX);
+}
 
 void registerStxUnitTests()
 {
-  registerUnitTest(testCountParameters);
-  registerUnitTest(testCompatibleParameterLists);
-  registerUnitTest(testConnectSyntaxForSameVerb);
+  registerUnitTest(canCountParameters);
+  registerUnitTest(parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters);
+  registerUnitTest(syntaxForSameVerbCanBeConnected);
+  registerUnitTest(canCreateNewSyntaxWithEOS);
+  registerUnitTest(canAddElementBeforeEOS);
 }
 

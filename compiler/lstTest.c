@@ -49,9 +49,9 @@ void testTailOf()
   List *listOfTwo = newIdList(newIdList(NULL, "anId"),
 			      "anId");
 			   
-  ASSERT(tailOf(NULL) == NULL);
-  ASSERT(tailOf(listOfOne) == listOfOne);
-  ASSERT(tailOf(listOfTwo) == listOfTwo->next);
+  ASSERT(getLastListNode(NULL) == NULL);
+  ASSERT(getLastListNode(listOfOne) == listOfOne);
+  ASSERT(getLastListNode(listOfTwo) == listOfTwo->next);
 }
 
 void testRemoveFromList()
@@ -158,7 +158,7 @@ static void testCopyList() {
   copy = copyList(l4);
   ASSERT(length(copy) == length(l4));
   for (i = 1; i<=length(copy); i++)
-    ASSERT(listElement(copy, i) == listElement(l4, i));
+    ASSERT(getMember(copy, i) == getMember(l4, i));
 }
 
 void registerLstUnitTests()

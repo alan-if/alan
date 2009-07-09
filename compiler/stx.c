@@ -61,6 +61,42 @@ Syntax *newSyntax(Srcp srcp, IdNode *id, List *elements, List *restrictionList,
 }
 
 
+/*======================================================================*/
+Syntax *newSyntaxWithEOS(Srcp srcp, IdNode *id, List *restrictionList,
+		  Srcp restrictionSrcp)
+{
+  Syntax *this;                  /* The newly created node */
+  static int number = 1;
+
+  progressCounter();
+
+  this = NEW(Syntax);
+
+  this->srcp = srcp;
+  this->id = id;
+  this->number = number++;
+  this->elements = concat(NULL, newEndOfSyntax(), ELEMENT_LIST);
+  //TODO Refactor ->element.x to ->member.x
+  this->elements->element.elm->stx = this;
+  this->firstSyntax = TRUE;	/* Assume first and only so far */
+  this->nextSyntaxForSameVerb = NULL;
+  this->restrictions = restrictionList;
+  this->restrictionSrcp = restrictionSrcp;
+
+  this->generated = FALSE;
+
+  return(this);
+}
+
+
+/*======================================================================*/
+void addElement(Syntax *syntax, Element *element)
+{
+  insert(getListNode(syntax->elements, length(syntax->elements)), element, ELEMENT_LIST);
+}
+
+
+
 /*----------------------------------------------------------------------*/
 static void setDefaultRestriction(List *parameters)
 {
@@ -202,7 +238,7 @@ static void analyzeSyntax(Syntax *stx)
       setDefaultRestriction(verbSymbol->fields.verb.parameterSymbols);
     }
     /* Link last syntax element to this stx to prepare for code generation */
-    (tailOf(stx->elements))->element.elm->stx = stx;
+    (getLastListNode(stx->elements))->element.elm->stx = stx;
   }
 }
 
