@@ -16,31 +16,88 @@ void testLength()
 
   ASSERT(length(aList) == 0);
 
+  // TODO newIdList(NULL, => newIdList( perhaps?
   aList = newIdList(NULL, "id1");
   ASSERT(length(aList) == 1);
 
-  aList = newIdList(aList, "id2");
+  aList = concat(aList, "id2", ID_LIST);
   ASSERT(length(aList) == 2);
 
-  aList = newIdList(aList, "id3");
+  aList = concat(aList, "id3", ID_LIST);
   ASSERT(length(aList) == 3);
 }
 
-void testInsert()
+
+void insertingShouldIncreaseLength()
 {
-  IdNode *anElement = newId(nulsrcp, "anElement");
-  List *aList = concat(NULL, anElement, ATTRIBUTE_LIST);
+  IdNode *aMember = newId(nulsrcp, "aMember");
+  List *aList = concat(NULL, aMember, ID_LIST);
+  ASSERT(length(aList) == 1);
 
-#ifdef THESE_TESTS_CAUSE_INTENTIONAL_SYSERR
-  insert(NULL, NULL, ATTRIBUTE_LIST);
-  ASSERT(readEcode() == 997 && readSev() == sevERR);
-
-  insert(aList, anElement, ID_LIST);
-  ASSERT(readEcode() == 997 && readSev() == sevERR);
-#endif
-
-  insert(aList, anElement, ATTRIBUTE_LIST);
+  insert(aList, aMember, ID_LIST);
   ASSERT(length(aList) == 2);
+}
+
+
+/*----------------------------------------------------------------------*/
+static Bool syserrHandlerCalled;
+
+jmp_buf syserrLabel;
+
+
+static void syserrHandler(char *message) {
+  syserrHandlerCalled = TRUE;
+  longjmp(syserrLabel, TRUE);
+}
+
+/* From util.c */
+extern void setSyserrHandler(void (*f)(char *));
+
+#define TRY(code)   \
+  setSyserrHandler(syserrHandler); \
+  syserrHandlerCalled = FALSE;\
+  if (setjmp(syserrLabel) == 0) { \
+    code \
+  } \
+  setSyserrHandler(NULL);
+
+#define CATCH() \
+  setSyserrHandler(NULL); \
+  
+
+void insertingIntoANullListFails()
+{
+  IdNode *aMember = newId(nulsrcp, "aMember");
+
+  TRY(
+    insert(NULL, aMember, ID_LIST);
+    ASSERT(FALSE);
+  )
+  ASSERT(syserrHandlerCalled);
+}
+
+void insertingANullMemberFails()
+{
+  IdNode *aMember = newId(nulsrcp, "aMember");
+  List *aList = concat(NULL, aMember, ID_LIST);
+
+  TRY(
+    insert(aList, NULL, ID_LIST);
+    ASSERT(FALSE);
+  )
+  ASSERT(syserrHandlerCalled);
+}
+
+void insertingWrongTypeOfElementFails()
+{
+  IdNode *aMember = newId(nulsrcp, "aMember");
+  List *aList = newIdList(NULL, "aMember");
+
+  TRY(
+    insert(aList, aMember, ATTRIBUTE_LIST);
+    ASSERT(FALSE);
+  );
+  ASSERT(syserrHandlerCalled);
 }
 
 void testTailOf()
@@ -164,7 +221,10 @@ static void testCopyList() {
 void registerLstUnitTests()
 {
   registerUnitTest(testLength);
-  registerUnitTest(testInsert);
+  registerUnitTest(insertingShouldIncreaseLength);
+  registerUnitTest(insertingIntoANullListFails);
+  registerUnitTest(insertingANullMemberFails);
+  registerUnitTest(insertingWrongTypeOfElementFails);
   registerUnitTest(testTailOf);
   registerUnitTest(testRemoveFromList);
   registerUnitTest(testSortList);

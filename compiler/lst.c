@@ -76,11 +76,11 @@ void initDumpNodeList()
 
   insert()
 
-  Insert an element into a list at the point. Can not insert at end
-  (e.g. on NULL lists)
+  Insert an element into a list at the point. To insert at the end
+  use concat()
 
   */
-void insert(List *thePoint, void *element, ListKind kind)
+void insert(List *thePoint, void *member, ListKind kind)
 {
   List *newListNode;
 
@@ -88,12 +88,14 @@ void insert(List *thePoint, void *element, ListKind kind)
     SYSERR("Inserting an element in a NULL list");
   if (kind != thePoint->kind)
     SYSERR("Inserting wrong kind of element in list");
+  if (member == NULL)
+    SYSERR("Inserting a NULL member in a list");
 
   /* Move the first element to a new list node */
   newListNode = concat(NULL, thePoint->member.atr, kind);
 
   newListNode->next = thePoint->next;
-  thePoint->member.atr = element;
+  thePoint->member.atr = member;
   thePoint->next = newListNode;
 }
 

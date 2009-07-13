@@ -335,9 +335,11 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
     for this group pointing to the next level for each group, a.s.o.
 
     Currently this is a bit vasteful in that it always creates a new
-    list. Also it should really request a partitioned list from
-    partition() instead and then traverse that list. This requires
-    rewriting partition() to deliver a list of partitions instead.
+    list.
+
+    It should really request a partitioned list from partitionElements()
+    instead and then traverse that list. This requires rewriting
+    partitionElements() to deliver a list of partitions instead.
 
     TODO This code would be much clearer if it used Collection instead
     of Lists for the partitions.

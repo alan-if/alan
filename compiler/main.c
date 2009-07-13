@@ -102,7 +102,6 @@ after parse (will abort after dump)\n\
 after analysis (will abort after dump)\n\
 after code generation", dumpFlags, "ypxsvciker!a123", NULL, NULL)
 #endif
-/*     SPA_FLAG("prettyprint", "pretty print the adventure", ppflg, FALSE, NULL) */
 SPA_END
 
 /*======================================================================*\

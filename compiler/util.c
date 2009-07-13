@@ -16,6 +16,8 @@
 #include "smScan.h"
 #include "options.h"
 
+#include <setjmp.h>
+
 
 /* PUBLIC DATA */
 
@@ -23,8 +25,8 @@ Srcp nulsrcp			/* NULL position for list */
   = {0,0,0};
 
 Bool verboseFlag;		/* Verbose output */
-long counter;		/* And counter for verbose mode */
-long allocated;		/* Calculated memory usage */
+long counter;			/* And counter for verbose mode */
+long allocated;			/* Calculated memory usage */
 
 
 /* PRIVATE DATA */
@@ -190,20 +192,33 @@ void createListing(char *listFileName, int lines, int columns,
 #endif
 
 
+static void (*handler)(char *) = NULL;
+
+/*======================================================================*/
+void setSyserrHandler(void (*f)(char *))
+{
+  handler = f;
+}
+
 /*======================================================================*/
 void syserr(char *errorMessage, const char *function, char *file, int line)
 {
   int messageLength;
   char *messageString;
 
-  messageLength = strlen(errorMessage) + strlen(function) + strlen(file) + strlen(" in '()', :00000");
+  if (handler) {
+    handler(errorMessage);
+  } else {
+    messageLength = strlen(errorMessage) + strlen(function) + strlen(file) + strlen(" in '()', :00000");
 
-  messageString = allocate(messageLength+1);
-  sprintf(messageString, "%s in '%s()', %s:%d", errorMessage, function, file, line);
+    messageString = allocate(messageLength+1);
+    sprintf(messageString, "%s in '%s()', %s:%d", errorMessage, function, file, line);
 
-  lmLog(&nulsrcp, 997, sevSYS, messageString);
-  createListing("", 0, 79, liTINY, sevALL);
-  terminate(EXIT_FAILURE);
+    lmLog(&nulsrcp, 997, sevSYS, messageString);
+
+    createListing("", 0, 79, liTINY, sevALL);
+    terminate(EXIT_FAILURE);
+  }
 }
 
 

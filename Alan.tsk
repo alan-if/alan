@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>654.89</origest>
-<currest>663.89</currest>
+<origest>655.89</origest>
+<currest>664.89</currest>
 <elapsed>472.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>93</origest>
-<currest>94</currest>
+<origest>94</origest>
+<currest>95</currest>
 <elapsed>13</elapsed>
 <isopen>1</isopen>
 <task>
@@ -161,8 +161,8 @@ Also need to separate the path and the basename since the user will want to use 
 <desc>Version 3.0alpha7</desc>
 <notes/>
 <priority>2</priority>
-<origest>16</origest>
-<currest>16</currest>
+<origest>17</origest>
+<currest>17</currest>
 <elapsed>8</elapsed>
 <isopen>1</isopen>
 <task>
@@ -312,6 +312,15 @@ Or possibly that the compiler checks that the indicators match for all syntax sy
 It would be better if only files dependent on the setting of GLK would be recompiled (and possibly also where the only ones getting the -D).
 
 This would require a grep for GLK in *.c to investigate.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Modify interpreter Makefiles to separate pieces for each executable</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

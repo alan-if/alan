@@ -34,4 +34,6 @@ extern void unimpl(Srcp srcp, char *phase);
 extern void panic(char *str);
 extern void terminate(int ecode);
 
+extern void setSyserrHandler(void (*handler)(char *));
+
 #endif

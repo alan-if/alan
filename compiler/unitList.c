@@ -9,6 +9,8 @@
 
 #include "lmList.h"
 #include <stdio.h>
+#include <setjmp.h>
+
 
 /* Public for checking */
 int lastEcode;
@@ -26,7 +28,7 @@ int readSev()
 {
   lmSev s = lastSev;
 
-  lastSev= sevNONE;
+  lastSev = sevNONE;
   return s;
 }
 
@@ -39,7 +41,7 @@ extern void lmLog(Srcp *pos,
   lastSev = sev;
 
   if (ecode == 997)
-    printf("SYSERR: %s\n", istrs);
+    printf("Unexpected SYSERR: ecode = %d, istrs = '%s'\n", ecode, istrs);
 }
 
 extern void lmLogv(Srcp *pos,
@@ -83,4 +85,3 @@ extern void lmLiEnter(Srcp *pos,
 
 extern int lmMsg(int i, Srcp *pos, char *msg)
 {return 0;}
-

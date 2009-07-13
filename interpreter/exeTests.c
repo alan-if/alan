@@ -188,6 +188,11 @@ static void syserrHandler(char *message) {
 }
 
 
+// TODO this does not work as expected
+// setjmp can not be called in a function
+// that is not calling the code doing the
+// jumping. Copy syserr handling from 
+// compiler unit tests
 static int triedAndNoSyserrCaught() {
   setSyserrHandler(syserrHandler);
   syserrHandlerCalled = FALSE;
