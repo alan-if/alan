@@ -7,8 +7,14 @@
 \*======================================================================*/
 
 #include "adv.c"
+
+#include "unit.h"
+#include "unitList.h"
+
 #include "wht_x.h"
 #include "exp_x.h"
+#include "id_x.h"
+
 
 void testInitAdv()
 {
@@ -57,7 +63,7 @@ void testInitAdv()
 }
 
 
-void registerAdvUnitTests()
+void advUnitTests()
 {
   registerUnitTest(testInitAdv);
 }

@@ -8,6 +8,14 @@
 
 #include "prop.c"
 
+#include "unit.h"
+#include "unitList.h"
+
+#include "exp_x.h"
+#include "wht_x.h"
+#include "adv_x.h"
+#include "ins_x.h"
+
 
 static void testAddOpaqueAttribute()
 {
@@ -60,6 +68,7 @@ static void testCircularLocation() {
   loc2 = newInstance(&nulsrcp, newId(nulsrcp, "loc2"), NULL, props2);
   symbolizeAdventure();
 
+  readEcode();
   analyzeCircularLocations(props1);
   ASSERT(readEcode() == 0);
 
@@ -92,9 +101,8 @@ static void testCircularLocation() {
 
 
 
-void registerPropUnitTests()
+void propUnitTests()
 {
   registerUnitTest(testCircularLocation);
   registerUnitTest(testAddOpaqueAttribute);
 }
-

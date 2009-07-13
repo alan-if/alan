@@ -8,9 +8,8 @@
 
 #include "wrd.c"
 
-static void testInitWrd()
-{
-}
+#include "unit.h"
+
 
 static void testInsertWord()
 {
@@ -85,9 +84,8 @@ static void testGenerateWordEntry()
   ASSERT(convertFromACD(de[1].adjectiveRefs) == 21);  
 }
 
-void registerWrdUnitTests()
+void wrdUnitTests()
 {
-  registerUnitTest(testInitWrd);
   registerUnitTest(testInsertWord);
   registerUnitTest(testNewWord);
   registerUnitTest(testGenerateWordEntry);

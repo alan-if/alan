@@ -6,6 +6,8 @@
 
 #include "stx.c"
 
+#include "unit.h"
+
 
 static void canCountParameters()
 {
@@ -97,7 +99,7 @@ static void canAddElementBeforeEOS() {
   ASSERT(((Element *)getLastMember(syntax->elements))->kind == END_OF_SYNTAX);
 }
 
-void registerStxUnitTests()
+void stxUnitTests()
 {
   registerUnitTest(canCountParameters);
   registerUnitTest(parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters);

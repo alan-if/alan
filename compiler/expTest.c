@@ -7,7 +7,14 @@
 \*======================================================================*/
 
 #include "exp.c"
+
+#include "unit.h"
+#include "unitList.h"
+
 #include "ins_x.h"
+#include "prop_x.h"
+#include "cla_x.h"
+
 
 void testVerifySetMember() {
   Expression *theSet = newWhatExpression(nulsrcp, NULL);
@@ -135,7 +142,7 @@ static void testCombineFilterClasses() {
   ASSERT(readEcode() == 441);
 }
 
-void registerExpUnitTests()
+void expUnitTests()
 {
   registerUnitTest(testSymbolOf);
   registerUnitTest(testAttributeToThis);

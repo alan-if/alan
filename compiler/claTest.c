@@ -9,6 +9,9 @@
 #include "ins_x.h"
 #include "emit.h"
 
+#include "unit.h"
+#include "unitList.h"
+
 
 void testCreateClass()
 {
@@ -95,7 +98,7 @@ void testGenerateEmptyClassEntry()
   ASSERT(convertFromACD(entry->parent) == 0);
 }
 
-void registerClaUnitTests()
+void claUnitTests()
 {
   registerUnitTest(testCreateClass);
   registerUnitTest(testGenerateClasses);

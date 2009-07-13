@@ -8,6 +8,9 @@
 
 #include "description.c"
 
+#include "unit.h"
+
+
 void testChecksOf() {
   Description *description = newDescription(nulsrcp, NULL, nulsrcp, NULL);
   List list;
@@ -19,7 +22,7 @@ void testChecksOf() {
 }
 
 
-void registerDescriptionUnitTests()
+void descriptionUnitTests()
 {
   registerUnitTest(testChecksOf);
 }

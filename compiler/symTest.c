@@ -7,8 +7,16 @@
 \*======================================================================*/
 
 #include "sym.c"
+
+#include "unit.h"
+#include "unitList.h"
+
 #include "elm_x.h"
 #include "prop_x.h"
+#include "ins_x.h"
+#include "adv_x.h"
+#include "context_x.h"
+
 
 /*======================================================================
 
@@ -462,7 +470,36 @@ static void testClassToType () {
   ASSERT(classToType(symbol) == INSTANCE_TYPE);
 }
 
-void registerSymUnitTests()
+
+void testParameterReference()
+{
+  List *parameters;
+  IdNode *p1Id = newId(nulsrcp, "p1");
+  Symbol *foundSymbol;
+  IdNode *v1Id = newId(nulsrcp, "v1");
+  Symbol *v1Symbol;
+  Context *context;
+
+  initAdventure();
+
+  v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
+  context = newVerbContext(v1Symbol);
+  parameters = createOneParameter("p1");
+  setParameters(v1Symbol, parameters);
+
+  /* Parameter not found if not in verb context */
+  foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, NULL);
+  ASSERT(foundSymbol == NULL);
+  ASSERT(readEcode() == 310 && readSev() == sevERR); /* Not found! */
+
+  foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, context);
+  ASSERT(foundSymbol != NULL);
+  ASSERT(foundSymbol->kind == PARAMETER_SYMBOL);
+  ASSERT(foundSymbol->fields.parameter.element == parameters->member.elm);
+}
+
+
+void symUnitTests()
 {
   registerUnitTest(testMultipleSymbolKinds);
   registerUnitTest(testContentOfSymbol);
@@ -482,5 +519,6 @@ void registerSymUnitTests()
   registerUnitTest(testCreateMessageVerbs);
   registerUnitTest(testInheritOpaqueAttribute);
   registerUnitTest(testClassToType);
+  registerUnitTest(testParameterReference);
 }
 

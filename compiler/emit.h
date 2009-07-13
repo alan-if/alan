@@ -19,9 +19,9 @@ ACodeHeader acodeHeader;
 /* FUNCTIONS */
 
 extern void initEmit(char acodeFileName[]);
+extern void initEmitBuffer(Aword *bufferToUse);
 extern Aword nextEmitAddress(void);
 extern void emitString(char str[]);
-extern void emit(Aword word);
 extern void emitVariable(Aword word);
 extern void emitConstant(int word);
 extern void emitN(void *words, int noOfWords);
@@ -30,8 +30,11 @@ extern void emit0(Aword op);
 extern void emit1(Aword op, Aword arg1);
 extern void emit2(Aword op, Aword arg1, Aword arg2);
 extern void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3);
-extern void terminateEmit();
 extern void emitTextDataToAcodeFile(char dataFileName[]);
 extern void emitHeader();
+extern void emit(Aword word);
+extern Aword reversed(Aword w);
+extern void terminateEmit();
+
 
 #endif

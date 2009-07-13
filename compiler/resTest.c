@@ -8,6 +8,12 @@
 
 #include "res.c"
 
+#include "unit.h"
+
+#include "stx_x.h"
+#include "elm_x.h"
+
+
 void testHasRestriction()
 {
   Symbol *verbSymbol = newVerbSymbol(newId(nulsrcp, "verb"));
@@ -30,7 +36,7 @@ void testHasRestriction()
 }
 
 
-void registerResUnitTests()
+void resUnitTests()
 {
   registerUnitTest(testHasRestriction);
 }

@@ -7,8 +7,12 @@
 \*======================================================================*/
 
 #include "add.c"
+
+#include "unit.h"
+
 #include "cla_x.h"
 #include "sym.h"
+
 
 static void testMultipleAddAttribute()
 {
@@ -106,7 +110,7 @@ void testAddDescription() {
   ASSERT(symbol->fields.entity.props->description->does == &list);
 }
 
-void registerAddUnitTests()
+void addUnitTests()
 {
   registerUnitTest(testMultipleAddAttribute);
   registerUnitTest(testAddDescription);

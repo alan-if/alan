@@ -8,6 +8,8 @@
 
 #include "elm.c"
 
+#include "unit.h"
+
 #include "stx_x.h"
 #include "lst_x.h"
 
@@ -71,7 +73,7 @@ void entryForParameterShouldMergeFlagsFromAllElements() {
 
 }
 
-void registerElmUnitTests()
+void elmUnitTests()
 {
   registerUnitTest(testPartition);
   registerUnitTest(entryForParameterShouldMergeFlagsFromAllElements);

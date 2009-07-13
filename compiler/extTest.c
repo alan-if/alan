@@ -8,6 +8,13 @@
 
 #include "ext.c"
 
+#include "unit.h"
+#include "unitList.h"
+
+#include "context_x.h"
+#include "adv_x.h"
+
+
 void testNewExt()
 {
   IdNode *direction = newId(nulsrcp, "w");
@@ -56,7 +63,7 @@ void testHaveExit()
   ASSERT(haveExit(exits, newId(nulsrcp, "west")));
 }
 
-void registerExtUnitTests()
+void extUnitTests()
 {
   registerUnitTest(testNewExt);
   registerUnitTest(testHaveExit);

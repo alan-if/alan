@@ -8,6 +8,9 @@
 
 #include "id.c"
 
+#include "unit.h"
+
+
 void testGeneratedId() {
   IdNode *id1 = NEW(IdNode);
   IdNode *id2 = NEW(IdNode);
@@ -19,7 +22,7 @@ void testGeneratedId() {
   ASSERT(!equalId(id1, id2));
 }
 
-void registerIdUnitTests()
+void idUnitTests()
 {
   registerUnitTest(testGeneratedId);
 }

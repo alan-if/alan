@@ -10,6 +10,10 @@
 #include <sys/stat.h>
 #include <stdio.h>
 
+#include "unit.h"
+#include "unitList.h"
+
+
 void testNumberImages()
 {
   List e[5];
@@ -143,7 +147,7 @@ void testAnalyzeResource() {
 }
 
 
-void registerResourceUnitTests()
+void resourceUnitTests()
 {
   registerUnitTest(testNumberImages);
   registerUnitTest(testAnalyzeResource);

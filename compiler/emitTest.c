@@ -8,6 +8,9 @@
 
 #include "emit.c"
 
+#include "unit.h"
+
+
 void testEmit()
 {
   int expectedAddress;
@@ -78,7 +81,7 @@ static void testEmitTextDataToAcodeFile()
   
 
 
-void registerEmitUnitTests()
+void emitUnitTests()
 {
   registerUnitTest(testEmit);
   registerUnitTest(testEmitTextDataToAcodeFile);

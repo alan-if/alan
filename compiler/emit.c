@@ -64,8 +64,8 @@ static void buffer(Aword w)
 }
 
 
-/*----------------------------------------------------------------------*/
-static Aword reversed(Aword w)	/* IN - The ACODE word to swap bytes in */
+/*======================================================================*/
+Aword reversed(Aword w)		/* IN - The ACODE word to swap bytes in */
 {
   Aword s;			/* The swapped ACODE word */
   char *wp, *sp;

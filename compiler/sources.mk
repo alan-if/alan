@@ -46,33 +46,38 @@ BUILDSRCS = \
 	util.c \
 	wht.c \
 
-
-# More Sources required for Alan program build
 # Excluded from BUILDSRCS because there are unit tests for these
-ALANSRCS = \
+UNITTESTED = \
 	add.c \
 	adv.c \
 	atr.c \
 	cla.c \
 	description.c \
-	emit.c \
 	elm.c \
+	emit.c \
 	exp.c \
 	ext.c \
-	ins.c \
 	id.c \
 	ifid.c \
+	ins.c \
 	lst.c \
-	main.c \
 	prop.c \
 	res.c \
 	resource.c \
-	stx.c \
 	stm.c \
+	stx.c \
 	sym.c \
 	vrb.c \
 	whr.c \
 	wrd.c \
+
+# More Sources required for Alan program build
+ALANSRCS = \
+	main.c \
+	$(UNITTESTED)
+
+
+UNITTESTSRCS = ${UNITTESTED:.c=Test.c}
 
 MAINSRCS = $(TMCSRCS) $(ALANSRCS) $(BUILDSRCS)
 MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
@@ -81,7 +86,8 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 
 
 # Sources for the test framework
-UNITSRCS = unit.c \
+UNITSRCS = $(UNITTESTSRCS) \
+	unit.c \
 	unitList.c \
 	pmParse.c pmPaSema.c \
 	pmErr.c \

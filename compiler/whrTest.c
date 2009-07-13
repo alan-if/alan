@@ -8,6 +8,13 @@
 
 #include "whr.c"
 
+#include "unit.h"
+
+#include "ins_x.h"
+#include "cla_x.h"
+#include "prop_x.h"
+
+
 void testClassOfContent()
 {
   initSymbols();
@@ -46,14 +53,14 @@ void testInitialLocation()
 			newWhatExpression(nulsrcp, newWhatId(nulsrcp, id)));
   Instance *atLoc = newInstance(&nulsrcp, id, NULL, NULL);
 
-  symbolizeInstance(atLoc);
+  symbolizeProps(atLoc->props, FALSE);
   symbolizeWhere(whr);
   ASSERT(generateInitialLocation(NULL) == 0);
 
   ASSERT(generateInitialLocation(whr) == atLoc->props->id->symbol->code);
 }
 
-void registerWhrUnitTests()
+void whrUnitTests()
 {
   registerUnitTest(testClassOfContent);
   registerUnitTest(testInitialLocation);

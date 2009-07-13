@@ -6,6 +6,11 @@
 
 #include "ins.c"
 
+#include "unit.h"
+#include "unitList.h"
+
+#include "adv_x.h"
+
 
 void testCreateIns()
 {
@@ -119,7 +124,7 @@ void testHero()
   ASSERT(header.theHero == 1);
 }
 
-void registerInsUnitTests()
+void insUnitTests()
 {
   registerUnitTest(testCreateIns);
   registerUnitTest(testGenerateEmptyInstanceEntry);

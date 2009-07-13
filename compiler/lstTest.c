@@ -9,6 +9,8 @@
 #include "lst.c"
 #include "id_x.h"
 
+#include "unit.h"
+#include <setjmp.h>
 
 void testLength()
 {
@@ -62,7 +64,7 @@ extern void setSyserrHandler(void (*f)(char *));
   setSyserrHandler(NULL);
 
 #define CATCH() \
-  setSyserrHandler(NULL); \
+  setSyserrHandler(NULL);
   
 
 void insertingIntoANullListFails()
@@ -218,7 +220,7 @@ static void testCopyList() {
     ASSERT(getMember(copy, i) == getMember(l4, i));
 }
 
-void registerLstUnitTests()
+void lstUnitTests()
 {
   registerUnitTest(testLength);
   registerUnitTest(insertingShouldIncreaseLength);

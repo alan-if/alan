@@ -7,10 +7,15 @@
 \*======================================================================*/
 
 #include "atr.c"
+
+#include "unit.h"
+#include "unitList.h"
+
 #include "ins_x.h"
 #include "cla_x.h"
 #include "wht_x.h"
 #include "prop_x.h"
+
 
 void testCreateSetAttribute()
 {
@@ -54,7 +59,7 @@ void testInferClassInSetAttribute()
   Expression *setExp = newSetExpression(nulsrcp, set);
   Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
 
-  symbolizeInstance(instance);
+  symbolizeProps(instance->props, FALSE);
   analyzeSetAttribute(atr);
   ASSERT(atr->type == SET_TYPE);
   ASSERT(atr->setType == INSTANCE_TYPE);
@@ -68,7 +73,7 @@ void testInferClassInSetAttribute()
 				 newWhatId(nulsrcp, newId(nulsrcp, "u"))),
 	       EXPRESSION_LIST);
 
-  symbolizeInstance(instance);
+  symbolizeProps(instance->props, FALSE);
   analyzeSetAttribute(atr);
   ASSERT(atr->type == SET_TYPE);
   ASSERT(atr->setType == INSTANCE_TYPE);
@@ -362,7 +367,7 @@ static void testResolveThisAttributeForClass()
   ASSERT(theResolvedAttribute == theAttributes->member.atr);
 }
 
-void registerAtrUnitTests()
+void atrUnitTests()
 {
   registerUnitTest(testCreateSetAttribute);
   registerUnitTest(testIsWhatId);

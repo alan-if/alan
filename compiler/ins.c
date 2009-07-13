@@ -7,6 +7,7 @@
 
 #include "ins_x.h"
 
+#include "description_x.h"
 #include "id_x.h"
 #include "lst_x.h"
 #include "scr_x.h"

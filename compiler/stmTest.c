@@ -8,6 +8,10 @@
 
 #include "stm.c"
 
+#include "unit.h"
+#include "unitList.h"
+
+
 void testVerifySetAssignment() {
   Expression *exp = newSetExpression(nulsrcp, NULL);
   Expression *wht = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "setAttribute")));
@@ -45,7 +49,7 @@ void testVerifySetAssignment() {
   ASSERT(readEcode() == 431);
 }
 
-void registerStmUnitTests()
+void stmUnitTests()
 {
   registerUnitTest(testVerifySetAssignment);
 }

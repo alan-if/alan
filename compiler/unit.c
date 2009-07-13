@@ -13,6 +13,9 @@
 #include <setjmp.h>
 
 
+#include "unit.h"
+
+
 typedef struct Case {
 	void (*theCase)();
 	struct Case *next;
@@ -22,29 +25,27 @@ static Case *caseList = NULL;
 static Case *lastCase = NULL;
 
 
-static void registerUnitTest(void (*aCase)());
+Aword *memory;
 
 
-static Aword *memory;
-static void loadACD(char fileName[]);
-
+/*======================================================================*/
 Aword convertFromACD(Aword w)
 {
-	Aword s;                      /* The swapped ACODE word */
-	char *wp, *sp;
-	int i;
+  Aword s;                      /* The swapped ACODE word */
+  char *wp, *sp;
+  int i;
 
-	wp = (char *) &w;
-	sp = (char *) &s;
+  wp = (char *) &w;
+  sp = (char *) &s;
 
-	if (littleEndian())
-		for (i = 0; i < sizeof(Aword); i++)
-			sp[sizeof(Aword)-1 - i] = wp[i];
-	else
-		for (i = 0; i < sizeof(Aword); i++)
-			sp[i] = wp[i];
-
-	return s;
+  if (littleEndian())
+    for (i = 0; i < sizeof(Aword); i++)
+      sp[sizeof(Aword)-1 - i] = wp[i];
+  else
+    for (i = 0; i < sizeof(Aword); i++)
+      sp[i] = wp[i];
+  
+  return s;
 }
 
 
@@ -57,6 +58,7 @@ Aword convertFromACD(Aword w)
 static int passed = 0;
 static int failed = 0;
 
+/*----------------------------------------------------------------------*/
 static void unitFail(char sourceFile[], int lineNumber, const char function[])
 {
   printf("%s:%d: unit test '%s()' failed!\n", sourceFile, lineNumber, function);
@@ -64,6 +66,7 @@ static void unitFail(char sourceFile[], int lineNumber, const char function[])
 }
 
 
+/*----------------------------------------------------------------------*/
 static void unitReportProgress(failed, passed)
 {
   return;
@@ -71,9 +74,8 @@ static void unitReportProgress(failed, passed)
 }
 
 
-#define ASSERT(x) (unitAssert((x), __FILE__, __LINE__, __FUNCTION__))
-
 /* Assert a particular test */
+/*======================================================================*/
 void unitAssert(int x, char sourceFile[], int lineNumber, const char function[])
 {
   (x)? passed++ : unitFail(sourceFile, lineNumber, function);
@@ -81,7 +83,8 @@ void unitAssert(int x, char sourceFile[], int lineNumber, const char function[])
 }
 
 
-/* Run the tests in the test case array*/
+/* Run the tests in the test case array */
+/*----------------------------------------------------------------------*/
 static void unitTest(void)
 {
   Case *current;
@@ -101,97 +104,97 @@ static void unitTest(void)
 
 /* Faking the List system */
 #include "lmList.h"
-/* From unitList.c */
-extern int readEcode();
-extern lmSev readSev();
+#include "unitList.h"
 
-#include "ifidTest.c"
-#include "descriptionTest.c"
-#include "lstTest.c"
-#include "resourceTest.c"
-#include "elmTest.c"
-#include "stmTest.c"
-#include "claTest.c"
-#include "propTest.c"
-#include "insTest.c"
-#include "advTest.c"
-#include "symTest.c"
-#include "whrTest.c"
-#include "vrbTest.c"
-#include "extTest.c"
-#include "emitTest.c"
-#include "atrTest.c"
-#include "expTest.c"
-#include "addTest.c"
-#include "stxTest.c"
-#include "resTest.c"
-#include "wrdTest.c"
-#include "paramTest.c"
-#include "idTests.c"
+
+#define UNITTEST(module) \
+  extern void module##UnitTests(); \
+  module##UnitTests();
 
 
 int main()
 {
-	lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
+  lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
 
-	registerDescriptionUnitTests();
-	registerLstUnitTests();
-	registerPropUnitTests();
-	registerResourceUnitTests();
-	registerClaUnitTests();
-	registerIfidUnitTests();
-	registerInsUnitTests();
-	registerAdvUnitTests();
-	registerSymUnitTests();
-	registerWhrUnitTests();
-	registerVrbUnitTests();
-	registerEmitUnitTests();
-	registerExtUnitTests();
-	registerExpUnitTests();
-	registerAtrUnitTests();
-	registerAddUnitTests();
-	registerResUnitTests();
-	registerStxUnitTests();
-	registerStmUnitTests();
-	registerElmUnitTests();
-	registerWrdUnitTests();
-	registerParamUnitTests();
-	registerIdUnitTests();
+  UNITTEST(add);
+  UNITTEST(adv);
+  UNITTEST(atr);
+  UNITTEST(cla);
+  UNITTEST(description);
+  UNITTEST(elm);
+  UNITTEST(emit);
+  UNITTEST(exp);
+  UNITTEST(ext);
+  UNITTEST(id);
+  UNITTEST(ifid);
+  UNITTEST(ins);
+  UNITTEST(lst);
+  UNITTEST(prop);
+  UNITTEST(res);
+  UNITTEST(resource);
+  UNITTEST(stm);
+  UNITTEST(stx);
+  UNITTEST(sym);
+  UNITTEST(vrb);
+  UNITTEST(whr);
+  UNITTEST(wrd);
+   
+  unitTest();
 
-	unitTest();
-
-	return 0;
+  return 0;
 }
 
+
+/*======================================================================*/
 void registerUnitTest(void (*aCase)())
 {
-	if (lastCase == NULL) {
-		caseList = calloc(sizeof(Case), 1);
-		caseList->theCase = aCase;
-		lastCase = caseList;
-	} else {
-		lastCase->next = calloc(sizeof(Case), 1);
-		lastCase = lastCase->next;
-		lastCase->theCase = aCase;
-	}
-	lastCase->next = NULL;
+  if (lastCase == NULL) {
+    caseList = calloc(sizeof(Case), 1);
+    caseList->theCase = aCase;
+    lastCase = caseList;
+  } else {
+    lastCase->next = calloc(sizeof(Case), 1);
+    lastCase = lastCase->next;
+    lastCase->theCase = aCase;
+  }
+  lastCase->next = NULL;
 }
 
+
+/*----------------------------------------------------------------------*/
+static Aword reversed(Aword w)		/* IN - The ACODE word to swap bytes in */
+{
+  Aword s;			/* The swapped ACODE word */
+  char *wp, *sp;
+  int i;
+
+  wp = (char *) &w;
+  sp = (char *) &s;
+
+  for (i = 0; i < sizeof(Aword); i++)
+    sp[sizeof(Aword)-1 - i] = wp[i];
+
+  return (s);
+}
+
+/*----------------------------------------------------------------------*/
 static void reverse(Aword *w)
 {
-	*w = reversed(*w);
+  *w = reversed(*w);
 }
 
+/*----------------------------------------------------------------------*/
 static void reverseHdr(ACodeHeader *header)
 {
-	int i;
+  int i;
 
-	/* Reverse all words in the header except the first (version marking) */
-	for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
-		reverse(&((Aword *)header)[i]);
+  /* Reverse all words in the header except the first (version marking) */
+  for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
+    reverse(&((Aword *)header)[i]);
 }
 
-static void loadACD(char fileName[])
+/*======================================================================*/
+void loadACD(char fileName[])
 {
 	ACodeHeader temporaryHeader;
 	int readSize = 0;

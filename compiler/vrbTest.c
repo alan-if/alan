@@ -8,6 +8,10 @@
 
 #include "vrb.c"
 
+#include "unit.h"
+#include "unitList.h"
+
+
 void testMultipleVerbs()
 {
   IdNode *v1 = newId(nulsrcp, "v1");
@@ -40,7 +44,7 @@ void testMultipleVerbs()
 }
 
 
-void registerVrbUnitTests()
+void vrbUnitTests()
 {
   registerUnitTest(testMultipleVerbs);
 }

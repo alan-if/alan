@@ -8,6 +8,9 @@
 
 #include "ifid.c"
 
+#include "unit.h"
+
+
 static void testIsValidUUID() {
   ASSERT(!isValidUUID(""));
   ASSERT(!isValidUUID("UUID://"));
@@ -16,7 +19,7 @@ static void testIsValidUUID() {
 }
 
 
-void registerIfidUnitTests()
+void ifidUnitTests()
 {
   registerUnitTest(testIsValidUUID);
 }
