@@ -3,6 +3,7 @@ unittests.o: unittests.c ../Cgreen/include/cgreen/cgreen.h \
   ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
   ../Cgreen/include/cgreen/text_reporter.h \
   ../Cgreen/include/cgreen/assertions.h
+smartall.o: smartall.c
 AltInfoTests.o: AltInfoTests.c ../Cgreen/include/cgreen/cgreen.h \
   ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
   ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
@@ -106,7 +107,12 @@ outputTests.o: outputTests.c ../Cgreen/include/cgreen/cgreen.h \
   ../Cgreen/include/cgreen/assertions.h output.c output.h types.h \
   sysdep.h acode.h options.h memory.h word.h lists.h term.h syserr.h \
   dictionary.h current.h msg.h params.h readline.h instance.h set.h
-smartall.o: smartall.c
+wordTests.o: wordTests.c ../Cgreen/include/cgreen/cgreen.h \
+  ../Cgreen/include/cgreen/unit.h ../Cgreen/include/cgreen/reporter.h \
+  ../Cgreen/include/cgreen/mocks.h ../Cgreen/include/cgreen/constraint.h \
+  ../Cgreen/include/cgreen/text_reporter.h \
+  ../Cgreen/include/cgreen/assertions.h word.c word.h types.h sysdep.h \
+  acode.h memory.h
 actor.o: actor.c actor.h acode.h instance.h types.h sysdep.h set.h \
   memory.h lists.h inter.h stack.h msg.h params.h Container.h
 AltInfo.o: AltInfo.c AltInfo.h types.h sysdep.h acode.h checkentry.h \

@@ -9,37 +9,44 @@ TestSuite *altInfoTests();
 TestSuite *exeTests();
 TestSuite *interTests();
 TestSuite *mainTests();
+TestSuite *outputTests();
 TestSuite *paramsTests();
 TestSuite *parseTests();
 TestSuite *reverseTests();
 TestSuite *saveTests();
 TestSuite *setTests();
-TestSuite *stateTests();
-TestSuite *stateStackTests();
 TestSuite *stackTests();
+TestSuite *stateStackTests();
+TestSuite *stateTests();
 TestSuite *sysdepTests();
-TestSuite *outputTests();
+
+#define ADD_UNIT_TESTS_FOR(module) \
+  TestSuite *module##Tests(); \
+  add_suite(suite, module##Tests());
+
 
 int main(int argc, char **argv) {
 	int return_code;
     TestSuite *suite = create_test_suite();
     TestReporter *reporter = create_text_reporter();
 
-    add_suite(suite, actTests());
-    add_suite(suite, altInfoTests());
-    add_suite(suite, exeTests());
-    add_suite(suite, interTests());
-    add_suite(suite, mainTests());
-    add_suite(suite, paramsTests());
-    add_suite(suite, parseTests());
-    add_suite(suite, reverseTests());
-    add_suite(suite, saveTests());
-    add_suite(suite, setTests());
-    add_suite(suite, stackTests());
-    add_suite(suite, stateStackTests());
-    add_suite(suite, stateTests());
-    add_suite(suite, sysdepTests());
-    add_suite(suite, outputTests());
+    ADD_UNIT_TESTS_FOR(act);
+    ADD_UNIT_TESTS_FOR(altInfo);
+    ADD_UNIT_TESTS_FOR(exe);
+    ADD_UNIT_TESTS_FOR(inter);
+    ADD_UNIT_TESTS_FOR(main);
+    ADD_UNIT_TESTS_FOR(params);
+    ADD_UNIT_TESTS_FOR(parse);
+    ADD_UNIT_TESTS_FOR(reverse);
+    ADD_UNIT_TESTS_FOR(save);
+    ADD_UNIT_TESTS_FOR(set);
+    ADD_UNIT_TESTS_FOR(stack);
+    ADD_UNIT_TESTS_FOR(stateStack);
+    ADD_UNIT_TESTS_FOR(state);
+    ADD_UNIT_TESTS_FOR(sysdep);
+    ADD_UNIT_TESTS_FOR(output);
+    ADD_UNIT_TESTS_FOR(word);
+
     if (argc > 1) {
         return_code = run_single_test(suite, argv[1], reporter);
     } else {

@@ -3,6 +3,8 @@
 
 #include "state.c"
 
+#include "lists.h"
+
 #define INSTANCEMAX 7
 #define ATTRIBUTECOUNT 5
 
@@ -204,10 +206,10 @@ Ensure canRememberPlayerCommand() {
   int i;
   char *command = "go w, e and south";
 
-  playerWords[0].code = EOF;
+  ensureSpaceForPlayerWords(4);
   for (i = 0; i < 4; i++)
     playerWords[i].code = i;
-  playerWords[4].code = EOF;
+  setEndOfList(&playerWords[4]);
 
   firstWord = 0;
   lastWord = 3;

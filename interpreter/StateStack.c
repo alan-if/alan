@@ -27,19 +27,19 @@ typedef struct StateStackStructure {
 /*----------------------------------------------------------------------*/
 static void *reallocateStack(void *from, int newSize)
 {
-	void *newArea = realloc(from, newSize*sizeof(void*));
-    if (newArea == NULL)
-    	syserr("Out of memory in 'ensureSpaceForGameState()'");
-    return newArea;
+  void *newArea = realloc(from, newSize*sizeof(void*));
+  if (newArea == NULL)
+    syserr("Out of memory in 'reallocateStack()'");
+  return newArea;
 }
 
 /*======================================================================*/
 StateStack createStateStack(int elementSize) {
-	StateStack stack = NEW(StateStackStructure);
-	stack->stackSize = 0;
-	stack->stackPointer = 0;
-	stack->elementSize = elementSize;
-	return stack;
+  StateStack stack = NEW(StateStackStructure);
+  stack->stackSize = 0;
+  stack->stackPointer = 0;
+  stack->elementSize = elementSize;
+  return stack;
 }
 
 

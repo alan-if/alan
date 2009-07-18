@@ -133,9 +133,9 @@ gararun: checkTarget $(GARARUNOBJECTS) arun.res
 #######################################################################
 ARCH	= `echo $(COMPILEFLAGS)`
 .PHONY: checkTarget
+	#@echo "ARCH  = $(ARCH)"
+	#@echo ".arch = `cat .arch`"
 checkTarget:
-	@echo "ARCH  = $(ARCH)"
-	@echo ".arch = `cat .arch`"
 	-@if test -f .arch; then :; else echo "none" > .arch; fi
 	-@if test "`cat .arch`" != "$(ARCH)"; then \
 		echo Removing objects for \'`cat .arch`\', re-building for \'$(ARCH)\'... ; \

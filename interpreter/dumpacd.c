@@ -764,6 +764,7 @@ static void dumpACD(void)
 
   printf("VERSION: %d.%d(%d)%c\n", header->version[3], header->version[2],
 	 header->version[1], header->version[0]?header->version[0]:' ');
+  // TODO "headerFlag" to dump the header
   printf("SIZE: %s\n", dumpAddress(header->size));
   printf("PACK: %s\n", header->pack?"Yes":"No");
   printf("PAGE LENGTH: %ld\n", header->pageLength);
@@ -795,6 +796,7 @@ static void dumpACD(void)
   printf("START: %s\n", dumpAddress(header->start));
   printf("MESSAGE TABLE: %s\n", dumpAddress(header->messageTableAddress));
   if (messagesFlag) dumpMessages(header->messageTableAddress);
+  if (rulesFlag) dumpRules(header->ruleTableAddress);
   printf("MAX SCORE: %ld\n", header->maximumScore);
   printf("SCORES: %s\n", dumpAddress(header->scores));
   printf("FREQUENCY TABLE: %s\n", dumpAddress(header->freq));

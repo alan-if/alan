@@ -40,6 +40,7 @@ Ensure canMatchEndOfSyntax() {
   elementTable = (ElementEntry *)&memory[20];
 
   /* No words */
+  ensureSpaceForPlayerWords(0);
   playerWords[0].code = EOF;
   wordIndex = 0;
 
@@ -68,6 +69,7 @@ Ensure canMatchParameterElement() {
   elementTable = (ElementEntry *)&memory[50];
 
   /* No words */
+  ensureSpaceForPlayerWords(0);
   setEndOfList(&playerWords[0]);
   wordIndex = 0;
 
@@ -107,6 +109,7 @@ Ensure canMatchParseTree() {
   elementTable = (ElementEntry *)&memory[50];
 
   /* Emulate end of player input */
+  ensureSpaceForPlayerWords(0);
   playerWords[0].code = EOF;
   wordIndex = 0;
 
@@ -157,6 +160,7 @@ Ensure canSetupParameterForWord() {
   memcpy(&memory[12], "qwerty", 7);
   dictionary[2].string = 12;
 
+  ensureSpaceForPlayerWords(2);
   playerWords[1].code = 2;
   litCount = 0;
   addParameterForWord(messageParameters, 1);

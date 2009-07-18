@@ -5,6 +5,8 @@
 
 UNITTESTSSRC = \
 	unittests.c \
+	smartall.c \
+			\
 	AltInfoTests.c \
 	StateStackTests.c \
 	actTests.c \
@@ -20,7 +22,7 @@ UNITTESTSSRC = \
 	stateTests.c \
 	sysdepTests.c \
 	outputTests.c \
-	smartall.c
+	wordTests.c \
 
 UNITTESTSREQUIREDSRCS = \
 	actor.c \
@@ -48,9 +50,9 @@ UNITTESTSREQUIREDSRCS = \
 	syserr.c \
 	term.c \
 	utils.c \
-	word.c \
 
 # All sources for the main build
+# TODO Break out UNITTESTEDSRCS from MAINSRCS as in compiler source.mk
 MAINSRCS = \
 	actor.c \
 	AltInfo.c \

@@ -8,6 +8,7 @@
 /* IMPORTS */
 #include "types.h"
 #include "memory.h"
+#include "syserr.h"
 
 
 /* CONSTANTS */
@@ -16,9 +17,13 @@
 /* PUBLIC DATA */
 
 /* List of parsed words, index into dictionary */
-Word playerWords[100] = { { EOF, NULL, NULL}};
+Word *playerWords = NULL;
 int wordIndex; /* An index into it the list of playerWords */
 int firstWord, lastWord;  /* Index for the first and last words for this command */
+
+/* Some variable for dynamically allocating the playerWords, which will happen in scan() */
+static int playerWordsLength = 0;
+#define PLAYER_WORDS_EXTENT 20
 
 /* What did the user say? */
 int verbWord; /* The word he used as a verb, dictionary index */
@@ -29,6 +34,18 @@ int verbWordCode; /* The code for that verb */
 
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+void ensureSpaceForPlayerWords(int size) {
+  int newLength = playerWordsLength+PLAYER_WORDS_EXTENT;
+
+  if (playerWordsLength < size+1) {
+    playerWords = realloc(playerWords, newLength*sizeof(Word));
+    if (playerWords == NULL)
+      syserr("Out of memory in 'ensureSpaceForPlayerWords()'");
+    playerWordsLength = newLength;
+  }
+}
+
 
 /*======================================================================*/
 char *playerWordsAsCommandString(void) {

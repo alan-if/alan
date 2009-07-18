@@ -15,16 +15,16 @@
 /* TYPES */
 
 typedef struct WordEntry {
-  int code;         /* The dictionary index for that word */
-  char *start;          /* Where does it start */
-  char *end;            /* .. and end */
+  int code;			/* The dictionary index for that word */
+  char *start;			/* Where does it start */
+  char *end;			/* .. and end */
 } Word;
 
 
 /* DATA */
 
-extern Word playerWords[];  /* List of Parsed Word */
-extern int wordIndex;       /* and an index into it */
+extern Word *playerWords;	/* List of Parsed Word */
+extern int wordIndex;		/* and an index into it */
 extern int firstWord;
 extern int lastWord;
 
@@ -34,6 +34,7 @@ extern int verbWordCode;
 
 
 /* FUNCTIONS */
+extern void ensureSpaceForPlayerWords(int count);
 extern char *playerWordsAsCommandString(void);
 
 #endif /* WORD_H_ */
