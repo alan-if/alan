@@ -24,9 +24,11 @@ extern void (*(dumpNodeTable[]))();
 #define TRAVERSE(loopVariable,initExpression) for (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
 
 extern void initDumpNodeList();
-extern List *concat(List *lst, void *elem, ListKind kind);
-extern List *combine(List *lst1, List *lst2);
-extern void insert(List *where, void *element, ListKind kind);
+extern List *newEmptyList(ListKind kind);
+extern List *newList(void *member, ListKind kind);
+extern List *concat(List *list, void *member, ListKind kind);
+extern List *combine(List *list1, List *list2);
+extern void insert(List *where, void *member, ListKind kind);
 extern int length(List *aList);
 extern List *getLastListNode(List *aList);
 extern List *sortList(List *aList, int comparer(List *e1, List *e2));

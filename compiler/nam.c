@@ -51,5 +51,5 @@ void analyzeNames(Properties *props) {
   stm = newStatement(&nulsrcp, PRINT_STATEMENT);
   stm->fields.print.fpos = ftell(txtfil);
   stm->fields.print.len = saveName(props->names, props->id);
-  props->nameStatement = concat(NULL, stm, LIST_STATEMENT);
+  props->nameStatement = newList(stm, LIST_STATEMENT);
 }

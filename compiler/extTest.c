@@ -30,7 +30,7 @@ void testNewExt()
   (void) readEcode();
   aLocationSymbol = newSymbol(aLocationId, INSTANCE_SYMBOL);
 
-  theExit = newExit(&nulsrcp, concat(NULL, direction, EXIT_LIST), targetLocation, NULL, NULL);
+  theExit = newExit(&nulsrcp, newList(direction, EXIT_LIST), targetLocation, NULL, NULL);
   ASSERT(theExit->directions->member.id->symbol != NULL && theExit->directions->member.id->symbol->code == 1);
 
   symbolizeExit(theExit);
@@ -48,10 +48,9 @@ void testNewExt()
 
 void testHaveExit()
 {
-  List *exits = concat(concat(NULL,
-			      newExit(&nulsrcp,
-				      newIdList(newIdList(NULL, "south"), "north"),
-				      NULL, NULL, NULL), EXIT_LIST),
+  List *exits = concat(newList(newExit(&nulsrcp,
+				       newIdList(newIdList(NULL, "south"), "north"),
+				       NULL, NULL, NULL), EXIT_LIST),
 		       newExit(&nulsrcp,
 			       newIdList(newIdList(NULL, "east"), "west"),
 			       NULL, NULL, NULL), EXIT_LIST);

@@ -390,19 +390,19 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
 
 
 /*======================================================================*/
-void dumpElement(Element *elm)
+void dumpElement(Element *element)
 {
-  if (elm == NULL) {
+  if (element == NULL) {
     put("NULL");
     return;
   }
 
-  put("ELM: "); dumpPointer(elm); dumpSrcp(elm->srcp); indent();
+  put("ELM: "); dumpPointer(element); dumpSrcp(element->srcp); indent();
   put("kind: ");
-  switch (elm->kind) {
+  switch (element->kind) {
   case PARAMETER_ELEMENT: {
     char buf[80];
-    sprintf(buf, "PARAMETER (Flags: 0x%x)", elm->flags);
+    sprintf(buf, "PARAMETER (Flags: 0x%x)", element->flags);
     put(buf);
     nl();
     break;
@@ -417,5 +417,5 @@ void dumpElement(Element *elm)
     put("*** ERROR ***"); nl();
     break;
   }
-  put("id: "); dumpId(elm->id); out();
+  put("id: "); dumpId(element->id); out();
 }

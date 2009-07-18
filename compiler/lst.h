@@ -52,6 +52,7 @@ typedef enum ListKind {
 typedef struct List {		/* GENERIC LISTS */
   ListKind kind;
   union {
+    void *ptr;			/* Generic member pointer */
     struct AddNode *add;
     struct AltNod *alt;
     struct Attribute *atr;

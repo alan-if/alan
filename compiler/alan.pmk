@@ -272,7 +272,7 @@ static int val(char str[])
 <attributes>		-- RETURNS: atrs
     = <attribute_definition> '.'
     %%
-	%<attributes>.atrs = concat(NULL, %<attribute_definition>.atr, ATTRIBUTE_LIST);
+	%<attributes>.atrs = newList(%<attribute_definition>.atr, ATTRIBUTE_LIST);
     %%
 
     ! <attributes> <attribute_definition> '.'
@@ -327,7 +327,7 @@ static int val(char str[])
 <set_members>				-- RETURNS: set
     = <set_member>
     %%
-	%<set_member>.set = concat(NULL, %<set_member>.exp, EXPRESSION_LIST);
+	%<set_member>.set = newList(%<set_member>.exp, EXPRESSION_LIST);
     %%
 
     ! <set_members> ',' <set_member>
@@ -364,7 +364,7 @@ static int val(char str[])
 <synonym_list>			-- RETURNS: syns
     = <synonym_declaration>
     %%
-	%<synonym_list>.syns = concat(NULL, %<synonym_declaration>.syn, SYNONYM_LIST);
+	%<synonym_list>.syns = newList(%<synonym_declaration>.syn, SYNONYM_LIST);
     %%
 
     ! <synonym_list> <synonym_declaration>
@@ -391,7 +391,7 @@ static int val(char str[])
 <message_list>			-- RETURNS: msgs
     = <message>
     %%
-	%<message_list>.msgs = concat(NULL, %<message>.msg, MESSAGE_LIST);
+	%<message_list>.msgs = newList(%<message>.msg, MESSAGE_LIST);
     %%
 
     ! <message_list> <message>
@@ -421,7 +421,7 @@ static int val(char str[])
 <syntax_list>
     = <syntax_item>
     %%
-	%<syntax_list>.stxs = concat(NULL, %<syntax_item>.stx, SYNTAX_LIST);
+	%<syntax_list>.stxs = newList(%<syntax_item>.stx, SYNTAX_LIST);
     %%
 
     ! <syntax_list> <syntax_item>
@@ -446,7 +446,7 @@ static int val(char str[])
 <syntax_elements>
     = <syntax_element>
     %%
-	%<syntax_elements>.elms = concat(NULL, %<syntax_element>.elm, ELEMENT_LIST);
+	%<syntax_elements>.elms = newList(%<syntax_element>.elm, ELEMENT_LIST);
     %%
 
     ! <syntax_elements> <syntax_element>
@@ -505,7 +505,7 @@ static int val(char str[])
 <syntax_restriction_clauses>
     = <syntax_restriction>
     %%
-	%<syntax_restriction_clauses>.ress = concat(NULL, %<syntax_restriction>.res, RESTRICTION_LIST);
+	%<syntax_restriction_clauses>.ress = newList(%<syntax_restriction>.res, RESTRICTION_LIST);
     %%
 
     ! <syntax_restriction_clauses> 'and' <syntax_restriction>
@@ -580,12 +580,11 @@ static int val(char str[])
 <verb_body>
     = <simple_verb_body>
     %%
-	%<verb_body>.alts = concat(NULL,
-				 newAlternative(%<simple_verb_body>.srcp,
-						NULL,
-						%<simple_verb_body>.chks,
-						%<simple_verb_body>.qual,
-						%<simple_verb_body>.stms),
+	%<verb_body>.alts = newList(newAlternative(%<simple_verb_body>.srcp,
+					NULL,
+					%<simple_verb_body>.chks,
+					%<simple_verb_body>.qual,
+					%<simple_verb_body>.stms),
 				   ALTERNATIVE_LIST);
     %%
 
@@ -598,7 +597,7 @@ static int val(char str[])
 <verb_alternatives>
     = <verb_alternative>
     %%
-	%<verb_alternatives>.alts = concat(NULL, %<verb_alternative>.alt, ALTERNATIVE_LIST);
+	%<verb_alternatives>.alts = newList(%<verb_alternative>.alt, ALTERNATIVE_LIST);
     %%
 
     ! <verb_alternatives> <verb_alternative>
@@ -651,7 +650,7 @@ static int val(char str[])
     ! 'check' <statements>
     %%
 	%<optional_checks>.srcp = %'check'.srcp;
-	%<optional_checks>.chks = concat(NULL, newchk(NULL, %<statements>.stms), CHECK_LIST);
+	%<optional_checks>.chks = newList(newchk(NULL, %<statements>.stms), CHECK_LIST);
     %%
 
     ! 'check' <check_list>
@@ -664,7 +663,7 @@ static int val(char str[])
 <check_list>		-- RETURNS: chks
     = <check>
     %%
-	%<check_list>.chks = concat(NULL, %<check>.chk, CHECK_LIST);
+	%<check_list>.chks = newList(%<check>.chk, CHECK_LIST);
     %%
 
     ! <check_list> 'and' <check>
@@ -1150,8 +1149,8 @@ static int val(char str[])
     %%
 	if (%<optional_checks>.chks == NULL && %<optional_does>.stms == NULL) {
 	  /* Create a NOP-statement */
-	  List *stms = concat(NULL, newStatement(`&%'description'.srcp,
-						NOP_STATEMENT), STATEMENT_LIST);
+	  List *stms = newList(newStatement(`&%'description'.srcp,
+					NOP_STATEMENT), STATEMENT_LIST);
 	  %<description>.description = newDescription(nulsrcp, NULL, %'description'.srcp, stms);
 	} else {
 	  Srcp checkSrcp, stmSrcp;
@@ -1187,8 +1186,7 @@ static int val(char str[])
     = 'article'
     %%
 	%<article>.article = newArticle(%'article'.srcp,
-					concat(NULL,
-						newStatement(`&%'article'.srcp, NOP_STATEMENT),
+					newList(newStatement(`&%'article'.srcp, NOP_STATEMENT),
 						STATEMENT_LIST),
 					FALSE);
     %%
@@ -1205,8 +1203,7 @@ static int val(char str[])
     = 'form' 
     %%
 	%<form>.article = newArticle(%'form'.srcp,
-					concat(NULL,
-						newStatement(`&%'form'.srcp,
+					newList(newStatement(`&%'form'.srcp,
 								NOP_STATEMENT),
 						STATEMENT_LIST),
 					TRUE);
@@ -1342,7 +1339,7 @@ static int val(char str[])
 <limits>			-- RETURNS: lims
     = <limit>
     %%
-	%<limits>.lims = concat(NULL, %<limit>.lim, LIMIT_LIST);
+	%<limits>.lims = newList(%<limit>.lim, LIMIT_LIST);
     %%
 
     ! <limits> <limit>
@@ -1471,7 +1468,7 @@ static int val(char str[])
 <step_list>		-- RETURNS: stps
     = <step>
     %%
-	%<step_list>.stps = concat(NULL, %<step>.stp, STEP_LIST);
+	%<step_list>.stps = newList(%<step>.stp, STEP_LIST);
     %%
 
     ! <step_list> <step>
@@ -1551,7 +1548,7 @@ static int val(char str[])
 <statements>		-- RETURNS: stms
     = <statement>
     %%
-	%<statements>.stms = concat(NULL, %<statement>.stm, STATEMENT_LIST);
+	%<statements>.stms = newList(%<statement>.stm, STATEMENT_LIST);
     %%
 
     ! <statements> <statement>
@@ -1815,7 +1812,7 @@ static int val(char str[])
 	    %<if_statement>.stm->fields.iff.els = %<optional_else_part>.stms;
 	else {
 	    /* Connect the else_part to the elsif_list */
-	    (tailOf(%<optional_elsif_list>.stms))->element.stm->fields.iff.els =
+	    (getLastListNode(%<optional_elsif_list>.stms))->member.stm->fields.iff.els =
 			%<optional_else_part>.stms;
 	    %<optional_elsif_list>.stms->next = NULL;
 	    %<if_statement>.stm->fields.iff.els = %<optional_elsif_list>.stms;
@@ -1846,7 +1843,7 @@ static int val(char str[])
 	stm->fields.iff.els = NULL;
 
 	/* Now make a list of the ELSIF */
-	%<elsif_list>.stms = concat(NULL, stm, STATEMENT_LIST);
+	%<elsif_list>.stms = newList(stm, STATEMENT_LIST);
     }%%
 
     ! <elsif_list> 'elsif' <expression> 'then' <statements>
@@ -1862,7 +1859,7 @@ static int val(char str[])
 	/* else-part of the last element in the elsif_list to this */
 	/* IF-statement and also concat this element to the list so */
 	/* we'll know were the end is next time */
-	(tailOf(%<elsif_list>.stms))->element.stm->fields.iff.els = concat(NULL, stm, STATEMENT_LIST);
+	(getLastListNode(%<elsif_list>.stms))->member.stm->fields.iff.els = newList(stm, STATEMENT_LIST);
 	%<elsif_list>.stms = concat(%<elsif_list>.stms, stm, STATEMENT_LIST);
     }%%
     ;
@@ -1893,7 +1890,7 @@ static int val(char str[])
 <depend_cases>				-- RETURNS: cases
     = <depend_case>
     %%
-	%<depend_cases>.cases = concat(NULL, %<depend_case>.stm, CASE_LIST);
+	%<depend_cases>.cases = newList(%<depend_case>.stm, CASE_LIST);
     %%
 
     ! <depend_cases> <depend_case>
@@ -1942,13 +1939,12 @@ static int val(char str[])
 
     ! 'between' <arithmetic> 'and' <arithmetic>
     %%
-	%<optional_loop_filters>.exps = concat(NULL,
-			newBetweenExpression(%'between'.srcp,
-					     NULL,
-					     FALSE,
-					     %1<arithmetic>.exp,
-					     %2<arithmetic>.exp),
-			EXPRESSION_LIST);
+	%<optional_loop_filters>.exps = newList(newBetweenExpression(%'between'.srcp,
+					     				NULL,
+					     				FALSE,
+					     				%1<arithmetic>.exp,
+					     				%2<arithmetic>.exp),
+						EXPRESSION_LIST);
     %%
     ;
 
@@ -2163,7 +2159,7 @@ static int val(char str[])
 <filters>					-- RETURNS: exps
     = <filter>
     %%
-        %<filters>.exps = concat(NULL, %<filter>.exp, EXPRESSION_LIST);
+        %<filters>.exps = newList(%<filter>.exp, EXPRESSION_LIST);
     %%
 
     ! <filters> ',' <filter>
@@ -2566,7 +2562,7 @@ static int val(char str[])
 <ids>			-- RETURNS: idList
     = ID
     %%
-        %<ids>.idList = concat(NULL, %ID.id, ID_LIST);
+        %<ids>.idList = newList(%ID.id, ID_LIST);
     %%
 
     ! <ids> ID
@@ -2579,7 +2575,7 @@ static int val(char str[])
     = ID
     %%
         %<id_list>.str = newString(%ID.id->string);
-        %<id_list>.idList = concat(NULL, %ID.id, ID_LIST);
+        %<id_list>.idList = newList(%ID.id, ID_LIST);
     %%
 
     ! <id_list> ',' ID

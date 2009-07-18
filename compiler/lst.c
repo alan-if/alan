@@ -70,13 +70,32 @@ void initDumpNodeList()
 }
 
 
+/*======================================================================*/
+List *newEmptyList(ListKind kind) {
+  List *new = NEW(List);
+
+  new->kind = kind;
+
+  return new;
+}
+
+
+List *newList(void *member, ListKind kind)	
+{
+  List *new = NEW(List);	/* The newly created list node */
+
+  new->member.ptr = member;
+  new->kind = kind;
+
+  return(new);
+}
 
 
 /*======================================================================
 
   insert()
 
-  Insert an element into a list at the point. To insert at the end
+  Insert an member into a list at the point. To insert at the end
   use concat()
 
   */
@@ -85,14 +104,14 @@ void insert(List *thePoint, void *member, ListKind kind)
   List *newListNode;
 
   if (thePoint == NULL)
-    SYSERR("Inserting an element in a NULL list");
+    SYSERR("Inserting an member in a NULL list");
   if (kind != thePoint->kind)
-    SYSERR("Inserting wrong kind of element in list");
+    SYSERR("Inserting wrong kind of member in list");
   if (member == NULL)
     SYSERR("Inserting a NULL member in a list");
 
-  /* Move the first element to a new list node */
-  newListNode = concat(NULL, thePoint->member.atr, kind);
+  /* Move the first member to a new list node */
+  newListNode = newList(thePoint->member.atr, kind);
 
   newListNode->next = thePoint->next;
   thePoint->member.atr = member;
@@ -121,7 +140,7 @@ extern void *getMember(List *theList, int number)
 {
   int i = 1;
 
-  if (number < 1) SYSERR("List element number must be > 0");
+  if (number < 1) SYSERR("List member number must be > 0");
 
   while (theList) {
     if (i == number)
@@ -129,7 +148,7 @@ extern void *getMember(List *theList, int number)
     theList = theList->next;
     i++;
   }
-  SYSERR("Not enough list elements");
+  SYSERR("Not enough list members");
   return NULL;
 }
 
@@ -139,7 +158,7 @@ extern List *getListNode(List *theList, int number)
 {
   int i = 1;
 
-  if (number < 1) SYSERR("List element number must be > 0");
+  if (number < 1) SYSERR("List member number must be > 0");
 
   while (theList) {
     if (i == number)
@@ -147,7 +166,7 @@ extern List *getListNode(List *theList, int number)
     theList = theList->next;
     i++;
   }
-  SYSERR("Not enough list elements");
+  SYSERR("Not enough list members");
   return NULL;
 }
 
@@ -185,16 +204,20 @@ void *getLastMember(List *theList)
 // and let it propagate it instead
 // Probably should also disallow NULL as the list
 /*======================================================================*/
-List *concat(List *list /*@null@*/, void *element, ListKind kind)	
+List *concat(List *list /*@null@*/, void *member, ListKind kind)	
 {
   List *new;			/* The newly created list node */
   List *tail;			/* Traversal pointer to find the tail */
 
-  if (element == NULL) return(list);
+  if (member == NULL) return(list);
+  if (list != NULL && list->member.cla == NULL) {
+    list->member.ptr = member;
+    return list;
+  }    
 
   new = NEW(List);
 
-  new->member.cla = (struct Class *) element;
+  new->member.ptr = member;
   new->kind = kind;
 
   new->next = NULL;
@@ -242,22 +265,22 @@ int length(List *theList)
 
 
 /*----------------------------------------------------------------------*/
-static List *removeFromList(List *theList, List *theElement)
+static List *removeFromList(List *theList, List *theMember)
 {
   if (theList == NULL)		/* No list */
     return NULL;
-  else if (theList == theElement) { /* First element */
-    List *theRest = theElement->next;
-    theElement->next = NULL;
+  else if (theList == theMember) { /* First member */
+    List *theRest = theMember->next;
+    theMember->next = NULL;
     return theRest;
   } else {
     List *sentinel = theList;
-    while (sentinel->next != theElement && sentinel->next != NULL)
+    while (sentinel->next != theMember && sentinel->next != NULL)
       sentinel = sentinel->next;
     if (sentinel->next != NULL) {
-      List *foundElement = sentinel->next;
+      List *foundMember = sentinel->next;
       sentinel->next = sentinel->next->next;
-      foundElement->next = NULL;
+      foundMember->next = NULL;
     }
   }
   return theList;
@@ -265,7 +288,7 @@ static List *removeFromList(List *theList, List *theElement)
 
 
 /*======================================================================*/
-List *sortList(List *theList, int compare(List *element1, List *element2))
+List *sortList(List *theList, int compare(List *member1, List *member2))
 {
   List *unsorted = theList;
   List *sorted = NULL;

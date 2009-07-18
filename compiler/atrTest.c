@@ -19,7 +19,7 @@
 
 void testCreateSetAttribute()
 {
-  List *set = concat(NULL, newIntegerExpression(nulsrcp, 1), EXPRESSION_LIST);
+  List *set = newList(newIntegerExpression(nulsrcp, 1), EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, set);
   Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
   ASSERT(atr->type == SET_TYPE);
@@ -31,11 +31,10 @@ void testSingleIdentifierInMember() {
   Expression *exp1 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
   Expression *exp2 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
 
-  ASSERT(hasSingleIdentifierMember(NULL) == FALSE);
-  ASSERT(!hasSingleIdentifierMember(concat(NULL, NULL, EXPRESSION_LIST)));
-  ASSERT(hasSingleIdentifierMember(concat(NULL, exp1, EXPRESSION_LIST)));
-  ASSERT(!hasSingleIdentifierMember(concat(NULL, exp2, EXPRESSION_LIST)));
-  ASSERT(!hasSingleIdentifierMember(concat(concat(NULL, exp1, EXPRESSION_LIST), exp2, EXPRESSION_LIST)));
+  ASSERT(!hasSingleIdentifierMember(NULL));
+  ASSERT(hasSingleIdentifierMember(newList(exp1, EXPRESSION_LIST)));
+  ASSERT(!hasSingleIdentifierMember(newList(exp2, EXPRESSION_LIST)));
+  ASSERT(!hasSingleIdentifierMember(concat(newList(exp1, EXPRESSION_LIST), exp2, EXPRESSION_LIST)));
 }
 
 void testIsWhatId() {
@@ -55,7 +54,7 @@ void testInferClassInSetAttribute()
 
   IdNode *classId = newId(nulsrcp, "object");
   Instance *instance = newInstance(&nulsrcp, newId(nulsrcp, "t"), classId, NULL);
-  List *set = concat(NULL, newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "t"))), EXPRESSION_LIST);
+  List *set = newList(newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "t"))), EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, set);
   Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
 
@@ -85,7 +84,7 @@ void testMultipleAtr()
 {
   List *attributeList;
 
-  attributeList = concat(NULL, newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
+  attributeList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
   attributeList = concat(attributeList, newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
 
   readEcode();
@@ -109,8 +108,8 @@ void testFindInList()
   ASSERT(findAttribute(attributes, id) == theAttribute);
 
   /* Test last element */
-  attributes = combine(concat(NULL, anotherAttribute, ATTRIBUTE_LIST), attributes);
-  attributes = combine(concat(NULL, anotherAttribute, ATTRIBUTE_LIST), attributes);
+  attributes = combine(newList(anotherAttribute, ATTRIBUTE_LIST), attributes);
+  attributes = combine(newList(anotherAttribute, ATTRIBUTE_LIST), attributes);
   ASSERT(findAttribute(attributes, id) == theAttribute);
 
   /* Test in the middle */
@@ -142,7 +141,7 @@ static List *create2Attributes(char firstString[], char secondString[])
 {
   List *theList;
 
-  theList = concat(NULL, newBooleanAttribute(nulsrcp, newId(nulsrcp, firstString), FALSE), ATTRIBUTE_LIST);
+  theList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, firstString), FALSE), ATTRIBUTE_LIST);
   theList = concat(theList, newBooleanAttribute(nulsrcp, newId(nulsrcp, secondString), FALSE), ATTRIBUTE_LIST);
   return theList;
 }
@@ -308,7 +307,7 @@ static Bool attributesAreSorted(List *list)
 
 void testSortAttributes()
 {
-  List *attributeList = concat(NULL, newBooleanAttribute(nulsrcp, newId(nulsrcp, "a"), FALSE), ATTRIBUTE_LIST);
+  List *attributeList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, "a"), FALSE), ATTRIBUTE_LIST);
   List *originalList = attributeList;
 
   ASSERT(sortAttributes(NULL) == NULL);

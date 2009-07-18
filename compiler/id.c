@@ -58,6 +58,7 @@ IdNode *newId(Srcp srcp,	/* IN - Source Position */
   return(new);
 }
 
+
 /*======================================================================*/
 List *newIdList(List *list, char *str) {
   return concat(list, newId(nulsrcp, str), ID_LIST);

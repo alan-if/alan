@@ -18,8 +18,8 @@ void testPartition()
 {
   List *p = NULL;
   Element *e = newEndOfSyntax();
-  List *ep = concat(NULL, e, ELEMENT_LIST);
-  List *epp = concat(NULL, ep, LIST_LIST);
+  List *ep = newList(e, ELEMENT_LIST);
+  List *epp = newList(ep, LIST_LIST);
 
   ASSERT(partitionElements(&p) == NULL);
   ASSERT(partitionElements(&epp) != NULL);

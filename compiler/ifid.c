@@ -151,8 +151,7 @@ static char *readOrCreateIFID()
 /*======================================================================*/
 List *initIfids()
 {
-  return(concat(NULL, newIfid(nulsrcp, newString("IFID"), readOrCreateIFID()),
-		IFID_LIST));
+  return(newList(newIfid(nulsrcp, newString("IFID"), readOrCreateIFID()), IFID_LIST));
 }
 
 

@@ -12,13 +12,39 @@
 #include "unit.h"
 #include <setjmp.h>
 
+void canCreateNewEmptyListWithType() {
+  List *list = newEmptyList(ID_LIST);
+  ASSERT(list->kind == ID_LIST);
+  ASSERT(list->member.lst == NULL);
+}
+
+
+void canConcatToANewEmptyList() {
+  List *list = newEmptyList(ID_LIST);
+  IdNode *theId = newId(nulsrcp, "theId");
+
+  list = concat(list, theId, ID_LIST);
+  ASSERT((IdNode *)list->member.lst == theId);
+  ASSERT(list->next == NULL);
+}
+
+
+void canCreateNewListWithMember() {
+  IdNode *theId = newId(nulsrcp, "theId");
+  List *list = newList(theId, ID_LIST);
+  ASSERT(list->kind == ID_LIST);
+  ASSERT(list->member.ptr == theId);
+}
+
+
 void testLength()
 {
   List *aList = NULL;
 
   ASSERT(length(aList) == 0);
 
-  // TODO newIdList(NULL, => newIdList( perhaps?
+  // TODO newIdList(NULL, "string") => newIdList("string)
+  // and concatId(list, "string)
   aList = newIdList(NULL, "id1");
   ASSERT(length(aList) == 1);
 
@@ -33,7 +59,7 @@ void testLength()
 void insertingShouldIncreaseLength()
 {
   IdNode *aMember = newId(nulsrcp, "aMember");
-  List *aList = concat(NULL, aMember, ID_LIST);
+  List *aList = newList(aMember, ID_LIST);
   ASSERT(length(aList) == 1);
 
   insert(aList, aMember, ID_LIST);
@@ -81,7 +107,7 @@ void insertingIntoANullListFails()
 void insertingANullMemberFails()
 {
   IdNode *aMember = newId(nulsrcp, "aMember");
-  List *aList = concat(NULL, aMember, ID_LIST);
+  List *aList = newList(aMember, ID_LIST);
 
   TRY(
     insert(aList, NULL, ID_LIST);
@@ -90,7 +116,7 @@ void insertingANullMemberFails()
   ASSERT(syserrHandlerCalled);
 }
 
-void insertingWrongTypeOfElementFails()
+void insertingWrongTypeOfMemberFails()
 {
   IdNode *aMember = newId(nulsrcp, "aMember");
   List *aList = newIdList(NULL, "aMember");
@@ -115,46 +141,46 @@ void testTailOf()
 
 void testRemoveFromList()
 {
-  List element1;
-  List element2;
-  List element3;
+  List member1;
+  List member2;
+  List member3;
   List *result;
 
   ASSERT(removeFromList(NULL, NULL) == NULL);
 
-  element1.next = NULL;
-  ASSERT(removeFromList(&element1, &element1) == NULL);
+  member1.next = NULL;
+  ASSERT(removeFromList(&member1, &member1) == NULL);
 
-  element1.next = &element2;
-  element2.next = NULL;
-  result = removeFromList(&element1, &element1);
-  ASSERT(result == &element2);
-  ASSERT(element2.next == NULL);
-  ASSERT(element1.next == NULL);
+  member1.next = &member2;
+  member2.next = NULL;
+  result = removeFromList(&member1, &member1);
+  ASSERT(result == &member2);
+  ASSERT(member2.next == NULL);
+  ASSERT(member1.next == NULL);
 
-  element1.next = &element2;
-  element2.next = &element3;
-  element3.next = NULL;
-  result = removeFromList(&element1, &element1);
-  ASSERT(result == &element2);
-  ASSERT(element2.next == &element3);
-  ASSERT(element1.next == NULL);
+  member1.next = &member2;
+  member2.next = &member3;
+  member3.next = NULL;
+  result = removeFromList(&member1, &member1);
+  ASSERT(result == &member2);
+  ASSERT(member2.next == &member3);
+  ASSERT(member1.next == NULL);
 
-  element1.next = &element2;
-  element2.next = &element3;
-  element3.next = NULL;
-  result = removeFromList(&element1, &element2);
-  ASSERT(result == &element1);
-  ASSERT(element1.next == &element3);
-  ASSERT(element2.next == NULL);
+  member1.next = &member2;
+  member2.next = &member3;
+  member3.next = NULL;
+  result = removeFromList(&member1, &member2);
+  ASSERT(result == &member1);
+  ASSERT(member1.next == &member3);
+  ASSERT(member2.next == NULL);
 }
 
 
-int sorter(List *element1, List *element2)
+int sorter(List *member1, List *member2)
 {
-  if (element1->kind == element2->kind)
+  if (member1->kind == member2->kind)
     return 0;
-  else if (element1->kind < element2->kind)
+  else if (member1->kind < member2->kind)
     return -1;
   else
     return 1;
@@ -163,36 +189,36 @@ int sorter(List *element1, List *element2)
 
 void testSortList()
 {
-  List element1;
-  List element2;
-  List element3;
+  List member1;
+  List member2;
+  List member3;
   List *result;
 
   ASSERT(sortList(NULL, NULL) == NULL);
 
-  element1.next = NULL;
-  ASSERT(sortList(&element1, &sorter) == &element1);
+  member1.next = NULL;
+  ASSERT(sortList(&member1, &sorter) == &member1);
 
-  element1.kind = 1;
-  element1.next = &element2;
-  element2.kind = 3;
-  result = sortList(&element1, &sorter);
+  member1.kind = 1;
+  member1.next = &member2;
+  member2.kind = 3;
+  result = sortList(&member1, &sorter);
   ASSERT(result->kind < result->next->kind);
 
-  element1.kind = 2;
-  element1.next = &element2;
-  element2.kind = 1;
-  result = sortList(&element1, &sorter);
+  member1.kind = 2;
+  member1.next = &member2;
+  member2.kind = 1;
+  result = sortList(&member1, &sorter);
   ASSERT(result->kind == 1);
   ASSERT(result->next->kind == 2);
 
-  element1.kind = 2;
-  element2.kind = 3;
-  element3.kind = 1;
-  element1.next = &element2;
-  element2.next = &element3;
-  element3.next = NULL;
-  result = sortList(&element1, &sorter);
+  member1.kind = 2;
+  member2.kind = 3;
+  member3.kind = 1;
+  member1.next = &member2;
+  member2.next = &member3;
+  member3.next = NULL;
+  result = sortList(&member1, &sorter);
   ASSERT(result->kind == 1);
   ASSERT(result->next->kind == 2);
   ASSERT(result->next->next->kind == 3);
@@ -222,11 +248,14 @@ static void testCopyList() {
 
 void lstUnitTests()
 {
+  registerUnitTest(canCreateNewEmptyListWithType);
+  registerUnitTest(canConcatToANewEmptyList);
+  registerUnitTest(canCreateNewListWithMember);
   registerUnitTest(testLength);
   registerUnitTest(insertingShouldIncreaseLength);
   registerUnitTest(insertingIntoANullListFails);
   registerUnitTest(insertingANullMemberFails);
-  registerUnitTest(insertingWrongTypeOfElementFails);
+  registerUnitTest(insertingWrongTypeOfMemberFails);
   registerUnitTest(testTailOf);
   registerUnitTest(testRemoveFromList);
   registerUnitTest(testSortList);

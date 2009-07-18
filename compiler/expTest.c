@@ -63,7 +63,7 @@ void testAttributeToThis()
   Expression *theWhatExp = newExpression(nulsrcp, WHAT_EXPRESSION);
   Expression *theExp = newExpression(nulsrcp, ATTRIBUTE_EXPRESSION);
 
-  theInstance->props->attributes = concat(NULL, theAttribute, ATTRIBUTE_LIST);
+  theInstance->props->attributes = newList(theAttribute, ATTRIBUTE_LIST);
   theContext->instance = theInstance;
 
   theExp->fields.atr.id = theAttributeId;
@@ -109,7 +109,7 @@ static void testIsConstant()
   IdNode *parameterId = newId(nulsrcp, "parameterId");
   Symbol *parameterSymbol = newInstanceSymbol(parameterId, NULL, NULL);
   Expression *parameterExp = newWhatExpression(nulsrcp, newWhatId(nulsrcp, parameterId));
-  List *members = concat(NULL, instanceExp, EXPRESSION_LIST);
+  List *members = newList(instanceExp, EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, members);
 
   ASSERT(isConstantExpression(integer));
