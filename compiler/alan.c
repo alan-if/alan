@@ -307,10 +307,6 @@ static void parse() {
   verbose("Parsing");
 
   startTimingCompilation();			/* Start timing compilation */
-#ifdef __MWERKS__
-  _fcreator = '?\?\?\?';
-  _ftype = '?\?\?\?';
-#endif
 
   txtfil = fopen(txtfnm, "w+");	/* Open a temporary text file */
   if (!txtfil) {
@@ -347,10 +343,7 @@ static void generate() {
   if (lmSeverity() < sevERR) {
     /* Yes, so generate an adventure */
     verbose("Generating");
-#ifdef __MWERKS__
-    _fcreator = 'Arun';
-    _ftype = 'Adat';
-#endif
+
     opts[OPTDEBUG].value = debugFlag; /* Debugging enabled? */
     if (packFlag)		/* Force packing */
       opts[OPTPACK].value = TRUE;

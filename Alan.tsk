@@ -306,6 +306,15 @@ Or possibly that the compiler checks that the indicators match for all syntax sy
 <isopen>1</isopen>
 </task>
 <task>
+<desc>Remove MWERKS support</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Modify Makefile to recompile only files dependent on GLK</desc>
 <notes>Currently ARCH includes GLK setting which makes it necessary to recompile all source files between the various GLK implementations.
 
@@ -362,15 +371,6 @@ Check if windows-dist contains all the .DLL:s that the build seem to require, po
 </task>
 <task>
 <desc>Investigate why new version of Alan in Gargoyle does not play sounds and shows pictures.</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Remove MWERKS support</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

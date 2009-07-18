@@ -64,18 +64,7 @@ has been advised of the possibility of such damages.
 #ifdef __cplusplus
 #define __NEWC__
 #endif
-#ifdef THINK_C
-#ifndef __mac__
-#define __mac__
-#endif
-#define __NEWC__
-#endif
-#ifdef __MWERKS__
-#ifndef __mac__
-#define __mac__
-#endif
-#define __NEWC__
-#endif
+
 #ifdef CMS
 /* We only have 8 characters for external names */
 #define SpaArgument	SpaArg

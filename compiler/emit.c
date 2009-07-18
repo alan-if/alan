@@ -488,10 +488,6 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
       FreeDiskObject(existingIcon);
 #endif
 
-#ifdef __MWERKS__
-	_fcreator = 'Arun';
-	_ftype = 'Acod';
-#endif
   acdfil = fopen(acdfnm, WRITE_MODE);
   if (!acdfil) {
     char errorString[1000];

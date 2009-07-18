@@ -76,7 +76,8 @@ alan.atg : coco.sed coco.header alan.prod
 	else \
 		mv smScan.iso.new smScan.iso ; \
 	fi ;
-	smk -set MAC alan
+	smk -set MAC alan -generate tables
+	imp alan.smt
 	echo "/* MAC scanner tables */" > smScan.mac.new
 	echo "UByte1 smMacMap[256]={" >> smScan.mac.new
 	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
@@ -99,7 +100,8 @@ alan.atg : coco.sed coco.header alan.prod
 	else \
 		mv smScan.mac.new smScan.mac ; \
 	fi ;
-	smk -set PC alan
+	smk -set PC alan -generate tables
+	imp alan.smt
 	echo "/* DOS scanner tables */" > smScan.dos.new
 	echo "UByte1 smDosMap[256]={" >> smScan.dos.new
 	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new

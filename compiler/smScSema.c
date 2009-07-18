@@ -154,21 +154,7 @@ int smScReader(
 {
 
 
-#ifdef __MWERKS__
- /* Metrowerks does not do automatic <cr> to <nl> conversion on text files!!! */
-  {
-    int count, pos;
-
-    count = read(smThis->fd, (char *)smBuffer, smLength);
-    for (pos = 0; pos < count; pos++)
-      if (smBuffer[pos] == '\r')
-	smBuffer[pos] = '\n';
-
-    return count;
-  }
-#else
   return read(smThis->fd, (char *)smBuffer, smLength);
-#endif
 
 
 }    

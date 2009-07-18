@@ -242,13 +242,6 @@ int main(int argc,		/* IN - argument count */
 {
   int nArgs;			/* Number of supplied args */
 
-#ifdef __MWERKS__
-#include <SIOUX.h>
-  SIOUXSettings.setupmenus = FALSE;
-  SIOUXSettings.asktosaveonclose = FALSE;
-  SIOUXSettings.showstatusline = FALSE;
-#endif
-
 #endif
 
   /* -- get arguments -- */

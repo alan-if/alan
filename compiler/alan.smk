@@ -79,9 +79,9 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
       strcpy(fnmbuf, fnm);
       if ((this->fd = open(fnmbuf, _O_RAW)) < 0) {
 	for (ip = importPaths; ip != NULL; ip = ip->next) {
-	  strcpy(fnmbuf, ip->element.str);
+	  strcpy(fnmbuf, ip->member.str);
 #ifndef __mac__
-	  if (ip->element.str[strlen(ip->element.str)-1] != '/')
+	  if (ip->member.str[strlen(ip->member.str)-1] != '/')
 	    strcat(fnmbuf, "/");
 #endif
 	  strcat(fnmbuf, fnm);
@@ -162,21 +162,7 @@ void setCharacterSet(int set)
 
 %%READER
 
-#ifdef __MWERKS__
- /* Metrowerks does not do automatic <cr> to <nl> conversion on text files!!! */
-  {
-    int count, pos;
-
-    count = read(smThis->fd, (char *)smBuffer, smLength);
-    for (pos = 0; pos < count; pos++)
-      if (smBuffer[pos] == '\r')
-	smBuffer[pos] = '\n';
-
-    return count;
-  }
-#else
   return read(smThis->fd, (char *)smBuffer, smLength);
-#endif
 
 %%POSTHOOK
 
