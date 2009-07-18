@@ -107,7 +107,7 @@ static void unitTest(void)
 #include "unitList.h"
 
 
-#define UNITTEST(module) \
+#define ADD_UNIT_TESTS_FOR(module) \
   extern void module##UnitTests(); \
   module##UnitTests();
 
@@ -116,28 +116,28 @@ int main()
 {
   lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
 
-  UNITTEST(add);
-  UNITTEST(adv);
-  UNITTEST(atr);
-  UNITTEST(cla);
-  UNITTEST(description);
-  UNITTEST(elm);
-  UNITTEST(emit);
-  UNITTEST(exp);
-  UNITTEST(ext);
-  UNITTEST(id);
-  UNITTEST(ifid);
-  UNITTEST(ins);
-  UNITTEST(lst);
-  UNITTEST(prop);
-  UNITTEST(res);
-  UNITTEST(resource);
-  UNITTEST(stm);
-  UNITTEST(stx);
-  UNITTEST(sym);
-  UNITTEST(vrb);
-  UNITTEST(whr);
-  UNITTEST(wrd);
+  ADD_UNIT_TESTS_FOR(add);
+  ADD_UNIT_TESTS_FOR(adv);
+  ADD_UNIT_TESTS_FOR(atr);
+  ADD_UNIT_TESTS_FOR(cla);
+  ADD_UNIT_TESTS_FOR(description);
+  ADD_UNIT_TESTS_FOR(elm);
+  ADD_UNIT_TESTS_FOR(emit);
+  ADD_UNIT_TESTS_FOR(exp);
+  ADD_UNIT_TESTS_FOR(ext);
+  ADD_UNIT_TESTS_FOR(id);
+  ADD_UNIT_TESTS_FOR(ifid);
+  ADD_UNIT_TESTS_FOR(ins);
+  ADD_UNIT_TESTS_FOR(lst);
+  ADD_UNIT_TESTS_FOR(prop);
+  ADD_UNIT_TESTS_FOR(res);
+  ADD_UNIT_TESTS_FOR(resource);
+  ADD_UNIT_TESTS_FOR(stm);
+  ADD_UNIT_TESTS_FOR(stx);
+  ADD_UNIT_TESTS_FOR(sym);
+  ADD_UNIT_TESTS_FOR(vrb);
+  ADD_UNIT_TESTS_FOR(whr);
+  ADD_UNIT_TESTS_FOR(wrd);
    
   unitTest();
 

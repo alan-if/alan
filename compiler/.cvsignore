@@ -1,5 +1,6 @@
 *.acd
 *.dat
+*.a3c
 *.exe
 *.exe.stackdump
 *.o
