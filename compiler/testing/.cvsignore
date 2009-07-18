@@ -8,3 +8,4 @@
 *.exe.stackdump
 *.a3c
 *.ifid
+TEST-regr.xml

@@ -1,0 +1,29 @@
+########## worn ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+
+> i
+You are empty-handed. You are wearing a robe.
+
+> e
+L2
+
+> i
+You are empty-handed. You are wearing a robe.
+
+> x robe
+There is nothing special about the robe.
+
+> e
+L1
+
+> x robe
+There is nothing special about the robe.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
