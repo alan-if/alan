@@ -152,7 +152,7 @@ typedef struct pmGrammar {
     List *clas;
     Class *cla;
     List *chks;
-    ChkNod *chk;
+    CheckNode *chk;
     List *cases;
     int bits;
     List *atrs;
@@ -550,7 +550,7 @@ int rule			/* IN production number */
 #line 651 "alan.pmk"
 
 	pmSeSt[pmStkP+1].srcp = pmSySt[pmStkP+1].srcp;
-	pmSeSt[pmStkP+1].chks = newList(newchk(NULL, pmSeSt[pmStkP+2].stms), CHECK_LIST);
+	pmSeSt[pmStkP+1].chks = newList(newCheck(NULL, pmSeSt[pmStkP+2].stms), CHECK_LIST);
     	break;}
     case 76: { /* <optional_checks> = 'check' <check_list>; */
 #line 657 "alan.pmk"
@@ -571,7 +571,7 @@ int rule			/* IN production number */
     case 79: { /* <check> = <expression> 'else' <statements>; */
 #line 677 "alan.pmk"
 
-	pmSeSt[pmStkP+1].chk = newchk(pmSeSt[pmStkP+1].exp, pmSeSt[pmStkP+3].stms);
+	pmSeSt[pmStkP+1].chk = newCheck(pmSeSt[pmStkP+1].exp, pmSeSt[pmStkP+3].stms);
     	break;}
     case 80: { /* <optional_does> =; */
 #line 685 "alan.pmk"

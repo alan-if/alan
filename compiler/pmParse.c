@@ -156,7 +156,7 @@ typedef struct pmGrammar {
     List *clas;
     Class *cla;
     List *chks;
-    ChkNod *chk;
+    CheckNode *chk;
     List *cases;
     int bits;
     List *atrs;

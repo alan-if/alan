@@ -21,7 +21,7 @@ void (*(dumpNodeTable[LAST_LIST_KIND]))();
 
 /* Import of dump functions to be used in dumpNodeTable */
 extern void dumpAlternative();
-extern void duchk();
+extern void dumpCheck();
 extern void dumpElement();
 extern void dumpExit();
 extern void dumpAdd();
@@ -50,7 +50,7 @@ void initDumpNodeList()
   dumpNodeTable[ADD_LIST] = &dumpAdd;
   dumpNodeTable[ALTERNATIVE_LIST] = &dumpAlternative;
   dumpNodeTable[ATTRIBUTE_LIST] = &dumpAttribute;
-  dumpNodeTable[CHECK_LIST] = &duchk;
+  dumpNodeTable[CHECK_LIST] = &dumpCheck;
   dumpNodeTable[CLASS_LIST] = &dumpClass;
   dumpNodeTable[CONTAINER_LIST] = &dumpPointer;
   dumpNodeTable[ELEMENT_LIST] = &dumpElement;
@@ -200,11 +200,9 @@ void *getLastMember(List *theList)
 
 
 
-// TODO: Refactor to use newList(ListKind), remove kind from concat()
-// and let it propagate it instead
-// Probably should also disallow NULL as the list
+// TODO: Probably should also disallow NULL as the list
 /*======================================================================*/
-List *concat(List *list /*@null@*/, void *member, ListKind kind)	
+List *concat(List *list, void *member, ListKind kind)	
 {
   List *new;			/* The newly created list node */
   List *tail;			/* Traversal pointer to find the tail */

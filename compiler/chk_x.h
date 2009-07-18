@@ -20,7 +20,7 @@
 /* FUNCTIONS: */
 
 /* Create a new Check node */
-extern ChkNod *newchk(Expression *exp, List *stms);
+extern CheckNode *newCheck(Expression *exp, List *stms);
 
 /* Analyze a list of Checks */
 extern void analyzeChecks(List *chks, Context *context);
@@ -29,7 +29,7 @@ extern void analyzeChecks(List *chks, Context *context);
 extern Aaddr generateChecks(List *chks);
 
 /* Dump a Check node */
-extern void duchk(ChkNod *chk);
+extern void dumpCheck(CheckNode *chk);
 
 
 #endif

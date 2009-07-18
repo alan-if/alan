@@ -102,7 +102,7 @@ static int val(char str[])
   atrs %% List *%1%%,
   bits %% int %1%%,
   cases %% List *%1%%,
-  chk %% ChkNod *%1%%,
+  chk %% CheckNode *%1%%,
   chks %% List *%1%%,
   cla %% Class *%1%%,
   clas %% List *%1%%,
@@ -650,7 +650,7 @@ static int val(char str[])
     ! 'check' <statements>
     %%
 	%<optional_checks>.srcp = %'check'.srcp;
-	%<optional_checks>.chks = newList(newchk(NULL, %<statements>.stms), CHECK_LIST);
+	%<optional_checks>.chks = newList(newCheck(NULL, %<statements>.stms), CHECK_LIST);
     %%
 
     ! 'check' <check_list>
@@ -675,7 +675,7 @@ static int val(char str[])
 <check>			-- RETURNS: chk
     = <expression> 'else' <statements>
     %%
-	%<check>.chk = newchk(%<expression>.exp, %<statements>.stms);
+	%<check>.chk = newCheck(%<expression>.exp, %<statements>.stms);
     %%
     ;
 

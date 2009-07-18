@@ -20,7 +20,7 @@ typedef struct ChkNod {		/* CHECK */
   Aaddr expadr;			/* ACODE address to code for expression */
   List *stms;			/* Statements for false check */
   Aaddr stmadr;			/* ACODE address to statement code */
-} ChkNod;
+} CheckNode;
 
 
 #endif

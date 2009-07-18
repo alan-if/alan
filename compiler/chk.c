@@ -29,14 +29,14 @@
   Allocates and initialises a chknod.
 
  */
-ChkNod *newchk(Expression *exp,	/* IN - Expression for this CHECK */
+CheckNode *newCheck(Expression *exp,	/* IN - Expression for this CHECK */
 	       List *stms)	/* IN - Statements for a false CHECK */
 {
-  ChkNod *new;			/* The newly allocated area */
+  CheckNode *new;			/* The newly allocated area */
 
   progressCounter();
 
-  new = NEW(ChkNod);
+  new = NEW(CheckNode);
 
   new->exp = exp;
   new->stms = stms;
@@ -52,7 +52,7 @@ ChkNod *newchk(Expression *exp,	/* IN - Expression for this CHECK */
   Analyze one CHECK.
 
  */
-static void anchk(ChkNod *chk,
+static void anchk(CheckNode *chk,
 		  Context *context)
 {
   analyzeExpression(chk->exp, context);
@@ -124,7 +124,7 @@ Aword generateChecks(List *chks)
   Dump a Check node.
 
  */
-void duchk(ChkNod *chk)
+void dumpCheck(CheckNode *chk)
 {
   if (chk == NULL) {
     put("NULL");
