@@ -21,7 +21,7 @@
 
 
 /* PUBLIC DATA */
-RulEntry *ruls;         /* Rule table pointer */
+RuleEntry *ruls;         /* Rule table pointer */
 
 
 /*=======================================================================*/

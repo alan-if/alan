@@ -13,6 +13,7 @@
 
 #include "reverse.h"
 #include "msg.h"
+#include "rules.h"
 
 #define endOfTable(x) ((*(Aword *) x) == EOF)
 
@@ -692,6 +693,24 @@ void dumpMessages(Aaddr messageTable)
     indent(level);
     printf("MESSAGE: (%d) ", count++);
     printf("stms: %ld\n", entry->stms);
+  }
+}
+
+
+/*----------------------------------------------------------------------*/
+void dumpRules(Aaddr rulesTable)
+{
+  RuleEntry *entry;
+  int level = 1;
+
+  if (rulesTable == 0) return;
+
+  for (entry = (RuleEntry *)pointerTo(rulesTable); !endOfTable(entry); entry++) {
+    indent(level);
+    printf("RULE:\n");
+    indent(level+1);
+    printf("exp: %s\n", dumpAddress(entry->exp));
+    printf("stms: %s\n", dumpAddress(entry->stms));
   }
 }
 

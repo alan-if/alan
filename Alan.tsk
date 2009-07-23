@@ -6,7 +6,7 @@
 <priority>1</priority>
 <origest>655.89</origest>
 <currest>664.89</currest>
-<elapsed>474.89</elapsed>
+<elapsed>475.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
@@ -14,7 +14,7 @@
 <priority>1</priority>
 <origest>94</origest>
 <currest>95</currest>
-<elapsed>15</elapsed>
+<elapsed>16</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
@@ -161,9 +161,9 @@ Also need to separate the path and the basename since the user will want to use 
 <desc>Version 3.0alpha7</desc>
 <notes/>
 <priority>2</priority>
-<origest>17</origest>
-<currest>17</currest>
-<elapsed>10</elapsed>
+<origest>14</origest>
+<currest>14</currest>
+<elapsed>11</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>"undo" as a response to "quit?" undoes wrong command</desc>
@@ -311,7 +311,7 @@ Or possibly that the compiler checks that the indicators match for all syntax sy
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
-<elapsed>0</elapsed>
+<elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
 <task>
@@ -345,6 +345,15 @@ This would require a grep for GLK in *.c to investigate.</notes>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
+</task>
+<task>
+<desc>Version 3.0beta1</desc>
+<notes/>
+<priority>2</priority>
+<origest>36</origest>
+<currest>36</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>GarArun</desc>
 <notes>Done:
@@ -378,15 +387,18 @@ Check if windows-dist contains all the .DLL:s that the build seem to require, po
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
-</task>
 <task>
-<desc>Version 3.0beta1</desc>
-<notes/>
+<desc>Allow initializing an empty set by just giving a class name</desc>
+<notes>Currently sets must be initialized by adding at least one element. This requires that if you need to create an initially empty set the element must be removed.
+
+If a single identifier of a class is given in a set this is unambigously indicating which class the elements must be.
+</notes>
 <priority>2</priority>
-<origest>33</origest>
-<currest>33</currest>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+</task>
 <task>
 <desc>Introduce "Where" &amp; "Location Of" expressions?</desc>
 <notes>Inspecting and acting on locations where an instance currently is, is hard since the only way to do that is to use many If instance At.
@@ -403,18 +415,6 @@ Or
     Make Where This lit.
 
 They might both be valid if Where expression would refer to the container in where it is?</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allow initializing an empty set by just giving a class name</desc>
-<notes>Currently sets must be initialized by adding at least one element. This requires that if you need to create an initially empty set the element must be removed.
-
-If a single identifier of a class is given in a set this is unambigously indicating which class the elements must be.
-</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

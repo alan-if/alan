@@ -426,12 +426,12 @@ static void reverseContainers(Aword adr)
 
 static void reverseRuls(Aword adr)
 {
-  RulEntry *e = (RulEntry *) &memory[adr];
+  RuleEntry *e = (RuleEntry *) &memory[adr];
 
   if (alreadyDone(adr)) return;
 
   if (!isEndOfList(e)) {
-    reverseTable(adr, sizeof(RulEntry));
+    reverseTable(adr, sizeof(RuleEntry));
     while (!isEndOfList(e)) {
       reverseStms(e->exp);
       reverseStms(e->stms);

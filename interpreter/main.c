@@ -435,7 +435,7 @@ static void initStaticData(void)
 
   stxs = (SyntaxEntry *) pointerTo(header->syntaxTableAddress);
   vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
-  ruls = (RulEntry *) pointerTo(header->ruleTableAddress);
+  ruls = (RuleEntry *) pointerTo(header->ruleTableAddress);
   msgs = (MessageEntry *) pointerTo(header->messageTableAddress);
 
   if (header->pack)

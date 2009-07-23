@@ -183,17 +183,14 @@
 /****************/
 
 #ifdef HAVE_GLK
-/* don't need TERMIO */
+#  undef HAVE_TERMIO   /* don't need TERMIO */
 #else
-
-#ifdef __CYGWIN__
-#define HAVE_TERMIO
-#endif
-
-#ifdef __unix__
-#define HAVE_TERMIO
-#endif
-
+#  ifdef __CYGWIN__
+#    define HAVE_TERMIO
+#  endif
+#  ifdef __unix__
+#    define HAVE_TERMIO
+#  endif
 #endif
 
 /*******************************/
@@ -201,60 +198,24 @@
 /*******************************/
 
 #ifdef HAVE_GLK
-/* don't need ANSI */
+#  undef HAVE_ANSI /* don't need ANSI */
 #else
-
-#ifdef __CYGWIN__
-#define HAVE_ANSI
-#endif
-
+#  ifdef __CYGWIN__
+#    define HAVE_ANSI
+#  endif
 #endif
 
 /******************************/
 /* Use the READLINE function? */
-/* Why not?                   */
 /******************************/
 #define USE_READLINE
-#ifdef HAVE_GLK
-/* Glk always uses readline(), no matter what the OS */
-#define USE_READLINE
-#else
-
-#ifdef __unix__
-#define USE_READLINE
-#endif
-
-#ifdef __dos__
-#define USE_READLINE
-#endif
-
-#ifdef __win__
-#define USE_READLINE
-#endif
-
+#ifdef SOME_PLATFORM_WHICH_CANT_USE_READLINE
+#  undef USE_READLINE
 #endif
 
 /* Special cases and definition overrides */
 #ifdef __unix__
 #define MULTI
-#endif
-
-
-#ifdef __vms__
-
-#define MULTI
-
-extern char *strdup(char str[]);
-
-/* Cheat implementation of strftime */
-extern size_t strftime (char *, size_t, const char *, const struct tm *);
-
-#endif
-
-#ifdef __mac__
-
-extern char *strdup(char *str);
-
 #endif
 
 
@@ -264,12 +225,6 @@ extern char *strdup(char *str);
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
 
-#endif
-
-
-/* Some have stricmp() others strcasecmp() */
-#ifdef __macosx__
-#define stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 
 
