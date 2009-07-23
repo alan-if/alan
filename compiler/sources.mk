@@ -77,7 +77,7 @@ ALANSRCS = \
 	$(UNITTESTED)
 
 
-UNITTESTSRCS = ${UNITTESTED:.c=Test.c}
+UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
 
 MAINSRCS = $(TMCSRCS) $(ALANSRCS) $(BUILDSRCS)
 MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
@@ -86,7 +86,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 
 
 # Sources for the test framework
-UNITSRCS = $(UNITTESTSRCS) \
+UNITSRCS = $(UNITTESTEDSRCS) \
 	unit.c \
 	unitList.c \
 	pmParse.c pmPaSema.c \

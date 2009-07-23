@@ -2,7 +2,7 @@
 # Windows: CygWin32/Mingw32
 # Darwin: GCC
 # Note: uses a lot of special stuff, if you are porting, start from
-# one of the other makefiles, such as Makefile.unix (which are not up-to-date yet)
+# one of the other makefiles, such as Makefile.unix
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
@@ -14,8 +14,8 @@ SYSTEM = `uname -s | sed 's/_.*$$//'`
 PLATFORMFLAG = -mno-cygwin
 
 OPTIMIZE = -ggdb
-STDCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORMFLAG) $(CRCLOG) $(SMARTALLOC) -funsigned-char
-COMPILEFLAGS = $(STDCOMPILEFLAGS)
+COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORMFLAG) $(CRCLOG) $(SMARTALLOC) -funsigned-char
+COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 DEPENDFLAGS = -MM
 CFLAGS	= $(COMPILEFLAGS) -Wall
 CC = gcc
@@ -65,15 +65,17 @@ clean:
 #######################################################################
 # Settings for Release
 release: SMARTALLOC =
+release: PLATFORMFLAG = -mno-cygwin
 release: OPTIMIZE=-O4
-release:
+release: 
 	$(MAKE) $(SYSTEM)
 
 
 
 #######################################################################
 # Settings for Standard Arun
-arun: checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
+arun: PLATFORMFLAG = # we build with cygwin.dll until the unit tests can be build without them
+arun: unit checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	cp $@ ../bin
 
@@ -85,7 +87,7 @@ WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
 
-winarun: COMPILEFLAGS = $(STDCOMPILEFLAGS) $(WINGLKINCLUDE) $(WINGLKDEFS)
+winarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(WINGLKINCLUDE) $(WINGLKDEFS)
 winarun: PLATFORMFLAG = -mno-cygwin 
 winarun: LIBS = $(WINGLKLIB) -mwindows
 
@@ -107,7 +109,7 @@ TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
 
 glkarun: PLATFORMFLAG = # Cannot be build with -mno-cygwin since glkterm cannot be build with out cygwin since I have no curses library for windows
-glkarun: COMPILEFLAGS = $(STDCOMPILEFLAGS) $(TERMGLKINCLUDE) $(TERMGLKDEFS)
+glkarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(TERMGLKINCLUDE) $(TERMGLKDEFS)
 glkarun: LIBS = $(TERMGLKLIB)
 
 glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
@@ -120,9 +122,9 @@ glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
 GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
 GARGLKDEFS = -DHAVE_GARGLK
 GARGLKINCLUDE = -I$(GARGLKROOT)
-GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglkmain -lpng12 -lgtk -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a -lgarglk
+GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglk -lgarglkmain -lpng12 `pkg-config --libs gtk+` -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a
 
-gararun: COMPILEFLAGS = $(STDCOMPILEFLAGS) $(GARGLKINCLUDE) $(GARGLKDEFS)
+gararun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(GARGLKINCLUDE) $(GARGLKDEFS)
 gararun: LIBS = $(GARGLKLIB)
 
 gararun: checkTarget $(GARARUNOBJECTS) arun.res
@@ -150,13 +152,13 @@ checkTarget:
 alan.version.h :
 	-@if test "`which venum`" != "" ; then \
 		cd ..; venum -write always -all alan ; \
-		cp -p ../alan.version.h . ; \
+		cd interpreter; cp -p ../alan.version.h . ; \
 	fi
 
 version.h :
 	-@if test "`which venum`" != "" ; then \
 		cd ..; venum -write always -all alan ; \
-		cp -p ../version.h . ; \
+		cd interpreter; cp -p ../version.h . ; \
 	fi
 
 ../alan.version: $(VERSIONSRCS) 
@@ -176,7 +178,7 @@ alan.version.c:  ../alan.version
 #
 CGREENROOT = ../Cgreen
 CGREENINCLUDE = -I$(CGREENROOT)/include
-unittests: PLATFORMFLAG = # Cannot run without -mno-cygwin since cgreen cannot be compiled with it yet
+unittests: PLATFORMFLAG = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
 unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENROOT)/libcgreen.a
 
@@ -222,7 +224,7 @@ headerGenerator: headerGenerator.c
 CPP	= gcc -MM -ansi
 DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
 depend:
-	@-for f in $(UNITTESTSSRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c ; \
+	@-for f in $(UNITTESTSSRC) $(MAINSRCS) $(GLKSRCS) dumpacd.c reverse.c spa.c ; \
 	  do \
 	  $(CPP) $(DEPENDFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
 	done

@@ -1,8 +1,9 @@
 # Makefile for Alan interpreter to be built with Glk for Unix (using gcc)
 
+# You probably have to change some of these settings
 # OS-specific definitions
-OSDEFS = -D__unix__ -DHAVE_ANSI
-#OSDEFS = -D__unix__
+#OSDEFS = -D__unix__ -DHAVE_ANSI
+OSDEFS = -D__unix__
 
 
 # -- Glk definitions. Comment all of these out to disable Glk.

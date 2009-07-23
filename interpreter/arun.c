@@ -1,9 +1,8 @@
 /*----------------------------------------------------------------------* \
 
-ARUN.C
+	arun.c
 
-Main program for interpreter for ALAN Adventure Language
-
+	Main program for interpreter for ALAN Adventure Language
 
 \*----------------------------------------------------------------------*/
 

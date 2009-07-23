@@ -233,7 +233,7 @@ static void scan(void) {
     playerWords[0].code = 0; // TODO This means what?
     i = 0;
     do {
-	ensureSpaceForPlayerWords(i);
+	ensureSpaceForPlayerWords(i+1);
 	playerWords[i].start = token;
 	playerWords[i].end = strchr(token, '\0');
 	if (isISOLetter(token[0])) {
