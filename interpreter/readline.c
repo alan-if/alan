@@ -4,15 +4,19 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "readline.h"
+
 #include "sysdep.h"
 #include "output.h"
 #include "term.h"
 #include "exe.h"
 #include "save.h"
 
+#define LINELENGTH 1000
+
+// TODO Try to split this into more obvious GLK and non-GLK modules
 #ifdef HAVE_GLK
 
-#include "readline.h"
 #include "options.h"
 
 #include "glk.h"
@@ -52,7 +56,7 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
 
   */
 
-/* 4f - length of user buffer should be used */
+/* TODO - length of user buffer should be used */
 Bool readline(char buffer[])
 {
   event_t event;

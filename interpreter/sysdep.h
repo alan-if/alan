@@ -54,14 +54,6 @@
 #define __unix__
 #endif
 
-#ifdef __MWERKS__
-#ifdef macintosh
-#define __mac__
-#else
-#define __dos__
-#endif
-#endif
-
 #ifdef DOS
 #define __dos__
 #endif
@@ -121,10 +113,6 @@
 #define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>
-#endif
-
-#ifdef __MWERKS__
-#define strdup _strdup
 #endif
 
 /***********************/

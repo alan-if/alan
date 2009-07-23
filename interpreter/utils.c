@@ -53,10 +53,6 @@ void terminate(int code)
     fclose(logFile);
 #endif
 
-#ifdef __MWERKS__
-  printf("Command-Q to close window.");
-#endif
-
 #ifdef HAVE_GLK
   glk_exit();
 #else
