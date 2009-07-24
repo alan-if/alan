@@ -33,7 +33,7 @@ unit : $(TESTOBJS)
 
 # Run all unit tests!
 test: unittests
-	-cd testing; regr
+	-cd testing; ../../bin/regr
 
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -382,7 +382,7 @@ typedef struct AltEntry {	/* VERB ALTERNATIVE TABLE */
 } AltEntry;
 
 typedef struct SourceFileEntry { /* SOURCE FILE NAME TABLE */
-  Aword fpos;
+  Aint fpos;
   Aint len;
 } SourceFileEntry;
 
