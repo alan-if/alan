@@ -87,7 +87,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 
 # Sources for the test framework
 UNITSRCS = $(UNITTESTEDSRCS) \
-	unit.c \
+	unittests.c \
 	unitList.c \
 	pmParse.c pmPaSema.c \
 	pmErr.c \

@@ -345,7 +345,7 @@ static void str_long(char *f, unsigned int v)
 
 #ifdef NEED_STR_SHORT
 /*----------------------------------------------------------------------*/
-static void str_short(char *f, unsigned int v)
+static void str_short(unsigned char *f, unsigned int v)
 /* str_long writes a long to a string, in a format suitable to later
    using with write_id */
 {

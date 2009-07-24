@@ -10,12 +10,19 @@ CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
 # Include common list of sources
 include sources.mk
 
+all:
+	@echo "This the generic Makefile for the Alan compiler"
+	@echo "The following targets are available:"
+	@echo
+	@echo "    make alan - Build the alan compiler"
+	@echo "    make unit - Build and run the unit tests"
+	@echo "    make test - Run all regression test for the compiler"
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # Main target
 #
-alan: $(MAINOBJECTS) test
+alan: unit $(MAINOBJECTS) test
 	$(CC) -o alan $(MAINOBJECTS) $(LDFLAGS)
 	@-mkdir ../bin 2> /dev/null
 
@@ -25,14 +32,14 @@ alan: $(MAINOBJECTS) test
 # Unit testing
 #
 
-unittests: unit
-	@./unit
+unit: unittests
+	@./unittests
 
-unit : $(TESTOBJS)
-	$(CC) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
+unittests : $(TESTOBJS)
+	$(CC) -o unittests $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 
 # Run all unit tests!
-test: unittests
+test: unit
 	-cd testing; ../../bin/regr
 
 #

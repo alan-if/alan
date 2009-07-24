@@ -341,7 +341,8 @@ symTest.o: symTest.c sym.c sym_x.h sym.h types.h lst.h type.h elm.h \
   context.h evt.h ins.h prop.h cnt.h description.h initialize.h article.h \
   cla.h scr.h util.h lmList.h alanCommon.h token.h srcp_x.h cla_x.h \
   elm_x.h cnt_x.h id_x.h atr_x.h exp_x.h ext_x.h ext.h lst_x.h type_x.h \
-  prop_x.h dump_x.h dump.h unit.h unitList.h ins_x.h adv_x.h adv.h
+  prop_x.h dump_x.h dump.h unit.h unitList.h ins_x.h adv_x.h adv.h \
+  context_x.h
 syn.o: syn.c syn.h srcp.h id.h sym.h types.h lst.h type.h alan.h sysdep.h \
   util.h lmList.h alanCommon.h token.h srcp_x.h acode.h lst_x.h adv_x.h \
   adv.h whr.h wht.h dump.h wrd_x.h wrd.h ins.h prop.h cnt.h description.h \
@@ -350,9 +351,9 @@ sysdep.o: sysdep.c sysdep.h
 timing.o: timing.c sysdep.h timing.h
 type.o: type.c type_x.h type.h types.h dump_x.h dump.h sysdep.h util.h \
   srcp.h lmList.h alanCommon.h token.h
-unit.o: unit.c sysdep.h acode.h unit.h lmList.h alanCommon.h types.h \
-  token.h srcp.h unitList.h
 unitList.o: unitList.c lmList.h alanCommon.h types.h token.h srcp.h
+unittests.o: unittests.c sysdep.h acode.h unit.h lmList.h alanCommon.h \
+  types.h token.h srcp.h unitList.h
 util.o: util.c util.h types.h srcp.h lmList.h alanCommon.h token.h alan.h \
   sysdep.h lst.h smScan.h lst_x.h options.h dump.h
 vrb.o: vrb.c vrb_x.h vrb.h srcp.h lst.h sym.h types.h type.h stx.h id.h \

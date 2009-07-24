@@ -32,7 +32,7 @@ include sources.mk
 
 all : alan ../bin/rndalan
 
-alan: checkTarget tm $(MAINOBJECTS) unittests
+alan: checkTarget tm $(MAINOBJECTS) unit
 	$(LD) -o alan $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
@@ -51,7 +51,7 @@ release:
 	$(MAKE) "OPTIMIZE=-O4" alan
 	$(MAKE) "OPTIMIZE=-O4" winalan
 
-winalan: checkTarget $(MAINOBJECTS) alan.res unittests
+winalan: checkTarget $(MAINOBJECTS) alan.res unit
 	$(LD) -o winalan $(MAINOBJECTS) alan.res $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp winalan.exe ../bin
@@ -72,7 +72,7 @@ clean:
 src:
 	$(MAKE) -f Makefile.src
 
-fromsrc: unittests $(MAINOBJECTS)
+fromsrc: unit $(MAINOBJECTS)
 	$(LD) -o alan $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
@@ -98,12 +98,12 @@ checkTarget:
 # Unit testing
 #
 
-unittests: unit
-	@./unit
+unit: unittests
+	@./unittests
 
 .PHONY: unit
-unit : $(TESTOBJS)
-	$(LD) -o unit $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
+unittests : $(TESTOBJS)
+	$(LD) -o unittests $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 
 .PHONY:test
 # Run all tests!

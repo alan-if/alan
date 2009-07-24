@@ -40,8 +40,8 @@ int lineNumber=0;
 /* The blorb chunk types. In addition to the chunk data, it holds the index
    information if needed */
 struct Chunk {
-  char type[5];
-  char use[5];
+  unsigned char type[5];
+  unsigned char use[5];
   int resourceNumber;
   unsigned long length;
   char *data;
