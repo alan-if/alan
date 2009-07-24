@@ -140,30 +140,26 @@ depend:
 	done
 	mv dependencies.new dependencies.mk
 
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # Version number generation
 #
-alan.version.h :
-	-@if test "`uname -n`" = "ThoNi"; then \
-		cd ..; venum -write always -all alan ; \
-		cp -p ../alan.version.h . ; \
-	fi
-
-version.h :
-	-@if test "`uname -n`" = "ThoNi"; then \
-		cd ..; venum -write always -all alan ; \
-		cp -p ../version.h . ; \
-	fi
-
-../alan.version: $(VERSIONSRCS) 
-	-@if test "`uname -n`" = "ThoNi"; then \
-		cd ..; venum alan time ; \
-	fi
+alan.version.h : ../alan.version.h
+	cp ../alan.version.h .
 
 alan.version.c:  ../alan.version
-	-@if test "`uname -n`" = "ThoNi"; then \
-		cp -p ../alan.version.c . ; \
-	fi
+	cp ../alan.version.c .
+
+version.h : ../version.h
+	cp ../version.h .
+
+../alan.version.c: ../alan.version
+../alan.version.h: ../alan.version
+../version.h: ../alan.version
+
+../alan.version: $(VERSIONSRCS) 
+	cd ..; venum alan time
 
 #
 include dependencies.mk

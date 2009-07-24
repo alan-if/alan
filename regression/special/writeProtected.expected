@@ -1,7 +1,7 @@
 
 
         997 S : SYSTEM ERROR: Could not open output file 'writeProtected.a3c'
-                for writing. in 'initEmit()', emit.c:506
+                for writing. in 'initEmit()', emit.c:495
 
 
         1 error(s).

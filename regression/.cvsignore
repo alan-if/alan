@@ -1,6 +1,7 @@
 *~
 *.a3c
 *.lis
+*.log
 *.tmp
 *.dat
 *.diff
@@ -8,3 +9,4 @@
 *.exe.stackdump
 *.sav
 *.ifid
+TEST-regr.xml

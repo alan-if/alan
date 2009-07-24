@@ -14,7 +14,7 @@ SYSTEM = `uname -s | sed 's/_.*$$//'`
 PLATFORMFLAG = -mno-cygwin
 
 OPTIMIZE = -ggdb
-COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORMFLAG) $(CRCLOG) $(SMARTALLOC) -funsigned-char
+COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORMFLAG) $(CRCLOG) $(SMARTALLOC) -funsigned-char -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 DEPENDFLAGS = -MM
 CFLAGS	= $(COMPILEFLAGS) -Wall
@@ -145,31 +145,25 @@ checkTarget:
 		/bin/echo -n $(ARCH) > .arch; \
 	fi
 
-
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # Version number generation
 #
-alan.version.h :
-	-@if test "`which venum`" != "" ; then \
-		cd ..; venum -write always -all alan ; \
-		cd interpreter; cp -p ../alan.version.h . ; \
-	fi
-
-version.h :
-	-@if test "`which venum`" != "" ; then \
-		cd ..; venum -write always -all alan ; \
-		cd interpreter; cp -p ../version.h . ; \
-	fi
-
-../alan.version: $(VERSIONSRCS) 
-	-@if test "`which venum`" != "" ; then \
-		cd ..; venum alan time ; \
-	fi
+alan.version.h : ../alan.version.h
+	cp ../alan.version.h .
 
 alan.version.c:  ../alan.version
-	-@if test "`which venum`" != "" ; then \
-		cp -p ../alan.version.c . ; \
-	fi
+	cp ../alan.version.c .
+
+version.h : ../version.h
+	cp ../version.h .
+
+../alan.version.c: ../alan.version
+../alan.version.h: ../alan.version
+../version.h: ../alan.version
+
+../alan.version: $(VERSIONSRCS) 
+	cd ..; venum alan time
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

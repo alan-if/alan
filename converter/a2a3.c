@@ -118,12 +118,11 @@ static char *removeExeResidue(char cmdLine[])
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int cmdShow)
 {
   int args;
-  int i;
 
   args = splitCommandLine(removeExeResidue(cmdLine));
 
 #ifdef SHOWARGS
-  for (i = 0; i < args; i++) {
+  for (int i = 0; i < args; i++) {
     char buf[199];
     sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
     MessageBox(NULL, buf, "Alan V2 to V3 converter", MB_OK);

@@ -49,6 +49,22 @@ static int updateColumn(int currentColumn, char *string) {
 }
 #endif
 
+
+/*======================================================================*/
+void setSubHeaderStyle(void) {
+#ifdef HAVE_GLK
+    glk_set_style(style_Subheader);
+#endif
+}
+
+
+/*======================================================================*/
+void setNormalStyle(void) {
+#ifdef HAVE_GLK
+    glk_set_style(style_Normal);
+#endif
+}
+
 /*======================================================================*/
 void newline(void)
 {

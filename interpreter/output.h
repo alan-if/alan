@@ -29,6 +29,8 @@ FILE *logFile;
 
 
 /* FUNCTIONS */
+extern void setSubHeaderStyle(void);
+extern void setNormalStyle(void);
 extern void newline(void);
 extern void para(void);
 extern void clear(void);

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------*\
 
-  location.c
+location.c
 
 \*----------------------------------------------------------------------*/
 #include "Location.h"
@@ -22,68 +22,69 @@
 /*======================================================================*/
 void go(int location, int dir)
 {
-	ExitEntry *theExit;
-	Bool ok;
-	Aword oldloc;
+    ExitEntry *theExit;
+    Bool ok;
+    Aword oldloc;
 
-	theExit = (ExitEntry *) pointerTo(instances[location].exits);
-	if (instances[location].exits != 0)
-		while (!isEndOfList(theExit)) {
-			if (theExit->code == dir) {
-				ok = TRUE;
-				if (theExit->checks != 0) {
-					if (sectionTraceOption) {
-						printf("\n<EXIT %d(%s) from ", dir,
-								(char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string));
-						traceSay(location);
-						printf("(%d), Checking:>\n", location);
-					}
-					ok = !checksFailed(theExit->checks, EXECUTE_CHECK_BODY_ON_FAIL);
-				}
-				if (ok) {
-					oldloc = location;
-					if (theExit->action != 0) {
-						if (sectionTraceOption) {
-							printf("\n<EXIT %s(%d) from ",
-									(char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string), dir);
-							traceSay(location);
-							printf("(%d), Executing:>\n", location);
-						}
-						interpret(theExit->action);
-					}
-					/* Still at the same place? */
-					if (where(HERO, FALSE) == oldloc) {
-						if (sectionTraceOption) {
-							printf("\n<EXIT %s(%d) from ",
-									(char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string), dir);
-							traceSay(location);
-							printf("(%d), Moving:>\n", location);
-						}
-						locate(HERO, theExit->target);
-					}
-				}
-				return;
-			}
-			theExit++;
+    theExit = (ExitEntry *) pointerTo(instances[location].exits);
+    if (instances[location].exits != 0)
+	while (!isEndOfList(theExit)) {
+	    if (theExit->code == dir) {
+		ok = TRUE;
+		if (theExit->checks != 0) {
+		    if (sectionTraceOption) {
+			printf("\n<EXIT %d(%s) from ", dir,
+			       (char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string));
+			traceSay(location);
+			printf("(%d), Checking:>\n", location);
+		    }
+		    ok = !checksFailed(theExit->checks, EXECUTE_CHECK_BODY_ON_FAIL);
 		}
-	error(M_NO_WAY);
+		if (ok) {
+		    oldloc = location;
+		    if (theExit->action != 0) {
+			if (sectionTraceOption) {
+			    printf("\n<EXIT %s(%d) from ",
+				   (char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string), dir);
+			    traceSay(location);
+			    printf("(%d), Executing:>\n", location);
+			}
+			interpret(theExit->action);
+		    }
+		    /* Still at the same place? */
+		    if (where(HERO, FALSE) == oldloc) {
+			if (sectionTraceOption) {
+			    printf("\n<EXIT %s(%d) from ",
+				   (char *)pointerTo(dictionary[playerWords[wordIndex-1].code].string), dir);
+			    traceSay(location);
+			    printf("(%d), Moving:>\n", location);
+			}
+			locate(HERO, theExit->target);
+		    }
+		}
+		return;
+	    }
+	    theExit++;
+	}
+    error(M_NO_WAY);
 }
 
 
 /*======================================================================*/
 Bool exitto(int to, int from)
 {
-  ExitEntry *theExit;
+    ExitEntry *theExit;
 
-  if (instances[from].exits == 0)
-    return FALSE; /* No exits */
+    if (instances[from].exits == 0)
+	return FALSE; /* No exits */
 
-  for (theExit = (ExitEntry *) pointerTo(instances[from].exits); !isEndOfList(theExit); theExit++)
-    if (theExit->target == to)
-      return TRUE;
+    for (theExit = (ExitEntry *) pointerTo(instances[from].exits); !isEndOfList(theExit); theExit++)
+	if (theExit->target == to)
+	    return TRUE;
 
-  return FALSE;
+    return FALSE;
 }
+
 
 /*======================================================================*/
 void look(void)
@@ -97,16 +98,9 @@ void look(void)
     if (anyOutput)
         para();
 
-    // TODO Refactor to some non-GLK and move this to output
-#ifdef HAVE_GLK
-    glk_set_style(style_Subheader);
-#endif
-
+    setSubHeaderStyle();
     sayInstance(current.location);
-
-#ifdef HAVE_GLK
-    glk_set_style(style_Normal);
-#endif
+    setNormalStyle();
 
     newline();
     capitalize = TRUE;

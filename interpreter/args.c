@@ -53,11 +53,7 @@ static void switches(int argc, char *argv[])
 	for (i = 1; i < argc; i++) {
 
 		if (argv[i][0] == '-') {
-#ifdef HAVE_GLK
-			switch (glk_char_to_lower(argv[i][1]))
-#else
-			switch (tolower(argv[i][1]))
-#endif
+			switch (toLower(argv[i][1]))
 			{
 			case 'i':
 				ignoreErrorOption = TRUE;
