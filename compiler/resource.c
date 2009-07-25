@@ -372,7 +372,7 @@ static void write_id(FILE *f, unsigned char *s)
 }
 
 /*----------------------------------------------------------------------*/
-static void str_id(char *f, unsigned char *s)
+static void str_id(char *f, char *s)
 /* Write a blorb identifier to a string */
 {
   int i;
