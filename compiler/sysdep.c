@@ -13,17 +13,11 @@
 
 \*----------------------------------------------------------------------*/
 
-#include <time.h>
 #include "sysdep.h"
 
+#include <time.h>
 
-#ifdef HAVE_GLK
-#include "glk.h"
-#endif
-
-#ifdef _PROTOTYPES_
 extern void syserr(char str[]);
-#endif
 
 
 #ifdef HAVE_GLK
@@ -150,9 +144,6 @@ int isLetter(unsigned int c)             /* IN - Native character to test */
 
 int toLower(unsigned int c)              /* IN - Native character to convert */
 {
-#ifdef HAVE_GLK
-  return glk_char_to_lower(c);
-#else
 #ifdef __dos__
   char *cp;
 
@@ -172,14 +163,10 @@ int toLower(unsigned int c)              /* IN - Native character to convert */
   return (isUpper(c)? c + ('a' - 'A'): c);
 #endif
 #endif
-#endif
 }
 
 int toUpper(unsigned int c)              /* IN - Native character to convert */
 {
-#ifdef HAVE_GLK
-  return glk_char_to_upper(c);
-#else
 #ifdef __dos__
   char *cp;
 
@@ -197,7 +184,6 @@ int toUpper(unsigned int c)              /* IN - Native character to convert */
     return c;
 #else
   return (isLower(c)? c - ('a' - 'A'): c);
-#endif
 #endif
 #endif
 }

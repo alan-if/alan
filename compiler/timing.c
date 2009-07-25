@@ -1,8 +1,10 @@
 /* timing.c */
 
-#include <time.h>
 #include "sysdep.h"
 #include "timing.h"
+
+#include <time.h>
+
 
 
 /* TISTART
@@ -12,6 +14,7 @@
 
 void tistart(TIBUFP tb)
 {
+    // TODO Remove times() since it is obsolete
 #ifdef MULTI
     times((struct tms *)tb);
     tb->pu_start = tb->proc_user_time;

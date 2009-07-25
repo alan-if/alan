@@ -2,6 +2,7 @@
 *.dat
 *.a3c
 *.exe
+*.ifid
 *.exe.stackdump
 *.o
 *.tmp

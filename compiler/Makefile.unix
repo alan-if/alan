@@ -10,10 +10,11 @@ CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
 # Include common list of sources
 include sources.mk
 
-all:
+help:
 	@echo "This the generic Makefile for the Alan compiler"
 	@echo "The following targets are available:"
 	@echo
+	@echo "    make all  - Build and test the alan compiler"
 	@echo "    make alan - Build the alan compiler"
 	@echo "    make unit - Build and run the unit tests"
 	@echo "    make test - Run all regression test for the compiler"
@@ -22,9 +23,17 @@ all:
 #
 # Main target
 #
-alan: unit $(MAINOBJECTS) test
+all: unit alan test
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Main target
+#
+alan: $(MAINOBJECTS)
 	$(CC) -o alan $(MAINOBJECTS) $(LDFLAGS)
-	@-mkdir ../bin 2> /dev/null
+	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
+	cp alan ../bin
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -38,19 +47,22 @@ unit: unittests
 unittests : $(TESTOBJS)
 	$(CC) -o unittests $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
 # Run all unit tests!
+#
 test: unit
 	-cd testing; ../../bin/regr
 
-#
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
+# Clean
+#
+clean:
+	-rm *.o
 
-spa.o: spa.c spa.h
-	$(CC) $(CFLAGS) -c spa.c -o spa.o 
 
-smScanx.o: smScanx.c
-
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 include dependencies.mk
 

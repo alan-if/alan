@@ -1,13 +1,14 @@
 # This file is included in other Makefiles to ensure
 # that they all use the same sets
 
+# Sources for the compiler generator ToolMaker
 TMSRCS = \
 	alan.tmk \
 	alan.lmk \
 	alan.smk \
-	alan.pmk \
-	Makefile
+	alan.pmk
 
+# C sources generated from ToolMaker
 TMCSRCS = \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
@@ -46,7 +47,7 @@ BUILDSRCS = \
 	util.c \
 	wht.c \
 
-# Excluded from BUILDSRCS because there are unit tests for these
+# Sources which have unittests defined
 UNITTESTED = \
 	add.c \
 	adv.c \
@@ -71,28 +72,26 @@ UNITTESTED = \
 	whr.c \
 	wrd.c \
 
-# More Sources required for Alan program build
+# Sources required for Alan program build
 ALANSRCS = \
 	main.c \
-	$(UNITTESTED)
-
-
-UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
-
-MAINSRCS = $(TMCSRCS) $(ALANSRCS) $(BUILDSRCS)
-MAINOBJECTS = ${MAINSRCS:.c=.o} alan.version.o
-
-VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
-
+	$(TMCSRCS) \
+	$(UNITTESTED) \
+	$(BUILDSRCS)
+ALANOBJS = ${ALANSRCS:.c=.o} alan.version.o
 
 # Sources for the test framework
-UNITSRCS = $(UNITTESTEDSRCS) \
+UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
+UNITTESTSRCS = $(UNITTESTEDSRCS) \
 	unittests.c \
 	unitList.c \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
 	smScanx.c smScSema.c
 
-TESTSRCS = $(UNITSRCS) $(BUILDSRCS)
-TESTOBJS = ${TESTSRCS:.c=.o} alan.version.o
+UNITSRCS = $(UNITTESTSRCS) $(BUILDSRCS)
+UNITOBJS = ${UNITSRCS:.c=.o} alan.version.o
+
+# Version timestamp dependencies
+VERSIONSRCS = $(ALANSRCS) $(TMSRCS) Makefile
 

@@ -2,7 +2,7 @@
 
   sysdep.h
 
-  System dependencies file for Alan Adventure Language system
+  System dependencies file for Alan Adventure Language compiler
 
   N.B. The test for symbols used here should really be of three types
   - processor name (like PC, x86, ...)
@@ -10,9 +10,7 @@
   - compiler name and version (DJGPP, CYGWIN, GCC271, THINK-C, ...)
 
   The set symbols should indicate if a feature is on or off like the GNU
-  AUTOCONFIG package does.
-
-  This is not completely done yet!
+  AUTOCONFIG package does. This is not completely done yet!
 
 \*----------------------------------------------------------------------*/
 #ifndef _SYSDEP_H_
@@ -48,7 +46,6 @@
 // At least GCC 3.x does define this for Darwin
 #define __macosx__
 #define __unix__
-#undef HAVE_WINGLK
 #endif
 
 #ifdef __MWERKS__
@@ -78,15 +75,6 @@
 #ifdef __PACIFIC__
 #define  __dos__
 #define HAVE_SHORT_FILENAMES
-#endif
-
-
-#ifdef HAVE_WINGLK
-#define HAVE_GLK
-#endif
-
-#ifdef HAVE_GARGLK
-#define HAVE_GLK
 #endif
 
 
@@ -130,13 +118,6 @@
 #define ISO 1
 #define NATIVECHARSET 0
 
-#ifdef HAVE_GLK
-#undef ISO
-#define ISO 1
-#undef NATIVECHARSET
-#define NATIVECHARSET 0
-#else	/* Glk is ISO, no matter what the OS */
-
 #ifdef __dos__
 #undef ISO
 #define ISO 0
@@ -159,7 +140,6 @@
 #define NATIVECHARSET 1
 #endif
 
-#endif
 
 /**************************/
 /* Strings for file modes */
@@ -189,10 +169,6 @@
 /* Have termio? */
 /****************/
 
-#ifdef HAVE_GLK
-/* don't need TERMIO */
-#else
-
 #ifdef __CYGWIN__
 #define HAVE_TERMIO
 #endif
@@ -201,56 +177,19 @@
 #define HAVE_TERMIO
 #endif
 
-#endif
 
 /*******************************/
 /* Is ANSI control available? */
 /*******************************/
 
-#ifdef HAVE_GLK
-/* don't need ANSI */
-#else
-
 #ifdef __CYGWIN__
 #define HAVE_ANSI
 #endif
 
-#endif
-
-/******************************/
-/* Use the READLINE function? */
-/* Why not?                   */
-/******************************/
-#define USE_READLINE
-#ifdef HAVE_GLK
-/* Glk always uses readline(), no matter what the OS */
-#define USE_READLINE
-#else
-
-#ifdef __unix__
-#define USE_READLINE
-#endif
-
-#ifdef __dos__
-#define USE_READLINE
-#endif
-
-#ifdef __win__
-#define USE_READLINE
-#endif
-
-#endif
 
 /* Special cases and definition overrides */
 #ifdef __unix__
 #define MULTI
-#endif
-
-
-#ifdef __mac__
-
-extern char *strdup(char *str);
-
 #endif
 
 
@@ -260,12 +199,6 @@ extern char *strdup(char *str);
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE  1
 
-#endif
-
-
-/* Some have stricmp() others strcasecmp() */
-#ifdef __macosx__
-#define stricmp(s1, s2) strcasecmp(s1, s2)
 #endif
 
 

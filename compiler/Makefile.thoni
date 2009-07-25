@@ -1,0 +1,159 @@
+#######################################################################
+# This Makefile is for building the Alan Compiler from scratch
+# It only works on ThoNi's machine, if you are porting try starting
+# from one of the other Makefiles, e.g. Makefile.unix
+# Copy it to Makefile and go from there
+#######################################################################
+
+# Cygwin or MingW?
+PLATFORM = -mno-cygwin
+#PLATFORM = 
+
+OPTIMIZE = -ggdb
+
+CFLAGS 	+= $(OPTIMIZE) -Wall -funsigned-char $(PLATFORM)
+LDFLAGS	+= $(PLATFORM)
+
+CC	= gcc
+CPP	= gcc -MM -ansi
+LD	= gcc
+
+
+include sources.mk
+
+
+all : ../bin/alan ../bin/rndalan
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Main target : Alan
+#
+alan: checkTarget tm $(ALANOBJS) unit
+	$(LD) -o alan $(LDFLAGS) $(ALANOBJS)
+	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
+	cp alan.exe ../bin
+
+alanmain: $(ALANOBJS)
+	$(LD) -o alan $(LDFLAGS) $(ALANOBJS)
+	-@if test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
+	cp alan.exe ../bin
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# release
+#
+release:
+	$(MAKE) "OPTIMIZE = -O4" alan
+	$(MAKE) "OPTIMIZE = -O4" winalan
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# rndalan - Progam to generate a randomized Alan source
+#
+rndalan: rndalan.o
+	$(LD) $(LDFLAGS) -o rndalan rndalan.o
+	-@if ! test -f ../bin; then mkdir ../bin 2> /dev/null ; fi
+	cp rndalan ../bin
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# WinAlan
+#
+winalan: PLATFORM = -DWINGUI -mno-cygwin -mwindows
+
+winalan: checkTarget $(ALANOBJS) alan.res unit
+	$(LD) $(LDFLAGS) -o winalan $(ALANOBJS) alan.res
+	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
+	cp winalan ../bin
+
+alan.res: alan.rc alan.ico
+	windres $< -O coff -o $@
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+clean:
+	-rm *.o
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+src:
+	$(MAKE) -f Makefile.src
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+.tmstamp: $(TMSRCS)
+	$(MAKE) -f Makefile.tm
+
+.PHONY: tm
+tm:
+	-@if test "`uname -n`" = "ThoNi"; then \
+		$(MAKE) -f Makefile.tm ; \
+	fi
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+ARCH	= `echo $(PLATFORM) $(OPTIMIZE)`
+.PHONY: checkTarget
+checkTarget:
+	-@if ! test -f .arch; then echo "none" > .arch; fi
+	-@if test "`cat .arch`" != "$(ARCH)"; then \
+		echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
+		rm *.o; \
+		/bin/echo -n $(ARCH) > .arch; \
+	fi
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Unit testing
+#
+
+unit: unittests
+	@./unittests
+
+.PHONY: unit
+unittests : $(UNITOBJS)
+	$(LD) -o unittests $(LDFLAGS) $(UNITOBJS)
+
+.PHONY:test
+# Run all tests!
+test : unittests
+	-cd testing; regr
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+depend:
+	@for f in *.c; \
+	  do \
+	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
+	done
+	mv dependencies.new dependencies.mk
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Version number generation
+#
+alan.version.h : ../alan.version.h
+	cp ../alan.version.h .
+
+alan.version.c:  ../alan.version
+	cp ../alan.version.c .
+
+version.h : ../version.h
+	cp ../version.h .
+
+../alan.version.c: ../alan.version
+../alan.version.h: ../alan.version
+../version.h: ../alan.version
+
+../alan.version: $(VERSIONSRCS) 
+	cd ..; venum alan time
+
+#
+include dependencies.mk

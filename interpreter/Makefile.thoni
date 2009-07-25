@@ -1,10 +1,9 @@
-# Makefile for Alan interpreters, arun, winarun et al.
-# Windows: CygWin32/Mingw32
-# Darwin: GCC
-# Note: uses a lot of special stuff, if you are porting, start from
-# one of the other makefiles, such as Makefile.unix
-
-VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
+#######################################################################
+# This Makefile is for building the Alan Compiler from scratch
+# It only works on ThoNi's machines, if you are porting try starting
+# from one of the other Makefiles, e.g. Makefile.unix
+# Copy it to Makefile and go from there
+#######################################################################
 
 # The SYSTEM is used to find out which applications can be built
 # On cygwin the flag -o gives a better name
@@ -79,6 +78,8 @@ arun: unit checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIBS)
 	cp $@ ../bin
 
+
+VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 #######################################################################
 # Settings for Windows GLK variant
