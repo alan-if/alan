@@ -38,22 +38,10 @@
 #endif
 #endif
 
-#ifdef THINK_C
-#define __mac__
-#endif
-
 #ifdef __APPLE__
 // At least GCC 3.x does define this for Darwin
 #define __macosx__
 #define __unix__
-#endif
-
-#ifdef __MWERKS__
-#ifdef macintosh
-#define __mac__
-#else
-#define __dos__
-#endif
 #endif
 
 #ifdef DOS
@@ -106,9 +94,6 @@
 #include <string.h>
 #endif
 
-#ifdef __MWERKS__
-#define strdup _strdup
-#endif
 
 /***********************/
 /* ISO character sets? */
@@ -133,7 +118,7 @@
 #endif
 
 /* Old Macs uses other CHARSET, Mac OS X uses ISO */
-#ifdef __mac__
+#ifdef __old_mac__
 #undef ISO
 #define ISO 0
 #undef NATIVECHARSET
