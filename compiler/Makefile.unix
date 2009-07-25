@@ -18,7 +18,7 @@ help:
 	@echo "    make all  - Build and test the alan compiler"
 	@echo "    make alan - Build the alan compiler"
 	@echo "    make unit - Build and run the unit tests"
-	@echo "    make test - Run all regression test for the compiler"
+	@echo "    make clean
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
