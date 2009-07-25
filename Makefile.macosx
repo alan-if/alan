@@ -4,7 +4,7 @@
 VERSION	= `cat LASTRELEASE`
 
 dist: alan arun
-	tar zcvf alan$(VERSION).macosx.ppc.tgz alan arun alan.readme.macosx alan.readme CHANGES
+	tar zcvf alan$(VERSION).macosx.x86.tgz alan arun alan.readme.macosx alan.readme CHANGES
 
 alan: compiler/alan
 	cp compiler/alan .
@@ -17,3 +17,7 @@ arun: interpreter/arun
 
 interpreter/arun:
 	cd interpreter; make -f Makefile.unix
+
+alan.readme.macosx: compiler/alan interpreter/arun
+	@echo "alan.readme.macosx is not updated"
+	exit 1
