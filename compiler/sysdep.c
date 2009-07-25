@@ -100,7 +100,7 @@ static char uppChrs[] =
 
 /* Theses work on native character sets */
 
-static unsigned char spcChrs[] = " \t\n";
+static char spcChrs[] = " \t\n";
 
 #ifdef __amiga__
 
@@ -112,9 +112,9 @@ static unsigned char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304
 #else
 
 /* Use native characters */
-static unsigned char lowChrs[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
+static char lowChrs[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
 
-static unsigned char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
+static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
 
 #endif
 #endif
