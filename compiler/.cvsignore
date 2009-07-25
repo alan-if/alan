@@ -53,3 +53,4 @@ wintest.c
 unittest.jpg
 unittest
 unit
+TEST-regr.xml

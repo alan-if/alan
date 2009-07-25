@@ -11,12 +11,12 @@ include sources.mk
 
 
 #-- MAIN TARGET
-alan: $(MAINOBJECTS) sysdep.o version.o
-	ln -o $@ -g $(MAINOBJECTS) sysdep.o version.o $(LDFLAGS)
+alan: $(ALANOBJS) sysdep.o version.o
+	ln -o $@ -g $(ALANOBJS) sysdep.o version.o $(LDFLAGS)
 	copy alan /
 
 # There is a bug in the 5.2a version of the Aztec C which generates
-# erroneous assembler, this is th emake it possible to hand edit this
+# erroneous assembler, this is to emake it possible to hand edit this
 arun.asm : arun.c
 	cc $(CFLAGS) -at arun.c
 	echo "Hand edit the arun.asm file!"

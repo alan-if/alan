@@ -110,7 +110,7 @@ checkTarget:
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Unit testing
+# Testing
 #
 
 unit: unittests
@@ -122,7 +122,7 @@ unittests : $(UNITOBJS)
 
 .PHONY:test
 # Run all tests!
-test : unittests
+test : unit
 	-cd testing; regr
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -2,10 +2,11 @@
 #
 
 CC = gcc
+CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
 
+LD = gcc
 LDFLAGS = -g
 
-CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
 
 # Include common list of sources
 include sources.mk
@@ -30,8 +31,8 @@ all: unit alan test
 #
 # Main target
 #
-alan: $(MAINOBJECTS)
-	$(CC) -o alan $(MAINOBJECTS) $(LDFLAGS)
+alan: $(ALANOBJS)
+	$(LD) -o alan $(ALANOBJS) $(LDFLAGS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan ../bin
 
@@ -44,8 +45,8 @@ alan: $(MAINOBJECTS)
 unit: unittests
 	@./unittests
 
-unittests : $(TESTOBJS)
-	$(CC) -o unittests $(CFLAGS) $(TESTOBJS) $(LDFLAGS)
+unittests : $(UNITOBJS)
+	$(LD) -o unittests $(CFLAGS) $(UNITOBJS) $(LDFLAGS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
