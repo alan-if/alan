@@ -52,5 +52,6 @@ wintest.c
 *.blc
 unittest.jpg
 unittest
+unittests
 unit
 TEST-regr.xml
