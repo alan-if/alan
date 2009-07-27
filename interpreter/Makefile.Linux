@@ -1,7 +1,7 @@
-# Makefile for Alan interpreter to be built with Glk for Linux (using gcc)
+# Makefile for Alan interpreter to be built with or w/o Glk for Linux (using gcc)
 
 # OS-specific definitions
-OSDEFS = -D__unix__ -DUSE_READLINE -DHAVE_ANSI
+OSDEFS = -D__unix__ -DHAVE_ANSI
 #OSDEFS = -D__unix__
 
 
@@ -60,8 +60,8 @@ glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
 termarun : $(TERMARUNOBJECTS)
 	$(LINK) -o $(TARGET) $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 
-dumpacd: dumpacd.c reverse.o ../compiler/spa.c acode.h sysdep.c
-	$(LINK) -o dumpacd $(LDFLAGS) dumpacd.o reverse.o spa.o
+dumpacd: dumpacd.o reverse.o ../compiler/spa.o acode.h sysdep.o
+	$(LINK) -o dumpacd $(LDFLAGS) dumpacd.o reverse.o ../compiler/spa.o sysdep.o
 
 install: $(TARGET)
 	$(INSTALL) $(INSTFLAGS) $(TARGET) $(INSTALLDIR)

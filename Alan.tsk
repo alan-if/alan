@@ -4,16 +4,16 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>655.89</origest>
-<currest>664.89</currest>
+<origest>656.89</origest>
+<currest>665.89</currest>
 <elapsed>477.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>94</origest>
-<currest>95</currest>
+<origest>95</origest>
+<currest>96</currest>
 <elapsed>18</elapsed>
 <isopen>1</isopen>
 <task>
@@ -337,8 +337,8 @@ Or possibly that the compiler checks that the indicators match for all syntax sy
 <desc>Version 3.0beta1</desc>
 <notes/>
 <priority>2</priority>
-<origest>36</origest>
-<currest>36</currest>
+<origest>37</origest>
+<currest>37</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -350,6 +350,26 @@ Or possibly that the compiler checks that the indicators match for all syntax sy
 
 Tasks:
 Check if windows-dist contains all the .DLL:s that the build seem to require, possibly check with Tor</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Rebuild Makefiles to include rules.mk</desc>
+<notes>If rules.mk contains build commands using some predefined platform, compiler and variant specific MACRO settings they could be made very simple, like:
+
+# Makefile to port Alan compiler to MacOSX
+
+OSDEFS =
+COMPILERDEFS = -O4
+LINKERDEFS = 
+
+include rules.mk
+include sources.mk
+include dependencies.mk
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

@@ -1,4 +1,4 @@
-# Makefile for Alan interpreter to be built with Glk for Unix (using gcc)
+# Makefile for Alan interpreter to be built with or w/o Glk for Unix (using gcc)
 
 # You probably have to change some of these settings
 # OS-specific definitions
