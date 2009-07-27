@@ -6,7 +6,7 @@
 OSDEFS = -D__unix__
 
 
-# -- Glk definitions. Comment all of these out to disable Glk.
+# -- Glk definitions. Uncomment all of these to enable Glk.
 #GLKPREFIX = /usr/local
 #GLKPREFIX = ../../WindowsGLK
 #GLKINCLUDEDIR = $(GLKPREFIX)/Include

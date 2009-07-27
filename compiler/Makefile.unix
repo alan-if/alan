@@ -4,8 +4,8 @@
 CC = gcc
 CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
 
-LD = gcc
-LDFLAGS = -g
+LINK = gcc
+LINKFLAGS = -g
 
 
 # Include common list of sources
@@ -32,7 +32,7 @@ all: unit alan test
 # Main target
 #
 alan: $(ALANOBJS)
-	$(LD) -o alan $(ALANOBJS) $(LDFLAGS)
+	$(LINK) -o alan $(ALANOBJS) $(LINKFLAGS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan ../bin
 
@@ -46,7 +46,7 @@ unit: unittests
 	@./unittests
 
 unittests : $(UNITOBJS)
-	$(LD) -o unittests $(CFLAGS) $(UNITOBJS) $(LDFLAGS)
+	$(LINK) -o unittests $(CFLAGS) $(UNITOBJS) $(LINKFLAGS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

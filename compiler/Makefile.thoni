@@ -11,12 +11,12 @@ PLATFORM = -mno-cygwin
 
 OPTIMIZE = -ggdb
 
-CFLAGS 	+= $(OPTIMIZE) -Wall -funsigned-char $(PLATFORM)
-LDFLAGS	+= $(PLATFORM)
+CFLAGS 		= $(OPTIMIZE) -Wall -funsigned-char $(PLATFORM)
+LINKFLAGS	= $(PLATFORM)
 
 CC	= gcc
 CPP	= gcc -MM -ansi
-LD	= gcc
+LINK	= gcc
 
 
 include sources.mk
@@ -29,12 +29,12 @@ all : ../bin/alan ../bin/rndalan
 # Main target : Alan
 #
 alan: checkTarget tm $(ALANOBJS) unit
-	$(LD) -o alan $(LDFLAGS) $(ALANOBJS)
+	$(LINK) -o alan $(LINKFLAGS) $(ALANOBJS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
 
 alanmain: $(ALANOBJS)
-	$(LD) -o alan $(LDFLAGS) $(ALANOBJS)
+	$(LINK) -o alan $(LINKFLAGS) $(ALANOBJS)
 	-@if test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
 
@@ -53,7 +53,7 @@ release:
 # rndalan - Progam to generate a randomized Alan source
 #
 rndalan: rndalan.o
-	$(LD) $(LDFLAGS) -o rndalan rndalan.o
+	$(LINK) $(LINKFLAGS) -o rndalan rndalan.o
 	-@if ! test -f ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp rndalan ../bin
 
@@ -65,7 +65,7 @@ rndalan: rndalan.o
 winalan: PLATFORM = -DWINGUI -mno-cygwin -mwindows
 
 winalan: checkTarget $(ALANOBJS) alan.res unit
-	$(LD) $(LDFLAGS) -o winalan $(ALANOBJS) alan.res
+	$(LINK) $(LINKFLAGS) -o winalan $(ALANOBJS) alan.res
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp winalan ../bin
 
@@ -118,7 +118,7 @@ unit: unittests
 
 .PHONY: unit
 unittests : $(UNITOBJS)
-	$(LD) -o unittests $(LDFLAGS) $(UNITOBJS)
+	$(LINK) -o unittests $(LINKFLAGS) $(UNITOBJS)
 
 .PHONY:test
 # Run all tests!
