@@ -3,7 +3,7 @@
 
 VERSION	= `cat LASTRELEASE`
 
-dist: alan arun
+dist: test alan arun
 	tar zcvf alan$(VERSION).macosx.x86.tgz alan arun alan.readme.macosx alan.readme CHANGES
 
 alan: compiler/alan
@@ -21,6 +21,9 @@ interpreter/arun:
 alan.readme.macosx: compiler/alan interpreter/arun
 	@echo "alan.readme.macosx is not updated"
 	exit 1
+
+test:
+	cd regression; ../bin/regr
 
 clean:
 	cd interpreter; make -f Makefile.macosx clean
