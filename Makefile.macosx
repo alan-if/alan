@@ -16,8 +16,12 @@ arun: interpreter/arun
 	cp interpreter/arun .
 
 interpreter/arun:
-	cd interpreter; make -f Makefile.unix
+	cd interpreter; make -f Makefile.macosx
 
 alan.readme.macosx: compiler/alan interpreter/arun
 	@echo "alan.readme.macosx is not updated"
 	exit 1
+
+clean:
+	cd interpreter; make -f Makefile.macosx clean
+	cd compiler; make -f Makefile.macosx clean

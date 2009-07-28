@@ -3,7 +3,7 @@
 # You probably have to change some of these settings
 # OS-specific definitions
 #OSDEFS = -D__unix__ -DHAVE_ANSI
-OSDEFS = -D__unix__
+OSDEFS =
 
 
 # -- Glk definitions. Uncomment all of these to enable Glk.
@@ -17,9 +17,6 @@ OSDEFS = -D__unix__
 #GLKSRCS = glkstart.c glkio.c winglk.c
 
 
-# Define this to make interpreter log each crc calculation step
-#CRCLOG = -DCRCLOG
-
 # -- Where do you want to put it?
 #
 INSTALLDIR = /usr/local/bin
@@ -31,7 +28,7 @@ TARGET = arun
 # Define the program name
 PROGNAME=-DPROGNAME=\"$(TARGET)\"
 
-ARUNOPTS = $(CRCLOG) $(PROGNAME) $(GLK)
+ARUNOPTS = $(PROGNAME) $(GLK)
 
 CC = gcc
 CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
