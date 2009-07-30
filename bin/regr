@@ -34,10 +34,14 @@ verify()
 	if diff -q -b $theCase.output $theCase.expected 1> /dev/null
 	then
 	    ok=`expr $ok + 1`
-	    tput cr
-	    /bin/echo -n "                                                            "
-	    tput cr
-	    #tput ce - This should really work, but doesn't on cygwin ;-(
+            if [ $interactive = 1 ] ; then
+	        #tput ce #- This should really work, but doesn't on cygwin ;-( so we need to do the following three lines instead
+	        tput cr
+	        /bin/echo -n "                                                            "
+	        tput cr
+            else
+	        echo "ok"
+	    fi
 	    rm $theCase.output
 	else
 	    failed=`expr $failed + 1`
@@ -93,6 +97,20 @@ ok=0
 failed=0
 suspended=0
 new=0
+
+interactive=0
+if [ $# -gt 0 ] ; then
+  if [ "$1" = "-n" ] ; then
+    interactive=0
+    shift
+  elif [ "$1" = "-i" ] ; then
+    interactive=1
+    shift
+  else
+    echo "Unknown switch '$1', '-n' for non-interactive, '-i' for interactive output mode"
+    exit
+  fi
+fi
 
 if [ $# = 0 ] ; then
   recurse

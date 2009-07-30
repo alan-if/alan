@@ -4,17 +4,17 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>659.89</origest>
-<currest>668.89</currest>
-<elapsed>477.89</elapsed>
+<origest>661.89</origest>
+<currest>670.89</currest>
+<elapsed>478.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
 <priority>1</priority>
-<origest>98</origest>
-<currest>99</currest>
-<elapsed>18</elapsed>
+<origest>100</origest>
+<currest>101</currest>
+<elapsed>19</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Version 3.0alpha6</desc>
@@ -161,9 +161,9 @@ Also need to separate the path and the basename since the user will want to use 
 <desc>Version 3.0alpha7</desc>
 <notes/>
 <priority>2</priority>
-<origest>13</origest>
-<currest>13</currest>
-<elapsed>13</elapsed>
+<origest>14</origest>
+<currest>14</currest>
+<elapsed>14</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>"undo" as a response to "quit?" undoes wrong command</desc>
@@ -332,13 +332,22 @@ Or possibly that the compiler checks that the indicators match for all syntax sy
 <elapsed>1</elapsed>
 <isopen>1</isopen>
 </task>
+<task>
+<desc>Add a command line option to REGR to not overwrite passing testnames</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
 </task>
 <task>
 <desc>Version 3.0beta1</desc>
 <notes/>
 <priority>2</priority>
-<origest>40</origest>
-<currest>40</currest>
+<origest>41</origest>
+<currest>41</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 <task>
@@ -351,14 +360,18 @@ Or possibly that the compiler checks that the indicators match for all syntax sy
 <isopen>1</isopen>
 </task>
 <task>
-<desc>GarArun</desc>
-<notes>Done:
-- should play special/resources including sound
-- distributed as a slot in replacement, name = Alan
-- uploaded to website
+<desc>Divide interpreter source into common, arun, gararun, glkarun, winarun</desc>
+<notes>So the directory structure should be something like:
 
-Tasks:
-Check if windows-dist contains all the .DLL:s that the build seem to require, possibly check with Tor</notes>
+alan
++compiler
++interpreters
+++common : arun.a
+++arun : arun.c
+++winarun : winarun.c
+++glkarun : glkarun.c
+++gararun : gararun.c
+</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -386,30 +399,25 @@ include dependencies.mk
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Enhance the status line in GarArun using styles?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every Container?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>How do we know that THIS ISA CONTAINER if guarded by a IF ISA CONTAINER?</desc>
-<notes>If this Isa container Then
-  List this.
-End If.
+<desc>Define MAC_PLATFORM et al. and GUI/CLI/GLK in the makefile</desc>
+<notes>It is hard to find reliable compiler defined macros. It is better to feed them to the builds from the Makefile.
 
-Does this really compile?</notes>
+Possibly the Makefile can automatically find which platform it is using 'uname'</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>GarArun</desc>
+<notes>Done:
+- should play special/resources including sound
+- distributed as a slot in replacement, name = Alan
+- uploaded to website
+
+Tasks:
+Check if windows-dist contains all the .DLL:s that the build seem to require, possibly check with Tor</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -473,17 +481,6 @@ Create a test case that exhibits the problem, if it exists.</notes>
 <isopen>1</isopen>
 </task>
 <task>
-<desc>Define MAC_PLATFORM et al. and GUI/CLI/GLK in the makefile</desc>
-<notes>It is hard to find reliable compiler defined macros. It is better to feed them to the builds from the Makefile.
-
-Possibly the Makefile can automatically find which platform it is using 'uname'</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
 <desc>Prohibit 'Locate l At l.' and "Locate c In c."</desc>
 <notes/>
 <priority>2</priority>
@@ -511,6 +508,15 @@ It can be used by the compiler to add arbitrary info like
 "hip"/"hop"
 
 primarily intended to allow authors to insert identificating values into the Acode file, as requested by the Babel Treaty.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Enhance the status line in GarArun using styles?</desc>
+<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -589,7 +595,29 @@ No, a WHEN must apply to checks also, which means that only checks with a matchi
 <isopen>1</isopen>
 </task>
 <task>
+<desc>How do we know that THIS ISA CONTAINER if guarded by a IF ISA CONTAINER?</desc>
+<notes>If this Isa container Then
+  List this.
+End If.
+
+Does this really compile?</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
 <desc>Menu icons in Arun menu in Winarun</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every Container?</desc>
 <notes/>
 <priority>2</priority>
 <origest>1</origest>

@@ -5,10 +5,6 @@
 # Copy it to Makefile and go from there
 #######################################################################
 
-# The SYSTEM is used to find out which applications can be built
-# On cygwin the flag -o gives a better name
-SYSTEM = `uname -s | sed 's/_.*$$//'`
-
 # On cygwin we try to build without cygwin1.dll if we can, applications can unset this if they need to
 PLATFORM = -mno-cygwin
 
@@ -37,19 +33,6 @@ include sources.mk
 
 ###############################################################
 all:
-	$(MAKE) $(SYSTEM)
-
-fromsrc: arun
-
-Darwin: PLATFORM =
-Darwin:
-	$(MAKE) unit
-	$(MAKE) arun
-	$(MAKE) dumpacd
-
-
-CYGWIN: PLATFORM = -mno-cygwin
-CYGWIN:
 	$(MAKE) arun
 	$(MAKE) winarun
 	$(MAKE) glkarun
