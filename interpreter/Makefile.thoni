@@ -33,11 +33,11 @@ include sources.mk
 
 ###############################################################
 all:
-	$(MAKE) arun
-	$(MAKE) winarun
-	$(MAKE) glkarun
-	$(MAKE) gararun
-	$(MAKE) dumpacd
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" gararun
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" dumpacd
 
 
 clean:
@@ -50,8 +50,8 @@ clean:
 release: SMARTALLOC =
 release: PLATFORM = -mno-cygwin
 release: OPTIMIZE=-O4
-release: 
-	$(MAKE) $(SYSTEM)
+release: all
+
 
 
 

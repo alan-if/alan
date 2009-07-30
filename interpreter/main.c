@@ -768,7 +768,7 @@ void run(void)
 {
 	int i;
 	Bool playerChangedState;
-	Stack theStack;
+	Stack theStack = NULL;
 
 	openFiles();
 	load();			/* Load program */
