@@ -4,7 +4,7 @@
 
 VERSION	= `cat LASTRELEASE`
 
-dist: alan arun test
+all dist: alan arun test
 	tar zcvf alan$(VERSION).macosx.x86.tgz alan arun alan.readme.macosx alan.readme CHANGES
 
 alan: compiler/alan
