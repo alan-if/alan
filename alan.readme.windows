@@ -11,8 +11,4 @@ can also be downloaded from:
 
 http://www.ifarchive.org/if-archive/programming/glk/implementations/WindowsGlk-?.zip
 
-The Windows plain command line version 'arun.exe' requires a
-"cygwin1.dll". The Cygwin DLL can be installed from
-http://www.cygwin.org, click "Install now" and unselect everything to
-get just the DLL.
 

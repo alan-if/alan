@@ -1,4 +1,5 @@
-# Top level Makefile for Alan on MacosX
+#
+# Top level Makefile for porting Alan to MacosX
 #
 
 VERSION	= `cat LASTRELEASE`

@@ -1,3 +1,21 @@
+Changes in V3.0alpha7:
+- BUG: "undo" as a response to "Quit?" undid the wrong command in some cases
+- BUG: verb bodies in outer nested locations did not get executed
+- Prohibited locating actors into containers
+- BUG: aggregating over things in restricted containers did not consider the
+  class restriction so did not find e.g. attributes defined for that class
+- BUG: In loops with an "In <container>" filter this did not restrict the
+  class to the classes taken by the container
+- BUG: Isa expressions and loop filters did a general lookup for the class
+  name, so would find e.g. default syntax parameters
+- BUG: WinArun could try to restore from an empty file reference in some cases
+- BUG: If a multiple or omnipotent indicator was used for one syntax which shared
+  a common prefix (starting with the same verb e.g.) would sometimes miss the
+  indicator. Changed this to make an indicator implicitly apply to all syntaxes
+  with the same prefix.
+- Extensive refactoring of the sources and Makefiles
+- Removed support for the Metrowerks (old Mac) compiler
+
 Changes in V3.0alpha6:
 - Bug: Fixed UNDO directly after restart would crash
 - Bug: Fixed scheduled events imminent to run would get lost after undo

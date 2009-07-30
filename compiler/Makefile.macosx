@@ -1,6 +1,10 @@
-# Makefile for alan compiler on MacOSX
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
+# Makefile for porting Alan compiler to MacOSX
+#
+
 OSDEFS = -arch ppc -arch i386
+
 CC = gcc
 CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
 
