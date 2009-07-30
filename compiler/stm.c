@@ -533,7 +533,7 @@ static void analyzeUse(Statement *stm, Context *context)
   the actor is assumed to be the one we are in (it is an error if we
   are not). */
 
-  Symbol *symbol;
+  Symbol *symbol = NULL;
   Script *script;
 
   if (stm->fields.use.actorExp == NULL && context->kind != CLASS_CONTEXT && context->kind != INSTANCE_CONTEXT)
