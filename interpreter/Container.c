@@ -36,7 +36,7 @@ static int sumAttributeInContainer(
   int sum = 0;
 
   for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
-    if (in(instanceIndex, containerIndex, TRUE)) {		/* Then it's directly in this cont */
+    if (in(instanceIndex, containerIndex, TRUE)) {	/* Then it's directly in this cont */
       if (instances[instanceIndex].container != 0)	/* This is also a container! */
 	sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
       sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);

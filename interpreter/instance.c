@@ -885,7 +885,7 @@ void locate(int instance, int whr)
                 fail = TRUE;
                 return;
             }
-            current.instance = previousInstance;
+            current.instance = previousInstance;  // TODO: this should be done for the above return as well as before exiting the extract checks
         }
         if (theContainer->extractStatements != 0) {
             if (sectionTraceOption) {
