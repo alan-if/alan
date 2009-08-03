@@ -130,23 +130,23 @@ depend:
 #
 # Version number generation
 #
-alan.version.h : ../alan.version
+alan.version.h : ../alan.version.h
 	cp ../alan.version.h .
 
-alan.version.c:  ../alan.version
+alan.version.c:  ../alan.version.c
 	cp ../alan.version.c .
 
 version.h : ../version.h
 	cp ../version.h .
 
 ../alan.version.c:
-	cd ..; venum alan time
+	cd ..; venum -write always alan time
 
 ../alan.version.h:
-	cd ..; venum alan time
+	cd ..; venum -write always alan time
 
 ../version.h:
-	cd ..; venum alan time
+	cd ..; venum -write always alan time
 
 ../alan.version: $(VERSIONSRCS) 
 	cd ..; venum -write always alan time
