@@ -1,10 +1,10 @@
 #include "AltInfo.h"
 
 /*----------------------------------------------------------------------*\
-
-  An info node about the Verb Alternatives found and possibly executed
-
-\*----------------------------------------------------------------------*/
+ 
+ An info node about the Verb Alternatives found and possibly executed
+ 
+ \*----------------------------------------------------------------------*/
 
 #include "types.h"
 
@@ -24,12 +24,12 @@
 /*======================================================================*/
 void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class)
 {
-  altInfo->level = level;
-  altInfo->parameter = parameter;
-  altInfo->instance = instance;
-  altInfo->class = class;
-  altInfo->done = FALSE;
-  altInfo->end = FALSE;
+	altInfo->level = level;
+	altInfo->parameter = parameter;
+	altInfo->instance = instance;
+	altInfo->class = class;
+	altInfo->done = FALSE;
+	altInfo->end = FALSE;
 }
 
 
@@ -45,25 +45,25 @@ static void traceInstanceAndItsClass(AltInfo *alt)
     traceSay(parameters[alt->parameter-1].instance);
     printf(")");
     if (alt->class != NO_CLASS)
-      printf(", inherited from class #%d (%s)", alt->class, idOfClass(alt->class));
+		printf(", inherited from class #%d (%s)", alt->class, idOfClass(alt->class));
 }
 
 
 /*----------------------------------------------------------------------*/
 static void traceAltInfo(AltInfo *alt) {
-  switch (alt->level) {
-  case GLOBAL_LEVEL:
-    printf("GLOBAL");
-    break;
-  case LOCATION_LEVEL:
-    printf("in location #%d (", alt->instance);
-    traceInstanceAndItsClass(alt);
-    break;
-  case PARAMETER_LEVEL:
-    printf("in parameter #%d (", alt->parameter);
-    traceInstanceAndItsClass(alt);
-    break;
-  }
+	switch (alt->level) {
+		case GLOBAL_LEVEL:
+			printf("GLOBAL");
+			break;
+		case LOCATION_LEVEL:
+			printf("in location #%d (", alt->instance);
+			traceInstanceAndItsClass(alt);
+			break;
+		case PARAMETER_LEVEL:
+			printf("in parameter #%d (", alt->parameter);
+			traceInstanceAndItsClass(alt);
+			break;
+	}
 }
 
 
@@ -95,16 +95,16 @@ Bool checkFailed(AltInfo *altInfo, Bool execute)
 /*----------------------------------------------------------------------*/
 static void traceVerbExecution(AltInfo *alt)
 {
-  if (sectionTraceOption) {
-    printf("\n<VERB %d, ", current.verb);
-    traceAltInfo(alt);
-    printf(", DOES");
-    switch (alt->alt->qual) {
-    case Q_BEFORE: printf(" (BEFORE)"); break;
-    case Q_ONLY: printf(" (ONLY)"); break;
-    case Q_AFTER: printf(" (AFTER)"); break;
-    case Q_DEFAULT: break;
-    }
+	if (sectionTraceOption) {
+		printf("\n<VERB %d, ", current.verb);
+		traceAltInfo(alt);
+		printf(", DOES");
+		switch (alt->alt->qual) {
+			case Q_BEFORE: printf(" (BEFORE)"); break;
+			case Q_ONLY: printf(" (ONLY)"); break;
+			case Q_AFTER: printf(" (AFTER)"); break;
+			case Q_DEFAULT: break;
+		}
     printf(":>\n");  }
 }
 
@@ -112,20 +112,20 @@ static void traceVerbExecution(AltInfo *alt)
 /*======================================================================*/
 Bool executedOk(AltInfo *altInfo)
 {
-  fail = FALSE;
-  if (!altInfo->done && altInfo->alt->action != 0) {
-    traceVerbExecution(altInfo);
-    current.instance = altInfo->instance;
-    interpret(altInfo->alt->action);
-  }
-  altInfo->done = TRUE;
-  return !fail;
+	fail = FALSE;
+	if (!altInfo->done && altInfo->alt->action != 0) {
+		traceVerbExecution(altInfo);
+		current.instance = altInfo->instance;
+		interpret(altInfo->alt->action);
+	}
+	altInfo->done = TRUE;
+	return !fail;
 }
 
 
 /*======================================================================*/
 Bool executable(AltInfo *altInfo) {
-  return altInfo->alt != NULL && altInfo->alt->action != 0;
+	return altInfo->alt != NULL && altInfo->alt->action != 0;
 }
 
 
@@ -133,8 +133,9 @@ Bool executable(AltInfo *altInfo) {
 AltInfo *duplicateAltInfoArray(AltInfo original[]) {
 	int size;
 	AltInfo *duplicate;
-
-	for (size = 0; original[size].end != TRUE; size++);
+	
+	for (size = 0; original[size].end != TRUE; size++)
+		;
 	size++;
 	duplicate = allocate(size*sizeof(AltInfo));
 	memcpy(duplicate, original, size*sizeof(AltInfo));
@@ -146,9 +147,10 @@ AltInfo *duplicateAltInfoArray(AltInfo original[]) {
 int lastAltInfoIndex(AltInfo altInfo[])
 {
 	int altIndex;
-
+	
+	/* Loop to last alternative */
 	for (altIndex = -1; !altInfo[altIndex+1].end; altIndex++)
-		/* Step to last alternative */;
+		;
 	return(altIndex);
 }
 
@@ -161,15 +163,15 @@ static AltInfo *nextFreeAltInfo(AltInfoArray altInfos) {
 
 /*----------------------------------------------------------------------*/
 static void addAlternative(
-		AltInfoArray altInfos,
-		int level,
-		Aint parameterNumber,
-		Aint theClass,
-		Aint theInstance,
-		AltEntryFinder finder
+						   AltInfoArray altInfos,
+						   int level,
+						   Aint parameterNumber,
+						   Aint theClass,
+						   Aint theInstance,
+						   AltEntryFinder finder
 ) {
 	AltInfo *altInfoP = nextFreeAltInfo(altInfos);
-
+	
 	altInfoP->alt = (*finder)(parameterNumber, theInstance, theClass);
 	if (altInfoP->alt != NULL) {
 		primeAltInfo(altInfoP, level, parameterNumber, theInstance, theClass);
@@ -180,8 +182,8 @@ static void addAlternative(
 
 /*----------------------------------------------------------------------*/
 static void addGlobalAlternatives(
-		AltInfoArray altInfos,
-		AltEntryFinder finder
+								  AltInfoArray altInfos,
+								  AltEntryFinder finder
 ) {
 	addAlternative(altInfos, GLOBAL_LEVEL, NO_PARAMETER, NO_CLASS, NO_INSTANCE, finder);
 }
@@ -189,59 +191,59 @@ static void addGlobalAlternatives(
 
 /*----------------------------------------------------------------------*/
 static void addAlternativesFromParents(
-		AltInfoArray altInfos,
-		int level,
-		Aint parameterNumber,
-		Aint theClass,
-		Aint theInstance,
-		AltEntryFinder finder
+									   AltInfoArray altInfos,
+									   int level,
+									   Aint parameterNumber,
+									   Aint theClass,
+									   Aint theInstance,
+									   AltEntryFinder finder
 ){
 	if (classes[theClass].parent != 0)
 		addAlternativesFromParents(altInfos, level,
-				parameterNumber,
-				classes[theClass].parent,
-				theInstance,
-				finder);
-
+								   parameterNumber,
+								   classes[theClass].parent,
+								   theInstance,
+								   finder);
+	
 	addAlternative(altInfos, level, parameterNumber, theClass, theInstance, finder);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void addAlternativesFromLocation(
-		AltInfoArray altInfos,
-		Aint location,
-		AltEntryFinder finder
+										AltInfoArray altInfos,
+										Aint location,
+										AltEntryFinder finder
 ) {
 	if (admin[location].location != 0)
 		addAlternativesFromLocation(altInfos, admin[location].location, finder);
-
+	
 	addAlternativesFromParents(altInfos,
-			LOCATION_LEVEL,
-			NO_PARAMETER,
-			instances[location].parent,
-			location,
-			finder);
-
+							   LOCATION_LEVEL,
+							   NO_PARAMETER,
+							   instances[location].parent,
+							   location,
+							   finder);
+	
 	addAlternative(altInfos, LOCATION_LEVEL, NO_PARAMETER, NO_CLASS, location, finder);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void addAlternativesFromParameter(
-		AltInfoArray altInfos,
-		int parameterNumber,
-		AltEntryFinder finder
+										 AltInfoArray altInfos,
+										 int parameterNumber,
+										 AltEntryFinder finder
 ) {
 	Aint parent;
 	Aint theInstance = parameters[parameterNumber-1].instance;
-
+	
 	if (isLiteral(theInstance))
 		parent = literals[parameterNumber].class;
 	else
 		parent = instances[theInstance].parent;
 	addAlternativesFromParents(altInfos, PARAMETER_LEVEL, parameterNumber, parent, theInstance, finder);
-
+	
 	if (!isLiteral(theInstance))
 		addAlternative(altInfos, PARAMETER_LEVEL, parameterNumber, NO_CLASS, theInstance, finder);
 }
@@ -251,7 +253,7 @@ static void addAlternativesFromParameter(
 Bool anyCheckFailed(AltInfoArray altInfo, Bool execute)
 {
 	int altIndex;
-
+	
 	for (altIndex = 0; !altInfo[altIndex].end; altIndex++) {
 		current.instance = altInfo[altIndex].instance;
 		if (checkFailed(&altInfo[altIndex], execute))
@@ -265,7 +267,7 @@ Bool anyCheckFailed(AltInfoArray altInfo, Bool execute)
 Bool anythingToExecute(AltInfo altInfo[])
 {
 	int altIndex;
-
+	
 	/* Check for anything to execute... */
 	for (altIndex = 0; !altInfo[altIndex].end; altIndex++)
 		if (executable(&altInfo[altIndex]))
@@ -279,9 +281,9 @@ static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode, int param
 {
 	AltEntry *alt;
 	VerbEntry *verbEntry;
-
+	
 	if (verbTableAddress == 0) return NULL;
-
+	
 	for (verbEntry = (VerbEntry *) pointerTo(verbTableAddress); !isEndOfList(verbEntry); verbEntry++)
 		if (verbEntry->code == verbCode) {
 			for (alt = (AltEntry *) pointerTo(verbEntry->alts); !isEndOfList(alt); alt++) {
@@ -311,11 +313,11 @@ AltInfo *findAllAlternatives(void) {
 	int parameterNumber;
 	AltInfo altInfos[1000];
 	altInfos[0].end = TRUE;
-
+	
 	addGlobalAlternatives(altInfos, &alternativeFinder);
-
+	
 	addAlternativesFromLocation(altInfos, current.location, &alternativeFinder);
-
+	
 	for (parameterNumber = 1; !isEndOfList(&parameters[parameterNumber-1]); parameterNumber++) {
 		addAlternativesFromParameter(altInfos, parameterNumber, &alternativeFinder);
 	}
@@ -327,12 +329,12 @@ AltInfo *findAllAlternatives(void) {
 Bool possible(void)
 {
 	Bool anything;
-
+	
 	AltInfo *allAlternatives = findAllAlternatives();
-
+	
 	if (anyCheckFailed(allAlternatives, DONT_EXECUTE_CHECK_BODY_ON_FAIL))
 		return FALSE;
-
+	
 	anything = anythingToExecute(allAlternatives);
 	free(allAlternatives);
 	return anything;
