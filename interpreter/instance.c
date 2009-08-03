@@ -583,7 +583,7 @@ void sayForm(int instance, SayForm form)
 
 
 /*======================================================================*/
-Bool describeable(int instance) {
+Bool isDescribable(int instance) {
     return isObject(instance) || isActor(instance);
 }
 
@@ -761,7 +761,7 @@ static void locateIntoContainer(Aword theInstance, Aword theContainer) {
     else if (passesContainerLimits(theContainer, theInstance))
         admin[theInstance].location = theContainer;
     else
-        error(MSGMAX);      /* Return to player without any message */
+        abortPlayerCommand();
 }
 
 
@@ -773,7 +773,7 @@ static void locateLocation(Aword loc, Aword whr)
     /* Ensure this does not create a recursive location chain */
     while (l != 0) {
         if (admin[l].location == loc)
-            apperr("Locating a location would create a recursive loop of locations containing each other.");
+            apperr("Locating a location that would create a recursive loop of locations containing each other.");
         else
             l = admin[l].location;
     }
@@ -883,9 +883,9 @@ void locate(int instance, int whr)
             }
             if (checksFailed(theContainer->extractChecks, EXECUTE_CHECK_BODY_ON_FAIL)) {
                 fail = TRUE;
+		  // TODO: this should be done for the above return as well as before exiting the extract checks : current.instance = previousInstance;
                 return;
             }
-            current.instance = previousInstance;  // TODO: this should be done for the above return as well as before exiting the extract checks
         }
         if (theContainer->extractStatements != 0) {
             if (sectionTraceOption) {
@@ -895,6 +895,7 @@ void locate(int instance, int whr)
             }
             interpret(theContainer->extractStatements);
         }
+	current.instance = previousInstance;
     }
 
     if (isActor(instance))

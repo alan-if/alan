@@ -56,7 +56,7 @@ extern void sayForm(int instance, SayForm form);
 extern void sayInstance(int instance);
 
 extern Bool hasDescription(int instance);
-extern Bool describeable(int instance);
+extern Bool isDescribable(int instance);
 extern void describeAnything(int instance);
 extern void describeInstances(void);
 extern Bool describe(int instance);

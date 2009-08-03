@@ -983,34 +983,34 @@ static void uncheckAllParameterPositions(Parameter parameters[], Bool checked[])
 static void checkRestrictedParameters(Parameter parameters[], ElementEntry elms[], Parameter multipleCandidates[], Bool checked[]) {
     RestrictionEntry *restriction;
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfList(restriction); restriction++) {
-		if (parameters[restriction->parameterNumber-1].instance == 0) {
-			/* This was a multiple parameter position, so check all multipleCandidates and remove failing */
-			int i;
-			for (i = 0; !isEndOfList(&multipleCandidates[i]); i++) {
-				parameters[restriction->parameterNumber-1] = multipleCandidates[i];
-				if (!restrictionCheck(restriction, parameters)) {
-					/* Multiple could be both an explicit list of params and an ALL */
-					if (allLength == 0) {
-						char marker[80];
-						/* It wasn't ALL, we need to say something about it, so
-						 * prepare a printout with $1/2/3
-						 */
-						sprintf(marker, "($%ld)", restriction->parameterNumber);
-						output(marker);
-						runRestriction(restriction);
-						para();
-					}
-					multipleCandidates[i].instance = 0; /* In any case remove it from the list */
-				}
-			}
-			parameters[restriction->parameterNumber-1].instance = 0;
-		} else {
-			if (!restrictionCheck(restriction, parameters)) {
-				runRestriction(restriction);
-				error(MSGMAX); /* Return to player without saying anything */
-			}
+	if (parameters[restriction->parameterNumber-1].instance == 0) {
+	    /* This was a multiple parameter position, so check all multipleCandidates and remove failing */
+	    int i;
+	    for (i = 0; !isEndOfList(&multipleCandidates[i]); i++) {
+		parameters[restriction->parameterNumber-1] = multipleCandidates[i];
+		if (!restrictionCheck(restriction, parameters)) {
+		    /* Multiple could be both an explicit list of params and an ALL */
+		    if (allLength == 0) {
+			char marker[80];
+			/* It wasn't ALL, we need to say something about it, so
+			 * prepare a printout with $1/2/3
+			 */
+			sprintf(marker, "($%ld)", restriction->parameterNumber);
+			output(marker);
+			runRestriction(restriction);
+			para();
+		    }
+		    multipleCandidates[i].instance = 0; /* In any case remove it from the list */
 		}
-		checked[restriction->parameterNumber - 1] = TRUE; /* Remember that it's already checked */
+	    }
+	    parameters[restriction->parameterNumber-1].instance = 0;
+	} else {
+	    if (!restrictionCheck(restriction, parameters)) {
+		runRestriction(restriction);
+		error(NO_MSG); /* Return to player without saying anything */
+	    }
+	}
+	checked[restriction->parameterNumber - 1] = TRUE; /* Remember that it's already checked */
     }
 }
 
@@ -1077,7 +1077,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 		if (listLength(multipleParameters) == 0)
 	    /* If there where multiple parameters but non left, exit without a */
 	    /* word, assuming we have already said enough */
-			error(MSGMAX);
+	    error(NO_MSG);
     }
     plural = anyPlural; /* Remember if we found plural objects */
 }

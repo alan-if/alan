@@ -390,12 +390,12 @@ static void reverseEvts(Aword adr)
 
 static void reverseLims(Aword adr)
 {
-  LimEntry *e = (LimEntry *) &memory[adr];
+  LimitEntry *e = (LimitEntry *) &memory[adr];
 
   if (alreadyDone(adr)) return;
 
   if (!isEndOfList(e)) {
-    reverseTable(adr, sizeof(LimEntry));
+    reverseTable(adr, sizeof(LimitEntry));
     while (!isEndOfList(e)) {
       reverseStms(e->stms);
       e++;

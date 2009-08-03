@@ -17,31 +17,31 @@ ContainerEntry *containers;  /* Container table pointer */
 /*----------------------------------------------------------------------*/
 static int countInContainer(int containerIndex)	/* IN - the container to count in */
 {
-  int instanceIndex, j = 0;
+    int instanceIndex, j = 0;
 
-  for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
-    if (in(instanceIndex, containerIndex, TRUE))
-      /* Then it's in this container also */
-      j++;
-  return(j);
+    for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
+        if (in(instanceIndex, containerIndex, TRUE))
+            /* Then it's in this container also */
+            j++;
+    return(j);
 }
 
 
 /*----------------------------------------------------------------------*/
 static int sumAttributeInContainer(
-    Aint containerIndex,			/* IN - the container to sum */
-    Aint attributeIndex			/* IN - the attribute to sum over */
-) {
-  int instanceIndex;
-  int sum = 0;
+                                   Aint containerIndex,			/* IN - the container to sum */
+                                   Aint attributeIndex			/* IN - the attribute to sum over */
+                                   ) {
+    int instanceIndex;
+    int sum = 0;
 
-  for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
-    if (in(instanceIndex, containerIndex, TRUE)) {	/* Then it's directly in this cont */
-      if (instances[instanceIndex].container != 0)	/* This is also a container! */
-	sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
-      sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
-    }
-  return(sum);
+    for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
+        if (in(instanceIndex, containerIndex, TRUE)) {	/* Then it's directly in this cont */
+            if (instances[instanceIndex].container != 0)	/* This is also a container! */
+                sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
+            sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
+        }
+    return(sum);
 }
 
 
@@ -51,7 +51,7 @@ static Bool containerIsEmpty(int container)
     int i;
 
     for (i = 1; i <= header->instanceMax; i++)
-        if (describeable(i) && in(i, container, FALSE))
+        if (isDescribable(i) && in(i, container, FALSE))
             return FALSE;
     return TRUE;
 }
@@ -67,33 +67,33 @@ void describeContainer(int container)
 
 /*======================================================================*/
 Bool passesContainerLimits(
-     Aint theContainer,		/* IN - Container id */
-     Aint theAddedInstance	/* IN - The object to add */
-) {
-  LimEntry *lim;
-  Aword props;
+                           Aint theContainer,		/* IN - Container id */
+                           Aint theAddedInstance	/* IN - The object to add */
+                           ) {
+    LimitEntry *limit;
+    Aword props;
 
-  if (!isContainer(theContainer))
-    syserr("Checking limits for a non-container.");
+    if (!isContainer(theContainer))
+        syserr("Checking limits for a non-container.");
 
-  /* Find the container properties */
-  props = instances[theContainer].container;
+    /* Find the container properties */
+    props = instances[theContainer].container;
 
-  if (containers[props].limits != 0) { /* Any limits at all? */
-    for (lim = (LimEntry *) pointerTo(containers[props].limits); !isEndOfList(lim); lim++)
-      if (lim->atr == 1-I_COUNT) {
-	if (countInContainer(theContainer) >= lim->val) {
-	  interpret(lim->stms);
-	  return(FALSE);
-	}
-      } else {
-	if (sumAttributeInContainer(theContainer, lim->atr) + getInstanceAttribute(theAddedInstance, lim->atr) > lim->val) {
-	  interpret(lim->stms);
-	  return(FALSE);
-	}
-      }
-  }
-  return(TRUE);
+    if (containers[props].limits != 0) { /* Any limits at all? */
+        for (limit = (LimitEntry *) pointerTo(containers[props].limits); !isEndOfList(limit); limit++)
+            if (limit->atr == 1-I_COUNT) { /* TODO This is actually some encoding of the attribute number, right? */
+                if (countInContainer(theContainer) >= limit->val) {
+                    interpret(limit->stms);
+                    return(FALSE);
+                }
+            } else {
+                if (sumAttributeInContainer(theContainer, limit->atr) + getInstanceAttribute(theAddedInstance, limit->atr) > limit->val) {
+                    interpret(limit->stms);
+                    return(FALSE);
+                }
+            }
+    }
+    return(TRUE);
 }
 
 
@@ -125,7 +125,7 @@ void list(int container)
     if (props == 0) syserr("Trying to list something not a container.");
 
     for (i = 1; i <= header->instanceMax; i++) {
-        if (describeable(i)) {
+        if (isDescribable(i)) {
             /* We can only see objects and actors directly in this container... */
             if (admin[i].location == container) { /* Yes, it's in this container */
                 if (found == 0) {

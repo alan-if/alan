@@ -41,6 +41,13 @@ void error(MsgKind msgno)   /* IN - The error message number */
 
 
 /*======================================================================*/
+void abortPlayerCommand(void)
+{
+    error(NO_MSG);
+}
+
+
+/*======================================================================*/
 void addParameterForInstance(Parameter *parameters, int instance) {
     Parameter *parameter = findEndOfList(parameters);
 

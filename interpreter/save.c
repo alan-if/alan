@@ -157,7 +157,7 @@ void save(void)
   if ((saveFile = fopen(str, READ_MODE)) != NULL)
     /* It already existed */
     if (!confirm(M_SAVEOVERWRITE))
-      error(MSGMAX);            /* Return to player without saying anything */
+	error(NO_MSG);            /* Return to player without saying anything */
   if ((saveFile = fopen(str, WRITE_MODE)) == NULL)
     error(M_SAVEFAILED);
   strcpy(saveFileName, str);

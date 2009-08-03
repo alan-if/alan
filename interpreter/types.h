@@ -65,6 +65,6 @@ typedef struct LimEntry {	/* LIMIT Type */
   Aword atr;			/* Attribute that limits */
   Aword val;			/* And the limiting value */
   Aaddr stms;			/* Statements if fail */
-} LimEntry;
+} LimitEntry;
 
 #endif

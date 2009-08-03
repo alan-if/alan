@@ -53,7 +53,7 @@ typedef AltInfo AltInfoArray[];
 extern void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class);
 extern Bool executedOk(AltInfo *altInfo);
 extern Bool checkFailed(AltInfo *altInfo, Bool execute);
-extern Bool executable(AltInfo *altInfo);
+extern Bool canBeExecuted(AltInfo *altInfo);
 extern AltInfo *duplicateAltInfoArray(AltInfoArray altInfos);
 extern int lastAltInfoIndex(AltInfoArray altInfos);
 extern Bool anyCheckFailed(AltInfoArray altInfos, Bool execute);

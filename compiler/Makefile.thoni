@@ -22,7 +22,7 @@ LINK	= gcc
 include sources.mk
 
 
-all : ../bin/alan ../bin/rndalan
+all : alan rndalan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
