@@ -93,5 +93,5 @@ UNITSRCS = $(UNITTESTSRCS) $(BUILDSRCS)
 UNITOBJS = ${UNITSRCS:.c=.o} alan.version.o
 
 # Version timestamp dependencies
-VERSIONSRCS = $(ALANSRCS) $(TMSRCS) Makefile
+VERSIONSRCS = $(ALANSRCS) $(TMSRCS)
 

@@ -130,7 +130,7 @@ depend:
 #
 # Version number generation
 #
-alan.version.h : ../alan.version.h
+alan.version.h : ../alan.version
 	cp ../alan.version.h .
 
 alan.version.c:  ../alan.version
@@ -140,7 +140,9 @@ version.h : ../version.h
 	cp ../version.h .
 
 ../alan.version.c: ../alan.version
+
 ../alan.version.h: ../alan.version
+
 ../version.h: ../alan.version
 
 ../alan.version: $(VERSIONSRCS) 
