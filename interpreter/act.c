@@ -23,14 +23,13 @@ static void executeCommand(void)
     int altIndex;
 
     altInfos = findAllAlternatives();
-        
     if (anyCheckFailed(altInfos, EXECUTE_CHECK_BODY_ON_FAIL))
         return;
 
     /* Check for anything to execute... */
     if (!anythingToExecute(altInfos))
         error(M_CANT0);
-        
+
     /* Now perform actions! First try any BEFORE or ONLY from inside out */
     for (altIndex = lastAltInfoIndex(altInfos); altIndex >= 0; altIndex--) {
         if (altInfos[altIndex].alt != 0) // TODO Can this ever be NULL? Why?
