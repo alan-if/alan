@@ -139,14 +139,17 @@ alan.version.c:  ../alan.version
 version.h : ../version.h
 	cp ../version.h .
 
-../alan.version.c: ../alan.version
+../alan.version.c:
+	cd ..; venum alan time
 
-../alan.version.h: ../alan.version
+../alan.version.h:
+	cd ..; venum alan time
 
-../version.h: ../alan.version
+../version.h:
+	cd ..; venum alan time
 
 ../alan.version: $(VERSIONSRCS) 
-	cd ..; venum alan time
+	cd ..; venum -write always alan time
 
 #
 include dependencies.mk
