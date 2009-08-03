@@ -28,12 +28,9 @@ all : ../bin/alan ../bin/rndalan
 #
 # Main target : Alan
 #
-alan: checkTarget tm $(ALANOBJS) unit
-	$(LINK) -o alan $(LINKFLAGS) $(ALANOBJS)
-	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
-	cp alan.exe ../bin
+alan: checkTarget tm alanmain
 
-alanmain: $(ALANOBJS)
+alanmain: $(ALANOBJS) unit
 	$(LINK) -o alan $(LINKFLAGS) $(ALANOBJS)
 	-@if test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin

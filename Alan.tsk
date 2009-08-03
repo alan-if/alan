@@ -4,69 +4,18 @@
 <desc>Alan</desc>
 <notes/>
 <priority>1</priority>
-<origest>661.89</origest>
-<currest>670.89</currest>
-<elapsed>478.89</elapsed>
+<origest>663.89</origest>
+<currest>672.89</currest>
+<elapsed>483.89</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>Increments</desc>
 <notes/>
-<priority>1</priority>
-<origest>100</origest>
-<currest>101</currest>
-<elapsed>19</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>Version 3.0alpha6</desc>
-<notes/>
-<priority>1</priority>
-<origest>4</origest>
-<currest>5</currest>
-<elapsed>5</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>UNDO problems</desc>
-<notes>Anssi reported that
-
-- undo directly after restart crashes
-- undo cancels all events
-</notes>
-<priority>1</priority>
-<origest>1</origest>
-<currest>2</currest>
-<elapsed>2</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Ensure that checksum calculation is done in the same way as the generating compiler did</desc>
-<notes>Running a pre-alpha5 game with Alpha5 always generates a checksum error since Alpha5 header has grown.
-
-So if game version is pre-Alpha5 the checksum should be calculated with a pre-Alpha5 header length.</notes>
-<priority>1</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Ensure that there are no extra words when undo is used</desc>
-<notes>'undo trinket' triggers undo, it should give an error message</notes>
 <priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
+<origest>84</origest>
+<currest>84</currest>
+<elapsed>0</elapsed>
 <isopen>1</isopen>
-</task>
-<task>
-<desc>Nested location are not described in the manual?</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
 <task>
 <desc>Better debugger</desc>
 <notes/>
@@ -158,198 +107,42 @@ Also need to separate the path and the basename since the user will want to use 
 </task>
 </task>
 <task>
-<desc>Version 3.0alpha7</desc>
-<notes/>
-<priority>2</priority>
-<origest>14</origest>
-<currest>14</currest>
-<elapsed>14</elapsed>
-<isopen>1</isopen>
-<task>
-<desc>"undo" as a response to "quit?" undoes wrong command</desc>
-<notes>If the last command did not change any state, the undo logic will find the most recent one that did, which might be very wrong. From "tv time":
-
-&gt; cut box
-...
-&gt;...
-&gt; move tv
-quit? undo
-'cut box' undone.
-
-
-Analysis:
-This can not be fixed since we don't know the difference between a quit command executed by the player to actually quit and the quit executed by the game as a fail. Pending the FAIL command planned for 3.1
-
-The fail-code should investigate to see if the last command did change some state and only execute undo() if it did, else return to the game.
-
-As a stop gap this could be done by the quit code. In case of a player quit the undo would just mean "return to game".</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Does verbs in outer nested locations get executed?</desc>
-<notes>No they don't!
-
-E.g.
-
-The l1 Isa location
-  Verb x
-End The l1.
-
-The l2 Isa location At l1
-  Verb x
-End The l2.
-
-The verbs should be executed in the same way as for parameters, so just traverse, find verbs and add them to the list.
-
-Note: also follow inheritance for all nested locations.
-
-Need to document the order.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Locating actors in containers should be prohibited</desc>
-<notes>See compiler/testing/actorInContainer which produces error message for the initial location but not for the Locate statement.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Aggregations over things in restricted containers does not take class restriction into consideration (e.g when finding attributes)</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Update standard library</desc>
-<notes>Desciption in Things
-
-Tasks:
- - upload and announce</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>An Isa object expression or loop filter should only look up classes</desc>
-<notes>This is a problem in verbs with default syntax where the parameters have the same name as its class (object).</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
-<notes>This caused code within the loop not to allow e.g. access to attributes of the specified class.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Restore from a null fileref</desc>
-<notes>When you restore and the suggested filename does not exist we get the null fileref back. Should be checked and a message given.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
-<notes>E.g.
-  put = put (o)*
-  put_in = put (o) in (c)
-
-makes put generally multiple, but
-
-  put = put (o)
-  put_in = put (o)* in (c)
-
-makes it not accepting multiple.
-
-Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
-
-Must be fixed so that it is the syntax that stores the flags. Can this be done without changing game format?
-Or possibly that the compiler checks that the indicators match for all syntax synonyms.
-</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Allocate the playerWords[] dynamically</desc>
-<notes>Use a EXTENT and ENSURESPACEFOR() somewhere in scan()</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Remove MWERKS support</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Modify interpreter Makefiles to separate pieces for each executable</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Scanner tables for various non-'ISO' platforms does not seem to get generated correctly</desc>
-<notes>Probably because the library file does not exist since the IMP does not work with Cygwin paths</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add a command line option to REGR to not overwrite passing testnames</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
 <desc>Version 3.0beta1</desc>
 <notes/>
 <priority>2</priority>
-<origest>41</origest>
-<currest>41</currest>
+<origest>43</origest>
+<currest>43</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>When an extract check fails the command isn't aborted.</desc>
+<notes>Check regression/currentInstanceShouldBeResetOnFailingExtract</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Column indication with -cc &amp; -ide switches</desc>
+<notes>Circumstancial evidence shows that this might be off be a character or so.
+
+Add compiler/testing cases for this and make sure we do that for at leas DOS and UNIX line ending conventions.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Investigate why new version of Alan in Gargoyle does not play sounds and shows pictures.</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
 <task>
 <desc>Examples for every syntax in the manual as a box</desc>
 <notes/>
@@ -418,15 +211,6 @@ Possibly the Makefile can automatically find which platform it is using 'uname'<
 
 Tasks:
 Check if windows-dist contains all the .DLL:s that the build seem to require, possibly check with Tor</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Investigate why new version of Alan in Gargoyle does not play sounds and shows pictures.</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -760,7 +544,9 @@ pointing to "count" since that is the left hand side of the assumed expression
 </task>
 <task>
 <desc>What happens if we don't strip spaces from strings? AKA How to make a map?</desc>
-<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.</notes>
+<notes>It is not possible to draw a map in ASCII-art since the compiler strips spaces from strings and replaces them with a single space.
+
+But what about using " "? If the first character in a string is a space it is preserved. If it works, document and add regression tests so that we don't lose the functionality.</notes>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>
@@ -971,7 +757,7 @@ Maybe this isn't so bad considering the problem to solve...</notes>
 <origest>27</origest>
 <currest>27</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Scope definitions</desc>
 <notes>Go for Gregs suggestion below, but change the syntax of a SCOPE to:
@@ -1505,7 +1291,7 @@ possibilities are endless...
 <origest>71</origest>
 <currest>71</currest>
 <elapsed>0</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>QUIT question &amp; prompt</desc>
 <notes>"Restore, reStart or Quit (R/S/Q)?" Preferably it should be possible to automatically deduce the response characters from the format (see item on CONFIRM).
@@ -2351,7 +2137,7 @@ What do you want to do with the ball?
 <priority>2</priority>
 <origest>28</origest>
 <currest>35</currest>
-<elapsed>10</elapsed>
+<elapsed>15</elapsed>
 <isopen>1</isopen>
 <task>
 <desc>AlanIDE v0.0.4</desc>
@@ -2465,10 +2251,10 @@ What do you want to do with the ball?
 <desc>AlanIDE v0.0.8</desc>
 <notes/>
 <priority>2</priority>
-<origest>12</origest>
-<currest>16</currest>
-<elapsed>1</elapsed>
-<isopen>0</isopen>
+<origest>2</origest>
+<currest>6</currest>
+<elapsed>6</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Feature based product/application to allow net-updates</desc>
 <notes/>
@@ -2484,6 +2270,46 @@ What do you want to do with the ball?
 <priority>2</priority>
 <origest>1</origest>
 <currest>5</currest>
+<elapsed>5</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>AlanIDE v.0.0.9</desc>
+<notes/>
+<priority>2</priority>
+<origest>13</origest>
+<currest>13</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+<task>
+<desc>New Class wizard</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>New Instance wizard</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>0</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add converter feature</desc>
+<notes>Need:
+Load a v2 source file, trigger "Convert from v2" on some menu, reload output into editor
+
+Design:
+Require a converter preference setting.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
 <elapsed>0</elapsed>
 <isopen>1</isopen>
 </task>
@@ -2590,53 +2416,13 @@ An option to set relative path that is not verified (just a string?) can be a so
 </task>
 </task>
 <task>
-<desc>AlanIDE v.0.0.9</desc>
-<notes/>
-<priority>2</priority>
-<origest>3</origest>
-<currest>3</currest>
-<elapsed>0</elapsed>
-<isopen>0</isopen>
-<task>
-<desc>New Class wizard</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>New Instance wizard</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add converter feature</desc>
-<notes>Need:
-Load a v2 source file, trigger "Convert from v2" on some menu, reload output into editor
-
-Design:
-Require a converter preference setting.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>0</elapsed>
-<isopen>1</isopen>
-</task>
-</task>
-<task>
 <desc>Pending</desc>
 <notes/>
 <priority>2</priority>
 <origest>5</origest>
 <currest>7</currest>
 <elapsed>0</elapsed>
-<isopen>0</isopen>
+<isopen>1</isopen>
 <task>
 <desc>Build dependency structure for imports</desc>
 <notes/>
@@ -2904,11 +2690,290 @@ MAC (or general?) this also goes for the names of save files, should be converte
 <task>
 <desc>DONE</desc>
 <notes/>
-<priority>2</priority>
-<origest>443.89</origest>
-<currest>444.89</currest>
-<elapsed>444.89</elapsed>
+<priority>1</priority>
+<origest>461.89</origest>
+<currest>463.89</currest>
+<elapsed>463.89</elapsed>
 <isopen>1</isopen>
+<task>
+<desc>Version 3.0alpha7</desc>
+<notes/>
+<priority>2</priority>
+<origest>14</origest>
+<currest>14</currest>
+<elapsed>14</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>"undo" as a response to "quit?" undoes wrong command</desc>
+<notes>If the last command did not change any state, the undo logic will find the most recent one that did, which might be very wrong. From "tv time":
+
+&gt; cut box
+...
+&gt;...
+&gt; move tv
+quit? undo
+'cut box' undone.
+
+
+Analysis:
+This can not be fixed since we don't know the difference between a quit command executed by the player to actually quit and the quit executed by the game as a fail. Pending the FAIL command planned for 3.1
+
+The fail-code should investigate to see if the last command did change some state and only execute undo() if it did, else return to the game.
+
+As a stop gap this could be done by the quit code. In case of a player quit the undo would just mean "return to game".</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Does verbs in outer nested locations get executed?</desc>
+<notes>No they don't!
+
+E.g.
+
+The l1 Isa location
+  Verb x
+End The l1.
+
+The l2 Isa location At l1
+  Verb x
+End The l2.
+
+The verbs should be executed in the same way as for parameters, so just traverse, find verbs and add them to the list.
+
+Note: also follow inheritance for all nested locations.
+
+Need to document the order.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Locating actors in containers should be prohibited</desc>
+<notes>See compiler/testing/actorInContainer which produces error message for the initial location but not for the Locate statement.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Aggregations over things in restricted containers does not take class restriction into consideration (e.g when finding attributes)</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Update standard library</desc>
+<notes>Desciption in Things
+
+Tasks:
+ - upload and announce</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>An Isa object expression or loop filter should only look up classes</desc>
+<notes>This is a problem in verbs with default syntax where the parameters have the same name as its class (object).</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ensure that "In &lt;set/container&gt;" is a class restricting filter in loops</desc>
+<notes>This caused code within the loop not to allow e.g. access to attributes of the specified class.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Restore from a null fileref</desc>
+<notes>When you restore and the suggested filename does not exist we get the null fileref back. Should be checked and a message given.</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The Multiple-indicator for a verb word is used from the first encountered syntax</desc>
+<notes>E.g.
+  put = put (o)*
+  put_in = put (o) in (c)
+
+makes put generally multiple, but
+
+  put = put (o)
+  put_in = put (o)* in (c)
+
+makes it not accepting multiple.
+
+Verify this. Also check if it applies to omnipotent indicator to? If theory is correct, it should.
+
+Must be fixed so that it is the syntax that stores the flags. Can this be done without changing game format?
+Or possibly that the compiler checks that the indicators match for all syntax synonyms.
+</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Allocate the playerWords[] dynamically</desc>
+<notes>Use a EXTENT and ENSURESPACEFOR() somewhere in scan()</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Remove MWERKS support</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Modify interpreter Makefiles to separate pieces for each executable</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Scanner tables for various non-'ISO' platforms does not seem to get generated correctly</desc>
+<notes>Probably because the library file does not exist since the IMP does not work with Cygwin paths</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add a command line option to REGR to not overwrite passing testnames</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
+<task>
+<desc>Version 3.0alpha6</desc>
+<notes/>
+<priority>1</priority>
+<origest>8</origest>
+<currest>9</currest>
+<elapsed>9</elapsed>
+<isopen>0</isopen>
+<task>
+<desc>UNDO problems</desc>
+<notes>Anssi reported that
+
+- undo directly after restart crashes
+- undo cancels all events
+</notes>
+<priority>1</priority>
+<origest>1</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ensure that checksum calculation is done in the same way as the generating compiler did</desc>
+<notes>Running a pre-alpha5 game with Alpha5 always generates a checksum error since Alpha5 header has grown.
+
+So if game version is pre-Alpha5 the checksum should be calculated with a pre-Alpha5 header length.</notes>
+<priority>1</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Ensure that there are no extra words when undo is used</desc>
+<notes>'undo trinket' triggers undo, it should give an error message</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Nested location are not described in the manual?</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Add To Every xyz &lt;attributes&gt;</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Literals handling in the interpreter</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>Redeclaration of The Hero</desc>
+<notes>
+So he can be made to have the container property, or should we have a new kind of clause:
+
+Add To The Hero
+
+No! The hero should be possible to redeclare. But it should be possible to add features to classes:
+
+Add To Every object ...</notes>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+<task>
+<desc>The hero as a container</desc>
+<notes/>
+<priority>2</priority>
+<origest>1</origest>
+<currest>1</currest>
+<elapsed>1</elapsed>
+<isopen>1</isopen>
+</task>
+</task>
 <task>
 <desc>Version 3.0alpha5</desc>
 <notes/>
@@ -5583,7 +5648,7 @@ This clause should not be run if the actor x is already in the room.</notes>
 <origest>19</origest>
 <currest>19</currest>
 <elapsed>19</elapsed>
-<isopen>1</isopen>
+<isopen>0</isopen>
 <task>
 <desc>Article handling</desc>
 <notes>Need:
@@ -8015,10 +8080,10 @@ Should generate the "Mentioned"</notes>
 <desc>Increment: version 3.0dev6</desc>
 <notes/>
 <priority>2</priority>
-<origest>6</origest>
-<currest>6</currest>
-<elapsed>6</elapsed>
-<isopen>0</isopen>
+<origest>2</origest>
+<currest>2</currest>
+<elapsed>2</elapsed>
+<isopen>1</isopen>
 <task>
 <desc>Bug: IT does not work in the interpreter</desc>
 <notes/>
@@ -8033,49 +8098,6 @@ Should generate the "Mentioned"</notes>
 <notes>
 Restructure to use classes instead of attributes.
 But keep the attribute version for later.</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Add To Every xyz &lt;attributes&gt;</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Literals handling in the interpreter</desc>
-<notes/>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>Redeclaration of The Hero</desc>
-<notes>
-So he can be made to have the container property, or should we have a new kind of clause:
-
-Add To The Hero
-
-No! The hero should be possible to redeclare. But it should be possible to add features to classes:
-
-Add To Every object ...</notes>
-<priority>2</priority>
-<origest>1</origest>
-<currest>1</currest>
-<elapsed>1</elapsed>
-<isopen>1</isopen>
-</task>
-<task>
-<desc>The hero as a container</desc>
-<notes/>
 <priority>2</priority>
 <origest>1</origest>
 <currest>1</currest>

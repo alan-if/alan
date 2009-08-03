@@ -100,16 +100,16 @@ new=0
 
 interactive=0
 if [ $# -gt 0 ] ; then
-  if [ "$1" = "-n" ] ; then
-    interactive=0
-    shift
-  elif [ "$1" = "-i" ] ; then
-    interactive=1
-    shift
-  else
-    echo "Unknown switch '$1', '-n' for non-interactive, '-i' for interactive output mode"
-    exit
-  fi
+  while getopts ni OPTION
+  do
+    case ${OPTION} in
+        n) interactive=0;;
+        i) interactive=1;;
+       \?) echo "'-n' for non-interactive, '-i' for interactive output mode"
+           exit 2;;
+    esac
+  done
+  shift $(($OPTIND-1))
 fi
 
 if [ $# = 0 ] ; then
