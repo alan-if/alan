@@ -58,7 +58,7 @@ release: all
 #######################################################################
 # Settings for Standard Arun
 arun: PLATFORM = # we build with cygwin.dll until the unit tests can be build without them
-arun: unit checkTarget $(ARUNOBJECTS) Makefile dependencies.mk
+arun: unit checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin
 
@@ -162,7 +162,7 @@ unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compi
 unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENROOT)/libcgreen.a
 
-unittests: checkTarget $(UNITTESTSOBJECTS) Makefile $(LIBS)
+unittests: checkTarget $(UNITTESTSOBJECTS) $(LIBS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
 
 .PHONY: unit

@@ -1,8 +1,8 @@
 /*======================================================================*\
 
-  unit.c
+unit.c
 
-  A unit test main program for the Alan compiler
+A unit test main program for the Alan compiler
 
 \*======================================================================*/
 
@@ -17,8 +17,8 @@
 
 
 typedef struct Case {
-	void (*theCase)();
-	struct Case *next;
+    void (*theCase)();
+    struct Case *next;
 } Case;
 
 static Case *caseList = NULL;
@@ -31,27 +31,27 @@ Aword *memory;
 /*======================================================================*/
 Aword convertFromACD(Aword w)
 {
-  Aword s;                      /* The swapped ACODE word */
-  char *wp, *sp;
-  int i;
+    Aword s;                      /* The swapped ACODE word */
+    char *wp, *sp;
+    int i;
 
-  wp = (char *) &w;
-  sp = (char *) &s;
+    wp = (char *) &w;
+    sp = (char *) &s;
 
-  if (littleEndian())
-    for (i = 0; i < sizeof(Aword); i++)
-      sp[sizeof(Aword)-1 - i] = wp[i];
-  else
-    for (i = 0; i < sizeof(Aword); i++)
-      sp[i] = wp[i];
+    if (littleEndian())
+        for (i = 0; i < sizeof(Aword); i++)
+            sp[sizeof(Aword)-1 - i] = wp[i];
+    else
+        for (i = 0; i < sizeof(Aword); i++)
+            sp[i] = wp[i];
   
-  return s;
+    return s;
 }
 
 
 /*======================================================================*\
 
-  Test harness for unit tests in Alan compiler
+Test harness for unit tests in Alan compiler
 
 \*======================================================================*/
 
@@ -61,16 +61,16 @@ static int failed = 0;
 /*----------------------------------------------------------------------*/
 static void unitFail(char sourceFile[], int lineNumber, const char function[])
 {
-  printf("%s:%d: unit test '%s()' failed!\n", sourceFile, lineNumber, function);
-  failed++;
+    printf("%s:%d: unit test '%s()' failed!\n", sourceFile, lineNumber, function);
+    failed++;
 }
 
 
 /*----------------------------------------------------------------------*/
 static void unitReportProgress(failed, passed)
 {
-  return;
-  printf("failed: %d, passed: %d\n", failed, passed);
+    return;
+    printf("failed: %d, passed: %d\n", failed, passed);
 }
 
 
@@ -78,8 +78,8 @@ static void unitReportProgress(failed, passed)
 /*======================================================================*/
 void unitAssert(int x, char sourceFile[], int lineNumber, const char function[])
 {
-  (x)? passed++ : unitFail(sourceFile, lineNumber, function);
-  unitReportProgress(failed, passed);
+    (x)? passed++ : unitFail(sourceFile, lineNumber, function);
+    unitReportProgress(failed, passed);
 }
 
 
@@ -87,18 +87,18 @@ void unitAssert(int x, char sourceFile[], int lineNumber, const char function[])
 /*----------------------------------------------------------------------*/
 static void unitTest(void)
 {
-  Case *current;
+    Case *current;
 
-  for (current = caseList; current != NULL; current = current->next) {
-    (*current->theCase)();
-  }
-  if (failed == 0)
-    printf("All %d unit tests PASSED!!\n", passed);
-  else {
-    printf("******************************\n");
-    printf("%d of %d unit tests FAILED!!\n", failed, passed+failed);
-    printf("******************************\n");
-  }
+    for (current = caseList; current != NULL; current = current->next) {
+        (*current->theCase)();
+    }
+    if (failed == 0)
+        printf("All %d unit tests PASSED!!\n", passed);
+    else {
+        printf("******************************\n");
+        printf("%d of %d unit tests FAILED!!\n", failed, passed+failed);
+        printf("******************************\n");
+    }
 }
 
 
@@ -107,107 +107,107 @@ static void unitTest(void)
 #include "unitList.h"
 
 
-#define ADD_UNIT_TESTS_FOR(module) \
-  extern void module##UnitTests(); \
-  module##UnitTests();
+#define ADD_UNIT_TESTS_FOR(module)              \
+    extern void module##UnitTests();            \
+    module##UnitTests();
 
 
 int main()
 {
-  lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
+    lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
 
-  ADD_UNIT_TESTS_FOR(add);
-  ADD_UNIT_TESTS_FOR(adv);
-  ADD_UNIT_TESTS_FOR(atr);
-  ADD_UNIT_TESTS_FOR(cla);
-  ADD_UNIT_TESTS_FOR(description);
-  ADD_UNIT_TESTS_FOR(elm);
-  ADD_UNIT_TESTS_FOR(emit);
-  ADD_UNIT_TESTS_FOR(exp);
-  ADD_UNIT_TESTS_FOR(ext);
-  ADD_UNIT_TESTS_FOR(id);
-  ADD_UNIT_TESTS_FOR(ifid);
-  ADD_UNIT_TESTS_FOR(ins);
-  ADD_UNIT_TESTS_FOR(lst);
-  ADD_UNIT_TESTS_FOR(prop);
-  ADD_UNIT_TESTS_FOR(res);
-  ADD_UNIT_TESTS_FOR(resource);
-  ADD_UNIT_TESTS_FOR(stm);
-  ADD_UNIT_TESTS_FOR(stx);
-  ADD_UNIT_TESTS_FOR(sym);
-  ADD_UNIT_TESTS_FOR(vrb);
-  ADD_UNIT_TESTS_FOR(whr);
-  ADD_UNIT_TESTS_FOR(wrd);
+    ADD_UNIT_TESTS_FOR(add);
+    ADD_UNIT_TESTS_FOR(adv);
+    ADD_UNIT_TESTS_FOR(atr);
+    ADD_UNIT_TESTS_FOR(cla);
+    ADD_UNIT_TESTS_FOR(description);
+    ADD_UNIT_TESTS_FOR(elm);
+    ADD_UNIT_TESTS_FOR(emit);
+    ADD_UNIT_TESTS_FOR(exp);
+    ADD_UNIT_TESTS_FOR(ext);
+    ADD_UNIT_TESTS_FOR(id);
+    ADD_UNIT_TESTS_FOR(ifid);
+    ADD_UNIT_TESTS_FOR(ins);
+    ADD_UNIT_TESTS_FOR(lst);
+    ADD_UNIT_TESTS_FOR(prop);
+    ADD_UNIT_TESTS_FOR(res);
+    ADD_UNIT_TESTS_FOR(resource);
+    ADD_UNIT_TESTS_FOR(stm);
+    ADD_UNIT_TESTS_FOR(stx);
+    ADD_UNIT_TESTS_FOR(sym);
+    ADD_UNIT_TESTS_FOR(vrb);
+    ADD_UNIT_TESTS_FOR(whr);
+    ADD_UNIT_TESTS_FOR(wrd);
    
-  unitTest();
+    unitTest();
 
-  return 0;
+    return 0;
 }
 
 
 /*======================================================================*/
 void registerUnitTest(void (*aCase)())
 {
-  if (lastCase == NULL) {
-    caseList = calloc(sizeof(Case), 1);
-    caseList->theCase = aCase;
-    lastCase = caseList;
-  } else {
-    lastCase->next = calloc(sizeof(Case), 1);
-    lastCase = lastCase->next;
-    lastCase->theCase = aCase;
-  }
-  lastCase->next = NULL;
+    if (lastCase == NULL) {
+        caseList = calloc(sizeof(Case), 1);
+        caseList->theCase = aCase;
+        lastCase = caseList;
+    } else {
+        lastCase->next = calloc(sizeof(Case), 1);
+        lastCase = lastCase->next;
+        lastCase->theCase = aCase;
+    }
+    lastCase->next = NULL;
 }
 
 
 /*----------------------------------------------------------------------*/
 static Aword reversed(Aword w)		/* IN - The ACODE word to swap bytes in */
 {
-  Aword s;			/* The swapped ACODE word */
-  char *wp, *sp;
-  int i;
+    Aword s;			/* The swapped ACODE word */
+    char *wp, *sp;
+    int i;
 
-  wp = (char *) &w;
-  sp = (char *) &s;
+    wp = (char *) &w;
+    sp = (char *) &s;
 
-  for (i = 0; i < sizeof(Aword); i++)
-    sp[sizeof(Aword)-1 - i] = wp[i];
+    for (i = 0; i < sizeof(Aword); i++)
+        sp[sizeof(Aword)-1 - i] = wp[i];
 
-  return (s);
+    return (s);
 }
 
 /*----------------------------------------------------------------------*/
 static void reverse(Aword *w)
 {
-  *w = reversed(*w);
+    *w = reversed(*w);
 }
 
 /*----------------------------------------------------------------------*/
 static void reverseHdr(ACodeHeader *header)
 {
-  int i;
+    int i;
 
-  /* Reverse all words in the header except the first (version marking) */
-  for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
-    reverse(&((Aword *)header)[i]);
+    /* Reverse all words in the header except the first (version marking) */
+    for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
+        reverse(&((Aword *)header)[i]);
 }
 
 /*======================================================================*/
 void loadACD(char fileName[])
 {
-	ACodeHeader temporaryHeader;
-	int readSize = 0;
-	FILE *acdFile = fopen(fileName, "rb");
+    ACodeHeader temporaryHeader;
+    int readSize = 0;
+    FILE *acdFile = fopen(fileName, "rb");
 
-	readSize = fread(&temporaryHeader, 1, sizeof(temporaryHeader), acdFile);
+    readSize = fread(&temporaryHeader, 1, sizeof(temporaryHeader), acdFile);
 
-	if (littleEndian())
-		reverseHdr(&temporaryHeader);
+    if (littleEndian())
+        reverseHdr(&temporaryHeader);
 
-	memory = calloc(4*temporaryHeader.size, 1);
+    memory = calloc(4*temporaryHeader.size, 1);
 
-	rewind(acdFile);
-	fread(memory, sizeof(Aword), temporaryHeader.size, acdFile);
+    rewind(acdFile);
+    fread(memory, sizeof(Aword), temporaryHeader.size, acdFile);
 
 }

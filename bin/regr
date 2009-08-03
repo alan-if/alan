@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script for regression testing of Responsives Developer Training Camp
+# Script for regression testing of Alan Adventure Language System
 # Files:
 #   .regr - the command to be run using the case name as the single arg
 #           also indicates that this directory should be recursed into
