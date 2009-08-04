@@ -4,22 +4,6 @@
 #include "smartall.h"
 #endif
 
-TestSuite *actTests();
-TestSuite *altInfoTests();
-TestSuite *exeTests();
-TestSuite *interTests();
-TestSuite *mainTests();
-TestSuite *outputTests();
-TestSuite *paramsTests();
-TestSuite *parseTests();
-TestSuite *reverseTests();
-TestSuite *saveTests();
-TestSuite *setTests();
-TestSuite *stackTests();
-TestSuite *stateStackTests();
-TestSuite *stateTests();
-TestSuite *sysdepTests();
-
 #define ADD_UNIT_TESTS_FOR(module) \
   TestSuite *module##Tests(); \
   add_suite(suite, module##Tests());
