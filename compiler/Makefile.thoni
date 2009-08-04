@@ -22,7 +22,10 @@ LINK	= gcc
 include sources.mk
 
 
-all : alan rndalan
+all : Makefile alan rndalan
+
+Makefile:
+	ln -s Makefile.thoni Makefile
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
