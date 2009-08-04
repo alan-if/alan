@@ -2,6 +2,7 @@ $include 'abcd'.
 
 options
   $include 'options'.
+  debug.
 
 
 The l Isa location
