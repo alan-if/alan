@@ -19,19 +19,6 @@
 
 /* For open, read & close */
 #include <fcntl.h>
-#ifndef _O_RAW
-#define _O_RAW 0
-#endif
-#ifdef __sun__
-#include <unistd.h>
-#endif
-#ifdef __vms__
-#include <unixio.h>
-#endif
-#ifdef __dos__
-#include <io.h>
-#endif
-
 
 /* END %%IMPORT */
 
