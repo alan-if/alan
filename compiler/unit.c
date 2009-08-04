@@ -67,10 +67,9 @@ static void unitFail(char sourceFile[], int lineNumber, const char function[])
 
 
 /*----------------------------------------------------------------------*/
-static void unitReportProgress(failed, passed)
+static void unitReportProgress(int failed, int passed)
 {
-    return;
-    printf("failed: %d, passed: %d\n", failed, passed);
+    // printf("failed: %d, passed: %d\n", failed, passed);
 }
 
 
