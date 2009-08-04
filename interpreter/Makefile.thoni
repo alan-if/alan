@@ -32,7 +32,7 @@ include sources.mk
 
 
 ###############################################################
-all: Makefile
+all:
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
@@ -53,18 +53,17 @@ release: OPTIMIZE=-O4
 release: all
 
 
+Makefile:
+	ln -s Makefile.thoni Makefile
 
 
 #######################################################################
 # Settings for Standard Arun
 arun: PLATFORM = # we build with cygwin.dll until the unit tests can be build without them
 
-arun: Makefile unit checkTarget $(ARUNOBJECTS) dependencies.mk
+arun: unit checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin
-
-Makefile:
-	ln -s Makefile.thoni Makefile
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 

@@ -22,7 +22,7 @@ LINK	= gcc
 include sources.mk
 
 
-all : Makefile alan rndalan
+all : alanFromToolMaker rndalan
 
 Makefile:
 	ln -s Makefile.thoni Makefile
@@ -31,9 +31,9 @@ Makefile:
 #
 # Main target : Alan
 #
-alan: checkTarget tm alanmain
+alanFromToolMaker: checkTarget tm alan
 
-alanmain: $(ALANOBJS) unit
+alan: checkTarget unit $(ALANOBJS)
 	$(LINK) -o alan $(LINKFLAGS) $(ALANOBJS)
 	-@if test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan.exe ../bin
