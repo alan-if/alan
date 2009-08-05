@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script for regression testing of Alan Adventure Language System
+# Script for regression testing of Responsives Developer Training Camp
 # Files:
 #   .regr - the command to be run using the case name as the single arg
 #           also indicates that this directory should be recursed into
@@ -63,33 +63,45 @@ verify()
 
 recurse()
 {
-  for d in *; do
-    if [ -d $d ]
-    then
-	if [ -f $d/.regr ]
+    for d in *; do
+	if [ -d $d ]
 	then
-	    echo "Recursing: $d"
-	    cd $d; regr; cd ..
-	    echo "Leaving: $d"
+	    if [ -f $d/.regr ]
+	    then
+		echo "Recursing: $d"
+		cd $d
+		runall
+		cd ..
+		echo "Leaving: $d"
+	    fi
 	fi
-    fi
-  done
+    done
+}
+
+runall()
+{
+    ext=`cat .case`
+    for f in *$ext ; do
+	theCase=`basename $f $ext`
+	run
+	verify
+    done
 }
 
 runselected()
 {
-  for f in ${*} ; do
-    theCase=`basename $f $ext`
-    if [ "$theCase" != "$f" ]
-    then
-      run
-      verify
-    elif [ -f $theCase$ext ]
-      then
-	run
-	verify
-    fi
-  done
+    for f in ${*} ; do
+	theCase=`basename $f $ext`
+	if [ "$theCase" != "$f" ]
+	then
+	    run
+	    verify
+	elif [ -f $theCase$ext ]
+	then
+	    run
+	    verify
+	fi
+    done
 }
 
 theCases=0
@@ -100,57 +112,52 @@ new=0
 
 interactive=0
 if [ $# -gt 0 ] ; then
-  while getopts ni OPTION
-  do
-    case ${OPTION} in
-        n) interactive=0;;
-        i) interactive=1;;
-       \?) echo "'-n' for non-interactive, '-i' for interactive output mode"
-           exit 2;;
-    esac
-  done
-  shift $(($OPTIND-1))
+    while getopts ni OPTION
+    do
+	case ${OPTION} in
+            n) interactive=0;;
+            i) interactive=1;;
+	    \?) echo "'-n' for non-interactive, '-i' for interactive output mode"
+		exit 2;;
+	esac
+    done
+    shift $(($OPTIND-1))
 fi
 
 if [ $# = 0 ] ; then
-  recurse
+    recurse
 fi
 
 if [ -f .case ] ; then
-  ext=`cat .case`
-  if [ $# != 0 ] ; then
-    runselected ${*}
-  else
-    if [ -f .regr ]
-    then
-      for f in *$ext ; do
-	theCase=`basename $f $ext`
-	run
-	verify
-      done
-    fi
-  fi
-  if test $new -ne 0
-  then
-    echo -n "$new new, "
-  fi
-  if test $suspended -ne 0
-  then
-    echo -n "$suspended suspended, "
-  fi
-  if test $failed -eq 0
-  then
-    if test $new -eq 0
-    then
-      echo All $theCases OK!
+    if [ $# != 0 ] ; then
+	runselected ${*}
     else
-      echo $ok OK!
+	if [ -f .regr ]
+	then
+	    runall
+	fi
     fi
-  else
-    echo "*** $failed FAILED! ***"
-  fi
+    if test $new -ne 0
+    then
+	echo -n "$new new, "
+    fi
+    if test $suspended -ne 0
+    then
+	echo -n "$suspended suspended, "
+    fi
+    if test $failed -eq 0
+    then
+	if test $new -eq 0
+	then
+	    echo All $theCases OK!
+	else
+	    echo $ok OK!
+	fi
+    else
+	echo "*** $failed FAILED! ***"
+    fi
 else
-  echo No cases to run in `pwd`
+    echo No cases to run in `pwd`
 fi
 
 /bin/echo "</testsuite>" >> TEST-regr.xml

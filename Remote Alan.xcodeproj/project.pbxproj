@@ -971,7 +971,6 @@
 		E916D99D10281D2600DB1633 /* wrd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wrd.h; sourceTree = "<group>"; };
 		E916D99E10281D2600DB1633 /* wrd_x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wrd_x.h; sourceTree = "<group>"; };
 		E916D99F10281D2600DB1633 /* wrdTest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wrdTest.c; sourceTree = "<group>"; };
-		E916D9A010281D2600DB1633 /* xxxTest.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = xxxTest.template; sourceTree = "<group>"; };
 		E916D9A210281D2600DB1633 /* .cvsignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .cvsignore; sourceTree = "<group>"; };
 		E916D9A310281D2600DB1633 /* a2a3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = a2a3.c; sourceTree = "<group>"; };
 		E916D9A410281D2600DB1633 /* a2a3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = a2a3.h; sourceTree = "<group>"; };
@@ -3615,7 +3614,6 @@
 				E916D99D10281D2600DB1633 /* wrd.h */,
 				E916D99E10281D2600DB1633 /* wrd_x.h */,
 				E916D99F10281D2600DB1633 /* wrdTest.c */,
-				E916D9A010281D2600DB1633 /* xxxTest.template */,
 			);
 			path = compiler;
 			sourceTree = "<group>";
