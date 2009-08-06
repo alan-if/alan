@@ -7,8 +7,6 @@
 #   .case - the extension (including period) to be considered test cases
 #           if available indicates that there are cases in this directory
 #
-/bin/echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" > TEST-regr.xml
-/bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
 dir=`basename "$PWD"`
 
 run ()
@@ -61,6 +59,11 @@ verify()
     /bin/echo "</testcase>" >> TEST-regr.xml
 }
 
+# TODO recurse should build a path to use in run/verify so that "recursing"/"leaving" is unnecessary:
+# sub/test1 ok
+# sub/test2 ok
+# a ok
+# b ok
 recurse()
 {
     for d in *; do
@@ -80,12 +83,17 @@ recurse()
 
 runall()
 {
+echo runall `pwd`
+    /bin/echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" > TEST-regr.xml
+    /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
     ext=`cat .case`
     for f in *$ext ; do
 	theCase=`basename $f $ext`
 	run
 	verify
     done
+    /bin/echo "</testsuite>" >> TEST-regr.xml
+
 }
 
 runselected()
@@ -159,5 +167,3 @@ if [ -f .case ] ; then
 else
     echo No cases to run in `pwd`
 fi
-
-/bin/echo "</testsuite>" >> TEST-regr.xml
