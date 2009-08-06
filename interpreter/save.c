@@ -157,7 +157,7 @@ void save(void)
   if ((saveFile = fopen(str, READ_MODE)) != NULL)
     /* It already existed */
     if (!confirm(M_SAVEOVERWRITE))
-	error(NO_MSG);            /* Return to player without saying anything */
+      abortPlayerCommand();            /* Return to player without saying anything */
   if ((saveFile = fopen(str, WRITE_MODE)) == NULL)
     error(M_SAVEFAILED);
   strcpy(saveFileName, str);
@@ -350,7 +350,7 @@ void restore(void)
 
   col = 1;
   if (str[0] == '\0') {
-	  strcpy(str, saveFileName);
+    strcpy(str, saveFileName);
   }
   if ((saveFile = fopen(str, READ_MODE)) == NULL)
     error(M_SAVEMISSING);

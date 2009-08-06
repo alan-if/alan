@@ -88,8 +88,8 @@ static void unknown(char token[]) {
 #endif
     addParameterForString(messageParameters, str);
     printMessageWithParameters(M_UNKNOWN_WORD, messageParameters);
-    error(NO_MSG);
     free(str);
+    abortPlayerCommand();
 }
 
 /*----------------------------------------------------------------------*/
@@ -365,7 +365,7 @@ static void errorWhichOne(Parameter alternative[]) {
     parameters[0] = alternative[p];
     printMessageWithParameters(M_WHICH_ONE_OR, parameters);
     free(parameters);
-    error(NO_MSG); /* Return with empty error message */
+    abortPlayerCommand(); /* Return with empty error message */
 }
 
 /*----------------------------------------------------------------------*/
@@ -387,7 +387,7 @@ static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
     messageParameters[0] = alternatives[p];
     printMessageWithParameters(M_WHICH_ONE_OR, messageParameters);
     free(messageParameters);
-    error(NO_MSG);
+    abortPlayerCommand();
 }
 
 /*----------------------------------------------------------------------*/
@@ -396,7 +396,7 @@ static void errorWhat(int playerWordIndex) {
     addParameterForWord(messageParameters, playerWordIndex);
     printMessageWithParameters(M_WHAT_WORD, messageParameters);
     free(messageParameters);
-    error(NO_MSG);
+    abortPlayerCommand();
 }
 
 /*----------------------------------------------------------------------*/
@@ -405,7 +405,7 @@ static void errorAfterBut(int butWordIndex) {
     addParameterForWord(messageParameters, butWordIndex);
     printMessageWithParameters(M_AFTER_BUT, messageParameters);
     free(messageParameters);
-    error(NO_MSG);
+    abortPlayerCommand();
 }
 
 /*----------------------------------------------------------------------*/
@@ -433,7 +433,7 @@ static void errorButAfterAll(int butWordIndex) {
     addParameterForWord(messageParameters, butWordIndex);
     addParameterForWord(messageParameters, fakePlayerWordForAll());
     printMessageWithParameters(M_BUT_ALL, messageParameters);
-    error(NO_MSG);
+    abortPlayerCommand();
 }
 
 /*----------------------------------------------------------------------*/
@@ -1007,7 +1007,7 @@ static void checkRestrictedParameters(Parameter parameters[], ElementEntry elms[
 	} else {
 	    if (!restrictionCheck(restriction, parameters)) {
 		runRestriction(restriction);
-		error(NO_MSG); /* Return to player without saying anything */
+		abortPlayerCommand();
 	    }
 	}
 	checked[restriction->parameterNumber - 1] = TRUE; /* Remember that it's already checked */
@@ -1073,11 +1073,11 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 			errorWhat(allWordIndex);
 		}
     } else if (anyPlural) {
-		compress(multipleParameters);
-		if (listLength(multipleParameters) == 0)
-	    /* If there where multiple parameters but non left, exit without a */
-	    /* word, assuming we have already said enough */
-	    error(NO_MSG);
+      compress(multipleParameters);
+      if (listLength(multipleParameters) == 0)
+	/* If there where multiple parameters but non left, exit without a */
+	/* word, assuming we have already said enough */
+	abortPlayerCommand();
     }
     plural = anyPlural; /* Remember if we found plural objects */
 }
