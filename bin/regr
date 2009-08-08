@@ -92,11 +92,13 @@ runall()
 	verify
     done
     /bin/echo "</testsuite>" >> TEST-regr.xml
-
 }
 
 runselected()
 {
+    /bin/echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" > TEST-regr.xml
+    /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
+    ext=`cat .case`
     for f in ${*} ; do
 	theCase=`basename $f $ext`
 	if [ "$theCase" != "$f" ]
@@ -109,6 +111,7 @@ runselected()
 	    verify
 	fi
     done
+    /bin/echo "</testsuite>" >> TEST-regr.xml
 }
 
 theCases=0
