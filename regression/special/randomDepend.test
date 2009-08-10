@@ -1,2 +1,0 @@
-../../compiler/alan -debug randomDepend
-../../interpreter/arun -n -r randomDepend < randomDepend.input
