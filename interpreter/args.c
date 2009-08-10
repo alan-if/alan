@@ -135,7 +135,7 @@ static void switches(int argc, char *argv[])
             else
                 adventureFileName = strdup(argument);
 
-            addAcodeExtension(adventureFileName);
+            adventureFileName = addAcodeExtension(adventureFileName);
 
             adventureName = gameName(adventureFileName);
 
