@@ -1,2 +1,2 @@
-arun -n checksum < checksum.input
+../../bin/arun -n checksum < checksum.input
 
