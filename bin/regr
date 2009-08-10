@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script for regression testing of Responsives Developer Training Camp
+# Script for regression testing of Alan Adventure Language System
 # Files:
 #   .regr - the command to be run using the case name as the single arg
 #           also indicates that this directory should be recursed into
@@ -35,7 +35,7 @@ verify()
             if [ $interactive = 1 ] ; then
 	        #tput ce #- This should really work, but doesn't on cygwin ;-( so we need to do the following three lines instead
 	        tput cr
-	        /bin/echo -n "                                                            "
+	        /bin/echo -n "                                                                                                       "
 	        tput cr
             else
 	        echo "ok"
@@ -46,7 +46,7 @@ verify()
 	    /bin/echo "*** FAILED!!! ***"
 	    /bin/echo "<failure message=\"Output does not match expected\">" >> TEST-regr.xml
 	    diff -c -b $theCase.output $theCase.expected 1>> TEST-regr.xml
-	     /bin/echo -n "</failure>" >> TEST-regr.xml
+	    /bin/echo -n "</failure>" >> TEST-regr.xml
 	fi
     else
 	new=`expr $new + 1`
