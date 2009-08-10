@@ -83,7 +83,7 @@ recurse()
 
 runall()
 {
-    /bin/echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" > TEST-regr.xml
+    /bin/echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" > TEST-regr.xml
     /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
     ext=`cat .case`
     for f in *$ext ; do
@@ -96,7 +96,7 @@ runall()
 
 runselected()
 {
-    /bin/echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" > TEST-regr.xml
+    /bin/echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" > TEST-regr.xml
     /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
     ext=`cat .case`
     for f in ${*} ; do
