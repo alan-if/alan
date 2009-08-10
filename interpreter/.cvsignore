@@ -34,4 +34,4 @@ showtest.c
 unit2
 *.dot
 x
-*.d
+*.dunittests
