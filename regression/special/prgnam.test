@@ -1,5 +1,5 @@
 ../../compiler/alan prgnam
-if test -f ../interpreter/arun.exe ; then
+if test -f ../../interpreter/arun.exe ; then
   cp ../../interpreter/arun.exe prgnam.exe ;
 else
   cp ../../interpreter/arun prgnam ;

@@ -797,6 +797,7 @@ void run(void)
 			case NO_JUMP_RETURN:
 				break;
 			case ERROR_RETURN:
+			  //printf("ERROR_RETURN\n");
 				forgetGameState();
 				forceNewPlayerInput();
 				break;

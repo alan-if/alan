@@ -49,19 +49,20 @@ include sources.mk
 all: $(TARGET)
 
 arun : $(ARUNOBJECTS)
-	$(LINK) -o $(TARGET) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -o $@ $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+	cp $@ ../bin
 
 glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
-	$(LINK) -o glkarun $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -o $@ $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)
+	cp $@ ../bin
 
 termarun : $(TERMARUNOBJECTS)
-	$(LINK) -o $(TARGET) $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -o $@ $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+	cp $@ ../bin
 
 dumpacd: dumpacd.o reverse.o spa.o
-	$(LINK) -o dumpacd $(LDFLAGS) dumpacd.o reverse.o spa.o
-
-spa.o: spa.c spa.h
-	$(CC) $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
+	$(LINK) -o $@ $(LDFLAGS) dumpacd.o reverse.o spa.o
+	cp $@ ../bin
 
 install: $(TARGET)
 	$(INSTALL) $(INSTFLAGS) $(TARGET) $(INSTALLDIR)
