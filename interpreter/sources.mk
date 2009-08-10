@@ -6,6 +6,7 @@
 UNITTESTED = \
 	AltInfo.c \
 	StateStack.c \
+	args.c \
 	act.c \
 	exe.c \
 	inter.c \
@@ -25,7 +26,6 @@ OTHERSRCS = \
 	Container.c \
 	Location.c \
 	actor.c \
-	args.c \
 	attribute.c \
 	checkentry.c \
 	class.c \

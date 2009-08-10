@@ -41,8 +41,37 @@ char *gameName(char *fullPathName) {
         foundGameName = strdup(baseNameStart(fullPathName));
         foundGameName[strlen(foundGameName)-4] = '\0'; /* Strip off .A3C */
     }
+
+    if (foundGameName[0] == '.' && foundGameName[1] == '/')
+        strcpy(foundGameName, &foundGameName[2]);
+
     return foundGameName;
 }
+
+
+/*----------------------------------------------------------------------*/
+static char *removeQuotes(char *argument) {
+    char *str = strdup(&argument[1]);
+    str[strlen(str)-1] = '\0';
+    return str;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Bool isQuoted(char *argument) {
+    return argument[0] == '"' && strlen(argument) > 2;
+}
+
+
+/*----------------------------------------------------------------------*/
+static char *addAcodeExtension(char *adventureFileName) {
+    if (compareStrings(&adventureFileName[strlen(adventureFileName)-4], ACODEEXTENSION) != 0) {
+        adventureFileName = realloc(adventureFileName, strlen(adventureFileName)+5);
+        strcat(adventureFileName, ACODEEXTENSION);
+    }
+    return adventureFileName;
+}
+
 
 
 /*----------------------------------------------------------------------*/
@@ -51,16 +80,17 @@ static void switches(int argc, char *argv[])
     int i;
 
     for (i = 1; i < argc; i++) {
+        char *argument = argv[i];
 
-        if (argv[i][0] == '-') {
-            switch (toLower(argv[i][1]))
+        if (argument[0] == '-') {
+            switch (toLower(argument[1]))
                 {
                 case 'i':
                     ignoreErrorOption = TRUE;
                     break;
                 case 't':
                     sectionTraceOption = TRUE;
-                    switch (argv[i][2]) {
+                    switch (argument[2]) {
                     case '9':
                     case '8':
                     case '7':
@@ -94,24 +124,18 @@ static void switches(int argc, char *argv[])
                     regressionTestOption = TRUE;
                     break;
                 default:
-                    printf("Unrecognized switch, -%c\n", argv[i][1]);
+                    printf("Unrecognized switch, -%c\n", argument[1]);
                     usage(argv[0]);
                     terminate(0);
                 }
         } else {
 
-            if (argv[i][0] == '"' && strlen(argv[i]) > 2) {
-                /* Probably quoting names including spaces... */
-                char *str = strdup(&argv[i][1]);
-                adventureFileName = str;
-                adventureFileName[strlen(adventureFileName)-1] = '\0';
-            } else
-                adventureFileName = strdup(argv[i]);
+            if (isQuoted(argument))
+                adventureFileName = removeQuotes(argument);
+            else
+                adventureFileName = strdup(argument);
 
-            if (!compareStrings(&adventureFileName[strlen(adventureFileName)-4], ACODEEXTENSION) == 0) {
-                adventureFileName = realloc(adventureFileName, strlen(adventureFileName)+5);
-                strcat(adventureFileName, ACODEEXTENSION);
-            }
+            addAcodeExtension(adventureFileName);
 
             adventureName = gameName(adventureFileName);
 

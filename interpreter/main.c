@@ -381,7 +381,7 @@ static void checkDebug(void)
     }
 	
     if (debugOption || regressionTestOption) /* If debugging... */
-        srand(0);			/* ... use no randomization */
+        srand(1);			/* ... use no randomization */
     else
         srand(time(0));		/* Else seed random generator */
 }

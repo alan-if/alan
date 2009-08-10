@@ -158,7 +158,7 @@ version.h : ../version.h
 #
 # CGreen unit tests
 #
-CGREENROOT = ../Cgreen
+CGREENROOT = ../cgreen
 CGREENINCLUDE = -I$(CGREENROOT)/include
 unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
 unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
@@ -216,7 +216,7 @@ CPP	= gcc
 DEPENDFLAGS = -MM
 DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
 depend:
-	@-for f in $(UNITTESTSSRC) $(MAINSRCS) dumpacd.c reverse.c spa.c ; \
+	@-for f in $(UNITTESTSSRCS) $(MAINSRCS) dumpacd.c reverse.c ; \
 	  do \
 	  $(CPP) $(DEPENDFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
 	done

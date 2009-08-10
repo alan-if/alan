@@ -30,7 +30,8 @@ PROGNAME=-DPROGNAME=\"$(TARGET)\"
 ARUNOPTS = $(PROGNAME) $(GLK)
 
 CC = gcc
-CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
+COMPILEFLAGS = -g -Wall -funsigned-char
+CFLAGS = $(COMPILEFLAGS) -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
 
 LINK = gcc
 LINKFLAGS = -g $(ARUNOPTS) $(OSDEFS)
@@ -64,6 +65,37 @@ dumpacd: dumpacd.o reverse.o spa.o
 	$(LINK) -o $@ $(LDFLAGS) dumpacd.o reverse.o spa.o
 	cp $@ ../bin
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# CGreen unit tests
+#
+unittests: CGREENROOT = ../cgreen
+unittests: CGREENINCLUDE = -I$(CGREENROOT)/include
+unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
+unittests: OSDEFS = -arch i386
+unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE) $(OSDEFS)
+unittests: LIBS = $(CGREENROOT)/libcgreen.a
+
+unittests: $(UNITTESTSOBJECTS) $(LIBS)
+	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
+
+.PHONY: unit
+unit:
+	-@if test -d $(CGREENROOT) ; then \
+		$(MAKE) -f Makefile.macosx unittests ; \
+		./unittests ; \
+	fi
+
+#+++++++++++++++++++++++++++++++++
+#
+# Run all tests!
+#
+test: unit
+
+#+++++++++++++++++++++++++++++++++
+#
+# Install
+#
 install: $(TARGET)
 	$(INSTALL) $(INSTFLAGS) $(TARGET) $(INSTALLDIR)
 #	$(INSTALL) $(INSTFLAGS) dumpacd $(INSTALLDIR) 
