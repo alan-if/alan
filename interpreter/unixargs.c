@@ -26,6 +26,8 @@ void args(int argc, char * argv[])
 
     /* Now look at the switches and arguments */
     switches(argc, argv);
+
+    // TODO This is the same as in winargs.c!!
     if (adventureFileName == NULL)
 	/* No game given, try program name to see if there is a game with that name */
 	if (strcmp(prgnam, PROGNAME) != 0) {

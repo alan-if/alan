@@ -59,6 +59,7 @@ void args(int argc, char * argv[])
   }
 #endif
 
+  // TODO This is the same as in unixargs.c
   if (adventureFileName == NULL) {
     /* No game given, try program name */
     if (differentInterpreterName(programName)) {
