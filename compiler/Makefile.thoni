@@ -7,7 +7,6 @@
 
 DEBUG = -g
 OPTIMIZE = 
-INCLUDES = -I../interpreter
 
 # Cygwin or MingW?
 #OS_FLAGS = -mno-cygwin $(DEBUG)
