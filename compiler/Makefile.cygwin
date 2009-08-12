@@ -1,0 +1,10 @@
+# Compiler and linker are both gcc
+COMPILER = gcc
+LINKER = gcc
+
+# Flags to send to both compiler & linker
+OS_FLAGS = -mno-cygwin
+EXTRA_COMPILER_FLAGS =
+EXTRA_LINKER_FLAGS =
+
+include rules.mk

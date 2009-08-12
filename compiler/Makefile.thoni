@@ -6,17 +6,17 @@
 #######################################################################
 
 # Cygwin or MingW?
-PLATFORM = -mno-cygwin
-#PLATFORM = 
+#OS_FLAGS = -mno-cygwin
+OS_FLAGS = 
 
 OPTIMIZE = -ggdb
 
-CFLAGS 		= $(OPTIMIZE) -Wall -funsigned-char $(PLATFORM)
-LINKFLAGS	= $(PLATFORM)
+CFLAGS 		= $(OPTIMIZE) -Wall -funsigned-char $(OS_FLAGS)
+LINKFLAGS	= $(OS_FLAGS)
 
-CC	= gcc
-CPP	= gcc -MM -ansi
-LINK	= gcc
+COMPILER	= gcc
+LINKER  	= gcc
+CPP	        = gcc -MM -ansi
 
 
 include sources.mk
@@ -24,8 +24,6 @@ include sources.mk
 
 all : alanFromToolMaker rndalan
 
-Makefile:
-	ln -s Makefile.thoni Makefile
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -62,7 +60,8 @@ rndalan: rndalan.o
 #
 # WinAlan
 #
-winalan: PLATFORM = -DWINGUI -mno-cygwin -mwindows
+winalan: OS_FLAGS = -mno-cygwin -mwindows
+winalan: EXTRA_COMPILER_FLAGS = -DWINGUI
 
 winalan: checkTarget $(ALANOBJS) alan.res unit
 	$(LINK) $(LINKFLAGS) -o winalan $(ALANOBJS) alan.res
@@ -71,12 +70,6 @@ winalan: checkTarget $(ALANOBJS) alan.res unit
 
 alan.res: alan.rc alan.ico
 	windres $< -O coff -o $@
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-clean:
-	-rm *.o
-
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -92,7 +85,7 @@ tm:
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-ARCH	= `echo $(PLATFORM) $(OPTIMIZE)`
+ARCH	= `echo $(OS_FLAGS) $(COMPILE_FLAGS)`
 .PHONY: checkTarget
 checkTarget:
 	-@if ! test -f .arch; then echo "none" > .arch; fi
@@ -101,23 +94,6 @@ checkTarget:
 		rm *.o; \
 		/bin/echo -n $(ARCH) > .arch; \
 	fi
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Testing
-#
-
-unit: unittests
-	@./unittests
-
-.PHONY: unit
-unittests : $(UNITOBJS)
-	$(LINK) -o unittests $(LINKFLAGS) $(UNITOBJS)
-
-.PHONY:test
-# Run all tests!
-test : unit
-	-cd testing; regr
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
