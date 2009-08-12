@@ -5,24 +5,24 @@
 # Copy it to Makefile and go from there
 #######################################################################
 
+DEBUG = -g
+OPTIMIZE = 
+
 # Cygwin or MingW?
-#OS_FLAGS = -mno-cygwin
-OS_FLAGS = 
+OS_FLAGS = -mno-cygwin $(DEBUG)
+#OS_FLAGS = $(DEBUG)
 
-OPTIMIZE = -ggdb
-
-CFLAGS 		= $(OPTIMIZE) -Wall -funsigned-char $(OS_FLAGS)
-LINKFLAGS	= $(OS_FLAGS)
+EXTRA_COMPILER_FLAGS = $(OPTIMIZE) -Wall -funsigned-char
 
 COMPILER	= gcc
 LINKER  	= gcc
 CPP	        = gcc -MM -ansi
 
 
-include sources.mk
+all : alanFromToolMaker
 
 
-all : alanFromToolMaker rndalan
+include rules.mk
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -31,10 +31,6 @@ all : alanFromToolMaker rndalan
 #
 alanFromToolMaker: checkTarget tm alan
 
-alan: checkTarget unit $(ALANOBJS)
-	$(LINK) -o alan $(LINKFLAGS) $(ALANOBJS)
-	-@if test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
-	cp alan.exe ../bin
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -85,7 +81,7 @@ tm:
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-ARCH	= `echo $(OS_FLAGS) $(COMPILE_FLAGS)`
+ARCH	= `echo $(CFLAGS) $(LINKFLAGS)`
 .PHONY: checkTarget
 checkTarget:
 	-@if ! test -f .arch; then echo "none" > .arch; fi
@@ -130,5 +126,3 @@ version.h : ../version.h
 ../alan.version: $(VERSIONSRCS) 
 	cd ..; venum -write always alan time
 
-#
-include dependencies.mk

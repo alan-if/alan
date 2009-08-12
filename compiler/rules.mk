@@ -8,11 +8,10 @@
 # Then include this file in your Makefile, and you are done
 
 CC = $(COMPILER)
-COMPILE_FLAGS = $(INCLUDE) $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
-CFLAGS = -g -Wall -funsigned-char $(COMPILE_FLAGS)
+CFLAGS = $(INCLUDE) $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
 
 LINK = $(LINKER)
-LINKFLAGS = -g $(EXTRA_LINKER_FLAGS)
+LINKFLAGS = $(EXTRA_LINKER_FLAGS)
 
 
 # Include common list of sources
@@ -55,7 +54,7 @@ unit: unittests
 	@./unittests
 
 unittests : $(UNITOBJS)
-	$(LINK) -o unittests $(CFLAGS) $(UNITOBJS) $(LINKFLAGS)
+	$(LINK) -o unittests $(UNITOBJS) $(LINKFLAGS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

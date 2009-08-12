@@ -7,8 +7,8 @@ COMPILER = gcc
 LINKER = gcc
 
 OS_FLAGS = -arch ppc -arch i386
-EXTRA_COMPILER_FLAGS =
-EXTRA_LINKER_FLAGS =
+EXTRA_COMPILER_FLAGS = -Wall -funsigned-char
+EXTRA_LINKER_FLAGS = 
 
 include rules.mk
 

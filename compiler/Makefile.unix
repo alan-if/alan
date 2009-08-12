@@ -1,69 +1,12 @@
-# Makefile for alan compiler on Unix
+#
+# Makefile to compile Alan Compiler on generic Unix
 #
 
-CC = gcc
-CFLAGS = -g -Wall -funsigned-char $(INCLUDE) $(OSDEFS)
+COMPILER = gcc
+LINKER = gcc
 
-LINK = gcc
-LINKFLAGS = -g
+OS_FLAGS =
+EXTRA_COMPILER_FLAGS = -Wall -funsigned-char
+EXTRA_LINKER_FLAGS =
 
-
-# Include common list of sources
-include sources.mk
-
-help:
-	@echo "This the generic Makefile for the Alan compiler"
-	@echo "The following targets are available:"
-	@echo
-	@echo "    make all  - Build and test the alan compiler"
-	@echo "    make alan - Build the alan compiler"
-	@echo "    make unit - Build and run the unit tests"
-	@echo "    make clean"
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Main target
-#
-all: unit alan test
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Main target
-#
-alan: $(ALANOBJS)
-	$(LINK) -o alan $(ALANOBJS) $(LINKFLAGS)
-	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
-	cp alan ../bin
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Unit testing
-#
-
-unit: unittests
-	@./unittests
-
-unittests : $(UNITOBJS)
-	$(LINK) -o unittests $(CFLAGS) $(UNITOBJS) $(LINKFLAGS)
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Run all unit tests!
-#
-test: unit
-	-cd testing; ../../bin/regr
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Clean
-#
-clean:
-	-rm *.o
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-include dependencies.mk
-
+include rules.mk
