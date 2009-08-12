@@ -7,10 +7,11 @@
 
 DEBUG = -g
 OPTIMIZE = 
+INCLUDES = -I../interpreter
 
 # Cygwin or MingW?
-OS_FLAGS = -mno-cygwin $(DEBUG)
-#OS_FLAGS = $(DEBUG)
+#OS_FLAGS = -mno-cygwin $(DEBUG)
+OS_FLAGS = $(DEBUG)
 
 EXTRA_COMPILER_FLAGS = $(OPTIMIZE) -Wall -funsigned-char
 
@@ -86,7 +87,8 @@ ARCH	= `echo $(CFLAGS) $(LINKFLAGS)`
 checkTarget:
 	-@if ! test -f .arch; then echo "none" > .arch; fi
 	-@if test "`cat .arch`" != "$(ARCH)"; then \
-		echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
+		echo Removing objects for `cat .arch` ; \
+                echo Building for         $(ARCH) ; \
 		rm *.o; \
 		/bin/echo -n $(ARCH) > .arch; \
 	fi

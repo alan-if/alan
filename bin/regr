@@ -7,36 +7,35 @@
 #   .case - the extension (including period) to be considered test cases
 #           if available indicates that there are cases in this directory
 #
-dir=`basename "$PWD"`
 
-run ()
+function run ()
 {
     echo -n "$theCase : "
     if [ ! -f $theCase.suspended ]
     then
 	echo "########## $theCase ##########" >$theCase.output
 	./.regr $theCase >>$theCase.output 2>&1
-	theCases=`expr $theCases + 1`
+	cases=`expr $cases + 1`
     fi
 }
 
-verify()
+function verify()
 {
-    /bin/echo "<testcase name=\"$theCase\" classname=\"$dir\">" >> TEST-regr.xml
-    if [ -f $theCase.suspended ]
-    then
+    /bin/echo "<testcase name=\"$theCase\" classname=\"regr\">" >> TEST-regr.xml
+    if [ -f $theCase.suspended ] ; then
 	suspended=`expr $suspended + 1`
 	echo "Suspended..."
-    else if [ -f $theCase.expected ]
-    then
-	if diff -q -b $theCase.output $theCase.expected 1> /dev/null
-	then
+    else if [ -f $theCase.expected ] ; then
+	if diff -q -b $theCase.output $theCase.expected 1> /dev/null ; then
 	    ok=`expr $ok + 1`
             if [ $interactive = 1 ] ; then
-	        #tput ce #- This should really work, but doesn't on cygwin ;-( so we need to do the following three lines instead
 	        tput cr
-	        /bin/echo -n "                                                                                                       "
-	        tput cr
+                if [ CYGWIN ] ; then
+	            /bin/echo -n "                                                            "
+		    tput cr
+                else
+	            tput ce #- This should really work, but doesn't on cygwin ;-( so we need to do the two lines above instead
+                fi
             else
 	        echo "ok"
 	    fi
@@ -59,54 +58,77 @@ verify()
     /bin/echo "</testcase>" >> TEST-regr.xml
 }
 
+function summary ()
+{
+    echo -n "Ran $cases tests "
+    if [ $suspended -ne 0 ] ; then
+	echo -n "($suspended suspended)"
+    fi
+    echo -n ", "
+    if [ $new -ne 0 ] ; then
+	echo -n "$new new, "
+    fi
+    if [ $failed -eq 0 ] ; then
+	if [ $new -eq 0 ] ; then
+	    echo -n All OK!
+	else
+	    echo -n $ok OK!
+	fi
+    else
+	echo -n "*** $failed FAILED! ***"
+    fi
+    echo
+}
+
 # TODO recurse should build a path to use in run/verify so that "recursing"/"leaving" is unnecessary:
 # sub/test1 ok
 # sub/test2 ok
 # a ok
 # b ok
-recurse()
+
+function recurse()
 {
-    for d in *; do
-	if [ -d $d ]
-	then
-	    if [ -f $d/.regr ]
-	    then
-		echo "Recursing: $d"
-		cd $d
-		runall
-		cd ..
-		echo "Leaving: $d"
-	    fi
-	fi
-    done
+    cd "$1"
+    runall "$2"
+    cd ..
 }
 
-runall()
+function runall()
 {
-    /bin/echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" > TEST-regr.xml
-    /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
-    ext=`cat .case`
-    for f in *$ext ; do
-	theCase=`basename $f $ext`
-	run
-	verify
-    done
-    /bin/echo "</testsuite>" >> TEST-regr.xml
+    if [ ! -f .ignore ] ; then
+        local path="$1"
+        for d in * ; do
+	    if [ -d "$d" ] ; then
+                recurse "$d" "$path/$d"
+            fi
+        done
+
+        if [ -f .regr ] ; then
+            echo :: $path :: 
+            /bin/echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" > TEST-regr.xml
+            /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
+            ext=`cat .case`
+            for f in *$ext ; do
+	        theCase=`basename $f $ext`
+	        run
+	        verify
+            done
+            /bin/echo "</testsuite>" >> TEST-regr.xml
+        fi
+    fi
 }
 
-runselected()
+function runselected()
 {
     /bin/echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" > TEST-regr.xml
     /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
     ext=`cat .case`
     for f in ${*} ; do
 	theCase=`basename $f $ext`
-	if [ "$theCase" != "$f" ]
-	then
+	if [ "$theCase" != "$f" ] ; then
 	    run
 	    verify
-	elif [ -f $theCase$ext ]
-	then
+	elif [ -f $theCase$ext ] ; then
 	    run
 	    verify
 	fi
@@ -114,16 +136,20 @@ runselected()
     /bin/echo "</testsuite>" >> TEST-regr.xml
 }
 
-theCases=0
+cases=0
 ok=0
 failed=0
 suspended=0
 new=0
 
-interactive=0
+if [ -t 0 ] ; then
+    interactive=1
+else
+    interactive=0
+fi
+
 if [ $# -gt 0 ] ; then
-    while getopts ni OPTION
-    do
+    while getopts ni OPTION ; do
 	case ${OPTION} in
             n) interactive=0;;
             i) interactive=1;;
@@ -134,38 +160,9 @@ if [ $# -gt 0 ] ; then
     shift $(($OPTIND-1))
 fi
 
-if [ $# = 0 ] ; then
-    recurse
-fi
-
-if [ -f .case ] ; then
-    if [ $# != 0 ] ; then
-	runselected ${*}
-    else
-	if [ -f .regr ]
-	then
-	    runall
-	fi
-    fi
-    if test $new -ne 0
-    then
-	echo -n "$new new, "
-    fi
-    if test $suspended -ne 0
-    then
-	echo -n "$suspended suspended, "
-    fi
-    if test $failed -eq 0
-    then
-	if test $new -eq 0
-	then
-	    echo All $theCases OK!
-	else
-	    echo $ok OK!
-	fi
-    else
-	echo "*** $failed FAILED! ***"
-    fi
+if [ $# != 0 ] ; then
+    runselected ${*}
 else
-    echo No cases to run in `pwd`
+    runall .
 fi
+summary
