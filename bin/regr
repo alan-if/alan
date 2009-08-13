@@ -10,10 +10,10 @@
 
 function run ()
 {
-    echo -n "$theCase : "
+    /bin/echo -n "$theCase : "
     if [ ! -f $theCase.suspended ]
     then
-	echo "########## $theCase ##########" >$theCase.output
+	/bin/echo "########## $theCase ##########" >$theCase.output
 	./.regr $theCase >>$theCase.output 2>&1
 	cases=`expr $cases + 1`
     fi
@@ -24,7 +24,7 @@ function verify()
     /bin/echo "<testcase name=\"$theCase\" classname=\"regr\">" >> TEST-regr.xml
     if [ -f $theCase.suspended ] ; then
 	suspended=`expr $suspended + 1`
-	echo "Suspended..."
+	/bin/echo "Suspended..."
     else if [ -f $theCase.expected ] ; then
 	if diff -q -b $theCase.output $theCase.expected 1> /dev/null ; then
 	    ok=`expr $ok + 1`
@@ -37,7 +37,7 @@ function verify()
 	            tput ce #- This should really work, but doesn't on cygwin ;-( so we need to do the two lines above instead
                 fi
             else
-	        echo "ok"
+	        /bin/echo "ok"
 	    fi
 	    rm $theCase.output
 	else
@@ -60,24 +60,24 @@ function verify()
 
 function summary ()
 {
-    echo -n "Ran $cases tests"
+    /bin/echo -n "Total $cases tests"
     if [ $suspended -ne 0 ] ; then
-	echo -n " ($suspended suspended)"
+	/bin/echo -n " ($suspended suspended)"
     fi
-    echo -n ", "
+    /bin/echo -n ", "
     if [ $new -ne 0 ] ; then
-	echo -n "$new new, "
+	/bin/echo -n "$new new, "
     fi
     if [ $failed -eq 0 ] ; then
 	if [ $new -eq 0 ] ; then
-	    echo -n All OK!
+	    /bin/echo -n All OK!
 	else
-	    echo -n $ok OK!
+	    /bin/echo -n $ok OK!
 	fi
     else
-	echo -n "*** $failed FAILED! ***"
+	/bin/echo -n "*** $failed FAILED! ***"
     fi
-    echo
+    /bin/echo
 }
 
 # TODO recurse should build a path to use in run/verify so that "recursing"/"leaving" is unnecessary:
