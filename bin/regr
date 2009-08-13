@@ -95,6 +95,7 @@ function recurse()
 
 function runall()
 {
+    rm *.output TEST-regr.xml
     if [ ! -f .ignore ] ; then
         local path="$1"
         for d in * ; do
