@@ -21,7 +21,7 @@ function run ()
 
 function verify()
 {
-    /bin/echo "<testcase name=\"$theCase\" classname=\"regr\">" >> TEST-regr.xml
+    /bin/echo "<testcase name=\"$theCase\" classname=\"$1\">" >> TEST-regr.xml
     if [ -f $theCase.suspended ] ; then
 	suspended=`expr $suspended + 1`
 	/bin/echo "Suspended..."
@@ -110,8 +110,8 @@ function runall()
             ext=`cat .case`
             for f in *$ext ; do
 	        theCase=`basename $f $ext`
-	        run
-	        verify
+	        run "$path"
+	        verify "$path"
             done
             /bin/echo "</testsuite>" >> TEST-regr.xml
         fi
