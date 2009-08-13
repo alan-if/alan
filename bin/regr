@@ -60,9 +60,9 @@ function verify()
 
 function summary ()
 {
-    echo -n "Ran $cases tests "
+    echo -n "Ran $cases tests"
     if [ $suspended -ne 0 ] ; then
-	echo -n "($suspended suspended)"
+	echo -n " ($suspended suspended)"
     fi
     echo -n ", "
     if [ $new -ne 0 ] ; then
