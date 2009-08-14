@@ -21,7 +21,7 @@ function run ()
 
 function verify()
 {
-    /bin/echo "<testcase name=\"$theCase\" classname=\"$1\">" >> TEST-regr.xml
+    /bin/echo "<testcase name=\"$theCase\" classname=\"regr.regression.special\">" >> TEST-regr.xml
     if [ -f $theCase.suspended ] ; then
 	suspended=`expr $suspended + 1`
 	/bin/echo "Suspended..."
