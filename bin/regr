@@ -95,7 +95,6 @@ function recurse()
 
 function runall()
 {
-echo -> $1
     if [ ! -f .ignore ] ; then
         local path="$1"
         for d in * ; do
@@ -164,6 +163,6 @@ fi
 if [ $# != 0 ] ; then
     runselected ${*}
 else
-    runall `basename $PWD`
+    runall `basename "$PWD"`
 fi
 summary
