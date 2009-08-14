@@ -163,6 +163,6 @@ fi
 if [ $# != 0 ] ; then
     runselected ${*}
 else
-    runall .
+    runall `basename $PWD`
 fi
 summary
