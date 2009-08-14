@@ -95,6 +95,7 @@ function recurse()
 
 function runall()
 {
+echo -> $1
     if [ ! -f .ignore ] ; then
         local path="$1"
         for d in * ; do
