@@ -21,7 +21,7 @@ function run ()
 
 function verify()
 {
-    /bin/echo "<testcase name=\"$theCase\" classname=\"regr.regression.special\">" >> TEST-regr.xml
+    /bin/echo "<testcase name=\"$theCase\" classname=\"$1\">" >> TEST-regr.xml
     if [ -f $theCase.suspended ] ; then
 	suspended=`expr $suspended + 1`
 	/bin/echo "Suspended..."
@@ -99,7 +99,7 @@ function runall()
         local path="$1"
         for d in * ; do
 	    if [ -d "$d" ] ; then
-                recurse "$d" "$path/$d"
+                recurse "$d" "$path.$d"
             fi
         done
 
