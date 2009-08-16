@@ -8,6 +8,7 @@
 # Then include this file in your Makefile, and you are done
 
 CC = $(COMPILER)
+INCLUDE = -I../interpreter
 CFLAGS = $(INCLUDE) $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
 
 LINK = $(LINKER)
