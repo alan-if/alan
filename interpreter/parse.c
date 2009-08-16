@@ -853,6 +853,7 @@ static Bool hasBit(Aword flags, Aword bit) {
 /*----------------------------------------------------------------------*/
 static void parseParameter(Parameter parameters[], Aword flags, Bool *anyPlural, Parameter multipleList[]) {
     Parameter *parsedParameters = allocateParameterArray(NULL, MAXPARAMS); /* List of parameters parsed, possibly multiple */
+    Parameter pp[MAXPARAMS+1];
 	
     plural = FALSE;
     complex(parsedParameters);
@@ -1164,8 +1165,9 @@ static void notePronounParameters(Parameter parameters[]) {
 
 /*======================================================================*/
 void parse(Parameter parameters[]) {
-    static Parameter *multipleMatches = allocateParameterArray(multipleMatches, MAXPARAMS);
-	
+    static Parameter *multipleMatches = NULL;
+    multipleMatches = allocateParameterArray(multipleMatches, MAXPARAMS);
+
     if (endOfWords(wordIndex)) {
         wordIndex = 0;
         scan();

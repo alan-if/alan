@@ -31,6 +31,15 @@ static void makeDictionaryEntry(int index, int code, int classBits) {
 }
 
 
+static ACodeHeader acdHeader;
+
+static void setupHeader(void) {
+    header = &acdHeader;
+    header->maxParameters = 10;
+    header->instanceMax = 10;
+}
+
+
 /*----------------------------------------------------------------------*/
 Ensure canMatchEndOfSyntax() {
     ElementEntry *element;
@@ -147,12 +156,8 @@ Ensure canMatchParseTree() {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupParameterForWord() {
-    ACodeHeader acdHeader;
-    Parameter *messageParameters = allocateParameterArray(NULL, MAXPARAMS);
+    Parameter *messageParameters;
 
-    header = &acdHeader;
-    header->maxParameters = 10;
-    header->instanceMax = 10;
     dictionary = makeDictionary(20);
     memory = allocate(40*sizeof(Aword));
 
@@ -160,6 +165,7 @@ Ensure canSetupParameterForWord() {
     memcpy(&memory[12], "qwerty", 7);
     dictionary[2].string = 12;
 
+    messageParameters = allocateParameterArray(NULL, MAXPARAMS);
     ensureSpaceForPlayerWords(2);
     playerWords[1].code = 2;
     litCount = 0;
@@ -193,7 +199,7 @@ Ensure canSetupInstanceParametersForMessages() {
 
     addParameterForInstance(parameters, 2);
 
-    assert_true(isLiteral(parameters[0].instance));
+    assert_false(isLiteral(parameters[0].instance));
     assert_equal(parameters[0].instance, 2);
     assert_true(isEndOfList(&parameters[1]));
 
@@ -208,7 +214,7 @@ Ensure canSetupStringParametersForMessages() {
     addParameterForString(parameters, "a string");
 
     assert_true(isLiteral(parameters[0].instance));
-    assert_string_equal((char *)literals[parameters[0].instance].value, "a string");
+    assert_string_equal((char *)literals[literalFromInstance(parameters[0].instance)].value, "a string");
     assert_true(isEndOfList(&parameters[1]));
 
     free(parameters);
@@ -222,7 +228,7 @@ Ensure canSetupIntegerParametersForMessages() {
     addParameterForInteger(parameters, 14);
 
     assert_true(isLiteral(parameters[0].instance));
-    assert_equal((char *)literals[parameters[0].instance].value, 14);
+    assert_equal((char *)literals[literalFromInstance(parameters[0].instance)].value, 14);
     assert_true(isEndOfList(&parameters[1]));
 
     free(parameters);
@@ -233,6 +239,8 @@ Ensure canSetupIntegerParametersForMessages() {
 TestSuite *parseTests()
 {
     TestSuite *suite = create_test_suite();
+
+    setup(suite, setupHeader);
     add_test(suite, canSetupParameterForWord);
     add_test(suite, canMatchEndOfSyntax);
     add_test(suite, canMatchParameterElement);

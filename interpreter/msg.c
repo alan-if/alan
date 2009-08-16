@@ -6,6 +6,7 @@
 #include "msg.h"
 
 /* IMPORTS */
+#include "memory.h"
 #include "inter.h"
 #include "exe.h"
 #include "lists.h"
