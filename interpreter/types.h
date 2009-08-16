@@ -44,7 +44,7 @@
 #define THING (header->thingClassId)
 #define ACTOR (header->actorClassId)
 
-#define MAXPARAMS 9
+#define MAXPARAMS (header->maxParameters)
 #define MAXENTITY (header->instanceMax)
 
 #define pointerTo(x) ((void *)&memory[x])

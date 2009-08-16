@@ -1164,8 +1164,7 @@ static void notePronounParameters(Parameter parameters[]) {
 
 /*======================================================================*/
 void parse(Parameter parameters[]) {
-    static Parameter *multipleMatches = NULL;
-    multipleMatches = allocateParameterArray(multipleMatches, MAXPARAMS);
+    static Parameter *multipleMatches = allocateParameterArray(multipleMatches, MAXPARAMS);
 	
     if (endOfWords(wordIndex)) {
         wordIndex = 0;
