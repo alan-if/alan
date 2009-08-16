@@ -30,7 +30,7 @@ extern Parameter *parameters;   /* List of parameters */
 
 
 /* FUNCTIONS */
-extern Parameter *allocateParameterArray(Parameter *currentList);
+extern Parameter *allocateParameterArray(Parameter *currentList, int size);
 extern Parameter *findEndOfList(Parameter *parameters);
 extern int findMultiplePosition(Parameter parameters[]);
 extern void compress(Parameter *a);

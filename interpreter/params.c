@@ -19,11 +19,11 @@ Parameter *parameters; /* List of params */
 
 
 /*======================================================================*/
-Parameter *allocateParameterArray(Parameter *currentList) {
+Parameter *allocateParameterArray(Parameter *currentList, int size) {
     Parameter *list;
     if (currentList != NULL)
 	return currentList;
-    list = allocate(sizeof(Parameter)*(MAXPARAMS+1));
+    list = allocate(sizeof(Parameter)*(size+1));
     setEndOfList(list);
     return list;
 }

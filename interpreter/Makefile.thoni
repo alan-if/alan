@@ -13,7 +13,7 @@ OPTIMIZE = -ggdb
 #Settings for memory debugging which is used unless building RELEASE
 SMARTALLOC = -DSMARTALLOC
 
-COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(SMARTALLOC) -funsigned-char -Wall
+COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(SMARTALLOC) -funsigned-char
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 WARNINGFLAGS = -Wall
 

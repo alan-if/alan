@@ -148,7 +148,7 @@ Ensure canMatchParseTree() {
 /*----------------------------------------------------------------------*/
 Ensure canSetupParameterForWord() {
     ACodeHeader acdHeader;
-    Parameter *messageParameters = allocateParameterArray(NULL);
+    Parameter *messageParameters = allocateParameterArray(NULL, MAXPARAMS);
 
     header = &acdHeader;
     header->maxParameters = 10;
@@ -189,7 +189,7 @@ Ensure canSeeBitsInFlag(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupInstanceParametersForMessages() {
-    Parameter *parameters = allocateParameterArray(NULL);
+    Parameter *parameters = allocateParameterArray(NULL, MAXPARAMS);
 
     addParameterForInstance(parameters, 2);
 
@@ -203,7 +203,7 @@ Ensure canSetupInstanceParametersForMessages() {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupStringParametersForMessages() {
-    Parameter *parameters = allocateParameterArray(NULL);
+    Parameter *parameters = allocateParameterArray(NULL, MAXPARAMS);
 
     addParameterForString(parameters, "a string");
 
@@ -217,7 +217,7 @@ Ensure canSetupStringParametersForMessages() {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupIntegerParametersForMessages() {
-    Parameter *parameters = allocateParameterArray(NULL);
+    Parameter *parameters = allocateParameterArray(NULL, MAXPARAMS);
 
     addParameterForInteger(parameters, 14);
 
