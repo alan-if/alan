@@ -41,7 +41,7 @@ static void setupHeader(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchEndOfSyntax() {
+Ensure canMatchEndOfSyntax(void) {
     ElementEntry *element;
     ElementEntry *elementTable;
 
@@ -70,7 +70,7 @@ Ensure canMatchEndOfSyntax() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchParameterElement() {
+Ensure canMatchParameterElement(void) {
     ElementEntry *element;
     ElementEntry *elementTable;
 
@@ -107,7 +107,7 @@ Ensure canMatchParameterElement() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchParseTree() {
+Ensure canMatchParseTree(void) {
     ElementEntry *element;
     ElementEntry *elementTable;
     Bool plural;
@@ -155,7 +155,7 @@ Ensure canMatchParseTree() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canSetupParameterForWord() {
+Ensure canSetupParameterForWord(void) {
     Parameter *messageParameters;
 
     dictionary = makeDictionary(20);
@@ -194,7 +194,7 @@ Ensure canSeeBitsInFlag(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSetupInstanceParametersForMessages() {
+Ensure canSetupInstanceParametersForMessages(void) {
     Parameter *parameters = allocateParameterArray(NULL, MAXPARAMS);
 
     addParameterForInstance(parameters, 2);
@@ -208,7 +208,7 @@ Ensure canSetupInstanceParametersForMessages() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSetupStringParametersForMessages() {
+Ensure canSetupStringParametersForMessages(void) {
     Parameter *parameters = allocateParameterArray(NULL, MAXPARAMS);
 
     addParameterForString(parameters, "a string");
@@ -222,7 +222,7 @@ Ensure canSetupStringParametersForMessages() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSetupIntegerParametersForMessages() {
+Ensure canSetupIntegerParametersForMessages(void) {
     Parameter *parameters = allocateParameterArray(NULL, MAXPARAMS);
 
     addParameterForInteger(parameters, 14);
@@ -236,7 +236,7 @@ Ensure canSetupIntegerParametersForMessages() {
 
 
 
-TestSuite *parseTests()
+TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
 
