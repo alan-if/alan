@@ -5,7 +5,7 @@
 
 run ()
 {
-    echo -n "$case : "
+    /bin/echo -n "$case : "
     ./.regr $case
     cases=`expr $cases + 1`
 }
@@ -14,11 +14,9 @@ cases=0
 if [ $# != 0 ] ; then
   for f in ${*} ; do
     case=`basename $f .alan`
-    if [ "$case" != "$f" ]
-    then
+    if [ "$case" != "$f" ] ; then
 	run
-    elif [ -f $case.alan ]
-    then
+    elif [ -f $case.alan ] ; then
         run
     fi
   done
