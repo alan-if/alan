@@ -311,7 +311,7 @@ static void addParameterForWords(Parameter *parameters, int firstWordIndex, int 
 
 /* Private Types */
 static int allWordIndex; /* Word index of the ALL_WORD found */
-static int allLength; /* No. of objects matching 'all' */
+static int multipleLength; /* No. of objects matching 'all' */
 
 typedef struct PronounEntry { /* To remember parameter/pronoun relations */
     int pronoun;
@@ -529,7 +529,7 @@ static void resolve(Parameter matchedParameters[]) {
 	
     int i;
 	
-    if (allLength > 0) /* ALL has already done this */
+    if (multipleLength > 0) /* ALL has already done this */
         return; /* TODO: NO IT HASN'T ALWAYS SINCE THIS CAN BE ANOTHER PARAMETER!!! */
 	
     /* Resolve ambiguities by presence */
@@ -595,7 +595,7 @@ static Bool lastPossibleNoun(int wordIndex) {
 static void updateWithAdjectiveReferences(int wordIndex, Parameter parsedParameters[], Bool foundPreviousReferences) {
     static Parameter *references = NULL; /* Instances referenced by a word */
     references = allocateParameterArray(references, MAXPARAMS);
-	
+
     copyReferences(references, adjectiveReferencesForWord(wordIndex));
     if (foundPreviousReferences)
         intersect(parsedParameters, references);
@@ -608,7 +608,7 @@ static void updateWithAdjectiveReferences(int wordIndex, Parameter parsedParamet
 static void updateWithNounReferences(int wordIndex, Parameter parsedParameters[], Bool foundPreviousReferences) {
     static Parameter *references = NULL; /* Instances referenced by a word */
     references = allocateParameterArray(references, MAXPARAMS);
-	
+
     copyReferences(references, nounReferencesForWord(wordIndex));
     if (foundPreviousReferences)
         intersect(parsedParameters, references);
@@ -695,13 +695,11 @@ static void disambiguateCandidatesForPosition(Parameter parameters[], int positi
 static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
     // TODO This is really too long, need to break out some parts
     int firstWord, lastWord; /* The words the player used */
-	
-    static Parameter *savedParameters = NULL; /* Saved list for backup at EOF */
-	
-    savedParameters = allocateParameterArray(savedParameters, MAXPARAMS);
-	
+
+    Parameter savedParameters[MAXPARAMS+1]; /* Saved list for backup at EOF */
+
     clearList(parameterCandidates);
-	
+
     if (isLiteralWord(wordIndex)) {
         transformLiteralIntoSingleParameter(parameterCandidates);
         wordIndex++;
@@ -710,7 +708,7 @@ static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
         wordIndex++; /* Consume the pronoun */
     } else {
         Bool found = FALSE; /* Adjective or noun found ? */
-		
+
         static Parameter *references = NULL; /* Instances referenced by a word */
         references = allocateParameterArray(references, MAXPARAMS);
 
@@ -761,10 +759,10 @@ static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
             parameter.lastWord = lastWord;
             errorNoSuch(parameter);
         }
-		
+
         parameterCandidates[0].firstWord = firstWord;
         parameterCandidates[0].lastWord = lastWord;
-		
+
     }
 }
 
@@ -774,9 +772,9 @@ static void simple(Parameter olst[]) {
     int savidx = wordIndex;
     Bool savplur = FALSE;
     int i;
-	
+
     tlst = allocateParameterArray(tlst, MAXENTITY);
-	
+
     for (;;) {
         /* Special handling here since THEM_WORD is a common pronoun, so
            we check if it is also a pronoun, if it is but there is a list of
@@ -822,9 +820,9 @@ static void simple(Parameter olst[]) {
 /*----------------------------------------------------------------------*/
 static void complex(Parameter parsedParameters[]) {
     static Parameter *allList = NULL;
-	
+
     allList = allocateParameterArray(allList, MAXENTITY);
-	
+
     if (isAllWord(wordIndex)) {
         plural = TRUE;
         buildAll(allList); /* Build list of all objects */
@@ -840,7 +838,7 @@ static void complex(Parameter parsedParameters[]) {
                 error(M_NOT_MUCH);
         }
         copyParameterList(parsedParameters, allList);
-        allLength = listLength(parsedParameters);
+        multipleLength = listLength(parsedParameters);
     } else
         simple(parsedParameters); /* Look for simple noun group */
 }
@@ -872,13 +870,13 @@ static int mapSyntax(int syntaxNumber, Parameter parameters[]) {
     Aword *parameterMap;
     Aint parameterNumber;
     Parameter originalParameters[MAXPARAMS+1];
-	
+
     for (parameterMapTable = pointerTo(header->parameterMapAddress); !isEndOfList(parameterMapTable); parameterMapTable++)
         if (parameterMapTable->syntaxNumber == syntaxNumber)
             break;
     if (isEndOfList(parameterMapTable))
         syserr("Could not find syntax in mapping table.");
-	
+
     parameterMap = pointerTo(parameterMapTable->parameterMapping);
     copyParameterList(originalParameters, parameters);
     for (parameterNumber = 1; !isEndOfList(&originalParameters[parameterNumber-1]); parameterNumber++)
@@ -1033,7 +1031,7 @@ static void checkRestrictedParameters(Parameter parameters[], ElementEntry elms[
 		parameters[restriction->parameterNumber-1] = multipleCandidates[i];
 		if (!restrictionCheck(restriction, parameters)) {
 		    /* Multiple could be both an explicit list of params and an ALL */
-		    if (allLength == 0) {
+		    if (multipleLength == 0) {
 			char marker[80];
 			/* It wasn't ALL, we need to say something about it, so
 			 * prepare a printout with $1/2/3
@@ -1084,6 +1082,16 @@ static Bool *allocateBooleanArray(Bool *array) {
         return (Bool *) allocate((MAXENTITY+1) * sizeof(Bool));
 }
 
+static void checkParameters(Parameter parameters[], Parameter multipleParameters[], ElementEntry *elms) {
+    static Bool *checked = NULL; /* Corresponding parameter checked? */
+	
+    checked = allocateBooleanArray(checked);
+    uncheckAllParameterPositions(parameters, checked);
+    checkRestrictedParameters(parameters, elms, multipleParameters, checked);
+    checkNonRestrictedParameters(parameters, checked, multipleParameters);
+}
+
+
 
 
 /*----------------------------------------------------------------------*/
@@ -1092,9 +1100,6 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *elms; /* Pointer to element list */
     SyntaxEntry *stx; /* Pointer to syntax parse list */
     Bool anyPlural = FALSE; /* Any parameter that was plural? */
-    static Bool *checked = NULL; /* Corresponding parameter checked? */
-	
-    checked = allocateBooleanArray(checked);
 
     stx = findSyntax(verbWordCode);
 	
@@ -1107,15 +1112,15 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     current.verb = mapSyntax(elms->flags, parameters);
 	
     /* Now perform class restriction checks */
-    if (elms->next == 0) /* No verb code, verb not declared! */
+    if (elms->next == 0) { /* No verb code, verb not declared! */
+        /* TODO Does this ever happen? */
         error(M_CANT0);
+    }
 	
-    uncheckAllParameterPositions(parameters, checked);
-    checkRestrictedParameters(parameters, elms, multipleParameters, checked);
-    checkNonRestrictedParameters(parameters, checked, multipleParameters);
+    checkParameters(parameters, multipleParameters, elms);
 	
-    /* Finally, if ALL was used, try to find out what was applicable */
-    if (allLength > 0) {
+    /* Finally, if we found some multiple, try to find out what was applicable */
+    if (multipleLength > 0) {
         int multiplePosition = findMultiplePosition(parameters);
         disambiguateCandidatesForPosition(parameters, multiplePosition, multipleParameters);
         if (listLength(multipleParameters) == 0) {
@@ -1134,7 +1139,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void match(Parameter parameters[], Parameter multipleParameters[])
+static void parseCommand(Parameter parameters[], Parameter multipleParameters[])
 {
     try(parameters, multipleParameters); /* ... to understand what he said */
 	
@@ -1224,7 +1229,7 @@ void parse(Parameter parameters[]) {
         para();
 	
     capitalize = TRUE;
-    allLength = 0;
+    multipleLength = 0;
     paramidx = 0;
     clearList(parameters);
 	
@@ -1233,7 +1238,7 @@ void parse(Parameter parameters[]) {
         verbWord = playerWords[wordIndex].code;
         verbWordCode = dictionary[verbWord].code;
         wordIndex++;
-        match(parameters, multipleMatches);
+        parseCommand(parameters, multipleMatches);
         notePronounParameters(parameters);
         fail = FALSE;
         action(parameters, multipleMatches);
