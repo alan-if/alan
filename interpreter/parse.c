@@ -731,9 +731,7 @@ static void simple(Parameter olst[]) {
     Bool savplur = FALSE;
     int i;
 	
-    if (tlst == NULL)
-        tlst = (Parameter *) allocate(sizeof(Parameter) * (MAXENTITY+1));
-    clearList(tlst);
+    tlst = allocateParameterArray(tlst, MAXENTITY);
 	
     for (;;) {
         /* Special handling here since THEM_WORD is a common pronoun, so
@@ -781,8 +779,7 @@ static void simple(Parameter olst[]) {
 static void complex(Parameter parsedParameters[]) {
     static Parameter *allList = NULL;
 	
-    if (allList == NULL)
-        allList = (Parameter *) allocate((MAXENTITY+1) * sizeof(Parameter));
+    allList = allocateParameterArray(allList, MAXENTITY);
 	
     if (isAllWord(wordIndex)) {
         plural = TRUE;
@@ -853,7 +850,6 @@ static Bool hasBit(Aword flags, Aword bit) {
 /*----------------------------------------------------------------------*/
 static void parseParameter(Parameter parameters[], Aword flags, Bool *anyPlural, Parameter multipleList[]) {
     Parameter *parsedParameters = allocateParameterArray(NULL, MAXPARAMS); /* List of parameters parsed, possibly multiple */
-    Parameter pp[MAXPARAMS+1];
 	
     plural = FALSE;
     complex(parsedParameters);
@@ -968,6 +964,8 @@ static SyntaxEntry *findSyntax(int verbCode) {
     for (stx = stxs; !isEndOfList(stx); stx++)
         if (stx->code == verbCode)
             return stx;
+    /* No matching syntax */
+    error(M_WHAT);
     return NULL;
 }
 
@@ -1033,6 +1031,14 @@ static void checkNonRestrictedParameters(Parameter parameters[], Bool checked[],
         }
 }
 
+static Bool *allocateBooleanArray(Bool *array) {
+    if (array != NULL)
+        return array;
+    else
+        return (Bool *) allocate((MAXENTITY+1) * sizeof(Bool));
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
@@ -1042,12 +1048,9 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     Bool anyPlural = FALSE; /* Any parameter that was plural? */
     static Bool *checked = NULL; /* Corresponding parameter checked? */
 	
-    if (checked == NULL)
-        checked = (Bool *) allocate((MAXENTITY+1) * sizeof(Bool));
-	
+    allocateBooleanArray(checked);
+
     stx = findSyntax(verbWordCode);
-    if (stx == NULL)
-        error(M_WHAT);
 	
     elms = matchParseTree(parameters, (ElementEntry *) pointerTo(stx->elms), &anyPlural, multipleParameters);
     if (elms == NULL)
