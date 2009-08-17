@@ -1099,24 +1099,43 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     SyntaxEntry *stx; /* Pointer to syntax parse list */
     Bool anyPlural = FALSE; /* Any parameter that was plural? */
 
+    /*
+     * TODO This code, and much of the above, should be refactored to
+     * not do both parsing and parameter matching at the same time. It
+     * should first parse and create a parameter array where each
+     * entry indicates which words in the command line was "eaten" by
+     * this parameter. Then each parameter position can be resolved
+     * using those words.
+     */
+
+    /*
+     * First find which syntax tree to start in
+     */
     stx = findSyntax(verbWordCode);
-	
+
+    /*
+     * Then match the parameters, and other words, according to the
+     * syntax elements in the parse tree.
+     */
     elms = matchParseTree(parameters, (ElementEntry *) pointerTo(stx->elms), &anyPlural, multipleParameters);
     if (elms == NULL)
         error(M_WHAT);
-	
-    /* Set verb code and map parameters */
-    /* Flags field of EOS element is actually the syntax number! */
-    current.verb = mapSyntax(elms->flags, parameters);
-	
-    /* Now perform class restriction checks */
     if (elms->next == 0) { /* No verb code, verb not declared! */
         /* TODO Does this ever happen? */
         error(M_CANT0);
     }
 	
-    checkParameters(parameters, multipleParameters, elms);
+    /*
+     * Then we can map the parameters to the correct order, if it was a syntax synonym.
+     * The flags field of EOS element is actually the syntax number!
+     */
+    current.verb = mapSyntax(elms->flags, parameters);
 	
+    /*
+     * Now perform class restriction checks
+     */
+    checkParameters(parameters, multipleParameters, elms);
+
     /* Finally, if we found some multiple, try to find out what was applicable */
     if (multipleLength > 0) {
         int multiplePosition = findMultiplePosition(parameters);
