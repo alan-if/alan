@@ -83,13 +83,11 @@
 #include <unistd.h>
 
 #ifdef __STDC__
-#define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>
 #endif
 
 #ifdef __mac__
-#define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>
 #endif
@@ -126,11 +124,14 @@
 #endif
 
 
-/**************************/
-/* Strings for file modes */
-/**************************/
+/**************/
+/* File modes */
+/**************/
 #define READ_MODE "rb"
 #define WRITE_MODE "wb"
+#ifndef O_TEXT
+#define O_TEXT 0
+#endif
 
 
 /****************************/
