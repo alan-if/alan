@@ -359,7 +359,7 @@ static void str_short(unsigned char *f, unsigned int v)
 
 
 /*----------------------------------------------------------------------*/
-static void write_id(FILE *f, unsigned char *s)
+static void write_id(FILE *f, char *s)
 /* Write a string to a file as a blorb ID string (4 bytes, space padded) */
 {
   int i;

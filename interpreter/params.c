@@ -20,12 +20,10 @@ Parameter *parameters; /* List of params */
 
 /*======================================================================*/
 Parameter *allocateParameterArray(Parameter *currentList, int size) {
-    Parameter *list;
-    if (currentList != NULL)
-	return currentList;
-    list = allocate(sizeof(Parameter)*(size+1));
-    setEndOfList(list);
-    return list;
+    if (currentList == NULL)
+        currentList = allocate(sizeof(Parameter)*(size+1));
+    clearList(currentList);
+    return currentList;
 }
 
 

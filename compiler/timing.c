@@ -14,7 +14,7 @@
 
 void tistart(TIBUFP tb)
 {
-    // TODO Remove times() since it is obsolete
+    // TODO Remove times() since it is obsolete, use gettimeofday instead
 #ifdef MULTI
     times((struct tms *)tb);
     tb->pu_start = tb->proc_user_time;

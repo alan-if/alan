@@ -4,7 +4,7 @@
 
   Text encoding routines for Alan compiler
 
-\*---------------------------------------------------------------------*/
+  \*---------------------------------------------------------------------*/
 
 #include "alan.h"
 
@@ -31,9 +31,8 @@ int txtlen = 0;			/* How many bytes of text data? */
 static int chFreq[NOOFCHAR+1], cumFreq[NOOFSYMBOLS+1];
 
 /* Codes for lowest and highest Char used */
-static int
-  minCh = 256,
-  maxCh = 0;
+static int minCh = 256;
+static int maxCh = 0;
 
 
 
@@ -43,13 +42,13 @@ static int
 
   Increment the frequency for a particular character.
 
- */
+*/
 void incFreq(int ch)		/* IN - The character to increment for */
 {
-  chFreq[ch]++;
+    chFreq[ch]++;
 
-  minCh = minCh < ch? minCh: ch;
-  maxCh = maxCh > ch? maxCh: ch;
+    minCh = minCh < ch? minCh: ch;
+    maxCh = maxCh > ch? maxCh: ch;
 }
 
 
@@ -57,36 +56,36 @@ void incFreq(int ch)		/* IN - The character to increment for */
 
   The actual arithmetic encoding is done here.
 
- */
+*/
 static int buffer;			/* Bit buffer */
 static int bitsToGo;			/* Available space in buffer */
 
 
 static void startOutputingBits(void)
 {
-  bitsToGo = 8;
+    bitsToGo = 8;
 }
 
 
 static void outputBit(int bit)	/* IN - the bit to output */
 {
-  buffer = buffer>>1;		/* Make space for another bit */
-  if (bit)
-    buffer |= 0x80;
-  bitsToGo--;
-  if (!bitsToGo) {		/* If no more room, output it */
-    putc(buffer, datfil);
-    txtlen++;
-    bitsToGo = 8;
-    buffer = 0;
-  }
+    buffer = buffer>>1;		/* Make space for another bit */
+    if (bit)
+        buffer |= 0x80;
+    bitsToGo--;
+    if (!bitsToGo) {		/* If no more room, output it */
+        putc(buffer, datfil);
+        txtlen++;
+        bitsToGo = 8;
+        buffer = 0;
+    }
 }
 
 
 static void doneOutputingBits(void)
 {
-  putc(buffer>>bitsToGo, datfil);
-  txtlen++;
+    putc(buffer>>bitsToGo, datfil);
+    txtlen++;
 }
 
 
@@ -99,62 +98,62 @@ static int bitsToFollow;	/* Number of bits to output */
 
 static void bitPlusFollow(int bit) /* IN - the bit to output */
 {
-  outputBit(bit);
-  while (bitsToFollow) {
-    outputBit(!bit);
-    bitsToFollow--;
-  }
+    outputBit(bit);
+    while (bitsToFollow) {
+        outputBit(!bit);
+        bitsToFollow--;
+    }
 }
 
 
 static void startEncoding(void)
 {
-  low = 0;
-  high = TOPVALUE;
-  bitsToFollow = 0;
+    low = 0;
+    high = TOPVALUE;
+    bitsToFollow = 0;
 }
 
 
 static void encodeChar(int ch)
 {
-  int symbol = ch + 1;
-  long range;			/* Size of the current code region */
+    int symbol = ch + 1;
+    long range;			/* Size of the current code region */
 
-  range = (long) (high-low)+1;
+    range = (long) (high-low)+1;
 
-  /* Narrow the region to that allotted for this symbol */
-  high = low + range*cumFreq[symbol-1]/cumFreq[0]-1;
-  low = low + range*cumFreq[symbol]/cumFreq[0];
+    /* Narrow the region to that allotted for this symbol */
+    high = low + range*cumFreq[symbol-1]/cumFreq[0]-1;
+    low = low + range*cumFreq[symbol]/cumFreq[0];
 
-  for(;;) {			/* Loop to output the bits */
-    if (high < HALF)
-      bitPlusFollow(0);
-    else if (low >= HALF) {
-      bitPlusFollow(1);
-      low = low - HALF;
-      high = high - HALF;
-    } else if (low >= ONEQUARTER && high < THREEQUARTER) {
-      bitsToFollow++;
-      low = low - ONEQUARTER;
-      high = high - ONEQUARTER;
-    } else
-      break;
+    for(;;) {			/* Loop to output the bits */
+        if (high < HALF)
+            bitPlusFollow(0);
+        else if (low >= HALF) {
+            bitPlusFollow(1);
+            low = low - HALF;
+            high = high - HALF;
+        } else if (low >= ONEQUARTER && high < THREEQUARTER) {
+            bitsToFollow++;
+            low = low - ONEQUARTER;
+            high = high - ONEQUARTER;
+        } else
+            break;
 
-    /* Scale up the range */
-    low = 2*low;
-    high = 2*high + 1;
-  }
+        /* Scale up the range */
+        low = 2*low;
+        high = 2*high + 1;
+    }
 }
 
 
 static void doneEncoding(void)
 {
-  /* Output two bits that selects the current code range */
-  bitsToFollow++;
-  if (low < ONEQUARTER)
-    bitPlusFollow(0);
-  else
-    bitPlusFollow(1);
+    /* Output two bits that selects the current code range */
+    bitsToFollow++;
+    if (low < ONEQUARTER)
+        bitPlusFollow(0);
+    else
+        bitPlusFollow(1);
 }
 
 
@@ -166,41 +165,41 @@ static void doneEncoding(void)
   characters encountered in the text. If the model overflows restart
   by dividing all character frequencies by 2.
 
- */
+*/
 void initEncoding(char *textFileName, char *dataFileName)
 {
-  int i;
-  Bool ok = FALSE;		/* Model is ok? */
+    int i;
+    Bool ok = FALSE;		/* Model is ok? */
 
-  /* Open the temporary text and data files (file of encoded or plain text) */
-  txtfil = fopen(textFileName, READ_MODE);
-  datfil = fopen(dataFileName, WRITE_MODE);
-  if (!datfil) {
-    char errorString[1000];
-    sprintf(errorString, "Could not open output file '%s' for writing", dataFileName);
-    SYSERR(errorString);
-  }
+    /* Open the temporary text and data files (file of encoded or plain text) */
+    txtfil = fopen(textFileName, READ_MODE);
+    datfil = fopen(dataFileName, WRITE_MODE);
+    if (!datfil) {
+        char errorString[1000];
+        sprintf(errorString, "Could not open output file '%s' for writing", dataFileName);
+        SYSERR(errorString);
+    }
 
-  /* Make sure there is at least one character of each in frequency table */
-  for (i = 0; i <= EOFChar; i++)
-    if (chFreq[i] == 0)
-      chFreq[i] = 1;
+    /* Make sure there is at least one character of each in frequency table */
+    for (i = 0; i <= EOFChar; i++)
+        if (chFreq[i] == 0)
+            chFreq[i] = 1;
 
-  /* Calculate and verify that the cumulative freq. is within range */
-  while (!ok) {
-    /* Set up cumulative frequency counts */
-    cumFreq[NOOFSYMBOLS] = 0;
-    for (i = NOOFSYMBOLS; i; i--)
-      cumFreq[i-1] = cumFreq[i] + chFreq[i-1];
-    if (cumFreq[0] > MAXFREQ) {
-      /* Change the character frequencies by dividing them by 2 */
-      /* Remember to keep the 1's */
-      for (i = NOOFSYMBOLS-1; i>1; i--)
-	if (chFreq[i] > 1)
-	  chFreq[i] >>= 1;
-    } else
-      ok = TRUE;
-  }
+    /* Calculate and verify that the cumulative freq. is within range */
+    while (!ok) {
+        /* Set up cumulative frequency counts */
+        cumFreq[NOOFSYMBOLS] = 0;
+        for (i = NOOFSYMBOLS; i; i--)
+            cumFreq[i-1] = cumFreq[i] + chFreq[i-1];
+        if (cumFreq[0] > MAXFREQ) {
+            /* Change the character frequencies by dividing them by 2 */
+            /* Remember to keep the 1's */
+            for (i = NOOFSYMBOLS-1; i>1; i--)
+                if (chFreq[i] > 1)
+                    chFreq[i] >>= 1;
+        } else
+            ok = TRUE;
+    }
 
 }
 
@@ -214,33 +213,33 @@ void initEncoding(char *textFileName, char *dataFileName)
   turned on, an arithmetic compression is performed, else the text is
   just copied.
 
- */
+*/
 void encode(long int *fpos,	/* INOUT - The file position */
 	    long int *length)	/* INOUT - Data length */
 {
-  int len;
-  int ch;
+    int len;
+    int ch;
 
-  fseek(txtfil, *fpos, 0);
-  *fpos = ftell(datfil);
+    fseek(txtfil, *fpos, 0);
+    *fpos = ftell(datfil);
 
-  if (opts[OPTPACK].value) {
-    /* Use arithmetic packing model */
-    startOutputingBits();
-    startEncoding();
-    for (len = *length; len; len--) {
-      ch = getc(txtfil);
-      encodeChar(ch);
+    if (opts[OPTPACK].value) {
+        /* Use arithmetic packing model */
+        startOutputingBits();
+        startEncoding();
+        for (len = *length; len; len--) {
+            ch = getc(txtfil);
+            encodeChar(ch);
+        }
+        encodeChar(EOFChar);
+        doneEncoding();
+        doneOutputingBits();
+    } else {
+        /* use straight text */
+        for (len = *length; len; len--)
+            putc(getc(txtfil), datfil);
+        txtlen += *length;
     }
-    encodeChar(EOFChar);
-    doneEncoding();
-    doneOutputingBits();
-  } else {
-    /* use straight text */
-    for (len = *length; len; len--)
-      putc(getc(txtfil), datfil);
-    txtlen += *length;
-  }
 }
 
 
@@ -251,22 +250,22 @@ void encode(long int *fpos,	/* INOUT - The file position */
   Generate the frequency table so that the interpreter can unpack the
   text again.
 
-  */
+*/
 Aaddr gefreq(void)
 {
-  int i;
-  Aaddr adr = nextEmitAddress();
+    int i;
+    Aaddr adr = nextEmitAddress();
 
-  if (!opts[OPTPACK].value)
-    return 0;
-  else {
-    for (i = 0; i < NOOFSYMBOLS+1; i++) {
-      progressCounter();
-      emit(cumFreq[i]);
+    if (!opts[OPTPACK].value)
+        return 0;
+    else {
+        for (i = 0; i < NOOFSYMBOLS+1; i++) {
+            progressCounter();
+            emit(cumFreq[i]);
+        }
+        emit(EOF);
+        return(adr);
     }
-    emit(EOF);
-    return(adr);
-  }
 }
 
 /*======================================================================
@@ -275,9 +274,9 @@ Aaddr gefreq(void)
 
   Terminate the encoding process.
 
- */
+*/
 void terminateEncoding(void)
 {
-  fclose(datfil);
-  fclose(txtfil);
+    fclose(datfil);
+    fclose(txtfil);
 }

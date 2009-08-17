@@ -3,13 +3,13 @@
 #	COMPILER : which command to run the C compiler
 #	LINKER : which command to run the linker
 #	OS_FLAGS : what flags must be passed to both compiler and linker
+#	INCLUDES : directives to include the required directories
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
 # Then include this file in your Makefile, and you are done
 
 CC = $(COMPILER)
-INCLUDE = -I../interpreter
-CFLAGS = $(INCLUDE) $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
+CFLAGS = $(INCLUDES) -I../interpreter $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
 
 LINK = $(LINKER)
 LINKFLAGS = $(OS_FLAGS) $(EXTRA_LINKER_FLAGS)

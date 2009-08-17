@@ -1,3 +1,4 @@
 *.a3c
 *.ifid
+*.output
 TEST-regr.xml
