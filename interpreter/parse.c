@@ -269,7 +269,7 @@ static void scan(void) {
  
   \*----------------------------------------------------------------------*/
 
-/* For parameters which are literals we need to trick message handling to
+/* For parameters that are literals we need to trick message handling to
  * output the word and create a string literal instance if anyone wants to
  * refer to an attribute of it (literals inherit from entity so application
  * can have added an attribute) */
@@ -617,19 +617,63 @@ static void updateWithNounReferences(int wordIndex, Parameter parsedParameters[]
 }
 
 
+/*
+ * Disambiguation is hard: there are a couple of different cases that
+ * we want to handle: Omnipotent parameter position, multiple present
+ * and non-present objects etc. The following table will show which
+ * message we would like to give in the various situations.
+ *
+ * p = present, n = non-present, 1 = single, m = multiple
+ * (1p1n = single present, single non-present)
+ *
+ * p, n, omni,	result,			why?
+ * -----------------------------------------------------------------
+ * 0, 0, no,	errorNoSuch()
+ * 0, 1, no,	errorNoSuch()
+ * 0, m, no,	errorNoSuch()
+ * 1, 0, no,	ok(p)
+ * 1, 1, no,	ok(p)
+ * 1, m, no,	ok(p)
+ * m, 0, no,	errorWhichOne(p)
+ * m, 1, no,	errorWhichOne(p)	only present objects should be revealed
+ * m, m, no,	errorWhichOne(p)	d:o
+ * 0, 0, yes,	errorNoSuch()
+ * 0, 1, yes,	ok(n)
+ * 0, m, yes,	errorWhichOne(n)	already looking "beyond" presence, although
+ *					might reveal undiscovered distant objects
+ * 1, 0, yes,	ok(p)
+ * 1, 1, yes,	ok(p)			present objects have priority
+ * 1, m, yes,	ok(p)			present objects have priority
+ * m, 0, yes,	errorWhichOne(p)
+ * m, 1, yes,	errorWhichOne(p)	present objects have priority
+ * m, m, yes,	errorWhichOne(p)	present objects have priority
+ */
+
+
 /*----------------------------------------------------------------------*/
 static void disambiguateParameter(Parameter candidates[]) {
+    /* There are more than one candidate, let's see if we can figure out a single one */
+
+    /* If there is one present, let's go for that */
+
     int i;
-#ifndef DISAMBIGUATE_USING_CHECKS
-    for (i = 0; !isEndOfList(&candidates[i]); i++)
-        if (!reachable(candidates[i].instance))
-            candidates[i].instance = 0;
-    compress(candidates);
-#else
-    disambiguateUsingChecks(candidates, parameterPosition);
-    /* We don't have the parameterPosition here.
-       Maybe we can do this later? */
-#endif
+    static Parameter *filteredCandidates = NULL;
+    filteredCandidates = allocateParameterArray(filteredCandidates, MAXPARAMS);
+
+    copyParameterList(filteredCandidates, candidates);
+
+    for (i = 0; !isEndOfList(&filteredCandidates[i]); i++)
+        if (!reachable(filteredCandidates[i].instance))
+            filteredCandidates[i].instance = 0;
+    compress(filteredCandidates);
+
+    if (listLength(filteredCandidates) == 1)
+        // Found a single one so we use that
+        copyParameterList(candidates, filteredCandidates);
+
+    // We could experiment with:
+    // disambiguateUsingChecks(candidates, parameterPosition);
+    // But, we don't have the parameterPosition here. Maybe we can do this later?
 }
 
 /*----------------------------------------------------------------------*/
@@ -649,7 +693,7 @@ static void disambiguateCandidatesForPosition(Parameter parameters[], int positi
 
 /*----------------------------------------------------------------------*/
 static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
-    // TODO This is really to long, need to break out some parts
+    // TODO This is really too long, need to break out some parts
     int firstWord, lastWord; /* The words the player used */
 	
     static Parameter *savedParameters = NULL; /* Saved list for backup at EOF */
@@ -669,7 +713,7 @@ static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
 		
         static Parameter *references = NULL; /* Instances referenced by a word */
         references = allocateParameterArray(references, MAXPARAMS);
-		
+
         firstWord = wordIndex;
         while (anotherAdjective(wordIndex)) {
             if (lastPossibleNoun(wordIndex))
@@ -704,10 +748,10 @@ static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
             //printf("end and not found");
         }
         lastWord = wordIndex - 1;
-		
-        if (listLength(parameterCandidates) > 1)
+
+         if (listLength(parameterCandidates) > 1)
             disambiguateParameter(parameterCandidates);
-		
+
         if (listLength(parameterCandidates) > 1)
             errorWhichOne(parameterCandidates);
         else if (found && listLength(parameterCandidates) == 0) {
@@ -843,21 +887,21 @@ static int mapSyntax(int syntaxNumber, Parameter parameters[]) {
     return parameterMapTable->verbCode;
 }
 
-static Bool hasBit(Aword flags, Aword bit) {
+static Bool hasBit(Aword flags, Aint bit) {
     return (flags & bit) != 0;
 }
 
 /*----------------------------------------------------------------------*/
 static void parseParameter(Parameter parameters[], Aword flags, Bool *anyPlural, Parameter multipleList[]) {
-    Parameter *parsedParameters = allocateParameterArray(NULL, MAXPARAMS); /* List of parameters parsed, possibly multiple */
+    Parameter *candidates = allocateParameterArray(NULL, MAXPARAMS); /* List of parameters parsed, possibly multiple */
 	
     plural = FALSE;
-    complex(parsedParameters);
-    if (listLength(parsedParameters) == 0) /* No object!? */
+    complex(candidates);
+    if (listLength(candidates) == 0) /* No object!? */
         error(M_WHAT);
     if (!hasBit(flags, OMNIBIT))
 	/* If its not an omnipotent parameter, resolve by presence */
-        resolve(parsedParameters);
+        resolve(candidates);
     if (plural) {
         if (!hasBit(flags, MULTIPLEBIT)) /* Allowed multiple? */
             error(M_MULTIPLE);
@@ -865,15 +909,15 @@ static void parseParameter(Parameter parameters[], Aword flags, Bool *anyPlural,
             /* Mark this as the multiple position in which to insert actual
                parameter values later */
             parameters[paramidx++].instance = 0;
-            copyParameterList(multipleList, parsedParameters);
+            copyParameterList(multipleList, candidates);
             *anyPlural = TRUE;
         }
     } else
-        parameters[paramidx++] = parsedParameters[0];
+        parameters[paramidx++] = candidates[0];
 	
     setEndOfList(&parameters[paramidx]);
 	
-    free(parsedParameters);
+    free(candidates);
 }
 
 /*----------------------------------------------------------------------*/
@@ -1031,6 +1075,8 @@ static void checkNonRestrictedParameters(Parameter parameters[], Bool checked[],
         }
 }
 
+
+/*----------------------------------------------------------------------*/
 static Bool *allocateBooleanArray(Bool *array) {
     if (array != NULL)
         return array;
@@ -1048,7 +1094,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     Bool anyPlural = FALSE; /* Any parameter that was plural? */
     static Bool *checked = NULL; /* Corresponding parameter checked? */
 	
-    allocateBooleanArray(checked);
+    checked = allocateBooleanArray(checked);
 
     stx = findSyntax(verbWordCode);
 	
