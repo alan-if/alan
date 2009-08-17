@@ -154,9 +154,7 @@ static char *gettoken(char *buf) {
 static void getLine(void) {
     para();
     do {
-#if defined(HAVE_ANSI) || defined(HAVE_GLK)
         statusline();
-#endif
         printAndLog("> ");
 #ifdef USE_READLINE
         if (!readline(buf)) {
