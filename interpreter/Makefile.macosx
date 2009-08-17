@@ -2,7 +2,7 @@
 
 # You probably have to change some of these settings
 # OS-specific definitions for compilation and linking
-OSDEFS = -arch i386 -arch ppc
+OSDEFS = -arch i386
 
 
 # -- Glk definitions. Uncomment all of these to enable Glk.
@@ -49,7 +49,7 @@ include sources.mk
 # Main targets
 all: $(TARGET)
 
-arun : $(ARUNOBJECTS)
+arun : unit $(ARUNOBJECTS)
 	$(LINK) -o $@ $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin
 

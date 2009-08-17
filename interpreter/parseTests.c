@@ -235,6 +235,29 @@ Ensure canSetupIntegerParametersForMessages(void) {
 }
 
 
+/*----------------------------------------------------------------------*/
+Ensure canUncheckAllParameterPositions(void) {
+    Bool checked[MAXPARAMS+1];
+    int i;
+
+    for (i = 0; i < MAXPARAMS; i++)
+        checked[i] = i;
+    uncheckAllParameterPositions(checked);
+    for (i = 0; i < MAXPARAMS; i++)
+        assert_equal(checked[i], 0);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure canMatchEmptyParameterArray(void) {
+    Parameter parameters[2];
+    clearList(parameters);
+
+    matchParameters(parameters);
+    assert_equal(listLength(parameters), 0);
+}
+
+
 
 TestSuite *parseTests(void)
 {
@@ -249,5 +272,7 @@ TestSuite *parseTests(void)
     add_test(suite, canSetupInstanceParametersForMessages);
     add_test(suite, canSetupStringParametersForMessages);
     add_test(suite, canSetupIntegerParametersForMessages);
+    add_test(suite, canUncheckAllParameterPositions);
+    add_test(suite, canMatchEmptyParameterArray);
     return suite;
 }

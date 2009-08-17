@@ -1011,14 +1011,6 @@ static SyntaxEntry *findSyntax(int verbCode) {
 
 
 /*----------------------------------------------------------------------*/
-static void uncheckAllParameterPositions(Parameter parameters[], Bool checked[]) {
-    int position;
-    for (position = 0; !isEndOfList(&parameters[position]); position++)
-        checked[position] = FALSE;
-}
-
-
-/*----------------------------------------------------------------------*/
 static void checkRestrictedParameters(Parameter parameters[], ElementEntry elms[], Parameter multipleCandidates[], Bool checked[]) {
     RestrictionEntry *restriction;
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfList(restriction); restriction++) {
@@ -1073,22 +1065,31 @@ static void checkNonRestrictedParameters(Parameter parameters[], Bool checked[],
 
 
 /*----------------------------------------------------------------------*/
-static Bool *allocateBooleanArray(Bool *array) {
-    if (array != NULL)
-        return array;
-    else
-        return (Bool *) allocate((MAXENTITY+1) * sizeof(Bool));
+static void uncheckAllParameterPositions(Bool checked[]) {
+    int position;
+    for (position = 0; position < MAXPARAMS; position++)
+        checked[position] = FALSE;
 }
 
-static void checkParameters(Parameter parameters[], Parameter multipleParameters[], ElementEntry *elms) {
-    static Bool *checked = NULL; /* Corresponding parameter checked? */
+
+/*----------------------------------------------------------------------*/
+static void restrictParameters(Parameter parameters[], Parameter multipleParameters[], ElementEntry *elms) {
+    Bool checked[MAXPARAMS+1];  /* Is corresponding parameter checked? */
 	
-    checked = allocateBooleanArray(checked);
-    uncheckAllParameterPositions(parameters, checked);
+    uncheckAllParameterPositions(checked);
     checkRestrictedParameters(parameters, elms, multipleParameters, checked);
     checkNonRestrictedParameters(parameters, checked, multipleParameters);
 }
 
+
+/*----------------------------------------------------------------------*/
+static void matchParameters(Parameter parameters[]) 
+{
+     int parameter;
+     
+     for (parameter = 0; parameter < listLength(parameters); parameter++) {
+     }
+}
 
 
 
@@ -1130,11 +1131,14 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      * The flags field of EOS element is actually the syntax number!
      */
     current.verb = mapSyntax(elms->flags, parameters);
-	
+
+    /* Match parameters to instances */
+    matchParameters(parameters);
+
     /*
-     * Now perform class restriction checks
+     * Now perform restriction checks
      */
-    checkParameters(parameters, multipleParameters, elms);
+    restrictParameters(parameters, multipleParameters, elms);
 
     /* Finally, if we found some multiple, try to find out what was applicable */
     if (multipleLength > 0) {
