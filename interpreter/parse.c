@@ -1083,11 +1083,19 @@ static void restrictParameters(Parameter parameters[], Parameter multipleParamet
 
 
 /*----------------------------------------------------------------------*/
-static void matchParameters(Parameter parameters[]) 
+static void instanceMatcher(Parameter parameter) {
+}
+
+
+/*----------------------------------------------------------------------*/
+static void matchParameters(Parameter parameters[], void (*matcher)(Parameter parameter)) 
 {
-     int parameter;
+     int i;
      
-     for (parameter = 0; parameter < listLength(parameters); parameter++) {
+     for (i = 0; i < listLength(parameters); i++) {
+          if (parameters[i].candidates == NULL)
+               parameters[i].candidates = allocateParameterArray(NULL, MAXENTITY);
+          matcher(parameters[i]);
      }
 }
 
@@ -1133,7 +1141,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     current.verb = mapSyntax(elms->flags, parameters);
 
     /* Match parameters to instances */
-    matchParameters(parameters);
+    matchParameters(parameters, instanceMatcher);
 
     /*
      * Now perform restriction checks

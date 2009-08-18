@@ -1,4 +1,5 @@
 #include "cgreen/cgreen.h"
+#include "cgreen/mocks.h"
 
 #include "parse.c"
 
@@ -248,15 +249,45 @@ Ensure canUncheckAllParameterPositions(void) {
 }
 
 
+static void mockedInstanceMatcher(Parameter parameter) {
+    mock(parameter.firstWord, parameter.lastWord);
+    parameter.candidates[0].instance = 17;
+    parameter.candidates[1].instance = -1;
+}
+
 /*----------------------------------------------------------------------*/
 Ensure canMatchEmptyParameterArray(void) {
     Parameter parameters[2];
     clearList(parameters);
 
-    matchParameters(parameters);
-    assert_equal(listLength(parameters), 0);
+    expect_never(mockedInstanceMatcher);
+
+    matchParameters(parameters, mockedInstanceMatcher);
 }
 
+
+/*----------------------------------------------------------------------*/
+Ensure canMatchSingleParameter(void) {
+    Parameter parameters[2];
+    Parameter candidates[2];
+
+    parameters[0].firstWord = 1;
+    parameters[0].lastWord = 1;
+    parameters[0].candidates = NULL;
+    setEndOfList(&parameters[1]);
+
+    clearList(candidates);
+   
+    expect(mockedInstanceMatcher,
+           want(parameter.firstWord, parameters[0].firstWord),
+           want(parameter.lastWord, parameters[0].lastWord));
+    
+    matchParameters(parameters, mockedInstanceMatcher);
+
+    assert_not_equal(parameters[0].candidates, NULL);
+    assert_equal(listLength(parameters[0].candidates), 1);
+    assert_equal(parameters[0].candidates[0].instance, 17);
+}
 
 
 TestSuite *parseTests(void)
@@ -274,5 +305,6 @@ TestSuite *parseTests(void)
     add_test(suite, canSetupIntegerParametersForMessages);
     add_test(suite, canUncheckAllParameterPositions);
     add_test(suite, canMatchEmptyParameterArray);
+    add_test(suite, canMatchSingleParameter);
     return suite;
 }
