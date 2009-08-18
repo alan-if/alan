@@ -132,7 +132,7 @@ void intersect(Parameter one[], Parameter other[])
 
 
 /*======================================================================*/
-void copyReferences(Parameter parameterList[], Aword references[])
+void copyReferences(Parameter parameterList[], Aint references[])
 {
     int i;
 

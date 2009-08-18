@@ -171,6 +171,7 @@ static void getLine(void) {
         getPageSize();
         anyOutput = FALSE;
         if (transcriptOption || logOption) {
+             // TODO Refactor out the logging to log.c?
 #ifdef HAVE_GLK
             glk_put_string_stream(logFile, buf);
             glk_put_char_stream(logFile, '\n');
@@ -540,14 +541,14 @@ static void resolve(Parameter matchedParameters[]) {
 
 
 /*----------------------------------------------------------------------*/
-static Aword *nounReferencesForWord(int wordIndex) {
-    return (Aword *) pointerTo(dictionary[playerWords[wordIndex].code].nounRefs);
+static Aint *nounReferencesForWord(int wordIndex) {
+    return (Aint *) pointerTo(dictionary[playerWords[wordIndex].code].nounRefs);
 }
 
 
 /*----------------------------------------------------------------------*/
-static Aword *adjectiveReferencesForWord(int wordIndex) {
-    return (Aword *) pointerTo(dictionary[playerWords[wordIndex].code].adjectiveRefs);
+static Aint *adjectiveReferencesForWord(int wordIndex) {
+    return (Aint *) pointerTo(dictionary[playerWords[wordIndex].code].adjectiveRefs);
 }
 
 
@@ -705,7 +706,7 @@ static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
         transformPronounIntoSingleParameter(parameterCandidates);
         wordIndex++; /* Consume the pronoun */
     } else {
-        Bool found = FALSE; /* Adjective or noun found ? */
+        Bool adjectiveOrNounFound = FALSE;
 
         static Parameter *references = NULL; /* Instances referenced by a word */
         references = allocateParameterArray(references, MAXPARAMS);
@@ -715,18 +716,18 @@ static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
             if (lastPossibleNoun(wordIndex))
                 break;
             copyParameterList(savedParameters, parameterCandidates); /* To save it for backtracking */
-            updateWithAdjectiveReferences(wordIndex, parameterCandidates, found);
-            found = TRUE;
+            updateWithAdjectiveReferences(wordIndex, parameterCandidates, adjectiveOrNounFound);
+            adjectiveOrNounFound = TRUE;
             wordIndex++;
         }
         if (!endOfWords(wordIndex)) {
             if (isNounWord(wordIndex)) {
-                updateWithNounReferences(wordIndex, parameterCandidates, found);
-                found = TRUE;
+                updateWithNounReferences(wordIndex, parameterCandidates, adjectiveOrNounFound);
+                adjectiveOrNounFound = TRUE;
                 wordIndex++;
             } else
                 error(M_NOUN);
-        } else if (found) {
+        } else if (adjectiveOrNounFound) {
             /* Perhaps the last word was also a noun? */
             if (isNounWord(wordIndex - 1)) {
                 printf("DEBUG:When does this get executed?");
@@ -740,8 +741,6 @@ static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
                     intersect(parameterCandidates, references);
             } else
                 error(M_NOUN);
-        } else {
-            //printf("end and not found");
         }
         lastWord = wordIndex - 1;
 
@@ -750,7 +749,7 @@ static void unambiguousNounPhrase(Parameter parameterCandidates[]) {
 
         if (listLength(parameterCandidates) > 1)
             errorWhichOne(parameterCandidates);
-        else if (found && listLength(parameterCandidates) == 0) {
+        else if (adjectiveOrNounFound && listLength(parameterCandidates) == 0) {
             Parameter parameter;
             parameter.instance = 0; /* Just make it anything != EOF */
             parameter.firstWord = firstWord;
