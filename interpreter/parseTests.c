@@ -329,7 +329,7 @@ Ensure canMatchSingleNounWithSingleMatch(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchNounsAndAdjectivesWithSingleMatch(void) {
+Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     int theExpectedInstance = 55;
     int firstAdjectiveInstances[4] = {23, theExpectedInstance, 33, EOF};
     int theNounInstances[4] = {25, theExpectedInstance, 34, EOF};
@@ -338,15 +338,17 @@ Ensure canMatchNounsAndAdjectivesWithSingleMatch(void) {
     Parameter candidates[MAXENTITY+1];
     Parameter parameter = {0, FALSE, theExpectedFirstAdjectiveWordIndex, theExpectedNounWordIndex, candidates};
     
+    // TODO Factor out this common setup of playerWords and dictionary
     clearList(candidates);
     
+    // Given: two player words, one adjective and one noun
     ensureSpaceForPlayerWords(4);
     playerWords[3].code = ADJECTIVE1_DICTIONARY_INDEX;
     playerWords[4].code = NOUN_DICTIONARY_INDEX;
 
+    // Given: a dictionary with 
     dictionary = makeDictionary();
     makeDictionaryEntry(ADJECTIVE1_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
-    makeDictionaryEntry(ADJECTIVE2_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
     makeDictionaryEntry(NOUN_DICTIONARY_INDEX, 1, NOUN_BIT);
 
     expect(mockedReferenceFinder, want(wordIndex, theExpectedFirstAdjectiveWordIndex));
@@ -420,7 +422,7 @@ TestSuite *parseTests(void)
     add_test(suite, canMatchEmptyParameterArray);
     add_test(suite, canMatchSingleParameter);
     add_test(suite, canMatchSingleNounWithSingleMatch);
-    add_test(suite, canMatchNounsAndAdjectivesWithSingleMatch);
+    add_test(suite, canMatchNounAndAdjectiveWithSingleMatch);
     add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
     
     return suite;

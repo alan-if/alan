@@ -828,6 +828,7 @@ static void complex(Parameter parsedParameters[]) {
         simple(parsedParameters); /* Look for simple noun group */
 }
 
+
 /*----------------------------------------------------------------------*/
 static Bool restrictionCheck(RestrictionEntry *restriction, Parameter parameters[]) {
     if (restriction->class == RESTRICTIONCLASS_CONTAINER)
@@ -836,6 +837,7 @@ static Bool restrictionCheck(RestrictionEntry *restriction, Parameter parameters
         return isA(parameters[restriction->parameterNumber-1].instance,
                    restriction->class);
 }
+
 
 /*----------------------------------------------------------------------*/
 static void runRestriction(RestrictionEntry *restriction) {
@@ -847,6 +849,7 @@ static void runRestriction(RestrictionEntry *restriction) {
     else
         error(M_CANT0);
 }
+
 
 /*----------------------------------------------------------------------*/
 static int mapSyntax(int syntaxNumber, Parameter parameters[]) {
@@ -870,6 +873,8 @@ static int mapSyntax(int syntaxNumber, Parameter parameters[]) {
     return parameterMapTable->verbCode;
 }
 
+
+/*----------------------------------------------------------------------*/
 static Bool hasBit(Aword flags, Aint bit) {
     return (flags & bit) != 0;
 }
@@ -1082,7 +1087,17 @@ static void matchNounPhrase(Parameter parameter, Aint *(*adjectiveReferencesFind
 
 /*----------------------------------------------------------------------*/
 static void instanceMatcher(Parameter parameter) {
-     // TODO Implement the instanceMatcher for real...
+    if (parameter.firstWord != EOF && parameter.firstWord != 0) {
+        // TODO: Old way does not preserve word indications in these circumstances
+        // so we need to have the legacy code mark these in some other fashion as
+        // to preserve the word indexes in every case
+        if (isThemWord(parameter.firstWord) || isPronounWord(parameter.firstWord))
+            ; // TBD
+        else if (isAllWord(parameter.firstWord))
+            ; // TBD
+        else
+            matchNounPhrase(parameter, adjectiveReferencesForWord, nounReferencesForWord);
+    }
 }
 
 
@@ -1139,7 +1154,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      */
     current.verb = mapSyntax(elms->flags, parameters);
 
-    /* Match parameters to instances */
+    /* WIP! Match parameters to instances */
     matchParameters(parameters, instanceMatcher);
 
     /*
