@@ -591,24 +591,11 @@ static Bool lastPossibleNoun(int wordIndex) {
 
 
 /*----------------------------------------------------------------------*/
-static void updateWithAdjectiveReferences(int wordIndex, Parameter result[]) {
+static void updateWithReferences(int wordIndex, Parameter result[], Aint *(*referenceFinder)(int wordIndex)) {
     static Parameter *references = NULL; /* Instances referenced by a word */
     references = allocateParameterArray(references, MAXPARAMS);
 
-    copyReferences(references, adjectiveReferencesForWord(wordIndex));
-    if (listLength(result) == 0)
-        copyParameterList(result, references);
-    else
-        intersect(result, references);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void updateWithNounReferences(int wordIndex, Parameter result[], Aint *(*nounReferenceFinder)(int wordIndex)) {
-    static Parameter *references = NULL; /* Instances referenced by a word */
-    references = allocateParameterArray(references, MAXPARAMS);
-
-    copyReferences(references, nounReferenceFinder(wordIndex));
+    copyReferences(references, referenceFinder(wordIndex));
     if (listLength(result) == 0)
         copyParameterList(result, references);
     else
@@ -716,14 +703,14 @@ static void parseUnambiguousNounPhrase(Parameter parameterCandidates[]) {
             if (lastPossibleNoun(wordIndex))
                 break;
             copyParameterList(savedParameters, parameterCandidates); /* To save it for backtracking */
-            updateWithAdjectiveReferences(wordIndex, parameterCandidates);
+            updateWithReferences(wordIndex, parameterCandidates, adjectiveReferencesForWord);
             adjectiveOrNounFound = TRUE;
             wordIndex++;
         }
 
         if (!endOfWords(wordIndex)) {
             if (isNounWord(wordIndex)) {
-                updateWithNounReferences(wordIndex, parameterCandidates, nounReferencesForWord);
+                updateWithReferences(wordIndex, parameterCandidates, nounReferencesForWord);
                 adjectiveOrNounFound = TRUE;
                 wordIndex++;
             } else
@@ -1085,9 +1072,11 @@ static void restrictParameters(Parameter parameters[], Parameter multipleParamet
 
 /*----------------------------------------------------------------------*/
 static void matchNounPhrase(Parameter parameter, Aint *(*adjectiveReferencesFinder)(int wordIndex), Aint *(*nounReferencesFinder)(int wordIndex)) {
-     if (isAdjectiveWord(parameter.firstWord))
-          copyReferences(parameter.candidates, adjectiveReferencesFinder(parameter.firstWord));
-     updateWithNounReferences(parameter.lastWord, parameter.candidates, nounReferencesFinder);
+    int i;
+    
+    for (i = parameter.firstWord; i < parameter.lastWord; i++)
+        updateWithReferences(i, parameter.candidates, adjectiveReferencesFinder);
+     updateWithReferences(parameter.lastWord, parameter.candidates, nounReferencesFinder);
 }
 
 

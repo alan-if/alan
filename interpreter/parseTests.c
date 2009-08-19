@@ -20,13 +20,14 @@ static void makeWordElement(ElementEntry *element, int code, int next) {
 }
 
 
-
-#define ADJECTIVE_DICTIONARY_INDEX 3
+#define DICTIONARY_SIZE 20
+#define ADJECTIVE1_DICTIONARY_INDEX 3
+#define ADJECTIVE2_DICTIONARY_INDEX 11
 #define NOUN_DICTIONARY_INDEX 5
 
-static DictionaryEntry *makeDictionary(int size) {
-    DictionaryEntry *dictionary = allocate(size*sizeof(DictionaryEntry));
-    dictionarySize = size;
+static DictionaryEntry *makeDictionary() {
+    DictionaryEntry *dictionary = allocate(DICTIONARY_SIZE*sizeof(DictionaryEntry));
+    dictionarySize = DICTIONARY_SIZE;
     return dictionary;
 }
 
@@ -149,7 +150,7 @@ Ensure canMatchParseTree(void) {
     assert_equal(&elementTable[1], element);
 
     /* Test word, EOF with word, EOS */
-    dictionary = makeDictionary(100);
+    dictionary = makeDictionary();
     makeDictionaryEntry(0, 1, PREPOSITION_BIT);
     playerWords[0].code = 0;		/* A preposition with code 0 */
     playerWords[1].code = EOF;
@@ -166,7 +167,7 @@ Ensure canMatchParseTree(void) {
 Ensure canSetupParameterForWord(void) {
     Parameter *messageParameters;
 
-    dictionary = makeDictionary(20);
+    dictionary = makeDictionary();
     memory = allocate(40*sizeof(Aword));
 
     makeDictionaryEntry(2, 23, VERB_BIT);
@@ -313,7 +314,7 @@ Ensure canMatchSingleNounWithSingleMatch(void) {
  
     wordIndex = theExpectedWordIndex;
     ensureSpaceForPlayerWords(4);
-    playerWords[3].code = ADJECTIVE_DICTIONARY_INDEX;
+    playerWords[3].code = ADJECTIVE1_DICTIONARY_INDEX;
     playerWords[4].code = NOUN_DICTIONARY_INDEX;
     
     expect(mockedReferenceFinder, want(wordIndex, theExpectedWordIndex));
@@ -330,26 +331,66 @@ Ensure canMatchSingleNounWithSingleMatch(void) {
 /*----------------------------------------------------------------------*/
 Ensure canMatchNounsAndAdjectivesWithSingleMatch(void) {
     int theExpectedInstance = 55;
-    int theAdjectiveInstances[3] = {24, theExpectedInstance, EOF};
-    int theNounInstances[3] = {23, theExpectedInstance, EOF};
-    int theExpectedAdjectiveWordIndex = 3;
+    int firstAdjectiveInstances[4] = {23, theExpectedInstance, 33, EOF};
+    int theNounInstances[4] = {25, theExpectedInstance, 34, EOF};
+    int theExpectedFirstAdjectiveWordIndex = 3;
     int theExpectedNounWordIndex = 4;
     Parameter candidates[MAXENTITY+1];
-    Parameter parameter = {0, FALSE, 3, 4, candidates};
+    Parameter parameter = {0, FALSE, theExpectedFirstAdjectiveWordIndex, theExpectedNounWordIndex, candidates};
     
     clearList(candidates);
     
-    wordIndex = theExpectedAdjectiveWordIndex;
     ensureSpaceForPlayerWords(4);
-    playerWords[3].code = ADJECTIVE_DICTIONARY_INDEX;
+    playerWords[3].code = ADJECTIVE1_DICTIONARY_INDEX;
     playerWords[4].code = NOUN_DICTIONARY_INDEX;
 
-    dictionary = makeDictionary(10);
-    makeDictionaryEntry(ADJECTIVE_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
+    dictionary = makeDictionary();
+    makeDictionaryEntry(ADJECTIVE1_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
+    makeDictionaryEntry(ADJECTIVE2_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
     makeDictionaryEntry(NOUN_DICTIONARY_INDEX, 1, NOUN_BIT);
+
+    expect(mockedReferenceFinder, want(wordIndex, theExpectedFirstAdjectiveWordIndex));
+    will_return(mockedReferenceFinder, firstAdjectiveInstances);
+    expect(mockedReferenceFinder, want(wordIndex, theExpectedNounWordIndex));
+    will_return(mockedReferenceFinder, theNounInstances);
+
+    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
     
-    expect(mockedReferenceFinder, want(wordIndex, theExpectedAdjectiveWordIndex));
-    will_return(mockedReferenceFinder, theAdjectiveInstances);
+    assert_not_equal(parameter.candidates, NULL);
+    assert_equal(listLength(parameter.candidates), 1);
+    assert_equal(parameter.candidates[0].instance, theExpectedInstance);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
+    int theExpectedInstance = 55;
+    int firstAdjectiveInstances[4] = {23, theExpectedInstance, 33, EOF};
+    int secondAdjectiveInstances[4] = {24, theExpectedInstance, 33, EOF};
+    int theNounInstances[4] = {25, theExpectedInstance, 34, EOF};
+    int theExpectedFirstAdjectiveWordIndex = 3;
+    int theExpectedSecondAdjectiveWordIndex = 4;
+    int theExpectedNounWordIndex = 5;
+    Parameter candidates[MAXENTITY+1];
+    Parameter parameter = {0, FALSE, theExpectedFirstAdjectiveWordIndex, theExpectedNounWordIndex, candidates};
+    
+    clearList(candidates);
+    
+    wordIndex = theExpectedFirstAdjectiveWordIndex;
+    ensureSpaceForPlayerWords(4);
+    playerWords[3].code = ADJECTIVE1_DICTIONARY_INDEX;
+    playerWords[4].code = ADJECTIVE2_DICTIONARY_INDEX;
+    playerWords[5].code = NOUN_DICTIONARY_INDEX;
+
+    dictionary = makeDictionary();
+    makeDictionaryEntry(ADJECTIVE1_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
+    makeDictionaryEntry(ADJECTIVE2_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
+    makeDictionaryEntry(NOUN_DICTIONARY_INDEX, 1, NOUN_BIT);
+
+    expect(mockedReferenceFinder, want(wordIndex, theExpectedFirstAdjectiveWordIndex));
+    will_return(mockedReferenceFinder, firstAdjectiveInstances);
+    expect(mockedReferenceFinder, want(wordIndex, theExpectedSecondAdjectiveWordIndex));
+    will_return(mockedReferenceFinder, secondAdjectiveInstances);
     expect(mockedReferenceFinder, want(wordIndex, theExpectedNounWordIndex));
     will_return(mockedReferenceFinder, theNounInstances);
 
@@ -380,6 +421,7 @@ TestSuite *parseTests(void)
     add_test(suite, canMatchSingleParameter);
     add_test(suite, canMatchSingleNounWithSingleMatch);
     add_test(suite, canMatchNounsAndAdjectivesWithSingleMatch);
+    add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
     
     return suite;
 }
