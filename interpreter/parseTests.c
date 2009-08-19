@@ -19,9 +19,15 @@ static void makeWordElement(ElementEntry *element, int code, int next) {
     element->next = next;
 }
 
+
+
+#define ADJECTIVE_DICTIONARY_INDEX 3
+#define NOUN_DICTIONARY_INDEX 5
+
 static DictionaryEntry *makeDictionary(int size) {
+    DictionaryEntry *dictionary = allocate(size*sizeof(DictionaryEntry));
     dictionarySize = size;
-    return allocate(size*sizeof(DictionaryEntry));
+    return dictionary;
 }
 
 static void makeDictionaryEntry(int index, int code, int classBits) {
@@ -30,6 +36,7 @@ static void makeDictionaryEntry(int index, int code, int classBits) {
     dictionary[index].code = code;
     dictionary[index].classBits = classBits;
 }
+
 
 
 static ACodeHeader acdHeader;
@@ -56,14 +63,14 @@ Ensure canMatchEndOfSyntax(void) {
 
     /* First try an empty parse tree */
     setEndOfList(elementTable);
-    element = matchEndOfSyntax(elementTable);
+    element = requireEndOfSyntax(elementTable);
     assert_equal(NULL, element);
 
     /* Then one with a single EOS */
     makeEOS(&elementTable[0]);
     setEndOfList(&elementTable[1]);
 
-    element = matchEndOfSyntax(elementTable);
+    element = requireEndOfSyntax(elementTable);
     assert_not_equal(NULL, element);
     assert_equal(EOS, element->code);
 
@@ -85,14 +92,14 @@ Ensure canMatchParameterElement(void) {
 
     /* First test an empty parse tree */
     setEndOfList(elementTable);
-    element = matchEndOfSyntax(elementTable);
+    element = requireEndOfSyntax(elementTable);
     assert_equal(NULL, element);
 
     /* Then one with a single EOS */
     makeParameterElement(&elementTable[0]);
     setEndOfList(&elementTable[1]);
 
-    element = matchParameterElement(elementTable);
+    element = requireParameterElement(elementTable);
     assert_not_equal(NULL, element);
     assert_equal(0, element->code);
 
@@ -100,7 +107,7 @@ Ensure canMatchParameterElement(void) {
     makeEOS(&elementTable[0]);
     makeParameterElement(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = matchParameterElement(elementTable);
+    element = requireParameterElement(elementTable);
     assert_not_equal(NULL, element);
     assert_equal(0, element->code);
 
@@ -125,20 +132,20 @@ Ensure canMatchParseTree(void) {
 
     /* First test EOF with empty parse tree */
     setEndOfList(elementTable);
-    element = matchParseTree(parameters, elementTable, &plural, multipleParameters);
+    element = parseElementTree(parameters, elementTable, &plural, multipleParameters);
     assert_equal(NULL, element);
 
     /* Test EOF with EOS */
     makeEOS(&elementTable[0]);
     setEndOfList(&elementTable[1]);
-    element = matchParseTree(parameters, elementTable, &plural, multipleParameters);
+    element = parseElementTree(parameters, elementTable, &plural, multipleParameters);
     assert_equal(elementTable, element);
 
     /* Test EOF with word, EOS */
     makeWordElement(&elementTable[0], 1, 0);
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = matchParseTree(parameters, elementTable, &plural, multipleParameters);
+    element = parseElementTree(parameters, elementTable, &plural, multipleParameters);
     assert_equal(&elementTable[1], element);
 
     /* Test word, EOF with word, EOS */
@@ -149,7 +156,7 @@ Ensure canMatchParseTree(void) {
     makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = matchParseTree(parameters, elementTable, &plural, multipleParameters);
+    element = parseElementTree(parameters, elementTable, &plural, multipleParameters);
     assert_equal(&elementTable[1], element);
     free(dictionary);
     free(memory);
@@ -290,11 +297,76 @@ Ensure canMatchSingleParameter(void) {
 }
 
 
+static Aint *mockedReferenceFinder(int wordIndex) {
+    return (Aint *)mock(wordIndex);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure canMatchSingleNounWithSingleMatch(void) {
+    int theExpectedInstance[2] = {23, EOF};
+    int theExpectedWordIndex = 3;
+    Parameter candidates[MAXENTITY+1];
+    Parameter parameter = {0, FALSE, 3, 3, candidates};
+
+    clearList(candidates);
+ 
+    wordIndex = theExpectedWordIndex;
+    ensureSpaceForPlayerWords(4);
+    playerWords[3].code = ADJECTIVE_DICTIONARY_INDEX;
+    playerWords[4].code = NOUN_DICTIONARY_INDEX;
+    
+    expect(mockedReferenceFinder, want(wordIndex, theExpectedWordIndex));
+    will_return(mockedReferenceFinder, theExpectedInstance);
+
+    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
+    
+    assert_not_equal(parameter.candidates, NULL);
+    assert_equal(listLength(parameter.candidates), 1);
+    assert_equal(parameter.candidates[0].instance, theExpectedInstance[0]);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure canMatchNounsAndAdjectivesWithSingleMatch(void) {
+    int theExpectedInstance = 55;
+    int theAdjectiveInstances[3] = {24, theExpectedInstance, EOF};
+    int theNounInstances[3] = {23, theExpectedInstance, EOF};
+    int theExpectedAdjectiveWordIndex = 3;
+    int theExpectedNounWordIndex = 4;
+    Parameter candidates[MAXENTITY+1];
+    Parameter parameter = {0, FALSE, 3, 4, candidates};
+    
+    clearList(candidates);
+    
+    wordIndex = theExpectedAdjectiveWordIndex;
+    ensureSpaceForPlayerWords(4);
+    playerWords[3].code = ADJECTIVE_DICTIONARY_INDEX;
+    playerWords[4].code = NOUN_DICTIONARY_INDEX;
+
+    dictionary = makeDictionary(10);
+    makeDictionaryEntry(ADJECTIVE_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
+    makeDictionaryEntry(NOUN_DICTIONARY_INDEX, 1, NOUN_BIT);
+    
+    expect(mockedReferenceFinder, want(wordIndex, theExpectedAdjectiveWordIndex));
+    will_return(mockedReferenceFinder, theAdjectiveInstances);
+    expect(mockedReferenceFinder, want(wordIndex, theExpectedNounWordIndex));
+    will_return(mockedReferenceFinder, theNounInstances);
+
+    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
+    
+    assert_not_equal(parameter.candidates, NULL);
+    assert_equal(listLength(parameter.candidates), 1);
+    assert_equal(parameter.candidates[0].instance, theExpectedInstance);
+}
+
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
 
     setup(suite, setupHeader);
+    
     add_test(suite, canSetupParameterForWord);
     add_test(suite, canMatchEndOfSyntax);
     add_test(suite, canMatchParameterElement);
@@ -306,5 +378,8 @@ TestSuite *parseTests(void)
     add_test(suite, canUncheckAllParameterPositions);
     add_test(suite, canMatchEmptyParameterArray);
     add_test(suite, canMatchSingleParameter);
+    add_test(suite, canMatchSingleNounWithSingleMatch);
+    add_test(suite, canMatchNounsAndAdjectivesWithSingleMatch);
+    
     return suite;
 }
