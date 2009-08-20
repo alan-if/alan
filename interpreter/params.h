@@ -39,6 +39,7 @@ extern void subtractListFromList(Parameter *a, Parameter *b);
 extern void mergeLists(Parameter *a, Parameter *b);
 extern void intersect(Parameter *a, Parameter *b);
 extern void copyReferences(Parameter *parameters, Aint *references);
+extern void addParameterForInstance(Parameter *parameter, int instance);
 extern void addParameterForInteger(Parameter *parameters, int value);
 extern void addParameterForString(Parameter *parameters, char *value);
 

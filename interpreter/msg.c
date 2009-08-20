@@ -49,17 +49,6 @@ void abortPlayerCommand(void)
 
 
 /*======================================================================*/
-void addParameterForInstance(Parameter *parameters, int instance) {
-    Parameter *parameter = findEndOfList(parameters);
-
-    parameter->instance = instance;
-    parameter->useWords = FALSE;
-
-    setEndOfList(parameter+1);
-}
-
-
-/*======================================================================*/
 void printMessageWithInstanceParameter(MsgKind message, int i) {
     Parameter *parameters = allocateParameterArray(NULL, MAXPARAMS);
     addParameterForInstance(parameters, i);
@@ -91,5 +80,3 @@ void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
     copyParameterList(parameters, savedParameters);
     free(savedParameters);
 }
-
-

@@ -145,6 +145,17 @@ void copyReferences(Parameter parameterList[], Aint references[])
 
 
 /*======================================================================*/
+void addParameterForInstance(Parameter *parameters, int instance) {
+    Parameter *parameter = findEndOfList(parameters);
+
+    parameter->instance = instance;
+    parameter->useWords = FALSE;
+
+    setEndOfList(parameter+1);
+}
+
+
+/*======================================================================*/
 void addParameterForInteger(Parameter *parameters, int value) {
     Parameter *parameter = findEndOfList(parameters);
 

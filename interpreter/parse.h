@@ -23,11 +23,5 @@
 
 extern void parse(Parameter parameters[]);
 extern void initParse(void);
-extern int literalFromInstance(int instance);
-extern int instanceFromLiteral(int literalIndex);
-extern void addParameterForInstance(Parameter *parameter, int instance);
-extern void addParameterForInteger(Parameter *parameter, int value);
-extern void addParameterForString(Parameter *parameter, char *value);
-extern void restoreParameters();
 
 #endif
