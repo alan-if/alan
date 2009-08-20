@@ -15,10 +15,10 @@
 
 /* TYPES */
 typedef struct ParamEntry { /* PARAMETER */
-    Aword instance;       /* Instance code for the parameter (0=multiple) */
-    Abool useWords;       /* Indicate to use words instead of instance code when saying */
-    Aword firstWord;      /* Index to first word used by player */
-    Aword lastWord;       /* d:o to last */
+    Aint instance;  /* Instance code for the parameter (0=multiple) */
+    Abool useWords; /* Indicate to use words instead of instance code when saying */
+    Aint firstWord; /* Index to first word used by player */
+    Aint lastWord;  /* d:o to last */
     struct ParamEntry *candidates; /* Array of instances possibly filling this parameter position */
 } Parameter;
 

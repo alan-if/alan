@@ -42,6 +42,7 @@ OTHERSRCS = \
 	options.c \
 	readline.c \
 	rules.c \
+	scan.c \
 	score.c \
 	syntax.c \
 	syserr.c \

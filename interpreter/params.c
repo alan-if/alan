@@ -137,8 +137,8 @@ void copyReferences(Parameter parameterList[], Aint references[])
     int i;
 
     for (i = 0; !isEndOfList(&references[i]); i++) {
-	parameterList[i].instance = references[i];
-	parameterList[i].firstWord = EOF;
+        parameterList[i].instance = references[i];
+        parameterList[i].firstWord = EOF; /* Ensure that there is no word that can be used */
     }
     setEndOfList(&parameterList[i]);
 }
