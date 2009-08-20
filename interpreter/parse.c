@@ -33,40 +33,28 @@
 #include "scan.h"
 
 
-#ifdef HAVE_GLK
-#include "glkio.h"
-#endif
-
-
 /* PRIVATE CONSTANTS */
 
 
 /* PUBLIC DATA */
 
 
+/* PRIVATE TYPES */
+typedef struct PronounEntry { /* To remember parameter/pronoun relations */
+    int pronoun;
+    int instance;
+} Pronoun;
+
+
 /* PRIVATE DATA */
+static Pronoun *pronouns = NULL;
+static int allWordIndex; /* Word index of the ALL_WORD found */
+static int multipleLength; /* No. of objects matching 'all' */
 static Bool plural = FALSE;
 
 /* Syntax Parameters */
 static int paramidx;
 static Parameter *previousMultipleParameters; /* Previous multiple list */
-
-
-/*======================================================================*/
-void forceNewPlayerInput() {
-    setEndOfList(&playerWords[wordIndex]);
-}
-
-
-/*----------------------------------------------------------------------
-  SCAN DATA & PROCEDURES
- 
-  All procedures for getting a command and turning it into a list of
-  dictionary entries are placed here.
- 
-  ---------------------------------------------------------------------*/
-
-/* PRIVATE DATA */
 
 
 
@@ -107,25 +95,6 @@ static void addParameterForWords(Parameter *parameters, int firstWordIndex, int 
     setEndOfList(parameter+1);
 }
 #endif
-
-
-/*----------------------------------------------------------------------*
-  PARSE DATA & PROCEDURES
- 
-  All procedures and data for getting a command and parsing it
- 
-  \*---------------------------------------------------------------------- */
-
-/* Private Types */
-static int allWordIndex; /* Word index of the ALL_WORD found */
-static int multipleLength; /* No. of objects matching 'all' */
-
-typedef struct PronounEntry { /* To remember parameter/pronoun relations */
-    int pronoun;
-    int instance;
-} Pronoun;
-
-static Pronoun *pronouns = NULL;
 
 
 /*----------------------------------------------------------------------*/

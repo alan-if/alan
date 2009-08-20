@@ -21,7 +21,6 @@
 
 /* FUNCTIONS */
 
-extern void forceNewPlayerInput();
 extern void parse(Parameter parameters[]);
 extern void initParse(void);
 extern int literalFromInstance(int instance);

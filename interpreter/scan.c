@@ -43,6 +43,12 @@ static Bool eol = TRUE; /* Looking at End of line? Yes, initially */
 static char *token = NULL;
 
 
+/*======================================================================*/
+void forceNewPlayerInput() {
+    setEndOfList(&playerWords[wordIndex]);
+}
+
+
 /*----------------------------------------------------------------------*/
 static void unknown(char token[]) {
     char *str = strdup(token);

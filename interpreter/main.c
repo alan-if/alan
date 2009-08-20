@@ -15,6 +15,7 @@
 #include "utils.h"
 #include "args.h"
 #include "parse.h"
+#include "scan.h"
 #include "inter.h"
 #include "rules.h"
 #include "reverse.h"

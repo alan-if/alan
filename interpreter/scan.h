@@ -20,6 +20,7 @@ extern Bool continued;
 
 /* FUNCTIONS */
 
-extern void scan();
+extern void forceNewPlayerInput(void);
+extern void scan(void);
 
 #endif
