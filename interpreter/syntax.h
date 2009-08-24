@@ -8,6 +8,8 @@
 
 /* IMPORTS */
 #include "types.h"
+#include "memory.h"
+
 
 /* CONSTANTS */
 
@@ -20,5 +22,7 @@ extern SyntaxEntry *stxs;   /* Syntax table pointer */
 
 
 /* FUNCTIONS */
+extern ElementEntry *elementTreeOf(SyntaxEntry *stx);
+
 
 #endif /* SYNTAX_H_ */

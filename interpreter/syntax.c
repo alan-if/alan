@@ -20,3 +20,9 @@ SyntaxEntry *stxs;      /* Syntax table pointer */
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+/*======================================================================*/
+ElementEntry *elementTreeOf(SyntaxEntry *stx) {
+    return (ElementEntry *) pointerTo(stx->elms);
+}
+
+

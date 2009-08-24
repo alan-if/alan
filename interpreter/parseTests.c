@@ -64,14 +64,14 @@ Ensure canMatchEndOfSyntax(void) {
 
     /* First try an empty parse tree */
     setEndOfList(elementTable);
-    element = requireEndOfSyntax(elementTable);
+    element = elementForEndOfSyntax(elementTable);
     assert_equal(NULL, element);
 
     /* Then one with a single EOS */
     makeEOS(&elementTable[0]);
     setEndOfList(&elementTable[1]);
 
-    element = requireEndOfSyntax(elementTable);
+    element = elementForEndOfSyntax(elementTable);
     assert_not_equal(NULL, element);
     assert_equal(EOS, element->code);
 
@@ -93,14 +93,14 @@ Ensure canMatchParameterElement(void) {
 
     /* First test an empty parse tree */
     setEndOfList(elementTable);
-    element = requireEndOfSyntax(elementTable);
+    element = elementForEndOfSyntax(elementTable);
     assert_equal(NULL, element);
 
     /* Then one with a single EOS */
     makeParameterElement(&elementTable[0]);
     setEndOfList(&elementTable[1]);
 
-    element = requireParameterElement(elementTable);
+    element = elementForParameter(elementTable);
     assert_not_equal(NULL, element);
     assert_equal(0, element->code);
 
@@ -108,7 +108,7 @@ Ensure canMatchParameterElement(void) {
     makeEOS(&elementTable[0]);
     makeParameterElement(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = requireParameterElement(elementTable);
+    element = elementForParameter(elementTable);
     assert_not_equal(NULL, element);
     assert_equal(0, element->code);
 
@@ -133,20 +133,20 @@ Ensure canMatchParseTree(void) {
 
     /* First test EOF with empty parse tree */
     setEndOfList(elementTable);
-    element = parseElementTree(parameters, elementTable, &plural, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameters, &plural, multipleParameters);
     assert_equal(NULL, element);
 
     /* Test EOF with EOS */
     makeEOS(&elementTable[0]);
     setEndOfList(&elementTable[1]);
-    element = parseElementTree(parameters, elementTable, &plural, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameters, &plural, multipleParameters);
     assert_equal(elementTable, element);
 
     /* Test EOF with word, EOS */
     makeWordElement(&elementTable[0], 1, 0);
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = parseElementTree(parameters, elementTable, &plural, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameters, &plural, multipleParameters);
     assert_equal(&elementTable[1], element);
 
     /* Test word, EOF with word, EOS */
@@ -157,7 +157,7 @@ Ensure canMatchParseTree(void) {
     makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = parseElementTree(parameters, elementTable, &plural, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameters, &plural, multipleParameters);
     assert_equal(&elementTable[1], element);
     free(dictionary);
     free(memory);
@@ -403,6 +403,48 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     assert_equal(parameter.candidates[0].instance, theExpectedInstance);
 }
 
+static void mockedComplexParameterParser(Parameter candidates[]){
+    mock(candidates);
+    candidates[0].instance = 1;
+    setEndOfList(&candidates[1]);
+}
+
+Ensure parseParameterCanFillOutAParameterPosition() {
+    Abool flags = OMNIBIT;
+    Bool anyPlural;
+    Parameter multipleList[MAXPARAMS+1];
+    Parameter parameters[MAXENTITY+1];
+    ParameterPosition parameterPosition;
+    Parameter candidates[MAXENTITY+1];
+    
+    parameterPosition.candidates = candidates;
+    setEndOfList(&candidates[0]);
+    
+    parseParameterPosition(&parameterPosition, parameters, flags, &anyPlural, multipleList, mockedComplexParameterParser);
+    
+    assert_equal(listLength(parameterPosition.candidates), 1);
+}
+
+
+static void mockedSimpleCandidateParser(Parameter candidates[]) {
+    mock(candidates);
+    candidates[0].instance = 1;
+    setEndOfList(&candidates[1]);
+}
+
+Ensure complexCanFilloutAParameterPositionForSomethingNotAll(void) {
+    ParameterPosition *parameterPosition = NEW(ParameterPosition);
+
+    ensureSpaceForPlayerWords(1);
+    playerWords[0].code = 1;    /* Should not be "All" */
+    playerWords[1].code = EOF;
+    wordIndex = 0;
+
+    complexParameterParserDelegate(parameterPosition, mockedSimpleCandidateParser);
+
+    assert_equal(listLength(parameterPosition->candidates), 1);    
+}
+
 
 TestSuite *parseTests(void)
 {
@@ -424,6 +466,8 @@ TestSuite *parseTests(void)
     add_test(suite, canMatchSingleNounWithSingleMatch);
     add_test(suite, canMatchNounAndAdjectiveWithSingleMatch);
     add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
-    
+    add_test(suite, parseParameterCanFillOutAParameterPosition);
+    add_test(suite, complexCanFilloutAParameterPositionForSomethingNotAll);
+
     return suite;
 }
