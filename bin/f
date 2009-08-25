@@ -1,15 +1,10 @@
 #!/bin/sh
 for f in *.output ; do
   case=`basename $f .output`
-  if test -f $case`cat .case`
-  then
-    if test -f $case.expected
-    then
-      if test -f $case.suspended
-      then
-	echo -n
-      else
-	echo $case
+  if [ -f $case`cat .case` ] ; then
+    if [ -f $case.expected ] ; then
+      if [ ! -f $case.suspended ] ; then
+	/bin/echo $case
       fi
     fi
   fi

@@ -586,7 +586,7 @@ static void simple(Parameter candidates[]) {
             parseForCandidates(candidates);
             if (listLength(candidates) == 0) { /* Failed! */
                 // TODO this gets executed in case of "take all except", any other cases?
-                //printf("DEBUG: parseSingleParameter() returned 0 candidates\n");
+                printf("DEBUG: parseForCandidates() returned 0 candidates to simple()\n");
                 copyParameterList(candidates, tlst);
                 wordIndex = savidx;
                 plural = savplur;
