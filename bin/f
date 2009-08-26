@@ -1,11 +1,14 @@
 #!/bin/sh
 for f in *.output ; do
-  case=`basename $f .output`
-  if [ -f $case`cat .case` ] ; then
-    if [ -f $case.expected ] ; then
-      if [ ! -f $case.suspended ] ; then
-	/bin/echo $case
-      fi
-    fi
-  fi
+    case=`basename $f .output`
+        if [ -f $case`cat .case` ] ; then
+            if [ -f $case.expected ] ; then
+	        /bin/echo -n $case
+                if [ -f $case.suspended ] ; then
+	            /bin/echo " (but suspended)"
+                else
+                    /bin/echo
+                fi
+            fi
+        fi
 done

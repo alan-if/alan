@@ -22,10 +22,6 @@ function run ()
 function verify()
 {
     /bin/echo "<testcase name=\"$theCase\" classname=\"$1\">" >> TEST-regr.xml
-#    if [ -f $theCase.suspended ] ; then
-#	suspended=`expr $suspended + 1`
-#	/bin/echo "Suspended..."
-#    else
     if [ -f $theCase.expected ] ; then
 	if diff -q -b $theCase.output $theCase.expected 1> /dev/null ; then
             if [ -f $theCase.suspended ] ; then
@@ -46,8 +42,8 @@ function verify()
                 else
 	            /bin/echo "ok"
 	        fi
-	        rm $theCase.output
             fi
+	    rm $theCase.output
 	else
             if [ -f $theCase.suspended ] ; then
 	        suspended=`expr $suspended + 1`

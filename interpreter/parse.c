@@ -103,11 +103,11 @@ static void addParameterForWords(Parameter *parameters, int firstWordIndex, int 
 
 
 /*----------------------------------------------------------------------*/
-static Pronoun *allocatePronounArray(Pronoun *pronouns) {
-    if (pronouns != NULL)
-        return pronouns;
-    else
-        return allocate((MAXPARAMS+1) * sizeof(Pronoun));
+static Pronoun *allocatePronounArray(Pronoun *currentList) {
+    if (currentList == NULL)
+        currentList = allocate(sizeof(Pronoun)*(MAXPARAMS+1));
+    clearList(currentList);
+    return currentList;
 }
 
 
@@ -195,7 +195,7 @@ static int fakePlayerWordForAll() {
        player word so that it can be used in the message */
     int p, d;
 	
-    for (p = 0; isEndOfList(&playerWords[p]); p++)
+    for (p = 0; !isEndOfList(&playerWords[p]); p++)
         ;
     setEndOfList(&playerWords[p+1]); /* Make room for one more word */
     allWordIndex = p;
@@ -214,6 +214,7 @@ static void errorButAfterAll(int butWordIndex) {
     addParameterForWord(messageParameters, butWordIndex);
     addParameterForWord(messageParameters, fakePlayerWordForAll());
     printMessageWithParameters(M_BUT_ALL, messageParameters);
+    free(messageParameters);
     abortPlayerCommand();
 }
 
@@ -268,17 +269,17 @@ static int getPronounInstances(int word, Parameter instanceParameters[]) {
     /* Find the instance that the pronoun word could refer to, return 0
        if none or multiple */
     int p;
-    int i = 0;
+    int instanceCount = 0;
 	
     clearList(instanceParameters);
     for (p = 0; !endOfPronouns(p); p++)
-        if (dictionary[word].code == pronouns[p].pronoun) {
-            instanceParameters[i].instance = pronouns[p].instance;
-            instanceParameters[i].useWords = FALSE; /* Can't use words since they are gone, pronouns
+        if (pronouns[p].instance != 0 && dictionary[word].code == pronouns[p].pronoun) {
+            instanceParameters[instanceCount].instance = pronouns[p].instance;
+            instanceParameters[instanceCount].useWords = FALSE; /* Can't use words since they are gone, pronouns
                                                        refer to parameters in previous command */
-            setEndOfList(&instanceParameters[++i]);
+            setEndOfList(&instanceParameters[++instanceCount]);
         }
-    return i;
+    return instanceCount;
 }
 
 /*----------------------------------------------------------------------*/
@@ -832,34 +833,34 @@ static SyntaxEntry *findSyntax(int verbCode) {
 static void checkRestrictedParameters(Parameter parameters[], ElementEntry elms[], Parameter multipleCandidates[], Bool checked[]) {
     RestrictionEntry *restriction;
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfList(restriction); restriction++) {
-	if (parameters[restriction->parameterNumber-1].instance == 0) {
-	    /* This was a multiple parameter position, so check all multipleCandidates and remove failing */
-	    int i;
-	    for (i = 0; !isEndOfList(&multipleCandidates[i]); i++) {
-		parameters[restriction->parameterNumber-1] = multipleCandidates[i];
-		if (!restrictionCheck(restriction, parameters)) {
-		    /* Multiple could be both an explicit list of params and an ALL */
-		    if (multipleLength == 0) {
-			char marker[80];
-			/* It wasn't ALL, we need to say something about it, so
-			 * prepare a printout with $1/2/3
-			 */
-			sprintf(marker, "($%ld)", restriction->parameterNumber);
-			output(marker);
-			runRestriction(restriction);
-			para();
-		    }
-		    multipleCandidates[i].instance = 0; /* In any case remove it from the list */
-		}
-	    }
-	    parameters[restriction->parameterNumber-1].instance = 0;
-	} else {
-	    if (!restrictionCheck(restriction, parameters)) {
-		runRestriction(restriction);
-		abortPlayerCommand();
-	    }
-	}
-	checked[restriction->parameterNumber - 1] = TRUE; /* Remember that it's already checked */
+        if (parameters[restriction->parameterNumber-1].instance == 0) {
+            /* This was a multiple parameter position, so check all multipleCandidates and remove failing */
+            int i;
+            for (i = 0; !isEndOfList(&multipleCandidates[i]); i++) {
+                parameters[restriction->parameterNumber-1] = multipleCandidates[i];
+                if (!restrictionCheck(restriction, parameters)) {
+                    /* Multiple could be both an explicit list of params and an ALL */
+                    if (multipleLength == 0) {
+                        char marker[80];
+                        /* It wasn't ALL, we need to say something about it, so
+                         * prepare a printout with $1/2/3
+                         */
+                        sprintf(marker, "($%ld)", restriction->parameterNumber);
+                        output(marker);
+                        runRestriction(restriction);
+                        para();
+                    }
+                    multipleCandidates[i].instance = 0; /* In any case remove it from the list */
+                }
+            }
+            parameters[restriction->parameterNumber-1].instance = 0;
+        } else {
+            if (!restrictionCheck(restriction, parameters)) {
+                runRestriction(restriction);
+                abortPlayerCommand();
+            }
+        }
+        checked[restriction->parameterNumber - 1] = TRUE; /* Remember that it's already checked */
     }
 }
 
@@ -1035,6 +1036,7 @@ void initParse(void) {
     if (parameterPositions == NULL)
         parameterPositions = allocate(sizeof(ParameterPosition)*MAXPARAMS);
     
+    // TODO Refactor out the pronoun handling, e.g registerPronoun()
     for (dictionaryIndex = 0; dictionaryIndex < dictionarySize; dictionaryIndex++)
         if (isPronoun(dictionaryIndex)) {
             pronouns[pronounIndex].pronoun = dictionary[dictionaryIndex].code;
