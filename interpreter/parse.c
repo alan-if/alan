@@ -373,7 +373,7 @@ static Bool lastPossibleNoun(int wordIndex) {
 
 
 /*----------------------------------------------------------------------*/
-static void updateWithReferences(int wordIndex, Parameter result[], Aint *(*referenceFinder)(int wordIndex)) {
+static void updateWithReferences(Parameter result[], int wordIndex, Aint *(*referenceFinder)(int wordIndex)) {
     static Parameter *references = NULL; /* Instances referenced by a word */
     references = allocateParameterArray(references, MAXPARAMS);
 
@@ -485,14 +485,14 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter parameterCandi
         if (lastPossibleNoun(wordIndex))
             break;
         copyParameterList(savedParameters, parameterCandidates); /* To save it for backtracking */
-        updateWithReferences(wordIndex, parameterCandidates, adjectiveReferencesForWord);
+        updateWithReferences(parameterCandidates, wordIndex, adjectiveReferencesForWord);
         adjectiveOrNounFound = TRUE;
         wordIndex++;
     }
 
     if (!endOfWords(wordIndex)) {
         if (isNounWord(wordIndex)) {
-            updateWithReferences(wordIndex, parameterCandidates, nounReferencesForWord);
+            updateWithReferences(parameterCandidates, wordIndex, nounReferencesForWord);
             adjectiveOrNounFound = TRUE;
             wordIndex++;
         } else
@@ -905,8 +905,8 @@ static void matchNounPhrase(Parameter parameter, ReferencesFinder adjectiveRefer
     int i;
     
     for (i = parameter.firstWord; i < parameter.lastWord; i++)
-        updateWithReferences(i, parameter.candidates, adjectiveReferencesFinder);
-     updateWithReferences(parameter.lastWord, parameter.candidates, nounReferencesFinder);
+        updateWithReferences(parameter.candidates, i, adjectiveReferencesFinder);
+     updateWithReferences(parameter.candidates, parameter.lastWord, nounReferencesFinder);
 }
 
 
@@ -974,7 +974,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     }
 	
     /*
-     * Then we can map the parameters to the correct order, if it was a syntax synonym.
+     * Then, in case it was a syntax synonym, we can map the parameters to the correct order.
      * The flags field of EOS element is actually the syntax number!
      */
     current.verb = mapSyntax(elms->flags, parameters);

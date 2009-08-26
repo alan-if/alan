@@ -302,9 +302,16 @@ static Aint *mockedReferenceFinder(int wordIndex) {
     return (Aint *)mock(wordIndex);
 }
 
+static void givenPlayerWordsForANoun(int firstWordIndex) {
+    wordIndex = firstWordIndex;
+    ensureSpaceForPlayerWords(firstWordIndex);
+    playerWords[firstWordIndex].code = ADJECTIVE1_DICTIONARY_INDEX;
+}
+
+
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchSingleNounWithSingleMatch(void) {
+Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
     int theExpectedInstance[2] = {23, EOF};
     int theExpectedWordIndex = 3;
     Parameter candidates[MAXENTITY+1];
@@ -312,11 +319,8 @@ Ensure canMatchSingleNounWithSingleMatch(void) {
 
     clearList(candidates);
  
-    wordIndex = theExpectedWordIndex;
-    ensureSpaceForPlayerWords(4);
-    playerWords[3].code = ADJECTIVE1_DICTIONARY_INDEX;
-    playerWords[4].code = NOUN_DICTIONARY_INDEX;
-    
+	givenPlayerWordsForANoun(theExpectedWordIndex);
+
     expect(mockedReferenceFinder, want(wordIndex, theExpectedWordIndex));
     will_return(mockedReferenceFinder, theExpectedInstance);
 
@@ -325,6 +329,22 @@ Ensure canMatchSingleNounWithSingleMatch(void) {
     assert_not_equal(parameter.candidates, NULL);
     assert_equal(listLength(parameter.candidates), 1);
     assert_equal(parameter.candidates[0].instance, theExpectedInstance[0]);
+}
+
+
+static void givenPlayerWordsWithTwoAdjectivesAndANoun(int firstWordIndex) {
+    wordIndex = firstWordIndex;
+    ensureSpaceForPlayerWords(firstWordIndex+2);
+    playerWords[firstWordIndex].code = ADJECTIVE1_DICTIONARY_INDEX;
+    playerWords[firstWordIndex+1].code = ADJECTIVE2_DICTIONARY_INDEX;
+    playerWords[firstWordIndex+2].code = NOUN_DICTIONARY_INDEX;
+}
+
+static void givenADictionaryWithTwoAdjectivesAndANoun() {
+    dictionary = makeDictionary();
+    makeDictionaryEntry(ADJECTIVE1_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
+    makeDictionaryEntry(ADJECTIVE2_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
+    makeDictionaryEntry(NOUN_DICTIONARY_INDEX, 1, NOUN_BIT);
 }
 
 
@@ -338,18 +358,9 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     Parameter candidates[MAXENTITY+1];
     Parameter parameter = {0, FALSE, theExpectedFirstAdjectiveWordIndex, theExpectedNounWordIndex, candidates};
     
-    // TODO Factor out this common setup of playerWords and dictionary
     clearList(candidates);
     
-    // Given: two player words, one adjective and one noun
-    ensureSpaceForPlayerWords(4);
-    playerWords[3].code = ADJECTIVE1_DICTIONARY_INDEX;
-    playerWords[4].code = NOUN_DICTIONARY_INDEX;
-
-    // Given: a dictionary with 
-    dictionary = makeDictionary();
-    makeDictionaryEntry(ADJECTIVE1_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
-    makeDictionaryEntry(NOUN_DICTIONARY_INDEX, 1, NOUN_BIT);
+    givenADictionaryWithTwoAdjectivesAndANoun();
 
     expect(mockedReferenceFinder, want(wordIndex, theExpectedFirstAdjectiveWordIndex));
     will_return(mockedReferenceFinder, firstAdjectiveInstances);
@@ -378,16 +389,9 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     
     clearList(candidates);
     
-    wordIndex = theExpectedFirstAdjectiveWordIndex;
-    ensureSpaceForPlayerWords(4);
-    playerWords[3].code = ADJECTIVE1_DICTIONARY_INDEX;
-    playerWords[4].code = ADJECTIVE2_DICTIONARY_INDEX;
-    playerWords[5].code = NOUN_DICTIONARY_INDEX;
+	givenPlayerWordsWithTwoAdjectivesAndANoun(theExpectedFirstAdjectiveWordIndex);
 
-    dictionary = makeDictionary();
-    makeDictionaryEntry(ADJECTIVE1_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
-    makeDictionaryEntry(ADJECTIVE2_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
-    makeDictionaryEntry(NOUN_DICTIONARY_INDEX, 1, NOUN_BIT);
+	givenADictionaryWithTwoAdjectivesAndANoun();
 
     expect(mockedReferenceFinder, want(wordIndex, theExpectedFirstAdjectiveWordIndex));
     will_return(mockedReferenceFinder, firstAdjectiveInstances);
@@ -463,7 +467,7 @@ TestSuite *parseTests(void)
     add_test(suite, canUncheckAllParameterPositions);
     add_test(suite, canMatchEmptyParameterArray);
     add_test(suite, canMatchSingleParameter);
-    add_test(suite, canMatchSingleNounWithSingleMatch);
+    add_test(suite, matchNounPhraseCanMatchSingleNounWithSingleMatch);
     add_test(suite, canMatchNounAndAdjectiveWithSingleMatch);
     add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
     add_test(suite, parseParameterCanFillOutAParameterPosition);
