@@ -24,6 +24,8 @@ static void makeWordElement(ElementEntry *element, int code, int next) {
 #define ADJECTIVE1_DICTIONARY_INDEX 3
 #define ADJECTIVE2_DICTIONARY_INDEX 11
 #define NOUN_DICTIONARY_INDEX 5
+#define ALL_DICTIONARY_INDEX 13
+
 
 static DictionaryEntry *makeDictionary() {
     DictionaryEntry *dictionary = allocate(DICTIONARY_SIZE*sizeof(DictionaryEntry));
@@ -33,9 +35,10 @@ static DictionaryEntry *makeDictionary() {
 
 static void makeDictionaryEntry(int index, int code, int classBits) {
     if (index > dictionarySize)
-	syserr("makeDictionaryEntry() outside size of dictionary");
+        syserr("makeDictionaryEntry() outside size of dictionary");
     dictionary[index].code = code;
     dictionary[index].classBits = classBits;
+    dictionary[index].string = ((char *)&"all"-(char *)&memory[0])/sizeof(Aword);
 }
 
 
@@ -424,7 +427,7 @@ Ensure parseParameterCanFillOutAParameterPosition() {
     parameterPosition.candidates = candidates;
     setEndOfList(&candidates[0]);
     
-    parseParameterPosition(&parameterPosition, parameters, flags, &anyPlural, multipleList, mockedComplexParameterParser);
+    parseParameterPosition(&parameterPosition, parameters, 0, flags, &anyPlural, multipleList, mockedComplexParameterParser);
     
     assert_equal(listLength(parameterPosition.candidates), 1);
 }
@@ -436,17 +439,57 @@ static void mockedSimpleCandidateParser(Parameter candidates[]) {
     setEndOfList(&candidates[1]);
 }
 
-Ensure complexCanFilloutAParameterPositionForSomethingNotAll(void) {
-    ParameterPosition *parameterPosition = NEW(ParameterPosition);
-
+static void givenAPlayerWordOtherThanAll() {
     ensureSpaceForPlayerWords(1);
     playerWords[0].code = 1;    /* Should not be "All" */
     playerWords[1].code = EOF;
     wordIndex = 0;
+}
 
-    complexParameterParserDelegate(parameterPosition, mockedSimpleCandidateParser);
+/*----------------------------------------------------------------------*/
+Ensure complexCanFilloutAParameterPositionForSomethingNotAll(void) {
+    ParameterPosition *parameterPosition = NEW(ParameterPosition);
+
+	givenAPlayerWordOtherThanAll();
+
+    complexParameterParserDelegate(parameterPosition, mockedSimpleCandidateParser, buildAll);
 
     assert_equal(listLength(parameterPosition->candidates), 1);    
+}
+
+
+
+static void givenADictionaryIncludingAll() {
+    dictionary = makeDictionary();
+    makeDictionaryEntry(ALL_DICTIONARY_INDEX, 1, ALL_BIT);
+}
+
+
+static void givenPlayerInputReferencingAll(void) {
+    ensureSpaceForPlayerWords(1);
+    playerWords[0].code = ALL_DICTIONARY_INDEX;    /* Should be "All" */
+    playerWords[1].code = EOF;
+    wordIndex = 0;
+}
+
+
+void mockedAllBuilder(Parameter candidates[])
+{
+    mock(candidates);
+    candidates[0].instance = 1;
+    setEndOfList(&candidates[1]);
+}
+
+/*----------------------------------------------------------------------*/
+Ensure complexParameterParserDelegateCanSetPlural(void) {
+    ParameterPosition *parameterPosition = NEW(ParameterPosition);
+
+    givenADictionaryIncludingAll();
+    givenPlayerInputReferencingAll();
+
+    complexParameterParserDelegate(parameterPosition, mockedSimpleCandidateParser, mockedAllBuilder);
+
+    assert_equal(parameterPosition->plural, 1);
 }
 
 
@@ -472,6 +515,7 @@ TestSuite *parseTests(void)
     add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
     add_test(suite, parseParameterCanFillOutAParameterPosition);
     add_test(suite, complexCanFilloutAParameterPositionForSomethingNotAll);
+    add_test(suite, complexParameterParserDelegateCanSetPlural);
 
     return suite;
 }

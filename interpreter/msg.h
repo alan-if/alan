@@ -25,6 +25,7 @@ extern MessageEntry *msgs;  /* Message table pointer */
 
 
 /* FUNCTIONS */
+extern void setErrorHandler(void (*handler)(MsgKind));
 extern void abortPlayerCommand(void);
 extern void error(MsgKind msg);
 extern Bool confirm(MsgKind msgno);

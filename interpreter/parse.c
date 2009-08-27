@@ -48,6 +48,7 @@ typedef struct PronounEntry { /* To remember parameter/pronoun relations */
 typedef struct ParameterPosition {
     Parameter *candidates;
     Parameter *exceptions;
+    Bool plural;
 } ParameterPosition;
 
 typedef Aint *(*ReferencesFinder)(int wordIndex);
@@ -59,13 +60,12 @@ typedef void (*CandidateParser)(Parameter candidates[]);
 static Pronoun *pronouns = NULL;
 static int allWordIndex; /* Word index of the ALL_WORD found */
 static int multipleLength; /* No. of objects matching 'all' */
-static Bool plural = FALSE;
+static Bool playerUsedPlural = FALSE;
 
 static ParameterPosition *parameterPositions;
 
 
 /* Syntax Parameters */
-static int paramidx;
 static Parameter *previousMultipleParameters; /* Previous multiple list */
 
 
@@ -174,6 +174,7 @@ static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
 /*----------------------------------------------------------------------*/
 static void errorWhat(int playerWordIndex) {
     Parameter *messageParameters = allocateParameterArray(NULL, MAXPARAMS);
+    
     addParameterForWord(messageParameters, playerWordIndex);
     printMessageWithParameters(M_WHAT_WORD, messageParameters);
     free(messageParameters);
@@ -577,7 +578,7 @@ static void simple(Parameter candidates[]) {
            what he ment */
         if (isThemWord(wordIndex) && ((isPronounWord(wordIndex)
                                        && listLength(previousMultipleParameters) > 0) || !isPronounWord(wordIndex))) {
-            plural = TRUE;
+            playerUsedPlural = TRUE;
             getPreviousMultipleParameters(candidates);
             if (listLength(candidates) == 0)
                 errorWhat(wordIndex);
@@ -590,7 +591,7 @@ static void simple(Parameter candidates[]) {
                 //printf("DEBUG: parseForCandidates() returned 0 candidates to simple()\n");
                 copyParameterList(candidates, tlst);
                 wordIndex = savidx;
-                plural = savplur;
+                playerUsedPlural = savplur;
                 return;
             }
         }
@@ -601,10 +602,10 @@ static void simple(Parameter candidates[]) {
             && (isConjunctionWord(wordIndex) && (isAdjectiveWord(wordIndex+1)
                                                  || isNounWord(wordIndex+1)))) {
             /* More parameters in a conjunction separated list ? */
-            savplur = plural;
+            savplur = playerUsedPlural;
             savidx = wordIndex;
             wordIndex++;
-            plural = TRUE;
+            playerUsedPlural = TRUE;
         } else {
             copyParameterList(candidates, tlst);
             return;
@@ -613,15 +614,16 @@ static void simple(Parameter candidates[]) {
 }
 
 /*----------------------------------------------------------------------*/
-static void complexParameterParserDelegate(ParameterPosition *parameterPosition, CandidateParser simpleParameterParser) {
+static void complexParameterParserDelegate(ParameterPosition *parameterPosition, CandidateParser simpleParameterParser, void (*allBuilder)(Parameter candidates[])) {
     static Parameter *allList = NULL;
     allList = allocateParameterArray(allList, MAXENTITY);
     parameterPosition->candidates = allocateParameterArray(parameterPosition->candidates, MAXPARAMS);    
     parameterPosition->exceptions = allocateParameterArray(parameterPosition->exceptions, MAXPARAMS);    
 
     if (isAllWord(wordIndex)) {
-        plural = TRUE;
-        buildAll(allList); /* Build list of all objects */
+        playerUsedPlural = TRUE;
+        parameterPosition->plural = TRUE;
+        allBuilder(allList); /* Build list of all objects */
         wordIndex++;
         if (!endOfWords(wordIndex) && isButWord(wordIndex)) {
             int butWordIndex = wordIndex;
@@ -643,7 +645,7 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
 static void complex(Parameter candidates[]) {
     ParameterPosition *parameterPosition = NEW(ParameterPosition);
 
-    complexParameterParserDelegate(parameterPosition, simple);
+    complexParameterParserDelegate(parameterPosition, simple, buildAll);
     copyParameterList(candidates, parameterPosition->candidates);
 
     free(parameterPosition);
@@ -701,32 +703,34 @@ static Bool hasBit(Aword flags, Aint bit) {
 }
 
 /*----------------------------------------------------------------------*/
-static void parseParameterPosition(ParameterPosition *parameterPosition, Parameter parameters[], Aword flags, Bool *anyPlural, Parameter multipleList[], void (*complexParameterParser)(Parameter[])) {
+static void parseParameterPosition(ParameterPosition *parameterPosition, Parameter parameters[], int parameterIndex, Aword flags, Bool *anyPlural, Parameter multipleList[], CandidateParser complexParameterParser) {
     Parameter *candidates = allocateParameterArray(NULL, MAXENTITY); /* List of parameters parsed, possibly multiple */
 
     parameterPosition->candidates = allocateParameterArray(parameterPosition->candidates, MAXENTITY);
 
-    plural = FALSE;
+    playerUsedPlural = FALSE;
     complexParameterParser(candidates);
     if (listLength(candidates) == 0) /* No object!? */
         error(M_WHAT);
     if (!hasBit(flags, OMNIBIT))
         /* If its not an omnipotent parameter, resolve by presence */
         resolve(candidates);
-    if (plural) {
+    if (playerUsedPlural) {
         if (!hasBit(flags, MULTIPLEBIT)) /* Allowed multiple? */
             error(M_MULTIPLE);
         else {
             /* Mark this as the multiple position in which to insert actual parameter values later */
-            parameters[paramidx++].instance = 0;
+            parameters[parameterIndex].instance = 0;
             copyParameterList(multipleList, candidates);
             *anyPlural = TRUE;
         }
     } else
-        parameters[paramidx++] = candidates[0];
+        parameters[parameterIndex] = candidates[0];
 	
-    setEndOfList(&parameters[paramidx]);
+    setEndOfList(&parameters[parameterIndex+1]);
 	copyParameterList(parameterPosition->candidates, candidates);
+    
+    //    printf("parameterIndex (complexParameterParser) = %d\n", parameterIndex);
     
     free(candidates);
 }
@@ -788,10 +792,13 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
         if (isParameterWord(wordIndex)) {
             nextElement = elementForParameter(currentEntry);
             if (nextElement != NULL) {
-                parseParameterPosition(&parameterPositions[parameterIndex], parameters, nextElement->flags, anyPlural, multipleList, complex);
+                parseParameterPosition(&parameterPositions[parameterIndex], parameters, parameterIndex, nextElement->flags, anyPlural, multipleList, complex);
                 //                copyParameterList(parameters, parameterPositions[parameterIndex].candidates);
+                //*anyPlural = parameterPositions[parameterIndex].plural;
                 currentEntry = (ElementEntry *) pointerTo(nextElement->next);
                 parameterIndex++;
+                //printf("parameterIndex (parseInputAccordingToElementTree) = %d\n", parameterIndex);
+
                 continue;
             }
         }
@@ -1001,7 +1008,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
             /* word, assuming we have already said enough */
             abortPlayerCommand();
     }
-    plural = anyPlural; /* Remember if we found plural objects */
+    playerUsedPlural = anyPlural; /* Remember if we found plural objects */
 }
 
 
@@ -1101,7 +1108,6 @@ void parse(Parameter parameters[]) {
 	
     capitalize = TRUE;
     multipleLength = 0;
-    paramidx = 0;
     clearList(parameters);
 	
     firstWord = wordIndex;
@@ -1122,7 +1128,7 @@ void parse(Parameter parameters[]) {
     if (isConjunctionWord(lastWord))
         lastWord--;
 	
-    if (plural)
+    if (playerUsedPlural)
         copyParameterList(previousMultipleParameters, multipleParameters);
     else
         clearList(previousMultipleParameters);

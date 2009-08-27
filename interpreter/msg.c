@@ -31,13 +31,27 @@ void printMessage(MsgKind msg)      /* IN - message number */
 }
 
 
+static void (*errorHandler)(MsgKind msg) = NULL;
+
+/*======================================================================*/
+void setErrorHandler(void (*handler)(MsgKind msg))   /* IN - The error message number */
+{
+    errorHandler = handler;
+    // TODO This must not return because the standard handler does not...
+}
+
+
 /*======================================================================*/
 void error(MsgKind msgno)   /* IN - The error message number */
 {
-  /* Print an error message and longjmp to main loop. */
-  if (msgno != NO_MSG)
-    printMessage(msgno);
-  longjmp(returnLabel, ERROR_RETURN);
+    if (errorHandler != NULL)
+        errorHandler(msgno);
+    else {
+        /* Print an error message and longjmp to main loop. */
+        if (msgno != NO_MSG)
+            printMessage(msgno);
+        longjmp(returnLabel, ERROR_RETURN);
+    }
 }
 
 
