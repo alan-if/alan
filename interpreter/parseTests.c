@@ -122,13 +122,13 @@ Ensure canMatchParameterElement(void) {
 Ensure canMatchParseTree(void) {
     ElementEntry *element;
     ElementEntry *elementTable;
-    Bool plural;
     Parameter parameters[10];
     Parameter multipleParameters[10];
 
     memory = allocate(100*sizeof(Aword));
     elementTable = (ElementEntry *)&memory[50];
-
+    parameterPositions = NEW(ParameterPosition);
+    
     /* Emulate end of player input */
     ensureSpaceForPlayerWords(0);
     playerWords[0].code = EOF;
@@ -136,20 +136,20 @@ Ensure canMatchParseTree(void) {
 
     /* First test EOF with empty parse tree */
     setEndOfList(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameters, &plural, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameters, multipleParameters);
     assert_equal(NULL, element);
 
     /* Test EOF with EOS */
     makeEOS(&elementTable[0]);
     setEndOfList(&elementTable[1]);
-    element = parseInputAccordingToElementTree(elementTable, parameters, &plural, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameters, multipleParameters);
     assert_equal(elementTable, element);
 
     /* Test EOF with word, EOS */
     makeWordElement(&elementTable[0], 1, 0);
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = parseInputAccordingToElementTree(elementTable, parameters, &plural, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameters, multipleParameters);
     assert_equal(&elementTable[1], element);
 
     /* Test word, EOF with word, EOS */
@@ -160,7 +160,7 @@ Ensure canMatchParseTree(void) {
     makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = parseInputAccordingToElementTree(elementTable, parameters, &plural, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameters, multipleParameters);
     assert_equal(&elementTable[1], element);
     free(dictionary);
     free(memory);
@@ -410,7 +410,7 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     assert_equal(parameter.candidates[0].instance, theExpectedInstance);
 }
 
-static void mockedComplexParameterParser(Parameter candidates[]){
+static void mockedComplexParameterParser(ParameterPosition *parameterPosition, Parameter candidates[]){
     mock(candidates);
     candidates[0].instance = 1;
     setEndOfList(&candidates[1]);
@@ -418,18 +418,17 @@ static void mockedComplexParameterParser(Parameter candidates[]){
 
 Ensure parseParameterCanFillOutAParameterPosition() {
     Abool flags = OMNIBIT;
-    Bool anyPlural;
     Parameter multipleList[MAXPARAMS+1];
     Parameter parameters[MAXENTITY+1];
-    ParameterPosition parameterPosition;
+    ParameterPosition *parameterPosition = NEW(ParameterPosition);
     Parameter candidates[MAXENTITY+1];
     
-    parameterPosition.candidates = candidates;
+    parameterPosition->candidates = candidates;
     setEndOfList(&candidates[0]);
     
-    parseParameterPosition(&parameterPosition, parameters, 0, flags, &anyPlural, multipleList, mockedComplexParameterParser);
+    parseParameterPosition(parameterPosition, parameters, 0, flags, multipleList, mockedComplexParameterParser);
     
-    assert_equal(listLength(parameterPosition.candidates), 1);
+    assert_equal(listLength(parameterPosition->candidates), 1);
 }
 
 
@@ -489,7 +488,7 @@ Ensure complexParameterParserDelegateCanSetPlural(void) {
 
     complexParameterParserDelegate(parameterPosition, mockedSimpleCandidateParser, mockedAllBuilder);
 
-    assert_equal(parameterPosition->plural, 1);
+    assert_equal(parameterPosition->explicitMultiple, 1);
 }
 
 
