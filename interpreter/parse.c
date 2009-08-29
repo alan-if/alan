@@ -645,7 +645,6 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
                 error(M_NOT_MUCH);
         }
         copyParameterList(parameterPosition->candidates, allList);
-        multipleLength = listLength(parameterPosition->candidates);
     } else {
         simpleParameterParser(parameterPosition->candidates);
         if (listLength(parameterPosition->candidates) > 1)
@@ -1174,7 +1173,6 @@ void parse(Parameter parameters[]) {
         para();
 	
     capitalize = TRUE;
-    multipleLength = 0;
     clearList(parameters);
 	
     firstWord = wordIndex;
