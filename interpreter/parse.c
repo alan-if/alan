@@ -60,7 +60,6 @@ typedef void (*CandidateParser)(Parameter candidates[]);
 /* PRIVATE DATA */
 static Pronoun *pronouns = NULL;
 static int allWordIndex;        /* Word index of the ALL_WORD found */
-static int multipleLength;      /* No. of objects matching 'all' */
 
 static ParameterPosition *parameterPositions;
 
