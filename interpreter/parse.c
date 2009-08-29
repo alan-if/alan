@@ -894,6 +894,17 @@ static Bool anyExplicitMultiple(ParameterPosition parameterPositions[]) {
 
 
 /*----------------------------------------------------------------------*/
+static Bool anyAll(ParameterPosition parameterPositions[]) {
+    int i;
+
+    for (i = 0; !isEndOfList(&parameterPositions[i]); i++)
+        if (parameterPositions[i].all)
+            return TRUE;
+    return FALSE;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void checkRestrictedParameters(ElementEntry elms[], Parameter parameters[], Parameter multipleCandidates[], Bool checked[]) {
     RestrictionEntry *restriction;
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfList(restriction); restriction++) {
@@ -1049,8 +1060,8 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     /* Now perform restriction checks */
     restrictParameters(parameters, multipleParameters, elms);
 
-    /* Finally, if we found some multiple, try to find out what was applicable */
-    if (multipleLength > 0) {
+    /* Finally, if the player used ALL, try to find out what was applicable */
+    if (anyAll(parameterPositions)) {
         int multiplePosition = findMultiplePosition(parameters);
         disambiguateCandidatesForPosition(parameters, multiplePosition, multipleParameters);
         if (listLength(multipleParameters) == 0) {
@@ -1059,10 +1070,11 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
         }
     } else if (anyExplicitMultiple(parameterPositions)) {
         compress(multipleParameters);
-        if (listLength(multipleParameters) == 0)
+        if (listLength(multipleParameters) == 0) {
             /* If there where multiple parameters but non left, exit without a */
             /* word, assuming we have already said enough */
             abortPlayerCommand();
+        }
     }
 }
 
