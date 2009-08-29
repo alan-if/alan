@@ -47,6 +47,7 @@ typedef struct PronounEntry { /* To remember parameter/pronoun relations */
 
 typedef struct ParameterPosition {
     Bool explicitMultiple;
+    Bool all;
     Parameter *candidates;
     Parameter *exceptions;
 } ParameterPosition;
@@ -629,6 +630,7 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
 
     parameterPosition->explicitMultiple = FALSE;
     if (isAllWord(wordIndex)) {
+        parameterPosition->all = TRUE;
         parameterPosition->explicitMultiple = TRUE;
         allBuilder(allList); /* Build list of all possible objects */
         wordIndex++;
@@ -661,6 +663,7 @@ static void complex(ParameterPosition *parameterPositionOut, Parameter candidate
     // Map back to "legacy style"
     copyParameterList(candidates, parameterPosition->candidates);
     parameterPositionOut->explicitMultiple = parameterPosition->explicitMultiple;
+    parameterPositionOut->all = parameterPosition->all;
 
     free(parameterPosition);
 }
@@ -740,6 +743,7 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Paramet
     Parameter *candidates = allocateParameterArray(NULL, MAXENTITY); /* List of parameters parsed, possibly multiple */
 
     parameterPosition->candidates = allocateParameterArray(parameterPosition->candidates, MAXENTITY);
+    parameterPosition->all = FALSE;
     parameterPosition->explicitMultiple = FALSE;
     
     complexParameterParser(parameterPosition, candidates);
@@ -900,9 +904,7 @@ static void checkRestrictedParameters(ElementEntry elms[], Parameter parameters[
                 parameters[restriction->parameterNumber-1] = multipleCandidates[i];
                 if (!restrictionCheck(restriction, parameters)) {
                     /* Multiple could be both an explicit list of instance references and an expansion of ALL */
-                    if (multipleLength == 0) {
-                        //                        printf("multipleLength == 0\n");
-                        
+                    if (!parameterPositions[restriction->parameterNumber-1].all) {
                         char marker[80];
                         /* It wasn't ALL, we need to say something about it, so
                          * prepare a printout with $1/2/3
