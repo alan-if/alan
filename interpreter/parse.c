@@ -653,15 +653,13 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
 }
 
 /*----------------------------------------------------------------------*/
-static void complex(ParameterPosition *parameterPositionOut, Parameter candidates[]) {
+static void complex(ParameterPosition *parameterPositionOut) {
     ParameterPosition *parameterPosition = NEW(ParameterPosition);
     
-    complexParameterParserDelegate(parameterPosition, simple, buildAll);
+    parameterPositionOut->all = FALSE;
+    parameterPositionOut->explicitMultiple = FALSE;
 
-    // Map back to "legacy style"
-    copyParameterList(candidates, parameterPosition->candidates);
-    parameterPositionOut->explicitMultiple = parameterPosition->explicitMultiple;
-    parameterPositionOut->all = parameterPosition->all;
+    complexParameterParserDelegate(parameterPositionOut, simple, buildAll);
 
     free(parameterPosition);
 }
@@ -737,21 +735,21 @@ static Bool hasBit(Aword flags, Aint bit) {
  */
 
 /*----------------------------------------------------------------------*/
-static void parseParameterPosition(ParameterPosition *parameterPosition, Parameter parameters[], int parameterIndex, Aword flags, Parameter multipleList[], void (*complexParameterParser)(ParameterPosition *parameterPosition, Parameter candidates[])) {
+static void parseParameterPosition(ParameterPosition *parameterPosition, Parameter parameters[], int parameterIndex, Aword flags, Parameter multipleList[], void (*complexParameterParser)(ParameterPosition *parameterPosition)) {
     Parameter *candidates = allocateParameterArray(NULL, MAXENTITY); /* List of parameters parsed, possibly multiple */
 
     parameterPosition->candidates = allocateParameterArray(parameterPosition->candidates, MAXENTITY);
     parameterPosition->all = FALSE;
     parameterPosition->explicitMultiple = FALSE;
     
-    complexParameterParser(parameterPosition, candidates);
-    if (listLength(candidates) == 0) /* No object!? */
+    complexParameterParser(parameterPosition);
+    if (listLength(parameterPosition->candidates) == 0) /* No object!? */
         error(M_WHAT);
     
     if (!hasBit(flags, OMNIBIT))
         /* If its not an omnipotent parameter, resolve by presence */
         if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
-            checkForPresence(candidates, parameterIndex);
+            checkForPresence(parameterPosition->candidates, parameterIndex);
 
     if (parameterPosition->explicitMultiple) {
         if (!hasBit(flags, MULTIPLEBIT)) /* Allowed multiple? */
@@ -759,13 +757,12 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Paramet
         else {
             /* Mark this as the multiple position in which to insert actual parameter values later */
             parameters[parameterIndex].instance = 0;
-            copyParameterList(multipleList, candidates);
+            copyParameterList(multipleList, parameterPosition->candidates);
         }
     } else
-        parameters[parameterIndex] = candidates[0];
+        parameters[parameterIndex] = parameterPosition->candidates[0];
 	
     setEndOfList(&parameters[parameterIndex+1]);
-	copyParameterList(parameterPosition->candidates, candidates);
     
     free(candidates);
 }

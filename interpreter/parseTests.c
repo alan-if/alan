@@ -410,10 +410,10 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     assert_equal(parameter.candidates[0].instance, theExpectedInstance);
 }
 
-static void mockedComplexParameterParser(ParameterPosition *parameterPosition, Parameter candidates[]){
-    mock(candidates);
-    candidates[0].instance = 1;
-    setEndOfList(&candidates[1]);
+static void mockedComplexParameterParser(ParameterPosition *parameterPosition){
+    mock(parameterPosition);
+    parameterPosition->candidates[0].instance = 1;
+    setEndOfList(&parameterPosition->candidates[1]);
 }
 
 Ensure parseParameterCanFillOutAParameterPosition() {
