@@ -48,6 +48,7 @@ typedef struct PronounEntry { /* To remember parameter/pronoun relations */
 typedef struct ParameterPosition {
     Bool explicitMultiple;
     Bool all;
+    Bool checked;
     Parameter *candidates;
     Parameter *exceptions;
 } ParameterPosition;
@@ -303,7 +304,7 @@ static Bool reachable(int instance) {
 }
 
 /*----------------------------------------------------------------------*/
-static void checkForPresence(Parameter parameters[], int parameterIndex) {
+static void checkForPresence(Parameter parameters[]) {
     // TODO Similar to disambiguate*() but this does error()
     int i;
 	
@@ -736,8 +737,6 @@ static Bool hasBit(Aword flags, Aint bit) {
 
 /*----------------------------------------------------------------------*/
 static void parseParameterPosition(ParameterPosition *parameterPosition, Parameter parameters[], int parameterIndex, Aword flags, Parameter multipleList[], void (*complexParameterParser)(ParameterPosition *parameterPosition)) {
-    Parameter *candidates = allocateParameterArray(NULL, MAXENTITY); /* List of parameters parsed, possibly multiple */
-
     parameterPosition->candidates = allocateParameterArray(parameterPosition->candidates, MAXENTITY);
     parameterPosition->all = FALSE;
     parameterPosition->explicitMultiple = FALSE;
@@ -749,7 +748,7 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Paramet
     if (!hasBit(flags, OMNIBIT))
         /* If its not an omnipotent parameter, resolve by presence */
         if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
-            checkForPresence(parameterPosition->candidates, parameterIndex);
+            checkForPresence(parameterPosition->candidates);
 
     if (parameterPosition->explicitMultiple) {
         if (!hasBit(flags, MULTIPLEBIT)) /* Allowed multiple? */
@@ -763,8 +762,6 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Paramet
         parameters[parameterIndex] = parameterPosition->candidates[0];
 	
     setEndOfList(&parameters[parameterIndex+1]);
-    
-    free(candidates);
 }
 
 /*----------------------------------------------------------------------*/
@@ -815,7 +812,7 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
     ElementEntry *nextElement = startingElement;
 
     int parameterIndex = 0;
-    setEndOfList(&parameterPositions[0]);
+    /*??*/    setEndOfList(&parameterPositions[0]);
 
     // TODO We're trying to move from filling the parameters array directly to filling candidates in a ParameterPositions
     // array and doing all the error handling at the end, but there seems to be a long way there...
@@ -937,27 +934,29 @@ static void checkRestrictedParameters(ElementEntry elms[], Parameter parameters[
 
 /*----------------------------------------------------------------------*/
 static void checkNonRestrictedParameters(Parameter parameters[], Bool checked[], Parameter multipleCandidates[]) {
-    int parameterPosition;
-    for (parameterPosition = 0; parameters[parameterPosition].instance != EOF; parameterPosition++)
-        if (!checked[parameterPosition]) {
-            if (parameters[parameterPosition].instance == 0) {
+    int parameterIndex;
+    for (parameterIndex = 0; parameters[parameterIndex].instance != EOF; parameterIndex++)
+        if (!checked[parameterIndex]) {
+            if (parameters[parameterIndex].instance == 0) {
                 /* This was a multiple parameter position, check all multiple candidates and remove failing */
                 int i;
                 for (i = 0; !isEndOfList(&multipleCandidates[i]); i++)
                     if (multipleCandidates[i].instance != 0) /* Skip any empty slots */
                         if (!isObject(multipleCandidates[i].instance))
                             multipleCandidates[i].instance = 0;
-            } else if (!isObject(parameters[parameterPosition].instance))
+            } else if (!isObject(parameters[parameterIndex].instance))
                 error(M_CANT0);
         }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void uncheckAllParameterPositions(Bool checked[]) {
+static void uncheckAllParameterPositions(Bool checked[], ParameterPosition parameterPositions[]) {
     int position;
-    for (position = 0; position < MAXPARAMS; position++)
+    for (position = 0; position < MAXPARAMS; position++) {
         checked[position] = FALSE;
+        //parameterPositions[position].checked = FALSE;
+    }
 }
 
 
@@ -965,7 +964,7 @@ static void uncheckAllParameterPositions(Bool checked[]) {
 static void restrictParameters(Parameter parameters[], Parameter multipleParameters[], ElementEntry *elms) {
     Bool checked[MAXPARAMS+1];  /* Is corresponding parameter checked? */
 	
-    uncheckAllParameterPositions(checked);
+    uncheckAllParameterPositions(checked, parameterPositions);
     checkRestrictedParameters(elms, parameters, multipleParameters, checked);
     checkNonRestrictedParameters(parameters, checked, multipleParameters);
 }

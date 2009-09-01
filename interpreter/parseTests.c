@@ -251,12 +251,15 @@ Ensure canSetupIntegerParametersForMessages(void) {
 Ensure canUncheckAllParameterPositions(void) {
     Bool checked[MAXPARAMS+1];
     int i;
+    ParameterPosition *parameterPositions = allocate((MAXPARAMS+1)*sizeof(ParameterPosition));
 
     for (i = 0; i < MAXPARAMS; i++)
         checked[i] = i;
-    uncheckAllParameterPositions(checked);
-    for (i = 0; i < MAXPARAMS; i++)
-        assert_equal(checked[i], 0);
+    uncheckAllParameterPositions(checked, parameterPositions);
+    for (i = 0; i < MAXPARAMS; i++) {
+        assert_false(checked[i]);
+        assert_false(parameterPositions[i].checked);
+    }
 }
 
 
