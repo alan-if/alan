@@ -46,6 +46,7 @@ typedef struct PronounEntry { /* To remember parameter/pronoun relations */
 } Pronoun;
 
 typedef struct ParameterPosition {
+    Bool endOfList;
     Bool explicitMultiple;
     Bool all;
     Bool checked;
@@ -254,7 +255,7 @@ static void buildAll(Parameter list[]) {
     if (!found)
         errorWhat(wordIndex);
     else
-        list[i].instance = EOF;
+        setEndOfList(&list[i]);
     allWordIndex = wordIndex;
 }
 
@@ -812,7 +813,7 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
     ElementEntry *nextElement = startingElement;
 
     int parameterIndex = 0;
-    /*??*/    setEndOfList(&parameterPositions[0]);
+    setEndOfList(&parameterPositions[0]);
 
     // TODO We're trying to move from filling the parameters array directly to filling candidates in a ParameterPositions
     // array and doing all the error handling at the end, but there seems to be a long way there...
@@ -835,6 +836,7 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
                 else
                     parameters[parameterIndex] = parameterPositions[parameterIndex].candidates[0];
                 currentEntry = (ElementEntry *) pointerTo(nextElement->next);
+                parameterPositions[parameterIndex].endOfList = FALSE;
                 parameterIndex++;
                 setEndOfList(&parameterPositions[parameterIndex]);
                 continue;
@@ -967,6 +969,7 @@ static void restrictParameters(Parameter parameters[], Parameter multipleParamet
     uncheckAllParameterPositions(checked, parameterPositions);
     checkRestrictedParameters(elms, parameters, multipleParameters, checked);
     checkNonRestrictedParameters(parameters, checked, multipleParameters);
+    compress(multipleParameters);
 }
 
 
@@ -1074,7 +1077,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void parseCommand(Parameter parameters[], Parameter multipleParameters[])
+static void parseOneCommand(Parameter parameters[], Parameter multipleParameters[])
 {
     try(parameters, multipleParameters); /* ... to understand what he said */
 	
@@ -1175,7 +1178,7 @@ void parse(Parameter parameters[]) {
         verbWord = playerWords[wordIndex].code;
         verbWordCode = dictionary[verbWord].code;
         wordIndex++;
-        parseCommand(parameters, multipleParameters);
+        parseOneCommand(parameters, multipleParameters);
         notePronounParameters(parameters);
         fail = FALSE;
         action(parameters, multipleParameters);
