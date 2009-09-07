@@ -394,7 +394,7 @@ void interpret(Aaddr adr)
             if (singleStepOption) printf("\n%4x: ", pc-1);
             switch (I_OP(i)) {
             case V_PARAM:
-                if (singleStepOption) printf("PARAM \t%7ld\t\t\t\t=%ld\t", top(stack),
+                if (singleStepOption) printf("PARAM \t%7ld\t\t\t\t=%d\t", top(stack),
                                              parameters[top(stack)-1].instance);
                 push(stack, parameters[pop(stack)-1].instance);
                 break;

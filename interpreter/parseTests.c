@@ -136,20 +136,20 @@ Ensure canMatchParseTree(void) {
 
     /* First test EOF with empty parse tree */
     setEndOfList(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameters, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameters, multipleParameters);
     assert_equal(NULL, element);
 
     /* Test EOF with EOS */
     makeEOS(&elementTable[0]);
     setEndOfList(&elementTable[1]);
-    element = parseInputAccordingToElementTree(elementTable, parameters, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameters, multipleParameters);
     assert_equal(elementTable, element);
 
     /* Test EOF with word, EOS */
     makeWordElement(&elementTable[0], 1, 0);
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = parseInputAccordingToElementTree(elementTable, parameters, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameters, multipleParameters);
     assert_equal(&elementTable[1], element);
 
     /* Test word, EOF with word, EOS */
@@ -160,7 +160,7 @@ Ensure canMatchParseTree(void) {
     makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = parseInputAccordingToElementTree(elementTable, parameters, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameters, multipleParameters);
     assert_equal(&elementTable[1], element);
     free(dictionary);
     free(memory);
@@ -249,15 +249,13 @@ Ensure canSetupIntegerParametersForMessages(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canUncheckAllParameterPositions(void) {
-    Bool checked[MAXPARAMS+1];
     int i;
     ParameterPosition *parameterPositions = allocate((MAXPARAMS+1)*sizeof(ParameterPosition));
 
     for (i = 0; i < MAXPARAMS; i++)
-        checked[i] = i;
-    uncheckAllParameterPositions(checked, parameterPositions);
+        parameterPositions[i].checked = i;;
+    uncheckAllParameterPositions(parameterPositions);
     for (i = 0; i < MAXPARAMS; i++) {
-        assert_false(checked[i]);
         assert_false(parameterPositions[i].checked);
     }
 }
@@ -422,14 +420,13 @@ static void mockedComplexParameterParser(ParameterPosition *parameterPosition){
 Ensure parseParameterCanFillOutAParameterPosition() {
     Abool flags = OMNIBIT;
     Parameter multipleList[MAXPARAMS+1];
-    Parameter parameters[MAXENTITY+1];
     ParameterPosition *parameterPosition = NEW(ParameterPosition);
     Parameter candidates[MAXENTITY+1];
     
     parameterPosition->candidates = candidates;
     setEndOfList(&candidates[0]);
     
-    parseParameterPosition(parameterPosition, parameters, 0, flags, multipleList, mockedComplexParameterParser);
+    parseParameterPosition(parameterPosition, flags, multipleList, mockedComplexParameterParser);
     
     assert_equal(listLength(parameterPosition->candidates), 1);
 }
@@ -449,7 +446,7 @@ static void givenAPlayerWordOtherThanAll() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure complexCanFilloutAParameterPositionForSomethingNotAll(void) {
+Ensure canFilloutAParameterPositionForSomethingNotAll(void) {
     ParameterPosition *parameterPosition = NEW(ParameterPosition);
 
 	givenAPlayerWordOtherThanAll();
@@ -495,6 +492,52 @@ Ensure complexParameterParserDelegateCanSetPlural(void) {
 }
 
 
+/*----------------------------------------------------------------------*/
+Ensure anyAllFindsAnyAllIndication(void) {
+    ParameterPosition *parameterPositions = allocate(5*sizeof(ParameterPosition));
+    
+    parameterPositions[0].endOfList = FALSE;
+    parameterPositions[1].endOfList = FALSE;
+    parameterPositions[2].endOfList = FALSE;
+    parameterPositions[3].endOfList = TRUE;
+
+    parameterPositions[0].all = FALSE;
+    parameterPositions[1].all = FALSE;
+    parameterPositions[2].all = FALSE;
+    parameterPositions[3].all = FALSE;
+    parameterPositions[4].all = TRUE;
+
+    assert_false(anyAll(parameterPositions));
+
+    parameterPositions[1].all = TRUE;
+
+    assert_true(anyAll(parameterPositions));
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure anyAllFindsExplicitMultipleIndication(void) {
+    ParameterPosition *parameterPositions = allocate(5*sizeof(ParameterPosition));
+    
+    parameterPositions[0].endOfList = FALSE;
+    parameterPositions[1].endOfList = FALSE;
+    parameterPositions[2].endOfList = FALSE;
+    parameterPositions[3].endOfList = TRUE;
+
+    parameterPositions[0].explicitMultiple = FALSE;
+    parameterPositions[1].explicitMultiple = FALSE;
+    parameterPositions[2].explicitMultiple = FALSE;
+    parameterPositions[3].explicitMultiple = FALSE;
+    parameterPositions[4].explicitMultiple = TRUE;
+
+    assert_false(anyExplicitMultiple(parameterPositions));
+
+    parameterPositions[1].explicitMultiple = TRUE;
+
+    assert_true(anyExplicitMultiple(parameterPositions));
+}
+
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -516,8 +559,10 @@ TestSuite *parseTests(void)
     add_test(suite, canMatchNounAndAdjectiveWithSingleMatch);
     add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
     add_test(suite, parseParameterCanFillOutAParameterPosition);
-    add_test(suite, complexCanFilloutAParameterPositionForSomethingNotAll);
+    add_test(suite, canFilloutAParameterPositionForSomethingNotAll);
     add_test(suite, complexParameterParserDelegateCanSetPlural);
-
+    add_test(suite, anyAllFindsAnyAllIndication);
+    add_test(suite, anyAllFindsExplicitMultipleIndication);
+    
     return suite;
 }
