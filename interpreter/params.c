@@ -14,8 +14,39 @@
 
 
 /* PUBLIC DATA */
-Parameter *parameters; /* List of params */
+Parameter *globalParameters = NULL;
 
+
+
+/*======================================================================*/
+void setParameters(Parameter *newParameters) {
+    int i;
+
+    if (globalParameters == NULL)
+        globalParameters = allocateParameterArray(NULL, MAXPARAMS);
+    for (i = 0; i < MAXPARAMS; i++)
+        globalParameters[i] = newParameters[i];
+}
+
+
+/*======================================================================*/
+Parameter *getParameters(void) {
+    if (globalParameters == NULL)
+        globalParameters = allocateParameterArray(globalParameters, MAXPARAMS);
+    return globalParameters;
+}
+
+
+/*======================================================================*/
+void setParameter(int parameterIndex, Parameter parameter) {
+    globalParameters[parameterIndex] = parameter;
+}
+
+
+/*======================================================================*/
+Parameter *getParameter(int parameterIndex) {
+    return &globalParameters[parameterIndex];
+}
 
 
 /*======================================================================*/

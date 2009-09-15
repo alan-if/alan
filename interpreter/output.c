@@ -235,9 +235,9 @@ static void space(void)
 static void sayPlayerWordsForParameter(int p) {
     int i;
 
-    for (i = parameters[p].firstWord; i <= parameters[p].lastWord; i++) {
+    for (i = globalParameters[p].firstWord; i <= globalParameters[p].lastWord; i++) {
         justify((char *)pointerTo(dictionary[playerWords[i].code].string));
-        if (i < parameters[p].lastWord)
+        if (i < globalParameters[p].lastWord)
             justify(" ");
     }
 }
@@ -249,7 +249,7 @@ static void sayParameter(int p, int form)
     int i;
 
     for (i = 0; i <= p; i++)
-        if (isEndOfList(&parameters[i]))
+        if (isEndOfList(&globalParameters[i]))
             syserr("Nonexistent parameter referenced.");
 
 #ifdef ALWAYS_SAY_PARAMETERS_USING_PLAYER_WORDS
@@ -259,11 +259,11 @@ static void sayParameter(int p, int form)
     else
         sayForm(params[p].code, form);
 #else
-    if (parameters[p].useWords) {
+    if (globalParameters[p].useWords) {
         /* Ambiguous instance referenced, so use the words he used */
         sayPlayerWordsForParameter(p);
     } else
-        sayForm(parameters[p].instance, form);
+        sayForm(globalParameters[p].instance, form);
 #endif
 }
 

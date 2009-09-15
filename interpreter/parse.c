@@ -230,14 +230,14 @@ static Aint findInstanceForNoun(int wordIndex) {
 
 /*----------------------------------------------------------------------*/
 static void errorNoSuch(Parameter parameter) {
-    parameters[0] = parameter;
+    globalParameters[0] = parameter;
 	
     /* If there was no instance, assume the last word used is the noun,
      * then find any instance with the noun he used */
-    if (parameters[0].instance == 0)
-        parameters[0].instance = findInstanceForNoun(playerWords[parameter.lastWord].code);
-    parameters[0].useWords = TRUE; /* Indicate to use words and not names */
-    setEndOfList(&parameters[1]);
+    if (globalParameters[0].instance == 0)
+        globalParameters[0].instance = findInstanceForNoun(playerWords[parameter.lastWord].code);
+    globalParameters[0].useWords = TRUE; /* Indicate to use words and not names */
+    setEndOfList(&globalParameters[1]);
     error(M_NO_SUCH);
 }
 
@@ -672,18 +672,20 @@ static void runRestriction(RestrictionEntry *restriction, Parameter parameters[]
     if (sectionTraceOption)
         printf("\n<SYNTAX parameter #%ld Is Not of class %ld:>\n",
                restriction->parameterNumber, restriction->class);
-    if (restriction->stms)
+    if (restriction->stms) {
+        setParameters(parameters);
         interpret(restriction->stms);
-    else
+    } else
         error(M_CANT0);
 }
 
+
+/*----------------------------------------------------------------------*/
 static void copyParameterPositions(ParameterPosition originalParameterPositions[], ParameterPosition parameterPositions[]) {
 	Aint parameterNumber;
     for (parameterNumber = 0; !parameterPositions[parameterNumber].endOfList; parameterNumber++)
         originalParameterPositions[parameterNumber] = parameterPositions[parameterNumber];
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -722,11 +724,12 @@ static Bool hasBit(Aword flags, Aint bit) {
 
 
 /*
- * TODO There are a number of ways that the candidates might be more than one:
+ * TODO There are a number of ways that the number of candidates might
+ * be more than one:
  *
  * 1) Player used ALL and it matched more than one
  *
- * 2) Player refered to multiple objects
+ * 2) Player explicitly refered to multiple objects
  *
  * 3) Player did a single (or multiple) reference that was ambiguous
  * in which case we need to disambiguate it (them). If we want to do
@@ -736,8 +739,8 @@ static Bool hasBit(Aword flags, Aint bit) {
  * > take the vase and the book
  *
  * In this case it is a single parameterPosition, but multiple
- * explicit references but each might match multiple instances in the
- * game.
+ * explicit references and each of those might match multiple
+ * instances in the game.
  */
 
 /*----------------------------------------------------------------------*/
@@ -902,9 +905,6 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
             /* This was a multiple parameter position, so check all multipleCandidates */
             int i;
             for (i = 0; !isEndOfList(&multipleCandidates[i]); i++) {
-                //if (parameters[restriction->parameterNumber-1].instance != parameterPositions[restriction->parameterNumber-1].candidates[i].instance)
-                //    printf("parameters[restriction->parameterNumber-1](%d) = parameterPositions[restriction->parameterNumber-1].candidates[i](%d)\n", parameters[restriction->parameterNumber-1].instance, parameterPositions[restriction->parameterNumber-1].candidates[i].instance);
- 
                 parameters[restriction->parameterNumber-1] = parameterPositions[restriction->parameterNumber-1].candidates[i];
                 if (!restrictionCheck(restriction, parameterPositions[restriction->parameterNumber-1].candidates[i].instance)) {
                     /* Multiple could be both an explicit list of instance references and an expansion of ALL */
@@ -1013,6 +1013,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     // TODO This is much too long, try to refactor out some functions
     ElementEntry *elms;         /* Pointer to element list */
     SyntaxEntry *stx;           /* Pointer to syntax parse list */
+    int parameterCount;
 
     /*
      * TODO This code, and much of the above, should be refactored to
@@ -1034,6 +1035,15 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      * tree.
      */
     elms = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameters, multipleParameters);
+
+    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
+        if (parameterPositions[parameterCount].explicitMultiple)
+            parameters[parameterCount].instance = 0;
+        else
+            parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
+    setEndOfList(&parameters[parameterCount+1]);
+
+
     if (elms == NULL)
         error(M_WHAT);
     if (elms->next == 0) { /* No verb code, verb not declared! */
@@ -1097,7 +1107,7 @@ void initParse(void) {
     clearList(playerWords);
 	
     pronouns = allocatePronounArray(pronouns);
-    parameters = allocateParameterArray(parameters, MAXPARAMS);
+    globalParameters = allocateParameterArray(globalParameters, MAXPARAMS);
     previousMultipleParameters = allocateParameterArray(previousMultipleParameters, MAXPARAMS);
 	
     if (parameterPositions == NULL)

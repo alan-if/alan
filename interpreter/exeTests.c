@@ -137,7 +137,7 @@ static void writeAndOpenGetStringTestFile(int fpos, char *testString)
 
   testFile = fopen(testFileName, "wb");
   for (i = 0; i < fpos; i++) fputc(' ', testFile);
-  fprintf(testFile, testString);
+  fprintf(testFile, "%s", testString);
   fclose(testFile);
   textFile = fopen(testFileName, "rb");
 }

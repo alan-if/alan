@@ -42,7 +42,7 @@ static char *idOfClass(int theClass) {
 /*----------------------------------------------------------------------*/
 static void traceInstanceAndItsClass(AltInfo *alt)
 {
-    traceSay(parameters[alt->parameter-1].instance);
+    traceSay(globalParameters[alt->parameter-1].instance);
     printf(")");
     if (alt->class != NO_CLASS)
         printf(", inherited from class #%d (%s)", alt->class, idOfClass(alt->class));
@@ -241,7 +241,7 @@ static void addAlternativesFromParameter(
                                          AltEntryFinder finder
                                          ) {
     Aint parent;
-    Aint theInstance = parameters[parameterNumber-1].instance;
+    Aint theInstance = globalParameters[parameterNumber-1].instance;
 	
     if (isLiteral(theInstance))
         parent = literals[parameterNumber].class;
@@ -323,7 +323,7 @@ AltInfo *findAllAlternatives(void) {
 	
     addAlternativesFromLocation(altInfos, current.location, &alternativeFinder);
 	
-    for (parameterNumber = 1; !isEndOfList(&parameters[parameterNumber-1]); parameterNumber++) {
+    for (parameterNumber = 1; !isEndOfList(&globalParameters[parameterNumber-1]); parameterNumber++) {
         addAlternativesFromParameter(altInfos, parameterNumber, &alternativeFinder);
     }
     return duplicateAltInfoArray(altInfos);

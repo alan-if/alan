@@ -24,12 +24,13 @@ typedef struct ParamEntry { /* PARAMETER */
 
 
 /* DATA */
-extern Parameter *parameters;   /* List of parameters */
+extern Parameter *globalParameters;
 
 
 /* FUNCTIONS */
 extern void setParameters(Parameter parameters[]);
-extern void setParameter(Parameter parameter, int parameterIndex);
+extern void setParameter(int parameterIndex, Parameter parameter);
+extern Parameter *getParameters(void);
 extern Parameter *getParameter(int parameterIndex);
 extern Parameter *allocateParameterArray(Parameter *currentList, int size);
 extern Parameter *findEndOfList(Parameter *parameters);
