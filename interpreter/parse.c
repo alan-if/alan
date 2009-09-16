@@ -898,33 +898,41 @@ static Bool anyAll(ParameterPosition parameterPositions[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void checkRestrictedParameters(ParameterPosition parameterPositions[], ElementEntry elms[], Parameter parameters[], Parameter multipleCandidates[]) {
+static void checkRestrictedParameters(ParameterPosition parameterPositions[], ElementEntry elms[]) {
     RestrictionEntry *restriction;
+    Parameter localParameters[MAXPARAMS+1];
+    int i;
+    
+    for (i=0; !parameterPositions[i].endOfList; i++)
+        localParameters[i] = parameterPositions[i].candidates[0];
+
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfList(restriction); restriction++) {
-        if (parameterPositions[restriction->parameterNumber-1].explicitMultiple) {
+        ParameterPosition *parameterPosition = &parameterPositions[restriction->parameterNumber-1];
+        if (parameterPosition->explicitMultiple) {
             /* This was a multiple parameter position, so check all multipleCandidates */
             int i;
-            for (i = 0; !isEndOfList(&multipleCandidates[i]); i++) {
-                parameters[restriction->parameterNumber-1] = parameterPositions[restriction->parameterNumber-1].candidates[i];
-                if (!restrictionCheck(restriction, parameterPositions[restriction->parameterNumber-1].candidates[i].instance)) {
+            for (i = 0; !isEndOfList(&parameterPosition->candidates[i]); i++) {
+                localParameters[restriction->parameterNumber-1] = parameterPosition->candidates[i];
+                if (!restrictionCheck(restriction, parameterPosition->candidates[i].instance)) {
                     /* Multiple could be both an explicit list of instance references and an expansion of ALL */
-                    if (!parameterPositions[restriction->parameterNumber-1].all) {
+                    if (!parameterPosition->all) {
                         char marker[80];
                         /* It wasn't ALL, we need to say something about it, so
                          * prepare a printout with $1/2/3
                          */
                         sprintf(marker, "($%ld)", restriction->parameterNumber);
+                        setParameters(localParameters);
                         output(marker);
-                        runRestriction(restriction, parameters);
+                        runRestriction(restriction, localParameters);
                         para();
                     }
-                    multipleCandidates[i].instance = 0; /* In any case remove it from the list */
+                    parameterPosition->candidates[i].instance = 0; /* In any case remove it from the list */
                 }
             }
-            parameters[restriction->parameterNumber-1].instance = 0;
+            localParameters[restriction->parameterNumber-1].instance = 0;
         } else {
-            if (!restrictionCheck(restriction, parameterPositions[restriction->parameterNumber-1].candidates[0].instance)) {
-                runRestriction(restriction, parameters);
+            if (!restrictionCheck(restriction, parameterPosition->candidates[0].instance)) {
+                runRestriction(restriction, localParameters);
                 abortPlayerCommand();
             }
         }
@@ -934,18 +942,19 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
 
 
 /*----------------------------------------------------------------------*/
-static void checkNonRestrictedParameters(ParameterPosition parameterPositions[], Parameter parameters[], Parameter multipleCandidates[]) {
+static void checkNonRestrictedParameters(ParameterPosition parameterPositions[], Parameter multipleCandidates[]) {
     int parameterIndex;
-    for (parameterIndex = 0; parameters[parameterIndex].instance != EOF; parameterIndex++)
+    // TODO remove the formal parameter "parameter" if possible
+    for (parameterIndex = 0; !parameterPositions[parameterIndex].endOfList; parameterIndex++)
         if (!parameterPositions[parameterIndex].checked) {
             if (parameterPositions[parameterIndex].explicitMultiple) {
                 /* This was a multiple parameter position, check all multiple candidates and remove failing */
                 int i;
-                for (i = 0; !isEndOfList(&multipleCandidates[i]); i++)
-                    if (multipleCandidates[i].instance != 0) /* Skip any empty slots */
-                        if (!isObject(multipleCandidates[i].instance))
-                            multipleCandidates[i].instance = 0;
-            } else if (!isObject(parameters[parameterIndex].instance))
+                for (i = 0; !isEndOfList(&parameterPositions[parameterIndex].candidates[i]); i++)
+                    if (parameterPositions[parameterIndex].candidates[i].instance != 0) /* Skip any empty slots */
+                        if (!isObject(parameterPositions[parameterIndex].candidates[i].instance))
+                            parameterPositions[parameterIndex].candidates[i].instance = 0;
+            } else if (!isObject(parameterPositions[parameterIndex].candidates[0].instance))
                 error(M_CANT0);
         }
 }
@@ -962,10 +971,19 @@ static void uncheckAllParameterPositions(ParameterPosition parameterPositions[])
 
 /*----------------------------------------------------------------------*/
 static void restrictParameters(ParameterPosition parameterPositions[], Parameter parameters[], Parameter multipleParameters[], ElementEntry *elms) {
+    int i;
+
     uncheckAllParameterPositions(parameterPositions);
-    checkRestrictedParameters(parameterPositions, elms, parameters, multipleParameters);
-    checkNonRestrictedParameters(parameterPositions, parameters, multipleParameters);
+    checkRestrictedParameters(parameterPositions, elms);
+    checkNonRestrictedParameters(parameterPositions, multipleParameters);
+
+    
     compress(multipleParameters);
+    for (i=0; !parameterPositions[i].endOfList; i++)
+        if (parameterPositions[i].explicitMultiple) {
+            compress(parameterPositions[i].candidates);
+            copyParameterList(multipleParameters, parameterPositions[i].candidates);
+        }
 }
 
 
