@@ -689,6 +689,15 @@ static void copyParameterPositions(ParameterPosition originalParameterPositions[
 
 
 /*----------------------------------------------------------------------*/
+static int findMultipleParameterPosition(ParameterPosition parameterPositions[]) {
+	Aint parameterNumber;
+    for (parameterNumber = 0; !parameterPositions[parameterNumber].endOfList; parameterNumber++)
+        if (parameterPositions[parameterNumber].explicitMultiple)
+            return parameterNumber;
+    return -1;
+}
+
+/*----------------------------------------------------------------------*/
 static int remapParameterOrder(int syntaxNumber, Parameter parameters[], ParameterPosition parameterPositions[]) {
     /* Find the syntax map, use the verb code from it and remap the parameters */
     ParameterMapEntry *parameterMapTable;
@@ -942,7 +951,7 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
 
 
 /*----------------------------------------------------------------------*/
-static void checkNonRestrictedParameters(ParameterPosition parameterPositions[], Parameter multipleCandidates[]) {
+static void checkNonRestrictedParameters(ParameterPosition parameterPositions[]) {
     int parameterIndex;
     // TODO remove the formal parameter "parameter" if possible
     for (parameterIndex = 0; !parameterPositions[parameterIndex].endOfList; parameterIndex++)
@@ -971,19 +980,9 @@ static void uncheckAllParameterPositions(ParameterPosition parameterPositions[])
 
 /*----------------------------------------------------------------------*/
 static void restrictParameters(ParameterPosition parameterPositions[], Parameter parameters[], Parameter multipleParameters[], ElementEntry *elms) {
-    int i;
-
     uncheckAllParameterPositions(parameterPositions);
     checkRestrictedParameters(parameterPositions, elms);
-    checkNonRestrictedParameters(parameterPositions, multipleParameters);
-
-    
-    compress(multipleParameters);
-    for (i=0; !parameterPositions[i].endOfList; i++)
-        if (parameterPositions[i].explicitMultiple) {
-            compress(parameterPositions[i].candidates);
-            copyParameterList(multipleParameters, parameterPositions[i].candidates);
-        }
+    checkNonRestrictedParameters(parameterPositions);
 }
 
 
@@ -1081,9 +1080,15 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     /* Now perform restriction checks */
     restrictParameters(parameterPositions, parameters, multipleParameters, elms);
 
+    for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
+        if (parameterPositions[parameterCount].explicitMultiple) {
+            compress(parameterPositions[parameterCount].candidates);
+            copyParameterList(multipleParameters, parameterPositions[parameterCount].candidates);
+        }
+
     /* Finally, if the player used ALL, try to find out what was applicable */
     if (anyAll(parameterPositions)) {
-        int multiplePosition = findMultiplePosition(parameters);
+        int multiplePosition = findMultipleParameterPosition(parameterPositions);
         disambiguateCandidatesForPosition(parameters, multiplePosition, multipleParameters);
         if (listLength(multipleParameters) == 0) {
             clearList(parameters);

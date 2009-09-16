@@ -538,6 +538,21 @@ Ensure anyAllFindsExplicitMultipleIndication(void) {
 }
 
 
+Ensure can_find_multiple_parameter_position(void) {
+	ParameterPosition parameterPositions[10];
+	int i;
+
+	for (i=0; i<10; i++) {
+		parameterPositions[i].endOfList = FALSE;
+		parameterPositions[i].explicitMultiple = FALSE;
+    }
+	parameterPositions[7].explicitMultiple = TRUE;
+	parameterPositions[9].endOfList = TRUE;
+
+	assert_equal(findMultipleParameterPosition(parameterPositions), 7);
+}
+
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -563,6 +578,7 @@ TestSuite *parseTests(void)
     add_test(suite, complexParameterParserDelegateCanSetPlural);
     add_test(suite, anyAllFindsAnyAllIndication);
     add_test(suite, anyAllFindsExplicitMultipleIndication);
+    add_test(suite, can_find_multiple_parameter_position);
     
     return suite;
 }
