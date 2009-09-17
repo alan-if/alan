@@ -683,8 +683,9 @@ static void runRestriction(RestrictionEntry *restriction, Parameter parameters[]
 /*----------------------------------------------------------------------*/
 static void copyParameterPositions(ParameterPosition originalParameterPositions[], ParameterPosition parameterPositions[]) {
 	Aint parameterNumber;
-    for (parameterNumber = 0; !parameterPositions[parameterNumber].endOfList; parameterNumber++)
-        originalParameterPositions[parameterNumber] = parameterPositions[parameterNumber];
+    for (parameterNumber = 0; !originalParameterPositions[parameterNumber].endOfList; parameterNumber++)
+        parameterPositions[parameterNumber] = originalParameterPositions[parameterNumber];
+    parameterPositions[parameterNumber].endOfList = TRUE;
 }
 
 
@@ -698,13 +699,12 @@ static int findMultipleParameterPosition(ParameterPosition parameterPositions[])
 }
 
 /*----------------------------------------------------------------------*/
-static int remapParameterOrder(int syntaxNumber, Parameter parameters[], ParameterPosition parameterPositions[]) {
+static int remapParameterOrder(int syntaxNumber, ParameterPosition parameterPositions[]) {
     /* Find the syntax map, use the verb code from it and remap the parameters */
     ParameterMapEntry *parameterMapTable;
     Aword *parameterMap;
     Aint parameterNumber;
-    Parameter originalParameters[MAXPARAMS+1];
-    ParameterPosition originalParameterPositions[MAXPARAMS+1];
+    ParameterPosition savedParameterPositions[MAXPARAMS+1];
 
     for (parameterMapTable = pointerTo(header->parameterMapAddress); !isEndOfList(parameterMapTable); parameterMapTable++)
         if (parameterMapTable->syntaxNumber == syntaxNumber)
@@ -714,12 +714,10 @@ static int remapParameterOrder(int syntaxNumber, Parameter parameters[], Paramet
 
     parameterMap = pointerTo(parameterMapTable->parameterMapping);
 
-    copyParameterList(originalParameters, parameters);
-	copyParameterPositions(originalParameterPositions, parameterPositions);
+	copyParameterPositions(parameterPositions, savedParameterPositions);
 
-    for (parameterNumber = 1; !isEndOfList(&originalParameters[parameterNumber-1]); parameterNumber++) {
-        parameters[parameterNumber-1] = originalParameters[parameterMap[parameterNumber-1]-1];
-        parameterPositions[parameterNumber-1] = originalParameterPositions[parameterMap[parameterNumber-1]-1];
+    for (parameterNumber = 1; !savedParameterPositions[parameterNumber-1].endOfList; parameterNumber++) {
+        parameterPositions[parameterNumber-1] = savedParameterPositions[parameterMap[parameterNumber-1]-1];
     }
 	
     return parameterMapTable->verbCode;
@@ -753,7 +751,7 @@ static Bool hasBit(Aword flags, Aint bit) {
  */
 
 /*----------------------------------------------------------------------*/
-static void parseParameterPosition(ParameterPosition *parameterPosition, Aword flags, Parameter multipleList[], void (*complexParameterParser)(ParameterPosition *parameterPosition)) {
+static void parseParameterPosition(ParameterPosition *parameterPosition, Aword flags, void (*complexParameterParser)(ParameterPosition *parameterPosition)) {
     parameterPosition->candidates = allocateParameterArray(parameterPosition->candidates, MAXENTITY);
     
     complexParameterParser(parameterPosition);
@@ -768,7 +766,6 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
     if (parameterPosition->explicitMultiple) {
         if (!hasBit(flags, MULTIPLEBIT)) /* Allowed multiple? */
             error(M_MULTIPLE);
-        copyParameterList(multipleList, parameterPosition->candidates);
     }
 }
 
@@ -837,7 +834,7 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
         if (isInstanceReferenceWord(wordIndex)) {
             nextElement = elementForParameter(currentElement);
             if (nextElement != NULL) {
-                parseParameterPosition(&parameterPositions[parameterCount], nextElement->flags, multipleList, parseComplexReferences);
+                parseParameterPosition(&parameterPositions[parameterCount], nextElement->flags, parseComplexReferences);
 
                 if (parameterPositions[parameterCount].explicitMultiple)
                     parameters[parameterCount].instance = 0;
@@ -938,7 +935,6 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
                     parameterPosition->candidates[i].instance = 0; /* In any case remove it from the list */
                 }
             }
-            localParameters[restriction->parameterNumber-1].instance = 0;
         } else {
             if (!restrictionCheck(restriction, parameterPosition->candidates[0].instance)) {
                 runRestriction(restriction, localParameters);
@@ -979,7 +975,7 @@ static void uncheckAllParameterPositions(ParameterPosition parameterPositions[])
 
 
 /*----------------------------------------------------------------------*/
-static void restrictParameters(ParameterPosition parameterPositions[], Parameter parameters[], Parameter multipleParameters[], ElementEntry *elms) {
+static void restrictParameters(ParameterPosition parameterPositions[], ElementEntry *elms) {
     uncheckAllParameterPositions(parameterPositions);
     checkRestrictedParameters(parameterPositions, elms);
     checkNonRestrictedParameters(parameterPositions);
@@ -1053,14 +1049,6 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      */
     elms = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameters, multipleParameters);
 
-    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-        if (parameterPositions[parameterCount].explicitMultiple)
-            parameters[parameterCount].instance = 0;
-        else
-            parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
-    setEndOfList(&parameters[parameterCount+1]);
-
-
     if (elms == NULL)
         error(M_WHAT);
     if (elms->next == 0) { /* No verb code, verb not declared! */
@@ -1069,16 +1057,22 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     }
 	
     /*
-     * Then, in case it was a syntax synonym, we can map the parameters to the correct order.
+     * Then, in case it was a syntax synonym, we can map the parameters to the canonical order.
      * The flags field of EOS element is actually the syntax number!
      */
-    current.verb = remapParameterOrder(elms->flags, parameters, parameterPositions);
+    current.verb = remapParameterOrder(elms->flags, parameterPositions);
 
     /* TODO Work In Progress! Match parameters to instances... */
+    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
+        if (parameterPositions[parameterCount].explicitMultiple)
+            parameters[parameterCount].instance = 0;
+        else
+            parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
+    setEndOfList(&parameters[parameterCount+1]);
     matchParameters(parameters, instanceMatcher);
 
     /* Now perform restriction checks */
-    restrictParameters(parameterPositions, parameters, multipleParameters, elms);
+    restrictParameters(parameterPositions, elms);
 
     for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
         if (parameterPositions[parameterCount].explicitMultiple) {
