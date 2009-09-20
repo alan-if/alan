@@ -370,7 +370,7 @@ static Bool lastPossibleNoun(int wordIndex) {
 /*----------------------------------------------------------------------*/
 static void updateWithReferences(Parameter result[], int wordIndex, Aint *(*referenceFinder)(int wordIndex)) {
     static Parameter *references = NULL; /* Instances referenced by a word */
-    references = allocateParameterArray(references, MAXPARAMS);
+    references = allocateParameterArray(references, MAXENTITY);
 
     copyReferences(references, referenceFinder(wordIndex));
     if (listLength(result) == 0)
@@ -812,13 +812,10 @@ static Bool endOfPlayerCommand(int wordIndex) {
 
 
 /*----------------------------------------------------------------------*/
-static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElement, ParameterPosition parameterPositions[], Parameter parameters[], Parameter multipleList[]) {
+static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElement, ParameterPosition parameterPositions[]) {
     ElementEntry *currentElement = startingElement;
     ElementEntry *nextElement = startingElement;
 
-    // TODO We're trying to move from filling the parameters array directly to filling candidates in a ParameterPositions
-    // array and doing all the error handling at the end, but there seems to be a long way there...
-	
     int parameterCount = 0;
     while (nextElement != NULL) {
         parameterPositions[parameterCount].endOfList = TRUE;
@@ -835,15 +832,9 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
             nextElement = elementForParameter(currentElement);
             if (nextElement != NULL) {
                 parseParameterPosition(&parameterPositions[parameterCount], nextElement->flags, parseComplexReferences);
-
-                if (parameterPositions[parameterCount].explicitMultiple)
-                    parameters[parameterCount].instance = 0;
-                else
-                    parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
-                setEndOfList(&parameters[parameterCount+1]);
-
                 currentElement = (ElementEntry *) pointerTo(nextElement->next);
-                parameterPositions[parameterCount++].endOfList = FALSE;
+                parameterPositions[parameterCount].endOfList = FALSE;
+                parameterCount++;
                 continue;
             }
         }
@@ -1020,11 +1011,32 @@ static void matchParameters(Parameter parameters[], void (*matcher)(Parameter pa
      }
 }
 
+static void handleFailedParse(ElementEntry *elms) {
+    if (elms == NULL)
+        error(M_WHAT);
+    if (elms->next == 0) { /* No verb code, verb not declared! */
+        /* TODO Does this ever happen? */
+        error(M_CANT0);
+    }
+}
+
+static void convertPositionsToParameters(Parameter parameters[]) {
+	int parameterCount;
+    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
+        if (parameterPositions[parameterCount].explicitMultiple)
+            parameters[parameterCount].instance = 0;
+        else
+            parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
+    setEndOfList(&parameters[parameterCount]);
+}
+
+
+
 
 /*----------------------------------------------------------------------*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     // TODO This is much too long, try to refactor out some functions
-    ElementEntry *elms;         /* Pointer to element list */
+    ElementEntry *element;         /* Pointer to element list */
     SyntaxEntry *stx;           /* Pointer to syntax parse list */
     int parameterCount;
 
@@ -1044,35 +1056,24 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
     /*
      * Then match the player input words, instance references and
-     * other words, according to the syntax elements in the parse
+     * other words, following the syntax elements in the parse
      * tree.
      */
-    elms = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameters, multipleParameters);
-
-    if (elms == NULL)
-        error(M_WHAT);
-    if (elms->next == 0) { /* No verb code, verb not declared! */
-        /* TODO Does this ever happen? */
-        error(M_CANT0);
-    }
+    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions);
+	handleFailedParse(element);
 	
     /*
-     * Then, in case it was a syntax synonym, we can map the parameters to the canonical order.
+     * Then, in case it was a syntax synonym, we can map the parameters to their canonical order.
      * The flags field of EOS element is actually the syntax number!
      */
-    current.verb = remapParameterOrder(elms->flags, parameterPositions);
+    current.verb = remapParameterOrder(element->flags, parameterPositions);
 
     /* TODO Work In Progress! Match parameters to instances... */
-    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-        if (parameterPositions[parameterCount].explicitMultiple)
-            parameters[parameterCount].instance = 0;
-        else
-            parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
-    setEndOfList(&parameters[parameterCount+1]);
+	convertPositionsToParameters(parameters);
     matchParameters(parameters, instanceMatcher);
 
     /* Now perform restriction checks */
-    restrictParameters(parameterPositions, elms);
+    restrictParameters(parameterPositions, element);
 
     for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
         if (parameterPositions[parameterCount].explicitMultiple) {

@@ -654,7 +654,7 @@ Bool readline(char usrbuf[])
       fclose(commandFile);
       readingCommands = FALSE;
     } else
-      printf(buffer);
+        printf("%s", buffer);
   } else {
     fflush(stdout);
     bufidx = 0;
@@ -676,7 +676,7 @@ Bool readline(char usrbuf[])
       if ((commandFile = fopen(&buffer[1], "r")) != NULL)
 	if (fgets(buffer, 255, commandFile)) {
 	  readingCommands = TRUE;
-	  printf(buffer);
+	  printf("%s", buffer);
 	}
     /* Reset line counter only if we read actual player input */
     lin = 1;

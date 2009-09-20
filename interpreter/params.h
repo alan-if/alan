@@ -19,7 +19,7 @@ typedef struct ParamEntry { /* PARAMETER */
     Bool useWords; /* Indicate to use words instead of instance code when saying */
     int firstWord; /* Index to first word used by player */
     int lastWord;  /* d:o to last */
-    struct ParamEntry *candidates; /* Array of instances possibly filling this parameter position */
+    struct ParamEntry *candidates; /* Array of instances possibly matching this parameter depending on player input */
 } Parameter;
 
 

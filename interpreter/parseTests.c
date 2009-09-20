@@ -122,8 +122,6 @@ Ensure canMatchParameterElement(void) {
 Ensure canMatchParseTree(void) {
     ElementEntry *element;
     ElementEntry *elementTable;
-    Parameter parameters[10];
-    Parameter multipleParameters[10];
 
     memory = allocate(100*sizeof(Aword));
     elementTable = (ElementEntry *)&memory[50];
@@ -136,20 +134,20 @@ Ensure canMatchParseTree(void) {
 
     /* First test EOF with empty parse tree */
     setEndOfList(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameters, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions);
     assert_equal(NULL, element);
 
     /* Test EOF with EOS */
     makeEOS(&elementTable[0]);
     setEndOfList(&elementTable[1]);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameters, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions);
     assert_equal(elementTable, element);
 
     /* Test EOF with word, EOS */
     makeWordElement(&elementTable[0], 1, 0);
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameters, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions);
     assert_equal(&elementTable[1], element);
 
     /* Test word, EOF with word, EOS */
@@ -160,7 +158,7 @@ Ensure canMatchParseTree(void) {
     makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
     makeEOS(&elementTable[1]);
     setEndOfList(&elementTable[2]);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameters, multipleParameters);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions);
     assert_equal(&elementTable[1], element);
     free(dictionary);
     free(memory);

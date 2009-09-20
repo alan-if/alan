@@ -66,10 +66,7 @@ void describeContainer(int container)
 
 
 /*======================================================================*/
-Bool passesContainerLimits(
-                           Aint theContainer,		/* IN - Container id */
-                           Aint theAddedInstance	/* IN - The object to add */
-                           ) {
+Bool passesContainerLimits(Aint theContainer, Aint theAddedInstance) {
     LimitEntry *limit;
     Aword props;
 
