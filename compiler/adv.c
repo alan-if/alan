@@ -114,7 +114,7 @@ static void analyzeSourceFilenames() {
     TRAVERSE(currentFile,fileNames) {
         sourceFileEntries[count].fpos = ftell(txtfil);
         sourceFileEntries[count].len = strlen(currentFile->member.str);
-        fprintf(txtfil, currentFile->member.str);
+        fprintf(txtfil, "%s", currentFile->member.str);
         count++;
     }
 }

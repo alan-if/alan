@@ -6,9 +6,7 @@
 
 
 /*======================================================================*/
-Bool checksFailed(Aaddr adr,	/* IN - ACODE address to check array */
-		Bool execute		/* IN - Execute the ELSE clause if it fails ? */
-)
+Bool checksFailed(Aaddr adr, Bool execute)
 {
 	CheckEntry *chk = (CheckEntry *) pointerTo(adr);
 	if (chk->exp == 0) {

@@ -170,6 +170,7 @@ void statusline(void)
   glk_window_move_cursor(glkStatusWin, 1, 0);
   sayInstance(where(HERO, TRUE));
 
+  // TODO Add status message1  & 2 as author customizable messages
   if (header->maximumScore > 0)
     sprintf(line, "Score %d(%d)/%d moves", current.score, (int)header->maximumScore, current.tick);
   else

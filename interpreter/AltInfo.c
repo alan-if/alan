@@ -167,14 +167,7 @@ static AltInfo *nextFreeAltInfo(AltInfoArray altInfos) {
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternative(
-                           AltInfoArray altInfos,
-                           int level,
-                           Aint parameterNumber,
-                           Aint theClass,
-                           Aid theInstance,
-                           AltEntryFinder finder
-                           ) {
+static void addAlternative(AltInfoArray altInfos, int level, Aint parameterNumber, Aint theClass, Aid theInstance, AltEntryFinder finder) {
     AltInfo *altInfoP = nextFreeAltInfo(altInfos);
 	
     altInfoP->alt = (*finder)(parameterNumber, theInstance, theClass);
@@ -186,23 +179,13 @@ static void addAlternative(
 
 
 /*----------------------------------------------------------------------*/
-static void addGlobalAlternatives(
-                                  AltInfoArray altInfos,
-                                  AltEntryFinder finder
-                                  ) {
+static void addGlobalAlternatives(AltInfoArray altInfos, AltEntryFinder finder ) {
     addAlternative(altInfos, GLOBAL_LEVEL, NO_PARAMETER, NO_CLASS, NO_INSTANCE, finder);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromParents(
-                                       AltInfoArray altInfos,
-                                       int level,
-                                       Aint parameterNumber,
-                                       Aint theClass,
-                                       Aid theInstance,
-                                       AltEntryFinder finder
-                                       ){
+static void addAlternativesFromParents(AltInfoArray altInfos, int level, Aint parameterNumber, Aint theClass, Aid theInstance, AltEntryFinder finder){
     if (classes[theClass].parent != 0)
         addAlternativesFromParents(altInfos, level,
                                    parameterNumber,
@@ -215,11 +198,7 @@ static void addAlternativesFromParents(
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromLocation(
-                                        AltInfoArray altInfos,
-                                        Aid location,
-                                        AltEntryFinder finder
-                                        ) {
+static void addAlternativesFromLocation(AltInfoArray altInfos, Aid location, AltEntryFinder finder) {
     if (admin[location].location != 0)
         addAlternativesFromLocation(altInfos, admin[location].location, finder);
 	
@@ -235,16 +214,12 @@ static void addAlternativesFromLocation(
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromParameter(
-                                         AltInfoArray altInfos,
-                                         int parameterNumber,
-                                         AltEntryFinder finder
-                                         ) {
+static void addAlternativesFromParameter(AltInfoArray altInfos, int parameterNumber, AltEntryFinder finder) {
     Aid parent;
     Aid theInstance = globalParameters[parameterNumber-1].instance;
 	
     if (isLiteral(theInstance))
-        parent = literals[parameterNumber].class;
+        parent = literals[literalFromInstance(theInstance)].class;
     else
         parent = instances[theInstance].parent;
     addAlternativesFromParents(altInfos, PARAMETER_LEVEL, parameterNumber, parent, theInstance, finder);
