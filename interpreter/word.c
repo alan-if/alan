@@ -9,6 +9,7 @@
 #include "types.h"
 #include "memory.h"
 #include "syserr.h"
+#include "lists.h"
 
 
 /* CONSTANTS */
@@ -55,4 +56,10 @@ char *playerWordsAsCommandString(void) {
     strncpy(commandString, playerWords[firstWord].start, size);
     commandString[size] = '\0';
     return commandString;
+}
+
+
+/*======================================================================*/
+void clearWordList(Word list[]) {
+    implementationOfSetEndOfList((Aword *)list);
 }

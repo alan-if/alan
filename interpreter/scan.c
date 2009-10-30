@@ -160,7 +160,7 @@ static void getLine(void) {
         }
         /* If the player input an empty command he forfeited his command */
         if (strlen(buf) == 0) {
-            clearList(playerWords);
+            clearWordList(playerWords);
             longjmp(forfeitLabel, 0);
         }
 		

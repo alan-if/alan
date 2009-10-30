@@ -201,7 +201,7 @@ static void sayUndoneCommand(char *words) {
     Parameter messageParameters[2];
 
     current.location = where(HERO, TRUE);
-    clearList(messageParameters);
+    clearParameterList(messageParameters);
     addParameterForString(&messageParameters[0], words);
     setEndOfList(&messageParameters[1]);
     printMessageWithParameters(M_UNDONE, messageParameters);

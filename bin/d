@@ -3,29 +3,30 @@
 # Script for running tests of Alan and Arun
 #
 
-run ()
+diffCase ()
 {
     echo "$case : "
-    diff -b -c $case.expected $case.output
+    if [ -x /usr/local/bin/DiffMerge ] ; then
+        DiffMerge $case.expected $case.output
+    else
+        diff -b -c $case.expected $case.output
+    fi
 }
 
 if [ $# != 0 ] ; then
   for f in ${*} ; do
     case=`basename $f .output`
-    if [ "$case" != "$f" ]
-    then
-	run
-    elif [ -f $case.alan ]
-    then
-        run
+    if [ "$case" != "$f" ] ; then
+	diffCase
+    elif [ -f $case.alan ] ; then
+        diffCase
     fi
   done
 else
   for f in *.output ; do
     case=`basename $f .output`
-    if [ -f $case.alan -a -f $case.expected ]
-    then
-	run
+    if [ -f $case.alan -a -f $case.expected ] ; then
+	diffCase
     fi
   done
 fi

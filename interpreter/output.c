@@ -145,7 +145,7 @@ void printAndLog(char string[])
     char *stringPart;
 #endif
 
-    printf(string);
+    printf("%s", string);
     if (!onStatusLine && transcriptOption) {
 #ifdef HAVE_GLK
         // TODO Is this assuming only 70-char wide windows for GLK?
@@ -169,7 +169,7 @@ void printAndLog(char string[])
             column = updateColumn(column, string);
         }
 #else
-        fprintf(logFile, string);
+        fprintf(logFile, "%s", string);
 #endif
     }
 }

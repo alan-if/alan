@@ -53,13 +53,13 @@ Parameter *getParameter(int parameterIndex) {
 Parameter *allocateParameterArray(Parameter *currentList, int size) {
     if (currentList == NULL)
         currentList = allocate(sizeof(Parameter)*(size+1));
-    clearList(currentList);
+    clearParameterList(currentList);
     return currentList;
 }
 
 
 /*======================================================================*/
-Parameter *findEndOfList(Parameter *parameters) {
+Parameter *findEndOfParameterList(Parameter *parameters) {
     Parameter *parameter;
     for (parameter = parameters; !isEndOfList(parameter); parameter++);
     return parameter;
@@ -81,7 +81,7 @@ int findMultiplePosition(Parameter parameters[]) {
 
 
 /*======================================================================*/
-void compress(Parameter theList[])
+void compressParameterList(Parameter theList[])
 {
     int i, j;
 
@@ -93,7 +93,7 @@ void compress(Parameter theList[])
 
 
 /*======================================================================*/
-int listLength(Parameter theList[])
+int lengthOfParameterList(Parameter theList[])
 {
     int i = 0;
 
@@ -104,7 +104,7 @@ int listLength(Parameter theList[])
 
 
 /*======================================================================*/
-Bool inList(Parameter theList[], Aword theCode)
+Bool inParameterList(Parameter theList[], Aword theCode)
 {
     int i;
 
@@ -125,25 +125,25 @@ void copyParameterList(Parameter to[], Parameter from[])
 
 
 /*======================================================================*/
-void subtractListFromList(Parameter theList[], Parameter remove[])
+void subtractListFromParameterList(Parameter theList[], Parameter remove[])
 {
     int i;
 
     for (i = 0; !isEndOfList(&theList[i]); i++)
-	if (inList(remove, theList[i].instance))
+	if (inParameterList(remove, theList[i].instance))
 	    theList[i].instance = 0;		/* Mark empty */
-    compress(theList);
+    compressParameterList(theList);
 }
 
 
 /*======================================================================*/
-void mergeLists(Parameter one[], Parameter other[])
+void mergeParameterLists(Parameter one[], Parameter other[])
 {
     int i,last;
 
     for (last = 0; !isEndOfList(&one[last]); last++); /* Find end of list */
     for (i = 0; !isEndOfList(&other[i]); i++)
-	if (!inList(one, other[i].instance)) {
+	if (!inParameterList(one, other[i].instance)) {
 	    one[last++] = other[i];
 	    setEndOfList(&one[last]);
 	}
@@ -151,19 +151,25 @@ void mergeLists(Parameter one[], Parameter other[])
 
 
 /*======================================================================*/
-void intersect(Parameter one[], Parameter other[])
+void clearParameterList(Parameter list[]) {
+    implementationOfSetEndOfList((Aword *) &(list[0]));
+}
+
+
+/*======================================================================*/
+void intersectParameterLists(Parameter one[], Parameter other[])
 {
     int i, last = 0;
 
     for (i = 0; !isEndOfList(&one[i]); i++)
-	if (inList(other, one[i].instance))
+	if (inParameterList(other, one[i].instance))
 	    one[last++] = one[i];
     setEndOfList(&one[last]);
 }
 
 
 /*======================================================================*/
-void copyReferences(Parameter parameterList[], Aint references[])
+void copyReferencesToParameterList(Aint references[], Parameter parameterList[])
 {
     int i;
 
@@ -177,7 +183,7 @@ void copyReferences(Parameter parameterList[], Aint references[])
 
 /*======================================================================*/
 void addParameterForInstance(Parameter *parameters, int instance) {
-    Parameter *parameter = findEndOfList(parameters);
+    Parameter *parameter = findEndOfParameterList(parameters);
 
     parameter->instance = instance;
     parameter->useWords = FALSE;
@@ -188,7 +194,7 @@ void addParameterForInstance(Parameter *parameters, int instance) {
 
 /*======================================================================*/
 void addParameterForInteger(Parameter *parameters, int value) {
-    Parameter *parameter = findEndOfList(parameters);
+    Parameter *parameter = findEndOfParameterList(parameters);
 
     createIntegerLiteral(value);
     parameter->instance = instanceFromLiteral(litCount);
@@ -199,7 +205,7 @@ void addParameterForInteger(Parameter *parameters, int value) {
 
 /*======================================================================*/
 void addParameterForString(Parameter *parameters, char *value) {
-    Parameter *parameter = findEndOfList(parameters);
+    Parameter *parameter = findEndOfParameterList(parameters);
 
     createStringLiteral(value);
     parameter->instance = instanceFromLiteral(litCount);

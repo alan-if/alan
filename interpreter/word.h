@@ -2,7 +2,7 @@
 #define WORD_H_
 /*----------------------------------------------------------------------*\
 
-	word
+  word
 
 \*----------------------------------------------------------------------*/
 
@@ -36,5 +36,7 @@ extern int verbWordCode;
 /* FUNCTIONS */
 extern void ensureSpaceForPlayerWords(int count);
 extern char *playerWordsAsCommandString(void);
+extern void clearWordList(Word *list);
+
 
 #endif /* WORD_H_ */
