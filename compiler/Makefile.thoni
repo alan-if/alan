@@ -21,7 +21,6 @@ CPP	        = gcc -MM -ansi
 
 all : alanFromToolMaker
 
-
 include rules.mk
 
 
