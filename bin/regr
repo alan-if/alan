@@ -130,6 +130,7 @@ function runall()
             /bin/echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" > TEST-regr.xml
             /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
             ext=`cat .case`
+	    command=`cat .regr`
             for f in *$ext ; do
 	        theCase=`basename $f $ext`
 	        run "$path"
@@ -145,10 +146,11 @@ function runselected()
     /bin/echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>" > TEST-regr.xml
     /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
     ext=`cat .case`
+    command=`cat .regr`
     for f in ${*} ; do
 	theCase=`basename $f $ext`
 	if [ "$theCase" != "$f" ] ; then
-	    run
+	    run $command
 	    verify
 	elif [ -f $theCase$ext ] ; then
 	    run
