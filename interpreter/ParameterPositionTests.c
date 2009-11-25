@@ -14,7 +14,7 @@ static void setUp(void) {
 }
 
 
-/*======================================================================*/
+/*----------------------------------------------------------------------*/
 Ensure canUncheckAllParameterPositions(void) {
     int i;
     ParameterPosition *parameterPositions = allocate((MAXPARAMS+1)*sizeof(ParameterPosition));
@@ -28,7 +28,7 @@ Ensure canUncheckAllParameterPositions(void) {
 }
 
 
-/*======================================================================*/
+/*----------------------------------------------------------------------*/
 Ensure canFindMultipleParameterPosition(void) {
     ParameterPosition parameterPositions[10];
     int i;
@@ -44,7 +44,7 @@ Ensure canFindMultipleParameterPosition(void) {
 }
 
 
-/*======================================================================*/
+/*----------------------------------------------------------------------*/
 Ensure copyParameterPositionsCopyTheWholeListIncludingTheEndMarker(void) {
     ParameterPosition original[2];
     ParameterPosition copy[2];

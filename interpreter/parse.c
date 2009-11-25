@@ -1037,13 +1037,14 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
     /* TODO Work In Progress! Match parameters to instances... */
     convertPositionsToParameters(parameters);
-    matchParameters(parameters, instanceMatcher); // TODO This should work on the positions
+    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
+      matchParameters(parameterPositions[parameterCount].candidates, instanceMatcher);
 
     /* Now perform restriction checks */
     restrictParameters(parameterPositions, element);
 
     for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-        if (parameterPositions[parameterCount].explicitMultiple) {
+      if (parameterPositions[parameterCount].explicitMultiple) {
             compressParameterList(parameterPositions[parameterCount].candidates);
             copyParameterList(multipleParameters, parameterPositions[parameterCount].candidates);
         }
