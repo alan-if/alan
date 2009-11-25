@@ -29,6 +29,7 @@
 #include "word.h"
 #include "msg.h"
 #include "literal.h"
+#include "parameterPosition.h"
 
 #include "scan.h"
 
@@ -51,15 +52,6 @@ static void clearPronounList(Pronoun list[]) {
 }
 
 
-typedef struct ParameterPosition {
-    Bool endOfList;
-    Bool explicitMultiple;
-    Bool all;
-    Bool checked;
-    Parameter *candidates;
-    Parameter *exceptions;
-} ParameterPosition;
-
 typedef Aint *(*ReferencesFinder)(int wordIndex);
 typedef void (*CandidateParser)(Parameter candidates[]);
 
@@ -68,8 +60,6 @@ typedef void (*CandidateParser)(Parameter candidates[]);
 /* PRIVATE DATA */
 static Pronoun *pronouns = NULL;
 static int allWordIndex;        /* Word index of the ALL_WORD found */
-
-static ParameterPosition *parameterPositions;
 
 
 /* Syntax Parameters */
@@ -687,24 +677,6 @@ static void runRestriction(RestrictionEntry *restriction, Parameter parameters[]
 
 
 /*----------------------------------------------------------------------*/
-static void copyParameterPositions(ParameterPosition originalParameterPositions[], ParameterPosition parameterPositions[]) {
-	Aint parameterNumber;
-    for (parameterNumber = 0; !originalParameterPositions[parameterNumber].endOfList; parameterNumber++)
-        parameterPositions[parameterNumber] = originalParameterPositions[parameterNumber];
-    parameterPositions[parameterNumber].endOfList = TRUE;
-}
-
-
-/*----------------------------------------------------------------------*/
-static int findMultipleParameterPosition(ParameterPosition parameterPositions[]) {
-	Aint parameterNumber;
-    for (parameterNumber = 0; !parameterPositions[parameterNumber].endOfList; parameterNumber++)
-        if (parameterPositions[parameterNumber].explicitMultiple)
-            return parameterNumber;
-    return -1;
-}
-
-/*----------------------------------------------------------------------*/
 static int remapParameterOrder(int syntaxNumber, ParameterPosition parameterPositions[]) {
     /* Find the syntax map, use the verb code from it and remap the parameters */
     ParameterMapEntry *parameterMapTable;
@@ -958,15 +930,6 @@ static void checkNonRestrictedParameters(ParameterPosition parameterPositions[])
             } else if (!isObject(parameterPositions[parameterIndex].candidates[0].instance))
                 error(M_CANT0);
         }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void uncheckAllParameterPositions(ParameterPosition parameterPositions[]) {
-    int position;
-    for (position = 0; position < MAXPARAMS; position++) {
-        parameterPositions[position].checked = FALSE;
-    }
 }
 
 

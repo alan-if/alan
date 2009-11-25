@@ -266,20 +266,6 @@ Ensure canSetupIntegerParametersForMessages(void) {
 }
 
 
-/*----------------------------------------------------------------------*/
-Ensure canUncheckAllParameterPositions(void) {
-    int i;
-    ParameterPosition *parameterPositions = allocate((MAXPARAMS+1)*sizeof(ParameterPosition));
-
-    for (i = 0; i < MAXPARAMS; i++)
-        parameterPositions[i].checked = i;;
-    uncheckAllParameterPositions(parameterPositions);
-    for (i = 0; i < MAXPARAMS; i++) {
-        assert_false(parameterPositions[i].checked);
-    }
-}
-
-
 static void mockedInstanceMatcher(Parameter parameter) {
     mock(parameter.firstWord, parameter.lastWord);
     parameter.candidates[0].instance = 17;
@@ -556,38 +542,6 @@ Ensure anyAllFindsExplicitMultipleIndication(void) {
 }
 
 
-Ensure canFindMultipleParameterPosition(void) {
-    ParameterPosition parameterPositions[10];
-    int i;
-
-    for (i=0; i<10; i++) {
-        parameterPositions[i].endOfList = FALSE;
-        parameterPositions[i].explicitMultiple = FALSE;
-    }
-    parameterPositions[7].explicitMultiple = TRUE;
-    parameterPositions[9].endOfList = TRUE;
-
-    assert_equal(findMultipleParameterPosition(parameterPositions), 7);
-}
-
-Ensure copyParameterPositionsCopyTheWholeListIncludingTheEndMarker(void) {
-    ParameterPosition original[2];
-    ParameterPosition copy[2];
-
-    original[0].endOfList = FALSE;
-    original[0].all = TRUE;
-    original[0].explicitMultiple = FALSE;
-    original[1].endOfList = TRUE;
-    copy[0].endOfList = FALSE;
-    copy[1].endOfList = FALSE;
-
-    copyParameterPositions(original, copy);
-
-    assert_equal(copy[0].all, original[0].all);
-    assert_equal(copy[0].explicitMultiple, original[0].explicitMultiple);
-    assert_true(copy[1].endOfList);
-}
-
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -602,7 +556,6 @@ TestSuite *parseTests(void)
     add_test(suite, canSetupInstanceParametersForMessages);
     add_test(suite, canSetupStringParametersForMessages);
     add_test(suite, canSetupIntegerParametersForMessages);
-    add_test(suite, canUncheckAllParameterPositions);
     add_test(suite, canMatchEmptyParameterArray);
     add_test(suite, canMatchSingleParameter);
     add_test(suite, matchNounPhraseCanMatchSingleNounWithSingleMatch);
@@ -613,8 +566,6 @@ TestSuite *parseTests(void)
     add_test(suite, complexParameterParserDelegateCanSetPlural);
     add_test(suite, anyAllFindsAnyAllIndication);
     add_test(suite, anyAllFindsExplicitMultipleIndication);
-    add_test(suite, canFindMultipleParameterPosition);
-    add_test(suite, copyParameterPositionsCopyTheWholeListIncludingTheEndMarker);
-    
+
     return suite;
 }

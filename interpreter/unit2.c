@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
     ADD_UNIT_TESTS_FOR(inter);
     ADD_UNIT_TESTS_FOR(main);
     ADD_UNIT_TESTS_FOR(params);
+    ADD_UNIT_TESTS_FOR(parameterPosition);
     ADD_UNIT_TESTS_FOR(parse);
     ADD_UNIT_TESTS_FOR(reverse);
     ADD_UNIT_TESTS_FOR(save);

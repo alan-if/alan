@@ -13,6 +13,7 @@ UNITTESTED = \
 	main.c \
 	parse.c \
 	params.c \
+	parameterPosition.c \
 	reverse.c \
 	save.c \
 	set.c \
