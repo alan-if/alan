@@ -70,7 +70,7 @@ Ensure canFindNextFreeAltInfo() {
 /*----------------------------------------------------------------------*/
 AltEntry altEntry;
 
-AltEntry *finder(int parameterNumber, int theInstance, int theClass) {
+AltEntry *finder(int verb, int parameterNumber, int theInstance, int theClass) {
   return &altEntry;
 }
 
@@ -78,7 +78,7 @@ Ensure canAddGlobalAlternatives() {
   AltInfo altInfos[10];
   altInfos[0].end = TRUE;
 
-  addGlobalAlternatives(altInfos, &finder);
+  addGlobalAlternatives(altInfos, current.verb, &finder);
 
   assert_false(altInfos[0].end);
   assert_equal(&altEntry, altInfos[0].alt);
@@ -89,6 +89,15 @@ Ensure canAddGlobalAlternatives() {
 }
 
 
+static AltInfo *mockedAlternativeFinder(int verb) {
+    mock(verb);
+    return NULL;
+}
+
+Ensure possibleIndicatesFalseOnEmptyAlternatives(void) {
+    assert_false(possibleWithFinder(current.verb, mockedAlternativeFinder));
+}
+
 TestSuite *altInfoTests() {
   TestSuite *suite = create_test_suite();
 
@@ -97,6 +106,7 @@ TestSuite *altInfoTests() {
   add_test(suite, canFindLastAltInfoIndex);
   add_test(suite, canFindNextFreeAltInfo);
   add_test(suite, canAddGlobalAlternatives);
+  add_test(suite, possibleIndicatesFalseOnEmptyAlternatives);
 
   return suite;
 }

@@ -437,7 +437,7 @@ static void disambiguateParameter(Parameter candidates[]) {
 
 /*
  * There are various ways the player can refer to things, some are
- * explicit, in which case they should be kept in the input If he said
+ * explicit, in which case they should be kept in the input. If he said
  * 'them', 'all' or some such the list is inferred so we must filter
  * it w.r.t what it can mean A special case is when he said 'the ball'
  * and there is only one ball here, but multiple in the game.  We need
@@ -452,7 +452,7 @@ static void disambiguateCandidatesForPosition(Parameter parameters[], int positi
     for (i = 0; !isEndOfList(&candidates[i]); i++) {
         if (candidates[i].instance != 0) { /* Already empty? */
             parameters[position] = candidates[i];
-            if (!reachable(candidates[i].instance) || !possible())
+            if (!reachable(candidates[i].instance) || !possible(current.verb))
                 candidates[i].instance = 0; /* Then remove this candidate from list */
         }
     }
@@ -465,7 +465,7 @@ static void disambiguateCandidatesForPosition(Parameter parameters[], int positi
 static void transformAdjectivesAndNounToSingleInstance(Parameter parameterCandidates[]) {
     Parameter savedParameters[MAXPARAMS+1]; /* Saved list for backup at EOF */
 
-	int firstWord, lastWord;
+    int firstWord, lastWord;
     Bool adjectiveOrNounFound = FALSE;
 
     static Parameter *references = NULL; /* Instances referenced by a word */
@@ -1030,8 +1030,9 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     handleFailedParse(element);
 	
     /*
-     * Then, in case it was a syntax synonym, we can map the parameters to their canonical order.
-     * The flags field of EOS element is actually the syntax number!
+     * Then, in case it was a syntax synonym, we can map the
+     * parameters to their canonical order.  The flags field of EOS
+     * element is actually the syntax number!
      */
     current.verb = remapParameterOrder(element->flags, parameterPositions);
 
@@ -1053,10 +1054,9 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     if (anyAll(parameterPositions)) {
         int multiplePosition = findMultipleParameterPosition(parameterPositions);
         disambiguateCandidatesForPosition(parameters, multiplePosition, multipleParameters);
-        if (lengthOfParameterList(multipleParameters) == 0) {
-            clearParameterList(parameters);
+        if (lengthOfParameterList(multipleParameters) == 0)
             errorWhat(allWordIndex);
-        }
+
     } else if (anyExplicitMultiple(parameterPositions)) {
         compressParameterList(multipleParameters);
         if (lengthOfParameterList(multipleParameters) == 0) {
@@ -1173,7 +1173,7 @@ void parse(Parameter parameters[]) {
         parseOneCommand(parameters, multipleParameters);
         notePronounsForParameters(parameters);
         fail = FALSE;
-        action(parameters, multipleParameters);
+        action(current.verb, parameters, multipleParameters);
     } else {
         clearParameterList(previousMultipleParameters);
         clearPronounList(pronouns);

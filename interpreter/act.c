@@ -17,12 +17,12 @@
 
 
 /*----------------------------------------------------------------------*/
-static void executeCommand(void)
+static void executeCommand(int verb)
 {
     AltInfo *altInfos;
     int altIndex;
 
-    altInfos = findAllAlternatives();
+    altInfos = findAllAlternatives(verb);
     if (anyCheckFailed(altInfos, EXECUTE_CHECK_BODY_ON_FAIL))
         return;
 
@@ -66,7 +66,7 @@ Execute the command. Handles acting on multiple items
 such as ALL, THEM or lists of objects.
  
 */
-void action(Parameter parameters[], Parameter multipleMatches[])
+void action(int verb, Parameter parameters[], Parameter multipleMatches[])
 {
     int i, multiplePosition;
     char marker[10];
@@ -77,11 +77,11 @@ void action(Parameter parameters[], Parameter multipleMatches[])
         for (i = 0; multipleMatches[i].instance != EOF; i++) {
             parameters[multiplePosition] = multipleMatches[i];
             output(marker);
-            executeCommand();
+            executeCommand(verb);
             if (multipleMatches[i+1].instance != EOF)
                 para();
         }
         parameters[multiplePosition].instance = 0;
     } else
-        executeCommand();
+        executeCommand(verb);
 }

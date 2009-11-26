@@ -40,7 +40,7 @@ typedef struct AltInfo {
 	int parameter;		/* In which parameter, only used for tracing */
 } AltInfo;
 
-typedef AltEntry *(*AltEntryFinder)(int parameterNumber, int theInstance, int theClass);
+typedef AltEntry *(*AltEntryFinder)(int verb, int parameterNumber, int theInstance, int theClass);
 
 typedef AltInfo AltInfoArray[];
 
@@ -58,7 +58,7 @@ extern AltInfo *duplicateAltInfoArray(AltInfoArray altInfos);
 extern int lastAltInfoIndex(AltInfoArray altInfos);
 extern Bool anyCheckFailed(AltInfoArray altInfos, Bool execute);
 extern Bool anythingToExecute(AltInfoArray altInfos);
-extern Bool possible(void);
-extern AltInfo *findAllAlternatives(void);
+extern Bool possible(int verb);
+extern AltInfo *findAllAlternatives(int verb);
 
 #endif

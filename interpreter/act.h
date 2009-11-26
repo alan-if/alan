@@ -15,6 +15,6 @@
 
 /* FUNCTIONS */
 
-extern void action(Parameter *parameters, Parameter *multipleMatches);
+extern void action(int verb, Parameter *parameters, Parameter *multipleMatches);
 
 #endif

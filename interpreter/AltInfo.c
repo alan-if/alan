@@ -167,10 +167,10 @@ static AltInfo *nextFreeAltInfo(AltInfoArray altInfos) {
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternative(AltInfoArray altInfos, int level, Aint parameterNumber, Aint theClass, Aid theInstance, AltEntryFinder finder) {
+static void addAlternative(AltInfoArray altInfos, int verb, int level, Aint parameterNumber, Aint theClass, Aid theInstance, AltEntryFinder finder) {
     AltInfo *altInfoP = nextFreeAltInfo(altInfos);
 	
-    altInfoP->alt = (*finder)(parameterNumber, theInstance, theClass);
+    altInfoP->alt = (*finder)(verb, parameterNumber, theInstance, theClass);
     if (altInfoP->alt != NULL) {
         primeAltInfo(altInfoP, level, parameterNumber, theInstance, theClass);
         altInfoP[1].end = TRUE;
@@ -179,42 +179,42 @@ static void addAlternative(AltInfoArray altInfos, int level, Aint parameterNumbe
 
 
 /*----------------------------------------------------------------------*/
-static void addGlobalAlternatives(AltInfoArray altInfos, AltEntryFinder finder ) {
-    addAlternative(altInfos, GLOBAL_LEVEL, NO_PARAMETER, NO_CLASS, NO_INSTANCE, finder);
+static void addGlobalAlternatives(AltInfoArray altInfos, int verb, AltEntryFinder finder ) {
+    addAlternative(altInfos, verb, GLOBAL_LEVEL, NO_PARAMETER, NO_CLASS, NO_INSTANCE, finder);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromParents(AltInfoArray altInfos, int level, Aint parameterNumber, Aint theClass, Aid theInstance, AltEntryFinder finder){
+static void addAlternativesFromParents(AltInfoArray altInfos, int verb, int level, Aint parameterNumber, Aint theClass, Aid theInstance, AltEntryFinder finder){
     if (classes[theClass].parent != 0)
-        addAlternativesFromParents(altInfos, level,
+        addAlternativesFromParents(altInfos, verb, level,
                                    parameterNumber,
                                    classes[theClass].parent,
                                    theInstance,
                                    finder);
 	
-    addAlternative(altInfos, level, parameterNumber, theClass, theInstance, finder);
+    addAlternative(altInfos, verb, level, parameterNumber, theClass, theInstance, finder);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromLocation(AltInfoArray altInfos, Aid location, AltEntryFinder finder) {
+static void addAlternativesFromLocation(AltInfoArray altInfos, int verb, Aid location, AltEntryFinder finder) {
     if (admin[location].location != 0)
-        addAlternativesFromLocation(altInfos, admin[location].location, finder);
+        addAlternativesFromLocation(altInfos, verb, admin[location].location, finder);
 	
-    addAlternativesFromParents(altInfos,
+    addAlternativesFromParents(altInfos, verb,
                                LOCATION_LEVEL,
                                NO_PARAMETER,
                                instances[location].parent,
                                location,
                                finder);
 	
-    addAlternative(altInfos, LOCATION_LEVEL, NO_PARAMETER, NO_CLASS, location, finder);
+    addAlternative(altInfos, verb, LOCATION_LEVEL, NO_PARAMETER, NO_CLASS, location, finder);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromParameter(AltInfoArray altInfos, int parameterNumber, AltEntryFinder finder) {
+static void addAlternativesFromParameter(AltInfoArray altInfos, int verb, int parameterNumber, AltEntryFinder finder) {
     Aid parent;
     Aid theInstance = globalParameters[parameterNumber-1].instance;
 	
@@ -222,10 +222,10 @@ static void addAlternativesFromParameter(AltInfoArray altInfos, int parameterNum
         parent = literals[literalFromInstance(theInstance)].class;
     else
         parent = instances[theInstance].parent;
-    addAlternativesFromParents(altInfos, PARAMETER_LEVEL, parameterNumber, parent, theInstance, finder);
+    addAlternativesFromParents(altInfos, verb, PARAMETER_LEVEL, parameterNumber, parent, theInstance, finder);
 	
     if (!isLiteral(theInstance))
-        addAlternative(altInfos, PARAMETER_LEVEL, parameterNumber, NO_CLASS, theInstance, finder);
+        addAlternative(altInfos, verb, PARAMETER_LEVEL, parameterNumber, NO_CLASS, theInstance, finder);
 }
 
 
@@ -233,12 +233,13 @@ static void addAlternativesFromParameter(AltInfoArray altInfos, int parameterNum
 Bool anyCheckFailed(AltInfoArray altInfo, Bool execute)
 {
     int altIndex;
-	
-    for (altIndex = 0; !altInfo[altIndex].end; altIndex++) {
-        current.instance = altInfo[altIndex].instance;
-        if (checkFailed(&altInfo[altIndex], execute))
-            return TRUE;
-    }
+    
+    if (altInfo != NULL)
+	for (altIndex = 0; !altInfo[altIndex].end; altIndex++) {
+	    current.instance = altInfo[altIndex].instance;
+	    if (checkFailed(&altInfo[altIndex], execute))
+		return TRUE;
+	}
     return FALSE;
 }
 
@@ -249,15 +250,16 @@ Bool anythingToExecute(AltInfo altInfo[])
     int altIndex;
 	
     /* Check for anything to execute... */
-    for (altIndex = 0; !altInfo[altIndex].end; altIndex++)
-        if (canBeExecuted(&altInfo[altIndex]))
-            return TRUE;
+    if (altInfo != NULL)
+	for (altIndex = 0; !altInfo[altIndex].end; altIndex++)
+	    if (canBeExecuted(&altInfo[altIndex]))
+		return TRUE;
     return FALSE;
 }
 
 
 /*----------------------------------------------------------------------*/
-static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode, int parameter)
+static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode, int parameterNumber)
 {
     AltEntry *alt;
     VerbEntry *verbEntry;
@@ -267,7 +269,7 @@ static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode, int param
     for (verbEntry = (VerbEntry *) pointerTo(verbTableAddress); !isEndOfList(verbEntry); verbEntry++)
         if (verbEntry->code == verbCode) {
             for (alt = (AltEntry *) pointerTo(verbEntry->alts); !isEndOfList(alt); alt++) {
-                if (alt->param == parameter || alt->param == 0)
+                if (alt->param == parameterNumber || alt->param == 0)
                     return alt;
             }
             return NULL;
@@ -277,45 +279,57 @@ static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode, int param
 
 
 /*----------------------------------------------------------------------*/
-static AltEntry *alternativeFinder(int parameter, int theInstance, int theClass)
+static AltEntry *alternativeFinder(int verb, int parameterNumber, int theInstance, int theClass)
 {
     if (theClass != NO_CLASS)
-        return findAlternative(classes[theClass].verbs, current.verb, parameter);
+        return findAlternative(classes[theClass].verbs, verb, parameterNumber);
     else if (theInstance != NO_INSTANCE)
-        return findAlternative(instances[theInstance].verbs, current.verb, parameter);
+        return findAlternative(instances[theInstance].verbs, verb, parameterNumber);
     else
-        return findAlternative(header->verbTableAddress, current.verb, parameter);
+        return findAlternative(header->verbTableAddress, verb, parameterNumber);
 }
 
 
 /*======================================================================*/
-AltInfo *findAllAlternatives(void) {
+AltInfo *findAllAlternatives(int verb) {
     int parameterNumber;
     AltInfo altInfos[1000];
     altInfos[0].end = TRUE;
+    
+    addGlobalAlternatives(altInfos, verb, &alternativeFinder);
 	
-    addGlobalAlternatives(altInfos, &alternativeFinder);
-	
-    addAlternativesFromLocation(altInfos, current.location, &alternativeFinder);
+    addAlternativesFromLocation(altInfos, verb, current.location, &alternativeFinder);
 	
     for (parameterNumber = 1; !isEndOfList(&globalParameters[parameterNumber-1]); parameterNumber++) {
-        addAlternativesFromParameter(altInfos, parameterNumber, &alternativeFinder);
+        addAlternativesFromParameter(altInfos, verb, parameterNumber, &alternativeFinder);
     }
     return duplicateAltInfoArray(altInfos);
 }
 
-
-/*======================================================================*/
-Bool possible(void)
-{
+static Bool possibleWithFinder(int verb, AltInfo *(*finder)(int verb)) {
     Bool anything;
-	
-    AltInfo *allAlternatives = findAllAlternatives();
+    AltInfo *allAlternatives;
+
+    allAlternatives = finder(verb);
 	
     if (anyCheckFailed(allAlternatives, DONT_EXECUTE_CHECK_BODY_ON_FAIL))
-        return FALSE;
-	
-    anything = anythingToExecute(allAlternatives);
+        anything = FALSE;
+    else
+	anything = anythingToExecute(allAlternatives);
+
     free(allAlternatives);
-    return anything;
+
+    return(anything);
+}
+
+
+
+
+/*======================================================================*/
+Bool possible(int verb)
+{
+    // This is a wrapper for possibleWithFinder() which is used in unit tests
+    // possible() should be used "for real".
+
+    return possibleWithFinder(verb, findAllAlternatives);
 }
