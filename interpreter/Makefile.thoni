@@ -59,7 +59,7 @@ Makefile:
 
 #######################################################################
 # Settings for Standard Arun
-arun: PLATFORM = # we build with cygwin.dll until the unit tests can be build without them
+#arun: PLATFORM = # we build with cygwin.dll until the unit tests can be build without them
 
 arun: unit checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
@@ -172,6 +172,8 @@ unit:
 	-@if test -d $(CGREENROOT) ; then \
 		$(MAKE) unittests ; \
 		./unittests ; \
+	else ; \
+		ech "No unit tests run, cgreen not available" ; \
 	fi
 
 #+++++++++++++++++++++++++++++++++

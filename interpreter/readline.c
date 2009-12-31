@@ -307,6 +307,12 @@ static KeyMap escapeBracket3map[] = {
     {0x00, 0x00, NULL}
 };
 
+
+static void escapeBracket3Hook(char ch) {
+    read(0, &ch, 1);
+    execute(escapeBracket3map, ch);
+}
+
 #endif
 
 #ifdef __windows__
@@ -553,11 +559,6 @@ static void escHook(char ch) {
 static void arrowHook(char ch) {
     read(0, &ch, 1);
     execute(arrowmap, ch);
-}
-
-static void escapeBracket3Hook(char ch) {
-    read(0, &ch, 1);
-    execute(escapeBracket3map, ch);
 }
 
 static void newLine(char ch)
