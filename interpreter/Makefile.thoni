@@ -172,8 +172,8 @@ unit:
 	-@if test -d $(CGREENROOT) ; then \
 		$(MAKE) unittests ; \
 		./unittests ; \
-	else ; \
-		ech "No unit tests run, cgreen not available" ; \
+	else \
+		echo "No unit tests run, cgreen not available" ; \
 	fi
 
 #+++++++++++++++++++++++++++++++++
