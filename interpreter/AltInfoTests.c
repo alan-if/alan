@@ -89,13 +89,13 @@ Ensure canAddGlobalAlternatives() {
 }
 
 
-static AltInfo *mockedAlternativeFinder(int verb) {
+static AltInfo *mockedAlternativeFinder(int verb, Parameter parameters[]) {
     mock(verb);
     return NULL;
 }
 
 Ensure possibleIndicatesFalseOnEmptyAlternatives(void) {
-    assert_false(possibleWithFinder(current.verb, mockedAlternativeFinder));
+    assert_false(possibleWithFinder(current.verb, globalParameters, mockedAlternativeFinder));
 }
 
 TestSuite *altInfoTests() {

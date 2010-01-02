@@ -226,7 +226,7 @@ static void restoretermio()
 
   Global character buffers etc.
 
-  \*----------------------------------------------------------------------*/
+  ----------------------------------------------------------------------*/
 
 static char buffer[LINELENGTH+1];
 static int bufidx;
@@ -262,6 +262,7 @@ static void insertToggle(char ch);
 static void newLine(char ch);
 static void delFwd(char ch);
 static void delBwd(char ch);
+static void execute(KeyMap map[], unsigned char ch);
 
 #ifdef __unix__
 static KeyMap keymap[] = {
@@ -417,7 +418,7 @@ static void erase()
 
   Character handling hook functions
 
-  \*----------------------------------------------------------------------*/
+  ----------------------------------------------------------------------*/
 
 static void execute(KeyMap map[], unsigned char ch)
 {

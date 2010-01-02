@@ -11,6 +11,7 @@
 #include "lists.h"
 #include "memory.h"
 #include "literal.h"
+#include "ParameterPosition.h"
 
 
 /* PUBLIC DATA */
@@ -23,7 +24,7 @@ void setParameters(Parameter *newParameters) {
     int i;
 
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(NULL, MAXPARAMS);
+        globalParameters = allocateParameterArray(MAXPARAMS);
     for (i = 0; i < MAXPARAMS; i++)
         globalParameters[i] = newParameters[i];
 }
@@ -32,7 +33,7 @@ void setParameters(Parameter *newParameters) {
 /*======================================================================*/
 Parameter *getParameters(void) {
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(globalParameters, MAXPARAMS);
+        globalParameters = allocateParameterArray(MAXPARAMS);
     return globalParameters;
 }
 
@@ -50,11 +51,19 @@ Parameter *getParameter(int parameterIndex) {
 
 
 /*======================================================================*/
-Parameter *allocateParameterArray(Parameter *currentList, int size) {
+Parameter *ensureParameterArrayAllocated(Parameter *currentList, int size) {
     if (currentList == NULL)
         currentList = allocate(sizeof(Parameter)*(size+1));
     clearParameterList(currentList);
     return currentList;
+}
+
+
+/*======================================================================*/
+Parameter *allocateParameterArray(int size) {
+    Parameter *newList = allocate(sizeof(Parameter)*(size+1));
+    clearParameterList(newList);
+    return newList;
 }
 
 
@@ -213,3 +222,14 @@ void addParameterForString(Parameter *parameters, char *value) {
 
     setEndOfList(parameter+1);
 }
+
+/*======================================================================*/
+void printParameterArray(Parameter parameters[]) {
+    int i;
+    printf("[");
+    for (i = 0; !isEndOfList(&parameters[i]); i++) {
+	printf("%d ", parameters[i].instance);
+    }
+    printf("]\n");
+}
+

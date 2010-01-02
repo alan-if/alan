@@ -12,9 +12,8 @@ AltInfoTests.o: AltInfoTests.c ../cgreen/include/cgreen/cgreen.h \
   ../cgreen/include/cgreen/cute_reporter.h \
   ../cgreen/include/cgreen/cdash_reporter.h \
   ../cgreen/include/cgreen/assertions.h AltInfo.c AltInfo.h types.h \
-  sysdep.h acode.h checkentry.h debug.h inter.h stack.h lists.h \
-  instance.h set.h options.h memory.h current.h class.h params.h \
-  literal.h
+  sysdep.h acode.h params.h checkentry.h debug.h inter.h stack.h lists.h \
+  instance.h set.h options.h memory.h current.h class.h literal.h
 StateStackTests.o: StateStackTests.c ../cgreen/include/cgreen/cgreen.h \
   ../cgreen/include/cgreen/unit.h ../cgreen/include/cgreen/reporter.h \
   ../cgreen/include/cgreen/mocks.h ../cgreen/include/cgreen/constraint.h \
@@ -79,7 +78,8 @@ parseTests.o: parseTests.c ../cgreen/include/cgreen/cgreen.h \
   ../cgreen/include/cgreen/assertions.h parse.c parse.h types.h sysdep.h \
   acode.h params.h AltInfo.h inter.h stack.h current.h act.h term.h \
   lists.h options.h syserr.h Location.h instance.h set.h memory.h \
-  output.h dictionary.h syntax.h word.h msg.h literal.h scan.h
+  output.h dictionary.h syntax.h word.h msg.h literal.h \
+  parameterPosition.h scan.h
 paramsTests.o: paramsTests.c ../cgreen/include/cgreen/cgreen.h \
   ../cgreen/include/cgreen/unit.h ../cgreen/include/cgreen/reporter.h \
   ../cgreen/include/cgreen/mocks.h ../cgreen/include/cgreen/constraint.h \
@@ -88,6 +88,15 @@ paramsTests.o: paramsTests.c ../cgreen/include/cgreen/cgreen.h \
   ../cgreen/include/cgreen/cdash_reporter.h \
   ../cgreen/include/cgreen/assertions.h params.c params.h types.h \
   sysdep.h acode.h lists.h memory.h literal.h
+parameterPositionTests.o: parameterPositionTests.c \
+  ../cgreen/include/cgreen/cgreen.h ../cgreen/include/cgreen/unit.h \
+  ../cgreen/include/cgreen/reporter.h ../cgreen/include/cgreen/mocks.h \
+  ../cgreen/include/cgreen/constraint.h \
+  ../cgreen/include/cgreen/text_reporter.h \
+  ../cgreen/include/cgreen/cute_reporter.h \
+  ../cgreen/include/cgreen/cdash_reporter.h \
+  ../cgreen/include/cgreen/assertions.h parameterPosition.c \
+  parameterPosition.h acode.h types.h sysdep.h params.h memory.h lists.h
 reverseTests.o: reverseTests.c ../cgreen/include/cgreen/cgreen.h \
   ../cgreen/include/cgreen/unit.h ../cgreen/include/cgreen/reporter.h \
   ../cgreen/include/cgreen/mocks.h ../cgreen/include/cgreen/constraint.h \
@@ -153,7 +162,7 @@ wordTests.o: wordTests.c ../cgreen/include/cgreen/cgreen.h \
   ../cgreen/include/cgreen/cute_reporter.h \
   ../cgreen/include/cgreen/cdash_reporter.h \
   ../cgreen/include/cgreen/assertions.h word.c word.h types.h sysdep.h \
-  acode.h memory.h syserr.h
+  acode.h memory.h syserr.h lists.h
 Container.o: Container.c Container.h types.h sysdep.h acode.h instance.h \
   set.h syserr.h inter.h stack.h lists.h memory.h current.h msg.h \
   params.h output.h
@@ -193,7 +202,7 @@ scan.o: scan.c scan.h types.h sysdep.h acode.h lists.h dictionary.h \
   output.h memory.h params.h term.h options.h exe.h set.h word.h \
   literal.h debug.h msg.h readline.h
 score.o: score.c score.h acode.h
-syntax.o: syntax.c syntax.h types.h sysdep.h acode.h
+syntax.o: syntax.c syntax.h types.h sysdep.h acode.h memory.h
 syserr.o: syserr.c syserr.h debug.h types.h sysdep.h acode.h utils.h \
   current.h output.h
 term.o: term.c sysdep.h memory.h acode.h output.h types.h options.h \
@@ -202,9 +211,9 @@ utils.o: utils.c utils.h alan.version.h version.h options.h types.h \
   sysdep.h acode.h memory.h output.h
 smartall.o: smartall.c
 alan.version.o: alan.version.c alan.version.h version.h
-AltInfo.o: AltInfo.c AltInfo.h types.h sysdep.h acode.h checkentry.h \
-  debug.h inter.h stack.h lists.h instance.h set.h options.h memory.h \
-  current.h class.h params.h literal.h
+AltInfo.o: AltInfo.c AltInfo.h types.h sysdep.h acode.h params.h \
+  checkentry.h debug.h inter.h stack.h lists.h instance.h set.h options.h \
+  memory.h current.h class.h literal.h
 StateStack.o: StateStack.c StateStack.h types.h sysdep.h acode.h syserr.h \
   memory.h
 args.o: args.c sysdep.h args.h types.h acode.h options.h memory.h utils.h \
@@ -227,9 +236,11 @@ main.o: main.c main.h types.h sysdep.h acode.h state.h lists.h syserr.h \
 parse.o: parse.c parse.h types.h sysdep.h acode.h params.h AltInfo.h \
   inter.h stack.h current.h act.h term.h lists.h options.h syserr.h \
   Location.h instance.h set.h memory.h output.h dictionary.h syntax.h \
-  word.h msg.h literal.h scan.h
+  word.h msg.h literal.h parameterPosition.h scan.h
 params.o: params.c params.h types.h sysdep.h acode.h lists.h memory.h \
   literal.h
+parameterPosition.o: parameterPosition.c parameterPosition.h acode.h \
+  types.h sysdep.h params.h memory.h lists.h
 reverse.o: reverse.c reverse.h types.h sysdep.h acode.h lists.h \
   checkentry.h rules.h msg.h params.h
 save.o: save.c save.h current.h types.h sysdep.h acode.h lists.h \
@@ -245,7 +256,7 @@ sysdep.o: sysdep.c sysdep.h syserr.h
 output.o: output.c output.h types.h sysdep.h acode.h options.h memory.h \
   word.h lists.h term.h syserr.h dictionary.h current.h msg.h params.h \
   readline.h instance.h set.h
-word.o: word.c word.h types.h sysdep.h acode.h memory.h syserr.h
+word.o: word.c word.h types.h sysdep.h acode.h memory.h syserr.h lists.h
 Container.o: Container.c Container.h types.h sysdep.h acode.h instance.h \
   set.h syserr.h inter.h stack.h lists.h memory.h current.h msg.h \
   params.h output.h
@@ -285,7 +296,7 @@ scan.o: scan.c scan.h types.h sysdep.h acode.h lists.h dictionary.h \
   output.h memory.h params.h term.h options.h exe.h set.h word.h \
   literal.h debug.h msg.h readline.h
 score.o: score.c score.h acode.h
-syntax.o: syntax.c syntax.h types.h sysdep.h acode.h
+syntax.o: syntax.c syntax.h types.h sysdep.h acode.h memory.h
 syserr.o: syserr.c syserr.h debug.h types.h sysdep.h acode.h utils.h \
   current.h output.h
 term.o: term.c sysdep.h memory.h acode.h output.h types.h options.h \

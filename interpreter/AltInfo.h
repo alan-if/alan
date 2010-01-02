@@ -8,8 +8,11 @@
 
 #include "types.h"
 #include "acode.h"
+#include "params.h"
+#include "ParameterPosition.h"
 
-/* CONSTANTS */
+
+/* Constants */
 
 #define GLOBAL_LEVEL (0)
 #define LOCATION_LEVEL (1)
@@ -24,13 +27,10 @@
 #define DONT_EXECUTE_CHECK_BODY_ON_FAIL FALSE
 
 
-/* TYPES */
+/* Types */
 
 typedef struct AltInfo {
 	Bool end;		/* Indicator of end in AltInfoArray, first empty has TRUE here */
-				/* TODO: Really used? Probably needs to be kept
-				   for compatibility reasons...
-				 */
 	AltEntry *alt;
 	Bool done;
 	int level;		/* 0 - Global, 1 - location, 2 - parameter */
@@ -46,10 +46,10 @@ typedef AltInfo AltInfoArray[];
 
 
 
-/* DATA */
+/* Data */
 
 
-/* FUNCTIONS */
+/* Functions */
 extern void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class);
 extern Bool executedOk(AltInfo *altInfo);
 extern Bool checkFailed(AltInfo *altInfo, Bool execute);
@@ -58,7 +58,7 @@ extern AltInfo *duplicateAltInfoArray(AltInfoArray altInfos);
 extern int lastAltInfoIndex(AltInfoArray altInfos);
 extern Bool anyCheckFailed(AltInfoArray altInfos, Bool execute);
 extern Bool anythingToExecute(AltInfoArray altInfos);
-extern Bool possible(int verb);
-extern AltInfo *findAllAlternatives(int verb);
+extern Bool possible(int verb, Parameter parameters[], ParameterPosition parameterPositions[]);
+extern AltInfo *findAllAlternatives(int verb, Parameter parameters[]);
 
 #endif

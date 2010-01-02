@@ -131,7 +131,7 @@ static void nonverb(void) {
 /*----------------------------------------------------------------------*/
 static void errorWhichOne(Parameter alternative[]) {
     int p; /* Index into the list of alternatives */
-    Parameter *parameters = allocateParameterArray(NULL, MAXPARAMS);
+    Parameter *parameters = allocateParameterArray(MAXPARAMS);
 	
     parameters[0] = alternative[0];
     setEndOfList(&parameters[1]);
@@ -149,7 +149,7 @@ static void errorWhichOne(Parameter alternative[]) {
 /*----------------------------------------------------------------------*/
 static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
     int p; /* Index into the list of alternatives */
-    Parameter *messageParameters = allocateParameterArray(NULL, MAXPARAMS);
+    Parameter *messageParameters = allocateParameterArray(MAXPARAMS);
 	
     addParameterForWord(messageParameters, pronounWordIndex);
     printMessageWithParameters(M_WHICH_PRONOUN_START, messageParameters);
@@ -170,7 +170,7 @@ static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
 
 /*----------------------------------------------------------------------*/
 static void errorWhat(int playerWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(NULL, MAXPARAMS);
+    Parameter *messageParameters = allocateParameterArray(MAXPARAMS);
     
     addParameterForWord(messageParameters, playerWordIndex);
     printMessageWithParameters(M_WHAT_WORD, messageParameters);
@@ -180,7 +180,7 @@ static void errorWhat(int playerWordIndex) {
 
 /*----------------------------------------------------------------------*/
 static void errorAfterBut(int butWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(NULL, MAXPARAMS);
+    Parameter *messageParameters = allocateParameterArray(MAXPARAMS);
     addParameterForWord(messageParameters, butWordIndex);
     printMessageWithParameters(M_AFTER_BUT, messageParameters);
     free(messageParameters);
@@ -208,7 +208,7 @@ static int fakePlayerWordForAll() {
 
 /*----------------------------------------------------------------------*/
 static void errorButAfterAll(int butWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(NULL, MAXPARAMS);
+    Parameter *messageParameters = allocateParameterArray(MAXPARAMS);
     addParameterForWord(messageParameters, butWordIndex);
     addParameterForWord(messageParameters, fakePlayerWordForAll());
     printMessageWithParameters(M_BUT_ALL, messageParameters);
@@ -274,7 +274,7 @@ static int getPronounInstances(int word, Parameter instanceParameters[]) {
         if (pronouns[p].instance != 0 && dictionary[word].code == pronouns[p].pronoun) {
             instanceParameters[instanceCount].instance = pronouns[p].instance;
             instanceParameters[instanceCount].useWords = FALSE; /* Can't use words since they are gone, pronouns
-                                                       refer to parameters in previous command */
+								   refer to parameters in previous command */
             setEndOfList(&instanceParameters[++instanceCount]);
         }
     return instanceCount;
@@ -336,7 +336,7 @@ static void transformLiteralIntoSingleParameter(Parameter parameters[]) {
 /*----------------------------------------------------------------------*/
 static void transformPronounIntoSingleParameter(Parameter parsedParameters[]) {
     static Parameter *pronounInstances = NULL;
-    pronounInstances = allocateParameterArray(pronounInstances, MAXPARAMS);
+    pronounInstances = ensureParameterArrayAllocated(pronounInstances, MAXPARAMS);
 	
     int pronounCandidateCount = getPronounInstances(playerWords[wordIndex].code, pronounInstances);
     if (pronounCandidateCount == 0)
@@ -366,7 +366,7 @@ static Bool lastPossibleNoun(int wordIndex) {
 /*----------------------------------------------------------------------*/
 static void updateWithReferences(Parameter result[], int wordIndex, Aint *(*referenceFinder)(int wordIndex)) {
     static Parameter *references = NULL; /* Instances referenced by a word */
-    references = allocateParameterArray(references, MAXENTITY);
+    references = ensureParameterArrayAllocated(references, MAXENTITY);
 
     copyReferencesToParameterList(referenceFinder(wordIndex), references);
     if (lengthOfParameterList(result) == 0)
@@ -417,7 +417,7 @@ static void disambiguateParameter(Parameter candidates[]) {
 
     int i;
     static Parameter *filteredCandidates = NULL;
-    filteredCandidates = allocateParameterArray(filteredCandidates, MAXPARAMS);
+    filteredCandidates = ensureParameterArrayAllocated(filteredCandidates, MAXPARAMS);
 
     copyParameterList(filteredCandidates, candidates);
 
@@ -435,29 +435,38 @@ static void disambiguateParameter(Parameter candidates[]) {
     // But, we don't have the parameterPosition here. Maybe we can do this later?
 }
 
+
 /*
  * There are various ways the player can refer to things, some are
  * explicit, in which case they should be kept in the input. If he said
  * 'them', 'all' or some such the list is inferred so we must filter
- * it w.r.t what it can mean A special case is when he said 'the ball'
+ * it w.r.t what it can mean. A special case is when he said 'the ball'
  * and there is only one ball here, but multiple in the game.  We need
  * to be able to distinguish between these cases!!!  'them' is
  * explicit, 'all' is inferred, exceptions can never be inferred,
  * maybe 'all' is the only inferred?
  */
 
+
 /*----------------------------------------------------------------------*/
-static void disambiguateCandidatesForPosition(Parameter parameters[], int position, Parameter candidates[]) {
+static void disambiguateCandidatesForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
     int i;
+    Parameter *parameters = allocateParameterArray(MAXPARAMS);
+
+    convertPositionsToParameters(parameterPositions, parameters);
     for (i = 0; !isEndOfList(&candidates[i]); i++) {
         if (candidates[i].instance != 0) { /* Already empty? */
             parameters[position] = candidates[i];
-            if (!reachable(candidates[i].instance) || !possible(current.verb))
+	    // TODO This is not filled in or used anywhere yet
+	    parameterPositions[position].instance = candidates[i].instance;
+            if (!reachable(candidates[i].instance) || !possible(current.verb, parameters, parameterPositions))
                 candidates[i].instance = 0; /* Then remove this candidate from list */
         }
     }
     parameters[position].instance = 0; /* Restore multiple marker */
+
     compressParameterList(candidates);
+    free(parameters);
 }
 
 
@@ -469,7 +478,7 @@ static void transformAdjectivesAndNounToSingleInstance(Parameter parameterCandid
     Bool adjectiveOrNounFound = FALSE;
 
     static Parameter *references = NULL; /* Instances referenced by a word */
-    references = allocateParameterArray(references, MAXPARAMS);
+    references = allocateParameterArray(MAXPARAMS);
 
     firstWord = wordIndex;
     while (anotherAdjective(wordIndex)) {
@@ -543,7 +552,7 @@ static void parseForCandidates(Parameter candidates[]) {
 
 /*----------------------------------------------------------------------*/
 static void getPreviousMultipleParameters(Parameter parameters[]) {
-	int i;
+    int i;
     for (i = 0; !isEndOfList(&previousMultipleParameters[i]); i++)
         if (!reachable(previousMultipleParameters[i].instance))
             previousMultipleParameters[i].instance = 0;
@@ -568,14 +577,14 @@ static void getPreviousMultipleParameters(Parameter parameters[]) {
 /*----------------------------------------------------------------------*/
 static void simple(Parameter candidates[]) {
     static Parameter *tlst = NULL;
-    tlst = allocateParameterArray(tlst, MAXENTITY);
+    tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
 
     /* This will loop until all references the player did is collected (typically "a and b and c") */
     for (;;) {
         /* Special handling here since THEM_WORD is a common pronoun, so
            we check if it is also a pronoun, if it is but there is also a list of
-           multi parameters from the previous command, we assume that those are the
-           ones what he ment */
+           multi parameters from the previous command, we give precedence to those
+           instead of the instance(s) with THEM_WORD as its pronoun */
         if (isThemWord(wordIndex) && ((isPronounWord(wordIndex)
                                        && lengthOfParameterList(previousMultipleParameters) > 0) || !isPronounWord(wordIndex))) {
             getPreviousMultipleParameters(candidates);
@@ -620,7 +629,7 @@ static void simple(Parameter candidates[]) {
 
 /*----------------------------------------------------------------------*/
 static void complexParameterParserDelegate(ParameterPosition *parameterPosition, CandidateParser simpleParameterParser, void (*allBuilder)(Parameter candidates[])) {
-    parameterPosition->candidates = allocateParameterArray(parameterPosition->candidates, MAXPARAMS);    
+    parameterPosition->candidates = ensureParameterArrayAllocated(parameterPosition->candidates, MAXPARAMS);    
 
     parameterPosition->all = FALSE;
     parameterPosition->explicitMultiple = FALSE;
@@ -632,7 +641,7 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
         if (!endOfWords(wordIndex) && isButWord(wordIndex)) {
             int butWordIndex = wordIndex;
             wordIndex++;
-            parameterPosition->exceptions = allocateParameterArray(parameterPosition->exceptions, MAXPARAMS);    
+            parameterPosition->exceptions = ensureParameterArrayAllocated(parameterPosition->exceptions, MAXPARAMS);    
             simpleParameterParser(parameterPosition->exceptions);
             if (lengthOfParameterList(parameterPosition->exceptions) == 0)
                 errorAfterBut(butWordIndex);
@@ -692,7 +701,7 @@ static int remapParameterOrder(int syntaxNumber, ParameterPosition parameterPosi
 
     parameterMap = pointerTo(parameterMapTable->parameterMapping);
 
-	copyParameterPositions(parameterPositions, savedParameterPositions);
+    copyParameterPositions(parameterPositions, savedParameterPositions);
 
     for (parameterNumber = 1; !savedParameterPositions[parameterNumber-1].endOfList; parameterNumber++) {
         parameterPositions[parameterNumber-1] = savedParameterPositions[parameterMap[parameterNumber-1]-1];
@@ -730,7 +739,7 @@ static Bool hasBit(Aword flags, Aint bit) {
 
 /*----------------------------------------------------------------------*/
 static void parseParameterPosition(ParameterPosition *parameterPosition, Aword flags, void (*complexParameterParser)(ParameterPosition *parameterPosition)) {
-    parameterPosition->candidates = allocateParameterArray(parameterPosition->candidates, MAXENTITY);
+    parameterPosition->candidates = ensureParameterArrayAllocated(parameterPosition->candidates, MAXENTITY);
     
     complexParameterParser(parameterPosition);
     if (lengthOfParameterList(parameterPosition->candidates) == 0) /* No object!? */
@@ -947,7 +956,7 @@ static void matchNounPhrase(Parameter parameter, ReferencesFinder adjectiveRefer
     
     for (i = parameter.firstWord; i < parameter.lastWord; i++)
         updateWithReferences(parameter.candidates, i, adjectiveReferencesFinder);
-     updateWithReferences(parameter.candidates, parameter.lastWord, nounReferencesFinder);
+    updateWithReferences(parameter.candidates, parameter.lastWord, nounReferencesFinder);
 }
 
 
@@ -970,13 +979,13 @@ static void instanceMatcher(Parameter parameter) {
 /*----------------------------------------------------------------------*/
 static void matchParameters(Parameter parameters[], void (*matcher)(Parameter parameter)) 
 {
-     int i;
+    int i;
      
-     for (i = 0; i < lengthOfParameterList(parameters); i++) {
-          if (parameters[i].candidates == NULL)
-               parameters[i].candidates = allocateParameterArray(NULL, MAXENTITY);
-          matcher(parameters[i]);
-     }
+    for (i = 0; i < lengthOfParameterList(parameters); i++) {
+	if (parameters[i].candidates == NULL)
+	    parameters[i].candidates = allocateParameterArray(MAXENTITY);
+	matcher(parameters[i]);
+    }
 }
 
 
@@ -990,17 +999,15 @@ static void handleFailedParse(ElementEntry *elms) {
     }
 }
 
-
-/*----------------------------------------------------------------------*/
-static void convertPositionsToParameters(Parameter parameters[]) {
-	int parameterCount;
-    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-        if (parameterPositions[parameterCount].explicitMultiple)
-            parameters[parameterCount].instance = 0;
-        else
-            parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
-    setEndOfList(&parameters[parameterCount]);
+static void convertMultipleCandidatesToMultipleParameters(Parameter multipleParameters[]) {
+    int parameterCount;
+    for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
+	if (parameterPositions[parameterCount].explicitMultiple) {
+            compressParameterList(parameterPositions[parameterCount].candidates);
+            copyParameterList(multipleParameters, parameterPositions[parameterCount].candidates);
+        }
 }
+
 
 
 /*----------------------------------------------------------------------*/
@@ -1037,34 +1044,36 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     current.verb = remapParameterOrder(element->flags, parameterPositions);
 
     /* TODO Work In Progress! Match parameters to instances... */
-    convertPositionsToParameters(parameters);
     for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-      matchParameters(parameterPositions[parameterCount].candidates, instanceMatcher);
+	matchParameters(parameterPositions[parameterCount].candidates, instanceMatcher);
 
     /* Now perform restriction checks */
     restrictParameters(parameterPositions, element);
 
-    for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-      if (parameterPositions[parameterCount].explicitMultiple) {
-            compressParameterList(parameterPositions[parameterCount].candidates);
-            copyParameterList(multipleParameters, parameterPositions[parameterCount].candidates);
-        }
+    // TODO Here we should ensure that parameterPositions[].instance is set to candidates[0] if there was only a single one left
 
     /* Finally, if the player used ALL, try to find out what was applicable */
+    int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
-        int multiplePosition = findMultipleParameterPosition(parameterPositions);
-        disambiguateCandidatesForPosition(parameters, multiplePosition, multipleParameters);
-        if (lengthOfParameterList(multipleParameters) == 0)
+	// TODO This should work on ParameterPositions instead
+        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].candidates);
+        if (lengthOfParameterList(parameterPositions[multiplePosition].candidates) == 0)
             errorWhat(allWordIndex);
 
     } else if (anyExplicitMultiple(parameterPositions)) {
-        compressParameterList(multipleParameters);
-        if (lengthOfParameterList(multipleParameters) == 0) {
+        compressParameterList(parameterPositions[multiplePosition].candidates);
+        if (lengthOfParameterList(parameterPositions[multiplePosition].candidates) == 0) {
             /* If there where multiple parameters but non left, exit without a */
             /* word, assuming we have already said enough */
             abortPlayerCommand();
         }
     }
+
+    // Now we can convert back to legacy parameter and multipleParameter format
+    convertPositionsToParameters(parameterPositions, parameters);
+    markExplicitMultiple(parameterPositions, parameters);
+    convertMultipleCandidatesToMultipleParameters(multipleParameters);
+
 }
 
 
@@ -1093,8 +1102,8 @@ void initParse(void) {
     clearWordList(playerWords);
 	
     pronouns = allocatePronounArray(pronouns);
-    globalParameters = allocateParameterArray(globalParameters, MAXPARAMS);
-    previousMultipleParameters = allocateParameterArray(previousMultipleParameters, MAXPARAMS);
+    globalParameters = ensureParameterArrayAllocated(globalParameters, MAXPARAMS);
+    previousMultipleParameters = ensureParameterArrayAllocated(previousMultipleParameters, MAXPARAMS);
 	
     if (parameterPositions == NULL)
         parameterPositions = allocate(sizeof(ParameterPosition)*MAXPARAMS);
@@ -1154,7 +1163,7 @@ static void notePronounsForParameters(Parameter parameters[]) {
 /*======================================================================*/
 void parse(Parameter parameters[]) {
     static Parameter *multipleParameters = NULL;
-    multipleParameters = allocateParameterArray(multipleParameters, MAXPARAMS);
+    multipleParameters = ensureParameterArrayAllocated(multipleParameters, MAXPARAMS);
 
     if (endOfWords(wordIndex)) {
         wordIndex = 0;

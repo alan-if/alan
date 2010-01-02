@@ -2,6 +2,8 @@
 
 /* Imports */
 #include "memory.h"
+#include "lists.h"
+
 
 /* Public Data */
 
@@ -34,4 +36,21 @@ int findMultipleParameterPosition(ParameterPosition parameterPositions[]) {
         if (parameterPositions[parameterNumber].explicitMultiple)
             return parameterNumber;
     return -1;
+}
+
+
+/*======================================================================*/
+void markExplicitMultiple(ParameterPosition parameterPositions[], Parameter parameters[]) {
+    int parameterCount;
+    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
+        if (parameterPositions[parameterCount].explicitMultiple)
+            parameters[parameterCount].instance = 0;
+}
+
+/*======================================================================*/
+void convertPositionsToParameters(ParameterPosition parameterPositions[], Parameter parameters[]) {
+    int parameterCount;
+    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
+	parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
+    setEndOfList(&parameters[parameterCount]);
 }

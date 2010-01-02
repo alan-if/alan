@@ -21,6 +21,7 @@ typedef struct ParameterPosition {
     Bool explicitMultiple;
     Bool all;
     Bool checked;
+    Aid instance;
     Parameter *candidates;
     Parameter *exceptions;
 } ParameterPosition;
@@ -34,5 +35,7 @@ ParameterPosition *parameterPositions;
 extern void uncheckAllParameterPositions(ParameterPosition parameterPositions[]);
 extern void copyParameterPositions(ParameterPosition originalParameterPositions[], ParameterPosition parameterPositions[]);
 extern int findMultipleParameterPosition(ParameterPosition parameterPositions[]);
+extern void markExplicitMultiple(ParameterPosition parameterPositions[], Parameter parameters[]);
+extern void convertPositionsToParameters(ParameterPosition parameterPositions[], Parameter parameters[]);
 
 #endif /* PARAMETERPOSITION_H_ */

@@ -32,7 +32,8 @@ extern void setParameters(Parameter parameters[]);
 extern void setParameter(int parameterIndex, Parameter parameter);
 extern Parameter *getParameters(void);
 extern Parameter *getParameter(int parameterIndex);
-extern Parameter *allocateParameterArray(Parameter *currentList, int size);
+extern Parameter *ensureParameterArrayAllocated(Parameter *currentList, int size);
+extern Parameter *allocateParameterArray(int size);
 extern Parameter *findEndOfParameterList(Parameter *parameters);
 extern int findMultiplePosition(Parameter parameters[]);
 extern void compressParameterList(Parameter *a);
@@ -47,5 +48,5 @@ extern void copyReferencesToParameterList(Aint *references, Parameter *parameter
 extern void addParameterForInstance(Parameter *parameter, int instance);
 extern void addParameterForInteger(Parameter *parameters, int value);
 extern void addParameterForString(Parameter *parameters, char *value);
-
+extern void printParameterArray(Parameter parameters[]);
 #endif

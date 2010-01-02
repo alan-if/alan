@@ -52,7 +52,7 @@ void forceNewPlayerInput() {
 /*----------------------------------------------------------------------*/
 static void unknown(char token[]) {
     char *str = strdup(token);
-    Parameter *messageParameters = allocateParameterArray(NULL, MAXPARAMS);
+    Parameter *messageParameters = allocateParameterArray(MAXPARAMS);
 	
 #if ISO == 0
     fromIso(str, str);

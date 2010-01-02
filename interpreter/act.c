@@ -17,12 +17,12 @@
 
 
 /*----------------------------------------------------------------------*/
-static void executeCommand(int verb)
+static void executeCommand(int verb, Parameter parameters[])
 {
     AltInfo *altInfos;
     int altIndex;
 
-    altInfos = findAllAlternatives(verb);
+    altInfos = findAllAlternatives(verb, parameters);
     if (anyCheckFailed(altInfos, EXECUTE_CHECK_BODY_ON_FAIL))
         return;
 
@@ -77,11 +77,11 @@ void action(int verb, Parameter parameters[], Parameter multipleMatches[])
         for (i = 0; multipleMatches[i].instance != EOF; i++) {
             parameters[multiplePosition] = multipleMatches[i];
             output(marker);
-            executeCommand(verb);
+            executeCommand(verb, parameters);
             if (multipleMatches[i+1].instance != EOF)
                 para();
         }
         parameters[multiplePosition].instance = 0;
     } else
-        executeCommand(verb);
+        executeCommand(verb, parameters);
 }

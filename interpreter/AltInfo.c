@@ -21,6 +21,10 @@ An info node about the Verb Alternatives found and possibly executed
 #include "literal.h"
 
 
+/* Types */
+typedef AltInfo *AltInfoFinder(int verb, Parameter parameters[]);
+
+
 /*======================================================================*/
 void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int class)
 {
@@ -214,9 +218,9 @@ static void addAlternativesFromLocation(AltInfoArray altInfos, int verb, Aid loc
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromParameter(AltInfoArray altInfos, int verb, int parameterNumber, AltEntryFinder finder) {
+static void addAlternativesFromParameter(AltInfoArray altInfos, int verb, Parameter parameters[], int parameterNumber, AltEntryFinder finder) {
     Aid parent;
-    Aid theInstance = globalParameters[parameterNumber-1].instance;
+    Aid theInstance = parameters[parameterNumber-1].instance;
 	
     if (isLiteral(theInstance))
         parent = literals[literalFromInstance(theInstance)].class;
@@ -291,7 +295,7 @@ static AltEntry *alternativeFinder(int verb, int parameterNumber, int theInstanc
 
 
 /*======================================================================*/
-AltInfo *findAllAlternatives(int verb) {
+AltInfo *findAllAlternatives(int verb, Parameter parameters[]) {
     int parameterNumber;
     AltInfo altInfos[1000];
     altInfos[0].end = TRUE;
@@ -299,19 +303,23 @@ AltInfo *findAllAlternatives(int verb) {
     addGlobalAlternatives(altInfos, verb, &alternativeFinder);
 	
     addAlternativesFromLocation(altInfos, verb, current.location, &alternativeFinder);
-	
-    for (parameterNumber = 1; !isEndOfList(&globalParameters[parameterNumber-1]); parameterNumber++) {
-        addAlternativesFromParameter(altInfos, verb, parameterNumber, &alternativeFinder);
+
+    for (parameterNumber = 1; !isEndOfList(&parameters[parameterNumber-1]); parameterNumber++) {
+        addAlternativesFromParameter(altInfos, verb, parameters, parameterNumber, &alternativeFinder);
     }
     return duplicateAltInfoArray(altInfos);
 }
 
-static Bool possibleWithFinder(int verb, AltInfo *(*finder)(int verb)) {
+
+/*----------------------------------------------------------------------*/
+static Bool possibleWithFinder(int verb, Parameter parameters[], AltInfoFinder *finder) {
     Bool anything;
     AltInfo *allAlternatives;
 
-    allAlternatives = finder(verb);
-	
+    allAlternatives = finder(verb, parameters);
+
+    // TODO Need to do this since anyCheckFailed() call execute() which assumes the global parameters
+    setParameters(parameters);
     if (anyCheckFailed(allAlternatives, DONT_EXECUTE_CHECK_BODY_ON_FAIL))
         anything = FALSE;
     else
@@ -324,12 +332,14 @@ static Bool possibleWithFinder(int verb, AltInfo *(*finder)(int verb)) {
 
 
 
-
 /*======================================================================*/
-Bool possible(int verb)
+Bool possible(int verb, Parameter inParameters[], ParameterPosition parameterPositions[])
 {
     // This is a wrapper for possibleWithFinder() which is used in unit tests
     // possible() should be used "for real".
+    Parameter *parameters = allocateParameterArray(MAXPARAMS);
 
-    return possibleWithFinder(verb, findAllAlternatives);
+    // TODO Should work from positions but they are not yet changed to have an instance field
+    convertPositionsToParameters(parameterPositions, parameters);
+    return possibleWithFinder(verb, inParameters, findAllAlternatives);
 }
