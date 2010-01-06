@@ -1,1 +1,1 @@
-../../compiler/alan -full $1 -import ../../lib
+../../bin/alan -full $1 -import ../../lib

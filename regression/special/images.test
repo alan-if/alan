@@ -1,4 +1,4 @@
 rm -f images.a3r
-../../compiler/alan images
+../../bin/alan images
 ls images.a3r >> images.output
 
