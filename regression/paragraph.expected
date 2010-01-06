@@ -3,14 +3,7 @@
         No warnings or errors detected.
 
 
-This is a sample string and it is wrapped over a few lines. 
-
-    TERSE   This is the terse verb
-    EAT     This is the eat verb
- 
-
-
-This is a sample string and it is wrapped over a few lines. 
+This is a sample string and it is wrapped over a few lines.
 
     TERSE   This is the terse verb
     EAT     This is the eat verb
@@ -24,7 +17,14 @@ This is a sample string and it is wrapped over a few lines.
  
 
 
-This is a sample string and it is wrapped over a few lines. 
+This is a sample string and it is wrapped over a few lines.
+
+    TERSE   This is the terse verb
+    EAT     This is the eat verb
+ 
+
+
+This is a sample string and it is wrapped over a few lines.
 
     TERSE   This is the terse verb
     EAT     This is the eat verb
