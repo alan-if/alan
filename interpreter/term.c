@@ -79,8 +79,11 @@ void getPageSize(void)
 
 #include <sys/termios.h>
 
-  extern int ioctl();
-
+#ifdef __linux__
+extern int ioctl (int __fd, unsigned long int __request, ...) __THROW;
+#else
+extern int ioctl();
+#endif
   struct winsize win;
   int ecode;
 

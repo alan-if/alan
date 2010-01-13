@@ -275,7 +275,9 @@ static KeyMap keymap[] = {
     {0x1b, 0x1b, escHook},
     {0x1c, 0x7e, insertCh},
 #ifdef __macosx__
-    {0x7f, 0x7f, delBwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
+  {0x7f, 0x7f, delBwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
+#elif __linux__
+  {0x7f, 0x7f, delBwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
 #else
     {0x7f, 0x7f, delFwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
 #endif

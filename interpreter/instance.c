@@ -841,7 +841,7 @@ static void locateActor(Aword movingActor, Aword whr)
     } else
         admin[whr].visitsCount = 0;
 
-    /* And execute possible entered */
+    /* Execute possible entered */
     current.actor = movingActor;
     if (instances[current.location].entered != 0) {
         if (previousActorLocation != current.location) {
