@@ -59,14 +59,14 @@ function verify()
     else
         if [ -f $theCase.suspended ] ; then
 	    suspended=`expr $suspended + 1`
-	    suspendednew=`expr $suspendednew + 1`
-	    /bin/echo "Suspended...(new)"
+	    suspendedpending=`expr $suspendedpending + 1`
+	    /bin/echo "Suspended...(pending)"
         else
-	    new=`expr $new + 1`
-	    /bin/echo -n  "<error type=\"New\" message=\"No expected output defined for case '$theCase'\">" >> TEST-regr.xml
+	    pending=`expr $pending + 1`
+	    /bin/echo -n  "<error type=\"Pending\" message=\"No expected output defined for case '$theCase'\">" >> TEST-regr.xml
 	    /bin/echo "The file '$theCase.output' does not exist" >> TEST-regr.xml
 	    /bin/echo -n "</error>" >> TEST-regr.xml
-	    /bin/echo "NEW!"
+	    /bin/echo "PENDING!"
         fi
     fi
 #    fi
@@ -78,8 +78,8 @@ function summary ()
     /bin/echo -n "Total $cases tests"
     if [ $suspended -ne 0 ] ; then
 	/bin/echo -n " ($suspended suspended"
-        if [ $suspendednew -gt 0 ] ; then
-            /bin/echo -n ", $suspendednew new"
+        if [ $suspendedpending -gt 0 ] ; then
+            /bin/echo -n ", $suspendedpending pending"
         fi
         if [ $suspendedok -gt 0 ] ; then
             /bin/echo -n ", $suspendedok actually ok"
@@ -87,11 +87,11 @@ function summary ()
         /bin/echo -n ")"
     fi
     /bin/echo -n ", "
-    if [ $new -ne 0 ] ; then
-	/bin/echo -n "$new new, "
+    if [ $pending -ne 0 ] ; then
+	/bin/echo -n "$pending pending, "
     fi
     if [ $failed -eq 0 ] ; then
-	if [ $new -eq 0 ] ; then
+	if [ $pending -eq 0 ] ; then
 	    /bin/echo -n All OK!
 	else
 	    /bin/echo -n $ok OK!
@@ -165,8 +165,8 @@ ok=0
 failed=0
 suspended=0
 suspendedok=0
-suspendednew=0
-new=0
+suspendedpending=0
+pending=0
 
 if [ -t 0 ] ; then
     interactive=1
