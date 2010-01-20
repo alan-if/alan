@@ -59,10 +59,10 @@ unittests : $(UNITOBJS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Run all unit tests!
+# Run all tests!
 #
 test: unit
-	-cd testing; ../../bin/regr
+	cd testing ; ../../bin/jregr -bin ../../bin
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

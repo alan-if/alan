@@ -4,7 +4,7 @@
 addVerb.alan
 
     7.    Verb x Does "x/y"
-=====>    1
+=====>         1
 
   *1*   240 E : Verb 'x' already defined for class 'obj'. You can not add it.
                 You can override it by subclassing from class 'obj'.
