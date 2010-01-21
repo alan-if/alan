@@ -48,6 +48,10 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
+all : .tmstamp test a2a3 Makefile
+
+build : a2a3
+
 win: checkTarget tm $(MAINOBJECTS)
 	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
@@ -60,8 +64,6 @@ a2a3: checkTarget tm $(MAINOBJECTS)
 
 release: win
 
-all : .tmstamp test alan Makefile
-
 clean:
 	-rm *.o
 
@@ -70,6 +72,9 @@ clean:
 
 tm:
 	make -f Makefile.tm
+
+test : 
+	cd testing ; ../../bin/regr
 
 .PHONY: checkTarget
 checkTarget:

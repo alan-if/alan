@@ -1,11 +1,12 @@
 #######################################################################
-# This Makefile is for building the Alan Compiler from scratch
-# It only works on ThoNi's machines, if you are porting try starting
-# from one of the other Makefiles, e.g. Makefile.unix
-# Copy it to Makefile and go from there
+# This Makefile is for building the Alan Interpreter from scratch
+# It only works on ThoNi's machines, which are Windows machinges
+# If you are porting try starting from one of the other Makefiles,
+# e.g. Makefile.unix. Copy it to Makefile and go from there
 #######################################################################
 
-# On cygwin we try to build without cygwin1.dll if we can, applications can unset this if they need to
+# On cygwin we try to build without cygwin1.dll if we can
+# Variants can unset this if they need to
 PLATFORM = -mno-cygwin
 
 OPTIMIZE = -ggdb
@@ -32,7 +33,8 @@ include sources.mk
 
 
 ###############################################################
-all:
+# 'build' is the target the continuous integration will use
+build:
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
@@ -59,7 +61,7 @@ Makefile:
 
 #######################################################################
 # Settings for Standard Arun
-#arun: PLATFORM = # we build with cygwin.dll until the unit tests can be build without them
+#arun: PLATFORM = # we build with cygwin.dll until the unit tests can be built without them
 
 arun: unit checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
@@ -179,8 +181,9 @@ unit:
 #+++++++++++++++++++++++++++++++++
 #
 # Run all tests!
+# No tests except unit tests are available
 #
-test: unit
+test:
 
 
 #######################################################################

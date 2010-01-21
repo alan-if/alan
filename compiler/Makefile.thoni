@@ -19,17 +19,23 @@ LINKER  	= gcc
 CPP	        = gcc -MM -ansi
 
 
-all : alanFromToolMaker
-
+# Include rules common for all platforms and builds
 include rules.mk
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Main target : Alan
+# Default target on thoni is :
 #
 alanFromToolMaker: checkTarget tm alan
 
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Build all binaries
+#
+# 'build' is the target the continuous integration will use
+build : alan winalan
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
