@@ -1,0 +1,51 @@
+#######################################################################
+# This Makefile is the top level for building the Alan System from
+# scratch with continuous integration and testing using Hudson.
+# It only works on ThoNi's machine, if you are porting try
+# starting from one of the other Makefiles, e.g. Makefile.unix. Copy
+# it to Makefile and go from there.
+#######################################################################
+
+
+VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
+DISTDIR	= ~/Alan/alanweb/uploads/download
+
+all: build unit test
+
+build:
+	-cd compiler; $(MAKE) -k -f Makefile.thoni build
+	-cd interpreter; $(MAKE) -k -f Makefile.thoni build
+	-cd converter; $(MAKE) -k build
+
+unit:
+	-cd compiler; $(MAKE) -k -f Makefile.thoni unit
+	-cd interpreter; $(MAKE) -k -f Makefile.thoni unit
+
+test:
+	java -jar bin/jregr.jar -bin bin -dir regression -xml
+	java -jar bin/jregr.jar -bin bin -dir compiler/testing -xml
+	-cd converter ; $(MAKE) test
+	-cd lib; $(MAKE) test
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Create a distribution
+#
+distribution: zip setup
+	cp alan$(VERSION).win32.x86.zip $(DISTDIR)
+	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)
+	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)
+	cp doc/manual/manual.pdf $(DISTDIR)
+
+zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip ../Samples/adventv3/adventV3.a3c regression/saviour.alan
+	-wzzip alan$(VERSION).win32.x86.zip $^
+
+setup:
+	sed -e s/VERSION/$(VERSION)/ winarun.iss > winarun_tmp.iss
+	/c/Program/Inno\ Setup\ 5/iscc winarun_tmp.iss
+	-rm winarun_tmp.iss
+	sed -e s/VERSION/$(VERSION)/ alan.iss > alan_tmp.iss
+	/c/Program/Inno\ Setup\ 5/iscc alan_tmp.iss
+	-rm alan_tmp.iss
