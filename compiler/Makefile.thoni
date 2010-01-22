@@ -35,16 +35,17 @@ alanFromToolMaker: checkTarget tm alan
 # Build all binaries
 #
 # 'build' is the target the continuous integration will use
-build : alan winalan
-
+build :
+	$(MAKE) -f Makefile.thoni checkTarget alan
+	$(MAKE) -f Makefile.thoni winalan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # release
 #
 release:
-	$(MAKE) "OPTIMIZE = -O4" alan
-	$(MAKE) "OPTIMIZE = -O4" winalan
+	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" checkTarget alan
+	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" winalan
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -61,7 +62,7 @@ rndalan: rndalan.o
 #
 # WinAlan
 #
-winalan: OS_FLAGS = -mno-cygwin -mwindows
+winalan: OS_FLAGS = -mwindows -mno-cygwin
 winalan: EXTRA_COMPILER_FLAGS = -DWINGUI
 
 winalan: checkTarget $(ALANOBJS) alan.res unit
