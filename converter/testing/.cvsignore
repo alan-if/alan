@@ -1,3 +1,4 @@
 *.ifid
 *.output
 *.sav
+TEST*.xml
