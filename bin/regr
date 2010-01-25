@@ -6,7 +6,10 @@
 #           also indicates that this directory should be recursed into
 #   .case - the extension (including period) to be considered test cases
 #           if available indicates that there are cases in this directory
+#   .ignore - this complete directory is to be ignored when recursing
+#   <case>.suspended - the case is suspended, probably pending some changes
 #
+
 
 function run ()
 {

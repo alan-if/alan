@@ -1,12 +1,7 @@
-# Makefile for alan converter
+# Makefile for alan compiler on Windows using Cygwin32/Mingw32
 #
-# a2a3 is an Alan v2 to v3 converter that works on source code.
-# It is build using the same parser generator tools that the
-# Alan compiler is using, which are only available on ThoNi's
-# machines. To build using those use the Makefile.thoni.
-# This makefile instead assumes all sources are generated and
-# only builds from C source.
 
+PLATFORM = -mno-cygwin
 OPTIMIZE = -g
 
 win:	PLATFORM = -DWINGUI -mwindows -mno-cygwin
@@ -16,8 +11,17 @@ gcov:	GCOV = -fprofile-arcs -ftest-coverage
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
 LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
 
+ARCH	= $(PLATFORM) $(OPTIMIZE)
+
 CPP	= gcc -MM -ansi
 LD	= gcc
+
+TMSRCS = \
+	alan.tmk \
+	alan.lmk \
+	alan.smk \
+	alan.pmk \
+	Makefile
 
 TMCSRCS = \
 	pmParse.c pmPaSema.c \
@@ -44,34 +48,39 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-all : test a2a3 Makefile
+all : .tmstamp test a2a3 Makefile
 
 build : a2a3
 
-win: checkTarget $(MAINOBJECTS)
+win: checkTarget tm $(MAINOBJECTS)
 	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp a2a3 ../bin
+	cp a2a3.exe ../bin
 
-a2a3: checkTarget $(MAINOBJECTS)
+a2a3: checkTarget tm $(MAINOBJECTS)
 	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) 
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp a2a3 ../bin
+	cp a2a3.exe ../bin
 
 release: win
 
 clean:
 	-rm *.o
 
+.tmstamp: $(TMSRCS)
+	$(MAKE) -f Makefile.tm
+
+tm:
+	make -f Makefile.tm
+
 test : 
 	cd testing ; ../../bin/regr
 
 .PHONY: checkTarget
-ARCH	= `echo $(PLATFORM) $(OPTIMIZE)`
 checkTarget:
 	-@if test -f .arch; then :; else echo "none" > .arch; fi
 	-@if test "`cat .arch`" != "$(ARCH)"; then \
-		echo Removing objects for \"`cat .arch`\", building for \"$(ARCH)\"... ; \
+		echo Removing objects for `cat .arch`, building for $(ARCH)... ; \
 		rm *.o; \
 		/bin/echo -n $(ARCH) > .arch; \
 	fi
