@@ -1,4 +1,4 @@
-import 'std.i'.
+import '../std.i'.
 
 The p Isa location
 End The p.
