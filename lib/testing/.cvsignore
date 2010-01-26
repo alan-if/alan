@@ -1,4 +1,4 @@
 *.a3c
 *.ifid
 *.output
-TEST-regr.xmlTEST*.xml
+TEST*.xml

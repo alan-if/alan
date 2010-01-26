@@ -1,6 +1,7 @@
 *~
 bin
 *.gz
+*.tgz
 .HoldDirectoryFinderInfoForMacNFS
 .notfresh
 [0-9]*_[0-9]*_[0-9]*.*
