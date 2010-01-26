@@ -9,4 +9,4 @@
 *.exe.stackdump
 *.sav
 *.ifid
-TEST-regr.xml
+TEST*.xml

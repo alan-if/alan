@@ -5,13 +5,9 @@ bin
 .notfresh
 [0-9]*_[0-9]*_[0-9]*.*
 alan.prod
-alansrc*.lha
-alansrc*.zip
-compiler*.zip
-interpre*.zip
+*.lha
+*.zip
 version.[ch]
-alan.exe
-arun.exe
 alan.version.[ch]
 cgreen
 Cgreen

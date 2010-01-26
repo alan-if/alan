@@ -23,4 +23,4 @@ newVersion:
 
 test:
 	cd testing ; ../../bin/regr
-	#java -jar ../bin/jregr.jar -dir testing -bin ../../bin
+#	java -jar ../bin/jregr.jar -dir testing -bin ../../bin
