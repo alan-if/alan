@@ -134,7 +134,6 @@ function runall()
             /bin/echo "<testsuite name=\"regr\">" >> TEST-regr.xml
             ext=`cat .case`
 	    command=`cat .regr`
-ls
             for f in *$ext ; do
 	        theCase=`basename $f $ext`
 	        run "$path"

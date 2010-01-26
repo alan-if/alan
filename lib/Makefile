@@ -22,4 +22,5 @@ newVersion:
 	cvs commit -m 'New Version' alanlib.version
 
 test:
-	java -jar ../bin/jregr.jar -dir testing -bin ../../bin
+	cd testing ; ../../bin/regr
+	#java -jar ../bin/jregr.jar -dir testing -bin ../../bin
