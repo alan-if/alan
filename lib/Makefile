@@ -3,7 +3,9 @@
 
 VERSION = `venum alanlib -print \\$$v_\\$$r_\\$$c\\$$s`
 
-all: version
+all: build
+
+build: version
 	@echo Building Alan Standard Library version $(VERSION)
 	@-rm *.tgz *.zip *.tar.Z
 	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt

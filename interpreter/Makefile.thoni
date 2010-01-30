@@ -35,11 +35,11 @@ include sources.mk
 ###############################################################
 # 'build' is the target the continuous integration will use
 build:
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" gararun
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" dumpacd
+	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
+	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
+	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
+	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" gararun
+	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" dumpacd
 
 
 clean:
@@ -63,7 +63,7 @@ Makefile:
 # Settings for Standard Arun
 #arun: PLATFORM = # we build with cygwin.dll until the unit tests can be built without them
 
-arun: unit checkTarget $(ARUNOBJECTS) dependencies.mk
+arun: checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin
 

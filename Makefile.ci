@@ -14,13 +14,14 @@ DISTDIR	= ~/Alan/alanweb/uploads/download
 all: build unit test distribution
 
 build:
-	-cd compiler; $(MAKE) -k -f Makefile.thoni build
-	-cd interpreter; $(MAKE) -k -f Makefile.thoni build
-	-cd converter; $(MAKE) -k build
+	-cd compiler; $(MAKE) -f Makefile.thoni build
+	-cd interpreter; $(MAKE) -f Makefile.thoni build
+	-cd converter; $(MAKE) build
+	-cd lib; $(MAKE) build
 
 unit:
-	-cd compiler; $(MAKE) -k -f Makefile.thoni unit
-	-cd interpreter; $(MAKE) -k -f Makefile.thoni unit
+	-cd compiler; $(MAKE) -f Makefile.thoni unit
+	-cd interpreter; $(MAKE) -f Makefile.thoni unit
 
 test:
 	java -jar bin/jregr.jar -bin bin -dir regression -xml
