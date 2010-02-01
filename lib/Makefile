@@ -9,7 +9,7 @@ build: version
 	@echo Building Alan Standard Library version $(VERSION)
 	@-rm *.tgz *.zip *.tar.Z
 	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt
-	@wzzip alanlib$(VERSION).zip *.i ReadMe index.txt
+	@zip alanlib$(VERSION).zip *.i ReadMe index.txt
 
 .PHONY: version
 
