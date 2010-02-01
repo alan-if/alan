@@ -10,7 +10,6 @@
 #   <case>.suspended - the case is suspended, probably pending some changes
 #
 
-
 function run ()
 {
     /bin/echo -n "$theCase : "
