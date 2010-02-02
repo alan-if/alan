@@ -9,7 +9,6 @@
 #   .ignore - this complete directory is to be ignored when recursing
 #   <case>.suspended - the case is suspended, probably pending some changes
 #
-
 function run ()
 {
     /bin/echo -n "$theCase : "
