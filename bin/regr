@@ -53,7 +53,9 @@ function verify()
 	        failed=`expr $failed + 1`
 	        /bin/echo "*** FAILED!!! ***"
 	        /bin/echo "<failure message=\"Output does not match expected\">" >> TEST-regr.xml
+		/bin/echo "<![CDATA[" >> TEST-regr.xml
 	        diff -c -b $theCase.output $theCase.expected 1>> TEST-regr.xml
+		/bin/echo "]]" >> TEST-regr.xml
 	        /bin/echo -n "</failure>" >> TEST-regr.xml
 	    fi
         fi
