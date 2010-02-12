@@ -55,7 +55,7 @@ function verify()
 	        /bin/echo "<failure message=\"Output does not match expected\">" >> TEST-regr.xml
 		/bin/echo "<![CDATA[" >> TEST-regr.xml
 	        diff -c -b $theCase.output $theCase.expected 1>> TEST-regr.xml
-		/bin/echo "]]" >> TEST-regr.xml
+		/bin/echo "]]>" >> TEST-regr.xml
 	        /bin/echo -n "</failure>" >> TEST-regr.xml
 	    fi
         fi
