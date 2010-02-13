@@ -42,7 +42,7 @@ all: unit alan test
 alan: $(ALANOBJS)
 	$(LINK) -o alan $(ALANOBJS) $(LINKFLAGS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
-	cp alan ../bin
+	cp alan ../bin/alan.exe
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -65,7 +65,7 @@ Makefile:
 
 arun: checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
-	cp $@ ../bin
+	cp $@ ../bin/arun.exe
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
