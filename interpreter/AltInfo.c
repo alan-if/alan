@@ -325,7 +325,8 @@ static Bool possibleWithFinder(int verb, Parameter parameters[], AltInfoFinder *
     else
 	anything = anythingToExecute(allAlternatives);
 
-    free(allAlternatives);
+    if (allAlternatives != NULL)
+      free(allAlternatives);
 
     return(anything);
 }

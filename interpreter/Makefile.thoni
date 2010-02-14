@@ -162,9 +162,10 @@ version.h : ../version.h
 #
 CGREENROOT = ../cgreen
 CGREENINCLUDE = -I$(CGREENROOT)/include
+CGREENLIB = $(CGREENROOT)
 unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
 unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
-unittests: LIBS = $(CGREENROOT)/libcgreen.a
+unittests: LIBS = $(CGREENLIB)/libcgreen.a
 
 unittests: checkTarget $(UNITTESTSOBJECTS) $(LIBS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
@@ -172,7 +173,7 @@ unittests: checkTarget $(UNITTESTSOBJECTS) $(LIBS)
 .PHONY: unit
 unit:
 	-@if test -d $(CGREENROOT) ; then \
-		$(MAKE) unittests ; \
+		$(MAKE) -f Makefile.thoni unittests ; \
 		./unittests ; \
 	else \
 		echo "No unit tests run, cgreen not available" ; \
