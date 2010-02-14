@@ -48,7 +48,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-all : .tmstamp test a2a3 Makefile
+all : .tmstamp a2a3 test Makefile
 
 build : a2a3
 
