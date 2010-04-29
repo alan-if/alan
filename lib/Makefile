@@ -13,6 +13,11 @@ build: version
 
 .PHONY: version
 
+build: alanlib
+
+alanlib:
+	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt
+
 version:
 	venum alanlib time -output imp
 

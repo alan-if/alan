@@ -22,7 +22,7 @@ function run ()
 
 function verify()
 {
-    /bin/echo "<testcase name=\"$theCase\" classname=\"$1\">" >> TEST-regr.xml
+    /bin/echo "  <testcase classname=\"$1\" name=\"$theCase\">" >> TEST-regr.xml
     if [ -f $theCase.expected ] ; then
 	if diff -q -b $theCase.output $theCase.expected 1> /dev/null ; then
             if [ -f $theCase.suspended ] ; then
@@ -52,11 +52,11 @@ function verify()
             else
 	        failed=`expr $failed + 1`
 	        /bin/echo "*** FAILED!!! ***"
-	        /bin/echo "<failure message=\"Output does not match expected\">" >> TEST-regr.xml
+	        /bin/echo "    <failure message=\"Output does not match expected
 		/bin/echo "<![CDATA[" >> TEST-regr.xml
 	        diff -c -b $theCase.output $theCase.expected 1>> TEST-regr.xml
 		/bin/echo "]]>" >> TEST-regr.xml
-	        /bin/echo -n "</failure>" >> TEST-regr.xml
+	        /bin/echo "    </failure>" >> TEST-regr.xml
 	    fi
         fi
     else
@@ -66,14 +66,14 @@ function verify()
 	    /bin/echo "Suspended...(pending)"
         else
 	    pending=`expr $pending + 1`
-	    /bin/echo -n  "<error type=\"Pending\" message=\"No expected output defined for case '$theCase'\">" >> TEST-regr.xml
+	    /bin/echo -n  "    <error type=\"Pending\" message=\"No expected output defined for case '$theCase'\">" >> TEST-regr.xml
 	    /bin/echo "The file '$theCase.output' does not exist" >> TEST-regr.xml
-	    /bin/echo -n "</error>" >> TEST-regr.xml
+	    /bin/echo "    </error>" >> TEST-regr.xml
 	    /bin/echo "PENDING!"
         fi
     fi
 #    fi
-    /bin/echo "</testcase>" >> TEST-regr.xml
+    /bin/echo "  </testcase>" >> TEST-regr.xml
 }
 
 function summary ()
