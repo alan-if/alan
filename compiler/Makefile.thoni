@@ -9,7 +9,7 @@ DEBUG = -g
 OPTIMIZE = 
 
 # Cygwin or MingW?
-#OS_FLAGS = -mno-cygwin $(DEBUG)
+OS_FLAGS = -mno-cygwin $(DEBUG)
 OS_FLAGS = $(DEBUG)
 
 EXTRA_COMPILER_FLAGS = $(OPTIMIZE) -Wall -funsigned-char
