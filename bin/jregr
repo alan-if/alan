@@ -1,4 +1,5 @@
 #! /bin/sh -i
 d=`dirname $0`
+d=`cygpath -d $d`
 java -jar $d/jregr.jar $@
 
