@@ -169,6 +169,7 @@ static void stringPrint(char string[])
 --> ADVENTURE
 <adventure>
     = <optional_options> <units> <start>
+      %% newline(); %%
     ;
 
 ---> OPTIONS
