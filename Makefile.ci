@@ -26,9 +26,8 @@ unit:
 test:
 	java -jar bin/jregr.jar -bin bin -dir regression -xml
 	java -jar bin/jregr.jar -bin bin -dir compiler/testing -xml
-	-cd converter ; $(MAKE) test
-	-cd lib ; $(MAKE) test
-#	java -jar bin/jregr.jar -bin bin -dir lib/testing -xml
+	java -jar bin/jregr.jar -bin bin -dir lib/testing -xml
+	java -jar bin/jregr.jar -bin bin -dir converter/testing -xml
 
 
 
