@@ -71,7 +71,7 @@ VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 #######################################################################
 # Settings for Windows GLK variant
-WINGLKROOT = ../../WindowsGLK
+WINGLKROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan/WindowsGLK
 WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
