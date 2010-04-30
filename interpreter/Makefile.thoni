@@ -5,6 +5,8 @@
 # e.g. Makefile.unix. Copy it to Makefile and go from there
 #######################################################################
 
+GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
+
 # On cygwin we try to build without cygwin1.dll if we can
 # Variants can unset this if they need to
 PLATFORM = -mno-cygwin
@@ -71,7 +73,7 @@ VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 #######################################################################
 # Settings for Windows GLK variant
-WINGLKROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan/WindowsGLK
+WINGLKROOT = $(GLKLIBROOT)/WindowsGLK
 WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
@@ -92,7 +94,7 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 
 #######################################################################
 # Settings for TermGLK => glkarun
-TERMGLKROOT = ../../glkterm
+TERMGLKROOT = $(GLKLIBROOT)/glkterm
 TERMGLKDEFS = -DHAVE_GLK
 TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses
@@ -108,7 +110,7 @@ glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
 
 #######################################################################
 # Settings for Gargoyle GLK variant (experimental!)
-GARGLKROOT = ../../Gargoyle-2006-09-17/garglk
+GARGLKROOT = $(GLKLIBROOT)/Gargoyle-2006-09-17/garglk
 GARGLKDEFS = -DHAVE_GARGLK
 GARGLKINCLUDE = -I$(GARGLKROOT)
 GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglk -lgarglkmain -lpng12 `pkg-config --libs gtk+` -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a
