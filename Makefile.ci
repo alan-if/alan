@@ -41,7 +41,7 @@ distribution: zip setup
 	cp winarun$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
 	cp doc/manual/manual.pdf $(DISTDIR)
 
-zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip ../Samples/adventv3/adventV3.a3c regression/saviour.alan
+zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip samples/adventv3/adventV3.a3c regression/saviour.alan
 	zip alan$(VERSION)-$(BUILD).win32.x86.zip $^
 
 setup:
