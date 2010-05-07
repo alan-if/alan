@@ -49,8 +49,8 @@ samples/adventv3/adventV3.a3c: samples/adventv3/adventV3.alan
 
 setup:
 	sed -e s/VERSION/$(VERSION)-$(BUILD)/ winarun.iss > winarun_tmp.iss
-	/c/Program/Inno\ Setup\ 5/iscc winarun_tmp.iss
+	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
 	-rm winarun_tmp.iss
 	sed -e s/VERSION/$(VERSION)-$(BUILD)/ alan.iss > alan_tmp.iss
-	/c/Program/Inno\ Setup\ 5/iscc alan_tmp.iss
+	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
 	-rm alan_tmp.iss
