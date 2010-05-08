@@ -8,11 +8,12 @@
 
 
 VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
-BUILD = `cat BUILD`
+BUILD = `cat BUILD_NUMBER`
 DISTDIR	= ~/Alan/alanweb/uploads/download
 
 all: build unit test distribution
 
+.PHONY: build
 build:
 	-cd compiler; $(MAKE) -k -f Makefile.thoni build
 	-cd interpreter; $(MAKE) -k -f Makefile.thoni build
