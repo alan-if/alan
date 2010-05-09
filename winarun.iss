@@ -29,10 +29,10 @@ Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescri
 
 [Files]
 Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\WindowsGLK\mppsdk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "c:\Users\Thomas\Documents\Utveckling\WindowsGLK\mppsdk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Samples\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
+Source: "samples\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [INI]
