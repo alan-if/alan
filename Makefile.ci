@@ -11,7 +11,11 @@ VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 BUILD = `cat BUILD_NUMBER`
 DISTDIR	= ~/Alan/alanweb/uploads/download
 
-all: build unit test distribution
+all:
+        make build
+        make unit
+        make test
+        make distribution
 
 build:
 	-cd compiler; $(MAKE) -k -f Makefile.thoni build
@@ -29,12 +33,6 @@ test:
 	java -jar bin/jregr.jar -bin bin -dir lib/testing -xml
 	java -jar bin/jregr.jar -bin bin -dir converter/testing -xml
 
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Create a distribution
-#
 distribution: zip setup
 	cp alan$(VERSION)-$(BUILD).win32.x86.zip $(DISTDIR)
 	cp alan$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
