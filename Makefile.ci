@@ -12,10 +12,10 @@ BUILD = `cat BUILD_NUMBER`
 DISTDIR	= ~/Alan/alanweb/uploads/download
 
 all:
-	make build
-	make unit
-	make test
-	make distribution
+	$(MAKE) build
+	$(MAKE) unit
+	$(MAKE) test
+	$(MAKE) distribution
 
 build:
 	-cd compiler; $(MAKE) -k -f Makefile.thoni build
