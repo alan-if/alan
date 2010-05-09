@@ -13,12 +13,11 @@ DISTDIR	= ~/Alan/alanweb/uploads/download
 
 all: build unit test distribution
 
-.PHONY: build
 build:
 	-cd compiler; $(MAKE) -k -f Makefile.thoni build
 	-cd interpreter; $(MAKE) -k -f Makefile.thoni build
 	-cd converter; $(MAKE) -k build
-	-cd converter; $(MAKE) -k build
+	-cd lib; $(MAKE) -k build
 
 unit:
 	-cd compiler; $(MAKE) -f Makefile.thoni unit
