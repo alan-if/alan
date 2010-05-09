@@ -13,7 +13,7 @@ import 'people.i'.
 -- Standard verbs
 -----------------------
 import 'attack.i'.
-import 'climb.i'.
+import 'climb.i'
 import 'drive.i'.
 import 'eat.i'.
 import 'examine.i'.
