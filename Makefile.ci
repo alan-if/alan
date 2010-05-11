@@ -9,7 +9,7 @@
 
 VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 BUILD = `cat BUILD_NUMBER`
-DISTDIR	= ~/Alan/alanweb/uploads/download
+DISTDIR	= ~/Utveckling/Alan/alanweb/uploads/download
 
 all:
 	$(MAKE) -f Makefile.ci build
