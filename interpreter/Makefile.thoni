@@ -33,6 +33,7 @@ LINK = gcc
 # Include common source lists 
 include sources.mk
 
+all: build test 
 
 ###############################################################
 # 'build' is the target the continuous integration will use
@@ -154,8 +155,8 @@ version.h : ../version.h
 ../alan.version.h: ../alan.version
 ../version.h: ../alan.version
 
-../alan.version: $(VERSIONSRCS) 
-	cd ..; venum alan time
+#../alan.version: $(VERSIONSRCS) 
+#	cd ..; venum alan time
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -186,7 +187,7 @@ unit:
 # Run all tests!
 # No tests except unit tests are available
 #
-test:
+test: unit
 
 
 #######################################################################

@@ -130,6 +130,6 @@ version.h : ../version.h
 ../version.h:
 	cd ..; venum -write always alan time
 
-../alan.version: $(VERSIONSRCS) 
-	cd ..; venum -write always alan time
+#../alan.version: $(VERSIONSRCS) 
+#	cd ..; venum -write always alan time
 
