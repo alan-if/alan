@@ -1,5 +1,7 @@
 #! /bin/sh -i
 d=`dirname $0`
-d=`cygpath -d $d`
+if [[ "`uname -a`" == "*cygwin*" ]]; then
+  d=`cygpath -d $d`;
+fi
 java -jar $d/jregr.jar $@
 
