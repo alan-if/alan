@@ -55,7 +55,7 @@ release:
 winalan: OS_FLAGS = -mwindows -mno-cygwin
 winalan: EXTRA_COMPILER_FLAGS = -DWINGUI
 
-winalan: checkTarget $(ALANOBJS) alan.res unit
+winalan: checkTarget $(ALANOBJS) alan.res
 	$(LINK) $(LINKFLAGS) -o winalan $(ALANOBJS) alan.res
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp winalan ../bin
