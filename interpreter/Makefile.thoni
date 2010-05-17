@@ -145,18 +145,16 @@ checkTarget:
 alan.version.h : ../alan.version.h
 	cp ../alan.version.h .
 
-alan.version.c:  ../alan.version
+alan.version.c:  ../alan.version.c
 	cp ../alan.version.c .
 
 version.h : ../version.h
 	cp ../version.h .
 
-../alan.version.c: ../alan.version
-../alan.version.h: ../alan.version
-../version.h: ../alan.version
+../alan.version.c ../alan.version.h ../version.h: ../alan.version
 
-#../alan.version: $(VERSIONSRCS) 
-#	cd ..; venum alan time
+../alan.version:
+	cd ..; venum alan time
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
