@@ -1,7 +1,10 @@
-#! /bin/sh -i
+#! /bin/bash -x
 d=`dirname $0`
-if [[ "`uname -a`" == "*cygwin*" ]]; then
-  d=`cygpath -d $d`;
+uname=`uname -a`
+if [[ "$uname" == *[Cc]ygwin* ]]; then
+  d=`cygpath -d $d`\\;
+else
+  d=$d/;
 fi
-java -jar $d/jregr.jar $@
+java -jar "$d"jregr.jar $@
 
