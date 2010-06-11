@@ -23,7 +23,7 @@ build:
 	-cd compiler; $(MAKE) -k -f Makefile.thoni build
 	-cd interpreter; $(MAKE) -k -f Makefile.thoni build
 	-cd converter; $(MAKE) -k build
-	-cd lib; $(MAKE) -k build
+	-cd lib; $(MAKE) -k -f Makefile.thoni build
 
 .PHONY: unit
 unit:
@@ -38,7 +38,7 @@ test:
 	java -jar bin/jregr.jar -bin bin -dir converter/testing -xml
 
 .PHONY: distribution
-distribution: zip setup
+distribution: zip setup lib
 	cp alan$(VERSION)-$(BUILD).win32.x86.zip $(DISTDIR)
 	cp alan$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
 	cp winarun$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
@@ -48,10 +48,6 @@ distribution: zip setup
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip samples/adventv3/adventV3.a3c regression/saviour.alan
 	zip alan$(VERSION)-$(BUILD).win32.x86.zip $^
 
-
-samples/adventv3/adventV3.a3c: samples/adventv3/adventV3.alan
-	cd samples/adventv3; alan adventv3
-
 .PHONY: setup
 setup:
 	sed -e s/VERSION/$(VERSION)-$(BUILD)/ winarun.iss > winarun_tmp.iss
@@ -60,3 +56,6 @@ setup:
 	sed -e s/VERSION/$(VERSION)-$(BUILD)/ alan.iss > alan_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
 	-rm alan_tmp.iss
+
+samples/adventv3/adventV3.a3c: samples/adventv3/adventV3.alan
+	cd samples/adventv3; alan adventv3

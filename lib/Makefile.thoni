@@ -7,33 +7,23 @@ VERSION = `venum alanlib -print \\$$v_\\$$r_\\$$c\\$$s`
 all: build
 
 .PHONY: build
-build: version
-	@echo Building Alan Standard Library version $(VERSION)
+build: alanlib
+
+.PHONY:
+alanlib: version
 	@-rm *.tgz *.zip *.tar.Z
 	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt
 	@zip alanlib$(VERSION).zip *.i ReadMe index.txt
 
 .PHONY: version
-
-build: alanlib
-
-.PHONY:
-alanlib:
-	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt
-
-.PHONY: version
 version:
-	venum alanlib time -output imp
-
-.PHONY: alanlibversion
-alanlibversion:
-	venum alanlib time -output imp
-	echo version = \"$(VERSION)\"
+	venum alanlib -output imp
 
 .PHONY: newVersion
 newVersion:
 	cvs commit -m 'New Version' alanlib.version
 
+.PHONY: test
 test:
 #	cd testing ; ../../bin/regr
 	java -jar ../bin/jregr.jar -dir testing -bin ../../bin
