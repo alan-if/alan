@@ -11,40 +11,48 @@ VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 BUILD = `cat BUILD_NUMBER`
 DISTDIR	= ~/Utveckling/Alan/alanweb/uploads/download
 
+.PHONY: all
 all:
 	$(MAKE) -f Makefile.ci build
 	$(MAKE) -f Makefile.ci unit
 	$(MAKE) -f Makefile.ci test
 	$(MAKE) -f Makefile.ci distribution
 
+.PHONY: build
 build:
 	-cd compiler; $(MAKE) -k -f Makefile.thoni build
 	-cd interpreter; $(MAKE) -k -f Makefile.thoni build
 	-cd converter; $(MAKE) -k build
 	-cd lib; $(MAKE) -k build
 
+.PHONY: unit
 unit:
 	-cd compiler; $(MAKE) -f Makefile.thoni unit
 	-cd interpreter; $(MAKE) -f Makefile.thoni unit
 
+.PHONY: test
 test:
 	java -jar bin/jregr.jar -bin bin -dir regression -xml
 	java -jar bin/jregr.jar -bin bin -dir compiler/testing -xml
 	java -jar bin/jregr.jar -bin bin -dir lib/testing -xml
 	java -jar bin/jregr.jar -bin bin -dir converter/testing -xml
 
+.PHONY: distribution
 distribution: zip setup
 	cp alan$(VERSION)-$(BUILD).win32.x86.zip $(DISTDIR)
 	cp alan$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
 	cp winarun$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
 	cp doc/manual/manual.pdf $(DISTDIR)
 
+.PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip samples/adventv3/adventV3.a3c regression/saviour.alan
 	zip alan$(VERSION)-$(BUILD).win32.x86.zip $^
+
 
 samples/adventv3/adventV3.a3c: samples/adventv3/adventV3.alan
 	cd samples/adventv3; alan adventv3
 
+.PHONY: setup
 setup:
 	sed -e s/VERSION/$(VERSION)-$(BUILD)/ winarun.iss > winarun_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss

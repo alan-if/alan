@@ -18,6 +18,7 @@ LINKFLAGS = $(OS_FLAGS) $(EXTRA_LINKER_FLAGS)
 # Include common list of sources
 include sources.mk
 
+.PHONY: help
 help:
 	@echo "This the generic Makefile for the Alan compiler"
 	@echo "The following targets are available:"
@@ -61,8 +62,9 @@ unittests : $(UNITOBJS)
 #
 # Run all tests!
 #
+.PHONY: test
 test: unit
-	cd testing ; ../../bin/jregr -bin ../../bin
+	cd testing ; ../../bin/jregr -bin ..
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

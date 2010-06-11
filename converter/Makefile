@@ -1,7 +1,7 @@
 # Makefile for alan converter
 #
 # a2a3 is an Alan v2 to v3 converter that works on source code.
-# It is build using the same parser generator tools that the
+# It is built using the same parser generator tools that the
 # Alan compiler is using, which are only available on ThoNi's
 # machines. To build using those use the Makefile.thoni.
 # This makefile instead assumes all sources are generated and
@@ -93,16 +93,6 @@ sysdep.h : ../interpreter/sysdep.h
 
 spa.o: spa.c spa.h
 	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
-
-#
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-depend:
-	@for f in *.c; \
-	  do \
-	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
-	done
-	mv dependencies.new dependencies.mk
 
 #
 # Version number generation

@@ -5,7 +5,10 @@
 # e.g. Makefile.unix. Copy it to Makefile and go from there
 #######################################################################
 
+VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
+
 GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
+
 
 # On cygwin we try to build without cygwin1.dll if we can
 # Variants can unset this if they need to
@@ -33,10 +36,14 @@ LINK = gcc
 # Include common source lists 
 include sources.mk
 
+
+.PHONY:all
 all: build test 
+
 
 ###############################################################
 # 'build' is the target the continuous integration will use
+.PHONY: build
 build:
 	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
 	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
@@ -55,8 +62,10 @@ clean:
 release: SMARTALLOC =
 release: PLATFORM = -mno-cygwin
 release: OPTIMIZE=-O4
-release: all
 
+
+.PHONY: release
+release: all
 
 Makefile:
 	ln -s Makefile.thoni Makefile
@@ -69,8 +78,6 @@ Makefile:
 arun: checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin/arun.exe
-
-VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 #######################################################################
 # Settings for Windows GLK variant
