@@ -1,6 +1,7 @@
 # Declaration of sources required for various types of builds
 #
-# UNITTESTS is the excellent CGreen unit test, stub and mocking framework by
+# UNITTESTED are compiled and unittested with the excellent
+# CGreen unit test, stub and mocking framework by
 # Marcus Baker et al. (http://sourceforge.net/projects/cgreen)
 
 UNITTESTED = \

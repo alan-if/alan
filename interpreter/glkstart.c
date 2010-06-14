@@ -104,7 +104,7 @@ static char *argumentVector[10];
 
 /*----------------------------------------------------------------------*/
 static void splitArgs(char *commandLine) {
-  char *cp = commandLine;
+  unsigned char *cp = commandLine;
 
   while (*cp) {
     while (*cp && isspace(*cp)) cp++;

@@ -253,7 +253,6 @@ typedef struct {unsigned char min, max; void (*hook)(char ch);} KeyMap;
 static void escHook(char ch);
 static void insertCh(char ch);
 static void arrowHook(char ch);
-static void escapeBracket3Hook(char ch);
 static void upArrow(char ch);
 static void downArrow(char ch);
 static void rightArrow(char ch);
@@ -265,6 +264,9 @@ static void delBwd(char ch);
 static void execute(KeyMap map[], unsigned char ch);
 
 #ifdef __unix__
+/* Only used on unix */
+static void escapeBracket3Hook(char ch);
+
 static KeyMap keymap[] = {
     {0x00, 0x03, NULL},
     {0x04, 0x04, delFwd},

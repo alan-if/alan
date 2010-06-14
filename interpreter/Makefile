@@ -3,28 +3,19 @@
 # It will include specific Makefiles to build on the target
 # In those files you should handle all target specific
 # compile and link commands
-#######################################################################
-
-TARGET = $(shell uname)
-
-ifeq ($(findstring CYGWIN, $(TARGET)), CYGWIN)
-
-ifeq ($(shell "uname -n"), thoni)
+#
+# Include the correct main Makefile depending on the system name
+#
+ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+ifeq ($(shell uname -n), thoni)
 include Makefile.thoni
 else
 include Makefile.cygwin
 endif
-
 else
-include Makefile.$(TARGET)
+include Makefile.$(shell uname)
 endif
 
-# Include common source lists 
-include sources.mk
-
-.PHONY: catch
-catch:
-	echo Catch $(TARGET)
 
 #######################################################################
 .PHONY: clean
@@ -93,4 +84,7 @@ glkstart.o: glkstart.c args.h types.h sysdep.h acode.h main.h \
   glkstart.h glkio.h resources.h utils.h
 glkio.o: glkio.c glkio.h
 
+# Include common source lists 
+include sources.mk
+# and all the dependencies
 include dependencies.mk

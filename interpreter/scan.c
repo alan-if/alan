@@ -40,7 +40,7 @@ Bool continued = FALSE;
 static char buf[1000]; /* The input buffer */
 static char isobuf[1000]; /* The input buffer in ISO */
 static Bool eol = TRUE; /* Looking at End of line? Yes, initially */
-static char *token = NULL;
+static unsigned char *token = NULL;
 
 
 /*======================================================================*/
@@ -93,7 +93,7 @@ static Bool isWordCharacter(int ch) {
 
 /*----------------------------------------------------------------------*/
 static char *gettoken(char *buf) {
-    static char *marker;
+    static unsigned char *marker;
     static char oldch;
 	
     if (buf == NULL)

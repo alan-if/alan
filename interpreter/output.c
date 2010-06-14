@@ -141,8 +141,8 @@ void printAndLog(char string[])
 {
 #ifdef HAVE_GLK
     static int column = 0;
-    char *stringCopy;
-    char *stringPart;
+    unsigned char *stringCopy;
+    unsigned char *stringPart;
 #endif
 
     printf("%s", string);
@@ -286,7 +286,7 @@ static void sayParameter(int p, int form)
   T = tabulation
   $ = no space needed after this, and don't capitalize
 */
-static char *printSymbol(char *str) /* IN - The string starting with '$' */
+static char *printSymbol(unsigned char *str) /* IN - The string starting with '$' */
 {
     int advance = 2;
 

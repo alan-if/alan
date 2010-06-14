@@ -45,15 +45,11 @@ all: build test
 # 'build' is the target the continuous integration will use
 .PHONY: build
 build:
-	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
-	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
-	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
-	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" gararun
-	$(MAKE) -f Makefile.thoni "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" dumpacd
-
-
-clean:
-	-rm *.o
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
+#	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" gararun
+	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" dumpacd
 
 
 
@@ -62,7 +58,6 @@ clean:
 release: SMARTALLOC =
 release: PLATFORM = -mno-cygwin
 release: OPTIMIZE=-O4
-
 
 .PHONY: release
 release: all
@@ -131,39 +126,6 @@ gararun: checkTarget $(GARARUNOBJECTS) arun.res
 	cp $@ ../bin
 
 
-#######################################################################
-ARCH	= `echo $(COMPILEFLAGS)`
-.PHONY: checkTarget
-	#@echo "ARCH  = $(ARCH)"
-	#@echo ".arch = `cat .arch`"
-checkTarget:
-	-@if test -f .arch; then :; else echo "none" > .arch; fi
-	-@if test "`cat .arch`" != "$(ARCH)"; then \
-		echo Removing objects for \'`cat .arch`\' ; \
-		echo Re-building      for \'$(ARCH)\'... ; \
-		rm *.o; \
-		/bin/echo -n $(ARCH) > .arch; \
-	fi
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Version number generation
-#
-alan.version.h : ../alan.version.h
-	cp ../alan.version.h .
-
-alan.version.c:  ../alan.version.c
-	cp ../alan.version.c .
-
-version.h : ../version.h
-	cp ../version.h .
-
-../alan.version.c ../alan.version.h ../version.h: ../alan.version
-
-../alan.version:
-	cd ..; venum alan time
-
-
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # CGreen unit tests
@@ -181,7 +143,7 @@ unittests: checkTarget $(UNITTESTSOBJECTS) $(LIBS)
 .PHONY: unit
 unit:
 	-@if test -d $(CGREENROOT) ; then \
-		$(MAKE) -f Makefile.thoni unittests ; \
+		$(MAKE) unittests ; \
 		./unittests ; \
 	else \
 		echo "No unit tests run, cgreen not available" ; \
@@ -219,27 +181,5 @@ about: about.c arun.res
 # Test program to generate a header of a particular version
 #
 headerGenerator: headerGenerator.c
-
-
-###################################################################
-# Dependencies are generated only for command line case
-# Dependencies on libraries are only in the way for other cases,
-# so special dependencies that we need are set explicitly below
-#
-CPP	= gcc
-DEPENDFLAGS = -MM
-DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
-depend:
-	@-for f in $(UNITTESTSSRCS) $(MAINSRCS) dumpacd.c reverse.c ; \
-	  do \
-	  $(CPP) $(DEPENDFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
-	done
-	mv dependencies.new dependencies.mk
-
-# Extra dependencies for WinGLK case
-readline.o : resources.h
-glkstart.o: glkstart.c args.h types.h sysdep.h acode.h main.h \
-  glkstart.h glkio.h resources.h utils.h
-glkio.o: glkio.c glkio.h
 
 include dependencies.mk
