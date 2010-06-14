@@ -69,12 +69,7 @@ dumpacd: dumpacd.o reverse.o spa.o
 #
 # CGreen unit tests
 #
-unittests: CGREENROOT = ../cgreen
-unittests: CGREENINCLUDE = -I$(CGREENROOT)/include
-unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
-unittests: OSDEFS = -arch i386
-unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE) $(OSDEFS)
-unittests: LIBS = $(CGREENROOT)/build/src/libcgreen.a
+unittests: LIBS = -lcgreen
 
 unittests: $(UNITTESTSOBJECTS) $(LIBS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
