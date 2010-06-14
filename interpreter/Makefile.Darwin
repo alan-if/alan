@@ -1,11 +1,11 @@
-# Makefile for Alan interpreter to be built with or w/o Glk for Unix (using gcc)
+# Makefile for Alan interpreter to be built with on Darwin
 
 # You probably have to change some of these settings
 # OS-specific definitions for compilation and linking
 OSDEFS = -arch i386
 
 
-# -- Glk definitions. Uncomment all of these to enable Glk.
+# -- Glk definitions. Uncomment some of these to enable Glk.
 #GLKPREFIX = /usr/local
 #GLKPREFIX = ../../WindowsGLK
 #GLKINCLUDEDIR = $(GLKPREFIX)/Include
@@ -69,6 +69,7 @@ dumpacd: dumpacd.o reverse.o spa.o
 #
 # CGreen unit tests
 #
+CGREENROOT = /usr/local/include/cgreen
 unittests: LIBS = -lcgreen
 
 unittests: $(UNITTESTSOBJECTS) $(LIBS)
@@ -77,26 +78,18 @@ unittests: $(UNITTESTSOBJECTS) $(LIBS)
 .PHONY: unit
 unit:
 	-@if test -d $(CGREENROOT) ; then \
-		$(MAKE) -f Makefile.macosx unittests ; \
+		$(MAKE) unittests ; \
 		./unittests ; \
 	fi
 
 #+++++++++++++++++++++++++++++++++
 #
-# Run all tests!
-#
-test: unit
-
-#+++++++++++++++++++++++++++++++++
-#
 # Install
 #
+.PHONY: install
 install: $(TARGET)
 	$(INSTALL) $(INSTFLAGS) $(TARGET) $(INSTALLDIR)
-#	$(INSTALL) $(INSTFLAGS) dumpacd $(INSTALLDIR) 
 
-clean:
-	rm -f $(TARGET) dumpacd *.o *~ .arch
 
 #---<< Glk objects >>---
 glkstart.o: glkstart.c glkstart.h glkio.h
