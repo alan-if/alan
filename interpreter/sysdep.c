@@ -77,7 +77,7 @@ static char spcChrs[] =
   0x00
 };
 
-static char lowChrs[] =
+static char lowerCaseCharacters[] =
 {
   0x61, /* a */  0x62, /* b */  0x63, /* c */  0x64, /* d */
   0x65, /* e */  0x66, /* f */  0x67, /* g */  0x68, /* h */
@@ -139,40 +139,40 @@ static char uppChrs[] =
 
 /* Theses work on native character sets */
 
-static unsigned char spcChrs[] = " \t\n";
+static unsigned char spaceCharacters[] = " \t\n";
 
 #ifdef __amiga__
 
 /* Which can't read 8-bit chars but is ISO */
-static unsigned char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
+static unsigned char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
 
-static unsigned char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
+static unsigned char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
 
 #else
 
 /* Use native characters */
-static unsigned char lowChrs[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
+static unsigned char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
 
-static unsigned char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
+static unsigned char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
 
 #endif
 #endif
 
 int isSpace(unsigned int c)              /* IN - Native character to test */
 {
-  return (c != '\0' && strchr(spcChrs, c) != 0);
+    return (c != '\0' && strchr((char *)spaceCharacters, c) != 0);
 }
 
 
 int isLower(unsigned int c)              /* IN - Native character to test */
 {
-  return (c != '\0' && strchr(lowChrs, c) != 0);
+    return (c != '\0' && strchr((char *)lowerCaseCharacters, c) != 0);
 }
 
 
 int isUpper(unsigned int c)              /* IN - Native character to test */
 {
-  return (c != '\0' && strchr(uppChrs, c) != 0);
+    return (c != '\0' && strchr((char *)upperCaseCharacters, c) != 0);
 }
 
 int isLetter(unsigned int c)             /* IN - Native character to test */
@@ -189,16 +189,16 @@ int toLower(unsigned int c)              /* IN - Native character to convert */
 #ifdef __dos__
   char *cp;
 
-  if ((cp = strchr(uppChrs, c)) != 0)
-    return(lowChrs[cp-uppChrs]);
+  if ((cp = strchr(upperCaseCharacters, c)) != 0)
+    return(lowerCaseCharacters[cp-upperCaseCharacters]);
   else
     return c;
 #else
 #ifdef __mac__
   char *cp;
 
-  if ((cp = strchr(uppChrs, c)) != 0)
-    return(lowChrs[cp-uppChrs]);
+  if ((cp = strchr(upperCaseCharacters, c)) != 0)
+    return(lowerCaseCharacters[cp-upperCaseCharacters]);
   else
     return c;
 #else
@@ -216,16 +216,16 @@ int toUpper(unsigned int c)              /* IN - Native character to convert */
 #ifdef __dos__
   char *cp;
 
-  if ((cp = strchr(lowChrs, c)) != 0)
-    return(uppChrs[cp-lowChrs]);
+  if ((cp = strchr(lowerCaseCharacters, c)) != 0)
+    return(upperCaseCharacters[cp-lowerCaseCharacters]);
   else
     return c;
 #else
 #ifdef __mac__
   char *cp;
 
-  if ((cp = strchr(lowChrs, c)) != 0)
-    return(uppChrs[cp-lowChrs]);
+  if ((cp = strchr(lowerCaseCharacters, c)) != 0)
+    return(upperCaseCharacters[cp-lowerCaseCharacters]);
   else
     return c;
 #else
@@ -259,20 +259,20 @@ char *strupp(char str[])        /* INOUT - Native string to convert */
 
 int isLowerCase(unsigned int c)          /* IN - ISO character to test */
 {
-  static char lowChrs[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
+  static char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
   int i;
-  for (i = 0; i < strlen(lowChrs); i++)
-    if (((unsigned int)lowChrs[i]) == c) return 1;
+  for (i = 0; i < strlen(lowerCaseCharacters); i++)
+    if (((unsigned int)lowerCaseCharacters[i]) == c) return 1;
   return 0;
 }
 
 
 int isUpperCase(unsigned int c)          /* IN - ISO character to test */
 {
-  static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
+  static char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
   int i;
-  for (i = 0; i < strlen(uppChrs); i++)
-    if (uppChrs[i] == c) return 1;
+  for (i = 0; i < strlen(upperCaseCharacters); i++)
+    if (upperCaseCharacters[i] == c) return 1;
   return 0;
 }
 

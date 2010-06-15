@@ -1,10 +1,5 @@
 # Makefile for Alan interpreter to be built with on Darwin
 
-# You probably have to change some of these settings
-# OS-specific definitions for compilation and linking
-OSDEFS = -arch i386
-
-
 # -- Glk definitions. Uncomment some of these to enable Glk.
 #GLKPREFIX = /usr/local
 #GLKPREFIX = ../../WindowsGLK
