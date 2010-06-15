@@ -63,13 +63,13 @@ size_t strftime (
 
 /* Note to Glk maintainers: 'native' characters are used for output, in this
    case, Glk's Latin-1.  ISO characters are Alan's internal representation,
-   stored in the .DAT file, and must be converted to native before printing.
+   stored in the .A3C file, and must be converted to native before printing.
    Glk could just use the ISO routines directly, but its safer to maintain
    its own tables to guard against future changes in either Alan or Glk (ie. a
    move to Unicode).
  */
 
-static char spcChrs[] =
+static char spaceCharacters[] =
 {
   0x0A, /* linefeed */
   0x20, /* space */
@@ -108,7 +108,7 @@ static char lowerCaseCharacters[] =
    Are they really considered LC?
  */
 
-static char uppChrs[] =
+static char upperCaseCharacters[] =
 {
   0x41, /* A */  0x42, /* B */  0x43, /* C */  0x44, /* D */
   0x45, /* E */  0x46, /* F */  0x47, /* G */  0x48, /* H */
