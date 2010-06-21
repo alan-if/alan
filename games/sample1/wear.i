@@ -68,7 +68,7 @@ Add To Every object
 	Does
 	    If Count In worn, Isa Thing > 0 Then
 	    	Empty worn In hero.
-		"You remove all the items you where wearing."
+		"You remove all the items you were wearing."
 	    Else
 	        "You're not wearing anything you can remove."
 	    End If.
