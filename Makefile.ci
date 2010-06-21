@@ -45,7 +45,7 @@ distribution: zip setup lib
 	cp doc/manual/manual.pdf $(DISTDIR)
 
 .PHONY: zip
-zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip samples/adventv3/adventV3.a3c regression/saviour.alan
+zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip games/adventv3/adventV3.a3c regression/saviour.alan
 	zip alan$(VERSION)-$(BUILD).win32.x86.zip $^
 
 .PHONY: setup
@@ -57,5 +57,5 @@ setup:
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
 	-rm alan_tmp.iss
 
-samples/adventv3/adventV3.a3c: samples/adventv3/adventV3.alan
-	cd samples/adventv3; alan adventv3
+games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan
+	cd games/adventv3; alan adventv3
