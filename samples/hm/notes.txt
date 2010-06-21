@@ -1,9 +1,0 @@
-The glasses needs the Pronoun them.
-
-
-"ask Julie about thea/joseph/harbou" does not work. "I don't know the word..."
-
-"enter pawn shop" does not work. Or maybe this is because I run Gargoyle (alpha1?)? No WinArun alpha4 also has problems.
-
-Perhaps "outside the pawn shop" should be more specific about the pawn shop being to the north.
-
