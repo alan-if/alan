@@ -41,7 +41,7 @@ IMPORT 'std.i'.
 
 THE middleroom ISA LOCATION
 	NAME 'The Middle Room'
-	DESCR IPTION "You are in a featureless room expect for a small, round table in the middle of the room. A red door
+	DESCRIPTION "You are in a featureless room expect for a small, round table in the middle of the room. A red door
 			 leads north, a green door leads south, a blue door leads east and a white door leads west."
 
 	EXIT north TO nroom
