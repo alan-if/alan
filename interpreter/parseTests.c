@@ -449,6 +449,7 @@ static void givenAPlayerWordOtherThanAll() {
     wordIndex = 0;
 }
 
+
 /*----------------------------------------------------------------------*/
 Ensure canFilloutAParameterPositionForSomethingNotAll(void) {
     ParameterPosition *parameterPosition = NEW(ParameterPosition);
