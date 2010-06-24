@@ -6,6 +6,7 @@
 #	INCLUDES : directives to include the required directories
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
+#	DEPENDFLAGS: flags to the dependency preprocessor
 # Then include this file in your Makefile, and you are done
 
 CC = $(COMPILER)
@@ -40,7 +41,7 @@ all: unit alan test
 #
 # Main target
 #
-alan: $(ALANOBJS)
+alan: checkTarget $(ALANOBJS)
 	$(LINK) -o alan $(ALANOBJS) $(LINKFLAGS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan ../bin/alan.exe
@@ -64,7 +65,7 @@ unittests : $(UNITOBJS)
 #
 .PHONY: test
 test: unit
-	cd testing ; ../../bin/jregr -bin ..
+	cd testing ; ../../bin/jregr
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -77,5 +78,56 @@ clean:
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-include dependencies.mk
+#######################################################################
+ARCH	= $(strip $(CFLAGS))
+.PHONY: checkTarget
+checkTarget:
+	-@if test -f .arch; then :; else echo "none" > .arch; fi
+	-@if test "`cat .arch`" != "$(ARCH)"; then \
+		echo "Removing objects for '`cat .arch`'" ; \
+		echo "Re-building      for '$(ARCH)'..." ; \
+		rm *.o; \
+		/bin/echo -n $(ARCH) > .arch; \
+	fi
+
+###################################################################
+#
+# Version number file generation
+#
+alan.version.h : ../alan.version.h
+	cp ../alan.version.h .
+
+alan.version.c:  ../alan.version.c
+	cp ../alan.version.c .
+
+version.h : ../version.h
+	cp ../version.h .
+
+../alan.version.c ../alan.version.h ../version.h: ../alan.version
+
+../alan.version:
+	cd ..; venum alan time
+
+
+###################################################################
+#
+# Run all tests!
+# No tests except unit tests are available
+#
+.PHONY: test
+test: unit
+
+
+###################################################################
+# Dependencies are generated only for command line case
+# Dependencies on libraries are only in the way for other cases,
+# so special dependencies that we need are set explicitly below
+#
+CPP	= gcc
+depend:
+	@-for f in $(UNITTESTSSRCS) $(ALANSRCS) ; \
+	  do \
+	  $(CPP) $(DEPENDFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
+	done
+	mv dependencies.new dependencies.mk
 

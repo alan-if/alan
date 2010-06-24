@@ -1,27 +1,13 @@
 #######################################################################
 # This Makefile is for building the Alan Compiler from scratch
-# It only works on ThoNi's machine, if you are porting try starting
-# from one of the other Makefiles, e.g. Makefile.unix
-# Copy it to Makefile and go from there
+# on ThoNi's machine. It is basically a Cygwin environment so it
+# includes Makefile.cygwin but adds all the rules to build using
+# ToolMaker compiler tools, etc.
+#
+# It is also the environment that will be used when running within
+# the Hudson Continuous Integration server, since that is running on
+# ThoNi's machine too
 #######################################################################
-
-DEBUG = -g
-OPTIMIZE = 
-
-# Cygwin or MingW?
-OS_FLAGS = -mno-cygwin $(DEBUG)
-#OS_FLAGS = $(DEBUG)
-
-EXTRA_COMPILER_FLAGS = $(OPTIMIZE) -Wall -funsigned-char
-
-COMPILER	= gcc
-LINKER  	= gcc
-CPP	        = gcc -MM -ansi
-
-
-# Include rules common for all platforms and builds
-include rules.mk
-
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -30,19 +16,23 @@ include rules.mk
 alanFromToolMaker: checkTarget tm alan
 
 
+include Makefile.cygwin
+
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # Build all binaries
 #
 # 'build' is the target the continuous integration will use
+.PHONY: build
 build :
-	$(MAKE) -f Makefile.thoni checkTarget alan
-	$(MAKE) -f Makefile.thoni winalan
+	$(MAKE) alan
+	$(MAKE) winalan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # release
 #
+.PHONY: release
 release:
 	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" checkTarget alan
 	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" winalan
@@ -50,7 +40,7 @@ release:
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# WinAlan
+# WinAlan is only available on Windows (= MinGW = Cygwin without cygwin1.dll)
 #
 winalan: OS_FLAGS = -mwindows -mno-cygwin
 winalan: EXTRA_COMPILER_FLAGS = -DWINGUI
@@ -74,6 +64,7 @@ rndalan: rndalan.o
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ToolMaker stuff
 #
 .tmstamp: $(TMSRCS)
 	$(MAKE) -f Makefile.tm
@@ -83,53 +74,4 @@ tm:
 	-@if test "`uname -n`" = "ThoNi"; then \
 		$(MAKE) -f Makefile.tm ; \
 	fi
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-ARCH	= `echo $(CFLAGS) $(LINKFLAGS)`
-.PHONY: checkTarget
-checkTarget:
-	-@if ! test -f .arch; then echo "none" > .arch; fi
-	-@if test "`cat .arch`" != "$(ARCH)"; then \
-		echo Removing objects for `cat .arch` ; \
-                echo Building for         $(ARCH) ; \
-		rm *.o; \
-		/bin/echo -n $(ARCH) > .arch; \
-	fi
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-depend:
-	@for f in *.c; \
-	  do \
-	  $(CPP) $(CFLAGS) $$f $(FILETER) >> dependencies.new; \
-	done
-	mv dependencies.new dependencies.mk
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Version number generation
-#
-alan.version.h : ../alan.version.h
-	cp ../alan.version.h .
-
-alan.version.c:  ../alan.version.c
-	cp ../alan.version.c .
-
-version.h : ../version.h
-	cp ../version.h .
-
-../alan.version.c:
-	cd ..; venum -write always alan time
-
-../alan.version.h:
-	cd ..; venum -write always alan time
-
-../version.h:
-	cd ..; venum -write always alan time
-
-#../alan.version: $(VERSIONSRCS) 
-#	cd ..; venum -write always alan time
 

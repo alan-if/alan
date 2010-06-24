@@ -77,15 +77,6 @@ unit:
 		./unittests ; \
 	fi
 
-#+++++++++++++++++++++++++++++++++
-#
-# Install
-#
-.PHONY: install
-install: $(TARGET)
-	$(INSTALL) $(INSTFLAGS) $(TARGET) $(INSTALLDIR)
-
-
 #---<< Glk objects >>---
 glkstart.o: glkstart.c glkstart.h glkio.h
 glkio.o: glkio.c glkio.h

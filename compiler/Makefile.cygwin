@@ -1,3 +1,9 @@
+##################################################
+#
+# This Makefile is included from the Makefile and
+# only sets some cygwin particular switches
+# All rules are in rules.mk and included by Makefile
+
 # Compiler and linker are both gcc
 COMPILER = gcc
 LINKER = gcc
@@ -8,4 +14,5 @@ OS_FLAGS = -mno-cygwin
 EXTRA_COMPILER_FLAGS = -Wall -funsigned-char
 EXTRA_LINKER_FLAGS =
 
-include rules.mk
+DEPENDFLAGS = -MM
+DEPENDINCLUDES = -I../interpreter
