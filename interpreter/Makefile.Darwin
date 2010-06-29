@@ -28,7 +28,10 @@ CFLAGS = $(COMPILEFLAGS) -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
 LINK = gcc
 LINKFLAGS = -g $(ARUNOPTS) $(OSDEFS)
 LIBS = $(GLKLIB) $(LINKLIBS)
-CGREENLIBS = -lcgreen
+
+CGREENROOT = /usr/local
+CGREENDIR = $(CGREENROOT)/include/cgreen
+CGREENLIB = -lcgreen
 
 #--------------------------------------------------------------------
 # Extra targets on Darwin (maybe later...)

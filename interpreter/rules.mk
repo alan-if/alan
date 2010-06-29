@@ -16,14 +16,16 @@ arun: checkTarget unit $(ARUNOBJECTS) dependencies.mk
 #
 # CGreen unit tests
 #
+CGREENINCLUDE = -I$(CGREENDIR)
+
 unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
 
 unittests: checkTarget $(UNITTESTSOBJECTS) $(LIBS)
-	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(CGREENLIBS)
+	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(CGREENLIB)
 
 .PHONY: unit
 unit:
-	-@if test -d $(CGREENROOT) ; then \
+	-@if test -d $(CGREENDIR) ; then \
 		$(MAKE) unittests ; \
 		./unittests ; \
 	else \
