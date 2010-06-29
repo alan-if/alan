@@ -42,9 +42,6 @@ VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
 
-.PHONY:all
-all: build test 
-
 
 ###############################################################
 # 'build' is the target the continuous integration will use

@@ -20,15 +20,15 @@ all:
 
 .PHONY: build
 build:
-	-cd compiler; $(MAKE) -k -f Makefile.thoni build
-	-cd interpreter; $(MAKE) -k -f Makefile.thoni build
+	-cd compiler; $(MAKE) -k build
+	-cd interpreter; $(MAKE) -k build
 	-cd converter; $(MAKE) -k build
 	-cd lib; $(MAKE) -k -f Makefile.thoni build
 
 .PHONY: unit
 unit:
-	-cd compiler; $(MAKE) -f Makefile.thoni unit
-	-cd interpreter; $(MAKE) -f Makefile.thoni unit
+	-cd compiler; $(MAKE) unit
+	-cd interpreter; $(MAKE) unit
 
 .PHONY: test
 test:

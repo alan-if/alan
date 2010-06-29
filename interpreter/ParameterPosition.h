@@ -22,7 +22,7 @@ typedef struct ParameterPosition {
     Bool all;
     Bool checked;
     Aid instance;
-    Parameter *candidates;
+    Parameter *parameters;
     Parameter *exceptions;
 } ParameterPosition;
 

@@ -418,8 +418,8 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
 
 static void mockedComplexParameterParser(ParameterPosition *parameterPosition){
     mock(parameterPosition);
-    parameterPosition->candidates[0].instance = 1;
-    setEndOfList(&parameterPosition->candidates[1]);
+    parameterPosition->parameters[0].instance = 1;
+    setEndOfList(&parameterPosition->parameters[1]);
 }
 
 Ensure parseParameterCanFillOutAParameterPosition() {
@@ -427,12 +427,12 @@ Ensure parseParameterCanFillOutAParameterPosition() {
     ParameterPosition *parameterPosition = NEW(ParameterPosition);
     Parameter candidates[MAXENTITY+1];
     
-    parameterPosition->candidates = candidates;
+    parameterPosition->parameters = candidates;
     setEndOfList(&candidates[0]);
     
     parseParameterPosition(parameterPosition, flags, mockedComplexParameterParser);
     
-    assert_equal(lengthOfParameterList(parameterPosition->candidates), 1);
+    assert_equal(lengthOfParameterList(parameterPosition->parameters), 1);
 }
 
 
@@ -458,7 +458,7 @@ Ensure canFilloutAParameterPositionForSomethingNotAll(void) {
 
     complexParameterParserDelegate(parameterPosition, mockedSimpleCandidateParser, buildAllHere);
 
-    assert_equal(lengthOfParameterList(parameterPosition->candidates), 1);    
+    assert_equal(lengthOfParameterList(parameterPosition->parameters), 1);    
 }
 
 

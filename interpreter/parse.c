@@ -635,14 +635,14 @@ static void simple(Parameter candidates[]) {
 
 /*----------------------------------------------------------------------*/
 static void complexParameterParserDelegate(ParameterPosition *parameterPosition, CandidateParser simpleParameterParser, void (*allBuilder)(Parameter candidates[])) {
-    parameterPosition->candidates = ensureParameterArrayAllocated(parameterPosition->candidates, MAXPARAMS);    
+    parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXPARAMS);    
 
     parameterPosition->all = FALSE;
     parameterPosition->explicitMultiple = FALSE;
     if (isAllWord(wordIndex)) {
         parameterPosition->all = TRUE;
         parameterPosition->explicitMultiple = TRUE;
-        allBuilder(parameterPosition->candidates); /* Build list of all possible objects */
+        allBuilder(parameterPosition->parameters); /* Build list of all possible objects */
         wordIndex++;
         if (!endOfWords(wordIndex) && isButWord(wordIndex)) {
             int butWordIndex = wordIndex;
@@ -651,13 +651,13 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
             simpleParameterParser(parameterPosition->exceptions);
             if (lengthOfParameterList(parameterPosition->exceptions) == 0)
                 errorAfterBut(butWordIndex);
-            subtractListFromParameterList(parameterPosition->candidates, parameterPosition->exceptions);
-            if (lengthOfParameterList(parameterPosition->candidates) == 0)
+            subtractListFromParameterList(parameterPosition->parameters, parameterPosition->exceptions);
+            if (lengthOfParameterList(parameterPosition->parameters) == 0)
                 error(M_NOT_MUCH);
         }
     } else {
-        simpleParameterParser(parameterPosition->candidates);
-        if (lengthOfParameterList(parameterPosition->candidates) > 1)
+        simpleParameterParser(parameterPosition->parameters);
+        if (lengthOfParameterList(parameterPosition->parameters) > 1)
             parameterPosition->explicitMultiple = TRUE;
     }
 
@@ -724,7 +724,7 @@ static Bool hasBit(Aword flags, Aint bit) {
 
 
 /*
- * TODO There are a number of ways that the number of candidates might
+ * TODO There are a number of ways that the number of parameters might
  * be more than one:
  *
  * 1) Player used ALL and it matched more than one
@@ -734,7 +734,7 @@ static Bool hasBit(Aword flags, Aint bit) {
  * 3) Player did a single (or multiple) reference that was ambiguous
  * in which case we need to disambiguate it (them). If we want to do
  * this after complete parsing we must be able to see the possible
- * candidates for each of these references, e.g.:
+ * parameters for each of these references, e.g.:
  *
  * > take the vase and the book
  *
@@ -745,16 +745,16 @@ static Bool hasBit(Aword flags, Aint bit) {
 
 /*----------------------------------------------------------------------*/
 static void parseParameterPosition(ParameterPosition *parameterPosition, Aword flags, void (*complexParameterParser)(ParameterPosition *parameterPosition)) {
-    parameterPosition->candidates = ensureParameterArrayAllocated(parameterPosition->candidates, MAXENTITY);
+    parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXENTITY);
     
     complexParameterParser(parameterPosition);
-    if (lengthOfParameterList(parameterPosition->candidates) == 0) /* No object!? */
+    if (lengthOfParameterList(parameterPosition->parameters) == 0) /* No object!? */
         error(M_WHAT);
     
     if (!hasBit(flags, OMNIBIT))
         /* If its not an omnipotent parameter, resolve by presence */
         if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
-            checkForPresence(parameterPosition->candidates);
+            checkForPresence(parameterPosition->parameters);
 
     if (parameterPosition->explicitMultiple) {
         if (!hasBit(flags, MULTIPLEBIT)) /* Allowed multiple? */
@@ -894,16 +894,16 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
     int i;
     
     for (i=0; !parameterPositions[i].endOfList; i++)
-        localParameters[i] = parameterPositions[i].candidates[0];
+        localParameters[i] = parameterPositions[i].parameters[0];
 
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfList(restriction); restriction++) {
         ParameterPosition *parameterPosition = &parameterPositions[restriction->parameterNumber-1];
         if (parameterPosition->explicitMultiple) {
             /* This was a multiple parameter position, so check all multipleCandidates */
             int i;
-            for (i = 0; !isEndOfList(&parameterPosition->candidates[i]); i++) {
-                localParameters[restriction->parameterNumber-1] = parameterPosition->candidates[i];
-                if (!restrictionCheck(restriction, parameterPosition->candidates[i].instance)) {
+            for (i = 0; !isEndOfList(&parameterPosition->parameters[i]); i++) {
+                localParameters[restriction->parameterNumber-1] = parameterPosition->parameters[i];
+                if (!restrictionCheck(restriction, parameterPosition->parameters[i].instance)) {
                     /* Multiple could be both an explicit list of instance references and an expansion of ALL */
                     if (!parameterPosition->all) {
                         char marker[80];
@@ -916,11 +916,11 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
                         runRestriction(restriction, localParameters);
                         para();
                     }
-                    parameterPosition->candidates[i].instance = 0; /* In any case remove it from the list */
+                    parameterPosition->parameters[i].instance = 0; /* In any case remove it from the list */
                 }
             }
         } else {
-            if (!restrictionCheck(restriction, parameterPosition->candidates[0].instance)) {
+            if (!restrictionCheck(restriction, parameterPosition->parameters[0].instance)) {
                 runRestriction(restriction, localParameters);
                 abortPlayerCommand();
             }
@@ -938,11 +938,11 @@ static void checkNonRestrictedParameters(ParameterPosition parameterPositions[])
             if (parameterPositions[parameterIndex].explicitMultiple) {
                 /* This was a multiple parameter position, check all multiple candidates and remove failing */
                 int i;
-                for (i = 0; !isEndOfList(&parameterPositions[parameterIndex].candidates[i]); i++)
-                    if (parameterPositions[parameterIndex].candidates[i].instance != 0) /* Skip any empty slots */
-                        if (!isObject(parameterPositions[parameterIndex].candidates[i].instance))
-                            parameterPositions[parameterIndex].candidates[i].instance = 0;
-            } else if (!isObject(parameterPositions[parameterIndex].candidates[0].instance))
+                for (i = 0; !isEndOfList(&parameterPositions[parameterIndex].parameters[i]); i++)
+                    if (parameterPositions[parameterIndex].parameters[i].instance != 0) /* Skip any empty slots */
+                        if (!isObject(parameterPositions[parameterIndex].parameters[i].instance))
+                            parameterPositions[parameterIndex].parameters[i].instance = 0;
+            } else if (!isObject(parameterPositions[parameterIndex].parameters[0].instance))
                 error(M_CANT0);
         }
 }
@@ -1009,8 +1009,8 @@ static void convertMultipleCandidatesToMultipleParameters(Parameter multiplePara
     int parameterCount;
     for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
 	if (parameterPositions[parameterCount].explicitMultiple) {
-            compressParameterList(parameterPositions[parameterCount].candidates);
-            copyParameterList(multipleParameters, parameterPositions[parameterCount].candidates);
+            compressParameterList(parameterPositions[parameterCount].parameters);
+            copyParameterList(multipleParameters, parameterPositions[parameterCount].parameters);
         }
 }
 
@@ -1051,7 +1051,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
     /* TODO Work In Progress! Match parameters to instances candidates... */
     for (position = 0; !parameterPositions[position].endOfList; position++)
-	matchParameters(parameterPositions[position].candidates, instanceMatcher);
+	matchParameters(parameterPositions[position].parameters, instanceMatcher);
 
     /* Now perform restriction checks */
     restrictParametersAccordingToSyntax(parameterPositions, element);
@@ -1062,13 +1062,13 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
 	// TODO This should work on ParameterPositions instead
-        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].candidates);
-        if (lengthOfParameterList(parameterPositions[multiplePosition].candidates) == 0)
+        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
+        if (lengthOfParameterList(parameterPositions[multiplePosition].parameters) == 0)
             errorWhat(allWordIndex);
 
     } else if (anyExplicitMultiple(parameterPositions)) {
-        compressParameterList(parameterPositions[multiplePosition].candidates);
-        if (lengthOfParameterList(parameterPositions[multiplePosition].candidates) == 0) {
+        compressParameterList(parameterPositions[multiplePosition].parameters);
+        if (lengthOfParameterList(parameterPositions[multiplePosition].parameters) == 0) {
             /* If there where multiple parameters but non left, exit without a */
             /* word, assuming we have already said enough */
             abortPlayerCommand();

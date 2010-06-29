@@ -51,6 +51,6 @@ void markExplicitMultiple(ParameterPosition parameterPositions[], Parameter para
 void convertPositionsToParameters(ParameterPosition parameterPositions[], Parameter parameters[]) {
     int parameterCount;
     for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-	parameters[parameterCount] = parameterPositions[parameterCount].candidates[0];
+	parameters[parameterCount] = parameterPositions[parameterCount].parameters[0];
     setEndOfList(&parameters[parameterCount]);
 }
