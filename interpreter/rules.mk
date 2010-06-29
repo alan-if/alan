@@ -8,7 +8,7 @@
 #######################################################################
 # Standard console Arun
 
-arun: checkTarget unit $(ARUNOBJECTS) dependencies.mk
+arun: unit checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin/
 
@@ -16,7 +16,10 @@ arun: checkTarget unit $(ARUNOBJECTS) dependencies.mk
 #
 # CGreen unit tests
 #
-CGREENINCLUDE = -I$(CGREENDIR)
+# Define
+#	CGREEN to something to build with cgreen unit tests
+#	CGREENINCLUDE so that cgreen/cgreen.h works if needed
+#	CGREENLIB to something to link with (e.g. -lcgreen)
 
 unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
 
@@ -39,7 +42,7 @@ clean:
 
 
 #######################################################################
-ARCH	= `echo $(COMPILEFLAGS)`
+ARCH	= `echo $(COMPILEFLAGS) $(PLATFORM)`
 .PHONY: checkTarget
 checkTarget:
 	-@if test -f .arch; then :; else echo "none" > .arch; fi

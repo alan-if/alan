@@ -2,22 +2,17 @@
 # This Makefile is for building the Alan Interpreter from scratch
 # It only works on ThoNi's machines, which are Windows machines
 # It is included from Makefile if run on ThoNi's machine
-# TODO: needs to extract common things to rules.mk like for compiler
 #######################################################################
 
-VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
-
-GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
-
+CGREEN = yes
+CGREENINCLUDE = -I/usr/local/include
+CGREENLIB = /usr/local/lib/libcgreen.a
 
 # On cygwin we try to build without cygwin1.dll if we can
 # Variants can unset this if they need to
 PLATFORM = -mno-cygwin
 
-OPTIMIZE = -ggdb
-
-#Settings for memory debugging which is used unless building RELEASE
-SMARTALLOC = -DSMARTALLOC
+unittests: PLATFORM =
 
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(SMARTALLOC) -funsigned-char
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
@@ -29,13 +24,23 @@ CC = gcc
 LINKFLAGS = $(PLATFORM)
 LINK = gcc
 
+#######################################################################
+#
+# Some optional settings
+#
+
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
+#OPTIMIZE = -ggdb
+
+#Settings for memory debugging which is used unless building RELEASE
+#SMARTALLOC = -DSMARTALLOC
 
 
-# Include common source lists 
-include sources.mk
+VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
+
+GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
 
 .PHONY:all
 all: build test 
@@ -62,17 +67,11 @@ release: OPTIMIZE=-O4
 .PHONY: release
 release: all
 
-Makefile:
-	ln -s Makefile.thoni Makefile
-
 
 #######################################################################
 # Settings for Standard Arun
-#arun: PLATFORM = # we build with cygwin.dll until the unit tests can be built without them
+arun: PLATFORM = # we build with cygwin.dll until the unit tests can be built without it
 
-arun: checkTarget $(ARUNOBJECTS) dependencies.mk
-	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
-	cp $@ ../bin/arun.exe
 
 #######################################################################
 # Settings for Windows GLK variant
@@ -126,37 +125,6 @@ gararun: checkTarget $(GARARUNOBJECTS) arun.res
 	cp $@ ../bin
 
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# CGreen unit tests
-#
-CGREENROOT = ../cgreen
-CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = $(CGREENROOT)
-unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
-unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
-unittests: LIBS = $(CGREENLIB)/libcgreen.a
-
-unittests: checkTarget $(UNITTESTSOBJECTS) $(LIBS)
-	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
-
-.PHONY: unit
-unit:
-	-@if test -d $(CGREENROOT) ; then \
-		$(MAKE) unittests ; \
-		./unittests ; \
-	else \
-		echo "No unit tests run, cgreen not available" ; \
-	fi
-
-#+++++++++++++++++++++++++++++++++
-#
-# Run all tests!
-# No tests except unit tests are available
-#
-test: unit
-
-
 #######################################################################
 #
 # Misc programs:
@@ -181,5 +149,3 @@ about: about.c arun.res
 # Test program to generate a header of a particular version
 #
 headerGenerator: headerGenerator.c
-
-include dependencies.mk

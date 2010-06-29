@@ -8,7 +8,7 @@
 # REMEMBER: You have to set both the Path to include the ToolMaker
 # directory and the TMHOME environment variable to point there!
 
-TMHOME	= /c/Program/ToolMaker
+TMHOME	= /home/projects/ToolMaker
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 EXTRAS = \
@@ -23,8 +23,9 @@ TMSRCS = \
 	smScanx.c smScSema.c\
 	lmList.c alanCommon.h
 
-all : x tm smScanx.c sysdep.h sysdep.c version.h alan.atg
+all : x tm smScanx.c sysdep.h sysdep.c version.h alan.atg alan.g
 
+.PHONY: x
 x :
 	@echo TMLIB=$(TMLIB)
 
@@ -48,6 +49,10 @@ alan.prod : prod.sed alan.pml
 alan.atg : coco.sed coco.header alan.prod
 	cp coco.header alan.atg
 	sed -f coco.sed alan.prod >> alan.atg
+
+alan.g : antlr.sed antlr.header alan.prod
+	cp antlr.header alan.g
+	sed -f antlr.sed alan.prod >> alan.g
 
 .smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan -generate tables

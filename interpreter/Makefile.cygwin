@@ -19,8 +19,9 @@ LINKFLAGS = $(PLATFORM)
 LINK = gcc
 
 # Cgreen unit testing settings
-CGREENROOT = ../cgreen
+CGREEN = yes
+CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = $(CGREENROOT)
+CGREENLIB = $(CGREENROOT)/lib/libcgreen.a
 
 unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
