@@ -1,4 +1,7 @@
-# Makefile for Alan interpreter to be built with on Darwin
+####################################################################
+# This file is included from Makefile. It includes special settings
+# to build Alan Interpreter(s) on Darwin. Common rules are in
+# rules.mk
 
 # -- Glk definitions. Uncomment some of these to enable Glk.
 #GLKPREFIX = /usr/local
@@ -10,12 +13,6 @@
 #GLKLIB = $(GLKPREFIX)/Glk.lib
 #GLKSRCS = glkstart.c glkio.c winglk.c
 
-
-# -- Where do you want to put it?
-#
-INSTALLDIR = /usr/local/bin
-
-###  Do not edit below this line  ### 
 
 TARGET = arun
 
@@ -31,56 +28,15 @@ CFLAGS = $(COMPILEFLAGS) -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
 LINK = gcc
 LINKFLAGS = -g $(ARUNOPTS) $(OSDEFS)
 LIBS = $(GLKLIB) $(LINKLIBS)
-
-INSTALL = install
-INSTFLAGS = -g 0 -o 0 -s
+CGREENLIBS = -lcgreen
 
 #--------------------------------------------------------------------
-# Include common source list
-include sources.mk
+# Extra targets on Darwin (maybe later...)
 
+#glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
+#	$(LINK) -o $@ $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)
+#	cp $@ ../bin
 
-#--------------------------------------------------------------------
-# Main targets
-all: $(TARGET)
-
-arun : unit $(ARUNOBJECTS)
-	$(LINK) -o $@ $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
-	cp $@ ../bin
-
-glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
-	$(LINK) -o $@ $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)
-	cp $@ ../bin
-
-termarun : $(TERMARUNOBJECTS)
-	$(LINK) -o $@ $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
-	cp $@ ../bin
-
-dumpacd: dumpacd.o reverse.o spa.o
-	$(LINK) -o $@ $(LDFLAGS) dumpacd.o reverse.o spa.o
-	cp $@ ../bin
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# CGreen unit tests
-#
-CGREENROOT = /usr/local/include/cgreen
-unittests: LIBS = -lcgreen
-
-unittests: $(UNITTESTSOBJECTS) $(LIBS)
-	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
-
-.PHONY: unit
-unit:
-	-@if test -d $(CGREENROOT) ; then \
-		$(MAKE) unittests ; \
-		./unittests ; \
-	fi
-
-#---<< Glk objects >>---
-glkstart.o: glkstart.c glkstart.h glkio.h
-glkio.o: glkio.c glkio.h
-
-#---<< GENERATED DEPENDENCIES FOLLOWS >>---
-include dependencies.mk
-
+#termarun : $(TERMARUNOBJECTS)
+#	$(LINK) -o $@ $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+#	cp $@ ../bin

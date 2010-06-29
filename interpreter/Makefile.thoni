@@ -1,8 +1,8 @@
 #######################################################################
 # This Makefile is for building the Alan Interpreter from scratch
-# It only works on ThoNi's machines, which are Windows machinges
-# If you are porting try starting from one of the other Makefiles,
-# e.g. Makefile.unix. Copy it to Makefile and go from there
+# It only works on ThoNi's machines, which are Windows machines
+# It is included from Makefile if run on ThoNi's machine
+# TODO: needs to extract common things to rules.mk like for compiler
 #######################################################################
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`

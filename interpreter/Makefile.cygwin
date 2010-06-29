@@ -1,0 +1,26 @@
+#######################################################################
+# This Makefile is for building the Alan Interpreter from scratch
+# It only works on ThoNi's machines, which are Windows machines
+# It is included from Makefile if run on ThoNi's machine
+# TODO: needs to extract common things to rules.mk like for compiler
+#######################################################################
+
+# On cygwin we try to build without cygwin1.dll if we can
+PLATFORM = -mno-cygwin
+
+COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(SMARTALLOC) -funsigned-char
+COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
+WARNINGFLAGS = -Wall
+
+CFLAGS	= $(COMPILEFLAGS) $(WARNINGFLAGS)
+CC = gcc
+
+LINKFLAGS = $(PLATFORM)
+LINK = gcc
+
+# Cgreen unit testing settings
+CGREENROOT = ../cgreen
+CGREENINCLUDE = -I$(CGREENROOT)/include
+CGREENLIB = $(CGREENROOT)
+
+unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet

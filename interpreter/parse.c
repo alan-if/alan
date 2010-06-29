@@ -376,6 +376,16 @@ static void updateWithReferences(Parameter result[], int wordIndex, Aint *(*refe
 }
 
 
+static void filterOutNonReachable(Parameter filteredCandidates[]) {
+    int i;
+    for (i = 0; !isEndOfList(&filteredCandidates[i]); i++)
+        if (!reachable(filteredCandidates[i].instance))
+            filteredCandidates[i].instance = 0;
+    compressParameterList(filteredCandidates);
+}
+
+
+
 /*
  * Disambiguation is hard: there are a couple of different cases that
  * we want to handle: Omnipotent parameter position, multiple present
@@ -387,19 +397,19 @@ static void updateWithReferences(Parameter result[], int wordIndex, Aint *(*refe
  *
  * p, n, omni,	result,			why?
  * -----------------------------------------------------------------
- * 0, 0, no,	errorNoSuch()
- * 0, 1, no,	errorNoSuch()
- * 0, m, no,	errorNoSuch()
+ * 0, 0, no,	errorNoSuch(w)
+ * 0, 1, no,	errorNoSuch(w)
+ * 0, m, no,	errorNoSuch(w)
  * 1, 0, no,	ok(p)
  * 1, 1, no,	ok(p)
  * 1, m, no,	ok(p)
  * m, 0, no,	errorWhichOne(p)
  * m, 1, no,	errorWhichOne(p)	only present objects should be revealed
  * m, m, no,	errorWhichOne(p)	d:o
- * 0, 0, yes,	errorNoSuch()
+
+ * 0, 0, yes,	errorNoSuch(w)
  * 0, 1, yes,	ok(n)
- * 0, m, yes,	errorWhichOne(n)	already looking "beyond" presence, although
- *					might reveal undiscovered distant objects
+ * 0, m, yes,	errorWhichOne(n)	already looking "beyond" presence, might reveal undiscovered distant objects
  * 1, 0, yes,	ok(p)
  * 1, 1, yes,	ok(p)			present objects have priority
  * 1, m, yes,	ok(p)			present objects have priority
@@ -415,16 +425,12 @@ static void disambiguateParameter(Parameter candidates[]) {
 
     /* If there is one present, let's go for that */
 
-    int i;
     static Parameter *filteredCandidates = NULL;
     filteredCandidates = ensureParameterArrayAllocated(filteredCandidates, MAXPARAMS);
 
     copyParameterList(filteredCandidates, candidates);
 
-    for (i = 0; !isEndOfList(&filteredCandidates[i]); i++)
-        if (!reachable(filteredCandidates[i].instance))
-            filteredCandidates[i].instance = 0;
-    compressParameterList(filteredCandidates);
+    filterOutNonReachable(filteredCandidates);
 
     if (lengthOfParameterList(filteredCandidates) == 1)
         // Found a single one so we use that
@@ -471,7 +477,7 @@ static void disambiguateCandidatesForPosition(ParameterPosition parameterPositio
 
 
 /*----------------------------------------------------------------------*/
-static void transformAdjectivesAndNounToSingleInstance(Parameter parameterCandidates[]) {
+static void transformAdjectivesAndNounToSingleInstance(Parameter candidates[]) {
     Parameter savedParameters[MAXPARAMS+1]; /* Saved list for backup at EOF */
 
     int firstWord, lastWord;
@@ -484,15 +490,15 @@ static void transformAdjectivesAndNounToSingleInstance(Parameter parameterCandid
     while (anotherAdjective(wordIndex)) {
         if (lastPossibleNoun(wordIndex))
             break;
-        copyParameterList(savedParameters, parameterCandidates); /* To save it for backtracking */
-        updateWithReferences(parameterCandidates, wordIndex, adjectiveReferencesForWord);
+        copyParameterList(savedParameters, candidates); /* To save it for backtracking */
+        updateWithReferences(candidates, wordIndex, adjectiveReferencesForWord);
         adjectiveOrNounFound = TRUE;
         wordIndex++;
     }
 
     if (!endOfWords(wordIndex)) {
         if (isNounWord(wordIndex)) {
-            updateWithReferences(parameterCandidates, wordIndex, nounReferencesForWord);
+            updateWithReferences(candidates, wordIndex, nounReferencesForWord);
             adjectiveOrNounFound = TRUE;
             wordIndex++;
         } else
@@ -503,23 +509,23 @@ static void transformAdjectivesAndNounToSingleInstance(Parameter parameterCandid
             // TODO When does this get executed?
             // Maybe if conjunctions can be nouns?
             printf("DEBUG:When does this get executed?");
-            copyParameterList(parameterCandidates, savedParameters); /* Restore to before last adjective */
+            copyParameterList(candidates, savedParameters); /* Restore to before last adjective */
             copyReferencesToParameterList(nounReferencesForWord(wordIndex-1), references);
-            if (isEndOfList(&parameterCandidates[0]))
-                copyParameterList(parameterCandidates, references);
+            if (isEndOfList(&candidates[0]))
+                copyParameterList(candidates, references);
             else
-                intersectParameterLists(parameterCandidates, references);
+                intersectParameterLists(candidates, references);
         } else
             error(M_NOUN);
     }
     lastWord = wordIndex - 1;
 
-    if (lengthOfParameterList(parameterCandidates) > 1)
-        disambiguateParameter(parameterCandidates);
+    if (lengthOfParameterList(candidates) > 1)
+        disambiguateParameter(candidates);
 
-    if (lengthOfParameterList(parameterCandidates) > 1)
-        errorWhichOne(parameterCandidates);
-    else if (adjectiveOrNounFound && lengthOfParameterList(parameterCandidates) == 0) {
+    if (lengthOfParameterList(candidates) > 1)
+        errorWhichOne(candidates);
+    else if (adjectiveOrNounFound && lengthOfParameterList(candidates) == 0) {
         Parameter parameter;
         parameter.instance = 0; /* Just make it anything != EOF */
         parameter.firstWord = firstWord;
@@ -527,8 +533,8 @@ static void transformAdjectivesAndNounToSingleInstance(Parameter parameterCandid
         errorNoSuch(parameter);
     }
 
-    parameterCandidates[0].firstWord = firstWord;
-    parameterCandidates[0].lastWord = lastWord;
+    candidates[0].firstWord = firstWord;
+    candidates[0].lastWord = lastWord;
 
 }
 
@@ -943,7 +949,7 @@ static void checkNonRestrictedParameters(ParameterPosition parameterPositions[])
 
 
 /*----------------------------------------------------------------------*/
-static void restrictParameters(ParameterPosition parameterPositions[], ElementEntry *elms) {
+static void restrictParametersAccordingToSyntax(ParameterPosition parameterPositions[], ElementEntry *elms) {
     uncheckAllParameterPositions(parameterPositions);
     checkRestrictedParameters(parameterPositions, elms);
     checkNonRestrictedParameters(parameterPositions);
@@ -1015,7 +1021,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     // TODO This is much too long, try to refactor out some functions
     ElementEntry *element;         /* Pointer to element list */
     SyntaxEntry *stx;           /* Pointer to syntax parse list */
-    int parameterCount;
+    int position;
 
     /*
      * TODO This code, and much of the above, should be refactored to
@@ -1043,12 +1049,12 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      */
     current.verb = remapParameterOrder(element->flags, parameterPositions);
 
-    /* TODO Work In Progress! Match parameters to instances... */
-    for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-	matchParameters(parameterPositions[parameterCount].candidates, instanceMatcher);
+    /* TODO Work In Progress! Match parameters to instances candidates... */
+    for (position = 0; !parameterPositions[position].endOfList; position++)
+	matchParameters(parameterPositions[position].candidates, instanceMatcher);
 
     /* Now perform restriction checks */
-    restrictParameters(parameterPositions, element);
+    restrictParametersAccordingToSyntax(parameterPositions, element);
 
     // TODO Here we should ensure that parameterPositions[].instance is set to candidates[0] if there was only a single one left
 
