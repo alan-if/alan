@@ -4,25 +4,8 @@
 # It is included from Makefile if run on ThoNi's machine
 #######################################################################
 
-CGREEN = yes
-CGREENINCLUDE = -I/usr/local/include
-CGREENLIB = /usr/local/lib/libcgreen.a
-
-# On cygwin we try to build without cygwin1.dll if we can
-# Variants can unset this if they need to
-PLATFORM = -mno-cygwin
-
-unittests: PLATFORM =
-
-COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(SMARTALLOC) -funsigned-char
-COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
-WARNINGFLAGS = -Wall
-
-CFLAGS	= $(COMPILEFLAGS) $(WARNINGFLAGS)
-CC = gcc
-
-LINKFLAGS = $(PLATFORM)
-LINK = gcc
+# We know we are on cygwin
+include Makefile.cygwin
 
 #######################################################################
 #
@@ -42,13 +25,9 @@ VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
 
-
-#################################################################
-# the default build is unittests and standard command line arun
-.PHONY: default
-default:
-	$(MAKE) unit
-	$(MAKE) arun
+###############################################################
+.PHONY: all
+all : build
 
 ###############################################################
 # 'build' is the target the continuous integration will use
@@ -59,7 +38,6 @@ build:
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
 #	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" gararun
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" dumpacd
-
 
 
 #######################################################################

@@ -751,6 +751,7 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
     if (lengthOfParameterList(parameterPosition->parameters) == 0) /* No object!? */
         error(M_WHAT);
     
+    /* TODO This should not be done here, it should be posponed to the disambiguation phase */
     if (!hasBit(flags, OMNIBIT))
         /* If its not an omnipotent parameter, resolve by presence */
         if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
@@ -822,6 +823,7 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
 
         /* Or an instance reference ? */
         if (isInstanceReferenceWord(wordIndex)) {
+            /* If so, save word info for this parameterPosition */
             nextElement = elementForParameter(currentElement);
             if (nextElement != NULL) {
                 parseParameterPosition(&parameterPositions[parameterCount], nextElement->flags, parseComplexReferences);
@@ -983,14 +985,14 @@ static void instanceMatcher(Parameter parameter) {
 
 
 /*----------------------------------------------------------------------*/
-static void matchParameters(Parameter parameters[], void (*matcher)(Parameter parameter)) 
+static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Parameter parameter)) 
 {
     int i;
      
     for (i = 0; i < lengthOfParameterList(parameters); i++) {
 	if (parameters[i].candidates == NULL)
 	    parameters[i].candidates = allocateParameterArray(MAXENTITY);
-	matcher(parameters[i]);
+	instanceMatcher(parameters[i]);
     }
 }
 
@@ -1049,7 +1051,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      */
     current.verb = remapParameterOrder(element->flags, parameterPositions);
 
-    /* TODO Work In Progress! Match parameters to instances candidates... */
+    /* TODO Work In Progress! Match parameters to instances ... */
     for (position = 0; !parameterPositions[position].endOfList; position++)
 	matchParameters(parameterPositions[position].parameters, instanceMatcher);
 
@@ -1098,7 +1100,7 @@ static void parseOneCommand(Parameter parameters[], Parameter multipleParameters
 }
 
 /*======================================================================*/
-void initParse(void) {
+void initParsing(void) {
     int dictionaryIndex;
     int pronounIndex = 0;
 	

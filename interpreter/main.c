@@ -636,7 +636,7 @@ static void init(void)
     eventQueueTop = 0;			/* No pending events */
     initStaticData();
     initDynamicData();
-    initParse();
+    initParsing();
     checkDebug();
 	
     getPageSize();
