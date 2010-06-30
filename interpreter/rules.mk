@@ -8,7 +8,7 @@
 #######################################################################
 # Standard console Arun
 
-arun: unit checkTarget $(ARUNOBJECTS) dependencies.mk
+arun: checkTarget $(ARUNOBJECTS) dependencies.mk
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin/
 

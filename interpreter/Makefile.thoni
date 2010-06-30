@@ -43,6 +43,13 @@ VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
 
 
+#################################################################
+# the default build is unittests and standard command line arun
+.PHONY: default
+default:
+	$(MAKE) unit
+	$(MAKE) arun
+
 ###############################################################
 # 'build' is the target the continuous integration will use
 .PHONY: build
@@ -63,11 +70,6 @@ release: OPTIMIZE=-O4
 
 .PHONY: release
 release: all
-
-
-#######################################################################
-# Settings for Standard Arun
-arun: PLATFORM = # we build with cygwin.dll until the unit tests can be built without it
 
 
 #######################################################################
