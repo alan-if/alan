@@ -25,7 +25,7 @@ extern int conjWord;        /* First conjunction in dictionary */
 /* FUNCTIONS */
 extern Bool isVerbWord(int wordIndex);
 extern Bool isConjunctionWord(int wordIndex);
-extern Bool isButWord(int wordIndex);
+extern Bool isExceptWord(int wordIndex);
 extern Bool isThemWord(int wordIndex);
 extern Bool isItWord(int wordIndex);
 extern Bool isNounWord(int wordIndex);

@@ -33,6 +33,13 @@ CGREENROOT = /usr/local
 CGREENDIR = $(CGREENROOT)/include/cgreen
 CGREENLIB = -lcgreen
 
+###################################################################
+#
+# Default target on Darwin
+# 
+.PHONY: default
+default: unit arun
+
 #--------------------------------------------------------------------
 # Extra targets on Darwin (maybe later...)
 

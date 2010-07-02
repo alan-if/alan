@@ -45,7 +45,7 @@ static char *token = NULL;
 
 /*======================================================================*/
 void forceNewPlayerInput() {
-    setEndOfList(&playerWords[wordIndex]);
+    setEndOfList(&playerWords[currentWordIndex]);
 }
 
 

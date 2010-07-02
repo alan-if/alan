@@ -24,7 +24,7 @@ typedef struct WordEntry {
 /* DATA */
 
 extern Word *playerWords;	/* List of Parsed Word */
-extern int wordIndex;		/* and an index into it */
+extern int currentWordIndex;		/* and an index into it */
 extern int firstWord;
 extern int lastWord;
 

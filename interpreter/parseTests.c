@@ -61,7 +61,7 @@ static void setUp(void) {
 static void given_EndOfPlayerWords(void) {
     ensureSpaceForPlayerWords(0);
     playerWords[0].code = EOF;
-    wordIndex = 0;
+    currentWordIndex = 0;
 }
 
 
@@ -312,7 +312,7 @@ static Aint *mockedReferenceFinder(int wordIndex) {
 }
 
 static void givenPlayerWordsForANoun(int firstWordIndex) {
-    wordIndex = firstWordIndex;
+    currentWordIndex = firstWordIndex;
     ensureSpaceForPlayerWords(firstWordIndex);
     playerWords[firstWordIndex].code = ADJECTIVE1_DICTIONARY_INDEX;
 }
@@ -330,7 +330,7 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
  
     givenPlayerWordsForANoun(theExpectedWordIndex);
 
-    expect(mockedReferenceFinder, want(wordIndex, theExpectedWordIndex));
+    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedWordIndex));
     will_return(mockedReferenceFinder, theExpectedInstance);
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
@@ -342,7 +342,7 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
 
 
 static void givenPlayerWordsWithTwoAdjectivesAndANoun(int firstWordIndex) {
-    wordIndex = firstWordIndex;
+    currentWordIndex = firstWordIndex;
     ensureSpaceForPlayerWords(firstWordIndex+2);
     playerWords[firstWordIndex].code = ADJECTIVE1_DICTIONARY_INDEX;
     playerWords[firstWordIndex+1].code = ADJECTIVE2_DICTIONARY_INDEX;
@@ -371,9 +371,9 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     
     givenADictionaryWithTwoAdjectivesAndANoun();
 
-    expect(mockedReferenceFinder, want(wordIndex, theExpectedFirstAdjectiveWordIndex));
+    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedFirstAdjectiveWordIndex));
     will_return(mockedReferenceFinder, firstAdjectiveInstances);
-    expect(mockedReferenceFinder, want(wordIndex, theExpectedNounWordIndex));
+    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedNounWordIndex));
     will_return(mockedReferenceFinder, theNounInstances);
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
@@ -402,11 +402,11 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
 
     givenADictionaryWithTwoAdjectivesAndANoun();
 
-    expect(mockedReferenceFinder, want(wordIndex, theExpectedFirstAdjectiveWordIndex));
+    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedFirstAdjectiveWordIndex));
     will_return(mockedReferenceFinder, firstAdjectiveInstances);
-    expect(mockedReferenceFinder, want(wordIndex, theExpectedSecondAdjectiveWordIndex));
+    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedSecondAdjectiveWordIndex));
     will_return(mockedReferenceFinder, secondAdjectiveInstances);
-    expect(mockedReferenceFinder, want(wordIndex, theExpectedNounWordIndex));
+    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedNounWordIndex));
     will_return(mockedReferenceFinder, theNounInstances);
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
@@ -446,7 +446,7 @@ static void givenAPlayerWordOtherThanAll() {
     ensureSpaceForPlayerWords(1);
     playerWords[0].code = 1;    /* Should not be "All" */
     playerWords[1].code = EOF;
-    wordIndex = 0;
+    currentWordIndex = 0;
 }
 
 
@@ -473,7 +473,7 @@ static void givenPlayerInputReferencingAll(void) {
     ensureSpaceForPlayerWords(1);
     playerWords[0].code = ALL_DICTIONARY_INDEX;    /* Should be "All" */
     playerWords[1].code = EOF;
-    wordIndex = 0;
+    currentWordIndex = 0;
 }
 
 

@@ -30,9 +30,9 @@ unittests: checkTarget $(UNITTESTSOBJECTS) $(LIBS)
 unit:
 	-@if test -d $(CGREENDIR) ; then \
 		$(MAKE) unittests ; \
-		echo -e "\n\t\t\tUnit Tests\n" ; \
+		echo "\n\n\t\t\tUnit Tests\n" ; \
 		./unittests ; \
-		echo -e "\n" ; \
+		echo "\n"; \
 	else \
 		echo "No unit tests run, cgreen not available" ; \
 	fi

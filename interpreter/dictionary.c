@@ -34,12 +34,12 @@ Bool isConjunctionWord(int wordIndex) {
     return isConjunction(playerWords[wordIndex].code);
 }
 
-static Bool isBut(int wordCode) {
+static Bool isExcept(int wordCode) {
   return wordCode < dictionarySize && (dictionary[wordCode].classBits&EXCEPT_BIT)!=0;
 }
 
-Bool isButWord(int wordIndex) {
-    return isBut(playerWords[wordIndex].code);
+Bool isExceptWord(int wordIndex) {
+    return isExcept(playerWords[wordIndex].code);
 }
 
 static Bool isThem(int wordCode) {
