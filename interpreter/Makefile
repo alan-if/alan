@@ -5,8 +5,6 @@
 # compile and link commands
 #
 
-vpath %.[ch] ..
-
 # Include list of all sources
 include sources.mk
 

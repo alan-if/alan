@@ -12,7 +12,7 @@ build: alanlib
 .PHONY:
 alanlib: version
 	@-rm *.tgz *.zip *.tar.Z
-	@tar zcvf alanlib$(VERSION).tar.Z *.i ReadMe index.txt
+	@tar zcvf alanlib$(VERSION).tgz *.i ReadMe index.txt
 	@zip alanlib$(VERSION).zip *.i ReadMe index.txt
 
 .PHONY: version

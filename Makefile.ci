@@ -9,7 +9,7 @@
 
 VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 BUILD = `cat BUILD_NUMBER`
-DISTDIR	= ~/Utveckling/Alan/alanweb/uploads/download
+DISTDIR	= ~/Utveckling/Alan/alanweb/downloads/Snapshots
 
 .PHONY: all
 all:
@@ -39,6 +39,7 @@ test:
 
 .PHONY: distribution
 distribution: zip setup lib
+        rm $(DISTDIR)/*win32.x86*
 	cp alan$(VERSION)-$(BUILD).win32.x86.zip $(DISTDIR)
 	cp alan$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
 	cp winarun$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)

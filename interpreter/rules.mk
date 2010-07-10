@@ -21,18 +21,21 @@ arun: checkTarget $(ARUNOBJECTS) dependencies.mk
 #	CGREENINCLUDE so that cgreen/cgreen.h works if needed
 #	CGREENLIB to something to link with (e.g. -lcgreen)
 
-unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
-
-unittests: checkTarget $(UNITTESTSOBJECTS) $(LIBS)
+unittests: CFLAGS := $(COMPILEFLAGS) $(CGREENINCLUDE)
+unittests: checkTarget $(UNITTESTSOBJECTS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(CGREENLIB)
 
 .PHONY: unit
 unit:
+	echo OBJDIR='$(OBJDIR)'
 	-@if test -d $(CGREENDIR) ; then \
 		$(MAKE) unittests ; \
-		echo "\n\n\t\t\tUnit Tests\n" ; \
+		echo ; \
+		echo "        Unit Tests" ; \
+		echo ; \
 		./unittests ; \
-		echo "\n"; \
+		echo ; \
+		echo ; \
 	else \
 		echo "No unit tests run, cgreen not available" ; \
 	fi
