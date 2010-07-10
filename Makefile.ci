@@ -9,7 +9,7 @@
 
 VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 BUILD = `cat BUILD_NUMBER`
-DISTDIR	= ~/Utveckling/Alan/alanweb/downloads/Snapshots
+DISTDIR	= ~/Utveckling/Alan/alanweb/downloads/
 
 .PHONY: all
 all:
@@ -39,11 +39,12 @@ test:
 
 .PHONY: distribution
 distribution: zip setup lib
-        rm $(DISTDIR)/*win32.x86*
-	cp alan$(VERSION)-$(BUILD).win32.x86.zip $(DISTDIR)
-	cp alan$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
-	cp winarun$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)
-	cp doc/manual/manual.pdf $(DISTDIR)
+	rm $(DISTDIR)/*win32.x86*
+	cp alan$(VERSION)-$(BUILD).win32.x86.zip $(DISTDIR)/Snapshots
+	cp alan$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)/Snapshots
+	cp winarun$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)/Snapshots
+	cp doc/manual/manual.pdf $(DISTDIR)/Documentation
+	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
 
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip games/adventv3/adventV3.a3c regression/saviour.alan
