@@ -1,6 +1,9 @@
-Alan Library
-------------
+Proposed Alan Library v0.6.something
+------------------------------------
 
+---------------------------------
+About this version of the library
+---------------------------------
 The files in this distribution constitutes a development version of an
 Alan v3 standard library. As Alan v3 is still in development stages
 this is work in progress and use is on your own risk. The basis for
@@ -15,6 +18,17 @@ The actual library files (the files with a filename extension of ".i")
 are added to the source code of your game by importing the main
 file called std.i -- see the text file 'notes.txt' for details.
 
+The library is only meant as a help to get started. It is not actually
+a library, but a set of file with definitions that you might arrive at
+after writing a number of games. So it is suggested that you do not try
+to maintain a single copy, but instead have one copy per game. In that
+way you are free to tweak and improve the library, not just by adding
+to it, but also to change what is in it, and how it works.
+
+
+-------------------------------------
+About the abandonded version markings
+-------------------------------------
 The second line of each library file lists the previous library
 versions with which it is completely compatible.
 
@@ -36,16 +50,17 @@ of one single "the" in a message might seem trivial but might change
 the appearance of the message if the author had made allowance for
 this deficency in his work.
 
-----
 
-You can find an index of sorts in the file 'index.txt'.
+------------------------
+About how to find things
+------------------------
+You can find an index of sorts in the file 'index.txt'. Additional
+notes and tips about using std.i are in the file 'notes.txt'.
 
-Additional notes and tips about using std.i are in the file 'notes.txt'.
 
-----
-
-About the structure of the library
-
+-----------------------------------------------------
+About the structure of the library (partly out-dated)
+-----------------------------------------------------
 The library consists of a set of files each focusing on one aspect of
 player commands or actions. One such file should contain everything
 that is necessary to use the Alan definitions.
@@ -103,7 +118,7 @@ forms etc. by Thomas Nilsson.
 
 Visit the Alan Home Pages at
 
-	http://welcome.to/alan-if
+	http://www.alanif.se
 
 
 Steve's comments:
