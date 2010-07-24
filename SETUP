@@ -1,0 +1,26 @@
+Here are some quick reminders on how to set up for Alan development.
+
+Cygwin:
+        - install cygwin (add xemacs, flex, cvs, cmake, gcc, mingw-runtime, gdb, make)
+
+        - Xemacs: current xemacs does not seem to have been configured
+          with the packages I wanted and it didn't support configuring
+          the packages the way it was described in the manual so I
+          needed to copy the two mule-packages and emacs-packages from
+          a packaged based installation that works (I have forgotten
+          where...)
+
+        - AnsiCon: I installed AnsiCon 1.24 which is a consol add on
+          to make the XP and later consol show ansi coloring (nice
+          when running jregr)
+
+        - CGreen: To run unit tests you also need Cgreen download it
+          somewhere, create a subdirectory 'build', cd there, type
+          'ccmake ..'. This configures the cgreen make files for your
+          environment. Find the static library option and turn it
+          on. Type 'c' then 'g' and exit. Back at the command prompt
+          type 'make', 'make install' and you should be done.
+
+        - Xref: to refactor C code in emacs I use the free c/Java
+          version from xref-tech. Download it, build and install it
+          according to the instructions there in.

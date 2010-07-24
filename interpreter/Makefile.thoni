@@ -61,8 +61,17 @@ winarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(WINGLKINCLUDE) $(WINGLKDEFS)
 winarun: PLATFORM = -mno-cygwin 
 winarun: LIBS = $(WINGLKLIB) -mwindows
 
-winarun: checkTarget $(WINARUNOBJECTS)
-	$(LINK) -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+WINARUNOBJDIR = .winarun
+WINARUNOBJECTS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.o})
+-include $(WINARUNOBJECTS:.o=.d)
+$(WINARUNOBJECTS): $(WINARUNOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(WINARUNOBJDIR):
+	@mkdir $(WINARUNOBJDIR)
+
+winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
+	$(LINK) -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) arun.res $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin
 
 arun.res: arun.rc arun.ico resources.h alan.version.c
@@ -82,8 +91,17 @@ glkarun: PLATFORM = # Cannot be build with -mno-cygwin since glkterm cannot be b
 glkarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(TERMGLKINCLUDE) $(TERMGLKDEFS)
 glkarun: LIBS = $(TERMGLKLIB)
 
-glkarun: checkTarget $(TERMARUNOBJECTS) arun.res
-	$(LINK) -o $@ $(OPTIMIZE) $(TERMARUNOBJECTS) arun.res $(LINKFLAGS) $(LIBS)
+GLKARUNOBJDIR = .glkarun
+GLKARUNOBJECTS = $(addprefix $(GLKARUNOBJDIR)/,${GLKARUNSRCS:.c=.o})
+-include $(GLKARUNOBJECTS:.o=.d)
+$(GLKARUNOBJECTS): $(GLKARUNOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(GLKARUNOBJDIR):
+	@mkdir $(GLKARUNOBJDIR)
+
+glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS) arun.res
+	$(LINK) -o $@ $(OPTIMIZE) $(GLKARUNOBJECTS) arun.res $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin
 
 
@@ -97,7 +115,16 @@ GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglk -lgarglkmain
 gararun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(GARGLKINCLUDE) $(GARGLKDEFS)
 gararun: LIBS = $(GARGLKLIB)
 
-gararun: checkTarget $(GARARUNOBJECTS) arun.res
+GARARUNOBJDIR = .gararun
+GARARUNOBJECTS = $(addprefix $(GARARUNOBJDIR)/,${GARARUNSRCS:.c=.o})
+-include $(GARARUNOBJECTS:.o=.d)
+$(GARARUNOBJECTS): $(GARARUNOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(GARARUNOBJDIR):
+	@mkdir $(GARARUNOBJDIR)
+
+gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
 	$(LINK) -o $@ $(OPTIMIZE) $(GARARUNOBJECTS) arun.res $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin
 

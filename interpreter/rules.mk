@@ -4,30 +4,48 @@
 # specific to the host it is run on, set in such files as
 # Makefile.thoni, Makefile.cygwin, Makefile.Darwin, also included from
 # Makefile
+# This file will build a standard command line arun and all unittests
 
 #######################################################################
 # Standard console Arun
 
-arun: checkTarget $(ARUNOBJECTS) dependencies.mk
+ARUNOBJDIR = .arun
+ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o})
+-include $(ARUNOBJECTS:.o=.d)
+$(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(ARUNOBJDIR):
+	@mkdir $(ARUNOBJDIR)
+
+arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 	cp $@ ../bin/
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#######################################################################
 #
 # CGreen unit tests
 #
 # Define
-#	CGREEN to something to build with cgreen unit tests
-#	CGREENINCLUDE so that cgreen/cgreen.h works if needed
+#	CGREEN to something ("yes") to build with cgreen unit tests
+#	CGREENINCLUDE so that #include "cgreen/cgreen.h" works if needed
 #	CGREENLIB to something to link with (e.g. -lcgreen)
 
+UNITTESTSOBJDIR = .unittests
+UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o})
+-include $(UNITTESTSOBJECTS:.o=.d)
+$(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(UNITTESTSOBJDIR):
+	@mkdir $(UNITTESTSOBJDIR)
+
 unittests: CFLAGS := $(COMPILEFLAGS) $(CGREENINCLUDE)
-unittests: checkTarget $(UNITTESTSOBJECTS)
+unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(CGREENLIB)
 
 .PHONY: unit
 unit:
-	echo OBJDIR='$(OBJDIR)'
 	-@if test -d $(CGREENDIR) ; then \
 		$(MAKE) unittests ; \
 		echo ; \
@@ -85,23 +103,19 @@ version.h : ../version.h
 .PHONY: test
 test: unit
 
+# NB! We are moving towards using the gcc -MMD auto-dependency!!
+# So the manual depend target is getting obsolete
+# Automatically generate dependency rules 
+%.d : %.c 
+	$(CC) $(CCFLAGS) -MF"$@" -MG -MM -MP -MT"$@" -MT"$(<:.c=.o)" "$<" 
 
-###################################################################
-# Dependencies are generated only for command line case
-# Dependencies on libraries are only in the way for other cases,
-# so special dependencies that we need are set explicitly below
-#
-CPP	= gcc
-DEPENDFLAGS = -MM
-DEPENDINCLUDES = $(WINGLKINCLUDE) $(CGREENINCLUDE)
-depend:
-	@-for f in $(UNITTESTSSRCS) $(MAINSRCS) dumpacd.c reverse.c ; \
-	  do \
-	  $(CPP) $(DEPENDFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
-	done
-	mv dependencies.new dependencies.mk
+# -MF  write the generated dependency rule to a file 
+# -MG  assume missing headers will be generated and don't stop with an error 
+# -MM  generate dependency rule for prerequisite, skipping system headers 
+# -MP  add phony target for each header to prevent errors when header is missing 
+# -MT  add a target to the generated dependency 
 
-# Extra dependencies for WinGLK case
+# Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?
 readline.o : resources.h
 glkstart.o: glkstart.c args.h types.h sysdep.h acode.h main.h \
   glkstart.h glkio.h resources.h utils.h

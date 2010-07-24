@@ -6,7 +6,7 @@ AltInfoTests.o: AltInfoTests.c AltInfo.c AltInfo.h types.h sysdep.h \
 StateStackTests.o: StateStackTests.c StateStack.c StateStack.h types.h \
   sysdep.h acode.h syserr.h memory.h instance.h set.h event.h
 argsTests.o: argsTests.c args.c sysdep.h args.h types.h acode.h options.h \
-  memory.h utils.h unixargs.c
+  memory.h utils.h winargs.c
 actTests.o: actTests.c act.c act.h params.h types.h sysdep.h acode.h \
   AltInfo.h ParameterPosition.h output.h msg.h lists.h
 exeTests.o: exeTests.c exe.c exe.h sysdep.h acode.h types.h set.h lists.h \
@@ -103,7 +103,7 @@ AltInfo.o: AltInfo.c AltInfo.h types.h sysdep.h acode.h params.h \
 StateStack.o: StateStack.c StateStack.h types.h sysdep.h acode.h syserr.h \
   memory.h
 args.o: args.c sysdep.h args.h types.h acode.h options.h memory.h utils.h \
-  unixargs.c
+  winargs.c
 act.o: act.c act.h params.h types.h sysdep.h acode.h AltInfo.h \
   ParameterPosition.h output.h msg.h
 exe.o: exe.c exe.h sysdep.h acode.h types.h set.h lists.h state.h \

@@ -22,5 +22,3 @@ endif
 
 # Include common build rules
 include rules.mk
-# and all the dependencies
-include dependencies.mk

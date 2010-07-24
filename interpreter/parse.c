@@ -301,7 +301,7 @@ static Bool reachable(int instance) {
 }
 
 /*----------------------------------------------------------------------*/
-static void checkForPresence(Parameter parameters[]) {
+static void enforcePresence(Parameter parameters[]) {
     // TODO Similar to disambiguate*() but this does error()
     int i;
 	
@@ -376,6 +376,7 @@ static void updateWithReferences(Parameter result[], int wordIndex, Aint *(*refe
 }
 
 
+/*----------------------------------------------------------------------*/
 static void filterOutNonReachable(Parameter filteredCandidates[]) {
     int i;
     for (i = 0; !isEndOfList(&filteredCandidates[i]); i++)
@@ -420,9 +421,8 @@ static void filterOutNonReachable(Parameter filteredCandidates[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void disambiguateParameter(Parameter candidates[]) {
+static void disambiguateParameters(Parameter candidates[]) {
     /* There are more than one candidate, let's see if we can figure out a single one */
-
     /* If there is one present, let's go for that */
 
     static Parameter *filteredCandidates = NULL;
@@ -465,6 +465,7 @@ static void disambiguateCandidatesForPosition(ParameterPosition parameterPositio
             parameters[position] = candidates[i];
 	    // TODO This is not filled in or used anywhere yet
 	    parameterPositions[position].instance = candidates[i].instance;
+            // DISAMBIGUATION!!
             if (!reachable(candidates[i].instance) || !possible(current.verb, parameters, parameterPositions))
                 candidates[i].instance = 0; /* Then remove this candidate from list */
         }
@@ -477,7 +478,8 @@ static void disambiguateCandidatesForPosition(ParameterPosition parameterPositio
 
 
 /*----------------------------------------------------------------------*/
-static void transformAdjectivesAndNounToSingleParameter(Parameter candidates[]) {
+static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[], Parameter undisambiguatedParameters[]) {
+    // REFACTOR: for the purpose of refactoring the undisambiguatedParameters[] are used to return the parameters without disambiguating them first
     Parameter savedParameters[MAXPARAMS+1]; /* Saved list for backup at EOF */
 
     int firstWord, lastWord;
@@ -490,15 +492,15 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter candidates[]) 
     while (anotherAdjective(currentWordIndex)) {
         if (lastPossibleNoun(currentWordIndex))
             break;
-        copyParameterList(savedParameters, candidates); /* To save it for backtracking */
-        updateWithReferences(candidates, currentWordIndex, adjectiveReferencesForWord);
+        copyParameterList(savedParameters, parameters); /* To save it for backtracking */
+        updateWithReferences(parameters, currentWordIndex, adjectiveReferencesForWord);
         adjectiveOrNounFound = TRUE;
         currentWordIndex++;
     }
 
     if (!endOfWords(currentWordIndex)) {
         if (isNounWord(currentWordIndex)) {
-            updateWithReferences(candidates, currentWordIndex, nounReferencesForWord);
+            updateWithReferences(parameters, currentWordIndex, nounReferencesForWord);
             adjectiveOrNounFound = TRUE;
             currentWordIndex++;
         } else
@@ -508,38 +510,39 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter candidates[]) 
         if (isNounWord(currentWordIndex - 1)) {
             // TODO When does this get executed? Maybe if conjunctions can be nouns? Or nouns be adjectives?
             printf("DEBUG:When does this get executed?");
-            copyParameterList(candidates, savedParameters); /* Restore to before last adjective */
+            copyParameterList(parameters, savedParameters); /* Restore to before last adjective */
             copyReferencesToParameterList(nounReferencesForWord(currentWordIndex-1), references);
-            if (isEndOfList(&candidates[0]))
-                copyParameterList(candidates, references);
+            if (isEndOfList(&parameters[0]))
+                copyParameterList(parameters, references);
             else
-                intersectParameterLists(candidates, references);
+                intersectParameterLists(parameters, references);
         } else
             error(M_NOUN);
     }
     lastWord = currentWordIndex - 1;
 
-    if (lengthOfParameterList(candidates) > 1)
-        disambiguateParameter(candidates);
+    parameters[0].firstWord = firstWord;
+    parameters[0].lastWord = lastWord;
 
-    if (lengthOfParameterList(candidates) > 1)
-        errorWhichOne(candidates);
-    else if (adjectiveOrNounFound && lengthOfParameterList(candidates) == 0) {
+    copyParameterList(undisambiguatedParameters, parameters);
+    // DISAMBIGUATION!!!
+    if (lengthOfParameterList(parameters) > 1)
+        disambiguateParameters(parameters);
+    if (lengthOfParameterList(parameters) > 1)
+        errorWhichOne(parameters);
+    else if (adjectiveOrNounFound && lengthOfParameterList(parameters) == 0) {
         Parameter parameter;
         parameter.instance = 0; /* Just make it anything != EOF */
         parameter.firstWord = firstWord;
         parameter.lastWord = lastWord;
         errorNoSuch(parameter);
     }
-
-    candidates[0].firstWord = firstWord;
-    candidates[0].lastWord = lastWord;
-
 }
 
 
 /*----------------------------------------------------------------------*/
-static void parseReferences(Parameter parameters[]) {
+static void parseReferences(Parameter parameters[], Parameter undisambiguatedParameters[]) {
+    // REFACTOR: for the purpose of refactoring the undisambiguatedParameters[] are used to return the parameters without disambiguating them first
     clearParameterList(parameters);
 
     if (isLiteralWord(currentWordIndex)) {
@@ -549,7 +552,7 @@ static void parseReferences(Parameter parameters[]) {
         transformPronounIntoSingleParameter(parameters);
         currentWordIndex++;
     } else {
-        transformAdjectivesAndNounToSingleParameter(parameters);
+        transformAdjectivesAndNounToSingleParameter(parameters, undisambiguatedParameters);
     }
 }
 
@@ -607,7 +610,7 @@ static void simple(Parameter parameters[]) {
 					     (isPronounWord(currentWordIndex) && lengthOfParameterList(previousMultipleParameters) > 0))) {
 	    handleReferenceToPreviousMultipleParameters(parameters);
         } else {
-            parseReferences(parameters);
+            parseReferences(parameters, parameters);
             if (lengthOfParameterList(parameters) == 0) { /* Failed! */
                 // TODO this gets executed in case of "take all except", any other cases?
                 // printf("DEBUG: parseForCandidates() returned 0 candidates to simple()\n");
@@ -775,7 +778,7 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
     if (!hasBit(flags, OMNIBIT))
         /* If its not an omnipotent parameter, resolve by presence */
         if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
-            checkForPresence(parameterPosition->parameters);
+            enforcePresence(parameterPosition->parameters);
 
     if (parameterPosition->explicitMultiple && !multipleAllowed(flags))
 	error(M_MULTIPLE);
@@ -1081,7 +1084,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     /* Finally, if the player used ALL, try to find out what was applicable */
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
-	// TODO This should work on ParameterPositions instead
+        // DISAMBIGUATION!!!
         disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
         if (lengthOfParameterList(parameterPositions[multiplePosition].parameters) == 0)
             errorWhat(allWordIndex);
@@ -1095,7 +1098,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
         }
     }
 
-    // Now we can convert back to legacy parameter and multipleParameter format
+    // TODO: Now we need to convert back to legacy parameter and multipleParameter format
     convertPositionsToParameters(parameterPositions, parameters);
     markExplicitMultiple(parameterPositions, parameters);
     convertMultipleCandidatesToMultipleParameters(multipleParameters);
