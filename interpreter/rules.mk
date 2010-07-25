@@ -64,18 +64,6 @@ clean:
 	-rm *.o
 
 
-#######################################################################
-ARCH	= `echo $(COMPILEFLAGS) $(PLATFORM)`
-.PHONY: checkTarget
-checkTarget:
-	-@if test -f .arch; then :; else echo "none" > .arch; fi
-	-@if test "`cat .arch`" != "$(ARCH)"; then \
-		echo Removing objects for \'`cat .arch`\' ; \
-		echo Re-building      for \'$(ARCH)\'... ; \
-		rm *.o; \
-		/bin/echo -n $(ARCH) > .arch; \
-	fi
-
 ###################################################################
 #
 # Version number file generation
@@ -103,6 +91,8 @@ version.h : ../version.h
 .PHONY: test
 test: unit
 
+
+###################################################################
 # NB! We are moving towards using the gcc -MMD auto-dependency!!
 # So the manual depend target is getting obsolete
 # Automatically generate dependency rules 
