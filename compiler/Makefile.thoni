@@ -13,7 +13,7 @@
 #
 # Default target on thoni is :
 #
-alanFromToolMaker: checkTarget tm alan
+alanFromToolMaker: tm alan
 
 
 include Makefile.cygwin
@@ -34,7 +34,7 @@ build :
 #
 .PHONY: release
 release:
-	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" checkTarget alan
+	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" alan
 	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" winalan
 
 
@@ -42,11 +42,21 @@ release:
 #
 # WinAlan is only available on Windows (= MinGW = Cygwin without cygwin1.dll)
 #
+# Build with flags:
 winalan: OS_FLAGS = -mwindows -mno-cygwin
 winalan: EXTRA_COMPILER_FLAGS = -DWINGUI
 
-winalan: checkTarget $(ALANOBJS) alan.res
-	$(LINK) $(LINKFLAGS) -o winalan $(ALANOBJS) alan.res
+WINALANOBJDIR = .winalan
+WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o})
+-include $(ALANOBJECTS:.o=.d)
+$(WINALANOBJECTS): $(WINALANOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(WINALANOBJDIR):
+	@mkdir $(WINALANOBJDIR)
+
+winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res
+	$(LINK) $(LINKFLAGS) -o winalan $(WINALANOBJECTS) alan.res
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp winalan ../bin
 

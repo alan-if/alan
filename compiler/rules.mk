@@ -39,10 +39,19 @@ all: unit alan test
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Main target
+# Alan command line compiler
 #
-alan: checkTarget $(ALANOBJS)
-	$(LINK) -o alan $(ALANOBJS) $(LINKFLAGS)
+ALANOBJDIR = .alan
+ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o})
+-include $(ALANOBJECTS:.o=.d)
+$(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(ALANOBJDIR):
+	@mkdir $(ALANOBJDIR)
+
+alan: $(ALANOBJDIR) $(ALANOBJECTS)
+	$(LINK) -o alan $(ALANOBJECTS) $(LINKFLAGS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan ../bin/alan.exe
 
@@ -51,13 +60,22 @@ alan: checkTarget $(ALANOBJS)
 #
 # Unit testing
 #
-
 .PHONY: unit
 unit: unittests
 	@./unittests
 
-unittests : $(UNITOBJS)
-	$(LINK) -o unittests $(UNITOBJS) $(LINKFLAGS)
+UNITTESTSOBJDIR = .unittests
+UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o})
+-include $(ALANOBJECTS:.o=.d)
+$(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(UNITTESTSOBJDIR):
+	@mkdir $(UNITTESTSOBJDIR)
+
+unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
+	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS)
+
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -65,7 +83,8 @@ unittests : $(UNITOBJS)
 #
 .PHONY: test
 test: unit
-	cd testing ; ../../bin/jregr
+	cd testing ; ../../bin/jregr -noansi
+
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -73,22 +92,8 @@ test: unit
 #
 .PHONY: clean
 clean:
-	-rm *.o
+	-rm *.o .*/*.o
 
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-#######################################################################
-ARCH	= $(strip $(CFLAGS))
-.PHONY: checkTarget
-checkTarget:
-	-@if test -f .arch; then :; else echo "none" > .arch; fi
-	-@if test "`cat .arch`" != "$(ARCH)"; then \
-		echo "Removing objects for '`cat .arch`'" ; \
-		echo "Re-building      for '$(ARCH)'..." ; \
-		rm *.o; \
-		/bin/echo -n $(ARCH) > .arch; \
-	fi
 
 ###################################################################
 #
@@ -107,27 +112,3 @@ version.h : ../version.h
 
 ../alan.version:
 	cd ..; venum alan time
-
-
-###################################################################
-#
-# Run all tests!
-# No tests except unit tests are available
-#
-.PHONY: test
-test: unit
-
-
-###################################################################
-# Dependencies are generated only for command line case
-# Dependencies on libraries are only in the way for other cases,
-# so special dependencies that we need are set explicitly below
-#
-CPP	= gcc
-depend:
-	@-for f in $(UNITTESTSSRCS) $(ALANSRCS) ; \
-	  do \
-	  $(CPP) $(DEPENDFLAGS) $(DEPENDINCLUDES) $$f >> dependencies.new; \
-	done
-	mv dependencies.new dependencies.mk
-

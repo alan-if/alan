@@ -77,21 +77,19 @@ ALANSRCS = \
 	main.c \
 	$(TMCSRCS) \
 	$(UNITTESTED) \
-	$(OTHERSRCS)
-
-ALANOBJS = ${ALANSRCS:.c=.o} alan.version.o
+	$(OTHERSRCS) \
+	alan.version.c
 
 # Sources for the test framework
 UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
-UNITTESTSRCS = $(UNITTESTEDSRCS) \
+UNITSRCS = $(UNITTESTEDSRCS) \
 	unittests.c \
 	unitList.c \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
 	smScanx.c smScSema.c
 
-UNITSRCS = $(UNITTESTSRCS) $(OTHERSRCS)
-UNITOBJS = ${UNITSRCS:.c=.o} alan.version.o
+UNITTESTSSRCS = $(UNITSRCS) $(OTHERSRCS) alan.version.c
 
 # Version timestamp dependencies
 VERSIONSRCS = $(ALANSRCS) $(TMSRCS)
