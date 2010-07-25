@@ -53,7 +53,7 @@ static void clearPronounList(Pronoun list[]) {
 
 
 typedef Aint *(*ReferencesFinder)(int wordIndex);
-typedef void (*ParameterParser)(Parameter parameters[]);
+typedef void (*ParameterParser)(Parameter parameters[], Parameter undisambiguatedParameters[]);
 
 
 
@@ -599,9 +599,13 @@ static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) 
  */
 
 /*----------------------------------------------------------------------*/
-static void simple(Parameter parameters[]) {
+static void simple(Parameter parameters[], Parameter undisambiguatedParameters[]) {
+    // REFACTOR: for the purpose of refactoring the undisambiguatedParameters[] are used to return the parameters without disambiguating them first
     static Parameter *tlst = NULL;
     tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
+
+    static Parameter *tlst2 = NULL;
+    tlst2 = ensureParameterArrayAllocated(tlst2, MAXENTITY);
 
     /* This will loop until all references are collected (typically "a and b and c") */
     for (;;) {
@@ -610,7 +614,7 @@ static void simple(Parameter parameters[]) {
 					     (isPronounWord(currentWordIndex) && lengthOfParameterList(previousMultipleParameters) > 0))) {
 	    handleReferenceToPreviousMultipleParameters(parameters);
         } else {
-            parseReferences(parameters, parameters);
+            parseReferences(parameters, undisambiguatedParameters);
             if (lengthOfParameterList(parameters) == 0) { /* Failed! */
                 // TODO this gets executed in case of "take all except", any other cases?
                 // printf("DEBUG: parseForCandidates() returned 0 candidates to simple()\n");
@@ -619,6 +623,7 @@ static void simple(Parameter parameters[]) {
         }
 
         mergeParameterLists(tlst, parameters);
+        mergeParameterLists(tlst2, undisambiguatedParameters);
 
         if (!endOfWords(currentWordIndex)
             && (isConjunctionWord(currentWordIndex) && (isAdjectiveWord(currentWordIndex+1)
@@ -628,6 +633,7 @@ static void simple(Parameter parameters[]) {
             currentWordIndex++;
         } else {
             copyParameterList(parameters, tlst);
+            copyParameterList(undisambiguatedParameters, tlst2);
             return;
         }
     }
@@ -639,7 +645,8 @@ static void parseExceptions(ParameterPosition *parameterPosition, ParameterParse
     int exceptWordIndex = currentWordIndex;
     currentWordIndex++;
     parameterPosition->exceptions = ensureParameterArrayAllocated(parameterPosition->exceptions, MAXPARAMS);    
-    simpleParameterParser(parameterPosition->exceptions);
+    parameterPosition->undisambiguatedExceptions = ensureParameterArrayAllocated(parameterPosition->undisambiguatedExceptions, MAXPARAMS);    
+    simpleParameterParser(parameterPosition->exceptions, parameterPosition->undisambiguatedExceptions);
     if (lengthOfParameterList(parameterPosition->exceptions) == 0)
 	errorAfterExcept(exceptWordIndex);
     subtractListFromParameterList(parameterPosition->parameters, parameterPosition->exceptions);
@@ -673,7 +680,7 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
         if (!endOfWords(currentWordIndex) && isExceptWord(currentWordIndex))
 	    parseExceptions(parameterPosition, simpleParameterParser);
     } else {
-        simpleParameterParser(parameterPosition->parameters);
+        simpleParameterParser(parameterPosition->parameters, parameterPosition->undisambiguatedParameters);
         if (lengthOfParameterList(parameterPosition->parameters) > 1)
             parameterPosition->explicitMultiple = TRUE;
     }
@@ -769,6 +776,7 @@ static Bool multipleAllowed(Aword flags) {
 /*----------------------------------------------------------------------*/
 static void parseParameterPosition(ParameterPosition *parameterPosition, Aword flags, void (*potentiallyComplexReferencesParser)(ParameterPosition *parameterPosition)) {
     parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXENTITY);
+    parameterPosition->undisambiguatedParameters = ensureParameterArrayAllocated(parameterPosition->undisambiguatedParameters, MAXENTITY);
     
     potentiallyComplexReferencesParser(parameterPosition);
     if (lengthOfParameterList(parameterPosition->parameters) == 0) /* No object!? */
@@ -1028,6 +1036,8 @@ static void handleFailedParse(ElementEntry *elms) {
     }
 }
 
+
+/*----------------------------------------------------------------------*/
 static void convertMultipleCandidatesToMultipleParameters(Parameter multipleParameters[]) {
     int parameterCount;
     for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
@@ -1036,7 +1046,6 @@ static void convertMultipleCandidatesToMultipleParameters(Parameter multiplePara
             copyParameterList(multipleParameters, parameterPositions[parameterCount].parameters);
         }
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -1073,8 +1082,10 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     current.verb = remapParameterOrder(element->flags, parameterPositions);
 
     /* TODO Work In Progress! Match parameters to instances ... */
-    for (position = 0; !parameterPositions[position].endOfList; position++)
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
 	matchParameters(parameterPositions[position].parameters, instanceMatcher);
+	matchParameters(parameterPositions[position].undisambiguatedParameters, instanceMatcher);
+    }
 
     /* Now perform restriction checks */
     restrictParametersAccordingToSyntax(parameterPositions, element);

@@ -23,7 +23,9 @@ typedef struct ParameterPosition {
     Bool checked;
     Aid instance;
     Parameter *parameters;
+    Parameter *undisambiguatedParameters;
     Parameter *exceptions;
+    Parameter *undisambiguatedExceptions;
 } ParameterPosition;
 
 
