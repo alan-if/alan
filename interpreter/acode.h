@@ -8,7 +8,7 @@ typedef unsigned long Aword;    /* Type for an ACODE word */
 typedef unsigned long Aaddr;    /* Type for an ACODE address */
 typedef unsigned long Abool;    /* Type for an ACODE Boolean value */
 typedef long Aint;              /* Type for an ACODE Integer value */
-typedef long Aid;              /* Type for an ACODE Instance Id value */
+typedef long InstanceId;              /* Type for an ACODE Instance Id value */
 typedef signed long Aset;		/* Type for an ACODE Set value */
 
 /* Constants for the Acode file, words/block & bytes/block */

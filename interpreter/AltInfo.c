@@ -171,7 +171,7 @@ static AltInfo *nextFreeAltInfo(AltInfoArray altInfos) {
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternative(AltInfoArray altInfos, int verb, int level, Aint parameterNumber, Aint theClass, Aid theInstance, AltEntryFinder finder) {
+static void addAlternative(AltInfoArray altInfos, int verb, int level, Aint parameterNumber, Aint theClass, InstanceId theInstance, AltEntryFinder finder) {
     AltInfo *altInfoP = nextFreeAltInfo(altInfos);
 	
     altInfoP->alt = (*finder)(verb, parameterNumber, theInstance, theClass);
@@ -189,7 +189,7 @@ static void addGlobalAlternatives(AltInfoArray altInfos, int verb, AltEntryFinde
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromParents(AltInfoArray altInfos, int verb, int level, Aint parameterNumber, Aint theClass, Aid theInstance, AltEntryFinder finder){
+static void addAlternativesFromParents(AltInfoArray altInfos, int verb, int level, Aint parameterNumber, Aint theClass, InstanceId theInstance, AltEntryFinder finder){
     if (classes[theClass].parent != 0)
         addAlternativesFromParents(altInfos, verb, level,
                                    parameterNumber,
@@ -202,7 +202,7 @@ static void addAlternativesFromParents(AltInfoArray altInfos, int verb, int leve
 
 
 /*----------------------------------------------------------------------*/
-static void addAlternativesFromLocation(AltInfoArray altInfos, int verb, Aid location, AltEntryFinder finder) {
+static void addAlternativesFromLocation(AltInfoArray altInfos, int verb, InstanceId location, AltEntryFinder finder) {
     if (admin[location].location != 0)
         addAlternativesFromLocation(altInfos, verb, admin[location].location, finder);
 	
@@ -219,8 +219,8 @@ static void addAlternativesFromLocation(AltInfoArray altInfos, int verb, Aid loc
 
 /*----------------------------------------------------------------------*/
 static void addAlternativesFromParameter(AltInfoArray altInfos, int verb, Parameter parameters[], int parameterNumber, AltEntryFinder finder) {
-    Aid parent;
-    Aid theInstance = parameters[parameterNumber-1].instance;
+    InstanceId parent;
+    InstanceId theInstance = parameters[parameterNumber-1].instance;
 	
     if (isLiteral(theInstance))
         parent = literals[literalFromInstance(theInstance)].class;

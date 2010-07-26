@@ -786,6 +786,7 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
     if (!hasBit(flags, OMNIBIT))
         /* If its not an omnipotent parameter, resolve by presence */
         if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
+            // DISAMBIGUATION!!!
             enforcePresence(parameterPosition->parameters);
 
     if (parameterPosition->explicitMultiple && !multipleAllowed(flags))

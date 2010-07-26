@@ -21,7 +21,7 @@ typedef struct ParameterPosition {
     Bool explicitMultiple;
     Bool all;
     Bool checked;
-    Aid instance;
+    InstanceId instance;
     Parameter *parameters;
     Parameter *undisambiguatedParameters;
     Parameter *exceptions;
