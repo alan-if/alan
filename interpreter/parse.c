@@ -629,7 +629,6 @@ static void simple(Parameter parameters[], Parameter undisambiguatedParameters[]
                 // printf("DEBUG: parseForCandidates() returned 0 candidates to simple()\n");
                 return;
             }
-            disambiguateParameters(undisambiguatedParameters, TRUE);
         }
 
         mergeParameterLists(tlst, parameters);

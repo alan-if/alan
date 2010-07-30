@@ -1,7 +1,9 @@
 Here are some quick reminders on how to set up for Alan development.
 
 Cygwin:
-        - install cygwin (select xemacs, cvs, gcc, mingw-runtime, gdb, make)
+        - install cygwin, ensure you have selected xemacs/emacs, cvs,
+          gcc, mingw-runtime, gdb, make. I also use mintty as a
+          replacement for the Windows Command window.
 
         - Xemacs: current xemacs does not seem to have been configured
           with the packages I wanted and it didn't support configuring
