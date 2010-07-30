@@ -421,7 +421,7 @@ static void filterOutNonReachable(Parameter filteredCandidates[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void disambiguateParameters(Parameter candidates[]) {
+static void disambiguateParametersForReachability(Parameter candidates[]) {
     /* There are more than one candidate, let's see if we can figure out a single one */
     /* If there is one present, let's go for that */
 
@@ -463,8 +463,6 @@ static void disambiguateCandidatesForPosition(ParameterPosition parameterPositio
     for (i = 0; !isEndOfList(&candidates[i]); i++) {
         if (candidates[i].instance != 0) { /* Already empty? */
             parameters[position] = candidates[i];
-	    // TODO This is not filled in or used anywhere yet
-	    parameterPositions[position].instance = candidates[i].instance;
             // DISAMBIGUATION!!
             if (!reachable(candidates[i].instance) || !possible(current.verb, parameters, parameterPositions))
                 candidates[i].instance = 0; /* Then remove this candidate from list */
@@ -478,8 +476,36 @@ static void disambiguateCandidatesForPosition(ParameterPosition parameterPositio
 
 
 /*----------------------------------------------------------------------*/
+static Bool transformAnyAdjectives(Parameter parameters[], Parameter savedParameters[]) {
+    Bool adjectiveOrNounFound = FALSE;
+    while (anotherAdjective(currentWordIndex)) {
+        if (lastPossibleNoun(currentWordIndex))
+            break;
+        copyParameterList(savedParameters, parameters); /* To save it for backtracking */
+        updateWithReferences(parameters, currentWordIndex, adjectiveReferencesForWord);
+        adjectiveOrNounFound = TRUE;
+        currentWordIndex++;
+    }
+    return adjectiveOrNounFound;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void disambiguateParameters(Parameter parameters[], Bool adjectiveOrNounFound) {
+    if (lengthOfParameterList(parameters) > 1)
+        disambiguateParametersForReachability(parameters);
+    if (lengthOfParameterList(parameters) > 1)
+        errorWhichOne(parameters);
+    else if (adjectiveOrNounFound && lengthOfParameterList(parameters) == 0) {
+        parameters[0].instance = 0; /* Just make it anything != EOF */
+        errorNoSuch(parameters[0]);
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[], Parameter undisambiguatedParameters[]) {
-    // REFACTOR: for the purpose of refactoring the undisambiguatedParameters[] are used to return the parameters without disambiguating them first
+    // REFACTOR: for the purpose of refactoring the undisambiguatedParameters[] are temporarily used to return the parameters without disambiguating them first
     Parameter savedParameters[MAXPARAMS+1]; /* Saved list for backup at EOF */
 
     int firstWord, lastWord;
@@ -489,14 +515,7 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[], 
     references = allocateParameterArray(MAXPARAMS);
 
     firstWord = currentWordIndex;
-    while (anotherAdjective(currentWordIndex)) {
-        if (lastPossibleNoun(currentWordIndex))
-            break;
-        copyParameterList(savedParameters, parameters); /* To save it for backtracking */
-        updateWithReferences(parameters, currentWordIndex, adjectiveReferencesForWord);
-        adjectiveOrNounFound = TRUE;
-        currentWordIndex++;
-    }
+    adjectiveOrNounFound = transformAnyAdjectives(parameters, savedParameters);
 
     if (!endOfWords(currentWordIndex)) {
         if (isNounWord(currentWordIndex)) {
@@ -506,7 +525,7 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[], 
         } else
             error(M_NOUN);
     } else if (adjectiveOrNounFound) {
-        /* Perhaps the last word was also a noun? */
+        /* Perhaps the last word could also be interpreted as a noun? */
         if (isNounWord(currentWordIndex - 1)) {
             // TODO When does this get executed? Maybe if conjunctions can be nouns? Or nouns be adjectives?
             printf("DEBUG:When does this get executed?");
@@ -526,17 +545,7 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[], 
 
     copyParameterList(undisambiguatedParameters, parameters);
     // DISAMBIGUATION!!!
-    if (lengthOfParameterList(parameters) > 1)
-        disambiguateParameters(parameters);
-    if (lengthOfParameterList(parameters) > 1)
-        errorWhichOne(parameters);
-    else if (adjectiveOrNounFound && lengthOfParameterList(parameters) == 0) {
-        Parameter parameter;
-        parameter.instance = 0; /* Just make it anything != EOF */
-        parameter.firstWord = firstWord;
-        parameter.lastWord = lastWord;
-        errorNoSuch(parameter);
-    }
+    disambiguateParameters(parameters, adjectiveOrNounFound);
 }
 
 
@@ -600,7 +609,7 @@ static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) 
 
 /*----------------------------------------------------------------------*/
 static void simple(Parameter parameters[], Parameter undisambiguatedParameters[]) {
-    // REFACTOR: for the purpose of refactoring the undisambiguatedParameters[] are used to return the parameters without disambiguating them first
+    // REFACTOR: for the purpose of refactoring the undisambiguatedParameters[] are temporarily used to return the parameters without disambiguating them first
     static Parameter *tlst = NULL;
     tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
 
@@ -620,6 +629,7 @@ static void simple(Parameter parameters[], Parameter undisambiguatedParameters[]
                 // printf("DEBUG: parseForCandidates() returned 0 candidates to simple()\n");
                 return;
             }
+            disambiguateParameters(undisambiguatedParameters, TRUE);
         }
 
         mergeParameterLists(tlst, parameters);
@@ -1090,8 +1100,6 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
     /* Now perform restriction checks */
     restrictParametersAccordingToSyntax(parameterPositions, element);
-
-    // TODO Here we should ensure that parameterPositions[].instance is set to candidates[0] if there was only a single one left
 
     /* Finally, if the player used ALL, try to find out what was applicable */
     int multiplePosition = findMultipleParameterPosition(parameterPositions);

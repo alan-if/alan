@@ -14,11 +14,11 @@
 
 
 /* TYPES */
-typedef struct ParamEntry { /* PARAMETER */
-    int instance;   /* Instance code for the parameter (0=multiple) */
-    Bool useWords; /* Indicate to use words instead of instance code when saying */
-    int firstWord; /* Index to first word used by player */
-    int lastWord;  /* d:o to last */
+typedef struct ParamEntry {     /* PARAMETER */
+    InstanceId instance;        /* Instance code for the parameter (0=multiple) */
+    Bool useWords;              /* Indicate to use words instead of instance code when saying */
+    int firstWord;              /* Index to first word used by player */
+    int lastWord;               /* d:o to last */
     struct ParamEntry *candidates; /* Array of instances possibly matching this parameter depending on player input */
 } Parameter;
 
