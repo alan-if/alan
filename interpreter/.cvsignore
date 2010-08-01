@@ -36,3 +36,8 @@ unit2
 x
 *.dunittests
 unittests
+.arun
+.gararun
+.glkarun
+.unittests
+.winarun
