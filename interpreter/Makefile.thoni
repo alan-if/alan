@@ -36,8 +36,8 @@ build:
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" arun
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" winarun
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" glkarun
-#	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" gararun
 	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" dumpacd
+#	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "SMARTALLOC=$(SMARTALLOC)" gararun
 
 
 #######################################################################
@@ -71,7 +71,7 @@ $(WINARUNOBJDIR):
 	@mkdir $(WINARUNOBJDIR)
 
 winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
-	$(LINK) -o $@ $(OPTIMIZE) $(WINARUNOBJECTS) arun.res $(LINKFLAGS) $(LIBS)
+	$(LINK) -o $@ $(LINKFLAGS) $(WINARUNOBJECTS) arun.res $(LIBS)
 	cp $@ ../bin
 
 arun.res: arun.rc arun.ico resources.h alan.version.c
@@ -101,7 +101,7 @@ $(GLKARUNOBJDIR):
 	@mkdir $(GLKARUNOBJDIR)
 
 glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS) arun.res
-	$(LINK) -o $@ $(OPTIMIZE) $(GLKARUNOBJECTS) arun.res $(LINKFLAGS) $(LIBS)
+	$(LINK) -o $@ $(LINKFLAGS) $(GLKARUNOBJECTS) $(LIBS)
 	cp $@ ../bin
 
 
@@ -125,7 +125,7 @@ $(GARARUNOBJDIR):
 	@mkdir $(GARARUNOBJDIR)
 
 gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
-	$(LINK) -o $@ $(OPTIMIZE) $(GARARUNOBJECTS) arun.res $(LINKFLAGS) $(LIBS)
+	$(LINK) -o $@ $(LINKFLAGS) $(GARARUNOBJECTS) arun.res $(LIBS)
 	cp $@ ../bin
 
 
@@ -135,7 +135,7 @@ gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
 #
 # Dump Acode file into text format
 #
-dumpacd: checkTarget dumpacd.o reverse.o lists.o sysdep.o  ../compiler/spa.o smartall.o
+dumpacd: dumpacd.o reverse.o lists.o sysdep.o  ../compiler/spa.o smartall.o
 	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) dumpacd.o reverse.o lists.o sysdep.o smartall.o -DSTDIONONCONST ../compiler/spa.o
 	cp $@ ../bin
 

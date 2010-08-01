@@ -6,12 +6,18 @@
 # Makefile
 # This file will build a standard command line arun and all unittests
 
+CFLAGS	= $(COMPILEFLAGS) $(WARNINGFLAGS)
+LDFLAGS = $(LINKFLAGS)
+
 #######################################################################
 # Standard console Arun
-
 ARUNOBJDIR = .arun
 ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o})
+
+# Dependencies
 -include $(ARUNOBJECTS:.o=.d)
+
+# Rule to compile objects to subdirectory
 $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
@@ -19,7 +25,7 @@ $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
 
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(LINK) -o $@ $(OPTIMIZE) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -o $@ $(LINKFLAGS) $(ARUNOBJECTS) $(LIBS)
 	cp $@ ../bin/
 
 #######################################################################
@@ -33,16 +39,21 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o})
+
+# Dependencies
 -include $(UNITTESTSOBJECTS:.o=.d)
+
+# Rule to compile objects to subdirectory
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
-unittests: CFLAGS := $(COMPILEFLAGS) $(CGREENINCLUDE)
+unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
+unittests: LIBS = $(CGREENLIB)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(CGREENLIB)
+	$(LINK) -o $@ $(LINKFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
 
 .PHONY: unit
 unit:

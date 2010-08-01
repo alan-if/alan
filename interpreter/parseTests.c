@@ -436,7 +436,7 @@ Ensure parseParameterCanFillOutAParameterPosition() {
 }
 
 
-static void mockedSimpleCandidateParser(Parameter candidates[], Parameter undisambiguatedParameters[]) {
+static void mockedSimpleCandidateParser(Parameter candidates[]) {
     mock(candidates);
     candidates[0].instance = 1;
     setEndOfList(&candidates[1]);
