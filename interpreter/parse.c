@@ -503,7 +503,7 @@ static void disambiguateParameters(Parameter parameters[], Bool adjectiveOrNounF
 }
 
 
-/*----------------------------------------------------------------------*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[]) {
     Parameter savedParameters[MAXPARAMS+1]; /* Saved list for backup at EOF */
 
@@ -547,7 +547,7 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[]) 
 }
 
 
-/*----------------------------------------------------------------------*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void parseReferences(Parameter parameters[]) {
     clearParameterList(parameters);
 
@@ -604,7 +604,7 @@ static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) 
  * multiple previous.
  */
 
-/*----------------------------------------------------------------------*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void simple(Parameter parameters[]) {
     static Parameter *tlst = NULL;
     tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
@@ -664,7 +664,7 @@ static void parseExceptions(ParameterPosition *parameterPosition, ParameterParse
  * 3) a simple (see above) instance reference(s)
  */
 
-/*----------------------------------------------------------------------*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void complexParameterParserDelegate(ParameterPosition *parameterPosition, ParameterParser simpleParameterParser, void (*allBuilder)(Parameter allCandidates[])) {
     parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXPARAMS);    
 
@@ -772,7 +772,7 @@ static Bool multipleAllowed(Aword flags) {
  * instances in the game.
  */
 
-/*----------------------------------------------------------------------*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void parseParameterPosition(ParameterPosition *parameterPosition, Aword flags, void (*potentiallyComplexReferencesParser)(ParameterPosition *parameterPosition)) {
     parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXENTITY);
     
@@ -833,7 +833,7 @@ static Bool endOfPlayerCommand(int wordIndex) {
 }
 
 
-/*----------------------------------------------------------------------*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElement, ParameterPosition parameterPositions[]) {
     ElementEntry *currentElement = startingElement;
     ElementEntry *nextElement = startingElement;
@@ -1047,7 +1047,7 @@ static void convertMultipleCandidatesToMultipleParameters(Parameter multiplePara
 }
 
 
-/*----------------------------------------------------------------------*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     // TODO This is much too long, try to refactor out some functions
     ElementEntry *element;         /* Pointer to element list */
@@ -1113,7 +1113,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 }
 
 
-/*----------------------------------------------------------------------*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void parseOneCommand(Parameter parameters[], Parameter multipleParameters[])
 {
     try(parameters, multipleParameters); /* ... to understand what he said */
