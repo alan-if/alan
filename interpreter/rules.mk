@@ -40,34 +40,35 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o})
 
-# Dependencies
+# Dependencies, if they exist yet
 -include $(UNITTESTSOBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
+#Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
-unittests: CFLAGS = $(COMPILEFLAGS) $(CGREENINCLUDE)
+unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o $@ $(LINKFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
 
 .PHONY: unit
+ifneq ($(CGREEN),yes)
 unit:
-	-@if test -d $(CGREENDIR) ; then \
-		$(MAKE) unittests ; \
-		echo ; \
-		echo "        Unit Tests" ; \
-		echo ; \
-		./unittests ; \
-		echo ; \
-		echo ; \
-	else \
-		echo "No unit tests run, cgreen not available" ; \
-	fi
+	echo "No unit tests run, cgreen not available"
+else
+unit: unittests
+	@echo
+	@echo "        Unit Tests"
+	@echo
+	@./unittests
+	@echo
+	@echo
+endif
 
 #######################################################################
 .PHONY: clean

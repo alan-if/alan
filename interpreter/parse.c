@@ -326,7 +326,7 @@ static Aint *adjectiveReferencesForWord(int wordIndex) {
 
 
 /*----------------------------------------------------------------------*/
-static void transformLiteralIntoSingleParameter(Parameter parameters[]) {
+static void parseAndBuildLiteralIntoSingleParameter(Parameter parameters[]) {
     parameters[0].instance = instanceFromLiteral(playerWords[currentWordIndex].code - dictionarySize);
     parameters[0].firstWord = EOF; /* No words used! */
     setEndOfList(&parameters[1]);
@@ -334,7 +334,7 @@ static void transformLiteralIntoSingleParameter(Parameter parameters[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void transformPronounIntoSingleParameter(Parameter parsedParameters[]) {
+static void parseAndBuildPronounIntoSingleParameter(Parameter parsedParameters[]) {
     static Parameter *pronounInstances = NULL;
     pronounInstances = ensureParameterArrayAllocated(pronounInstances, MAXPARAMS);
 	
@@ -476,7 +476,7 @@ static void disambiguateCandidatesForPosition(ParameterPosition parameterPositio
 
 
 /*----------------------------------------------------------------------*/
-static Bool transformAnyAdjectives(Parameter parameters[], Parameter savedParameters[]) {
+static Bool parseAndBuildAnyAdjectives(Parameter parameters[], Parameter savedParameters[]) {
     Bool adjectiveOrNounFound = FALSE;
     while (anotherAdjective(currentWordIndex)) {
         if (lastPossibleNoun(currentWordIndex))
@@ -504,7 +504,7 @@ static void disambiguateParameters(Parameter parameters[], Bool adjectiveOrNounF
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[]) {
+static void parseAndBuildAdjectivesAndNounToSingleParameter(Parameter parameters[]) {
     Parameter savedParameters[MAXPARAMS+1]; /* Saved list for backup at EOF */
 
     int firstWord, lastWord;
@@ -514,7 +514,7 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[]) 
     references = allocateParameterArray(MAXPARAMS);
 
     firstWord = currentWordIndex;
-    adjectiveOrNounFound = transformAnyAdjectives(parameters, savedParameters);
+    adjectiveOrNounFound = parseAndBuildAnyAdjectives(parameters, savedParameters);
 
     if (!endOfWords(currentWordIndex)) {
         if (isNounWord(currentWordIndex)) {
@@ -548,17 +548,17 @@ static void transformAdjectivesAndNounToSingleParameter(Parameter parameters[]) 
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void parseReferences(Parameter parameters[]) {
+static void parseAndBuildReferences(Parameter parameters[]) {
     clearParameterList(parameters);
 
     if (isLiteralWord(currentWordIndex)) {
-        transformLiteralIntoSingleParameter(parameters);
+        parseAndBuildLiteralIntoSingleParameter(parameters);
         currentWordIndex++;
     } else if (isPronounWord(currentWordIndex)) {
-        transformPronounIntoSingleParameter(parameters);
+        parseAndBuildPronounIntoSingleParameter(parameters);
         currentWordIndex++;
     } else {
-        transformAdjectivesAndNounToSingleParameter(parameters);
+        parseAndBuildAdjectivesAndNounToSingleParameter(parameters);
     }
 }
 
@@ -605,7 +605,7 @@ static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) 
  */
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void simple(Parameter parameters[]) {
+static void simpleParameterParserAndBuilder(Parameter parameters[]) {
     static Parameter *tlst = NULL;
     tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
 
@@ -616,10 +616,10 @@ static void simple(Parameter parameters[]) {
 					     (isPronounWord(currentWordIndex) && lengthOfParameterList(previousMultipleParameters) > 0))) {
 	    handleReferenceToPreviousMultipleParameters(parameters);
         } else {
-            parseReferences(parameters);
+            parseAndBuildReferences(parameters);
             if (lengthOfParameterList(parameters) == 0) { /* Failed! */
                 // TODO this gets executed in case of "take all except", any other cases?
-                // printf("DEBUG: parseForCandidates() returned 0 candidates to simple()\n");
+                // printf("DEBUG: parseAndBuildReferences() returned 0 candidates to simple()\n");
                 return;
             }
         }
@@ -641,7 +641,7 @@ static void simple(Parameter parameters[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void parseExceptions(ParameterPosition *parameterPosition, ParameterParser simpleParameterParser) {
+static void parseAndBuildExceptions(ParameterPosition *parameterPosition, ParameterParser simpleParameterParser) {
     int exceptWordIndex = currentWordIndex;
     currentWordIndex++;
     parameterPosition->exceptions = ensureParameterArrayAllocated(parameterPosition->exceptions, MAXPARAMS);    
@@ -665,7 +665,7 @@ static void parseExceptions(ParameterPosition *parameterPosition, ParameterParse
  */
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void complexParameterParserDelegate(ParameterPosition *parameterPosition, ParameterParser simpleParameterParser, void (*allBuilder)(Parameter allCandidates[])) {
+static void complexParameterParserAndBuilderDelegate(ParameterPosition *parameterPosition, ParameterParser simpleParameterParserAndBuilder, void (*allBuilder)(Parameter allCandidates[])) {
     parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXPARAMS);    
 
     parameterPosition->all = FALSE;
@@ -677,9 +677,9 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
         allBuilder(parameterPosition->parameters); /* Build list of all possible objects */
         currentWordIndex++;
         if (!endOfWords(currentWordIndex) && isExceptWord(currentWordIndex))
-	    parseExceptions(parameterPosition, simpleParameterParser);
+	    parseAndBuildExceptions(parameterPosition, simpleParameterParserAndBuilder);
     } else {
-        simpleParameterParser(parameterPosition->parameters);
+        simpleParameterParserAndBuilder(parameterPosition->parameters);
         if (lengthOfParameterList(parameterPosition->parameters) > 1)
             parameterPosition->explicitMultiple = TRUE;
     }
@@ -687,8 +687,8 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
 }
 
 /*----------------------------------------------------------------------*/
-static void complexReferencesParser(ParameterPosition *parameterPosition) {
-    complexParameterParserDelegate(parameterPosition, simple, buildAllHere);
+static void complexReferencesParserAndBuilder(ParameterPosition *parameterPosition) {
+    complexParameterParserAndBuilderDelegate(parameterPosition, simpleParameterParserAndBuilder, buildAllHere);
 }
 
 
@@ -773,14 +773,14 @@ static Bool multipleAllowed(Aword flags) {
  */
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void parseParameterPosition(ParameterPosition *parameterPosition, Aword flags, void (*potentiallyComplexReferencesParser)(ParameterPosition *parameterPosition)) {
+static void parseAndBuildParameterPosition(ParameterPosition *parameterPosition, Aword flags, void (*complexReferencesParserAndBuilder)(ParameterPosition *parameterPosition)) {
     parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXENTITY);
     
-    potentiallyComplexReferencesParser(parameterPosition);
+    complexReferencesParserAndBuilder(parameterPosition);
     if (lengthOfParameterList(parameterPosition->parameters) == 0) /* No object!? */
         error(M_WHAT);
     
-    /* TODO This should not be done here, it should be posponed to the disambiguation phase */
+    /* TODO This should not be done here, it should be postponed to the disambiguation phase */
     if (!hasBit(flags, OMNIBIT))
         /* If its not an omnipotent parameter, resolve by presence */
         if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
@@ -854,7 +854,16 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
             /* If so, save word info for this parameterPosition */
             nextElement = elementForParameter(currentElement);
             if (nextElement != NULL) {
-                parseParameterPosition(&parameterPositions[parameterCount], nextElement->flags, complexReferencesParser);
+                int savedWordIndex = currentWordIndex;
+                // Parse and build
+                parseAndBuildParameterPosition(&parameterPositions[parameterCount], nextElement->flags, complexReferencesParserAndBuilder);
+
+                // ... or just parse? This is experimental duplication without any building, just parsing
+                // Should create a correct structure without resolved instance references
+                ParameterPosition parameterPosition;
+                //currentWordIndex = savedWordIndex;
+                //parseParameterPosition(&parameterPosition, nextElement->flags, complexReferencesParser);
+
                 currentElement = (ElementEntry *) pointerTo(nextElement->next);
                 parameterPositions[parameterCount].endOfList = FALSE;
                 parameterCount++;

@@ -422,7 +422,8 @@ static void mockedComplexParameterParser(ParameterPosition *parameterPosition){
     setEndOfList(&parameterPosition->parameters[1]);
 }
 
-Ensure parseParameterCanFillOutAParameterPosition() {
+
+Ensure parseAndBuildParameterPositionCanFillOutAParameterPosition() {
     Abool flags = OMNIBIT;
     ParameterPosition *parameterPosition = NEW(ParameterPosition);
     Parameter candidates[MAXENTITY+1];
@@ -430,7 +431,7 @@ Ensure parseParameterCanFillOutAParameterPosition() {
     parameterPosition->parameters = candidates;
     setEndOfList(&candidates[0]);
     
-    parseParameterPosition(parameterPosition, flags, mockedComplexParameterParser);
+    parseAndBuildParameterPosition(parameterPosition, flags, mockedComplexParameterParser);
     
     assert_equal(lengthOfParameterList(parameterPosition->parameters), 1);
 }
@@ -456,7 +457,7 @@ Ensure canFilloutAParameterPositionForSomethingNotAll(void) {
 
     givenAPlayerWordOtherThanAll();
 
-    complexParameterParserDelegate(parameterPosition, mockedSimpleCandidateParser, buildAllHere);
+    complexParameterParserAndBuilderDelegate(parameterPosition, mockedSimpleCandidateParser, buildAllHere);
 
     assert_equal(lengthOfParameterList(parameterPosition->parameters), 1);    
 }
@@ -491,7 +492,7 @@ Ensure complexParameterParserDelegateCanSetPlural(void) {
     givenADictionaryIncludingAll();
     givenPlayerInputReferencingAll();
 
-    complexParameterParserDelegate(parameterPosition, mockedSimpleCandidateParser, mockedAllBuilder);
+    complexParameterParserAndBuilderDelegate(parameterPosition, mockedSimpleCandidateParser, mockedAllBuilder);
 
     assert_equal(parameterPosition->explicitMultiple, 1);
 }
@@ -562,7 +563,7 @@ TestSuite *parseTests(void)
     add_test(suite, matchNounPhraseCanMatchSingleNounWithSingleMatch);
     add_test(suite, canMatchNounAndAdjectiveWithSingleMatch);
     add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
-    add_test(suite, parseParameterCanFillOutAParameterPosition);
+    add_test(suite, parseAndBuildParameterPositionCanFillOutAParameterPosition);
     add_test(suite, canFilloutAParameterPositionForSomethingNotAll);
     add_test(suite, complexParameterParserDelegateCanSetPlural);
     add_test(suite, anyAllFindsAnyAllIndication);

@@ -36,8 +36,8 @@ static void (*errorHandler)(MsgKind msg) = NULL;
 /*======================================================================*/
 void setErrorHandler(void (*handler)(MsgKind msg))   /* IN - The error message number */
 {
+    // The error handler must not return because the standard handler does not...
     errorHandler = handler;
-    // TODO This must not return because the standard handler does not...
 }
 
 
