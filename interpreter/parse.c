@@ -1238,6 +1238,21 @@ static void convertMultipleCandidatesToMultipleParameters(Parameter multiplePara
 }
 
 
+
+/*----------------------------------------------------------------------*/
+static ElementEntry *parseInput(ParameterPosition *parameterPositions, ParameterPosition *parameterPositions2) {
+    ElementEntry *element;
+    SyntaxEntry *stx;
+
+    stx = findSyntaxTreeForVerb(verbWordCode);
+    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameterPositions2);
+    handleFailedParse(element);
+    current.verb = remapParameterOrder(element->flags, parameterPositions);
+    return element;
+}
+
+
+
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     // TODO This is much too long, try to refactor out some functions
@@ -1254,27 +1269,10 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      * resolved using those words.
      */
 
-    stx = findSyntaxTreeForVerb(verbWordCode);
-
-
-    /*
-     * Then match the player input words, instance references and
-     * other words, following the syntax elements in the parse
-     * tree.
-     */
-
     // TODO New strategy! parameterPositions2 should just be parsed with word pointers, but no matched instances
     ParameterPosition *parameterPositions2 = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 
-    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameterPositions2);
-    handleFailedParse(element);
-	
-    /*
-     * Then, in case it was a syntax synonym, we can map the
-     * parameters to their canonical order.  The flags field of EOS
-     * element is actually the syntax number!
-     */
-    current.verb = remapParameterOrder(element->flags, parameterPositions);
+    element = parseInput(parameterPositions, parameterPositions2);
 
     /* TODO New strategy! Match parameters to instances ... */
     for (position = 0; !parameterPositions2[position].endOfList; position++) {
