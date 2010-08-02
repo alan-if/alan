@@ -5,7 +5,6 @@
 */
 
 #ifdef SMARTALLOC
-
 extern void *sm_malloc(), *sm_calloc(), *sm_realloc(),
             *actuallymalloc(), *actuallycalloc(), *actuallyrealloc();
 extern void sm_free(), actuallyfree(), sm_dump(), sm_static();

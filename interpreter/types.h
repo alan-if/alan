@@ -14,9 +14,7 @@
 
 
 /* MEMORY DEBUGGING? */
-#ifdef SMARTALLOC
 #include "smartall.h"
-#endif
 
 
 /* PREPROCESSOR */

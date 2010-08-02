@@ -198,7 +198,7 @@ Ensure canSetupParameterForWord(void) {
     memcpy(&memory[12], "qwerty", 7);
     dictionary[2].string = 12;
 
-    messageParameters = allocateParameterArray(MAXPARAMS);
+    messageParameters = allocateParameterArray(MAXPARAMS+1);
     ensureSpaceForPlayerWords(2);
     playerWords[1].code = 2;
     litCount = 0;
@@ -227,7 +227,7 @@ Ensure canSeeBitsInFlag(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupInstanceParametersForMessages(void) {
-    Parameter *parameters = allocateParameterArray(MAXPARAMS);
+    Parameter *parameters = allocateParameterArray(MAXPARAMS+1);
 
     addParameterForInstance(parameters, 2);
 
@@ -241,7 +241,7 @@ Ensure canSetupInstanceParametersForMessages(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupStringParametersForMessages(void) {
-    Parameter *parameters = allocateParameterArray(MAXPARAMS);
+    Parameter *parameters = allocateParameterArray(MAXPARAMS+1);
 
     addParameterForString(parameters, "a string");
 

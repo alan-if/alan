@@ -24,7 +24,7 @@ void setParameters(Parameter *newParameters) {
     int i;
 
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(MAXPARAMS);
+        globalParameters = allocateParameterArray(MAXPARAMS+1);
     for (i = 0; i < MAXPARAMS; i++)
         globalParameters[i] = newParameters[i];
 }
@@ -33,7 +33,7 @@ void setParameters(Parameter *newParameters) {
 /*======================================================================*/
 Parameter *getParameters(void) {
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(MAXPARAMS);
+        globalParameters = allocateParameterArray(MAXPARAMS+1);
     return globalParameters;
 }
 

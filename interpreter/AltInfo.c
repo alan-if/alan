@@ -338,7 +338,7 @@ Bool possible(int verb, Parameter inParameters[], ParameterPosition parameterPos
 {
     // This is a wrapper for possibleWithFinder() which is used in unit tests
     // possible() should be used "for real".
-    Parameter *parameters = allocateParameterArray(MAXPARAMS);
+    Parameter *parameters = allocateParameterArray(MAXPARAMS+1);
 
     // TODO Should work from positions but they are not yet changed to have an instance field
     convertPositionsToParameters(parameterPositions, parameters);
