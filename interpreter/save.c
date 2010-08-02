@@ -39,7 +39,7 @@ static void saveStrings(AFILE saveFile) {
 
   if (header->stringInitTable != 0)
     for (initEntry = (StringInitEntry *)pointerTo(header->stringInitTable);
-	 !isEndOfList(initEntry); initEntry++) {
+	 !isEndOfArray(initEntry); initEntry++) {
       char *attr = (char *)getInstanceStringAttribute(initEntry->instanceCode, initEntry->attributeCode);
       Aint length = strlen(attr) + 1;
       fwrite((void *)&length, sizeof(length), 1, saveFile);
@@ -54,7 +54,7 @@ static void saveSets(AFILE saveFile) {
 
   if (header->setInitTable != 0)
     for (initEntry = (SetInitEntry *)pointerTo(header->setInitTable);
-	 !isEndOfList(initEntry); initEntry++) {
+	 !isEndOfArray(initEntry); initEntry++) {
       Set *attr = (Set *)getInstanceSetAttribute(initEntry->instanceCode, initEntry->attributeCode);
       fwrite((void *)&attr->size, sizeof(attr->size), 1, saveFile);
       fwrite((void *)attr->members, sizeof(attr->members[0]), attr->size, saveFile);
@@ -175,7 +175,7 @@ static void restoreStrings(AFILE saveFile) {
 
   if (header->stringInitTable != 0)
     for (initEntry = (StringInitEntry *)pointerTo(header->stringInitTable);
-	 !isEndOfList(initEntry); initEntry++) {
+	 !isEndOfArray(initEntry); initEntry++) {
       Aint length;
       char *string;
       fread((void *)&length, sizeof(Aint), 1, saveFile);
@@ -192,7 +192,7 @@ static void restoreSets(AFILE saveFile) {
 
   if (header->setInitTable != 0)
     for (initEntry = (SetInitEntry *)pointerTo(header->setInitTable);
-	 !isEndOfList(initEntry); initEntry++) {
+	 !isEndOfArray(initEntry); initEntry++) {
       Aint setSize;
       Set *set;
       int i;

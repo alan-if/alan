@@ -51,26 +51,26 @@ Parameter *getParameter(int parameterIndex) {
 
 
 /*======================================================================*/
-Parameter *ensureParameterArrayAllocated(Parameter *currentList, int size) {
-    if (currentList == NULL)
-        currentList = allocate(sizeof(Parameter)*(size+1));
-    clearParameterList(currentList);
-    return currentList;
+Parameter *ensureParameterArrayAllocated(Parameter *currentArray, int size) {
+    if (currentArray == NULL)
+        currentArray = allocate(sizeof(Parameter)*(size+1));
+    clearParameterArray(currentArray);
+    return currentArray;
 }
 
 
 /*======================================================================*/
 Parameter *allocateParameterArray(int size) {
-    Parameter *newList = allocate(sizeof(Parameter)*(size+1));
-    clearParameterList(newList);
-    return newList;
+    Parameter *newArray = allocate(sizeof(Parameter)*(size+1));
+    clearParameterArray(newArray);
+    return newArray;
 }
 
 
 /*======================================================================*/
-Parameter *findEndOfParameterList(Parameter *parameters) {
+Parameter *findEndOfParameterArray(Parameter *parameters) {
     Parameter *parameter;
-    for (parameter = parameters; !isEndOfList(parameter); parameter++);
+    for (parameter = parameters; !isEndOfArray(parameter); parameter++);
     return parameter;
 }
 
@@ -82,7 +82,7 @@ Parameter *findEndOfParameterList(Parameter *parameters) {
  */
 int findMultiplePosition(Parameter parameters[]) {
     int multiplePosition;
-    for (multiplePosition = 0; !isEndOfList(&parameters[multiplePosition]); multiplePosition++)
+    for (multiplePosition = 0; !isEndOfArray(&parameters[multiplePosition]); multiplePosition++)
 	if (parameters[multiplePosition].instance == 0)
 	    return multiplePosition;
     return -1;
@@ -90,23 +90,23 @@ int findMultiplePosition(Parameter parameters[]) {
 
 
 /*======================================================================*/
-void compressParameterList(Parameter theList[])
+void compressParameterArray(Parameter theArray[])
 {
     int i, j;
 
-    for (i = 0, j = 0; theList[j].instance != EOF; j++)
-	if (theList[j].instance != 0)
-	    theList[i++] = theList[j];
-    setEndOfList(&theList[i]);
+    for (i = 0, j = 0; theArray[j].instance != EOF; j++)
+	if (theArray[j].instance != 0)
+	    theArray[i++] = theArray[j];
+    setEndOfArray(&theArray[i]);
 }
 
 
 /*======================================================================*/
-int lengthOfParameterList(Parameter theList[])
+int lengthOfParameterArray(Parameter theArray[])
 {
     int i = 0;
 
-    while (!isEndOfList(&theList[i]))
+    while (!isEndOfArray(&theArray[i]))
         i++;
     return i;
 }
@@ -117,126 +117,126 @@ Bool equalParameterArrays(Parameter parameters1[], Parameter parameters2[])
 {
     if (parameters1 == NULL && parameters2 != NULL)
         return FALSE;
-    return parameters1 == NULL || lengthOfParameterList(parameters1) == lengthOfParameterList(parameters2);
+    return parameters1 == NULL || lengthOfParameterArray(parameters1) == lengthOfParameterArray(parameters2);
 }
 
 
 /*======================================================================*/
-Bool inParameterList(Parameter theList[], Aword theCode)
+Bool inParameterArray(Parameter theArray[], Aword theCode)
 {
     int i;
 
-    for (i = 0; !isEndOfList(&theList[i]) && theList[i].instance != theCode; i++);
-    return (theList[i].instance == theCode);
+    for (i = 0; !isEndOfArray(&theArray[i]) && theArray[i].instance != theCode; i++);
+    return (theArray[i].instance == theCode);
 }
 
 
 /*======================================================================*/
-void copyParameterList(Parameter to[], Parameter from[])
+void copyParameterArray(Parameter to[], Parameter from[])
 {
     int i;
 
-    for (i = 0; !isEndOfList(&from[i]); i++)
+    for (i = 0; !isEndOfArray(&from[i]); i++)
 	to[i] = from[i];
-    setEndOfList(&to[i]);
+    setEndOfArray(&to[i]);
 }
 
 
 /*======================================================================*/
-void subtractListFromParameterList(Parameter theList[], Parameter remove[])
+void subtractParameterArrays(Parameter theArray[], Parameter remove[])
 {
     int i;
 
-    for (i = 0; !isEndOfList(&theList[i]); i++)
-	if (inParameterList(remove, theList[i].instance))
-	    theList[i].instance = 0;		/* Mark empty */
-    compressParameterList(theList);
+    for (i = 0; !isEndOfArray(&theArray[i]); i++)
+	if (inParameterArray(remove, theArray[i].instance))
+	    theArray[i].instance = 0;		/* Mark empty */
+    compressParameterArray(theArray);
 }
 
 
 /*======================================================================*/
-void mergeParameterLists(Parameter one[], Parameter other[])
+void mergeParameterArrays(Parameter one[], Parameter other[])
 {
     int i,last;
 
-    for (last = 0; !isEndOfList(&one[last]); last++); /* Find end of list */
-    for (i = 0; !isEndOfList(&other[i]); i++)
-	if (!inParameterList(one, other[i].instance)) {
+    for (last = 0; !isEndOfArray(&one[last]); last++); /* Find end of array */
+    for (i = 0; !isEndOfArray(&other[i]); i++)
+	if (!inParameterArray(one, other[i].instance)) {
 	    one[last++] = other[i];
-	    setEndOfList(&one[last]);
+	    setEndOfArray(&one[last]);
 	}
 }
 
 
 /*======================================================================*/
-void clearParameterList(Parameter list[]) {
-    implementationOfSetEndOfList((Aword *) &(list[0]));
+void clearParameterArray(Parameter theArray[]) {
+    implementationOfSetEndOfArray((Aword *) &(theArray[0]));
 }
 
 
 /*======================================================================*/
-void intersectParameterLists(Parameter one[], Parameter other[])
+void intersectParameterArrays(Parameter one[], Parameter other[])
 {
     int i, last = 0;
 
-    for (i = 0; !isEndOfList(&one[i]); i++)
-	if (inParameterList(other, one[i].instance))
+    for (i = 0; !isEndOfArray(&one[i]); i++)
+	if (inParameterArray(other, one[i].instance))
 	    one[last++] = one[i];
-    setEndOfList(&one[last]);
+    setEndOfArray(&one[last]);
 }
 
 
 /*======================================================================*/
-void copyReferencesToParameterList(Aint references[], Parameter parameterList[])
+void copyReferencesToParameterArray(Aint references[], Parameter parameterArray[])
 {
     int i;
 
-    for (i = 0; !isEndOfList(&references[i]); i++) {
-        parameterList[i].instance = references[i];
-        parameterList[i].firstWord = EOF; /* Ensure that there is no word that can be used */
+    for (i = 0; !isEndOfArray(&references[i]); i++) {
+        parameterArray[i].instance = references[i];
+        parameterArray[i].firstWord = EOF; /* Ensure that there is no word that can be used */
     }
-    setEndOfList(&parameterList[i]);
+    setEndOfArray(&parameterArray[i]);
 }
 
 
 /*======================================================================*/
 void addParameterForInstance(Parameter *parameters, int instance) {
-    Parameter *parameter = findEndOfParameterList(parameters);
+    Parameter *parameter = findEndOfParameterArray(parameters);
 
     parameter->instance = instance;
     parameter->useWords = FALSE;
 
-    setEndOfList(parameter+1);
+    setEndOfArray(parameter+1);
 }
 
 
 /*======================================================================*/
 void addParameterForInteger(Parameter *parameters, int value) {
-    Parameter *parameter = findEndOfParameterList(parameters);
+    Parameter *parameter = findEndOfParameterArray(parameters);
 
     createIntegerLiteral(value);
     parameter->instance = instanceFromLiteral(litCount);
     parameter->useWords = FALSE;
 
-    setEndOfList(parameter+1);
+    setEndOfArray(parameter+1);
 }
 
 /*======================================================================*/
 void addParameterForString(Parameter *parameters, char *value) {
-    Parameter *parameter = findEndOfParameterList(parameters);
+    Parameter *parameter = findEndOfParameterArray(parameters);
 
     createStringLiteral(value);
     parameter->instance = instanceFromLiteral(litCount);
     parameter->useWords = FALSE;
 
-    setEndOfList(parameter+1);
+    setEndOfArray(parameter+1);
 }
 
 /*======================================================================*/
 void printParameterArray(Parameter parameters[]) {
     int i;
     printf("[");
-    for (i = 0; !isEndOfList(&parameters[i]); i++) {
+    for (i = 0; !isEndOfArray(&parameters[i]); i++) {
 	printf("%d ", (int)parameters[i].instance);
     }
     printf("]\n");

@@ -89,12 +89,12 @@ Ensure parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual(voi
 
     parameterPosition1[0].endOfList = FALSE;
     parameterPosition1[0].parameters = allocate(sizeof(Parameter)*5);
-    setEndOfList(&parameterPosition1[0].parameters[5-1]);
+    setEndOfArray(&parameterPosition1[0].parameters[5-1]);
     parameterPosition1[1].endOfList = TRUE;
 
     parameterPosition2[0].endOfList = FALSE;
     parameterPosition2[0].parameters = allocate(sizeof(Parameter)*4);
-    setEndOfList(&parameterPosition2[0].parameters[4-1]);
+    setEndOfArray(&parameterPosition2[0].parameters[4-1]);
     parameterPosition2[1].endOfList = TRUE;
 
     assert_false(equalParameterPositions(parameterPosition1, parameterPosition2));

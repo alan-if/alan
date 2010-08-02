@@ -270,9 +270,9 @@ static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode, int param
 	
     if (verbTableAddress == 0) return NULL;
 	
-    for (verbEntry = (VerbEntry *) pointerTo(verbTableAddress); !isEndOfList(verbEntry); verbEntry++)
+    for (verbEntry = (VerbEntry *) pointerTo(verbTableAddress); !isEndOfArray(verbEntry); verbEntry++)
         if (verbEntry->code == verbCode) {
-            for (alt = (AltEntry *) pointerTo(verbEntry->alts); !isEndOfList(alt); alt++) {
+            for (alt = (AltEntry *) pointerTo(verbEntry->alts); !isEndOfArray(alt); alt++) {
                 if (alt->param == parameterNumber || alt->param == 0)
                     return alt;
             }
@@ -304,7 +304,7 @@ AltInfo *findAllAlternatives(int verb, Parameter parameters[]) {
 	
     addAlternativesFromLocation(altInfos, verb, current.location, &alternativeFinder);
 
-    for (parameterNumber = 1; !isEndOfList(&parameters[parameterNumber-1]); parameterNumber++) {
+    for (parameterNumber = 1; !isEndOfArray(&parameters[parameterNumber-1]); parameterNumber++) {
         addAlternativesFromParameter(altInfos, verb, parameters, parameterNumber, &alternativeFinder);
     }
     return duplicateAltInfoArray(altInfos);

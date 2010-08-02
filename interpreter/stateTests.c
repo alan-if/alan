@@ -209,7 +209,7 @@ Ensure canRememberPlayerCommand() {
   ensureSpaceForPlayerWords(4);
   for (i = 0; i < 4; i++)
     playerWords[i].code = i;
-  setEndOfList(&playerWords[4]);
+  setEndOfArray(&playerWords[4]);
 
   firstWord = 0;
   lastWord = 3;

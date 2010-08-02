@@ -30,10 +30,10 @@ ScriptEntry *scriptOf(int actor) {
     ScriptEntry *scr;
 
     if (admin[actor].script != 0) {
-        for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !isEndOfList(scr); scr++)
+        for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !isEndOfArray(scr); scr++)
             if (scr->code == admin[actor].script)
                 break;
-        if (!isEndOfList(scr))
+        if (!isEndOfArray(scr))
             return scr;
     }
     return NULL;

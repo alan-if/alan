@@ -45,7 +45,7 @@ static char *token = NULL;
 
 /*======================================================================*/
 void forceNewPlayerInput() {
-    setEndOfList(&playerWords[currentWordIndex]);
+    setEndOfArray(&playerWords[currentWordIndex]);
 }
 
 
@@ -77,7 +77,7 @@ static int number(char token[]) {
 static int lookup(char wrd[]) {
     int i;
 	
-    for (i = 0; !isEndOfList(&dictionary[i]); i++) {
+    for (i = 0; !isEndOfArray(&dictionary[i]); i++) {
         if (compareStrings(wrd, (char *) pointerTo(dictionary[i].string)) == 0) {
             return (i);
         }
@@ -229,12 +229,12 @@ void scan(void) {
             playerWords[i++].code = conjWord;
         } else if (token[0] == '.') {
             continued = TRUE;
-            setEndOfList(&playerWords[i]);
+            setEndOfArray(&playerWords[i]);
             eol = TRUE;
             break;
         } else
             unknown(token);
-        setEndOfList(&playerWords[i]);
+        setEndOfArray(&playerWords[i]);
         eol = (token = gettoken(NULL)) == NULL;
     } while (!eol);
 }

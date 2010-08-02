@@ -65,5 +65,5 @@ void convertPositionsToParameters(ParameterPosition parameterPositions[], Parame
     int parameterCount;
     for (parameterCount = 0; !parameterPositions[parameterCount].endOfList; parameterCount++)
 	parameters[parameterCount] = parameterPositions[parameterCount].parameters[0];
-    setEndOfList(&parameters[parameterCount]);
+    setEndOfArray(&parameters[parameterCount]);
 }

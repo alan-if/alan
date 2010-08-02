@@ -30,12 +30,12 @@ void rules(void)
   Bool change = TRUE;
   int i;
 
-  for (i = 1; !isEndOfList(&ruls[i-1]); i++)
+  for (i = 1; !isEndOfArray(&ruls[i-1]); i++)
     ruls[i-1].run = FALSE;
 
   while (change) {
     change = FALSE;
-    for (i = 1; !isEndOfList(&ruls[i-1]); i++)
+    for (i = 1; !isEndOfArray(&ruls[i-1]); i++)
       if (!ruls[i-1].run) {
 	if (sectionTraceOption) {
 	  printf("\n<RULE %d (at ", i);

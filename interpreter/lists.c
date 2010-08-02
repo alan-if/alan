@@ -2,7 +2,7 @@
 
 
 /* How to know we are at end of a table or array, first Aword == EOF */
-void implementationOfSetEndOfList(Aword *adr)
+void implementationOfSetEndOfArray(Aword *adr)
 {
   *adr = EOF;
 }

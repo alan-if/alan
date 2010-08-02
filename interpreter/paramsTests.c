@@ -8,8 +8,8 @@ Ensure canFindLastParameterInAList() {
     Parameter parameters[10];
 
     memset(parameters, 45, sizeof(parameters));
-    setEndOfList(&parameters[5]);
-    assert_equal(&parameters[5], findEndOfParameterList(parameters));
+    setEndOfArray(&parameters[5]);
+    assert_equal(&parameters[5], findEndOfParameterArray(parameters));
 }
 
 
@@ -21,17 +21,17 @@ Ensure canSetAndGetParameters(void) {
 
     header->maxParameters = 10;
     
-    setEndOfList(&parameters[numberOfParameters]);
-    assert_equal(lengthOfParameterList(parameters), numberOfParameters);
+    setEndOfArray(&parameters[numberOfParameters]);
+    assert_equal(lengthOfParameterArray(parameters), numberOfParameters);
 
     for (p = 0; p<numberOfParameters; p++)
         parameters[p].instance = p;
     
     setParameters(parameters);
 
-    assert_equal(lengthOfParameterList(getParameters()), lengthOfParameterList(parameters));
+    assert_equal(lengthOfParameterArray(getParameters()), lengthOfParameterArray(parameters));
     
-    for (p = 0; !isEndOfList(&parameters[p]); p++)
+    for (p = 0; !isEndOfArray(&parameters[p]); p++)
         assert_equal(getParameter(p)->instance, p);
 }
 
@@ -50,7 +50,7 @@ Ensure can_find_multiple_position(void) {
     for (i=0; i<10; i++)
         parameters[i].instance = 2;
     parameters[7].instance = 0;
-    setEndOfList(&parameters[9]);
+    setEndOfArray(&parameters[9]);
 
     assert_equal(findMultiplePosition(parameters), 7);
 }
@@ -63,7 +63,7 @@ Ensure returns_minus_one_for_no_multiple_position(void) {
 
     for (i=0; i<10; i++)
         parameters[i].instance = 2;
-    setEndOfList(&parameters[9]);
+    setEndOfArray(&parameters[9]);
 
     assert_equal(findMultiplePosition(parameters), -1);
 }
@@ -72,7 +72,7 @@ Ensure returns_minus_one_for_no_multiple_position(void) {
 static Parameter *givenAnyParameterArrayOfLength(int length) {
     Parameter *parameters = allocateParameterArray(length);
     parameters->instance = 1;
-    setEndOfList(&parameters[length]);
+    setEndOfArray(&parameters[length]);
     return parameters;
 }
 

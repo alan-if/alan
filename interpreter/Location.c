@@ -28,7 +28,7 @@ void go(int location, int dir)
 
     theExit = (ExitEntry *) pointerTo(instances[location].exits);
     if (instances[location].exits != 0)
-	while (!isEndOfList(theExit)) {
+	while (!isEndOfArray(theExit)) {
 	    if (theExit->code == dir) {
 		ok = TRUE;
 		if (theExit->checks != 0) {
@@ -78,7 +78,7 @@ Bool exitto(int to, int from)
     if (instances[from].exits == 0)
 	return FALSE; /* No exits */
 
-    for (theExit = (ExitEntry *) pointerTo(instances[from].exits); !isEndOfList(theExit); theExit++)
+    for (theExit = (ExitEntry *) pointerTo(instances[from].exits); !isEndOfArray(theExit); theExit++)
 	if (theExit->target == to)
 	    return TRUE;
 

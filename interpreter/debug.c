@@ -58,7 +58,7 @@ static void showAttributes(AttributeEntry *attributes)
   if (attributes == 0) return;
 
   i = 1;
-  for (at = attributes; !isEndOfList(at); at++) {
+  for (at = attributes; !isEndOfArray(at); at++) {
     sprintf(str, "$i$t%s(%ld) = %ld", (char *) pointerTo(at->stringAddress), at->code, at->value);
 #if ISO == 0
     fromIso(str, str);
@@ -479,9 +479,9 @@ static int findSourceLineIndex(int file, int line) {
   SourceLineEntry *entry = pointerTo(header->sourceLineTable);
   int i = 0;
 
-  while (!isEndOfList(&entry[i]) && entry[i].file <= file && entry[i].line < line)
+  while (!isEndOfArray(&entry[i]) && entry[i].file <= file && entry[i].line < line)
     i++;
-  if (isEndOfList(entry))
+  if (isEndOfArray(entry))
     return i-1;
   else
     return i;

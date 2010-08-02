@@ -61,5 +61,5 @@ char *playerWordsAsCommandString(void) {
 
 /*======================================================================*/
 void clearWordList(Word list[]) {
-    implementationOfSetEndOfList((Aword *)list);
+    implementationOfSetEndOfArray((Aword *)list);
 }

@@ -67,14 +67,14 @@ static void given_EndOfPlayerWords(void) {
 
 /*----------------------------------------------------------------------*/
 static void given_AnEmptyParseTree(ElementEntry *elementTable) {
-    setEndOfList(elementTable);
+    setEndOfArray(elementTable);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void given_AParseTreeWithOnlyEos(ElementEntry *elementTable) {
     makeEOS(&elementTable[0]);
-    setEndOfList(&elementTable[1]);
+    setEndOfArray(&elementTable[1]);
 }
 
 /*----------------------------------------------------------------------*/
@@ -100,7 +100,7 @@ Ensure canMatchEndOfSyntax(void) {
 /*----------------------------------------------------------------------*/
 static void given_AParseTreeWithOnlyParameter(ElementEntry *elementTable) {
     makeParameterElement(&elementTable[0]);
-    setEndOfList(&elementTable[1]);
+    setEndOfArray(&elementTable[1]);
 }
 
 
@@ -108,7 +108,7 @@ static void given_AParseTreeWithOnlyParameter(ElementEntry *elementTable) {
 static void given_AParameterTreeWithEosAndParameter(ElementEntry *elementTable) {
     makeEOS(&elementTable[0]);
     makeParameterElement(&elementTable[1]);
-    setEndOfList(&elementTable[2]);
+    setEndOfArray(&elementTable[2]);
 }
 
 
@@ -139,7 +139,7 @@ Ensure canMatchParameterElement(void) {
 static void given_AParseTreeWithWordAndEos(ElementEntry *elementTable) {
     makeWordElement(&elementTable[0], 1, 0);
     makeEOS(&elementTable[1]);
-    setEndOfList(&elementTable[2]);
+    setEndOfArray(&elementTable[2]);
 }
 
 
@@ -154,7 +154,7 @@ static void given_PlayerInputOfAPreposition() {
 static void given_AParseTreeAllowingWordFollowedByEos(ElementEntry *elementTable) {
     makeWordElement(&elementTable[0], 1, addressOf(&elementTable[1]));
     makeEOS(&elementTable[1]);
-    setEndOfList(&elementTable[2]);
+    setEndOfArray(&elementTable[2]);
 }
 
 
@@ -209,7 +209,7 @@ Ensure canSetupParameterForWord(void) {
     assert_equal(1, messageParameters[0].firstWord);
     assert_equal(1, messageParameters[0].lastWord);
 
-    assert_true(isEndOfList(&messageParameters[1]));
+    assert_true(isEndOfArray(&messageParameters[1]));
 
     free(dictionary);
     free(messageParameters);
@@ -233,7 +233,7 @@ Ensure canSetupInstanceParametersForMessages(void) {
 
     assert_false(isLiteral(parameters[0].instance));
     assert_equal(parameters[0].instance, 2);
-    assert_true(isEndOfList(&parameters[1]));
+    assert_true(isEndOfArray(&parameters[1]));
 
     free(parameters);
 }
@@ -247,7 +247,7 @@ Ensure canSetupStringParametersForMessages(void) {
 
     assert_true(isLiteral(parameters[0].instance));
     assert_string_equal((char *)literals[literalFromInstance(parameters[0].instance)].value, "a string");
-    assert_true(isEndOfList(&parameters[1]));
+    assert_true(isEndOfArray(&parameters[1]));
 
     free(parameters);
 }
@@ -261,7 +261,7 @@ Ensure canSetupIntegerParametersForMessages(void) {
 
     assert_true(isLiteral(parameters[0].instance));
     assert_equal((char *)literals[literalFromInstance(parameters[0].instance)].value, 14);
-    assert_true(isEndOfList(&parameters[1]));
+    assert_true(isEndOfArray(&parameters[1]));
 
     free(parameters);
 }
@@ -276,7 +276,7 @@ static void mockedInstanceMatcher(Parameter parameter) {
 /*----------------------------------------------------------------------*/
 Ensure canMatchEmptyParameterArray(void) {
     Parameter parameters[2];
-    clearParameterList(parameters);
+    clearParameterArray(parameters);
 
     expect_never(mockedInstanceMatcher);
 
@@ -292,9 +292,9 @@ Ensure canMatchSingleParameter(void) {
     parameters[0].firstWord = 1;
     parameters[0].lastWord = 1;
     parameters[0].candidates = NULL;
-    setEndOfList(&parameters[1]);
+    setEndOfArray(&parameters[1]);
 
-    clearParameterList(candidates);
+    clearParameterArray(candidates);
    
     expect(mockedInstanceMatcher,
            want(parameter.firstWord, parameters[0].firstWord),
@@ -303,7 +303,7 @@ Ensure canMatchSingleParameter(void) {
     matchParameters(parameters, mockedInstanceMatcher);
 
     assert_not_equal(parameters[0].candidates, NULL);
-    assert_equal(lengthOfParameterList(parameters[0].candidates), 1);
+    assert_equal(lengthOfParameterArray(parameters[0].candidates), 1);
     assert_equal(parameters[0].candidates[0].instance, 17);
 }
 
@@ -327,7 +327,7 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
     Parameter candidates[MAXENTITY+1];
     Parameter parameter = {0, FALSE, 3, 3, candidates};
 
-    clearParameterList(candidates);
+    clearParameterArray(candidates);
  
     givenPlayerWordsForANoun(theExpectedWordIndex);
 
@@ -337,7 +337,7 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
     
     assert_not_equal(parameter.candidates, NULL);
-    assert_equal(lengthOfParameterList(parameter.candidates), 1);
+    assert_equal(lengthOfParameterArray(parameter.candidates), 1);
     assert_equal(parameter.candidates[0].instance, theExpectedInstance[0]);
 }
 
@@ -368,7 +368,7 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     Parameter candidates[MAXENTITY+1];
     Parameter parameter = {0, FALSE, theExpectedFirstAdjectiveWordIndex, theExpectedNounWordIndex, candidates};
     
-    clearParameterList(candidates);
+    clearParameterArray(candidates);
     
     givenADictionaryWithTwoAdjectivesAndANoun();
 
@@ -380,7 +380,7 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
     
     assert_not_equal(parameter.candidates, NULL);
-    assert_equal(lengthOfParameterList(parameter.candidates), 1);
+    assert_equal(lengthOfParameterArray(parameter.candidates), 1);
     assert_equal(parameter.candidates[0].instance, theExpectedInstance);
 }
 
@@ -397,7 +397,7 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     Parameter candidates[MAXENTITY+1];
     Parameter parameter = {0, FALSE, theExpectedFirstAdjectiveWordIndex, theExpectedNounWordIndex, candidates};
     
-    clearParameterList(candidates);
+    clearParameterArray(candidates);
     
     givenPlayerWordsWithTwoAdjectivesAndANoun(theExpectedFirstAdjectiveWordIndex);
 
@@ -413,14 +413,14 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
     
     assert_not_equal(parameter.candidates, NULL);
-    assert_equal(lengthOfParameterList(parameter.candidates), 1);
+    assert_equal(lengthOfParameterArray(parameter.candidates), 1);
     assert_equal(parameter.candidates[0].instance, theExpectedInstance);
 }
 
 static void mockedComplexParameterParser(ParameterPosition *parameterPosition){
     mock(parameterPosition);
     parameterPosition->parameters[0].instance = 1;
-    setEndOfList(&parameterPosition->parameters[1]);
+    setEndOfArray(&parameterPosition->parameters[1]);
 }
 
 
@@ -430,18 +430,18 @@ Ensure parseAndBuildParameterPositionCanFillOutAParameterPosition() {
     Parameter candidates[MAXENTITY+1];
     
     parameterPosition->parameters = candidates;
-    setEndOfList(&candidates[0]);
+    setEndOfArray(&candidates[0]);
     
     parseAndBuildParameterPosition(parameterPosition, flags, mockedComplexParameterParser);
     
-    assert_equal(lengthOfParameterList(parameterPosition->parameters), 1);
+    assert_equal(lengthOfParameterArray(parameterPosition->parameters), 1);
 }
 
 
 static void mockedSimpleCandidateParser(Parameter candidates[]) {
     mock(candidates);
     candidates[0].instance = 1;
-    setEndOfList(&candidates[1]);
+    setEndOfArray(&candidates[1]);
 }
 
 static void givenAPlayerWordOtherThanAll() {
@@ -460,7 +460,7 @@ Ensure canFilloutAParameterPositionForSomethingNotAll(void) {
 
     complexParameterParserAndBuilderDelegate(parameterPosition, mockedSimpleCandidateParser, buildAllHere);
 
-    assert_equal(lengthOfParameterList(parameterPosition->parameters), 1);    
+    assert_equal(lengthOfParameterArray(parameterPosition->parameters), 1);    
 }
 
 
@@ -483,7 +483,7 @@ void mockedAllBuilder(Parameter candidates[])
 {
     mock(candidates);
     candidates[0].instance = 1;
-    setEndOfList(&candidates[1]);
+    setEndOfArray(&candidates[1]);
 }
 
 /*----------------------------------------------------------------------*/

@@ -394,7 +394,7 @@ static void initStaticData(void)
     /* Dictionary */
     dictionary = (DictionaryEntry *) pointerTo(header->dictionary);
     /* Find out number of entries in dictionary */
-    for (dictionarySize = 0; !isEndOfList(&dictionary[dictionarySize]); dictionarySize++);
+    for (dictionarySize = 0; !isEndOfArray(&dictionary[dictionarySize]); dictionarySize++);
 	
     /* Scores */
 	
@@ -449,7 +449,7 @@ static void initStrings(void)
 {
     StringInitEntry *init;
 	
-    for (init = (StringInitEntry *) pointerTo(header->stringInitTable); !isEndOfList(init); init++)
+    for (init = (StringInitEntry *) pointerTo(header->stringInitTable); !isEndOfArray(init); init++)
         setInstanceAttribute(init->instanceCode, init->attributeCode, (Aword)getStringFromFile(init->fpos, init->len));
 }
 
@@ -461,7 +461,7 @@ static Aint sizeOfAttributeData(void)
 	
     for (i=1; i<=header->instanceMax; i++) {
         AttributeEntry *attribute = pointerTo(instances[i].initialAttributes);
-        while (!isEndOfList(attribute)) {
+        while (!isEndOfArray(attribute)) {
             size += AwordSizeOf(AttributeEntry);
             attribute++;
         }
@@ -484,7 +484,7 @@ static AttributeEntry *initializeAttributes(int awordSize)
     for (i=1; i<=header->instanceMax; i++) {
         AttributeEntry *originalAttribute = pointerTo(instances[i].initialAttributes);
         admin[i].attributes = (AttributeEntry *)currentAttributeArea;
-        while (!isEndOfList(originalAttribute)) {
+        while (!isEndOfArray(originalAttribute)) {
             *((AttributeEntry *)currentAttributeArea) = *originalAttribute;
             currentAttributeArea += AwordSizeOf(AttributeEntry);
             originalAttribute++;
@@ -702,7 +702,7 @@ static void moveActor(int theActor)
             fail = FALSE;			/* fail only aborts one actor */
         }
     } else if (admin[theActor].script != 0) {
-        for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !isEndOfList(scr); scr++) {
+        for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !isEndOfArray(scr); scr++) {
             if (scr->code == admin[theActor].script) {
                 /* Find correct step in the list by indexing */
                 step = (StepEntry *) pointerTo(scr->steps);
@@ -728,7 +728,7 @@ static void moveActor(int theActor)
                 }
                 /* OK, so finally let him do his thing */
                 admin[theActor].step++;		/* Increment step number before executing... */
-                if (!isEndOfList(step+1) && (step+1)->after != 0) {
+                if (!isEndOfArray(step+1) && (step+1)->after != 0) {
                     admin[theActor].waitCount = evaluate((step+1)->after);
                 }
                 if (traceActor(theActor))
@@ -739,14 +739,14 @@ static void moveActor(int theActor)
                 interpret(step->stms);
                 step++;
                 /* ... so that we can see if he is USEing another script now */
-                if (admin[theActor].step != 0 && isEndOfList(step))
+                if (admin[theActor].step != 0 && isEndOfArray(step))
                     /* No more steps in this script, so stop him */
                     admin[theActor].script = 0;
                 fail = FALSE;			/* fail only aborts one actor */
                 break;			/* We have executed a script so leave loop */
             }
         }
-        if (isEndOfList(scr))
+        if (isEndOfArray(scr))
             syserr("Unknown actor script.");
     } else {
         if (sectionTraceOption) {

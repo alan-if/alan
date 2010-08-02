@@ -68,9 +68,9 @@ Ensure canHandleMemoryStartForPre3_0alpha5IsShorter() {
 Ensure canSetEof() {
     Parameter parameters[10];
 
-    setEndOfList(&parameters[7]);
-    assert_false(isEndOfList(&parameters[0]));
-    assert_true(isEndOfList(&parameters[7]));
+    setEndOfArray(&parameters[7]);
+    assert_false(isEndOfArray(&parameters[0]));
+    assert_true(isEndOfArray(&parameters[7]));
 }
 
 TestSuite *mainTests()

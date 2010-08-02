@@ -11,7 +11,7 @@ AttributeEntry *findAttribute(AttributeEntry *attributeTable, int attributeCode)
   AttributeEntry *attribute = attributeTable;
   while (attribute->code != attributeCode) {
     attribute++;
-    if (isEndOfList(attribute))
+    if (isEndOfArray(attribute))
       syserr("Attribute not found.");
   }
   return attribute;

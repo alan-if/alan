@@ -10,9 +10,9 @@
 #include "acode.h"
 #include "types.h"
 
-#define isEndOfList(x) implementationOfIsEndOfList((Aword *) (x))
+#define isEndOfArray(x) implementationOfIsEndOfList((Aword *) (x))
 extern Bool implementationOfIsEndOfList(Aword *adr);
-#define setEndOfList(x) implementationOfSetEndOfList((Aword *) (x))
-extern void implementationOfSetEndOfList(Aword *adr);
+#define setEndOfArray(x) implementationOfSetEndOfArray((Aword *) (x))
+extern void implementationOfSetEndOfArray(Aword *adr);
 
 #endif

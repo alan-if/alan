@@ -14,7 +14,7 @@ Bool checksFailed(Aaddr adr, Bool execute)
 			interpret(chk->stms);
 		return TRUE;
 	} else {
-		while (!isEndOfList(chk)) {
+		while (!isEndOfArray(chk)) {
 			if (!evaluate(chk->exp)) {
 				if (execute == EXECUTE_CHECK_BODY_ON_FAIL)
 					interpret(chk->stms);
