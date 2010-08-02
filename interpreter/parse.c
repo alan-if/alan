@@ -59,7 +59,6 @@ typedef void (*ParameterParser)(Parameter parameters[]);
 
 /* PRIVATE DATA */
 static Pronoun *pronouns = NULL;
-static int allWordIndex;        /* Word index of the ALL_WORD found */
 
 
 /* Syntax Parameters */
@@ -196,7 +195,6 @@ static int fakePlayerWordForAll() {
     for (p = 0; !isEndOfArray(&playerWords[p]); p++)
         ;
     setEndOfArray(&playerWords[p+1]); /* Make room for one more word */
-    allWordIndex = p;
     for (d = 0; d < dictionarySize; d++)
         if (isAll(d)) {
             playerWords[p].code = d;
@@ -246,13 +244,14 @@ static void buildAllHere(Parameter list[]) {
         if (isHere(o, FALSE)) {
             found = TRUE;
             list[i].instance = o;
-            list[i++].firstWord = EOF;
+            list[i].firstWord = currentWordIndex;
+            list[i].lastWord = currentWordIndex;
+            i++;
         }
     if (!found)
         errorWhat(currentWordIndex);
     else
         setEndOfArray(&list[i]);
-    allWordIndex = currentWordIndex;
 }
 
 
@@ -1190,9 +1189,9 @@ static void instanceMatcher(Parameter parameter) {
             parameter.instance = instanceFromLiteral(playerWords[parameter.firstWord].code - dictionarySize);
         else if (isThemWord(parameter.firstWord) || isPronounWord(parameter.firstWord))
             ; // TODO Find instances for THEM and prounoun
-        else if (isAllWord(parameter.firstWord))
-            ;//buildAllHere(parameter.candidates); /* Build list of all possible objects */
-        else
+        else if (isAllWord(parameter.firstWord)) {
+            buildAllHere(parameter.candidates); /* Build list of all possible objects */
+        } else
             matchNounPhrase(parameter, adjectiveReferencesForWord, nounReferencesForWord);
     }
 }
@@ -1202,11 +1201,17 @@ static void instanceMatcher(Parameter parameter) {
 static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Parameter parameter)) 
 {
     int i;
-     
-    for (i = 0; i < lengthOfParameterArray(parameters); i++) {
-	if (parameters[i].candidates == NULL)
-	    parameters[i].candidates = allocateParameterArray(MAXENTITY);
-	instanceMatcher(parameters[i]);
+    
+    if (lengthOfParameterArray(parameters) > 0) {
+        if (isAllWord(parameters[0].firstWord))
+            buildAllHere(parameters);
+        else {
+            for (i = 0; i < lengthOfParameterArray(parameters); i++) {
+                if (parameters[i].candidates == NULL)
+                    parameters[i].candidates = allocateParameterArray(MAXENTITY);
+                instanceMatcher(parameters[i]);
+            }
+        }
     }
 }
 
@@ -1251,13 +1256,16 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
     stx = findSyntaxTreeForVerb(verbWordCode);
 
+
     /*
      * Then match the player input words, instance references and
      * other words, following the syntax elements in the parse
      * tree.
      */
+
     // TODO New strategy! parameterPositions2 should just be parsed with word pointers, but no matched instances
     ParameterPosition *parameterPositions2 = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+
     element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameterPositions2);
     handleFailedParse(element);
 	
@@ -1273,21 +1281,18 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 	matchParameters(parameterPositions2[position].parameters, instanceMatcher);
     }
 
-
-    // TODO New strategy! Comparing the two parameterPositions arrays for verifying that they both contain the same
-    //if (!equalParameterPositions(parameterPositions, parameterPositions2))
-    //  printf("Not the same parameterPositions in new and old strategy!!!\n");
-
     /* Now perform restriction checks */
     restrictParametersAccordingToSyntax(parameterPositions, element);
+    //restrictParametersAccordingToSyntax(parameterPositions2, element);
 
     /* Finally, if the player used ALL, try to find out what was applicable */
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
         // DISAMBIGUATION!!!
         disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
+        //disambiguateCandidatesForPosition(parameterPositions2, multiplePosition, parameterPositions2[multiplePosition].parameters);
         if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
-            errorWhat(allWordIndex);
+            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);  //allWordIndex);
 
     } else if (anyExplicitMultiple(parameterPositions)) {
         compressParameterArray(parameterPositions[multiplePosition].parameters);
@@ -1297,6 +1302,10 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
             abortPlayerCommand();
         }
     }
+
+    // TODO New strategy! Comparing the two parameterPositions arrays for verifying that they both contain the same
+    //if (!equalParameterPositions(parameterPositions, parameterPositions2))
+    //printf("Not the same parameterPositions in new and old strategy!!!\n");
 
     // TODO: Now we need to convert back to legacy parameter and multipleParameter format
     convertPositionsToParameters(parameterPositions, parameters);

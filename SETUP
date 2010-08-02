@@ -14,7 +14,8 @@ Cygwin:
 
         - AnsiCon: I installed AnsiCon 1.24 which is a consol add on
           to make the XP and later consol show ansi coloring (nice
-          when running jregr)
+          when running jregr), but I am unsure if it is required when
+          using mintty.
 
         - CGreen: To run unit tests you also need Cgreen. Cgreen needs
           cmake and flex, so install those using the cygwin

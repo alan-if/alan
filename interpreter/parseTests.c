@@ -294,6 +294,8 @@ Ensure canMatchSingleParameter(void) {
     parameters[0].candidates = NULL;
     setEndOfArray(&parameters[1]);
 
+    playerWords = allocate(10);
+
     clearParameterArray(candidates);
    
     expect(mockedInstanceMatcher,
