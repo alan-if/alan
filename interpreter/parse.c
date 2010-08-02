@@ -1009,13 +1009,14 @@ static Bool endOfPlayerCommand(int wordIndex) {
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElement, ParameterPosition parameterPositions[]) {
+static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElement, ParameterPosition parameterPositions[], ParameterPosition parameterPositions2[]) {
     ElementEntry *currentElement = startingElement;
     ElementEntry *nextElement = startingElement;
 
     int parameterCount = 0;
     while (nextElement != NULL) {
         parameterPositions[parameterCount].endOfList = TRUE;
+        parameterPositions2[parameterCount].endOfList = TRUE;
 
         /* Traverse the possible branches of currentElement to find a match, let the actual input control what we look for */
 
@@ -1033,13 +1034,10 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
                 // Parse and build
                 parseAndBuildParameterPosition(&parameterPositions[parameterCount], nextElement->flags, complexReferencesParserAndBuilder);
 
-                // ... or just parse? This is experimental duplication without any building, just parsing
+                // TODO New strategy! ... just parse. This is experimental duplication without any building, just parsing
                 // Should create a correct structure without resolved instance references
-                ParameterPosition parameterPosition;
-                parameterPosition.parameters = NULL;
-                parameterPosition.exceptions = NULL;
                 currentWordIndex = savedWordIndex;
-                parseParameterPosition(&parameterPosition, nextElement->flags, complexReferencesParser);
+                parseParameterPosition(&parameterPositions2[parameterCount], nextElement->flags, complexReferencesParser);
 
                 currentElement = (ElementEntry *) pointerTo(nextElement->next);
                 parameterPositions[parameterCount].endOfList = FALSE;
@@ -1236,7 +1234,7 @@ static void convertMultipleCandidatesToMultipleParameters(Parameter multiplePara
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     // TODO This is much too long, try to refactor out some functions
-    ElementEntry *element;         /* Pointer to element list */
+    ElementEntry *element;      /* Pointer to element list */
     SyntaxEntry *stx;           /* Pointer to syntax parse list */
     int position;
 
@@ -1256,7 +1254,9 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      * other words, following the syntax elements in the parse
      * tree.
      */
-    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions);
+    // TODO New strategy! parameterPositions2 should just be parsed with word pointers, but no matched instances
+    ParameterPosition *parameterPositions2 = allocate(sizeof(ParameterPosition)*MAXPARAMS);
+    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameterPositions2);
     handleFailedParse(element);
 	
     /*
@@ -1266,9 +1266,9 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      */
     current.verb = remapParameterOrder(element->flags, parameterPositions);
 
-    /* TODO Work In Progress! Match parameters to instances ... */
-    for (position = 0; !parameterPositions[position].endOfList; position++) {
-	matchParameters(parameterPositions[position].parameters, instanceMatcher);
+    /* TODO New strategy! Match parameters to instances ... */
+    for (position = 0; !parameterPositions2[position].endOfList; position++) {
+	matchParameters(parameterPositions2[position].parameters, instanceMatcher);
     }
 
     /* Now perform restriction checks */
