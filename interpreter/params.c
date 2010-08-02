@@ -228,7 +228,7 @@ void printParameterArray(Parameter parameters[]) {
     int i;
     printf("[");
     for (i = 0; !isEndOfList(&parameters[i]); i++) {
-	printf("%d ", parameters[i].instance);
+	printf("%d ", (int)parameters[i].instance);
     }
     printf("]\n");
 }

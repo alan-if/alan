@@ -78,8 +78,9 @@ static int lookup(char wrd[]) {
     int i;
 	
     for (i = 0; !isEndOfList(&dictionary[i]); i++) {
-        if (compareStrings(wrd, (char *) pointerTo(dictionary[i].string)) == 0)
+        if (compareStrings(wrd, (char *) pointerTo(dictionary[i].string)) == 0) {
             return (i);
+        }
     }
     unknown(wrd);
     return (EOF);

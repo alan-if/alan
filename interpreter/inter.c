@@ -395,7 +395,7 @@ void interpret(Aaddr adr)
             switch (I_OP(i)) {
             case V_PARAM:
                 if (singleStepOption) printf("PARAM \t%7ld\t\t\t\t=%d\t", top(stack),
-                                             globalParameters[top(stack)-1].instance);
+                                             (int)globalParameters[top(stack)-1].instance);
                 push(stack, globalParameters[pop(stack)-1].instance);
                 break;
             case V_CURLOC:
