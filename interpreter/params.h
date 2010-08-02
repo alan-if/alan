@@ -38,6 +38,7 @@ extern Parameter *findEndOfParameterList(Parameter *parameters);
 extern int findMultiplePosition(Parameter parameters[]);
 extern void compressParameterList(Parameter *a);
 extern int lengthOfParameterList(Parameter *a);
+extern Bool equalParameterArrays(Parameter parameters1[], Parameter parameters2[]);
 extern Bool inParameterList(Parameter *l, Aword e);
 extern void copyParameterList(Parameter *to, Parameter *from);
 extern void clearParameterList(Parameter *list);

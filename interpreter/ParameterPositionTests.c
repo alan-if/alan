@@ -64,6 +64,42 @@ Ensure copyParameterPositionsCopyTheWholeListIncludingTheEndMarker(void) {
 }
 
 
+static ParameterPosition *givenAnyParameterPositionArrayOfLength(int length) {
+    ParameterPosition *parameterPositionArray = allocate(sizeof(ParameterPosition)*(length+1));
+    int i;
+    for (i=0; i<length; i++)
+        parameterPositionArray[i].endOfList = FALSE;
+    parameterPositionArray[length].endOfList = TRUE;
+    return parameterPositionArray;
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure parameterPositionsOfUnequalLengthAreNotEqual(void) {
+    ParameterPosition *parameterPosition1 = givenAnyParameterPositionArrayOfLength(2);
+    ParameterPosition *parameterPosition2 = givenAnyParameterPositionArrayOfLength(1);
+
+    assert_false(equalParameterPositions(parameterPosition1, parameterPosition2));
+}
+
+/*----------------------------------------------------------------------*/
+Ensure parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual(void) {
+    ParameterPosition parameterPosition1[2];
+    ParameterPosition parameterPosition2[2];
+
+    parameterPosition1[0].endOfList = FALSE;
+    parameterPosition1[0].parameters = allocate(sizeof(Parameter)*5);
+    setEndOfList(&parameterPosition1[0].parameters[5-1]);
+    parameterPosition1[1].endOfList = TRUE;
+
+    parameterPosition2[0].endOfList = FALSE;
+    parameterPosition2[0].parameters = allocate(sizeof(Parameter)*4);
+    setEndOfList(&parameterPosition2[0].parameters[4-1]);
+    parameterPosition2[1].endOfList = TRUE;
+
+    assert_false(equalParameterPositions(parameterPosition1, parameterPosition2));
+}
+
 /*======================================================================*/
 TestSuite *parameterPositionTests(void)
 {
@@ -74,6 +110,8 @@ TestSuite *parameterPositionTests(void)
     add_test(suite, canUncheckAllParameterPositions);
     add_test(suite, canFindMultipleParameterPosition);
     add_test(suite, copyParameterPositionsCopyTheWholeListIncludingTheEndMarker);
+    add_test(suite, parameterPositionsOfUnequalLengthAreNotEqual);
+    add_test(suite, parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual);
 
     return suite;
 }

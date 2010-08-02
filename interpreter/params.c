@@ -11,7 +11,7 @@
 #include "lists.h"
 #include "memory.h"
 #include "literal.h"
-#include "ParameterPosition.h"
+#include "parameterPosition.h"
 
 
 /* PUBLIC DATA */
@@ -109,6 +109,15 @@ int lengthOfParameterList(Parameter theList[])
     while (!isEndOfList(&theList[i]))
         i++;
     return i;
+}
+
+
+/*======================================================================*/
+Bool equalParameterArrays(Parameter parameters1[], Parameter parameters2[])
+{
+    if (parameters1 == NULL && parameters2 != NULL)
+        return FALSE;
+    return parameters1 == NULL || lengthOfParameterList(parameters1) == lengthOfParameterList(parameters2);
 }
 
 

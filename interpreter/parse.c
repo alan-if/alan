@@ -1271,6 +1271,11 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 	matchParameters(parameterPositions2[position].parameters, instanceMatcher);
     }
 
+
+    // TODO New strategy! Comparing the two parameterPositions arrays for verifying that they both contain the same
+    if (!equalParameterPositions(parameterPositions, parameterPositions2))
+        printf("Not the same parameterPositions in new and old strategy!!!\n");
+
     /* Now perform restriction checks */
     restrictParametersAccordingToSyntax(parameterPositions, element);
 

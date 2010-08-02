@@ -22,10 +22,23 @@ void uncheckAllParameterPositions(ParameterPosition parameterPositions[]) {
 
 /*======================================================================*/
 void copyParameterPositions(ParameterPosition originalParameterPositions[], ParameterPosition parameterPositions[]) {
-    Aint parameterNumber;
-    for (parameterNumber = 0; !originalParameterPositions[parameterNumber].endOfList; parameterNumber++)
-        parameterPositions[parameterNumber] = originalParameterPositions[parameterNumber];
-    parameterPositions[parameterNumber].endOfList = TRUE;
+    int i;
+    for (i = 0; !originalParameterPositions[i].endOfList; i++)
+        parameterPositions[i] = originalParameterPositions[i];
+    parameterPositions[i].endOfList = TRUE;
+}
+
+
+/*======================================================================*/
+Bool equalParameterPositions(ParameterPosition parameterPositions1[], ParameterPosition parameterPositions2[]) {
+    int i;
+    for (i = 0; !parameterPositions1[i].endOfList; i++) {
+        if (parameterPositions2[i].endOfList)
+            return FALSE;
+        if (!equalParameterArrays(parameterPositions1[i].parameters, parameterPositions2[i].parameters))
+            return FALSE;
+    }
+    return parameterPositions2[i].endOfList;
 }
 
 

@@ -36,11 +36,13 @@ Ensure canSetAndGetParameters(void) {
 }
 
 
-/*======================================================================*/
+/*----------------------------------------------------------------------*/
 Ensure getWillAllocateStoredParameters(void) {
     assert_not_equal(getParameters(), NULL);
 }
 
+
+/*----------------------------------------------------------------------*/
 Ensure can_find_multiple_position(void) {
     Parameter parameters[10];
     int i;
@@ -54,16 +56,34 @@ Ensure can_find_multiple_position(void) {
 }
 
 
+/*----------------------------------------------------------------------*/
 Ensure returns_minus_one_for_no_multiple_position(void) {
     Parameter parameters[10];
     int i;
 
     for (i=0; i<10; i++)
         parameters[i].instance = 2;
-    parameters[9].instance = -1;
+    setEndOfList(&parameters[9]);
 
     assert_equal(findMultiplePosition(parameters), -1);
 }
+
+
+static Parameter *givenAnyParameterArrayOfLength(int length) {
+    Parameter *parameters = allocateParameterArray(length);
+    parameters->instance = 1;
+    setEndOfList(&parameters[length]);
+    return parameters;
+}
+
+/*----------------------------------------------------------------------*/
+Ensure unequal_length_parameter_arrays_are_not_equal(void) {
+    Parameter *parameters1 = givenAnyParameterArrayOfLength(4);
+    Parameter *parameters2 = givenAnyParameterArrayOfLength(5);
+
+    assert_false(equalParameterArrays(parameters1, parameters2));
+}
+
 
 /*======================================================================*/
 TestSuite *paramsTests(void)
@@ -75,6 +95,7 @@ TestSuite *paramsTests(void)
     add_test(suite, getWillAllocateStoredParameters);
     add_test(suite, can_find_multiple_position);
     add_test(suite, returns_minus_one_for_no_multiple_position);
+    add_test(suite, unequal_length_parameter_arrays_are_not_equal);
 
     return suite;
 }
