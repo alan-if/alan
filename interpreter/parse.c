@@ -325,9 +325,19 @@ static Aint *adjectiveReferencesForWord(int wordIndex) {
 
 
 /*----------------------------------------------------------------------*/
-static void parseLiteralOrPronoun(Parameter parameters[]) {
+static void parseLiteral(Parameter parameters[]) {
     parameters[0].firstWord = parameters[0].lastWord = currentWordIndex++;
     parameters[0].instance = 0;
+    parameters[0].isLiteral = TRUE;
+    setEndOfArray(&parameters[1]);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void parsePronoun(Parameter parameters[]) {
+    parameters[0].firstWord = parameters[0].lastWord = currentWordIndex++;
+    parameters[0].instance = 0;
+    parameters[0].isPronoun = TRUE;
     setEndOfArray(&parameters[1]);
 }
 
@@ -605,8 +615,10 @@ static void parseAndBuildAdjectivesAndNounToSingleParameter(Parameter parameters
 static void parseReferences(Parameter parameters[]) {
     clearParameterArray(parameters);
 
-    if (isLiteralWord(currentWordIndex) || isPronounWord(currentWordIndex)) {
-        parseLiteralOrPronoun(parameters);
+    if (isLiteralWord(currentWordIndex)) {
+        parseLiteral(parameters);
+    } else if (isPronounWord(currentWordIndex)) {
+        parsePronoun(parameters);
     } else {
         parseAdjectivesAndNoun(parameters);
     }
@@ -1173,24 +1185,43 @@ static void restrictParametersAccordingToSyntax(ParameterPosition parameterPosit
 
 
 /*----------------------------------------------------------------------*/
-static void matchNounPhrase(Parameter parameter, ReferencesFinder adjectiveReferencesFinder, ReferencesFinder nounReferencesFinder) {
-    int i;
-    
-    for (i = parameter.firstWord; i < parameter.lastWord; i++)
-        updateWithReferences(parameter.candidates, i, adjectiveReferencesFinder);
-    updateWithReferences(parameter.candidates, parameter.lastWord, nounReferencesFinder);
+static void matchPronoun(Parameter *parameter) {
+    static Parameter *pronounInstances = NULL;
+    pronounInstances = ensureParameterArrayAllocated(pronounInstances, MAXENTITY+1);
+	
+    int pronounCandidateCount = getPronounInstances(playerWords[parameter->firstWord].code, pronounInstances);
+    if (pronounCandidateCount == 0)
+        errorWhat(parameter->firstWord);
+    else if (pronounCandidateCount > 1)
+        errorWhichPronoun(parameter->firstWord, pronounInstances);
+    else {
+        parameter->candidates[0] = pronounInstances[0];
+        setEndOfArray(&parameter->candidates[1]);
+    }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void instanceMatcher(Parameter parameter) {
-    if (parameter.firstWord != EOF && parameter.firstWord != 0) {
-        if (isLiteralWord(parameter.firstWord))
-            parameter.instance = instanceFromLiteral(playerWords[parameter.firstWord].code - dictionarySize);
-        else if (isThemWord(parameter.firstWord) || isPronounWord(parameter.firstWord))
-            ; // TODO Find instances for THEM and prounoun
-        else if (isAllWord(parameter.firstWord)) {
-            buildAllHere(parameter.candidates); /* Build list of all possible objects */
+static void matchNounPhrase(Parameter *parameter, ReferencesFinder adjectiveReferencesFinder, ReferencesFinder nounReferencesFinder) {
+    int i;
+    
+    for (i = parameter->firstWord; i < parameter->lastWord; i++)
+        updateWithReferences(parameter->candidates, i, adjectiveReferencesFinder);
+    updateWithReferences(parameter->candidates, parameter->lastWord, nounReferencesFinder);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void instanceMatcher(Parameter *parameter) {
+    if (parameter->firstWord != EOF && parameter->firstWord != 0) { // TODO Why?
+        // TODO Parameter should be marked as Literal, Them, Pronoun, All instead of repeating the word lookup
+        if (parameter->isLiteral) {
+            parameter->candidates[0].instance = instanceFromLiteral(playerWords[parameter->firstWord].code - dictionarySize);
+            setEndOfArray(&parameter->candidates[1]);
+        } else if (parameter->isPronoun) {
+            matchPronoun(parameter);
+        } else if (isThemWord(parameter->firstWord)) {
+            ; // TODO Find instances for THEM
         } else
             matchNounPhrase(parameter, adjectiveReferencesForWord, nounReferencesForWord);
     }
@@ -1198,18 +1229,24 @@ static void instanceMatcher(Parameter parameter) {
 
 
 /*----------------------------------------------------------------------*/
-static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Parameter parameter)) 
+static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Parameter *parameter)) 
 {
     int i;
     
     if (lengthOfParameterArray(parameters) > 0) {
+        // TODO This is a legacy compatible way (to fill the parameters)
+        // A forward compatible way would be to fill the candidates instead
         if (isAllWord(parameters[0].firstWord))
             buildAllHere(parameters);
         else {
             for (i = 0; i < lengthOfParameterArray(parameters); i++) {
                 if (parameters[i].candidates == NULL)
                     parameters[i].candidates = allocateParameterArray(MAXENTITY);
-                instanceMatcher(parameters[i]);
+                instanceMatcher(&parameters[i]);
+                if (lengthOfParameterArray(parameters[i].candidates) == 1)
+                    parameters[i].instance = parameters[i].candidates[0].instance;
+                //else
+                //  printf("DEBUG: multiple candidates found\n");
             }
         }
     }
@@ -1252,43 +1289,24 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions, Parameter
 }
 
 
+/*----------------------------------------------------------------------*/
+static void newWay(ParameterPosition parameterPositions2[], ElementEntry *element) {
+    /* The New Strategy! Parsing has only collected word indications,
+       not built anything, so we need match parameters to instances here */
 
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void try(Parameter parameters[], Parameter multipleParameters[]) {
-    // TODO This is much too long, try to refactor out some functions
-    ElementEntry *element;      /* Pointer to element list */
-    SyntaxEntry *stx;           /* Pointer to syntax parse list */
     int position;
-
-    /*
-     * TODO This code, and much of the above, should be refactored to
-     * not do both parsing and parameter matching at the same time. It
-     * should first parse and add to the parameterPosition array where
-     * each entry indicates which words in the command line was
-     * "eaten" by this parameter. Then each parameter position can be
-     * resolved using those words.
-     */
-
-    // TODO New strategy! parameterPositions2 should just be parsed with word pointers, but no matched instances
-    ParameterPosition *parameterPositions2 = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
-
-    element = parseInput(parameterPositions, parameterPositions2);
-
-    /* TODO New strategy! Match parameters to instances ... */
     for (position = 0; !parameterPositions2[position].endOfList; position++) {
 	matchParameters(parameterPositions2[position].parameters, instanceMatcher);
     }
 
     /* Now perform restriction checks */
-    restrictParametersAccordingToSyntax(parameterPositions, element);
-    //restrictParametersAccordingToSyntax(parameterPositions2, element);
+    restrictParametersAccordingToSyntax(parameterPositions2, element);
 
     /* Finally, if the player used ALL, try to find out what was applicable */
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
         // DISAMBIGUATION!!!
-        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
-        //disambiguateCandidatesForPosition(parameterPositions2, multiplePosition, parameterPositions2[multiplePosition].parameters);
+        disambiguateCandidatesForPosition(parameterPositions2, multiplePosition, parameterPositions2[multiplePosition].parameters);
         if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
             errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);  //allWordIndex);
 
@@ -1301,9 +1319,60 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
         }
     }
 
+}
+
+
+/*----------------------------------------------------------------------*/
+static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element) {
+
+    /* Now perform restriction checks */
+    restrictParametersAccordingToSyntax(parameterPositions, element);
+
+    /* Finally, if the player used ALL, try to find out what was applicable */
+    int multiplePosition = findMultipleParameterPosition(parameterPositions);
+    if (anyAll(parameterPositions)) {
+        // DISAMBIGUATION!!!
+        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
+        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
+            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);  //allWordIndex);
+
+    } else if (anyExplicitMultiple(parameterPositions)) {
+        compressParameterArray(parameterPositions[multiplePosition].parameters);
+        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0) {
+            /* If there where multiple parameters but non left, exit without a */
+            /* word, assuming we have already said enough */
+            abortPlayerCommand();
+        }
+    }
+}
+
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+static void try(Parameter parameters[], Parameter multipleParameters[]) {
+    ElementEntry *element;      /* Pointer to element list */
+
+    /*
+     * TODO This code, and much of the above, is going through an
+     * extensive refactoring to not do both parsing and parameter
+     * matching at the same time. It should first parse and add to the
+     * parameterPosition array where each entry indicates which words
+     * in the command line was "eaten" by this parameter. Then each
+     * parameter position can be resolved using those words.  oldWay()
+     * does it the old way, and newWay() tries to do it the new way...
+     */
+
+    ParameterPosition *parameterPositions2 = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+
+    element = parseInput(parameterPositions, parameterPositions2);
+
+    oldWay(parameterPositions, element);
+
+#ifdef NEWWAY
+    newWay(parameterPositions2, element);
     // TODO New strategy! Comparing the two parameterPositions arrays for verifying that they both contain the same
-    //if (!equalParameterPositions(parameterPositions, parameterPositions2))
-    //printf("Not the same parameterPositions in new and old strategy!!!\n");
+    if (!equalParameterPositions(parameterPositions, parameterPositions2))
+        printf("Not the same parameterPositions in new and old strategy!!!\n");
+#endif
 
     // TODO: Now we need to convert back to legacy parameter and multipleParameter format
     convertPositionsToParameters(parameterPositions, parameters);

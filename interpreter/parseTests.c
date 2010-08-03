@@ -267,10 +267,10 @@ Ensure canSetupIntegerParametersForMessages(void) {
 }
 
 
-static void mockedInstanceMatcher(Parameter parameter) {
-    mock(parameter.firstWord, parameter.lastWord);
-    parameter.candidates[0].instance = 17;
-    parameter.candidates[1].instance = -1;
+static void mockedInstanceMatcher(Parameter *parameter) {
+    mock(parameter->firstWord, parameter->lastWord);
+    parameter->candidates[0].instance = 17;
+    parameter->candidates[1].instance = -1;
 }
 
 /*----------------------------------------------------------------------*/
@@ -327,7 +327,10 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
     int theExpectedInstance[2] = {23, EOF};
     int theExpectedWordIndex = 3;
     Parameter candidates[MAXENTITY+1];
-    Parameter parameter = {0, FALSE, 3, 3, candidates};
+    Parameter parameter;
+
+    clearParameter(&parameter, candidates);
+    parameter.firstWord = parameter.lastWord = 3;
 
     clearParameterArray(candidates);
  
@@ -336,7 +339,7 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
     expect(mockedReferenceFinder, want(currentWordIndex, theExpectedWordIndex));
     will_return(mockedReferenceFinder, theExpectedInstance);
 
-    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
+    matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
     
     assert_not_equal(parameter.candidates, NULL);
     assert_equal(lengthOfParameterArray(parameter.candidates), 1);
@@ -368,8 +371,11 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     int theExpectedFirstAdjectiveWordIndex = 3;
     int theExpectedNounWordIndex = 4;
     Parameter candidates[MAXENTITY+1];
-    Parameter parameter = {0, FALSE, theExpectedFirstAdjectiveWordIndex, theExpectedNounWordIndex, candidates};
-    
+    Parameter parameter;
+    clearParameter(&parameter, candidates);
+    parameter.firstWord = theExpectedFirstAdjectiveWordIndex;
+    parameter.lastWord = theExpectedNounWordIndex;
+
     clearParameterArray(candidates);
     
     givenADictionaryWithTwoAdjectivesAndANoun();
@@ -379,7 +385,7 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     expect(mockedReferenceFinder, want(currentWordIndex, theExpectedNounWordIndex));
     will_return(mockedReferenceFinder, theNounInstances);
 
-    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
+    matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
     
     assert_not_equal(parameter.candidates, NULL);
     assert_equal(lengthOfParameterArray(parameter.candidates), 1);
@@ -397,8 +403,11 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     int theExpectedSecondAdjectiveWordIndex = 4;
     int theExpectedNounWordIndex = 5;
     Parameter candidates[MAXENTITY+1];
-    Parameter parameter = {0, FALSE, theExpectedFirstAdjectiveWordIndex, theExpectedNounWordIndex, candidates};
-    
+    Parameter parameter;
+    clearParameter(&parameter, candidates);
+    parameter.firstWord = theExpectedFirstAdjectiveWordIndex;
+    parameter.lastWord = theExpectedNounWordIndex;
+
     clearParameterArray(candidates);
     
     givenPlayerWordsWithTwoAdjectivesAndANoun(theExpectedFirstAdjectiveWordIndex);
@@ -412,7 +421,7 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     expect(mockedReferenceFinder, want(currentWordIndex, theExpectedNounWordIndex));
     will_return(mockedReferenceFinder, theNounInstances);
 
-    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
+    matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
     
     assert_not_equal(parameter.candidates, NULL);
     assert_equal(lengthOfParameterArray(parameter.candidates), 1);
@@ -546,6 +555,34 @@ Ensure anyAllFindsExplicitMultipleIndication(void) {
     assert_true(anyExplicitMultiple(parameterPositions));
 }
 
+/*----------------------------------------------------------------------*/
+Ensure parsePronounSetsPronounMarker(void) {
+    Parameter parameter[2];
+    clearParameter(&parameter[0], NULL);
+
+    setEndOfArray(&parameter[0]);
+    parameter[0].isPronoun = FALSE;
+
+    parsePronoun(&parameter[0]);
+
+    assert_true(parameter[0].isPronoun);
+    assert_false(isEndOfArray(&parameter[0]));
+    assert_true(isEndOfArray(&parameter[1]));
+}
+
+/*----------------------------------------------------------------------*/
+Ensure parseLiteralSetsLiteralMarker(void) {
+    Parameter parameter[2];
+
+    setEndOfArray(&parameter[0]);
+    parameter[0].isLiteral = FALSE;
+
+    parseLiteral(&parameter[0]);
+
+    assert_true(parameter[0].isLiteral);
+    assert_false(isEndOfArray(&parameter[0]));
+    assert_true(isEndOfArray(&parameter[1]));
+}
 
 TestSuite *parseTests(void)
 {
@@ -571,6 +608,8 @@ TestSuite *parseTests(void)
     add_test(suite, complexParameterParserDelegateCanSetPlural);
     add_test(suite, anyAllFindsAnyAllIndication);
     add_test(suite, anyAllFindsExplicitMultipleIndication);
+    add_test(suite, parseLiteralSetsLiteralMarker);
+    add_test(suite, parsePronounSetsPronounMarker);
 
     return suite;
 }

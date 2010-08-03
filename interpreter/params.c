@@ -20,6 +20,13 @@ Parameter *globalParameters = NULL;
 
 
 /*======================================================================*/
+void clearParameter(Parameter *parameter, Parameter *candidates) {
+    memset(parameter, 0, sizeof(Parameter));
+    parameter->candidates = candidates;
+}
+
+
+/*======================================================================*/
 void setParameters(Parameter *newParameters) {
     int i;
 

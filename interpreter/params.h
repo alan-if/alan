@@ -16,6 +16,8 @@
 /* TYPES */
 typedef struct ParamEntry {     /* PARAMETER */
     InstanceId instance;        /* Instance code for the parameter (0=multiple) */
+    Bool isLiteral;
+    Bool isPronoun;
     Bool useWords;              /* Indicate to use words instead of instance code when saying */
     int firstWord;              /* Index to first word used by player */
     int lastWord;               /* d:o to last */
@@ -28,8 +30,9 @@ extern Parameter *globalParameters;
 
 
 /* FUNCTIONS */
-extern void setParameters(Parameter parameters[]);
+extern void clearParameter(Parameter *parameter, Parameter *candidates);
 extern void setParameter(int parameterIndex, Parameter parameter);
+extern void setParameters(Parameter parameters[]);
 extern Parameter *getParameters(void);
 extern Parameter *getParameter(int parameterIndex);
 extern Parameter *ensureParameterArrayAllocated(Parameter *currentList, int size);
