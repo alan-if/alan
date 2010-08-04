@@ -20,10 +20,12 @@ static void makeWordElement(ElementEntry *element, int code, int next) {
 }
 
 
-#define DICTIONARY_SIZE 20
-#define ADJECTIVE1_DICTIONARY_INDEX 3
-#define ADJECTIVE2_DICTIONARY_INDEX 11
-#define NOUN_DICTIONARY_INDEX 5
+#define DICTIONARY_SIZE 25
+#define INSTANCE1_CODE 1
+#define INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX 3
+#define INSTANCE1_ADJECTIVE2_DICTIONARY_INDEX 11
+#define INSTANCE1_NOUN1_DICTIONARY_INDEX 5
+#define CONJUNCTION_DICTIONARY_INDEX 21
 #define ALL_DICTIONARY_INDEX 13
 #define PREPOSITION_CODE 1
 
@@ -40,6 +42,44 @@ static void makeDictionaryEntry(int index, int code, int classBits) {
     dictionary[index].code = code;
     dictionary[index].classBits = classBits;
     dictionary[index].string = ((char *)&"all"-(char *)&memory[0])/sizeof(Aword);
+}
+
+static void givenADictionary() {
+    dictionary = makeDictionary();
+    makeDictionaryEntry(INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX, INSTANCE1_CODE, ADJECTIVE_BIT);
+    makeDictionaryEntry(INSTANCE1_ADJECTIVE2_DICTIONARY_INDEX, INSTANCE1_CODE, ADJECTIVE_BIT);
+    makeDictionaryEntry(INSTANCE1_NOUN1_DICTIONARY_INDEX, INSTANCE1_CODE, NOUN_BIT);
+    makeDictionaryEntry(ALL_DICTIONARY_INDEX, 1, ALL_BIT);
+    makeDictionaryEntry(CONJUNCTION_DICTIONARY_INDEX, 1, CONJUNCTION_BIT);
+}
+
+static void givenPlayerWordsForANoun(int firstWordIndex) {
+    currentWordIndex = firstWordIndex;
+    ensureSpaceForPlayerWords(firstWordIndex);
+    playerWords[firstWordIndex].code = INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX;
+}
+
+static void givenPlayerWordsWithTwoAdjectivesAndANoun(int firstWordIndex) {
+    currentWordIndex = firstWordIndex;
+    ensureSpaceForPlayerWords(firstWordIndex+2);
+    playerWords[firstWordIndex].code = INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX;
+    playerWords[firstWordIndex+1].code = INSTANCE1_ADJECTIVE2_DICTIONARY_INDEX;
+    playerWords[firstWordIndex+2].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
+}
+
+static void givenPlayerWordsForTwoParameters(int firstWordIndex) {
+    currentWordIndex = firstWordIndex;
+    ensureSpaceForPlayerWords(firstWordIndex+2);
+    playerWords[firstWordIndex].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
+    playerWords[firstWordIndex+1].code = CONJUNCTION_DICTIONARY_INDEX;
+    playerWords[firstWordIndex+2].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
+}
+
+static void givenPlayerInputReferencingAll(void) {
+    ensureSpaceForPlayerWords(1);
+    playerWords[0].code = ALL_DICTIONARY_INDEX;    /* Should be "All" */
+    playerWords[1].code = EOF;
+    currentWordIndex = 0;
 }
 
 
@@ -289,6 +329,7 @@ Ensure canMatchSingleParameter(void) {
     Parameter parameters[2];
     Parameter candidates[2];
 
+    clearParameter(&parameters[0], NULL);
     parameters[0].firstWord = 1;
     parameters[0].lastWord = 1;
     parameters[0].candidates = NULL;
@@ -310,17 +351,11 @@ Ensure canMatchSingleParameter(void) {
 }
 
 
+
+
 static Aint *mockedReferenceFinder(int wordIndex) {
     return (Aint *)mock(wordIndex);
 }
-
-static void givenPlayerWordsForANoun(int firstWordIndex) {
-    currentWordIndex = firstWordIndex;
-    ensureSpaceForPlayerWords(firstWordIndex);
-    playerWords[firstWordIndex].code = ADJECTIVE1_DICTIONARY_INDEX;
-}
-
-
 
 /*----------------------------------------------------------------------*/
 Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
@@ -347,22 +382,6 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
 }
 
 
-static void givenPlayerWordsWithTwoAdjectivesAndANoun(int firstWordIndex) {
-    currentWordIndex = firstWordIndex;
-    ensureSpaceForPlayerWords(firstWordIndex+2);
-    playerWords[firstWordIndex].code = ADJECTIVE1_DICTIONARY_INDEX;
-    playerWords[firstWordIndex+1].code = ADJECTIVE2_DICTIONARY_INDEX;
-    playerWords[firstWordIndex+2].code = NOUN_DICTIONARY_INDEX;
-}
-
-static void givenADictionaryWithTwoAdjectivesAndANoun() {
-    dictionary = makeDictionary();
-    makeDictionaryEntry(ADJECTIVE1_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
-    makeDictionaryEntry(ADJECTIVE2_DICTIONARY_INDEX, 1, ADJECTIVE_BIT);
-    makeDictionaryEntry(NOUN_DICTIONARY_INDEX, 1, NOUN_BIT);
-}
-
-
 /*----------------------------------------------------------------------*/
 Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     int theExpectedInstance = 55;
@@ -378,7 +397,7 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
 
     clearParameterArray(candidates);
     
-    givenADictionaryWithTwoAdjectivesAndANoun();
+    givenADictionary();
 
     expect(mockedReferenceFinder, want(currentWordIndex, theExpectedFirstAdjectiveWordIndex));
     will_return(mockedReferenceFinder, firstAdjectiveInstances);
@@ -412,7 +431,7 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     
     givenPlayerWordsWithTwoAdjectivesAndANoun(theExpectedFirstAdjectiveWordIndex);
 
-    givenADictionaryWithTwoAdjectivesAndANoun();
+    givenADictionary();
 
     expect(mockedReferenceFinder, want(currentWordIndex, theExpectedFirstAdjectiveWordIndex));
     will_return(mockedReferenceFinder, firstAdjectiveInstances);
@@ -476,20 +495,6 @@ Ensure canFilloutAParameterPositionForSomethingNotAll(void) {
 
 
 
-static void givenADictionaryIncludingAll() {
-    dictionary = makeDictionary();
-    makeDictionaryEntry(ALL_DICTIONARY_INDEX, 1, ALL_BIT);
-}
-
-
-static void givenPlayerInputReferencingAll(void) {
-    ensureSpaceForPlayerWords(1);
-    playerWords[0].code = ALL_DICTIONARY_INDEX;    /* Should be "All" */
-    playerWords[1].code = EOF;
-    currentWordIndex = 0;
-}
-
-
 void mockedAllBuilder(Parameter candidates[])
 {
     mock(candidates);
@@ -501,7 +506,7 @@ void mockedAllBuilder(Parameter candidates[])
 Ensure complexParameterParserDelegateCanSetPlural(void) {
     ParameterPosition *parameterPosition = NEW(ParameterPosition);
 
-    givenADictionaryIncludingAll();
+    givenADictionary();
     givenPlayerInputReferencingAll();
 
     complexParameterParserAndBuilderDelegate(parameterPosition, mockedSimpleCandidateParser, mockedAllBuilder);
@@ -598,6 +603,19 @@ Ensure parseReferenceToPreviousMultipleParameterSetsThemMarker(void) {
     assert_true(isEndOfArray(&parameter[1]));
 }
 
+/*----------------------------------------------------------------------*/
+Ensure simpleParameterParserCanParseExplicitMultiple(void) {
+    Parameter parameters[3];
+    clearParameterArray(parameters);
+
+    givenADictionary();
+    givenPlayerWordsForTwoParameters(1);
+
+    simpleParameterParser(parameters);
+
+    assert_equal(lengthOfParameterArray(parameters), 2);
+}
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -625,6 +643,7 @@ TestSuite *parseTests(void)
     add_test(suite, parseLiteralSetsLiteralMarker);
     add_test(suite, parsePronounSetsPronounMarker);
     add_test(suite, parseReferenceToPreviousMultipleParameterSetsThemMarker);
+    add_test(suite, simpleParameterParserCanParseExplicitMultiple);
 
     return suite;
 }

@@ -634,7 +634,7 @@ static void parseAndBuildAdjectivesAndNounToSingleParameter(Parameter parameters
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void parseReferences(Parameter parameters[]) {
+static void parseReference(Parameter parameters[]) {
     clearParameterArray(parameters);
 
     if (isLiteralWord(currentWordIndex)) {
@@ -648,7 +648,7 @@ static void parseReferences(Parameter parameters[]) {
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void parseAndBuildReferences(Parameter parameters[]) {
+static void parseAndBuildReference(Parameter parameters[]) {
     clearParameterArray(parameters);
 
     if (isLiteralWord(currentWordIndex)) {
@@ -693,6 +693,30 @@ static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) 
     currentWordIndex++;
 }
 
+/*----------------------------------------------------------------------*/
+static Bool parseOneParameter(Parameter parameters[], int parameterIndex) {
+    static Parameter *tlst = NULL;
+    tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
+
+    // TODO Maybe this should go in the complex()?
+    if (isThemWord(currentWordIndex) && (!isPronounWord(currentWordIndex) ||
+                                         (isPronounWord(currentWordIndex) && lengthOfParameterArray(previousMultipleParameters) > 0))) {
+        // "them" is also a common pronoun for some instances, but if there are previous multiple parameters we give precedence to those
+        parseReferenceToPreviousMultipleParameters(tlst);
+    } else {
+        parseReference(tlst);
+        if (lengthOfParameterArray(tlst) == 0) { /* Failed! */
+            // TODO this gets executed in case of "take all except", any other cases?
+            // printf("DEBUG: parseAndBuildReferences() returned 0 candidates to simple()\n");
+            return FALSE;
+        }
+    }
+
+    /* Add the one we found to the parameters */
+    parameters[parameterIndex] = tlst[0];
+    setEndOfArray(&parameters[parameterIndex+1]);
+    return TRUE;
+}
 
 
 /*
@@ -705,8 +729,8 @@ static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) 
  *
  * 3) a pronoun referencing a single instance
 
- * We also need to handle "them" here since it is also a common can be
- * the pronoun for some instances, e.g. scissor, trouser, money,
+ * We also need to handle "them" here since it is also a common
+ * pronoun for some instances, e.g. scissor, trouser, money,
  * glasses, but it can also refer to the set of instances from the
  * previous command. If it is a pronoun but there are also multiple
  * parameter from the previous command, we give precedence to the
@@ -715,24 +739,13 @@ static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void simpleParameterParser(Parameter parameters[]) {
-    static Parameter *tlst = NULL;
-    tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
 
     /* This will loop until all references are collected (typically "a and b and c") */
-    for (;;) {
-	// TODO Maybe this should go in the complex()?
-	if (isThemWord(currentWordIndex) && (!isPronounWord(currentWordIndex) ||
-					     (isPronounWord(currentWordIndex) && lengthOfParameterArray(previousMultipleParameters) > 0))) {
-            // "them" is also a common pronoun for some instances, but if there are previous multiple parameters we give precedence to those
-	    parseReferenceToPreviousMultipleParameters(parameters);
-        } else {
-            parseReferences(parameters);
-            if (lengthOfParameterArray(parameters) == 0) { /* Failed! */
-                // TODO this gets executed in case of "take all except", any other cases?
-                // printf("DEBUG: parseAndBuildReferences() returned 0 candidates to simple()\n");
-                return;
-            }
-        }
+    int parameterIndex;
+    for (parameterIndex = 0;; parameterIndex++) {
+
+	if(!parseOneParameter(parameters, parameterIndex))
+            return;
 
         if (!endOfWords(currentWordIndex)
             && (isConjunctionWord(currentWordIndex) && (isAdjectiveWord(currentWordIndex+1)
@@ -759,7 +772,7 @@ static void simpleParameterParserAndBuilder(Parameter parameters[]) {
 					     (isPronounWord(currentWordIndex) && lengthOfParameterArray(previousMultipleParameters) > 0))) {
 	    handleReferenceToPreviousMultipleParameters(parameters);
         } else {
-            parseAndBuildReferences(parameters);
+            parseAndBuildReference(parameters);
             if (lengthOfParameterArray(parameters) == 0) { /* Failed! */
                 // TODO this gets executed in case of "take all except", any other cases?
                 // printf("DEBUG: parseAndBuildReferences() returned 0 candidates to simple()\n");
