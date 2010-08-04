@@ -246,6 +246,7 @@ static void buildAllHere(Parameter list[]) {
             list[i].instance = o;
             list[i].firstWord = currentWordIndex;
             list[i].lastWord = currentWordIndex;
+            list[i].candidates = ensureParameterArrayAllocated(list[i].candidates, MAXENTITY+1);
             i++;
         }
     if (!found)
@@ -469,6 +470,27 @@ static void disambiguateParametersForReachability(Parameter candidates[]) {
  * explicit, 'all' is inferred, exceptions can never be inferred,
  * maybe 'all' is the only inferred?
  */
+
+
+/*----------------------------------------------------------------------*/
+static void disambiguateParametersForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
+    int i;
+    Parameter *parameters = allocateParameterArray(MAXPARAMS+1);
+
+    convertPositionsToParameters(parameterPositions, parameters);
+    for (i = 0; !isEndOfArray(&candidates[i]); i++) {
+        if (candidates[i].instance != 0) { /* Already empty? */
+            parameters[position] = candidates[i];
+            // DISAMBIGUATION!!
+            if (!reachable(candidates[i].instance) || !possible(current.verb, parameters, parameterPositions))
+                candidates[i].instance = 0; /* Then remove this candidate from list */
+        }
+    }
+    parameters[position].instance = 0; /* Restore multiple marker */
+
+    compressParameterArray(candidates);
+    free(parameters);
+}
 
 
 /*----------------------------------------------------------------------*/
@@ -947,15 +969,6 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
     if (lengthOfParameterArray(parameterPosition->parameters) == 0) /* No object!? */
         error(M_WHAT);
     
-    /* TODO This should not be done here, it should be postponed to the disambiguation phase */
-#ifdef MOVE_TO_DISAMBIGUATION_PHASE
-    if (!hasBit(flags, OMNIBIT))
-        /* If its not an omnipotent parameter, resolve by presence */
-        if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
-            // DISAMBIGUATION!!!
-            enforcePresence(parameterPosition->parameters);
-#endif
-
     if (parameterPosition->explicitMultiple && !multipleAllowed(flags))
 	error(M_MULTIPLE);
 }
@@ -1028,10 +1041,9 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
 
     int parameterCount = 0;
     while (nextElement != NULL) {
+        /* Traverse the possible branches of currentElement to find a match, let the actual input control what we look for */
         parameterPositions[parameterCount].endOfList = TRUE;
         parameterPositions2[parameterCount].endOfList = TRUE;
-
-        /* Traverse the possible branches of currentElement to find a match, let the actual input control what we look for */
 
         if (endOfPlayerCommand(currentWordIndex)) {
             // TODO If a conjunction word is also some other type of word, like noun? What happens?
@@ -1052,6 +1064,7 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
                 // Should create a correct structure without resolved instance references
                 currentWordIndex = savedWordIndex;
                 parseParameterPosition(&parameterPositions2[parameterCount], nextElement->flags, complexReferencesParser);
+                parameterPositions2[parameterCount].flags = nextElement->flags;
                 parameterPositions2[parameterCount].endOfList = FALSE;
 
                 currentElement = (ElementEntry *) pointerTo(nextElement->next);
@@ -1234,8 +1247,6 @@ static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Para
     int i;
     
     if (lengthOfParameterArray(parameters) > 0) {
-        // TODO This is a legacy compatible way (to fill the parameters)
-        // A forward compatible way would be to fill the candidates instead
         if (isAllWord(parameters[0].firstWord))
             buildAllHere(parameters);
         else {
@@ -1243,10 +1254,6 @@ static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Para
                 if (parameters[i].candidates == NULL)
                     parameters[i].candidates = allocateParameterArray(MAXENTITY);
                 instanceMatcher(&parameters[i]);
-                if (lengthOfParameterArray(parameters[i].candidates) == 1)
-                    parameters[i].instance = parameters[i].candidates[0].instance;
-                //else
-                //  printf("DEBUG: multiple candidates found\n");
             }
         }
     }
@@ -1290,23 +1297,36 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions, Parameter
 
 
 /*----------------------------------------------------------------------*/
-static void newWay(ParameterPosition parameterPositions2[], ElementEntry *element) {
+static void newWay(ParameterPosition parameterPositions[], ElementEntry *element) {
     /* The New Strategy! Parsing has only collected word indications,
        not built anything, so we need match parameters to instances here */
 
     int position;
-    for (position = 0; !parameterPositions2[position].endOfList; position++) {
-	matchParameters(parameterPositions2[position].parameters, instanceMatcher);
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
+	matchParameters(parameterPositions[position].parameters, instanceMatcher);
     }
 
-    /* Now perform restriction checks */
-    restrictParametersAccordingToSyntax(parameterPositions2, element);
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
+        if (!parameterPositions[position].all && !hasBit(parameterPositions[position].flags, OMNIBIT)) {
+            // DISAMBIGUATION!!!
+            int p;
+            for (p = 0; p < lengthOfParameterArray(parameterPositions->parameters); p++)
+                disambiguateParametersForReachability(parameterPositions->parameters[p].candidates);
+        }
+    }
 
-    /* Finally, if the player used ALL, try to find out what was applicable */
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
+        int p;
+        for (p = 0; p < lengthOfParameterArray(parameterPositions[position].parameters); p++)
+            if (lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
+                parameterPositions[position].parameters[p].instance = parameterPositions[position].parameters[p].candidates[0].instance;
+    }
+
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
+        /* If the player used ALL, try to find out what was applicable */
         // DISAMBIGUATION!!!
-        disambiguateCandidatesForPosition(parameterPositions2, multiplePosition, parameterPositions2[multiplePosition].parameters);
+        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
         if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
             errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);  //allWordIndex);
 
@@ -1318,6 +1338,9 @@ static void newWay(ParameterPosition parameterPositions2[], ElementEntry *elemen
             abortPlayerCommand();
         }
     }
+
+    /* Now perform restriction checks */
+    restrictParametersAccordingToSyntax(parameterPositions, element);
 
 }
 
@@ -1332,7 +1355,7 @@ static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
         // DISAMBIGUATION!!!
-        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
+        disambiguateParametersForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
         if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
             errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);  //allWordIndex);
 
