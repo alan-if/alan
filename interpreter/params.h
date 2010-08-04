@@ -18,6 +18,7 @@ typedef struct ParamEntry {     /* PARAMETER */
     InstanceId instance;        /* Instance code for the parameter (0=multiple) */
     Bool isLiteral;
     Bool isPronoun;
+    Bool isThem;
     Bool useWords;              /* Indicate to use words instead of instance code when saying */
     int firstWord;              /* Index to first word used by player */
     int lastWord;               /* d:o to last */

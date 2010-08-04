@@ -678,6 +678,7 @@ static void getPreviousMultipleParameters(Parameter parameters[]) {
 static void parseReferenceToPreviousMultipleParameters(Parameter parameters[]) {
     parameters[0].firstWord = parameters[0].lastWord = currentWordIndex++;
     parameters[0].instance = 0;
+    parameters[0].isThem = TRUE;
     setEndOfArray(&parameters[1]);
 }
 
@@ -1233,8 +1234,6 @@ static void instanceMatcher(Parameter *parameter) {
             setEndOfArray(&parameter->candidates[1]);
         } else if (parameter->isPronoun) {
             matchPronoun(parameter);
-        } else if (isThemWord(parameter->firstWord)) {
-            ; // TODO Find instances for THEM
         } else
             matchNounPhrase(parameter, adjectiveReferencesForWord, nounReferencesForWord);
     }
@@ -1249,6 +1248,8 @@ static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Para
     if (lengthOfParameterArray(parameters) > 0) {
         if (isAllWord(parameters[0].firstWord))
             buildAllHere(parameters);
+        else if (parameters[0].isThem)
+            getPreviousMultipleParameters(parameters);
         else {
             for (i = 0; i < lengthOfParameterArray(parameters); i++) {
                 if (parameters[i].candidates == NULL)

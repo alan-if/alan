@@ -584,6 +584,20 @@ Ensure parseLiteralSetsLiteralMarker(void) {
     assert_true(isEndOfArray(&parameter[1]));
 }
 
+/*----------------------------------------------------------------------*/
+Ensure parseReferenceToPreviousMultipleParameterSetsThemMarker(void) {
+    Parameter parameter[2];
+
+    setEndOfArray(&parameter[0]);
+    parameter[0].isThem = FALSE;
+
+    parseReferenceToPreviousMultipleParameters(&parameter[0]);
+
+    assert_true(parameter[0].isThem);
+    assert_false(isEndOfArray(&parameter[0]));
+    assert_true(isEndOfArray(&parameter[1]));
+}
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -610,6 +624,7 @@ TestSuite *parseTests(void)
     add_test(suite, anyAllFindsExplicitMultipleIndication);
     add_test(suite, parseLiteralSetsLiteralMarker);
     add_test(suite, parsePronounSetsPronounMarker);
+    add_test(suite, parseReferenceToPreviousMultipleParameterSetsThemMarker);
 
     return suite;
 }
