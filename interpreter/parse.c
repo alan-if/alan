@@ -695,17 +695,17 @@ static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) 
 
 /*----------------------------------------------------------------------*/
 static Bool parseOneParameter(Parameter parameters[], int parameterIndex) {
-    static Parameter *tlst = NULL;
-    tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
+    Parameter parameter[2];
+    clearParameter(parameter, NULL);
 
     // TODO Maybe this should go in the complex()?
     if (isThemWord(currentWordIndex) && (!isPronounWord(currentWordIndex) ||
                                          (isPronounWord(currentWordIndex) && lengthOfParameterArray(previousMultipleParameters) > 0))) {
         // "them" is also a common pronoun for some instances, but if there are previous multiple parameters we give precedence to those
-        parseReferenceToPreviousMultipleParameters(tlst);
+        parseReferenceToPreviousMultipleParameters(parameter);
     } else {
-        parseReference(tlst);
-        if (lengthOfParameterArray(tlst) == 0) { /* Failed! */
+        parseReference(parameter);
+        if (lengthOfParameterArray(parameter) == 0) { /* Failed! */
             // TODO this gets executed in case of "take all except", any other cases?
             // printf("DEBUG: parseAndBuildReferences() returned 0 candidates to simple()\n");
             return FALSE;
@@ -713,7 +713,7 @@ static Bool parseOneParameter(Parameter parameters[], int parameterIndex) {
     }
 
     /* Add the one we found to the parameters */
-    parameters[parameterIndex] = tlst[0];
+    parameters[parameterIndex] = parameter[0];
     setEndOfArray(&parameters[parameterIndex+1]);
     return TRUE;
 }
@@ -1324,8 +1324,8 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
         if (!parameterPositions[position].all && !hasBit(parameterPositions[position].flags, OMNIBIT)) {
             // DISAMBIGUATION!!!
             int p;
-            for (p = 0; p < lengthOfParameterArray(parameterPositions->parameters); p++)
-                disambiguateParametersForReachability(parameterPositions->parameters[p].candidates);
+            for (p = 0; p < lengthOfParameterArray(parameterPositions[position].parameters); p++)
+                disambiguateParametersForReachability(parameterPositions[position].parameters[p].candidates);
         }
     }
 
