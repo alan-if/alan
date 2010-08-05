@@ -29,6 +29,8 @@ LINK = gcc
 LINKFLAGS = -g $(ARUNOPTS) $(OSDEFS)
 LIBS = $(GLKLIB) $(LINKLIBS)
 
+
+CGREEN = yes
 CGREENROOT = /usr/local
 CGREENDIR = $(CGREENROOT)/include/cgreen
 CGREENLIB = -lcgreen
