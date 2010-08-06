@@ -1311,6 +1311,7 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions, Parameter
     element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameterPositions2);
     handleFailedParse(element);
     current.verb = remapParameterOrder(element->flags, parameterPositions);
+    current.verb = remapParameterOrder(element->flags, parameterPositions2);
     return element;
 }
 
