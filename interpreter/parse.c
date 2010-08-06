@@ -423,18 +423,18 @@ static void filterOutNonReachable(Parameter filteredCandidates[]) {
  * 1, 1, no,	ok(p)
  * 1, m, no,	ok(p)
  * m, 0, no,	errorWhichOne(p)
- * m, 1, no,	errorWhichOne(p)	only present objects should be revealed
- * m, m, no,	errorWhichOne(p)	d:o
+ * m, 1, no,	errorWhichOne(p)    only present objects should be revealed
+ * m, m, no,	errorWhichOne(p)    d:o
 
  * 0, 0, yes,	errorNoSuch(w)
  * 0, 1, yes,	ok(n)
- * 0, m, yes,	errorWhichOne(n)	already looking "beyond" presence, might reveal undiscovered distant objects
+ * 0, m, yes,	errorWhichOne(n)    already looking "beyond" presence, might reveal undiscovered distant objects
  * 1, 0, yes,	ok(p)
- * 1, 1, yes,	ok(p)			present objects have priority
- * 1, m, yes,	ok(p)			present objects have priority
+ * 1, 1, yes,	ok(p)               present objects have priority
+ * 1, m, yes,	ok(p)               present objects have priority
  * m, 0, yes,	errorWhichOne(p)
- * m, 1, yes,	errorWhichOne(p)	present objects have priority
- * m, m, yes,	errorWhichOne(p)	present objects have priority
+ * m, 1, yes,	errorWhichOne(p)    present objects have priority
+ * m, m, yes,	errorWhichOne(p)    present objects have priority
  */
 
 
@@ -446,6 +446,8 @@ static void disambiguateParametersForReachability(Parameter candidates[]) {
     static Parameter *filteredCandidates = NULL;
     filteredCandidates = ensureParameterArrayAllocated(filteredCandidates, MAXPARAMS+1);
 
+    if (candidates == NULL) return;
+    
     copyParameterArray(filteredCandidates, candidates);
 
     filterOutNonReachable(filteredCandidates);
@@ -1335,7 +1337,8 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         int p;
         for (p = 0; p < lengthOfParameterArray(parameterPositions[position].parameters); p++)
-            if (lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
+            if (parameterPositions[position].parameters[p].candidates != NULL &&
+                lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
                 parameterPositions[position].parameters[p].instance = parameterPositions[position].parameters[p].candidates[0].instance;
     }
 
