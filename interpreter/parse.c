@@ -496,7 +496,7 @@ static void disambiguateParametersForPosition(ParameterPosition parameterPositio
 /*----------------------------------------------------------------------*/
 static void disambiguateCandidatesForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
     int i;
-    Parameter *parameters = allocateParameterArray(MAXPARAMS+1);
+    Parameter *parameters = allocateParameterArray(MAXENTITY+1);
 
     convertPositionsToParameters(parameterPositions, parameters);
     for (i = 0; !isEndOfArray(&candidates[i]); i++) {
@@ -1187,17 +1187,17 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
 
 /*----------------------------------------------------------------------*/
 static void checkNonRestrictedParameters(ParameterPosition parameterPositions[]) {
-    int parameterIndex;
-    for (parameterIndex = 0; !parameterPositions[parameterIndex].endOfList; parameterIndex++)
-        if (!parameterPositions[parameterIndex].checked) {
-            if (parameterPositions[parameterIndex].explicitMultiple) {
+    int positionIndex;
+    for (positionIndex = 0; !parameterPositions[positionIndex].endOfList; positionIndex++)
+        if (!parameterPositions[positionIndex].checked) {
+            if (parameterPositions[positionIndex].explicitMultiple) {
                 /* This was a multiple parameter position, check all multiple candidates and remove failing */
                 int i;
-                for (i = 0; !isEndOfArray(&parameterPositions[parameterIndex].parameters[i]); i++)
-                    if (parameterPositions[parameterIndex].parameters[i].instance != 0) /* Skip any empty slots */
-                        if (!isObject(parameterPositions[parameterIndex].parameters[i].instance))
-                            parameterPositions[parameterIndex].parameters[i].instance = 0;
-            } else if (!isObject(parameterPositions[parameterIndex].parameters[0].instance))
+                for (i = 0; !isEndOfArray(&parameterPositions[positionIndex].parameters[i]); i++)
+                    if (parameterPositions[positionIndex].parameters[i].instance != 0) /* Skip any empty slots */
+                        if (!isObject(parameterPositions[positionIndex].parameters[i].instance))
+                            parameterPositions[positionIndex].parameters[i].instance = 0;
+            } else if (!isObject(parameterPositions[positionIndex].parameters[0].instance))
                 error(M_CANT0);
         }
 }
@@ -1208,6 +1208,9 @@ static void restrictParametersAccordingToSyntax(ParameterPosition parameterPosit
     uncheckAllParameterPositions(parameterPositions);
     checkRestrictedParameters(parameterPositions, elms);
     checkNonRestrictedParameters(parameterPositions);
+    int positionIndex;
+    for (positionIndex = 0; !parameterPositions[positionIndex].endOfList; positionIndex++)
+        compressParameterArray(parameterPositions[positionIndex].parameters);
 }
 
 
@@ -1317,7 +1320,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
 
     int position;
     for (position = 0; !parameterPositions[position].endOfList; position++) {
-	matchParameters(parameterPositions[position].parameters, instanceMatcher);
+        matchParameters(parameterPositions[position].parameters, instanceMatcher);
     }
 
     for (position = 0; !parameterPositions[position].endOfList; position++) {
@@ -1355,7 +1358,6 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
 
     /* Now perform restriction checks */
     restrictParametersAccordingToSyntax(parameterPositions, element);
-
 }
 
 
