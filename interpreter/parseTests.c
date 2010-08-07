@@ -616,6 +616,12 @@ Ensure simpleParameterParserCanParseExplicitMultiple(void) {
     assert_equal(lengthOfParameterArray(parameters), 2);
 }
 
+/*----------------------------------------------------------------------*/
+Ensure matchParametersCanHandleNullParameter(void) {
+    matchParameters(NULL, NULL);
+}
+
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -644,6 +650,7 @@ TestSuite *parseTests(void)
     add_test(suite, parsePronounSetsPronounMarker);
     add_test(suite, parseReferenceToPreviousMultipleParameterSetsThemMarker);
     add_test(suite, simpleParameterParserCanParseExplicitMultiple);
+    add_test(suite, matchParametersCanHandleNullParameter);
 
     return suite;
 }

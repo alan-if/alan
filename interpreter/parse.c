@@ -806,11 +806,6 @@ static void parseExceptions(ParameterPosition *parameterPosition, ParameterParse
     simpleParameterParser(parameterPosition->exceptions);
     if (lengthOfParameterArray(parameterPosition->exceptions) == 0)
 	errorAfterExcept(exceptWordIndex);
-#ifdef MOVE_TO_EVALUATION_PHASE
-    subtractListFromParameterList(parameterPosition->parameters, parameterPosition->exceptions);
-    if (lengthOfParameterList(parameterPosition->parameters) == 0)
-	error(M_NOT_MUCH);
-#endif
 }
 
 
@@ -821,10 +816,10 @@ static void parseAndBuildExceptions(ParameterPosition *parameterPosition, Parame
     parameterPosition->exceptions = ensureParameterArrayAllocated(parameterPosition->exceptions, MAXPARAMS+1);
     simpleParameterParserAndBuilder(parameterPosition->exceptions);
     if (lengthOfParameterArray(parameterPosition->exceptions) == 0)
-	errorAfterExcept(exceptWordIndex);
+        errorAfterExcept(exceptWordIndex);
     subtractParameterArrays(parameterPosition->parameters, parameterPosition->exceptions);
     if (lengthOfParameterArray(parameterPosition->parameters) == 0)
-	error(M_NOT_MUCH);
+        error(M_NOT_MUCH);
 }
 
 
@@ -854,7 +849,7 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
         parameterPosition->parameters[0].instance = 0;
         setEndOfArray(&parameterPosition->parameters[1]);
         if (!endOfWords(currentWordIndex) && isExceptWord(currentWordIndex))
-	    parseExceptions(parameterPosition, simpleParameterParser);
+            parseExceptions(parameterPosition, simpleParameterParser);
     } else {
         simpleParameterParser(parameterPosition->parameters);
         if (lengthOfParameterArray(parameterPosition->parameters) > 1)
@@ -876,7 +871,7 @@ static void complexParameterParserAndBuilderDelegate(ParameterPosition *paramete
         allBuilder(parameterPosition->parameters); /* Build list of all possible objects */
         currentWordIndex++;
         if (!endOfWords(currentWordIndex) && isExceptWord(currentWordIndex))
-	    parseAndBuildExceptions(parameterPosition, simpleParameterParserAndBuilder);
+            parseAndBuildExceptions(parameterPosition, simpleParameterParserAndBuilder);
     } else {
         simpleParameterParserAndBuilder(parameterPosition->parameters);
         if (lengthOfParameterArray(parameterPosition->parameters) > 1)
@@ -1263,6 +1258,8 @@ static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Para
 {
     int i;
     
+    if (parameters == NULL) return;
+
     if (lengthOfParameterArray(parameters) > 0) {
         if (isAllWord(parameters[0].firstWord))
             buildAllHere(parameters);
@@ -1324,6 +1321,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
     int position;
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         matchParameters(parameterPositions[position].parameters, instanceMatcher);
+        matchParameters(parameterPositions[position].exceptions, instanceMatcher);
     }
 
     for (position = 0; !parameterPositions[position].endOfList; position++) {
@@ -1334,13 +1332,18 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
                 disambiguateParametersForReachability(parameterPositions[position].parameters[p].candidates);
         }
     }
-
+    
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         int p;
-        for (p = 0; p < lengthOfParameterArray(parameterPositions[position].parameters); p++)
+        for (p = 0; p < lengthOfParameterArray(parameterPositions[position].parameters); p++) {
             if (parameterPositions[position].parameters[p].candidates != NULL &&
                 lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
                 parameterPositions[position].parameters[p].instance = parameterPositions[position].parameters[p].candidates[0].instance;
+            if (parameterPositions[position].exceptions != NULL)
+                if (parameterPositions[position].exceptions[p].candidates != NULL &&
+                    lengthOfParameterArray(parameterPositions[position].exceptions[p].candidates) == 1)
+                    parameterPositions[position].exceptions[p].instance = parameterPositions[position].exceptions[p].candidates[0].instance;
+        }
     }
 
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
@@ -1349,8 +1352,10 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
         // DISAMBIGUATION!!!
         disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
         if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
-            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);  //allWordIndex);
-
+            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);
+        subtractParameterArrays(parameterPositions[multiplePosition].parameters, parameterPositions[multiplePosition].exceptions);
+        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
+            error(M_NOT_MUCH);
     } else if (anyExplicitMultiple(parameterPositions)) {
         compressParameterArray(parameterPositions[multiplePosition].parameters);
         if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0) {
@@ -1395,7 +1400,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
 
     /*
-     * TODO This code, and much of the above, is going through an
+     * TODO: This code, and much of the above, is going through an
      * extensive refactoring to not do both parsing and parameter
      * matching at the same time. It should first parse and add to the
      * parameterPosition array where each entry indicates which words
@@ -1412,7 +1417,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
 #ifdef NEWWAY
     newWay(parameterPositions2, element);
-    // TODO New strategy! Comparing the two parameterPositions arrays for verifying that they both contain the same
+    // TODO: New strategy! Comparing the two parameterPositions arrays for verifying that they both contain the same
     if (!equalParameterPositions(parameterPositions, parameterPositions2))
         printf("Not the same parameterPositions in new and old strategy!!!\n");
 #endif

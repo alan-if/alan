@@ -88,6 +88,7 @@ Parameter *findEndOfParameterArray(Parameter *parameters) {
  * matched list)
  */
 int findMultiplePosition(Parameter parameters[]) {
+    // TODO: this should look at the isAll and isExplicitMultiple flags instead
     int multiplePosition;
     for (multiplePosition = 0; !isEndOfArray(&parameters[multiplePosition]); multiplePosition++)
 	if (parameters[multiplePosition].instance == 0)
@@ -153,10 +154,12 @@ void copyParameterArray(Parameter to[], Parameter from[])
 void subtractParameterArrays(Parameter theArray[], Parameter remove[])
 {
     int i;
+    
+    if (remove == NULL) return;
 
     for (i = 0; !isEndOfArray(&theArray[i]); i++)
-	if (inParameterArray(remove, theArray[i].instance))
-	    theArray[i].instance = 0;		/* Mark empty */
+        if (inParameterArray(remove, theArray[i].instance))
+            theArray[i].instance = 0;		/* Mark empty */
     compressParameterArray(theArray);
 }
 

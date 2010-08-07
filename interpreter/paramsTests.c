@@ -84,6 +84,14 @@ Ensure unequal_length_parameter_arrays_are_not_equal(void) {
     assert_false(equalParameterArrays(parameters1, parameters2));
 }
 
+/*----------------------------------------------------------------------*/
+Ensure subtractParameterArraysCanSubtractNullArray(void) {
+    Parameter *parameters1 = givenAnyParameterArrayOfLength(4);
+    Parameter *parameters2 = NULL;
+
+    subtractParameterArrays(parameters1, parameters2);
+    assert_equal(4, lengthOfParameterArray(parameters1));
+}
 
 /*======================================================================*/
 TestSuite *paramsTests(void)
@@ -96,6 +104,7 @@ TestSuite *paramsTests(void)
     add_test(suite, can_find_multiple_position);
     add_test(suite, returns_minus_one_for_no_multiple_position);
     add_test(suite, unequal_length_parameter_arrays_are_not_equal);
+    add_test(suite, subtractParameterArraysCanSubtractNullArray);
 
     return suite;
 }
