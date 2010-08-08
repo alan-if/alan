@@ -24,6 +24,11 @@ of an Adventure that never was.$n$n");
 
   newline();
 
+  output("If you are the creator of the piece, please help debug this error. \
+Collect *all* the sources, and, if possible, an exact transcript of the \
+commands that let to this error, in a zip-file and send it to support@alanif.se. \
+Thank you!");          
+
 #ifdef __amiga__
 #ifdef AZTEC_C
   {
