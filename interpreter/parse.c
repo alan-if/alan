@@ -247,6 +247,8 @@ static void buildAllHere(Parameter list[]) {
             list[i].firstWord = currentWordIndex;
             list[i].lastWord = currentWordIndex;
             list[i].candidates = ensureParameterArrayAllocated(list[i].candidates, MAXENTITY+1);
+            list[i].candidates[0].instance = o;
+            setEndOfArray(&list[i].candidates[1]);
             i++;
         }
     if (!found)
@@ -1316,7 +1318,7 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions, Parameter
 /*----------------------------------------------------------------------*/
 static void newWay(ParameterPosition parameterPositions[], ElementEntry *element) {
     /* The New Strategy! Parsing has only collected word indications,
-       not built anything, so we need match parameters to instances here */
+       not built anything, so we need to match parameters to instances here */
 
     int position;
     for (position = 0; !parameterPositions[position].endOfList; position++) {
@@ -1336,15 +1338,24 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         int p;
         for (p = 0; p < lengthOfParameterArray(parameterPositions[position].parameters); p++) {
-            if (parameterPositions[position].parameters[p].candidates != NULL &&
-                lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
-                parameterPositions[position].parameters[p].instance = parameterPositions[position].parameters[p].candidates[0].instance;
+            if (parameterPositions[position].parameters[p].candidates != NULL) {
+                if (lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
+                    parameterPositions[position].parameters[p].instance = parameterPositions[position].parameters[p].candidates[0].instance;
+                else {
+                    disambiguateParametersForReachability(parameterPositions[position].parameters[p].candidates);
+                    if (lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
+                        parameterPositions[position].parameters[p].instance = parameterPositions[position].parameters[p].candidates[0].instance;
+                    else
+                        errorWhichOne(parameterPositions[position].parameters[p].candidates);
+                }
+            }
             if (parameterPositions[position].exceptions != NULL)
                 if (parameterPositions[position].exceptions[p].candidates != NULL &&
                     lengthOfParameterArray(parameterPositions[position].exceptions[p].candidates) == 1)
                     parameterPositions[position].exceptions[p].instance = parameterPositions[position].exceptions[p].candidates[0].instance;
         }
     }
+
 
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
@@ -1415,12 +1426,10 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 
     oldWay(parameterPositions, element);
 
-#ifdef NEWWAY
     newWay(parameterPositions2, element);
     // TODO: New strategy! Comparing the two parameterPositions arrays for verifying that they both contain the same
     if (!equalParameterPositions(parameterPositions, parameterPositions2))
-        printf("Not the same parameterPositions in new and old strategy!!!\n");
-#endif
+        syserr("Not the same parameterPositions in new and old strategy!!!");
 
     // TODO: Now we need to convert back to legacy parameter and multipleParameter format
     convertPositionsToParameters(parameterPositions, parameters);
