@@ -353,7 +353,7 @@ static void checkForRecursion(Aaddr adr) {
 
     for (i = 0; i < recursionDepth; i++)
         if (invocation[i] == adr)
-            syserr("Interpreter recursion.");
+            apperr("Interpreter recursion.");
     invocation[recursionDepth++] = adr;
     if (recursionDepth > 1000)
         syserr("Interpreter call stack too deep.");

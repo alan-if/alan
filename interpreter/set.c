@@ -76,7 +76,7 @@ Set *copySet(Set *theSet) {
 /*======================================================================*/
 Aword getSetMember(Set *theSet, Aint theMember) {
   if (theMember > theSet->size || theMember < 1)
-    syserr("Accessing nonexisting member in a set");
+    apperr("Accessing nonexisting member in a set");
   return theSet->members[theMember-1];
 }
 

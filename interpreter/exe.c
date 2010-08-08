@@ -521,7 +521,7 @@ int getContainerMember(int container, int index, Bool directly) {
                 return i;
         }
     }
-    syserr("Index not in container in 'containerMember()'");
+    apperr("Index not in container in 'containerMember()'");
     return 0;
 }
 

@@ -24,11 +24,6 @@ of an Adventure that never was.$n$n");
 
   newline();
 
-  output("If you are the creator of the piece, please help debug this error. \
-Collect *all* the sources, and, if possible, an exact transcript of the \
-commands that let to this error, in a zip-file and send it to support@alanif.se. \
-Thank you!");          
-
 #ifdef __amiga__
 #ifdef AZTEC_C
   {
@@ -57,18 +52,27 @@ void setSyserrHandler(void (*f)(char *))
 // TODO Make syserr() use ... as printf()
 void syserr(char *description)
 {
-  if (handler == NULL)
-    runtimeError("SYSTEM ERROR: ", description);
-  else
-    handler(description);
+    if (handler == NULL) {
+        para();
+        output("If you are the creator of this piece of Interactive Fiction, \
+please help debug this Alan system error. Collect *all* the sources, and, if possible, an \
+exact transcript of the commands that let to this error, in a zip-file and send \
+it to support@alanif.se. Thank you!");
+        runtimeError("SYSTEM ERROR: ", description);
+    } else
+        handler(description);
 }
 
 
 /*======================================================================*/
 void apperr(char *description)
 {
-  if (handler == NULL)
-    runtimeError("APPLICATION ERROR: ", description);
-  else
-    handler(description);
+    if (handler == NULL) {
+        para();
+        output("If you are playing this piece of Interactive Fiction, \
+please help the author to debug this programming error. Send an exact \
+transcript of the commands that let to this error to the author. Thank you!");
+        runtimeError("APPLICATION ERROR: ", description);
+    } else
+        handler(description);
 }
