@@ -1,0 +1,58 @@
+########## testgame ##########
+
+        No warnings or errors detected.
+
+
+
+Testroom
+This is a testroom for the beta version of a new ALAN library. A white
+door leads north. A window decorates the western wall. There is a box 
+here. The box contains a flashlight and a bottle. There is a table here. 
+On the table you see a waterpistol, a match and a note. Felix is here. 
+There is a dog here.
+
+> take flashlight
+Taken.
+
+> turn it on
+You turn on the flashlight.
+
+> n
+You can't, since the door is closed.
+
+> open door
+You open the white door.
+
+> n
+You walk north.
+
+
+This is an outdoor location. The sky is clear. In the distance you see a
+mountain. The open door back to the testroom lies to the south. There is
+a black hole to the north. It looks like you might just try entering it. 
+This room has not been visited before. There is a blue ball here.
+
+> n
+You enter the black hole.
+
+The Third Location
+This the lighted third location. There is a shirt and a jacket here. The 
+jacket contains a wallet. There is a red ball here.
+
+> take shirt
+Taken.
+
+> take jacket
+Taken.
+
+> put on shirt
+You put on the shirt.
+
+> put jacket on
+You put on the jacket.
+
+> take off shirt
+You can't take off the shirt.
+
+
+
