@@ -13,7 +13,7 @@
 #
 # Default target on thoni is :
 #
-alanFromToolMaker: tm alan
+alanFromToolMaker: tm unit alan
 
 
 include Makefile.cygwin

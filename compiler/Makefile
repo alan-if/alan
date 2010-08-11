@@ -25,6 +25,3 @@ endif
 
 # then platform and machine independent rules
 include rules.mk
-
-# and all the dependencies
-include dependencies.mk
