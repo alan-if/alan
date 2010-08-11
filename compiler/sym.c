@@ -24,6 +24,7 @@
 #include "type_x.h"
 #include "prop_x.h"
 #include "dump_x.h"
+#include "emit.h"
 
 
 /* EXPORTS: */
@@ -1037,6 +1038,11 @@ void replicateInherited(void)
   replicateSymbolTree(symbolTree);
 }
 
+
+/*======================================================================*/
+void generateSymbol(Symbol *symbol) {
+    emitConstant(symbol->code);
+}
 
 /*----------------------------------------------------------------------*/
 static void dumpSymbolKind(SymbolKind kind)

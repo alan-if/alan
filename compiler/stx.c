@@ -466,7 +466,7 @@ static void generateParameterMapping(Syntax *syntax)
     TRAVERSE(originalPosition, originalParameters) {
       /* Find its original position */
       if (strcmp(list->member.elm->id->string, originalPosition->member.sym->string) == 0) {
-	emit(originalPosition->member.sym->code);
+          generateSymbol(originalPosition->member.sym);
 	found = TRUE;
 	break;
       }

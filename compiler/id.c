@@ -111,19 +111,19 @@ void generateId(IdNode *id)
 	/* If it is a literal we have to fetch its value */
 	/* which is the first attribute */
       case STRING_TYPE:
-	emitConstant(id->symbol->code);
-	emitVariable(V_PARAM);
-	emitConstant(1);
-	emit0(I_ATTRSTR);
-	break;
+          generateSymbol(id->symbol);
+          emitVariable(V_PARAM);
+          emitConstant(1);
+          emit0(I_ATTRSTR);
+          break;
       case INTEGER_TYPE:
-	emitConstant(id->symbol->code);
+	generateSymbol(id->symbol);
 	emitVariable(V_PARAM);
 	emitConstant(1);
 	emit0(I_ATTRIBUTE);
 	break;
       case INSTANCE_TYPE:
-	emitConstant(id->symbol->code);
+	generateSymbol(id->symbol);
 	emitVariable(V_PARAM);
 	break;
       default:
@@ -134,7 +134,7 @@ void generateId(IdNode *id)
       emit2(I_GETLOCAL, frameLevel - id->symbol->fields.local.level,
 	    id->symbol->fields.local.number);
     } else
-      emitConstant(id->symbol->code);
+      generateSymbol(id->symbol);
   } else if (id->code == 0)
     SYSERR("Generating a symbol-less id with code == 0");
   else

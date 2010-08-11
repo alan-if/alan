@@ -816,6 +816,7 @@ static void analyzeAggregate(Expression *exp, Context *context)
       /* Absence of classing filters makes arithmetic aggregates
          impossible since attributes can never be guaranteed to be
          defined in all instances. */
+        // TODO: well, actually that means that only attributes from 'entity' can be used...
       lmLog(&exp->fields.agr.attribute->srcp, 226, sevERR, "");
     } else if (class) {
       /* Only do this if there was a classing filter found */
@@ -1261,6 +1262,9 @@ void generateFilter(Expression *exp)
   if (exp->not) emit0(I_NOT);
 }
 
+
+#define MAXINT (0x07ffffff)
+
 /*----------------------------------------------------------------------*/
 static void generateIntegerAggregateLimit(Expression *exp) {
   List *filter;
@@ -1292,57 +1296,86 @@ static void generateLoopValue(Expression *exp) {
     generateIntegerAggregateLoopValue(exp->fields.agr.setExpression);
 }
 
+static void generateInitialAggregationValue(Expression *exp) {
+    switch (exp->fields.agr.kind) {
+    case COUNT_AGGREGATE:
+    case MAX_AGGREGATE:
+    case SUM_AGGREGATE: emitConstant(0); break;
+    case MIN_AGGREGATE: emitConstant(MAXINT); break;
+    }
+}
 
-/*----------------------------------------------------------------------*/
-static void generateAggregateExpression(Expression *exp)
-{
-  List *lst;
+static void generateLoopLimit(Expression *exp) {
+    if (exp->fields.agr.type == INTEGER_TYPE)
+        generateIntegerAggregateLimit(exp);
+    else
+        emitVariable(V_MAX_INSTANCE);	/* Loop limit */
+}
 
-#define MAXINT (0x07ffffff)
+static void generateLoopStart() {
+    emitConstant(1);
+    emit0(I_LOOP);
+}
 
-  /* Initial aggregate value */
-  switch (exp->fields.agr.kind) {
-  case COUNT_AGGREGATE:
-  case MAX_AGGREGATE:
-  case SUM_AGGREGATE: emitConstant(0); break;
-  case MIN_AGGREGATE: emitConstant(MAXINT); break;
-  }
+static void generateAttributeExistanceFilter(Expression *exp) {
+    generateLoopValue(exp);
+    generateSymbol(definingSymbolOfAttribute(exp->fields.agr.class, exp->fields.agr.attribute));
+    emit0(I_ISA);
+    emit0(I_NOT);
+    emit0(I_IF);
+    emit0(I_LOOPNEXT);
+    emit0(I_ENDIF);
+}
 
-  /* Loop limit */
-  if (exp->fields.agr.type == INTEGER_TYPE)
-    generateIntegerAggregateLimit(exp);
-  else
-    emitVariable(V_MAX_INSTANCE);	/* Loop limit */
-
-  /* Loop start index */
-  emitConstant(1);
-
-  /* Loop */
-  emit0(I_LOOP);
-
-  TRAVERSE(lst,exp->fields.agr.filters) {
+static void generateAggregationFilter(Expression *exp, List *lst) {
     generateLoopValue(exp);
     generateFilter(lst->member.exp);
     emit0(I_NOT);
     emit0(I_IF);
     emit0(I_LOOPNEXT);
     emit0(I_ENDIF);
-  }
+}
 
-  /* Generate attribute retrieval code for all aggregates except COUNT */
-  if (exp->fields.agr.kind != COUNT_AGGREGATE) {
+static void generateAllFilters(Expression *exp) {
+    List *lst;
+    TRAVERSE(lst,exp->fields.agr.filters) {
+	generateAggregationFilter(exp, lst);
+    }
+}
+
+static void generateAttributeRetrieval(Expression *exp) {
     generateLoopValue(exp);
     emitConstant(exp->fields.agr.attribute->code);
     emit0(I_ATTRIBUTE);		/* Cannot be anything but INTEGER */
-  }
+}
 
-  switch (exp->fields.agr.kind) {
-  case SUM_AGGREGATE: emit0(I_SUM); break;
-  case MAX_AGGREGATE: emit0(I_MAX); break;
-  case MIN_AGGREGATE: emit0(I_MIN); break;
-  case COUNT_AGGREGATE: emit0(I_COUNT); break;
-  }
-  emit0(I_LOOPEND);
+static void generateAggregation(Expression *exp) {
+    switch (exp->fields.agr.kind) {
+    case SUM_AGGREGATE: emit0(I_SUM); break;
+    case MAX_AGGREGATE: emit0(I_MAX); break;
+    case MIN_AGGREGATE: emit0(I_MIN); break;
+    case COUNT_AGGREGATE: emit0(I_COUNT); break;
+    }
+}
+
+static void generateLoopEnd() {
+    emit0(I_LOOPEND);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void generateAggregateExpression(Expression *exp)
+{
+  generateInitialAggregationValue(exp);
+  generateLoopLimit(exp);
+  generateLoopStart();
+  if (exp->fields.agr.kind != COUNT_AGGREGATE)
+      generateAttributeExistanceFilter(exp);
+  generateAllFilters(exp);
+  if (exp->fields.agr.kind != COUNT_AGGREGATE)
+      generateAttributeRetrieval(exp);
+  generateAggregation(exp);
+  generateLoopEnd();
 }
 
 

@@ -688,7 +688,7 @@ void generateSet(Expression *exp) {
 
   TRAVERSE (elements, exp->fields.set.members)
     switch (exp->fields.set.memberType) {
-    case INSTANCE_TYPE: emit(symbolOfExpression(elements->member.exp, NULL)->code); break;
+    case INSTANCE_TYPE: generateSymbol(symbolOfExpression(elements->member.exp, NULL)); break;
     case INTEGER_TYPE: emit(elements->member.exp->fields.val.val); break;
     default: SYSERR("Generating unexpected type in Set attribute");
     }
