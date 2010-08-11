@@ -10,8 +10,10 @@ Startroom
 You can follow the sunset to the west.
 
 > w
+'Entered' has been triggered: hero has entered the Room2.
+
 Room2
-You can go east. 'Entered' has been triggered: hero has entered the Room2.
+You can go east.
 
 > look
 Room2
@@ -22,9 +24,10 @@ The npc comes looking, wondering what all the noise is for. 'Entered' has
 been triggered: npc has entered the Room2.
 
 > e
+'Entered' has been triggered: hero has entered the Startroom.
+
 Startroom
-You can follow the sunset to the west. 'Entered' has been triggered: hero 
-has entered the Startroom.
+You can follow the sunset to the west.
 
 > shout
 The npc comes looking, wondering what all the noise is for. 'Entered' has

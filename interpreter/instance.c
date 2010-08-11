@@ -825,6 +825,17 @@ static void locateActor(Aword movingActor, Aword whr)
     /* Now we have moved so show what is needed... */
     current.instance = current.location;
 
+    /* Execute possible entered */
+    current.actor = movingActor;
+    if (instances[current.location].entered != 0) {
+        if (previousActorLocation != current.location) {
+            interpret(instances[current.location].entered);
+            current.instance = previousInstance;
+        }
+    } else
+        executeInheritedEntered(instances[current.location].parent);
+    current.actor = previousActor;
+
     if (movingActor == HERO) {
         if (admin[admin[movingActor].location].visitsCount % (current.visits+1) == 0)
             look();
@@ -840,17 +851,6 @@ static void locateActor(Aword movingActor, Aword whr)
         admin[where(HERO, TRUE)].visitsCount %= (current.visits+1);
     } else
         admin[whr].visitsCount = 0;
-
-    /* Execute possible entered */
-    current.actor = movingActor;
-    if (instances[current.location].entered != 0) {
-        if (previousActorLocation != current.location) {
-            interpret(instances[current.location].entered);
-            current.instance = previousInstance;
-        }
-    } else
-        executeInheritedEntered(instances[current.location].parent);
-    current.actor = previousActor;
 
     if (current.actor != movingActor)
         current.location = previousCurrentLocation;

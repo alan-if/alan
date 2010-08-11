@@ -1323,7 +1323,8 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
     int position;
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         matchParameters(parameterPositions[position].parameters, instanceMatcher);
-        matchParameters(parameterPositions[position].exceptions, instanceMatcher);
+        if (parameterPositions[position].all)
+            matchParameters(parameterPositions[position].exceptions, instanceMatcher);
     }
 
     for (position = 0; !parameterPositions[position].endOfList; position++) {
@@ -1355,7 +1356,6 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
                     parameterPositions[position].exceptions[p].instance = parameterPositions[position].exceptions[p].candidates[0].instance;
         }
     }
-
 
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
