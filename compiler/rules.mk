@@ -66,7 +66,7 @@ unit: unittests
 
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o})
--include $(ALANOBJECTS:.o=.d)
+-include $(UNITTESTSOBJECTS:.o=.d)
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
