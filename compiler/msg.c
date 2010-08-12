@@ -227,7 +227,7 @@ void generateText(char *txt)		/* IN - The text to output */
 
   for (i = 0; txt[i]; i++)
     incFreq(txt[i]);
-  fprintf(txtfil, txt);
+  fprintf(txtfil, "%s", txt);
 }
 
 
