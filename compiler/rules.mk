@@ -53,7 +53,7 @@ $(ALANOBJDIR):
 alan: $(ALANOBJDIR) $(ALANOBJECTS)
 	$(LINK) -o alan $(ALANOBJECTS) $(LINKFLAGS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
-	cp alan ../bin/alan.exe
+	cp alan ../bin/alan
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
