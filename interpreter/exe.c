@@ -250,9 +250,10 @@ void quitGame(void)
                 rememberGameState();
                 undo();
             } else {
-                if (anySavedState())
+                if (anySavedState()) {
+                    recallGameState();
                     sayUndoneCommand(playerWordsAsCommandString());
-                else
+                } else
                     printMessage(M_NO_UNDO);
                 longjmp(returnLabel, UNDO_RETURN);
             }
