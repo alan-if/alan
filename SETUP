@@ -35,3 +35,8 @@ Cygwin:
         - Xref: to refactor C code in emacs I use the free C/Java
           version from xref-tech. Download it, build and install it
           according to the instructions there in.
+
+        - Hudson Tray Tracker helps me keep tabs on the continous
+          integration builds.
+          (http://code.google.com/p/hudson-tray-tracker/)
+
