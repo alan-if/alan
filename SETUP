@@ -19,7 +19,7 @@ Cygwin:
           change of 'sleep' to 'Sleep' (the Windows version).
 
         - AnsiCon: I installed AnsiCon 1.24 which is a consol add on
-          to make the XP and later consol show ansi coloring (nice
+          to make the XP and later console show ansi coloring (nice
           when running jregr), but I am unsure if it is required when
           using mintty.
 
