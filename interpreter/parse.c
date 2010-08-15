@@ -1348,10 +1348,14 @@ static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element
 /*----------------------------------------------------------------------*/
 static void matchPlayerWordsToInstances(ParameterPosition *parameterPosition, int position) {
     matchParameters(parameterPosition->parameters, instanceMatcher);
+    if (parameterPosition->parameters[0].isThem && lengthOfParameterArray(parameterPosition->parameters)>1)
+        parameterPosition->explicitMultiple = TRUE;
     if (parameterPosition->all)
         matchParameters(parameterPosition->exceptions, instanceMatcher);
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
@@ -1372,8 +1376,6 @@ static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
         }
     }
 }
-
-
 
 
 /*----------------------------------------------------------------------*/
@@ -1460,8 +1462,8 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
         syserr("Not the same parameterPositions in new and old strategy!!!");
 
     // TODO: Now we need to convert back to legacy parameter and multipleParameter format
-    convertPositionsToParameters(parameterPositions, parameters);
-    markExplicitMultiple(parameterPositions, parameters);
+    convertPositionsToParameters(parameterPositions2, parameters);
+    markExplicitMultiple(parameterPositions2, parameters);
     convertMultipleCandidatesToMultipleParameters(multipleParameters);
 
 }
