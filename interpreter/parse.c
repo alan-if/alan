@@ -441,7 +441,7 @@ static void filterOutNonReachable(Parameter filteredCandidates[]) {
 
 
 /*----------------------------------------------------------------------*/
-static void disambiguateParametersForReachability(Parameter candidates[]) {
+static void disambiguateForReachability(Parameter candidates[]) {
     /* There are more than one candidate, let's see if we can figure out a single one */
     /* If there is one present, let's go for that */
 
@@ -549,7 +549,7 @@ static Bool parseAndBuildAnyAdjectives(Parameter parameters[], Parameter savedPa
 /*----------------------------------------------------------------------*/
 static void disambiguateParameters(Parameter parameters[], Bool adjectiveOrNounFound) {
     if (lengthOfParameterArray(parameters) > 1)
-        disambiguateParametersForReachability(parameters);
+        disambiguateForReachability(parameters);
     if (lengthOfParameterArray(parameters) > 1)
         errorWhichOne(parameters);
     else if (adjectiveOrNounFound && lengthOfParameterArray(parameters) == 0) {
@@ -670,11 +670,16 @@ static void parseAndBuildReference(Parameter parameters[]) {
 /*----------------------------------------------------------------------*/
 static void getPreviousMultipleParameters(Parameter parameters[]) {
     int i;
-    for (i = 0; !isEndOfArray(&previousMultipleParameters[i]); i++)
+    for (i = 0; !isEndOfArray(&previousMultipleParameters[i]); i++) {
+        parameters[i].candidates = ensureParameterArrayAllocated(parameters[i].candidates, MAXENTITY);
+        setEndOfArray(&parameters[i].candidates[0]); /* No candidates */
         if (!reachable(previousMultipleParameters[i].instance))
-            previousMultipleParameters[i].instance = 0;
-    compressParameterArray(previousMultipleParameters);
-    copyParameterArray(parameters, previousMultipleParameters);
+            parameters[i].instance = 0;
+        else
+            parameters[i].instance = previousMultipleParameters[i].instance;
+    }
+    setEndOfArray(&parameters[i]);
+    compressParameterArray(parameters);
 }
 
 
@@ -1316,72 +1321,6 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions, Parameter
 
 
 /*----------------------------------------------------------------------*/
-static void newWay(ParameterPosition parameterPositions[], ElementEntry *element) {
-    /* The New Strategy! Parsing has only collected word indications,
-       not built anything, so we need to match parameters to instances here */
-
-    int position;
-    for (position = 0; !parameterPositions[position].endOfList; position++) {
-        matchParameters(parameterPositions[position].parameters, instanceMatcher);
-        if (parameterPositions[position].all)
-            matchParameters(parameterPositions[position].exceptions, instanceMatcher);
-    }
-
-    for (position = 0; !parameterPositions[position].endOfList; position++) {
-        if (!parameterPositions[position].all && !hasBit(parameterPositions[position].flags, OMNIBIT)) {
-            // DISAMBIGUATION!!!
-            int p;
-            for (p = 0; p < lengthOfParameterArray(parameterPositions[position].parameters); p++)
-                disambiguateParametersForReachability(parameterPositions[position].parameters[p].candidates);
-        }
-    }
-    
-    for (position = 0; !parameterPositions[position].endOfList; position++) {
-        int p;
-        for (p = 0; p < lengthOfParameterArray(parameterPositions[position].parameters); p++) {
-            if (parameterPositions[position].parameters[p].candidates != NULL) {
-                if (lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
-                    parameterPositions[position].parameters[p].instance = parameterPositions[position].parameters[p].candidates[0].instance;
-                else {
-                    disambiguateParametersForReachability(parameterPositions[position].parameters[p].candidates);
-                    if (lengthOfParameterArray(parameterPositions[position].parameters[p].candidates) == 1)
-                        parameterPositions[position].parameters[p].instance = parameterPositions[position].parameters[p].candidates[0].instance;
-                    else
-                        errorWhichOne(parameterPositions[position].parameters[p].candidates);
-                }
-            }
-            if (parameterPositions[position].exceptions != NULL)
-                if (parameterPositions[position].exceptions[p].candidates != NULL &&
-                    lengthOfParameterArray(parameterPositions[position].exceptions[p].candidates) == 1)
-                    parameterPositions[position].exceptions[p].instance = parameterPositions[position].exceptions[p].candidates[0].instance;
-        }
-    }
-
-    int multiplePosition = findMultipleParameterPosition(parameterPositions);
-    if (anyAll(parameterPositions)) {
-        /* If the player used ALL, try to find out what was applicable */
-        // DISAMBIGUATION!!!
-        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
-        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
-            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);
-        subtractParameterArrays(parameterPositions[multiplePosition].parameters, parameterPositions[multiplePosition].exceptions);
-        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
-            error(M_NOT_MUCH);
-    } else if (anyExplicitMultiple(parameterPositions)) {
-        compressParameterArray(parameterPositions[multiplePosition].parameters);
-        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0) {
-            /* If there where multiple parameters but non left, exit without a */
-            /* word, assuming we have already said enough */
-            abortPlayerCommand();
-        }
-    }
-
-    /* Now perform restriction checks */
-    restrictParametersAccordingToSyntax(parameterPositions, element);
-}
-
-
-/*----------------------------------------------------------------------*/
 static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element) {
 
     /* Now perform restriction checks */
@@ -1403,6 +1342,95 @@ static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element
             abortPlayerCommand();
         }
     }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void matchPlayerWordsToInstances(ParameterPosition *parameterPosition, int position) {
+    matchParameters(parameterPosition->parameters, instanceMatcher);
+    if (parameterPosition->all)
+        matchParameters(parameterPosition->exceptions, instanceMatcher);
+}
+
+static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
+    int multiplePosition = findMultipleParameterPosition(parameterPositions);
+    if (anyAll(parameterPositions)) {
+        /* If the player used ALL, try to find out what was applicable */
+        // DISAMBIGUATION!!!
+        disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
+        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
+            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);
+        subtractParameterArrays(parameterPositions[multiplePosition].parameters, parameterPositions[multiplePosition].exceptions);
+        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
+            error(M_NOT_MUCH);
+    } else if (anyExplicitMultiple(parameterPositions)) {
+        compressParameterArray(parameterPositions[multiplePosition].parameters);
+        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0) {
+            /* If there where multiple parameters but non left, exit without a */
+            /* word, assuming we have already said enough */
+            abortPlayerCommand();
+        }
+    }
+}
+
+
+
+
+/*----------------------------------------------------------------------*/
+static void newWay(ParameterPosition parameterPositions[], ElementEntry *element) {
+    /* The New Strategy! Parsing has only collected word indications,
+       not built anything, so we need to match parameters to instances here */
+
+    int position;
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
+	matchPlayerWordsToInstances(&parameterPositions[position], position);
+    }
+
+    /* Now we have candidates for every thing the player said, except
+       if he used all, then we have build those as parameters, or he
+       referred to the multiple parameters of the previous command, id
+       so they to are stored as parameters */
+
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
+        ParameterPosition *parameterPosition = &parameterPositions[position];
+        if (!parameterPosition->all && !hasBit(parameterPosition->flags, OMNIBIT)) {
+            Parameter *parameters = parameterPosition->parameters;
+            int p;
+            for (p = 0; p < lengthOfParameterArray(parameters); p++)
+                disambiguateForReachability(parameters[p].candidates);
+        }
+    }
+    
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
+        ParameterPosition *parameterPosition = &parameterPositions[position];
+        int p;
+        for (p = 0; p < lengthOfParameterArray(parameterPosition->parameters); p++) {
+            Parameter *parameter = &parameterPositions[position].parameters[p];
+            Parameter *candidates = parameter->candidates;
+            if (candidates != NULL) {
+                if (lengthOfParameterArray(candidates) == 1)
+                    parameter->instance = candidates[0].instance;
+                else if (lengthOfParameterArray(candidates) > 0) {
+                    disambiguateForReachability(candidates);
+                    if (lengthOfParameterArray(candidates) == 1)
+                        parameter->instance = candidates[0].instance;
+                    else
+                        errorWhichOne(candidates);
+                }
+            }
+            if (parameterPosition->exceptions != NULL) {
+                Parameter *exceptions = parameterPosition->exceptions;
+                if (exceptions[p].candidates != NULL &&
+                    lengthOfParameterArray(exceptions[p].candidates) == 1)
+                    exceptions[p].instance = exceptions[p].candidates[0].instance;
+            }
+        }
+    }
+
+    handleMultiplePosition(parameterPositions);
+
+    /* Now perform restriction checks */
+    restrictParametersAccordingToSyntax(parameterPositions, element);
 }
 
 

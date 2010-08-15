@@ -123,9 +123,17 @@ int lengthOfParameterArray(Parameter theArray[])
 /*======================================================================*/
 Bool equalParameterArrays(Parameter parameters1[], Parameter parameters2[])
 {
-    if (parameters1 == NULL && parameters2 != NULL)
+    int i;
+
+    if ((parameters1 == NULL) != (parameters2 == NULL))
         return FALSE;
-    return parameters1 == NULL || lengthOfParameterArray(parameters1) == lengthOfParameterArray(parameters2);
+    if (parameters1 == NULL) // Because then parameter2 is also NULL
+        return TRUE;
+    for (i = 0; i < lengthOfParameterArray(parameters1); i++) {
+        if (isEndOfArray(&parameters2[i])) return FALSE;
+        if (parameters1[i].instance != parameters2[i].instance) return FALSE;
+    }
+    return isEndOfArray(&parameters2[i]);
 }
 
 

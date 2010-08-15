@@ -622,6 +622,18 @@ Ensure matchParametersCanHandleNullParameter(void) {
 }
 
 
+/*----------------------------------------------------------------------*/
+Ensure getPreviousMultipleParametersSetsEndOfArray(void) {
+    Parameter parameters[2];
+    Parameter multipleParameters[2];
+    previousMultipleParameters = multipleParameters;
+    assert_true(!isEndOfArray(&parameters[0]));
+    setEndOfArray(&previousMultipleParameters[0]);
+    getPreviousMultipleParameters(parameters);
+    assert_true(isEndOfArray(&parameters[0]));
+}
+
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -651,6 +663,7 @@ TestSuite *parseTests(void)
     add_test(suite, parseReferenceToPreviousMultipleParameterSetsThemMarker);
     add_test(suite, simpleParameterParserCanParseExplicitMultiple);
     add_test(suite, matchParametersCanHandleNullParameter);
+    add_test(suite, getPreviousMultipleParametersSetsEndOfArray);
 
     return suite;
 }
