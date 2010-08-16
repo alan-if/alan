@@ -1389,13 +1389,13 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
     }
 
     /* Now we have candidates for every thing the player said, except
-       if he used all, then we have build those as parameters, or he
-       referred to the multiple parameters of the previous command, id
-       so they to are stored as parameters */
+       if he used all, then we have built those as parameters, or he
+       referred to the multiple parameters of the previous command
+       using 'them, if so, they too are stored as parameters */
 
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         ParameterPosition *parameterPosition = &parameterPositions[position];
-        if (!parameterPosition->all && !hasBit(parameterPosition->flags, OMNIBIT)) {
+        if (!hasBit(parameterPosition->flags, OMNIBIT)) {
             Parameter *parameters = parameterPosition->parameters;
             int p;
             for (p = 0; p < lengthOfParameterArray(parameters); p++)
@@ -1413,6 +1413,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
                 if (lengthOfParameterArray(candidates) == 1)
                     parameter->instance = candidates[0].instance;
                 else if (lengthOfParameterArray(candidates) > 0) {
+                    // Prefer present instances over distant ones
                     disambiguateForReachability(candidates);
                     if (lengthOfParameterArray(candidates) == 1)
                         parameter->instance = candidates[0].instance;
