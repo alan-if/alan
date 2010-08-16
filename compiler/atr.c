@@ -384,15 +384,16 @@ static void analyzeInheritedReferenceAttribute(Attribute *thisAttribute,
 					       Attribute *inheritedAttribute,
 					       Symbol *definingSymbol) {
 
-  if (!inheritsFrom(thisAttribute->reference->symbol, inheritedAttribute->referenceClass)) {
-    lmLogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
-	   "of the instance that it refers to",
-	   thisAttribute->referenceClass->string,
-	   inheritedAttribute->reference->symbol->string, NULL);
-    thisAttribute->type = ERROR_TYPE;
-  } else
-    /* Set the class to the inherited one */
-    thisAttribute->referenceClass = inheritedAttribute->referenceClass;
+    if (!inheritsFrom(thisAttribute->reference->symbol, inheritedAttribute->referenceClass)) {
+        if (thisAttribute->referenceClass != NULL)
+            lmLogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
+                   "of the instance that it refers to",
+                   thisAttribute->referenceClass->string,
+                   inheritedAttribute->reference->symbol->string, NULL);
+        thisAttribute->type = ERROR_TYPE;
+    } else
+        /* Set the class to the inherited one */
+        thisAttribute->referenceClass = inheritedAttribute->referenceClass;
 }
 
 
