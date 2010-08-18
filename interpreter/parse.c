@@ -1346,7 +1346,7 @@ static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element
 
 
 /*----------------------------------------------------------------------*/
-static void matchPlayerWordsToInstances(ParameterPosition *parameterPosition, int position) {
+static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition, int position) {
     matchParameters(parameterPosition->parameters, instanceMatcher);
     if (parameterPosition->parameters[0].isThem && lengthOfParameterArray(parameterPosition->parameters)>1)
         parameterPosition->explicitMultiple = TRUE;
@@ -1404,7 +1404,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
 
     int position;
     for (position = 0; !parameterPositions[position].endOfList; position++) {
-	matchPlayerWordsToInstances(&parameterPositions[position], position);
+	findCandidatesForPlayerWords(&parameterPositions[position], position);
     }
 
     /* Now we have candidates for everything the player said, except
