@@ -1379,6 +1379,25 @@ static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
 
 
 /*----------------------------------------------------------------------*/
+static void disambiguateParametersForReachability(Parameter *parameters) {
+    int p;
+    for (p = 0; p < lengthOfParameterArray(parameters); p++)
+	disambiguateForReachability(parameters[p].candidates);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void disambiguateAllNonOmnipotentPositionsForReachability(ParameterPosition parameterPositions[]) {
+    int position;
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
+        ParameterPosition *parameterPosition = &parameterPositions[position];
+        if (!hasBit(parameterPosition->flags, OMNIBIT))
+	    disambiguateParametersForReachability(parameterPosition->parameters);
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void newWay(ParameterPosition parameterPositions[], ElementEntry *element) {
     /* The New Strategy! Parsing has only collected word indications,
        not built anything, so we need to match parameters to instances here */
@@ -1388,20 +1407,12 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
 	matchPlayerWordsToInstances(&parameterPositions[position], position);
     }
 
-    /* Now we have candidates for every thing the player said, except
+    /* Now we have candidates for everything the player said, except
        if he used all, then we have built those as parameters, or he
        referred to the multiple parameters of the previous command
        using 'them, if so, they too are stored as parameters */
 
-    for (position = 0; !parameterPositions[position].endOfList; position++) {
-        ParameterPosition *parameterPosition = &parameterPositions[position];
-        if (!hasBit(parameterPosition->flags, OMNIBIT)) {
-            Parameter *parameters = parameterPosition->parameters;
-            int p;
-            for (p = 0; p < lengthOfParameterArray(parameters); p++)
-                disambiguateForReachability(parameters[p].candidates);
-        }
-    }
+    disambiguateAllNonOmnipotentPositionsForReachability(parameterPositions);
     
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         ParameterPosition *parameterPosition = &parameterPositions[position];
