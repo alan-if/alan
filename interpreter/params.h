@@ -31,6 +31,7 @@ extern Parameter *globalParameters;
 
 
 /* FUNCTIONS */
+extern Bool exists(Parameter *parameters);
 extern void clearParameter(Parameter *parameter, Parameter *candidates);
 extern void setParameter(int parameterIndex, Parameter parameter);
 extern void setParameters(Parameter parameters[]);

@@ -314,17 +314,6 @@ static void mockedInstanceMatcher(Parameter *parameter) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchEmptyParameterArray(void) {
-    Parameter parameters[2];
-    clearParameterArray(parameters);
-
-    expect_never(mockedInstanceMatcher);
-
-    findCandidates(parameters, mockedInstanceMatcher);
-}
-
-
-/*----------------------------------------------------------------------*/
 Ensure canMatchSingleParameter(void) {
     Parameter parameters[2];
     Parameter candidates[2];
@@ -616,11 +605,6 @@ Ensure simpleParameterParserCanParseExplicitMultiple(void) {
     assert_equal(lengthOfParameterArray(parameters), 2);
 }
 
-/*----------------------------------------------------------------------*/
-Ensure matchParametersCanHandleNullParameter(void) {
-    findCandidates(NULL, NULL);
-}
-
 
 /*----------------------------------------------------------------------*/
 Ensure getPreviousMultipleParametersSetsEndOfArray(void) {
@@ -648,7 +632,6 @@ TestSuite *parseTests(void)
     add_test(suite, canSetupInstanceParametersForMessages);
     add_test(suite, canSetupStringParametersForMessages);
     add_test(suite, canSetupIntegerParametersForMessages);
-    add_test(suite, canMatchEmptyParameterArray);
     add_test(suite, canMatchSingleParameter);
     add_test(suite, matchNounPhraseCanMatchSingleNounWithSingleMatch);
     add_test(suite, canMatchNounAndAdjectiveWithSingleMatch);
@@ -662,7 +645,6 @@ TestSuite *parseTests(void)
     add_test(suite, parsePronounSetsPronounMarker);
     add_test(suite, parseReferenceToPreviousMultipleParameterSetsThemMarker);
     add_test(suite, simpleParameterParserCanParseExplicitMultiple);
-    add_test(suite, matchParametersCanHandleNullParameter);
     add_test(suite, getPreviousMultipleParametersSetsEndOfArray);
 
     return suite;

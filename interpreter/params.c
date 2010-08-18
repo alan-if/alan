@@ -20,6 +20,12 @@ Parameter *globalParameters = NULL;
 
 
 /*======================================================================*/
+Bool exists(Parameter *parameters) {
+    return parameters != NULL && lengthOfParameterArray(parameters) > 0;
+}
+
+
+/*======================================================================*/
 void clearParameter(Parameter *parameter, Parameter *candidates) {
     memset(parameter, 0, sizeof(Parameter));
     parameter->candidates = candidates;

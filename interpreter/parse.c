@@ -446,9 +446,10 @@ static void disambiguateForReachability(Parameter candidates[]) {
     /* If there is one present, let's go for that */
 
     static Parameter *filteredCandidates = NULL;
-    filteredCandidates = ensureParameterArrayAllocated(filteredCandidates, MAXPARAMS+1);
+    filteredCandidates = ensureParameterArrayAllocated(filteredCandidates, MAXENTITY);
 
-    if (candidates == NULL) return;
+    if (!exists(candidates))
+        return;
     
     copyParameterArray(filteredCandidates, candidates);
 
@@ -1247,16 +1248,13 @@ static void matchNounPhrase(Parameter *parameter, ReferencesFinder adjectiveRefe
 
 /*----------------------------------------------------------------------*/
 static void instanceMatcher(Parameter *parameter) {
-    if (parameter->firstWord != EOF && parameter->firstWord != 0) { // TODO Why?
-        // TODO Parameter should be marked as Literal, Them, Pronoun, All instead of repeating the word lookup
-        if (parameter->isLiteral) {
-            parameter->candidates[0].instance = instanceFromLiteral(playerWords[parameter->firstWord].code - dictionarySize);
-            setEndOfArray(&parameter->candidates[1]);
-        } else if (parameter->isPronoun) {
-            matchPronoun(parameter);
-        } else
-            matchNounPhrase(parameter, adjectiveReferencesForWord, nounReferencesForWord);
-    }
+    if (parameter->isLiteral) {
+        parameter->candidates[0].instance = instanceFromLiteral(playerWords[parameter->firstWord].code - dictionarySize);
+        setEndOfArray(&parameter->candidates[1]);
+    } else if (parameter->isPronoun) {
+        matchPronoun(parameter);
+    } else
+        matchNounPhrase(parameter, adjectiveReferencesForWord, nounReferencesForWord);
 }
 
 
@@ -1265,20 +1263,9 @@ static void findCandidates(Parameter parameters[], void (*instanceMatcher)(Param
 {
     int i;
     
-    if (parameters == NULL) return;
-
-    if (lengthOfParameterArray(parameters) > 0) {
-        if (isAllWord(parameters[0].firstWord))
-            buildAllHere(parameters);
-        else if (parameters[0].isThem)
-            getPreviousMultipleParameters(parameters);
-        else {
-            for (i = 0; i < lengthOfParameterArray(parameters); i++) {
-                if (parameters[i].candidates == NULL)
-                    parameters[i].candidates = allocateParameterArray(MAXENTITY);
-                instanceMatcher(&parameters[i]);
-            }
-        }
+    for (i = 0; i < lengthOfParameterArray(parameters); i++) {
+        parameters[i].candidates = ensureParameterArrayAllocated(parameters[i].candidates, MAXENTITY);
+        instanceMatcher(&parameters[i]);
     }
 }
 
@@ -1303,7 +1290,6 @@ static void convertMultipleCandidatesToMultipleParameters(Parameter multiplePara
             copyParameterArray(multipleParameters, parameterPositions[parameterCount].parameters);
         }
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -1347,11 +1333,20 @@ static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element
 
 /*----------------------------------------------------------------------*/
 static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
-    findCandidates(parameterPosition->parameters, instanceMatcher);
-    if (parameterPosition->parameters[0].isThem && lengthOfParameterArray(parameterPosition->parameters)>1)
-        parameterPosition->explicitMultiple = TRUE;
-    if (parameterPosition->all)
-        findCandidates(parameterPosition->exceptions, instanceMatcher);
+    Parameter *parameters = parameterPosition->parameters;
+
+    if (exists(parameters)) {
+        if (parameters[0].isThem) {
+            getPreviousMultipleParameters(parameters);
+            if (lengthOfParameterArray(parameters)>1)
+                parameterPosition->explicitMultiple = TRUE;
+        } else if (parameterPosition->all) {
+            buildAllHere(parameters);
+            if (exists(parameterPosition->exceptions))
+                findCandidates(parameterPosition->exceptions, instanceMatcher);
+        } else
+            findCandidates(parameters, instanceMatcher);
+    }
 }
 
 
