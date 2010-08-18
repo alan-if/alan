@@ -320,7 +320,7 @@ Ensure canMatchEmptyParameterArray(void) {
 
     expect_never(mockedInstanceMatcher);
 
-    matchParameters(parameters, mockedInstanceMatcher);
+    findCandidates(parameters, mockedInstanceMatcher);
 }
 
 
@@ -343,7 +343,7 @@ Ensure canMatchSingleParameter(void) {
            want(parameter.firstWord, parameters[0].firstWord),
            want(parameter.lastWord, parameters[0].lastWord));
     
-    matchParameters(parameters, mockedInstanceMatcher);
+    findCandidates(parameters, mockedInstanceMatcher);
 
     assert_not_equal(parameters[0].candidates, NULL);
     assert_equal(lengthOfParameterArray(parameters[0].candidates), 1);
@@ -618,7 +618,7 @@ Ensure simpleParameterParserCanParseExplicitMultiple(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure matchParametersCanHandleNullParameter(void) {
-    matchParameters(NULL, NULL);
+    findCandidates(NULL, NULL);
 }
 
 

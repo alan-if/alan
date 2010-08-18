@@ -1261,7 +1261,7 @@ static void instanceMatcher(Parameter *parameter) {
 
 
 /*----------------------------------------------------------------------*/
-static void matchParameters(Parameter parameters[], void (*instanceMatcher)(Parameter *parameter)) 
+static void findCandidates(Parameter parameters[], void (*instanceMatcher)(Parameter *parameter)) 
 {
     int i;
     
@@ -1346,12 +1346,12 @@ static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element
 
 
 /*----------------------------------------------------------------------*/
-static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition, int position) {
-    matchParameters(parameterPosition->parameters, instanceMatcher);
+static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
+    findCandidates(parameterPosition->parameters, instanceMatcher);
     if (parameterPosition->parameters[0].isThem && lengthOfParameterArray(parameterPosition->parameters)>1)
         parameterPosition->explicitMultiple = TRUE;
     if (parameterPosition->all)
-        matchParameters(parameterPosition->exceptions, instanceMatcher);
+        findCandidates(parameterPosition->exceptions, instanceMatcher);
 }
 
 
@@ -1404,7 +1404,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
 
     int position;
     for (position = 0; !parameterPositions[position].endOfList; position++) {
-	findCandidatesForPlayerWords(&parameterPositions[position], position);
+	findCandidatesForPlayerWords(&parameterPositions[position]);
     }
 
     /* Now we have candidates for everything the player said, except
