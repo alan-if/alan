@@ -22,6 +22,7 @@ Interpreter unit for Alan interpreter Arun
 #include "params.h"
 #include "instance.h"
 #include "Container.h"
+#include "Location.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK

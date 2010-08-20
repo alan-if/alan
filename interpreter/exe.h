@@ -50,8 +50,6 @@ extern void undo(void);
 extern void quitGame(void);
 extern void restartGame(void);
 
-extern void look(void);
-
 extern void use(int act, int scr);
 extern void stop(int act);
 

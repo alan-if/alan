@@ -624,8 +624,8 @@ TestSuite *parseTests(void)
 
     setup(suite, setUp);
     
-    add_test(suite, canSetupParameterForWord);
     add_test(suite, canMatchEndOfSyntax);
+    add_test(suite, canSetupParameterForWord);
     add_test(suite, canMatchParameterElement);
     add_test(suite, canParseInputAccordingToParseTree);
     add_test(suite, canSeeBitsInFlag);

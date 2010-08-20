@@ -1282,7 +1282,7 @@ static void handleFailedParse(ElementEntry *elms) {
 
 
 /*----------------------------------------------------------------------*/
-static void convertMultipleCandidatesToMultipleParameters(Parameter multipleParameters[]) {
+static void convertMultipleCandidatesToMultipleParameters(ParameterPosition parameterPositions[], Parameter multipleParameters[]) {
     int parameterCount;
     for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
 	if (parameterPositions[parameterCount].explicitMultiple) {
@@ -1318,7 +1318,7 @@ static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element
         // DISAMBIGUATION!!!
         disambiguateParametersForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
         if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
-            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);  //allWordIndex);
+            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);
 
     } else if (anyExplicitMultiple(parameterPositions)) {
         compressParameterArray(parameterPositions[multiplePosition].parameters);
@@ -1457,21 +1457,29 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
      * does it the old way, and newWay() tries to do it the new way...
      */
 
-    ParameterPosition *parameterPositions2 = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+    // TODO: doesn't work if this is statically allocated, so it's probably not cleared ok
+#ifdef STATIC
+    static ParameterPosition *newParameterPositions = NULL;
+    if (newParameterPositions == NULL)
+	newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+    newParameterPositions[0].endOfList = TRUE;
+#else
+    ParameterPosition *newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+#endif
 
-    element = parseInput(parameterPositions, parameterPositions2);
+    element = parseInput(parameterPositions, newParameterPositions);
 
     oldWay(parameterPositions, element);
 
-    newWay(parameterPositions2, element);
+    newWay(newParameterPositions, element);
     // TODO: New strategy! Comparing the two parameterPositions arrays for verifying that they both contain the same
-    if (!equalParameterPositions(parameterPositions, parameterPositions2))
+    if (!equalParameterPositions(parameterPositions, newParameterPositions))
         syserr("Not the same parameterPositions in new and old strategy!!!");
 
     // TODO: Now we need to convert back to legacy parameter and multipleParameter format
-    convertPositionsToParameters(parameterPositions2, parameters);
-    markExplicitMultiple(parameterPositions2, parameters);
-    convertMultipleCandidatesToMultipleParameters(multipleParameters);
+    convertPositionsToParameters(newParameterPositions, parameters);
+    markExplicitMultiple(newParameterPositions, parameters);
+    convertMultipleCandidatesToMultipleParameters(newParameterPositions, multipleParameters);
 
 }
 
@@ -1480,7 +1488,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
 static void parseOneCommand(Parameter parameters[], Parameter multipleParameters[])
 {
     try(parameters, multipleParameters); /* ... to understand what he said */
-	
+
     /* More on this line? */
     if (!endOfWords(currentWordIndex)) {
         if (isConjunctionWord(currentWordIndex))
