@@ -1,621 +1,497 @@
 grammar alan;
 
-adventure : optional_options declaration+ start ;
+options {
+    language = Java;
+}
 
-optional_options :
-                   | gensym0 (option)+
-                       ;
+@header {
+  package se.alanif.grammar;
+}
 
-gensym0 : 'OPTIONS' 
-           | 'OPTION' 
-               ;
+@lexer::header {
+  package se.alanif.grammar;
+}
 
-option : ID '.' 
-         | ID ID '.' 
-         | ID INTEGER '.' 
-             ;
+adventure
+	:	game_options? declaration* start ;
 
-declaration : messages 
-              | class 
-              | instance 
-              | rule 
-              | synonyms 
-              | syntax 
-              | verb 
-              | addition 
-              | event 
-                  ;
-
-attributes : ( attribute_definition '.' )+ ;
-
-attribute_definition : ID '.'
-                       | 'NOT' ID '.'
-                       | ID optional_minus INTEGER '.'
-                       | ID STRING '.'
-                       | ID ID '.'
-//                       | ID '{' optional_members '\}' '.'
-                           ;
-
-optional_members : 
-                   | set_members 
-                       ;
-
-set_members : set_member ( ',' set_member )*
-                  ;
-
-set_member : ID 
-             | optional_minus INTEGER 
-             | STRING 
-                 ;
-
-synonyms : 'SYNONYMS' synonym_declaration+ 
-               ;
-
-synonym_declaration : id_list '=' ID '.' 
-                          ;
-
-messages : 'MESSAGE' message+ 
-               ;
-
-message : ID ':' statements 
-              ;
-
-syntax : 'SYNTAX' syntax_list 
-             ;
-
-syntax_list : syntax_item+
-                  ;
-
-syntax_item : ID '=' syntax_elements optional_syntax_restrictions 
+game_options
+	:	(('OPTION') | 'OPTIONS') option+
 	;
 
-syntax_elements : syntax_element+
+option	:	ID '.' 
+	|	ID ID '.'
+	|	ID INTEGER '.' 
 	;
 
-syntax_element : ID 
-                 | '(' ID ')' optional_indicators 
-                     ;
-
-optional_indicators : indicator*
-                          ;
-
-indicator : '*' 
-            | '!' 
-                ;
-
-syntax_restriction_clauses : syntax_restriction ( 'AND' syntax_restriction )*
-                                 ;
-
-syntax_restriction : ID 'ISA' restriction_class 'ELSE' statements 
-                         ;
-
-restriction_class : ID 
-                    | 'CONTAINER' 
-                        ;
-
-optional_syntax_restrictions : '.' 
-                               | 'WHERE' syntax_restriction_clauses 
-                                   ;
-
-verb : verb_header verb_body verb_tail 
-           ;
-
-verb_header : 'VERB' id_list 
-                  ;
-
-verb_body : simple_verb_body 
-            | verb_alternatives 
-                ;
-
-verb_alternatives : verb_alternative+
-                        ;
-
-verb_alternative : 'WHEN' ID simple_verb_body 
-                       ;
-
-simple_verb_body : optional_checks? optional_does 
-                       ;
-
-verb_tail : 'END' 'VERB' optional_id '.' 
-                ;
-
-optional_checks : 'CHECK' ( statements | check_list )
-                      ;
-
-check_list : check ( 'AND' check )*
-                 ;
-
-check : expression 'ELSE' statements 
-            ;
-
-optional_does : 
-                | does 
-                    ;
-
-does : 'DOES' optional_qual statements 
-           ;
-
-class : 'EVERY' ID optional_heritage properties class_tail 
-            ;
-
-class_tail : 'END' 'EVERY' optional_id optional_period
-                 ;
-
-addition : 'ADD' 'TO' genSym2 ID optional_heritage properties 
-                  add_tail 
-               ;
-
-genSym2 : 
-           | 'EVERY' 
-               ;
-
-add_tail : 'END' 'ADD' genSym3 optional_id optional_period
-               ;
-
-genSym3 : 
-           | 'TO' 
-               ;
-
-instance : 'THE' ID optional_heritage properties  instance_tail 
-               ;
-
-instance_tail : 'END' 'THE' optional_id optional_period
-                    ;
-
-optional_heritage : 
-                    | heritage 
-                        ;
-
-heritage : 'ISA' ID optional_period 
-               ;
-
-properties : property*
-                 ;
-
-property : where optional_period 
-           | container_properties 
-           | description 
-           | optional_indefinite article_or_form 
-           | name 
-           | entered 
-           | mentioned 
-           | 'DEFINITE' article_or_form 
-           | is attributes 
-           | script 
-           | exit 
-           | verb 
-               ;
-
-optional_indefinite : 
-           | 'INDEFINITE' 
-               ;
-
-exit : 'EXIT' id_list 'TO' ID optional_exit_body '.' 
-           ;
-
-optional_exit_body : 
-                     | optional_checks optional_does 'END' 'EXIT' 
-                            optional_id 
-                         ;
-
-optional_attributes : ( is attributes )*
-                          ;
-
-is : 'IS' 
-     | 'ARE' 
-     | 'HAS' 
-         ;
-
-optional_description : 
-                       | description 
-                           ;
-
-description : 'DESCRIPTION' optional_checks optional_does 
-              | 'DESCRIPTION' statements 
-                  ;
-
-article_or_form : article 
-                  | form 
-                      ;
-
-article : 'ARTICLE' 
-          | 'ARTICLE' statements 
-              ;
-
-form : 'FORM' 
-       | 'FORM' statements 
-           ;
-
-entered : 'ENTERED' statements 
-              ;
-
-mentioned : 'MENTIONED' statements 
-                ;
-
-optional_names : name*
+declaration
+	:	messages 
+	|	class_declaration 
+	|	instance_declaration
+	|	addition 
+	|	rule 
+	|	synonyms 
+	|	syntax 
+	|	verb 
+	|	event 
 	;
 
-name : 'NAME' ids optional_full_stop 
-           ;
 
-optional_full_stop : 
-                     | '.' 
-                         ;
-
-container_properties : optional_with optional_opaque 'CONTAINER' 
-                              container_body 
-                           ;
-
-optional_with : 
-           | 'WITH' 
-               ;
-
-optional_opaque : 
-                    | 'OPAQUE' 
-                        ;
-
-container_body : optional_taking optional_limits optional_header 
-                        optional_empty optional_extract 
-                 | '.' 
-                     ;
-
-optional_taking : 
-                  | 'TAKING' ID '.' 
-                      ;
-
-optional_limits : 
-                  | 'LIMITS' limits 
-                      ;
-
-limits : limit+
-             ;
-
-limit : limit_attribute else_or_then statements 
-            ;
-
-else_or_then : 'ELSE' 
-               | 'THEN' 
-                   ;
-
-limit_attribute : attribute_definition 
-                  | 'COUNT' INTEGER 
-                      ;
-
-optional_header : 
-                  | 'HEADER' statements 
-                      ;
-
-optional_empty : 
-                 | 'ELSE' statements 
-                     ;
-
-optional_extract : 
-                   | 'EXTRACT' optional_checks optional_does 
-                   | 'EXTRACT' statements 
-                       ;
-
-event : event_header statements event_tail 
-            ;
-
-event_header : 'EVENT' ID 
-                   ;
-
-event_tail : 'END' 'EVENT' optional_id '.' 
-                 ;
-
-script : 'SCRIPT' ID optional_period optional_description step_list 
-             ;
-
-optional_period : 
-            | '.' 
-                ;
-
-step_list : step+
-                ;
-
-step : 'STEP' statements 
-       | 'STEP' 'AFTER' INTEGER statements 
-       | 'STEP' 'WAIT' 'UNTIL' expression statements 
-           ;
-
-rule : 'WHEN' expression then statements optional_end_when 
-           ;
-
-then : '=>' 
-       | 'THEN' 
-           ;
-
-optional_end_when : 
-                    | 'END' 'WHEN' optional_period 
-                        ;
-
-start : 'START' where '.' optional_statements 
-            ;
-
-optional_statements : 
-                      | statements 
-                          ;
-
-statements : statement+
-                 ;
-
-statement : output_statement 
-            | special_statement 
-            | manipulation_statement 
-            | actor_statement 
-            | event_statement 
-            | assignment_statement 
-            | repetition_statement 
-            | conditional_statement 
-                ;
-
-output_statement : STRING 
-                   | 'DESCRIBE' what '.' 
-                   | 'SAY' say_form expression '.' 
-                   | 'LIST' what '.' 
-                   | 'SHOW' ID '.' 
-                       ;
-
-say_form : 
-           | 'THE' 
-           | 'AN' 
-               ;
-
-manipulation_statement : 'EMPTY' what optional_where '.' 
-                         | 'LOCATE' what where '.' 
-                         | 'INCLUDE' primary 'IN' what '.' 
-                         | 'REMOVE' primary 'FROM' what '.' 
-                             ;
-
-event_statement : 'CANCEL' ID '.' 
-                  | 'SCHEDULE' ID optional_where 'AFTER' expression 
-                         '.' 
-                      ;
-
-assignment_statement : 'MAKE' what something '.' 
-                       | 'STRIP' optional_first_or_last 
-                              optional_expression 
-                              optional_word_or_character 'FROM' expression 
-                              optional_into '.' 
-                       | 'INCREASE' attribute_reference 
-                              optional_by_clause '.' 
-                       | 'DECREASE' attribute_reference 
-                              optional_by_clause '.' 
-                       | 'SET' attribute_reference 'TO' expression 
-                              '.' 
-                           ;
-
-optional_by_clause : 
-                     | 'BY' expression 
-                         ;
-
-optional_first_or_last : 
-                         | 'FIRST' 
-                         | 'LAST' 
-                             ;
-
-optional_word_or_character : 
-                             | 'WORD' 
-                             | 'WORDS' 
-                             | 'CHARACTER' 
-                             | 'CHARACTERS' 
-                                 ;
-
-optional_into : 
-                | 'INTO' expression 
-                    ;
-
-conditional_statement : if_statement 
-                        | depending_statement 
-                            ;
-
-if_statement : 'IF' expression 'THEN' statements 
-                      optional_elsif_list optional_else_part 'END' 'IF' 
-                      '.' 
-                   ;
-
-optional_elsif_list
-	:	( 'ELSIF' expression 'THEN' statements )*
+attribute_definition
+	:	'NOT'? ID '.'
+	|	ID '-'? INTEGER '.'
+	|	ID STRING '.'
+	|	ID ID '.'
+	|	ID '{' set_members? '}' '.'
 	;
 
-optional_else_part : 
-                     | 'ELSE' statements 
-                         ;
 
-depending_statement : 'DEPENDING' 'ON' primary depend_cases 'END' 
-                             genSym12 '.' 
-                          ;
+set_members
+	:	set_member ( ',' set_member )*
+	;
 
-genSym12 : 'DEPEND' 
-            | 'DEPENDING' 
-                ;
+set_member
+	:	ID 
+	|	'-'? INTEGER 
+	|	STRING 
+	;
 
-depend_cases : depend_case+
-                   ;
+synonyms
+	:	'SYNONYMS' synonym_declaration+ 
+	;
 
-depend_case : right_hand_side ':' statements 
-              | 'ELSE' statements
-                  ;
+synonym_declaration
+	:	id_list '=' ID '.' 
+	;
 
-repetition_statement : for_each ID filters? 'DO' 
-                              statements 'END' for_each optional_period 
-                           ;
+messages
+	:	'MESSAGE' message+ 
+	;
 
-for_each : 'FOR' | 'EACH' | 'FOR' 'EACH'
-               ;
+message :	ID ':' statement+ 
+	;
 
-actor_statement : 'STOP' what '.' 
-                  | 'USE' 'SCRIPT' ID optional_for_actor '.' 
-                      ;
-
-optional_for_actor : 
-                     | 'FOR' what 
-                         ;
-
-special_statement : 'QUIT' '.' 
-                    | 'LOOK' '.' 
-                    | 'SAVE' '.' 
-                    | 'RESTORE' '.' 
-                    | 'RESTART' '.' 
-                    | 'SCORE' optional_INTEGER '.' 
-                    | 'VISITS' INTEGER '.' 
-                    | 'SYSTEM' STRING '.' 
-                        ;
-
-optional_expression : 
-                      | expression 
-                          ;
-
-expression : term ( 'OR' term )*
-                 ;
-
-term : factor ( 'AND' factor )*
-           ;
-
-factor : arithmetic ( optional_not factor_operation )*
+syntax	:	'SYNTAX' syntax_item+ 
              ;
+
+syntax_item
+	:	ID '=' syntax_element+ ('.' | 'WHERE' syntax_restrictions) 
+	;
+
+syntax_element
+	:	ID 
+	|	'(' ID ')' indicator*
+	;
+
+indicator
+	:	('*') | '!'
+	;
+
+syntax_restrictions
+	:	syntax_restriction ( 'AND' syntax_restriction )*
+	;
+
+syntax_restriction
+	:	ID 'ISA' restriction_class 'ELSE' statement+ 
+	;
+
+restriction_class
+	:	(ID) 
+	|	'CONTAINER' 
+	;
+
+verb	:	'VERB' id_list verb_body 'END' 'VERB' ID? '.' 
+	;
+
+verb_body
+	:	simple_verb_body 
+	|	verb_alternative+
+	;
+
+simple_verb_body
+	:	checks? does? 
+	;
+
+
+checks	:	'CHECK' check_list
+	|	'CHECK' statement
+	;
+
+check_list
+	:	check ( 'AND' check )*
+	;
+
+check	:	expression 'ELSE' statement+ 
+	;
+
+does	:	'DOES' qualifier? statement+ 
+	;
+
+verb_alternative
+	:	'WHEN' ID simple_verb_body 
+	;
+
+class_declaration
+	:	'EVERY' ID heritage? property* 'END' 'EVERY' ID? '.'
+	;
+
+
+addition
+	:	'ADD' 'TO' 'EVERY'? ID heritage? property* 'END' 'ADD' 'TO'? ID? '.'
+	;
+
+
+instance_declaration
+	:	'THE' ID heritage? property* 'END' 'THE' ID? '.' 
+	;
+
+heritage
+	:	'ISA' ID '.'?
+	;
+
+property
+	:	where '.'?
+	|	is attribute_definition+
+	|	name 
+	|	description 
+	|	entered 
+	|	mentioned 
+	|	'INDEFINITE'? article_or_form 
+	|	'DEFINITE' article_or_form 
+	|	container_properties 
+	|	script 
+	|	exit 
+	|	verb 
+	;
+
+
+exit	:	'EXIT' id_list 'TO' ID (checks? does? 'END' 'EXIT' ID?)? '.' 
+	;
+
+is	:	('IS') | 'ARE' | 'HAS' 
+	;
+
+description
+	:	'DESCRIPTION' checks? does?
+	|	'DESCRIPTION' statement+
+	;
+
+article_or_form
+	:	article 
+	|	form 
+	;
+
+article	:	'ARTICLE' 
+	|	'ARTICLE' statement+ 
+	;
+
+form	:	'FORM' 
+	|	'FORM' statement+
+	;
+
+entered	:	'ENTERED' statement+ 
+	;
+
+mentioned
+	:	'MENTIONED' statement+ 
+	;
+
+name	:	'NAME' ID+ '.'? 
+	;
+
+container_properties
+	:	'WITH'? 'OPAQUE'? 'CONTAINER' ( container_body | '.' )
+	;
+
+container_body
+	:	taking? limits? header? empty? extract? 
+	;
+
+taking	:	'TAKING' ID '.' 
+	;
+
+limits	:	'LIMITS' limit+ 
+	;
+
+limit	:	limit_attribute (('ELSE') | 'THEN') statement+
+	;
+
+
+limit_attribute
+	:	attribute_definition 
+	|	'COUNT' INTEGER
+	;
+
+header	:	'HEADER' statement+
+	;
+
+empty	:	('ELSE'|'EMPTY') statement+ 
+	;
+
+extract	:	'EXTRACT' checks? does? 
+	|	'EXTRACT' statement+
+	;
+
+event	:	'EVENT' ID statement+ 'END' 'EVENT' ID? '.'
+	;
+
+script	:	'SCRIPT' ID '.'? description? step+ 
+	;
+
+step	:	'STEP' statement+ 
+	|	'STEP' 'AFTER' INTEGER statement+ 
+	|	'STEP' 'WAIT' 'UNTIL' expression statement+ 
+	;
+
+rule	:	'WHEN' expression (('=>') | 'THEN') statement+ ( 'END' 'WHEN' '.' )?
+	;
+
+
+
+start	:	'START' where '.' statement* 
+	;
+
+statement
+	:	output_statement 
+	|	special_statement 
+	|	manipulation_statement 
+	|	actor_statement 
+	|	event_statement 
+	|	assignment_statement 
+	|	repetition_statement 
+	|	conditional_statement 
+	;
+
+output_statement
+	:	STRING 
+	|	'DESCRIBE' what '.' 
+	|	'SAY' (('THE') | 'AN')? expression '.' 
+	|	'LIST' what '.' 
+	|	'SHOW' ID '.' 
+	;
+
+
+manipulation_statement
+	:	'EMPTY' what where? '.' 
+	|	'LOCATE' what where '.' 
+	|	'INCLUDE' primary 'IN' what '.' 
+	|	'REMOVE' primary 'FROM' what '.' 
+	;
+
+event_statement
+	:	'CANCEL' ID '.' 
+	|	'SCHEDULE' ID where? 'AFTER' expression '.' 
+	;
+
+assignment_statement
+	:	'MAKE' what something '.' 
+	|	'STRIP' (('FIRST') | 'LAST' )? expression? (('WORD') | 'WORDS' | 'CHARACTER' | 'CHARACTERS' )? 'FROM' expression ( 'INTO' expression )? '.' 
+	|	'INCREASE' attribute_reference ( 'BY' expression )? '.' 
+	|	'DECREASE' attribute_reference ( 'BY' expression )? '.' 
+	|	'SET' attribute_reference 'TO' expression '.' 
+	;
+
+conditional_statement
+	:	if_statement 
+	|	depending_statement 
+	;
+
+if_statement
+	:	'IF' expression 'THEN' statement+ elsif_part* else_part? 'END' 'IF' '.' 
+	;
+
+elsif_part
+	:	'ELSIF' expression 'THEN' statement+
+	;
+
+else_part
+	:	'ELSE' statement+
+	;
+
+depending_statement
+	:	'DEPENDING' 'ON' primary depend_case+ 'END' (('DEPEND') | 'DEPENDING') '.' 
+	;
+
+
+depend_case
+	:	right_hand_side ':' statement+ 
+	|	'ELSE' statement+
+	;
+
+repetition_statement
+	:	for_each ID filters? 'DO' statement+ 'END' for_each '.'?
+	;
+
+for_each:	'FOR' 'EACH' //| 'FOR' | 'EACH'
+	;
+
+actor_statement
+	:	'STOP' what '.' 
+	|	'USE' 'SCRIPT' ID ( 'FOR' what )? '.' 
+	;
+
+
+special_statement
+	:	'QUIT' '.' 
+	|	'LOOK' '.' 
+	|	'SAVE' '.' 
+	|	'RESTORE' '.' 
+	|	'RESTART' '.' 
+	|	'SCORE' INTEGER? '.' 
+	|	'VISITS' INTEGER '.' 
+	|	'SYSTEM' STRING '.' 
+	;
+
+expression
+	:	term ( 'OR' term )*
+	;
+
+term	:	factor ( 'AND' factor )*
+	;
+
+factor	:	arithmetic factor_operation?
+	;
              
 factor_operation 
-	: optional_not where 
-        | optional_not relop arithmetic 
-        | optional_not 'CONTAINS' arithmetic 
-        | optional_not 'BETWEEN' arithmetic 'AND' arithmetic
-        ;
+	:	'NOT'? where 
+	|	'NOT'? relop arithmetic 
+	|	'NOT'? 'CONTAINS' arithmetic 
+	|	'NOT'? 'BETWEEN' arithmetic 'AND' arithmetic
+	;
 
 arithmetic
-	: primary 
-        | aggregate filters 
-        | primary 'ISA' ID 
-        | primary is something 
-        | primary binop arithmetic
+	:	aggregate filters 
+	|	primary logic_operation?
+	;
+
+logic_operation
+	:	'ISA' ID 
+	|	is something 
+	|	binop arithmetic
+	;
+        
+filters : filter ( ',' filter )*
         ;
 
-filters : filter ( ',' filter )*
-              ;
+filter 	:	'NOT'? where 
+	|	'NOT'? 'ISA' ID 
+	|	is something 
+	;
 
-filter : optional_not where 
-                    | optional_not 'ISA' ID 
-                    | is something 
-                        ;
+right_hand_side
+	:	filter
+	|	'NOT'? relop primary 
+	|	'NOT'? 'CONTAINS' factor 
+	|	'NOT'? 'BETWEEN' factor 'AND' factor 
+	;
 
-right_hand_side : filter expression 
-                  | optional_not relop primary 
-                  | optional_not 'CONTAINS' factor 
-                  | optional_not 'BETWEEN' factor 'AND' factor 
-                      ;
+primary	:	literal 
+	|	what 
+	|	'SCORE' 
+	|	'(' expression ')' 
+	|	'RANDOM' primary 'TO' primary 
+	;
 
-primary : optional_minus INTEGER 
-          | STRING 
-          | what 
-          | 'SCORE' 
-          | '(' expression ')' 
-          | 'RANDOM' primary 'TO' primary 
-              ;
+literal	:	'-'? INTEGER
+	|	STRING
+	;
+	
+aggregate
+	:	'COUNT' 
+	|	aggregator 'OF' ID 
+	;
 
-aggregate : 'COUNT' 
-            | aggregator 'OF' ID 
-                ;
+aggregator
+	:	'MAX' 
+	|	'MIN' 
+	|	'SUM' 
+	;
 
-aggregator : 'MAX' 
-             | 'MIN' 
-             | 'SUM' 
-                 ;
+something
+	:	'NOT'? ID 
+	;
 
-something : optional_not ID 
-                ;
+what	:	simple_what 
+	|	attribute_reference 
+	;
 
-what : simple_what 
-       | attribute_reference 
-           ;
+simple_what
+	:	ID
+	|	'THIS' 
+	|	'CURRENT' 'ACTOR' 
+	|	'CURRENT' 'LOCATION' 
+	;
 
-simple_what : ID 
-              | 'THIS' 
-              | 'CURRENT' 'ACTOR' 
-              | 'CURRENT' 'LOCATION' 
-                  ;
+attribute_reference
+	:	(ID 'OF')+  simple_what
+	|	simple_what (':' ID)+
+	;
+	
+where	:	'HERE' 
+	|	'NEARBY' 
+	|	'AT' what 
+	|	'IN' what 
+	;
 
-attribute_reference : ID 'OF' what 
-                      //| what ':' ID 
-                          ;
+binop	:	'+' 
+	|	'-' 
+	|	'*' 
+	|	'/' 
+	;
 
-optional_where : 
-                 | where 
-                     ;
+relop	:	'<>' 
+	|	'=' 
+	|	'==' 
+	|	'>=' 
+	|	'<=' 
+	|	'>' 
+	|	'<' 
+	;
 
-where : 'HERE' 
-        | 'NEARBY' 
-        | 'AT' what 
-        | 'IN' what 
-            ;
+qualifier
+	:	( 'BEFORE') | 'AFTER' | 'ONLY'
+	;
 
-binop : '+' 
-        | '-' 
-        | '*' 
-        | '/' 
-            ;
+id_list
+	: ID ( ',' ID )*
+        ;
 
-relop : '<>' 
-        | '=' 
-        | '==' 
-        | '>=' 
-        | '<=' 
-        | '>' 
-        | '<' 
-            ;
+ID
+	:	IDENTIFIER ;
 
-optional_qual : 
-                | 'BEFORE' 
-                | 'AFTER' 
-                | 'ONLY' 
-                    ;
-
-optional_not : 
-               | 'NOT' 
-                   ;
-
-optional_id : 
-              | ID 
-                  ;
-
-ids : ID+
-          ;
-
-id_list : ID ( ',' ID )*
-              ;
-
-optional_INTEGER : 
-                   | INTEGER 
-                       ;
-
-optional_minus : 
-                 | '-' 
-                     ;
-
-ID : IDENTIFIER 
-   | 'LOCATION' 
-   | 'ACTOR' 
-   | 'OPAQUE' 
-   | 'ON' 
-   | 'OF' 
-   | 'FIRST' 
-   | 'INTO' 
-   | 'TAKING' 
-       ;
+//ID : 'LOCATION' 
+//   | 'ACTOR' 
+//   | 'OPAQUE' 
+//   | 'ON' 
+//   | 'OF' 
+//   | 'FIRST' 
+//   | 'INTO' 
+//   | 'TAKING'
+//   | IDENTIFIER 
+//       ;
 
 
-INTEGER :
-	|	DIGIT+
-    ;
+INTEGER
+	:	DIGIT+
+	;
 
-IDENTIFIER
-    	: LETTER (LETTER | DIGIT | '_')*
-    	//| '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')
-    	;
+fragment IDENTIFIER
+	:	LETTER (LETTER | DIGIT | '_')*
+	//|	'\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')
+	;
 
-fragment DIGIT : '0'..'9';
+fragment DIGIT
+	:	'0'..'9';
 
-fragment LETTER	: 'a'..'z' | 'A'..'Z' ; //\xe0-\xf6\xf8-\xfe] ;
+fragment LETTER
+	:	'a'..'z' | 'A'..'Z' ; //\xe0-\xf6\xf8-\xfe] ;
 
-COMMENT : '--' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;} ; 
+COMMENT
+	:	'--' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;} ; 
 
-STRING 	: '"' ~'"' '"' ;
+STRING 
+	:	'"' ~'"' '"' ;
+
+WHITESPACE
+	:	(' ' | '\r' | '\t' | '\u000C' | '\n') {$channel=HIDDEN;} 
+	;
