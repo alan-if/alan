@@ -1386,28 +1386,30 @@ static void disambiguateAllNonOmnipotentPositionsForReachability(ParameterPositi
     int position;
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         ParameterPosition *parameterPosition = &parameterPositions[position];
-        if (!hasBit(parameterPosition->flags, OMNIBIT))
-	    disambiguateParametersForReachability(parameterPosition->parameters);
+        if (!hasBit(parameterPosition->flags, OMNIBIT)) {
+	   disambiguateParametersForReachability(parameterPosition->parameters);
+           disambiguateParametersForReachability(parameterPosition->exceptions);
+        }
     }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void disambiguateToSingleCandidate(Parameter *parameter, Parameter *candidates) {
-    if (candidates != NULL) {
-	if (lengthOfParameterArray(candidates) == 1)
-	    parameter->instance = candidates[0].instance;
-	else if (lengthOfParameterArray(candidates) > 0) {
-	    // Prefer present instances over distant ones
-	    disambiguateForReachability(candidates);
-	    if (lengthOfParameterArray(candidates) == 1)
-		parameter->instance = candidates[0].instance;
-	    else
-		errorWhichOne(candidates);
-	}
-    }
- 
+static void disambiguateToSingleCandidate(Parameter *candidates) {
+    // Prefer present instances over distant ones
+    disambiguateForReachability(candidates);
+    if (lengthOfParameterArray(candidates) > 1)
+        errorWhichOne(candidates);
 }
+
+static void disambiguateCandidatesToSingle(Parameter *parameter) {
+    Parameter *candidates = parameter->candidates;
+    if (lengthOfParameterArray(candidates) > 0) {
+        disambiguateToSingleCandidate(candidates);
+        parameter->instance = candidates[0].instance;
+    }
+}
+
 
 
 /*----------------------------------------------------------------------*/
@@ -1431,15 +1433,10 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
         ParameterPosition *parameterPosition = &parameterPositions[position];
         int p;
         for (p = 0; p < lengthOfParameterArray(parameterPosition->parameters); p++) {
-            Parameter *parameter = &parameterPositions[position].parameters[p];
-            Parameter *candidates = parameter->candidates;
-	    disambiguateToSingleCandidate(parameter, candidates);
-	    if (parameterPosition->exceptions != NULL) {
-                Parameter *exceptions = parameterPosition->exceptions;
-                if (exceptions[p].candidates != NULL &&
-                    lengthOfParameterArray(exceptions[p].candidates) == 1)
-                    exceptions[p].instance = exceptions[p].candidates[0].instance;
-            }
+            disambiguateCandidatesToSingle(&parameterPosition->parameters[p]);
+        }
+        for (p = 0; p < lengthOfParameterArray(parameterPosition->exceptions); p++) {
+            disambiguateCandidatesToSingle(&parameterPosition->exceptions[p]);
         }
     }
 
