@@ -1393,6 +1393,24 @@ static void disambiguateAllNonOmnipotentPositionsForReachability(ParameterPositi
 
 
 /*----------------------------------------------------------------------*/
+static void disambiguateToSingleCandidate(Parameter *parameter, Parameter *candidates) {
+    if (candidates != NULL) {
+	if (lengthOfParameterArray(candidates) == 1)
+	    parameter->instance = candidates[0].instance;
+	else if (lengthOfParameterArray(candidates) > 0) {
+	    // Prefer present instances over distant ones
+	    disambiguateForReachability(candidates);
+	    if (lengthOfParameterArray(candidates) == 1)
+		parameter->instance = candidates[0].instance;
+	    else
+		errorWhichOne(candidates);
+	}
+    }
+ 
+}
+
+
+/*----------------------------------------------------------------------*/
 static void newWay(ParameterPosition parameterPositions[], ElementEntry *element) {
     /* The New Strategy! Parsing has only collected word indications,
        not built anything, so we need to match parameters to instances here */
@@ -1415,19 +1433,8 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
         for (p = 0; p < lengthOfParameterArray(parameterPosition->parameters); p++) {
             Parameter *parameter = &parameterPositions[position].parameters[p];
             Parameter *candidates = parameter->candidates;
-            if (candidates != NULL) {
-                if (lengthOfParameterArray(candidates) == 1)
-                    parameter->instance = candidates[0].instance;
-                else if (lengthOfParameterArray(candidates) > 0) {
-                    // Prefer present instances over distant ones
-                    disambiguateForReachability(candidates);
-                    if (lengthOfParameterArray(candidates) == 1)
-                        parameter->instance = candidates[0].instance;
-                    else
-                        errorWhichOne(candidates);
-                }
-            }
-            if (parameterPosition->exceptions != NULL) {
+	    disambiguateToSingleCandidate(parameter, candidates);
+	    if (parameterPosition->exceptions != NULL) {
                 Parameter *exceptions = parameterPosition->exceptions;
                 if (exceptions[p].candidates != NULL &&
                     lengthOfParameterArray(exceptions[p].candidates) == 1)
