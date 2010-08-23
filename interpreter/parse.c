@@ -1428,7 +1428,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
        using 'them, if so, they too are stored as parameters */
 
     disambiguateAllNonOmnipotentPositionsForReachability(parameterPositions);
-    
+
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         ParameterPosition *parameterPosition = &parameterPositions[position];
         int p;
@@ -1575,6 +1575,7 @@ static void notePronounsForParameters(Parameter parameters[]) {
 void parse(Parameter parameters[]) {
     static Parameter *multipleParameters = NULL;
     multipleParameters = ensureParameterArrayAllocated(multipleParameters, MAXPARAMS+1);
+    clearParameterArray(parameters);
 
     if (endOfWords(currentWordIndex)) {
         currentWordIndex = 0;
@@ -1583,7 +1584,6 @@ void parse(Parameter parameters[]) {
         para();
 	
     capitalize = TRUE;
-    clearParameterArray(parameters);
 	
     firstWord = currentWordIndex;
     if (isVerbWord(currentWordIndex)) {
