@@ -19,7 +19,8 @@ game_options
 	:	(('OPTION') | 'OPTIONS') option+
 	;
 
-option	:	ID '.' 
+option
+    :	ID '.' 
 	|	ID ID '.'
 	|	ID INTEGER '.' 
 	;

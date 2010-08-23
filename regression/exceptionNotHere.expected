@@ -1,0 +1,20 @@
+########## exceptionNotHere ##########
+
+        No warnings or errors detected.
+
+
+
+Loc
+There is a rusty long thing, a shiny short thing and a rusty short thing 
+here.
+
+> take everything except the shiny long thing
+(rusty long thing) Taken.
+
+(shiny short thing) Taken.
+
+(rusty short thing) Taken.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
