@@ -93,6 +93,11 @@ Ensure subtractParameterArraysCanSubtractNullArray(void) {
     assert_equal(4, lengthOfParameterArray(parameters1));
 }
 
+/*----------------------------------------------------------------------*/
+Ensure lengthOfParameterArrayReturnsZeroForNULLArray(void) {
+    assert_equal(0, lengthOfParameterArray(NULL));
+}
+
 /*======================================================================*/
 TestSuite *paramsTests(void)
 {
@@ -105,6 +110,7 @@ TestSuite *paramsTests(void)
     add_test(suite, returns_minus_one_for_no_multiple_position);
     add_test(suite, unequal_length_parameter_arrays_are_not_equal);
     add_test(suite, subtractParameterArraysCanSubtractNullArray);
+    add_test(suite, lengthOfParameterArrayReturnsZeroForNULLArray);
 
     return suite;
 }

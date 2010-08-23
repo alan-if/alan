@@ -120,6 +120,8 @@ int lengthOfParameterArray(Parameter theArray[])
 {
     int i = 0;
 
+    if (theArray == NULL) return 0;
+
     while (!isEndOfArray(&theArray[i]))
         i++;
     return i;
