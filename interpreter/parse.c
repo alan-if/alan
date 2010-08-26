@@ -46,6 +46,11 @@ typedef struct PronounEntry { /* To remember parameter/pronoun relations */
     int instance;
 } Pronoun;
 
+/*----------------------------------------------------------------------*/
+static void clearPronounList(Pronoun list[]) {
+    implementationOfSetEndOfArray((Aword *)list);
+}
+
 
 typedef Aint *(*ReferencesFinder)(int wordIndex);
 typedef void (*ParameterParser)(Parameter parameters[]);
@@ -59,11 +64,6 @@ static Pronoun *pronouns = NULL;
 /* Syntax Parameters */
 static Parameter *previousMultipleParameters; /* Previous multiple list */
 
-
-/*----------------------------------------------------------------------*/
-static void clearPronounArray(Pronoun list[]) {
-    implementationOfSetEndOfArray((Aword *)list);
-}
 
 /* For parameters that are literals we need to trick message handling to
  * output the word and create a string literal instance if anyone wants to
@@ -102,7 +102,7 @@ static void addParameterForWords(Parameter *parameters, int firstWordIndex, int 
 static Pronoun *allocatePronounArray(Pronoun *currentList) {
     if (currentList == NULL)
         currentList = allocate(sizeof(Pronoun)*(MAXPARAMS+1));
-    clearPronounArray(currentList);
+    clearPronounList(currentList);
     return currentList;
 }
 
@@ -457,8 +457,8 @@ static void filterOutNonReachable(Parameter filteredCandidates[]) {
  * 1, 1, yes,   ok(p)               present objects have priority
  * 1, m, yes,   ok(p)               present objects have priority
  * m, 0, yes,   errorWhichOne(p)
- * m, 1, yes,   errorWhichOne(p)    present objects have priority
- * m, m, yes,   errorWhichOne(p)    present objects have priority
+ * m, 1, yes,   errorWhichOne(p)    present objects have priority, but only list present
+ * m, m, yes,   errorWhichOne(p)    present objects have priority, but only list present
  */
 
 
@@ -468,6 +468,7 @@ static void disambiguateForReachability(Parameter candidates[], Bool abortOnEmpt
     /* If there is one present, let's go for that */
 
     static Parameter *filteredCandidates = NULL;
+    // TODO: after fixing allocate(size) -> allocate(type, count) refactor the ensure*() to become ensureAllocated(ptr, type, count);
     filteredCandidates = ensureParameterArrayAllocated(filteredCandidates, MAXENTITY);
 
     if (!exists(candidates))
@@ -489,6 +490,7 @@ static void disambiguateForReachability(Parameter candidates[], Bool abortOnEmpt
     // We could experiment with:
     // disambiguateUsingChecks(candidates, parameterPosition);
     // But, we don't have the parameterPosition here. Maybe we can do this later?
+    // Now, after refactoring, we actually do (outside of this function, tough!)
 }
 
 
@@ -1448,12 +1450,16 @@ static void disambiguateAllNonOmnipotentPositionsForReachability(ParameterPositi
 
 /*----------------------------------------------------------------------*/
 static void disambiguateToSingleCandidate(Parameter *candidates) {
-    // Prefer present instances over distant ones
+    // We prefer present instances over distant ones so if there are more
+    // we remove the non-present ones, and if that leaves a single
+    // one, we are ok
     disambiguateForReachability(candidates, FALSE);
     if (lengthOfParameterArray(candidates) > 1)
         errorWhichOne(candidates);
 }
 
+
+/*----------------------------------------------------------------------*/
 static void disambiguateCandidatesToSingle(Parameter *parameter) {
     Parameter *candidates = parameter->candidates;
     if (lengthOfParameterArray(candidates) == 0)
@@ -1462,7 +1468,6 @@ static void disambiguateCandidatesToSingle(Parameter *parameter) {
         disambiguateToSingleCandidate(candidates);
     parameter->instance = candidates[0].instance;
 }
-
 
 
 /*----------------------------------------------------------------------*/
@@ -1476,7 +1481,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
     }
 
     /* Now we have candidates for everything the player said, except
-       if he used all, then we have built those as parameters, or he
+       if he used ALL or THEM, then we have built those as parameters, or he
        referred to the multiple parameters of the previous command
        using 'them, if so, they too are stored as parameters */
 
@@ -1486,10 +1491,11 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
         ParameterPosition *parameterPosition = &parameterPositions[position];
         int p;
         if (!parameterPosition->all && !parameterPosition->them)
-        	for (p = 0; p < lengthOfParameterArray(parameterPosition->parameters); p++)
-        		disambiguateCandidatesToSingle(&parameterPosition->parameters[p]);
-        for (p = 0; p < lengthOfParameterArray(parameterPosition->exceptions); p++)
-        	disambiguateCandidatesToSingle(&parameterPosition->exceptions[p]);
+	    for (p = 0; p < lengthOfParameterArray(parameterPosition->parameters); p++)
+		disambiguateCandidatesToSingle(&parameterPosition->parameters[p]);
+	if (parameterPosition->all)
+	    for (p = 0; p < lengthOfParameterArray(parameterPosition->exceptions); p++)
+		disambiguateCandidatesToSingle(&parameterPosition->exceptions[p]);
     }
 
     handleMultiplePosition(parameterPositions);
@@ -1561,21 +1567,30 @@ static void parseOneCommand(Parameter parameters[], Parameter multipleParameters
     }
 }
 
-
 /*======================================================================*/
 void initParsing(void) {
+    int dictionaryIndex;
+    int pronounIndex = 0;
+
     currentWordIndex = 0;
     continued = FALSE;
     ensureSpaceForPlayerWords(0);
     clearWordList(playerWords);
 
+    pronouns = allocatePronounArray(pronouns);
     globalParameters = ensureParameterArrayAllocated(globalParameters, MAXPARAMS+1);
     previousMultipleParameters = ensureParameterArrayAllocated(previousMultipleParameters, MAXPARAMS+1);
 
     if (parameterPositions == NULL)
         parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 
-    pronouns = allocatePronounArray(pronouns);
+    // TODO Refactor out the pronoun handling, e.g registerPronoun()
+    for (dictionaryIndex = 0; dictionaryIndex < dictionarySize; dictionaryIndex++)
+        if (isPronoun(dictionaryIndex)) {
+            pronouns[pronounIndex].pronoun = dictionary[dictionaryIndex].code;
+            pronouns[pronounIndex].instance = 0;
+            pronounIndex++;
+        }
 }
 
 /*----------------------------------------------------------------------*/
@@ -1601,9 +1616,9 @@ static void addPronounForInstance(int pronoun, int instanceCode) {
     int pronounIndex;
 
     for (pronounIndex = 0; !endOfPronouns(pronounIndex); pronounIndex++)
-        // We should not add the same pronoun twice for the same instance ("ask him about him")
-        if (pronouns[pronounIndex].pronoun == pronoun && pronouns[pronounIndex].instance == instanceCode)
-            return;
+	if (pronouns[pronounIndex].pronoun == pronoun && pronouns[pronounIndex].instance == instanceCode)
+	    // Don't add the same instance twice for the same pronoun
+	    return;
     pronouns[pronounIndex].pronoun = pronoun;
     pronouns[pronounIndex].instance = instanceCode;
     setEndOfArray(&pronouns[pronounIndex + 1]);
@@ -1614,7 +1629,7 @@ static void notePronounsForParameters(Parameter parameters[]) {
     /* For all parameters note which ones can be referred to by a pronoun */
     Parameter *p;
 
-    clearPronounArray(pronouns);
+    clearPronounList(pronouns);
     for (p = parameters; !isEndOfArray(p); p++) {
         int pronoun = pronounWordForInstance(p->instance);
         if (pronoun > 0)
@@ -1648,7 +1663,7 @@ void parse(Parameter parameters[]) {
         action(current.verb, parameters, multipleParameters);
     } else {
         clearParameterArray(previousMultipleParameters);
-        clearPronounArray(pronouns);
+        clearPronounList(pronouns);
         nonverb();
     }
     lastWord = currentWordIndex - 1;

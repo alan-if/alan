@@ -13,8 +13,8 @@ The o2 Isa object At loc
   Name adj2 o1
 End The o2.
 
-The o3 Isa object At loc
-  Name adj2 o1
+The o3 Isa object
+  Name adj3 o1
 End The o3.
 
 
