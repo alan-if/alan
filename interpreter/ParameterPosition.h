@@ -20,6 +20,7 @@ typedef struct ParameterPosition {
     Bool endOfList;
     Bool explicitMultiple;
     Bool all;
+    Bool them;
     Bool checked;
     Aword flags;
     Parameter *parameters;

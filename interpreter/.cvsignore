@@ -42,3 +42,4 @@ version.c
 version.h
 x
 *.stackdump
+.project

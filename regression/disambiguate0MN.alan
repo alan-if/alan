@@ -6,11 +6,11 @@ The loc Isa location
 End The loc.
 
 The o1 Isa object
-  Name adj1 o1
+  Name adj1 o
 End The o1.
 
 The o2 Isa object
-  Name adj2 o1
+  Name adj2 o
 End The o2.
 
 Add To Every object

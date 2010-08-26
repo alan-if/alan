@@ -617,6 +617,14 @@ Ensure getPreviousMultipleParametersSetsEndOfArray(void) {
     assert_true(isEndOfArray(&parameters[0]));
 }
 
+/*----------------------------------------------------------------------*/
+Ensure parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput() {
+    Parameter parameters[2];
+    given_EndOfPlayerWords();
+    
+    parseAdjectivesAndNoun(parameters);
+    assert_equal(lengthOfParameterArray(parameters), 0);
+}
 
 TestSuite *parseTests(void)
 {
@@ -646,6 +654,7 @@ TestSuite *parseTests(void)
     add_test(suite, parseReferenceToPreviousMultipleParameterSetsThemMarker);
     add_test(suite, simpleParameterParserCanParseExplicitMultiple);
     add_test(suite, getPreviousMultipleParametersSetsEndOfArray);
+    add_test(suite, parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput);
 
     return suite;
 }
