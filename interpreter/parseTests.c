@@ -626,6 +626,31 @@ Ensure parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput() {
     assert_equal(lengthOfParameterArray(parameters), 0);
 }
 
+
+// TODO: Generalise this to replace lengthOfParameterArray() and other loops
+static int lengthOfArray(Pronoun *array, int elementSize) {
+    int length;
+    for (length = 0; !isEndOfArray(&array[length]); length++)
+        ;
+    return length;
+}
+
+/*----------------------------------------------------------------------*/
+Ensure addPronounForInstanceDontAddSameTwice() {
+    pronouns = allocate(2*sizeof(Pronoun)+1);
+
+    pronouns[0].pronoun = 10;
+    pronouns[0].instance = 3;
+    setEndOfArray(&pronouns[1]);
+
+    assert_equal(lengthOfArray(pronouns, sizeof(Pronoun)), 1);
+    addPronounForInstance(7, 3);
+    assert_equal(lengthOfArray(pronouns, sizeof(Pronoun)), 2);
+    addPronounForInstance(10, 3);
+    assert_equal(lengthOfArray(pronouns, sizeof(Pronoun)), 2);
+}
+
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -655,6 +680,7 @@ TestSuite *parseTests(void)
     add_test(suite, simpleParameterParserCanParseExplicitMultiple);
     add_test(suite, getPreviousMultipleParametersSetsEndOfArray);
     add_test(suite, parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput);
+    add_test(suite, addPronounForInstanceDontAddSameTwice);
 
     return suite;
 }

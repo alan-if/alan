@@ -46,11 +46,6 @@ typedef struct PronounEntry { /* To remember parameter/pronoun relations */
     int instance;
 } Pronoun;
 
-/*----------------------------------------------------------------------*/
-static void clearPronounList(Pronoun list[]) {
-    implementationOfSetEndOfArray((Aword *)list);
-}
-
 
 typedef Aint *(*ReferencesFinder)(int wordIndex);
 typedef void (*ParameterParser)(Parameter parameters[]);
@@ -64,6 +59,11 @@ static Pronoun *pronouns = NULL;
 /* Syntax Parameters */
 static Parameter *previousMultipleParameters; /* Previous multiple list */
 
+
+/*----------------------------------------------------------------------*/
+static void clearPronounArray(Pronoun list[]) {
+    implementationOfSetEndOfArray((Aword *)list);
+}
 
 /* For parameters that are literals we need to trick message handling to
  * output the word and create a string literal instance if anyone wants to
@@ -102,7 +102,7 @@ static void addParameterForWords(Parameter *parameters, int firstWordIndex, int 
 static Pronoun *allocatePronounArray(Pronoun *currentList) {
     if (currentList == NULL)
         currentList = allocate(sizeof(Pronoun)*(MAXPARAMS+1));
-    clearPronounList(currentList);
+    clearPronounArray(currentList);
     return currentList;
 }
 
@@ -1561,30 +1561,21 @@ static void parseOneCommand(Parameter parameters[], Parameter multipleParameters
     }
 }
 
+
 /*======================================================================*/
 void initParsing(void) {
-    int dictionaryIndex;
-    int pronounIndex = 0;
-
     currentWordIndex = 0;
     continued = FALSE;
     ensureSpaceForPlayerWords(0);
     clearWordList(playerWords);
 
-    pronouns = allocatePronounArray(pronouns);
     globalParameters = ensureParameterArrayAllocated(globalParameters, MAXPARAMS+1);
     previousMultipleParameters = ensureParameterArrayAllocated(previousMultipleParameters, MAXPARAMS+1);
 
     if (parameterPositions == NULL)
         parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 
-    // TODO Refactor out the pronoun handling, e.g registerPronoun()
-    for (dictionaryIndex = 0; dictionaryIndex < dictionarySize; dictionaryIndex++)
-        if (isPronoun(dictionaryIndex)) {
-            pronouns[pronounIndex].pronoun = dictionary[dictionaryIndex].code;
-            pronouns[pronounIndex].instance = 0;
-            pronounIndex++;
-        }
+    pronouns = allocatePronounArray(pronouns);
 }
 
 /*----------------------------------------------------------------------*/
@@ -1610,7 +1601,9 @@ static void addPronounForInstance(int pronoun, int instanceCode) {
     int pronounIndex;
 
     for (pronounIndex = 0; !endOfPronouns(pronounIndex); pronounIndex++)
-        ;
+        // We should not add the same pronoun twice for the same instance ("ask him about him")
+        if (pronouns[pronounIndex].pronoun == pronoun && pronouns[pronounIndex].instance == instanceCode)
+            return;
     pronouns[pronounIndex].pronoun = pronoun;
     pronouns[pronounIndex].instance = instanceCode;
     setEndOfArray(&pronouns[pronounIndex + 1]);
@@ -1621,7 +1614,7 @@ static void notePronounsForParameters(Parameter parameters[]) {
     /* For all parameters note which ones can be referred to by a pronoun */
     Parameter *p;
 
-    clearPronounList(pronouns);
+    clearPronounArray(pronouns);
     for (p = parameters; !isEndOfArray(p); p++) {
         int pronoun = pronounWordForInstance(p->instance);
         if (pronoun > 0)
@@ -1655,7 +1648,7 @@ void parse(Parameter parameters[]) {
         action(current.verb, parameters, multipleParameters);
     } else {
         clearParameterArray(previousMultipleParameters);
-        clearPronounList(pronouns);
+        clearPronounArray(pronouns);
         nonverb();
     }
     lastWord = currentWordIndex - 1;
