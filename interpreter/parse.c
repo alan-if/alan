@@ -480,12 +480,9 @@ static void disambiguateForReachability(Parameter candidates[], Bool abortOnEmpt
 
     if (lengthOfParameterArray(filteredCandidates) == 0)
         if (abortOnEmpty)
-	    errorNoSuch(candidates[0]);
+        	errorNoSuch(candidates[0]);
 
-    // TODO: Do we need this here? It's done in newWay() (or whatever it's called now ;-)
-    if (lengthOfParameterArray(filteredCandidates) == 1)
-        // Found a single one so we use that
-        copyParameterArray(candidates, filteredCandidates);
+    copyParameterArray(candidates, filteredCandidates);
 
     // We could experiment with:
     // disambiguateUsingChecks(candidates, parameterPosition);
