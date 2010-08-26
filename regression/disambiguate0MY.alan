@@ -1,6 +1,6 @@
 -- Names of the disambiguateXXX tests relate to the table
 -- of possible cases listed in parse.c
--- This one is for 0 present, m non-present, omnipotent parameter
+-- This one is for 0 present, M non-present, Yes omnipotent parameter
 
 The loc Isa location
 End The loc.
