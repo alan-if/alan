@@ -651,6 +651,148 @@ Ensure addPronounForInstanceDontAddSameTwice() {
 }
 
 
+static int mockedReachable(int instance) {
+    return instance == 1;
+}
+
+static Bool handlerFor00NCalled = FALSE;
+static Bool handlerFor01NCalled = FALSE;
+static Bool handlerFor0MNCalled = FALSE;
+static Bool handlerFor10NCalled = FALSE;
+static Bool handlerFor11NCalled = FALSE;
+static Bool handlerFor1MNCalled = FALSE;
+static Bool handlerForM0NCalled = FALSE;
+static Bool handlerForM1NCalled = FALSE;
+static Bool handlerForMMNCalled = FALSE;
+static Bool handlerFor00YCalled = FALSE;
+static Bool handlerFor01YCalled = FALSE;
+static Bool handlerFor0MYCalled = FALSE;
+static Bool handlerFor10YCalled = FALSE;
+static Bool handlerFor11YCalled = FALSE;
+static Bool handlerFor1MYCalled = FALSE;
+static Bool handlerForM0YCalled = FALSE;
+static Bool handlerForM1YCalled = FALSE;
+static Bool handlerForMMYCalled = FALSE;
+
+static void mocked00NHandler() { handlerFor00NCalled = TRUE; }
+static void mocked01NHandler() { handlerFor01NCalled = TRUE; }
+static void mocked0MNHandler() { handlerFor0MNCalled = TRUE; }
+static void mocked10NHandler() { handlerFor10NCalled = TRUE; }
+static void mocked11NHandler() { handlerFor11NCalled = TRUE; }
+static void mocked1MNHandler() { handlerFor1MNCalled = TRUE; }
+static void mockedM0NHandler() { handlerForM0NCalled = TRUE; }
+static void mockedM1NHandler() { handlerForM1NCalled = TRUE; }
+static void mockedMMNHandler() { handlerForMMNCalled = TRUE; }
+static void mocked00YHandler() { handlerFor00YCalled = TRUE; }
+static void mocked01YHandler() { handlerFor01YCalled = TRUE; }
+static void mocked0MYHandler() { handlerFor0MYCalled = TRUE; }
+static void mocked10YHandler() { handlerFor10YCalled = TRUE; }
+static void mocked11YHandler() { handlerFor11YCalled = TRUE; }
+static void mocked1MYHandler() { handlerFor1MYCalled = TRUE; }
+static void mockedM0YHandler() { handlerForM0YCalled = TRUE; }
+static void mockedM1YHandler() { handlerForM1YCalled = TRUE; }
+static void mockedMMYHandler() { handlerForMMYCalled = TRUE; }
+
+static DisambiguationHandlerTable handlerTable =
+    {   
+        {   // Present == 0
+            {   // Distant == 0
+                mocked00NHandler, mocked00YHandler},
+            {   // Distant == 1
+                mocked01NHandler, mocked01YHandler},
+            {   // Distant == M
+                mocked0MNHandler, mocked0MYHandler}},
+        {   //  Present == 1
+            {   // Distant == 0
+                mocked10NHandler, mocked10YHandler},
+            {   // Distant == 1
+                mocked11NHandler, mocked11YHandler},
+            {   // Distant == M
+                mocked1MNHandler, mocked1MYHandler}},
+        {   // Present == M
+            {   // Distant == 0
+                mockedM0NHandler, mockedM0YHandler},
+            {   // Distant == 1
+                mockedM1NHandler, mockedM1YHandler},
+            {   // Distant == M
+                mockedMMNHandler, mockedMMYHandler}}
+    };
+            
+    
+/*----------------------------------------------------------------------*/
+Ensure disambiguateCandidatesCanCall00NHandler() {
+    Parameter candidates[1];
+    setEndOfArray(&candidates[0]); /* == 0 instance */
+
+    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    assert_true(handlerFor00NCalled);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure disambiguateCandidatesCanCall00YHandler() {
+    Parameter candidates[1];
+    setEndOfArray(&candidates[0]); /* == 0 instance */
+
+    disambiguateCandidates(candidates, TRUE, mockedReachable, handlerTable);
+    assert_true(handlerFor00YCalled);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure disambiguateCandidatesCanCall01NHandler() {
+    Parameter candidates[2];
+    candidates[0].instance = 2; /* 1 non-present */
+    setEndOfArray(&candidates[1]); /* == 1 instance */
+
+    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    assert_true(handlerFor01NCalled);
+}
+
+/*----------------------------------------------------------------------*/
+Ensure disambiguateCandidatesCanCall0MNHandler() {
+    Parameter candidates[3];
+    candidates[0].instance = 2; /* M non-present */
+    candidates[1].instance = 2;
+    setEndOfArray(&candidates[2]); /* == 2 instances */
+
+    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    assert_true(handlerFor0MNCalled);
+}
+
+/*----------------------------------------------------------------------*/
+Ensure disambiguateCandidatesCanCall10NHandler() {
+    Parameter candidates[2];
+    candidates[0].instance = 1; /* 1 present */
+    setEndOfArray(&candidates[1]); /* == 1 instance */
+
+    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    assert_true(handlerFor10NCalled);
+}
+
+/*----------------------------------------------------------------------*/
+Ensure disambiguateCandidatesCanCall11NHandler() {
+    Parameter candidates[3];
+    candidates[0].instance = 1; /* 1 present */
+    candidates[1].instance = 2; /* 1 non-present */
+    setEndOfArray(&candidates[2]); /* == 2 instances */
+
+    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    assert_true(handlerFor11NCalled);
+}
+
+/*----------------------------------------------------------------------*/
+Ensure disambiguateCandidatesCanCall1MNHandler() {
+    Parameter candidates[3];
+    candidates[0].instance = 1; /* 1 present */
+    candidates[1].instance = 2; /* M non-present */
+    candidates[2].instance = 2;
+    setEndOfArray(&candidates[3]); /* == 3 instances */
+
+    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    assert_true(handlerFor1MNCalled);
+}
+
 TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
@@ -681,6 +823,14 @@ TestSuite *parseTests(void)
     add_test(suite, getPreviousMultipleParametersSetsEndOfArray);
     add_test(suite, parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput);
     add_test(suite, addPronounForInstanceDontAddSameTwice);
+    add_test(suite, disambiguateCandidatesCanCall00NHandler);
+    add_test(suite, disambiguateCandidatesCanCall01NHandler);
+    add_test(suite, disambiguateCandidatesCanCall0MNHandler);
+    add_test(suite, disambiguateCandidatesCanCall10NHandler);
+    add_test(suite, disambiguateCandidatesCanCall11NHandler);
+    add_test(suite, disambiguateCandidatesCanCall1MNHandler);
+    add_test(suite, disambiguateCandidatesCanCall00YHandler);
+
 
     return suite;
 }

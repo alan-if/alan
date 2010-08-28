@@ -419,7 +419,7 @@ static void updateWithReferences(Parameter result[], int wordIndex, Aint *(*refe
 
 
 /*----------------------------------------------------------------------*/
-static void filterOutNonReachable(Parameter filteredCandidates[]) {
+static void filterOutNonReachable(Parameter filteredCandidates[], Bool (*reachable)(int)) {
     int i;
     for (i = 0; !isEndOfArray(&filteredCandidates[i]); i++)
         if (!reachable(filteredCandidates[i].instance))
@@ -476,7 +476,7 @@ static void disambiguateForReachability(Parameter candidates[], Bool abortOnEmpt
 
     copyParameterArray(filteredCandidates, candidates);
 
-    filterOutNonReachable(filteredCandidates);
+    filterOutNonReachable(filteredCandidates, reachable);
 
     if (lengthOfParameterArray(filteredCandidates) == 0)
         if (abortOnEmpty)
@@ -1464,6 +1464,29 @@ static void disambiguateCandidatesToSingle(Parameter *parameter) {
     if (lengthOfParameterArray(candidates) > 1)
         disambiguateToSingleCandidate(candidates);
     parameter->instance = candidates[0].instance;
+}
+
+
+typedef void (*DisambiguationHandler)(void);
+typedef DisambiguationHandler DisambiguationHandlerTable[3][3][2];
+
+/*----------------------------------------------------------------------*/
+static void disambiguateCandidates(Parameter *candidates, Bool omnipotent, Bool (*reachable)(int), DisambiguationHandlerTable handler) {
+    static Parameter *presentCandidates = NULL;
+    int present;
+    int distant;
+    presentCandidates = ensureParameterArrayAllocated(presentCandidates, MAXENTITY);
+
+    copyParameterArray(presentCandidates,candidates);
+    filterOutNonReachable(presentCandidates, reachable);
+
+    present = lengthOfParameterArray(presentCandidates);
+    if (present > 1) present = 2; /* 2 = M */
+
+    distant = lengthOfParameterArray(candidates) - present;
+    if (distant > 1) distant = 2; /* 2 = M */
+
+    handler[present][distant][omnipotent]();
 }
 
 
