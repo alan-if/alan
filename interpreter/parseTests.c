@@ -674,26 +674,26 @@ static Bool handlerForM0YCalled = FALSE;
 static Bool handlerForM1YCalled = FALSE;
 static Bool handlerForMMYCalled = FALSE;
 
-static void mocked00NHandler() { handlerFor00NCalled = TRUE; }
-static void mocked01NHandler() { handlerFor01NCalled = TRUE; }
-static void mocked0MNHandler() { handlerFor0MNCalled = TRUE; }
-static void mocked10NHandler() { handlerFor10NCalled = TRUE; }
-static void mocked11NHandler() { handlerFor11NCalled = TRUE; }
-static void mocked1MNHandler() { handlerFor1MNCalled = TRUE; }
-static void mockedM0NHandler() { handlerForM0NCalled = TRUE; }
-static void mockedM1NHandler() { handlerForM1NCalled = TRUE; }
-static void mockedMMNHandler() { handlerForMMNCalled = TRUE; }
-static void mocked00YHandler() { handlerFor00YCalled = TRUE; }
-static void mocked01YHandler() { handlerFor01YCalled = TRUE; }
-static void mocked0MYHandler() { handlerFor0MYCalled = TRUE; }
-static void mocked10YHandler() { handlerFor10YCalled = TRUE; }
-static void mocked11YHandler() { handlerFor11YCalled = TRUE; }
-static void mocked1MYHandler() { handlerFor1MYCalled = TRUE; }
-static void mockedM0YHandler() { handlerForM0YCalled = TRUE; }
-static void mockedM1YHandler() { handlerForM1YCalled = TRUE; }
-static void mockedMMYHandler() { handlerForMMYCalled = TRUE; }
+static Parameter *mocked00NHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor00NCalled = TRUE; return allCandidates; }
+static Parameter *mocked01NHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor01NCalled = TRUE; return allCandidates; }
+static Parameter *mocked0MNHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor0MNCalled = TRUE; return allCandidates; }
+static Parameter *mocked10NHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor10NCalled = TRUE; return allCandidates; }
+static Parameter *mocked11NHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor11NCalled = TRUE; return allCandidates; }
+static Parameter *mocked1MNHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor1MNCalled = TRUE; return allCandidates; }
+static Parameter *mockedM0NHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerForM0NCalled = TRUE; return allCandidates; }
+static Parameter *mockedM1NHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerForM1NCalled = TRUE; return allCandidates; }
+static Parameter *mockedMMNHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerForMMNCalled = TRUE; return allCandidates; }
+static Parameter *mocked00YHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor00YCalled = TRUE; return allCandidates; }
+static Parameter *mocked01YHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor01YCalled = TRUE; return allCandidates; }
+static Parameter *mocked0MYHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor0MYCalled = TRUE; return allCandidates; }
+static Parameter *mocked10YHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor10YCalled = TRUE; return allCandidates; }
+static Parameter *mocked11YHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor11YCalled = TRUE; return allCandidates; }
+static Parameter *mocked1MYHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor1MYCalled = TRUE; return allCandidates; }
+static Parameter *mockedM0YHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerForM0YCalled = TRUE; return allCandidates; }
+static Parameter *mockedM1YHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerForM1YCalled = TRUE; return allCandidates; }
+static Parameter *mockedMMYHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerForMMYCalled = TRUE; return allCandidates; }
 
-static DisambiguationHandlerTable handlerTable =
+static DisambiguationHandlerTable mockedHandlerTable =
     {   
         {   // Present == 0
             {   // Distant == 0
@@ -724,7 +724,7 @@ Ensure disambiguateCandidatesCanCall00NHandler() {
     Parameter candidates[1];
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
-    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
     assert_true(handlerFor00NCalled);
 }
 
@@ -734,7 +734,7 @@ Ensure disambiguateCandidatesCanCall00YHandler() {
     Parameter candidates[1];
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
-    disambiguateCandidates(candidates, TRUE, mockedReachable, handlerTable);
+    disambiguateCandidates(candidates, TRUE, mockedReachable, mockedHandlerTable);
     assert_true(handlerFor00YCalled);
 }
 
@@ -745,7 +745,7 @@ Ensure disambiguateCandidatesCanCall01NHandler() {
     candidates[0].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
 
-    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
     assert_true(handlerFor01NCalled);
 }
 
@@ -756,7 +756,7 @@ Ensure disambiguateCandidatesCanCall0MNHandler() {
     candidates[1].instance = 2;
     setEndOfArray(&candidates[2]); /* == 2 instances */
 
-    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
     assert_true(handlerFor0MNCalled);
 }
 
@@ -766,7 +766,7 @@ Ensure disambiguateCandidatesCanCall10NHandler() {
     candidates[0].instance = 1; /* 1 present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
 
-    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
     assert_true(handlerFor10NCalled);
 }
 
@@ -777,7 +777,7 @@ Ensure disambiguateCandidatesCanCall11NHandler() {
     candidates[1].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[2]); /* == 2 instances */
 
-    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
     assert_true(handlerFor11NCalled);
 }
 
@@ -789,7 +789,7 @@ Ensure disambiguateCandidatesCanCall1MNHandler() {
     candidates[2].instance = 2;
     setEndOfArray(&candidates[3]); /* == 3 instances */
 
-    disambiguateCandidates(candidates, FALSE, mockedReachable, handlerTable);
+    disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
     assert_true(handlerFor1MNCalled);
 }
 

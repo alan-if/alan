@@ -228,6 +228,8 @@ static void errorNoSuch(Parameter parameter) {
 
     /* If there was no instance, assume the last word used is the noun,
      * then find any instance with the noun he used */
+    if (globalParameters[0].instance == -1)
+        globalParameters[0].instance = 0;
     if (globalParameters[0].instance == 0)
         globalParameters[0].instance = findInstanceForNoun(playerWords[parameter.lastWord].code);
     globalParameters[0].useWords = TRUE; /* Indicate to use words and not names */
@@ -1293,6 +1295,9 @@ static void instanceMatcher(Parameter *parameter) {
     } else
         matchNounPhrase(parameter, adjectiveReferencesForWord, nounReferencesForWord);
 
+    // Ensure that every candidate have the words, even if there where no candidates
+    candidates[0].firstWord = parameter->firstWord;
+    candidates[0].lastWord = parameter->lastWord;
     for (i = 0; i < lengthOfParameterArray(candidates); i++) {
         candidates[i].firstWord = parameter->firstWord;
         candidates[i].lastWord = parameter->lastWord;
@@ -1467,26 +1472,112 @@ static void disambiguateCandidatesToSingle(Parameter *parameter) {
 }
 
 
-typedef void (*DisambiguationHandler)(void);
-typedef DisambiguationHandler DisambiguationHandlerTable[3][3][2];
+typedef Parameter *DisambiguationHandler(Parameter allCandidates[], Parameter presentCandidates[]);
+typedef DisambiguationHandler *DisambiguationHandlerTable[3][3][2];
+
+static Parameter *disambiguate00N(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorNoSuch(allCandidates[0]); return NULL;
+}
+static Parameter *disambiguate01N(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorNoSuch(allCandidates[0]); return NULL;
+}
+static Parameter *disambiguate0MN(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorNoSuch(allCandidates[0]); return NULL;
+}
+static Parameter *disambiguate10N(Parameter allCandidates[], Parameter presentCandidates[]) {
+    return presentCandidates;
+}
+static Parameter *disambiguate11N(Parameter allCandidates[], Parameter presentCandidates[]) {
+    return presentCandidates;
+}
+static Parameter *disambiguate1MN(Parameter allCandidates[], Parameter presentCandidates[]) {
+    return presentCandidates;
+}
+static Parameter *disambiguateM0N(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorWhichOne(presentCandidates); return NULL;
+}
+static Parameter *disambiguateM1N(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorWhichOne(presentCandidates); return NULL;
+}
+static Parameter *disambiguateMMN(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorWhichOne(presentCandidates); return NULL;
+}
+static Parameter *disambiguate00Y(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorNoSuch(allCandidates[0]); return NULL;
+}
+static Parameter *disambiguate01Y(Parameter allCandidates[], Parameter presentCandidates[]) {
+    return allCandidates;
+}
+static Parameter *disambiguate0MY(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorWhichOne(allCandidates); return NULL;
+}
+static Parameter *disambiguate10Y(Parameter allCandidates[], Parameter presentCandidates[]) {
+    return presentCandidates;
+}
+static Parameter *disambiguate11Y(Parameter allCandidates[], Parameter presentCandidates[]) {
+    return presentCandidates;
+}
+static Parameter *disambiguate1MY(Parameter allCandidates[], Parameter presentCandidates[]) {
+    return presentCandidates;
+}
+static Parameter *disambiguateM0Y(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorWhichOne(presentCandidates); return NULL;
+}
+static Parameter *disambiguateM1Y(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorWhichOne(presentCandidates); return NULL;
+}
+static Parameter *disambiguateMMY(Parameter allCandidates[], Parameter presentCandidates[]) {
+    errorWhichOne(presentCandidates); return NULL;
+}
+
+static DisambiguationHandlerTable disambiguationHandlerTable =
+    {   
+        {   // Present == 0
+            {   // Distant == 0
+                disambiguate00N, disambiguate00Y},
+            {   // Distant == 1
+                disambiguate01N, disambiguate01Y},
+            {   // Distant == M
+                disambiguate0MN, disambiguate0MY}},
+        {   //  Present == 1
+            {   // Distant == 0
+                disambiguate10N, disambiguate10Y},
+            {   // Distant == 1
+                disambiguate11N, disambiguate11Y},
+            {   // Distant == M
+                disambiguate1MN, disambiguate1MY}},
+        {   // Present == M
+            {   // Distant == 0
+                disambiguateM0N, disambiguateM0Y},
+            {   // Distant == 1
+                disambiguateM1N, disambiguateM1Y},
+            {   // Distant == M
+                disambiguateMMN, disambiguateMMY}}
+    };
 
 /*----------------------------------------------------------------------*/
-static void disambiguateCandidates(Parameter *candidates, Bool omnipotent, Bool (*reachable)(int), DisambiguationHandlerTable handler) {
+static void disambiguateCandidates(Parameter *allCandidates, Bool omnipotent, Bool (*reachable)(int), DisambiguationHandlerTable handler) {
     static Parameter *presentCandidates = NULL;
     int present;
     int distant;
+    Parameter *result;
+
     presentCandidates = ensureParameterArrayAllocated(presentCandidates, MAXENTITY);
 
-    copyParameterArray(presentCandidates,candidates);
+    copyParameterArray(presentCandidates,allCandidates);
     filterOutNonReachable(presentCandidates, reachable);
 
     present = lengthOfParameterArray(presentCandidates);
     if (present > 1) present = 2; /* 2 = M */
 
-    distant = lengthOfParameterArray(candidates) - present;
+    distant = lengthOfParameterArray(allCandidates) - present;
     if (distant > 1) distant = 2; /* 2 = M */
 
-    handler[present][distant][omnipotent]();
+    result = handler[present][distant][omnipotent](allCandidates, presentCandidates);
+
+    // If we returned then it's ok, use the single candidate found
+    allCandidates[0] = result[0];
+    setEndOfArray(&allCandidates[1]);
 }
 
 
@@ -1505,6 +1596,31 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
        referred to the multiple parameters of the previous command
        using 'them, if so, they too are stored as parameters */
 
+    for (position = 0; !parameterPositions[position].endOfList; position++) {
+        ParameterPosition *parameterPosition = &parameterPositions[position];
+        Bool omni = hasBit(parameterPosition->flags, OMNIBIT);
+        int p;
+        if (!parameterPosition->all && !parameterPosition->them) {
+            Parameter *parameters = parameterPosition->parameters;
+	    for (p = 0; p < lengthOfParameterArray(parameters); p++) {
+                Parameter *parameter = &parameters[p];
+                Parameter *candidates = parameter->candidates;
+		disambiguateCandidates(candidates, omni, reachable, disambiguationHandlerTable);
+                parameter->instance = candidates[0].instance;
+            }
+        }
+	if (parameterPosition->all) {
+            Parameter *exceptions = parameterPosition->exceptions;
+	    for (p = 0; p < lengthOfParameterArray(exceptions); p++) {
+                Parameter *parameter = &exceptions[p];
+                Parameter *candidates = parameter->candidates;
+		disambiguateCandidates(candidates, omni, reachable, disambiguationHandlerTable);
+                parameter->instance = candidates[0].instance;
+            }
+        }
+    }
+
+#ifdef OLDWAY    
     disambiguateAllNonOmnipotentPositionsForReachability(parameterPositions);
 
     for (position = 0; !parameterPositions[position].endOfList; position++) {
@@ -1517,6 +1633,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
 	    for (p = 0; p < lengthOfParameterArray(parameterPosition->exceptions); p++)
 		disambiguateCandidatesToSingle(&parameterPosition->exceptions[p]);
     }
+#endif
 
     handleMultiplePosition(parameterPositions);
 
