@@ -75,14 +75,6 @@ static void givenPlayerWordsForTwoParameters(int firstWordIndex) {
     playerWords[firstWordIndex+2].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
 }
 
-static void givenPlayerInputReferencingAll(void) {
-    ensureSpaceForPlayerWords(1);
-    playerWords[0].code = ALL_DICTIONARY_INDEX;    /* Should be "All" */
-    playerWords[1].code = EOF;
-    currentWordIndex = 0;
-}
-
-
 
 static ACodeHeader acdHeader;
 
@@ -436,71 +428,11 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     assert_equal(parameter.candidates[0].instance, theExpectedInstance);
 }
 
-static void mockedComplexParameterParser(ParameterPosition *parameterPosition){
-    mock(parameterPosition);
-    parameterPosition->parameters[0].instance = 1;
-    setEndOfArray(&parameterPosition->parameters[1]);
-}
-
-
-Ensure parseAndBuildParameterPositionCanFillOutAParameterPosition() {
-    Abool flags = OMNIBIT;
-    ParameterPosition *parameterPosition = NEW(ParameterPosition);
-    Parameter candidates[MAXENTITY+1];
-    
-    parameterPosition->parameters = candidates;
-    setEndOfArray(&candidates[0]);
-    
-    parseAndBuildParameterPosition(parameterPosition, flags, mockedComplexParameterParser);
-    
-    assert_equal(lengthOfParameterArray(parameterPosition->parameters), 1);
-}
-
-
-static void mockedSimpleCandidateParser(Parameter candidates[]) {
-    mock(candidates);
-    candidates[0].instance = 1;
-    setEndOfArray(&candidates[1]);
-}
-
-static void givenAPlayerWordOtherThanAll() {
-    ensureSpaceForPlayerWords(1);
-    playerWords[0].code = 1;    /* Should not be "All" */
-    playerWords[1].code = EOF;
-    currentWordIndex = 0;
-}
-
-
-/*----------------------------------------------------------------------*/
-Ensure canFilloutAParameterPositionForSomethingNotAll(void) {
-    ParameterPosition *parameterPosition = NEW(ParameterPosition);
-
-    givenAPlayerWordOtherThanAll();
-
-    complexParameterParserAndBuilderDelegate(parameterPosition, mockedSimpleCandidateParser, buildAllHere);
-
-    assert_equal(lengthOfParameterArray(parameterPosition->parameters), 1);    
-}
-
-
-
 void mockedAllBuilder(Parameter candidates[])
 {
     mock(candidates);
     candidates[0].instance = 1;
     setEndOfArray(&candidates[1]);
-}
-
-/*----------------------------------------------------------------------*/
-Ensure complexParameterParserDelegateCanSetPlural(void) {
-    ParameterPosition *parameterPosition = NEW(ParameterPosition);
-
-    givenADictionary();
-    givenPlayerInputReferencingAll();
-
-    complexParameterParserAndBuilderDelegate(parameterPosition, mockedSimpleCandidateParser, mockedAllBuilder);
-
-    assert_equal(parameterPosition->explicitMultiple, 1);
 }
 
 
@@ -811,9 +743,6 @@ TestSuite *parseTests(void)
     add_test(suite, matchNounPhraseCanMatchSingleNounWithSingleMatch);
     add_test(suite, canMatchNounAndAdjectiveWithSingleMatch);
     add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
-    add_test(suite, parseAndBuildParameterPositionCanFillOutAParameterPosition);
-    add_test(suite, canFilloutAParameterPositionForSomethingNotAll);
-    add_test(suite, complexParameterParserDelegateCanSetPlural);
     add_test(suite, anyAllFindsAnyAllIndication);
     add_test(suite, anyAllFindsExplicitMultipleIndication);
     add_test(suite, parseLiteralSetsLiteralMarker);

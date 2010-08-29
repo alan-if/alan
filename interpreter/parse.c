@@ -238,29 +238,6 @@ static void errorNoSuch(Parameter parameter) {
 }
 
 /*----------------------------------------------------------------------*/
-static void buildAllHere(Parameter list[]) {
-    int o, i = 0;
-    Bool found = FALSE;
-
-    for (o = 1; o <= header->instanceMax; o++)
-        if (isHere(o, FALSE)) {
-            found = TRUE;
-            list[i].instance = o;
-            list[i].firstWord = currentWordIndex;
-            list[i].lastWord = currentWordIndex;
-            list[i].candidates = ensureParameterArrayAllocated(list[i].candidates, MAXENTITY+1);
-            list[i].candidates[0].instance = o;
-            setEndOfArray(&list[i].candidates[1]);
-            i++;
-        }
-    if (!found)
-        errorWhat(currentWordIndex);
-    else
-        setEndOfArray(&list[i]);
-}
-
-
-/*----------------------------------------------------------------------*/
 static void buildAllHereNew(Parameter list[]) {
     int o, i = 0;
     Bool found = FALSE;
@@ -327,19 +304,6 @@ static Bool reachable(int instance) {
 }
 
 /*----------------------------------------------------------------------*/
-static void enforcePresence(Parameter parameters[]) {
-    // TODO Similar to disambiguate*() but this does error()
-    int i;
-
-    for (i = 0; !isEndOfArray(&parameters[i]); i++) {
-        if (!reachable(parameters[i].instance)) {
-            errorNoSuch(parameters[i]);
-        }
-    }
-}
-
-
-/*----------------------------------------------------------------------*/
 static Aint *nounReferencesForWord(int wordIndex) {
     return (Aint *) pointerTo(dictionary[playerWords[wordIndex].code].nounRefs);
 }
@@ -366,32 +330,6 @@ static void parsePronoun(Parameter parameters[]) {
     parameters[0].instance = 0;
     parameters[0].isPronoun = TRUE;
     setEndOfArray(&parameters[1]);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void parseAndBuildLiteralIntoSingleParameter(Parameter parameters[]) {
-    parameters[0].instance = instanceFromLiteral(playerWords[currentWordIndex].code - dictionarySize);
-    parameters[0].firstWord = EOF; /* No words used! */
-    setEndOfArray(&parameters[1]);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void parseAndBuildPronounIntoSingleParameter(Parameter parsedParameters[]) {
-    static Parameter *pronounInstances = NULL;
-    pronounInstances = ensureParameterArrayAllocated(pronounInstances, MAXPARAMS+1);
-
-    int pronounCandidateCount = getPronounInstances(playerWords[currentWordIndex].code, pronounInstances);
-    if (pronounCandidateCount == 0)
-        errorWhat(currentWordIndex);
-    else if (pronounCandidateCount > 1)
-        errorWhichPronoun(currentWordIndex, pronounInstances);
-    else {
-        parsedParameters[0].instance = pronounInstances[0].instance;
-        parsedParameters[0].firstWord = EOF; /* No words used! */
-        setEndOfArray(&parsedParameters[1]);
-    }
 }
 
 
@@ -464,35 +402,6 @@ static void filterOutNonReachable(Parameter filteredCandidates[], Bool (*reachab
  */
 
 
-/*----------------------------------------------------------------------*/
-static void disambiguateForReachability(Parameter candidates[], Bool abortOnEmpty) {
-    /* There are more than one candidate, let's see if we can figure out a single one */
-    /* If there is one present, let's go for that */
-
-    static Parameter *filteredCandidates = NULL;
-    // TODO: after fixing allocate(size) -> allocate(type, count) refactor the ensure*() to become ensureAllocated(ptr, type, count);
-    filteredCandidates = ensureParameterArrayAllocated(filteredCandidates, MAXENTITY);
-
-    if (!exists(candidates))
-        return;
-
-    copyParameterArray(filteredCandidates, candidates);
-
-    filterOutNonReachable(filteredCandidates, reachable);
-
-    if (lengthOfParameterArray(filteredCandidates) == 0)
-        if (abortOnEmpty)
-        	errorNoSuch(candidates[0]);
-
-    copyParameterArray(candidates, filteredCandidates);
-
-    // We could experiment with:
-    // disambiguateUsingChecks(candidates, parameterPosition);
-    // But, we don't have the parameterPosition here. Maybe we can do this later?
-    // Now, after refactoring, we actually do (outside of this function, tough!)
-}
-
-
 /*
  * There are various ways the player can refer to things, some are
  * explicit, in which case they should be kept in the input. If he said
@@ -503,27 +412,6 @@ static void disambiguateForReachability(Parameter candidates[], Bool abortOnEmpt
  * explicit, 'all' is inferred, exceptions can never be inferred,
  * maybe 'all' is the only inferred?
  */
-
-
-/*----------------------------------------------------------------------*/
-static void disambiguateParametersForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
-    int i;
-    Parameter *parameters = allocateParameterArray(MAXPARAMS+1);
-
-    convertPositionsToParameters(parameterPositions, parameters);
-    for (i = 0; !isEndOfArray(&candidates[i]); i++) {
-        if (candidates[i].instance != 0) { /* Already empty? */
-            parameters[position] = candidates[i];
-            // DISAMBIGUATION!!
-            if (!reachable(candidates[i].instance) || !possible(current.verb, parameters, parameterPositions))
-                candidates[i].instance = 0; /* Then remove this candidate from list */
-        }
-    }
-    parameters[position].instance = 0; /* Restore multiple marker */
-
-    compressParameterArray(candidates);
-    free(parameters);
-}
 
 
 /*----------------------------------------------------------------------*/
@@ -557,34 +445,6 @@ static Bool parseAnyAdjectives(Parameter parameters[]) {
         currentWordIndex++;
     }
     return adjectiveOrNounFound;
-}
-
-
-/*----------------------------------------------------------------------*/
-static Bool parseAndBuildAnyAdjectives(Parameter parameters[], Parameter savedParameters[]) {
-    Bool adjectiveOrNounFound = FALSE;
-    while (anotherAdjective(currentWordIndex)) {
-        if (lastPossibleNoun(currentWordIndex))
-            break;
-        copyParameterArray(savedParameters, parameters); /* To save it for backtracking */
-        updateWithReferences(parameters, currentWordIndex, adjectiveReferencesForWord);
-        adjectiveOrNounFound = TRUE;
-        currentWordIndex++;
-    }
-    return adjectiveOrNounFound;
-}
-
-
-/*----------------------------------------------------------------------*/
-static void disambiguateParameters(Parameter parameters[], Bool adjectiveOrNounFound) {
-    if (lengthOfParameterArray(parameters) > 1)
-        disambiguateForReachability(parameters, TRUE);
-    if (lengthOfParameterArray(parameters) > 1)
-        errorWhichOne(parameters);
-    else if (adjectiveOrNounFound && lengthOfParameterArray(parameters) == 0) {
-        parameters[0].instance = 0; /* Just make it anything != EOF */
-        errorNoSuch(parameters[0]);
-    }
 }
 
 
@@ -627,50 +487,6 @@ static void parseAdjectivesAndNoun(Parameter parameters[]) {
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void parseAndBuildAdjectivesAndNounToSingleParameter(Parameter parameters[]) {
-    Parameter savedParameters[MAXPARAMS+1]; /* Saved list for backup at EOF */
-
-    int firstWord, lastWord;
-    Bool adjectiveOrNounFound = FALSE;
-
-    static Parameter *references = NULL; /* Instances referenced by a word */
-    references = allocateParameterArray(MAXPARAMS+1);
-
-    firstWord = currentWordIndex;
-    adjectiveOrNounFound = parseAndBuildAnyAdjectives(parameters, savedParameters);
-
-    if (!endOfWords(currentWordIndex)) {
-        if (isNounWord(currentWordIndex)) {
-            updateWithReferences(parameters, currentWordIndex, nounReferencesForWord);
-            adjectiveOrNounFound = TRUE;
-            currentWordIndex++;
-        } else
-            error(M_NOUN);
-    } else if (adjectiveOrNounFound) {
-        /* Perhaps the last word could also be interpreted as a noun? */
-        if (isNounWord(currentWordIndex - 1)) {
-            // TODO When does this get executed? Maybe if conjunctions can be nouns? Or nouns be adjectives?
-            printf("DEBUG:When does this get executed?");
-            copyParameterArray(parameters, savedParameters); /* Restore to before last adjective */
-            copyReferencesToParameterArray(nounReferencesForWord(currentWordIndex-1), references);
-            if (isEndOfArray(&parameters[0]))
-                copyParameterArray(parameters, references);
-            else
-                intersectParameterArrays(parameters, references);
-        } else
-            error(M_NOUN);
-    }
-    lastWord = currentWordIndex - 1;
-
-    parameters[0].firstWord = firstWord;
-    parameters[0].lastWord = lastWord;
-
-    // DISAMBIGUATION!!!
-    disambiguateParameters(parameters, adjectiveOrNounFound);
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void parseReference(Parameter parameters[]) {
     clearParameterArray(parameters);
 
@@ -680,22 +496,6 @@ static void parseReference(Parameter parameters[]) {
         parsePronoun(parameters);
     } else {
         parseAdjectivesAndNoun(parameters);
-    }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void parseAndBuildReference(Parameter parameters[]) {
-    clearParameterArray(parameters);
-
-    if (isLiteralWord(currentWordIndex)) {
-        parseAndBuildLiteralIntoSingleParameter(parameters);
-        currentWordIndex++;
-    } else if (isPronounWord(currentWordIndex)) {
-        parseAndBuildPronounIntoSingleParameter(parameters);
-        currentWordIndex++;
-    } else {
-        parseAndBuildAdjectivesAndNounToSingleParameter(parameters);
     }
 }
 
@@ -724,16 +524,6 @@ static void parseReferenceToPreviousMultipleParameters(Parameter parameters[]) {
     setEndOfArray(&parameters[1]);
 }
 
-
-/*----------------------------------------------------------------------*/
-static void handleReferenceToPreviousMultipleParameters(Parameter parameters[]) {
-    getPreviousMultipleParameters(parameters);
-    if (lengthOfParameterArray(parameters) == 0)
-        errorWhat(currentWordIndex);
-    parameters[0].firstWord = currentWordIndex;
-    parameters[0].lastWord = currentWordIndex;
-    currentWordIndex++;
-}
 
 /*----------------------------------------------------------------------*/
 static Bool parseOneParameter(Parameter parameters[], int parameterIndex) {
@@ -802,42 +592,6 @@ static void simpleParameterParser(Parameter parameters[]) {
 }
 
 
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void simpleParameterParserAndBuilder(Parameter parameters[]) {
-    static Parameter *tlst = NULL;
-    tlst = ensureParameterArrayAllocated(tlst, MAXENTITY);
-
-    /* This will loop until all references are collected (typically "a and b and c") */
-    for (;;) {
-        // TODO Maybe this should go in the complex()?
-        if (isThemWord(currentWordIndex) && (!isPronounWord(currentWordIndex) ||
-                                             (isPronounWord(currentWordIndex) && lengthOfParameterArray(previousMultipleParameters) > 0))) {
-            handleReferenceToPreviousMultipleParameters(parameters);
-        } else {
-            parseAndBuildReference(parameters);
-            if (lengthOfParameterArray(parameters) == 0) { /* Failed! */
-                // TODO this gets executed in case of "take all except", any other cases?
-                // printf("DEBUG: parseAndBuildReferences() returned 0 candidates to simple()\n");
-                return;
-            }
-        }
-
-        mergeParameterArrays(tlst, parameters);
-
-        if (!endOfWords(currentWordIndex)
-            && (isConjunctionWord(currentWordIndex) && (isAdjectiveWord(currentWordIndex+1)
-                                                        || isNounWord(currentWordIndex+1)))) {
-            /* Since this is a conjunction and the next seems to be another instance reference,
-               let's continue with that by eating the conjunction */
-            currentWordIndex++;
-        } else {
-            copyParameterArray(parameters, tlst);
-            return;
-        }
-    }
-}
-
-
 /*----------------------------------------------------------------------*/
 static void parseExceptions(ParameterPosition *parameterPosition, ParameterParser simpleParameterParser) {
     int exceptWordIndex = currentWordIndex;
@@ -846,20 +600,6 @@ static void parseExceptions(ParameterPosition *parameterPosition, ParameterParse
     simpleParameterParser(parameterPosition->exceptions);
     if (lengthOfParameterArray(parameterPosition->exceptions) == 0)
         errorAfterExcept(exceptWordIndex);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void parseAndBuildExceptions(ParameterPosition *parameterPosition, ParameterParser simpleParameterParser) {
-    int exceptWordIndex = currentWordIndex;
-    currentWordIndex++;
-    parameterPosition->exceptions = ensureParameterArrayAllocated(parameterPosition->exceptions, MAXPARAMS+1);
-    simpleParameterParserAndBuilder(parameterPosition->exceptions);
-    if (lengthOfParameterArray(parameterPosition->exceptions) == 0)
-        errorAfterExcept(exceptWordIndex);
-    subtractParameterArrays(parameterPosition->parameters, parameterPosition->exceptions);
-    if (lengthOfParameterArray(parameterPosition->parameters) == 0)
-        error(M_NOT_MUCH);
 }
 
 
@@ -899,37 +639,9 @@ static void complexParameterParserDelegate(ParameterPosition *parameterPosition,
 
 }
 
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void complexParameterParserAndBuilderDelegate(ParameterPosition *parameterPosition, ParameterParser simpleParameterParserAndBuilder, void (*allBuilder)(Parameter allCandidates[])) {
-    parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXPARAMS+1);
-
-    parameterPosition->all = FALSE;
-    parameterPosition->explicitMultiple = FALSE;
-
-    if (isAllWord(currentWordIndex)) {
-        parameterPosition->all = TRUE;
-        parameterPosition->explicitMultiple = TRUE;
-        allBuilder(parameterPosition->parameters); /* Build list of all possible objects */
-        currentWordIndex++;
-        if (!endOfWords(currentWordIndex) && isExceptWord(currentWordIndex))
-            parseAndBuildExceptions(parameterPosition, simpleParameterParserAndBuilder);
-    } else {
-        simpleParameterParserAndBuilder(parameterPosition->parameters);
-        if (lengthOfParameterArray(parameterPosition->parameters) > 1)
-            parameterPosition->explicitMultiple = TRUE;
-    }
-
-}
-
 /*----------------------------------------------------------------------*/
 static void complexReferencesParser(ParameterPosition *parameterPosition) {
     complexParameterParserDelegate(parameterPosition, simpleParameterParser);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void complexReferencesParserAndBuilder(ParameterPosition *parameterPosition) {
-    complexParameterParserAndBuilderDelegate(parameterPosition, simpleParameterParserAndBuilder, buildAllHere);
 }
 
 
@@ -1027,25 +739,6 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
     parameterPosition->flags = flags;
 }
 
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static void parseAndBuildParameterPosition(ParameterPosition *parameterPosition, Aword flags, void (*complexReferencesParserAndBuilder)(ParameterPosition *parameterPosition)) {
-    parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters, MAXENTITY);
-
-    complexReferencesParserAndBuilder(parameterPosition);
-    if (lengthOfParameterArray(parameterPosition->parameters) == 0) /* No object!? */
-        error(M_WHAT);
-
-    /* TODO This should not be done here, it should be postponed to the disambiguation phase */
-    if (!hasBit(flags, OMNIBIT))
-        /* If its not an omnipotent parameter, resolve by presence */
-        if (!parameterPosition->explicitMultiple) /* if so, complex() has already done this */
-            // DISAMBIGUATION!!!
-            enforcePresence(parameterPosition->parameters);
-
-    if (parameterPosition->explicitMultiple && !multipleAllowed(flags))
-        error(M_MULTIPLE);
-}
-
 /*----------------------------------------------------------------------*/
 static ElementEntry *elementForParameter(ElementEntry *elms) {
     /* Require a parameter if elms->code == 0! */
@@ -1110,11 +803,6 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
             nextElement = elementForParameter(currentElement);
             if (nextElement != NULL) {
                 int savedWordIndex = currentWordIndex;
-#ifdef OLD
-                // Parse and build
-                parseAndBuildParameterPosition(&oldParameterPositions[parameterCount], nextElement->flags, complexReferencesParserAndBuilder);
-                oldParameterPositions[parameterCount].endOfList = FALSE;
-#endif
                 // TODO New strategy! ... just parse. This is experimental duplication without any building, just parsing
                 // Should create a correct structure without resolved instance references
                 currentWordIndex = savedWordIndex;
@@ -1354,31 +1042,6 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions, Parameter
 
 
 /*----------------------------------------------------------------------*/
-static void oldWay(ParameterPosition parameterPositions[], ElementEntry *element) {
-
-    /* Now perform restriction checks */
-    restrictParametersAccordingToSyntax(parameterPositions, element);
-
-    /* Finally, if the player used ALL, try to find out what was applicable */
-    int multiplePosition = findMultipleParameterPosition(parameterPositions);
-    if (anyAll(parameterPositions)) {
-        // DISAMBIGUATION!!!
-        disambiguateParametersForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
-        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
-            errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);
-
-    } else if (anyExplicitMultiple(parameterPositions)) {
-        compressParameterArray(parameterPositions[multiplePosition].parameters);
-        if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0) {
-            /* If there where multiple parameters but non left, exit without a */
-            /* word, assuming we have already said enough */
-            abortPlayerCommand();
-        }
-    }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
     Parameter *parameters = parameterPosition->parameters;
 
@@ -1421,54 +1084,6 @@ static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
             abortPlayerCommand();
         }
     }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void disambiguateParametersForReachability(Parameter *parameters) {
-    int p;
-    for (p = 0; p < lengthOfParameterArray(parameters); p++) {
-    	if (lengthOfParameterArray(parameters[p].candidates) == 0)
-        	errorNoSuch(parameters[p]);
-        disambiguateForReachability(parameters[p].candidates, TRUE);
-    }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void disambiguateAllNonOmnipotentPositionsForReachability(ParameterPosition parameterPositions[]) {
-    int position;
-    for (position = 0; !parameterPositions[position].endOfList; position++) {
-        ParameterPosition *parameterPosition = &parameterPositions[position];
-        if (!hasBit(parameterPosition->flags, OMNIBIT)) {
-        	if (!parameterPosition->all && !parameterPosition->them)
-        		// No disambiguation necessary for ALL and THEM since we already have the things he could have meant
-        		disambiguateParametersForReachability(parameterPosition->parameters);
-        	disambiguateParametersForReachability(parameterPosition->exceptions);
-        }
-    }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void disambiguateToSingleCandidate(Parameter *candidates) {
-    // We prefer present instances over distant ones so if there are more
-    // we remove the non-present ones, and if that leaves a single
-    // one, we are ok
-    disambiguateForReachability(candidates, FALSE);
-    if (lengthOfParameterArray(candidates) > 1)
-        errorWhichOne(candidates);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void disambiguateCandidatesToSingle(Parameter *parameter) {
-    Parameter *candidates = parameter->candidates;
-    if (lengthOfParameterArray(candidates) == 0)
-    	errorNoSuch(*parameter);
-    if (lengthOfParameterArray(candidates) > 1)
-        disambiguateToSingleCandidate(candidates);
-    parameter->instance = candidates[0].instance;
 }
 
 
@@ -1599,9 +1214,9 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
     for (position = 0; !parameterPositions[position].endOfList; position++) {
         ParameterPosition *parameterPosition = &parameterPositions[position];
         Bool omni = hasBit(parameterPosition->flags, OMNIBIT);
-        int p;
         if (!parameterPosition->all && !parameterPosition->them) {
             Parameter *parameters = parameterPosition->parameters;
+            int p;
 	    for (p = 0; p < lengthOfParameterArray(parameters); p++) {
                 Parameter *parameter = &parameters[p];
                 Parameter *candidates = parameter->candidates;
@@ -1611,6 +1226,7 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
         }
 	if (parameterPosition->all) {
             Parameter *exceptions = parameterPosition->exceptions;
+            int p;
 	    for (p = 0; p < lengthOfParameterArray(exceptions); p++) {
                 Parameter *parameter = &exceptions[p];
                 Parameter *candidates = parameter->candidates;
@@ -1619,21 +1235,6 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
             }
         }
     }
-
-#ifdef OLDWAY    
-    disambiguateAllNonOmnipotentPositionsForReachability(parameterPositions);
-
-    for (position = 0; !parameterPositions[position].endOfList; position++) {
-        ParameterPosition *parameterPosition = &parameterPositions[position];
-        int p;
-        if (!parameterPosition->all && !parameterPosition->them)
-	    for (p = 0; p < lengthOfParameterArray(parameterPosition->parameters); p++)
-		disambiguateCandidatesToSingle(&parameterPosition->parameters[p]);
-	if (parameterPosition->all)
-	    for (p = 0; p < lengthOfParameterArray(parameterPosition->exceptions); p++)
-		disambiguateCandidatesToSingle(&parameterPosition->exceptions[p]);
-    }
-#endif
 
     handleMultiplePosition(parameterPositions);
 
