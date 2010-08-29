@@ -196,7 +196,8 @@ void mergeParameterArrays(Parameter one[], Parameter other[])
 
 /*======================================================================*/
 void clearParameterArray(Parameter theArray[]) {
-    implementationOfSetEndOfArray((Aword *) &(theArray[0]));
+    clearParameter(&theArray[0], theArray[0].candidates);
+    setEndOfArray(theArray);
 }
 
 
