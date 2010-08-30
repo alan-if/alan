@@ -368,6 +368,40 @@ static void filterOutNonReachable(Parameter filteredCandidates[], Bool (*reachab
 }
 
 
+
+/*
+ * Disambiguation is hard: there are a couple of different cases that
+ * we want to handle: Omnipotent parameter position, multiple present
+ * and non-present objects etc. The following table will show which
+ * message we would like to give in the various situations.
+ *
+ * p = present, n = non-present, 1 = single, m = multiple
+ * (1p1n = single present, single non-present)
+ *
+ * p, n, omni,  result,                 why?
+ * -----------------------------------------------------------------
+ * 0, 0, no,    errorNoSuch(w)
+ * 0, 1, no,    errorNoSuch(w)
+ * 0, m, no,    errorNoSuch(w)
+ * 1, 0, no,    ok(p)
+ * 1, 1, no,    ok(p)
+ * 1, m, no,    ok(p)
+ * m, 0, no,    errorWhichOne(p)
+ * m, 1, no,    errorWhichOne(p)    only present objects should be revealed
+ * m, m, no,    errorWhichOne(p)    d:o
+
+ * 0, 0, yes,   errorNoSuch(w)
+ * 0, 1, yes,   ok(n)
+ * 0, m, yes,   errorWhichOne(n)    already looking "beyond" presence, might reveal undiscovered distant objects
+ * 1, 0, yes,   ok(p)
+ * 1, 1, yes,   ok(p)               present objects have priority
+ * 1, m, yes,   ok(p)               present objects have priority
+ * m, 0, yes,   errorWhichOne(p)
+ * m, 1, yes,   errorWhichOne(p)    present objects have priority, but only list present
+ * m, m, yes,   errorWhichOne(p)    present objects have priority, but only list present
+ */
+
+
 /*
  * There are various ways the player can refer to things, some are
  * explicit, in which case they should be kept in the input. If he said
@@ -378,6 +412,7 @@ static void filterOutNonReachable(Parameter filteredCandidates[], Bool (*reachab
  * explicit, 'all' is inferred, exceptions can never be inferred,
  * maybe 'all' is the only inferred?
  */
+
 
 /*----------------------------------------------------------------------*/
 static void disambiguateCandidatesForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
@@ -434,9 +469,8 @@ static void parseAdjectivesAndNoun(Parameter parameters[]) {
         /* Perhaps the last word could also be interpreted as a noun? */
         if (isNounWord(currentWordIndex - 1)) {
             // TODO When does this get executed? Maybe if conjunctions can be nouns? Or nouns be adjectives?
-            printf("DEBUG:When does this get executed?\n");
+            printf("DEBUG:When does this get executed?");
         } else
-            printf("DEBUG:When does this get executed?\n");
             error(M_NOUN);
     }
 
@@ -503,7 +537,9 @@ static Bool parseOneParameter(Parameter parameters[], int parameterIndex) {
         parseReferenceToPreviousMultipleParameters(parameter);
     } else {
         parseReference(parameter);
-        if (lengthOfParameterArray(parameter) == 0) { /* Failed to find any exceptions! */
+        if (lengthOfParameterArray(parameter) == 0) { /* Failed! */
+            // TODO this gets executed in case of "take all except", any other cases?
+            // printf("DEBUG: parseAndBuildReferences() returned 0 candidates to simple()\n");
             return FALSE;
         }
     }
@@ -670,7 +706,7 @@ static Bool multipleAllowed(Aword flags) {
 
 
 /*
- * There are a number of ways that the number of parameters might
+ * TODO There are a number of ways that the number of parameters might
  * be more than one:
  *
  * 1) Player used ALL and it matched more than one
@@ -699,6 +735,8 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
 
     if (parameterPosition->explicitMultiple && !multipleAllowed(flags))
         error(M_MULTIPLE);
+    // TODO: This is also done in parseInput...()
+    parameterPosition->flags = flags;
 }
 
 /*----------------------------------------------------------------------*/
@@ -764,12 +802,13 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
             /* If so, save word info for this parameterPosition */
             nextElement = elementForParameter(currentElement);
             if (nextElement != NULL) {
-                // Create parameter structure for the parameter position based on player words
-                // but without resolving them
-                ParameterPosition *parameterPosition = &parameterPositions[parameterCount];
-                parseParameterPosition(parameterPosition, nextElement->flags, complexReferencesParser);
-                parameterPosition->flags = nextElement->flags;
-                parameterPosition->endOfList = FALSE;
+                int savedWordIndex = currentWordIndex;
+                // TODO New strategy! ... just parse. This is experimental duplication without any building, just parsing
+                // Should create a correct structure without resolved instance references
+                currentWordIndex = savedWordIndex;
+                parseParameterPosition(&parameterPositions[parameterCount], nextElement->flags, complexReferencesParser);
+                parameterPositions[parameterCount].flags = nextElement->flags;
+                parameterPositions[parameterCount].endOfList = FALSE;
 
                 currentElement = (ElementEntry *) pointerTo(nextElement->next);
                 parameterCount++;
@@ -1008,8 +1047,9 @@ static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
 
     if (exists(parameters)) {
         if (parameters[0].isThem) {
-            parameterPosition->them = TRUE;
             getPreviousMultipleParameters(parameters);
+            // TODO: This should be done by parsing
+            parameterPosition->them = TRUE;
             if (lengthOfParameterArray(parameters) == 0)
             	errorWhat(parameters[0].firstWord);
             if (lengthOfParameterArray(parameters) > 1)
@@ -1045,39 +1085,6 @@ static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
         }
     }
 }
-
-
-/*
- * Disambiguation is hard: there are a couple of different cases that
- * we want to handle: Omnipotent parameter position, multiple present
- * and non-present objects etc. The following table will show which
- * message we would like to give in the various situations.
- *
- * p = present, n = non-present, 1 = single, m = multiple
- * (1p1n = single present, single non-present)
- *
- * p, n, omni,  result,                 why?
- * -----------------------------------------------------------------
- * 0, 0, no,    errorNoSuch(w)
- * 0, 1, no,    errorNoSuch(w)
- * 0, m, no,    errorNoSuch(w)
- * 1, 0, no,    ok(p)
- * 1, 1, no,    ok(p)
- * 1, m, no,    ok(p)
- * m, 0, no,    errorWhichOne(p)
- * m, 1, no,    errorWhichOne(p)    only present objects should be revealed
- * m, m, no,    errorWhichOne(p)    d:o
-
- * 0, 0, yes,   errorNoSuch(w)
- * 0, 1, yes,   ok(n)
- * 0, m, yes,   errorWhichOne(n)    already looking "beyond" presence, might reveal undiscovered distant objects
- * 1, 0, yes,   ok(p)
- * 1, 1, yes,   ok(p)               present objects have priority
- * 1, m, yes,   ok(p)               present objects have priority
- * m, 0, yes,   errorWhichOne(p)
- * m, 1, yes,   errorWhichOne(p)    present objects have priority, but only list present
- * m, m, yes,   errorWhichOne(p)    present objects have priority, but only list present
- */
 
 
 typedef Parameter *DisambiguationHandler(Parameter allCandidates[], Parameter presentCandidates[]);
@@ -1190,7 +1197,7 @@ static void disambiguateCandidates(Parameter *allCandidates, Bool omnipotent, Bo
 
 
 /*----------------------------------------------------------------------*/
-static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *element) {
+static void newWay(ParameterPosition parameterPositions[], ElementEntry *element) {
     /* The New Strategy! Parsing has only collected word indications,
        not built anything, so we need to match parameters to instances here */
 
@@ -1239,19 +1246,48 @@ static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *e
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
+
+    /*
+     * TODO: This code, and much of the above, is going through an
+     * extensive refactoring to not do both parsing and parameter
+     * matching at the same time. It should first parse and add to the
+     * parameterPosition array where each entry indicates which words
+     * in the command line was "eaten" by this parameter. Then each
+     * parameter position can be resolved using those words.  oldWay()
+     * does it the old way, and newWay() tries to do it the new way...
+     */
+
+    // TODO: doesn't work if this is statically allocated, so it's probably not cleared ok
+#ifdef STATIC
     static ParameterPosition *newParameterPositions = NULL;
     if (newParameterPositions == NULL)
         newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
     newParameterPositions[0].endOfList = TRUE;
+#else
+    ParameterPosition *newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+#endif
 
     element = parseInput(parameterPositions, newParameterPositions);
 
-    disambiguate(newParameterPositions, element);
+#ifdef OLD
+    oldWay(parameterPositions, element);
+#endif
+
+    newWay(newParameterPositions, element);
+
+#ifdef OLD
+    // TODO: While we have both new and old strategies in place we can
+    // compare the two parameterPositions arrays for verifying that they both
+    // contain the same
+    if (!equalParameterPositions(parameterPositions, newParameterPositions))
+        syserr("Not the same parameterPositions in new and old strategy!!!");
+#endif
 
     // TODO: Now we need to convert back to legacy parameter and multipleParameter format
     convertPositionsToParameters(newParameterPositions, parameters);
     markExplicitMultiple(newParameterPositions, parameters);
     convertMultipleCandidatesToMultipleParameters(newParameterPositions, multipleParameters);
+
 }
 
 
@@ -1271,6 +1307,9 @@ static void parseOneCommand(Parameter parameters[], Parameter multipleParameters
 
 /*======================================================================*/
 void initParsing(void) {
+    int dictionaryIndex;
+    int pronounIndex = 0;
+
     currentWordIndex = 0;
     continued = FALSE;
     ensureSpaceForPlayerWords(0);
@@ -1283,6 +1322,13 @@ void initParsing(void) {
     if (parameterPositions == NULL)
         parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 
+    // TODO Refactor out the pronoun handling, e.g registerPronoun()
+    for (dictionaryIndex = 0; dictionaryIndex < dictionarySize; dictionaryIndex++)
+        if (isPronoun(dictionaryIndex)) {
+            pronouns[pronounIndex].pronoun = dictionary[dictionaryIndex].code;
+            pronouns[pronounIndex].instance = 0;
+            pronounIndex++;
+        }
 }
 
 /*----------------------------------------------------------------------*/
