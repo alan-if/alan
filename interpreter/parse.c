@@ -368,40 +368,6 @@ static void filterOutNonReachable(Parameter filteredCandidates[], Bool (*reachab
 }
 
 
-
-/*
- * Disambiguation is hard: there are a couple of different cases that
- * we want to handle: Omnipotent parameter position, multiple present
- * and non-present objects etc. The following table will show which
- * message we would like to give in the various situations.
- *
- * p = present, n = non-present, 1 = single, m = multiple
- * (1p1n = single present, single non-present)
- *
- * p, n, omni,  result,                 why?
- * -----------------------------------------------------------------
- * 0, 0, no,    errorNoSuch(w)
- * 0, 1, no,    errorNoSuch(w)
- * 0, m, no,    errorNoSuch(w)
- * 1, 0, no,    ok(p)
- * 1, 1, no,    ok(p)
- * 1, m, no,    ok(p)
- * m, 0, no,    errorWhichOne(p)
- * m, 1, no,    errorWhichOne(p)    only present objects should be revealed
- * m, m, no,    errorWhichOne(p)    d:o
-
- * 0, 0, yes,   errorNoSuch(w)
- * 0, 1, yes,   ok(n)
- * 0, m, yes,   errorWhichOne(n)    already looking "beyond" presence, might reveal undiscovered distant objects
- * 1, 0, yes,   ok(p)
- * 1, 1, yes,   ok(p)               present objects have priority
- * 1, m, yes,   ok(p)               present objects have priority
- * m, 0, yes,   errorWhichOne(p)
- * m, 1, yes,   errorWhichOne(p)    present objects have priority, but only list present
- * m, m, yes,   errorWhichOne(p)    present objects have priority, but only list present
- */
-
-
 /*
  * There are various ways the player can refer to things, some are
  * explicit, in which case they should be kept in the input. If he said
@@ -469,8 +435,9 @@ static void parseAdjectivesAndNoun(Parameter parameters[]) {
         /* Perhaps the last word could also be interpreted as a noun? */
         if (isNounWord(currentWordIndex - 1)) {
             // TODO When does this get executed? Maybe if conjunctions can be nouns? Or nouns be adjectives?
-            printf("DEBUG:When does this get executed?");
+            printf("DEBUG:When does this get executed?\n");
         } else
+            printf("DEBUG:When does this get executed?\n");
             error(M_NOUN);
     }
 
