@@ -1241,10 +1241,26 @@ static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *e
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
+
+    /*
+     * TODO: This code, and much of the above, is going through an
+     * extensive refactoring to not do both parsing and parameter
+     * matching at the same time. It should first parse and add to the
+     * parameterPosition array where each entry indicates which words
+     * in the command line was "eaten" by this parameter. Then each
+     * parameter position can be resolved using those words.  oldWay()
+     * does it the old way, and newWay() tries to do it the new way...
+     */
+
+    // TODO: doesn't work if this is statically allocated, so it's probably not cleared ok
+#ifdef STATIC
     static ParameterPosition *newParameterPositions = NULL;
     if (newParameterPositions == NULL)
         newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
     newParameterPositions[0].endOfList = TRUE;
+#else
+    ParameterPosition *newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+#endif
 
     element = parseInput(parameterPositions, newParameterPositions);
 
