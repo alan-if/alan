@@ -764,13 +764,12 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
             /* If so, save word info for this parameterPosition */
             nextElement = elementForParameter(currentElement);
             if (nextElement != NULL) {
-                int savedWordIndex = currentWordIndex;
-                // TODO New strategy! ... just parse. This is experimental duplication without any building, just parsing
-                // Should create a correct structure without resolved instance references
-                currentWordIndex = savedWordIndex;
-                parseParameterPosition(&parameterPositions[parameterCount], nextElement->flags, complexReferencesParser);
-                parameterPositions[parameterCount].flags = nextElement->flags;
-                parameterPositions[parameterCount].endOfList = FALSE;
+                // Create parameter structure for the parameter position based on player words
+                // but without resolving them
+                ParameterPosition *parameterPosition = &parameterPositions[parameterCount];
+                parseParameterPosition(parameterPosition, nextElement->flags, complexReferencesParser);
+                parameterPosition->flags = nextElement->flags;
+                parameterPosition->endOfList = FALSE;
 
                 currentElement = (ElementEntry *) pointerTo(nextElement->next);
                 parameterCount++;
@@ -1009,9 +1008,8 @@ static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
 
     if (exists(parameters)) {
         if (parameters[0].isThem) {
-            getPreviousMultipleParameters(parameters);
-            // TODO: This should be done by parsing
             parameterPosition->them = TRUE;
+            getPreviousMultipleParameters(parameters);
             if (lengthOfParameterArray(parameters) == 0)
             	errorWhat(parameters[0].firstWord);
             if (lengthOfParameterArray(parameters) > 1)
@@ -1241,17 +1239,6 @@ static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *e
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
-
-    /*
-     * TODO: This code, and much of the above, is going through an
-     * extensive refactoring to not do both parsing and parameter
-     * matching at the same time. It should first parse and add to the
-     * parameterPosition array where each entry indicates which words
-     * in the command line was "eaten" by this parameter. Then each
-     * parameter position can be resolved using those words.  oldWay()
-     * does it the old way, and newWay() tries to do it the new way...
-     */
-
     // TODO: doesn't work if this is statically allocated, so it's probably not cleared ok
 #ifdef STATIC
     static ParameterPosition *newParameterPositions = NULL;
