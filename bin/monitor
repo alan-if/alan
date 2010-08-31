@@ -1,0 +1,24 @@
+#!/bin/bash
+# Continuously monitor the arun program for change
+# then rerun jregr in current directory
+if [ $# -lt 2 ] ; then
+  echo "Usage: `basename $0` <file> <command>"
+  echo "where"
+  echo "    <file> : the file to monitor"
+  echo "    <command> : the command(s) to run when <file> changes"
+  exit
+fi
+file="$1"
+shift
+commands="$*"
+d0=`stat -c '%Y' $file`
+while true; do
+  d1=`stat -c '%Y' $file`
+  while [ $d0 -eq $d1 ] ; do
+    sleep 1
+    d1=`stat -c '%Y' $file`
+  done
+  echo -ne '\033c'
+  $commands
+  d0=$d1
+done

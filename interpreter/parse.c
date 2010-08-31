@@ -222,7 +222,7 @@ static void errorNoSuch(Parameter parameter) {
 }
 
 /*----------------------------------------------------------------------*/
-static void buildAllHereNew(Parameter list[]) {
+static void buildAllHere(Parameter list[]) {
     int o, i = 0;
     Bool found = FALSE;
     int word = list[0].firstWord;
@@ -997,7 +997,7 @@ static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
             if (lengthOfParameterArray(parameters) > 1)
                 parameterPosition->explicitMultiple = TRUE;
         } else if (parameterPosition->all) {
-            buildAllHereNew(parameters);
+            buildAllHere(parameters);
             if (exists(parameterPosition->exceptions))
                 findCandidates(parameterPosition->exceptions, instanceMatcher);
         } else
