@@ -379,7 +379,6 @@ static void filterOutNonReachable(Parameter filteredCandidates[], Bool (*reachab
  * maybe 'all' is the only inferred?
  */
 
-
 /*----------------------------------------------------------------------*/
 static void disambiguateCandidatesForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
     int i;
@@ -504,9 +503,7 @@ static Bool parseOneParameter(Parameter parameters[], int parameterIndex) {
         parseReferenceToPreviousMultipleParameters(parameter);
     } else {
         parseReference(parameter);
-        if (lengthOfParameterArray(parameter) == 0) { /* Failed! */
-            // TODO this gets executed in case of "take all except", any other cases?
-            // printf("DEBUG: parseAndBuildReferences() returned 0 candidates to simple()\n");
+        if (lengthOfParameterArray(parameter) == 0) { /* Failed to find any exceptions! */
             return FALSE;
         }
     }
@@ -673,7 +670,7 @@ static Bool multipleAllowed(Aword flags) {
 
 
 /*
- * TODO There are a number of ways that the number of parameters might
+ * There are a number of ways that the number of parameters might
  * be more than one:
  *
  * 1) Player used ALL and it matched more than one
@@ -702,8 +699,6 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
 
     if (parameterPosition->explicitMultiple && !multipleAllowed(flags))
         error(M_MULTIPLE);
-    // TODO: This is also done in parseInput...()
-    parameterPosition->flags = flags;
 }
 
 /*----------------------------------------------------------------------*/
