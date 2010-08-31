@@ -1269,9 +1269,6 @@ static void parseOneCommand(Parameter parameters[], Parameter multipleParameters
 
 /*======================================================================*/
 void initParsing(void) {
-    int dictionaryIndex;
-    int pronounIndex = 0;
-
     currentWordIndex = 0;
     continued = FALSE;
     ensureSpaceForPlayerWords(0);
@@ -1284,13 +1281,6 @@ void initParsing(void) {
     if (parameterPositions == NULL)
         parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 
-    // TODO Refactor out the pronoun handling, e.g registerPronoun()
-    for (dictionaryIndex = 0; dictionaryIndex < dictionarySize; dictionaryIndex++)
-        if (isPronoun(dictionaryIndex)) {
-            pronouns[pronounIndex].pronoun = dictionary[dictionaryIndex].code;
-            pronouns[pronounIndex].instance = 0;
-            pronounIndex++;
-        }
 }
 
 /*----------------------------------------------------------------------*/
