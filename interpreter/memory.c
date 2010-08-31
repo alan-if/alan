@@ -20,6 +20,7 @@ int memTop = 0;         /* Top of load memory */
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+
 #ifndef SMARTALLOC
 /*======================================================================*/
 void *allocate(unsigned long lengthInBytes)
@@ -33,7 +34,6 @@ void *allocate(unsigned long lengthInBytes)
 }
 #endif
 
-
 /*======================================================================*/
 void *duplicate(void *original, unsigned long len)
 {
@@ -42,5 +42,3 @@ void *duplicate(void *original, unsigned long len)
   memcpy(p, original, len);
   return p;
 }
-
-

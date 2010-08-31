@@ -105,6 +105,7 @@ void sm_free(fp)
 	char *cp = (char *) fp;
 	struct queue *qp;
 
+        if (cp == NULL) return; /* THONI 2010-08-31 : Allow free(null) */
 	assert(cp != NULL);	   /* Better not release a null buffer, guy! */
 
 	cp -= sizeof(struct abufhead);

@@ -25,7 +25,7 @@ typedef struct StateStackStructure {
 
 
 /*----------------------------------------------------------------------*/
-static void *reallocateStack(void *from, int newSize)
+static void *reallocate(void *from, int newSize)
 {
   void *newArea = realloc(from, newSize*sizeof(void*));
   if (newArea == NULL)
@@ -65,8 +65,8 @@ Bool stateStackIsEmpty(StateStack stateStack) {
 static void ensureSpaceForGameState(StateStack stack)
 {
     if (stack->stackPointer == stack->stackSize) {
-    	stack->stack = reallocateStack(stack->stack, stack->stackSize+EXTENT);
-    	stack->playerCommands = reallocateStack(stack->playerCommands, stack->stackSize+EXTENT);
+    	stack->stack = reallocate(stack->stack, stack->stackSize+EXTENT);
+    	stack->playerCommands = reallocate(stack->playerCommands, stack->stackSize+EXTENT);
     	stack->stackSize += EXTENT;
     }
 }

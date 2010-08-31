@@ -53,6 +53,10 @@ void terminate(int code)
     fclose(logFile);
 #endif
 
+#ifdef SMARTALLOC
+    sm_dump(1);
+#endif
+
 #ifdef HAVE_GLK
   glk_exit();
 #else

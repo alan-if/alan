@@ -78,4 +78,5 @@ void args(int argc, char * argv[])
     }
   }
   adventureName = gameName(adventureFileName);
+  free(programName);
 }

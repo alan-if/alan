@@ -839,6 +839,6 @@ void run(void)
             }
     }
 #ifdef SMARTALLOC
-    sm_dump(0);
+    sm_dump(1);
 #endif
 }
