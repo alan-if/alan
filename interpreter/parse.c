@@ -1049,6 +1049,39 @@ static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
 }
 
 
+/*
+ * Disambiguation is hard: there are a couple of different cases that
+ * we want to handle: Omnipotent parameter position, multiple present
+ * and non-present objects etc. The following table will show which
+ * message we would like to give in the various situations.
+ *
+ * p = present, n = non-present, 1 = single, m = multiple
+ * (1p1n = single present, single non-present)
+ *
+ * p, n, omni,  result,                 why?
+ * -----------------------------------------------------------------
+ * 0, 0, no,    errorNoSuch(w)
+ * 0, 1, no,    errorNoSuch(w)
+ * 0, m, no,    errorNoSuch(w)
+ * 1, 0, no,    ok(p)
+ * 1, 1, no,    ok(p)
+ * 1, m, no,    ok(p)
+ * m, 0, no,    errorWhichOne(p)
+ * m, 1, no,    errorWhichOne(p)    only present objects should be revealed
+ * m, m, no,    errorWhichOne(p)    d:o
+
+ * 0, 0, yes,   errorNoSuch(w)
+ * 0, 1, yes,   ok(n)
+ * 0, m, yes,   errorWhichOne(n)    already looking "beyond" presence, might reveal undiscovered distant objects
+ * 1, 0, yes,   ok(p)
+ * 1, 1, yes,   ok(p)               present objects have priority
+ * 1, m, yes,   ok(p)               present objects have priority
+ * m, 0, yes,   errorWhichOne(p)
+ * m, 1, yes,   errorWhichOne(p)    present objects have priority, but only list present
+ * m, m, yes,   errorWhichOne(p)    present objects have priority, but only list present
+ */
+
+
 typedef Parameter *DisambiguationHandler(Parameter allCandidates[], Parameter presentCandidates[]);
 typedef DisambiguationHandler *DisambiguationHandlerTable[3][3][2];
 
@@ -1159,7 +1192,7 @@ static void disambiguateCandidates(Parameter *allCandidates, Bool omnipotent, Bo
 
 
 /*----------------------------------------------------------------------*/
-static void newWay(ParameterPosition parameterPositions[], ElementEntry *element) {
+static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *element) {
     /* The New Strategy! Parsing has only collected word indications,
        not built anything, so we need to match parameters to instances here */
 
@@ -1208,48 +1241,19 @@ static void newWay(ParameterPosition parameterPositions[], ElementEntry *element
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
-
-    /*
-     * TODO: This code, and much of the above, is going through an
-     * extensive refactoring to not do both parsing and parameter
-     * matching at the same time. It should first parse and add to the
-     * parameterPosition array where each entry indicates which words
-     * in the command line was "eaten" by this parameter. Then each
-     * parameter position can be resolved using those words.  oldWay()
-     * does it the old way, and newWay() tries to do it the new way...
-     */
-
-    // TODO: doesn't work if this is statically allocated, so it's probably not cleared ok
-#ifdef STATIC
     static ParameterPosition *newParameterPositions = NULL;
     if (newParameterPositions == NULL)
         newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
     newParameterPositions[0].endOfList = TRUE;
-#else
-    ParameterPosition *newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
-#endif
 
     element = parseInput(parameterPositions, newParameterPositions);
 
-#ifdef OLD
-    oldWay(parameterPositions, element);
-#endif
-
-    newWay(newParameterPositions, element);
-
-#ifdef OLD
-    // TODO: While we have both new and old strategies in place we can
-    // compare the two parameterPositions arrays for verifying that they both
-    // contain the same
-    if (!equalParameterPositions(parameterPositions, newParameterPositions))
-        syserr("Not the same parameterPositions in new and old strategy!!!");
-#endif
+    disambiguate(newParameterPositions, element);
 
     // TODO: Now we need to convert back to legacy parameter and multipleParameter format
     convertPositionsToParameters(newParameterPositions, parameters);
     markExplicitMultiple(newParameterPositions, parameters);
     convertMultipleCandidatesToMultipleParameters(newParameterPositions, multipleParameters);
-
 }
 
 
