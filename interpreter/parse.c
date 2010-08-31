@@ -82,22 +82,6 @@ static void addParameterForWord(Parameter *parameters, int wordIndex) {
 }
 
 
-#ifdef UNDEF_WHEN_NEEDED
-/*----------------------------------------------------------------------*/
-static void addParameterForWords(Parameter *parameters, int firstWordIndex, int lastWordIndex) {
-    Parameter *parameter = findEndOfList(parameters);
-
-    // TODO Need to concat the words, instead of just using the last word
-    createStringLiteral(pointerTo(dictionary[playerWords[lastWordIndex].code].string));
-    parameter->instance = instanceFromLiteral(litCount);
-    parameter->useWords = TRUE;
-    parameter->firstWord = firstWordIndex;
-    parameter->lastWord = lastWordIndex;
-    setEndOfList(parameter+1);
-}
-#endif
-
-
 /*----------------------------------------------------------------------*/
 static Pronoun *allocatePronounArray(Pronoun *currentList) {
     if (currentList == NULL)
@@ -988,14 +972,14 @@ static void convertMultipleCandidatesToMultipleParameters(ParameterPosition para
 
 
 /*----------------------------------------------------------------------*/
-static ElementEntry *parseInput(ParameterPosition *parameterPositions2) {
+static ElementEntry *parseInput(ParameterPosition *parameterPositions) {
     ElementEntry *element;
     SyntaxEntry *stx;
 
     stx = findSyntaxTreeForVerb(verbWordCode);
-    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions2);
+    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions);
     handleFailedParse(element);
-    current.verb = remapParameterOrder(element->flags, parameterPositions2);
+    current.verb = remapParameterOrder(element->flags, parameterPositions);
     return element;
 }
 
@@ -1237,14 +1221,9 @@ static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *e
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
-    // TODO: doesn't work if this is statically allocated, so it's probably not cleared ok
-#ifdef STATIC
-    static ParameterPosition *newParameterPositions = NULL;
-    if (newParameterPositions == NULL)
-        newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
-#else
-    ParameterPosition *parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
-#endif
+    static ParameterPosition *parameterPositions = NULL;
+    if (parameterPositions == NULL)
+        parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 
     element = parseInput(parameterPositions);
 
