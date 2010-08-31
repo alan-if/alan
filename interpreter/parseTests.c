@@ -202,21 +202,21 @@ Ensure canParseInputAccordingToParseTree(void) {
     given_EndOfPlayerWords();
 
     given_AnEmptyParseTree(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameterPositions2);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions2);
     assert_equal(NULL, element);
 
     given_AParseTreeWithOnlyEos(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameterPositions2);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions2);
     assert_equal(elementTable, element);
 
     given_AParseTreeWithWordAndEos(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameterPositions2);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions2);
     assert_equal(&elementTable[1], element);
 
     makeDictionaryEntry(PREPOSITION_CODE, 1, PREPOSITION_BIT);
     given_PlayerInputOfAPreposition();
     given_AParseTreeAllowingWordFollowedByEos(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions, parameterPositions2);
+    element = parseInputAccordingToElementTree(elementTable, parameterPositions2);
     assert_equal(&elementTable[1], element);
 }
 

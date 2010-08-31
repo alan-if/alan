@@ -744,14 +744,13 @@ static Bool endOfPlayerCommand(int wordIndex) {
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElement, ParameterPosition oldParameterPositions[], ParameterPosition parameterPositions[]) {
+static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElement, ParameterPosition parameterPositions[]) {
     ElementEntry *currentElement = startingElement;
     ElementEntry *nextElement = startingElement;
 
     int parameterCount = 0;
     while (nextElement != NULL) {
         /* Traverse the possible branches of currentElement to find a match, let the actual input control what we look for */
-        oldParameterPositions[parameterCount].endOfList = TRUE;
         parameterPositions[parameterCount].endOfList = TRUE;
 
         if (endOfPlayerCommand(currentWordIndex)) {
@@ -989,14 +988,13 @@ static void convertMultipleCandidatesToMultipleParameters(ParameterPosition para
 
 
 /*----------------------------------------------------------------------*/
-static ElementEntry *parseInput(ParameterPosition *parameterPositions, ParameterPosition *parameterPositions2) {
+static ElementEntry *parseInput(ParameterPosition *parameterPositions2) {
     ElementEntry *element;
     SyntaxEntry *stx;
 
     stx = findSyntaxTreeForVerb(verbWordCode);
-    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions, parameterPositions2);
+    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions2);
     handleFailedParse(element);
-    current.verb = remapParameterOrder(element->flags, parameterPositions);
     current.verb = remapParameterOrder(element->flags, parameterPositions2);
     return element;
 }
@@ -1244,19 +1242,18 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     static ParameterPosition *newParameterPositions = NULL;
     if (newParameterPositions == NULL)
         newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
-    newParameterPositions[0].endOfList = TRUE;
 #else
-    ParameterPosition *newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+    ParameterPosition *parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 #endif
 
-    element = parseInput(parameterPositions, newParameterPositions);
+    element = parseInput(parameterPositions);
 
-    disambiguate(newParameterPositions, element);
+    disambiguate(parameterPositions, element);
 
     // TODO: Now we need to convert back to legacy parameter and multipleParameter format
-    convertPositionsToParameters(newParameterPositions, parameters);
-    markExplicitMultiple(newParameterPositions, parameters);
-    convertMultipleCandidatesToMultipleParameters(newParameterPositions, multipleParameters);
+    convertPositionsToParameters(parameterPositions, parameters);
+    markExplicitMultiple(parameterPositions, parameters);
+    convertMultipleCandidatesToMultipleParameters(parameterPositions, multipleParameters);
 }
 
 
