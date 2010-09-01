@@ -1221,9 +1221,14 @@ static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *e
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
-    static ParameterPosition *parameterPositions = NULL;
-    if (parameterPositions == NULL)
-        parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+    // TODO: doesn't work if this is statically allocated, so it's probably not cleared ok
+#ifdef STATIC
+    static ParameterPosition *newParameterPositions = NULL;
+    if (newParameterPositions == NULL)
+        newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+#else
+    ParameterPosition *parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+#endif
 
     element = parseInput(parameterPositions);
 
