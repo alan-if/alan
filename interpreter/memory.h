@@ -7,7 +7,13 @@
 \*----------------------------------------------------------------------*/
 
 /* IMPORTS */
+#include "sysdep.h"
 #include "acode.h"
+
+#ifdef DMALLOC
+#include <dmalloc.h>
+#endif
+
 
 /* CONSTANTS */
 

@@ -809,9 +809,6 @@ void run(void)
             syserr("Unexpected longjmp() return value");
         }
 		
-#ifdef DMALLOC
-        dmalloc_verify(0);
-#endif
         recursionDepth = 0;
 		
         /* Move all characters, hero first */

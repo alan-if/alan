@@ -155,6 +155,17 @@ Bool inParameterArray(Parameter theArray[], Aword theCode)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void copyParameter(Parameter *theCopy, Parameter *theOriginal) {
+    Parameter *theCopyCandidates = theCopy->candidates;
+    *theCopy = *theOriginal;
+    if (lengthOfParameterArray(theCopyCandidates) < lengthOfParameterArray(theOriginal->candidates)) {
+	theCopy->candidates = allocateParameterArray(MAXENTITY+1);
+    }
+    copyParameterArray(theCopy->candidates, theOriginal->candidates);
+}
+
+
 /*======================================================================*/
 void copyParameterArray(Parameter to[], Parameter from[])
 {

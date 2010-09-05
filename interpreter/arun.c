@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
      * Get environ variable DMALLOC_OPTIONS and pass the settings string
      * on to dmalloc_debug_setup to setup the dmalloc debugging flags.
      */
-    dmalloc_debug_setup(getenv("DMALLOC_OPTIONS"));
+    //dmalloc_debug_setup(getenv("DMALLOC_OPTIONS"));
 #endif
 
     /* Set up page format in case we get a system error */

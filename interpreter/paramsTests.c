@@ -98,6 +98,27 @@ Ensure lengthOfParameterArrayReturnsZeroForNULLArray(void) {
     assert_equal(0, lengthOfParameterArray(NULL));
 }
 
+/*----------------------------------------------------------------------*/
+Ensure copyParameterCopiesCandidates(void) {
+    Parameter *theOriginal = NEW(Parameter);
+    Parameter *theCopy = NEW(Parameter);
+
+    theOriginal->instance = 2;
+    theOriginal->candidates = allocate(4*sizeof(Parameter));
+    setEndOfArray(&theOriginal->candidates[3]);
+
+    setEndOfArray(&theCopy[0]);
+
+    copyParameter(theCopy, theOriginal);
+
+    assert_equal(theOriginal->instance, theCopy->instance);
+    assert_true(equalParameterArrays(theOriginal->candidates, theCopy->candidates));
+    assert_not_equal(theOriginal->candidates, theCopy->candidates);
+}
+
+
+
+
 /*======================================================================*/
 TestSuite *paramsTests(void)
 {
@@ -111,6 +132,7 @@ TestSuite *paramsTests(void)
     add_test(suite, unequal_length_parameter_arrays_are_not_equal);
     add_test(suite, subtractParameterArraysCanSubtractNullArray);
     add_test(suite, lengthOfParameterArrayReturnsZeroForNULLArray);
+    add_test(suite, copyParameterCopiesCandidates);
 
     return suite;
 }

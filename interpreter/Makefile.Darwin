@@ -21,13 +21,18 @@ PROGNAME=-DPROGNAME=\"$(TARGET)\"
 
 ARUNOPTS = $(PROGNAME) $(GLK)
 
+#Settings for memory debugging which is used unless building RELEASE
+#ALLOC = -DSMARTALLOC
+#ALLOC = -DDMALLOC
+#ALLOCLIBS = -ldmalloc
+
 CC = gcc
-COMPILEFLAGS = -g -Wall -funsigned-char
+COMPILEFLAGS = -g -Wall -funsigned-char $(ALLOC)
 CFLAGS = $(COMPILEFLAGS) -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
 
 LINK = gcc
 LINKFLAGS = -g $(ARUNOPTS) $(OSDEFS)
-LIBS = $(GLKLIB) $(LINKLIBS)
+LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
 
 
 CGREEN = yes

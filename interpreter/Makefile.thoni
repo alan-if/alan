@@ -19,8 +19,8 @@ include Makefile.cygwin
 #OPTIMIZE = -ggdb
 
 #Settings for memory debugging which is used unless building RELEASE
-#SMARTALLOC = -DSMARTALLOC
-
+#ALLOC = -DSMARTALLOC
+#ALLOC = -DDMALLOC
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
