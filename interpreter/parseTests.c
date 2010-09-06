@@ -230,7 +230,7 @@ Ensure canSetupParameterForWord(void) {
     memcpy(&memory[12], "qwerty", 7);
     dictionary[2].string = 12;
 
-    messageParameters = allocateParameterArray(MAXPARAMS+1);
+    messageParameters = allocateParameterArray();
     ensureSpaceForPlayerWords(2);
     playerWords[1].code = 2;
     litCount = 0;
@@ -259,7 +259,7 @@ Ensure canSeeBitsInFlag(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupInstanceParametersForMessages(void) {
-    Parameter *parameters = allocateParameterArray(MAXPARAMS+1);
+    Parameter *parameters = allocateParameterArray();
 
     addParameterForInstance(parameters, 2);
 
@@ -273,7 +273,7 @@ Ensure canSetupInstanceParametersForMessages(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupStringParametersForMessages(void) {
-    Parameter *parameters = allocateParameterArray(MAXPARAMS+1);
+    Parameter *parameters = allocateParameterArray();
 
     addParameterForString(parameters, "a string");
 
@@ -287,7 +287,7 @@ Ensure canSetupStringParametersForMessages(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupIntegerParametersForMessages(void) {
-    Parameter *parameters = allocateParameterArray(MAXPARAMS);
+    Parameter *parameters = allocateParameterArray();
 
     addParameterForInteger(parameters, 14);
 
@@ -653,7 +653,7 @@ static DisambiguationHandlerTable mockedHandlerTable =
     
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall00NHandler() {
-    Parameter candidates[1];
+    Parameter *candidates = allocateParameterArray();
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
     disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
@@ -663,7 +663,7 @@ Ensure disambiguateCandidatesCanCall00NHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall00YHandler() {
-    Parameter candidates[1];
+    Parameter *candidates = allocateParameterArray();
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
     disambiguateCandidates(candidates, TRUE, mockedReachable, mockedHandlerTable);
@@ -673,7 +673,7 @@ Ensure disambiguateCandidatesCanCall00YHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall01NHandler() {
-    Parameter candidates[2];
+    Parameter *candidates = allocateParameterArray();
     candidates[0].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
 
@@ -683,7 +683,7 @@ Ensure disambiguateCandidatesCanCall01NHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall0MNHandler() {
-    Parameter candidates[3];
+    Parameter *candidates = allocateParameterArray();
     candidates[0].instance = 2; /* M non-present */
     candidates[1].instance = 2;
     setEndOfArray(&candidates[2]); /* == 2 instances */
@@ -694,7 +694,7 @@ Ensure disambiguateCandidatesCanCall0MNHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall10NHandler() {
-    Parameter candidates[2];
+    Parameter *candidates = allocateParameterArray();
     candidates[0].instance = 1; /* 1 present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
 
@@ -704,7 +704,7 @@ Ensure disambiguateCandidatesCanCall10NHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall11NHandler() {
-    Parameter candidates[3];
+    Parameter *candidates = allocateParameterArray();
     candidates[0].instance = 1; /* 1 present */
     candidates[1].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[2]); /* == 2 instances */
@@ -715,7 +715,7 @@ Ensure disambiguateCandidatesCanCall11NHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall1MNHandler() {
-    Parameter candidates[3];
+    Parameter *candidates = allocateParameterArray();
     candidates[0].instance = 1; /* 1 present */
     candidates[1].instance = 2; /* M non-present */
     candidates[2].instance = 2;

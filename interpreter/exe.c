@@ -176,7 +176,7 @@ char *getStringFromFile(Aword fpos, Aword len)
 void score(Aword sc)
 {
     if (sc == 0) {
-        Parameter *messageParameters = allocateParameterArray(MAXPARAMS+1);
+        Parameter *messageParameters = allocateParameterArray();
         addParameterForInteger(messageParameters, current.score);
         addParameterForInteger(messageParameters, header->maximumScore);
         printMessageWithParameters(M_SCORE, messageParameters);
@@ -198,7 +198,8 @@ void visits(Aword v)
 
 /*----------------------------------------------------------------------*/
 static void sayUndoneCommand(char *words) {
-    Parameter messageParameters[2];
+    static Parameter *messageParameters = NULL;
+    messageParameters = ensureParameterArrayAllocated(messageParameters);
 
     current.location = where(HERO, TRUE);
     clearParameterArray(messageParameters);

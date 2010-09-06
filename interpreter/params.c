@@ -12,7 +12,7 @@
 #include "memory.h"
 #include "literal.h"
 #include "parameterPosition.h"
-
+#include "syserr.h"
 
 /* PUBLIC DATA */
 Parameter *globalParameters = NULL;
@@ -37,7 +37,7 @@ void setParameters(Parameter *newParameters) {
     int i;
 
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(MAXPARAMS+1);
+        globalParameters = allocateParameterArray();
     for (i = 0; i < MAXPARAMS; i++)
         globalParameters[i] = newParameters[i];
 }
@@ -46,7 +46,7 @@ void setParameters(Parameter *newParameters) {
 /*======================================================================*/
 Parameter *getParameters(void) {
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(MAXPARAMS+1);
+        globalParameters = allocateParameterArray();
     return globalParameters;
 }
 
@@ -64,17 +64,18 @@ Parameter *getParameter(int parameterIndex) {
 
 
 /*======================================================================*/
-Parameter *ensureParameterArrayAllocated(Parameter *currentArray, int size) {
+Parameter *ensureParameterArrayAllocated(Parameter *currentArray) {
     if (currentArray == NULL)
-        currentArray = allocate(sizeof(Parameter)*(size+1));
-    clearParameterArray(currentArray);
+        currentArray = allocateParameterArray();
+    else
+	clearParameterArray(currentArray);
     return currentArray;
 }
 
 
 /*======================================================================*/
-Parameter *allocateParameterArray(int size) {
-    Parameter *newArray = allocate(sizeof(Parameter)*(size+1));
+Parameter *allocateParameterArray() {
+    Parameter *newArray = allocate(sizeof(Parameter)*(MAXENTITY+1));
     clearParameterArray(newArray);
     return newArray;
 }
@@ -160,7 +161,7 @@ static void copyParameter(Parameter *theCopy, Parameter *theOriginal) {
     Parameter *theCopyCandidates = theCopy->candidates;
     *theCopy = *theOriginal;
     if (lengthOfParameterArray(theCopyCandidates) < lengthOfParameterArray(theOriginal->candidates)) {
-	theCopy->candidates = allocateParameterArray(MAXENTITY+1);
+	theCopy->candidates = allocateParameterArray();
     }
     copyParameterArray(theCopy->candidates, theOriginal->candidates);
 }
@@ -171,8 +172,14 @@ void copyParameterArray(Parameter to[], Parameter from[])
 {
     int i;
 
-    for (i = 0; !isEndOfArray(&from[i]); i++)
+    if (to == NULL && from == NULL) return;
+
+    if (to == NULL) syserr("Copying to null parameter array");
+
+    for (i = 0; !isEndOfArray(&from[i]); i++) {
 	to[i] = from[i];
+	copyParameter(&to[i], &from[i]);
+    }
     setEndOfArray(&to[i]);
 }
 

@@ -70,7 +70,7 @@ Ensure returns_minus_one_for_no_multiple_position(void) {
 
 
 static Parameter *givenAnyParameterArrayOfLength(int length) {
-    Parameter *parameters = allocateParameterArray(length);
+    Parameter *parameters = allocateParameterArray();
     parameters->instance = 1;
     setEndOfArray(&parameters[length]);
     return parameters;
@@ -117,7 +117,10 @@ Ensure copyParameterCopiesCandidates(void) {
 }
 
 
-
+/*----------------------------------------------------------------------*/
+Ensure copyParameterArrayCanCopyNullToNull(void) {
+    copyParameterArray(NULL, NULL);
+}
 
 /*======================================================================*/
 TestSuite *paramsTests(void)
@@ -133,6 +136,7 @@ TestSuite *paramsTests(void)
     add_test(suite, subtractParameterArraysCanSubtractNullArray);
     add_test(suite, lengthOfParameterArrayReturnsZeroForNULLArray);
     add_test(suite, copyParameterCopiesCandidates);
+    add_test(suite, copyParameterArrayCanCopyNullToNull);
 
     return suite;
 }
