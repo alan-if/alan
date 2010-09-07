@@ -15,5 +15,9 @@ Event move_mr_x
   Locate mr_x At l.
 End Event.
 
-Start At l.
-  Schedule move_mr_x After 0.
+The l2 Isa location
+  Exit w To l.
+End The l2.
+
+Start At l2.
+  Schedule move_mr_x After 1.

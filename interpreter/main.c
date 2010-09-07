@@ -26,6 +26,7 @@
 #include "memory.h"
 #include "output.h"
 #include "Container.h"
+#include "Location.h"
 #include "dictionary.h"
 #include "class.h"
 #include "score.h"
@@ -565,8 +566,9 @@ static void start(void)
         printf("\n<START:>\n");
     interpret(header->start);
     para();
-	
-    locate(HERO, startloc);
+
+    if (where(HERO, FALSE) == startloc)
+        look();
     rules();
 }
 

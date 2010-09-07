@@ -797,10 +797,9 @@ static void locateObject(Aword obj, Aword whr)
 /*----------------------------------------------------------------------*/
 static void executeInheritedEntered(Aint theClass) {
     if (theClass == 0) return;
+    executeInheritedEntered(classes[theClass].parent);
     if (classes[theClass].entered)
         interpret(classes[theClass].entered);
-    else
-        executeInheritedEntered(classes[theClass].parent);
 }
 
 
@@ -883,7 +882,8 @@ void locate(int instance, int whr)
             }
             if (checksFailed(theContainer->extractChecks, EXECUTE_CHECK_BODY_ON_FAIL)) {
                 fail = TRUE;
-		  // TODO: this should be done for the above return as well as before exiting the extract checks : current.instance = previousInstance;
+                // TODO: this should be done for the above return as well as before exiting the extract checks :
+                // current.instance = previousInstance;
                 return;
             }
         }
