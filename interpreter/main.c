@@ -624,12 +624,17 @@ static void init(void)
     if (!regressionTestOption && (debugOption||sectionTraceOption||singleStepOption)) {
         char str[80];
         output("<Hi! This is Alan interactive fiction interpreter Arun,");
-        sprintf(str, "version %ld.%ld%s%ld!>$n",
+        sprintf(str, "version %ld.%ld%s%ld",
                 (long)alan.version.version,
                 (long)alan.version.revision,
                 alan.version.state[0]=='\0'?".":alan.version.state,
                 (long)alan.version.correction);
         output(str);
+	if (BUILD != 0)
+	    sprintf(str, "- build %d!>$n", BUILD);
+	else
+	    sprintf(str, "!>$n");
+	output(str);
     }
 	
     /* Initialise some status */

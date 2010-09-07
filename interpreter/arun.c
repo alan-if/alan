@@ -70,11 +70,11 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    if ((debugOption && ! regressionTestOption) || verboseOption) {
+    if ((debugOption && !regressionTestOption) || verboseOption) {
 	if (debugOption) printf("<");
-	printf("Arun, Adventure Interpreter version %s (%s %s)",
-	       alan.version.string, alan.date, alan.time);
+	printVersion(BUILD);
 	if (debugOption) printf(">");
+	newline();
 	newline();
     }
 
