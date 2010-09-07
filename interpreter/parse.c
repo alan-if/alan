@@ -1229,7 +1229,7 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     // Actually this leaks memory as a rusty bucket, going for static declaration only
     // shows itself in one regression test case (multipleIndicatorsInSameVerb) and only
     // when running from jregr within Hudson (so it's a PITA to debug....)
-#ifdef STATIC
+#ifndef STATIC
     static ParameterPosition *newParameterPositions = NULL;
     if (newParameterPositions == NULL)
         newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
