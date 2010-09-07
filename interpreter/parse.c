@@ -1225,17 +1225,9 @@ static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *e
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
-    // TODO: doesn't work if this is statically allocated, so it's probably not cleared ok
-    // Actually this leaks memory as a rusty bucket, going for static declaration only
-    // shows itself in one regression test case (multipleIndicatorsInSameVerb) and only
-    // when running from jregr within Hudson (so it's a PITA to debug....)
-#ifndef STATIC
     static ParameterPosition *parameterPositions = NULL;
     if (parameterPositions == NULL)
         parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
-#else
-    ParameterPosition *parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
-#endif
 
     element = parseInput(parameterPositions);
 
