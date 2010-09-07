@@ -60,7 +60,7 @@ MAINOBJECTS = ${MAINSRCS:.c=.o}
 
 UNITTESTEDSRCS = ${UNITTESTED:.c=Tests.c}
 
-UNITTESTSSRCS = unittests.c $(UNITTESTEDSRCS) $(OTHERSRCS) smartall.c alan.version.c
+UNITTESTSSRCS = unittests.c $(UNITTESTEDSRCS) $(OTHERSRCS) alan.version.c
 ARUNSRCS = arun.c $(MAINSRCS) smartall.c alan.version.c
 GLKSRCS = glkstart.c glkio.c
 WINARUNSRCS = ${GLKSRCS} ${ARUNSRCS} winglk.c

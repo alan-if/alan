@@ -1230,9 +1230,9 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     // shows itself in one regression test case (multipleIndicatorsInSameVerb) and only
     // when running from jregr within Hudson (so it's a PITA to debug....)
 #ifndef STATIC
-    static ParameterPosition *newParameterPositions = NULL;
-    if (newParameterPositions == NULL)
-        newParameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+    static ParameterPosition *parameterPositions = NULL;
+    if (parameterPositions == NULL)
+        parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 #else
     ParameterPosition *parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
 #endif

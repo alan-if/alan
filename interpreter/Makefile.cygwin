@@ -6,7 +6,7 @@
 # On cygwin we try to build without cygwin1.dll if we can
 PLATFORM = -mno-cygwin
 
-COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(SMARTALLOC) -funsigned-char -g
+COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(ALLOC) -funsigned-char -g
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 WARNINGFLAGS = -Wall
 
