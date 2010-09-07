@@ -804,7 +804,17 @@ static void executeInheritedEntered(Aint theClass) {
 
 
 /*----------------------------------------------------------------------*/
-static void locateActor(Aword movingActor, Aword whr)
+static void executeEntered(Aint instance) {
+    if (admin[instance].location != 0)
+        executeEntered(admin[instance].location);
+    executeInheritedEntered(instances[instance].parent);
+    if (instances[instance].entered != 0) {
+        interpret(instances[instance].entered);
+    }
+}
+
+/*----------------------------------------------------------------------*/
+static void locateActor(Aint movingActor, Aint whr)
 {
     Aint previousCurrentLocation = current.location;
     Aint previousActorLocation = admin[movingActor].location;
@@ -821,18 +831,15 @@ static void locateActor(Aword movingActor, Aword whr)
         admin[movingActor].location = whr;
     }
 
-    /* Now we have moved so show what is needed... */
+    /* Now we have moved, so show what is needed... */
     current.instance = current.location;
 
     /* Execute possible entered */
     current.actor = movingActor;
-    if (instances[current.location].entered != 0) {
-        if (previousActorLocation != current.location) {
-            interpret(instances[current.location].entered);
-            current.instance = previousInstance;
-        }
-    } else
-        executeInheritedEntered(instances[current.location].parent);
+    if (previousActorLocation != current.location) {
+	executeEntered(current.location);
+    }
+    current.instance = previousInstance;
     current.actor = previousActor;
 
     if (movingActor == HERO) {
