@@ -29,7 +29,6 @@ typedef struct ParameterPosition {
 
 
 /* Data: */
-ParameterPosition *parameterPositions;
 
 
 /* Functions: */

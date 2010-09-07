@@ -1272,10 +1272,6 @@ void initParsing(void) {
     pronouns = allocatePronounArray(pronouns);
     globalParameters = ensureParameterArrayAllocated(globalParameters);
     previousMultipleParameters = ensureParameterArrayAllocated(previousMultipleParameters);
-
-    if (parameterPositions == NULL)
-        parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
-
 }
 
 /*----------------------------------------------------------------------*/
