@@ -16,11 +16,13 @@ Ensure canFindLastParameterInAList() {
 /*----------------------------------------------------------------------*/
 Ensure canSetAndGetParameters(void) {
     int numberOfParameters = 4;
-    Parameter parameters[numberOfParameters+1];
+    Parameter *parameters;
     int p;
 
-    header->maxParameters = 10;
+    header->instanceMax = 10;
+    parameters = allocateParameterArray();
     
+    parameters[0].instance = 0;	/* Not end of parameters... */
     setEndOfArray(&parameters[numberOfParameters]);
     assert_equal(lengthOfParameterArray(parameters), numberOfParameters);
 

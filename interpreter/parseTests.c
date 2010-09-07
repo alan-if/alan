@@ -308,7 +308,6 @@ static void mockedInstanceMatcher(Parameter *parameter) {
 /*----------------------------------------------------------------------*/
 Ensure canMatchSingleParameter(void) {
     Parameter parameters[2];
-    Parameter candidates[2];
 
     clearParameter(&parameters[0], NULL);
     parameters[0].firstWord = 1;
@@ -318,8 +317,6 @@ Ensure canMatchSingleParameter(void) {
 
     playerWords = allocate(10);
 
-    clearParameterArray(candidates);
-   
     expect(mockedInstanceMatcher,
            want(parameter.firstWord, parameters[0].firstWord),
            want(parameter.lastWord, parameters[0].lastWord));
@@ -348,8 +345,6 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
     clearParameter(&parameter, candidates);
     parameter.firstWord = parameter.lastWord = 3;
 
-    clearParameterArray(candidates);
- 
     givenPlayerWordsForANoun(theExpectedWordIndex);
 
     expect(mockedReferenceFinder, want(currentWordIndex, theExpectedWordIndex));
@@ -376,8 +371,6 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     parameter.firstWord = theExpectedFirstAdjectiveWordIndex;
     parameter.lastWord = theExpectedNounWordIndex;
 
-    clearParameterArray(candidates);
-    
     givenADictionary();
 
     expect(mockedReferenceFinder, want(currentWordIndex, theExpectedFirstAdjectiveWordIndex));
@@ -402,11 +395,11 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     int theExpectedFirstAdjectiveWordIndex = 3;
     int theExpectedSecondAdjectiveWordIndex = 4;
     int theExpectedNounWordIndex = 5;
-    Parameter candidates[MAXENTITY+1];
-    Parameter parameter;
-    clearParameter(&parameter, candidates);
-    parameter.firstWord = theExpectedFirstAdjectiveWordIndex;
-    parameter.lastWord = theExpectedNounWordIndex;
+    Parameter *candidates = allocateParameterArray();
+    Parameter *parameter = allocateParameterArray();
+    clearParameter(parameter, candidates);
+    parameter[0].firstWord = theExpectedFirstAdjectiveWordIndex;
+    parameter[0].lastWord = theExpectedNounWordIndex;
 
     clearParameterArray(candidates);
     
@@ -421,11 +414,11 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     expect(mockedReferenceFinder, want(currentWordIndex, theExpectedNounWordIndex));
     will_return(mockedReferenceFinder, theNounInstances);
 
-    matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
+    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
     
-    assert_not_equal(parameter.candidates, NULL);
-    assert_equal(lengthOfParameterArray(parameter.candidates), 1);
-    assert_equal(parameter.candidates[0].instance, theExpectedInstance);
+    assert_not_equal(parameter[0].candidates, NULL);
+    assert_equal(lengthOfParameterArray(parameter[0].candidates), 1);
+    assert_equal(parameter[0].candidates[0].instance, theExpectedInstance);
 }
 
 void mockedAllBuilder(Parameter candidates[])
@@ -526,8 +519,7 @@ Ensure parseReferenceToPreviousMultipleParameterSetsThemMarker(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure simpleParameterParserCanParseExplicitMultiple(void) {
-    Parameter parameters[3];
-    clearParameterArray(parameters);
+    Parameter *parameters = allocateParameterArray();
 
     givenADictionary();
     givenPlayerWordsForTwoParameters(1);

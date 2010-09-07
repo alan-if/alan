@@ -818,11 +818,14 @@ static Bool anyAll(ParameterPosition parameterPositions[]) {
 /*----------------------------------------------------------------------*/
 static void checkRestrictedParameters(ParameterPosition parameterPositions[], ElementEntry elms[]) {
     RestrictionEntry *restriction;
-    Parameter localParameters[MAXPARAMS+1];
+    static Parameter *localParameters = NULL;
     int i;
+
+    localParameters = ensureParameterArrayAllocated(localParameters);
 
     for (i=0; !parameterPositions[i].endOfList; i++)
         localParameters[i] = parameterPositions[i].parameters[0];
+    setEndOfArray(&localParameters[i]);
 
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfArray(restriction); restriction++) {
         ParameterPosition *parameterPosition = &parameterPositions[restriction->parameterNumber-1];

@@ -29,17 +29,16 @@ Bool exists(Parameter *parameters) {
 void clearParameter(Parameter *parameter, Parameter *candidates) {
     memset(parameter, 0, sizeof(Parameter));
     parameter->candidates = candidates;
+    if (parameter->candidates != NULL)
+	setEndOfArray(&parameter->candidates[0]);
 }
 
 
 /*======================================================================*/
 void setParameters(Parameter *newParameters) {
-    int i;
-
     if (globalParameters == NULL)
         globalParameters = allocateParameterArray();
-    for (i = 0; i < MAXPARAMS; i++)
-        globalParameters[i] = newParameters[i];
+    copyParameterArray(globalParameters, newParameters);
 }
 
 
@@ -48,12 +47,6 @@ Parameter *getParameters(void) {
     if (globalParameters == NULL)
         globalParameters = allocateParameterArray();
     return globalParameters;
-}
-
-
-/*======================================================================*/
-void setParameter(int parameterIndex, Parameter parameter) {
-    globalParameters[parameterIndex] = parameter;
 }
 
 
@@ -76,7 +69,7 @@ Parameter *ensureParameterArrayAllocated(Parameter *currentArray) {
 /*======================================================================*/
 Parameter *allocateParameterArray() {
     Parameter *newArray = allocate(sizeof(Parameter)*(MAXENTITY+1));
-    clearParameterArray(newArray);
+    setEndOfArray(newArray);
     return newArray;
 }
 
