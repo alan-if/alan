@@ -44,6 +44,7 @@ extern void compressParameterArray(Parameter *a);
 extern int lengthOfParameterArray(Parameter *a);
 extern Bool equalParameterArrays(Parameter parameters1[], Parameter parameters2[]);
 extern Bool inParameterArray(Parameter *l, Aword e);
+extern void copyParameter(Parameter *theCopy, Parameter theOriginal);
 extern void copyParameterArray(Parameter *to, Parameter *from);
 extern void clearParameterArray(Parameter *list);
 extern void subtractParameterArrays(Parameter *a, Parameter *b);

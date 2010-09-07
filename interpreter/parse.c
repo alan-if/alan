@@ -824,7 +824,8 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
     localParameters = ensureParameterArrayAllocated(localParameters);
 
     for (i=0; !parameterPositions[i].endOfList; i++)
-        localParameters[i] = parameterPositions[i].parameters[0];
+        copyParameter(&localParameters[i], parameterPositions[i].parameters[0]);
+    // TODO: This is stupid, why should the caller need to handle end of array? Introduce addParameter()
     setEndOfArray(&localParameters[i]);
 
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfArray(restriction); restriction++) {

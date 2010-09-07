@@ -102,20 +102,21 @@ Ensure lengthOfParameterArrayReturnsZeroForNULLArray(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure copyParameterCopiesCandidates(void) {
-    Parameter *theOriginal = NEW(Parameter);
-    Parameter *theCopy = NEW(Parameter);
+    Parameter theOriginal;
+    Parameter theCopy;
 
-    theOriginal->instance = 2;
-    theOriginal->candidates = allocate(4*sizeof(Parameter));
-    setEndOfArray(&theOriginal->candidates[3]);
+    clearParameter(&theOriginal, NULL);
+    clearParameter(&theCopy, NULL);
 
-    setEndOfArray(&theCopy[0]);
+    theOriginal.instance = 2;
+    theOriginal.candidates = allocate(4*sizeof(Parameter));
+    setEndOfArray(&theOriginal.candidates[3]);
 
-    copyParameter(theCopy, theOriginal);
+    copyParameter(&theCopy, theOriginal);
 
-    assert_equal(theOriginal->instance, theCopy->instance);
-    assert_true(equalParameterArrays(theOriginal->candidates, theCopy->candidates));
-    assert_not_equal(theOriginal->candidates, theCopy->candidates);
+    assert_equal(theOriginal.instance, theCopy.instance);
+    assert_true(equalParameterArrays(theOriginal.candidates, theCopy.candidates));
+    assert_not_equal(theOriginal.candidates, theCopy.candidates);
 }
 
 
