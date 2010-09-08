@@ -795,11 +795,22 @@ static void locateObject(Aword obj, Aword whr)
 
 
 /*----------------------------------------------------------------------*/
+static void traceEntered(Aint instance, char *where) {
+    printf("\n<ENTERED in %s ", where);
+    traceSay(instance);
+    printf("[%ld]>\n", instance);
+}
+
+
+/*----------------------------------------------------------------------*/
 static void executeInheritedEntered(Aint theClass) {
     if (theClass == 0) return;
     executeInheritedEntered(classes[theClass].parent);
-    if (classes[theClass].entered)
+    if (sectionTraceOption)
+        traceEntered(theClass, "class");
+    if (classes[theClass].entered) {
         interpret(classes[theClass].entered);
+    }
 }
 
 
@@ -808,6 +819,8 @@ static void executeEntered(Aint instance) {
     if (admin[instance].location != 0)
         executeEntered(admin[instance].location);
     executeInheritedEntered(instances[instance].parent);
+    if (sectionTraceOption)
+        traceEntered(instance, "instance");
     if (instances[instance].entered != 0) {
         interpret(instances[instance].entered);
     }
@@ -822,8 +835,8 @@ static void locateActor(Aint movingActor, Aint whr)
     Aint previousInstance = current.instance;
 
     /* TODO Actors locating into containers is dubious, anyway as it
-   is now it allows the hero to be located into a container. And what
-   happens with current location if so... */
+       is now it allows the hero to be located into a container. And what
+       happens with current location if so... */
     if (isContainer(whr))
         locateIntoContainer(movingActor, whr);
     else {
@@ -865,6 +878,14 @@ static void locateActor(Aint movingActor, Aint whr)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void traceExtract(int instance, int containerId, char *what) {
+    printf("\n<EXTRACT from ");
+    traceSay(instance);
+    printf("[%d, container %d], %s:>\n", instance, containerId, what);
+}
+
+
 /*======================================================================*/
 void locate(int instance, int whr)
 {
@@ -882,11 +903,8 @@ void locate(int instance, int whr)
         theContainer = &containers[containerId];
 
         if (theContainer->extractChecks != 0) {
-            if (sectionTraceOption) {
-                printf("\n<EXTRACT from ");
-                traceSay(instance);
-                printf("(%d, container %d), Checking:>\n", instance, containerId);
-            }
+            if (sectionTraceOption)
+                traceExtract(instance, containerId, "Checking");
             if (checksFailed(theContainer->extractChecks, EXECUTE_CHECK_BODY_ON_FAIL)) {
                 fail = TRUE;
                 // TODO: this should be done for the above return as well as before exiting the extract checks :
@@ -895,11 +913,8 @@ void locate(int instance, int whr)
             }
         }
         if (theContainer->extractStatements != 0) {
-            if (sectionTraceOption) {
-                printf("\n<EXTRACT from ");
-                traceSay(instance);
-                printf("(%d, container %d), Executing:>\n", instance, containerId);
-            }
+            if (sectionTraceOption)
+                traceExtract(instance, containerId, "Executing");
             interpret(theContainer->extractStatements);
         }
 	current.instance = previousInstance;

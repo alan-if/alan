@@ -18,6 +18,15 @@ location.c
 #include "msg.h"
 #include "current.h"
 
+/*----------------------------------------------------------------------*/
+static void traceExit(int location, int dir, char *what) {
+    printf("\n<EXIT %s[%d] from ",
+           (char *)pointerTo(dictionary[playerWords[currentWordIndex-1].code].string), dir);
+    traceSay(location);
+    printf("[%d], %s:>\n", location, what);
+}
+
+
 
 /*======================================================================*/
 void go(int location, int dir)
@@ -32,33 +41,21 @@ void go(int location, int dir)
 	    if (theExit->code == dir) {
 		ok = TRUE;
 		if (theExit->checks != 0) {
-		    if (sectionTraceOption) {
-			printf("\n<EXIT %d(%s) from ", dir,
-			       (char *)pointerTo(dictionary[playerWords[currentWordIndex-1].code].string));
-			traceSay(location);
-			printf("(%d), Checking:>\n", location);
-		    }
+		    if (sectionTraceOption)
+                        traceExit(location, dir, "Checking");
 		    ok = !checksFailed(theExit->checks, EXECUTE_CHECK_BODY_ON_FAIL);
 		}
 		if (ok) {
 		    oldloc = location;
 		    if (theExit->action != 0) {
-			if (sectionTraceOption) {
-			    printf("\n<EXIT %s(%d) from ",
-				   (char *)pointerTo(dictionary[playerWords[currentWordIndex-1].code].string), dir);
-			    traceSay(location);
-			    printf("(%d), Executing:>\n", location);
-			}
+			if (sectionTraceOption)
+                            traceExit(location, dir, "Executing");
 			interpret(theExit->action);
 		    }
 		    /* Still at the same place? */
 		    if (where(HERO, FALSE) == oldloc) {
-			if (sectionTraceOption) {
-			    printf("\n<EXIT %s(%d) from ",
-				   (char *)pointerTo(dictionary[playerWords[currentWordIndex-1].code].string), dir);
-			    traceSay(location);
-			    printf("(%d), Moving:>\n", location);
-			}
+			if (sectionTraceOption)
+                            traceExit(location, dir, "Moving");
 			locate(HERO, theExit->target);
 		    }
 		}
