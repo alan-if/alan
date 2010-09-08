@@ -795,10 +795,10 @@ static void locateObject(Aword obj, Aword whr)
 
 
 /*----------------------------------------------------------------------*/
-static void traceEntered(Aint instance, char *where) {
+static void traceEntered(Aint instance, char *where, Bool empty) {
     printf("\n<ENTERED in %s ", where);
     traceSay(instance);
-    printf("[%ld]>\n", instance);
+    printf("[%ld]%s>\n", instance, empty?" is empty":"");
 }
 
 
@@ -807,7 +807,7 @@ static void executeInheritedEntered(Aint theClass) {
     if (theClass == 0) return;
     executeInheritedEntered(classes[theClass].parent);
     if (sectionTraceOption)
-        traceEntered(theClass, "class");
+        traceEntered(theClass, "class", classes[theClass].entered == 0);
     if (classes[theClass].entered) {
         interpret(classes[theClass].entered);
     }
@@ -820,7 +820,7 @@ static void executeEntered(Aint instance) {
         executeEntered(admin[instance].location);
     executeInheritedEntered(instances[instance].parent);
     if (sectionTraceOption)
-        traceEntered(instance, "instance");
+        traceEntered(instance, "instance", instances[instance].entered == 0);
     if (instances[instance].entered != 0) {
         interpret(instances[instance].entered);
     }
