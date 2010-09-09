@@ -59,7 +59,7 @@ static void showAttributes(AttributeEntry *attributes)
 
   i = 1;
   for (at = attributes; !isEndOfArray(at); at++) {
-    sprintf(str, "$i$t%s(%ld) = %ld", (char *) pointerTo(at->stringAddress), at->code, at->value);
+    sprintf(str, "$i$t%s[%ld] = %ld", (char *) pointerTo(at->stringAddress), at->code, at->value);
 #if ISO == 0
     fromIso(str, str);
 #endif
@@ -83,7 +83,7 @@ static void showContents(int cnt)
 	found = TRUE;
       output("$i$t");
       say(i);
-      sprintf(str, "(%d) ", i);
+      sprintf(str, "[%d] ", i);
       output(str);
     }
   }
@@ -97,11 +97,11 @@ static void showInstanceLocation(int ins) {
   char buffer[1000];
 
   if (admin[ins].location == 0)
-    output("nowhere (0)");
+    output("nowhere [0]");
   else if (isLocation(admin[ins].location)) {
     output("at");
     say(admin[ins].location);
-    sprintf(buffer, "(%ld)", admin[ins].location);
+    sprintf(buffer, "[%ld]", admin[ins].location);
     output(buffer);
   } else if (isContainer(admin[ins].location)) {
 
@@ -110,7 +110,7 @@ static void showInstanceLocation(int ins) {
     else if (isActor(admin[ins].location))
       output("carried by");
     say(admin[ins].location);
-    sprintf(buffer, "(%ld)", admin[ins].location);
+    sprintf(buffer, "[%ld]", admin[ins].location);
     output(buffer);
 
   } else
@@ -149,14 +149,14 @@ static void showInstance(int ins)
 
   output("The");
   say(ins);
-  sprintf(str, "(%d)", ins);
+  sprintf(str, "[%d]", ins);
   output(str);
   if (instances[ins].parent) {
-    sprintf(str, "Isa %s", (char *)pointerTo(classes[instances[ins].parent].id));
+      sprintf(str, "Isa %s[%ld]", (char *)pointerTo(classes[instances[ins].parent].id), instances[ins].parent);
     output(str);
   }
 
-  if (!isA(ins, header->locationClassId)) {
+  if (!isA(ins, header->locationClassId) || (isA(ins, header->locationClassId) && admin[ins].location != 0)) {
     sprintf(str, "$iLocation: ");
     output(str);
     showInstanceLocation(ins);
