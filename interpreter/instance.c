@@ -824,6 +824,8 @@ static void executeInheritedEntered(Aint theClass) {
 
 /*----------------------------------------------------------------------*/
 static void executeEntered(Aint instance) {
+    int currentInstance = current.instance;
+    current.instance = instance;
     if (admin[instance].location != 0)
         executeEntered(admin[instance].location);
     executeInheritedEntered(instances[instance].parent);
@@ -832,6 +834,7 @@ static void executeEntered(Aint instance) {
     if (instances[instance].entered != 0) {
         interpret(instances[instance].entered);
     }
+    current.instance = currentInstance;
 }
 
 /*----------------------------------------------------------------------*/
