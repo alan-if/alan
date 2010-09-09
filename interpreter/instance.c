@@ -798,7 +798,7 @@ static void locateObject(Aword obj, Aword whr)
 static void traceEnteredClass(Aint theClass, Bool empty) {
     printf("\n<ENTERED in class ");
     printf("%s", (char *)pointerTo(classes[theClass].id));
-    printf("[%ld]%s>\n", theClass, empty?" is empty":"");
+    printf("[%ld]%s>\n", theClass, empty?" is empty":":");
 }
 
 
