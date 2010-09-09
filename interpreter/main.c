@@ -672,9 +672,13 @@ static Bool traceActor(int theActor)
     if (sectionTraceOption) {
         printf("\n<ACTOR ");
         traceSay(theActor);
-        printf("[%d] (at ", theActor);
-        traceSay(current.location);
-        printf("[%d]", current.location);
+        printf("[%d]", theActor);
+	if (current.location != 0) {
+	    printf(" (at ");
+	    traceSay(current.location);
+	} else
+	    printf(" (nowhere");
+        printf("[%d])", current.location);
     }
     return sectionTraceOption;
 }
@@ -719,7 +723,7 @@ static void moveActor(int theActor)
                 /* Now execute it, maybe. First check wait count */
                 if (admin[theActor].waitCount > 0) { /* Wait some more ? */
                     if (traceActor(theActor))
-                        printf("), SCRIPT %s[%ld], STEP %ld, Waiting another %ld turns>\n",
+                        printf(", SCRIPT %s[%ld], STEP %ld, Waiting another %ld turns>\n",
                                scriptName(theActor, admin[theActor].script),
                                admin[theActor].script, admin[theActor].step+1,
                                admin[theActor].waitCount);
@@ -729,7 +733,7 @@ static void moveActor(int theActor)
                 /* Then check possible expression to wait for */
                 if (step->exp != 0) {
                     if (traceActor(theActor))
-                        printf("), SCRIPT %s[%ld], STEP %ld, Evaluating:>\n",
+                        printf(", SCRIPT %s[%ld], STEP %ld, Evaluating:>\n",
                                scriptName(theActor, admin[theActor].script),
                                admin[theActor].script, admin[theActor].step+1);
                     if (!evaluate(step->exp))
@@ -741,7 +745,7 @@ static void moveActor(int theActor)
                     admin[theActor].waitCount = evaluate((step+1)->after);
                 }
                 if (traceActor(theActor))
-                    printf("), SCRIPT %s[%ld], STEP %ld, Executing:>\n",
+                    printf(", SCRIPT %s[%ld], STEP %ld, Executing:>\n",
                            scriptName(theActor, admin[theActor].script),
                            admin[theActor].script,
                            admin[theActor].step);
@@ -759,7 +763,7 @@ static void moveActor(int theActor)
             syserr("Unknown actor script.");
     } else {
         if (traceActor(theActor)) {
-            printf("), Idle>\n");
+            printf(", Idle>\n");
         }
     }
 	
