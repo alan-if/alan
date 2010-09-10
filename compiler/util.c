@@ -135,7 +135,7 @@ static void specialListing(lmSev sevs)
 #ifdef __mac__
       lmLiPrint(line);
 #else
-      printf(line);
+      printf("%s", line);
 #endif
     }
   }

@@ -15,7 +15,7 @@
 #include "prop_x.h"
 
 
-void testClassOfContent()
+static void testClassOfContent()
 {
   initSymbols();
   initClasses();
@@ -46,23 +46,57 @@ void testClassOfContent()
   ASSERT(contentOf(whatId, NULL) == locationSymbol);
 }
 
-void testInitialLocation()
+static void testInitialLocationOfObject()
 {
-  IdNode *id = newId(nulsrcp, "atLoc");
+  IdNode *locId = newId(nulsrcp, "atLoc");
   Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
-			newWhatExpression(nulsrcp, newWhatId(nulsrcp, id)));
-  Instance *atLoc = newInstance(&nulsrcp, id, NULL, NULL);
+			newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
+  IdNode *id = newId(nulsrcp, "id");
+  Instance *atLoc = newInstance(&nulsrcp, locId, NULL, NULL);
+  Properties *properties = newProps(NULL, NULL, nulsrcp,
+				    NULL, NULL, NULL, NULL, nulsrcp,
+				    NULL, NULL, NULL, NULL, NULL,
+				    NULL, nulsrcp, NULL, NULL, NULL);
 
-  symbolizeProps(atLoc->props, FALSE);
   symbolizeWhere(whr);
-  ASSERT(generateInitialLocation(NULL) == 0);
+  properties->id = id;
 
-  ASSERT(generateInitialLocation(whr) == atLoc->props->id->symbol->code);
+  symbolizeProps(properties, FALSE);
+  ASSERT(generateInitialLocation(properties) == 1); /* #nowhere */
+
+  properties->whr = whr;
+  symbolizeProps(properties, FALSE);
+  ASSERT(generateInitialLocation(properties) == atLoc->props->id->symbol->code);
+}
+
+static void testInitialLocationOfLocation()
+{
+  IdNode *locId = newId(nulsrcp, "atLoc");
+  Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
+			newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
+  Instance *atLoc = newInstance(&nulsrcp, locId, NULL, NULL);
+  IdNode *id = newId(nulsrcp, "id");
+  Properties *properties = newProps(NULL, NULL, nulsrcp,
+				    NULL, NULL, NULL, NULL, nulsrcp,
+				    NULL, NULL, NULL, NULL, NULL,
+				    NULL, nulsrcp, NULL, NULL, NULL);
+
+  symbolizeWhere(whr);
+  id->symbol = newSymbol(id, INSTANCE_SYMBOL);
+  properties->id = id;
+  properties->parentId = newId(nulsrcp, "location");
+
+  symbolizeProps(properties, FALSE);
+  ASSERT(generateInitialLocation(properties) == 0);
+
+  properties->whr = whr;
+  ASSERT(generateInitialLocation(properties) == atLoc->props->id->symbol->code);
 }
 
 void whrUnitTests()
 {
   registerUnitTest(testClassOfContent);
-  registerUnitTest(testInitialLocation);
+  registerUnitTest(testInitialLocationOfObject);
+  registerUnitTest(testInitialLocationOfLocation);
 }
 

@@ -315,7 +315,9 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
   else
     entry->parent = props->parentId->symbol->code;
 
-  entry->initialLocation = generateInitialLocation(props->whr);
+  entry->initialLocation = generateInitialLocation(props);
+  if (entry->initialLocation == 0 && !inheritsFrom(props->id->symbol, locationSymbol))
+      entry->initialLocation = 1;
   entry->initialAttributes = props->attributeAddress;
 
   entry->name = props->nameAddress;

@@ -23,7 +23,7 @@ extern Where *newWhere(Srcp *srcp, Bool directly, WhereKind kind, struct Express
 extern void symbolizeWhere(Where *whr);
 extern Bool verifyInitialLocation(Where *whr);
 extern void analyzeWhere(Where *whr, Context *context);
-extern Aword generateInitialLocation(Where *whr);
+extern Aword generateInitialLocation(Properties *props);
 extern void generateWhere(Where *whr);
 extern void dumpWhere(Where *whr);
 

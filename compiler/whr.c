@@ -126,17 +126,20 @@ void analyzeWhere(Where *whr, Context *context) {
   IN container.
 
   */
-Aword generateInitialLocation(Where *whr) /* IN - Where node */
+Aword generateInitialLocation(Properties *props)
 {
-  if (whr != NULL)
-    switch (whr->kind) {
+  if (props->whr != NULL)
+    switch (props->whr->kind) {
     case WHERE_IN:
     case WHERE_AT:
-      return whr->what->fields.wht.wht->id->symbol->code;
-    default: SYSERR("Unexpected where kind");
+      return props->whr->what->fields.wht.wht->id->symbol->code;
+    default: SYSERR("Unexpected Where kind as initial location");
     }
 
-  return 0;
+  if (inheritsFrom(props->id->symbol, locationSymbol))
+      return 0;
+  else
+      return 1;			/* Anything not a location should be at #nowhere if undefinedy */
 }
 
 

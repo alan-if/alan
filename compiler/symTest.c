@@ -32,7 +32,7 @@ static IdNode *symbolId2;
 static IdNode *symbolId3;
 
 
-void testContentOfSymbol() {
+static void testContentOfSymbol() {
   IdNode *contentClassId = newId(nulsrcp, "contentClassId");
   Symbol *contentSymbol = newClassSymbol(contentClassId, NULL, NULL);
   IdNode *content = newId(nulsrcp, "content");
@@ -58,7 +58,7 @@ void testContentOfSymbol() {
 }
 
 
-void testSymCheck()
+static void testSymCheck()
 {
   Srcp srcp = {14, 12, 333};
   IdNode *unknownId = newId(srcp, "unknownId");
@@ -90,7 +90,7 @@ static List *createOneParameter(char *id)
 			     newId(nulsrcp, id), 0), ELEMENT_LIST);
 }
 
-void testVerbSymbols()
+static void testVerbSymbols()
 {
   IdNode *v1Id = newId(nulsrcp, "v1");
   Symbol *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
@@ -123,7 +123,7 @@ void testVerbSymbols()
 
 
 /* Test symbol table by inserting a symbol with an initial name */
-void testBuildSymbol1()
+static void testBuildSymbol1()
 {
   Symbol *sym1;
   Symbol *sym2;
@@ -142,7 +142,7 @@ void testBuildSymbol1()
 
 
 /* Test symbol table by inserting a symbol with a higher name */
-void testBuildSymbolHigher()
+static void testBuildSymbolHigher()
 {
   Symbol *sym1 = newSymbol(symbolId2, CLASS_SYMBOL);
   Symbol *sym2 = lookup(symbolName2);
@@ -153,7 +153,7 @@ void testBuildSymbolHigher()
 }
 
 /* Test symbol table by inserting a symbol with a lower name */
-void testBuildSymbolLower()
+static void testBuildSymbolLower()
 {
   Symbol *sym1 = newSymbol(symbolId3, CLASS_SYMBOL);
   Symbol *sym2 = lookup(symbolName3);
@@ -164,7 +164,7 @@ void testBuildSymbolLower()
 }
 
 /* Test inheritance by setting it and retrieving it */
-void testInherit1()
+static void testInherit1()
 {
   /* Insert inheritance in alphabetical order */
   Symbol *sym1 = lookup(symbolName1);
@@ -181,7 +181,7 @@ void testInherit1()
 
 
 /* Test symbol table by verifying inheritance */
-void testInherit2()
+static void testInherit2()
 {
   Symbol *sym1 = lookup(symbolName1);
   Symbol *sym2 = lookup(symbolName2);
@@ -200,7 +200,7 @@ void testInherit2()
 
 
 /* Test symbol table by verifying inheritance */
-void testInheritErrorSymbol()
+static void testInheritErrorSymbol()
 {
   Symbol *sym1 = lookup(symbolName1);
 
@@ -213,7 +213,7 @@ void testInheritErrorSymbol()
 
 
 /* Test symbol table initialisation */
-void testSymbolTableInit()
+static void testSymbolTableInit()
 {
   Symbol *entitySymbol;
   Symbol *thingSymbol;
@@ -268,7 +268,7 @@ void testSymbolTableInit()
 
 
 /* Create a new CLAss symbol */
-void testCreateClassSymbol()
+static void testCreateClassSymbol()
 {
   Srcp srcp = {12,3,45};
   IdNode *id = newId(srcp, "cla");
@@ -332,7 +332,7 @@ static void testLookupScript()
 }
 
 
-void testNewFrame()
+static void testNewFrame()
 {
   Symbol *verbSymbol;
   Element *element;
@@ -374,7 +374,7 @@ void testNewFrame()
 }
 
 
-void testReplicateContainer()
+static void testReplicateContainer()
 {
   Symbol *child = newSymbol(newId(nulsrcp, "child"), CLASS_SYMBOL);
   Symbol *parent = newSymbol(newId(nulsrcp, "parent"), CLASS_SYMBOL);
@@ -471,7 +471,7 @@ static void testClassToType () {
 }
 
 
-void testParameterReference()
+static void testParameterReference()
 {
   List *parameters;
   IdNode *p1Id = newId(nulsrcp, "p1");
