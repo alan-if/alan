@@ -46,6 +46,7 @@ Symbol *literalSymbol;
 Symbol *stringSymbol;
 Symbol *integerSymbol;
 Symbol *theHero;
+Symbol *nowhere;
 Symbol *messageVerbSymbolForInstance;
 Symbol *messageVerbSymbolFor2Instances;
 Symbol *messageVerbSymbolForString;

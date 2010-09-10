@@ -57,6 +57,17 @@ void addHero(void)
 
 
 /*======================================================================*/
+void addNowhere(void)
+{
+  Instance *theNowhereInstance;
+
+  theNowhereInstance = newInstance(&nulsrcp, newId(nulsrcp, "#nowhere"),
+				newId(nulsrcp, "location"), NULL);
+  nowhere = theNowhereInstance->props->id->symbol;
+}
+
+
+/*======================================================================*/
 Instance *newInstance(Srcp *srcp,
 		      IdNode *id,
 		      IdNode *parent,

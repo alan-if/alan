@@ -12,7 +12,7 @@
 #include "adv_x.h"
 
 
-void testCreateIns()
+static void testCreateIns()
 {
   Srcp srcp = {1,2,3};
   IdNode *id = newId(srcp, "insId");
@@ -31,7 +31,7 @@ void testCreateIns()
 }
 
 
-void testGenerateEmptyInstanceEntry()
+static void testGenerateEmptyInstanceEntry()
 {
   Properties *props = newProps(NULL, NULL,
 			       nulsrcp, NULL,
@@ -60,7 +60,7 @@ void testGenerateEmptyInstanceEntry()
   ASSERT(convertFromACD(entry->parent) == 0);
 }
 
-void testGenerateInstances()
+static void testGenerateInstances()
 {
   Srcp srcp = {12,13,14};
   Instance *ins;
@@ -109,7 +109,7 @@ void testGenerateInstances()
 }
 
 
-void testHero()
+static void testHero()
 {
   ACodeHeader header;
 
@@ -124,12 +124,26 @@ void testHero()
   ASSERT(header.theHero == 1);
 }
 
+
+static void testNowhereIsGenerated()
+{
+  initAdventure();
+  ASSERT(nowhere == NULL);
+  addNowhere();
+  ASSERT(nowhere != NULL);
+  ASSERT(nowhere->code != 0);
+  symbolizeAdventure();
+  ASSERT(inheritsFrom(nowhere, lookup("location")));
+}
+
+
 void insUnitTests()
 {
   registerUnitTest(testCreateIns);
   registerUnitTest(testGenerateEmptyInstanceEntry);
   registerUnitTest(testGenerateInstances);
   registerUnitTest(testHero);
+  registerUnitTest(testNowhereIsGenerated);
 }
 
 

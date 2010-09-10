@@ -20,6 +20,7 @@ extern int instanceCount;
 
 extern void initInstances(void);
 extern void addHero(void);
+extern void addNowhere(void);
 extern Instance *newInstance(Srcp *srcp,
 			     IdNode *id,
 			     IdNode *heritage,

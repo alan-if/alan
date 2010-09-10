@@ -37,6 +37,7 @@ extern Symbol *literalSymbol;
 extern Symbol *stringSymbol;
 extern Symbol *integerSymbol;
 extern Symbol *theHero;
+extern Symbol *nowhere;
 extern Symbol *messageVerbSymbolForInstance;
 extern Symbol *messageVerbSymbolFor2Instances;
 extern Symbol *messageVerbSymbolForString;

@@ -133,6 +133,7 @@ static void verbose(char *msg) {
 void analyzeAdventure(void)
 {
     addHero();
+    addNowhere();
 
     symbolizeAdventure();
     addAdditions();
