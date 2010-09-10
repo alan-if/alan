@@ -38,6 +38,7 @@ static List *allInstances = NULL;
 void initInstances()
 {
   allInstances = NULL;
+  addNowhere();
 }
 
 

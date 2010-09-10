@@ -1191,8 +1191,8 @@ static void generateEach(Statement *statement)
   /* Push start index */
   if (statement->fields.each.type == INTEGER_TYPE)
     generateIntegerLoopIndex(statement->fields.each.filters->member.exp);
-  else
-    emitConstant(1);
+  else				/* It's looping over instances */
+    emitConstant(2);		/* Ignore #nowhere */
   
   /* Start loop */
   emit0(I_LOOP);

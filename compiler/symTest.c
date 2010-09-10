@@ -228,9 +228,9 @@ void testSymbolTableInit()
   initAdventure();
   adv.whr = NULL;
   ASSERT(classCount == 8);	/* Standard classes */
-  ASSERT(instanceCount == 0);
+  ASSERT(instanceCount == 1);	/* #nowhere */
   addHero();
-  ASSERT(instanceCount == 1);
+  ASSERT(instanceCount == 2);
 
   symbolizeAdventure();
   thingSymbol = lookup("thing");

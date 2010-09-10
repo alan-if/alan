@@ -77,7 +77,7 @@ static void testGenerateInstances()
   address = generateInstanceTable();
   ASSERT(address == firstAdr);
   address = nextEmitAddress();
-  ASSERT(address == firstAdr + 1/*EOF*/);
+  ASSERT(address == firstAdr + instanceSize + 1/*EOF*/);
 
   initAdventure();
   initEmit("unit.a3c");
@@ -112,26 +112,27 @@ static void testGenerateInstances()
 static void testHero()
 {
   ACodeHeader header;
+  int count;
 
-  initAdventure();
   ASSERT(theHero == NULL);
+  initAdventure();
+  count = instanceCount;
   addHero();
   ASSERT(theHero != NULL);
   ASSERT(theHero->code != 0);
   symbolizeAdventure();
   ASSERT(inheritsFrom(theHero, lookup("actor")));
   generateInstances(&header);
-  ASSERT(header.theHero == 1);
+  ASSERT(header.theHero == count+1);
 }
 
 
 static void testNowhereIsGenerated()
 {
+  nowhere = NULL;
   initAdventure();
-  ASSERT(nowhere == NULL);
-  addNowhere();
   ASSERT(nowhere != NULL);
-  ASSERT(nowhere->code != 0);
+  ASSERT(nowhere->code == 1);
   symbolizeAdventure();
   ASSERT(inheritsFrom(nowhere, lookup("location")));
 }
