@@ -268,33 +268,41 @@ Ensure syserrOnLocateIllegalId() {
 
 /*----------------------------------------------------------------------*/
 Ensure callingWhereReturnsExpectedValues() {
-  admin = allocate(5*sizeof(AdminEntry));
-  instances = allocate(5*sizeof(InstanceEntry));
-  classes = allocate(5*sizeof(ClassEntry));
+    int LOCATION_CLASS = 1;
+    /* TODO: define NOWHERE == 1 in acode.h */
+    int FIRST_INSTANCE = 2;     /* Avoid 1 which is the predefined #nowhere */
+    int SECOND_INSTANCE = FIRST_INSTANCE + 1;
+    int THIRD_INSTANCE = SECOND_INSTANCE + 1;
+    int FOURTH_INSTANCE = THIRD_INSTANCE + 1;
+    int MAX_INSTANCE = FOURTH_INSTANCE + 1;
+
+  admin = allocate(MAX_INSTANCE*sizeof(AdminEntry));
+  instances = allocate(MAX_INSTANCE*sizeof(InstanceEntry));
+  classes = allocate(MAX_INSTANCE*sizeof(ClassEntry));
   header = allocate(sizeof(ACodeHeader));
 
-  header->locationClassId = 1;
-  header->instanceMax = 4;
+  header->locationClassId = LOCATION_CLASS;
+  header->instanceMax = MAX_INSTANCE;
 
-  instances[1].parent = 1;	/* A location */
-  admin[1].location = 3;
-  assert_true(where(1, TRUE) == 0);	/* Locations are always nowhere */
-  assert_true(where(1, FALSE) == 0);
+  instances[FIRST_INSTANCE].parent = LOCATION_CLASS;	/* A location */
+  admin[FIRST_INSTANCE].location = THIRD_INSTANCE;
+  assert_true(where(FIRST_INSTANCE, TRUE) == 0);	/* Locations are always nowhere */
+  assert_true(where(FIRST_INSTANCE, FALSE) == 0);
 
-  instances[2].parent = 0;	/* Not a location */
-  admin[2].location = 1;	/* At 1 */
-  assert_true(where(2, TRUE) == 1);
-  assert_true(where(2, FALSE) == 1);
+  instances[SECOND_INSTANCE].parent = 0;	/* Not a location */
+  admin[SECOND_INSTANCE].location = FIRST_INSTANCE;	/* At FIRST_INSTANCE */
+  assert_true(where(SECOND_INSTANCE, TRUE) == FIRST_INSTANCE);
+  assert_true(where(SECOND_INSTANCE, FALSE) == FIRST_INSTANCE);
 
-  instances[3].parent = 0;	/* Not a location */
-  admin[3].location = 2;	/* In 2 which is at 1*/
-  assert_true(where(3, TRUE) == 2);
-  assert_true(where(3, FALSE) == 1);
+  instances[THIRD_INSTANCE].parent = 0;	/* Not a location */
+  admin[THIRD_INSTANCE].location = SECOND_INSTANCE;	/* In SECOND_INSTANCE which is at FIRST_INSTANCE */
+  assert_true(where(THIRD_INSTANCE, TRUE) == SECOND_INSTANCE);
+  assert_true(where(THIRD_INSTANCE, FALSE) == FIRST_INSTANCE);
 
-  instances[4].parent = 0;	/* Not a location */
-  admin[4].location = 3;	/* In 3 which is in 2 which is at 1*/
-  assert_true(where(4, TRUE) == 3);
-  assert_true(where(4, FALSE) == 1);
+  instances[FOURTH_INSTANCE].parent = 0;	/* Not a location */
+  admin[FOURTH_INSTANCE].location = THIRD_INSTANCE; /* In THIRD which is in SECOND which is at FIRST */
+  assert_true(where(FOURTH_INSTANCE, TRUE) == THIRD_INSTANCE);
+  assert_true(where(FOURTH_INSTANCE, FALSE) == FIRST_INSTANCE);
 
   free(admin);
   free(instances);

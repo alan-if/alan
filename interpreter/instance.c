@@ -283,7 +283,7 @@ int locationOf(int instance)
         container = loc;
         loc = admin[loc].location;
     }
-    if (loc != 0)
+    if (loc != 0 && loc != 1)               /* Not at #nowhere so return that location */
         return loc;
     else {
         if (container == 0)
