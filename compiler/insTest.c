@@ -132,7 +132,7 @@ static void testNowhereIsGenerated()
   nowhere = NULL;
   initAdventure();
   ASSERT(nowhere != NULL);
-  ASSERT(nowhere->code == 1);
+  ASSERT(nowhere->code == NOWHERE);
   symbolizeAdventure();
   ASSERT(inheritsFrom(nowhere, lookup("location")));
 }

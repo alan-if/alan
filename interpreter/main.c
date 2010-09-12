@@ -121,7 +121,7 @@ static void runPendingEvents(void)
 	
     while (eventQueueTop != 0 && eventQueue[eventQueueTop-1].after == 0) {
         eventQueueTop--;
-        if (isLocation(eventQueue[eventQueueTop].where))
+        if (isALocation(eventQueue[eventQueueTop].where))
             current.location = eventQueue[eventQueueTop].where;
         else
             current.location = where(eventQueue[eventQueueTop].where, FALSE);

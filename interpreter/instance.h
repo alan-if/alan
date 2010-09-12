@@ -38,7 +38,7 @@ extern Bool isA(int instance, int class);
 extern Bool isObject(int instance);
 extern Bool isContainer(int instance);
 extern Bool isActor(int instance);
-extern Bool isLocation(int instance);
+extern Bool isALocation(int instance);
 extern Bool isLiteral(int instance);
 extern Bool isNumeric(int instance);
 extern Bool isString(int instance);

@@ -133,7 +133,7 @@ static void verbose(char *msg) {
 void analyzeAdventure(void)
 {
     addHero();
-    if (nowhere == NULL || nowhere->code != 1)
+    if (nowhere == NULL || nowhere->code != NOWHERE)
 	SYSERR("Nowhere != 1");
 
     symbolizeAdventure();

@@ -98,7 +98,7 @@ static void showInstanceLocation(int ins) {
 
   if (admin[ins].location == 0)
     output("nowhere [0]");
-  else if (isLocation(admin[ins].location)) {
+  else if (isALocation(admin[ins].location)) {
     output("at");
     say(admin[ins].location);
     sprintf(buffer, "[%ld]", admin[ins].location);
@@ -308,7 +308,7 @@ static void showLocations(void)
 
   output("Locations:");
   for (loc = 1; loc <= header->instanceMax; loc++) {
-    if (isLocation(loc)) {
+    if (isALocation(loc)) {
       sprintf(str, "$i%3d: ", loc);
       output(str);
       say(loc);
@@ -323,7 +323,7 @@ static void showLocation(int loc)
   char str[80];
 
 
-  if (!isLocation(loc)) {
+  if (!isALocation(loc)) {
     sprintf(str, "Instance %d is not a location.", loc);
     output(str);
     return;

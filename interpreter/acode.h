@@ -73,6 +73,10 @@ typedef int WrdKind;
 #define  WRD_CLASSES (PRONOUN_WORD+1)
 
 
+/* The #nowhere and NO_LOCATION constants */
+#define NO_LOCATION 0
+#define NOWHERE 1
+
 
 /* Syntax element classifications */
 #define EOS (-2)		/* End Of Syntax */

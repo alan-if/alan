@@ -61,7 +61,7 @@ Bool isActor(int instance)
   return isA(instance, ACTOR);
 }
 
-Bool isLocation(int instance)
+Bool isALocation(int instance)
 {
   return isA(instance, LOCATION);
 }
@@ -90,7 +90,7 @@ void setInstanceAttribute(int instance, int attribute, Aword value)
 
     if (instance > 0 && instance <= header->instanceMax) {
         setAttribute(admin[instance].attributes, attribute, value);
-        if (isLocation(instance))   /* May have changed so describe next time */
+        if (isALocation(instance))   /* May have changed so describe next time */
             admin[instance].visitsCount = 0;
     } else {
         sprintf(str, "Can't SET/MAKE instance (%d).", instance);
@@ -194,7 +194,7 @@ Bool isNearby(int instance, Bool directly)
 {
     verifyInstance(instance, "NEARBY");
 
-    if (isLocation(instance))
+    if (isALocation(instance))
         return exitto(current.location, instance);
     else
         return exitto(current.location, where(instance, directly));
@@ -208,11 +208,11 @@ Bool isNear(int instance, int other, Bool directly)
 
     verifyInstance(instance, "NEAR");
 
-    if (isLocation(instance))
+    if (isALocation(instance))
         l1 = instance;
     else
         l1 = where(instance, directly);
-    if (isLocation(other))
+    if (isALocation(other))
         l2 = other;
     else
         l2 = where(other, directly);
@@ -251,12 +251,12 @@ Bool at(int instance, int other, Bool directly)
     if (instance == 0 || other == 0) return FALSE;
 
     if (directly) {
-        if (isLocation(other))
+        if (isALocation(other))
             return admin[instance].location == other;
         else
             return admin[instance].location == admin[other].location;
     } else {
-        if (!isLocation(other))
+        if (!isALocation(other))
             /* If the other is not a location, compare their locations */
             return locationOf(instance) == locationOf(other);
         else if (locationOf(instance) == other)
@@ -273,29 +273,27 @@ Bool at(int instance, int other, Bool directly)
 /* Return the *location* of an instance, transitively, i.e. not directly */
 int locationOf(int instance)
 {
-    int loc;
+    int location;
     int container = 0;
 
     verifyInstance(instance, "LOCATION");
 
-    loc = admin[instance].location;
-    while (loc != 0 && !isLocation(loc)) {
-        container = loc;
-        loc = admin[loc].location;
+    location = admin[instance].location;
+    while (location != 0 && !isALocation(location)) {
+        container = location;
+        location = admin[location].location;
     }
-    if (loc != 0 && loc != 1)               /* Not at #nowhere so return that location */
-        return loc;
+    if (location > NOWHERE) /* Not at #nowhere so return the location */
+        return location;
     else {
-        if (container == 0)
-            if (!isA(instance, THING) && !isLocation(instance))
-                return locationOf(HERO);
-            else
-                return 0;       /* Nowhere */
+        if (container != 0)
+            instance = container;
+        if (isA(instance, THING))
+            return NOWHERE;     /* #nowhere */
+        else if (isALocation(instance))
+            return NO_LOCATION; /* No location */
         else
-            if (!isA(container, THING) && !isLocation(container))
-                return locationOf(HERO);
-            else
-                return 0;       /* Nowhere */
+            return locationOf(HERO);
     }
 }
 
@@ -306,7 +304,7 @@ int where(int instance, Bool directly)
 {
     verifyInstance(instance, "WHERE");
 
-    if (isLocation(instance))
+    if (isALocation(instance))
         return 0;
     else if (directly)
         return admin[instance].location;
@@ -933,7 +931,7 @@ void locate(int instance, int whr)
 
     if (isActor(instance))
         locateActor(instance, whr);
-    else if (isLocation(instance))
+    else if (isALocation(instance))
         locateLocation(instance, whr);
     else
         locateObject(instance, whr);
