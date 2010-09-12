@@ -10,7 +10,7 @@
 # Then include this file in your Makefile, and you are done
 
 CC = $(COMPILER)
-CFLAGS = $(INCLUDES) -I../interpreter -g $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
+CFLAGS = $(INCLUDES) -I../interpreter $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
 
 LINK = $(LINKER)
 LINKFLAGS = $(OS_FLAGS) $(EXTRA_LINKER_FLAGS)

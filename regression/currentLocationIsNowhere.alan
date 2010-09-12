@@ -1,0 +1,14 @@
+Add To Every location
+  Is lit.
+End Add.
+
+The l Isa location
+End The l.
+
+The a Isa actor
+End The a.
+
+When Current Location is lit Then
+  "It is lit."
+
+Start At l.
