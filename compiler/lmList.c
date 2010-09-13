@@ -624,7 +624,7 @@ static void geterr(
         && (msarr[*last].pos.file == fil) 
         && (msarr[*last].pos.line == line) 
        ; (*last)++)
-      *errflg |= msarr[*last].sev; /* this severity was found */
+    *errflg |= msarr[*last].sev; /* this severity was found */
     (*last)--;
   }
 }
@@ -765,7 +765,7 @@ static void prsrcl(
   
   /* Possibly output source if requested */
   if (inset(errflg, lstsev)) {
-    /* There is a message on this line that we want to show */
+    /* There is a message in this line that we want to show */
     if (inset(liMSG, lsttyp)) {
       if (!pageSkipped)
 	skippage();			/* Skip list to next page */
@@ -774,7 +774,7 @@ static void prsrcl(
       prlin(lbuf, TRUE, FALSE, 0);	/* Error line to follow */
     }
   } else {
-    /* No interesting message on this line, show it anyway ? */
+    /* No interesting message on this line, show it anyway? */
     if (inset(liOK, lsttyp)) {
       if (!pageSkipped)
 	skippage();			/* Skip list to next page */
@@ -1005,7 +1005,7 @@ static void liOpenOutput(
   else {
     out.file = fopen(out.name, "w");
     if (out.file == NULL) {	/* Couldn't open list file */
-      out.file = stdout;	/* So list on standard output instead */
+      out.file = stdout;	/* So list on standard output */
       out.name = NULL;		/* Remember! */
     }
   }
