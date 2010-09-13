@@ -30,7 +30,7 @@ char *generateIdName(void) {
   char generatedId[100];
   static int idno = 1;
 
-  sprintf(generatedId, "%cgenid%d", GENERATED_ID_PREFIX, idno++);
+  sprintf(generatedId, "%cidentifier#%d", GENERATED_ID_PREFIX, idno++);
   return newString(generatedId);
 }
 
