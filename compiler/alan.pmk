@@ -1130,6 +1130,11 @@ static int val(char str[])
     %%
 	%<is>.srcp = %'has'.srcp;
     %%
+
+    ! 'can'
+    %%
+	%<is>.srcp = %'can'.srcp;
+    %%
     ;
 
 <optional_description>	-- RETURNS: description
@@ -1601,7 +1606,7 @@ static int val(char str[])
 
 ----> Output Statements
 <output_statement>		-- RETURNS: stm
-    = STRING		%-('is', 'are', 'has', 'at', 'here', 'in', 'nearby', 'near', 'directly')
+    = STRING		%-('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'directly')
     %%
 	%<output_statement>.stm = newStatement(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
@@ -2250,7 +2255,7 @@ static int val(char str[])
 							val(%Integer.chars));
     %%
 
-    ! STRING		%+('is', 'are', 'has', 'at', 'here', 'in', 'nearby', 'near', 'directly')
+    ! STRING		%+('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'directly')
     %%
 	%<primary>.exp = newStringExpression(%STRING.srcp,
 					     %STRING.fpos,
