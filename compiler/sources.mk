@@ -77,8 +77,7 @@ ALANSRCS = \
 	main.c \
 	$(TMCSRCS) \
 	$(UNITTESTED) \
-	$(OTHERSRCS) \
-	alan.version.c
+	$(OTHERSRCS)
 
 # Sources for the test framework
 UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
@@ -89,7 +88,7 @@ UNITSRCS = $(UNITTESTEDSRCS) \
 	pmErr.c \
 	smScanx.c smScSema.c
 
-UNITTESTSSRCS = $(UNITSRCS) $(OTHERSRCS) alan.version.c
+UNITTESTSSRCS = $(UNITSRCS) $(OTHERSRCS)
 
 # Version timestamp dependencies
 VERSIONSRCS = $(ALANSRCS) $(TMSRCS)

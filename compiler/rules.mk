@@ -42,7 +42,7 @@ all: unit alan test
 # Alan command line compiler
 #
 ALANOBJDIR = .alan
-ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o})
+ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
 -include $(ALANOBJECTS:.o=.d)
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
@@ -65,7 +65,7 @@ unit: unittests
 	@./unittests
 
 UNITTESTSOBJDIR = .unittests
-UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o})
+UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 -include $(UNITTESTSOBJECTS:.o=.d)
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
@@ -94,34 +94,3 @@ test: unit
 clean:
 	-rm *.o .*/*.o
 
-
-###################################################################
-#
-# Version number file generation
-#
-alan.version.h : ../alan.version.h
-	cp ../alan.version.h .
-
-alan.version.c:  ../alan.version.c
-	cp ../alan.version.c .
-
-version.h : ../version.h
-	cp ../version.h .
-
-../alan.version.c ../alan.version.h ../version.h: ../alan.version
-
-../alan.version:
-	cd ..; venum alan time
-
-###################################################################
-# NB! We are moving towards using the gcc -MMD auto-dependency!!
-# So the manual depend target is getting obsolete
-# Automatically generate dependency rules 
-%.d : %.c 
-	$(CC) $(CCFLAGS) -MF"$@" -MG -MM -MP -MT"$@" -MT"$(<:.c=.o)" "$<" 
-
-# -MF  write the generated dependency rule to a file 
-# -MG  assume missing headers will be generated and don't stop with an error 
-# -MM  generate dependency rule for prerequisite, skipping system headers 
-# -MP  add phony target for each header to prevent errors when header is missing 
-# -MT  add a target to the generated dependency 
