@@ -1,11 +1,8 @@
 #######################################################################
 # This Makefile is the top level for building the Alan System from
 # scratch with continuous integration and testing using Hudson.
-# It only works on ThoNi's machine, if you are porting try
-# starting from one of the other Makefiles, e.g. Makefile.unix. Copy
-# it to Makefile and go from there.
+# It only works on ThoNi's machine.
 #######################################################################
-
 
 VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 BUILD = `cat BUILD_NUMBER`
