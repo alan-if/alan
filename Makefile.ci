@@ -4,9 +4,10 @@
 # It only works on ThoNi's machine.
 #######################################################################
 
-VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
-BUILD = `cat BUILD_NUMBER`
+VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`-`cat BUILD_NUMBER`
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
+
+TESTOUTPUT = -xml
 
 .PHONY: all
 all:
@@ -14,47 +15,14 @@ all:
 	$(MAKE) -f Makefile.ci unit
 	$(MAKE) -f Makefile.ci test
 	$(MAKE) -f Makefile.ci snapshots
-
-.PHONY: build
-build:
-	-cd compiler; $(MAKE) -k build
-	-cd interpreter; $(MAKE) -k build
-	-cd converter; $(MAKE) -k build
-	-cd lib; $(MAKE) -k -f Makefile.thoni build
-
-.PHONY: unit
-unit:
-	-cd compiler; $(MAKE) unit
-	-cd interpreter; $(MAKE) unit
-
-.PHONY: test
-test:
-	java -jar bin/jregr.jar -bin bin -dir regression -xml
-	java -jar bin/jregr.jar -bin bin -dir compiler/testing -xml
-	java -jar bin/jregr.jar -bin bin -dir lib/testing -xml
-	java -jar bin/jregr.jar -bin bin -dir converter/testing -xml
+	$(MAKE) -f Makefile.ci sync
 
 .PHONY: snapshots
 snapshots: zip setup lib
 	rm $(DISTDIR)/Snapshots/*win32.x86*
-	cp alan$(VERSION)-$(BUILD).win32.x86.zip $(DISTDIR)/Snapshots
-	cp alan$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)/Snapshots
-	cp winarun$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)/Snapshots
+	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/Snapshots
+	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
+	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
 	cp doc/manual/manual.pdf $(DISTDIR)/Documentation
-	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
 
-.PHONY: zip
-zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip games/adventv3/adventV3.a3c regression/saviour.alan
-	zip alan$(VERSION)-$(BUILD).win32.x86.zip $^
-
-.PHONY: setup
-setup:
-	sed -e s/VERSION/$(VERSION)-$(BUILD)/ winarun.iss > winarun_tmp.iss
-	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
-	-rm winarun_tmp.iss
-	sed -e s/VERSION/$(VERSION)-$(BUILD)/ alan.iss > alan_tmp.iss
-	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
-	-rm alan_tmp.iss
-
-games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan
-	cd games/adventv3; alan adventv3
+include top.mk

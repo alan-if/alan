@@ -43,7 +43,7 @@ Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\mppsdk.dll"; DestD
 Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "samples\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
+Source: "games\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [INI]
