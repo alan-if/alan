@@ -16,7 +16,7 @@ all:
 	$(MAKE) -f Makefile.ci build
 	$(MAKE) -f Makefile.ci unit
 	$(MAKE) -f Makefile.ci test
-	$(MAKE) -f Makefile.ci distribution
+	$(MAKE) -f Makefile.ci snapshots
 
 .PHONY: build
 build:
@@ -37,8 +37,8 @@ test:
 	java -jar bin/jregr.jar -bin bin -dir lib/testing -xml
 	java -jar bin/jregr.jar -bin bin -dir converter/testing -xml
 
-.PHONY: distribution
-distribution: zip setup lib
+.PHONY: snapshots
+snapshots: zip setup lib
 	rm $(DISTDIR)/Snapshots/*win32.x86*
 	cp alan$(VERSION)-$(BUILD).win32.x86.zip $(DISTDIR)/Snapshots
 	cp alan$(VERSION)-$(BUILD).win32.x86.setup.exe $(DISTDIR)/Snapshots

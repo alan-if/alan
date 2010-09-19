@@ -4,7 +4,6 @@ Depending on if you downloaded the ZIP-archive or the Windows
 installer you will get a command line version or a Windows GUI
 version. They are completely compatible.
 
-
 Note: To run the Windows GUI interpreter 'winarun' you will need a
 Windows "GLK.DLL". WindowsGLK DLL is included in this distribution but
 can also be downloaded from:

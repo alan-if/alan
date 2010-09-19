@@ -34,8 +34,7 @@ build :
 #
 .PHONY: release
 release:
-	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" alan
-	$(MAKE) -f Makefile.thoni "OPTIMIZE = -O4" winalan
+	$(MAKE) "OPTIMIZE = -O4" clean alan winalan
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -47,7 +46,7 @@ winalan: OS_FLAGS = -mwindows -mno-cygwin
 winalan: EXTRA_COMPILER_FLAGS = -DWINGUI
 
 WINALANOBJDIR = .winalan
-WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o})
+WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o}) $(WINALANOBJDIR)/alan.version.o
 -include $(ALANOBJECTS:.o=.d)
 $(WINALANOBJECTS): $(WINALANOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
