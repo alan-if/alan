@@ -56,13 +56,14 @@ MAINSRCS = \
 	$(UNITTESTED) \
 	$(OTHERSRCS)
 
-MAINOBJECTS = ${MAINSRCS:.c=.o}
-
 UNITTESTEDSRCS = ${UNITTESTED:.c=Tests.c}
 
-UNITTESTSSRCS = unittests.c $(UNITTESTEDSRCS) $(OTHERSRCS) alan.version.c
-ARUNSRCS = arun.c $(MAINSRCS) smartall.c alan.version.c
+UNITTESTSSRCS = unittests.c $(UNITTESTEDSRCS) $(OTHERSRCS)
+ARUNSRCS = arun.c $(MAINSRCS) smartall.c
 GLKSRCS = glkstart.c glkio.c
 WINARUNSRCS = ${GLKSRCS} ${ARUNSRCS} winglk.c
 GLKARUNSRCS = ${GLKSRCS} ${ARUNSRCS}
 GARARUNSRCS = ${GLKSRCS} ${ARUNSRCS}
+
+# Sources triggering new version marking
+VERSIONSRCS = $(MAINSRCS) arun.c glkstart.c glkio.c winglk.c

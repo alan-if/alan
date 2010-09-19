@@ -10,7 +10,6 @@
 
 # Include the common source lists, need to be before the included rules
 include sources.mk
-include ../common.mk
 
 # Include the correct main Makefile depending on the system name
 #
@@ -26,3 +25,4 @@ endif
 
 # then platform and machine independent rules
 include rules.mk
+include ../common.mk

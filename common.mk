@@ -2,11 +2,12 @@
 #
 # Version number file generation
 #
+alan.version.c: ../alan.version.c $(VERSIONSRCS)
+	cd ..; venum alan time
+	cp ../alan.version.c .
+
 alan.version.h : ../alan.version.h
 	cp ../alan.version.h .
-
-alan.version.c:  ../alan.version.c  $(VERSIONSRCS)
-	cp ../alan.version.c .
 
 version.h : ../version.h
 	cp ../version.h .

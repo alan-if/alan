@@ -22,3 +22,4 @@ endif
 
 # Include common build rules
 include rules.mk
+include ../common.mk

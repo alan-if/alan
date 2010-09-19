@@ -13,7 +13,7 @@ LDFLAGS = $(LINKFLAGS)
 #######################################################################
 # Standard console Arun
 ARUNOBJDIR = .arun
-ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o})
+ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUNOBJDIR)/alan.version.o
 
 # Dependencies
 -include $(ARUNOBJECTS:.o=.d)
@@ -39,7 +39,7 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 #	CGREENLIB to something to link with (e.g. -lcgreen)
 
 UNITTESTSOBJDIR = .unittests
-UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o})
+UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 
 # Dependencies, if they exist yet
 -include $(UNITTESTSOBJECTS:.o=.d)
@@ -79,44 +79,12 @@ clean:
 
 ###################################################################
 #
-# Version number file generation
-#
-alan.version.h : ../alan.version.h
-	cp ../alan.version.h .
-
-alan.version.c:  ../alan.version.c
-	cp ../alan.version.c .
-
-version.h : ../version.h
-	cp ../version.h .
-
-../alan.version.c ../alan.version.h ../version.h: ../alan.version
-
-../alan.version:
-	cd ..; venum alan time
-
-
-###################################################################
-#
 # Run all tests!
 # No tests except unit tests are available
 #
 .PHONY: test
 test: unit
 
-
-###################################################################
-# NB! We are moving towards using the gcc -MMD auto-dependency!!
-# So the manual depend target is getting obsolete
-# Automatically generate dependency rules 
-%.d : %.c 
-	$(CC) $(CCFLAGS) -MF"$@" -MG -MM -MP -MT"$@" -MT"$(<:.c=.o)" "$<" 
-
-# -MF  write the generated dependency rule to a file 
-# -MG  assume missing headers will be generated and don't stop with an error 
-# -MM  generate dependency rule for prerequisite, skipping system headers 
-# -MP  add phony target for each header to prevent errors when header is missing 
-# -MT  add a target to the generated dependency 
 
 # Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?
 readline.o : resources.h
