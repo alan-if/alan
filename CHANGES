@@ -38,10 +38,10 @@ Changes in V3.0alpha7:
 - Removed support for the Metrowerks (old Mac) compiler
 
 Changes in V3.0alpha6:
-- BUGFIX: Fixed UNDO directly after restart would crash
-- BUGFIX: Fixed scheduled events imminent to run would get lost after undo
+- BUGFIX: Undo directly after restart would crash
+- BUGFIX: Scheduled events imminent to run would get lost after undo
   (typically the ones scheduled After 0)
-- BUGFIX: Fixed checksum calculation to work with pre-alpha5 games
+- BUGFIX: Checksum calculation to work with pre-alpha5 games
 
 Changes in V3.0alpha5:
 - Feature: nested locations, by locating locations in each other you
@@ -50,7 +50,7 @@ Changes in V3.0alpha5:
 - Allowed more general expressions in Locate At statement and Isa expressions.
 - Now generates an IFID as per The Babel Treaty.
 - Rules are now also run immediately after the game is set-up.
-- BUGFIX: Fixed a few problems with "open" verbs in the library.
+- BUGFIX: A few problems with "open" verbs in the library.
 - BUGFIX: added inherited reference attributes could sometimes cause a crash.
 - A pronoun in player input, matching multiple parameters, now gives an
   error message.
