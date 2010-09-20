@@ -1,15 +1,36 @@
+Changes in V3.0alpha8:
+- FEATURE: Entered is now inherited and nested in an accumulative way
+- FEATURE: Entered is now executed before Description
+- FEATURE: 'Can' is now added to 'Is', 'Has' and 'Are' for starting attribute declarations
+- FEATURE: Instances listed after 'except'/'but' in player input using 'all', are now
+  handled in the same way as other syntax parameters
+- BUGFIX: The location of a instance that is 'nowhere' could cause the interpreter to
+  crash
+- BUGFIX: The pronoun handling could get confused if the player command referred to
+  multiple instance with the same pronoun
+- BUGFIX: An UNDO command directly after a QUIT where the player choose to UNDO crashed
+- BUGFIX: The compiler could crash if a reference attribute was not defined in the
+  parent class
+- BUGFIX: Aggregating over an attribute might crash the interpreter if the
+  aggregating set contained containers taking instances not having the attribute
+- BUGFIX: Entered did not always set This correctly
+- BUGFIX: 'except' without preceeding parameters caused the interpreter to crash
+- BUGFIX: A problem with literals caused the dial-sample to crash
+- BUGFIX: Forward delete now works on MacOSX (and probably Linux too)
+- BUGFIX: Some cases of disambiguating player references did not work as expected
+
 Changes in V3.0alpha7:
-- BUG: "undo" as a response to "Quit?" undid the wrong command in some cases
-- BUG: verb bodies in outer nested locations did not get executed
+- BUGFIX: "undo" as a response to "Quit?" undid the wrong command in some cases
+- BUGFIX: verb bodies in outer nested locations did not get executed
 - Prohibited locating actors into containers
-- BUG: aggregating over things in restricted containers did not consider the
+- BUGFIX: aggregating over things in restricted containers did not consider the
   class restriction so did not find e.g. attributes defined for that class
-- BUG: In loops with an "In <container>" filter this did not restrict the
+- BUGFIX: In loops with an "In <container>" filter this did not restrict the
   class to the classes taken by the container
-- BUG: Isa expressions and loop filters did a general lookup for the class
+- BUGFIX: Isa expressions and loop filters did a general lookup for the class
   name, so would find e.g. default syntax parameters
-- BUG: WinArun could try to restore from an empty file reference in some cases
-- BUG: If a multiple or omnipotent indicator was used for one syntax which shared
+- BUGFIX: WinArun could try to restore from an empty file reference in some cases
+- BUGFIX: If a multiple or omnipotent indicator was used for one syntax which shared
   a common prefix (starting with the same verb e.g.) would sometimes miss the
   indicator. Changed this to make an indicator implicitly apply to all syntaxes
   with the same prefix.
@@ -17,10 +38,10 @@ Changes in V3.0alpha7:
 - Removed support for the Metrowerks (old Mac) compiler
 
 Changes in V3.0alpha6:
-- Bug: Fixed UNDO directly after restart would crash
-- Bug: Fixed scheduled events imminent to run would get lost after undo
+- BUGFIX: Fixed UNDO directly after restart would crash
+- BUGFIX: Fixed scheduled events imminent to run would get lost after undo
   (typically the ones scheduled After 0)
-- Bug: Fixed checksum calculation to work with pre-alpha5 games
+- BUGFIX: Fixed checksum calculation to work with pre-alpha5 games
 
 Changes in V3.0alpha5:
 - Feature: nested locations, by locating locations in each other you
@@ -29,16 +50,16 @@ Changes in V3.0alpha5:
 - Allowed more general expressions in Locate At statement and Isa expressions.
 - Now generates an IFID as per The Babel Treaty.
 - Rules are now also run immediately after the game is set-up.
-- Bug: Fixed a few problems with "open" verbs in the library.
-- Bug: added inherited reference attributes could sometimes cause a crash.
+- BUGFIX: Fixed a few problems with "open" verbs in the library.
+- BUGFIX: added inherited reference attributes could sometimes cause a crash.
 - A pronoun in player input, matching multiple parameters, now gives an
   error message.
-- Bug: An empty container clause terminated by a full stop would cause
+- BUGFIX: An empty container clause terminated by a full stop would cause
   random errors caused by uninitialized data.
-- Bug: Renaming the WinArun interpreter to a game name would crash on game
+- BUGFIX: Renaming the WinArun interpreter to a game name would crash on game
   save.
-- Bug: Negative integer literals would cause a system error
-- Bug: Full lists of multiply nested imported files would print incorrectly.
+- BUGFIX: Negative integer literals would cause a system error
+- BUGFIX: Full lists of multiply nested imported files would print incorrectly.
 
 Changes in V3.0alpha4:
 - Corrected scope handling so that locations are not always in scope.
