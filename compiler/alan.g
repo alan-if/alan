@@ -20,9 +20,9 @@ game_options
 	;
 
 option
-    :	ID '.' 
-	|	ID ID '.'
-	|	ID INTEGER '.' 
+    :	id '.' 
+	|	id id '.'
+	|	id INTEGER '.' 
 	;
 
 declaration
@@ -39,11 +39,11 @@ declaration
 
 
 attribute_definition
-	:	'NOT'? ID '.'
-	|	ID '-'? INTEGER '.'
-	|	ID STRING '.'
-	|	ID ID '.'
-	|	ID '{' set_members? '}' '.'
+	:	'NOT'? id '.'
+	|	id '-'? INTEGER '.'
+	|	id STRING '.'
+	|	id id '.'
+	|	id '{' set_members? '}' '.'
 	;
 
 
@@ -52,7 +52,7 @@ set_members
 	;
 
 set_member
-	:	ID 
+	:	id 
 	|	'-'? INTEGER 
 	|	STRING 
 	;
@@ -62,26 +62,26 @@ synonyms
 	;
 
 synonym_declaration
-	:	id_list '=' ID '.' 
+	:	id_list '=' id '.' 
 	;
 
 messages
 	:	'MESSAGE' message+ 
 	;
 
-message :	ID ':' statement+ 
+message :	id ':' statement+ 
 	;
 
 syntax	:	'SYNTAX' syntax_item+ 
              ;
 
 syntax_item
-	:	ID '=' syntax_element+ ('.' | 'WHERE' syntax_restrictions) 
+	:	id '=' syntax_element+ ('.' | 'WHERE' syntax_restrictions) 
 	;
 
 syntax_element
-	:	ID 
-	|	'(' ID ')' indicator*
+	:	id 
+	|	'(' id ')' indicator*
 	;
 
 indicator
@@ -93,15 +93,15 @@ syntax_restrictions
 	;
 
 syntax_restriction
-	:	ID 'ISA' restriction_class 'ELSE' statement+ 
+	:	id 'ISA' restriction_class 'ELSE' statement+ 
 	;
 
 restriction_class
-	:	(ID) 
+	:	(id) 
 	|	'CONTAINER' 
 	;
 
-verb	:	'VERB' id_list verb_body 'END' 'VERB' ID? '.' 
+verb	:	'VERB' id_list verb_body 'END' 'VERB' id? '.' 
 	;
 
 verb_body
@@ -129,25 +129,25 @@ does	:	'DOES' qualifier? statement+
 	;
 
 verb_alternative
-	:	'WHEN' ID simple_verb_body 
+	:	'WHEN' id simple_verb_body 
 	;
 
 class_declaration
-	:	'EVERY' ID heritage? property* 'END' 'EVERY' ID? '.'
+	:	'EVERY' id heritage? property* 'END' 'EVERY' id? '.'
 	;
 
 
 addition
-	:	'ADD' 'TO' 'EVERY'? ID heritage? property* 'END' 'ADD' 'TO'? ID? '.'
+	:	'ADD' 'TO' 'EVERY'? id heritage? property* 'END' 'ADD' 'TO'? id? '.'
 	;
 
 
 instance_declaration
-	:	'THE' ID heritage? property* 'END' 'THE' ID? '.' 
+	:	'THE' id heritage? property* 'END' 'THE' id? '.' 
 	;
 
 heritage
-	:	'ISA' ID '.'?
+	:	'ISA' id '.'?
 	;
 
 property
@@ -166,7 +166,7 @@ property
 	;
 
 
-exit	:	'EXIT' id_list 'TO' ID (checks? does? 'END' 'EXIT' ID?)? '.' 
+exit	:	'EXIT' id_list 'TO' id (checks? does? 'END' 'EXIT' id?)? '.' 
 	;
 
 is	:	('IS') | 'ARE' | 'HAS' 
@@ -197,7 +197,7 @@ mentioned
 	:	'MENTIONED' statement+ 
 	;
 
-name	:	'NAME' ID+ '.'? 
+name	:	'NAME' id+ '.'? 
 	;
 
 container_properties
@@ -208,7 +208,7 @@ container_body
 	:	taking? limits? header? empty? extract? 
 	;
 
-taking	:	'TAKING' ID '.' 
+taking	:	'TAKING' id '.' 
 	;
 
 limits	:	'LIMITS' limit+ 
@@ -233,10 +233,10 @@ extract	:	'EXTRACT' checks? does?
 	|	'EXTRACT' statement+
 	;
 
-event	:	'EVENT' ID statement+ 'END' 'EVENT' ID? '.'
+event	:	'EVENT' id statement+ 'END' 'EVENT' id? '.'
 	;
 
-script	:	'SCRIPT' ID '.'? description? step+ 
+script	:	'SCRIPT' id '.'? description? step+ 
 	;
 
 step	:	'STEP' statement+ 
@@ -268,7 +268,7 @@ output_statement
 	|	'DESCRIBE' what '.' 
 	|	'SAY' (('THE') | 'AN')? expression '.' 
 	|	'LIST' what '.' 
-	|	'SHOW' ID '.' 
+	|	'SHOW' id '.' 
 	;
 
 
@@ -280,8 +280,8 @@ manipulation_statement
 	;
 
 event_statement
-	:	'CANCEL' ID '.' 
-	|	'SCHEDULE' ID where? 'AFTER' expression '.' 
+	:	'CANCEL' id '.' 
+	|	'SCHEDULE' id where? 'AFTER' expression '.' 
 	;
 
 assignment_statement
@@ -320,7 +320,7 @@ depend_case
 	;
 
 repetition_statement
-	:	for_each ID filters? 'DO' statement+ 'END' for_each '.'?
+	:	for_each id filters? 'DO' statement+ 'END' for_each '.'?
 	;
 
 for_each:	'FOR' 'EACH' //| 'FOR' | 'EACH'
@@ -328,7 +328,7 @@ for_each:	'FOR' 'EACH' //| 'FOR' | 'EACH'
 
 actor_statement
 	:	'STOP' what '.' 
-	|	'USE' 'SCRIPT' ID ( 'FOR' what )? '.' 
+	|	'USE' 'SCRIPT' id ( 'FOR' what )? '.' 
 	;
 
 
@@ -366,7 +366,7 @@ arithmetic
 	;
 
 logic_operation
-	:	'ISA' ID 
+	:	'ISA' id 
 	|	is something 
 	|	binop arithmetic
 	;
@@ -375,7 +375,7 @@ filters : filter ( ',' filter )*
         ;
 
 filter 	:	'NOT'? where 
-	|	'NOT'? 'ISA' ID 
+	|	'NOT'? 'ISA' id 
 	|	is something 
 	;
 
@@ -399,7 +399,7 @@ literal	:	'-'? INTEGER
 	
 aggregate
 	:	'COUNT' 
-	|	aggregator 'OF' ID 
+	|	aggregator 'OF' id 
 	;
 
 aggregator
@@ -409,7 +409,7 @@ aggregator
 	;
 
 something
-	:	'NOT'? ID 
+	:	'NOT'? id 
 	;
 
 what	:	simple_what 
@@ -417,15 +417,15 @@ what	:	simple_what
 	;
 
 simple_what
-	:	ID
+	:	id
 	|	'THIS' 
 	|	'CURRENT' 'ACTOR' 
 	|	'CURRENT' 'LOCATION' 
 	;
 
 attribute_reference
-	:	(ID 'OF')+  simple_what
-	|	simple_what (':' ID)+
+	:	(id 'OF')+  simple_what
+	|	simple_what (':' id)+
 	;
 	
 where	:	'HERE' 
@@ -454,11 +454,12 @@ qualifier
 	;
 
 id_list
-	: ID ( ',' ID )*
+	: id ( ',' id )*
         ;
 
-ID
-	:	IDENTIFIER ;
+id
+	:	IDENTIFIER
+	|	'LOCATION' ;
 
 //ID : 'LOCATION' 
 //   | 'ACTOR' 

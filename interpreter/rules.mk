@@ -7,7 +7,7 @@
 # This file will build a standard command line arun and all unittests
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
-CFLAGS	= $(COMPILEFLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD)
+CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD)
 LDFLAGS = $(LINKFLAGS)
 
 #######################################################################
@@ -20,7 +20,7 @@ ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUNOBJDIR)/alan.v
 
 # Rule to compile objects to subdirectory
 $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(CC) $(CFLAGS) $(DEPENDENCY) -o $@ -c $<
 
 $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
@@ -46,7 +46,7 @@ UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNI
 
 # Rule to compile objects to subdirectory
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(CC) $(CFLAGS) $(DEPENDENCY) -o $@ -c $<
 
 #Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):

@@ -45,7 +45,16 @@ CGREENLIB = -lcgreen
 # Default target on Darwin
 # 
 .PHONY: default
-default: unit arun
+default all: unit arun
+
+
+##################################################################
+.PHONY: release
+release: OS_FLAGS = -arch i386 -arch ppc
+release: EXTRA_COMPILER_FLAGS = -O4
+release: DEPENDENCY = 
+release: all
+
 
 #--------------------------------------------------------------------
 # Extra targets on Darwin (maybe later...)

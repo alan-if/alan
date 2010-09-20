@@ -45,7 +45,7 @@ ALANOBJDIR = .alan
 ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
 -include $(ALANOBJECTS:.o=.d)
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(CC) $(CFLAGS) $(DEPENDENCY) -o $@ -c $<
 
 $(ALANOBJDIR):
 	@mkdir $(ALANOBJDIR)
@@ -68,7 +68,7 @@ UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 -include $(UNITTESTSOBJECTS:.o=.d)
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(CC) $(CFLAGS) $(DEPENDENCY) -o $@ -c $<
 
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
