@@ -1,0 +1,78 @@
+#######################################################################
+# This Makefile is the top level for building the Alan System from
+# scratch. It only works on ThoNi's machine.
+#######################################################################
+
+VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
+DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
+
+.PHONY: all
+all:
+	$(MAKE) -f Makefile.thoni build
+	$(MAKE) -f Makefile.thoni unit
+	$(MAKE) -f Makefile.thoni test
+	$(MAKE) -f Makefile.thoni snapshots
+	$(MAKE) -f Makefile.thoni sync
+
+.PHONY: release
+release: doc/manual/manual.pdf
+	@if cvs status 2> /dev/null | egrep Status | egrep -v Up-to-date ; then \
+	 	exit 1 ; \
+	fi
+	$(MAKE) -f Makefile.thoni releasebuild
+	$(MAKE) -f Makefile.thoni test
+	$(MAKE) -f Makefile.thoni packages
+	$(MAKE) -f Makefile.thoni sync
+	$(MAKE) -f Makefile.thoni tags
+
+.PHONY: releasebuild
+releasebuild:
+	cd compiler ; make release
+	cd interpreter ; make release
+	cd converter ; make release
+	cd lib ; make -f Makefile.thoni
+
+include top.mk
+
+.PHONY: tags
+tags:
+	cvs rtag -F v$(VERSION) alan 
+	cvs rtag -F -b v$(VERSION)_branch alan
+	echo $(VERSION) > LASTRELEASE
+
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Create all source for porting, should be done in an exported directory
+#
+.PHONY: srcdist
+srcdist:
+	@if test -d CVS; then \
+		echo Do not do this in your working directory, export first ; \
+		exit 1 ; \
+	fi
+	venum -write always -all alan
+	cp version.h alan.version.[ch] compiler
+	cp version.h alan.version.[ch] interpreter
+	cp compiler/spa.* interpreter
+	-rm -r regression/pre3 regression/special
+	/usr/bin/find . -name \* -exec chmod u+w \{\} \;
+	/usr/bin/find . -name Makefile\* -exec dos2unix \{\} \;
+	/usr/bin/find . -name \*.\[ch\] -exec dos2unix \{\} \;
+	tar zcvf alansrc$(VERSION).tgz compiler interpreter converter regression
+	cp alansrc$(VERSION).tgz $(DISTDIR)/Source
+
+.PHONY: newVersion
+newVersion:
+	venum alan
+	cvs commit -m 'New Version' alan.version
+
+.PHONY: packages
+packages: zip setup doc/manual/manual.pdf 
+	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/Complete\ Distributions/Windows
+	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Complete\ Distributions/Windows
+	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Interpreters/Windows
+	cp doc/manual/manual.pdf $(DISTDIR)/Documentation
+
