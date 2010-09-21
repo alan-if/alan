@@ -135,7 +135,7 @@
 
 -- MALE
 	-- a subclass of person (= is able to talk)
-      -- can be referred to with the pronoun 'her'
+      -- can be referred to with the pronoun 'him'
 
 
 
