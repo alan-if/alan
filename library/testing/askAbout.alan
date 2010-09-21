@@ -1,0 +1,17 @@
+import 'library.i'.
+
+The book Isa object At library
+End The book.
+
+The library Isa location
+End The library.
+
+
+The kitchen Isa location
+End The kitchen.
+
+The janitor Isa person At kitchen
+End The janitor.
+
+Start At kitchen.
+  "Ask the janitor about the book."

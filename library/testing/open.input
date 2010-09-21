@@ -1,0 +1,11 @@
+open o
+open hero
+open o with k
+open o with me
+open k with o
+close o
+close me
+close k with o
+close k with me
+close k with k
+close o with k

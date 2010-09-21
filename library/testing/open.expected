@@ -1,0 +1,45 @@
+########## open ##########
+
+        No warnings or errors detected.
+
+
+
+P
+There is a o here.
+
+> open o
+You open the o.
+
+> open hero
+That's not something you can open.
+
+> open o with k
+The o is already open.
+
+> open o with me
+You can't open anything with yourself.
+
+> open k with o
+That's not something you can open.
+
+> close o
+You close the the o.
+
+> close me
+That's not something you can close.
+
+> close k with o
+That's not something you can close.
+
+> close k with me
+That's not close anything with that.
+
+> close k with k
+That's not something you can close.
+
+> close o with k
+It is already closed.
+
+> 
+
+Do you want to RESTART, RESTORE, QUIT or UNDO? 

@@ -1,0 +1,32 @@
+########## shoot ##########
+
+        No warnings or errors detected.
+
+
+
+P
+Act is here.
+
+> shoot obj
+You don't have anything to shoot with.
+
+> shoot at obj
+You don't have anything to shoot with.
+
+> shoot act
+You don't have anything to shoot with.
+
+> shoot at act
+You don't have anything to shoot with.
+
+> shoot act with obj
+That's not something you can shoot with.
+
+> shoot obj at act
+That's not something you can shoot with.
+
+> 
+
+> 
+
+Do you want to RESTART, RESTORE, QUIT or UNDO? 
