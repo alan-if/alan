@@ -24,7 +24,7 @@ snapshots: zip setup lib
 	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/Snapshots
 	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
 	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
-        cp library/library*.zip $(DISTDIR)/Snapshots/library0.9-$(BUILD).zip
+	cp library/library*.zip $(DISTDIR)/Snapshots/library0.9-$(BUILD).zip
 	cp doc/manual/manual.pdf $(DISTDIR)/Documentation
 
 include top.mk
