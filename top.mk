@@ -3,7 +3,7 @@ build:
 	-cd compiler; $(MAKE) -k build
 	-cd interpreter; $(MAKE) -k build
 	-cd converter; $(MAKE) -k build
-	-cd lib; $(MAKE) -k -f Makefile.thoni build
+	-cd library; $(MAKE) -k build
 
 .PHONY: unit
 unit:
@@ -14,7 +14,7 @@ unit:
 test:
 	java -jar bin/jregr.jar -bin bin -dir regression $(TESTOUTPUT)
 	java -jar bin/jregr.jar -bin bin -dir compiler/testing $(TESTOUTPUT)
-	java -jar bin/jregr.jar -bin bin -dir lib/testing $(TESTOUTPUT)
+	java -jar bin/jregr.jar -bin bin -dir library/testing $(TESTOUTPUT)
 	java -jar bin/jregr.jar -bin bin -dir converter/testing $(TESTOUTPUT)
 
 .PHONY: zip
