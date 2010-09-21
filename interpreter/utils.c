@@ -77,7 +77,7 @@ void printVersion(int buildNumber) {
 void usage(char *programName)
 {
     printVersion(BUILD);
-    printf("Usage:\n\n");
+    printf("\n\nUsage:\n\n");
     printf("    %s [<switches>] <adventure>\n\n", programName);
     printf("where the possible optional switches are:\n");
 #ifdef HAVE_GLK
