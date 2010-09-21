@@ -84,3 +84,4 @@ tm:
 		$(MAKE) -f Makefile.tm ; \
 	fi
 
+include ../venum.mk

@@ -2557,4 +2557,3 @@ SYNONYMS
 
 -- Please refer also 'verbs.i' where there are numerous verb checks for the hero, 
 -- so that the hero cannot e.g. attack himself etc.
-

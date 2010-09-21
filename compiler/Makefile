@@ -25,4 +25,4 @@ endif
 
 # then platform and machine independent rules
 include rules.mk
-include ../common.mk
+include ../depend.mk

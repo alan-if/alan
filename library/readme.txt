@@ -1,10 +1,9 @@
-Hello to all,
 
 The four files belonging to the new proposed library have now been
-uploaded to the 'files' area of this group. The library is numbered
+uploaded to the download area of the ALAN website. The library is numbered
 0.9, with the intention that once any most immediate bugs and
 misfeatures are taken care of, Standard Library v1.0 will be released
-at the ALAN website.
+on the website.
 
 Please take a look at how the library feels and please send comments
 to the mailing list. Now is the time to make comments and suggestions!

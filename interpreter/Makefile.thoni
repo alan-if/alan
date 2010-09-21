@@ -157,3 +157,5 @@ about: about.c arun.res
 # Test program to generate a header of a particular version
 #
 headerGenerator: headerGenerator.c
+
+include ../venum.mk
