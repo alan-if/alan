@@ -40,11 +40,11 @@ Filename: "{app}\winarun.url"; Section: "InternetShortcut"; Key: "URL"; String: 
 
 [Icons]
 Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
-; NOTE: The following entry contains an English phrase ("on the Web"). You are free to translate it into another language if required.
 Name: "{group}\Alan V3 Interpreter for Windows on the Web"; Filename: "{app}\winarun.url"
 Name: "{group}\Saviour - a sample game"; Filename: "{app}\saviour.a3c"
 Name: "{group}\Advent - a crude conversion of ADVENT"; Filename: "{app}\adventV3.a3c"
-; NOTE: The following entry contains an English phrase ("Uninstall"). You are free to translate it into another language if required.
+Name: "{group}\Uninstall Alan V3 Interpreter for Windows"; Filename: "{uninstallexe}"
+Name: "{group}\Uninstall Alan V3 Interpreter for Windows"; Filename: "{uninstallexe}"
 Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon
 

@@ -27,14 +27,13 @@ Root: HKCR; Subkey: "AlanV3Source\shell\edit\command"; ValueType: string; ValueN
 Root: HKCR; Subkey: "AlanV3Source\shell\compile\command"; ValueType: string; ValueName: ""; ValueData: """{app}\winalan.exe"" ""%1"""
 
 [Tasks]
-; NOTE: The following entry contains English phrases ("Create a desktop icon" and "Additional icons"). You are free to translate them into another language if required.
 Name: "desktopicon"; Description: "Create &desktop icons"; GroupDescription: "Additional icons:"
-; NOTE: The following entry contains English phrases ("Create a Quick Launch icon" and "Additional icons"). You are free to translate them into another language if required.
 Name: "quicklaunchicon"; Description: "Create &Quick Launch icons"; GroupDescription: "Additional icons:"; Flags: unchecked
 
 [Files]
 Source: "bin\winalan.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "alan.readme"; DestDir: "{app}"; Flags: ignoreversion
+Source: "CHANGES"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
@@ -52,17 +51,16 @@ Filename: "{app}\alan.url"; Section: "InternetShortcut"; Key: "URL"; String: "ht
 [Icons]
 Name: "{group}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"
 Name: "{group}\Alan VERSION ReadMe"; Filename: "{app}\alan.readme"
+Name: "{group}\CHANGES"; Filename: "{app}\CHANGES"
 Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
 Name: "{group}\Alan V2 to V3 Source Converter"; Filename: "{app}\a2a3.exe"
 Name: "{group}\Alan V2 to V3 Source Converter ReadMe"; Filename: "{app}\a2a3.readme"
-; NOTE: The following entry contains an English phrase ("on the Web"). You are free to translate it into another language if required.
 Name: "{group}\Alan V3 Manual"; Filename: "{app}\manual.pdf"
 Name: "{group}\Alan on the Web"; Filename: "{app}\alan.url"
 Name: "{group}\Saviour - a sample game (compile)"; Filename: "{app}\saviour.alan"
 Name: "{group}\Saviour - a sample game (run)"; Filename: "{app}\saviour.a3c"
 Name: "{group}\Advent - a crude conversion of ADVENT"; Filename: "{app}\adventV3.a3c"
 Name: "{group}\Uninstall Alan V3"; Filename: "{uninstallexe}"
-; NOTE: The following entry contains an English phrase ("Uninstall"). You are free to translate it into another language if required.
 Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
 Name: "{userdesktop}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon

@@ -11,8 +11,6 @@ all:
 	$(MAKE) -f Makefile.thoni build
 	$(MAKE) -f Makefile.thoni unit
 	$(MAKE) -f Makefile.thoni test
-	$(MAKE) -f Makefile.thoni snapshots
-	$(MAKE) -f Makefile.thoni sync
 
 .PHONY: release
 release: doc/manual/manual.pdf
