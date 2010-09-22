@@ -18,7 +18,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 #ifdef HAVE_WINGLK
   /* Attempt to initialise Glk */
-  if (InitGlk(0x00000601) == 0)
+  if (InitGlk(0x00000700) == 0)
     exit(0);
 
   myInstance = hInstance;

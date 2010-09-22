@@ -77,7 +77,7 @@ $(WINARUNOBJDIR):
 winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
 	$(LINK) -o $@ $(LINKFLAGS) $(WINARUNOBJECTS) arun.res $(LIBS)
 	cp $@ ../bin
-	cp $(WINGLKROOT)/Glk.dll ../bin
+	cp $(WINGLKROOT)/*.dll ../bin
 
 arun.res: arun.rc arun.ico resources.h alan.version.c
 	echo $(VERSION)
