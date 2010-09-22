@@ -38,6 +38,7 @@ Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
 Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
