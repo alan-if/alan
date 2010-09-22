@@ -4,7 +4,7 @@
 
   Debugger unit in Alan interpreter ARUN
 
-  \*----------------------------------------------------------------------*/
+\*----------------------------------------------------------------------*/
 
 #include "debug.h"
 
@@ -568,6 +568,8 @@ static void setBreakpoint(int file, int line) {
 		else {
 			int lineIndex = findSourceLineIndex(file, line);
 			SourceLineEntry *entry = pointerTo(header->sourceLineTable);
+			if (entry[lineIndex].line != line)
+				printf("Line %d not available, ", line);
 			breakpoint[i].file = entry[lineIndex].file;
 			breakpoint[i].line = entry[lineIndex].line;
 			printf("Breakpoint set at %s:%ld.\n", sourceFileName(entry[lineIndex].file), entry[lineIndex].line);
