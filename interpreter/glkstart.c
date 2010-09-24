@@ -136,6 +136,8 @@ static void splitArgs(char *commandLine) {
 /*======================================================================*/
 int winglk_startup_code(const char* cmdline)
 {
+    char windowTitle[200];
+
     /* Process the command line arguments */
     argumentVector[0] = "";
     argCount = 1;
@@ -146,30 +148,20 @@ int winglk_startup_code(const char* cmdline)
 
 
     if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
-#ifdef HAVE_WINGLK
         adventureFileName = (char*)winglk_get_initial_filename(NULL, "Arun : Select an Alan game file",
                                                                "Alan Game Files (*.a3c)|*.a3c||");
         if (adventureFileName == NULL) {
-            printf("You should supply a game file to play.\n");
-            usage("arun");  // TODO Use actual program name
             terminate(0);
         }
         adventureName = gameName(adventureFileName);
-        winglk_app_set_name(adventureName);
-        winglk_window_set_title(adventureName);
-#else
-        printf("You should supply a game file to play.\n");
-        usage("Arun");
-        terminate(0);
-#endif
     }
-#ifdef HAVE_WINGLK
-    winglk_app_set_name(adventureName);
-    winglk_set_gui(IDR_ARUN);
-    winglk_load_config_file(adventureName);
-    openGlkWindows();
-#endif
 
+    winglk_app_set_name("WinArun");
+    winglk_set_gui(IDR_ARUN);
+
+    sprintf(windowTitle, "WinArun : %s", adventureName);
+    winglk_window_set_title(windowTitle);
+    openGlkWindows();
 
     /* Open any possible blorb resource file */
     openResourceFile(adventureName);
