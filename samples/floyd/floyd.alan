@@ -49,31 +49,33 @@ SYNTAX
    take_inv = 'inventory'.
 
    take = take (obj) *
-	WHERE obj ISA OBJECT
+	WHERE obj ISA THING
 		ELSE "You can't take that."
    drop = drop (obj) *
-	WHERE obj ISA OBJECT
+	WHERE obj ISA THING
 		ELSE "You can't drop that."
    read = read (obj) *
-	WHERE obj ISA OBJECT
+	WHERE obj ISA THING
 		ELSE "You can't read that."
    examine = examine (obj) *
 	WHERE obj ISA THING
 		ELSE "You can't examine that."
    open = open (obj) *
-	WHERE obj ISA OBJECT
+	WHERE obj ISA THING
 		ELSE "You can't open that."
    close = close (obj) *
-	WHERE obj ISA OBJECT
+	WHERE obj ISA THING
 		ELSE "You can't close that."
    turn_on = turn 'on' (obj)
-	WHERE obj ISA OBJECT
+	WHERE obj ISA THING
 		ELSE "You can't turn that on."
+   turn_on = turn (obj) 'on'.
    turn_off = turn off (obj)
-	WHERE obj ISA OBJECT
+	WHERE obj ISA THING
 		ELSE "You can't turn that off."
+   turn_off = turn (obj) off.
    play_with = 'play' 'with' (obj)
-	WHERE obj ISA OBJECT
+	WHERE obj ISA THING
 		ELSE "You can't play with that."
    talk_to = talk 'to' (obj)
 	WHERE obj ISA THING
@@ -244,7 +246,7 @@ END ADD TO.
 -- what I use here.
 
 THE hero ISA ACTOR
-   CONTAINER
+   CONTAINER TAKING THING.
    LIMITS
       COUNT 3 THEN
          "$nYou can't juggle any more objects; it slips from your hands."
@@ -320,7 +322,7 @@ THE scenic_slot ISA OBJECT NAME narrow slot AT waiting_room
    END VERB.
 
    VERB slide_thru
-	WHEN obj
+	WHEN ind
 	 DOES ONLY
       IF obj = scenic_card THEN
          "There is a loud buzz and then a click from the locking mechanism.
@@ -665,9 +667,9 @@ THE off_floyd ISA OBJECT NAME multiple purpose robot AT robot_shop
           single crayon which you leave where you found it."
       ELSE
          "In one of the robot's compartments you find and take a
-          magnetic-striped card embossed ¨Seenik Overluuk Akses Kard.¨"
+          magnetic-striped card embossed" Style Emphasized. "Seenik Overluuk Akses Kard" Style Normal. "."
           MAKE Floyd searched.
-          LOCATE scenic_card HERE.
+          LOCATE scenic_card HERE. -- Incase hands are full we want it make sure that it ends up here.
           LOCATE scenic_card IN hero.
       END IF.
    END VERB.
