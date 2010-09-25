@@ -529,7 +529,7 @@ static void listBreakpoints() {
 			printf("    %s:%d\n", sourceFileName(breakpoint[i].file), breakpoint[i].line);
 		}
 	if (!found)
-		printf("No breakpoints set.\n");
+		printf("No breakpoints set\n");
 }
 
 
@@ -560,20 +560,26 @@ static void setBreakpoint(int file, int line) {
 	int i = breakpointIndex(file, line);
 
 	if (i != -1)
-		printf("Breakpoint already set at %s:%d.\n", sourceFileName(file), line);
+		printf("Breakpoint already set at %s:%d\n", sourceFileName(file), line);
 	else {
 		i = availableBreakpointSlot();
 		if (i == -1)
-			printf("No room for more breakpoints. Delete one first.\n");
+			printf("No room for more breakpoints. Delete one first\n");
 		else {
 			int lineIndex = findSourceLineIndex(file, line);
 			SourceLineEntry *entry = pointerTo(header->sourceLineTable);
-			if (entry[lineIndex].line != line)
-				printf("Line %d not available, ", line);
-			breakpoint[i].file = entry[lineIndex].file;
-			breakpoint[i].line = entry[lineIndex].line;
-			printf("Breakpoint set at %s:%ld.\n", sourceFileName(entry[lineIndex].file), entry[lineIndex].line);
-			showSourceLine(entry[lineIndex].file, entry[lineIndex].line);
+			char leadingText[100] = "Breakpoint";
+			if (entry[lineIndex].file == EOF) {
+				printf("Line %d not available\n", line);
+			} else {
+				if (entry[lineIndex].line != line)
+					sprintf(leadingText, "Line %d not available, breakpoint instead", line);
+				breakpoint[i].file = entry[lineIndex].file;
+				breakpoint[i].line = entry[lineIndex].line;
+				printf("%s set at %s:%ld\n", leadingText, sourceFileName(entry[lineIndex].file), entry[lineIndex].line);
+				showSourceLine(entry[lineIndex].file, entry[lineIndex].line);
+				printf("\n");
+			}
 		}
 	}
 }
@@ -584,10 +590,10 @@ static void deleteBreakpoint(int line, int file) {
 	int i = breakpointIndex(file, line);
 
 	if (i == -1)
-		printf("No breakpoint set at %s:%d.\n", sourceFileName(file), line);
+		printf("No breakpoint set at %s:%d\n", sourceFileName(file), line);
 	else {
 		breakpoint[i].line = 0;
-		printf("Breakpoint at %s:%d deleted.\n", sourceFileName(file), line);
+		printf("Breakpoint at %s:%d deleted\n", sourceFileName(file), line);
 	}
 }
 
@@ -637,7 +643,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 			cause = "Breakpoint hit at";
 		else
 			cause = "Stepping to";
-		printf("%s %s %s:%d.\n", debugPrefix, cause, sourceFileName(fileNumber), line);
+		printf("%s %s %s:%d\n", debugPrefix, cause, sourceFileName(fileNumber), line);
 		showSourceLine(fileNumber, line);
 		printf("\n");
 		anyOutput = FALSE;
@@ -696,7 +702,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 
 		case 'F':
 			listFiles();
-			listLines();
+			//listLines();
 			break;
 
 		case 'I':
@@ -756,7 +762,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 				if (calledFromBreakpoint)
 					deleteBreakpoint(line, fileNumber);
 				else
-					printf("No current breakpoint to delete.\n");
+					printf("No current breakpoint to delete\n");
 			} else
 				deleteBreakpoint(i, fileNumber);
 			break;
