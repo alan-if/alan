@@ -337,19 +337,6 @@ static void showClassHierarchy(int this, int depth)
 
 
 /*----------------------------------------------------------------------*/
-static void showClasses(void)
-{
-    int c;
-
-    output("Classes:");
-    for (c = 1; c <= header->classMax; c++) {
-        output("$n");
-        showClass(c);
-    }
-}
-
-
-/*----------------------------------------------------------------------*/
 static void showLocations(void)
 {
     char str[80];
@@ -514,7 +501,7 @@ static void listFiles() {
 
 
 /*----------------------------------------------------------------------*/
-static void listLines() {
+void listLines() {
     SourceLineEntry *entry;
     for (entry = pointerTo(header->sourceLineTable); *((Aword*)entry) != EOF; entry++)
         printf("  %s:%ld\n", sourceFileName(entry->file), entry->line);
