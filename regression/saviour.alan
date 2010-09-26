@@ -1350,7 +1350,9 @@ Start At outside.
      $pIf you need help just type 'help'.$pSo go forth and be the
      salvaging hero of all Adventurers!$p$pThis game was produced
      with the ALAN Adventure Development System and is brought to
-     you by ThoNi&GorFo Adventure Factories. Visit the Alan Home Pages at:"
-    "$n$nhttp://www.alanif.se"
+     you by ThoNi&GorFo Adventure Factories."
+    Show 'logo.png'.
+    "$iVisit the Alan Home Pages at:"
+    "$n$n$ihttp://www.alanif.se"
 
     Visits 2.

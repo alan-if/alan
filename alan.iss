@@ -41,6 +41,7 @@ Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\Glk.dll"; DestDir:
 Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
+Source: "regression\saviour.a3r"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "games\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
