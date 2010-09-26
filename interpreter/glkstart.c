@@ -25,6 +25,12 @@
 #include "gi_blorb.h"
 #include "utils.h"
 
+#ifdef HAVE_WINGLK
+#include "WinGlk.h"
+#include <windows.h>
+#endif
+
+
 glkunix_argumentlist_t glkunix_arguments[] = {
     { "-l", glkunix_arg_NoValue, "-l: log player command and game output" },
     { "-c", glkunix_arg_NoValue, "-c: log player commands to a file" },
@@ -43,11 +49,10 @@ static strid_t resourceFile;
 /*----------------------------------------------------------------------*/
 static void openGlkWindows() {
     glkMainWin = glk_window_open(0, 0, 0, wintype_TextBuffer, 0);
-    if (glkMainWin == NULL)
-        {
+    if (glkMainWin == NULL) {
             printf("FATAL ERROR: Cannot open initial window");
             glk_exit();
-        }
+    }
     glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |
                                    winmethod_Fixed, 1, wintype_TextGrid, 0);
     glk_set_window(glkStatusWin);
@@ -63,8 +68,13 @@ static void openResourceFile() {
     giblorb_err_t ecode;
 
     strcpy(extension, ".a3r");
+#ifdef HAVE_WINGLK
+    resourceFileRef = winglk_fileref_create_by_name(fileusage_BinaryMode,
+                                                    resourceFileName, 0, FALSE);
+#else
     resourceFileRef = glk_fileref_create_by_name(fileusage_BinaryMode,
                                                  resourceFileName, 0);
+#endif
     if (glk_fileref_does_file_exist(resourceFileRef)) {
         resourceFile = glk_stream_open_file(resourceFileRef, filemode_Read, 0);
         ecode = giblorb_set_resource_map(resourceFile);
@@ -99,11 +109,6 @@ int glkunix_startup_code(glkunix_startup_t *data)
 }
 
 
-#ifdef HAVE_WINGLK
-#include "WinGlk.h"
-#include <windows.h>
-#endif
-
 
 static int argCount;
 static char *argumentVector[10];
@@ -133,6 +138,7 @@ static void splitArgs(char *commandLine) {
 }
 
 
+#ifdef HAVE_WINGLK
 /*======================================================================*/
 int winglk_startup_code(const char* cmdline)
 {
@@ -164,7 +170,8 @@ int winglk_startup_code(const char* cmdline)
     openGlkWindows();
 
     /* Open any possible blorb resource file */
-    openResourceFile(adventureName);
+    openResourceFile();
 
     return TRUE;
 }
+#endif
