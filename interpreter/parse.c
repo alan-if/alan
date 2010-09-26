@@ -949,6 +949,7 @@ static void findCandidates(Parameter parameters[], void (*instanceMatcher)(Param
     for (i = 0; i < lengthOfParameterArray(parameters); i++) {
         parameters[i].candidates = ensureParameterArrayAllocated(parameters[i].candidates);
         instanceMatcher(&parameters[i]);
+        parameters[i].candidates[0].isPronoun = parameters[i].isPronoun;
     }
 }
 
@@ -1015,7 +1016,6 @@ static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
     int multiplePosition = findMultipleParameterPosition(parameterPositions);
     if (anyAll(parameterPositions)) {
         /* If the player used ALL, try to find out what was applicable */
-        // DISAMBIGUATION!!!
         disambiguateCandidatesForPosition(parameterPositions, multiplePosition, parameterPositions[multiplePosition].parameters);
         if (lengthOfParameterArray(parameterPositions[multiplePosition].parameters) == 0)
             errorWhat(parameterPositions[multiplePosition].parameters[0].firstWord);
@@ -1044,9 +1044,9 @@ static void handleMultiplePosition(ParameterPosition parameterPositions[]) {
  *
  * p, n, omni,  result,                 why?
  * -----------------------------------------------------------------
- * 0, 0, no,    errorNoSuch(w)
- * 0, 1, no,    errorNoSuch(w)
- * 0, m, no,    errorNoSuch(w)
+ * 0, 0, no,    errorNoSuch(w)/errorWhat(w)
+ * 0, 1, no,    errorNoSuch(w)/errorWhat(w)
+ * 0, m, no,    errorNoSuch(w)/errorWhat(w)
  * 1, 0, no,    ok(p)
  * 1, 1, no,    ok(p)
  * 1, m, no,    ok(p)
@@ -1070,13 +1070,22 @@ typedef Parameter *DisambiguationHandler(Parameter allCandidates[], Parameter pr
 typedef DisambiguationHandler *DisambiguationHandlerTable[3][3][2];
 
 static Parameter *disambiguate00N(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorNoSuch(allCandidates[0]); return NULL;
+    if (allCandidates[0].isPronoun)
+        errorWhat(allCandidates[0].firstWord);
+    else
+        errorNoSuch(allCandidates[0]); return NULL;
 }
 static Parameter *disambiguate01N(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorNoSuch(allCandidates[0]); return NULL;
+    if (allCandidates[0].isPronoun)
+        errorWhat(allCandidates[0].firstWord);
+    else
+        errorNoSuch(allCandidates[0]); return NULL;
 }
 static Parameter *disambiguate0MN(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorNoSuch(allCandidates[0]); return NULL;
+    if (allCandidates[0].isPronoun)
+        errorWhat(allCandidates[0].firstWord);
+    else
+        errorNoSuch(allCandidates[0]); return NULL;
 }
 static Parameter *disambiguate10N(Parameter allCandidates[], Parameter presentCandidates[]) {
     return presentCandidates;
