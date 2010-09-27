@@ -598,14 +598,14 @@ static void complexReferencesParser(ParameterPosition *parameterPosition) {
 static Bool restrictionCheck(RestrictionEntry *restriction, int instance) {
     if (restriction->class == RESTRICTIONCLASS_CONTAINER) {
         if (sectionTraceOption)
-            printf("\n<SYNTAX RESTRICTION WHERE parameter #%ld Isa Container %s>\n",
+            printf("\n<SYNTAX RESTRICTION WHERE parameter #%ld Isa Container, %s>\n",
                    restriction->parameterNumber,
                    instances[instance].container != 0?"PASSED":"FAILED:");
         return instances[instance].container != 0;
     } else {
         if (sectionTraceOption)
-            printf("\n<SYNTAX RESTRICTION WHERE parameter #%ld Isa %s[%ld] %s>\n",
-                   restriction->parameterNumber, (char *)pointerTo(classes[restriction->class].id), restriction->class,
+            printf("\n<SYNTAX RESTRICTION WHERE parameter #%ld Isa %s[%ld], %s>\n",
+                   restriction->parameterNumber, idOfClass(restriction->class), restriction->class,
                    isA(instance, restriction->class)?"PASSED":"FAILED:");
         return isA(instance, restriction->class);
     }

@@ -155,7 +155,7 @@ static void showInstance(int ins)
     sprintf(str, "[%d]", ins);
     output(str);
     if (instances[ins].parent) {
-        sprintf(str, "Isa %s[%ld]", (char *)pointerTo(classes[instances[ins].parent].id), instances[ins].parent);
+        sprintf(str, "Isa %s[%ld]", idOfClass(instances[ins].parent), instances[ins].parent);
         output(str);
     }
 
@@ -276,7 +276,7 @@ static int sourceFileNumber(char *fileName) {
 
 /*----------------------------------------------------------------------*/
 static void printClassName(int c) {
-    output((char *)pointerTo(classes[c].id));
+    output(idOfClass(c));
 }
 
 
