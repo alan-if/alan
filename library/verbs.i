@@ -176,16 +176,16 @@
 ----- yes										yes						0
 
 
------ Directions (north, south, up, etc.) are declared in the file 'locations.i'.
-
 
 ----- Verbs having to do with wearing clothes are defined in the file 'classes.i', 
------ subclass 'clothing'. These verbs, together with their synonyms, are:
+----- subclass 'clothing'. These verbs are:
 -----
------ remove (+ doff, take off)
------ undress
------ wear (+ don, put on)
+----- remove 	(+ doff, take off)					remove (clothing)				1
+----- undress									undress					0
+----- wear 		(+ don, put on)						wear (clothing)				1
 
+
+----- Directions (north, south, up, etc.) are declared in the file 'locations.i'.
 
 
 
@@ -230,15 +230,6 @@ END ADD TO.
 
 
 
--- (We add the 'plural' attribute to the 'entity' class, because the plural 
--- applies not only to things but also to e.g. parameters in syntax statements; ignore.)
-
-
-ADD TO EVERY ENTITY
-	IS NOT plural.
-END ADD TO.
-
-
 
 -- We still define that plural nouns are preceded by "some" (and not "a" or "an"):
 
@@ -257,6 +248,17 @@ END ADD TO.
 --  	AT woods
 --  	INDEFINITE ARTICLE "an"
 -- END THE.
+
+
+
+-- (We add the 'plural' attribute to the 'entity' class, because the plural 
+-- applies not only to things but also to e.g. parameters in syntax statements; ignore.)
+
+
+ADD TO EVERY ENTITY
+	IS NOT plural.
+END ADD TO.
+
 
 
 -- (Other article and pronoun definitions are in the file 'classes.i'.)
