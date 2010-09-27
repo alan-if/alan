@@ -11,6 +11,7 @@
 
 #include "sysdep.h"
 #include "acode.h"
+#include "memory.h"
 
 
 /* MEMORY DEBUGGING? */

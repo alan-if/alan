@@ -22,6 +22,7 @@
 #include "syserr.h"
 #include "Location.h"
 #include "instance.h"
+#include "class.h"
 #include "memory.h"
 #include "output.h"
 #include "dictionary.h"
@@ -595,18 +596,24 @@ static void complexReferencesParser(ParameterPosition *parameterPosition) {
 
 /*----------------------------------------------------------------------*/
 static Bool restrictionCheck(RestrictionEntry *restriction, int instance) {
-    if (restriction->class == RESTRICTIONCLASS_CONTAINER)
+    if (restriction->class == RESTRICTIONCLASS_CONTAINER) {
+        if (sectionTraceOption)
+            printf("\n<SYNTAX RESTRICTION WHERE parameter #%ld Isa Container %s>\n",
+                   restriction->parameterNumber,
+                   instances[instance].container != 0?"PASSED":"FAILED:");
         return instances[instance].container != 0;
-    else
+    } else {
+        if (sectionTraceOption)
+            printf("\n<SYNTAX RESTRICTION WHERE parameter #%ld Isa %s[%ld] %s>\n",
+                   restriction->parameterNumber, (char *)pointerTo(classes[restriction->class].id), restriction->class,
+                   isA(instance, restriction->class)?"PASSED":"FAILED:");
         return isA(instance, restriction->class);
+    }
 }
 
 
 /*----------------------------------------------------------------------*/
 static void runRestriction(RestrictionEntry *restriction, Parameter parameters[]) {
-    if (sectionTraceOption)
-        printf("\n<SYNTAX parameter #%ld Is Not of class %ld:>\n",
-               restriction->parameterNumber, restriction->class);
     if (restriction->stms) {
         setParameters(parameters);
         interpret(restriction->stms);
