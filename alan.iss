@@ -34,6 +34,7 @@ Name: "quicklaunchicon"; Description: "Create &Quick Launch icons"; GroupDescrip
 Source: "bin\winalan.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "alan.readme"; DestDir: "{app}"; Flags: ignoreversion
 Source: "CHANGES"; DestDir: "{app}"; Flags: ignoreversion
+Source: "COPYING"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
@@ -53,6 +54,7 @@ Filename: "{app}\alan.url"; Section: "InternetShortcut"; Key: "URL"; String: "ht
 Name: "{group}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"
 Name: "{group}\Alan VERSION ReadMe"; Filename: "{app}\alan.readme"
 Name: "{group}\CHANGES"; Filename: "{app}\CHANGES"
+Name: "{group}\COPYING"; Filename: "{app}\COPYING"
 Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
 Name: "{group}\Alan V2 to V3 Source Converter"; Filename: "{app}\a2a3.exe"
 Name: "{group}\Alan V2 to V3 Source Converter ReadMe"; Filename: "{app}\a2a3.readme"
