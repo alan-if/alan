@@ -1,4 +1,4 @@
--- ALAN Standard Library v0.9
+-- ALAN Standard Library v0.95
 -- Classes (file name: 'classes.i')
 
 
@@ -35,7 +35,7 @@
       -- This extension prevents clothes from being worn in an illogical order, e.g. you 
 	-- cannot put on a shirt if you are already wearing a jacket, and so forth.
 	-- Also the verbs 'wear', 'remove' and 'undress' are defined here.
-   
+
 
 -- DEVICE  
 	-- Is a  machine or an electronic device, for example a TV. Can be turned 
@@ -926,6 +926,7 @@ END THE tempworn.
 
 -- The library as it stands also prevents wearing of duplicate clothes, or things that are 
 -- logically mutually exclusive - e.g. the player can wear a dress or a skirt, but not both.
+
 
 
 

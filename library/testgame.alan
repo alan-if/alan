@@ -75,7 +75,7 @@ END THE.
 THE table_parts ISA OBJECT
 	AT sunny_room
 	CONTAINER
-		HEADER "In the table there are"
+		HEADER "In the table there is"
 		ELSE ""
 	DESCRIPTION ""  -- this way no description of the object whatsoever is shown in the room description
 END THE.

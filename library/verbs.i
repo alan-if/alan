@@ -1,4 +1,4 @@
--- ALAN Standard Library v0.9
+-- ALAN Standard Library v0.95
 -- Verbs (file name: 'verbs.i')
 
 
@@ -1261,7 +1261,7 @@ ADD TO EVERY OBJECT
 			END IF.
 			"out of your reach."
 	DOES
-	    MAKE obj closed.
+	    MAKE obj NOT closed.
 	    "You close the" SAY THE obj. "."
   END VERB.
 END ADD TO.
@@ -3742,8 +3742,7 @@ ADD TO EVERY OBJECT
 			END IF.
 			"out of your reach."
 	AND obj IS NOT locked
-	    ELSE 
-		SAY THE obj.
+	    ELSE SAY THE obj.
 			IF obj IS NOT plural
 				THEN "is"
 				ELSE "are"
@@ -4207,9 +4206,19 @@ ADD TO EVERY OBJECT
 		END IF.
 		"out of your reach."
     AND obj IS closed
-      ELSE SAY THE obj. "is already open."
+      ELSE SAY THE obj. 
+		IF obj IS NOT plural
+			THEN "is"
+			ELSE "are" 
+		END IF.
+		"already open."
     AND obj IS NOT locked
-	ELSE SAY THE obj. "appears to be locked."
+	ELSE SAY THE obj. 
+		IF obj IS NOT plural
+			THEN "appears"
+			ELSE "appear"
+		END IF.
+		"to be locked."
     DOES
       	MAKE obj NOT closed.
 		"You open" SAY THE obj. "."
@@ -4261,7 +4270,12 @@ ADD TO EVERY OBJECT
 	    AND instr IN hero
 		ELSE "You don't have" SAY THE instr. "."
 	    AND obj IS closed
-		  ELSE SAY THE obj. "is already open."
+		  ELSE SAY THE obj.  
+			IF obj IS NOT plural
+				THEN "is"
+				ELSE "are"
+			END IF. 
+			"already open."
 	    AND obj IS NOT locked
 		ELSE SAY THE obj. "appears to be locked."
 	    DOES
@@ -4653,7 +4667,6 @@ SYNONYMS lay, place = put.
 
 
 
-
 -- ==============================================================
 
 
@@ -4697,6 +4710,8 @@ ADD TO EVERY OBJECT
 	        	ELSE "It doesn't make sense to put something into itself."
 	    AND obj IS takeable
 		  	ELSE "You don't have" SAY THE obj. "."
+	    AND CURRENT LOCATION IS lit
+			ELSE "It is too dark to see."
 	    AND obj NOT IN cont
 		  	ELSE 
 				IF cont ISA SUPPORTER
@@ -4715,8 +4730,6 @@ ADD TO EVERY OBJECT
 						ELSE "are"
 					END IF.
 				"closed."
-	    AND CURRENT LOCATION IS lit
-			ELSE "It is too dark to see."
 	    AND cont IS reachable
 		  	ELSE SAY THE cont. 
 				IF cont IS NOT plural
