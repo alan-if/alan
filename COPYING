@@ -6,15 +6,18 @@ source and free software.
 In practical terms this means that the licensing is choosen so that it should be possible to
 - freely distribute games produced with the Alan system, including for profit
 - re-distribute compiled versions of the Alan system, including together with a game which is
-not open source or free, provided there is no charge for the Alan system
-- redistribute compiled and source versions of the original Alan system (the Standard Version)
+  not open source or free, provided there is no charge for the Alan system
+- redistribute compiled and/or source versions of the original Alan system (the Standard Version)
 - aquire the source code for the Standard Version
 - modify the source code for private use
-- re-distribute compiled and source of a Modified Version provided they are done so under a
-compatible license with appropriate attribution *and* that the modification is discribed and
-made available, preferably by returning it to the Copyright Holder so that it can be merged
-into the Standard Version
+- re-distribute compiled and/or source of a Modified Version provided they are done so under a
+  compatible license with appropriate attribution *and* that the modification is discribed and
+  made available, preferably by returning it to the Copyright Holder so that it can be merged
+  into the Standard Version
 
+
+Artistic License 2.0
+====================
 
 Preamble
 --------
