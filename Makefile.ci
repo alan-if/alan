@@ -6,7 +6,7 @@
 
 BUILD = `cat BUILD_NUMBER`
 VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`-$(BUILD)
-LIBRARYVERSION `cat library/VERSION`
+LIBRARYVERSION `cat library/VERSION`-$(BUILD)
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
 TESTOUTPUT = -xml
@@ -26,7 +26,7 @@ snapshots: zip setup lib
 	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/Snapshots
 	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
 	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
-	cp library/library*.zip $(DISTDIR)/Snapshots/library$(LIBRARYVERSION)-$(BUILD).zip
+	cp library/library*.zip $(DISTDIR)/Snapshots/library$(LIBRARYVERSION).zip
 	cp doc/manual/manual.pdf $(DISTDIR)/Documentation
 
 include top.mk
