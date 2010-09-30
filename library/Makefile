@@ -12,4 +12,4 @@ tests:
 .PHONY: zip
 zip: changelog.txt classes.i COPYING.txt verbs.i locations.i messages.i library.i readme.txt testgame.alan
 	rm library*.zip
-	zip library0.9.zip $^
+	zip library0.95.zip $^
