@@ -1,14 +1,14 @@
-The Alan Standard Library v0.95 is distributed under the Artistic License 2.0 for which the full text
-follows. The intent of this licensing is that the Copyright Holder retains some
-control over the development of the library, while still keeping it available as open
-source free of charge.
+The Alan Standard Library v0.95 is distributed under the Artistic License 2.0 for which the
+full text follows. The intent of this licensing is that the Copyright Holder retains some
+control over the development of the library, while still keeping it available as open source
+free of charge.
 
 In practical terms this means that the licensing is chosen so that it should be possible to
 - freely distribute games produced using the library, including for profit
 - modify the source code of the library for inclusion in games, including commercial games 
 - redistribute compiled and/or source versions of the original library
-- redistribute compiled and/or source of modified Versions of the library provided they are done so under a
-compatible license with appropriate attribution 
+- redistribute compiled and/or source of modified Versions of the library provided they are
+  done so under a compatible license with appropriate attribution
 
 
 Artistic License 2.0
