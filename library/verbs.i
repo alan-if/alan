@@ -149,19 +149,19 @@
 ----- tear        (+ rip)                                         tear (obj)                          1                 x
 ----- tell        (+ enlighten, inform)                           tell (act) about (topic)            2	
 ----- think                                                       think                               0
------ think_about                                                 think about (topic)                 0
+----- think_about                                                 think about (topic)                 1
 ----- throw                                                       throw (projectile)                  1
 ----- throw_at                                                    throw (projectile) at (target)      2	
 ----- throw_in                                                    throw (projectile) in (cont)        2
 ----- throw_to                                                    throw (projectile) to (recipient)   2 
 ----- tie                                                         tie (obj)                           1                 x
------ tie_to                                                      tie (obj) to (target)               1                 x
+----- tie_to                                                      tie (obj) to (target)               2                 x
 ----- touch       (+ feel)                                        touch (obj)                         1                 x			
 ----- turn        (+ rotate)                                      turn (obj)                          1                 x 
 ----- turn_on                                                     turn on (app)                       1                 
 ----- turn_off                                                    turn off (app)                      1
 ----- unlock                                                      unlock (obj)                        1                 x
------ unlock_with                                                 unlock (obj) with (key)             1                 x	
+----- unlock_with                                                 unlock (obj) with (key)             2                 x	
 ----- use                                                         use (obj)                           1                 x 
 ----- use_with                                                    use (obj) with (instr)              2                 x
 ----- verbose                                                     verbose                             0
