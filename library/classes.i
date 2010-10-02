@@ -1110,7 +1110,6 @@ EVERY door ISA OBJECT
 				THEN "The gap under the closed door"
 					IF THIS IS plural 
 						THEN "$$s"
-						ELSE "."
 					END IF.
 					"is so narrow that you can't
 					see anything of what lies on the other side."

@@ -1261,7 +1261,7 @@ ADD TO EVERY OBJECT
 			END IF.
 			"out of your reach."
 	DOES
-	    MAKE obj NOT closed.
+	    MAKE obj closed.
 	    "You close the" SAY THE obj. "."
   END VERB.
 END ADD TO.
