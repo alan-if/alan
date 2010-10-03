@@ -6,8 +6,8 @@ all: tests zip
 
 build: zip
 
-.PHONY: tests
-tests:
+.PHONY: test
+test:
 	cd testing; java -jar ../../bin/jregr.jar
 
 .PHONY: zip
