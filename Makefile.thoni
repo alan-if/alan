@@ -59,7 +59,8 @@ srcdist:
 	/usr/bin/find . -name \* -exec chmod u+w \{\} \;
 	/usr/bin/find . -name Makefile\* -exec dos2unix \{\} \;
 	/usr/bin/find . -name \*.\[ch\] -exec dos2unix \{\} \;
-	tar zcvf alansrc$(VERSION).tgz compiler interpreter converter regression COPYING
+	tar zcvf alansrc$(VERSION).tgz compiler interpreter converter regression COPYING bin/regr bin/jregr bin/jregr.jar
+	-rm $(DISTDIR)/Source/alansrc*.*
 	cp alansrc$(VERSION).tgz $(DISTDIR)/Source
 
 .PHONY: newVersion
