@@ -22,7 +22,7 @@ zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.re
 	zip alan$(VERSION).win32.x86.zip $^
 
 .PHONY: setup
-setup:
+setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt
 	sed -e s/VERSION/$(VERSION)/ winarun.iss > winarun_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
 	-rm winarun_tmp.iss
@@ -41,3 +41,15 @@ games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan
 doc/manual/manual.pdf: doc/manual/manual.doc
 	@echo "PDF is not up-to-date"
 	exit 1
+
+COPYING.txt: COPYING
+	unix2dos >$@ <$<
+
+CHANGES.txt: CHANGES
+	unix2dos >$@ <$<
+
+alan.readme.txt: alan.readme
+	unix2dos >$@ <$<
+
+alan.readme.windows.txt: alan.readme.windows
+	unix2dos >$@ <$<

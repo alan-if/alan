@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Alan V3 Interactive Fiction Interpreter for Windows
-AppVerName=WinArun VERSION preview
+AppVerName=WinArun VERSION
 AppPublisher=ThoNi Adventure Factories
 AppPublisherURL=http://www.alanif.se
 AppSupportURL=http://www.alanif.se
@@ -31,11 +31,10 @@ Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescri
 Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "COPYING"; DestDir: "{app}"; Flags: ignoreversion
+Source: "COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3r"; DestDir: "{app}"; Flags: ignoreversion
 Source: "games\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [INI]
 Filename: "{app}\winarun.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://www.alanif.se"
@@ -45,7 +44,7 @@ Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
 Name: "{group}\Alan V3 Interpreter for Windows on the Web"; Filename: "{app}\winarun.url"
 Name: "{group}\Saviour - a sample game"; Filename: "{app}\saviour.a3c"
 Name: "{group}\Advent - a crude conversion of ADVENT"; Filename: "{app}\adventV3.a3c"
-Name: "{group}\COPYING"; Filename: "{app}\COPYING"
+Name: "{group}\COPYING"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall Alan V3 Interpreter for Windows"; Filename: "{uninstallexe}"
 Name: "{group}\Uninstall Alan V3 Interpreter for Windows"; Filename: "{uninstallexe}"
 Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon

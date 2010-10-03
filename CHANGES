@@ -1,3 +1,12 @@
+Changes in V3.alpha9:
+- Clearified licensing, read COPYING
+- Upgraded WinGLK to 1.39
+- BUGFIX: WinArun did follows preferences for window colouring and fonts
+- BUGFIX: WinArun did not find sound and image resources when started in another directory
+- BUGFIX: a pronoun referencing an instance from a previous command that is no longer
+  available, the message was non-optimal
+- FEATURE: Improved the tracing messages in the debugger
+
 Changes in V3.0alpha8:
 - FEATURE: Entered is now inherited and nested in an accumulative way
 - FEATURE: Entered is now executed before Description

@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Alan V3 Adventure Language System for Windows
-AppVerName=Alan VERSION preview
+AppVerName=Alan VERSION
 AppPublisher=ThoNi Adventure Factories
 AppPublisherURL=http://www.alanif.se
 AppSupportURL=http://www.alanif.se
@@ -32,12 +32,12 @@ Name: "quicklaunchicon"; Description: "Create &Quick Launch icons"; GroupDescrip
 
 [Files]
 Source: "bin\winalan.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "alan.readme"; DestDir: "{app}"; Flags: ignoreversion
-Source: "CHANGES"; DestDir: "{app}"; Flags: ignoreversion
-Source: "COPYING"; DestDir: "{app}"; Flags: ignoreversion
+Source: "alan.readme.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "CHANGES.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "COPYING.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "converter\a2a3.readme"; DestDir: "{app}"; Flags: ignoreversion
+Source: "converter\a2a3.readme"; DestDir: "{app}"; DestName: "a2a3.readme.txt"; Flags: ignoreversion
 Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
@@ -52,12 +52,12 @@ Filename: "{app}\alan.url"; Section: "InternetShortcut"; Key: "URL"; String: "ht
 
 [Icons]
 Name: "{group}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"
-Name: "{group}\Alan VERSION ReadMe"; Filename: "{app}\alan.readme"
-Name: "{group}\CHANGES"; Filename: "{app}\CHANGES"
-Name: "{group}\COPYING"; Filename: "{app}\COPYING"
+Name: "{group}\Alan VERSION ReadMe"; Filename: "{app}\alan.readme.txt"
+Name: "{group}\CHANGES"; Filename: "{app}\CHANGES.txt"
+Name: "{group}\COPYING"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
 Name: "{group}\Alan V2 to V3 Source Converter"; Filename: "{app}\a2a3.exe"
-Name: "{group}\Alan V2 to V3 Source Converter ReadMe"; Filename: "{app}\a2a3.readme"
+Name: "{group}\Alan V2 to V3 Source Converter ReadMe"; Filename: "{app}\a2a3.readme.txt"
 Name: "{group}\Alan V3 Manual"; Filename: "{app}\manual.pdf"
 Name: "{group}\Alan on the Web"; Filename: "{app}\alan.url"
 Name: "{group}\Saviour - a sample game (compile)"; Filename: "{app}\saviour.alan"
@@ -68,7 +68,4 @@ Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.
 Name: "{userdesktop}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: quicklaunchicon
-
-[UninstallDelete]
-Type: files; Name: "{app}\saviour.a3c"
 
