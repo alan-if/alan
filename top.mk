@@ -19,6 +19,7 @@ test:
 
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip games/adventv3/adventV3.a3c regression/saviour.alan COPYING
+	-rm alan*.zip
 	zip alan$(VERSION).win32.x86.zip $^
 
 .PHONY: setup
