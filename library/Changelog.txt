@@ -11,3 +11,5 @@ v0.95 (1 Oct, 2010)
 
 - corrected some errors in the verb table in the beginning of 'verbs.i'.
 - changed the parameter 'str' to 'topic' in the verbs 'answer', 'say' and 'say_to' in 'verbs.i'.
+- corrected a problem where the door in the testgame disappeared from sunny_room after visiting the closet
+- corrected a problem with the outcome message for 'look under door' in 'classes.i'

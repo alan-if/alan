@@ -283,6 +283,7 @@ THE closet ISA DARK_LOCATION
 	EXIT south TO sunny_room	
 		DOES "Aiming to the direction from where you remember coming, you manage to push the door open
 			and emerge back into the sunny room. The closet door slams shut behind you again."
+			LOCATE door1 AT sunny_room.
 	END EXIT.
 
 END THE.
