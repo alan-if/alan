@@ -2,7 +2,9 @@
 # Makefile for the new library
 # Runs the tests and builds a zipfile
 VERSION = `cat VERSION`
-all: tests zip
+DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
+
+all: test zip
 
 build: zip
 
@@ -14,3 +16,10 @@ test:
 zip: changelog.txt classes.i COPYING.txt verbs.i locations.i messages.i library.i readme.txt testgame.alan
 	-rm library*.zip
 	zip library$(VERSION).zip $^
+
+# Release is only possible on Thoni's machines
+.PHONY: release
+release: test zip
+	cp library$(VERSION).zip $(DISTDIR)/Library
+	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
+	echo "Please update VERSION file to indicate next version number"
