@@ -5,7 +5,7 @@
 VERSION	= `cat LASTRELEASE`
 
 all dist: alan arun test
-	tar zcvf alan$(VERSION).macosx.x86.tgz alan arun alan.readme.macosx alan.readme CHANGES
+	tar zcvf alan$(VERSION).macosx.x86.tgz alan arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
 
 alan: compiler/alan
 	cp compiler/alan .
