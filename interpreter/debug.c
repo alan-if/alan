@@ -60,7 +60,7 @@ static void showAttributes(AttributeEntry *attributes)
 
     i = 1;
     for (at = attributes; !isEndOfArray(at); at++) {
-        sprintf(str, "$i$t%s[%ld] = %ld", (char *) pointerTo(at->stringAddress), at->code, at->value);
+        sprintf(str, "$i$t%s[%d] = %d", (char *) pointerTo(at->stringAddress), at->code, (int)at->value);
 #if ISO == 0
         fromIso(str, str);
 #endif
@@ -104,7 +104,7 @@ static void showInstanceLocation(int ins, char *prefix) {
         if (isALocation(admin[ins].location)) {
             output("at");
             say(admin[ins].location);
-            sprintf(buffer, "[%ld]", admin[ins].location);
+            sprintf(buffer, "[%d]", admin[ins].location);
             output(buffer);
         } else if (isContainer(admin[ins].location)) {
 		  
@@ -113,7 +113,7 @@ static void showInstanceLocation(int ins, char *prefix) {
             else if (isActor(admin[ins].location))
                 output("carried by");
             say(admin[ins].location);
-            sprintf(buffer, "[%ld]", admin[ins].location);
+            sprintf(buffer, "[%d]", admin[ins].location);
             output(buffer);
 
         } else
@@ -155,7 +155,7 @@ static void showInstance(int ins)
     sprintf(str, "[%d]", ins);
     output(str);
     if (instances[ins].parent) {
-        sprintf(str, "Isa %s[%ld]", idOfClass(instances[ins].parent), instances[ins].parent);
+        sprintf(str, "Isa %s[%d]", idOfClass(instances[ins].parent), instances[ins].parent);
         output(str);
     }
 
@@ -175,7 +175,7 @@ static void showInstance(int ins)
         if (admin[ins].script == 0)
             output("$iIs idle");
         else {
-            sprintf(str, "$iExecuting script: %ld, Step: %ld", admin[ins].script, admin[ins].step);
+            sprintf(str, "$iExecuting script: %d, Step: %d", admin[ins].script, admin[ins].step);
             output(str);
         }
     }
@@ -239,7 +239,7 @@ static void showContainer(int cnt)
     char str[80];
 
     if (cnt < 1 || cnt > header->containerMax) {
-        sprintf(str, "Container number out of range. Between 1 and %ld, please.", header->containerMax);
+        sprintf(str, "Container number out of range. Between 1 and %d, please.", header->containerMax);
         output(str);
         return;
     }
@@ -249,7 +249,7 @@ static void showContainer(int cnt)
     if (containers[cnt].owner != 0) {
         cnt = containers[cnt].owner;
         say(cnt);
-        sprintf(str, "$iLocation: %ld", where(cnt, TRUE));
+        sprintf(str, "$iLocation: %d", where(cnt, TRUE));
         output(str);
     }
     showContents(cnt);
@@ -287,7 +287,7 @@ static void showClassInheritance(int c) {
     if (classes[c].parent != 0) {
         output(", Isa");
         printClassName(classes[c].parent);
-        sprintf(str, "(%ld)", classes[c].parent);
+        sprintf(str, "[%d]", classes[c].parent);
         output(str);
     }
 }
@@ -504,7 +504,7 @@ static void listFiles() {
 void listLines() {
     SourceLineEntry *entry;
     for (entry = pointerTo(header->sourceLineTable); *((Aword*)entry) != EOF; entry++)
-        printf("  %s:%ld\n", sourceFileName(entry->file), entry->line);
+        printf("  %s:%d\n", sourceFileName(entry->file), entry->line);
 }
 
 
@@ -583,7 +583,7 @@ static void setBreakpoint(int file, int line) {
                     sprintf(leadingText, "Line %d not available, breakpoint instead", line);
                 breakpoint[i].file = entry[lineIndex].file;
                 breakpoint[i].line = entry[lineIndex].line;
-                printf("%s set at %s:%ld\n", leadingText, sourceFileName(entry[lineIndex].file), entry[lineIndex].line);
+                printf("%s set at %s:%d\n", leadingText, sourceFileName(entry[lineIndex].file), entry[lineIndex].line);
                 showSourceLine(entry[lineIndex].file, entry[lineIndex].line);
                 printf("\n");
             }

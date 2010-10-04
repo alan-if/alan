@@ -41,7 +41,7 @@ void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int 
 static void traceInstanceAndItsClass(AltInfo *alt)
 {
     traceSay(globalParameters[alt->parameter-1].instance);
-    printf("[%ld]", globalParameters[alt->parameter-1].instance);
+    printf("[%d]", globalParameters[alt->parameter-1].instance);
     if (alt->class != NO_CLASS)
         printf(", inherited from %s[%d]", idOfClass(alt->class), alt->class);
 }
