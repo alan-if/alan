@@ -12,7 +12,8 @@ undoneMessage.alan
     3.    If parameter2 Is something Then "No parameter2 defined." End If.
 =====>       1
 
-  *1*   310 E : Identifier 'parameter2' not defined.
+  *1*   310 E : Identifier 'parameter2' not defined. The verb
+                '$message1string$' has the parameter 'parameter1'.
 
 
         2 error(s).
