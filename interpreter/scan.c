@@ -152,11 +152,7 @@ static void getLine(void) {
             glk_put_string_stream(logFile, buf);
             glk_put_char_stream(logFile, '\n');
 #else
-#ifdef __amiga__
-            fprintf(logFile, "%s", buf);
-#else
             fprintf(logFile, "%s\n", buf);
-#endif
 #endif
         }
         /* If the player input an empty command he forfeited his command */
