@@ -15,7 +15,7 @@
 
 /* TYPES */
 typedef struct ParamEntry {     /* PARAMETER */
-    InstanceId instance;        /* Instance code for the parameter (0=multiple) */
+    Aid instance;        /* Instance code for the parameter (0=multiple) */
     Bool isLiteral;
     Bool isPronoun;
     Bool isThem;

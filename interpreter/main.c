@@ -728,8 +728,8 @@ static void moveActor(int theActor)
                     if (traceActor(theActor))
                         printf(", SCRIPT %s[%ld], STEP %ld, Waiting another %ld turns>\n",
                                scriptName(theActor, admin[theActor].script),
-                               admin[theActor].script, admin[theActor].step+1,
-                               admin[theActor].waitCount);
+                               (long)admin[theActor].script, (long)admin[theActor].step+1,
+                               (long)admin[theActor].waitCount);
                     admin[theActor].waitCount--;
                     break;
                 }
@@ -738,7 +738,7 @@ static void moveActor(int theActor)
                     if (traceActor(theActor))
                         printf(", SCRIPT %s[%ld], STEP %ld, Evaluating:>\n",
                                scriptName(theActor, admin[theActor].script),
-                               admin[theActor].script, admin[theActor].step+1);
+                               (long)admin[theActor].script, (long)admin[theActor].step+1);
                     if (!evaluate(step->exp))
                         break;		/* Break loop, don't execute step*/
                 }
@@ -750,8 +750,8 @@ static void moveActor(int theActor)
                 if (traceActor(theActor))
                     printf(", SCRIPT %s[%ld], STEP %ld, Executing:>\n",
                            scriptName(theActor, admin[theActor].script),
-                           admin[theActor].script,
-                           admin[theActor].step);
+                           (long)admin[theActor].script,
+                           (long)admin[theActor].step);
                 interpret(step->stms);
                 step++;
                 /* ... so that we can see if he is USEing another script now */

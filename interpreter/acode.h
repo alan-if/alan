@@ -7,14 +7,14 @@
 #include <limits.h>
 #include <stddef.h>
 
-typedef size_t Aptr;            /* type for an ACODE memory address */
+typedef size_t Aptr;               /* Type for an ACODE memory address */
 
 #if INT_MAX==0x7fffffff
 typedef unsigned int Aword;        /* Type for an ACODE word */
 typedef unsigned int Aaddr;        /* Type for an ACODE address */
 typedef unsigned int Abool;        /* Type for an ACODE Boolean value */
 typedef signed   int Aint;         /* Type for an ACODE Integer value */
-typedef signed   int InstanceId;   /* Type for an ACODE Instance Id value */
+typedef signed   int Aid;          /* Type for an ACODE Instance Id value */
 typedef signed   int Aset;         /* Type for an ACODE Set value */
 typedef int CodeValue;             /* Definition for the packing process */
 #elif LONG_MAX==0x7fffffff
@@ -22,7 +22,7 @@ typedef unsigned long Aword;       /* Type for an ACODE word */
 typedef unsigned long Aaddr;       /* Type for an ACODE address */
 typedef unsigned long Abool;       /* Type for an ACODE Boolean value */
 typedef signed   long Aint;        /* Type for an ACODE Integer value */
-typedef signed   long InstanceId;  /* Type for an ACODE Instance Id value */
+typedef signed   long Aid;         /* Type for an ACODE Instance Id value */
 typedef signed   long Aset;        /* Type for an ACODE Integer value */
 typedef signed   long CodeValue;   /* Definition for the packing process */
 #else

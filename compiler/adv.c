@@ -403,7 +403,7 @@ void summary(void)
     }
     (void)sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
     lmLiPrint(str);
-    (void)sprintf(str,   "        Acode:                  %6ld words (%ld bytes)",
+    (void)sprintf(str,   "        Acode:                  %6d words (%d bytes)",
                   acodeHeader.size, acodeHeader.size*sizeof(Aword));
     lmLiPrint(str);
     (void)sprintf(str,   "        Text data:              %6d bytes", txtlen);
