@@ -84,7 +84,7 @@ void symbolizeId(IdNode *id)
   if (id->symbol == NULL) {
     if (id->string[0] != '$')
       /* Generated identifiers start with '$', don't report errors on those */
-      lmLog(&id->srcp, 310, sevERR, id->string);
+		lmLogv(&id->srcp, 310, sevERR, id->string, "", NULL);
     id->symbol = newSymbol(id, ERROR_SYMBOL);
   } else
     id->code = id->symbol->code;

@@ -97,7 +97,7 @@ static void symbolizeParent(Properties *props)
   if (props->parentId != NULL) {
     parent = lookup(props->parentId->string);
     if (parent == NULL)
-      lmLog(&props->parentId->srcp, 310, sevERR, props->parentId->string);
+		lmLogv(&props->parentId->srcp, 310, sevERR, props->parentId->string, "", NULL);
     else if (parent->kind != CLASS_SYMBOL)
       lmLog(&props->parentId->srcp, 350, sevERR, "");
     else {

@@ -141,7 +141,7 @@ static lmMsgs msg[] = {
     { "307   ", "\'%1\' already declared as an Event." },
     { "308   ", "\'%1\' already declared." },
     { "309   ", "In this context is THIS not a Container. Neither does the current entity inherit the Container property nor does it declare it." },
-    { "310   ", "Identifier \'%1\' not defined." },
+    { "310   ", "Identifier \'%1\' not defined.%2" },
     { "311   ", "%1 is not guaranteed to be %2, %3." },
     { "312   ", "%1 \'%2\' is not guaranteed to be %3, %4." },
     { "313   ", "Attribute \'%1\' is not defined for THIS instance." },

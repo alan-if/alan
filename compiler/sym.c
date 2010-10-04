@@ -667,39 +667,40 @@ static Symbol *lookupClass(IdNode *id, Symbol *symbol) {
 }
 
 
-/*======================================================================*/
-Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
+/*----------------------------------------------------------------------*/
+static List *getParameterSymbols(Context *context)
 {
-  Symbol *sym;
-
-  sym = lookupInContext(id->string, context);
-  if (requestedKinds == CLASS_SYMBOL)
-    sym = lookupClass(id, sym);
-
-  if (!sym) {
-    if (!isGeneratedId(id))
-      lmLog(&id->srcp, 310, sevERR, id->string);
-  } else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
-    if ((requestedKinds&INSTANCE_SYMBOL) == 0) {
-      if (multipleSymbolKinds(requestedKinds))
-	lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
-      else
-	lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
-      return NULL;
-    }
-  } else
-    if (requestedKinds != 0)
-      if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
-	if (multipleSymbolKinds(requestedKinds))
-	  lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+	if (context->kind == VERB_CONTEXT)
+		return context->verb->fields.verb.parameterSymbols;
 	else
-	  lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
-	return NULL;
-      }
-  id->symbol = sym;
-  return sym;
+		return NULL;
 }
 
+
+/*----------------------------------------------------------------------*/
+static char *identifierListForParameters(Context *context) {
+	List *parameters = getParameterSymbols(context);
+	char *identifiers = (char *)allocate(200);
+	List *list;
+	Bool first = TRUE;
+
+	if (parameters == NULL)
+		SYSERR("NULL parameters");
+
+	TRAVERSE(list, parameters) {
+		if (!first) {
+			if (list->next != NULL)
+				strcat(identifiers, "', '");
+			else
+				strcat(identifiers, "' and '");
+		} else
+			strcat(identifiers, "'");
+		strcat(identifiers, list->member.sym->string);
+		first = FALSE;
+	}
+	strcat(identifiers, "'");
+	return identifiers;
+}
 
 
 /*======================================================================*/
@@ -728,6 +729,50 @@ void setParameters(Symbol *verb, List *parameters)
 
   verb->fields.verb.parameterSymbols = parameterSymbols;
 }
+
+
+/*======================================================================*/
+Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
+{
+	Symbol *sym;
+
+	sym = lookupInContext(id->string, context);
+	if (requestedKinds == CLASS_SYMBOL)
+		sym = lookupClass(id, sym);
+
+	if (!sym) {
+		if (!isGeneratedId(id)) {
+			char parameterNames[500] = "";
+			if (context && context->kind == VERB_CONTEXT) {
+				List *parameterSymbols = getParameterSymbols(context);
+				if (length(parameterSymbols) > 0)
+					sprintf(parameterNames, " The verb '%s' has the parameter%s %s.",
+							context->verb->string, length(parameterSymbols)>1?"s":"",
+							identifierListForParameters(context));
+			}
+			lmLogv(&id->srcp, 310, sevERR, id->string, parameterNames, NULL);
+		}
+	} else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
+		if ((requestedKinds&INSTANCE_SYMBOL) == 0) {
+			if (multipleSymbolKinds(requestedKinds))
+				lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+			else
+				lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+			return NULL;
+		}
+	} else
+		if (requestedKinds != 0)
+			if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
+				if (multipleSymbolKinds(requestedKinds))
+					lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+				else
+					lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+				return NULL;
+			}
+	id->symbol = sym;
+	return sym;
+}
+
 
 /*======================================================================*/
 void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])

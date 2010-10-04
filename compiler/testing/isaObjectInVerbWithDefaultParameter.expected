@@ -6,12 +6,14 @@ isaObjectInVerbWithDefaultParameter.alan
    10.  	    if obj isa object then
 =====>  	       1
 
-  *1*   310 E : Identifier 'obj' not defined.
+  *1*   310 E : Identifier 'obj' not defined. The verb 'read' has the parameter
+                'object'.
 
    11.  	      if alph of obj = 2 then
 =====>  	                 1
 
-  *1*   310 E : Identifier 'obj' not defined.
+  *1*   310 E : Identifier 'obj' not defined. The verb 'read' has the parameter
+                'object'.
 
    17.  	      if alph of obj = 2 then
 =====>  	         1

@@ -90,6 +90,22 @@ static List *createOneParameter(char *id)
 			     newId(nulsrcp, id), 0), ELEMENT_LIST);
 }
 
+static List *createThreeParameters(char *id1, char *id2, char *id3)
+{
+  return concat(
+				concat(
+					   concat(NULL,
+							  newParameterElement(nulsrcp,
+												  newId(nulsrcp, id1), 0),
+							  ELEMENT_LIST),
+					   newParameterElement(nulsrcp,
+										   newId(nulsrcp, id2), 0),
+					   ELEMENT_LIST),
+				newParameterElement(nulsrcp,
+									newId(nulsrcp, id3), 0),
+				ELEMENT_LIST);
+}
+
 static void testVerbSymbols()
 {
   IdNode *v1Id = newId(nulsrcp, "v1");
@@ -470,22 +486,43 @@ static void testClassToType () {
   ASSERT(classToType(symbol) == INSTANCE_TYPE);
 }
 
+static Context *givenAVerbContextWithOneParameter(IdNode *v1Id) {
+	List *parameters;
+	Symbol *v1Symbol;
+	Context *context;
+
+	initAdventure();
+
+	v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
+	context = newVerbContext(v1Symbol);
+	parameters = createOneParameter("p1");
+	setParameters(v1Symbol, parameters);
+	return context;
+}
+
+static Context *givenAVerbContextWithThreeParameters(IdNode *v1Id) {
+	List *parameters;
+	Symbol *v1Symbol;
+	Context *context;
+
+	initAdventure();
+
+	v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
+	context = newVerbContext(v1Symbol);
+	parameters = createThreeParameters("p1", "p2", "p3");
+	setParameters(v1Symbol, parameters);
+	return context;
+}
+
 
 static void testParameterReference()
 {
-  List *parameters;
   IdNode *p1Id = newId(nulsrcp, "p1");
   Symbol *foundSymbol;
   IdNode *v1Id = newId(nulsrcp, "v1");
-  Symbol *v1Symbol;
   Context *context;
 
-  initAdventure();
-
-  v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
-  context = newVerbContext(v1Symbol);
-  parameters = createOneParameter("p1");
-  setParameters(v1Symbol, parameters);
+  context = givenAVerbContextWithOneParameter(v1Id);
 
   /* Parameter not found if not in verb context */
   foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, NULL);
@@ -495,7 +532,34 @@ static void testParameterReference()
   foundSymbol = symcheck(p1Id, INSTANCE_SYMBOL, context);
   ASSERT(foundSymbol != NULL);
   ASSERT(foundSymbol->kind == PARAMETER_SYMBOL);
-  ASSERT(foundSymbol->fields.parameter.element == parameters->member.elm);
+  ASSERT(equalId(foundSymbol->fields.parameter.element->id, p1Id));
+}
+
+static void testCanFindParametersFromVerbContext()
+{
+	List *parameterSymbols;
+	IdNode *p1Id = newId(nulsrcp, "p1");
+	IdNode *v1Id = newId(nulsrcp, "v1");
+	Context *context;
+
+	context = givenAVerbContextWithOneParameter(v1Id);
+
+	parameterSymbols = getParameterSymbols(context);
+	ASSERT(length(parameterSymbols) == 1);
+	ASSERT(strcmp(parameterSymbols->member.sym->string, p1Id->string) == 0);
+}
+
+static void testCanListParametersFromVerbContext()
+{
+	List *parameterSymbols;
+	IdNode *v1Id = newId(nulsrcp, "v1");
+	Context *context;
+
+	context = givenAVerbContextWithThreeParameters(v1Id);
+
+	parameterSymbols = getParameterSymbols(context);
+	ASSERT(length(parameterSymbols) == 3);
+	ASSERT(strcmp(identifierListForParameters(context), "'p1', 'p2' and 'p3'") == 0);
 }
 
 
@@ -520,5 +584,8 @@ void symUnitTests()
   registerUnitTest(testInheritOpaqueAttribute);
   registerUnitTest(testClassToType);
   registerUnitTest(testParameterReference);
+  registerUnitTest(testCanFindParametersFromVerbContext);
+  registerUnitTest(testCanListParametersFromVerbContext);
+
 }
 

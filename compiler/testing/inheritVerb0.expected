@@ -6,7 +6,7 @@ inheritVerb0.alan
     4.      Does Say c.
 =====>               1
 
-  *1*   310 E : Identifier 'c' not defined.
+  *1*   310 E : Identifier 'c' not defined. The verb 'v' has the parameter 'x'.
 
     8.  Start At l.
 =====>           1

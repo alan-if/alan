@@ -83,7 +83,7 @@ unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 #
 .PHONY: test
 test: unit
-	cd testing ; ../../bin/jregr
+	cd testing ; ../../bin/jregr -bin ../../bin
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

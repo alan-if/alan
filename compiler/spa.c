@@ -713,7 +713,7 @@ PRIVATE SPA_FUN(biUsage) {
 	for (i=j=0; pOptions[i].name; i++)
 	    if (pOptions[i].type && *pOptions[i].name) {
 		if (j++>0) printf(oALT);
-		printf(pOName(&pOptions[i]));
+		printf("%s", pOName(&pOptions[i]));
 	    }
     	printf(oSTOP);
     }

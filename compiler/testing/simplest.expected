@@ -7,29 +7,27 @@ simplest.alan
 =====>           1
 
   *1*   310 E : Identifier 'darkroom' not defined.
-  *1*   351 E : START statement must refer to an instance inheriting from
-                'location'.
 
     4.  location darkroom 
 =====>  1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'LOCATION'
-                Identifier 'NAME' Identifier Identifier ...".
+  *1*   102 E : Syntax error. Ignoring "location <identifier> name <identifier>
+                <identifier> ...".
 
     8.        exit north to anotherroom.
 =====>        1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier '.' ...".
+  *1*   102 E : Syntax error. Ignoring "exit <identifier> to <identifier> .
+                ...".
 
    16.        exit south to darkroom.
 =====>        1
 
-  *1*   102 E : Syntax error. Attempting to repair by ignoring "'EXIT'
-                Identifier 'TO' Identifier '.' ...".
+  *1*   102 E : Syntax error. Ignoring "exit <identifier> to <identifier> .
+                ...".
 
 
-        5 error(s).
+        4 error(s).
         No detected warnings.
         4 informational message(s).
 

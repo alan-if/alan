@@ -10,9 +10,6 @@ OS_FLAGS = -arch i386 # -arch ppc
 EXTRA_COMPILER_FLAGS = -Wall -funsigned-char -g
 EXTRA_LINKER_FLAGS = 
 
-all: alan
-
-release: OS_FLAGS = -arch i386 -arch ppc
+release: OS_FLAGS = -arch i386 #-arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
 release: DEPENDENCY = 
-release: all
