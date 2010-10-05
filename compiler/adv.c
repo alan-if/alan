@@ -193,7 +193,7 @@ static Aaddr generateSourceFileTable() {
 
     if (opts[OPTDEBUG].value)
         for (count = 0; count < length(fileNames); count++) {
-            encode(&sourceFileEntries[count].fpos, &sourceFileEntries[count].len);
+            encode((long *)&sourceFileEntries[count].fpos, (long *)&sourceFileEntries[count].len);
             emitEntry(&sourceFileEntries[count], sizeof(SourceFileEntry));
         }
     emit(EOF);
@@ -404,7 +404,7 @@ void summary(void)
     (void)sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
     lmLiPrint(str);
     (void)sprintf(str,   "        Acode:                  %6d words (%d bytes)",
-                  acodeHeader.size, acodeHeader.size*sizeof(Aword));
+                  (int)acodeHeader.size, (int)(acodeHeader.size*sizeof(Aword)));
     lmLiPrint(str);
     (void)sprintf(str,   "        Text data:              %6d bytes", txtlen);
     lmLiPrint(str);

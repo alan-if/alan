@@ -67,6 +67,8 @@ extern Bool symbolIsContainer(Symbol *symbol);
 extern Symbol *contentOfSymbol(Symbol *symbol);
 extern void newFrame(void);
 extern void deleteFrame(void);
+extern char *verbHasParametersMessage(Context *context);
+extern char *verbHasParametersOrNoneMessage(Context *context);
 
 /* Inheritance of a class */
 extern void setParent(Symbol *child, Symbol *parent);

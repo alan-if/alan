@@ -4,24 +4,30 @@
 
 VERSION	= `cat LASTRELEASE`
 
-all dist: alan arun test
+all dist: build-alan build-arun test
 	tar zcvf alan$(VERSION).macosx.x86.tgz alan arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
 
-alan:
-	cd compiler; make
+.PHONY: build-alan
+build-alan:
+	cd compiler; make all
 	cp compiler/alan .
 
-arun: 
-	cd interpreter; make -f
+.PHONY: build-arun
+build-arun: 
+	cd interpreter; make all
 	cp interpreter/arun .
 
 alan.readme.macosx: alan arun
 	@echo "alan.readme.macosx is not updated"
 	exit 1
 
+.PHONY: test
 test: alan arun
-	cd regression; ../bin/jregr
+	bin/jregr -dir compiler/testing
+	bin/jregr -dir regression
+	bin/jregr -dir library/testing	
 
+.PHONY: clean
 clean:
 	cd interpreter; make clean
 	cd compiler; make clean

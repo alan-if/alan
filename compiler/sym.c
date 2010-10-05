@@ -732,6 +732,34 @@ void setParameters(Symbol *verb, List *parameters)
 
 
 /*======================================================================*/
+char *verbHasParametersMessage(Context *context) {
+	static char message[2000];
+	message[0] = '\0';
+	if (context && context->kind == VERB_CONTEXT) {
+		List *parameterSymbols = getParameterSymbols(context);
+		if (length(parameterSymbols) > 0)
+			sprintf(message, " The verb '%s' has the parameter%s %s.",
+					context->verb->string, length(parameterSymbols)>1?"s":"",
+					identifierListForParameters(context));
+	}
+	return message;
+}
+
+
+/*======================================================================*/
+char *verbHasParametersOrNoneMessage(Context *context) {
+	char *message = verbHasParametersMessage(context);
+	if (strlen(message) > 0)
+		return message;
+	else {
+		static char noParametersMessage[2000];
+		sprintf(noParametersMessage, " The verb '%s' has no parameters.", context->verb->string);
+		return noParametersMessage;
+	}
+}
+
+
+/*======================================================================*/
 Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 {
 	Symbol *sym;
@@ -742,15 +770,7 @@ Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 
 	if (!sym) {
 		if (!isGeneratedId(id)) {
-			char parameterNames[500] = "";
-			if (context && context->kind == VERB_CONTEXT) {
-				List *parameterSymbols = getParameterSymbols(context);
-				if (length(parameterSymbols) > 0)
-					sprintf(parameterNames, " The verb '%s' has the parameter%s %s.",
-							context->verb->string, length(parameterSymbols)>1?"s":"",
-							identifierListForParameters(context));
-			}
-			lmLogv(&id->srcp, 310, sevERR, id->string, parameterNames, NULL);
+			lmLogv(&id->srcp, 310, sevERR, id->string, verbHasParametersMessage(context), NULL);
 		}
 	} else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
 		if ((requestedKinds&INSTANCE_SYMBOL) == 0) {

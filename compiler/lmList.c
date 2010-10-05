@@ -111,7 +111,7 @@ static lmMsgs msg[] = {
     { "211   ", "Adventure must start at an instance inheriting from \'location\'." },
     { "212   ", "Syntax parameter \'%1\' overrides symbol." },
     { "213   ", "Verb alternatives not allowed here." },
-    { "214   ", "Parameter not defined in syntax for \'%1\'." },
+    { "214   ", "Parameter '%1' not defined in syntax for \'%2\'.%3" },
     { "215   ", "Syntax not compatible with syntax for \'%1\'." },
     { "216   ", "Parameter \'%1\' multiply defined in this SYNTAX." },
     { "217   ", "Only one multiple parameter allowed for each syntax. This one ignored." },
