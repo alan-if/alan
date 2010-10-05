@@ -18,31 +18,6 @@
  */
 void terminate(int code)
 {
-#ifdef __amiga__
-#ifdef AZTEC_C
-#include <fcntl.h>
-  extern struct _dev *_devtab;
-  char buf[85];
-
-  if (con) { /* Running from WB, created a console so kill it */
-    /* Running from WB, so we created a console and
-       hacked the Aztec C device table to use it for all I/O
-       so now we need to make it close it (once!) */
-    _devtab[1].fd = _devtab[2].fd = 0;
-  } else
-#else
-  /* Geek Gadgets GCC */
-#include <workbench/startup.h>
-#include <clib/dos_protos.h>
-#include <clib/intuition_protos.h>
-
-  if (_WBenchMsg != NULL) {
-    Close(window);
-    if (_WBenchMsg->sm_ArgList != NULL)
-      UnLock(CurrentDir(cd));
-  } else
-#endif
-#endif
     newline();
   if (memory)
       free(memory);

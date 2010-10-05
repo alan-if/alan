@@ -24,19 +24,6 @@ of an Adventure that never was.$n$n");
 
   newline();
 
-#ifdef __amiga__
-#ifdef AZTEC_C
-  {
-    char buf[80];
-
-    if (con) { /* Running from WB, wait for user ack. */
-      printf("press RETURN to quit");
-      gets(buf);
-    }
-  }
-#endif
-#endif
-
   terminate(0);
 }
 
