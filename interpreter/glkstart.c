@@ -31,6 +31,10 @@
 #endif
 
 
+#ifdef HAVE_GARGLK
+#include "alan.version.h"
+#endif
+
 glkunix_argumentlist_t glkunix_arguments[] = {
     { "-l", glkunix_arg_NoValue, "-l: log player command and game output" },
     { "-c", glkunix_arg_NoValue, "-c: log player commands to a file" },
@@ -53,6 +57,9 @@ static void openGlkWindows() {
             printf("FATAL ERROR: Cannot open initial window");
             glk_exit();
     }
+#ifdef HAVE_GARGLK
+   glk_stylehint_set (wintype_TextGrid, style_User1, stylehint_ReverseColor, 1);
+#endif
     glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |
                                    winmethod_Fixed, 1, wintype_TextGrid, 0);
     glk_set_window(glkStatusWin);
@@ -62,12 +69,29 @@ static void openGlkWindows() {
 
 /*----------------------------------------------------------------------*/
 static void openResourceFile() {
-    char *resourceFileName = strdup(adventureFileName);
+    char *originalFileName = strdup(adventureFileName);
+	char *resourceFileName = originalFileName;
     char *extension = strrchr(resourceFileName, '.');
     frefid_t resourceFileRef;
     giblorb_err_t ecode;
 
+#ifdef HAVE_GARGLK
+	if (strrchr(resourceFileName, '/'))
+		resourceFileName = strrchr(resourceFileName, '/') + 1;
+	else if (strrchr(resourceFileName, '\\'))
+		resourceFileName = strrchr(resourceFileName, '\\') + 1;
+	if (!resourceFileName)
+		resourceFileName = originalFileName;
+
+	char *extension = strrchr(resourceFileName, '.');
+	if (extension)
+		strcpy(extension, ".a3r");
+	else
+		strcat(resourceFileName, ".a3r");
+#else
     strcpy(extension, ".a3r");
+#endif
+
 #ifdef HAVE_WINGLK
     resourceFileRef = winglk_fileref_create_by_name(fileusage_BinaryMode,
                                                     resourceFileName, 0, FALSE);
@@ -79,7 +103,7 @@ static void openResourceFile() {
         resourceFile = glk_stream_open_file(resourceFileRef, filemode_Read, 0);
         ecode = giblorb_set_resource_map(resourceFile);
     }
-    free(resourceFileName);
+    free(originalFileName);
 }
 
 
@@ -92,6 +116,11 @@ int glkunix_startup_code(glkunix_startup_t *data)
 
     /* first, open a window for error output */
     openGlkWindows();
+
+#ifdef GARGLK
+	garglk_set_program_name(alan.shortHeader);
+	garglk_set_program_info("Alan Interpreter 3.0 alpha 8 by Thomas Nilsson\n");
+#endif
 
     /* now process the command line arguments */
     args(data->argc, data->argv);
