@@ -781,7 +781,7 @@ void run(void)
 {
     int i;
     Bool playerChangedState;
-    Stack theStack = NULL;
+    static Stack theStack = NULL; /* Needs to survive longjmp() */
 	
     openFiles();
     load();			/* Load program */
