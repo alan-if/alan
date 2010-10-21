@@ -2290,7 +2290,7 @@ ADD TO EVERY ACTOR
    IS NOT sitting.
    IS NOT lying_down.	
    IS NOT named.								-- = the actor's name is not known to the player; see also 
-										-- the example after the class 'person' below
+										-- the example below
    
    -- Important: if you don't need an article in front of an actor name (e.g. 'Jim', as opposed to
    -- e.g. 'a/the man'), declare the instance as 'named':
@@ -2361,22 +2361,13 @@ ADD TO EVERY ACTOR
 		IF COUNT ISA THING, IN THIS > 0  			-- This if-statement will make a description of an
 			THEN LIST THIS. 					-- actor's possessions show up every time the actor is examined.
 		END IF.							-- Note that this doesn't apply to the hero which is defined
-										-- separately further below.
-   END VERB. 	
-
-	-- If you want the 'examine' verb to list what an actor is wearing, you must define a separate container
-	-- for the actor, this way:
-
-	-- THE juliet ISA ACTOR
-	--	VERB examine
-	--		DOES LIST juliet_worn.
-	--	END VERB.
-	-- END THE.
-	
-	-- THE juliet_worn ISA ENTITY
-	-- END THE.
-
-   	
+										-- separately further below.-- This listing will be overridden if you give an 
+										-- individual response
+   END VERB.								-- to the actor instance being examined using DOES ONLY. If you want to still
+   										-- list the possessions of the actor after your own 'examine'
+										-- response, you should state 'LIST [actor].' in the 'examine' verb there.
+   
+  	
 END ADD TO.
 
 
@@ -2448,6 +2439,8 @@ END THE.
 -- you should declare the piece of clothing NOT takeable! 
 				
 
+------------------------------------------
+
 
 -- To make an actor follow the hero, give it the 'following' attribute, e.g.:
 --
@@ -2476,21 +2469,7 @@ END THE.
 -- To stop an actor from following the hero, just make the actor NOT following.
 
 
-
-
--- ================================================================
-
-
------ PERSON			-- CAN talk
-
-
--- ================================================================
-
-
-EVERY person ISA ACTOR
-    CAN talk.
-END EVERY.
-
+--------------------------------------------
 
 
 -- Tip: if you have in your game an actor that starts off as unnamed (such as 'a man'),
@@ -2520,13 +2499,20 @@ END EVERY.
 -- The 'named' attribute is meant to be used in cases like this. The indefinite and definite
 -- articles don't have to be declared here, as their behavior has been declared in the general actor class above.
 
--- Important: you need to declare an actor instance as 'named' to avoid descripions like 
--- "There is a Jack here" or "The Jack gives the book to you":
 
--- THE jack ISA PERSON
---	IS named.
--- ...
--- END THE.
+
+-- ================================================================
+
+
+----- PERSON			-- CAN talk
+
+
+-- ================================================================
+
+
+EVERY person ISA ACTOR
+    CAN talk.
+END EVERY.
 
 
 
@@ -2615,7 +2601,8 @@ THE hero ISA ACTOR
 
 
 	VERB examine
-		DOES ONLY "You notice nothing unusual about yourself."	
+		DOES ONLY "You notice nothing unusual about yourself."	-- edit this line to change the way the hero is 
+												-- described after the player command 'examine myself'.
 			IF COUNT ISA CLOTHING, IN worn > 0
 				THEN LIST worn.			-- This will list what the hero is wearing.
 			END IF.					-- (The verb 'inventory' in 'verbs.i' will take care

@@ -293,7 +293,22 @@ END THE.
 
 -- We still declare some shared behaviour for all indoor and outdoor objects:
 
+
 ADD TO EVERY room_object
+    
+	VERB put_behind, put_near, put_under
+		WHEN bulk
+		DOES ONLY "That's not possible."
+	END VERB.
+
+	VERB look_behind, look_through, look_under
+		DOES ONLY "That's not possible."
+	END VERB.
+
+END ADD TO.	
+
+
+ADD TO EVERY site_object
     
 	VERB put_behind, put_near, put_under
 		WHEN bulk

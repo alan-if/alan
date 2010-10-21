@@ -6210,9 +6210,28 @@ ADD TO EVERY OBJECT
 		ELSE "You can't take something from itself."
 	AND CURRENT LOCATION IS lit
 		ELSE "It is too dark to see."
-	AND obj IN holder
+      AND obj IN holder
 		ELSE
-			IF holder IS inanimate
+			IF obj ISA CLOTHING    -- A piece of clothing worn by an NPC is not *in* the NPC but in a special
+						     -- npc_worn container (see 'classes.i', class 'actor'). We need to take the class 'clothing' separately
+						     -- into account here.
+				THEN		     -- Here, we allow the piece of clothing to be taken if it is takeable, skipping the remaining checks below.	
+					FOR EACH nw ISA NPC_WORN DO
+						IF carrier OF nw <> no_carrier
+							THEN 
+								IF obj IS takeable
+									THEN LOCATE obj IN hero.
+									    "You take" SAY THE obj. "from" SAY THE holder. "."
+									ELSE 
+							       		IF THIS IS NOT plural
+											THEN "That's"
+											ELSE "Those are"
+										END IF.
+										"not something you can take."
+								END IF.	
+						END IF.
+					END FOR.
+			ELSIF holder IS inanimate
 	  			THEN SAY THE obj. 
 					IF obj IS NOT plural
 						THEN "is not"
