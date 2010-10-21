@@ -227,12 +227,21 @@ THE felix ISA PERSON
 	DESCRIPTION "$pFelix, your grumpy butler, is standing off to one side."
 
 	VERB examine 
-		DOES ONLY "Felix is your grumpy butler, properly clad in a tuxedo. You could try talking to him, or asking him
-			for various things." 
+		DOES ONLY "Felix is your grumpy butler. You could try talking to him, or asking him
+			for various things.$p" LIST felix. LIST felix_worn.
 	END VERB.
 
 END THE.
 
+
+THE felix_worn ISA NPC_WORN
+    HAS carrier felix.
+END THE.
+
+THE tuxedo ISA CLOTHING IN felix_worn
+	IS topcover 64. botcover 64.
+	IS NOT takeable.
+END THE.
 
 THE dog ISA ACTOR
 	AT sunny_room

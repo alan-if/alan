@@ -734,7 +734,12 @@ END THE tempworn.
 							-- If you defined here 'IN joe', the clothing
 							-- would be listed in Joe's possessions:
 							-- "You see Joe here. Joe is carrying a book and 
-							-- a sweater." 
+							-- a sweater." For a concrete example of how to do 
+							-- this, scroll down to the class 'actor'.
+							-- Note also that if the piece of clothing worn
+							-- by an NPC is not meant to be takeable by the
+							-- player character, you should declare the
+							-- the piece of clothing to be NOT takeable.
 
 
 -- In defining a piece of clothing, you should
@@ -2295,7 +2300,8 @@ ADD TO EVERY ACTOR
    --   ...
    -- END THE.	
 
-   -- (Remember also that all actors are 'CAN NOT talk' by default.) 
+   -- (Remember also that all actors are 'CAN NOT talk' by default. If you want the actor to be able to talk,
+   -- give it the attribute 'CAN talk' or declare it ISA PERSON (see further below))
 	
    DEFINITE ARTICLE 
 	IF THIS IS NOT named
@@ -2372,6 +2378,74 @@ ADD TO EVERY ACTOR
 
    	
 END ADD TO.
+
+
+-- In order that clothing worn by an NPC is described after 'look' and
+-- 'examine' we need the following code. See the instructions right after it.
+
+			
+	
+EVERY npc_worn ISA OBJECT 
+	HAS carrier no_carrier. -- The value of the 'carrier' attribute is the actor wearing the clothing.
+				    -- Here, 'no_carrier' is a dummy default instance that can be ignored.
+
+	CONTAINER TAKING CLOTHING.
+		HEADER SAY THE carrier OF THIS. "is wearing"
+		ELSE ""
+
+	DESCRIPTION ""		-- we don't want this container to appear in room descriptions
+	
+	INITIALIZE					
+		LOCATE THIS AT carrier OF THIS.
+	      SCHEDULE check_npc_worn AT THIS AFTER 0.
+			
+END EVERY.	
+
+
+
+EVENT check_npc_worn
+	FOR EACH nw ISA npc_worn DO
+		IF nw NOT AT carrier OF nw
+			THEN LOCATE nw AT carrier OF nw.
+		END IF.
+	END FOR.
+	SCHEDULE check_npc_worn AFTER 1.
+END EVENT.
+
+
+THE no_carrier ISA ACTOR		-- a dummy default instance, ignore.
+END THE.
+
+
+
+-- To describe what an NPC is wearing (after the commands 'look and 'examine'), define the NPC e.g. like this:
+
+
+-- THE mr_smith ISA ACTOR
+--	DESCRIPTION	
+--		"blah blah" LIST mr_smith_worn.  -- Leave this LIST statement out if you don't want to
+-- 							   -- have the actor's clothing listed after 'look'.	
+--    VERB examine
+--		DOES ONLY "blah blah"
+--				(LIST mr_smith.)  	-- This lists what Mr Smith is carrying.			
+--				LIST mr_smith_worn.	-- this lists what Mr Smith is wearing. 
+--    END VERB.						  
+--
+-- END THE.
+
+
+-- THE mr_smith_worn ISA NPC_WORN	-- All containers for clothing worn by NPCs should be declared ISA NPC_WORN.
+-- 	HAS carrier mr_smith.		-- The value of the 'carrier' attribute is the actor wearing the clothes.
+-- END THE.
+
+
+-- THE bowler_hat ISA CLOTHING IN mr_smith_worn
+-- 	IS headcover 2.
+-- END THE. 
+
+
+-- Note that if you don't want the player character to be able to take a piece of clothing worn by another character,
+-- you should declare the piece of clothing NOT takeable! 
 				
 
 
