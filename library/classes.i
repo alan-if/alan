@@ -2159,6 +2159,17 @@ END EVERY.
 --				LIST table.			-- lists what is on the table
 --				LIST table_parts.		-- lists the components of the table, 
 --	            ...					-- i.e. the drawer in this example.
+--
+--		      -- Do the following if you want the game to describe if drawers in a table are open or closed	
+--			-- when the table is examined:
+--
+--				FOR EACH o ISA OBJECT, IN table_parts DO
+--					IF o IS NOT closed
+--						THEN SAY THE o. "is open."
+--						ELSE SAY THE o. "is closed."
+--					END IF.
+--				END FOR.
+--
 --         END VERB.
 --
 -- END THE.
@@ -2169,7 +2180,7 @@ END EVERY.
 -- Consequently, the above will result in something like this:
 --
 -- > examine table
--- On the table you see a book. In the table there is a drawer.	
+-- On the table you see a book. In the table there is a drawer. The drawer is closed.	
 --
 --
 -- Note that in a location description (e.g. after LOOK), only the things *on* a supporter
