@@ -27,6 +27,7 @@ ARUNOPTS = $(PROGNAME) $(GLK)
 #ALLOCLIBS = -ldmalloc
 
 CC = gcc
+OSFLAGS = -mmacosx-version-min=10.5
 COMPILEFLAGS = -g -Wall -funsigned-char $(ALLOC)
 CFLAGS = $(COMPILEFLAGS) -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
 

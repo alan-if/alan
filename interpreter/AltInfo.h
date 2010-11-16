@@ -34,10 +34,10 @@ typedef struct AltInfo {
 	AltEntry *alt;
 	Bool done;
 	int level;		/* 0 - Global, 1 - location, 2 - parameter */
-	int class;		/* In which class, only used for tracing */
-	int instance;		/* In which instance the Alternative was found,
-				   used to set current.instance and tracing */
-	int parameter;		/* In which parameter, only used for tracing */
+	Aid class;		/* In which class, only used for tracing */
+	int instance;	/* In which instance the Alternative was found,
+					   used to set current.instance and tracing */
+	int parameter;	   /* In which parameter, only used for tracing */
 } AltInfo;
 
 typedef AltEntry *(*AltEntryFinder)(int verb, int parameterNumber, int theInstance, int theClass);

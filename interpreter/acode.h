@@ -287,7 +287,7 @@ typedef struct ArticleEntry {
 
 typedef struct ClassEntry {	/* CLASS TABLE */
   Aword code;			/* Own code */
-  Aaddr id;			/* Address to identifier string */
+  Aaddr id;				/* Address to identifier string */
   Aint parent;			/* Code for the parent class, 0 if none */
   Aaddr name;			/* Address to name printing code */
   Aint pronoun;			/* Code for the pronoun word */
@@ -304,7 +304,7 @@ typedef struct ClassEntry {	/* CLASS TABLE */
 
 typedef struct InstanceEntry {	/* INSTANCE TABLE */
   Aint code;			/* Own code */
-  Aaddr id;			/* Address to identifier string */
+  Aaddr id;				/* Address to identifier string */
   Aint parent;			/* Code for the parent class, 0 if none */
   Aaddr name;			/* Address to name printing code */
   Aint pronoun;			/* Word code for the pronoun */
