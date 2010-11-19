@@ -19,18 +19,18 @@ Ensure canCopyAttributes() {
        each is terminated by EOF */
     a[0].code = 13;
     a[0].value = 15;
-    a[0].stringAddress = 17;
+    a[0].id = 17;
     a[1].code = 19;
     a[1].value = 21;
-    a[1].stringAddress = 23;
+    a[1].id = 23;
     a[2].code = EOF;
 
     a[3].code = 130;
     a[3].value = 150;
-    a[3].stringAddress = 170;
+    a[3].id = 170;
     a[4].code = 190;
     a[4].value = 210;
-    a[4].stringAddress = 230;
+    a[4].id = 230;
     a[5].code = EOF;
 
     instances[1].initialAttributes = 1;
@@ -40,18 +40,18 @@ Ensure canCopyAttributes() {
 
     assert_true(admin[1].attributes[0].code == 13);
     assert_true(admin[1].attributes[0].value == 15);
-    assert_true(admin[1].attributes[0].stringAddress == 17);
+    assert_true(admin[1].attributes[0].id == 17);
     assert_true(admin[1].attributes[1].code == 19);
     assert_true(admin[1].attributes[1].value == 21);
-    assert_true(admin[1].attributes[1].stringAddress == 23);
+    assert_true(admin[1].attributes[1].id == 23);
     assert_true(*(Aword*)&admin[1].attributes[2] == EOF);
 
     assert_true(admin[2].attributes[0].code == 130);
     assert_true(admin[2].attributes[0].value == 150);
-    assert_true(admin[2].attributes[0].stringAddress == 170);
+    assert_true(admin[2].attributes[0].id == 170);
     assert_true(admin[2].attributes[1].code == 190);
     assert_true(admin[2].attributes[1].value == 210);
-    assert_true(admin[2].attributes[1].stringAddress == 230);
+    assert_true(admin[2].attributes[1].id == 230);
     assert_true(*(Aword*)&admin[2].attributes[2] == EOF);
 }
 

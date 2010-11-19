@@ -33,7 +33,7 @@ Ensure canSaveRestore() {
   for (i = 0; i<20; i++) {
     attributes[i].code = i;
     attributes[i].value = i;
-    attributes[i].stringAddress = 0;
+    attributes[i].id = 0;
   }
   attributes[20].code = EOF;
 
@@ -103,7 +103,7 @@ Ensure canSaveStrings() {
   attributes = malloc(2*sizeof(AttributeEntry));
   attributes[0].code = 1;
   attributes[0].value = (Aword)strdup(testString);
-  attributes[0].stringAddress = 0;
+  attributes[0].id = 0;
   attributes[1].code = EOF;
 
   /* Fake admin areas for one instances */
@@ -168,7 +168,7 @@ Ensure canSaveSets() {
   for (i = 0; i < 4; i++) {
     attributes[i].code = i+1;
     attributes[i].value = (Aword)copySet(testSet[i]);
-    attributes[i].stringAddress = 0;
+    attributes[i].id = 0;
   }
   attributes[4].code = EOF;
 

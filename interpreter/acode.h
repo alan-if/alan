@@ -326,17 +326,17 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
 typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
   Aint code;			/* Its code */
   Aptr value;			/* Its value, a string has a dynamic
-						   string pointer, a set has a pointer
-						   to a dynamically allocated set */
-  Aaddr stringAddress;		/* Address to the name */
+                                   string pointer, a set has a pointer
+                                   to a dynamically allocated set */
+  Aaddr id;                     /* Address to the name */
 } AttributeEntry;
 
 typedef struct AttributeHeaderEntry {	/* ATTRIBUTE LIST in header */
   Aint code;			/* Its code */
   Aword value;			/* Its value, a string has a dynamic
-						   string pointer, a set has a pointer
-						   to a dynamically allocated set */
-  Aaddr stringAddress;		/* Address to the name */
+                                   string pointer, a set has a pointer
+                                   to a dynamically allocated set */
+  Aaddr id;                     /* Address to the name */
 } AttributeHeaderEntry;
 
 typedef struct ExitEntry {	/* EXIT TABLE structure */
@@ -387,12 +387,12 @@ typedef struct ParameterMapEntry {	/* PARAMETER MAPPING TABLE */
 } ParameterMapEntry;
 
 typedef struct EventEntry {	/* EVENT TABLE */
-  Aaddr stringAddress;		/* Address to name string */
+  Aaddr id;                     /* Address to name string */
   Aaddr code;
 } EventEntry;
 
 typedef struct ScriptEntry {	/* SCRIPT TABLE */
-  Aaddr stringAddress;		/* Address to name string */
+  Aaddr id;                     /* Address to name string */
   Aint code;			/* Script number */
   Aaddr description;		/* Optional description statements */
   Aaddr steps;			/* Address to steps */

@@ -60,7 +60,7 @@ static void showAttributes(AttributeEntry *attributes)
 
     i = 1;
     for (at = attributes; !isEndOfArray(at); at++) {
-        sprintf(str, "$i$t%s[%d] = %d", (char *) pointerTo(at->stringAddress), at->code, (int)at->value);
+        sprintf(str, "$i$t%s[%d] = %d", (char *) pointerTo(at->id), at->code, (int)at->value);
 #if ISO == 0
         fromIso(str, str);
 #endif
@@ -418,7 +418,7 @@ static void showEvents(void)
 
     output("Events:");
     for (event = 1; event <= header->eventMax; event++) {
-        sprintf(str, "$i%d [%s]:", event, (char *)pointerTo(events[event].stringAddress));
+        sprintf(str, "$i%d [%s]:", event, (char *)pointerTo(events[event].id));
 #if ISO == 0
         fromIso(str, str);
 #endif

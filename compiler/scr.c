@@ -141,7 +141,7 @@ Aaddr generateScripts(ACodeHeader *header)
   /* Script table */
   scriptTableAddress = nextEmitAddress();
   for (lst = allScripts; lst != NULL; lst = lst->next) {
-    entry.stringAddress = lst->member.script->stringAddress;
+    entry.id = lst->member.script->stringAddress;
     entry.code = lst->member.script->id->code;
     entry.description = lst->member.script->descriptionAddress;
     entry.steps = lst->member.script->stepAddress;

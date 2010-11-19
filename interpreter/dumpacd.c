@@ -182,9 +182,9 @@ static void dumpAtrs(int level, Aword atrs)
     indent(level+1);
     printf("value: %ld\n", atr->value);
     indent(level+1);
-    printf("string: %s", dumpAddress(atr->stringAddress));
-    if (atr->stringAddress != 0)
-      printf(" -> \"%s\"", (char *)&memory[atr->stringAddress]);
+    printf("string: %s", dumpAddress(atr->id));
+    if (atr->id != 0)
+      printf(" -> \"%s\"", (char *)&memory[atr->id]);
     printf("\n");
   }
 }
@@ -533,7 +533,7 @@ static void dumpScriptTable(Aword scrs)
 
   for (scr = (ScriptEntry *)pointerTo(scrs); !endOfTable(scr); scr++) {
     indent(level);
-    printf("SCRIPT: #%ld (%s, %s)\n", scr->code, scr->stringAddress == 0?"<null>":(char *)&memory[scr->stringAddress], dumpAddress(scr->stringAddress));
+    printf("SCRIPT: #%ld (%s, %s)\n", scr->code, scr->id == 0?"<null>":(char *)&memory[scr->id], dumpAddress(scr->id));
     indent(level+1);
     printf("description: %ld\n", scr->description);
     indent(level+1);

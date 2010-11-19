@@ -95,7 +95,7 @@ Aaddr generateEvents(ACodeHeader *header)
 
   adr = nextEmitAddress();		/* Save address of event table */
   for (lst = adv.evts; lst != NULL; lst = lst->next) {
-    entry.stringAddress = lst->member.evt->namadr;
+    entry.id = lst->member.evt->namadr;
     entry.code = lst->member.evt->stmadr;
     emitEntry(&entry, sizeof(entry));
   }

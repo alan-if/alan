@@ -629,7 +629,7 @@ static void generateAttribute(Attribute *attribute, int instanceCode)
 
   entry.code = attribute->id->code;
   entry.value = attribute->value;
-  entry.stringAddress = attribute->stringAddress;
+  entry.id = attribute->stringAddress;
   emitEntry(&entry, sizeof(entry));
 }
 

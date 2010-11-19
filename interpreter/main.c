@@ -489,7 +489,7 @@ static AttributeEntry *initializeAttributes(int awordSize)
         while (!isEndOfArray(originalAttribute)) {
             ((AttributeEntry *)currentAttributeArea)->code = originalAttribute->code;
             ((AttributeEntry *)currentAttributeArea)->value = originalAttribute->value;
-            ((AttributeEntry *)currentAttributeArea)->stringAddress = originalAttribute->stringAddress;
+            ((AttributeEntry *)currentAttributeArea)->id = originalAttribute->id;
             currentAttributeArea += AwordSizeOf(AttributeEntry);
             originalAttribute++;
         }
@@ -696,7 +696,7 @@ static char *scriptName(int theActor, int theScript)
         scriptEntry++;
         theScript--;
     }
-    return pointerTo(scriptEntry->stringAddress);
+    return pointerTo(scriptEntry->id);
 }
 
 
