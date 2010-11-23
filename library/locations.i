@@ -463,7 +463,7 @@ THEN MAKE CURRENT LOCATION NOT lit.
 -- 		DOES ONLY
 -- 			FOR EACH d1 ISA dark_location DO
 --				MAKE d1 lit.
---			FOR EACH.		
+--			END EACH.		
 -- 	END VERB.
 -- END THE.
 
@@ -557,7 +557,7 @@ END ADD TO.
 
 -- THE library ISA ROOM
 --	DESCRIPTION
---		IF described OF THIS = 0
+--		IF described OF THIS = 1
 --			THEN "There is an old man reading at a table in one of the corners."
 --			ELSE "The old man keeps on reading at his table."
 --		END IF.

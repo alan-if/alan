@@ -1844,6 +1844,9 @@ END EVERY.
 
 
 
+
+
+
 -- Tips for using container objects:
 
 
@@ -2019,11 +2022,12 @@ END EVERY.
 EVERY supporter ISA OBJECT
 	CONTAINER
 		HEADER "On" SAY THE THIS. "you see"
-		ELSE "There's nothing on" SAY THE THIS. "."
-
+		ELSE "There's nothing on" SAY THE THIS. "."		
+	
 
 	VERB examine
-		DOES LIST THIS.
+		DOES 
+			LIST THIS.
 	END VERB.
 
 
@@ -2066,6 +2070,7 @@ EVERY supporter ISA OBJECT
 END EVERY.
 
 
+
 -- To place objects on a supporter, define them in the following way:
 --
 -- Define the supporter first; e.g.
@@ -2092,102 +2097,68 @@ END EVERY.
 --
 -- Note that the 'examine' command will list what is on the surface of a supporter, not what,
 -- if anything, is inside the supporter. For example, if you have a supporter called 'table' in your game 
--- with a drawer in it,
+-- with two drawers in it,
 --
 -- DON'T do this:
 --
--- THE drawer ISA OBJECT
---	CONTAINER
--- 	IN table.
+-- THE drawer1 ISA OBJECT
+--     NAME bottom drawer
+--	 CONTAINER
+-- 	 IN table.
 -- END THE.
 --
 -- or this:
 --
--- THE drawer ISA LISTABLE_CONTAINER
---    IN table.			
+-- THE drawer2 ISA LISTABLE_CONTAINER
+--     NAME top drawer
+--     IN table.			
 -- END THE.    
 --
 -- This would result in something like 
 --
--- "There's a table here. On the table you see a book and a drawer."
+-- "There's a table here. On the table you see a book, a bottom drawer and a top drawer."
 --
 --
--- Instead, do either of the two following things:
+-- Instead, do the following:
 --
--- 
--- 1)
---
--- THE drawer ISA OBJECT
---	CONTAINER
---	AT bedroom
--- END THE.
---
--- or
---
--- THE drawer ISA LISTABLE_CONTAINER
---    AT bedroom  
--- END THE.
---
---
--- In other words, just declare the drawer present in the location, not as part of the table.
--- ('AT table' would not be possible, as all objects must be initially located to
--- instances inheriting from the class 'location'.)
--- If this method feels clumsy, try the next one:
---
--- 
--- 2)
--- 
--- THE table_parts ISA OBJECT
---	AT bedroom	 
---	DESCRIPTION ""			-- we don't want this object to appear in the room description
---    CONTAINER
---		HEADER "In the table there is"
---		ELSE ""			-- if the parts are removed from the table, there will be no 
--- END THE.					-- mention of them in the description of the table
---
---
--- THE drawer ISA LISTABLE_CONTAINER
---    IN table_parts
---    ...
--- END THE.
---
---
--- THE table ISA SUPPORTER
--- ...
---	     VERB examine
--- 			DOES ONLY 
---				LIST table.			-- lists what is on the table
---				LIST table_parts.		-- lists the components of the table, 
---	            ...					-- i.e. the drawer in this example.
---
---		      -- Do the following if you want the game to describe if drawers in a table are open or closed	
---			-- when the table is examined:
---
---				FOR EACH o ISA OBJECT, IN table_parts DO
---					IF o IS NOT closed
---						THEN SAY THE o. "is open."
---						ELSE SAY THE o. "is closed."
+-- THE table ISA SUPPORTER 
+--     AT bedroom
+--     HAS components {drawer1, drawer2}.
+-- 	 ...
+--     VERB examine
+--		DOES 
+--			FOR EACH c IN components OF THIS DO
+--				SAY "The table has" SAY AN c. "." 
+--					IF c IS NOT closed
+--						THEN LIST c.
+--						ELSE SAY THE c. "is closed."
 --					END IF.
---				END FOR.
---
---         END VERB.
---
+--			END FOR.
+--	 END VERB.
+--     ...
 -- END THE.
 --
+-- THE drawer1 ISA LISTABLE_CONTAINER 
+--    OPAQUE CONTAINER
+--    NAME bottom drawer
+--    AT bedroom 
+-- 	IS closed.
+-- END THE.
 --
--- In other words, define a separate container for the component(s) in the supporter
--- which will then be listed after the surface objects have been listed.
--- Consequently, the above will result in something like this:
+-- THE drawer2 ISA LISTABLE_CONTAINER
+--	NAME top drawer
+--	AT bedroom
+--	IS NOT closed.
+-- END THE.
+
+
+
+-- In other words, declare the drawers components of the table, in the manner described above.
+-- The result will then be e.g. something like this:
 --
--- > examine table
--- On the table you see a book. In the table there is a drawer. The drawer is closed.	
---
---
--- Note that in a location description (e.g. after LOOK), only the things *on* a supporter
--- (and not any components) will be described, according to how things are defined in 
--- this library.
--- 
---
+-- "You see a table here. There is a book on the table. The table has a bottom drawer. The bottom drawer
+-- is closed. The table has a top drawer. The top drawer contains a diary."
+
 
 
 
@@ -2355,7 +2326,7 @@ ADD TO EVERY ACTOR
 	IF THIS IS NOT named
 		THEN 
 			IF THIS IS NOT plural
-				THEN "There is a" SAY THIS. "here."		-- If you need "an", redeclare the description at the instance level.
+				THEN "There is" SAY AN THIS. "here."		
 				ELSE "There are" SAY THIS. "here."	
 			END IF.	
 		ELSE SAY THIS. 
@@ -2446,8 +2417,8 @@ END THE.
 -- END THE. 
 
 
--- Note that if you don't want the player character to be able to take a piece of clothing worn by another character,
--- you should declare the piece of clothing NOT takeable! 
+-- Note that if you don't want the player character to be able to take a piece of clothing worn
+-- by another character, you should declare the piece of clothing NOT takeable! 
 				
 
 ------------------------------------------
@@ -2508,7 +2479,8 @@ END THE.
 -- END THE.
 
 -- The 'named' attribute is meant to be used in cases like this. The indefinite and definite
--- articles don't have to be declared here, as their behavior has been declared in the general actor class above.
+-- articles don't have to be declared here, as their behavior has been declared in the 
+-- general actor class above.
 
 
 
