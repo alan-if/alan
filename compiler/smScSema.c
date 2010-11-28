@@ -42,6 +42,10 @@ int scannedLines();
 /* PRIVATE */
 static int lines = 0;		/* Updated at end of each file */
 
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
+
 Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 		 Bool search	/* IN - Search the include paths */
 ){
