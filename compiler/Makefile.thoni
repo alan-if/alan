@@ -80,7 +80,7 @@ rndalan: rndalan.o
 
 .PHONY: tm
 tm:
-	-@if test "`uname -n`" = "ThoNi"; then \
+	-@if test "`uname -n`" = "thoni"; then \
 		$(MAKE) -f Makefile.tm ; \
 	fi
 

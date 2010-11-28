@@ -8,7 +8,7 @@
 # REMEMBER: You have to set both the Path to include the ToolMaker
 # directory and the TMHOME environment variable to point there!
 
-TMHOME	= /home/projects/ToolMaker
+TMHOME	= $(HOME)/Utveckling/ToolMaker
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 EXTRAS = \
@@ -23,24 +23,28 @@ TMSRCS = \
 	smScanx.c smScSema.c\
 	lmList.c alanCommon.h
 
+IMPQ    = -sTMHOME\(\"$(TMHOME)\"\)
+
 all : x tm smScanx.c sysdep.h sysdep.c version.h alan.atg alan.g
 
 .PHONY: x
 x :
 	@echo TMLIB=$(TMLIB)
+	@echo TMHOME=$(TMHOME)
+
 
 tm: .pmkstamp .smkstamp .lmkstamp
 	touch .tmstamp
 
 .lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk $(LMKQ) -generate tables alan
-	imp alan.lmt
+	imp $(IMPQ) alan.lmt
 	touch .lmkstamp
 
 .pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	pmk $(PMKQ) -generate tables alan
 	sed -e "s/%%SET currentOs(\"WIN32\")/%%SET currentOs(\"cygwin\")/" alan.pmt > alan.pmt2
-	imp alan.pmt2
+	imp $(IMPQ) alan.pmt2
 	touch .pmkstamp
 
 alan.prod : prod.sed alan.pml
@@ -57,7 +61,7 @@ alan.g : antlr.sed antlr.header alan.prod
 .smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan -generate tables
 	sed -e "s/%%SET currentOs(\"WIN32\")/%%SET currentOs(\"cygwin\")/" alan.smt > alan.smt2
-	imp alan.smt2
+	imp $(IMPQ) alan.smt2
 	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
 	echo "/* ISO scanner tables */" > smScan.iso.new
 	echo "UByte1 smIsoMap[256]={" >> smScan.iso.new
@@ -82,7 +86,7 @@ alan.g : antlr.sed antlr.header alan.prod
 		mv smScan.iso.new smScan.iso ; \
 	fi ;
 	smk -set MAC alan -generate tables
-	imp alan.smt
+	imp $(IMPQ) alan.smt
 	echo "/* MAC scanner tables */" > smScan.mac.new
 	echo "UByte1 smMacMap[256]={" >> smScan.mac.new
 	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
@@ -106,7 +110,7 @@ alan.g : antlr.sed antlr.header alan.prod
 		mv smScan.mac.new smScan.mac ; \
 	fi ;
 	smk -set PC alan -generate tables
-	imp alan.smt
+	imp $(IMPQ) alan.smt
 	echo "/* DOS scanner tables */" > smScan.dos.new
 	echo "UByte1 smDosMap[256]={" >> smScan.dos.new
 	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
