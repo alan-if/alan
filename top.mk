@@ -23,7 +23,7 @@ zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.re
 	zip alan$(VERSION).win32.x86.zip $^
 
 .PHONY: setup
-setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt
+setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
 	-rm winarun*setup.exe
 	sed -e s/VERSION/$(VERSION)/ winarun.iss > winarun_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
@@ -55,4 +55,7 @@ alan.readme.txt: alan.readme
 	unix2dos >$@ <$<
 
 alan.readme.windows.txt: alan.readme.windows
+	unix2dos >$@ <$<
+
+converter/a2a3.readme.txt: converter/a2a3.readme
 	unix2dos >$@ <$<
