@@ -1,0 +1,2 @@
+.alan : alan -deb $1
+.input : arun -t $1 < $2

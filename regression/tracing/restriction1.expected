@@ -1,0 +1,110 @@
+########## restriction1 ##########
+
+
+restriction1.alan
+
+   14.      Does
+=====>      1
+
+  *1*   223 W : This Verb body might be executed for every matching parameter
+                in the syntax for 'give', depending on the parameter
+                restrictions. You might want to use a WHEN clause to specify
+                for which parameter this alternative is to be run.
+
+
+        No detected errors.
+        1 warning(s).
+
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+<Hi! This is Alan interactive fiction interpreter Arun, version
+3.0beta1 !>
+
+<START:>
+
+
+L
+There is a o here. There is a here. There is c here.
+
+> give a o
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+A can't carry anything.
+
+> give a a
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+A can't carry anything.
+
+> give o o
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+O can't carry anything.
+
+> give c a
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+
+<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], FAILED:>
+You can't give a to c.
+
+> give a c
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+A can't carry anything.
+
+> give c c
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+
+<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], FAILED:>
+You can't give c to c.
+
+> give o c
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+O can't carry anything.
+
+> give c o
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+
+<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], PASSED>
+
+<VERB 1, in (parameter #2) o[2], inherited from object[4], DOES:>
+GIVE says that (recip) is = c
+<ACTOR a[3] (at l[5]), Idle>
+
+<ACTOR c[4] (at l[5]), Idle>
+
+> give 3 4 
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+3 can't carry anything.
+
+> give a 4
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+A can't carry anything.
+
+> give c 3
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+
+<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], FAILED:>
+You can't give 3 to c.
+
+> give a "hej"
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+A can't carry anything.
+
+> give c "hej"
+
+<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+
+<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], FAILED:>
+You can't give hej to c.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

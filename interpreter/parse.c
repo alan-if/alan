@@ -594,19 +594,34 @@ static void complexReferencesParser(ParameterPosition *parameterPosition) {
 }
 
 
+
+/*----------------------------------------------------------------------*/
+static char *classNameAndId(int classId) {
+    static char buffer[1000] = "";
+
+    if (classId != -1)
+        sprintf(buffer, "%s[%d]", idOfClass(classId), classId);
+    else
+        sprintf(buffer, "Container");
+    return buffer;
+}
+
+/*----------------------------------------------------------------------*/
+static void traceRestriction(RestrictionEntry *restriction, int classId, Bool condition) {
+    printf("\n<SYNTAX RESTRICTION WHERE parameter #%d Isa %s, %s>\n",
+           restriction->parameterNumber, classNameAndId(classId), condition?"PASSED":"FAILED:");
+}
+
+
 /*----------------------------------------------------------------------*/
 static Bool restrictionCheck(RestrictionEntry *restriction, int instance) {
     if (restriction->class == RESTRICTIONCLASS_CONTAINER) {
         if (sectionTraceOption)
-            printf("\n<SYNTAX RESTRICTION WHERE parameter #%d Isa Container, %s>\n",
-                   restriction->parameterNumber,
-                   instances[instance].container != 0?"PASSED":"FAILED:");
+            traceRestriction(restriction, -1, instances[instance].container != 0);
         return instances[instance].container != 0;
     } else {
         if (sectionTraceOption)
-            printf("\n<SYNTAX RESTRICTION WHERE parameter #%d Isa %s[%d], %s>\n",
-                   restriction->parameterNumber, idOfClass(restriction->class), restriction->class,
-                   isA(instance, restriction->class)?"PASSED":"FAILED:");
+            traceRestriction(restriction, restriction->class, isA(instance, restriction->class));
         return isA(instance, restriction->class);
     }
 }
