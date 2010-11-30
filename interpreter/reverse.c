@@ -350,6 +350,7 @@ static void reverseSyntaxTable(Aword adr)
     reverseTable(adr, sizeof(SyntaxEntry));
     while (!isEndOfArray(e)) {
       reverseElms(e->elms);
+      reverseTable(e->parameterNameTable, sizeof(Aaddr));
       e++;
     }
   }
@@ -467,7 +468,8 @@ void reverseHdr(ACodeHeader *hdr)
     reverse(&((Aword *)hdr)[i]);
 }
 
-/*----------------------------------------------------------------------
+
+/*======================================================================
 
   reverseACD()
 

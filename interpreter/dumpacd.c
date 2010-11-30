@@ -62,7 +62,6 @@ static void indent(int level)
     printf("|   ");
 }
 
-
 static char *dumpBoolean(Bool bool)
 {
   return bool?"true":"false";
@@ -319,7 +318,7 @@ static void dumpClasses(int level, Aword classes)
     indent(level+1);
     printf("id: %s", dumpAddress(class->id));
     if (class->id != 0)
-		printf(" \"%s\"", nameOfClass(class->id);
+        printf(" \"%s\"", stringAt(class->id));
     printf("\n");
     indent(level+1);
     printf("parent: %ld\n", class->parent);
@@ -485,6 +484,19 @@ static void dumpParameterMapTable(int level, Aword stxs)
 
 
 /*----------------------------------------------------------------------*/
+static void dumpParameterNames(int level, Aaddr table) {
+    Aaddr *adr;
+
+    if (table == 0) return;
+
+    for (adr = (SyntaxEntry *)pointerTo(table); !endOfTable(adr); adr++) {
+        indent(level);
+        printf("'%s'\n", stringAt(*adr));
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
 static void dumpSyntaxTable(int level, Aword stxs)
 {
   SyntaxEntry *stx;
@@ -497,6 +509,9 @@ static void dumpSyntaxTable(int level, Aword stxs)
     indent(level+1);
     printf("elements: %s\n", dumpAddress(stx->elms));
     dumpElms(level+2, stx->elms);
+    indent(level+1);
+    printf("parameterNames: %s\n", dumpAddress(stx->parameterNameTable));
+    dumpParameterNames(level+2, stx->parameterNameTable);
   }
 }
 
@@ -848,12 +863,12 @@ static void load(char acdfnm[])
 
   codfil = fopen(acdfnm, "rb");
   if (codfil == NULL) {
-    fprintf(stderr, "Could not open Acode-file: '%s'\n\n", acdfnm);
+    printf("Could not open Acode-file: '%s'\n\n", acdfnm);
     exit(-1);
   }
   readsize = fread(&tmphdr, 1, sizeof(tmphdr), codfil);
   if (readsize != headerSize) {
-    fprintf(stderr, "Malformed .A3C file. Could not read header.\n\n");
+    printf("Malformed .A3C file. Could not read header.\n\n");
     exit(-1);
   }
   if (tmphdr.tag[3] != 'A' && tmphdr.tag[1] != 'A' && tmphdr.tag[2] != 'A' && tmphdr.tag[0] != 'N') {

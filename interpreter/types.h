@@ -47,7 +47,7 @@
 
 #define pointerTo(x) ((void *)&memory[x])
 #define addressOf(x) ((((long)x)-((long)memory))/sizeof(Aword))
-
+#define stringAt(x) ((char *)pointerTo(x))
 
 /* TYPES */
 

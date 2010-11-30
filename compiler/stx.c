@@ -453,6 +453,7 @@ static void generateParameterNames(Syntax *syntax) {
         Element *elm = lst->member.elm;
         emit(elm->idAddress);
     }
+    emit(EOF);
     syntax->parameterNameTable = adr;
 }
 
