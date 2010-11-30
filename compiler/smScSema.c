@@ -41,7 +41,6 @@ int scannedLines();
 
 /* PRIVATE */
 static int lines = 0;		/* Updated at end of each file */
-
 #ifndef O_BINARY
 #define O_BINARY 0
 #endif
@@ -60,7 +59,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 
     if (search) {
       strcpy(fnmbuf, fnm);
-      if ((this->fd = open(fnmbuf, O_BINARY)) < 0) {
+      if ((this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) < 0) {
 	for (ip = importPaths; ip != NULL; ip = ip->next) {
 	  strcpy(fnmbuf, ip->member.str);
 #ifndef __mac__
@@ -68,7 +67,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
 	    strcat(fnmbuf, "/");
 #endif
 	  strcat(fnmbuf, fnm);
-	  if ((this->fd = open(fnmbuf, O_BINARY)) > 0)
+	  if ((this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) > 0)
 	    break;
 	}
 	if (ip == NULL)
@@ -76,7 +75,7 @@ Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
       }
     } else {
       strcat(fnmbuf, fnm);
-      if ((this->fd = open(fnmbuf, O_BINARY)) < 0)
+      if ((this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) < 0)
 	return FALSE;
     }
   }
