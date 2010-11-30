@@ -27,6 +27,7 @@
 
 #include "acode.h"
 #include "emit.h"
+#include "opt.h"
 
 
 /* PUBLIC: */
@@ -433,22 +434,38 @@ static void generateRestrictionTable(void) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static void generateParameterNames(Syntax *syntax) {
+	List *lst;
+
+	/* Generate all syntax parameter restriction checks */
+	TRAVERSE(lst, syntax->parameters) {
+		Element *elm = lst->member.elm;
+		printf("%s\n", elm->id->string);
+    }
+}
+
+
 /*======================================================================*/
 Aaddr generateParseTable(void) {
-  List *lst;
-  Aaddr parseTableAddress;
+	List *lst;
+	Aaddr parseTableAddress;
 
-  generateRestrictionTable();
+	generateRestrictionTable();
 
-  TRAVERSE(lst, adv.stxs)
-    generateParseTree(lst->member.stx);
+	TRAVERSE(lst, adv.stxs)
+		generateParseTree(lst->member.stx);
 
-  parseTableAddress = nextEmitAddress();
-  TRAVERSE(lst, adv.stxs)
-    generateParseEntry(lst->member.stx);
-  emit(EOF);
+	if (opts[OPTDEBUG].value)
+		TRAVERSE(lst, adv.stxs)
+			generateParameterNames(lst->member.stx);
 
-  return(parseTableAddress);
+	parseTableAddress = nextEmitAddress();
+	TRAVERSE(lst, adv.stxs)
+		generateParseEntry(lst->member.stx);
+	emit(EOF);
+
+	return(parseTableAddress);
 }
 
 

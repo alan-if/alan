@@ -10,15 +10,15 @@
 #include "dump.h"
 
 extern char *srcptr;		/* Pointer to adventure name */
-extern int charset;		/* Which charset to read source in */
+extern int charset;			/* Which charset to read source in */
 extern Bool warningFlag;	/* Show warnings */
 extern Bool infoFlag;		/* Show informational messages */
 extern Bool fullFlag;		/* Full source listing */
 extern Bool listingFlag;	/* Create listing file */
-extern Bool ccFlag;		/* Show messages as old 'cc' */
+extern Bool ccFlag;			/* Show messages as old 'cc' */
 extern Bool ideFlag;		/* Format messages for AlanIDE */
-extern int lcount;		/* Number of lines per page */
-extern int ccount;		/* -"-    columns */
+extern int lcount;			/* Number of lines per page */
+extern int ccount;			/* -"-    columns */
 extern DmpKind dumpFlags;	/* Dump internal form flags */
 extern Bool debugFlag;		/* Debug option flag */
 extern Bool packFlag;		/* Pack option flag */
