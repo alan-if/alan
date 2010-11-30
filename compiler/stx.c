@@ -411,6 +411,7 @@ static void generateParseEntry(Syntax *stx)
     entry.code = stx->elements->member.elm->id->code;
     /* Address to syntax element tables */
     entry.elms = stx->elementsAddress;
+    entry.parameterNameTable = stx->parameterNameTable;
     emitEntry(&entry, sizeof(entry));
   }
 }
@@ -436,36 +437,46 @@ static void generateRestrictionTable(void) {
 
 /*----------------------------------------------------------------------*/
 static void generateParameterNames(Syntax *syntax) {
-	List *lst;
+    List *lst;
+    Aaddr adr;
 
-	/* Generate all syntax parameter restriction checks */
-	TRAVERSE(lst, syntax->parameters) {
-		Element *elm = lst->member.elm;
-		printf("%s\n", elm->id->string);
+    /* Generate all parameter names */
+    TRAVERSE(lst, syntax->parameters) {
+        Element *elm = lst->member.elm;
+        elm->idAddress = nextEmitAddress();
+        emitString(elm->id->string);
     }
+
+    adr = nextEmitAddress();
+    /* Generate a list of addresses */
+    TRAVERSE(lst, syntax->parameters) {
+        Element *elm = lst->member.elm;
+        emit(elm->idAddress);
+    }
+    syntax->parameterNameTable = adr;
 }
 
 
 /*======================================================================*/
 Aaddr generateParseTable(void) {
-	List *lst;
-	Aaddr parseTableAddress;
+    List *lst;
+    Aaddr parseTableAddress;
 
-	generateRestrictionTable();
+    generateRestrictionTable();
 
-	TRAVERSE(lst, adv.stxs)
-		generateParseTree(lst->member.stx);
+    TRAVERSE(lst, adv.stxs)
+        generateParseTree(lst->member.stx);
 
-	if (opts[OPTDEBUG].value)
-		TRAVERSE(lst, adv.stxs)
-			generateParameterNames(lst->member.stx);
+    if (opts[OPTDEBUG].value)
+        TRAVERSE(lst, adv.stxs)
+            generateParameterNames(lst->member.stx);
 
-	parseTableAddress = nextEmitAddress();
-	TRAVERSE(lst, adv.stxs)
-		generateParseEntry(lst->member.stx);
-	emit(EOF);
+    parseTableAddress = nextEmitAddress();
+    TRAVERSE(lst, adv.stxs)
+        generateParseEntry(lst->member.stx);
+    emit(EOF);
 
-	return(parseTableAddress);
+    return(parseTableAddress);
 }
 
 

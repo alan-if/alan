@@ -25,12 +25,13 @@ typedef enum ElementKind {
 } ElementKind;
 
 typedef struct Element {
-  Srcp srcp;			/* Source position of this element */
-  ElementKind kind;		/* Kind of Parameter */
-  IdNode *id;			/* Identifier */
-  int flags;			/* Multiple/omni etc. flags */
-  Restriction *res;		/* Link to the class restriction check */
-  Syntax *stx;			/* Pointer back to syntax node */
+    Srcp srcp;			/* Source position of this element */
+    ElementKind kind;		/* Kind of Parameter */
+    IdNode *id;			/* Identifier */
+    Aaddr idAddress;            /* Address to parameter name */
+    int flags;			/* Multiple/omni etc. flags */
+    Restriction *res;		/* Link to the class restriction check */
+    Syntax *stx;                /* Pointer back to syntax node */
 } Element;
 
 
