@@ -607,9 +607,36 @@ static char *classNameAndId(int classId) {
 }
 
 /*----------------------------------------------------------------------*/
+static SyntaxEntry *findSyntaxTreeForVerb(int verbCode) {
+    SyntaxEntry *stx;
+    for (stx = stxs; !isEndOfArray(stx); stx++)
+        if (stx->code == verbCode)
+            return stx;
+    /* No matching syntax */
+    error(M_WHAT);
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static char *parameterNumberAndName(int parameterNumber) {
+    static char buffer[1000] = "";
+    SyntaxEntry *syntax = findSyntaxTreeForVerb(verbWordCode);
+    Aaddr *parameterNameTable = (Aaddr *)pointerTo(syntax->parameterNameTable);
+
+    if (syntax->parameterNameTable != 0)
+        sprintf(buffer, "#%d, %s,", parameterNumber, stringAt(parameterNameTable[parameterNumber-1]));
+    else
+        sprintf(buffer, "#%d", parameterNumber);
+    return buffer;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void traceRestriction(RestrictionEntry *restriction, int classId, Bool condition) {
-    printf("\n<SYNTAX RESTRICTION WHERE parameter #%d Isa %s, %s>\n",
-           restriction->parameterNumber, classNameAndId(classId), condition?"PASSED":"FAILED:");
+    printf("\n<SYNTAX RESTRICTION WHERE parameter %s Isa %s, %s>\n",
+           parameterNumberAndName(restriction->parameterNumber),
+           classNameAndId(classId), condition?"PASSED":"FAILED:");
 }
 
 
@@ -750,9 +777,9 @@ static Bool endOfPlayerCommand(int wordIndex) {
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElement, ParameterPosition parameterPositions[]) {
-    ElementEntry *currentElement = startingElement;
-    ElementEntry *nextElement = startingElement;
+static ElementEntry *parseInputAccordingToSyntax(SyntaxEntry *syntax, ParameterPosition parameterPositions[]) {
+    ElementEntry *currentElement = elementTreeOf(syntax);
+    ElementEntry *nextElement = currentElement;
 
     int parameterCount = 0;
     while (nextElement != NULL) {
@@ -800,17 +827,6 @@ static ElementEntry *parseInputAccordingToElementTree(ElementEntry *startingElem
         /* If we get here we couldn't match anything... */
         nextElement = NULL;
     }
-    return NULL;
-}
-
-/*----------------------------------------------------------------------*/
-static SyntaxEntry *findSyntaxTreeForVerb(int verbCode) {
-    SyntaxEntry *stx;
-    for (stx = stxs; !isEndOfArray(stx); stx++)
-        if (stx->code == verbCode)
-            return stx;
-    /* No matching syntax */
-    error(M_WHAT);
     return NULL;
 }
 
@@ -1004,7 +1020,7 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions) {
     SyntaxEntry *stx;
 
     stx = findSyntaxTreeForVerb(verbWordCode);
-    element = parseInputAccordingToElementTree(elementTreeOf(stx), parameterPositions);
+    element = parseInputAccordingToSyntax(stx, parameterPositions);
     handleFailedParse(element);
     current.verb = remapParameterOrder(element->flags, parameterPositions);
     return element;

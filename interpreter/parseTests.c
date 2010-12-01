@@ -192,30 +192,35 @@ static void given_AParseTreeAllowingWordFollowedByEos(ElementEntry *elementTable
 
 /*----------------------------------------------------------------------*/
 Ensure canParseInputAccordingToParseTree(void) {
+
+    int ELEMENT_TABLE_ADDRESS = 50;
     ElementEntry *element;
     ElementEntry *elementTable;
+    elementTable = (ElementEntry *)&memory[ELEMENT_TABLE_ADDRESS];
 
-    elementTable = (ElementEntry *)&memory[50];
     ParameterPosition *parameterPositions = NEW(ParameterPosition);
-    
+
+    SyntaxEntry stx;
+    stx.elms = ELEMENT_TABLE_ADDRESS;
+
     given_EndOfPlayerWords();
 
     given_AnEmptyParseTree(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions);
+    element = parseInputAccordingToSyntax(&stx, parameterPositions);
     assert_equal(NULL, element);
 
     given_AParseTreeWithOnlyEos(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions);
+    element = parseInputAccordingToSyntax(&stx, parameterPositions);
     assert_equal(elementTable, element);
 
     given_AParseTreeWithWordAndEos(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions);
+    element = parseInputAccordingToSyntax(&stx, parameterPositions);
     assert_equal(&elementTable[1], element);
 
     makeDictionaryEntry(PREPOSITION_CODE, 1, PREPOSITION_BIT);
     given_PlayerInputOfAPreposition();
     given_AParseTreeAllowingWordFollowedByEos(elementTable);
-    element = parseInputAccordingToElementTree(elementTable, parameterPositions);
+    element = parseInputAccordingToSyntax(&stx, parameterPositions);
     assert_equal(&elementTable[1], element);
 }
 

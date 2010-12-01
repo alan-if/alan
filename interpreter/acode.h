@@ -381,9 +381,9 @@ typedef struct SyntaxEntryPreBeta {	/* SYNTAX TABLE */
 } SyntaxEntryPreBeta;
 
 typedef struct SyntaxEntry {	/* SYNTAX TABLE */
-	Aint code;			/* Code for verb word */
-	Aaddr elms;			/* Address to element tables */
-	Aaddr parameterNameTable;	/* Address to a table of id-addresses giving the names of the parameters */
+    Aint code;			/* Code for verb word */
+    Aaddr elms;			/* Address to element tables */
+    Aaddr parameterNameTable;	/* Address to a table of id-addresses giving the names of the parameters */
 } SyntaxEntry;
 
 typedef struct ParameterMapEntry {	/* PARAMETER MAPPING TABLE */
