@@ -606,26 +606,14 @@ static char *classNameAndId(int classId) {
     return buffer;
 }
 
-/*----------------------------------------------------------------------*/
-static SyntaxEntry *findSyntaxTreeForVerb(int verbCode) {
-    SyntaxEntry *stx;
-    for (stx = stxs; !isEndOfArray(stx); stx++)
-        if (stx->code == verbCode)
-            return stx;
-    /* No matching syntax */
-    error(M_WHAT);
-    return NULL;
-}
-
 
 /*----------------------------------------------------------------------*/
 static char *parameterNumberAndName(int parameterNumber) {
     static char buffer[1000] = "";
-    SyntaxEntry *syntax = findSyntaxTreeForVerb(verbWordCode);
-    Aaddr *parameterNameTable = (Aaddr *)pointerTo(syntax->parameterNameTable);
+	char *parameterName = parameterNameInSyntax(parameterNumber);
 
-    if (syntax->parameterNameTable != 0)
-        sprintf(buffer, "#%d, %s,", parameterNumber, stringAt(parameterNameTable[parameterNumber-1]));
+    if (parameterName != NULL)
+        sprintf(buffer, "%s(#%d),", parameterName, parameterNumber);
     else
         sprintf(buffer, "#%d", parameterNumber);
     return buffer;

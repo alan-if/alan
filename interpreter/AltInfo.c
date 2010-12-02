@@ -19,6 +19,7 @@ An info node about the Verb Alternatives found and possibly executed
 #include "class.h"
 #include "params.h"
 #include "literal.h"
+#include "syntax.h"
 
 
 /* Types */
@@ -57,10 +58,15 @@ static void traceAltInfo(AltInfo *alt) {
         printf("in (location) ");
         traceInstanceAndItsClass(alt);
         break;
-    case PARAMETER_LEVEL:
-        printf("in (parameter #%d) ", alt->parameter);
+    case PARAMETER_LEVEL: {
+		char *parameterName = parameterNameInSyntax(alt->parameter);
+		if (parameterName != NULL)
+			printf("in parameter %s(#%d)=", parameterNameInSyntax(alt->parameter), alt->parameter);
+		else
+			printf("in parameter #%d=", alt->parameter);
         traceInstanceAndItsClass(alt);
         break;
+	}
     }
 }
 
