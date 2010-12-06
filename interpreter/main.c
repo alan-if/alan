@@ -203,7 +203,7 @@ static void alphaRunningLaterGame(char gameState) {
         output("beta");
     else
         output("release");
-    output("state compiler which was released later. This might cause the game to not work fully as intended. Look for an upgraded game file.>\n");
+    output("state compiler which was released later. This might cause the game to crash or not work fully as intended. Look for an upgraded game file.>\n");
 }
 
 /*----------------------------------------------------------------------*/
@@ -284,6 +284,7 @@ static void checkVersion(ACodeHeader *header)
             alphaRunningLaterGame(gameState);
         }
     }
+    fflush(stdout);
 }
 
 /*----------------------------------------------------------------------
