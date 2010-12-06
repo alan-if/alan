@@ -1,5 +1,5 @@
 #
-# Top level Makefile for porting Alan to MacosX
+# Partial Makefile to be included from top level Makefile on Darwin
 #
 
 VERSION	= `cat LASTRELEASE`
@@ -17,15 +17,11 @@ build-arun:
 	cd interpreter; make all
 	cp interpreter/arun .
 
+include top.mk
+
 alan.readme.macosx: alan arun
 	@echo "alan.readme.macosx is not updated"
 	exit 1
-
-.PHONY: test
-test: alan arun
-	bin/jregr -dir compiler/testing
-	bin/jregr -dir regression
-	bin/jregr -dir library/testing	
 
 .PHONY: clean
 clean:

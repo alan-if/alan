@@ -613,7 +613,7 @@ static char *parameterNumberAndName(int parameterNumber) {
 	char *parameterName = parameterNameInSyntax(parameterNumber);
 
     if (parameterName != NULL)
-        sprintf(buffer, "%s(#%d),", parameterName, parameterNumber);
+        sprintf(buffer, "%s(#%d)", parameterName, parameterNumber);
     else
         sprintf(buffer, "#%d", parameterNumber);
     return buffer;

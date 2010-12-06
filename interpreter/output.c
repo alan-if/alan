@@ -71,8 +71,8 @@ void newline(void)
 #ifndef HAVE_GLK
     char buf[256];
 
-    if (!regressionTestOption && lin >= header->pageLength - 1) {
-        printAndLog("\n");
+    if (!regressionTestOption && lin == pageLength - 1) {
+		printAndLog("\n");
         needSpace = FALSE;
         printMessage(M_MORE);
         statusline();
