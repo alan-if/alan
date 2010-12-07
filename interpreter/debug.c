@@ -647,40 +647,92 @@ void restoreInfo(void)
 #define EVENTS_COMMAND 'E'
 #define BREAK_COMMAND 'B'
 #define DELETE_COMMAND 'D'
-#define INSTRUCTION_TRACE_COMMAND 'S'
 #define SECTION_TRACE_COMMAND 'T'
+#define INSTRUCTION_TRACE_COMMAND 'S'
 #define NEXT_COMMAND 'N'
 #define UNKNOWN_COMMAND '?'
+#define AMBIGUOUS_COMMAND '-'
 
 typedef struct DebugParseEntry {
     char *command;
     char code;
 } DebugParseEntry;
 
-static DebugParseEntry commands[] = {
-    {"help", HELP_COMMAND},
+static DebugParseEntry commandEntries[] = {
     {"?", HELP_COMMAND},
+    {"actors", ACTORS_COMMAND},
+    {"break", BREAK_COMMAND},
+    {"classes", CLASSES_COMMAND},
+    {"delete", DELETE_COMMAND},
+    {"events", EVENTS_COMMAND},
+    {"exit", EXIT_COMMAND},
+    {"files", FILES_COMMAND},
+    {"go", GO_COMMAND},
+    {"help", HELP_COMMAND},
+    {"instances", INSTANCES_COMMAND},
+    {"instruction", INSTRUCTION_TRACE_COMMAND},
+    {"locations", LOCATIONS_COMMAND},
+    {"next", NEXT_COMMAND},
+    {"objects", OBJECTS_COMMAND},
+    {"quit", QUIT_COMMAND},
+    {"section", SECTION_TRACE_COMMAND},
     {"x", EXIT_COMMAND},
     {NULL, NULL}
 };
 
 
 /*----------------------------------------------------------------------*/
-static char parseDebugCommand(char *commandLine) {
-    DebugParseEntry *entry = commands;
+static DebugParseEntry *findEntry(char *command, DebugParseEntry *entry) {
     while (entry->command != NULL) {
-        if (strncasecmp(commandLine, entry->command, strlen(commandLine)) == 0)
-            return entry->code;
+        if (strncasecmp(command, entry->command, strlen(command)) == 0)
+            return entry;
         entry++;
     }
-    return UNKNOWN_COMMAND;
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static char parseDebugCommand(char *command) {
+    DebugParseEntry *entry = findEntry(command, commandEntries);
+    if (entry != NULL) {
+        if (strlen(command) < strlen(entry->command)) {
+            if (findEntry(command, entry+1) != NULL)
+                return AMBIGUOUS_COMMAND;
+        }
+        return entry->code;
+    } else
+        return UNKNOWN_COMMAND;
 }
 
 
 /*----------------------------------------------------------------------*/
 static char readDebugCommand(int *parameter) {
+    char c;
+    char buf[5000];
+
+    capitalize = FALSE;
+    if (anyOutput) newline();
+    do {
+        output("adbg> ");
+
+#ifdef USE_READLINE
+        (void) readline(buf);
+#else
+        fgets(buf, 255, stdin);
+#endif
+        lin = 1;
+        c = buf[0];
+        *parameter = 0;
+        sscanf(&buf[1], "%d", parameter);
+    } while (c == '\0');
+    return toUpper(c);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void readCommand(char buf[]) {
 	char c;
-	char buf[5000];
 
 	capitalize = FALSE;
 	if (anyOutput) newline();
@@ -694,14 +746,11 @@ static char readDebugCommand(int *parameter) {
 #endif
 		lin = 1;
 		c = buf[0];
-		*parameter = 0;
-		sscanf(&buf[1], "%d", parameter);
 	} while (c == '\0');
-	return toUpper(c);
 }
 
 
-static void displayLocation(int line, int fileNumber) {
+static void displaySourceLocation(int line, int fileNumber) {
 	char *cause;
 	if (anyOutput) newline();
 	if (breakpointIndex(fileNumber, line) != -1)
@@ -818,18 +867,20 @@ static void handleHelpCommand() {
 /*======================================================================*/
 void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 {
-    char command;
-    int parameter;
-
     saveInfo();
 
     if (calledFromBreakpoint)
-		displayLocation(line, fileNumber);
+        displaySourceLocation(line, fileNumber);
 
     while (TRUE) {
-		command = readDebugCommand(&parameter);
 
-        switch (command) {
+        char commandLine[200];
+        readCommand(commandLine);
+        char *command = strtok(commandLine, " ");
+        char commandCode = parseDebugCommand(command);
+        int parameter = atoi(strtok(NULL, ""));
+
+        switch (commandCode) {
         case HELP_COMMAND: handleHelpCommand(); break;
         case QUIT_COMMAND: terminate(0); break;
         case EXIT_COMMAND: debugOption = FALSE;		/* Fall through to 'G' */
