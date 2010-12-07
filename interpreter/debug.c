@@ -634,7 +634,6 @@ void restoreInfo(void)
     current.location = loc;
 }
 
-
 #define HELP_COMMAND 'H'
 #define QUIT_COMMAND 'Q'
 #define EXIT_COMMAND 'X'
@@ -651,6 +650,23 @@ void restoreInfo(void)
 #define INSTRUCTION_TRACE_COMMAND 'S'
 #define SECTION_TRACE_COMMAND 'T'
 #define NEXT_COMMAND 'N'
+
+typedef struct DebugParseEntry {
+	char *command;
+	char code;
+} DebugParseEntry;
+
+static DebugParseEntry commands[] = {
+		{"help", HELP_COMMAND},
+		{"?", HELP_COMMAND}
+	};
+
+
+/*----------------------------------------------------------------------*/
+static char parseDebugCommand(char *commandLine) {
+	DebugParseEntry *entry = commands;
+	return entry->code;
+}
 
 
 /*----------------------------------------------------------------------*/

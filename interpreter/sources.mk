@@ -9,6 +9,7 @@ UNITTESTED = \
 	StateStack.c \
 	args.c \
 	act.c \
+	debug.c \
 	exe.c \
 	inter.c \
 	main.c \
@@ -32,7 +33,6 @@ OTHERSRCS = \
 	checkentry.c \
 	class.c \
 	current.c \
-	debug.c \
 	decode.c \
 	dictionary.c \
 	event.c \
