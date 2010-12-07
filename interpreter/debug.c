@@ -669,7 +669,7 @@ static DebugParseEntry commands[] = {
 static char parseDebugCommand(char *commandLine) {
     DebugParseEntry *entry = commands;
     while (entry->command != NULL) {
-        if (strcasecmp(commandLine, entry->command) == 0)
+        if (strncasecmp(commandLine, entry->command, strlen(commandLine)) == 0)
             return entry->code;
         entry++;
     }
