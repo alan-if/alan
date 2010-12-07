@@ -650,22 +650,30 @@ void restoreInfo(void)
 #define INSTRUCTION_TRACE_COMMAND 'S'
 #define SECTION_TRACE_COMMAND 'T'
 #define NEXT_COMMAND 'N'
+#define UNKNOWN_COMMAND '?'
 
 typedef struct DebugParseEntry {
-	char *command;
-	char code;
+    char *command;
+    char code;
 } DebugParseEntry;
 
 static DebugParseEntry commands[] = {
-		{"help", HELP_COMMAND},
-		{"?", HELP_COMMAND}
-	};
+    {"help", HELP_COMMAND},
+    {"?", HELP_COMMAND},
+    {"x", EXIT_COMMAND},
+    {NULL, NULL}
+};
 
 
 /*----------------------------------------------------------------------*/
 static char parseDebugCommand(char *commandLine) {
-	DebugParseEntry *entry = commands;
-	return entry->code;
+    DebugParseEntry *entry = commands;
+    while (entry->command != NULL) {
+        if (strcasecmp(commandLine, entry->command) == 0)
+            return entry->code;
+        entry++;
+    }
+    return UNKNOWN_COMMAND;
 }
 
 

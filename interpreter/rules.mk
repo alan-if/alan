@@ -46,7 +46,7 @@ UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNI
 
 # Rule to compile objects to subdirectory
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(DEPENDENCY) -o $@ -c $<
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 #Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):
