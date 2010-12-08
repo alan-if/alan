@@ -656,27 +656,28 @@ void restoreInfo(void)
 typedef struct DebugParseEntry {
     char *command;
     char code;
+	char *helpText;
 } DebugParseEntry;
 
 static DebugParseEntry commandEntries[] = {
-    {"?", HELP_COMMAND},
-    {"actors", ACTORS_COMMAND},
-    {"break", BREAK_COMMAND},
-    {"classes", CLASSES_COMMAND},
-    {"delete", DELETE_COMMAND},
-    {"events", EVENTS_COMMAND},
-    {"exit", EXIT_COMMAND},
-    {"files", FILES_COMMAND},
-    {"go", GO_COMMAND},
-    {"help", HELP_COMMAND},
-    {"instances", INSTANCES_COMMAND},
-    {"instruction", INSTRUCTION_TRACE_COMMAND},
-    {"locations", LOCATIONS_COMMAND},
-    {"next", NEXT_COMMAND},
-    {"objects", OBJECTS_COMMAND},
-    {"quit", QUIT_COMMAND},
-    {"section", SECTION_TRACE_COMMAND},
-    {"x", EXIT_COMMAND},
+    {"help", HELP_COMMAND, "this help"},
+    {"?", HELP_COMMAND, "d:o"},
+    {"break", BREAK_COMMAND, "set breakpoint at source line [n]"},
+    {"delete", DELETE_COMMAND, "delete breakpoint at source line [n]"},
+    {"files", FILES_COMMAND, "list source files"},
+    {"events", EVENTS_COMMAND, "show events"},
+    {"classes", CLASSES_COMMAND, "show class hierarchy"},
+    {"instances", INSTANCES_COMMAND, "show instanstances"},
+    {"objects", OBJECTS_COMMAND, "list instances that are objects"},
+    {"actors", ACTORS_COMMAND, "show instance(s) that are actors"},
+    {"locations", LOCATIONS_COMMAND, "show instances that are locations"},
+    {"section", SECTION_TRACE_COMMAND, "toggle section trace"},
+    {"instruction", INSTRUCTION_TRACE_COMMAND, "toggle single instruction trace"},
+    {"next", NEXT_COMMAND, "execute to next source line"},
+    {"go", GO_COMMAND, "go another player turn"},
+    {"exit", EXIT_COMMAND, "exit debug mode and return to game, get back with 'debug' as player input"},
+    {"x", EXIT_COMMAND, "d:o"},
+    {"quit", QUIT_COMMAND, "quit game"},
     {NULL, NULL}
 };
 
@@ -770,21 +771,23 @@ static void toggleSectionTrace() {
 		printf("Section trace off.");
 }
 
-static void handleBreakCommand(int fileNumber, int parameter) {
-	if (parameter == 0)
+static void handleBreakCommand(int fileNumber) {
+	char *parameter = strtok(NULL, "");
+	if (parameter == NULL)
 		listBreakpoints();
 	else
-		setBreakpoint(fileNumber, parameter);
+		setBreakpoint(fileNumber, atoi(parameter));
 }
 
-static void handleDeleteCommand(Bool calledFromBreakpoint, int line, int fileNumber, int parameter) {
-	if (parameter == 0) {
+static void handleDeleteCommand(Bool calledFromBreakpoint, int line, int fileNumber) {
+	char *parameter = strtok(NULL, "");
+	if (parameter == NULL) {
 		if (calledFromBreakpoint)
 			deleteBreakpoint(line, fileNumber);
 		else
 			printf("No current breakpoint to delete\n");
 	} else
-		deleteBreakpoint(parameter, fileNumber);
+		deleteBreakpoint(atoi(parameter), fileNumber);
 }
 
 static void handleNextCommand(Bool calledFromBreakpoint) {
@@ -802,62 +805,68 @@ static void toggleInstructionTrace() {
 		printf("Single instruction trace off.");
 }
 
-static void handleLocationsCommand(int parameter) {
+static void handleLocationsCommand() {
+	char *parameter = strtok(NULL, "");
 	if (parameter == 0)
 		showLocations();
 	else
-		showLocation(parameter);
+		showLocation(atoi(parameter));
 }
 
-static void handleActorsCommand(int parameter) {
-	if (parameter == 0)
+static void handleActorsCommand() {
+	char *parameter = strtok(NULL, "");
+	if (parameter == NULL)
 		showActors();
 	else
-		showActor(parameter);
+		showActor(atoi(parameter));
 }
 
-static void handleClassesCommand(int parameter) {
-	if (parameter == 0) {
+static void handleClassesCommand() {
+	char *parameter = strtok(NULL, "");
+	if (parameter == NULL) {
 		output("Classes:");
 		showClassHierarchy(1, 0);
 	} else
-		showClass(parameter);
+		showClass(atoi(parameter));
 }
 
-static void handleObjectsCommand(int parameter) {
-	if (parameter == 0)
+static void handleObjectsCommand() {
+	char *parameter = strtok(NULL, "");
+	if (parameter == NULL)
 		showObjects();
 	else
-		showObject(parameter);
+		showObject(atoi(parameter));
 }
 
-static void handleInstancesCommand(int parameter) {
-	if (parameter == 0)
+static void handleInstancesCommand() {
+	char *parameter = strtok(NULL, "");
+
+	if (parameter == NULL)
 		showInstances();
 	else
-		showInstance(parameter);
+		showInstance(atoi(parameter));
 }
 
 static void handleHelpCommand() {
 	output(alan.longHeader);
-	output("$nADBG Commands:\
-      $iB [n] -- set breakpoint at source line [n]\
-      $iB     -- list breakpoints set\
-      $iD [n] -- delete breakpoint at source line [n]\
-      $iD     -- delete breakpoint at current source line\
-      $iF     -- list files\
-      $iN     -- execute to next source line\
-      $iX     -- exit debug mode and return to game, get back with 'debug'\
-      $iQ     -- quit game\
-      $iC     -- show class hierarchy\
-      $iI [n] -- show instances or instance [n]\
-      $iO [n] -- show instances that are objects\
-      $iA [n] -- show instances that are actors\
-      $iL [n] -- show instances that are locations\
-      $iE     -- show events\
-      $iG     -- go another player turn\
-      $iT     -- toggle trace mode\
-      $iS     -- toggle single step trace mode\
+	output("$nADBG Commands (can be abbreviated):\
+      $iBREAK [n]    -- set breakpoint at source line [n]\
+      $iBREAK        -- list breakpoints set\
+      $iDELETE [n]   -- delete breakpoint at source line [n]\
+      $iDELETE       -- delete breakpoint at current source line\
+      $iFILES        -- list files\
+      $iNEXT         -- execute to next source line						\
+      $iEXIT (or X)  -- exit debug mode and return to game, get back with 'debug'\
+      $iQUIT         -- quit game\
+      $iCLASSES      -- show class hierarchy\
+      $iINSTANCE [n] -- show instances or instance [n]\
+      $iOBJECT [n]   -- show instances that are objects\
+      $iACTOR [n]    -- show instances that are actors\
+      $iLOCATION [n] -- show instances that are locations\
+      $iEVENTS       -- show events\
+      $iGO           -- go another player turn\
+      $iTRACE        -- toggle trace mode\
+      $iSTEP         -- toggle single step trace mode\
 ");
 }
 
@@ -878,7 +887,6 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
         readCommand(commandLine);
         char *command = strtok(commandLine, " ");
         char commandCode = parseDebugCommand(command);
-        int parameter = atoi(strtok(NULL, ""));
 
         switch (commandCode) {
         case HELP_COMMAND: handleHelpCommand(); break;
@@ -886,17 +894,18 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
         case EXIT_COMMAND: debugOption = FALSE;		/* Fall through to 'G' */
         case GO_COMMAND: restoreInfo(); return;
         case FILES_COMMAND: listFiles(); break;
-        case INSTANCES_COMMAND: handleInstancesCommand(parameter); break;
-        case OBJECTS_COMMAND: handleObjectsCommand(parameter); break;
-        case CLASSES_COMMAND: handleClassesCommand(parameter); break;
-        case ACTORS_COMMAND: handleActorsCommand(parameter); break;
-        case LOCATIONS_COMMAND: handleLocationsCommand(parameter); break;
+        case INSTANCES_COMMAND: handleInstancesCommand(); break;
+        case OBJECTS_COMMAND: handleObjectsCommand(); break;
+        case CLASSES_COMMAND: handleClassesCommand(); break;
+        case ACTORS_COMMAND: handleActorsCommand(); break;
+        case LOCATIONS_COMMAND: handleLocationsCommand(); break;
         case EVENTS_COMMAND: showEvents(); break;
         case INSTRUCTION_TRACE_COMMAND: toggleInstructionTrace(); break;
         case SECTION_TRACE_COMMAND: toggleSectionTrace(); break;
-        case BREAK_COMMAND: handleBreakCommand(fileNumber, parameter); break;
-        case DELETE_COMMAND: handleDeleteCommand(calledFromBreakpoint, line, fileNumber, parameter); break;
+        case BREAK_COMMAND: handleBreakCommand(fileNumber); break;
+        case DELETE_COMMAND: handleDeleteCommand(calledFromBreakpoint, line, fileNumber); break;
         case NEXT_COMMAND: handleNextCommand(calledFromBreakpoint); return;
+		case AMBIGUOUS_COMMAND: output("Ambiguous ADBG command. ? for help."); break;
         default: output("Unknown ADBG command. ? for help."); break;
         }
     }

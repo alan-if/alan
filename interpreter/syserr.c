@@ -15,7 +15,7 @@ and fall to your knees. In front of you, you can vaguely see the outlines \
 of an Adventure that never was.$n$n");
   output(errorClassification);
   output(errorDescription);
-  output("$n$n");
+  newline();
 
   if (current.sourceLine != 0) {
     printf("At source line %d in '%s':\n", current.sourceLine, sourceFileName(current.sourceFile));
@@ -23,7 +23,6 @@ of an Adventure that never was.$n$n");
   }
 
   newline();
-
   output(blurb);
 
   terminate(0);

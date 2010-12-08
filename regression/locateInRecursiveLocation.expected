@@ -17,8 +17,7 @@ your knees. In front of you, you can vaguely see the outlines of an
 Adventure that never was.
 
 APPLICATION ERROR: Locating a location that would create a recursive loop
-of locations containing each other. 
-
+of locations containing each other.
 
 <If you are just playing this piece of Interactive Fiction, please help
 the author to debug this programming error. Send an exact transcript of
