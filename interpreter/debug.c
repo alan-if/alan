@@ -900,23 +900,23 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
         char commandCode = parseDebugCommand(command);
 
         switch (commandCode) {
-        case HELP_COMMAND: handleHelpCommand(); break;
-        case QUIT_COMMAND: terminate(0); break;
-        case EXIT_COMMAND: debugOption = FALSE;		/* Fall through to 'G' */
-        case GO_COMMAND: restoreInfo(); return;
-        case FILES_COMMAND: listFiles(); break;
-        case INSTANCES_COMMAND: handleInstancesCommand(); break;
-        case OBJECTS_COMMAND: handleObjectsCommand(); break;
-        case CLASSES_COMMAND: handleClassesCommand(); break;
-        case ACTORS_COMMAND: handleActorsCommand(); break;
-        case LOCATIONS_COMMAND: handleLocationsCommand(); break;
-        case EVENTS_COMMAND: showEvents(); break;
-        case INSTRUCTION_TRACE_COMMAND: toggleInstructionTrace(); break;
-        case SECTION_TRACE_COMMAND: toggleSectionTrace(); break;
-        case BREAK_COMMAND: handleBreakCommand(fileNumber); break;
-        case DELETE_COMMAND: handleDeleteCommand(calledFromBreakpoint, line, fileNumber); break;
-        case NEXT_COMMAND: handleNextCommand(calledFromBreakpoint); return;
 		case AMBIGUOUS_COMMAND: output("Ambiguous ADBG command abbreviation. ? for help."); break;
+        case ACTORS_COMMAND: handleActorsCommand(); break;
+        case BREAK_COMMAND: handleBreakCommand(fileNumber); break;
+        case CLASSES_COMMAND: handleClassesCommand(); break;
+        case DELETE_COMMAND: handleDeleteCommand(calledFromBreakpoint, line, fileNumber); break;
+        case EVENTS_COMMAND: showEvents(); break;
+        case EXIT_COMMAND: debugOption = FALSE; restoreInfo(); return;
+        case FILES_COMMAND: listFiles(); break;
+        case GO_COMMAND: restoreInfo(); return;
+        case HELP_COMMAND: handleHelpCommand(); break;
+        case INSTANCES_COMMAND: handleInstancesCommand(); break;
+        case INSTRUCTION_TRACE_COMMAND: toggleInstructionTrace(); break;
+        case LOCATIONS_COMMAND: handleLocationsCommand(); break;
+        case NEXT_COMMAND: handleNextCommand(calledFromBreakpoint); return;
+        case OBJECTS_COMMAND: handleObjectsCommand(); break;
+        case QUIT_COMMAND: terminate(0); break;
+        case SECTION_TRACE_COMMAND: toggleSectionTrace(); break;
         default: output("Unknown ADBG command. ? for help."); break;
         }
     }
