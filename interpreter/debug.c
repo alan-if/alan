@@ -655,31 +655,67 @@ void restoreInfo(void)
 
 typedef struct DebugParseEntry {
     char *command;
+	char *parameter;
     char code;
 	char *helpText;
 } DebugParseEntry;
 
 static DebugParseEntry commandEntries[] = {
-    {"help", HELP_COMMAND, "this help"},
-    {"?", HELP_COMMAND, "d:o"},
-    {"break", BREAK_COMMAND, "set breakpoint at source line [n]"},
-    {"delete", DELETE_COMMAND, "delete breakpoint at source line [n]"},
-    {"files", FILES_COMMAND, "list source files"},
-    {"events", EVENTS_COMMAND, "show events"},
-    {"classes", CLASSES_COMMAND, "show class hierarchy"},
-    {"instances", INSTANCES_COMMAND, "show instanstances"},
-    {"objects", OBJECTS_COMMAND, "list instances that are objects"},
-    {"actors", ACTORS_COMMAND, "show instance(s) that are actors"},
-    {"locations", LOCATIONS_COMMAND, "show instances that are locations"},
-    {"section", SECTION_TRACE_COMMAND, "toggle section trace"},
-    {"instruction", INSTRUCTION_TRACE_COMMAND, "toggle single instruction trace"},
-    {"next", NEXT_COMMAND, "execute to next source line"},
-    {"go", GO_COMMAND, "go another player turn"},
-    {"exit", EXIT_COMMAND, "exit debug mode and return to game, get back with 'debug' as player input"},
-    {"x", EXIT_COMMAND, "d:o"},
-    {"quit", QUIT_COMMAND, "quit game"},
+    {"help", "", HELP_COMMAND, "this help"},
+    {"?", "", HELP_COMMAND, "d:o"},
+    {"break", "[file:[n]]", BREAK_COMMAND, "set breakpoint at source line [n] in [file]"},
+    {"delete", "[file:[n]]", DELETE_COMMAND, "delete breakpoint at source line [n] in [file]"},
+    {"files", "", FILES_COMMAND, "list source files"},
+    {"events", "", EVENTS_COMMAND, "show events"},
+    {"classes", "", CLASSES_COMMAND, "show class hierarchy"},
+    {"instances", "[n]", INSTANCES_COMMAND, "show instance(s)"},
+    {"objects", "[n]", OBJECTS_COMMAND, "show instance(s) that are objects"},
+    {"actors", "[n]", ACTORS_COMMAND, "show instance(s) that are actors"},
+    {"locations", "[n]", LOCATIONS_COMMAND, "show instances that are locations"},
+    {"section", "", SECTION_TRACE_COMMAND, "toggle section trace"},
+    {"instruction", "", INSTRUCTION_TRACE_COMMAND, "toggle single instruction trace"},
+    {"next", "", NEXT_COMMAND, "execute to next source line"},
+    {"go", "", GO_COMMAND, "go another player turn"},
+    {"exit", "", EXIT_COMMAND, "exit debug mode and return to game, get back with 'debug' as player input"},
+    {"x", "", EXIT_COMMAND, "d:o"},
+    {"quit", "", QUIT_COMMAND, "quit game"},
     {NULL, NULL}
 };
+
+
+static char *spaces(int length) {
+	static char buf[200];
+	int i;
+
+	for (i = 0; i<length; i++)
+		buf[i] = ' ';
+	buf[i] = '\0';
+	return buf;
+}
+
+
+static char *padding(DebugParseEntry *entry, int maxLength) {
+	return spaces(maxLength-strlen(entry->command)-strlen(entry->parameter));
+}
+
+
+static void handleHelpCommand() {
+	output(alan.longHeader);
+	DebugParseEntry *entry = commandEntries;
+
+	int maxLength = 0;
+	for (entry = commandEntries; entry->command != NULL; entry++) {
+		if (strlen(entry->command)+strlen(entry->parameter) > maxLength)
+			maxLength = strlen(entry->command)+strlen(entry->parameter);
+	}
+
+	output("$nADBG Commands (can be abbreviated):");
+	for (entry = commandEntries; entry->command != NULL; entry++) {
+		char buf[200];
+		sprintf(buf, "$i%s %s %s -- %s", entry->command, entry->parameter, padding(entry, maxLength), entry->helpText);
+		output(buf);
+	}
+}
 
 
 /*----------------------------------------------------------------------*/
@@ -847,31 +883,6 @@ static void handleInstancesCommand() {
 		showInstance(atoi(parameter));
 }
 
-static void handleHelpCommand() {
-	output(alan.longHeader);
-	output("$nADBG Commands (can be abbreviated):\
-      $iBREAK [n]    -- set breakpoint at source line [n]\
-      $iBREAK        -- list breakpoints set\
-      $iDELETE [n]   -- delete breakpoint at source line [n]\
-      $iDELETE       -- delete breakpoint at current source line\
-      $iFILES        -- list files\
-      $iNEXT         -- execute to next source line						\
-      $iEXIT (or X)  -- exit debug mode and return to game, get back with 'debug'\
-      $iQUIT         -- quit game\
-      $iCLASSES      -- show class hierarchy\
-      $iINSTANCE [n] -- show instances or instance [n]\
-      $iOBJECT [n]   -- show instances that are objects\
-      $iACTOR [n]    -- show instances that are actors\
-      $iLOCATION [n] -- show instances that are locations\
-      $iEVENTS       -- show events\
-      $iGO           -- go another player turn\
-      $iTRACE        -- toggle trace mode\
-      $iSTEP         -- toggle single step trace mode\
-");
-}
-
-
-
 
 /*======================================================================*/
 void debug(Bool calledFromBreakpoint, int line, int fileNumber)
@@ -905,7 +916,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
         case BREAK_COMMAND: handleBreakCommand(fileNumber); break;
         case DELETE_COMMAND: handleDeleteCommand(calledFromBreakpoint, line, fileNumber); break;
         case NEXT_COMMAND: handleNextCommand(calledFromBreakpoint); return;
-		case AMBIGUOUS_COMMAND: output("Ambiguous ADBG command. ? for help."); break;
+		case AMBIGUOUS_COMMAND: output("Ambiguous ADBG command abbreviation. ? for help."); break;
         default: output("Unknown ADBG command. ? for help."); break;
         }
     }
