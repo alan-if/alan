@@ -744,30 +744,6 @@ static char parseDebugCommand(char *command) {
 
 
 /*----------------------------------------------------------------------*/
-static char readDebugCommand(int *parameter) {
-    char c;
-    char buf[5000];
-
-    capitalize = FALSE;
-    if (anyOutput) newline();
-    do {
-        output("adbg> ");
-
-#ifdef USE_READLINE
-        (void) readline(buf);
-#else
-        fgets(buf, 255, stdin);
-#endif
-        lin = 1;
-        c = buf[0];
-        *parameter = 0;
-        sscanf(&buf[1], "%d", parameter);
-    } while (c == '\0');
-    return toUpper(c);
-}
-
-
-/*----------------------------------------------------------------------*/
 static void readCommand(char buf[]) {
 	char c;
 
@@ -787,6 +763,7 @@ static void readCommand(char buf[]) {
 }
 
 
+/*----------------------------------------------------------------------*/
 static void displaySourceLocation(int line, int fileNumber) {
 	char *cause;
 	if (anyOutput) newline();
