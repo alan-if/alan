@@ -76,8 +76,8 @@ $(WINARUNOBJDIR):
 
 winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
 	$(LINK) -o $@ $(LINKFLAGS) $(WINARUNOBJECTS) arun.res $(LIBS)
-	cp $@ ../bin
-	cp $(WINGLKROOT)/*.dll ../bin
+	cp $@ ../bin/
+	cp $(WINGLKROOT)/*.dll ../bin/
 
 arun.res: arun.rc arun.ico resources.h alan.version.c
 	echo $(VERSION)
@@ -107,7 +107,7 @@ $(GLKARUNOBJDIR):
 
 glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS) arun.res
 	$(LINK) -o $@ $(LINKFLAGS) $(GLKARUNOBJECTS) $(LIBS)
-	cp $@ ../bin
+	cp $@ ../bin/
 
 
 #######################################################################
@@ -131,7 +131,7 @@ $(GARARUNOBJDIR):
 
 gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
 	$(LINK) -o $@ $(LINKFLAGS) $(GARARUNOBJECTS) arun.res $(LIBS)
-	cp $@ ../bin
+	cp $@ ../bin/
 
 
 #######################################################################
@@ -142,7 +142,7 @@ gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
 #
 dumpacd: dumpacd.o reverse.o lists.o sysdep.o  ../compiler/spa.o smartall.o
 	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) dumpacd.o reverse.o lists.o sysdep.o smartall.o -DSTDIONONCONST ../compiler/spa.o
-	cp $@ ../bin
+	cp $@ ../bin/
 
 
 ###################################################################

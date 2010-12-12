@@ -6,7 +6,6 @@
 #	INCLUDES : directives to include the required directories
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
-#	DEPENDFLAGS: flags to the dependency preprocessor
 # Then include this file in your Makefile, and you are done
 
 CC = $(COMPILER)
@@ -27,6 +26,7 @@ help:
 	@echo "    make all  - Build and test the alan compiler"
 	@echo "    make alan - Build the alan compiler"
 	@echo "    make unit - Build and run the unit tests"
+	@echo "    make test - Build the alan compiler and run its regression tests"
 	@echo "    make clean"
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -45,7 +45,7 @@ ALANOBJDIR = .alan
 ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
 -include $(ALANOBJECTS:.o=.d)
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(DEPENDENCY) -o $@ -c $<
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 $(ALANOBJDIR):
 	@mkdir $(ALANOBJDIR)
@@ -68,7 +68,7 @@ UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 -include $(UNITTESTSOBJECTS:.o=.d)
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(DEPENDENCY) -o $@ -c $<
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
@@ -83,7 +83,8 @@ unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 #
 .PHONY: test
 test: unit
-	cd testing ; ../../bin/jregr -bin ../../bin
+	../bin/jregr -bin ../bin -dir testing
+	../bin/jregr -bin ../bin -dir testing/positions
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
