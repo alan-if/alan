@@ -232,7 +232,6 @@ static void showcnts(void)
 
 }
 
-
 /*----------------------------------------------------------------------*/
 static void showContainer(int cnt)
 {
@@ -254,6 +253,7 @@ static void showContainer(int cnt)
     }
     showContents(cnt);
 }
+#endif
 
 
 /*----------------------------------------------------------------------*/
@@ -270,7 +270,6 @@ static int sourceFileNumber(char *fileName) {
     }
     return -1;
 }
-#endif
 
 
 
@@ -501,6 +500,7 @@ static void listFiles() {
 
 
 /*----------------------------------------------------------------------*/
+
 static void listLines() {
     SourceLineEntry *entry;
     for (entry = pointerTo(header->sourceLineTable); *((Aword*)entry) != EOF; entry++)
@@ -509,14 +509,15 @@ static void listLines() {
 
 
 /*----------------------------------------------------------------------*/
-static int findSourceLineIndex(int file, int line) {
+static int findSourceLineIndex(SourceLineEntry *entry, int file, int line) {
     /* Will return index to the closest line available */
-    SourceLineEntry *entry = pointerTo(header->sourceLineTable);
     int i = 0;
 
-    while (!isEndOfArray(&entry[i]) && entry[i].file <= file && entry[i].line < line)
+    while (!isEndOfArray(&entry[i]) && entry[i].file != file)
         i++;
-    if (isEndOfArray(entry))
+    while (!isEndOfArray(&entry[i]) && entry[i].file == file  && entry[i].line < line)
+        i++;
+    if (isEndOfArray(entry) || entry[i].file != file)
         return i-1;
     else
         return i;
@@ -571,9 +572,9 @@ static void setBreakpoint(int file, int line) {
     else {
         i = availableBreakpointSlot();
         if (i == -1)
-            printf("No room for more breakpoints. Delete one first\n");
+            printf("No room for more breakpoints. Delete one first.\n");
         else {
-            int lineIndex = findSourceLineIndex(file, line);
+            int lineIndex = findSourceLineIndex(pointerTo(header->sourceLineTable), file, line);
             SourceLineEntry *entry = pointerTo(header->sourceLineTable);
             char leadingText[100] = "Breakpoint";
             if (entry[lineIndex].file == EOF) {
@@ -777,6 +778,8 @@ static void displaySourceLocation(int line, int fileNumber) {
 	anyOutput = FALSE;
 }
 
+
+/*----------------------------------------------------------------------*/
 static void toggleSectionTrace() {
 	if ((trc = !trc))
 		printf("Section trace on.");
@@ -784,14 +787,26 @@ static void toggleSectionTrace() {
 		printf("Section trace off.");
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleBreakCommand(int fileNumber) {
-	char *parameter = strtok(NULL, "");
+	char *parameter = strtok(NULL, ":");
+	if (parameter != NULL && isalpha(parameter[0])) {
+		fileNumber = sourceFileNumber(parameter);
+		if (fileNumber == -1) {
+			printf("No such file: '%s'\n", parameter);
+			return;
+		}
+		parameter = strtok(NULL, "");
+	}
 	if (parameter == NULL)
 		listBreakpoints();
 	else
 		setBreakpoint(fileNumber, atoi(parameter));
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleDeleteCommand(Bool calledFromBreakpoint, int line, int fileNumber) {
 	char *parameter = strtok(NULL, "");
 	if (parameter == NULL) {
@@ -803,6 +818,8 @@ static void handleDeleteCommand(Bool calledFromBreakpoint, int line, int fileNum
 		deleteBreakpoint(atoi(parameter), fileNumber);
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleNextCommand(Bool calledFromBreakpoint) {
 	stopAtNextLine = TRUE;
 	debugOption = FALSE;
@@ -811,6 +828,8 @@ static void handleNextCommand(Bool calledFromBreakpoint) {
 	restoreInfo();
 }
 
+
+/*----------------------------------------------------------------------*/
 static void toggleInstructionTrace() {
 	if ((stp = !stp))
 		printf("Single instruction trace on.");
@@ -818,6 +837,8 @@ static void toggleInstructionTrace() {
 		printf("Single instruction trace off.");
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleLocationsCommand() {
 	char *parameter = strtok(NULL, "");
 	if (parameter == 0)
@@ -826,6 +847,8 @@ static void handleLocationsCommand() {
 		showLocation(atoi(parameter));
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleActorsCommand() {
 	char *parameter = strtok(NULL, "");
 	if (parameter == NULL)
@@ -834,6 +857,8 @@ static void handleActorsCommand() {
 		showActor(atoi(parameter));
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleClassesCommand() {
 	char *parameter = strtok(NULL, "");
 	if (parameter == NULL) {
@@ -843,6 +868,8 @@ static void handleClassesCommand() {
 		showClass(atoi(parameter));
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleObjectsCommand() {
 	char *parameter = strtok(NULL, "");
 	if (parameter == NULL)
@@ -851,6 +878,8 @@ static void handleObjectsCommand() {
 		showObject(atoi(parameter));
 }
 
+
+/*----------------------------------------------------------------------*/
 static void handleInstancesCommand() {
 	char *parameter = strtok(NULL, "");
 
