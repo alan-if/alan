@@ -41,6 +41,7 @@ Source: "converter\a2a3.readme.txt"; DestDir: "{app}"; DestName: "a2a3.readme.tx
 Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "c:\Users\Thomas\Documents\Utveckling\Alan\WindowsGLK\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
+Source: "regression\logo.png"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3r"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\manual\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
