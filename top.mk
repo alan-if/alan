@@ -39,7 +39,7 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 sync:
 	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
 
-games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan
+games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; alan adventv3
 
 # Checking for up-to-date files which can not be automated
