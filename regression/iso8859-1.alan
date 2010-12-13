@@ -1,0 +1,11 @@
+The l Isa location
+End The l.
+
+Start At l.
+  Say "!#$%&'()*+,-./0123456789:;<=>?$n".
+  Say "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_$n".
+  Say "`abcdefghijklmnopqrstuvwxyz{|}~$n".
+  Say "¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿$n".
+  Say "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß$n".
+  Say "àáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ".
+  "Thatís not something you can"
