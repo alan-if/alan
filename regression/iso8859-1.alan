@@ -2,10 +2,17 @@ The l Isa location
 End The l.
 
 Start At l.
-  Say "!#$%&'()*+,-./0123456789:;<=>?$n".
-  Say "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_$n".
-  Say "`abcdefghijklmnopqrstuvwxyz{|}~$n".
-  Say "¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿$n".
-  Say "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß$n".
-  Say "àáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ".
-  "Thatís not something you can"
+  "...0123456789ABCDEF$n"
+  "2x: !""#$%&'()*+,-./$n"
+  "3x:0123456789:;<=>?$n"
+  "4x:@ABCDEFGHIJKLMNO$n"
+  "5x:PQRSTUVWXYZ[\]^_$n"
+  "6x:`abcdefghijklmno$n"
+  "7x:pqrstuvwxyz{|}~$n"
+  "Ax: ¡¢£¤¥¦§¨©ª«¬­®¯$n"
+  "Bx:°±²³´µ¶·¸¹º»¼½¾¿$n"
+  "Cx:ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏ$n"
+  "Dx:ÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß$n"
+  "Ex:àáâãäåæçèéêëìíîï$n"
+  "Fx:ðñòóôõö÷øùúûüýþÿ$n"
+  "Thatís not something you can ignore!"
