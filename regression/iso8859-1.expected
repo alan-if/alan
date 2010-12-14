@@ -3,13 +3,20 @@
         No warnings or errors detected.
 
 
-!#$&'()*+,-./0123456789:;<=>?
-@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_
-`abcdefghijklmnopqrstuvwxyz{|}~
-Â¡Â¢Â£Â¤Â¥Â¦Â§Â¨Â©ÂªÂ«Â¬Â­Â®Â¯Â°Â±Â²Â³Â´ÂµÂ¶Â·Â¸Â¹ÂºÂ»Â¼Â½Â¾Â¿
-Ã€ÃÃ‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃÃŽÃÃÃ‘Ã’Ã“Ã”Ã•Ã–Ã—Ã˜Ã™ÃšÃ›ÃœÃÃžÃŸ
-Ã Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã·Ã¸Ã¹ÃºÃ»Ã¼Ã½Ã¾ ThatÃ­s
-not something you can
+...0123456789ABCDEF
+2x: !"#$&'()*+,-./
+3x:0123456789:;<=>?
+4x:@ABCDEFGHIJKLMNO
+5x:PQRSTUVWXYZ[\]^_
+6x:`abcdefghijklmno
+7x:pqrstuvwxyz{|}~
+Ax: ¡¢£¤¥¦§¨©ª«¬­®¯
+Bx:°±²³´µ¶·¸¹º»¼½¾¿
+Cx:ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏ
+Dx:ÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß
+Ex:àáâãäåæçèéêëìíîï
+Fx:ðñòóôõö÷øùúûüýþÿ
+Thatís not something you can ignore!
 
 
 L
