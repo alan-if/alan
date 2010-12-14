@@ -6,13 +6,14 @@
 
 \*----------------------------------------------------------------------*/
 
+#include <locale.h>
+
 #include "util.h"
 #include "alan.h"
 #include "spa.h"
 #include "options.h"
 #include "alan.version.h"
 #include "lst_x.h"
-
 
 
 /*======================================================================*/
@@ -240,23 +241,25 @@ int main(int argc,		/* IN - argument count */
 	 char **argv		/* IN - program arguments */
 )
 {
-  int nArgs;			/* Number of supplied args */
-
+    int nArgs;			/* Number of supplied args */
 #endif
 
-  /* -- get arguments -- */
-  nArgs = spaProcess(argc, argv, arguments, options, paramError);
-  /* Say hello ! */
-  if (verboseFlag)
-    printf("%s\n\n", alan.longHeader);
+    /* Pick up any locale settings */
+    setlocale(LC_ALL, "");
 
-  if (nArgs == 0) {
-    usage(NULL, NULL, 0);
-    terminate(EXIT_FAILURE);
-  } else if (nArgs > 1)
-    terminate(EXIT_FAILURE);
+    /* -- get arguments -- */
+    nArgs = spaProcess(argc, argv, arguments, options, paramError);
+    /* Say hello ! */
+    if (verboseFlag)
+        printf("%s\n\n", alan.longHeader);
 
-  compile();
-  return(0);
+    if (nArgs == 0) {
+        usage(NULL, NULL, 0);
+        terminate(EXIT_FAILURE);
+    } else if (nArgs > 1)
+        terminate(EXIT_FAILURE);
+
+    compile();
+    return(0);
 }
 

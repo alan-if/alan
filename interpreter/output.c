@@ -286,7 +286,7 @@ static void sayParameter(int p, int form)
   T = tabulation
   $ = no space needed after this, and don't capitalize
 */
-static char *printSymbol(char *str) /* IN - The string starting with '$' */
+static char *printSymbol(char str[]) /* IN - The string starting with '$' */
 {
     int advance = 2;
 
