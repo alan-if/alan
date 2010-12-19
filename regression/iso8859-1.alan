@@ -3,7 +3,7 @@ End The l.
 
 Start At l.
   "...0123456789ABCDEF$n"
-  "2x: !""#$$%&'()*+,-./$n"
+  "2x: !""#$%&'()*+,-./$n"
   "3x:0123456789:;<=>?$n"
   "4x:@ABCDEFGHIJKLMNO$n"
   "5x:PQRSTUVWXYZ[\]^_$n"

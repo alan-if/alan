@@ -372,6 +372,7 @@ static char *printSymbol(char str[]) /* IN - The string starting with '$' */
             capitalize = FALSE;
             break;
         default:
+            advance = 1;
             printAndLog("$");
             break;
         }
