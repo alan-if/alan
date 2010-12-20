@@ -501,8 +501,7 @@ static void listFiles() {
 
 
 /*----------------------------------------------------------------------*/
-
-static void listLines() {
+void listLines() {
     SourceLineEntry *entry;
     for (entry = pointerTo(header->sourceLineTable); *((Aword*)entry) != EOF; entry++)
         printf("  %s:%d\n", sourceFileName(entry->file), entry->line);
@@ -936,7 +935,7 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 #ifdef HAVE_GLK
     glk_set_style(style_Normal);
 #endif
-    
+    ;
 }
 
 
