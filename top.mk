@@ -43,7 +43,7 @@ games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; alan adventv3
 
 # Checking for up-to-date files which can not be automated
-doc/manual/manual.pdf: doc/manual/manual.doc
+doc/manual/manual.pdf: doc/manual/manual.odt
 	@echo "PDF is not up-to-date"
 	exit 1
 
