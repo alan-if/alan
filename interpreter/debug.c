@@ -3,7 +3,7 @@
   debug.c
 
   Debugger unit in Alan interpreter ARUN
-
+  
   \*----------------------------------------------------------------------*/
 
 #include "debug.h"
@@ -35,6 +35,7 @@
 #include "exe.h"
 
 #ifdef HAVE_GLK
+#include "glk.h"
 #define MAP_STDIO_TO_GLK
 #include "glkio.h"
 #endif
@@ -895,6 +896,10 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
 {
     saveInfo();
 
+#ifdef HAVE_GLK
+    glk_set_style(style_Preformatted);
+#endif
+
     if (calledFromBreakpoint)
         displaySourceLocation(line, fileNumber);
 
@@ -912,20 +917,26 @@ void debug(Bool calledFromBreakpoint, int line, int fileNumber)
         case CLASSES_COMMAND: handleClassesCommand(); break;
         case DELETE_COMMAND: handleDeleteCommand(calledFromBreakpoint, line, fileNumber); break;
         case EVENTS_COMMAND: showEvents(); break;
-        case EXIT_COMMAND: debugOption = FALSE; restoreInfo(); return;
+        case EXIT_COMMAND: debugOption = FALSE; restoreInfo(); goto exit_debug;
         case FILES_COMMAND: listFiles(); break;
-        case GO_COMMAND: restoreInfo(); return;
+        case GO_COMMAND: restoreInfo(); goto exit_debug;
         case HELP_COMMAND: handleHelpCommand(); break;
         case INSTANCES_COMMAND: handleInstancesCommand(); break;
         case INSTRUCTION_TRACE_COMMAND: toggleInstructionTrace(); break;
         case LOCATIONS_COMMAND: handleLocationsCommand(); break;
-        case NEXT_COMMAND: handleNextCommand(calledFromBreakpoint); return;
+        case NEXT_COMMAND: handleNextCommand(calledFromBreakpoint); goto exit_debug;
         case OBJECTS_COMMAND: handleObjectsCommand(); break;
         case QUIT_COMMAND: terminate(0); break;
         case SECTION_TRACE_COMMAND: toggleSectionTrace(); break;
         default: output("Unknown ADBG command. ? for help."); break;
         }
     }
+
+ exit_debug:
+#ifdef HAVE_GLK
+    glk_set_style(style_Normal);
+#endif
+    
 }
 
 
