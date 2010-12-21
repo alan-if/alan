@@ -33,7 +33,7 @@ x :
 	@echo TMHOME=$(TMHOME)
 
 
-tm: .pmkstamp .smkstamp .lmkstamp
+tm: .pmkstamp .smkstamp .lmkstamp alan.prod
 	touch .tmstamp
 
 .lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
