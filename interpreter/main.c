@@ -39,9 +39,6 @@
 
 
 #include <time.h>
-#ifdef USE_READLINE
-#include "readline.h"
-#endif
 
 #include "alan.version.h"
 

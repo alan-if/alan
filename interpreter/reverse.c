@@ -497,6 +497,7 @@ void reverseACD(void)
   reverseSetInitTable(header->setInitTable);
   reverseTable(header->sourceFileTable, sizeof(SourceFileEntry));
   reverseTable(header->sourceLineTable, sizeof(SourceLineEntry));
+  reverseStms(header->prompt);
   reverseStms(header->start);
   reverseMsgs(header->messageTableAddress);
 

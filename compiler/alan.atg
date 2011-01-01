@@ -57,6 +57,7 @@ PRODUCTIONS
                .
 
  declaration = "import" 
+             | prompt 
              | messages 
              | class 
              | instance 
@@ -67,6 +68,9 @@ PRODUCTIONS
              | addition 
              | event 
               .
+
+ prompt = "prompt" statements 
+         .
 
  attributes = attributedefinition "." 
             | attributes attributedefinition "." 

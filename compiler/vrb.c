@@ -54,7 +54,7 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts)
       lst->member.id->symbol = sym;
       lst->member.id->code = sym->code;
     } else
-      redefined(lst->member.id, sym);
+      idRedefined(lst->member.id, sym);
   }
 
   /* Use first verb symbol as context symbol */

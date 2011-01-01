@@ -60,7 +60,7 @@ Exit *newExit(Srcp *srcp, List *dirs, IdNode *target, List *chks, List *stms)
       lst->member.id->symbol = sym;
       lst->member.id->code = lst->member.id->symbol->code;
     } else
-      redefined(lst->member.id, sym);
+      idRedefined(lst->member.id, sym);
   }
 
   return(new);

@@ -62,6 +62,16 @@ Ensure canHandleMemoryStartForPre3_0alpha5IsShorter() {
     version[1] = 4;
     version[0] = 'a';
 
+    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==memoryStart(version));
+}
+
+Ensure canHandleMemoryStartForPre3_0beta1IsShorter() {
+    char version[4];
+    version[3] = 3;
+    version[2] = 0;
+    version[1] = 9;
+    version[0] = 'a';
+
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==memoryStart(version));
 }
 

@@ -149,6 +149,7 @@ static int val(char str[])
   op %% OperatorKind %1%%,
   opaque %% Bool %1%%,
   present %% Bool %1%%,		-- an optional marker was present
+  prompt %% List *%1%%,
   pronouns %% List *%1%%,
   pronounsSrcp %% Srcp %1%%,
   qual %% QualKind %1%%,
@@ -265,7 +266,22 @@ static int val(char str[])
     ! <rule>
     %% adv.ruls = concat(adv.ruls, %<rule>.rul, RULE_LIST); %%
 
+    ! <prompt>
+    %%
+      if (adv.prompt != NULL)
+        lmLog(`&%<prompt>.srcp, 308, sevWAR, "PROMPT");
+      adv.prompt = %<prompt>.prompt;
+    %%
+
     ! 'import'
+    ;
+
+<prompt>
+    = 'prompt' <statements>
+    %%
+      %<prompt>.prompt = %<statements>.stms;
+      %<prompt>.srcp = %'prompt'.srcp;
+    %%
     ;
 
 ----> ATTRIBUTES

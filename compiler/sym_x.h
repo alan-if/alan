@@ -47,7 +47,7 @@ extern Symbol *messageVerbSymbolFor2Integers;
 
 /* FUNCTIONS: */
 
-extern void redefined(IdNode *id, Symbol *sym);
+extern void idRedefined(IdNode *id, Symbol *sym);
 extern void initSymbols(void);
 extern void createMessageVerbs();
 

@@ -72,7 +72,7 @@ static Frame *currentFrame = NULL;
 
 
 /*======================================================================*/
-void redefined(IdNode *id, Symbol *sym)
+void idRedefined(IdNode *id, Symbol *sym)
 {
   int code = 0;                     /* Error code */
 
@@ -223,7 +223,7 @@ Symbol *newSymbol(IdNode *id, SymbolKind kind)
   
   new = lookup(id->string);
   if (new != NULL && !mayOverride(kind, new->kind))
-    redefined(id, new);
+    idRedefined(id, new);
 
   new = NEW(Symbol);
   

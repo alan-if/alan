@@ -253,8 +253,8 @@ void setCharacterSet(int set)
     %%
       Srcp srcp, start;
       Token token;
-static      int i;
-static      char c;
+      static int i;
+      static char c;
 
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smScan(smThis, `&token);		/* Get file name */

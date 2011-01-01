@@ -84,7 +84,7 @@ void symbolizeAdventure()
 /*----------------------------------------------------------------------*/
 static void analyzeStartAt(void)
 {
-    /* START has the same environment as a RULE */
+    /* START has the same context as a RULE */
     Context *context = newRuleContext();
 
     if (adv.whr != NULL)
@@ -104,6 +104,16 @@ static void analyzeStartAt(void)
 
     analyzeStatements(adv.stms, context);
 }
+
+
+/*----------------------------------------------------------------------*/
+static void analyzePrompt(void)
+{
+    Context *context = newRuleContext();
+    if (adv.prompt != NULL)
+        analyzeStatements(adv.prompt, context);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void analyzeSourceFilenames() {
@@ -176,6 +186,8 @@ void analyzeAdventure(void)
 
     verbose("Message");
     analyzeMessages();
+
+    analyzePrompt();
 
     analyzeStartAt();
     analyzeAllWords();
@@ -255,6 +267,13 @@ void generateAdventure(char acodeFileName[],
 
     /* Options */
     generateOptions(&acodeHeader);
+
+    /* Player prompt */
+    if (adv.prompt != NULL) {
+        acodeHeader.prompt = nextEmitAddress();	/* Save ACODE address to prompt */
+        generateStatements(adv.prompt);
+        emit0(I_RETURN);
+    }
 
     /* Start statements */
     acodeHeader.start = nextEmitAddress();	/* Save ACODE address to start */

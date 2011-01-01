@@ -131,7 +131,14 @@ static void getLine(void) {
     para();
     do {
         statusline();
-        printAndLog("> ");
+        if (header->prompt) {
+            anyOutput = FALSE;
+            interpret(header->prompt);
+            if (anyOutput)
+                printAndLog(" ");
+            needSpace = FALSE;
+        } else
+            printAndLog("> ");
 #ifdef USE_READLINE
         if (!readline(buf)) {
             newline();
