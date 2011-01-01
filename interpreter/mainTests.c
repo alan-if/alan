@@ -89,6 +89,7 @@ TestSuite *mainTests()
 
     add_test(suite, canCopyAttributes);
     add_test(suite, canHandleMemoryStartForPre3_0alpha5IsShorter);
+    add_test(suite, canHandleMemoryStartForPre3_0beta1IsShorter);
     add_test(suite, canSetEof);
 
     return suite;

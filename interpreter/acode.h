@@ -511,7 +511,7 @@ typedef struct ACodeHeader {
     Aaddr prompt;
 } ACodeHeader;
 
-typedef struct Pre3_0beta1ACodeHeader {
+typedef struct Pre3_0beta1Header {
     /* Important info */
     char tag[4];		/* "ALAN" */
     char version[4];		/* Version of compiler */
@@ -565,7 +565,7 @@ typedef struct Pre3_0beta1ACodeHeader {
     Aword acdcrc;		/* Checksum for acd code (excl. hdr) */
     Aword txtcrc;		/* Checksum for text data file */
     Aaddr ifids;		/* Address to IFIDS */
-} Pre3_0beta1ACodeHeader;
+} Pre3_0beta1Header;
 
 typedef struct Pre3_0alpha5Header {
     /* Important info */

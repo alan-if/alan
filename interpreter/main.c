@@ -283,50 +283,67 @@ static void checkVersion(ACodeHeader *header)
     }
 }
 
+
 /*----------------------------------------------------------------------
   Calculate where the actual memory starts. Might be different for
   different versions.
 */
 static int memoryStart(char version[4]) {
     /* Pre 3.0alpha5 had a shorter header */
-    if (version[3] == 3 && version[2] == 0 && version[0] == 'a' && version[1] <5)
+    if (isPreAlpha5(version))
         return sizeof(Pre3_0alpha5Header)/sizeof(Aword);
+    else if (isPreBeta1(version))
+        return sizeof(Pre3_0beta1Header)/sizeof(Aword);
     else
         return sizeof(ACodeHeader)/sizeof(Aword);
 }
 
 
+/*----------------------------------------------------------------------*/
+static void readTemporaryHeader(ACodeHeader *tmphdr) {
+    rewind(codfil);
+    fread(tmphdr, sizeof(*tmphdr), 1, codfil);
+    rewind(codfil);
+    if (strncmp((char *)tmphdr, "ALAN", 4) != 0)
+        playererr("Not an Alan game file, does not start with \"ALAN\"");
+}
+
 
 /*----------------------------------------------------------------------*/
-static void load(void)
-{
-    ACodeHeader tmphdr;
-    Aword crc = 0;
+static void reverseMemory() {
+    if (littleEndian()) {
+        if (debugOption||sectionTraceOption||singleStepOption)
+            output("<Hmm, this is a little-endian machine, fixing byte ordering....");
+        reverseACD();			/* Reverse content of the ACD file */
+        if (debugOption||sectionTraceOption||singleStepOption)
+            output("OK.>$n");
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void setupHeader(ACodeHeader tmphdr) {
+    if (!isPreBeta1(tmphdr.version))
+        header = (ACodeHeader *) pointerTo(0);
+    else {
+        if (isPreAlpha5(tmphdr.version)) {
+            header = duplicate(&memory[0], sizeof(Pre3_0alpha5Header));
+            header->ifids = 0;
+        } else
+            header = duplicate(&memory[0], sizeof(Pre3_0beta1Header));
+        header->prompt = 0;
+    }        
+}
+
+
+/*----------------------------------------------------------------------*/
+static void loadAndCheckMemory(ACodeHeader tmphdr, Aword crc, char err[]) {
     int i;
-    char err[100];
-	
-    rewind(codfil);
-    fread(&tmphdr, sizeof(tmphdr), 1, codfil);
-    rewind(codfil);
-    if (strncmp((char *)&tmphdr, "ALAN", 4) != 0)
-        playererr("Not an Alan game file, does not start with \"ALAN\"");
-	
-    checkVersion(&tmphdr);
-	
-    /* Allocate and load memory */
-	
-    if (littleEndian())
-        reverseHdr(&tmphdr);
-	
-    if (tmphdr.size <= sizeof(ACodeHeader)/sizeof(Aword))
-        syserr("Malformed game file. Too small.");
-	
     /* No memory allocated yet? */
     if (memory == NULL) {
         memory = allocate(tmphdr.size*sizeof(Aword));
     }
-    header = (ACodeHeader *) pointerTo(0);
-	
+
     memTop = fread(pointerTo(0), sizeof(Aword), tmphdr.size, codfil);
     if (memTop != tmphdr.size)
         syserr("Could not read all ACD code.");
@@ -352,14 +369,32 @@ static void load(void)
             output("$$ Ignored, proceed at your own risk.>$n");
         }
     }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void load(void)
+{
+    ACodeHeader tmphdr;
+    Aword crc = 0;
+    char err[100];
 	
-    if (littleEndian()) {
-        if (debugOption||sectionTraceOption||singleStepOption)
-            output("<Hmm, this is a little-endian machine, fixing byte ordering....");
-        reverseACD();			/* Reverse content of the ACD file */
-        if (debugOption||sectionTraceOption||singleStepOption)
-            output("OK.>$n");
-    }
+    readTemporaryHeader(&tmphdr);
+    checkVersion(&tmphdr);
+	
+    /* Allocate and load memory */
+	
+    if (littleEndian())
+        reverseHdr(&tmphdr);
+	
+    if (tmphdr.size <= sizeof(ACodeHeader)/sizeof(Aword))
+        syserr("Malformed game file. Too small.");
+	
+    loadAndCheckMemory(tmphdr, crc, err);
+
+    reverseMemory();
+    setupHeader(tmphdr);
+
 }
 
 
@@ -792,8 +827,8 @@ void run(void)
 	
     initStateStack();
 	
-    if (!ERROR_RETURNED)   /* Can happen in start section to... */
-        init();			   /* Initialise and start the adventure */
+    if (!ERROR_RETURNED)      /* Can happen in start section to... */
+        init();               /* Initialise and start the adventure */
 	
     while (TRUE) {
         if (debugOption)
