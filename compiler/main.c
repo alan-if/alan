@@ -85,6 +85,9 @@ static SPA_DECLARE(options)
      SPA_FLAG("debug", "force debug option in adventure", debugFlag, FALSE, NULL)
      SPA_FLAG("pack", "force pack option in adventure", packFlag, FALSE, NULL)
      SPA_FLAG("summary", "print a summary", summaryFlag, FALSE, NULL)
+#ifdef WINGUI
+     SPA_FLAG("gui", "use gui", guiMode, TRUE, NULL)
+#endif
 #ifndef THINK_C
      SPA_BITS("dump", "dump the internal form, where\n\
 synonyms\n\
@@ -211,7 +214,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
   }
 #endif
 
-  guiMode = TRUE;
   if (nArgs == 1) {
     if (!getInFileName())
       return -1;
@@ -229,11 +231,15 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
   MessageBox(NULL, fopen(argv[1], "r")!=NULL?"OK":"Not Ok", "Alan V3 compiler : open argv[1]", MB_OK);
 #endif
 
+  /* -- get arguments -- */
+  nArgs = spaProcess(argc, argv, arguments, options, paramError);
 
-  if (!AllocConsole()) {
-    MessageBox(NULL, "Failed to allocate a console.\nCompilation will continue but can not display error messages.", "Error", MB_OK);
-  } else
-    freopen("con:", "w", stdout);
+  if (guiMode) {
+      if (AllocConsole())
+          freopen("con:", "w", stdout);
+      else
+          MessageBox(NULL, "Failed to allocate a console.\nCompilation will continue but can not display error messages.", "Error", MB_OK);
+  }
 
 #else
 
@@ -242,13 +248,14 @@ int main(int argc,		/* IN - argument count */
 )
 {
     int nArgs;			/* Number of supplied args */
-#endif
 
     /* Pick up any locale settings */
     setlocale(LC_ALL, "");
 
     /* -- get arguments -- */
     nArgs = spaProcess(argc, argv, arguments, options, paramError);
+#endif
+
     /* Say hello ! */
     if (verboseFlag)
         printf("%s\n\n", alan.longHeader);

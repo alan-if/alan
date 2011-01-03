@@ -140,8 +140,9 @@ gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
 #
 # Dump Acode file into text format
 #
-dumpacd: dumpacd.o reverse.o lists.o sysdep.o  ../compiler/spa.o smartall.o
-	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) dumpacd.o reverse.o lists.o sysdep.o smartall.o -DSTDIONONCONST ../compiler/spa.o
+DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o smartall.o
+dumpacd: $(DUMPACDOBJECTS)
+	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) $(DUMPACDOBJECTS)
 	cp $@ ../bin/
 
 

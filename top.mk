@@ -12,13 +12,14 @@ unit:
 
 .PHONY: test
 test:
-	java -jar bin/jregr.jar -bin bin -dir regression $(TESTOUTPUT)
-	java -jar bin/jregr.jar -dir regression/restore $(TESTOUTPUT)
-	java -jar bin/jregr.jar -dir regression/versions $(TESTOUTPUT)
-	java -jar bin/jregr.jar -bin bin -dir compiler/testing $(TESTOUTPUT)
-	java -jar bin/jregr.jar -bin bin -dir compiler/testing/positions $(TESTOUTPUT)
-	java -jar bin/jregr.jar -bin bin -dir library/testing $(TESTOUTPUT)
-	java -jar bin/jregr.jar -bin bin -dir converter/testing $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir regression $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -dir regression/restore $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -dir regression/versions $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -dir regression/winalan $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir compiler/testing $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir compiler/testing/positions $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir library/testing $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir converter/testing $(TESTOUTPUT)
 
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip games/adventv3/adventV3.a3c regression/saviour.alan COPYING

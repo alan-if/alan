@@ -33,6 +33,7 @@ OTHERSRCS = \
 	checkentry.c \
 	class.c \
 	current.c \
+	compatibility.c \
 	decode.c \
 	dictionary.c \
 	event.c \

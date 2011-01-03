@@ -22,6 +22,7 @@
 #include "literal.h"
 #include "debug.h"
 #include "msg.h"
+#include "inter.h"
 
 #ifdef USE_READLINE
 #include "readline.h"
