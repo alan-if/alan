@@ -43,7 +43,7 @@ release:
 #
 # Build with flags:
 winalan: OS_FLAGS = -mwindows -mno-cygwin
-winalan: EXTRA_COMPILER_FLAGS = -DWINGUI
+winalan: EXTRA_COMPILER_FLAGS = -Wall -funsigned-char $(OPTIMIZE) -DWINGUI
 
 WINALANOBJDIR = .winalan
 WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o}) $(WINALANOBJDIR)/alan.version.o
