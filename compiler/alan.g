@@ -559,9 +559,14 @@ special_statement : 'quit' '.'
                   | 'restore' '.' 
                   | 'restart' '.' 
                   | 'score' optional_integer '.' 
+                  | 'transcript' on_or_off '.' 
                   | 'system' STRING '.' 
                   | 'visits' INTEGER '.' 
                      ;
+
+on_or_off : 'on' 
+          | 'off' 
+             ;
 
 optional_expression : 
                     | expression 

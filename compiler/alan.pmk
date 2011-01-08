@@ -146,6 +146,7 @@ static int val(char str[])
   nam %% List *%1%%,		-- of NamNod: name-clause
   nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
   negative %% Article *%1%%,
+  on_or_off %% Bool %1%%,
   op %% OperatorKind %1%%,
   opaque %% Bool %1%%,
   present %% Bool %1%%,		-- an optional marker was present
@@ -2048,12 +2049,26 @@ static int val(char str[])
 	%<special_statement>.stm->fields.visits.count = val(%Integer.chars);
     %%
 
+    ! 'transcript' <on_or_off> '.'
+    %%
+	%<special_statement>.stm = newStatement(`&%'transcript'.srcp, TRANSCRIPT_STATEMENT);
+	%<special_statement>.stm->fields.transcript.on_or_off = %<on_or_off>.on_or_off;
+    %%
+
     ! 'system' STRING '.'
     %%
 	%<special_statement>.stm = newStatement(`&%'system'.srcp, SYSTEM_STATEMENT);
 	%<special_statement>.stm->fields.system.fpos = %STRING.fpos;
 	%<special_statement>.stm->fields.system.len = %STRING.len;
     %%
+    ;
+
+<on_or_off>
+    = 'on'
+    %% %<on_or_off>.on_or_off = TRUE; %%
+
+    ! 'off'
+    %% %<on_or_off>.on_or_off = FALSE; %%
     ;
 	
 

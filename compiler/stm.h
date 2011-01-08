@@ -54,7 +54,8 @@ typedef enum StmKind {		/* STATEMENT kinds */
   DEPEND_STATEMENT,
   DEPENDCASE_STATEMENT,
   EACH_STATEMENT,
-  STRIP_STATEMENT
+  STRIP_STATEMENT,
+  TRANSCRIPT_STATEMENT
 } StmKind;
 
 
@@ -189,6 +190,10 @@ typedef struct Statement {	/* STATEMENT */
     struct {
       int style;
     } style;
+
+      struct {
+          Bool on_or_off;
+      } transcript;
 
   } fields;
 } Statement;

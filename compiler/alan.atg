@@ -576,9 +576,14 @@ PRODUCTIONS
                    | "restore" "." 
                    | "restart" "." 
                    | "score" optionalinteger "." 
+                   | "transcript" onoroff "." 
                    | "system" STRING "." 
                    | "visits" Integer "." 
                     .
+
+ onoroff = "on" 
+           | "off" 
+            .
 
  optionalexpression = 
                      | expression 

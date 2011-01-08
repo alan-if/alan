@@ -543,159 +543,164 @@
 274.                     ! 'restore' '.' 
 275.                     ! 'restart' '.' 
 276.                     ! 'score' <optional_integer> '.' 
-277.                     ! 'system' STRING '.' 
-278.                     ! 'visits' Integer '.' 
+277.                     ! 'transcript' <on_or_off> '.' 
+278.                     ! 'system' STRING '.' 
+279.                     ! 'visits' Integer '.' 
                          ;
 
-279. <optional_expression> = 
-280.                       ! <expression> 
+280. <on_or_off> = 'on' 
+281.             ! 'off' 
+                 ;
+
+282. <optional_expression> = 
+283.                       ! <expression> 
                            ;
 
-281. <expression> = <term> 
-282.              ! <expression> 'or' <term> 
+284. <expression> = <term> 
+285.              ! <expression> 'or' <term> 
                   ;
 
-283. <term> = <factor> 
-284.        ! <term> 'and' <factor> 
+286. <term> = <factor> 
+287.        ! <term> 'and' <factor> 
             ;
 
-285. <factor> = <arithmetic> 
-286.          ! <factor> <optional_not> <where> 
-287.          ! <factor> <optional_not> <relop> <arithmetic> 
-288.          ! <factor> <optional_not> 'contains' <arithmetic> 
-289.          ! <factor> <optional_not> 'between' <arithmetic> 'and' 
+288. <factor> = <arithmetic> 
+289.          ! <factor> <optional_not> <where> 
+290.          ! <factor> <optional_not> <relop> <arithmetic> 
+291.          ! <factor> <optional_not> 'contains' <arithmetic> 
+292.          ! <factor> <optional_not> 'between' <arithmetic> 'and' 
                 <arithmetic> 
               ;
 
-290. <arithmetic> = <primary> 
-291.              ! <aggregate> <filters> 
-292.              ! <primary> 'isa' ID 
-293.              ! <primary> <is> <something> 
-294.              ! <arithmetic> <binop> <primary> 
+293. <arithmetic> = <primary> 
+294.              ! <aggregate> <filters> 
+295.              ! <primary> 'isa' ID 
+296.              ! <primary> <is> <something> 
+297.              ! <arithmetic> <binop> <primary> 
                   ;
 
-295. <filters> = <filter> 
-296.           ! <filters> ',' <filter> 
+298. <filters> = <filter> 
+299.           ! <filters> ',' <filter> 
                ;
 
-297. <filter> = <optional_not> <where> 
-298.          ! <optional_not> 'isa' ID 
-299.          ! <is> <something> 
+300. <filter> = <optional_not> <where> 
+301.          ! <optional_not> 'isa' ID 
+302.          ! <is> <something> 
               ;
 
-300. <right_hand_side> = <filter> 
-301.                   ! <optional_not> <relop> <primary> 
-302.                   ! <optional_not> 'contains' <factor> 
-303.                   ! <optional_not> 'between' <arithmetic> 'and' 
+303. <right_hand_side> = <filter> 
+304.                   ! <optional_not> <relop> <primary> 
+305.                   ! <optional_not> 'contains' <factor> 
+306.                   ! <optional_not> 'between' <arithmetic> 'and' 
                          <arithmetic> 
                        ;
 
-304. <primary> = STRING 
-305.           ! <what> 
-306.           ! 'score' 
-307.           ! <optional_minus> Integer 
-308.           ! '{' <optional_members> '}' 
-309.           ! '(' <expression> ')' 
-310.           ! 'random' <optional_directly> 'in' <primary> 
-311.           ! 'random' <primary> 'to' <primary> 
+307. <primary> = STRING 
+308.           ! <what> 
+309.           ! 'score' 
+310.           ! <optional_minus> Integer 
+311.           ! '{' <optional_members> '}' 
+312.           ! '(' <expression> ')' 
+313.           ! 'random' <optional_directly> 'in' <primary> 
+314.           ! 'random' <primary> 'to' <primary> 
                ;
 
-312. <aggregate> = 'count' 
-313.             ! <aggregator> 'of' ID 
+315. <aggregate> = 'count' 
+316.             ! <aggregator> 'of' ID 
                  ;
 
-314. <aggregator> = 'max' 
-315.              ! 'min' 
-316.              ! 'sum' 
+317. <aggregator> = 'max' 
+318.              ! 'min' 
+319.              ! 'sum' 
                   ;
 
-317. <something> = <optional_not> ID 
+320. <something> = <optional_not> ID 
                  ;
 
-318. <what> = <simple_what> 
-319.        ! <attribute_reference> 
+321. <what> = <simple_what> 
+322.        ! <attribute_reference> 
             ;
 
-320. <simple_what> = ID 
-321.               ! 'this' 
-322.               ! 'current' 'actor' 
-323.               ! 'current' 'location' 
+323. <simple_what> = ID 
+324.               ! 'this' 
+325.               ! 'current' 'actor' 
+326.               ! 'current' 'location' 
                    ;
 
-324. <attribute_reference> = ID 'of' <what> 
-325.                       ! <what> ':' ID 
+327. <attribute_reference> = ID 'of' <what> 
+328.                       ! <what> ':' ID 
                            ;
 
-326. <optional_where> = 
-327.                  ! <where> 
+329. <optional_where> = 
+330.                  ! <where> 
                       ;
 
-328. <where> = <optional_directly> 'here' 
-329.         ! <optional_directly> 'nearby' 
-330.         ! <optional_directly> 'at' <primary> 
-331.         ! <optional_directly> 'in' <primary> 
-332.         ! <optional_directly> 'near' <what> 
+331. <where> = <optional_directly> 'here' 
+332.         ! <optional_directly> 'nearby' 
+333.         ! <optional_directly> 'at' <primary> 
+334.         ! <optional_directly> 'in' <primary> 
+335.         ! <optional_directly> 'near' <what> 
              ;
 
-333. <binop> = '+' 
-334.         ! '-' 
-335.         ! '*' 
-336.         ! '/' 
+336. <binop> = '+' 
+337.         ! '-' 
+338.         ! '*' 
+339.         ! '/' 
              ;
 
-337. <relop> = '<>' 
-338.         ! '=' 
-339.         ! '==' 
-340.         ! '>=' 
-341.         ! '<=' 
-342.         ! '>' 
-343.         ! '<' 
+340. <relop> = '<>' 
+341.         ! '=' 
+342.         ! '==' 
+343.         ! '>=' 
+344.         ! '<=' 
+345.         ! '>' 
+346.         ! '<' 
              ;
 
-344. <optional_qual> = 
-345.                 ! 'before' 
-346.                 ! 'after' 
-347.                 ! 'only' 
+347. <optional_qual> = 
+348.                 ! 'before' 
+349.                 ! 'after' 
+350.                 ! 'only' 
                      ;
 
-348. <optional_not> = 
-349.                ! 'not' 
+351. <optional_not> = 
+352.                ! 'not' 
                     ;
 
-350. <optional_directly> = 
-351.                     ! 'directly' 
+353. <optional_directly> = 
+354.                     ! 'directly' 
                          ;
 
-352. <optional_id> = 
-353.               ! ID 
+355. <optional_id> = 
+356.               ! ID 
                    ;
 
-354. <ids> = ID 
-355.       ! <ids> ID 
+357. <ids> = ID 
+358.       ! <ids> ID 
            ;
 
-356. <id_list> = ID 
-357.           ! <id_list> ',' ID 
+359. <id_list> = ID 
+360.           ! <id_list> ',' ID 
                ;
 
-358. <optional_integer> = 
-359.                    ! Integer 
+361. <optional_integer> = 
+362.                    ! Integer 
                         ;
 
-360. <optional_minus> = 
-361.                  ! '-' 
+363. <optional_minus> = 
+364.                  ! '-' 
                       ;
 
-362. ID = Identifier 
-363.    ! 'location' 
-364.    ! 'actor' 
-365.    ! 'opaque' 
-366.    ! 'contains' 
-367.    ! 'on' 
-368.    ! 'it' 
-369.    ! 'of' 
-370.    ! 'first' 
-371.    ! 'into' 
-372.    ! 'taking' 
+365. ID = Identifier 
+366.    ! 'location' 
+367.    ! 'actor' 
+368.    ! 'opaque' 
+369.    ! 'contains' 
+370.    ! 'on' 
+371.    ! 'it' 
+372.    ! 'of' 
+373.    ! 'first' 
+374.    ! 'into' 
+375.    ! 'taking' 
         ;
 

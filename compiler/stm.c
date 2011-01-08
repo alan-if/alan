@@ -1491,6 +1491,7 @@ void dumpStatement(Statement *stm)
   case DEPENDCASE_STATEMENT: put("DEPENDCASE "); break;
   case EACH_STATEMENT: put("EACH "); break;
   case STYLE_STATEMENT: put("STYLE "); break;
+  case TRANSCRIPT_STATEMENT: put("TRANSCRIPT "); break;
   }
   dumpSrcp(stm->srcp);
 
@@ -1604,6 +1605,9 @@ void dumpStatement(Statement *stm)
     case DEPEND_STATEMENT:
     case DEPENDCASE_STATEMENT:
       break;
+    case TRANSCRIPT_STATEMENT:
+        put("on_or_off: "); dumpBool(stm->fields.transcript.on_or_off);
+        break;
     }
     out();
   }

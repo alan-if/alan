@@ -42,7 +42,7 @@ sync:
 	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
 
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
-	cd games/adventv3; alan adventv3
+	cd games/adventv3; ../../bin/alan adventv3
 
 # Checking for up-to-date files which can not be automated
 doc/manual/manual.pdf: doc/manual/manual.odt
