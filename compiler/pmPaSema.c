@@ -2323,6 +2323,11 @@ int rule			/* IN production number */
 
 	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
+    case 376: { /* ID = 'off'; */
+#line 2708 "alan.pmk"
+
+	pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
+    	break;}
     default: break; }
 }/*pmPaSema()*/
 
