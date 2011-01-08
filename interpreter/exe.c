@@ -694,22 +694,23 @@ void startTranscript() {
     char *usr = "";
     time_t tick;
 
-	if (transcriptOption)
-		return;
+    if (logFile != NULL)
+        return;
 
-	time(&tick);
-	sprintf(logFileName, "%s%d%s.log", adventureName, (int)tick, usr);
+    time(&tick);
+    sprintf(logFileName, "%s%d%s.log", adventureName, (int)tick, usr);
 #ifdef HAVE_GLK
-	glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
-	frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logFileName, 0);
-	logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
+    glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
+    frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logFileName, 0);
+    logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
 #else
-	logFile = fopen(logFileName, "w");
+    logFile = fopen(logFileName, "w");
 #endif
-	if (logFile == NULL) {
-		transcriptOption = FALSE;
-		logOption = FALSE;
-	}
+    if (logFile == NULL) {
+        transcriptOption = FALSE;
+        logOption = FALSE;
+    } else
+        transcriptOption = TRUE;
 }
 
 

@@ -630,7 +630,7 @@ static void openFiles(void)
 	
     /* If logging open log file */
     if (transcriptOption || logOption) {
-		startTranscript();
+        startTranscript();
     }
 }
 
