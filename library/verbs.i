@@ -5312,7 +5312,7 @@ END VERB.
     
 
 
-SYNONYMS transcript = 'script'.
+SYNONYMS 'transcript' = 'script'.
 
 
 
