@@ -247,7 +247,8 @@ typedef enum InstClass {
     I_PLAY,
     I_CONCAT,
     I_STRIP,
-    I_POP
+    I_POP,
+	I_TRANSCRIPT
 } InstClass;
 
 typedef enum SayForm {

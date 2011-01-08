@@ -742,6 +742,7 @@ static void analyzeStatement(Statement *stm, Context *context)
   case RESTART_STATEMENT:
   case VISITS_STATEMENT:
   case SYSTEM_STATEMENT:
+  case TRANSCRIPT_STATEMENT:
     /* Nothing to analyse */
     break;
   case PRINT_STATEMENT:
@@ -1274,6 +1275,14 @@ static void generateStyle(Statement *stm)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void generateTranscript(Statement *stm)
+{
+  emitConstant(stm->fields.transcript.on_or_off);
+  emit0(I_TRANSCRIPT);
+}
+
+
 
 /*----------------------------------------------------------------------*/
 static void generateStatement(Statement *stm)
@@ -1403,6 +1412,10 @@ static void generateStatement(Statement *stm)
 
   case STRIP_STATEMENT:
     generateStrip(stm);
+    break;
+
+  case TRANSCRIPT_STATEMENT:
+    generateTranscript(stm);
     break;
 
   default:

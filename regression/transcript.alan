@@ -1,0 +1,18 @@
+The loc Isa location
+End The loc.
+
+Syntax transcript_on = 'transcript' on.
+Verb transcript_on
+  Does
+    Transcript On.
+	"Transcript turned on."
+End Verb.
+
+Syntax transcript_off = 'transcript' off.
+Verb transcript_off
+  Does
+    Transcript Off.
+	"Transcript turned off."
+End Verb.
+
+Start At loc.

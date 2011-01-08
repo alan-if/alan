@@ -9,6 +9,8 @@ Amachine instruction execution unit of Alan interpreter
 
 
 /* IMPORTS */
+#include <time.h>
+
 #include "types.h"
 #include "sysdep.h"
 
@@ -29,6 +31,8 @@ Amachine instruction execution unit of Alan interpreter
 #include "word.h"
 #include "msg.h"
 #include "actor.h"
+#include "options.h"
+#include "args.h"
 
 
 #ifdef USE_READLINE
@@ -59,6 +63,7 @@ jmp_buf forfeitLabel;       /* Player forfeit by an empty command */
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+static char logFileName[256] = "";
 
 /*======================================================================*/
 void setStyle(int style)
@@ -681,3 +686,30 @@ Bool streq(char a[], char b[])
 
     return(eq);
 }
+
+
+
+/*======================================================================*/
+void startTranscript() {
+    char *usr = "";
+    time_t tick;
+
+	if (transcriptOption)
+		return;
+
+	time(&tick);
+	sprintf(logFileName, "%s%d%s.log", adventureName, (int)tick, usr);
+#ifdef HAVE_GLK
+	glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
+	frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logFileName, 0);
+	logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
+#else
+	logFile = fopen(logFileName, "w");
+#endif
+	if (logFile == NULL) {
+		transcriptOption = FALSE;
+		logOption = FALSE;
+	}
+}
+
+

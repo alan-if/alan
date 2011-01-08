@@ -70,4 +70,6 @@ extern void exclude(int instance, int atr, Aword member);
 extern void increase(int instance, int atr, Aword step);
 extern void decrease(int instance, int atr, Aword step);
 
+extern void startTranscript();
+
 #endif
