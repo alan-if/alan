@@ -80,7 +80,6 @@ winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
 	cp $(WINGLKROOT)/*.dll ../bin/
 
 arun.res: arun.rc arun.ico resources.h alan.version.c
-	echo $(VERSION)
 	sed "s/WINARUNVERSION/$(VERSION)/" arun.rc > arun.rc2
 	windres arun.rc2 -O coff -o $@
 

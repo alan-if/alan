@@ -342,20 +342,41 @@ static void reverseElms(Aword adr)
 }
 
 
-static void reverseSyntaxTable(Aword adr)
-{
-  SyntaxEntry *e = (SyntaxEntry *) &memory[adr];
+static void reverseSyntaxTableCurrent(Aword adr) {
+    SyntaxEntry *e = (SyntaxEntry *) &memory[adr];
 
+    if (!isEndOfArray(e)) {
+        reverseTable(adr, sizeof(SyntaxEntry));
+        while (!isEndOfArray(e)) {
+            reverseElms(e->elms);
+            reverseTable(e->parameterNameTable, sizeof(Aaddr));
+            e++;
+        }
+    }
+}
+
+
+static void reverseSyntaxTablePreBeta2(Aword adr) {
+    SyntaxEntryPreBeta2 *e = (SyntaxEntryPreBeta2 *) &memory[adr];
+
+    if (!isEndOfArray(e)) {
+        reverseTable(adr, sizeof(SyntaxEntryPreBeta2));
+        while (!isEndOfArray(e)) {
+            reverseElms(e->elms);
+            e++;
+        }
+    }
+}
+
+
+static void reverseSyntaxTable(Aword adr, unsigned char version[])
+{
   if (alreadyDone(adr)) return;
 
-  if (!isEndOfArray(e)) {
-    reverseTable(adr, sizeof(SyntaxEntry));
-    while (!isEndOfArray(e)) {
-      reverseElms(e->elms);
-      reverseTable(e->parameterNameTable, sizeof(Aaddr));
-      e++;
-    }
-  }
+  if (isPreBeta2(version))
+      reverseSyntaxTablePreBeta2(adr);
+  else
+      reverseSyntaxTableCurrent(adr);
 }
 
 
@@ -474,12 +495,13 @@ static void reversePreAlpha5Header(Pre3_0alpha5Header *hdr)
 
 /*----------------------------------------------------------------------*/
 static void reversePreAlpha5() {
+    /* NOTE that the reversePreXXX() have different header definitions */
     Pre3_0alpha5Header *header = (Pre3_0alpha5Header *)memory;
 
     reversePreAlpha5Header(header);
 
     reverseDictionary(header->dictionary);
-    reverseSyntaxTable(header->syntaxTableAddress);
+    reverseSyntaxTable(header->syntaxTableAddress, header->version);
     reverseParameterTable(header->parameterMapAddress);
     reverseVerbs(header->verbTableAddress);
     reverseClasses(header->classTableAddress);
@@ -513,12 +535,13 @@ static void reversePreBeta2Header(Pre3_0beta2Header *hdr)
 
 /*----------------------------------------------------------------------*/
 static void reversePreBeta2() {
+    /* NOTE that the reversePreXXX() have different header definitions */
     Pre3_0beta2Header *header = (Pre3_0beta2Header *)memory;
 
     reversePreBeta2Header(header);
 
     reverseDictionary(header->dictionary);
-    reverseSyntaxTable(header->syntaxTableAddress);
+    reverseSyntaxTable(header->syntaxTableAddress, header->version);
     reverseParameterTable(header->parameterMapAddress);
     reverseVerbs(header->verbTableAddress);
     reverseClasses(header->classTableAddress);
@@ -552,12 +575,13 @@ void reverseHdr(ACodeHeader *hdr)
 
 /*----------------------------------------------------------------------*/
 static void reverseNative() {
+    /* NOTE that the reversePreXXX() have different header definitions */
     ACodeHeader *header = (ACodeHeader *)memory;
 
     reverseHdr(header);
 
     reverseDictionary(header->dictionary);
-    reverseSyntaxTable(header->syntaxTableAddress);
+    reverseSyntaxTable(header->syntaxTableAddress, header->version);
     reverseParameterTable(header->parameterMapAddress);
     reverseVerbs(header->verbTableAddress);
     reverseClasses(header->classTableAddress);
@@ -592,14 +616,16 @@ void reverseACD(void)
 {
   ACodeHeader *header = (ACodeHeader *)memory;
   char version[4];
+  int i;
 
   /* Make a copy of the version marking to reverse */
-  *((Aword *)version) = (Aword *)header;
-  reverse((Aword*)&header->version);
+  for (i = 0; i <= 3; i++)
+      version[i] = header->version[i];
+  reverse((Aword*)&version);
 
-  if (isPreAlpha5(header->version))
+  if (isPreAlpha5(version))
       reversePreAlpha5();
-  else if (isPreBeta2(header->version))
+  else if (isPreBeta2(version))
       reversePreBeta2();
   else
       reverseNative();

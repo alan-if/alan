@@ -1,6 +1,23 @@
-The l Isa location
-  Description
-    "The l is a location."
-End The l.
+Syntax l = l.
+Verb l
+  Does
+    Look.
+End Verb.
 
-Start At l.
+Syntax x = x (o).
+
+Add To Every object
+  Verb x
+    Does "x"
+  End Verb.
+End Add.
+
+The loc Isa location
+  Description
+    "The loc is a location."
+End The loc.
+
+The t Isa object At loc
+End The t.
+
+Start At loc.

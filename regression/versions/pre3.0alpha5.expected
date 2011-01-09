@@ -1,8 +1,15 @@
 ########## pre3.0alpha5 ##########
 
 
-L
-The l is a location.
+Loc
+The loc is a location. There is a t here.
+
+> l
+Loc
+The loc is a location. There is a t here.
+
+> x t
+X
 
 > 
 

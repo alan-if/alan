@@ -376,10 +376,10 @@ typedef struct ElementEntry {	/* SYNTAX ELEMENT TABLES */
 				/* ... or restrictions if code == EOS */
 } ElementEntry;
 
-typedef struct SyntaxEntryPreBeta {	/* SYNTAX TABLE */
+typedef struct SyntaxEntryPreBeta2 {	/* SYNTAX TABLE */
     Aint code;			/* Code for verb word */
     Aaddr elms;			/* Address to element tables */
-} SyntaxEntryPreBeta;
+} SyntaxEntryPreBeta2;
 
 typedef struct SyntaxEntry {	/* SYNTAX TABLE */
     Aint code;			/* Code for verb word */
