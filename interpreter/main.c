@@ -289,8 +289,8 @@ static int memoryStart(char version[4]) {
     /* Pre 3.0alpha5 had a shorter header */
     if (isPreAlpha5(version))
         return sizeof(Pre3_0alpha5Header)/sizeof(Aword);
-    else if (isPreBeta1(version))
-        return sizeof(Pre3_0beta1Header)/sizeof(Aword);
+    else if (isPreBeta2(version))
+        return sizeof(Pre3_0beta2Header)/sizeof(Aword);
     else
         return sizeof(ACodeHeader)/sizeof(Aword);
 }
@@ -320,14 +320,14 @@ static void reverseMemory() {
 
 /*----------------------------------------------------------------------*/
 static void setupHeader(ACodeHeader tmphdr) {
-    if (!isPreBeta1(tmphdr.version))
+    if (!isPreBeta2(tmphdr.version))
         header = (ACodeHeader *) pointerTo(0);
     else {
         if (isPreAlpha5(tmphdr.version)) {
             header = duplicate(&memory[0], sizeof(Pre3_0alpha5Header));
             header->ifids = 0;
         } else
-            header = duplicate(&memory[0], sizeof(Pre3_0beta1Header));
+            header = duplicate(&memory[0], sizeof(Pre3_0beta2Header));
         header->prompt = 0;
     }        
 }
@@ -401,7 +401,7 @@ static void checkDebug(void)
     /* Make sure he can't debug if not allowed! */
     if (!header->debug) {
         if (debugOption|sectionTraceOption|singleStepOption) {
-            printf("<Sorry, '%s' is not compiled for debug!>\n", adventureFileName);
+            printf("<Sorry, '%s' is not compiled for debug! Exiting.>\n", adventureFileName);
             terminate(0);
         }
         para();

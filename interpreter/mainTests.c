@@ -65,12 +65,19 @@ Ensure canHandleMemoryStartForPre3_0alpha5IsShorter() {
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==memoryStart(version));
 }
 
-Ensure canHandleMemoryStartForPre3_0beta1IsShorter() {
+Ensure canHandleMemoryStartForPre3_0beta2IsShorter() {
     char version[4];
     version[3] = 3;
     version[2] = 0;
     version[1] = 9;
     version[0] = 'a';
+
+    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==memoryStart(version));
+
+    version[3] = 3;
+    version[2] = 0;
+    version[1] = 1;
+    version[0] = 'b';
 
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==memoryStart(version));
 }
@@ -89,7 +96,7 @@ TestSuite *mainTests()
 
     add_test(suite, canCopyAttributes);
     add_test(suite, canHandleMemoryStartForPre3_0alpha5IsShorter);
-    add_test(suite, canHandleMemoryStartForPre3_0beta1IsShorter);
+    add_test(suite, canHandleMemoryStartForPre3_0beta2IsShorter);
     add_test(suite, canSetEof);
 
     return suite;

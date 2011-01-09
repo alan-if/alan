@@ -15,6 +15,6 @@
 
 /* FUNCTIONS: */
 extern Bool isPreAlpha5(char version[4]);
-extern Bool isPreBeta1(char version[4]);
+extern Bool isPreBeta2(char version[4]);
 
 #endif

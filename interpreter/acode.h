@@ -566,7 +566,7 @@ typedef struct Pre3_0beta1Header {
     Aword acdcrc;		/* Checksum for acd code (excl. hdr) */
     Aword txtcrc;		/* Checksum for text data file */
     Aaddr ifids;		/* Address to IFIDS */
-} Pre3_0beta1Header;
+} Pre3_0beta2Header;
 
 typedef struct Pre3_0alpha5Header {
     /* Important info */

@@ -501,7 +501,7 @@ static void reversePreAlpha5() {
 
 
 /*----------------------------------------------------------------------*/
-static void reversePreBeta1Header(Pre3_0beta1Header *hdr)
+static void reversePreBeta2Header(Pre3_0beta2Header *hdr)
 {
   int i;
 
@@ -512,10 +512,10 @@ static void reversePreBeta1Header(Pre3_0beta1Header *hdr)
 
 
 /*----------------------------------------------------------------------*/
-static void reversePreBeta1() {
-    Pre3_0beta1Header *header = (Pre3_0beta1Header *)memory;
+static void reversePreBeta2() {
+    Pre3_0beta2Header *header = (Pre3_0beta2Header *)memory;
 
-    reversePreBeta1Header(header);
+    reversePreBeta2Header(header);
 
     reverseDictionary(header->dictionary);
     reverseSyntaxTable(header->syntaxTableAddress);
@@ -599,8 +599,8 @@ void reverseACD(void)
 
   if (isPreAlpha5(header->version))
       reversePreAlpha5();
-  else if (isPreBeta1(header->version))
-      reversePreBeta1();
+  else if (isPreBeta2(header->version))
+      reversePreBeta2();
   else
       reverseNative();
 
