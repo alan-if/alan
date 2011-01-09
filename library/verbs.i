@@ -5298,21 +5298,32 @@ END ADD TO.
 
 
 SYNTAX 'script' = 'script'.
-	 'script' = 'script' 'on'.
-	 'script' = 'script' 'off'.
+	 script_on = 'script' 'on'.
+	 script_off = 'script' 'off'.
+
+SYNONYMS 'transcript' = 'script'.
 
 VERB 'script' 
 	DOES 
 		"Starting a transcript of the current game varies depending on the interpreter you are running. 
 		In a GUI-version you probably find this in the drop-down menu. In the command line version 
-		you need to start your game with the -s switch. 
-		$n(In the near future, a 'script on/off' command will be implemented.)"
+		you can start your game with the '-s' switch to get a transcript of the whole game.
+		$pThere is also the possibility to turn the transcripting on and off using the 'script on/off' command.
+	    $pThe transcript will be available in a file with a name starting with the game name."
 
 END VERB.
-    
 
+VERB script_on
+    DOES
+        TRANSCRIPT ON.
+        "Transcripting turned on."
+END VERB.
 
-SYNONYMS 'transcript' = 'script'.
+VERB script_off
+    DOES
+        TRANSCRIPT OFF.
+        "Transcripting turned off."
+END VERB.
 
 
 

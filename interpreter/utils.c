@@ -6,6 +6,7 @@
 #include "options.h"
 #include "memory.h"
 #include "output.h"
+#include "exe.h"
 
 
 /*======================================================================

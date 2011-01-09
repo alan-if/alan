@@ -10,7 +10,11 @@ DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 all:
 	$(MAKE) -f Makefile.thoni build
 	$(MAKE) -f Makefile.thoni unit
-	$(MAKE) -f Makefile.thoni test
+	$(MAKE) -f Makefile.thoni test cygwintests
+
+.PHONY: cygwintests
+cygwintests:
+	@java -jar bin/jregr.jar -bin bin -dir regression/winalan $(TESTOUTPUT)
 
 .PHONY: release
 release: doc/manual/manual.pdf

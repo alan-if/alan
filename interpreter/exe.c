@@ -732,6 +732,8 @@ void stopTranscript() {
     fclose(logFile);
 #endif
     logFile = NULL;
+	transcriptOption = FALSE;
+	logOption = FALSE;
 }
 
 
