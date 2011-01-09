@@ -71,5 +71,6 @@ extern void increase(int instance, int atr, Aword step);
 extern void decrease(int instance, int atr, Aword step);
 
 extern void startTranscript();
+extern void stopTranscript();
 
 #endif

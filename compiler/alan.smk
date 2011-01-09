@@ -337,6 +337,11 @@ void setCharacterSet(int set)
   smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
+  'off' = 'off'
+    %%
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
   Unknown = _Unknown;
 
   EndOfText = _EndOfText;

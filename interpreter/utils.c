@@ -19,23 +19,19 @@
 void terminate(int code)
 {
     newline();
-  if (memory)
-      free(memory);
-  if (transcriptOption|| logOption)
-#ifdef HAVE_GLK
-    glk_stream_close(logFile, NULL);
-#else
-    fclose(logFile);
-#endif
+    if (memory)
+        free(memory);
+
+    stopTranscript();
 
 #ifdef SMARTALLOC
     sm_dump(1);
 #endif
 
 #ifdef HAVE_GLK
-  glk_exit();
+    glk_exit();
 #else
-  exit(code);
+    exit(code);
 #endif
 }
 

@@ -1180,14 +1180,16 @@ void interpret(Aaddr adr)
                 Aint on_or_off = pop(stack);
                 if (singleStepOption)
                     printf("TRANSCRIPT\t\t\t");
-				if (on_or_off)
-					startTranscript();
+                if (on_or_off)
+                    startTranscript();
+                else
+                    stopTranscript();
                 break;
             }
 
-				/*------------------------------------------------------------
-				  Depending On
-				  ------------------------------------------------------------*/
+                /*------------------------------------------------------------
+                  Depending On
+                  ------------------------------------------------------------*/
             case I_DEPEND:
                 if (singleStepOption)
                     printf("DEPEND\t\t\t\t\t\t");

@@ -690,15 +690,21 @@ Bool streq(char a[], char b[])
 
 
 /*======================================================================*/
+#include <sys/time.h>
 void startTranscript() {
-    char *usr = "";
     time_t tick;
 
     if (logFile != NULL)
         return;
 
     time(&tick);
-    sprintf(logFileName, "%s%d%s.log", adventureName, (int)tick, usr);
+
+    struct timeval tv;
+    struct tm *tm;
+    gettimeofday(&tv, NULL);
+    tm = localtime(&tv.tv_sec);
+
+    sprintf(logFileName, "%s%d%02d%02d%02d%02d%02d%04d.log", adventureName, tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, (int)tv.tv_usec);
 #ifdef HAVE_GLK
     glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
     frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logFileName, 0);
@@ -711,6 +717,21 @@ void startTranscript() {
         logOption = FALSE;
     } else
         transcriptOption = TRUE;
+}
+
+
+/*======================================================================*/
+void stopTranscript() {
+    if (logFile == NULL)
+        return;
+
+  if (transcriptOption|| logOption)
+#ifdef HAVE_GLK
+    glk_stream_close(logFile, NULL);
+#else
+    fclose(logFile);
+#endif
+    logFile = NULL;
 }
 
 

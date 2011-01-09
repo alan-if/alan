@@ -338,6 +338,13 @@ int smScAction(
 }
     break;
 
+  case  46:		/* 'off'*/ 
+    {
+  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
   case 151:		/* INCLUDE*/ 
     {
       Srcp srcp, start;
