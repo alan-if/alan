@@ -15,6 +15,7 @@ all:
 .PHONY: cygwintests
 cygwintests:
 	@java -jar bin/jregr.jar -bin bin -dir regression/winalan $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir regression/transcript $(TESTOUTPUT)
 
 .PHONY: release
 release: doc/manual/manual.pdf
