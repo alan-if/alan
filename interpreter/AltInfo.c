@@ -61,7 +61,7 @@ static void traceAltInfo(AltInfo *alt) {
     case PARAMETER_LEVEL: {
 		char *parameterName = parameterNameInSyntax(alt->parameter);
 		if (parameterName != NULL)
-			printf("in parameter %s(#%d)=", parameterNameInSyntax(alt->parameter), alt->parameter);
+			printf("in parameter %s(#%d)=", parameterName, alt->parameter);
 		else
 			printf("in parameter #%d=", alt->parameter);
         traceInstanceAndItsClass(alt);

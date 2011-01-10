@@ -16,8 +16,6 @@ restriction1.alan
         1 warning(s).
 
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
-<Hi! This is Alan interactive fiction interpreter Arun, version
-3.0beta1 !>
 
 <START:>
 
@@ -27,50 +25,50 @@ There is a o here. There is a here. There is c here.
 
 > give a o
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, FAILED:>
 A can't carry anything.
 
 > give a a
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, FAILED:>
 A can't carry anything.
 
 > give o o
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, FAILED:>
 O can't carry anything.
 
 > give c a
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, PASSED>
 
-<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], FAILED:>
+<SYNTAX RESTRICTION WHERE parameter o(#2) Isa object[4], FAILED:>
 You can't give a to c.
 
 > give a c
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, FAILED:>
 A can't carry anything.
 
 > give c c
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, PASSED>
 
-<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], FAILED:>
+<SYNTAX RESTRICTION WHERE parameter o(#2) Isa object[4], FAILED:>
 You can't give c to c.
 
 > give o c
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, FAILED:>
 O can't carry anything.
 
 > give c o
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, PASSED>
 
-<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], PASSED>
+<SYNTAX RESTRICTION WHERE parameter o(#2) Isa object[4], PASSED>
 
-<VERB 1, in (parameter #2) o[2], inherited from object[4], DOES:>
+<VERB 1, in parameter o(#2)=o[2], inherited from object[4], DOES:>
 GIVE says that (recip) is = c
 <ACTOR a[3] (at l[5]), Idle>
 
@@ -78,31 +76,31 @@ GIVE says that (recip) is = c
 
 > give 3 4 
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, FAILED:>
 3 can't carry anything.
 
 > give a 4
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, FAILED:>
 A can't carry anything.
 
 > give c 3
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, PASSED>
 
-<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], FAILED:>
+<SYNTAX RESTRICTION WHERE parameter o(#2) Isa object[4], FAILED:>
 You can't give 3 to c.
 
 > give a "hej"
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, FAILED:>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, FAILED:>
 A can't carry anything.
 
 > give c "hej"
 
-<SYNTAX RESTRICTION WHERE parameter #1 Isa Container, PASSED>
+<SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, PASSED>
 
-<SYNTAX RESTRICTION WHERE parameter #2 Isa object[4], FAILED:>
+<SYNTAX RESTRICTION WHERE parameter o(#2) Isa object[4], FAILED:>
 You can't give hej to c.
 
 > 
