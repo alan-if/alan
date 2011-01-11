@@ -70,8 +70,6 @@ WINARUNOBJECTS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.o}) $(WINARUNOB
 -include $(WINARUNOBJECTS:.o=.d)
 $(WINARUNOBJECTS): $(WINARUNOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
-$(WINARUNOBJDIR)/%.d: %.c
-	$(CC) $(CFLAGS) -MMD -o $(<:.c=.o) -c $<
 
 $(WINARUNOBJDIR):
 	@mkdir $(WINARUNOBJDIR)
@@ -102,8 +100,6 @@ GLKARUNOBJECTS = $(addprefix $(GLKARUNOBJDIR)/,${GLKARUNSRCS:.c=.o}) $(GLKARUNOB
 -include $(GLKARUNOBJECTS:.o=.d)
 $(GLKARUNOBJECTS): $(GLKARUNOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
-$(GLKARUNOBJDIR)/%.d: %.c
-	$(CC) $(CFLAGS) -MMD -o $(<:.c=.o) -c $<
 
 $(GLKARUNOBJDIR):
 	@mkdir $(GLKARUNOBJDIR)
@@ -128,8 +124,6 @@ GARARUNOBJECTS = $(addprefix $(GARARUNOBJDIR)/,${GARARUNSRCS:.c=.o}) $(GARARUNOB
 -include $(GARARUNOBJECTS:.o=.d)
 $(GARARUNOBJECTS): $(GARARUNOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
-$(GARARUNOBJDIR)/%.d: %.c
-	$(CC) $(CFLAGS) -MMD -o $(<:.c=.o) -c $<
 
 $(GARARUNOBJDIR):
 	@mkdir $(GARARUNOBJDIR)

@@ -21,8 +21,6 @@ ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUNOBJDIR)/alan.v
 # Rule to compile objects to subdirectory
 $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
-$(ARUNOBJDIR)/%.d: %.c
-	$(CC) $(CFLAGS) -MMD -o $(<:.c=.o) -c $<
 
 $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
@@ -44,13 +42,11 @@ UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 
 # Dependencies, if they exist yet
-include $(UNITTESTSOBJECTS:.o=.d)
+-include $(UNITTESTSOBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
-$(UNITTESTSOBJDIR)/%.d: %.c
-	$(CC) $(CFLAGS) -MMD -o $(<:.c=.o) -c $<
 
 #Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):
