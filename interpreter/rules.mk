@@ -37,7 +37,6 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 #	CGREEN to something ("yes") to build with cgreen unit tests
 #	CGREENINCLUDE so that #include "cgreen/cgreen.h" works if needed
 #	CGREENLIB to something to link with (e.g. -lcgreen)
-
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 
