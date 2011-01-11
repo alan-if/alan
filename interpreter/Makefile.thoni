@@ -67,8 +67,11 @@ winarun: LIBS = $(WINGLKLIB) -mwindows
 
 WINARUNOBJDIR = .winarun
 WINARUNOBJECTS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.o}) $(WINARUNOBJDIR)/alan.version.o
--include $(WINARUNOBJECTS:.o=.d)
+WINARUNDEPENDS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.d}) $(WINARUNOBJDIR)/alan.version.d
+-include $(WINARUNDEPENDS)
 $(WINARUNOBJECTS): $(WINARUNOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+$(WINARUNDEPENDS): $(WINARUNOBJDIR)/%.d: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 $(WINARUNOBJDIR):
