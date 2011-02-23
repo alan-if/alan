@@ -1,4 +1,4 @@
--- ALAN Standard Library v0.95
+-- ALAN Standard Library v0.99
 -- Locations (file name: 'locations.i')
 
 

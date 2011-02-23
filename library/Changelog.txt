@@ -1,6 +1,15 @@
 Changelog for ALAN Standard Library
 
 
+v1.00 (? ?, 2011)
+
+- modified the 'script' verb to better respond to the new 'script on/off' command
+- added text file 'QuickRef.txt' as a quick reference for how to use the library 
+- added instructions to 'classes.i' for how to implement an NPC with examinable and (not) takeable clothing
+- added instructions to 'classes.i' for how to implement a supporter with something on it and having components
+  in it, a concrete example being that of a table with a book on it and a drawer in it
+
+
 v0.95 (1 Oct, 2010)
 
 - corrected some errors in the verb table in the beginning of 'verbs.i'.

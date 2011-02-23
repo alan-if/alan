@@ -1,4 +1,4 @@
--- ALAN Standard Library v0.95
+-- ALAN Standard Library v0.99
 -- Verbs (file name: 'verbs.i')
 
 
@@ -3978,7 +3978,7 @@ END ADD TO.
 
 
 SYNTAX look_through = 'look' through (bulk)
-		WHERE bulk ISA OBJECT
+		WHERE bulk ISA THING
 			ELSE 
 				IF bulk IS NOT plural
 					THEN "That's not"
@@ -3987,7 +3987,7 @@ SYNTAX look_through = 'look' through (bulk)
 				"something you can look through."
 
 
-ADD TO EVERY OBJECT
+ADD TO EVERY THING
   VERB look_through
 	CHECK bulk IS examinable
 		ELSE "You can't look through" SAY THE bulk. "."
@@ -5305,12 +5305,10 @@ SYNONYMS 'transcript' = 'script'.
 
 VERB 'script' 
 	DOES 
-		"Starting a transcript of the current game varies depending on the interpreter you are running. 
-		In a GUI-version you probably find this in the drop-down menu. In the command line version 
-		you can start your game with the '-s' switch to get a transcript of the whole game.
-		$pThere is also the possibility to turn the transcripting on and off using the 'script on/off' command.
-	    $pThe transcript will be available in a file with a name starting with the game name."
-
+		"You can turn transcripting on and off using the 'script on/off' command within the game. 
+		 The transcript will be available in a file with a name starting with the game name.
+		$pIn a GUI version you can also find this in the drop-down menu in the interpreter. 
+		$pIn a command line version you can start your game with the '-s' switch to get a transcript of the whole game."
 END VERB.
 
 VERB script_on
