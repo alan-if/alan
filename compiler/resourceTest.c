@@ -73,6 +73,7 @@ void testOpenNewBlcFile()
   file = fopen("unittest.blc", "r");
   ASSERT(file != NULL);
   unlink("unittest.a3r");
+  unlink("unittest");
 }
 
 

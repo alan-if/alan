@@ -382,7 +382,7 @@ typedef struct SyntaxEntryPreBeta2 {	/* SYNTAX TABLE */
 } SyntaxEntryPreBeta2;
 
 typedef struct SyntaxEntry {	/* SYNTAX TABLE */
-    Aint code;			/* Code for verb word */
+    Aint code;          /* Code for verb word, or 0 if starting with parameter */
     Aaddr elms;			/* Address to element tables */
     Aaddr parameterNameTable;	/* Address to a table of id-addresses giving the names of the parameters */
 } SyntaxEntry;

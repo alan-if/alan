@@ -67,3 +67,16 @@ release: all
 #termarun : $(TERMARUNOBJECTS)
 #	$(LINK) -o $@ $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
 #	cp $@ ../bin
+
+#######################################################################
+#
+# Misc programs:
+#
+# Dump Acode file into text format
+#
+DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o smartall.o
+dumpacd: $(DUMPACDOBJECTS)
+	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) $(DUMPACDOBJECTS)
+	cp $@ ../bin/
+
+

@@ -11,6 +11,7 @@ typedef struct Adventure {
     char *name;			/* The basename of the adventure */
     List *syns;			/* List of synonyms */
     List *stxs;			/* List of syntax definitions */
+	List *stxsStartingWithInstanceReference; /* List of syntax definitions that starts with an instance reference */
     List *vrbs;			/* List of global verbs */
     List *clas;			/* List of defined classes */
     List *adds;			/* List of additions to the classes */

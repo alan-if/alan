@@ -122,10 +122,7 @@ static void checkForDuplicatedParameterNames(List *parameters) {
 
 
 /*======================================================================*/
-List *analyzeElements(List *elements,        /* IN - List to analyze */
-		      List *restrictions,        /* IN - The class restrictions */
-		      Syntax *syntax        /* IN - The stx we're in */
-                      )
+List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
 {
     Element *firstElement = elements->member.elm; /* Set to be the first (yes, there is always at least one!) */
     List *list, *parameters = NULL;
@@ -133,15 +130,21 @@ List *analyzeElements(List *elements,        /* IN - List to analyze */
     int parameterCount = 1;
     Bool multiple = FALSE;
 
+#ifdef REQUIRE_VERB_FIRST
     if (firstElement->kind != WORD_ELEMENT)
         /* First element must be a player word */
         lmLog(&firstElement->srcp, 209, sevERR, "");
     else
         firstElement->id->code = newVerbWord(firstElement->id->string, syntax);
+#else
+    if (firstElement->kind == WORD_ELEMENT) {
+        firstElement->id->code = newVerbWord(firstElement->id->string, syntax);
+		elements = elements->next; /* Done with the first element */
+	}
+#endif
 
     /* Analyze the elements, number parameters and find the restriction */
-    /* Start with the second since the first is analyzed above */
-    for (list = elements->next; list != NULL; list = list->next) {
+    for (list = elements; list != NULL; list = list->next) {
         Element *element = list->member.elm;
         if (element->kind == PARAMETER_ELEMENT) {
             element->id->code = parameterCount++;
@@ -191,21 +194,17 @@ static Bool equalElements(List *element1, List *element2)
 
 
 /*----------------------------------------------------------------------
-  Advances a whole list of elmList pointers parallell to their next elm.
-  Returns the address to the generated class restrictions for any syntax that
-  was terminated here.
-*/
-static Aaddr advance(List *elmsList) /* IN - The list to advance */
+  Advances a copy of the incoming list of elmList pointers parallell
+  to their next elm, which it returns.  */
+static List *advance(List *elmsList) /* IN - The list to advance */
 {
     List *list;
-    Aaddr resadr = 0;             /* Saved address to class restriction */
+	List *copy = copyList(elmsList);
 
-    for (list = elmsList; list != NULL; list = list->next) {
+    for (list = copy; list != NULL; list = list->next) {
         list->member.lst = list->member.lst->next;
-        if (list->member.lst->member.elm->kind == END_OF_SYNTAX)
-            resadr = list->member.lst->member.elm->stx->restrictionsAddress;
     }
-    return resadr;
+	return copy;
 }
 
 
@@ -271,38 +270,48 @@ static ElementEntry *newEntryForPartition(List **entries) {
 
 
 /*----------------------------------------------------------------------*/
-static void entryForEOS(ElementEntry *entry, List *part, Aaddr restrictionTableAddress) {
+static Aaddr restrictionTableAddress(List *partition) {
+	return partition->member.lst->member.elm->stx->restrictionsAddress;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void entryForEOS(ElementEntry *entry, List *partition) {
     List *lst;
-    if (part->next != NULL) { /* More than one element in this partition? */
+    if (partition->next != NULL) { /* More than one element in this partition? */
         /* That means that two syntax's are the same */
-        for (lst = part; lst != NULL; lst = lst->next)
+        for (lst = partition; lst != NULL; lst = lst->next)
             lmLog(&lst->member.lst->member.elm->stx->srcp, 334, sevWAR, "");
     }
     entry->code = EOS;        /* End Of Syntax */
-    entry->flags = part->member.lst->member.elm->stx->number; /* Syntax number */
+    entry->flags = partition->member.lst->member.elm->stx->number; /* Syntax number */
     /* Point to the generated class restriction table */
-    entry->next = restrictionTableAddress;
+    entry->next = restrictionTableAddress(partition);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void entryForParameter(ElementEntry *entry, List *part, Syntax *stx) {
+static void entryForParameter(ElementEntry *entry, List *partition, Syntax *stx) {
     List *element;
 
     entry->code = 0;
-    entry->flags = part->member.lst->member.elm->flags;
-    TRAVERSE(element, part->next) {
+    entry->flags = partition->member.lst->member.elm->flags;
+	/* TODO: ORing flags here is a problem, might actually give some
+	   syntaxes different flags than intended which is not at all good
+	   (omnipotent!!!) */
+    TRAVERSE(element, partition->next) {
         entry->flags |= element->member.lst->member.elm->flags;
     }
-    entry->next = generateElements(part, stx);
+	
+    entry->next = generateElements(advance(partition), stx);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void entryForWord(ElementEntry *entry, Syntax *stx, List *part) {
-    entry->code = part->member.lst->member.elm->id->code;
+static void entryForWord(ElementEntry *entry, Syntax *stx, List *partition) {
+    entry->code = partition->member.lst->member.elm->id->code;
     entry->flags = 0;
-    entry->next = generateElements(part, stx);
+    entry->next = generateElements(advance(partition), stx);
 }
 
 
@@ -316,7 +325,6 @@ static Aaddr generateEntries(List *entries, ElementEntry *entry) {
     emit(EOF);
     return(elmadr);
 }
-
 
 
 /*======================================================================*/
@@ -345,9 +353,9 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
       of Lists for the partitions.
 
     */
-    List *elms = copyList(elementLists);
+    List *elms = elementLists;
     List *partition;                   /* The current partion */
-    Aaddr elmadr, restrictionTableAddress;
+    Aaddr elmadr;
     List *entries = NULL;         /* List of next level entries */
     ElementEntry *entry;		/* One entry in the list */
 
@@ -357,7 +365,7 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
     progressCounter();
 
     /* Move all to their next elm */
-    restrictionTableAddress = advance(elms);
+	//	elms = advance(elementLists);
 
     level++;
     for (partition = partitionElements(&elms); partition != NULL; partition = partitionElements(&elms)) {
@@ -367,7 +375,7 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
         switch (partition->member.lst->member.elm->kind) {
 
         case END_OF_SYNTAX:		/* This partition was at end of syntax */
-            entryForEOS(entry, partition, restrictionTableAddress);
+            entryForEOS(entry, partition);
             break;
 
         case PARAMETER_ELEMENT:

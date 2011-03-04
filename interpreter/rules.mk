@@ -8,7 +8,7 @@
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
 CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD)
-LDFLAGS = $(LINKFLAGS)
+LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS)
 
 #######################################################################
 # Standard console Arun
@@ -26,7 +26,28 @@ $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
 
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(LINK) -o $@ $(LINKFLAGS) $(ARUNOBJECTS) $(LIBS)
+	$(LINK) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LIBS)
+	cp $@ ../bin/
+
+#######################################################################
+# Standard console Arun with gcov
+gcov: EXTRA_COMPILER_FLAGS = -fprofile-arcs -ftest-coverage
+gcov: EXTRA_LINKER_FLAGS = -fprofile-arcs -ftest-coverage
+GCOVOBJDIR = .gcov
+GCOVOBJECTS = $(addprefix $(GCOVOBJDIR)/,${ARUNSRCS:.c=.o}) $(GCOVOBJDIR)/alan.version.o
+
+# Dependencies
+-include $(GCOVOBJECTS:.o=.d)
+
+# Rule to compile objects to subdirectory
+$(GCOVOBJECTS): $(GCOVOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(GCOVOBJDIR):
+	@mkdir $(GCOVOBJDIR)
+
+gcov: $(GCOVOBJDIR) $(GCOVOBJECTS)
+	$(LINK) -o $@ $(LDFLAGS) $(GCOVOBJECTS) $(LIBS)
 	cp $@ ../bin/
 
 #######################################################################

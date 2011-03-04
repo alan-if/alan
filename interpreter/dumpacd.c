@@ -22,7 +22,7 @@
 Aword *memory;
 ACodeHeader *header;
 
-static int memTop = 0;			/* Top of load memory */
+int memTop = 0;			/* Top of load memory */
 
 static char *acdfnm;
 

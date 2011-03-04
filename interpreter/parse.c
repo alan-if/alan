@@ -31,6 +31,7 @@
 #include "msg.h"
 #include "literal.h"
 #include "ParameterPosition.h"
+#include "utils.h"
 
 #include "scan.h"
 
@@ -99,18 +100,16 @@ static Bool endOfWords(int wordIndex) {
 
 
 /*----------------------------------------------------------------------*/
-static void nonverb(void) {
-    if (isDirectionWord(currentWordIndex)) {
-        currentWordIndex++;
-        if (!endOfWords(currentWordIndex) && !isConjunctionWord(currentWordIndex))
-            error(M_WHAT);
-        else
-            go(current.location, dictionary[playerWords[currentWordIndex-1].code].code);
-        if (!endOfWords(currentWordIndex))
-            currentWordIndex++;
-    } else
-        error(M_WHAT);
+static void handleDirectionalCommand() {
+	currentWordIndex++;
+	if (!endOfWords(currentWordIndex) && !isConjunctionWord(currentWordIndex))
+		error(M_WHAT);
+	else
+		go(current.location, dictionary[playerWords[currentWordIndex-1].code].code);
+	if (!endOfWords(currentWordIndex))
+		currentWordIndex++;
 }
+
 
 /*----------------------------------------------------------------------*/
 static void errorWhichOne(Parameter alternative[]) {
@@ -798,7 +797,7 @@ static ElementEntry *parseInputAccordingToSyntax(SyntaxEntry *syntax, ParameterP
         }
 
         /* Or maybe preposition? */
-        if (isPrepositionWord(currentWordIndex)) {
+        if (isPrepositionWord(currentWordIndex) || isVerbWord(currentWordIndex)) {
             /* A preposition? Or rather, an intermediate word? */
             nextElement = elementForWord(currentElement, dictionary[playerWords[currentWordIndex].code].code);
             if (nextElement != NULL) {
@@ -1320,16 +1319,16 @@ static int pronounWordForInstance(int instance) {
 }
 
 /*----------------------------------------------------------------------*/
-static void addPronounForInstance(int pronoun, int instanceCode) {
-    int pronounIndex;
+static void addPronounForInstance(int thePronoun, int instanceCode) {
+    int i;
 
-    for (pronounIndex = 0; !endOfPronouns(pronounIndex); pronounIndex++)
-	if (pronouns[pronounIndex].pronoun == pronoun && pronouns[pronounIndex].instance == instanceCode)
+    for (i = 0; !endOfPronouns(i); i++)
+	if (pronouns[i].pronoun == thePronoun && pronouns[i].instance == instanceCode)
 	    // Don't add the same instance twice for the same pronoun
 	    return;
-    pronouns[pronounIndex].pronoun = pronoun;
-    pronouns[pronounIndex].instance = instanceCode;
-    setEndOfArray(&pronouns[pronounIndex + 1]);
+    pronouns[i].pronoun = thePronoun;
+    pronouns[i].instance = instanceCode;
+    setEndOfArray(&pronouns[i + 1]);
 }
 
 /*----------------------------------------------------------------------*/
@@ -1364,16 +1363,33 @@ void parse(Parameter parameters[]) {
     if (isVerbWord(currentWordIndex)) {
         verbWord = playerWords[currentWordIndex].code;
         verbWordCode = dictionary[verbWord].code;
-        currentWordIndex++;
+		if (isPreBeta2(header->version))
+			/* Pre-beta2 did not generate syntax elements for verb words */
+			currentWordIndex++;
         parseOneCommand(parameters, multipleParameters);
         notePronounsForParameters(parameters);
         fail = FALSE;
         action(current.verb, parameters, multipleParameters);
-    } else {
+    } else if (isDirectionWord(currentWordIndex)) {
         clearParameterArray(previousMultipleParameters);
         clearPronounList(pronouns);
-        nonverb();
-    }
+		handleDirectionalCommand();
+    } else if (isInstanceReferenceWord(currentWordIndex)) {
+		/* TODO: Here we want to pick up the parse tree for the
+		   syntaxes that start with an instance reference and do
+		   something similar to parseOneCommand(parameters,
+		   multipleParameters); but with the verb code set to
+		   something that indicates the special syntax to be used. The
+		   verbWord code is set to 0 in one of the parse table
+		   entries... */
+		verbWordCode = 0;
+		parseOneCommand(parameters, multipleParameters);
+        notePronounsForParameters(parameters);
+        fail = FALSE;
+        action(current.verb, parameters, multipleParameters);
+	} else
+        error(M_WHAT);
+
     lastWord = currentWordIndex - 1;
     if (isConjunctionWord(lastWord))
         lastWord--;

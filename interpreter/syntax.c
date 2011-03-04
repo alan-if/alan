@@ -73,10 +73,8 @@ SyntaxEntry *findSyntaxTreeForVerb(int verbCode) {
 char *parameterNameInSyntax(int parameterNumber) {
     SyntaxEntry *syntax = findSyntaxTreeForVerb(verbWordCode);
     Aaddr *parameterNameTable = (Aaddr *)pointerTo(syntax->parameterNameTable);
-    if (syntax->parameterNameTable != 0)
+    if (isPreBeta2(header->version) || syntax->parameterNameTable != 0) {
         return stringAt(parameterNameTable[parameterNumber-1]);
-    else
+	} else
         return NULL;
 }
-
-
