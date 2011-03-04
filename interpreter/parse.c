@@ -1364,7 +1364,7 @@ void parse(Parameter parameters[]) {
         verbWord = playerWords[currentWordIndex].code;
         verbWordCode = dictionary[verbWord].code;
 		if (isPreBeta2(header->version))
-			/* Pre-beta2 did not generate syntax elements for verb words */
+			/* Pre-beta2 did not generate syntax elements for verb words, so we need to skip first word which is the verb */
 			currentWordIndex++;
         parseOneCommand(parameters, multipleParameters);
         notePronounsForParameters(parameters);
