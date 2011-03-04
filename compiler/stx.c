@@ -19,8 +19,8 @@
 #include "elm_x.h"
 #include "lst_x.h"
 #include "wrd_x.h"
-#include "cla_x.h"
 #include "context_x.h"
+#include "cla_x.h"
 #include "dump_x.h"
 
 #include "lmList.h"

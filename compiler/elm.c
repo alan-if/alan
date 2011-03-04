@@ -364,9 +364,6 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
 
     progressCounter();
 
-    /* Move all to their next elm */
-	//	elms = advance(elementLists);
-
     level++;
     for (partition = partitionElements(&elms); partition != NULL; partition = partitionElements(&elms)) {
         /* Make one entry for this partition */
