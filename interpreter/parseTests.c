@@ -234,7 +234,7 @@ Ensure canSetupParameterForWord(void) {
     memcpy(&memory[12], "qwerty", 7);
     dictionary[2].string = 12;
 
-    messageParameters = allocateParameterArray();
+    messageParameters = allocateParameterArray(5);
     ensureSpaceForPlayerWords(2);
     playerWords[1].code = 2;
     litCount = 0;
@@ -263,7 +263,7 @@ Ensure canSeeBitsInFlag(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupInstanceParametersForMessages(void) {
-    Parameter *parameters = allocateParameterArray();
+    Parameter *parameters = allocateParameterArray(5);
 
     addParameterForInstance(parameters, 2);
 
@@ -277,7 +277,7 @@ Ensure canSetupInstanceParametersForMessages(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupStringParametersForMessages(void) {
-    Parameter *parameters = allocateParameterArray();
+    Parameter *parameters = allocateParameterArray(5);
 
     addParameterForString(parameters, "a string");
 
@@ -291,7 +291,7 @@ Ensure canSetupStringParametersForMessages(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure canSetupIntegerParametersForMessages(void) {
-    Parameter *parameters = allocateParameterArray();
+    Parameter *parameters = allocateParameterArray(5);
 
     addParameterForInteger(parameters, 14);
 
@@ -369,7 +369,7 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     int theNounInstances[4] = {25, theExpectedInstance, 34, EOF};
     int theExpectedFirstAdjectiveWordIndex = 3;
     int theExpectedNounWordIndex = 4;
-    Parameter candidates[MAXENTITY+1];
+    Parameter *candidates = allocateParameterArray(MAXENTITY);
     Parameter parameter;
     clearParameter(&parameter, candidates);
     parameter.firstWord = theExpectedFirstAdjectiveWordIndex;
@@ -399,8 +399,8 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
     int theExpectedFirstAdjectiveWordIndex = 3;
     int theExpectedSecondAdjectiveWordIndex = 4;
     int theExpectedNounWordIndex = 5;
-    Parameter *candidates = allocateParameterArray();
-    Parameter *parameter = allocateParameterArray();
+    Parameter *candidates = allocateParameterArray(5);
+    Parameter *parameter = allocateParameterArray(5);
     clearParameter(parameter, candidates);
     parameter[0].firstWord = theExpectedFirstAdjectiveWordIndex;
     parameter[0].lastWord = theExpectedNounWordIndex;
@@ -523,7 +523,7 @@ Ensure parseReferenceToPreviousMultipleParameterSetsThemMarker(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure simpleParameterParserCanParseExplicitMultiple(void) {
-    Parameter *parameters = allocateParameterArray();
+    Parameter *parameters = allocateParameterArray(5);
 
     givenADictionary();
     givenPlayerWordsForTwoParameters(1);
@@ -649,7 +649,7 @@ static DisambiguationHandlerTable mockedHandlerTable =
     
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall00NHandler() {
-    Parameter *candidates = allocateParameterArray();
+    Parameter *candidates = allocateParameterArray(5);
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
     disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
@@ -659,7 +659,7 @@ Ensure disambiguateCandidatesCanCall00NHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall00YHandler() {
-    Parameter *candidates = allocateParameterArray();
+    Parameter *candidates = allocateParameterArray(5);
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
     disambiguateCandidates(candidates, TRUE, mockedReachable, mockedHandlerTable);
@@ -669,7 +669,7 @@ Ensure disambiguateCandidatesCanCall00YHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall01NHandler() {
-    Parameter *candidates = allocateParameterArray();
+    Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
 
@@ -679,7 +679,7 @@ Ensure disambiguateCandidatesCanCall01NHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall0MNHandler() {
-    Parameter *candidates = allocateParameterArray();
+    Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 2; /* M non-present */
     candidates[1].instance = 2;
     setEndOfArray(&candidates[2]); /* == 2 instances */
@@ -690,7 +690,7 @@ Ensure disambiguateCandidatesCanCall0MNHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall10NHandler() {
-    Parameter *candidates = allocateParameterArray();
+    Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 1; /* 1 present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
 
@@ -700,7 +700,7 @@ Ensure disambiguateCandidatesCanCall10NHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall11NHandler() {
-    Parameter *candidates = allocateParameterArray();
+    Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 1; /* 1 present */
     candidates[1].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[2]); /* == 2 instances */
@@ -711,7 +711,7 @@ Ensure disambiguateCandidatesCanCall11NHandler() {
 
 /*----------------------------------------------------------------------*/
 Ensure disambiguateCandidatesCanCall1MNHandler() {
-    Parameter *candidates = allocateParameterArray();
+    Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 1; /* 1 present */
     candidates[1].instance = 2; /* M non-present */
     candidates[2].instance = 2;

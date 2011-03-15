@@ -53,13 +53,14 @@ void forceNewPlayerInput() {
 /*----------------------------------------------------------------------*/
 static void unknown(char token[]) {
     char *str = strdup(token);
-    Parameter *messageParameters = allocateParameterArray();
+    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
 	
 #if ISO == 0
     fromIso(str, str);
 #endif
     addParameterForString(messageParameters, str);
     printMessageWithParameters(M_UNKNOWN_WORD, messageParameters);
+	free(messageParameters);
     free(str);
     abortPlayerCommand();
 }

@@ -2,9 +2,14 @@
 
 #include "params.c"
 
+static void setUp(void) {
+	header->maxParameters = 4;
+	header->instanceMax = 6;
+}
+
 
 /*----------------------------------------------------------------------*/
-Ensure canFindLastParameterInAList() {
+Ensure canFindLastParameterInAList(void) {
     Parameter parameters[10];
 
     memset(parameters, 45, sizeof(parameters));
@@ -20,7 +25,7 @@ Ensure canSetAndGetParameters(void) {
     int p;
 
     header->instanceMax = 10;
-    parameters = allocateParameterArray();
+    parameters = allocateParameterArray(5);
     
     parameters[0].instance = 0;	/* Not end of parameters... */
     setEndOfArray(&parameters[numberOfParameters]);
@@ -71,12 +76,14 @@ Ensure returns_minus_one_for_no_multiple_position(void) {
 }
 
 
+/*----------------------------------------------------------------------*/
 static Parameter *givenAnyParameterArrayOfLength(int length) {
-    Parameter *parameters = allocateParameterArray();
+    Parameter *parameters = allocateParameterArray(length);
     parameters->instance = 1;
     setEndOfArray(&parameters[length]);
     return parameters;
 }
+
 
 /*----------------------------------------------------------------------*/
 Ensure unequal_length_parameter_arrays_are_not_equal(void) {
@@ -112,7 +119,7 @@ Ensure copyParameterCopiesCandidates(void) {
     theOriginal.candidates = allocate(4*sizeof(Parameter));
     setEndOfArray(&theOriginal.candidates[3]);
 
-    copyParameter(&theCopy, theOriginal);
+    copyParameter(&theCopy, &theOriginal);
 
     assert_equal(theOriginal.instance, theCopy.instance);
     assert_true(equalParameterArrays(theOriginal.candidates, theCopy.candidates));
@@ -125,11 +132,92 @@ Ensure copyParameterArrayCanCopyNullToNull(void) {
     copyParameterArray(NULL, NULL);
 }
 
+
+/*----------------------------------------------------------------------*/
+static Parameter *newParameter(int id) {
+	Parameter *parameter = NEW(Parameter);
+	parameter->instance = id;
+	parameter->candidates = NULL;
+
+	return parameter;
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure addParameterSetsEndOfArray(void) {
+	Parameter *parameters = allocateParameterArray(5);
+	Parameter *parameter = newParameter(1);
+	
+	setEndOfArray(&parameters[0]);
+	assert_true(lengthOfParameterArray(parameters) == 0);
+	addParameter(&parameters[0], parameter);
+	assert_true(lengthOfParameterArray(parameters) == 1);
+	addParameter(&parameters[1], parameter);
+	assert_true(lengthOfParameterArray(parameters) == 2);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure intersectParameterArraysReturnsAnEmptyResultForTwoEmpty(void) {
+	Parameter *first = allocateParameterArray(5);
+	Parameter *second = allocateParameterArray(5);
+
+	intersectParameterArrays(first, second);
+
+	assert_true(lengthOfParameterArray(first) == 0);
+}
+
+
+static Parameter *givenAParameterArrayWithOneParameter(Parameter *theParameter) {
+	Parameter *theArray = allocateParameterArray(5);
+	addParameter(theArray, theParameter);
+	return theArray;
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty(void) {
+	Parameter *theParameter = newParameter(1);
+	Parameter *oneParameterArray = givenAParameterArrayWithOneParameter(theParameter);
+	Parameter *emptyParameterArray = allocateParameterArray(5);
+
+	intersectParameterArrays(oneParameterArray, emptyParameterArray);
+
+	assert_true(lengthOfParameterArray(oneParameterArray) == 0);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure intersectParameterArraysReturnsTheSameIfBothAreEqual(void) {
+	Parameter *theParameter = newParameter(1);
+	Parameter *first = givenAParameterArrayWithOneParameter(theParameter);
+	Parameter *second = givenAParameterArrayWithOneParameter(theParameter);
+
+	intersectParameterArrays(first, second);
+
+	assert_true(equalParameterArrays(first, second));
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure intersectParameterArraysReturnsTheCommonParameter(void) {
+	Parameter *theParameter = newParameter(1);
+	Parameter *anotherParameter = newParameter(2);
+	Parameter *first = givenAParameterArrayWithOneParameter(theParameter);
+	Parameter *second = givenAParameterArrayWithOneParameter(anotherParameter);
+
+	intersectParameterArrays(first, second);
+
+	assert_true(equalParameterArrays(first, second));
+}
+
+
 /*======================================================================*/
 TestSuite *paramsTests(void)
 {
     TestSuite *suite = create_test_suite();
 
+	setup(suite, setUp);
     add_test(suite, canFindLastParameterInAList);
     add_test(suite, canSetAndGetParameters);
     add_test(suite, getWillAllocateStoredParameters);
@@ -140,6 +228,10 @@ TestSuite *paramsTests(void)
     add_test(suite, lengthOfParameterArrayReturnsZeroForNULLArray);
     add_test(suite, copyParameterCopiesCandidates);
     add_test(suite, copyParameterArrayCanCopyNullToNull);
+	add_test(suite, addParameterSetsEndOfArray);
+	add_test(suite, intersectParameterArraysReturnsAnEmptyResultForTwoEmpty);
+	add_test(suite, intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty);
+	add_test(suite, intersectParameterArraysReturnsTheSameIfBothAreEqual);
 
     return suite;
 }

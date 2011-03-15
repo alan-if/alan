@@ -203,6 +203,10 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "mean $+1",
    "menar $+1",
    "$+1"},
+  {M_IMPOSSIBLE_WITH, "impossible_with",
+   "That's impossible with $+1.",
+   "Det går inte med $+1.",
+   "Es gibt nicht mit $+1."},
   {0, NULL, NULL, NULL, NULL}        /* MUST end with NULL */
 
 };
@@ -375,6 +379,7 @@ Context *contextFor(MsgKind messageNo) {
   case M_CONTAINS_END:
   case M_EMPTY:
   case M_EMPTYHANDED:
+  case M_IMPOSSIBLE_WITH:
     return newVerbContext(messageVerbSymbolForInstance);
 
   case M_WHAT_WORD:

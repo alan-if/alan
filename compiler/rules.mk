@@ -18,6 +18,14 @@ LINKFLAGS = $(OS_FLAGS) $(EXTRA_LINKER_FLAGS)
 # Include common list of sources
 include sources.mk
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Main target
+#
+.PHONY: all
+all: unit alan
+
+
 .PHONY: help
 help:
 	@echo "This the generic Makefile for the Alan compiler"
@@ -28,14 +36,6 @@ help:
 	@echo "    make unit - Build and run the unit tests"
 	@echo "    make test - Build the alan compiler and run its regression tests"
 	@echo "    make clean"
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Main target
-#
-.PHONY: all
-all: unit alan test
-
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

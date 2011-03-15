@@ -114,7 +114,7 @@ static void handleDirectionalCommand() {
 /*----------------------------------------------------------------------*/
 static void errorWhichOne(Parameter alternative[]) {
     int p; /* Index into the list of alternatives */
-    Parameter *parameters = allocateParameterArray();
+    Parameter *parameters = allocateParameterArray(MAXENTITY);
 
     parameters[0] = alternative[0];
     setEndOfArray(&parameters[1]);
@@ -132,7 +132,7 @@ static void errorWhichOne(Parameter alternative[]) {
 /*----------------------------------------------------------------------*/
 static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
     int p; /* Index into the list of alternatives */
-    Parameter *messageParameters = allocateParameterArray();
+    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
 
     addParameterForWord(messageParameters, pronounWordIndex);
     printMessageWithParameters(M_WHICH_PRONOUN_START, messageParameters);
@@ -153,7 +153,7 @@ static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
 
 /*----------------------------------------------------------------------*/
 static void errorWhat(int playerWordIndex) {
-    Parameter *messageParameters = allocateParameterArray();
+    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
 
     addParameterForWord(messageParameters, playerWordIndex);
     printMessageWithParameters(M_WHAT_WORD, messageParameters);
@@ -163,7 +163,7 @@ static void errorWhat(int playerWordIndex) {
 
 /*----------------------------------------------------------------------*/
 static void errorAfterExcept(int butWordIndex) {
-    Parameter *messageParameters = allocateParameterArray();
+    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
     addParameterForWord(messageParameters, butWordIndex);
     printMessageWithParameters(M_AFTER_BUT, messageParameters);
     free(messageParameters);
@@ -190,7 +190,7 @@ static int fakePlayerWordForAll() {
 
 /*----------------------------------------------------------------------*/
 static void errorButAfterAll(int butWordIndex) {
-    Parameter *messageParameters = allocateParameterArray();
+    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
     addParameterForWord(messageParameters, butWordIndex);
     addParameterForWord(messageParameters, fakePlayerWordForAll());
     printMessageWithParameters(M_BUT_ALL, messageParameters);
@@ -208,16 +208,16 @@ static Aint findInstanceForNoun(int wordIndex) {
 
 /*----------------------------------------------------------------------*/
 static void errorNoSuch(Parameter parameter) {
-    globalParameters[0] = parameter;
 
     /* If there was no instance, assume the last word used is the noun,
      * then find any instance with the noun he used */
-    if (globalParameters[0].instance == -1)
-        globalParameters[0].instance = 0;
-    if (globalParameters[0].instance == 0)
-        globalParameters[0].instance = findInstanceForNoun(playerWords[parameter.lastWord].code);
-    globalParameters[0].useWords = TRUE; /* Indicate to use words and not names */
-    setEndOfArray(&globalParameters[1]);
+    if (parameter.instance == -1)
+        parameter.instance = 0;
+    if (parameter.instance == 0)
+        parameter.instance = findInstanceForNoun(playerWords[parameter.lastWord].code);
+    parameter.useWords = TRUE; /* Indicate to use words and not names */
+
+    addParameter(&globalParameters[0], &parameter);
     error(M_NO_SUCH);
 }
 
@@ -366,7 +366,7 @@ static void filterOutNonReachable(Parameter filteredCandidates[], Bool (*reachab
 /*----------------------------------------------------------------------*/
 static void disambiguateCandidatesForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
     int i;
-    Parameter *parameters = allocateParameterArray();
+    Parameter *parameters = allocateParameterArray(MAXENTITY);
 
     convertPositionsToParameters(parameterPositions, parameters);
     for (i = 0; !isEndOfArray(&candidates[i]); i++) {
@@ -398,8 +398,8 @@ static Bool parseAnyAdjectives(Parameter parameters[]) {
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-// This new strategy will only parse the input and note the word indices
-// in the parameters, matching will be done by the match* functions
+/* Parse the input and note the word indices in the parameters,
+   matching will be done by the match* functions */
 static void parseAdjectivesAndNoun(Parameter parameters[]) {
     int firstWord, lastWord;
     Bool adjectiveOrNounFound = FALSE;
@@ -849,7 +849,7 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
     localParameters = ensureParameterArrayAllocated(localParameters);
 
     for (i=0; !parameterPositions[i].endOfList; i++)
-        copyParameter(&localParameters[i], parameterPositions[i].parameters[0]);
+        copyParameter(&localParameters[i], &parameterPositions[i].parameters[0]);
     // TODO: This is stupid, why should the caller need to handle end of array? Introduce addParameter()
     setEndOfArray(&localParameters[i]);
 
@@ -888,6 +888,18 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
 
 
 /*----------------------------------------------------------------------*/
+static void impossibleWith(ParameterPosition parameterPositions[], int positionIndex) {
+	if (isPreBeta2(header->version)) {
+		error(M_CANT0);
+	} else {
+		printMessageWithInstanceParameter(M_IMPOSSIBLE_WITH, parameterPositions[positionIndex].parameters[0].instance);
+		error(NO_MSG);
+	}
+}
+
+
+
+/*----------------------------------------------------------------------*/
 static void checkNonRestrictedParameters(ParameterPosition parameterPositions[]) {
     int positionIndex;
     for (positionIndex = 0; !parameterPositions[positionIndex].endOfList; positionIndex++)
@@ -900,7 +912,7 @@ static void checkNonRestrictedParameters(ParameterPosition parameterPositions[])
                         if (!isObject(parameterPositions[positionIndex].parameters[i].instance))
                             parameterPositions[positionIndex].parameters[i].instance = 0;
             } else if (!isObject(parameterPositions[positionIndex].parameters[0].instance))
-                error(M_CANT0);
+				impossibleWith(parameterPositions, positionIndex);
         }
 }
 

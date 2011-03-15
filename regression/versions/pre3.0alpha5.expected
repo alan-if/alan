@@ -11,6 +11,9 @@ The loc is a location. There is a t here.
 > x t
 X
 
+> x hero
+You can't do that.
+
 > 
 
 Do you want to UNDO, RESTART, RESTORE or QUIT ? 
