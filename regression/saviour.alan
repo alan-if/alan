@@ -1,7 +1,7 @@
--- This is a short game in Alan. It's got very little comments and is not
+-- This is a short game in Alan. It's got very few comments and is not
 -- written as an example (in which case it would have been much better
 -- documented ;-). Instead it was the first adventure game I ever wrote,
--- actually in Cobol as a farewell gift to my co-workers at a job I once
+-- actually in Cobol, as a farewell gift to my co-workers at a job I once
 -- held. That company was producing Cobol-executing small business computers.
 --
 -- Well, in 1985 I went on to start at my previous company, SoftLab, which as
@@ -450,7 +450,7 @@ The stairs Isa location Name Stairs
          a dark cellar. To the east is the hallway. A strange smell
          emerges from below."
 
-    Exit up To first.
+    Exit up To first_floor.
     Exit down To cellar.
     Exit east To hall.
 End The stairs.
@@ -556,7 +556,7 @@ The tape Isa object At store
 END The tape.
 
 
-The first Isa location Name First Floor
+The first_floor Isa location Name 'First' Floor
     Description
         "The landing on the first floor is as dirty as all the others.
          Meters and meters of old cables are laying around, leading
@@ -567,9 +567,9 @@ The first Isa location Name First Floor
     Exit up To second.
     Exit down To stairs.
     Exit east To office.
-End The first.
+End The first_floor.
 
-The book Isa Object Name old book At First
+The book Isa Object Name old book At First_Floor
     Is
         Takeable.
         Readable.
@@ -603,7 +603,7 @@ The office Isa location
          no longer readable, is thrown to one side, and another is
          still standing in a corner, full of dust."
 
-    Exit west To first.
+    Exit west To first_floor.
 End The office.
 
 The ladder Isa object At office
@@ -700,7 +700,7 @@ The second Isa location NAME Second Floor
          barely be seen through them. There is a doorway to the east."
 
     Exit up TO third.
-    Exit down TO first.
+    Exit down TO first_floor.
     Exit east TO terminal_room.
 End The second.
 
@@ -746,7 +746,7 @@ The terminal Isa object AT terminal_room
         "It is a computer terminal, with a keyboard. It looks O.K."
         If terminal Is Not connected Then
             "It's not connected anywhere."
-        Else
+        ELSE
             "It is connected to the nearby computer."
         End If.
         If terminal Is showing_msg1
