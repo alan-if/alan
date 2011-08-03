@@ -28,6 +28,10 @@ release: doc/manual/manual.pdf
 	$(MAKE) -f Makefile.thoni sync
 	$(MAKE) -f Makefile.thoni tags
 
+# Create pdf from odt
+doc/manual/manual.pdf: doc/manual/manual.odt
+	"/cygdrive/c/Program Files/OpenOffice.org 3/program/swriter" "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Documents\Utveckling\Alan\alan\doc\manual\manual.odt)"
+
 .PHONY: releasebuild
 releasebuild:
 	cd compiler ; make release
