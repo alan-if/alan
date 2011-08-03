@@ -1,4 +1,4 @@
--- ALAN Standard Library v0.99
+-- ALAN Standard Library v1.00
 -- Classes (file name: 'classes.i')
 
 
@@ -2031,7 +2031,7 @@ EVERY supporter ISA OBJECT
 	END VERB.
 
 
-	-- in the following, we disable some verbs that are defined to work with containers:
+	-- in the following, we disable some verbs that are defined to work with normal containers:
 
 
 	VERB look_in							

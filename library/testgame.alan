@@ -110,6 +110,13 @@ THE door1 ISA DOOR
 	AT sunny_room
 	NAME white 'door'
 	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "This is a door object. Please experiment by opening and closing, knocking on
+			     and looking under both when the door is opened and closed."
+	END VERB.
+
+
 END THE.
 
 
@@ -131,6 +138,11 @@ THE note ISA OBJECT
 	IS writeable.
 	IS readable.
 	
+
+	VERB examine
+		DOES ONLY "You can try writing something on the note."
+	END VERB.
+
 	VERB write
 		WHEN obj
 		DOES BEFORE 
@@ -281,8 +293,16 @@ END THE.
 -- The balcony is neither a pure indoor or outdoor room, we need the floor but also the sky:
 
 
+THE balcony_object ISA OBJECT AT balcony
+	NAME balcony
+	IS NOT takeable.
+	IS NOT movable.
+	DESCRIPTION ""
+END THE.
+
 THE balcony_floor ISA OBJECT AT balcony
 	IS NOT takeable.
+	IS NOT movable.
 	DESCRIPTION ""
 END THE.
 

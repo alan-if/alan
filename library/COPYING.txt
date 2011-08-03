@@ -1,4 +1,4 @@
-The Alan Standard Library v0.95 is distributed under the Artistic License 2.0 for which the
+The Alan Standard Library v1.00 is distributed under the Artistic License 2.0 for which the
 full text follows. The intent of this licensing is that the Copyright Holder retains some
 control over the development of the library, while still keeping it available as open source
 free of charge.

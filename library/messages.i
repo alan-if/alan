@@ -1,4 +1,4 @@
--- ALAN Standard Library v0.99
+-- ALAN Standard Library v1.00
 -- Messages (file name: 'messages.i')
 
 

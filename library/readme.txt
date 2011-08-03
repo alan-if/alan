@@ -2,7 +2,7 @@
 The four files belonging to the new proposed library have now been
 uploaded to the download area of the ALAN website. The library is numbered
 0.95, with the intention that once any most immediate bugs and
-misfeatures are taken care of, Standard Library v1.0 will be released.
+misfeatures are taken care of, Standard Library v1.00 will be released.
 
 Please take a look at how the library feels and please send comments
 to the mailing list. Now is the time to make comments and suggestions!
@@ -32,8 +32,7 @@ General features:
   system, for easy editing and translation
 
 - verbs.i lists all the verbs, which are considerably more numerous
-  than previously. Their number is now somewhat on par with verbs in
-  the libraries of Inform and TADS. Also commands other than verbs are
+  than previously. Also commands other than verbs are
   here, such as 'verbose', 'inventory' and 'about'.
 
 - in labeling parameters in syntax statements, tailored (mnemonic)
@@ -121,31 +120,7 @@ General features:
 
 Comments and questions, any kind of feedback is welcome, even crucial for further improvements.
 
-Please comment on for example
 
-1) how does the library feel in general? is it still relatively easy
-to grasp and use, despite the size?  What should be changed?
+Send your feedback to the e-mail address given at the www.alanif.se website, or to
 
-2) Is the number of files good? Should the files be divided into
-smaller ones?
-
-3) Is the parameter solution good? Do you prefer obj1, obj2?
-
-4) What else would you like to see?
-
-5) there are examples of code usage scattered throughout the
-library. This is to have the instructions close to the code. Also,
-even if the game file size grows a bit because of this, it doesn't
-matter as compiling is usually immediate anyway. However, if you
-prefer that the library wouldn't contain so many instructions/ or that
-the instructions are in a separate file, please let us know.
-
-6) Should some default messages be changed? Are some clumsy?
-
-7) Of course, point out any bugs.
-
-etc. etc.
-
-
-
--Anssi
+anssi.raisanen (at) kam.fi

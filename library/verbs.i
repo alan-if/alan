@@ -1,4 +1,4 @@
--- ALAN Standard Library v0.99
+-- ALAN Standard Library v1.00
 -- Verbs (file name: 'verbs.i')
 
 
@@ -384,7 +384,12 @@ SYNTAX ask = ask (act) about (topic)!
 				END IF.
 				 "something you can talk to."
     		AND topic ISA THING
-      		ELSE "That doesn't seem to be something you can talk about with" SAY THE act. "."
+      		ELSE 
+				IF topic IS NOT plural
+					THEN "That's doesn't"
+					ELSE "Those don't"
+				END IF.
+				"seem to be something you can talk about with" SAY THE act. "."
 
 	 
 	 ask = enquire (act) about (topic)!.
@@ -475,9 +480,9 @@ SYNTAX ask_for = ask (act) 'for' (obj)
 	AND obj ISA OBJECT
 		ELSE 
 			IF obj IS NOT plural
-					THEN "That's not"
-					ELSE "Those are not"
-				END IF.
+				THEN "That's not"
+				ELSE "Those are not"
+			END IF.
 			"something you can ask for."
 
 
@@ -554,7 +559,12 @@ END ADD TO.
 
 SYNTAX attack = attack (target)
     		WHERE target ISA THING
-      		ELSE "That’s not something you can $v."
+      		ELSE 
+				IF target IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+			"something you can attack."
 
 
 ADD TO EVERY THING
@@ -608,7 +618,12 @@ SYNONYMS beat, fight, hit, punch = attack.
 
 SYNTAX attack_with = attack (target) 'with' (weapon)
     		WHERE target ISA THING
-      		ELSE "That's not something you can $v."
+      		ELSE 
+				IF target IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can $v."
     		AND weapon ISA WEAPON
      			ELSE 
 				IF weapon ISA ACTOR
@@ -737,7 +752,12 @@ SYNTAX break = break (obj)
 			ELSE 
 				IF obj ISA ACTOR
 					THEN "Resorting to brute force is not the solution here."
-					ELSE "That's not something you can $v."
+					ELSE 
+						IF obj IS NOT plural
+							THEN "That's not"
+							ELSE "Those are not"
+						END IF.
+						"something you can $v."
 				END IF.
 
 
@@ -866,7 +886,12 @@ SYNTAX burn = burn (obj)
 			ELSE 
 				IF obj ISA ACTOR
 					THEN "That would be needlessly brutal."
-					ELSE "That's not something you can burn."
+					ELSE 
+						IF obj IS NOT plural
+							THEN "That's not"
+							ELSE "Those are not"
+						END IF.
+						"something you can burn."
 				END IF.
 
 
@@ -909,13 +934,22 @@ SYNTAX burn_with = burn (obj) 'with' (instr)
 			ELSE 
 				IF obj ISA ACTOR
 					THEN "That would be needlessly brutal."
-					ELSE "That's not something you can burn."
+					ELSE 
+						IF obj IS NOT plural
+							THEN "That's not"
+							ELSE "Those are not"
+						END IF.
+						"something you can ask for things."
 				END IF.
 		AND instr ISA OBJECT
 			ELSE 
 				IF instr ISA ACTOR
 					THEN "It doesn't make sense to burn something with" SAY THE instr. "."
-					ELSE "It's not possible to burn something with that."
+					ELSE "It's not possible to burn something with"
+							IF instr IS NOT plural
+								THEN "that."
+								ELSE "those."
+							END IF.
 				END IF.
 
 
@@ -1343,9 +1377,19 @@ END ADD TO.
 
 SYNTAX consult = consult (source) about (topic)!
 		WHERE source ISA THING
-			ELSE "That's not something you can consult."
+			ELSE 
+				IF source IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can consult."
 		AND topic ISA THING
-			ELSE "That's not something you can find information about."
+			ELSE 
+				IF topic IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can find information about."
 	
 
        consult = 'look' 'up' (topic) 'in' (source).
@@ -2738,6 +2782,7 @@ SYNTAX follow = follow (act)!
 					THEN "That's not"
 					ELSE "Those are not"
 				END IF.
+				"something you can follow."
 
 
 ADD TO EVERY THING
@@ -2747,7 +2792,12 @@ ADD TO EVERY THING
 	AND CURRENT LOCATION IS lit
 		ELSE "It is too dark to see."
 	AND act NOT AT hero
-		ELSE SAY THE act. "is right here."
+		ELSE SAY THE act. 
+			IF act IS NOT plural
+				THEN "is"
+				ELSE "are" 
+			END IF.
+			"right here."
 	AND hero IS NOT sitting
 		ELSE "It is difficult to follow anybody while sitting down."
 	AND hero IS NOT lying_down
@@ -2775,7 +2825,11 @@ END ADD TO.
 
 SYNTAX free = free (obj)
 		WHERE obj ISA THING
-			ELSE "That's not something you can $v."
+			ELSE IF obj IS NOT plural
+				THEN "That's not"
+				ELSE "Those are not"
+			END IF.
+				"something you need to $v."
 
 
 ADD TO EVERY THING
@@ -2904,9 +2958,19 @@ ADD TO EVERY OBJECT
 			END IF.
 			"out of your reach."
 	AND recip IS reachable
-		ELSE SAY THE recip. "is too far away."
+		ELSE SAY THE recip. 
+			IF recip IS NOT plural
+				THEN "is"
+				ELSE "are"
+			END IF.
+			"too far away."
 	AND obj NOT IN recip
-		ELSE SAY THE recip. "already has" SAY THE obj. "."
+		ELSE SAY THE recip. "already"
+			IF recip IS NOT plural
+				THEN "has"
+				ELSE "have"
+			END IF.
+			SAY THE obj. "."
       DOES
 		-- implicit taking:
 		IF obj NOT DIRECTLY IN hero
@@ -2955,7 +3019,11 @@ ADD TO EVERY THING
 					THEN "You can't reach" SAY THE dest. "from here."
 					ELSE 
 						IF CURRENT LOCATION IS lit
-							THEN "That's right here!"
+							THEN IF dest IS NOT plural
+								THEN "That's"
+								ELSE "Those are"
+								END IF.
+								"right here!"
 							ELSE "It is too dark to see."
 						END IF.
 				END IF.
@@ -3202,7 +3270,11 @@ END ADD TO.
 
 SYNTAX kick = kick (target)
     		WHERE target ISA THING
-      		ELSE "That's not something you can kick."
+      		ELSE IF target IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can kick."
 
 
 ADD TO EVERY THING
@@ -4011,7 +4083,11 @@ END ADD TO.
 
 SYNTAX look_under = 'look' under (bulk)
 		WHERE bulk ISA THING
-			ELSE "That's not something you can look under."
+			ELSE IF bulk IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can look under."
 
 
 ADD TO EVERY THING
@@ -4277,7 +4353,12 @@ ADD TO EVERY OBJECT
 			END IF. 
 			"already open."
 	    AND obj IS NOT locked
-		ELSE SAY THE obj. "appears to be locked."
+		ELSE SAY THE obj. 
+				IF obj IS NOT plural 
+					THEN "appears"
+					ELSE "appear" 
+				END IF. 
+				"to be locked."
 	    DOES
 		  "You can't open" SAY THE obj. "with" SAY THE instr. "."
   END VERB.
@@ -4429,7 +4510,7 @@ SYNTAX pry_with = pry (obj) 'with' (instr)
 			ELSE "You can't pry anything with"
 				IF instr IS NOT plural
 				THEN "that"
-				ELSE "Those"
+				ELSE "those"
 			END IF.
 			"."
 
@@ -4532,11 +4613,7 @@ ADD TO EVERY THING
     VERB PUSH
 	CHECK obj IS movable
 	      ELSE 
-			IF obj IS NOT plural
-				THEN "That's not"
-				ELSE "Those are not"
-			END IF.
-			"something you can push."
+			"That would be futile."
 	AND obj NOT IN hero
 		ELSE "But you're holding" SAY THE obj. "."
 	AND obj <> hero
@@ -4573,7 +4650,12 @@ SYNONYMS press = push.
 
 SYNTAX push_with = push (obj) 'with' (instr)
 		WHERE obj ISA THING
-	    		ELSE "That's not something you can push."
+	    		ELSE 
+				IF obj IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can push."
 		AND instr ISA OBJECT
 	    		ELSE "You can use only objects to push things with."
 
@@ -4608,7 +4690,7 @@ ADD TO EVERY THING
 			END IF.
 			"out of your reach."
 	DOES
-		"Using" SAY THE instr. "you push" SAY THE obj. "$$. Nothing happens."
+		"Using" SAY THE instr. "you push" SAY THE obj. "$$. Nothing special happens."
     END VERB. 
 END ADD TO.
 
@@ -4687,7 +4769,12 @@ SYNTAX put_in = put (obj) 'in' (cont)
 							-- If you need to allow e.g. 'put child in bed'
 							-- then you should remove this check.
 					END IF.
-				  ELSE "You can't put that anywhere."
+				  ELSE "You can't put"
+						IF obj IS NOT plural
+							THEN "that"
+							ELSE "those"
+						END IF.
+					 	"anywhere."
 				END IF.
 		AND cont ISA OBJECT
 			ELSE 
@@ -4756,6 +4843,64 @@ END ADD TO.
 -- ==============================================================
 
 
+----- PUT AGAINST
+
+
+-- ==============================================================
+
+
+SYNTAX put_against = put (obj) against (bulk)
+        	WHERE obj ISA OBJECT
+	    		ELSE
+				IF obj ISA ACTOR
+					THEN SAY THE obj. "wouldn't probably appreciate that."
+					ELSE "You can't put"
+						 IF obj IS NOT plural
+							THEN "that"
+							ELSE "those"
+						END IF.
+						"anywhere."
+				END IF.
+	  	AND bulk ISA THING
+	    		ELSE "You can't put anything against that."
+
+
+ADD TO EVERY OBJECT
+    VERB put_against
+	WHEN obj	
+	    CHECK bulk NOT IN hero
+		  ELSE "That would achieve nothing."
+	    AND obj IS takeable
+		  ELSE "You don't have" SAY THE obj. "."	
+	    AND obj <> bulk
+		   ELSE "That doesn't make sense."
+	    AND bulk <> hero
+		   ELSE "That would be futile."
+	    AND CURRENT LOCATION IS lit
+		    ELSE "It is too dark to see."
+	    AND bulk IS reachable
+			ELSE SAY THE bulk. 
+				IF bulk IS NOT plural
+					THEN "is" 
+					ELSE "are"
+				END IF.
+			"out of your reach."
+	    DOES
+		   "That wouldn't accomplish anything."
+		
+             -- To make it work, type e.g.:	
+		 -- IF obj NOT IN hero
+			-- THEN  "(taking" SAY THE obj. "first)$n"
+		 -- END IF.
+		 -- "You put" SAY THE obj. "against" SAY THE bulk. "."
+			-- (+ you would need probably need an attribute to check that the object is leaning against the bulk)
+    END VERB.
+END ADD TO.
+
+
+-- ==============================================================
+
+
 ----- PUT BEHIND, NEAR, UNDER
 
 
@@ -4767,7 +4912,12 @@ SYNTAX put_near = put (obj) 'near' (bulk)
 	    		ELSE
 				IF obj ISA ACTOR
 					THEN SAY THE obj. "wouldn't probably appreciate that."
-					ELSE "You can't put that anywhere."
+					ELSE "You can't put"
+						 IF obj IS NOT plural
+							THEN "that"
+							ELSE "those"
+						END IF.
+						"anywhere."
 				END IF.
 	  	AND bulk ISA THING
 	    		ELSE "You can't put anything near that."
@@ -4778,7 +4928,12 @@ SYNTAX put_near = put (obj) 'near' (bulk)
 	    		ELSE 
 				IF obj ISA ACTOR
 					THEN SAY THE obj. "wouldn't probably appreciate that."
-					ELSE "You can't put that anywhere."
+					ELSE 	"You can't put"
+						 IF obj IS NOT plural
+							THEN "that"
+							ELSE "those"
+						END IF.
+						"anywhere."
 				END IF.
 		AND bulk ISA THING
 	    		ELSE "You can't put anything behind that."
@@ -4789,10 +4944,19 @@ SYNTAX put_near = put (obj) 'near' (bulk)
 	    		ELSE
 				IF obj ISA ACTOR
 					THEN SAY THE obj. "wouldn't probably appreciate that."
-					ELSE "You can't put that anywhere."
+					ELSE "You can't put"
+						 IF obj IS NOT plural
+							THEN "that"
+							ELSE "those"
+						END IF.
+						"anywhere."
 				END IF.
 		AND bulk ISA THING
-	    		ELSE "You can't put anything under that."
+	    		ELSE "You can't put anything under"
+						 IF obj IS NOT plural
+							THEN "that."
+							ELSE "those."
+						END IF.
 
 
 ADD TO EVERY OBJECT
@@ -4858,16 +5022,21 @@ SYNTAX put_on = put (obj) 'on' (surface)
 							ELSE SAY THE obj. "wouldn't probably 
 								appreciate that."
 						END IF.
-					ELSE "You can't put that anywhere."
+					ELSE "You can't put"
+						 IF obj IS NOT plural
+							THEN "that"
+							ELSE "those"
+						END IF.
+						"anywhere."
 				END IF.
 		AND surface ISA OBJECT	
-	    		ELSE "You can't well put anything on"
+	    		ELSE "You can't well put anything on top of "
 				IF surface IS NOT plural
 					THEN "that."
 					ELSE "those."
 				END IF.	
       	AND surface ISA CONTAINER
-	    		ELSE "You can't well put anything on"
+	    		ELSE "You can't well put anything on top of"
 				IF surface IS NOT plural
 					THEN "that."
 					ELSE "those."
@@ -5094,7 +5263,12 @@ END VERB.
 
 SYNTAX rub = rub (obj)
 		WHERE obj ISA THING
-			ELSE "That's not something you can rub."
+			ELSE 	
+				IF obj IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can rub."
 
 
 ADD TO EVERY THING
@@ -5216,7 +5390,7 @@ ADD TO EVERY ACTOR
 				THEN "doesn't look"
 				ELSE "don't look"
 			END IF.
-			"seem interested."
+			"interested."
   END VERB.
 END ADD TO.
 
@@ -5255,7 +5429,12 @@ END VERB 'score'.
 
 SYNTAX scratch = scratch (obj)
 		WHERE obj ISA THING
-			ELSE "That's not something you can scratch."
+			ELSE 
+				IF obj IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can scratch."
 
 
 ADD TO EVERY THING
@@ -5336,7 +5515,12 @@ END VERB.
 
 SYNTAX search = search (obj) 
 		WHERE obj ISA THING
-			ELSE "That's not something you can search."
+			ELSE 
+				IF obj IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can search."
 
 
 ADD TO EVERY THING
@@ -5416,7 +5600,12 @@ SYNTAX shake = shake (obj)
 							ELSE SAY THE obj. "wouldn't probably 
 								appreciate that."
 						END IF.
-					ELSE "That's not something you can shake."
+					ELSE 	
+						IF obj IS NOT plural
+							THEN "That's not"
+							ELSE "Those are not"
+						END IF.
+						"something you can shake."
 				END IF.
 
 
@@ -5574,7 +5763,12 @@ SYNONYMS scream, yell = shout.
 
 SYNTAX 'show' = 'show' (obj) 'to' (act)
 		WHERE obj ISA THING
-			ELSE "That's not something you can show."
+			ELSE 
+				IF obj IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can show."
 		AND act ISA ACTOR
 			ELSE 
 				IF act IS NOT plural
@@ -5838,7 +6032,12 @@ END VERB.
 
 SYNTAX smell = smell (odour)!
 		WHERE odour ISA THING
-	    		ELSE "That's not something you can smell."
+	    		ELSE 
+				IF odour IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can smell."
 
 
 ADD TO EVERY THING
@@ -5861,7 +6060,12 @@ END ADD TO.
 
 SYNTAX squeeze = squeeze (obj)
 		WHERE obj ISA THING
-	    		ELSE "That's not something you can squeeze."
+	    		ELSE 
+				IF obj IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can squeeze."
 
 
 ADD TO EVERY THING
@@ -6109,7 +6313,12 @@ SYNTAX take = take (obj)
 							THEN "Taking yourself is not possible."
 							ELSE SAY THE obj. "would probably object to that."
 						END IF.
-					ELSE "That's not something you can take."
+					ELSE 	
+						 IF obj IS NOT plural
+							THEN "That's"
+							ELSE "Those are"
+						END IF.
+						"not something you can take."
 				END IF.
 
 
@@ -6489,7 +6698,12 @@ SYNTAX tell = tell (act) about (topic)!
 				END IF.
 				"something you can talk to."
     		AND topic ISA THING
-      		ELSE "That doesn't seem to be something you can talk
+      		ELSE 
+				IF topic IS NOT plural
+					THEN "That doesn't"
+					ELSE "Those don't"
+				END IF.		
+				"seem to be something you can talk
 			      about with" SAY THE act. "."
 
 
@@ -6582,7 +6796,12 @@ SYNONYMS ponder, meditate, reflect = think.
 
 SYNTAX think_about = think 'about' (topic)!
 		WHERE topic ISA THING
-			ELSE "That's not something fruitful to think about."
+			ELSE 
+				IF topic IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something fruitful to think about."
 
 
 ADD TO EVERY THING
@@ -6673,7 +6892,11 @@ SYNTAX throw_at = throw (projectile) 'at' (target)
        	 WHERE projectile ISA OBJECT
 	    		ELSE "You can only throw objects."
 	  	 AND target ISA THING
-	    		ELSE "It's not possible to throw things at that."
+	    		ELSE "It's not possible to throw things at"
+				IF target IS NOT plural
+					THEN "that."
+					ELSE "those."
+				END IF.
 
 
 
@@ -6781,10 +7004,17 @@ SYNTAX throw_to = throw (projectile) 'to' (recipient)
       	  WHERE projectile ISA OBJECT
 	    		ELSE "You can only throw objects."
 	  	  AND recipient ISA THING
-	   		ELSE "It's not possible to throw things to that."
+	   		ELSE "It's not possible to throw things to"
+				IF recipient IS NOT plural
+					THEN "that."
+					ELSE "those."
+				END IF.
 		  AND recipient ISA CONTAINER
-			ELSE "It is not possible to throw things to that."
-
+			ELSE "It is not possible to throw things to"
+				IF recipient IS NOT plural
+					THEN "that."
+					ELSE "those."
+				END IF.
 
 ADD TO EVERY OBJECT
   VERB throw_to
@@ -7005,7 +7235,7 @@ ADD TO EVERY OBJECT
   VERB tie
 	DOES 
 
-		"You must state where do you want to tie" SAY obj. "."
+		"You must state where do you want to tie" SAY THE obj. "."
   END VERB.
 END ADD TO.
 
@@ -7101,7 +7331,12 @@ END ADD TO.
 
 SYNTAX touch = touch (obj)
 		WHERE obj ISA THING
-	    		ELSE "That's not something you can touch."
+	    		ELSE
+				IF obj IS NOT plural
+					THEN "That's not"
+					ELSE "Those are not"
+				END IF.
+				"something you can touch."
     
 
 ADD TO EVERY THING
@@ -7145,7 +7380,12 @@ SYNONYMS feel = touch.
 
 SYNTAX touch_with = touch (obj) 'with' (instr)
 	WHERE obj ISA THING
-   		ELSE "That's not something you can touch."
+   		ELSE 
+			IF obj IS NOT plural
+				THEN "That's not"
+				ELSE "Those are not"
+			END IF.
+			"something you can touch."
 	AND instr ISA OBJECT
 	    	ELSE "You can only use objects to touch with."
 
@@ -7764,6 +8004,8 @@ SYNTAX who_is = 'who' 'is' (act)!
 					ELSE "Those are not anybody"
 				END IF.
 				"I know."
+
+	who_is = 'who' 'are' (act)!.
 
 
 ADD TO EVERY ACTOR

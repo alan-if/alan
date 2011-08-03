@@ -1,8 +1,8 @@
-Quick Reference for ALAN Standard Library v0.99
+Quick Reference for ALAN Standard Library v1.00
 
 
 This document describes in short how to implement various things in the ALAN interactive fiction language, using
-the Standard Library v0.99. Straight examples without much explanation are given. More thorough examples with
+the Standard Library v1.00. Straight examples without much explanation are given. More thorough examples with
 detailed explanations are in the library files themselves.
 
 
