@@ -238,7 +238,7 @@ END THE.
 
 THE felix ISA PERSON
 	AT sunny_room
-	NAME felix NAME himself
+	NAME felix NAME himself NAME butler
 	IS named.
 	MENTIONED "Felix"	
 	PRONOUN 'him'
@@ -269,6 +269,7 @@ THE dog ISA ACTOR
 	
 	VERB examine
 		DOES ONLY "Give the blue ball to the dog and he will follow you."
+				LIST dog.
 	END VERB.
 
 END THE.

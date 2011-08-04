@@ -95,16 +95,17 @@
 ----- play                                                        play (obj)                          1                 x
 ----- play_with                                                   play with (obj)                     1                 x
 ----- pour        (= defined at the verb 'empty)                  pour (obj)                          1                 x
------ pour_in     (= defined at the verb 'emtpy_in')              pour (obj) in (cont)                1                 x  
------ pour_on     (= defined at the verb 'empty_on')              pour (obj) on (surface)             1                 x
+----- pour_in     (= defined at the verb 'emtpy_in')              pour (obj) in (cont)                2                 x  
+----- pour_on     (= defined at the verb 'empty_on')              pour (obj) on (surface)             2                 x
 ----- pray                                                        pray                                0
 ----- pry                                                         pry (obj)                           1                 x
 ----- pry_with                                                    pry (obj) with (instr)              2                 x
 ----- pull                                                        pull (obj)                          1                 x
 ----- push                                                        push (obj)                          1                 x
------ push_with                                                   push (obj) with (instr)             1                 x	
+----- push_with                                                   push (obj) with (instr)             2                 x	
 ----- put         (+ lay, place)                                  put (obj)                           1                 x
------ put_behind                                                  put (obj) behind (bulk)             1                 x			
+----- put_against									put (obj) against (bulk))		2			x
+----- put_behind                                                  put (obj) behind (bulk)             2                 x			
 ----- put_down                                                    put down (obj)                      1                 x
 ----- put_in      (+ insert)                                      put (obj) in (cont)                 2                 x
 ----- put_near                                                    put (obj) near (bulk)               2                 x
@@ -116,17 +117,17 @@
 ----- rub                                                         rub (obj)                           1                 x
 ----- save                                                        save                                0
 ----- say                                                         say (topic)                         1  
------ say_to                                                      say (topic) to (act)                1
+----- say_to                                                      say (topic) to (act)                2
 ----- score                                                       score                               0 
 ----- scratch                                                     scratch (obj)                       1                 x
 ----- script                                                      script. script on. script off.      0
 ----- search                                                      search (obj)                        1                 x
 ----- sell                                                        sell (item)                         1 
 ----- shake                                                       shake (obj)                         1                 x
------ shoot (at)                                                  shoot (at) (target)                 1
+----- shoot (at)                                                  shoot at (target)2                  1
 ----- shoot_with                                                  shoot (target) with (weapon)        2			
 ----- shout       (+ scream, yell)                                shout                               0 
------ show        (+ reveal)                                      show (obj) to (act)                 1                 x
+----- show        (+ reveal)                                      show (obj) to (act)                 2                 x
 ----- sing                                                        sing                                0						
 ----- sip                                                         sip (liq)                           1
 ----- sit (down)                                                  sit.  sit down.                     0
@@ -787,7 +788,6 @@ END ADD TO.
 
 
 SYNONYMS destroy = break.
-
 
 
 
@@ -4853,7 +4853,11 @@ SYNTAX put_against = put (obj) against (bulk)
         	WHERE obj ISA OBJECT
 	    		ELSE
 				IF obj ISA ACTOR
-					THEN SAY THE obj. "wouldn't probably appreciate that."
+					THEN 
+						IF obj = hero
+							THEN "That doesn't make sense."
+							ELSE SAY THE obj. "wouldn't probably appreciate that."
+						END IF.
 					ELSE "You can't put"
 						 IF obj IS NOT plural
 							THEN "that"
@@ -4911,7 +4915,11 @@ SYNTAX put_near = put (obj) 'near' (bulk)
         	WHERE obj ISA OBJECT
 	    		ELSE
 				IF obj ISA ACTOR
-					THEN SAY THE obj. "wouldn't probably appreciate that."
+					THEN 
+						IF obj = hero
+							THEN "That doesn't make sense."
+							ELSE SAY THE obj. "wouldn't probably appreciate that."
+						END IF.
 					ELSE "You can't put"
 						 IF obj IS NOT plural
 							THEN "that"
