@@ -58,6 +58,19 @@ release: all
 
 
 #--------------------------------------------------------------------
+# Extra targets on Darwin
+
+# GARARUN: a Gargoyle drop-in alan interpreter
+# Gargoyle should be installed at GARGOYLE_DIR and have 
+# terps/alan3 linked to alan/interpreter. All required libraries, including
+# libgarglk.dylib need to be built to binary form before making it from here.
+# It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
+# will be available as $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3
+GARGOYLE_DIR=../../gargoyle-alan
+gararun:
+		cd $(GARGOYLE_DIR); jam alan3
+
+
 # Extra targets on Darwin (maybe later...)
 
 #glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)

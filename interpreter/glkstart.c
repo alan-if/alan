@@ -83,7 +83,6 @@ static void openResourceFile() {
 	if (!resourceFileName)
 		resourceFileName = originalFileName;
 
-	char *extension = strrchr(resourceFileName, '.');
 	if (extension)
 		strcpy(extension, ".a3r");
 	else
@@ -117,7 +116,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
     /* first, open a window for error output */
     openGlkWindows();
 
-#ifdef GARGLK
+#ifdef HAVE_GARGLK
 	garglk_set_program_name(alan.shortHeader);
 	garglk_set_program_info("Alan Interpreter 3.0 alpha 8 by Thomas Nilsson\n");
 #endif
