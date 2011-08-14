@@ -11,6 +11,7 @@ all:
 	$(MAKE) -f Makefile.thoni build
 	$(MAKE) -f Makefile.thoni unit
 	$(MAKE) -f Makefile.thoni test cygwintests
+	$(MAKE) -f Makefile.thoni documentation
 
 .PHONY: cygwintests
 cygwintests:
@@ -29,8 +30,17 @@ release: doc/manual/manual.pdf
 	$(MAKE) -f Makefile.thoni tags
 
 # Create pdf from odt
+.PHONY: documentation
+documentation: doc/manual/manual.pdf doc/manual/conversion.pdf doc/manual/writing.pdf
+
 doc/manual/manual.pdf: doc/manual/manual.odt
 	"/cygdrive/c/Program Files/OpenOffice.org 3/program/swriter" "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Documents\Utveckling\Alan\alan\doc\manual\manual.odt)"
+
+doc/manual/conversion.pdf: doc/manual/conversion.odt
+	"/cygdrive/c/Program Files/OpenOffice.org 3/program/swriter" "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Documents\Utveckling\Alan\alan\doc\manual\conversion.odt)"
+
+doc/manual/writing.pdf: doc/manual/writing.odt
+	"/cygdrive/c/Program Files/OpenOffice.org 3/program/swriter" "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Documents\Utveckling\Alan\alan\doc\manual\writing.odt)"
 
 .PHONY: releasebuild
 releasebuild:

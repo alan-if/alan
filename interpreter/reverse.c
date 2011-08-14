@@ -15,6 +15,7 @@
 #include "rules.h"
 #include "msg.h"
 #include "utils.h"
+#include "compatibility.h"
 
 
 extern Aword *memory;

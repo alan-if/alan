@@ -32,7 +32,7 @@
 #include "literal.h"
 #include "ParameterPosition.h"
 #include "utils.h"
-
+#include "compatibility.h"
 #include "scan.h"
 
 

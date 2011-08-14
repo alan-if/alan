@@ -9,6 +9,9 @@
 /* %%IMPORT */
 
 
+/* For open, read & close */
+#include <fcntl.h>
+
 #include "sysdep.h"
 
 #include "types.h"
@@ -16,9 +19,6 @@
 #include "alan.h"
 #include "lmList.h"
 #include "encode.h"
-
-/* For open, read & close */
-#include <fcntl.h>
 
 /* END %%IMPORT */
 #include "smScan.h"

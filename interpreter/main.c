@@ -36,7 +36,7 @@
 #include "syntax.h"
 #include "current.h"
 #include "literal.h"
-
+#include "compatibility.h"
 
 #include "alan.version.h"
 
