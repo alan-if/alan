@@ -5,10 +5,11 @@
 # Makefile.thoni, Makefile.cygwin, Makefile.Darwin, also included from
 # Makefile
 # This file will build a standard command line arun and all unittests
+
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
-CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD)
-LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS)
+CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD) $(OSFLAGS)
+LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS)
 
 #######################################################################
 # Standard console Arun
@@ -75,7 +76,7 @@ $(UNITTESTSOBJDIR):
 unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -o $@ $(LINKFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
+	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)

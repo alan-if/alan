@@ -3,11 +3,12 @@
 # Makefile for compiling Alan compiler on MacOSX
 #
 
-COMPILER = gcc
-LINKER = gcc
-
 OS_FLAGS = -mmacosx-version-min=10.5 -arch i386 # -arch ppc
-EXTRA_COMPILER_FLAGS = -Wall -funsigned-char -g
+
+COMPILER = gcc
+EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char
+
+LINKER = gcc
 EXTRA_LINKER_FLAGS = 
 
 release: OS_FLAGS = -arch i386 #-arch ppc
