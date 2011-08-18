@@ -268,8 +268,8 @@ static void depcase(void)
 
 
 /*----------------------------------------------------------------------*/
-static char *booleanValue(Abool bool) {
-    if (bool) return "   TRUE";
+static char *booleanValue(Abool value) {
+    if (value) return "   TRUE";
     else return "  FALSE";
 }
 
@@ -327,8 +327,8 @@ static void traceInstanceTopValue() {
 }
 
 /*----------------------------------------------------------------------*/
-static char *directlyFlag(Abool bool) {
-    if (bool) return "Direct";
+static char *directlyFlag(Abool value) {
+    if (value) return "Direct";
     else return " Trans";
 }
 
