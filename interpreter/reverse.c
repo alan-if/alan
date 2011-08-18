@@ -370,7 +370,7 @@ static void reverseSyntaxTablePreBeta2(Aword adr) {
 }
 
 
-static void reverseSyntaxTable(Aword adr, unsigned char version[])
+static void reverseSyntaxTable(Aword adr, char version[])
 {
   if (alreadyDone(adr)) return;
 
