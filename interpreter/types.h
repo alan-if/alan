@@ -51,7 +51,7 @@
 
 /* TYPES */
 
-typedef int Bool;		/* Boolean values within interpreter */
+#include <stdbool.h>
 
 /* The various tables */
 typedef struct VerbEntry {	/* VERB TABLE */

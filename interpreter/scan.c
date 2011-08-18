@@ -34,13 +34,13 @@
 
 
 /* PUBLIC DATA */
-Bool continued = FALSE;
+bool continued = FALSE;
 
 
 /* PRIVATE DATA */
 static char buf[1000]; /* The input buffer */
 static char isobuf[1000]; /* The input buffer in ISO */
-static Bool eol = TRUE; /* Looking at End of line? Yes, initially */
+static bool eol = TRUE; /* Looking at End of line? Yes, initially */
 static char *token = NULL;
 
 
@@ -90,7 +90,7 @@ static int lookup(char wrd[]) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool isWordCharacter(int ch) {
+static bool isWordCharacter(int ch) {
     return isISOLetter(ch) || isdigit(ch) || ch == '\'' || ch == '-' || ch == '_';
 }
 

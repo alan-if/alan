@@ -35,7 +35,7 @@
 
 
 /* PUBLIC DATA */
-Bool onStatusLine = FALSE; /* To know if where printing the status line or not */
+bool onStatusLine = FALSE; /* To know if where printing the status line or not */
 
 
 

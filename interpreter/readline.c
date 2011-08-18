@@ -238,8 +238,8 @@ static int histp;		/* Points to the history recalled last */
 
 static unsigned char ch;
 static int endOfInput = 0;
-static Bool change;
-static Bool insert = TRUE;
+static bool change;
+static bool insert = TRUE;
 
 
 /*----------------------------------------------------------------------*\
@@ -662,9 +662,9 @@ static void copyToUserBuffer(char *usrbuf, char *buffer) {
 */
 
 /* 4f - length of user buffer should be used */
-Bool readline(char usrbuf[])
+bool readline(char usrbuf[])
 {
-    static Bool readingCommands = FALSE;
+    static bool readingCommands = FALSE;
     static FILE *commandFile;
 
     if (readingCommands) {

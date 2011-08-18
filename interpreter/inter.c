@@ -30,8 +30,8 @@ Interpreter unit for Alan interpreter Arun
 #endif
 
 
-Bool stopAtNextLine = FALSE;
-Bool fail = FALSE;
+bool stopAtNextLine = FALSE;
+bool fail = FALSE;
 
 
 /* PRIVATE DATA */
@@ -296,7 +296,7 @@ static void traceStringTopValue() {
 }
 
 /*----------------------------------------------------------------------*/
-static void traceBooleanTopValue() {
+static void tracebooleanTopValue() {
     if (singleStepOption) {
         if (top(stack)) printf("\t=TRUE\t");
         else printf("\t=FALSE\t");
@@ -361,7 +361,7 @@ static void checkForRecursion(Aaddr adr) {
 }
 
 
-static Bool skipStackDump = FALSE; /* Need to be able to skip it for LINE */
+static bool skipStackDump = FALSE; /* Need to be able to skip it for LINE */
 
 /*======================================================================*/
 void interpret(Aaddr adr)
@@ -457,8 +457,8 @@ void interpret(Aaddr adr)
                     dumpStack(stack);
                 skipStackDump = TRUE;
                 if (line != 0) {
-                    Bool atNext = stopAtNextLine && line != current.sourceLine;
-                    Bool atBreakpoint =  breakpointIndex(file, line) != -1;
+                    bool atNext = stopAtNextLine && line != current.sourceLine;
+                    bool atBreakpoint =  breakpointIndex(file, line) != -1;
                     if (traceSourceOption
                         && (line != current.sourceLine || file != current.sourceFile)) {
                         if (col != 1 || singleStepOption)
@@ -809,7 +809,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("HERE \t%7ld, %s\t\t\t", (long)id, directlyFlag(directly));
                 push(stack, isHere(id, directly));
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_NEARBY: {
@@ -818,7 +818,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("NEARBY \t%7ld, %s\t\t\t", (long)id, directlyFlag(directly));
                 push(stack, isNearby(id, directly));
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_NEAR: {
@@ -828,7 +828,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("NEAR \t%7ld, %7ld, %s\t\t\t", (long)id, (long)other, directlyFlag(directly));
                 push(stack, isNear(id, other, directly));
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_AT: {
@@ -838,7 +838,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("AT \t%7ld, %7ld, %s", (long)instance, (long)other, directlyFlag(directly));
                 push(stack, at(instance, other, directly));
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_IN: {
@@ -848,7 +848,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("IN \t%7ld, %7ld, %s", (long)obj, (long)cnt, directlyFlag(directly));
                 push(stack, in(obj, cnt, directly));
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_INSET: {
@@ -857,7 +857,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("INSET \t%7ld, %7ld", (long)element, (long)set);
                 push(stack, inSet((Set*)set, element));
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_USE: {
@@ -941,7 +941,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("AND \t%s, %s", booleanValue(lh), booleanValue(rh));
                 push(stack, lh && rh);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_OR: {
@@ -950,7 +950,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("OR \t%s, %s", booleanValue(lh), booleanValue(rh));
                 push(stack, lh || rh);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_NE: {
@@ -959,7 +959,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("NE \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, lh != rh);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_EQ: {
@@ -968,7 +968,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("EQ \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, lh == rh);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_STREQ: {
@@ -977,7 +977,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("STREQ \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, streq((char *)lh, (char *)rh));
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_STREXACT: {
@@ -986,7 +986,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("STREXACT \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, strcmp((char *)lh, (char *)rh) == 0);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 free((void *)lh);
                 free((void *)rh);
                 break;
@@ -997,7 +997,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("LE \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, lh <= rh);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_GE: {
@@ -1006,7 +1006,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("GE \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, lh >= rh);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_LT: {
@@ -1015,7 +1015,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("LT \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, lh < rh);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_GT: {
@@ -1024,7 +1024,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("GT \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, lh > rh);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_PLUS: {
@@ -1068,7 +1068,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("NOT \t%s\t\t\t", booleanValue(val));
                 push(stack, !val);
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
             case I_RND: {
@@ -1230,7 +1230,7 @@ void interpret(Aaddr adr)
                 if (singleStepOption)
                     printf("ISA \t%7ld, %7ld\t", (long)lh, (long)rh);
                 push(stack, isA(lh, rh));
-                traceBooleanTopValue();
+                tracebooleanTopValue();
                 break;
             }
 

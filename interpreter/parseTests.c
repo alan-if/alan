@@ -579,28 +579,28 @@ Ensure addPronounForInstanceDontAddSameTwice() {
 }
 
 
-static int mockedReachable(int instance) {
+static bool mockedReachable(int instance) {
     return instance == 1;
 }
 
-static Bool handlerFor00NCalled = FALSE;
-static Bool handlerFor01NCalled = FALSE;
-static Bool handlerFor0MNCalled = FALSE;
-static Bool handlerFor10NCalled = FALSE;
-static Bool handlerFor11NCalled = FALSE;
-static Bool handlerFor1MNCalled = FALSE;
-static Bool handlerForM0NCalled = FALSE;
-static Bool handlerForM1NCalled = FALSE;
-static Bool handlerForMMNCalled = FALSE;
-static Bool handlerFor00YCalled = FALSE;
-static Bool handlerFor01YCalled = FALSE;
-static Bool handlerFor0MYCalled = FALSE;
-static Bool handlerFor10YCalled = FALSE;
-static Bool handlerFor11YCalled = FALSE;
-static Bool handlerFor1MYCalled = FALSE;
-static Bool handlerForM0YCalled = FALSE;
-static Bool handlerForM1YCalled = FALSE;
-static Bool handlerForMMYCalled = FALSE;
+static bool handlerFor00NCalled = FALSE;
+static bool handlerFor01NCalled = FALSE;
+static bool handlerFor0MNCalled = FALSE;
+static bool handlerFor10NCalled = FALSE;
+static bool handlerFor11NCalled = FALSE;
+static bool handlerFor1MNCalled = FALSE;
+static bool handlerForM0NCalled = FALSE;
+static bool handlerForM1NCalled = FALSE;
+static bool handlerForMMNCalled = FALSE;
+static bool handlerFor00YCalled = FALSE;
+static bool handlerFor01YCalled = FALSE;
+static bool handlerFor0MYCalled = FALSE;
+static bool handlerFor10YCalled = FALSE;
+static bool handlerFor11YCalled = FALSE;
+static bool handlerFor1MYCalled = FALSE;
+static bool handlerForM0YCalled = FALSE;
+static bool handlerForM1YCalled = FALSE;
+static bool handlerForMMYCalled = FALSE;
 
 static Parameter *mocked00NHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor00NCalled = TRUE; return allCandidates; }
 static Parameter *mocked01NHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerFor01NCalled = TRUE; return allCandidates; }

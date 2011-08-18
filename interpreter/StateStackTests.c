@@ -99,7 +99,7 @@ Ensure pushClearsPlayerCommand() {
 	assert_equal(NULL, stateStack->playerCommands[stateStack->stackPointer-1]);
 }
 
-static Bool syserrCalled;
+static bool syserrCalled;
 
 static void syserrHandler(char *message) {
 	syserrCalled = TRUE;

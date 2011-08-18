@@ -176,7 +176,7 @@ static void testIncreaseEventQueue()
 
 
 /*----------------------------------------------------------------------*/
-static Bool syserrHandlerCalled;
+static bool syserrHandlerCalled;
 
 jmp_buf syserrLabel;
 

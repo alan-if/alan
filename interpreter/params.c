@@ -20,7 +20,7 @@ Parameter *globalParameters = NULL;
 
 
 /*======================================================================*/
-Bool exists(Parameter *parameters) {
+bool exists(Parameter *parameters) {
     return parameters != NULL && lengthOfParameterArray(parameters) > 0;
 }
 
@@ -124,7 +124,7 @@ int lengthOfParameterArray(Parameter theArray[])
 
 
 /*======================================================================*/
-Bool equalParameterArrays(Parameter parameters1[], Parameter parameters2[])
+bool equalParameterArrays(Parameter parameters1[], Parameter parameters2[])
 {
     int i;
 
@@ -141,7 +141,7 @@ Bool equalParameterArrays(Parameter parameters1[], Parameter parameters2[])
 
 
 /*======================================================================*/
-Bool inParameterArray(Parameter theArray[], Aword theCode)
+bool inParameterArray(Parameter theArray[], Aword theCode)
 {
     int i;
 
@@ -166,6 +166,8 @@ void addParameter(Parameter theArrayPosition[], Parameter *theParameter)
 {
     if (theArrayPosition == NULL) syserr("Adding to null parameter array");
 
+	if (isEndOfArray(&theArrayPosition[0]))
+		clearParameter(&theArrayPosition[0], NULL);
 	copyParameter(&theArrayPosition[0], theParameter);
     setEndOfArray(&theArrayPosition[1]);
 }

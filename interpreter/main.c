@@ -229,8 +229,8 @@ static void checkVersion(ACodeHeader *header)
     */
 	
     char interpreterVersion[4];
-    Bool developmentVersion;
-    Bool alphaVersion;
+    bool developmentVersion;
+    bool alphaVersion;
     int compareLength;
     char gameState = header->version[3];
 	
@@ -684,7 +684,7 @@ static void init(void)
 
 
 /*----------------------------------------------------------------------*/
-static Bool traceActor(int theActor)
+static bool traceActor(int theActor)
 {
     if (sectionTraceOption) {
         printf("\n<ACTOR ");
@@ -794,7 +794,7 @@ static void moveActor(int theActor)
 void run(void)
 {
     int i;
-    Bool playerChangedState;
+    bool playerChangedState;
     static Stack theStack = NULL; /* Needs to survive longjmp() */
 	
     openFiles();

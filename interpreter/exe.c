@@ -87,8 +87,8 @@ void print(Aword fpos, Aword len)
     int ch = 0;
     int i;
     long savfp = 0;		/* Temporary saved text file position */
-    static Bool printFlag = FALSE; /* Printing already? */
-    Bool savedPrintFlag = printFlag;
+    static bool printFlag = FALSE; /* Printing already? */
+    bool savedPrintFlag = printFlag;
     void *info = NULL;		/* Saved decoding info */
 
 
@@ -494,7 +494,7 @@ static char *stripWordsFromStringBackwards(Aint count, char *initialString, char
 
 
 /*======================================================================*/
-Aptr strip(Bool stripFromBeginningNotEnd, int count, Bool stripWordsNotChars, int id, int atr)
+Aptr strip(bool stripFromBeginningNotEnd, int count, bool stripWordsNotChars, int id, int atr)
 {
     char *initialString = (char *)getInstanceAttribute(id, atr);
     char *theStripped;
@@ -517,7 +517,7 @@ Aptr strip(Bool stripFromBeginningNotEnd, int count, Bool stripWordsNotChars, in
 
 
 /*======================================================================*/
-int getContainerMember(int container, int index, Bool directly) {
+int getContainerMember(int container, int index, bool directly) {
     Aint i;
     Aint count = 0;
 
@@ -644,7 +644,7 @@ int randomInteger(int from, int to)
 
 
 /*----------------------------------------------------------------------*/
-Bool btw(int val, int low, int high)
+bool btw(int val, int low, int high)
 {
     if (high > low)
         return low <= val && val <= high;
@@ -655,9 +655,9 @@ Bool btw(int val, int low, int high)
 
 
 /*======================================================================*/
-Bool contains(Aptr string, Aptr substring)
+bool contains(Aptr string, Aptr substring)
 {
-    Bool found;
+    bool found;
 
     strlow((char *)string);
     strlow((char *)substring);
@@ -672,9 +672,9 @@ Bool contains(Aptr string, Aptr substring)
 
 
 /*======================================================================*/
-Bool streq(char a[], char b[])
+bool streq(char a[], char b[])
 {
-    Bool eq;
+    bool eq;
 
     strlow(a);
     strlow(b);

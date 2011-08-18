@@ -16,12 +16,12 @@
 
 /* DATA: */
 
-extern Bool stopAtNextLine;
+extern bool stopAtNextLine;
 extern int currentLine;
 extern int recursionDepth;
 
 /* Global failure flag */
-extern Bool fail;
+extern bool fail;
 
 
 /* FUNCTIONS: */

@@ -27,10 +27,10 @@ static Aword *addressesDone = NULL;
 static int numberDone = 0;
 static int doneSize = 0;
 
-static Bool alreadyDone(Aaddr address)
+static bool alreadyDone(Aaddr address)
 {
   int i;
-  Bool found = FALSE;
+  bool found = FALSE;
 
   if (address == 0) return TRUE;
 

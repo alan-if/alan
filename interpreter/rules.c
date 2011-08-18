@@ -64,7 +64,7 @@ static void traceRuleExecution(int i) {
 /*=======================================================================*/
 void rules(void)
 {
-    Bool change = TRUE;
+    bool change = TRUE;
     int i;
 
     for (i = 1; !isEndOfArray(&ruls[i-1]); i++)

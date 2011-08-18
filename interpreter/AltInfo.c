@@ -72,7 +72,7 @@ static void traceAltInfo(AltInfo *alt) {
 
 
 /*----------------------------------------------------------------------*/
-static void traceVerbCheck(AltInfo *alt, Bool execute)
+static void traceVerbCheck(AltInfo *alt, bool execute)
 {
     if (sectionTraceOption && execute) {
         printf("\n<VERB %d, ", current.verb);
@@ -83,7 +83,7 @@ static void traceVerbCheck(AltInfo *alt, Bool execute)
 
 
 /*======================================================================*/
-Bool checkFailed(AltInfo *altInfo, Bool execute)
+bool checkFailed(AltInfo *altInfo, bool execute)
 {
     if (altInfo->alt != NULL && altInfo->alt->checks != 0) {
         traceVerbCheck(altInfo, execute);
@@ -119,7 +119,7 @@ static void traceVerbExecution(AltInfo *alt)
 
 
 /*======================================================================*/
-Bool executedOk(AltInfo *altInfo)
+bool executedOk(AltInfo *altInfo)
 {
     fail = FALSE;
     if (!altInfo->done && altInfo->alt->action != 0) {
@@ -133,7 +133,7 @@ Bool executedOk(AltInfo *altInfo)
 
 
 /*======================================================================*/
-Bool canBeExecuted(AltInfo *altInfo) {
+bool canBeExecuted(AltInfo *altInfo) {
     return altInfo->alt != NULL && altInfo->alt->action != 0;
 }
 
@@ -234,7 +234,7 @@ static void addAlternativesFromParameter(AltInfoArray altInfos, int verb, Parame
 
 
 /*======================================================================*/
-Bool anyCheckFailed(AltInfoArray altInfo, Bool execute)
+bool anyCheckFailed(AltInfoArray altInfo, bool execute)
 {
     int altIndex;
     
@@ -249,7 +249,7 @@ Bool anyCheckFailed(AltInfoArray altInfo, Bool execute)
 
 
 /*======================================================================*/
-Bool anythingToExecute(AltInfo altInfo[])
+bool anythingToExecute(AltInfo altInfo[])
 {
     int altIndex;
 	
@@ -312,8 +312,8 @@ AltInfo *findAllAlternatives(int verb, Parameter parameters[]) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool possibleWithFinder(int verb, Parameter parameters[], AltInfoFinder *finder) {
-    Bool anything;
+static bool possibleWithFinder(int verb, Parameter parameters[], AltInfoFinder *finder) {
+    bool anything;
     AltInfo *allAlternatives;
 
     allAlternatives = finder(verb, parameters);
@@ -334,7 +334,7 @@ static Bool possibleWithFinder(int verb, Parameter parameters[], AltInfoFinder *
 
 
 /*======================================================================*/
-Bool possible(int verb, Parameter inParameters[], ParameterPosition parameterPositions[])
+bool possible(int verb, Parameter inParameters[], ParameterPosition parameterPositions[])
 {
     // This is a wrapper for possibleWithFinder() which is used in unit tests
     // possible() should be used "for real".

@@ -32,7 +32,7 @@ static void traceExit(int location, int dir, char *what) {
 void go(int location, int dir)
 {
     ExitEntry *theExit;
-    Bool ok;
+    bool ok;
     Aword oldloc;
 
     theExit = (ExitEntry *) pointerTo(instances[location].exits);
@@ -68,7 +68,7 @@ void go(int location, int dir)
 
 
 /*======================================================================*/
-Bool exitto(int to, int from)
+bool exitto(int to, int from)
 {
     ExitEntry *theExit;
 

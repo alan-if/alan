@@ -414,7 +414,7 @@ static void showEvents(void)
 {
     int event, i;
     char str[80];
-    Bool scheduled;
+    bool scheduled;
 
     output("Events:");
     for (event = 1; event <= header->eventMax; event++) {
@@ -527,7 +527,7 @@ static int findSourceLineIndex(SourceLineEntry *entry, int file, int line) {
 /*----------------------------------------------------------------------*/
 static void listBreakpoints() {
     int i;
-    Bool found = FALSE;
+    bool found = FALSE;
 
     for (i = 0; i < BREAKPOINTMAX; i++)
         if (breakpoint[i].line != 0) {
@@ -542,7 +542,7 @@ static void listBreakpoints() {
 
 
 /*======================================================================*/
-Bool breakpointIndex(int file, int line) {
+bool breakpointIndex(int file, int line) {
     int i;
 
     for (i = 0; i < BREAKPOINTMAX; i++)
@@ -607,7 +607,7 @@ static void deleteBreakpoint(int line, int file) {
 
 
 
-static Bool trc, stp, cap, psh, stk;
+static bool trc, stp, cap, psh, stk;
 static int loc;
 
 /*======================================================================*/
@@ -807,7 +807,7 @@ static void handleBreakCommand(int fileNumber) {
 
 
 /*----------------------------------------------------------------------*/
-static void handleDeleteCommand(Bool calledFromBreakpoint, int line, int fileNumber) {
+static void handleDeleteCommand(bool calledFromBreakpoint, int line, int fileNumber) {
 	char *parameter = strtok(NULL, "");
 	if (parameter == NULL) {
 		if (calledFromBreakpoint)
@@ -820,7 +820,7 @@ static void handleDeleteCommand(Bool calledFromBreakpoint, int line, int fileNum
 
 
 /*----------------------------------------------------------------------*/
-static void handleNextCommand(Bool calledFromBreakpoint) {
+static void handleNextCommand(bool calledFromBreakpoint) {
 	stopAtNextLine = TRUE;
 	debugOption = FALSE;
 	if (!calledFromBreakpoint)
@@ -891,7 +891,7 @@ static void handleInstancesCommand() {
 
 
 /*======================================================================*/
-void debug(Bool calledFromBreakpoint, int line, int fileNumber)
+void debug(bool calledFromBreakpoint, int line, int fileNumber)
 {
     saveInfo();
 

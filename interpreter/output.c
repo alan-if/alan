@@ -18,10 +18,10 @@
 #endif
 
 /* PUBLIC DATA */
-Bool anyOutput = FALSE;
-Bool capitalize = FALSE;
-Bool needSpace = FALSE;
-Bool skipSpace = FALSE;
+bool anyOutput = FALSE;
+bool capitalize = FALSE;
+bool needSpace = FALSE;
+bool skipSpace = FALSE;
 
 /* Screen formatting info */
 int col, lin;
@@ -382,13 +382,13 @@ static char *printSymbol(char str[]) /* IN - The string starting with '$' */
 
 
 /*----------------------------------------------------------------------*/
-static Bool inhibitSpace(char *str) {
+static bool inhibitSpace(char *str) {
     return str[0] == '$' && str[1] == '$';
 }
 
 
 /*----------------------------------------------------------------------*/
-static Bool isSpaceEquivalent(char str[]) {
+static bool isSpaceEquivalent(char str[]) {
     if (str[0] == ' ')
         return TRUE;
     else
@@ -400,10 +400,10 @@ static Bool isSpaceEquivalent(char str[]) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool punctuationNext(char *str) {
+static bool punctuationNext(char *str) {
     char *punctuation = strchr(".,!?", str[0]);
-    Bool end = str[1] == '\0';
-    Bool space = isSpaceEquivalent(&str[1]);
+    bool end = str[1] == '\0';
+    bool space = isSpaceEquivalent(&str[1]);
     return (punctuation != NULL && (end || space));
 }
 
@@ -463,7 +463,7 @@ void output(char original[])
 
 
 /*======================================================================*/
-Bool confirm(MsgKind msgno)
+bool confirm(MsgKind msgno)
 {
     char buf[80];
 

@@ -87,7 +87,7 @@ void initStateStack() {
 
 
 /*======================================================================*/
-Bool anySavedState(void) {
+bool anySavedState(void) {
   return !stateStackIsEmpty(stateStack);
 }
 
