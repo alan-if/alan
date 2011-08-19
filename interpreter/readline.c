@@ -56,10 +56,10 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
 */
 
 /* TODO - length of user buffer should be used */
-Bool readline(char buffer[])
+bool readline(char buffer[])
 {
     event_t event;
-    static Bool readingCommands = FALSE;
+    static bool readingCommands = FALSE;
     static frefid_t commandFileRef;
     static strid_t commandFile;
 #ifdef HAVE_WINGLK
