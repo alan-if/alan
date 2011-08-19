@@ -174,6 +174,13 @@ static Parameter *givenAParameterArrayWithOneParameter(Parameter *theParameter) 
 	return theArray;
 }
 
+static Parameter *givenAParameterArrayWithTwoParameters(Parameter *theFirstParameter, Parameter *theSecondParameter) {
+	Parameter *theArray = allocateParameterArray(5);
+	addParameter(theArray, theFirstParameter);
+	addParameter(&theArray[1], theSecondParameter);
+	return theArray;
+}
+
 
 /*----------------------------------------------------------------------*/
 Ensure intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty(void) {
@@ -201,14 +208,15 @@ Ensure intersectParameterArraysReturnsTheSameIfBothAreEqual(void) {
 
 /*----------------------------------------------------------------------*/
 Ensure intersectParameterArraysReturnsTheCommonParameter(void) {
-	Parameter *theParameter = newParameter(1);
+	Parameter *aParameter = newParameter(1);
 	Parameter *anotherParameter = newParameter(2);
-	Parameter *first = givenAParameterArrayWithOneParameter(theParameter);
-	Parameter *second = givenAParameterArrayWithOneParameter(anotherParameter);
+	Parameter *aThirdParameter = newParameter(3);
+	Parameter *first = givenAParameterArrayWithTwoParameters(aParameter, anotherParameter);
+	Parameter *second = givenAParameterArrayWithTwoParameters(anotherParameter, aThirdParameter);
 
 	intersectParameterArrays(first, second);
 
-	assert_true(equalParameterArrays(first, second));
+	assert_equal(lengthOfParameterArray(first), 1);
 }
 
 
@@ -232,6 +240,6 @@ TestSuite *paramsTests(void)
 	add_test(suite, intersectParameterArraysReturnsAnEmptyResultForTwoEmpty);
 	add_test(suite, intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty);
 	add_test(suite, intersectParameterArraysReturnsTheSameIfBothAreEqual);
-
+	add_test(suite, intersectParameterArraysReturnsTheCommonParameter);
     return suite;
 }

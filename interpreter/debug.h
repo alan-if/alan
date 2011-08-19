@@ -27,7 +27,7 @@ extern Breakpoint breakpoint[];
 /* Functions: */
 extern void saveInfo(void);
 extern void restoreInfo(void);
-extern bool breakpointIndex(int file, int line);
+extern int breakpointIndex(int file, int line);
 extern char *sourceFileName(int file);
 extern char *readSourceLine(int file, int line);
 extern void showSourceLine(int fileNumber, int line);

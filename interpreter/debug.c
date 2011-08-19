@@ -542,13 +542,13 @@ static void listBreakpoints() {
 
 
 /*======================================================================*/
-bool breakpointIndex(int file, int line) {
+int breakpointIndex(int file, int line) {
     int i;
 
     for (i = 0; i < BREAKPOINTMAX; i++)
         if (breakpoint[i].line == line && breakpoint[i].file == file)
             return i;
-    return(-1);
+    return -1;
 }
 
 
