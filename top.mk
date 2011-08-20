@@ -22,9 +22,9 @@ unit:
 .PHONY: test
 test:
 	@java -jar bin/jregr.jar -bin bin -dir regression $(TESTOUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/restore $(TESTOUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir regression/versions $(TESTOUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir regression/tracing $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -dir regression/restore $(TESTOUTPUT)		# Uses sh not the executables
 	@java -jar bin/jregr.jar -bin bin -dir compiler/testing $(TESTOUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir compiler/testing/positions $(TESTOUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir library/testing $(TESTOUTPUT)
