@@ -109,8 +109,8 @@ static char *gettoken(char *buf) {
     if (isISOLetter(*marker))
         while (*marker && isWordCharacter(*marker))
             marker++;
-    else if (isdigit(*marker))
-        while (isdigit(*marker))
+    else if (isdigit((int)*marker))
+        while (isdigit((int)*marker))
             marker++;
     else if (*marker == '\"') {
         marker++;
@@ -220,8 +220,8 @@ void scan(void) {
             w = lookup(token);
             if (!isNoise(w))
                 playerWords[i++].code = w;
-        } else if (isdigit(token[0]) || token[0] == '\"') {
-            if (isdigit(token[0])) {
+        } else if (isdigit((int)token[0]) || token[0] == '\"') {
+            if (isdigit((int)token[0])) {
                 createIntegerLiteral(number(token));
             } else {
                 char *unquotedString = strdup(token);

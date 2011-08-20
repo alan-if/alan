@@ -1,3 +1,8 @@
+.PHONY: clean
+clean:
+	cd interpreter; make clean
+	cd compiler; make clean
+
 .PHONY: build
 build:
 	-cd compiler; $(MAKE) -k build

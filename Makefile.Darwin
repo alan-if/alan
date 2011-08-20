@@ -22,8 +22,3 @@ include top.mk
 alan.readme.macosx: alan arun
 	@echo "alan.readme.macosx is not updated"
 	exit 1
-
-.PHONY: clean
-clean:
-	cd interpreter; make clean
-	cd compiler; make clean

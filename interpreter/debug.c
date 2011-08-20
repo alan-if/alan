@@ -791,7 +791,7 @@ static void toggleSectionTrace() {
 /*----------------------------------------------------------------------*/
 static void handleBreakCommand(int fileNumber) {
 	char *parameter = strtok(NULL, ":");
-	if (parameter != NULL && isalpha(parameter[0])) {
+	if (parameter != NULL && isalpha((int)parameter[0])) {
 		fileNumber = sourceFileNumber(parameter);
 		if (fileNumber == -1) {
 			printf("No such file: '%s'\n", parameter);

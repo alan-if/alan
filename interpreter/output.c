@@ -312,7 +312,7 @@ static char *printSymbol(char str[]) /* IN - The string starting with '$' */
         case '-':
         case '!':
             space();
-            if (isdigit(str[2])) {
+            if (isdigit((int)str[2])) {
                 int form;
                 switch (str[1]) {
                 case '+': form = SAY_DEFINITE; break;

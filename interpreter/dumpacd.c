@@ -62,9 +62,9 @@ static void indent(int level)
     printf("|   ");
 }
 
-static char *dumpBoolean(Bool bool)
+static char *dumpBoolean(bool value)
 {
-  return bool?"true":"false";
+  return value?"true":"false";
 }
 
 
