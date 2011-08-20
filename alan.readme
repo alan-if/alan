@@ -1,14 +1,14 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2010-10-03
+			      2011-08-21
 
 
 THE NEWS IN SHORT:
 
-This is the ninth, and definitely, yes I'm positive, the last, alpha
-version (v3.0alpha9) of Alan V3. Alan v3 features many new
-enhancements especially object orientation.
+This is the first public (but actually second) beta version
+(v3.0beta2) of Alan V3. Alan v3 features many new enhancements
+especially object orientation.
 
 This package contains at least the compiler, the interpreter. It might
 also include the manual, the source for the Saviour game, a converter
@@ -33,12 +33,11 @@ interprets such a form to allow playing of the game.
 
 The Alan System is register-ware. To use Alan for authoring and
 distributing you games all you need to do is to register. Registration
-can be done with a simple email to thomas@junovagen.se.
+can be done with a simple email to thomas@alanif.se.
 
-This is an alpha test version Alan V3. Alan V3 is now feature complete
-and will be officially released when enough alpha and beta test
-experience show that it is mature enough. You can help! Report any
-problem and suggestions. You can visit
+Alan V3 is now feature complete and will be officially released when
+enough beta test experience show that it is mature enough. You can
+help! Report any problem and suggestions. You can visit
 
 	http://wwww.alanif.se
 
@@ -53,20 +52,20 @@ you should *really* look at V3. Alan may also be found at
 and its mirrors.
 
 For complete copying conditions refer to the file COPYING in the
-distribution or appendix J in the manual.
+distribution or corresponding appendix in the manual.
 
 If you have any problems don't hesitate to contact the author at the
 following email address:
 
-	thomas@junovagen.se
+	thomas@alanif.se
 
-All communication is welcome! You may also wish to visit the
-Alan Home Pages at
+Or join the Alan mailing list, which you can find at the Alan Home
+Pages
 
 	http://www.alanif.se
 
-If you haven't already, join the more than 1300 people
-registered. Happy Authoring!
+All communication is welcome! If you haven't already, join the more
+than 1300 people registered. Happy Authoring!
 
 Thomas Nilsson
 thomas@alanif.se

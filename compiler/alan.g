@@ -1,4 +1,4 @@
-Grammar alan;
+grammar alan;
 
 WHITESPACE  : (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;} ;
 

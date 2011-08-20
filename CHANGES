@@ -1,4 +1,17 @@
-Changes in V3.alpha9:
+Changes in V3.0beta2:
+- FEATURE: syntax may now start with a parameter (an instance, like an actor name)
+- FEATURE: TRANSCRIPT statement in language
+- FEATURE: PROMPT section in language to control player input prompt
+- FEATURE: new debugger command language
+- FEATURE: tracing can now use symbolic parameter names
+- BUGFIX: if a dollar sign was followed by a character not defined as a printing symbol, that character was lost
+- BUGFIX: sometimes events would not be restored correctly from a save file
+- BUGFIX: positioning of error pointers in -cc mode was not always correct causing AlanIDE to point to the wrong place
+- BUGFIX: sometimes WinArun and Gargoyle interpreters hung on <more> prompt
+- BUGFIX: undo after quit did sometimes crash
+- Updated documentation
+
+Changes in V3.0alpha9:
 - Clearified licensing, read COPYING
 - Upgraded WinGLK to 1.39
 - BUGFIX: WinArun did follows preferences for window colouring and fonts
