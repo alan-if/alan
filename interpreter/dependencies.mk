@@ -26,11 +26,11 @@ parseTests.o: parseTests.c parse.c parse.h types.h sysdep.h acode.h \
   params.h AltInfo.h ParameterPosition.h inter.h stack.h current.h act.h \
   term.h lists.h options.h syserr.h Location.h instance.h set.h memory.h \
   output.h dictionary.h syntax.h word.h msg.h literal.h \
-  parameterPosition.h scan.h
+  ParameterPosition.h scan.h
 paramsTests.o: paramsTests.c params.c params.h types.h sysdep.h acode.h \
   lists.h memory.h literal.h ParameterPosition.h
-parameterPositionTests.o: parameterPositionTests.c parameterPosition.c \
-  parameterPosition.h acode.h types.h sysdep.h params.h memory.h lists.h
+ParameterPositionTests.o: ParameterPositionTests.c ParameterPosition.c \
+  ParameterPosition.h acode.h types.h sysdep.h params.h memory.h lists.h
 reverseTests.o: reverseTests.c reverse.c reverse.h types.h sysdep.h \
   acode.h lists.h checkentry.h rules.h msg.h params.h
 saveTests.o: saveTests.c save.c save.h current.h types.h sysdep.h acode.h \
@@ -122,10 +122,10 @@ main.o: main.c main.h types.h sysdep.h acode.h state.h lists.h syserr.h \
 parse.o: parse.c parse.h types.h sysdep.h acode.h params.h AltInfo.h \
   ParameterPosition.h inter.h stack.h current.h act.h term.h lists.h \
   options.h syserr.h Location.h instance.h set.h memory.h output.h \
-  dictionary.h syntax.h word.h msg.h literal.h parameterPosition.h scan.h
+  dictionary.h syntax.h word.h msg.h literal.h ParameterPosition.h scan.h
 params.o: params.c params.h types.h sysdep.h acode.h lists.h memory.h \
   literal.h ParameterPosition.h
-parameterPosition.o: parameterPosition.c parameterPosition.h acode.h \
+ParameterPosition.o: ParameterPosition.c ParameterPosition.h acode.h \
   types.h sysdep.h params.h memory.h lists.h
 reverse.o: reverse.c reverse.h types.h sysdep.h acode.h lists.h \
   checkentry.h rules.h msg.h params.h

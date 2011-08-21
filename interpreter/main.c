@@ -323,11 +323,10 @@ static void setupHeader(ACodeHeader tmphdr) {
     if (!isPreBeta2(tmphdr.version))
         header = (ACodeHeader *) pointerTo(0);
     else {
+        header = duplicate(&memory[0], sizeof(ACodeHeader));
         if (isPreAlpha5(tmphdr.version)) {
-            header = duplicate(&memory[0], sizeof(Pre3_0alpha5Header));
-            header->ifids = 0;
-        } else
-            header = duplicate(&memory[0], sizeof(Pre3_0beta2Header));
+	    header->ifids = 0;
+        }
         header->prompt = 0;
     }        
 }
