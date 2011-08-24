@@ -111,26 +111,29 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS) arun.res
 
 #######################################################################
 # Settings for Gargoyle GLK variant (experimental!)
-GARGLKROOT = $(GLKLIBROOT)/Gargoyle-2006-09-17/garglk
-GARGLKDEFS = -DHAVE_GARGLK
-GARGLKINCLUDE = -I$(GARGLKROOT)
-GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglk -lgarglkmain -lpng12 `pkg-config --libs gtk+` -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a
+#GARGLKROOT = $(GLKLIBROOT)/Gargoyle-2006-09-17/garglk
+#GARGLKDEFS = -DHAVE_GARGLK
+#GARGLKINCLUDE = -I$(GARGLKROOT)
+#GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglk -lgarglkmain -lpng12 `pkg-config --libs gtk+` -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a
 
-gararun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(GARGLKINCLUDE) $(GARGLKDEFS)
-gararun: LIBS = $(GARGLKLIB)
+#gararun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(GARGLKINCLUDE) $(GARGLKDEFS)
+#gararun: LIBS = $(GARGLKLIB)
 
-GARARUNOBJDIR = .gararun
-GARARUNOBJECTS = $(addprefix $(GARARUNOBJDIR)/,${GARARUNSRCS:.c=.o}) $(GARARUNOBJDIR)/alan.version.o
--include $(GARARUNOBJECTS:.o=.d)
-$(GARARUNOBJECTS): $(GARARUNOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+#GARARUNOBJDIR = .gararun
+#GARARUNOBJECTS = $(addprefix $(GARARUNOBJDIR)/,${GARARUNSRCS:.c=.o}) $(GARARUNOBJDIR)/alan.version.o
+#-include $(GARARUNOBJECTS:.o=.d)
+#$(GARARUNOBJECTS): $(GARARUNOBJDIR)/%.o: %.c
+#	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
-$(GARARUNOBJDIR):
-	@mkdir $(GARARUNOBJDIR)
+#$(GARARUNOBJDIR):
+#	@mkdir $(GARARUNOBJDIR)
 
-gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
-	$(LINK) -o $@ $(LINKFLAGS) $(GARARUNOBJECTS) arun.res $(LIBS)
-	cp $@ ../bin/
+#gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
+#	$(LINK) -o $@ $(LINKFLAGS) $(GARARUNOBJECTS) arun.res $(LIBS)
+#	cp $@ ../bin/
+gararun:
+        cd ../../garglk-current-alan3
+        jam -sOS=MINGW alan3
 
 
 #######################################################################

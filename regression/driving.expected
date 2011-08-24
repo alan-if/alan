@@ -1,0 +1,50 @@
+########## driving ##########
+
+        No warnings or errors detected.
+        3 informational message(s).
+
+
+
+Garage
+There is a little red sporty ferrari here.
+
+> enter car
+Inside the Ferrari
+This sporty little red vehicle can really take you places...
+
+> l
+Inside the Ferrari
+This sporty little red vehicle can really take you places...
+
+> park
+You are not driving it!
+
+> drive
+You drive out from your garage and approach a large parking lot.
+
+> z
+... You drive out from the parking lot and approach your own garage.
+
+> l
+Inside the Ferrari
+This sporty little red vehicle can really take you places... You drive
+out from your garage and approach a large parking lot.
+
+> out
+I think you should stop the car before getting out... You drive out from
+the parking lot and approach your own garage.
+
+> park
+You slow to a stop and turn the engine off.
+
+> out
+Garage
+There is a little red sporty ferrari here.
+
+> l
+Garage
+There is a little red sporty ferrari here.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
