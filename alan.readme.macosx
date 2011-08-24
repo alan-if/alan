@@ -12,5 +12,6 @@ A recommended GUI to create new games is the AlanIDE, available from
 There you also can find documentation, an extensive standard library
 as well as some sample code.
 
-The port was made on a MacOSX 10.6 Intel Macbook by Thomas Nilsson (thomas@alanif.se).
+The port was made on a MacOSX 10.6 Intel Macbook Pro by Thomas Nilsson
+(thomas@alanif.se).
 

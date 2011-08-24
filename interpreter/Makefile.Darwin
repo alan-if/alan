@@ -52,7 +52,7 @@ default all: unit arun
 
 ##################################################################
 .PHONY: release
-release: OS_FLAGS = -arch i386 #-arch ppc
+release: OS_FLAGS = -arch i386 -arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
 release: DEPENDENCY = 
 release: all
@@ -67,9 +67,9 @@ release: all
 # libgarglk.dylib need to be built to binary form before making it from here.
 # It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
 # will be available as $(GARGOYLE_DIR)/build/<platform>.<buildtype>.release/alan3/alan3
-GARGOYLE_DIR=../../gargoyle-alan
+GARGOYLE_DIR=../../garglk-current-alan3
 gararun:
-		cd $(GARGOYLE_DIR); jam alan3
+		cd $(GARGOYLE_DIR); jam garglk alan3
 
 
 # Extra targets on Darwin (maybe later...)
