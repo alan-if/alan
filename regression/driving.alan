@@ -36,7 +36,11 @@ The inside_car Isa location Name 'Inside the Ferrari'
 			Else "You are already driving it!"
 		Does
 			Make car running.
-			Schedule drive1 After 0.
+                        If car At garage Then
+                        	Schedule drive1 After 0.
+                        Else
+                                Schedule drive2 After 0.
+                        End If.
 	End Verb drive.
 
 	Verb park

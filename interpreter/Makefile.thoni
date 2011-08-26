@@ -132,8 +132,8 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS) arun.res
 #	$(LINK) -o $@ $(LINKFLAGS) $(GARARUNOBJECTS) arun.res $(LIBS)
 #	cp $@ ../bin/
 gararun:
-        cd ../../garglk-current-alan3
-        jam -sOS=MINGW alan3
+	cd ../../garglk-current-alan3
+	jam -sOS=MINGW alan3
 
 
 #######################################################################
