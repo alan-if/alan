@@ -1,6 +1,6 @@
 #!/bin/bash
-# Continuously monitor the arun program for change
-# then rerun jregr in current directory
+# Continuously monitor a file for changes
+# then run a command in current directory
 if [ $# -lt 2 ] ; then
   echo "Usage: `basename $0` <file> <command>"
   echo "where"

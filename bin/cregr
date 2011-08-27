@@ -1,0 +1,25 @@
+#!/bin/bash
+# Continuously monitor an Alan regression case file for changes
+# then run jregr on that case and display the output
+if [ $# -ne 1 ] ; then
+  echo "Usage: `basename $0` <file>"
+  echo "where"
+  echo "    <case> : the case file to monitor"
+  exit
+fi
+case="$1"
+file=$case.alan
+output=$case.output
+shift
+commands="$*"
+d0=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
+while true; do 
+  d1=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
+  while [ $d0 -eq $d1 ] ; do
+    sleep 5
+    d1=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
+  done
+  echo -ne '\033c'
+  jregr $case ; cat $output
+  d0=$d1
+done
