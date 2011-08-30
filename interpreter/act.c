@@ -33,7 +33,8 @@ static void executeCommand(int verb, Parameter parameters[])
     /* Now perform actions! First try any BEFORE or ONLY from inside out */
     for (altIndex = lastAltInfoIndex(altInfos); altIndex >= 0; altIndex--) {
         if (altInfos[altIndex].alt != 0) // TODO Can this ever be NULL? Why?
-            if (altInfos[altIndex].alt->qual == (Aword)Q_BEFORE || altInfos[altIndex].alt->qual == (Aword)Q_ONLY) {
+            if (altInfos[altIndex].alt->qual == (Aword)Q_BEFORE
+                || altInfos[altIndex].alt->qual == (Aword)Q_ONLY) {
                 if (!executedOk(&altInfos[altIndex]))
                     abortPlayerCommand();
                 if (altInfos[altIndex].alt->qual == (Aword)Q_ONLY)
