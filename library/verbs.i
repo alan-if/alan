@@ -6354,6 +6354,19 @@ ADD TO EVERY OBJECT
 					END IF.
 					"something you can take."
 			END IF.
+	AND obj NOT DIRECTLY IN hero			
+			-- i.e. the object to be taken is not carried by the hero already						
+		ELSE "You already have" SAY THE obj. "."
+	AND obj NOT DIRECTLY IN worn		
+			-- i.e. the object to be taken is a piece of clothing that the player character is wearing;
+			 -- here, this verb works in practise like 'take off'. 
+		ELSE "You take off" SAY THE obj. "and carry" 
+				IF obj IS NOT plural
+					THEN "it"
+					ELSE "them"
+				END IF.		
+				"in your hands."
+				LOCATE obj IN hero.
     	AND obj IS movable
 		ELSE SAY THE obj. 
 			IF obj IS NOT plural
@@ -6374,24 +6387,8 @@ ADD TO EVERY OBJECT
     	AND weight Of obj <=50					
       	ELSE SAY THE obj. "is too heavy to lift."
     	DOES
-		IF obj DIRECTLY IN hero			
-			-- i.e. the object to be taken is carried by the hero already						
-			THEN "You already have" SAY THE obj. "."  	
-		ELSIF obj DIRECTLY IN worn		
-			-- i.e. the object to be taken is a piece of clothing that the player character is wearing;
-			 -- here, this verb works in practise like 'take off'. 
-			THEN "You take off" SAY THE obj. "and carry" 
-				IF obj IS NOT plural
-					THEN "it"
-					ELSE "them"
-				END IF.		
-				"in your hands."
-				LOCATE obj IN hero.		
-		ELSE "Taken."				
-			-- this covers also cases where the object to be taken is in another container,
-			 -- such as a wallet that is in a jacket the hero is carrying or wearing.
-			LOCATE obj IN hero.		
-		END IF.			
+		 "Taken."				
+		  LOCATE obj IN hero.					
   END VERB.
 END ADD TO.
 

@@ -266,6 +266,10 @@ END THE.
 THE dog ISA ACTOR
 	AT sunny_room
 	DESCRIPTION "$pA dog is here, looking at you with faithful eyes." 
+	CONTAINER
+		HEADER "The dog is carrying"
+		ELSE "The dog is not carrying anything."
+		
 	
 	VERB examine
 		DOES ONLY "Give the blue ball to the dog and he will follow you."
