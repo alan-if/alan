@@ -39,6 +39,15 @@ bool fail = FALSE;
 static int pc;
 static Stack stack = NULL;
 
+static void (*interpreterMock)(Aaddr adr) = NULL;
+
+
+/*======================================================================*/
+void setInterpreterMock(void (*mock)(Aaddr adr)) {
+    interpreterMock = mock;
+}
+
+
 /*======================================================================*/
 void setInterpreterStack(Stack theStack)
 {
@@ -368,6 +377,12 @@ void interpret(Aaddr adr)
 {
     Aaddr oldpc;
     Aword i;
+
+    /* Check for mock implementation */
+    if (interpreterMock != NULL) {
+        interpreterMock(adr);
+        return;
+    }
 
     /* Sanity checks: */
     if (adr == 0) syserr("Interpreting at address 0.");

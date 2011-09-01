@@ -17,6 +17,7 @@ UNITTESTED = \
 	params.c \
 	ParameterPosition.c \
 	reverse.c \
+	rules.c \
 	save.c \
 	set.c \
 	stack.c \
@@ -44,7 +45,6 @@ OTHERSRCS = \
 	msg.c \
 	options.c \
 	readline.c \
-	rules.c \
 	scan.c \
 	score.c \
 	syntax.c \

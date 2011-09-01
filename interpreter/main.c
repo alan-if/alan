@@ -126,6 +126,8 @@ static void runPendingEvents(void)
             printf("):>\n");
         }
         interpret(events[eventQueue[eventQueueTop].event].code);
+        if (isPreBeta2(header->version))
+            evaluateRules();
     }
 	
     for (i = 0; i<eventQueueTop; i++)
@@ -465,9 +467,9 @@ static void initStaticData(void)
 	
     stxs = (SyntaxEntry *) pointerTo(header->syntaxTableAddress);
     vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
-    ruls = (RuleEntry *) pointerTo(header->ruleTableAddress);
     msgs = (MessageEntry *) pointerTo(header->messageTableAddress);
-	
+    initRules();
+
     if (header->pack)
         freq = (Aword *) pointerTo(header->freq);
 }
@@ -600,7 +602,7 @@ static void start(void)
 
     if (where(HERO, FALSE) == startloc)
         look();
-    rules();
+    evaluateRules();
 }
 
 
@@ -816,6 +818,7 @@ void run(void)
             debug(FALSE, 0, 0);
 		
         runPendingEvents();
+
         current.tick++;
 		
         /* Return here if error during execution */
@@ -823,7 +826,6 @@ void run(void)
         case NO_JUMP_RETURN:
             break;
         case ERROR_RETURN:
-            //printf("ERROR_RETURN\n");
             forgetGameState();
             forceNewPlayerInput();
             break;
@@ -853,11 +855,11 @@ void run(void)
         else
             forgetGameState();
 		
-        rules();
+        evaluateRules();
         for (i = 1; i <= header->instanceMax; i++)
             if (i != header->theHero && isActor(i)) {
                 moveActor(i);
-                rules();
+                evaluateRules();
             }
     }
 #ifdef SMARTALLOC

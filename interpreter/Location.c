@@ -58,8 +58,9 @@ void go(int location, int dir)
                             traceExit(location, dir, "Moving");
 			locate(HERO, theExit->target);
 		    }
-		}
-		return;
+                    return;
+		} else
+                    error(NO_MSG);
 	    }
 	    theExit++;
 	}

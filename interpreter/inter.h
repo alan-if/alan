@@ -26,6 +26,7 @@ extern bool fail;
 
 /* FUNCTIONS: */
 
+extern void setInterpreterMock(void (*mock)(Aaddr adr));
 extern void setInterpreterStack(Stack stack);
 extern void interpret(Aaddr adr);
 extern Aword evaluate(Aaddr adr);

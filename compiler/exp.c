@@ -894,12 +894,14 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
   switch (exp->fields.wht.wht->kind) {
 
   case WHAT_LOCATION:
+    if (context->kind == RULE_CONTEXT)
+      lmLog(&exp->fields.wht.wht->srcp, 412, sevERR, "");
     exp->type = INSTANCE_TYPE;
     exp->class = locationSymbol;
     break;
 
   case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT)
+    if (context->kind == EVENT_CONTEXT || context->kind == RULE_CONTEXT)
       lmLog(&exp->fields.wht.wht->srcp, 412, sevERR, "");
     exp->type = INSTANCE_TYPE;
     exp->class = actorSymbol;
