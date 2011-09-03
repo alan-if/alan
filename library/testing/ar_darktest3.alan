@@ -1,0 +1,74 @@
+IMPORT '../library.i'.
+
+
+THE lighted_location1 ISA LOCATION NAME 'First Lighted Location'
+    DESCRIPTION "East to Second Lighted Location."
+    EXIT east TO lighted_location2.
+END THE.
+
+THE lighted_location2 ISA LOCATION NAME 'Second Lighted Location'
+	DESCRIPTION "East to Dark Location, west to First Lighted Location."
+	EXIT east TO dark_location1.
+	EXIT west TO lighted_location1.
+END THE.
+
+THE dark_location1 ISA DARK_LOCATION Name 'Dark Location'
+	DESCRIPTION "This is the lighted description of this location.
+			West to Second Lighted Location."
+	EXIT west TO lighted_location2.
+END THE.
+
+THE ball ISA OBJECT AT dark_location1.
+END THE.
+
+THE boy1 ISA ACTOR AT lighted_location1
+END THE.
+
+THE boy2 ISA ACTOR AT lighted_location2
+END THE.
+
+THE flashlight ISA LIGHTSOURCE IN boy1
+	IS NOT natural.
+	IS NOT lit.
+END THE.
+
+THE match ISA LIGHTSOURCE IN boy2
+	IS natural.
+	IS lit.
+END THE.
+
+ 
+
+SYNTAX call = call (act)!
+   WHERE act ISA ACTOR
+	ELSE "That's not something you can call."
+
+
+SYNTAX send_act = send (act)
+	WHERE act ISA ACTOR
+		ELSE "That's not something you can send."
+
+
+ADD TO EVERY ACTOR
+VERB send_act DOES LOCATE act AT dark_location1.
+END VERB.
+END ADD TO.
+
+ADD TO EVERY ACTOR
+VERB call DOES LOCATE act AT hero. 
+    SAY THE act. "appears."
+END VERB.
+END ADD TO.
+
+
+START AT lighted_location1.
+
+
+"First Lighted Location and Second Lighted Location are lighted. Dark
+Location is dark unless someone brings a lightsource there. You don't
+have a lightsource of your own but you can take a lightsource from
+someone or give it to him. You can turn the flashlight on and off and
+you can light or extinguish the match (even if there is no matchbox
+coded).  You can call somebody to your location by ""call
+(actor)"". You can send someone to the dark location by typing ""send
+(actor)"". When Dark Location is lighted you will find a ball there."

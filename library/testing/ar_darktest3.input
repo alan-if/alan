@@ -1,0 +1,38 @@
+examine boy1
+examine flashlight
+east
+east
+call boy1
+look
+turn on flashlight
+look
+turn off flashlight
+look
+west
+east
+call boy2
+look
+examine boy2
+examine match
+extinguish match
+look
+west
+west
+call boy1 then call boy2
+east
+east
+west
+west
+take flashlight
+turn it on
+east
+east
+turn off flashlight
+look
+west
+west
+send boy1
+send boy2
+east
+east
+quit
