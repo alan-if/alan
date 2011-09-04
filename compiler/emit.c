@@ -16,12 +16,7 @@
 #	include <sys/timeb.h>
 #endif
 
-#ifdef __mac__
-#	include "Files.h"
-#	include "Strings.h"
-#endif
-
-#	include "alan.h"
+#include "alan.h"
 
 
 #include "acode.h"

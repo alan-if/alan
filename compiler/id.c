@@ -138,7 +138,7 @@ void generateId(IdNode *id)
   } else if (id->code == 0)
     SYSERR("Generating a symbol-less id with code == 0");
   else
-    emit(id->code);
+    emitConstant(id->code);
 }
 
 

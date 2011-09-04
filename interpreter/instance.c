@@ -138,9 +138,12 @@ Aptr getInstanceAttribute(int instance, int attribute)
     if (isLiteral(instance))
         return literalAttribute(instance, attribute);
     else {
-        if (instance > 0 && instance <= header->instanceMax)
-            return getAttribute(admin[instance].attributes, attribute);
-        else {
+        if (instance > 0 && instance <= header->instanceMax) {
+			if (attribute == -1)
+				return locationOf(instance);
+			else
+				return getAttribute(admin[instance].attributes, attribute);
+		} else {
             sprintf(str, "Can't ATTRIBUTE item (%d).", instance);
             syserr(str);
         }

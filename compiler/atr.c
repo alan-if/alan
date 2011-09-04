@@ -178,7 +178,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
 }
 
 
-static IdNode id = {{0,0,0}, "location", 0};
+static IdNode id = {{0,0,0}, "location", NULL, -1};
 static Attribute locationAttributeFake = {{0,0,0}, INSTANCE_TYPE, &id, TRUE};
 /*======================================================================*/
 Attribute *findAttribute(List *attributes, IdNode *id)
