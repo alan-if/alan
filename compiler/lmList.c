@@ -215,6 +215,7 @@ static lmMsgs msg[] = {
     { "433   ", "Initialization of attribute must be a constant value." },
     { "434   ", "%1 can only be applied to instance valued expressions." },
     { "435   ", "Only SETs and CONTAINERs have content." },
+    { "436   ", "Cannot assign to readonly attribute." },
     { "440   ", "%1 filters can currently only accept boolean attributes." },
     { "441   ", "Incompatible filter. All filters must enumerate instances or values which are compatible, such as subclasses or compatible types." },
     { "442   ", "Only instances have attributes." },
@@ -241,7 +242,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 161}
+    {0, 162}
 };
 static lmMessages currMsect = (lmMessages)0;
 
