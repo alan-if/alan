@@ -13,12 +13,21 @@ There is a stor liten kalle here. Kalle is here.
 You can't do that.
 
 > examine me
-Me is here.!@# Kalle is here. Kalle is here.
+Me is here.!@#
 
 > w
 L
-There is a stor liten kalle here. Kalle is here. Kalle is here. Event 1. 
-He is large. He is 42
+There is a stor liten kalle here. Event 1. He is large. He is 42
+
+> examine me
+Me is here.!@#
+
+> examine me
+Me is here.!@#
+
+> w
+L
+There is a stor liten kalle here. Kalle is here.
 
 > 
 

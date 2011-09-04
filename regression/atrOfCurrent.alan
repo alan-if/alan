@@ -2,12 +2,6 @@ Add To Every entity
  Has atr 42.
 End Add.
 
-When hero Here =>
-  Say Current actor.
-  Say atr Of Current actor.
-  Say Current location.
-  Say atr Of Current location.
-
 The l1 Isa location
   Description
     Say Current actor.
@@ -27,6 +21,3 @@ The l2 Isa location
 End The l2.
 
 Start At l1.
-
-  Say atr Of Current actor.
-  Say atr Of Current location.

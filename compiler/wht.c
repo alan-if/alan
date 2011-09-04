@@ -154,7 +154,7 @@ Bool verifyWhatContext(What *what, Context *context) {
 
   case WHAT_ACTOR:
     if (context->kind == EVENT_CONTEXT) {
-      lmLog(&what->srcp, 412, sevERR, "");
+		lmLogv(&what->srcp, 412, sevERR, "Actor", "Events", NULL);
       return FALSE;
     }
     break;

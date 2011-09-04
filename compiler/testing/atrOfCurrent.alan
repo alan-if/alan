@@ -1,6 +1,12 @@
 The l Isa location
 End The l.
 
+When hero Here =>
+  Say Current actor.
+  Say x Of Current actor.
+  Say Current location.
+  Say x Of Current location.
+
 Start At l.
 
   Say x Of Current actor.
