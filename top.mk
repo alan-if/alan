@@ -9,10 +9,10 @@ clean:
 
 .PHONY: build
 build:
-	-cd compiler; $(MAKE) -k build
-	-cd interpreter; $(MAKE) -k build
-	-cd converter; $(MAKE) -k build
-	-cd library; $(MAKE) -k build
+	-cd compiler; $(MAKE) build
+	-cd interpreter; $(MAKE) build
+	-cd converter; $(MAKE) build
+	-cd library; $(MAKE) build
 
 .PHONY: unit
 unit:
