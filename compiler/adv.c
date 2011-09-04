@@ -84,8 +84,7 @@ void symbolizeAdventure()
 /*----------------------------------------------------------------------*/
 static void analyzeStartAt(void)
 {
-    /* START has the same context as a RULE */
-    Context *context = newRuleContext();
+    Context *context = newStartContext();
 
     if (adv.whr != NULL)
         switch (adv.whr->kind) {
@@ -109,7 +108,7 @@ static void analyzeStartAt(void)
 /*----------------------------------------------------------------------*/
 static void analyzePrompt(void)
 {
-    Context *context = newRuleContext();
+    Context *context = newStartContext();
     if (adv.prompt != NULL)
         analyzeStatements(adv.prompt, context);
 }

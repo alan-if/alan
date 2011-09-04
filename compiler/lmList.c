@@ -191,7 +191,7 @@ static lmMsgs msg[] = {
     { "409   ", "No parameters defined in this context." },
     { "410   ", "Incompatible types in %1. A Set can only contain %2." },
     { "411   ", "%1 ignored for Actor \'hero\'." },
-    { "412   ", "Current Actor is not defined in Events." },
+    { "412   ", "Current %1 is not defined in %2." },
     { "413   ", "Empty Sets are not allowed unless the attribute is inherited. At least one member is necessary to infer the type and class of members." },
     { "414   ", "Invalid initial location for %1." },
     { "415   ", "Invalid Where specification in %1 statement." },

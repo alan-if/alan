@@ -22,7 +22,8 @@ typedef enum {
   CLASS_CONTEXT,
   EVENT_CONTEXT,
   VERB_CONTEXT,
-  RULE_CONTEXT
+  RULE_CONTEXT,
+  START_CONTEXT
 } ContextKind;
 
 

@@ -477,6 +477,7 @@ static Symbol *lookupInContext(char *idString, Context *context)
       break;
     case EVENT_CONTEXT:
     case RULE_CONTEXT:
+    case START_CONTEXT:
     case CLASS_CONTEXT:
     case INSTANCE_CONTEXT:
       foundSymbol = lookup(idString);

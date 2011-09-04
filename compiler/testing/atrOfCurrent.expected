@@ -3,20 +3,44 @@
 
 atrOfCurrent.alan
 
+    5.    Say Current actor.
+=====>        1
+
+  *1*   412 E : Current Actor is not defined in Events and Rules.
+
     6.    Say x Of Current actor.
+=====>        1    2
+
+  *1*   314 E : Attribute 'x' is not defined for the Current Actor since the
+                class 'actor' does not have it.
+  *2*   412 E : Current Actor is not defined in Events and Rules.
+
+    7.    Say Current location.
+=====>        1
+
+  *1*   412 E : Current Location is not defined in Rules.
+
+    8.    Say x Of Current location.
+=====>        1    2
+
+  *1*   314 E : Attribute 'x' is not defined for the Current Location since the
+                class 'location' does not have it.
+  *2*   412 E : Current Location is not defined in Rules.
+
+   12.    Say x Of Current actor.
 =====>        1
 
   *1*   314 E : Attribute 'x' is not defined for the Current Actor since the
                 class 'actor' does not have it.
 
-    7.    Say x Of Current location.
+   13.    Say x Of Current location.
 =====>        1
 
   *1*   314 E : Attribute 'x' is not defined for the Current Location since the
                 class 'location' does not have it.
 
 
-        2 error(s).
+        8 error(s).
         No detected warnings.
         1 informational message(s).
 

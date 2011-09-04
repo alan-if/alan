@@ -18,6 +18,7 @@
 
 extern Context *newNullContext(void);
 extern Context *newRuleContext(void);
+extern Context *newStartContext(void);
 extern Context *newEventContext(void);
 extern Context *newClassContext(Class *theClass);
 extern Context *newInstanceContext(Instance *theInstance);

@@ -883,73 +883,73 @@ static void analyzeRandomIn(Expression *exp, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeWhatExpression(Expression *exp, Context *context)
 {
-  Symbol *symbol;
-  IdNode *classId;
+    Symbol *symbol;
+    IdNode *classId;
 
-  if (exp->kind != WHAT_EXPRESSION)
-    SYSERR("Not a WHAT-expression");
-  if (!verifyWhatContext(exp->fields.wht.wht, context)) {
-    exp->type = ERROR_TYPE;
-    return;
-  }
-
-  switch (exp->fields.wht.wht->kind) {
-
-  case WHAT_LOCATION:
-    if (context->kind == RULE_CONTEXT)
-		lmLogv(&exp->fields.wht.wht->srcp, 412, sevERR, "Location", "Rules", NULL);
-    exp->type = INSTANCE_TYPE;
-    exp->class = locationSymbol;
-    break;
-
-  case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT || context->kind == RULE_CONTEXT)
-		lmLogv(&exp->fields.wht.wht->srcp, 412, sevERR, "Actor", "Events and Rules", NULL);
-    exp->type = INSTANCE_TYPE;
-    exp->class = actorSymbol;
-    break;
-
-  case WHAT_ID:
-    symbol = symcheck(exp->fields.wht.wht->id, INSTANCE_SYMBOL|EVENT_SYMBOL, context);
-    if (symbol != NULL) {
-      switch (symbol->kind) {
-      case PARAMETER_SYMBOL:
-        exp->type = symbol->fields.parameter.type;
-        exp->class = symbol->fields.parameter.class;
-        break;
-      case LOCAL_SYMBOL:
-        exp->type = symbol->fields.local.type;
-        exp->class = symbol->fields.local.class;
-        break;
-      case INSTANCE_SYMBOL:
-        exp->type = INSTANCE_TYPE;
-        exp->class = symbol->fields.entity.parent;
-        break;
-      case EVENT_SYMBOL:
-        exp->type = EVENT_TYPE;
-        break;
-      case ERROR_SYMBOL:
+    if (exp->kind != WHAT_EXPRESSION)
+        SYSERR("Not a WHAT-expression");
+    if (!verifyWhatContext(exp->fields.wht.wht, context)) {
         exp->type = ERROR_TYPE;
-        break;
-      default:
-        SYSERR("Unexpected symbolKind");
-        break;
-      }
-    } else
-      exp->type = ERROR_TYPE;
-    break;
+        return;
+    }
 
-  case WHAT_THIS:
-    exp->type = INSTANCE_TYPE;
-    classId = classIdInContext(context);
-    if (classId)
-      exp->class = classId->symbol;
-    break;
+    switch (exp->fields.wht.wht->kind) {
 
-  default:
-    SYSERR("Unrecognized switch");
-    break;
-  }
+    case WHAT_LOCATION:
+        if (context->kind == RULE_CONTEXT)
+            lmLogv(&exp->fields.wht.wht->srcp, 412, sevERR, "Location", "Rules", NULL);
+        exp->type = INSTANCE_TYPE;
+        exp->class = locationSymbol;
+        break;
+
+    case WHAT_ACTOR:
+        if (context->kind == EVENT_CONTEXT || context->kind == RULE_CONTEXT)
+            lmLogv(&exp->fields.wht.wht->srcp, 412, sevERR, "Actor", "Events and Rules", NULL);
+        exp->type = INSTANCE_TYPE;
+        exp->class = actorSymbol;
+        break;
+
+    case WHAT_ID:
+        symbol = symcheck(exp->fields.wht.wht->id, INSTANCE_SYMBOL|EVENT_SYMBOL, context);
+        if (symbol != NULL) {
+            switch (symbol->kind) {
+            case PARAMETER_SYMBOL:
+                exp->type = symbol->fields.parameter.type;
+                exp->class = symbol->fields.parameter.class;
+                break;
+            case LOCAL_SYMBOL:
+                exp->type = symbol->fields.local.type;
+                exp->class = symbol->fields.local.class;
+                break;
+            case INSTANCE_SYMBOL:
+                exp->type = INSTANCE_TYPE;
+                exp->class = symbol->fields.entity.parent;
+                break;
+            case EVENT_SYMBOL:
+                exp->type = EVENT_TYPE;
+                break;
+            case ERROR_SYMBOL:
+                exp->type = ERROR_TYPE;
+                break;
+            default:
+                SYSERR("Unexpected symbolKind");
+                break;
+            }
+        } else
+            exp->type = ERROR_TYPE;
+        break;
+
+    case WHAT_THIS:
+        exp->type = INSTANCE_TYPE;
+        classId = classIdInContext(context);
+        if (classId)
+            exp->class = classId->symbol;
+        break;
+
+    default:
+        SYSERR("Unrecognized switch");
+        break;
+    }
 }
 
 
