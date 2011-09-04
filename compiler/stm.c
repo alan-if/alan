@@ -409,7 +409,7 @@ static void analyzeSet(Statement *stm, Context *context)
 	analyzeExpression(wht, context);
 	if (wht->type != ERROR_TYPE) {
 		if (wht->readonly)
-			lmLog(&wht->srcp, 419, sevERR, "READONLY!!!");
+			lmLog(&wht->srcp, 436, sevERR, "");
 		if (wht->type == BOOLEAN_TYPE)
 			lmLog(&wht->srcp, 419, sevERR, "Target for");
 	}
