@@ -448,39 +448,41 @@ static TypeKind verifyExpressionAttribute(Expression *attributeExpression,
 /*----------------------------------------------------------------------*/
 static void analyzeAttributeExpression(Expression *exp, Context *context)
 {
-  Attribute *atr;
-  Expression *what = exp->fields.atr.wht;
+	Attribute *atr;
+	Expression *what = exp->fields.atr.wht;
 
-  analyzeExpression(what, context);
+	analyzeExpression(what, context);
 
-  switch (what->kind) {
-  case WHAT_EXPRESSION:
-    atr = resolveAttribute(what, exp->fields.atr.id, context);
-    exp->type = verifyExpressionAttribute(exp, atr);
-    if (exp->type == INSTANCE_TYPE || exp->type == REFERENCE_TYPE) {
-      if (atr->referenceClass != NULL)
-	/* Set the expressions class to the class of the attribute */
-	exp->class = atr->referenceClass;
-    } else if (exp->type == SET_TYPE)
-      exp->class = classOfMembers(exp);
-    break;
+	switch (what->kind) {
+	case WHAT_EXPRESSION:
+		atr = resolveAttribute(what, exp->fields.atr.id, context);
+		exp->type = verifyExpressionAttribute(exp, atr);
+		if (atr) exp->readonly = atr->readonly;
+		if (exp->type == INSTANCE_TYPE || exp->type == REFERENCE_TYPE) {
+			if (atr->referenceClass != NULL)
+				/* Set the expressions class to the class of the attribute */
+				exp->class = atr->referenceClass;
+		} else if (exp->type == SET_TYPE)
+			exp->class = classOfMembers(exp);
+		break;
 
-  case ATTRIBUTE_EXPRESSION:
-    if (what->type != ERROR_TYPE) {
-      if (what->type != INSTANCE_TYPE) {
-        exp->type = ERROR_TYPE;
-        lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
-      } else {
-        atr = resolveAttribute(what, exp->fields.atr.id, context);
-        exp->type = verifyExpressionAttribute(exp, atr);
-      }
-    }
-    break;
+	case ATTRIBUTE_EXPRESSION:
+		if (what->type != ERROR_TYPE) {
+			if (what->type != INSTANCE_TYPE) {
+				exp->type = ERROR_TYPE;
+				lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
+			} else {
+				atr = resolveAttribute(what, exp->fields.atr.id, context);
+				exp->type = verifyExpressionAttribute(exp, atr);
+				if (atr) exp->readonly = atr->readonly;
+			}
+		}
+		break;
 
-  default:
-    exp->type = ERROR_TYPE;
-    lmLog(&exp->srcp, 420, sevERR, "attribute reference");
-  }
+	default:
+		exp->type = ERROR_TYPE;
+		lmLog(&exp->srcp, 420, sevERR, "attribute reference");
+	}
 }
 
 /*----------------------------------------------------------------------*/

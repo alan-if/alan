@@ -178,14 +178,21 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
 }
 
 
+static IdNode id = {{0,0,0}, "location", 0};
+static Attribute locationAttributeFake = {{0,0,0}, INSTANCE_TYPE, &id, TRUE};
 /*======================================================================*/
 Attribute *findAttribute(List *attributes, IdNode *id)
 {
   List *this;
 
+  if (strcmp(id->string, "location") == 0) {
+	  locationAttributeFake.referenceClass = locationSymbol;
+	  return &locationAttributeFake;
+  }
+
   TRAVERSE(this, attributes)
-    if (equalId(this->member.atr->id, id))
-      return this->member.atr;
+	  if (equalId(this->member.atr->id, id))
+		  return this->member.atr;
   return NULL;
 }
 
@@ -593,11 +600,13 @@ Attribute *resolveAttribute(Expression *exp, IdNode *attributeId, Context *conte
     return resolveAttributeToWhat(exp->fields.wht.wht, attributeId, context);
   case ATTRIBUTE_EXPRESSION:
     return resolveAttributeToClass(exp->class, attributeId, context);
+
   default:
     lmLog(&exp->srcp, 442, sevERR, "");
   }
   return NULL;
 }
+
 
 /*----------------------------------------------------------------------*/
 static void generateAttribute(Attribute *attribute, int instanceCode)

@@ -390,44 +390,47 @@ static void analyzeMake(Statement *stm, Context *context)
 
 /*----------------------------------------------------------------------*/
 static void verifySetAssignment(Expression *exp, Expression *wht) {
-  if (!inheritsFrom(exp->class, wht->class)) {
-    /* An empty set can be assigned to any set varible */
-    if (exp->kind == SET_EXPRESSION && length(exp->fields.set.members) == 0)
-      ;
-    else
-      lmLog(&exp->srcp, 431, sevERR, wht->class->string);
-  }
+	if (!inheritsFrom(exp->class, wht->class)) {
+		/* An empty set can be assigned to any set varible */
+		if (exp->kind == SET_EXPRESSION && length(exp->fields.set.members) == 0)
+			;
+		else
+			lmLog(&exp->srcp, 431, sevERR, wht->class->string);
+	}
 }
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeSet(Statement *stm, Context *context)
 {
-  Expression *exp = stm->fields.set.exp;
-  Expression *wht = stm->fields.set.wht;
+	Expression *exp = stm->fields.set.exp;
+	Expression *wht = stm->fields.set.wht;
 
-  analyzeExpression(wht, context);
-  if (wht->type != ERROR_TYPE)
-    if (wht->type == BOOLEAN_TYPE)
-      lmLog(&wht->srcp, 419, sevERR, "Target for");
+	analyzeExpression(wht, context);
+	if (wht->type != ERROR_TYPE) {
+		if (wht->readonly)
+			lmLog(&wht->srcp, 419, sevERR, "READONLY!!!");
+		if (wht->type == BOOLEAN_TYPE)
+			lmLog(&wht->srcp, 419, sevERR, "Target for");
+	}
 
-  analyzeExpression(exp, context);
-  if (exp->type != ERROR_TYPE)
-    if (exp->type == BOOLEAN_TYPE)
-      lmLog(&exp->srcp, 419, sevERR, "Expression in");
+	analyzeExpression(exp, context);
+	if (exp->type != ERROR_TYPE)
+		if (exp->type == BOOLEAN_TYPE)
+			lmLog(&exp->srcp, 419, sevERR, "Expression in");
 
-  if (!equalTypes(exp->type, wht->type))
-    lmLog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
-  else {
-    if (exp->class != NULL && wht->class != NULL) {
-      if (exp->type == INSTANCE_TYPE) {
-	if (!inheritsFrom(exp->class, wht->class))
-	  lmLog(&exp->srcp, 430, sevERR, wht->class->string);
-      } else if (exp->type == SET_TYPE) {
-	verifySetAssignment(exp, wht);
-      }
-    }
-  }
+	if (!equalTypes(exp->type, wht->type))
+		lmLog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
+	else {
+		if (exp->class != NULL && wht->class != NULL) {
+			if (exp->type == INSTANCE_TYPE) {
+				if (!inheritsFrom(exp->class, wht->class))
+					lmLog(&exp->srcp, 430, sevERR, wht->class->string);
+			} else if (exp->type == SET_TYPE) {
+				verifySetAssignment(exp, wht);
+			}
+		}
+	}
 }
 
 

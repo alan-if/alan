@@ -46,7 +46,7 @@ typedef enum OperatorKind {		/* OPERATOR kinds */
     OR_OPERATOR,
     NE_OPERATOR,			/* Not equal */
     EQ_OPERATOR,			/* Equal */
-    EXACT_OPERATOR,		/* Exact comparison on strings */
+    EXACT_OPERATOR,			/* Exact comparison on strings */
     LE_OPERATOR,			/* Less or equal */
     GE_OPERATOR,			/* Greater or equal */
     LT_OPERATOR,			/* Less than */
@@ -66,10 +66,11 @@ typedef enum AggregateKind {
 typedef struct Expression {
     Srcp srcp;                 /* Source position of the expression */
     ExpressionKind kind;       /* What kind of expression */
+	Bool readonly;			   /* Was the expression a readonly expression? */
     TypeKind type;             /* Type of the expression */
     Symbol *class;             /* For instance types, the class,
                                   For Set types, the member class */
-    Bool not;			/* Was there a NOT ? */
+    Bool not;				   /* Was there a NOT ? */
     union {
 
         struct {			/* for WHERE */
@@ -89,11 +90,11 @@ typedef struct Expression {
             struct Expression *left;	/* Left operand */
         } bin;
 
-        struct {			/* For VALUE */
+        struct {				/* For VALUE */
             int val;			/* Value */
         } val;
 
-        struct {			/* For STRING */
+        struct {				/* For STRING */
             Bool encoded;
             long fpos;
             long len;
