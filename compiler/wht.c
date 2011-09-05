@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				WHT.C
-			      What Nodes
+  WHT.C
+  What Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -22,75 +22,75 @@
 
 /*----------------------------------------------------------------------*/
 static What *newWhat(Srcp *srcp,	/* IN - Source position */
-		     WhatKind kind,	/* IN - What kind */
-		     IdNode *id)	/* IN - ID or NULL */
+					 WhatKind kind,	/* IN - What kind */
+					 IdNode *id)	/* IN - ID or NULL */
 {
-  What *new;
+	What *new;
 
-  progressCounter();
+	progressCounter();
 
-  new = NEW(What);
+	new = NEW(What);
 
-  new->srcp = *srcp;
-  new->kind = kind;
-  new->id = id;
+	new->srcp = *srcp;
+	new->kind = kind;
+	new->id = id;
 
-  return(new);
+	return(new);
 }
 
 
 /*======================================================================*/
 What *newWhatLocation(Srcp srcp)
 {
-  return newWhat(&srcp, WHAT_LOCATION, NULL);
+	return newWhat(&srcp, WHAT_LOCATION, NULL);
 }
 
 /*======================================================================*/
 What *newWhatActor(Srcp srcp)
 {
-  return newWhat(&srcp, WHAT_ACTOR, NULL);
+	return newWhat(&srcp, WHAT_ACTOR, NULL);
 }
 
 /*======================================================================*/
 What *newWhatThis(Srcp srcp)
 {
-  return newWhat(&srcp, WHAT_THIS, NULL);
+	return newWhat(&srcp, WHAT_THIS, NULL);
 }
 
 /*======================================================================*/
 What *newWhatId(Srcp srcp, IdNode *id)
 {
-  return newWhat(&srcp, WHAT_ID, id);
+	return newWhat(&srcp, WHAT_ID, id);
 }
 
 /*======================================================================*/
 void symbolizeWhat(What *wht)
 {
-  switch (wht->kind) {
-  case WHAT_ID:
-    symbolizeId(wht->id);
-    break;
-  default:
-    break;
-  }
+	switch (wht->kind) {
+	case WHAT_ID:
+		symbolizeId(wht->id);
+		break;
+	default:
+		break;
+	}
 }
 
 
 /*======================================================================*/
 Symbol *symbolOfWhat(What *what, Context *context) {
-  switch (what->kind) {
-  case WHAT_THIS:
-    return symbolOfContext(context);
-  case WHAT_LOCATION:
-    return locationSymbol;
-  case WHAT_ACTOR:
-    return actorSymbol;
-  case WHAT_ID:
-    return what->id->symbol;
-  default:
-    SYSERR("Unexpected What kind");
-  }
-  return NULL;
+	switch (what->kind) {
+	case WHAT_THIS:
+		return symbolOfContext(context);
+	case WHAT_LOCATION:
+		return locationSymbol;
+	case WHAT_ACTOR:
+		return actorSymbol;
+	case WHAT_ID:
+		return what->id->symbol;
+	default:
+		SYSERR("Unexpected What kind");
+	}
+	return NULL;
 }
 
 
@@ -98,105 +98,106 @@ Symbol *symbolOfWhat(What *what, Context *context) {
 /*======================================================================*/
 void whatIsNotContainer(What *wht, Context *context, char construct[])
 {
-  Symbol *sym;
+	Symbol *sym;
 
-  if (wht == NULL)
-    return;
+	if (wht == NULL)
+		return;
 
-  switch (wht->kind) {
-  case WHAT_THIS:
-    lmLog(&wht->srcp, 309, sevERR, "");
-    break;
-  case WHAT_ID:
-    sym = wht->id->symbol;
-    if (sym)
-      switch (sym->kind) {
-      case PARAMETER_SYMBOL:
-	lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a Container", "because it is not restricted to Container in the Syntax", NULL);
-	break;
-      default:
-	lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
-	break;
-      }
-    break;
+	switch (wht->kind) {
+	case WHAT_THIS:
+		lmLog(&wht->srcp, 309, sevERR, "");
+		break;
+	case WHAT_ID:
+		sym = wht->id->symbol;
+		if (sym)
+			switch (sym->kind) {
+			case PARAMETER_SYMBOL:
+				lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a Container",
+					   "because it is not restricted to Container in the Syntax", NULL);
+				break;
+			default:
+				lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
+				break;
+			}
+		break;
 
-  case WHAT_LOCATION:
-    break;
+	case WHAT_LOCATION:
+		break;
 
-  case WHAT_ACTOR:
-    lmLogv(&wht->srcp, 428, sevERR, construct, "a Container, which the Current Actor is not since the class 'actor' does not have the Container property", NULL);
-    break;
+	case WHAT_ACTOR:
+		lmLogv(&wht->srcp, 428, sevERR, construct, "a Container, which the Current Actor is not since the class 'actor' does not have the Container property", NULL);
+		break;
 
-  default:
-    SYSERR("Unrecognized switch");
-    break;
-  }
+	default:
+		SYSERR("Unrecognized switch");
+		break;
+	}
 }
 
 
 /*======================================================================*/
 Bool isConstantWhat(What *what) {
-  switch (what->kind) {
-  case WHAT_ACTOR:
-  case WHAT_LOCATION:
-  case WHAT_THIS:
-    return FALSE;
-  case WHAT_ID:
-    return isConstantIdentifier(what->id);
-  }
-  SYSERR("Fall-through in switch");
-  return FALSE;
+	switch (what->kind) {
+	case WHAT_ACTOR:
+	case WHAT_LOCATION:
+	case WHAT_THIS:
+		return FALSE;
+	case WHAT_ID:
+		return isConstantIdentifier(what->id);
+	}
+	SYSERR("Fall-through in switch");
+	return FALSE;
 }
 
 /*======================================================================*/
 Bool verifyWhatContext(What *what, Context *context) {
-  switch (what->kind) {
+	switch (what->kind) {
 
-  case WHAT_ACTOR:
-    if (context->kind == EVENT_CONTEXT) {
-		lmLogv(&what->srcp, 412, sevERR, "Actor", "Events", NULL);
-      return FALSE;
-    }
-    break;
+	case WHAT_ACTOR:
+		if (context->kind == EVENT_CONTEXT) {
+			lmLogv(&what->srcp, 412, sevERR, "Actor", "Events", NULL);
+			return FALSE;
+		}
+		break;
 
-  case WHAT_LOCATION:
-  case WHAT_ID:
-    break;
+	case WHAT_LOCATION:
+	case WHAT_ID:
+		break;
 
-  case WHAT_THIS:
-    if (!inEntityContext(context)) {
-      lmLog(&what->srcp, 421, sevERR, "");
-      return FALSE;
-    }
-    break;
+	case WHAT_THIS:
+		if (!inEntityContext(context)) {
+			lmLog(&what->srcp, 421, sevERR, "");
+			return FALSE;
+		}
+		break;
 
-  default:
-    SYSERR("Unexpected What kind");
-    break;
-  }
-  return TRUE;
+	default:
+		SYSERR("Unexpected What kind");
+		break;
+	}
+	return TRUE;
 }
 
 
 /*======================================================================*/
 void generateWhat(What *wht)
 {
-  switch (wht->kind) {
-  case WHAT_LOCATION:
-    emitVariable(V_CURLOC);
-    break;
-  case WHAT_ACTOR:
-    emitVariable(V_CURACT);
-    break;
-  case WHAT_ID:
-    generateId(wht->id);
-    break;
-  case WHAT_THIS:
-    emitVariable(V_CURRENT_INSTANCE);
-    break;
-  default:
-    SYSERR("Unexpected case");
-  }
+	switch (wht->kind) {
+	case WHAT_LOCATION:
+		emitVariable(V_CURLOC);
+		break;
+	case WHAT_ACTOR:
+		emitVariable(V_CURACT);
+		break;
+	case WHAT_ID:
+		generateId(wht->id);
+		break;
+	case WHAT_THIS:
+		emitVariable(V_CURRENT_INSTANCE);
+		break;
+	default:
+		SYSERR("Unexpected case");
+	}
 }
 
 
@@ -206,25 +207,25 @@ void generateWhat(What *wht)
 
   Dump a What node.
 
-  */
+*/
 void dumpWhat(What *wht)
 {
-  if (wht == NULL) {
-    put("NULL");
-    return;
-  }
+	if (wht == NULL) {
+		put("NULL");
+		return;
+	}
 
-  put("WHAT: "); dumpSrcp(wht->srcp); indent();
-  put("kind: ");
-  switch (wht->kind) {
-  case WHAT_LOCATION: put("LOCATION"); break;
-  case WHAT_ACTOR: put("ACTOR"); break;
-  case WHAT_ID: put("ID "); break;
-  case WHAT_THIS: put("THIS"); break;
-  default: put("*** ERROR ***"); break;
-  }
-  nl();
-  put("id: "); dumpId(wht->id); out();
+	put("WHAT: "); dumpSrcp(wht->srcp); indent();
+	put("kind: ");
+	switch (wht->kind) {
+	case WHAT_LOCATION: put("LOCATION"); break;
+	case WHAT_ACTOR: put("ACTOR"); break;
+	case WHAT_ID: put("ID "); break;
+	case WHAT_THIS: put("THIS"); break;
+	default: put("*** ERROR ***"); break;
+	}
+	nl();
+	put("id: "); dumpId(wht->id); out();
 }
 
 
