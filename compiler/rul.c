@@ -38,9 +38,9 @@ int rulcount = 0;
   Allocates and initialises a new rulnod.
 
   */
-RulNod *newRule(Srcp *srcp,	/* IN - Source Position */
-	       Expression *exp,	/* IN - Expression to wait for */
-	       List *stms)	/* IN - List of statements */
+RulNod *newRule(Srcp *srcp,      /* IN - Source Position */
+                Expression *exp, /* IN - Expression to wait for */
+                List *stms)      /* IN - List of statements */
 {
   RulNod *new;		/* The newly allocated node */
 
@@ -66,6 +66,8 @@ static void analyzeRule(RulNod *rul)
   progressCounter();
 
   analyzeExpression(rul->exp, context);
+  if (rul->exp->type != BOOLEAN_TYPE && rul->exp->type != ERROR_TYPE)
+      lmLogv(&rul->exp->srcp, 330, sevERR, "rule", "boolean", NULL);
   analyzeStatements(rul->stms, context);
 }
 
