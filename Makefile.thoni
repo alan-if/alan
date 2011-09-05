@@ -10,8 +10,8 @@ DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 all:
 	$(MAKE) -f Makefile.thoni build
 	$(MAKE) -f Makefile.thoni unit
-	$(MAKE) -f Makefile.thoni test cygwintests
 	$(MAKE) -f Makefile.thoni documentation
+	$(MAKE) -f Makefile.thoni test cygwintests
 
 .PHONY: cygwintests
 cygwintests:
