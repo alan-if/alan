@@ -2856,7 +2856,7 @@ When pirate At hero Then
 When pirate At hero And treasuresavailable Of obj_0_cave =1 And obj_55_chest Is Not found Then
   Schedule event_hidetreasure At hero  After 0.
 
-When pirate Nearby Then
+When pirate Near hero Then
   "There are faint rustling noises from the darkness behind you."
 
 When obj_55_chest In inventory Then
