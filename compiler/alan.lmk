@@ -165,6 +165,7 @@
 440	'%1 filters can currently only accept boolean attributes.';
 441	'Incompatible filter. All filters must enumerate instances or values which are compatible, such as subclasses or compatible types.';
 442	'Only instances have attributes.';
+443 'There is no location defined in %1, so %2 is not defined.';
 
 450	'Wrong type of resource file for %1 statement.';
 

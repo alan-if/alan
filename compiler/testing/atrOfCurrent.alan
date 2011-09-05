@@ -1,7 +1,7 @@
 The l Isa location
 End The l.
 
-When hero Here =>
+When hero Isa actor =>
   Say Current actor.
   Say x Of Current actor.
   Say Current location.
