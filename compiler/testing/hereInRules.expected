@@ -1,0 +1,22 @@
+########## hereInRules ##########
+
+
+hereInRules.alan
+
+    1.  When hero Here => ""
+=====>            1
+
+  *1*   443 E : There is no location defined in Rule context, so Here or Nearby
+                is not defined.
+
+    4.    If hero Here Then "" End If.
+=====>            1
+
+  *1*   443 E : There is no location defined in Rule context, so Here or Nearby
+                is not defined.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+
