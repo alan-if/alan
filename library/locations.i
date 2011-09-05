@@ -383,17 +383,25 @@ EVERY dark_location ISA LOCATION
 END EVERY dark_location. 
 
 
-WHEN CURRENT LOCATION IS NOT lit 
-	AND COUNT ISA lightsource, IS lit, HERE > 0  
-THEN MAKE CURRENT LOCATION lit. 
+WHEN location OF hero IS NOT lit 
+	AND COUNT ISA lightsource, IS lit, AT hero > 0  
+THEN MAKE location OF hero lit. 
+	SCHEDULE light_on AT hero AFTER 0.
+
+EVENT light_on
 	LOOK.
+END EVENT.
 
 
-WHEN CURRENT LOCATION ISA dark_location 
-	AND CURRENT LOCATION IS lit
-	AND COUNT ISA lightsource, IS lit, HERE = 0  
-THEN MAKE CURRENT LOCATION NOT lit. 
+WHEN location OF hero ISA dark_location 
+	AND location OF hero IS lit
+	AND COUNT ISA lightsource, IS lit, AT hero = 0  
+THEN MAKE location OF hero NOT lit. 
+	SCHEDULE light_off AT hero AFTER 0.
+
+EVENT light_off
 	"It is now pitch black."
+END EVENT.
 
 
 -- To define a dark location, use a formulation like the following: 
