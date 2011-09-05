@@ -27,9 +27,9 @@ The hero Isa actor
     outdoorItems {sky, ground}.
 End The hero.
 
-When Current Location Isa outdoorLocation Then
+When location Of hero Isa outdoorLocation Then
   For Each i In outdoorItems Of hero Do
-    Locate i Here.
+    Locate i At hero.
   End For.
 
 Start At l1.

@@ -9,9 +9,9 @@ End The outdoor_things.
 The air Isa object In outdoor_things_storage End The air.
 The sky Isa object In outdoor_things_storage End The sky.
 
-When Current Location Is outdoors =>
+When location Of hero Is outdoors =>
      Empty outdoor_things_storage In outdoor_things.
-When Current Location Is Not outdoors =>
+When location Of hero Is Not outdoors =>
      Empty outdoor_things In outdoor_things_storage.
 
 The limbo Isa location
