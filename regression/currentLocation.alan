@@ -12,10 +12,6 @@ Event x
   Say Current Location.
 End Event.
 
-When l Is x =>
-  "Rule at"
-  Say Current Location.
-
 Start At l.
   "Start at"
   Say Current Location.

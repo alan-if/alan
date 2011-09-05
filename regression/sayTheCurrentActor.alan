@@ -23,8 +23,5 @@ End The a4.
 The a5 Isa actor At l
 End The a5.
 
-When l Is x =>
-  Say The Current Actor.
-
 Start At l.
-  Say The Current Actor.
+  Say The Current Actor. ?????

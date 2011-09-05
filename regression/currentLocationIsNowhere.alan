@@ -8,7 +8,11 @@ End The l.
 The a Isa actor
 End The a.
 
-When Current Location is lit Then
+When location Of hero Is lit Then
+  Schedule e At hero After 0.
+
+Event e
   "It is lit."
+End Event.
 
 Start At l.
