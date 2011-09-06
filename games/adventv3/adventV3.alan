@@ -400,7 +400,7 @@ Verb itav_quit
     "Do you really want to leave your current adventure?"
     Make hero asked.
     Make hero quitting.
-    Schedule event_noquit  After 1.
+    Schedule event_noquit After 1.
 End Verb.
 
 Verb itav_fill
@@ -439,7 +439,7 @@ End Verb.
 Verb itav_fee
   Does
     Set status Of foobar To 1.
-    Schedule event_foobarreset  After 1.
+    Schedule event_foobarreset After 1.
 End Verb.
 
 Verb itav_fie
@@ -449,7 +449,7 @@ Verb itav_fie
   Does
     If status Of foobar =1 Then
       Increase status Of foobar.
-      Schedule event_foobarreset  After 1.
+      Schedule event_foobarreset After 1.
     Else 
       "What's the matter, can't you read? Now you'd best start over."
     End If.
@@ -462,7 +462,7 @@ Verb itav_foe
   Does
     If status Of foobar =2 Then
       Increase status Of foobar.
-      Schedule event_foobarreset  After 1.
+      Schedule event_foobarreset After 1.
     Else 
       "What's the matter, can't you read? Now you'd best start over."
     End If.
@@ -480,8 +480,8 @@ Verb itav_foo
         "Nothing happens."
       Else 
         "Done!$n"
-        Schedule event_goldeggvanish At obj_56_eggs  After 0.
-        Schedule event_goldeggappear At loc_92  After 0.
+        Schedule event_goldeggvanish At obj_56_eggs After 0.
+        Schedule event_goldeggappear At loc_92 After 0.
       End If.
     Else 
       "What's the matter, can't you read? Now you'd best start over."
@@ -1062,7 +1062,7 @@ The obj_8_bird Isa object
         Make obj_11_snake Not living.
         Locate obj_11_snake At nowhere.
         If obj_0_cave Is closing Then
-          Schedule event_dwarfend At hero  After 0.
+          Schedule event_dwarfend At hero After 0.
         End If.
       End If.
       If obj_31_dragon Here Then
@@ -1311,7 +1311,7 @@ The obj_17_dwarf Isa object
   Verb tav_kill
     Check obj_0_cave Is Not closed
       Else 
-        Schedule event_dwarfend At hero  After 0.
+        Schedule event_dwarfend At hero After 0.
     Does Only
       "With what? Your bare hands?"
   End Verb.
@@ -1772,7 +1772,7 @@ The obj_31_dragon Isa object
       "With what? Your bare hands?"
       Make hero asked.
       Make hero killing.
-      Schedule event_nokill  After 1.
+      Schedule event_nokill After 1.
   End Verb.
   
   Verb tav_eat
@@ -1807,7 +1807,7 @@ The obj_31_dragon_copy Isa object
       "With what? Your bare hands?"
       Make hero asked.
       Make hero killing.
-      Schedule event_nokill  After 1.
+      Schedule event_nokill After 1.
 
   End Verb.
   
@@ -1970,7 +1970,7 @@ The obj_35_bear Isa object
       Locate obj_35_bear In company.
       "OK."
       "You put one arm around the bear's neck."
-      Schedule event_checkbear Here  After 1.
+      Schedule event_checkbear Here After 1.
   End Verb.
   
   Verb tav_drop
@@ -2629,7 +2629,7 @@ Event timer
   If (obj_2_lamp Is lit And power Of obj_2_lamp >=0) Then
     Decrease power Of obj_2_lamp.
   End If.
-  Schedule timer At hero  After 1.
+  Schedule timer At hero After 1.
 End Event timer.
 
 Event event_nokill
@@ -2646,7 +2646,7 @@ Event event_dwarfend
   "The resulting ruckus has awakened the Dwarves. There are now several
    threatening little Dwarves in the room with you! Most of them throw
    knives at you! All of them get you!"
-  Schedule event_death Here  After 0.
+  Schedule event_death Here After 0.
 End Event event_dwarfend.
 
 Event event_death
@@ -2656,15 +2656,15 @@ End Event event_death.
 
 Event event_checkbear
   If hero Not Here Then
-    Schedule event_movebear At hero  After 0.
+    Schedule event_movebear At hero After 0.
   Else 
-    Schedule event_checkbear Here  After 1.
+    Schedule event_checkbear Here After 1.
   End If.
 End Event event_checkbear.
 
 Event event_movebear
   Describe obj_35_bear.
-  Schedule event_checkbear Here  After 1.
+  Schedule event_checkbear Here After 1.
 End Event event_movebear.
 
 Event event_breakbridge
@@ -2678,7 +2678,7 @@ Event event_breakbridge
   Make obj_35_bear Not living.
   Make obj_35_bear Not takable.
   Locate hero At loc_117.
-  Schedule event_death Here  After 0.
+  Schedule event_death Here After 0.
 End Event event_breakbridge.
 
 Event event_foobarreset
@@ -2824,40 +2824,44 @@ End Event event_hidetreasure.
 
 Event event_checktreasures
   If obj_50_nugget Here Or obj_51_diamonds Here Or obj_52_bars Here Or obj_53_jewelry Here Or obj_54_coins Here Or obj_55_chest Here Or obj_56_eggs Here Or obj_57_trident Here Or obj_58_vase Here Or obj_59_emerald Here Or obj_60_pyramid Here Or obj_61_pearl Here Or obj_62_rug Here Or obj_63_spices Here Or obj_64_chain Here Then
-    Schedule event_stealtreasures At hero  After 0.
+    Schedule event_stealtreasures At hero After 0.
   End If.
 End Event event_checktreasures.
 
 When power Of obj_2_lamp =0 And obj_2_lamp Is lit Then
-  Schedule event_lampoff At obj_2_lamp  After 0.
+  Schedule event_lampoff At obj_2_lamp After 0.
 
 When power Of obj_2_lamp <=30 And obj_2_lamp Is Not dim Then
   Make obj_2_lamp dim.
 
 When obj_2_lamp Is lit And obj_2_lamp Is dim And obj_2_lamp At hero And obj_39_batteries At hero Then
-  Schedule event_replacebatteries At obj_2_lamp  After 0.
+  Schedule event_replacebatteries At obj_2_lamp After 0.
 
 When obj_2_lamp Is lit And obj_2_lamp Is dim And hero Is Not warned And hero At obj_2_lamp Then
-  Schedule event_lampwarning At obj_2_lamp  After 0.
+  Schedule event_lampwarning At obj_2_lamp After 0.
 
 When treasuresavailable Of obj_0_cave =0 And obj_0_cave Is Not closingsoon Then
   Make obj_0_cave closingsoon.
   Set time Of obj_0_cave To 80.
 
 When obj_0_cave Is closingsoon And time Of obj_0_cave <50 And obj_0_cave Is Not closing Then
-  Schedule event_startclosing At hero  After 0.
+  Schedule event_startclosing At hero After 0.
 
 When obj_0_cave Is closing And obj_0_cave Is Not closed And time Of obj_0_cave <=0 Then
-  Schedule event_closecave At hero  After 0.
+  Schedule event_closecave At hero After 0.
 
 When pirate At hero Then
-  Schedule event_checktreasures At hero  After 0.
+  Schedule event_checktreasures At hero After 0.
 
 When pirate At hero And treasuresavailable Of obj_0_cave =1 And obj_55_chest Is Not found Then
-  Schedule event_hidetreasure At hero  After 0.
+  Schedule event_hidetreasure At hero After 0.
 
 When pirate Near hero Then
+  Schedule rustling At hero After 0.
+
+Event rustling
   "There are faint rustling noises from the darkness behind you."
+End Event.
 
 When obj_55_chest In inventory Then
   Cancel event_checktreasures.
@@ -6033,7 +6037,7 @@ The loc_122 Isa location
         Make obj_33_troll returning.
       End If.
       If obj_35_bear In company Then
-        Schedule event_breakbridge Here  After 0.
+        Schedule event_breakbridge Here After 0.
       End If.
   End Exit.
   
@@ -6059,7 +6063,7 @@ The loc_122 Isa location
         Make obj_33_troll returning.
       End If.
       If obj_35_bear In company Then
-        Schedule event_breakbridge Here  After 0.
+        Schedule event_breakbridge Here After 0.
       End If.
   End Verb.
   
@@ -6635,7 +6639,7 @@ The loc_140 Isa location
 End The loc_140.
 
 Start At loc_1.
-  Schedule timer At hero  After 1.
+  Schedule timer At hero After 1.
   Use Script s1 For pirate.
   Score 30.
   Visits 3.
