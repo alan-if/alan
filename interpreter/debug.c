@@ -674,7 +674,7 @@ static DebugParseEntry commandEntries[] = {
     {"actors", "[n]", ACTORS_COMMAND, "show instance(s) that are actors"},
     {"locations", "[n]", LOCATIONS_COMMAND, "show instances that are locations"},
     {"section", "", SECTION_TRACE_COMMAND, "toggle section trace"},
-    {"instruction", "", INSTRUCTION_TRACE_COMMAND, "toggle single instruction trace"},
+    {"single", "", INSTRUCTION_TRACE_COMMAND, "toggle single instruction trace"},
     {"next", "", NEXT_COMMAND, "execute to next source line"},
     {"go", "", GO_COMMAND, "go another player turn"},
     {"exit", "", EXIT_COMMAND, "exit debug mode and return to game, get back with 'debug' as player input"},
