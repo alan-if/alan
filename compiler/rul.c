@@ -67,7 +67,7 @@ static void analyzeRule(RulNod *rul)
 
   analyzeExpression(rul->exp, context);
   if (rul->exp->type != BOOLEAN_TYPE && rul->exp->type != ERROR_TYPE)
-      lmLogv(&rul->exp->srcp, 330, sevERR, "rule", "boolean", NULL);
+      lmLogv(&rul->exp->srcp, 330, sevERR, "boolean", "Rule", NULL);
   analyzeStatements(rul->stms, context);
 }
 

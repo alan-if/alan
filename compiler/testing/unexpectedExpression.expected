@@ -15,13 +15,15 @@ unexpectedExpression.alan
   *1*   103 E : Syntax error. Replacing "<identifier> ." with "=> STRING".
 
     5.  Start at some location.
-=====>           1    2
+=====>  1        2    3
 
-  *1*   310 E : Identifier 'some' not defined.
-  *2*   102 E : Syntax error. Ignoring "location".
+  *1*   444 E : There is no location defined in Rules, so output can never be
+                seen by the player.
+  *2*   310 E : Identifier 'some' not defined.
+  *3*   102 E : Syntax error. Ignoring "location".
 
 
-        5 error(s).
+        6 error(s).
         No detected warnings.
         1 informational message(s).
 

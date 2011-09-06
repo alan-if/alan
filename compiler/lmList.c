@@ -220,6 +220,7 @@ static lmMsgs msg[] = {
     { "441   ", "Incompatible filter. All filters must enumerate instances or values which are compatible, such as subclasses or compatible types." },
     { "442   ", "Only instances have attributes." },
     { "443   ", "There is no location defined in %1, so %2 is not defined." },
+    { "444   ", "There is no location defined in %1, so output can never be seen by the player." },
     { "450   ", "Wrong type of resource file for %1 statement." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },

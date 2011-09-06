@@ -3,16 +3,16 @@
 
 ruleExpression.alan
 
-    1.  When 1 => ""
+    1.  When 1 => Make l x.
 =====>       1
 
-  *1*   330 E : Wrong type of expression in context of boolean. Must be of rule
+  *1*   330 E : Wrong type of expression in context of Rule. Must be of boolean
                 type.
 
-    3.  When l => ""
+    3.  When l => Make l x.
 =====>       1
 
-  *1*   330 E : Wrong type of expression in context of boolean. Must be of rule
+  *1*   330 E : Wrong type of expression in context of Rule. Must be of boolean
                 type.
 
 
