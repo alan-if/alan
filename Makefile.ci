@@ -18,6 +18,8 @@ all:
 	$(MAKE) -f Makefile.ci test
 	$(MAKE) -f Makefile.ci snapshots
 	$(MAKE) -f Makefile.ci sync
+	cvs add BUILD_NUMBER
+	cvs commit -m ""
 
 .PHONY: snapshots
 snapshots: zip setup lib
