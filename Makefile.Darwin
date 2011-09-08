@@ -2,10 +2,12 @@
 # Partial Makefile to be included from top level Makefile on Darwin
 #
 
-ifeq ("BUILD_NUMBER", $(wildcard, BUILD_NUMBER))
-  BUILD = -`cat BUILD_NUMBER`
-else
+VERSION = `cat LASTRELEASE`
+BUILD = $(wildcard BUILD_NUMBER)
+ifeq ($(BUILD_NUMBER), "")
   BUILD=
+else
+  BUILD= -`cat BUILD_NUMBER`
 endif
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
@@ -13,8 +15,9 @@ all dist: build-alan build-arun alan.readme.macosx test package
 
 .PHONY: package
 package:
+	echo $(BUILD) 
 	cp bin/alan bin/arun .
-	tar zcvf alan$(VERSION).macosx.x86.tgz alan arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
+	tar zcvf alan$(VERSION)$(BUILD).macosx.x86.tgz alan arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
 	rm alan arun
 	rm $(DISTDIR)/Snapshots/alan*macosx*.tgz
 	mv alan*macosx*.tgz $(DISTDIR)/Snapshots

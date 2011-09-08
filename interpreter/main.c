@@ -71,9 +71,7 @@ VerbEntry *vrbs;		/* Verb table pointer */
   This routine is not used any longer, kept for sentimental reasons ;-)
  
 */
-void checkobj(obj)
-     Aword *obj;
-{
+void checkobj(Aword *obj) {
     Aword oldobj;
 	
     if (*obj != EOF)

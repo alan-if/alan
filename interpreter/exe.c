@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------*\
 
-exe.c
+  exe.c
 
-Amachine instruction execution unit of Alan interpreter
+  Amachine instruction execution unit of Alan interpreter
 
 \*----------------------------------------------------------------------*/
 #include "exe.h"
@@ -704,7 +704,10 @@ void startTranscript() {
     gettimeofday(&tv, NULL);
     tm = localtime(&tv.tv_sec);
 
-    sprintf(logFileName, "%s%d%02d%02d%02d%02d%02d%04d.log", adventureName, tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, (int)tv.tv_usec);
+    sprintf(logFileName, "%s%d%02d%02d%02d%02d%02d%04d.log",
+			adventureName, tm->tm_year+1900, tm->tm_mon+1,
+			tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec,
+			(int)tv.tv_usec);
 #ifdef HAVE_GLK
     glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
     frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logFileName, 0);
@@ -725,9 +728,9 @@ void stopTranscript() {
     if (logFile == NULL)
         return;
 
-  if (transcriptOption|| logOption)
+	if (transcriptOption|| logOption)
 #ifdef HAVE_GLK
-    glk_stream_close(logFile, NULL);
+		glk_stream_close(logFile, NULL);
 #else
     fclose(logFile);
 #endif

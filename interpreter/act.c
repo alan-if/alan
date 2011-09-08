@@ -61,10 +61,10 @@ static void executeCommand(int verb, Parameter parameters[])
 
 /*======================================================================
  
-action()
+  action()
  
-Execute the command. Handles acting on multiple items
-such as ALL, THEM or lists of objects.
+  Execute the command. Handles acting on multiple items
+  such as ALL, THEM or lists of objects.
  
 */
 void action(int verb, Parameter parameters[], Parameter multipleMatches[])
@@ -78,6 +78,7 @@ void action(int verb, Parameter parameters[], Parameter multipleMatches[])
         for (i = 0; multipleMatches[i].instance != EOF; i++) {
             parameters[multiplePosition] = multipleMatches[i];
             output(marker);
+			// TODO: if execution for one parameter aborts we should return here, not to top level
             executeCommand(verb, parameters);
             if (multipleMatches[i+1].instance != EOF)
                 para();
