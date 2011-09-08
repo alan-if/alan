@@ -3,6 +3,7 @@ Changelog for ALAN Standard Library
 
 v1.00 (? ?, 2011)
 
+- modified the rules and the 'entered' clause for dark locations in 'locations.i'
 - modified the checks for the 'take' verb
 - added a balcony object to the testgame to enable examining the balcony
 - added the verb 'put against' to 'verbs.i'
