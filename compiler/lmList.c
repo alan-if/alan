@@ -244,7 +244,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 163}
+    {0, 164}
 };
 static lmMessages currMsect = (lmMessages)0;
 

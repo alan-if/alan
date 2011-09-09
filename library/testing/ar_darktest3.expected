@@ -67,7 +67,10 @@ Dark Location
 It is pitch black. You can't see anything at all.
 
 > call boy2
-The boy2 appears.
+Dark Location
+This is the lighted description of this location. West to Second Lighted
+Location. There is a ball here. There is a boy1 here. There is a boy2 
+here. The boy2 appears.
 
 > look
 Dark Location
