@@ -64,7 +64,7 @@ clean:
 	-rm *.o
 
 test : 
-	cd testing ; ../../bin/regr
+	cd testing ; ../../bin/jregr
 
 .PHONY: checkTarget
 ARCH	= `echo $(PLATFORM) $(OPTIMIZE)`
