@@ -1,4 +1,4 @@
-a2a3.o: a2a3.c LmList.h alanCommon.h srcp.h token.h smScan.h sysdep.h \
+a2a3.o: a2a3.c lmList.h alanCommon.h srcp.h token.h smScan.h sysdep.h \
   lst_x.h lst.h types.h pmParse.h
 a2a3.version.o: a2a3.version.c a2a3.version.h version.h
 lmList.o: lmList.c lmList.h alanCommon.h srcp.h token.h

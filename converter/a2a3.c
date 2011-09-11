@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "a2a3.h"
 
-#include "LmList.h"
+#include "lmList.h"
 #include "smScan.h"
 #include "pmParse.h"
 

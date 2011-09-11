@@ -5,7 +5,8 @@ compiler and interpreter as Universal Binaries, so they should work both
 on Intel and PPC-based machines. As of now there are only command line
 versions available of them.
 
-A recommended GUI to create new games is the AlanIDE, available from
+You can use any text editor to write you Alan game. A recommended GUI
+to create new games is the AlanIDE, available from
 
 	http://www.alanif.se.
 
