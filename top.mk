@@ -31,9 +31,9 @@ test:
 	@java -jar bin/jregr.jar -bin bin -dir converter/testing $(TESTOUTPUT)
 
 .PHONY: zip
-zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows lib/alanlib*.zip games/adventv3/adventV3.a3c regression/saviour.alan COPYING
+zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme CHANGES alan.readme.windows games/adventv3/adventV3.a3c regression/saviour.alan COPYING
 	-rm alan*.zip
-	zip alan$(VERSION).win32.x86.zip $^
+	zip -j alan$(VERSION).win32.x86.zip $^
 
 .PHONY: setup
 setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
