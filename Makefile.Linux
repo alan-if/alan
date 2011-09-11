@@ -3,15 +3,22 @@
 #
 
 VERSION	= `cat LASTRELEASE`
+BUILD = $(wildcard BUILD_NUMBER)
+ifeq ($(BUILD_NUMBER), "")
+  BUILD=
+else
+  BUILD= -`cat BUILD_NUMBER`
+endif
+DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
-all: build-alan build-arun build-a2a3
+all dist: build-alan build-arun build-a2a3 alan.readme.linux test package
 
-dist: all alan.readme.linux test
-	cp compiler/alan .
-	cp interpreter/arun .
-	tar zcvf alan$(VERSION).linux.x86.tgz alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
-	-@rm alan arun
-
+.PHONY: package
+package:
+	echo $(BUILD) 
+	cp bin/alan bin/arun .
+	tar zcvf alan$(VERSION)$(BUILD).linux.x86.tgz alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
+	rm alan arun
 
 .PHONY: build-alan
 build-alan:

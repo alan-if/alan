@@ -11,7 +11,7 @@ else
 endif
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
-all dist: build-alan build-arun alan.readme.macosx test package
+all: build-alan build-arun alan.readme.macosx test package
 
 .PHONY: package
 package:
