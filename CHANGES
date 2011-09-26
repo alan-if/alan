@@ -1,4 +1,6 @@
 Changes in V3.0beta2:
+- FEATURE: improved rules handling to simplify usage
+- FEATURE: "Location Of" expression to investigate the current location of an instance
 - FEATURE: syntax may now start with a parameter (an instance, like an actor name)
 - FEATURE: TRANSCRIPT statement in language
 - FEATURE: PROMPT section in language to control player input prompt
@@ -14,8 +16,8 @@ Changes in V3.0beta2:
 Changes in V3.0alpha9:
 - Clearified licensing, read COPYING
 - Upgraded WinGLK to 1.39
-- BUGFIX: WinArun did follows preferences for window colouring and fonts
-- BUGFIX: WinArun did not find sound and image resources when started in another directory
+- BUGFIX: WinArun did not follow preferences for window colouring and fonts
+- BUGFIX: WinArun did not find sound and image resources when started from another directory than the game
 - BUGFIX: a pronoun referencing an instance from a previous command that is no longer
   available, the message was non-optimal
 - FEATURE: Improved the tracing messages in the debugger

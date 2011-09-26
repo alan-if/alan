@@ -1,7 +1,8 @@
 
 			    Welcome to the
 		       ALAN ADVENTURE LANGUAGE
-			      2011-08-21
+                               3.0beta2
+			      2011-09-27
 
 
 THE NEWS IN SHORT:
@@ -15,10 +16,12 @@ This is the first public (but actually second) beta version
 especially object orientation.
 
 This package contains at least the compiler and the interpreter. It
-might also include the manual, the source for the Saviour game, a
-converter program which takes an Alan v2 source file and outputs a V3
-version of the same source, the source and binary for a sample
-game. Read the particulars in the readme for your platform. If it does not you can find most of that at the Alan webspace:
+might also, depending on the distribution package, include the manual,
+the source for the Saviour game, a converter program which takes an
+Alan v2 source file and outputs a V3 version of the same source, the
+source and binary for a sample game. Read the particulars in the
+readme for your platform. If it does not you can find most of that at
+the Alan webspace:
 
       http://www.alanif.se
 
@@ -52,15 +55,16 @@ suggestions. You can visit
 to find out more about Alan V3.
 
 You can also find the legacy v2.8 version there. It is becoming
-increasingly obsolete and if you are not looking to run some old game
-you should *really* look at V3. Alan may also be found at
+increasingly obsolete and you should only look at it if are looking to
+run some old game. Otherwise you should *really* look at V3. Alan may
+also be found at
 
 	http://www.ifarchive.org
 
 and its mirrors.
 
 For complete copying conditions refer to the file COPYING in the
-distribution or corresponding appendix in the manual.
+distribution or the corresponding appendix in the manual.
 
 If you have any problems don't hesitate to contact the author at the
 following email address:
