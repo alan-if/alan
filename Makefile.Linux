@@ -34,6 +34,6 @@ build-a2a3:
 
 include top.mk
 
-alan.readme.linux: bin/alan bin/arun
-	@echo "alan.readme.linux is not updated"
-	exit 1
+#alan.readme.linux: bin/alan bin/arun
+#	@echo "alan.readme.linux is not updated"
+#	exit 1

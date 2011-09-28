@@ -1,11 +1,9 @@
-# Makefile for Alan interpreter to be built with or w/o Glk for Linux (using gcc)
+####################################################################
+# This file is included from Makefile. It includes special settings
+# to build Alan Interpreter(s) on Darwin. Common rules are in
+# rules.mk
 
-# OS-specific definitions
-OSDEFS = -D__unix__ -DHAVE_ANSI
-#OSDEFS = -D__unix__
-
-
-# -- Glk definitions. Comment all of these out to disable Glk.
+# -- Glk definitions. Uncomment some of these to enable Glk.
 #GLKPREFIX = /usr/local
 #GLKPREFIX = ../../WindowsGLK
 #GLKINCLUDEDIR = $(GLKPREFIX)/Include
@@ -13,67 +11,87 @@ OSDEFS = -D__unix__ -DHAVE_ANSI
 #GLK = -DHAVE_GLK
 #GLKLIB = -lglkterm -lcurses
 #GLKLIB = $(GLKPREFIX)/Glk.lib
-#GLKSRCS = glkstart.c glkio.c
+#GLKSRCS = glkstart.c glkio.c winglk.c
 
-
-# Define this to make interpreter log each crc calculation step
-#CRCLOG = -DCRCLOG
-
-# -- Where do you want to put it?
-#
-INSTALLDIR = /usr/local/bin
-
-###  Do not edit below this line  ### 
 
 TARGET = arun
 
 # Define the program name
 PROGNAME=-DPROGNAME=\"$(TARGET)\"
 
-ARUNOPTS = $(CRCLOG) $(PROGNAME) $(GLK)
+ARUNOPTS = $(PROGNAME) $(GLK)
 
-#CC = gcc
-CFLAGS = -g -Wall -funsigned-char -I$(GLKINCLUDEDIR) $(ARUNOPTS) $(OSDEFS)
+#Settings for memory debugging which is used unless building RELEASE
+#ALLOC = -DSMARTALLOC
+#ALLOC = -DDMALLOC
+#ALLOCLIBS = -ldmalloc
+
+OSFLAGS = 
+CGREEN = no
+
+CC = gcc
+COMPILEFLAGS = -g -Wall -funsigned-char $(ALLOC)
 
 LINK = gcc
 LINKFLAGS = -g $(ARUNOPTS)
-LIBS = $(GLKLIB) $(LINKLIBS)
 
-INSTALL = install
-INSTFLAGS = -g 0 -o 0 -s
+LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
+
+
+#CGREEN = yes
+CGREENROOT = /usr/local
+CGREENDIR = $(CGREENROOT)/include/cgreen
+CGREENLIB = -lcgreen
+
+###################################################################
+#
+# Default target on Darwin
+# 
+.PHONY: default
+default all: unit arun
+
+
+##################################################################
+.PHONY: release
+release: OS_FLAGS = -arch i386 #-arch ppc
+release: EXTRA_COMPILER_FLAGS = -O4
+release: DEPENDENCY = 
+release: all
+
 
 #--------------------------------------------------------------------
-# Include common source list
-include sources.mk
+# Extra targets on Darwin
+
+# GARARUN: a Gargoyle drop-in alan interpreter
+# Gargoyle should be installed at GARGOYLE_DIR and have 
+# terps/alan3 linked to alan/interpreter. All required libraries, including
+# libgarglk.dylib need to be built to binary form before making it from here.
+# It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
+# will be available as $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3
+GARGOYLE_DIR=../../gargoyle-alan
+gararun:
+		cd $(GARGOYLE_DIR); jam alan3
 
 
-#--------------------------------------------------------------------
-# Main targets
-all: $(TARGET)
+# Extra targets on Darwin (maybe later...)
 
-arun : $(ARUNOBJECTS)
-	$(LINK) -o $(TARGET) $(ARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+#glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
+#	$(LINK) -o $@ $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)
+#	cp $@ ../bin
 
-glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
-	$(LINK) -o glkarun $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)
+#termarun : $(TERMARUNOBJECTS)
+#	$(LINK) -o $@ $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+#	cp $@ ../bin
 
-termarun : $(TERMARUNOBJECTS)
-	$(LINK) -o $(TARGET) $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
+#######################################################################
+#
+# Misc programs:
+#
+# Dump Acode file into text format
+#
+DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o smartall.o
+dumpacd: $(DUMPACDOBJECTS)
+	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) $(DUMPACDOBJECTS)
+	cp $@ ../bin/
 
-dumpacd: dumpacd.o reverse.o ../compiler/spa.o acode.h sysdep.o
-	$(LINK) -o dumpacd $(LDFLAGS) dumpacd.o reverse.o ../compiler/spa.o sysdep.o
-
-install: $(TARGET)
-	$(INSTALL) $(INSTFLAGS) $(TARGET) $(INSTALLDIR)
-#	$(INSTALL) $(INSTFLAGS) dumpacd $(INSTALLDIR) 
-
-clean:
-	rm -f $(TARGET) dumpacd *.o *~ .arch
-
-#---<< Glk objects >>---
-glkstart.o: glkstart.c glkstart.h glkio.h
-glkio.o: glkio.c glkio.h
-
-#---<< GENERATED DEPENDENCIES FOLLOWS >>---
-include dependencies.mk
 
