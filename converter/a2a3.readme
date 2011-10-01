@@ -38,7 +38,15 @@ tests, so I can't promise that it converts any input to something
 sensible, nor that it does not crash. But I hope this little hack
 might ease your work to convert to V3, which I hope you will do!
 
-Any communication is welcome to thomas@alanif.se
+NOTE that the a2a3.exe for Windows does require the cygwin1.dll, which
+you need to download from the internet due to its restrictions on its
+distribution. I hope this will change in the future.
+
+Any communication is welcome to thomas@alanif.se, and in particular
+I'd like to know if you have used it, is it worthwhile to continue to
+update the converter? (Since it hasn't been updated since 2003 you
+might conclude that I have not heard much from anyone, are you the
+first one ;-)
 
 Thanks!
 
