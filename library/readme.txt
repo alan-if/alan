@@ -1,14 +1,20 @@
-﻿
-The four files belonging to the new proposed library have now been
-uploaded to the download area of the ALAN website. The library is numbered
-0.95, with the intention that once any most immediate bugs and
-misfeatures are taken care of, Standard Library v1.00 will be released.
+This is the Alan Standard Library 1.00
 
-Please take a look at how the library feels and please send comments
-to the mailing list. Now is the time to make comments and suggestions!
+Alan is an easy to use adventure text authoring tool. And this library
+makes the library even easier.
 
+The library consists of one top level file (library.i) which in turn
+imports the four files:
 
-Acknowledgements: Thanks to Thomas Nilsson and Göran Forslund for
+- locations.i
+- classes.i
+- verbs.i
+- messages.i
+
+You could probably also benefit from looking through the QuickRef.txt
+which is included.
+
+Acknowledgements: Thanks to Thomas Nilsson and G�ran Forslund for
 ALAN. Also thanks to Thomas for continous and patient support and
 encouragement throughout the project.  Thanks to Steve Griffiths for
 feedback and suggestions for improvement, the earlier versions of the
