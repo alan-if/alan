@@ -1,0 +1,18 @@
+This is an Alan v3 slot-in replacement for Gargoyle
+
+Gargoyle is front-end for many IF interpreters, including Alan. The
+file(s) in this archive is/are an update to the Alan plugins in
+Gargoyle.
+
+To use it you just need to find your Gargoyle installation or
+application, figure out where the files should go and copy it (or
+them) there.
+
+On Windows your Gargoyle installation directory contains all files so
+you should just drop the file there.
+
+On MacOSX you need to "show package content" and drop the alan3 file
+in the PlugIns folder, while the library file goes in the "Frameworks"
+folder.
+
+/Thomas

@@ -132,8 +132,10 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS) arun.res
 #	$(LINK) -o $@ $(LINKFLAGS) $(GARARUNOBJECTS) arun.res $(LIBS)
 #	cp $@ ../bin/
 gararun:
-	cd ../../garglk-current-alan3
-	jam -sOS=MINGW alan3
+	cd ../../garglk-current-alan3; \
+	jam alan3 ; \
+	cp build/cygwin.release/alan3/alan3.exe ../alan/interpreter
+	zip -j gargoyle-alan3-$(VERSION).win32.x86.zip alan3.exe gargoyle.readme
 
 
 #######################################################################
