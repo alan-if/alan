@@ -118,7 +118,9 @@ int glkunix_startup_code(glkunix_startup_t *data)
 
 #ifdef HAVE_GARGLK
 	garglk_set_program_name(alan.shortHeader);
-	garglk_set_program_info("Alan Interpreter 3.0 alpha 8 by Thomas Nilsson\n");
+	char info[80];
+	sprintf(info, "%s Interpreter by Thomas Nilsson\n", alan.shortHeader);
+	garglk_set_program_info(info);
 #endif
 
     /* now process the command line arguments */
