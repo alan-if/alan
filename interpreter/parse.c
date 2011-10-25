@@ -101,13 +101,13 @@ static bool endOfWords(int wordIndex) {
 
 /*----------------------------------------------------------------------*/
 static void handleDirectionalCommand() {
-	currentWordIndex++;
-	if (!endOfWords(currentWordIndex) && !isConjunctionWord(currentWordIndex))
-		error(M_WHAT);
-	else
-		go(current.location, dictionary[playerWords[currentWordIndex-1].code].code);
-	if (!endOfWords(currentWordIndex))
-		currentWordIndex++;
+    currentWordIndex++;
+    if (!endOfWords(currentWordIndex) && !isConjunctionWord(currentWordIndex))
+        error(M_WHAT);
+    else
+        go(current.location, dictionary[playerWords[currentWordIndex-1].code].code);
+    if (!endOfWords(currentWordIndex))
+        currentWordIndex++;
 }
 
 
@@ -1375,9 +1375,10 @@ void parse(Parameter parameters[]) {
     if (isVerbWord(currentWordIndex)) {
         verbWord = playerWords[currentWordIndex].code;
         verbWordCode = dictionary[verbWord].code;
-		if (isPreBeta2(header->version))
-			/* Pre-beta2 did not generate syntax elements for verb words, so we need to skip first word which is the verb */
-			currentWordIndex++;
+        if (isPreBeta2(header->version))
+            /* Pre-beta2 didn't generate syntax elements for verb words,
+               need to skip first word which should be the verb */
+            currentWordIndex++;
         parseOneCommand(parameters, multipleParameters);
         notePronounsForParameters(parameters);
         fail = FALSE;
@@ -1385,21 +1386,18 @@ void parse(Parameter parameters[]) {
     } else if (isDirectionWord(currentWordIndex)) {
         clearParameterArray(previousMultipleParameters);
         clearPronounList(pronouns);
-		handleDirectionalCommand();
+        handleDirectionalCommand();
     } else if (isInstanceReferenceWord(currentWordIndex)) {
-		/* TODO: Here we want to pick up the parse tree for the
-		   syntaxes that start with an instance reference and do
-		   something similar to parseOneCommand(parameters,
-		   multipleParameters); but with the verb code set to
-		   something that indicates the special syntax to be used. The
-		   verbWord code is set to 0 in one of the parse table
-		   entries... */
-		verbWordCode = 0;
-		parseOneCommand(parameters, multipleParameters);
+        /* Pick up the parse tree for the syntaxes that start with an
+           instance reference and parse according to that. The
+           verbWord code is set to 0 to indicate that it is not a verb
+           but an instance that starts the command. */
+        verbWordCode = 0;
+        parseOneCommand(parameters, multipleParameters);
         notePronounsForParameters(parameters);
         fail = FALSE;
         action(current.verb, parameters, multipleParameters);
-	} else
+    } else
         error(M_WHAT);
 
     lastWord = currentWordIndex - 1;

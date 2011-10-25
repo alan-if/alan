@@ -40,13 +40,32 @@ You can't take the chair (verb check).
 
 (coin) You can't take it from the act (extract check).
 
+(key) Taken.
+
 > steal coin, steal coin, steal coin
 You can't take it from the act (extract check).
 
 > take all, take all, take all
-I don't know what you mean by 'all'.
+(key) Taken.
+
+(coin) You can't take it from the act (extract check).
+
+(key) Taken.
+
+(coin) You can't take it from the act (extract check).
+
+(key) Taken.
+
+(coin) You can't take it from the act (extract check).
 
 > steal all, steal all, steal all
+(coin) You can't take it from the act (extract check).
+
+(coin) You can't take it from the act (extract check).
+
+(coin) You can't take it from the act (extract check).
+
+> pat all, pat all, pat all
 I don't know what you mean by 'all'.
 
 > 

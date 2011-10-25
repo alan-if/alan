@@ -808,7 +808,7 @@ void run(void)
 	
     initStateStack();
 	
-    if (!ERROR_RETURNED)      /* Can happen in start section to... */
+    if (!ERROR_RETURNED)      /* Can happen in start section too... */
         init();               /* Initialise and start the adventure */
 	
     while (TRUE) {

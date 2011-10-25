@@ -89,6 +89,7 @@ bool checkFailed(AltInfo *altInfo, bool execute)
         traceVerbCheck(altInfo, execute);
         // TODO Why does this not generate a regression error with !
         // Need a new regression case?
+        fail = FALSE;
         if (checksFailed(altInfo->alt->checks, execute)) return TRUE;
         if (fail) return TRUE;
     }
