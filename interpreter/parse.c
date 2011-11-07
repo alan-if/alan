@@ -1400,6 +1400,8 @@ void parse(Parameter parameters[]) {
     } else
         error(M_WHAT);
 
+	if (fail) error(NO_MSG);
+
     lastWord = currentWordIndex - 1;
     if (isConjunctionWord(lastWord))
         lastWord--;
