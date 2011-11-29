@@ -477,10 +477,10 @@ void interpret(Aaddr adr)
                     if (traceSourceOption
                         && (line != current.sourceLine || file != current.sourceFile)) {
                         if (col != 1 || singleStepOption)
-                            newline();
+                            printf("\n");
                         showSourceLine(file, line);
                         if (!singleStepOption)
-                            newline();
+                            printf("\n");
                     }
                     current.sourceLine = line;
                     current.sourceFile = file;
