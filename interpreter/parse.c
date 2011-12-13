@@ -114,7 +114,7 @@ static void handleDirectionalCommand() {
 /*----------------------------------------------------------------------*/
 static void errorWhichOne(Parameter alternative[]) {
     int p; /* Index into the list of alternatives */
-    Parameter *parameters = allocateParameterArray(MAXENTITY);
+    Parameter *parameters = allocateParameterArray(MAXINSTANCE);
 
     parameters[0] = alternative[0];
     setEndOfArray(&parameters[1]);
@@ -132,7 +132,7 @@ static void errorWhichOne(Parameter alternative[]) {
 /*----------------------------------------------------------------------*/
 static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
     int p; /* Index into the list of alternatives */
-    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
+    Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
 
     addParameterForWord(messageParameters, pronounWordIndex);
     printMessageWithParameters(M_WHICH_PRONOUN_START, messageParameters);
@@ -153,7 +153,7 @@ static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
 
 /*----------------------------------------------------------------------*/
 static void errorWhat(int playerWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
+    Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
 
     addParameterForWord(messageParameters, playerWordIndex);
     printMessageWithParameters(M_WHAT_WORD, messageParameters);
@@ -163,7 +163,7 @@ static void errorWhat(int playerWordIndex) {
 
 /*----------------------------------------------------------------------*/
 static void errorAfterExcept(int butWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
+    Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
     addParameterForWord(messageParameters, butWordIndex);
     printMessageWithParameters(M_AFTER_BUT, messageParameters);
     free(messageParameters);
@@ -190,7 +190,7 @@ static int fakePlayerWordForAll() {
 
 /*----------------------------------------------------------------------*/
 static void errorButAfterAll(int butWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(MAXENTITY);
+    Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
     addParameterForWord(messageParameters, butWordIndex);
     addParameterForWord(messageParameters, fakePlayerWordForAll());
     printMessageWithParameters(M_BUT_ALL, messageParameters);
@@ -366,7 +366,7 @@ static void filterOutNonReachable(Parameter filteredCandidates[], bool (*reachab
 /*----------------------------------------------------------------------*/
 static void disambiguateCandidatesForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
     int i;
-    Parameter *parameters = allocateParameterArray(MAXENTITY);
+    Parameter *parameters = allocateParameterArray(MAXINSTANCE);
 
     convertPositionsToParameters(parameterPositions, parameters);
     for (i = 0; !isEndOfArray(&candidates[i]); i++) {

@@ -95,7 +95,7 @@ static AltInfo *mockedAlternativeFinder(int verb, Parameter parameters[]) {
 }
 
 Ensure possibleIndicatesFalseOnEmptyAlternatives(void) {
-    globalParameters = allocateParameterArray(MAXENTITY);
+    globalParameters = allocateParameterArray(MAXINSTANCE);
     assert_false(possibleWithFinder(current.verb, globalParameters, mockedAlternativeFinder));
 }
 

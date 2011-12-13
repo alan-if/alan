@@ -343,7 +343,7 @@ static Aint *mockedReferenceFinder(int wordIndex) {
 Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
     int theExpectedInstance[2] = {23, EOF};
     int theExpectedWordIndex = 3;
-    Parameter candidates[MAXENTITY+1];
+    Parameter candidates[MAXINSTANCE+1];
     Parameter parameter;
 
     clearParameter(&parameter, candidates);
@@ -369,7 +369,7 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
     int theNounInstances[4] = {25, theExpectedInstance, 34, EOF};
     int theExpectedFirstAdjectiveWordIndex = 3;
     int theExpectedNounWordIndex = 4;
-    Parameter *candidates = allocateParameterArray(MAXENTITY);
+    Parameter *candidates = allocateParameterArray(MAXINSTANCE);
     Parameter parameter;
     clearParameter(&parameter, candidates);
     parameter.firstWord = theExpectedFirstAdjectiveWordIndex;

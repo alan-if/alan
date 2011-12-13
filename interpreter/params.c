@@ -37,7 +37,7 @@ void clearParameter(Parameter *parameter, Parameter *candidates) {
 /*======================================================================*/
 void setParameters(Parameter *newParameters) {
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(MAXENTITY);
+        globalParameters = allocateParameterArray(MAXINSTANCE);
     copyParameterArray(globalParameters, newParameters);
 }
 
@@ -45,7 +45,7 @@ void setParameters(Parameter *newParameters) {
 /*======================================================================*/
 Parameter *getParameters(void) {
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(MAXENTITY);
+        globalParameters = allocateParameterArray(MAXINSTANCE);
     return globalParameters;
 }
 
@@ -59,7 +59,7 @@ Parameter *getParameter(int parameterIndex) {
 /*======================================================================*/
 Parameter *ensureParameterArrayAllocated(Parameter *currentArray) {
     if (currentArray == NULL)
-        currentArray = allocateParameterArray(MAXENTITY);
+        currentArray = allocateParameterArray(MAXINSTANCE);
     else
 	clearParameterArray(currentArray);
     return currentArray;
@@ -68,7 +68,7 @@ Parameter *ensureParameterArrayAllocated(Parameter *currentArray) {
 
 /*======================================================================*/
 Parameter *allocateParameterArray(int n) {
-    Parameter *newArray = allocate((n+1)*sizeof(Parameter)*(MAXENTITY+1));
+    Parameter *newArray = allocate((n+1)*sizeof(Parameter)*(MAXINSTANCE+1));
     setEndOfArray(newArray);
     return newArray;
 }
@@ -156,7 +156,7 @@ void copyParameter(Parameter *to, Parameter *from) {
     *to = *from;
     if (lengthOfParameterArray(theCopyCandidates) < lengthOfParameterArray(from->candidates))
 		// TODO Should we free the from->candidates here
-		to->candidates = allocateParameterArray(MAXENTITY);
+		to->candidates = allocateParameterArray(MAXINSTANCE);
     copyParameterArray(to->candidates, from->candidates);
 }
 

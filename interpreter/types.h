@@ -32,9 +32,6 @@
 #define FALSE (!TRUE)
 #endif
 
-#define LITMIN (header->locmax+1)
-#define LITMAX (header->locmax+1+litCount)
-
 #define HERO (header->theHero)
 #define ENTITY (header->entityClassId)
 #define OBJECT (header->objectClassId)
@@ -43,7 +40,7 @@
 #define ACTOR (header->actorClassId)
 
 #define MAXPARAMS (header->maxParameters)
-#define MAXENTITY (header->instanceMax)
+#define MAXINSTANCE (header->instanceMax)
 
 #define pointerTo(x) ((void *)&memory[x])
 #define addressOf(x) ((((long)x)-((long)memory))/sizeof(Aword))

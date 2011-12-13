@@ -123,8 +123,9 @@ static Aptr literalAttribute(int literal, int attribute)
     if (attribute == 1)
         return literals[literalFromInstance(literal)].value;
     else {
-        sprintf(str, "Unknown attribute for literal (%d).", attribute);
-        syserr(str);
+        return 0;
+        //        sprintf(str, "Unknown attribute for literal (%d).", attribute);
+        //        syserr(str);
     }
     return(EOF);
 }
@@ -139,11 +140,11 @@ Aptr getInstanceAttribute(int instance, int attribute)
         return literalAttribute(instance, attribute);
     else {
         if (instance > 0 && instance <= header->instanceMax) {
-			if (attribute == -1)
-				return locationOf(instance);
-			else
-				return getAttribute(admin[instance].attributes, attribute);
-		} else {
+            if (attribute == -1)
+                return locationOf(instance);
+            else
+                return getAttribute(admin[instance].attributes, attribute);
+        } else {
             sprintf(str, "Can't ATTRIBUTE item (%d).", instance);
             syserr(str);
         }
