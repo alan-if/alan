@@ -855,7 +855,7 @@ void run(void)
 		
         evaluateRules();
         for (i = 1; i <= header->instanceMax; i++)
-            if (i != header->theHero && isActor(i)) {
+            if (i != header->theHero && isAActor(i)) {
                 moveActor(i);
                 evaluateRules();
             }

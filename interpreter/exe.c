@@ -596,7 +596,7 @@ void use(int actor, int script)
     char str[80];
     StepEntry *step;
 
-    if (!isActor(actor)) {
+    if (!isAActor(actor)) {
         sprintf(str, "Instance is not an Actor (%d).", actor);
         syserr(str);
     }
@@ -616,7 +616,7 @@ void stop(int act)
 {
     char str[80];
 
-    if (!isActor(act)) {
+    if (!isAActor(act)) {
         sprintf(str, "Instance is not an Actor (%d).", act);
         syserr(str);
     }

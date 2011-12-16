@@ -60,7 +60,7 @@ static bool containerIsEmpty(int container)
 /*======================================================================*/
 void describeContainer(int container)
 {
-    if (!containerIsEmpty(container) && !getInstanceAttribute(container, OPAQUEATTRIBUTE))
+    if (!containerIsEmpty(container) && !isOpaque(container))
         list(container);
 }
 
@@ -70,7 +70,7 @@ bool passesContainerLimits(Aint theContainer, Aint theAddedInstance) {
     LimitEntry *limit;
     Aword props;
 
-    if (!isContainer(theContainer))
+    if (!isAContainer(theContainer))
         syserr("Checking limits for a non-container.");
 
     /* Find the container properties */
@@ -129,7 +129,7 @@ void list(int container)
                     if (containers[props].header != 0)
                         interpret(containers[props].header);
                     else {
-                        if (isActor(containers[props].owner))
+                        if (isAActor(containers[props].owner))
                             printMessageWithInstanceParameter(M_CARRIES, containers[props].owner);
                         else
                             printMessageWithInstanceParameter(M_CONTAINS, containers[props].owner);
@@ -153,7 +153,7 @@ void list(int container)
         if (containers[props].empty != 0)
             interpret(containers[props].empty);
         else {
-            if (isActor(containers[props].owner))
+            if (isAActor(containers[props].owner))
                 printMessageWithInstanceParameter(M_EMPTYHANDED, containers[props].owner);
             else
                 printMessageWithInstanceParameter(M_EMPTY, containers[props].owner);

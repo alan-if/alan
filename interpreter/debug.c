@@ -107,11 +107,11 @@ static void showInstanceLocation(int ins, char *prefix) {
             say(admin[ins].location);
             sprintf(buffer, "[%d]", admin[ins].location);
             output(buffer);
-        } else if (isContainer(admin[ins].location)) {
+        } else if (isAContainer(admin[ins].location)) {
 		  
-            if (isObject(admin[ins].location))
+            if (isAObject(admin[ins].location))
                 output("in");
-            else if (isActor(admin[ins].location))
+            else if (isAActor(admin[ins].location))
                 output("carried by");
             say(admin[ins].location);
             sprintf(buffer, "[%d]", admin[ins].location);
@@ -191,7 +191,7 @@ static void showObjects(void)
 
     output("Objects:");
     for (obj = 1; obj <= header->instanceMax; obj++) {
-        if (isObject(obj)) {
+        if (isAObject(obj)) {
             sprintf(str, "$i%3d: ", obj);
             output(str);
             say(obj);
@@ -206,7 +206,7 @@ static void showObject(int obj)
     char str[80];
 
 
-    if (!isObject(obj)) {
+    if (!isAObject(obj)) {
         sprintf(str, "Instance %d is not an object", obj);
         output(str);
         return;
@@ -383,7 +383,7 @@ static void showActors(void)
 
     output("Actors:");
     for (act = 1; act <= header->instanceMax; act++) {
-        if (isActor(act)) {
+        if (isAActor(act)) {
             sprintf(str, "$i%3d: ", act);
             output(str);
             say(act);
@@ -399,7 +399,7 @@ static void showActor(int act)
 {
     char str[80];
 
-    if (!isActor(act)) {
+    if (!isAActor(act)) {
         sprintf(str, "Instance %d is not an actor.", act);
         output(str);
         return;

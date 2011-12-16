@@ -12,6 +12,7 @@ UNITTESTED = \
 	debug.c \
 	exe.c \
 	inter.c \
+	instance.c \
 	main.c \
 	parse.c \
 	params.c \
@@ -38,7 +39,6 @@ OTHERSRCS = \
 	decode.c \
 	dictionary.c \
 	event.c \
-	instance.c \
 	lists.c \
 	literal.c \
 	memory.c \

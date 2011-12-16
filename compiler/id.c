@@ -117,28 +117,28 @@ void generateId(IdNode *id)
           emit0(I_ATTRSTR);
           break;
       case INTEGER_TYPE:
-	generateSymbol(id->symbol);
-	emitVariable(V_PARAM);
-	emitConstant(1);
-	emit0(I_ATTRIBUTE);
-	break;
+          generateSymbol(id->symbol);
+          emitVariable(V_PARAM);
+          emitConstant(1);
+          emit0(I_ATTRIBUTE);
+          break;
       case INSTANCE_TYPE:
-	generateSymbol(id->symbol);
-	emitVariable(V_PARAM);
-	break;
+          generateSymbol(id->symbol);
+          emitVariable(V_PARAM);
+          break;
       default:
-	SYSERR("Unexpected type");
+          SYSERR("Unexpected type");
       }
     } else if (id->symbol->kind == LOCAL_SYMBOL) {
-      /* Calculate the variable number and frame depth */
-      emit2(I_GETLOCAL, frameLevel - id->symbol->fields.local.level,
-	    id->symbol->fields.local.number);
+        /* Calculate the variable number and frame depth */
+        emit2(I_GETLOCAL, frameLevel - id->symbol->fields.local.level,
+              id->symbol->fields.local.number);
     } else
-      generateSymbol(id->symbol);
+        generateSymbol(id->symbol);
   } else if (id->code == 0)
-    SYSERR("Generating a symbol-less id with code == 0");
+      SYSERR("Generating a symbol-less id with code == 0");
   else
-    emitConstant(id->code);
+      emitConstant(id->code);
 }
 
 

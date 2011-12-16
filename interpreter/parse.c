@@ -271,7 +271,7 @@ static int getPronounInstances(int word, Parameter instanceParameters[]) {
 static bool inOpaqueContainer(int originalInstance) {
     int instance = admin[originalInstance].location;
 
-    while (isContainer(instance)) {
+    while (isAContainer(instance)) {
         if (getInstanceAttribute(instance, OPAQUEATTRIBUTE))
             return TRUE;
         instance = admin[instance].location;
@@ -909,9 +909,9 @@ static void checkNonRestrictedParameters(ParameterPosition parameterPositions[])
                 int i;
                 for (i = 0; !isEndOfArray(&parameterPositions[positionIndex].parameters[i]); i++)
                     if (parameterPositions[positionIndex].parameters[i].instance != 0) /* Skip any empty slots */
-                        if (!isObject(parameterPositions[positionIndex].parameters[i].instance))
+                        if (!isAObject(parameterPositions[positionIndex].parameters[i].instance))
                             parameterPositions[positionIndex].parameters[i].instance = 0;
-            } else if (!isObject(parameterPositions[positionIndex].parameters[0].instance))
+            } else if (!isAObject(parameterPositions[positionIndex].parameters[0].instance))
 				impossibleWith(parameterPositions, positionIndex);
         }
 }

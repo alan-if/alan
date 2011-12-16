@@ -46,17 +46,17 @@ bool isA(int instance, int ancestor)
 }
 
 
-bool isObject(int instance)
+bool isAObject(int instance)
 {
   return isA(instance, OBJECT);
 }
 
-bool isContainer(int instance)
+bool isAContainer(int instance)
 {
   return instance != 0 && instances[instance].container != 0;
 }
 
-bool isActor(int instance)
+bool isAActor(int instance)
 {
   return isA(instance, ACTOR);
 }
@@ -72,14 +72,20 @@ bool isLiteral(int instance)
   return instance > header->instanceMax;
 }
 
-bool isNumeric(int instance)
+bool isANumeric(int instance)
 {
   return isLiteral(instance) && literals[literalFromInstance(instance)].type == NUMERIC_LITERAL;
 }
 
-bool isString(int instance)
+bool isAString(int instance)
 {
   return isLiteral(instance) && literals[literalFromInstance(instance)].type == STRING_LITERAL;
+}
+
+
+/*======================================================================*/
+bool isOpaque(int container) {
+    return getInstanceAttribute(container, OPAQUEATTRIBUTE);
 }
 
 
@@ -118,8 +124,6 @@ void setInstanceSetAttribute(int instance, int attribute, Aptr set)
 /*----------------------------------------------------------------------*/
 static Aptr literalAttribute(int literal, int attribute)
 {
-    char str[80];
-
     if (attribute == 1)
         return literals[literalFromInstance(literal)].value;
     else {
@@ -230,7 +234,7 @@ bool in(int instance, int container, bool directly)
 {
     int loc;
 
-    if (!isContainer(container))
+    if (!isAContainer(container))
         syserr("IN in a non-container.");
 
     if (directly)
@@ -400,7 +404,7 @@ static void sayLiteral(int literal)
 {
     char *str;
 
-    if (isNumeric(literal))
+    if (isANumeric(literal))
         sayInteger(literals[literal-header->instanceMax].value);
     else {
         str = (char *)strdup((char *)literals[literal-header->instanceMax].value);
@@ -586,7 +590,7 @@ void sayForm(int instance, SayForm form)
 
 /*======================================================================*/
 bool isDescribable(int instance) {
-    return isObject(instance) || isActor(instance);
+    return isAObject(instance) || isAActor(instance);
 }
 
 
@@ -667,7 +671,7 @@ void describeInstances(void)
 
     /* First describe every object here with its own description */
     for (i = 1; i <= header->instanceMax; i++)
-        if (admin[i].location == current.location && isObject(i) &&
+        if (admin[i].location == current.location && isAObject(i) &&
                 !admin[i].alreadyDescribed && hasDescription(i))
             describe(i);
 
@@ -675,7 +679,7 @@ void describeInstances(void)
     for (i = 1; i <= header->instanceMax; i++)
         if (admin[i].location == current.location
                 && !admin[i].alreadyDescribed
-                && isObject(i)) {
+                && isAObject(i)) {
             if (found == 0)
                 printMessageWithInstanceParameter(M_SEE_START, i);
             else if (found > 1)
@@ -703,7 +707,7 @@ void describeInstances(void)
 
     /* Finally all actors with a separate description */
     for (i = 1; i <= header->instanceMax; i++)
-        if (admin[i].location == current.location && i != HERO && isActor(i)
+        if (admin[i].location == current.location && i != HERO && isAActor(i)
         && !admin[i].alreadyDescribed)
             describe(i);
 
@@ -743,9 +747,9 @@ bool describe(int instance)
     verifyInstance(instance, "DESCRIBE");
     if (descriptionCheck(instance)) {
         descriptionOk = TRUE;
-        if (isObject(instance)) {
+        if (isAObject(instance)) {
             describeObject(instance);
-        } else if (isActor(instance)) {
+        } else if (isAActor(instance)) {
             describeActor(instance);
         } else
             describeAnything(instance);
@@ -786,7 +790,7 @@ static void locateLocation(Aword loc, Aword whr)
 /*----------------------------------------------------------------------*/
 static void locateObject(Aword obj, Aword whr)
 {
-    if (isContainer(whr)) { /* Into a container */
+    if (isAContainer(whr)) { /* Into a container */
         locateIntoContainer(obj, whr);
     } else {
         admin[obj].location = whr;
@@ -850,7 +854,7 @@ static void locateActor(Aint movingActor, Aint whr)
     /* TODO Actors locating into containers is dubious, anyway as it
        is now it allows the hero to be located into a container. And what
        happens with current location if so... */
-    if (isContainer(whr))
+    if (isAContainer(whr))
         locateIntoContainer(movingActor, whr);
     else {
         current.location = whr;
@@ -910,7 +914,7 @@ void locate(int instance, int whr)
     verifyInstance(whr, "LOCATE AT");
 
     /* First check if the instance is in a container, if so run extract checks */
-    if (isContainer(admin[instance].location)) {    /* In something? */
+    if (isAContainer(admin[instance].location)) {    /* In something? */
         current.instance = admin[instance].location;
         containerId = instances[admin[instance].location].container;
         theContainer = &containers[containerId];
@@ -933,7 +937,7 @@ void locate(int instance, int whr)
 	current.instance = previousInstance;
     }
 
-    if (isActor(instance))
+    if (isAActor(instance))
         locateActor(instance, whr);
     else if (isALocation(instance))
         locateLocation(instance, whr);

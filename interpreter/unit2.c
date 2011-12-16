@@ -20,6 +20,7 @@ int main(int argc, char **argv) {
     ADD_UNIT_TESTS_FOR(debug);
     ADD_UNIT_TESTS_FOR(exe);
     ADD_UNIT_TESTS_FOR(inter);
+    ADD_UNIT_TESTS_FOR(instance);
     ADD_UNIT_TESTS_FOR(main);
     ADD_UNIT_TESTS_FOR(params);
     ADD_UNIT_TESTS_FOR(parameterPosition);
