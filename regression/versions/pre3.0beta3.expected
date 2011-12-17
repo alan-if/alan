@@ -1,4 +1,4 @@
-########## pre3.0alpha5 ##########
+########## pre3.0beta3 ##########
 
 
 Loc
@@ -12,10 +12,10 @@ The loc is a location. There is a t here.
 X t
 
 > x hero
-You can't do that.
+That's impossible with the hero.
 
 > x "c"
-You can't do that.
+That's impossible with c.
 
 > v "c"
 You can't v c.

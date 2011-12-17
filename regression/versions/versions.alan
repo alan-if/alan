@@ -6,6 +6,9 @@ End Verb.
 
 Syntax x = x (o).
 
+Syntax v = v (o)
+  Where o Isa object Else "You can't v" Say o. "."
+
 Add To Every object
   Verb x
     Does "x"
@@ -18,6 +21,9 @@ The loc Isa location
 End The loc.
 
 The t Isa object At loc
+  Verb x,v 
+    Does Say o.
+  End Verb.
 End The t.
 
 Start At loc.
