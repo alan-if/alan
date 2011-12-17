@@ -17,6 +17,7 @@
 #include "literal.h"
 #include "dictionary.h"
 #include "Location.h"
+#include "compatibility.h"
 
 
 /* PUBLIC DATA */
@@ -124,12 +125,16 @@ void setInstanceSetAttribute(int instance, int attribute, Aptr set)
 /*----------------------------------------------------------------------*/
 static Aptr literalAttribute(int literal, int attribute)
 {
-    if (attribute == 1)
-        return literals[literalFromInstance(literal)].value;
-    else {
-        return 0;
-        //        sprintf(str, "Unknown attribute for literal (%d).", attribute);
-        //        syserr(str);
+    if (isPreBeta3(header->version)) {
+        if (attribute == 1)
+            return literals[literalFromInstance(literal)].value;
+        else
+            return 0;
+    } else {
+        if (attribute == 0)
+            return literals[literalFromInstance(literal)].value;
+        else
+            return getAttribute(pointerTo(header->entityAttributeTableAddress), attribute);
     }
     return(EOF);
 }

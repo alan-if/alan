@@ -29,7 +29,7 @@ Ensure canAccessLiteralValue() {
     int value = 45;
     int literal_number = 1;
     
-    int attribute_number_for_literal_value = 1;
+    int attribute_number_for_literal_value = 0;
 
     given_a_literal_table_of(1);
     given_that_literal_has_value(1, value);

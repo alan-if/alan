@@ -4,7 +4,7 @@ Syntax 'play' = 'play' (s)
       "something you can play."
 
 Add To Every entity
-  Is plural.
+  Is Not plural.
 End Add.
 
 Add To Every object

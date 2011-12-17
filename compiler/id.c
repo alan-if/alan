@@ -113,13 +113,13 @@ void generateId(IdNode *id)
       case STRING_TYPE:
           generateSymbol(id->symbol);
           emitVariable(V_PARAM);
-          emitConstant(1);
+          emitConstant(0);
           emit0(I_ATTRSTR);
           break;
       case INTEGER_TYPE:
           generateSymbol(id->symbol);
           emitVariable(V_PARAM);
-          emitConstant(1);
+          emitConstant(0);
           emit0(I_ATTRIBUTE);
           break;
       case INSTANCE_TYPE:

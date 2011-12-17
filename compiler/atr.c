@@ -661,11 +661,11 @@ Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute
 
   for (lst = atrs; lst != NULL; lst = lst->next) {
     generateAttribute(lst->member.atr, instanceCode);
-    if (instanceCode != 0) // Otherwise it is class attributes which can't change
+    if (instanceCode != 0) // Otherwise it is class attributes which can't change and should not be counted
         attributeAreaSize += AwordSizeOf(AttributeEntry);
   }
   emit(EOF);
-  if (instanceCode != 0) // Otherwise it is class attributes which can't change
+  if (instanceCode != 0) // Otherwise it is class attributes which can't change and should not be counted
       attributeAreaSize += 1;
 
   return(adr);

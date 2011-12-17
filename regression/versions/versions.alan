@@ -6,8 +6,15 @@ End Verb.
 
 Syntax x = x (o).
 
+Add To Every entity
+  Is plural.
+  Has string "as".
+  Verb v
+  End Verb.
+End Add.
+
 Syntax v = v (o)
-  Where o Isa object Else "You can't v" Say o. "."
+  Where o Isa object Else If o Is plural Then "plural:" Say string of o. Else "You can't v" Say o. "." End If.
 
 Add To Every object
   Verb x

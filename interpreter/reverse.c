@@ -87,7 +87,7 @@ void reverse(Aword *w)          /* IN - The ACODE word to reverse bytes in */
 }
 
 
-static void reverseTable(Aword adr, int len)
+static void reverseTable(Aword adr, int elementSize)
 {
   Aword *e = &memory[adr];
   int i;
@@ -95,11 +95,11 @@ static void reverseTable(Aword adr, int len)
   if (adr == 0) return;
 
   while (!isEndOfArray(e)) {
-    if (len < sizeof(Aword)) {
+    if (elementSize < sizeof(Aword)) {
       printf("***Wrong size in 'reverseTable()' ***");
       exit(-1);
     }
-    for (i = 0; i < len/sizeof(Aword); i++) {
+    for (i = 0; i < elementSize/sizeof(Aword); i++) {
       reverse(e);
       e++;
     }
@@ -601,6 +601,9 @@ static void reverseNative() {
 
     reverseTable(header->scores, sizeof(Aword));
     reverseTable(header->freq, sizeof(Aword));
+
+    if (!isPreBeta3(header->version))
+        reverseTable(header->entityAttributeTableAddress, sizeof(AttributeEntry));
 }
 
 
