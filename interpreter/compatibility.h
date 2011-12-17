@@ -16,5 +16,6 @@
 /* FUNCTIONS: */
 extern bool isPreAlpha5(char version[4]);
 extern bool isPreBeta2(char version[4]);
+extern bool isPreBeta3(char version[4]);
 
 #endif

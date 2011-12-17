@@ -239,6 +239,7 @@ void generateAdventure(char acodeFileName[],
 
     verbose("Classes");
     acodeHeader.classTableAddress = generateClasses();
+    acodeHeader.entityAttributeTableAddress = generateAttributes(entity->props->attributes, 0);
 
     verbose("Instances");
     generateInstances(&acodeHeader);

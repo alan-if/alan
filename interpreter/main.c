@@ -286,11 +286,13 @@ static void checkVersion(ACodeHeader *header)
   different versions.
 */
 static int memoryStart(char version[4]) {
-    /* Pre 3.0alpha5 had a shorter header */
+    /* Some earlier versions had a shorter header */
     if (isPreAlpha5(version))
         return sizeof(Pre3_0alpha5Header)/sizeof(Aword);
     else if (isPreBeta2(version))
         return sizeof(Pre3_0beta2Header)/sizeof(Aword);
+    else if (isPreBeta3(version))
+        return sizeof(Pre3_0beta3Header)/sizeof(Aword);
     else
         return sizeof(ACodeHeader)/sizeof(Aword);
 }
