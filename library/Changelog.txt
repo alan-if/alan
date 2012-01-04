@@ -1,7 +1,7 @@
 Changelog for ALAN Standard Library
 
 
-v1.00 (? ?, 2011)
+v1.00 (30 Sep, 2011)
 
 - modified the rules and the 'entered' clause for dark locations in 'locations.i'
 - modified the checks for the 'take' verb

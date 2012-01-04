@@ -186,6 +186,7 @@ EVERY background ISA THING
 END EVERY.
 
 
+-- A background object is present in the location but cannot be reached.
 -- Note that a background object in ALAN3 is different from e.g. the backdrop in Inform7
 -- in that a background object is at one location at a time only, unless
 -- you use the nested locations feature in ALAN which makes the object available
@@ -1338,7 +1339,8 @@ EVERY liquid ISA OBJECT
 						-- as trying to take a liquid outside any container, will yield 
 						-- "You can't carry [the liquid] around in your bare hands." 
 						-- The default value 'no_vessel' tells the compiler that the liquid
-						-- is not in any container. 
+						-- is not in any container. no_vessel is a dummy default that can be
+						-- ignored.
 							
 
 
@@ -1381,7 +1383,7 @@ EVERY liquid ISA OBJECT
 								-- Here we prohibit the player from examining
 								-- a liquid when the liquid is in a closed container.
 					END IF.
-				ELSE "You see nothing special in" SAY THE THIS.
+				ELSE "You see nothing special in" SAY THE THIS. "."
 			END IF.
 	END VERB.
 		
@@ -1401,7 +1403,7 @@ EVERY liquid ISA OBJECT
 								-- Here we prohibit the player from looking into
 								-- a liquid when the liquid is in a closed container.
 					END IF.
-				ELSE "You see nothing special in" SAY THE THIS.
+				ELSE "You see nothing special in" SAY THE THIS. "."
 			END IF.
 	END VERB.
 		
@@ -1827,6 +1829,10 @@ EVERY LISTABLE_CONTAINER ISA OBJECT			-- ACTORS are separately defined as
 	END VERB.
 
 
+-- Note that closed listable_containers are by default opaque and they become not opaque when
+-- they are opened: 
+
+
 	VERB open
  		DOES
 			MAKE THIS NOT OPAQUE.
@@ -2150,7 +2156,14 @@ END EVERY.
 --	AT bedroom
 --	IS NOT closed.
 -- END THE.
-
+--
+-- THE book ISA OBJECT IN table
+-- ...
+-- END THE book.
+--
+-- THE diary ISA OBJECT IN drawer2
+-- ...
+-- END THE diary.
 
 
 -- In other words, declare the drawers components of the table, in the manner described above.
