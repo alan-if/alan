@@ -274,7 +274,7 @@ typedef enum VarClass {
 
 
 #define I_CLASS(x) ((x)>>28)
-#define I_OP(x)    ((x&0x8000000)?(x)|0x0f0000000:(x)&0x0fffffff)
+#define I_OP(x)    ((x&0x08000000)?(x)|0xf0000000:(x)&0x0fffffff)
 
 
 /* AMACHINE Table entry types */
@@ -283,7 +283,7 @@ typedef enum VarClass {
 
 typedef struct ArticleEntry {
     Aaddr address;		/* Address of article code */
-    Abool isForm;			/* Is the article a complete form? */
+    Abool isForm;		/* Is the article a complete form? */
 } ArticleEntry;
 
 typedef struct ClassEntry {	/* CLASS TABLE */
