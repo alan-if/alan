@@ -45,49 +45,79 @@ static int lines = 0;		/* Updated at end of each file */
 #define O_BINARY 0
 #endif
 
-Bool smScanEnter(char fnm[],	/* IN - Name of file to open */
-		 Bool search	/* IN - Search the include paths */
-){
-  smScContext this;
-  char fnmbuf[300] = "";
+static Bool find_and_open_in_path_element(smScContext this, List *ip, char fnm[]) {
+    char fnmbuf[300] = "";
 
-  this = smScNew(sm_MAIN_MAIN_Scanner);
-  if (fnm == NULL)
-    this->fd = 0;
-  else {
+    if (ip != NULL) {
+        strcpy(fnmbuf, ip->member.str);
+#ifndef __mac__
+        strcat(fnmbuf, "/");
+#endif
+    }
+    strcat(fnmbuf, fnm);
+    return (this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) > 0;
+}
+
+static Bool open_import(smScContext this, char fnm[], Bool search) {
     List *ip;
 
     if (search) {
-      strcpy(fnmbuf, fnm);
-      if ((this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) < 0) {
-	for (ip = importPaths; ip != NULL; ip = ip->next) {
-	  strcpy(fnmbuf, ip->member.str);
-#ifndef __mac__
-	  if (ip->member.str[strlen(ip->member.str)-1] != '/')
-	    strcat(fnmbuf, "/");
-#endif
-	  strcat(fnmbuf, fnm);
-	  if ((this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) > 0)
-	    break;
-	}
-	if (ip == NULL)
-	  return FALSE;
-      }
+        if (!find_and_open_in_path_element(this, NULL, fnm)) {
+            for (ip = importPaths; ip != NULL; ip = ip->next) {
+                if (find_and_open_in_path_element(this, ip, fnm))
+                    break;
+            }
+            if (ip == NULL)
+                return FALSE;
+        }
     } else {
-      strcat(fnmbuf, fnm);
-      if ((this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) < 0)
-	return FALSE;
+        if (!find_and_open_in_path_element(this, NULL, fnm))
+            return FALSE;
     }
-  }
+    return TRUE;
+}
 
-  /* Remember the filename */
-  this->fileName = newString(fnmbuf);
-  fileNames = concat(fileNames, this->fileName, STRING_LIST);
-  this->fileNo = fileNo++;
-  this->previous = lexContext;
-  lexContext = this;
+static void register_filename(smScContext this, char filename[]) {
+    this->fileName = newString(filename);
+    fileNames = concat(fileNames, this->fileName, STRING_LIST);
+}
 
-  return TRUE;
+static void switch_scanner(smScContext this) {
+    this->fileNo = fileNo++;
+    this->previous = lexContext;
+    lexContext = this;
+}
+
+
+
+Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statement */
+                 char fnm[],	/* IN - Name of file to open */
+		 Bool search	/* IN - Search the import paths? */
+){
+    smScContext this;
+    List *p;
+
+    for (p = fileNames; p != NULL; p = p->next) {
+        if (strcmp(fnm, p->member.str) == 0) {
+            lmLog(&srcp, 197, sevWAR, fnm);
+            return FALSE;
+        }
+    }
+
+    this = smScNew(sm_MAIN_MAIN_Scanner);
+    if (fnm == NULL)
+        this->fd = 0;
+    else {
+        if (!open_import(this, fnm, search)) {
+            lmLog(&srcp, 199, sevFAT, fnm);
+            return FALSE;
+        }
+    }
+
+    register_filename(this, fnm);
+    switch_scanner(this);
+
+    return TRUE;
 }
 
 int scannedLines(void)
@@ -256,12 +286,11 @@ int smScAction(
 	srcp.line++;
 	srcp.col = 1;
 
-	if (smScanEnter(token.chars, TRUE)) {
+	if (smScanEnter(token.srcp, token.chars, TRUE)) {
 	  start.file = fileNo-1;
 	  start.line = 0;	/* Start at beginning */
 	  lmLiEnter(&srcp, &start, lexContext->fileName);
-	} else
-	  lmLog(&token.srcp, 199, sevFAT, token.chars);
+	}
       } else
 	lmLog(&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
   
@@ -370,15 +399,14 @@ int smScAction(
 	} while (c != '\n' && i != 0);
 
       	lmLog(&smToken->srcp, 154, sevWAR, token.chars); /* INCLUDE is deprecated */
-	if (smScanEnter(token.chars, TRUE)) {
+	if (smScanEnter(token.srcp, token.chars, TRUE)) {
 	  smToken->srcp.file = fileNo-1;
 	  start.file = fileNo-1;
 	  start.line = 0;	/* Start at beginning */
 	  lmLiEnter(&srcp, &start, lexContext->fileName);
 	  /* Use the new scanner to get next token and return it */
 	  return smScan(lexContext, smToken);
-	} else /* Did not find the file */
-	  lmLog(&token.srcp, 199, sevFAT, token.chars);
+	}
       } else  /* Did not scan any file name */
 	lmLog(&token.srcp, 151, sevFAT, token.chars);
   

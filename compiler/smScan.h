@@ -189,7 +189,7 @@ extern smScContext lexContext;
 /* List of file names */
 extern List *fileNames;
 
-extern Bool smScanEnter(char fnm[], Bool search);
+extern Bool smScanEnter(Srcp srcp, char fnm[], Bool search);
 extern int scannedLines(void);
 extern void setCharacterSet(int charset);
 

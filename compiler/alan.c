@@ -293,9 +293,8 @@ static void setupCompilation() {
   lmLiInit(alan.shortHeader, srcfnm, lm_ENGLISH_Messages);
   setCharacterSet(charset);
 
-  if (!smScanEnter(srcfnm, FALSE)) {
+  if (!smScanEnter(nulsrcp, srcfnm, FALSE)) {
     /* Failed to open the source file */
-    lmLog(NULL, 199, sevFAT, srcfnm);
     createListing("", 0, 79, liMSG, sevALL);
     terminate(EXIT_FAILURE);
   }
