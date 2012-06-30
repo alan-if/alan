@@ -1,5 +1,11 @@
-from sys import argv
+from sys import argv, exit
 from subprocess import check_call, call, Popen, PIPE
+
+if len(argv) == 1 :
+    print argv[0] + " - a program to extract location graph data from an Alan game"
+    print
+    print "Usage: " + argv[0] + " <alan source file>"
+    exit()
 
 script, filename = argv
 
@@ -10,10 +16,17 @@ lines = ''.join(output).split("\n")
 
 i = iter(lines)
 line = i.next()
+message = line
 
 l = 0
-while line.find("ADV:") == -1 :
-    line = i.next()
+try :
+    while line.find("ADV:") == -1 :
+        line = i.next()
+        message += "\n" + line
+
+except :
+    print message
+
 
 try :
     while 1 :
@@ -51,15 +64,14 @@ try :
 
             # So, to where does it lead?
             line = i.next()
-            target = line
+            target = line.strip()
             line = i.next()
 
+            # Did that line split?
             if line[0] != '.' :
-                print target
-                print line
-                target += line.split()[0]
-                print target
-            target = target.split()[11].split(":")[0]
+                # Yes, so past them together again
+                target += line.split(":")[0].strip()
+            target = target.split()[11].strip().split(":")[0]
             
             print id + ":" + direction + ":" + target
 
