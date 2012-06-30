@@ -50,7 +50,7 @@ try :
         # Yes, that was a location. What's it's name?
         # 8th field and then remove the part after colon
         id = idline.split()[7].split(":")[0].strip('"')
-        print '  node [label="' + id + '"]; ' + id + ';'
+        print '  ' + id + '[label="' + id + '"];'
 
         # Is there an exit?
         line = i.next()
