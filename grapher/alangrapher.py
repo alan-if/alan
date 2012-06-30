@@ -27,6 +27,8 @@ try :
 except :
     print message
 
+print 'digraph finite_state_machine {'
+print '  rankdir=LR;'
 
 try :
     while 1 :
@@ -47,7 +49,8 @@ try :
 
         # Yes, that was a location. What's it's name?
         # 8th field and then remove the part after colon
-        id = idline.split()[7].split(":")[0]
+        id = idline.split()[7].split(":")[0].strip('"')
+        print '  node [label="' + id + '"]; ' + id + ';'
 
         # Is there an exit?
         line = i.next()
@@ -71,10 +74,11 @@ try :
             if line[0] != '.' :
                 # Yes, so past them together again
                 target += line.split(":")[0].strip()
-            target = target.split()[11].strip().split(":")[0]
+            target = target.split()[11].strip().split(":")[0].strip('"')
             
-            print id + ":" + direction + ":" + target
+            print "  " + id + " -> " + target + " [label=" + direction + "];"
 
 except StopIteration as x :
+    print "}"
     pass
 
