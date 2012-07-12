@@ -51,8 +51,9 @@ static void testGenerateEmptyInstanceEntry()
   generateInstancePropertiesData(instance->props);
   entryAddress = nextEmitAddress();
   generateInstanceEntry(instance);
-  terminateEmit();
+  finalizeEmit();
   emitHeader();
+  terminateEmit();
 
   loadACD("unit.a3c");
   entry = (InstanceEntry *) &memory[entryAddress];
@@ -92,8 +93,9 @@ static void testGenerateInstances()
   address = nextEmitAddress();
   ASSERT(address == instanceTableAddress + instanceSize);
   acodeHeader.size = address;
-  terminateEmit();
+  finalizeEmit();
   emitHeader();
+  terminateEmit();
 
   loadACD("unit.a3c");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];

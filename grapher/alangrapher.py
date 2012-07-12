@@ -63,7 +63,7 @@ try :
 
             # Yes, so find the direction
             # 9th field and then remove the part after colon
-            direction = line.split()[11].split(":")[0]
+            direction = line.split()[11].split(":")[0].strip('"')
 
             # So, to where does it lead?
             line = i.next()

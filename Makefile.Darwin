@@ -4,7 +4,7 @@
 
 VERSION = `cat LASTRELEASE`
 BUILD = $(wildcard BUILD_NUMBER)
-ifeq ($(BUILD_NUMBER), "")
+ifeq ($(BUILD), "")
   BUILD=
 else
   BUILD= -`cat BUILD_NUMBER`
@@ -18,8 +18,8 @@ package:
 	echo $(BUILD) 
 	cp bin/alan bin/arun .
 	tar zcvf alan$(VERSION)$(BUILD).macosx.x86.tgz alan arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan
-	rm alan arun
-	rm $(DISTDIR)/Snapshots/alan*macosx*.tgz
+	-rm alan arun
+	-rm $(DISTDIR)/Snapshots/alan*macosx*.tgz
 	mv alan*macosx*.tgz $(DISTDIR)/Snapshots
 
 .PHONY: build-alan

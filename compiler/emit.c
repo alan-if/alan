@@ -3,7 +3,7 @@
   emit.c
 
 
-  \*---------------------------------------------------------------------*/
+\*---------------------------------------------------------------------*/
 
 #include "sysdep.h"
 #include "types.h"
@@ -249,7 +249,7 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
     /* Add FinderInfo to point to Arun */
     {
         char fnm[256];
-        short vRefNum = 0;
+        short vRefNuepm = 0;
         FInfo finfo;
         OSErr oe;
 
@@ -265,7 +265,7 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
 }
 
 
-void terminateEmit()
+void finalizeEmit()
 {
     if (pc%BLOCKSIZE > 0)
         fwrite(emitBuffer, BLOCKSIZE, 1, acdfil);
@@ -288,6 +288,18 @@ void emitTextDataToAcodeFile(char dataFileName[])
 }
 
 
+void emitControlStructure (void) {
+	/* For now emit it where we are (probably at the end of memory) */
+    Aword *hp;			/* Pointer to header as words */
+	int i;
+
+    hp = (Aword *) &acodeHeader;		/* Point to header */
+    for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++) /* Emit header */
+        emit(*hp++);
+    fwrite(emitBuffer, sizeof(ACodeHeader), 1, acdfil); /* Flush first block out */
+}
+
+
 void emitHeader()
 {
     Aword *hp;			/* Pointer to header as words */
@@ -298,8 +310,11 @@ void emitHeader()
     struct timeb times;
 #endif
 
-    (void) rewind(acdfil);
-    pc = 0;
+	/* From 3.0beta3 the "real" header ("control structure") is
+	   located at the top of memory, and the header will, after 3.0
+	   shrink to just a tiny structure of {version, memory size, crc,
+	   pointer to header}. But for now we need to generate a
+	   pre3.0beta3 style header here for backwards compatibility */
 
     /* Generate header tag "ALAN" */
     if (littleEndian()) {
@@ -342,9 +357,16 @@ void emitHeader()
     acodeHeader.uid = times.millitm;
 #endif
 
+    (void) rewind(acdfil);
+    pc = 0;
+
     hp = (Aword *) &acodeHeader;		/* Point to header */
-    for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++) /* Emit header */
+    for (i = 0; i < (sizeof(Pre3_0beta3Header)/sizeof(Aword)); i++) /* Emit header */
         emit(*hp++);
-    fwrite(emitBuffer, sizeof(ACodeHeader), 1, acdfil); /* Flush first block out */
+    fwrite(emitBuffer, sizeof(Pre3_0beta3Header), 1, acdfil); /* Flush first block out */
+}
+
+
+void terminateEmit(void) {
     fclose(acdfil);
 }

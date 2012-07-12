@@ -89,8 +89,9 @@ void testGenerateEmptyClassEntry()
   generateCommonPropertiesData(class->props);
   entryAddress = nextEmitAddress();
   generateClassEntry(class);
-  terminateEmit();
+  finalizeEmit();
   emitHeader();
+  terminateEmit();
 
   loadACD("unit.a3c");
   entry = (ClassEntry *) &memory[entryAddress];
