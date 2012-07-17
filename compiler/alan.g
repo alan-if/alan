@@ -1,4 +1,4 @@
-grammar alan;
+Grammar alan;
 
 WHITESPACE  : (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;} ;
 
@@ -19,12 +19,15 @@ adventure : optional_options declarations start
              ;
 
 optional_options : 
-                 | ('option' | 'options') game_options 
+                 | genSym0 options 
                     ;
 
+genSym0 : 'options' 
+         | 'option' 
+            ;
 
-game_options : option 
-        | game_options option 
+options : option 
+        | options option 
            ;
 
 option : ID '.' 
@@ -168,7 +171,7 @@ optional_checks :
                    ;
 
 check_list : check 
-           | check 'and' check_list 
+           | check_list 'and' check 
               ;
 
 check : expression 'else' statements 
@@ -232,7 +235,7 @@ genSym6 :
             ;
 
 properties : 
-           |  property properties
+           | properties property 
               ;
 
 property : where genSym7 
@@ -339,7 +342,7 @@ optional_limits :
                    ;
 
 limits : limit 
-       | limit limits 
+       | limits limit 
           ;
 
 limit : limit_attribute else_or_then statements 
@@ -383,7 +386,7 @@ genSym10 :
              ;
 
 step_list : step 
-          | step step_list 
+          | step_list step 
              ;
 
 step : 'step' statements 
@@ -414,7 +417,7 @@ optional_statements :
                        ;
 
 statements : statement 
-           | statement statements 
+           | statements statement 
               ;
 
 statement : output_statement 
@@ -501,36 +504,36 @@ optional_elsif_list :
                        ;
 
 elsif_list : 'elsif' expression 'then' statements 
-           |  'elsif' expression 'then' statements elsif_list
+           | elsif_list 'elsif' expression 'then' statements 
               ;
 
 optional_else_part : 
                    | 'else' statements 
-                   ;
+                      ;
 
 depending_statement : 'depending' 'on' primary depend_cases 'end' 
                          genSym12 '.' 
-                    ;
+                       ;
 
 genSym12 : 'depend' 
-         | 'depending' 
-         ;
+          | 'depending' 
+             ;
 
 depend_cases : depend_case 
-             | depend_case depend_cases
-             ;
+             | depend_cases depend_case 
+                ;
 
 depend_case : 'else' statements 
             | right_hand_side 'then' statements 
-            ;
+               ;
 
 repetition_statement : for_each ID optional_loop_filters 'do' 
                           statements 'end' for_each genSym13 
-                     ;
+                        ;
 
 genSym13 : 
-         | '.' 
-         ;
+          | '.' 
+             ;
 
 optional_loop_filters : 
                       | filters 
@@ -540,15 +543,15 @@ optional_loop_filters :
 for_each : 'for' 
          | 'each' 
          | 'for' 'each' 
-         ;
+            ;
 
 actor_statement : 'stop' what '.' 
                 | 'use' 'script' ID optional_for_actor '.' 
-                ;
+                   ;
 
 optional_for_actor : 
                    | 'for' what 
-                   ;
+                      ;
 
 special_statement : 'quit' '.' 
                   | 'look' '.' 
@@ -559,53 +562,54 @@ special_statement : 'quit' '.'
                   | 'transcript' on_or_off '.' 
                   | 'system' STRING '.' 
                   | 'visits' INTEGER '.' 
-                  ;
+                     ;
 
 on_or_off : 'on' 
           | 'off' 
-          ;
+             ;
 
 optional_expression : 
                     | expression 
-                    ;
+                       ;
 
 expression : term 
-           | term 'or' expression 
-           ;
+           | expression 'or' term 
+              ;
 
 term : factor 
-     | factor 'and' term 
-     ;
+     | term 'and' factor 
+        ;
 
 factor : arithmetic 
        | factor optional_not where 
        | factor optional_not relop arithmetic 
        | factor optional_not 'contains' arithmetic 
-       | factor optional_not 'between' arithmetic 'and' arithmetic 
-       ;
+       | factor optional_not 'between' arithmetic 'and' 
+            arithmetic 
+          ;
 
 arithmetic : primary 
            | aggregate filters 
            | primary 'isa' ID 
            | primary is something 
            | arithmetic binop primary 
-           ;
+              ;
 
 filters : filter 
-        | filter ',' filters
-        ;
+        | filters ',' filter 
+           ;
 
 filter : optional_not where 
        | optional_not 'isa' ID 
        | is something 
-        ;
+          ;
 
 right_hand_side : filter 
                 | optional_not relop primary 
                 | optional_not 'contains' factor 
                 | optional_not 'between' arithmetic 'and' 
                      arithmetic 
-                 ;
+                   ;
 
 primary : STRING 
         | what 
@@ -615,23 +619,23 @@ primary : STRING
         | '(' expression ')' 
         | 'random' optional_directly 'in' primary 
         | 'random' primary 'to' primary 
-         ;
+           ;
 
 aggregate : 'count' 
           | aggregator 'of' ID 
-           ;
+             ;
 
 aggregator : 'max' 
            | 'min' 
            | 'sum' 
-            ;
+              ;
 
 something : optional_not ID 
-           ;
+             ;
 
 what : simple_what 
      | attribute_reference 
-      ;
+        ;
 
 simple_what : ID 
             | 'this' 
@@ -687,8 +691,9 @@ optional_id :
             | ID 
                ;
 
-ids : ID ids
-    ;
+ids : ID 
+    | ids ID 
+       ;
 
 id_list : ID 
         | id_list ',' ID 

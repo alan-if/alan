@@ -1,2 +1,3 @@
 #!/bin/sh
-/cygdrive/c/Program/Winmerge/WinMergeU $1.expected $1.output
+f=${1%%\.}
+/cygdrive/c/Program/Winmerge/WinMergeU $f.expected $f.output

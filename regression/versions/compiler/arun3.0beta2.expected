@@ -17,25 +17,13 @@ versions.alan
 
 
 
-Loc
-The loc is a location. There is a t here.
+As you enter the twilight zone of Adventures, you stumble and fall
+to your knees. In front of you, you can vaguely see the outlines of
+an Adventure that never was.
 
-> l
-Loc
-The loc is a location. There is a t here.
+SYSTEM ERROR: Can't SET/MAKE instance (0).
 
-> x t
-X t
-
-> x hero
-That's impossible with the hero.
-
-> x "c"
-That's impossible with c.
-
-> v "c"
-You can't v c.
-
-> 
-
-Do you want to UNDO, RESTART, RESTORE or QUIT ? 
+<If you are the creator of this piece of Interactive Fiction, please
+help debug this Alan system error. Collect *all* the sources, and,
+if possible, an exact transcript of the commands that let to this
+error, in a zip-file and send it to support@alanif.se. Thank you!>

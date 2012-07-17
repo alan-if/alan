@@ -29,7 +29,7 @@ extern int memTop;
 
 /* FUNCTIONS */
 #ifndef SMARTALLOC
-extern void *allocate(unsigned long len);
+extern void *allocate(unsigned long lengthInBytes);
 #else
 #define allocate(s) calloc(s, 1)
 #endif

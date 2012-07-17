@@ -46,6 +46,8 @@
 #define addressOf(x) ((((long)x)-((long)memory))/sizeof(Aword))
 #define stringAt(x) ((char *)pointerTo(x))
 
+#define ASIZE(x) (sizeof(x)/sizeof(Aword))
+
 /* TYPES */
 
 #include <stdbool.h>

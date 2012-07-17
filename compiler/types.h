@@ -16,4 +16,7 @@ typedef int Bool;
 
 #define NEW(x) ((x *) allocate(sizeof(x)))
 
+/* Size of something in Awords */
+#define ASIZE(x) (sizeof(x)/sizeof(Aword))
+
 #endif

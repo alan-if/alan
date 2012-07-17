@@ -68,7 +68,7 @@ static void testEmitTextDataToAcodeFile()
 
   generateTextDataFile(textDataFileName, textData);
   acdfil = fopen("emitTestAcode", WRITE_MODE);
-  emitTextDataToAcodeFile(textDataFileName);
+  copyTextDataToAcodeFile(textDataFileName);
   fclose(acdfil);
   acdfil = fopen("emitTestAcode", READ_MODE);
   for (i = 0; i < strlen(textData); i ++)
@@ -78,12 +78,36 @@ static void testEmitTextDataToAcodeFile()
   fclose(acdfil);
   unlink(textDataFileName);
 }
-  
+
+
+static void finalizeEmitShouldAdjustCRCWithoutChangingSize() {
+    int i;
+
+    /* Given: */
+    crc = 0;
+    acodeHeader.acdcrc = 0;
+    
+    Aword *headerAsArray = (Aword *)&acodeHeader;
+
+    int sizeDiff = ASIZE(ACodeHeader) - ASIZE(Pre3_0beta3Header);
+    for (i = ASIZE(Pre3_0beta3Header); i < ASIZE(ACodeHeader); i++)
+        headerAsArray[i] = 0x22334455;
+
+    int size = nextEmitAddress();
+
+    /* When: */
+    finalizeEmit();
+
+    /* Then: */
+    ASSERT(acodeHeader.acdcrc == sizeDiff * ((Aword)0x22 + (Aword)0x33 + (Aword)0x44 + (Aword)0x55));
+    ASSERT(acodeHeader.size == size);
+}
 
 
 void emitUnitTests()
 {
   registerUnitTest(testEmit);
   registerUnitTest(testEmitTextDataToAcodeFile);
+  registerUnitTest(finalizeEmitShouldAdjustCRCWithoutChangingSize);
 }
 

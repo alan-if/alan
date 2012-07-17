@@ -1,2 +1,3 @@
 #!/bin/sh
-mv $1.output $1.expected
+f=${1%%\.}
+mv $f.output $f.expected

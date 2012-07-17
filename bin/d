@@ -15,7 +15,7 @@ diffCase ()
 
 if [ $# != 0 ] ; then
   for f in ${*} ; do
-    case=`basename $f .output`
+    case=`basename ${f%%.} .output`
     if [ "$case" != "$f" ] ; then
 	diffCase
     elif [ -f $case.alan ] ; then

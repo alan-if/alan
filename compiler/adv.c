@@ -218,7 +218,7 @@ void generateAdventure(char acodeFileName[],
 		       char dataFileName[])
 {
     initEmit(acodeFileName);		/* Initialise code emit */
-    initEncoding(textFileName, dataFileName);	/* Initialise encoding */
+    initEncoding(textFileName, dataFileName);	/* Initialise encoding of text */
     if (lmSeverity() > sevWAR)
         return;
 
@@ -295,21 +295,12 @@ void generateAdventure(char acodeFileName[],
 
     finalizeEmit();
 
-    emitTextDataToAcodeFile(dataFileName);
 
-	/* From 3.0beta3 the header is at the top of memory (to be the
-	   "control structure"), but there is, for now and for
-	   compatibility reasons, an almost duplicate, pre3.0beta3 style,
-	   header at the bottom of memory too  */
-	/* TODO: for 3.0+ the old style header will go away and be
-	   replaced by a very short header at the bottom of memory
-	   consisting of version, memory size, crc and pointer to the
-	   control structure. This will be much more flexible and the
-	   control structure (old "header") can be anywhere */
-	emitControlStructure();
-    emitHeader();
+    /* Finally, include all text data and write the file header */
+    copyTextDataToAcodeFile(dataFileName);
+    writeHeader();
 
-	terminateEmit();
+    terminateEmit();
 }
 
 

@@ -43,7 +43,7 @@ void syserr(char *description)
     if (handler == NULL) {
         char *blurb = "<If you are the creator of this piece of Interactive Fiction, \
 please help debug this Alan system error. Collect *all* the sources, and, if possible, an \
-exact transcript of the commands that let to this error, in a zip-file and send \
+exact transcript of the commands that led to this error, in a zip-file and send \
 it to support@alanif.se. Thank you!>";
         runtimeError("SYSTEM ERROR: ", description, blurb);
     } else

@@ -62,7 +62,7 @@ Ensure canHandleMemoryStartForPre3_0alpha5IsShorter() {
     version[1] = 4;
     version[0] = 'a';
 
-    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-3==memoryStart(version));
+    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-3==crcStart(version));
 }
 
 Ensure canHandleMemoryStartForPre3_0beta2IsShorter() {
@@ -72,14 +72,14 @@ Ensure canHandleMemoryStartForPre3_0beta2IsShorter() {
     version[1] = 9;
     version[0] = 'a';
 
-    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==memoryStart(version));
+    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==crcStart(version));
 
     version[3] = 3;
     version[2] = 0;
     version[1] = 1;
     version[0] = 'b';
 
-    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==memoryStart(version));
+    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==crcStart(version));
 }
 
 Ensure canHandleMemoryStartForPre3_0beta3IsShorter() {
@@ -89,7 +89,7 @@ Ensure canHandleMemoryStartForPre3_0beta3IsShorter() {
     version[1] = 2;
     version[0] = 'b';
 
-    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==memoryStart(version));
+    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==crcStart(version));
 }
 
 Ensure canSetEof() {

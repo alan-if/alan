@@ -886,6 +886,8 @@ static void load(char acdfnm[])
   memory = malloc(tmphdr.size*sizeof(Aword));
   header = (ACodeHeader *) memory;
 
+  /* TODO This must use the same loading mechanism as the interpreter
+     so refactor it to be so, for now it doesn't work */
   memTop = fread(pointerTo(0), sizeof(Aword), tmphdr.size, codfil);
   if (memTop != tmphdr.size)
     printf("WARNING! Could not read all ACD code.");

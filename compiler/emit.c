@@ -265,57 +265,13 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
 }
 
 
-void finalizeEmit()
-{
-    if (pc%BLOCKSIZE > 0)
-        fwrite(emitBuffer, BLOCKSIZE, 1, acdfil);
+static void prepareHeader() {
 
-    acodeHeader.acdcrc = crc;	/* Save checksum */
-    acodeHeader.size = nextEmitAddress();	/* Save last address as size */
-}
-
-
-void emitTextDataToAcodeFile(char dataFileName[])
-{
-    int c;
-    FILE *dataFile = fopen(dataFileName, READ_MODE);
-
-    acodeHeader.stringOffset = ftell(acdfil);
-
-    while ((c = fgetc(dataFile)) != EOF)
-        fputc(c, acdfil);
-    fclose(dataFile);
-}
-
-
-void emitControlStructure (void) {
-	/* For now emit it where we are (probably at the end of memory) */
-    Aword *hp;			/* Pointer to header as words */
-	int i;
-
-    hp = (Aword *) &acodeHeader;		/* Point to header */
-    for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++) /* Emit header */
-        emit(*hp++);
-    fwrite(emitBuffer, sizeof(ACodeHeader), 1, acdfil); /* Flush first block out */
-}
-
-
-void emitHeader()
-{
-    Aword *hp;			/* Pointer to header as words */
-    int i;
 #ifdef __POSIX__
     struct timeval times;
 #else
     struct timeb times;
 #endif
-
-	/* From 3.0beta3 the "real" header ("control structure") is
-	   located at the top of memory, and the header will, after 3.0
-	   shrink to just a tiny structure of {version, memory size, crc,
-	   pointer to header}. But for now we need to generate a
-	   pre3.0beta3 style header here for backwards compatibility */
-
     /* Generate header tag "ALAN" */
     if (littleEndian()) {
         /* Since we reverse these when emitting */
@@ -356,14 +312,59 @@ void emitHeader()
     ftime(&times);
     acodeHeader.uid = times.millitm;
 #endif
+}
 
-    (void) rewind(acdfil);
+
+void finalizeEmit()
+{
+    if (pc%BLOCKSIZE > 0)
+        fwrite(emitBuffer, BLOCKSIZE, 1, acdfil);
+
+    acodeHeader.size = nextEmitAddress();	/* Save next address as size */
+
+    /* From beta3 the header increased in length so to be somewhat
+       backwards compatible we need to add the content of those words
+       to the crc. We can do that by emitting them after we have
+       registered memory size, since they will then be added to the
+       crc, we just don't want to write them to the code file, not
+       that it matters I think... */
+    Aword *headerAsArray = (Aword *)&acodeHeader;
+    int i;
+    for (i = ASIZE(Pre3_0beta3Header); i < ASIZE(ACodeHeader); i++)
+        emit(headerAsArray[i]);
+    
+    acodeHeader.acdcrc = crc;	/* Save checksum */
+}
+
+
+void copyTextDataToAcodeFile(char dataFileName[])
+{
+    int c;
+    FILE *dataFile = fopen(dataFileName, READ_MODE);
+
+    acodeHeader.stringOffset = ftell(acdfil);
+
+    while ((c = fgetc(dataFile)) != EOF)
+        fputc(c, acdfil);
+    fclose(dataFile);
+}
+
+
+void writeHeader()
+{
+    Aword *hp;			/* Pointer to header as words */
+    int i;
+
+
+    prepareHeader();
+
     pc = 0;
 
     hp = (Aword *) &acodeHeader;		/* Point to header */
-    for (i = 0; i < (sizeof(Pre3_0beta3Header)/sizeof(Aword)); i++) /* Emit header */
+    for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++) /* Emit header */
         emit(*hp++);
-    fwrite(emitBuffer, sizeof(Pre3_0beta3Header), 1, acdfil); /* Flush first block out */
+    (void) rewind(acdfil);
+    fwrite(emitBuffer, sizeof(ACodeHeader), 1, acdfil); /* Flush header out */
 }
 
 

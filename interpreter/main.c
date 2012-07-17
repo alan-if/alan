@@ -139,7 +139,7 @@ static void runPendingEvents(void)
  
   Main program and initialisation
  
-  \*----------------------------------------------------------------------*/
+\*----------------------------------------------------------------------*/
 
 
 static FILE *codfil;
@@ -282,19 +282,18 @@ static void checkVersion(ACodeHeader *header)
 
 
 /*----------------------------------------------------------------------
-  Calculate where the actual memory starts. Might be different for
-  different versions.
+  Calculate where to start calculating the CRC. Is different for different
+  versions. Beta 3 and onwards have a larger header but CRC is
+  calculated from pre-beta3 memory start to be compatible.
 */
-static int memoryStart(char version[4]) {
+static int crcStart(char version[4]) {
     /* Some earlier versions had a shorter header */
     if (isPreAlpha5(version))
         return sizeof(Pre3_0alpha5Header)/sizeof(Aword);
     else if (isPreBeta2(version))
         return sizeof(Pre3_0beta2Header)/sizeof(Aword);
-    else if (isPreBeta3(version))
-        return sizeof(Pre3_0beta3Header)/sizeof(Aword);
     else
-        return sizeof(ACodeHeader)/sizeof(Aword);
+        return sizeof(Pre3_0beta3Header)/sizeof(Aword);
 }
 
 
@@ -322,15 +321,17 @@ static void reverseMemory() {
 
 /*----------------------------------------------------------------------*/
 static void setupHeader(ACodeHeader tmphdr) {
-    if (!isPreBeta2(tmphdr.version))
-        header = (ACodeHeader *) pointerTo(0);
-    else {
+    if (isPreBeta2(tmphdr.version)) {
         header = duplicate(&memory[0], sizeof(ACodeHeader));
         if (isPreAlpha5(tmphdr.version)) {
 	    header->ifids = 0;
         }
         header->prompt = 0;
-    }        
+    } else if (isPreBeta3(tmphdr.version)) {
+        header = (ACodeHeader *) pointerTo(0);
+    } else {
+        header = pointerTo(0);
+    }
 }
 
 
@@ -347,7 +348,7 @@ static void loadAndCheckMemory(ACodeHeader tmphdr, Aword crc, char err[]) {
         syserr("Could not read all ACD code.");
 	
     /* Calculate checksum */
-    for (i = memoryStart(tmphdr.version); i < memTop; i++) {
+    for (i = crcStart(tmphdr.version); i < memTop; i++) {
         crc += memory[i]&0xff;
         crc += (memory[i]>>8)&0xff;
         crc += (memory[i]>>16)&0xff;
@@ -797,7 +798,7 @@ void run(void)
     int i;
     bool playerChangedState;
     static Stack theStack = NULL; /* Needs to survive longjmp() */
-	
+
     openFiles();
     load();			/* Load program */
 	
