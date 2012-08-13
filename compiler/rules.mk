@@ -81,10 +81,13 @@ unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 #
 # Run all tests!
 #
+ifneq ($(EMACS),)
+TESTOUTPUT = -noansi
+endif
 .PHONY: test
 test: unit
-	../bin/jregr -bin ../bin -dir testing
-	../bin/jregr -bin ../bin -dir testing/positions
+	../bin/jregr -bin ../bin -dir testing $(TESTOUTPUT)
+	../bin/jregr -bin ../bin -dir testing/positions $(TESTOUTPUT)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

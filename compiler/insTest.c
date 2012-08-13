@@ -52,7 +52,7 @@ static void testGenerateEmptyInstanceEntry()
   entryAddress = nextEmitAddress();
   generateInstanceEntry(instance);
   finalizeEmit();
-  writeHeader();
+  writeHeader(&acodeHeader);
   terminateEmit();
 
   loadACD("unit.a3c");
@@ -94,7 +94,7 @@ static void testGenerateInstances()
   ASSERT(address == instanceTableAddress + instanceSize);
   acodeHeader.size = address;
   finalizeEmit();
-  writeHeader();
+  writeHeader(&acodeHeader);
   terminateEmit();
 
   loadACD("unit.a3c");

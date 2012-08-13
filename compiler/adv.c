@@ -298,7 +298,7 @@ void generateAdventure(char acodeFileName[],
 
     /* Finally, include all text data and write the file header */
     copyTextDataToAcodeFile(dataFileName);
-    writeHeader();
+    writeHeader(&acodeHeader);
 
     terminateEmit();
 }

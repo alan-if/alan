@@ -32,7 +32,7 @@ extern void emit2(Aword op, Aword arg1, Aword arg2);
 extern void emit3(Aword op, Aword arg1, Aword arg2, Aword arg3);
 extern void copyTextDataToAcodeFile(char dataFileName[]);
 extern Aint emitControlStructure(void);
-extern void writeHeader(void);
+extern void writeHeader(ACodeHeader *acodeHeader);
 extern void emit(Aword word);
 extern Aword reversed(Aword w);
 extern void finalizeEmit(void);

@@ -264,8 +264,8 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
 #endif
 }
 
-
-static void prepareHeader() {
+/*----------------------------------------------------------------------*/
+static void prepareHeader(ACodeHeader *acodeHeader) {
 
 #ifdef __POSIX__
     struct timeval times;
@@ -275,29 +275,29 @@ static void prepareHeader() {
     /* Generate header tag "ALAN" */
     if (littleEndian()) {
         /* Since we reverse these when emitting */
-        acodeHeader.tag[3] = 'A';
-        acodeHeader.tag[2] = 'L';
-        acodeHeader.tag[1] = 'A';
-        acodeHeader.tag[0] = 'N';
+        acodeHeader->tag[3] = 'A';
+        acodeHeader->tag[2] = 'L';
+        acodeHeader->tag[1] = 'A';
+        acodeHeader->tag[0] = 'N';
     } else {
-        acodeHeader.tag[0] = 'A';
-        acodeHeader.tag[1] = 'L';
-        acodeHeader.tag[2] = 'A';
-        acodeHeader.tag[3] = 'N';
+        acodeHeader->tag[0] = 'A';
+        acodeHeader->tag[1] = 'L';
+        acodeHeader->tag[2] = 'A';
+        acodeHeader->tag[3] = 'N';
     }
 
     /* Construct version marking */
     if (littleEndian()) {
         /* Since we reverse these when emitting */
-        acodeHeader.version[3] = (Aword)alan.version.version;
-        acodeHeader.version[2] = (Aword)alan.version.revision;
-        acodeHeader.version[1] = (Aword)alan.version.correction;
-        acodeHeader.version[0] = (Aword)alan.version.state[0];
+        acodeHeader->version[3] = (Aword)alan.version.version;
+        acodeHeader->version[2] = (Aword)alan.version.revision;
+        acodeHeader->version[1] = (Aword)alan.version.correction;
+        acodeHeader->version[0] = (Aword)alan.version.state[0];
     } else {
-        acodeHeader.version[0] = (Aword)alan.version.version;
-        acodeHeader.version[1] = (Aword)alan.version.revision;
-        acodeHeader.version[2] = (Aword)alan.version.correction;
-        acodeHeader.version[3] = (Aword)alan.version.state[0];
+        acodeHeader->version[0] = (Aword)alan.version.version;
+        acodeHeader->version[1] = (Aword)alan.version.revision;
+        acodeHeader->version[2] = (Aword)alan.version.correction;
+        acodeHeader->version[3] = (Aword)alan.version.state[0];
     }
 
     /* The timestamping isn't important, it is only used to give the
@@ -307,10 +307,10 @@ static void prepareHeader() {
        not affect game compatibility. */
 #ifdef __POSIX__
     gettimeofday(&times, NULL);
-    acodeHeader.uid = times.tv_usec;
+    acodeHeader->uid = times.tv_usec;
 #else
     ftime(&times);
-    acodeHeader.uid = times.millitm;
+    acodeHeader->uid = times.millitm;
 #endif
 }
 
@@ -350,17 +350,17 @@ void copyTextDataToAcodeFile(char dataFileName[])
 }
 
 
-void writeHeader()
+void writeHeader(ACodeHeader *acodeHeader)
 {
     Aword *hp;			/* Pointer to header as words */
     int i;
 
 
-    prepareHeader();
+    prepareHeader(acodeHeader);
 
     pc = 0;
 
-    hp = (Aword *) &acodeHeader;		/* Point to header */
+    hp = (Aword *) acodeHeader;		/* Point to header */
     for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++) /* Emit header */
         emit(*hp++);
     (void) rewind(acdfil);

@@ -90,7 +90,7 @@ void testGenerateEmptyClassEntry()
   entryAddress = nextEmitAddress();
   generateClassEntry(class);
   finalizeEmit();
-  writeHeader();
+  writeHeader(&acodeHeader);
   terminateEmit();
 
   loadACD("unit.a3c");
