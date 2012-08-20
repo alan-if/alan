@@ -4,7 +4,6 @@
 # It only works on ThoNi's machine.
 #######################################################################
 
-BUILD = `cat BUILD_NUMBER`
 VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`-$(BUILD)
 LIBRARYVERSION = `cat library/VERSION`-$(BUILD)
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads

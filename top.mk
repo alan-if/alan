@@ -2,6 +2,15 @@ ifneq ($(EMACS),)
 TESTOUTPUT = -noansi
 endif
 
+
+VERSION = `cat LASTRELEASE`
+BUILD_NUMBER = $(wildcard BUILD_NUMBER)
+ifeq ($(BUILD_NUMBER),)
+  BUILD=
+else
+  BUILD= -$(BUILD_NUMBER)
+endif
+
 .PHONY: clean
 clean:
 	cd interpreter; make clean

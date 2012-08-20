@@ -2,13 +2,6 @@
 # Partial Makefile to be included from top level Makefile on Linux
 #
 
-VERSION	= `cat LASTRELEASE`
-BUILD = $(wildcard BUILD_NUMBER)
-ifeq ($(BUILD_NUMBER), "")
-  BUILD=
-else
-  BUILD= -`cat BUILD_NUMBER`
-endif
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
 all dist: build-alan build-arun build-a2a3 alan.readme.linux test package
