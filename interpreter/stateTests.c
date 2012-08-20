@@ -32,7 +32,7 @@ static void teardownInstances() {
 }
 
 
-Ensure pushGameStateCollectsAdminAndAttributesData() {
+Ensure (pushGameStateCollectsAdminAndAttributesData) {
   int adminSize = (INSTANCEMAX+1)*sizeof(AdminEntry)/sizeof(Aword);
   int attributeAreaSize = ATTRIBUTECOUNT*INSTANCEMAX*sizeof(AttributeEntry)/sizeof(Aword);
 
@@ -44,7 +44,7 @@ Ensure pushGameStateCollectsAdminAndAttributesData() {
   assert_true(memcmp(gameState.admin, admin, adminSize*sizeof(Aword)) == 0);
 }
 
-Ensure pushAndPopCanHandleSetAttributes() {
+Ensure (pushAndPopCanHandleSetAttributes) {
   Set *originalSet = newSet(3);
   SetInitEntry *initEntry;
 
@@ -83,7 +83,7 @@ Ensure pushAndPopCanHandleSetAttributes() {
   assert_true(equalSets((Set*)attributes[0].value, originalSet));
 }
 
-Ensure canPushAndPopAttributeState() {
+Ensure (canPushAndPopAttributeState) {
 
   attributes[0].value = 12;
   attributes[2].value = 3;
@@ -111,7 +111,7 @@ Ensure canPushAndPopAttributeState() {
 
 
 
-Ensure canPushAndPopAdminState() {
+Ensure (canPushAndPopAdminState) {
   int INSTANCE1_LOCATION = 12;
   int INSTANCE2_LOCATION = 22;
   int INSTANCE2_FIRST_SCRIPT = 3;
@@ -153,7 +153,7 @@ Ensure canPushAndPopAdminState() {
   assert_equal(INSTANCE2_FIRST_SCRIPT, admin[2].script);
 }
 
-Ensure canPushAndPopEvents() {
+Ensure (canPushAndPopEvents) {
   eventQueue = NULL;
   eventQueueTop = 0;
 
@@ -178,7 +178,7 @@ Ensure canPushAndPopEvents() {
   assert_equal(0, eventQueueTop);
 }
 
-Ensure doesNotCrashOnSequenceOfRememberForgetAndRecall() {
+Ensure (doesNotCrashOnSequenceOfRememberForgetAndRecall) {
 	rememberGameState();
 	forgetGameState();
 	rememberGameState();
@@ -202,7 +202,7 @@ Ensure doesNotCrashOnSequenceOfRememberForgetAndRecall() {
 	rememberGameState();
 }
 
-Ensure canRememberPlayerCommand() {
+Ensure (canRememberPlayerCommand) {
   int i;
   char *command = "go w, e and south";
 
@@ -224,7 +224,7 @@ Ensure canRememberPlayerCommand() {
   assert_true(strncmp(playerCommand, command, 3) == 0);
 }
 
-Ensure freeGameStateFreesMemory() {
+Ensure (freeGameStateFreesMemory) {
 	gameState.admin = allocate(1);
 	gameState.attributes = allocate(1);
 	gameState.eventQueue = allocate(1);
@@ -246,8 +246,8 @@ Ensure freeGameStateFreesMemory() {
 TestSuite *stateTests() {
   TestSuite *suite = create_test_suite();
 
-  setup(suite, setupInstances);
-  teardown(suite, teardownInstances);
+  set_setup(suite, setupInstances);
+  set_teardown(suite, teardownInstances);
 
   add_test(suite, freeGameStateFreesMemory);
   add_test(suite, canRememberPlayerCommand);

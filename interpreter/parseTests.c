@@ -110,7 +110,7 @@ static void given_AParseTreeWithOnlyEos(ElementEntry *elementTable) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchEndOfSyntax(void) {
+Ensure (canMatchEndOfSyntax) {
     ElementEntry *element;
     ElementEntry *elementTable;
 
@@ -145,7 +145,7 @@ static void given_AParameterTreeWithEosAndParameter(ElementEntry *elementTable) 
 
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchParameterElement(void) {
+Ensure (canMatchParameterElement) {
     ElementEntry *element;
     ElementEntry *elementTable;
 
@@ -191,7 +191,7 @@ static void given_AParseTreeAllowingWordFollowedByEos(ElementEntry *elementTable
 
 
 /*----------------------------------------------------------------------*/
-Ensure canParseInputAccordingToParseTree(void) {
+Ensure (canParseInputAccordingToParseTree) {
 
     int ELEMENT_TABLE_ADDRESS = 50;
     ElementEntry *element;
@@ -225,7 +225,7 @@ Ensure canParseInputAccordingToParseTree(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canSetupParameterForWord(void) {
+Ensure (canSetupParameterForWord) {
     Parameter *messageParameters;
 
     dictionary = makeDictionary();
@@ -253,7 +253,7 @@ Ensure canSetupParameterForWord(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSeeBitsInFlag(void) {
+Ensure (canSeeBitsInFlag) {
     assert_true(hasBit(-1, OMNIBIT));
     assert_false(hasBit(0, OMNIBIT));
     assert_true(hasBit(-1, MULTIPLEBIT));
@@ -262,7 +262,7 @@ Ensure canSeeBitsInFlag(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSetupInstanceParametersForMessages(void) {
+Ensure (canSetupInstanceParametersForMessages) {
     Parameter *parameters = allocateParameterArray(5);
 
     addParameterForInstance(parameters, 2);
@@ -276,7 +276,7 @@ Ensure canSetupInstanceParametersForMessages(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSetupStringParametersForMessages(void) {
+Ensure (canSetupStringParametersForMessages) {
     Parameter *parameters = allocateParameterArray(5);
 
     addParameterForString(parameters, "a string");
@@ -290,7 +290,7 @@ Ensure canSetupStringParametersForMessages(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSetupIntegerParametersForMessages(void) {
+Ensure (canSetupIntegerParametersForMessages) {
     Parameter *parameters = allocateParameterArray(5);
 
     addParameterForInteger(parameters, 14);
@@ -310,7 +310,7 @@ static void mockedInstanceMatcher(Parameter *parameter) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchSingleParameter(void) {
+Ensure (canMatchSingleParameter) {
     Parameter parameters[2];
 
     clearParameter(&parameters[0], NULL);
@@ -322,8 +322,8 @@ Ensure canMatchSingleParameter(void) {
     playerWords = allocate(10);
 
     expect(mockedInstanceMatcher,
-           want(parameter.firstWord, parameters[0].firstWord),
-           want(parameter.lastWord, parameters[0].lastWord));
+           when(parameter.firstWord, is_equal_to(parameters[0].firstWord)),
+           when(parameter.lastWord, is_equal_to(parameters[0].lastWord)));
     
     findCandidates(parameters, mockedInstanceMatcher);
 
@@ -340,7 +340,7 @@ static Aint *mockedReferenceFinder(int wordIndex) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
+Ensure (matchNounPhraseCanMatchSingleNounWithSingleMatch) {
     int theExpectedInstance[2] = {23, EOF};
     int theExpectedWordIndex = 3;
     Parameter candidates[MAXINSTANCE+1];
@@ -351,8 +351,10 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
 
     givenPlayerWordsForANoun(theExpectedWordIndex);
 
-    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedWordIndex));
-    will_return(mockedReferenceFinder, theExpectedInstance);
+    expect(mockedReferenceFinder,
+	   when(currentWordIndex, is_equal_to(theExpectedWordIndex)));
+    expect(mockedReferenceFinder,
+	   will_return(theExpectedInstance));
 
     matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
     
@@ -363,7 +365,7 @@ Ensure matchNounPhraseCanMatchSingleNounWithSingleMatch(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
+Ensure (canMatchNounAndAdjectiveWithSingleMatch) {
     int theExpectedInstance = 55;
     int firstAdjectiveInstances[4] = {23, theExpectedInstance, 33, EOF};
     int theNounInstances[4] = {25, theExpectedInstance, 34, EOF};
@@ -377,10 +379,12 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
 
     givenADictionary();
 
-    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedFirstAdjectiveWordIndex));
-    will_return(mockedReferenceFinder, firstAdjectiveInstances);
-    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedNounWordIndex));
-    will_return(mockedReferenceFinder, theNounInstances);
+    expect(mockedReferenceFinder,
+	   when(currentWordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
+	   will_return(firstAdjectiveInstances));
+    expect(mockedReferenceFinder,
+	   when(currentWordIndex, is_equal_to(theExpectedNounWordIndex)),
+	   will_return(theNounInstances));
 
     matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
     
@@ -391,7 +395,7 @@ Ensure canMatchNounAndAdjectiveWithSingleMatch(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
+Ensure (canMatchMultipleAdjectivesAndNounWithSingleMatch) {
     int theExpectedInstance = 55;
     int firstAdjectiveInstances[4] = {23, theExpectedInstance, 33, EOF};
     int secondAdjectiveInstances[4] = {24, theExpectedInstance, 33, EOF};
@@ -411,12 +415,15 @@ Ensure canMatchMultipleAdjectivesAndNounWithSingleMatch(void) {
 
     givenADictionary();
 
-    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedFirstAdjectiveWordIndex));
-    will_return(mockedReferenceFinder, firstAdjectiveInstances);
-    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedSecondAdjectiveWordIndex));
-    will_return(mockedReferenceFinder, secondAdjectiveInstances);
-    expect(mockedReferenceFinder, want(currentWordIndex, theExpectedNounWordIndex));
-    will_return(mockedReferenceFinder, theNounInstances);
+    expect(mockedReferenceFinder,
+	   when(currentWordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
+	   will_return(firstAdjectiveInstances));
+    expect(mockedReferenceFinder,
+	   when(currentWordIndex, is_equal_to(theExpectedSecondAdjectiveWordIndex)),
+	   will_return(secondAdjectiveInstances));
+    expect(mockedReferenceFinder,
+	   when(currentWordIndex, is_equal_to(theExpectedNounWordIndex)),
+	   will_return(theNounInstances));
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
     
@@ -434,7 +441,7 @@ void mockedAllBuilder(Parameter candidates[])
 
 
 /*----------------------------------------------------------------------*/
-Ensure anyAllFindsAnyAllIndication(void) {
+Ensure (anyAllFindsAnyAllIndication) {
     ParameterPosition *parameterPositions = allocate(5*sizeof(ParameterPosition));
     
     parameterPositions[0].endOfList = FALSE;
@@ -457,7 +464,7 @@ Ensure anyAllFindsAnyAllIndication(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure anyAllFindsExplicitMultipleIndication(void) {
+Ensure (anyAllFindsExplicitMultipleIndication) {
     ParameterPosition *parameterPositions = allocate(5*sizeof(ParameterPosition));
     
     parameterPositions[0].endOfList = FALSE;
@@ -479,7 +486,7 @@ Ensure anyAllFindsExplicitMultipleIndication(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure parsePronounSetsPronounMarker(void) {
+Ensure (parsePronounSetsPronounMarker) {
     Parameter parameter[2];
     clearParameter(&parameter[0], NULL);
 
@@ -494,7 +501,7 @@ Ensure parsePronounSetsPronounMarker(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure parseLiteralSetsLiteralMarker(void) {
+Ensure (parseLiteralSetsLiteralMarker) {
     Parameter parameter[2];
 
     setEndOfArray(&parameter[0]);
@@ -508,7 +515,7 @@ Ensure parseLiteralSetsLiteralMarker(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure parseReferenceToPreviousMultipleParameterSetsThemMarker(void) {
+Ensure (parseReferenceToPreviousMultipleParameterSetsThemMarker) {
     Parameter parameter[2];
 
     setEndOfArray(&parameter[0]);
@@ -522,7 +529,7 @@ Ensure parseReferenceToPreviousMultipleParameterSetsThemMarker(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure simpleParameterParserCanParseExplicitMultiple(void) {
+Ensure (simpleParameterParserCanParseExplicitMultiple) {
     Parameter *parameters = allocateParameterArray(5);
 
     givenADictionary();
@@ -535,7 +542,7 @@ Ensure simpleParameterParserCanParseExplicitMultiple(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure getPreviousMultipleParametersSetsEndOfArray(void) {
+Ensure (getPreviousMultipleParametersSetsEndOfArray) {
     Parameter parameters[2];
     Parameter multipleParameters[2];
     previousMultipleParameters = multipleParameters;
@@ -546,7 +553,7 @@ Ensure getPreviousMultipleParametersSetsEndOfArray(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput() {
+Ensure (parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput) {
     Parameter parameters[2];
     given_EndOfPlayerWords();
     
@@ -564,7 +571,7 @@ static int lengthOfArray(Pronoun *array, int elementSize) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure addPronounForInstanceDontAddSameTwice() {
+Ensure (addPronounForInstanceDontAddSameTwice) {
     pronouns = allocate(2*sizeof(Pronoun)+1);
 
     pronouns[0].pronoun = 10;
@@ -648,7 +655,7 @@ static DisambiguationHandlerTable mockedHandlerTable =
             
     
 /*----------------------------------------------------------------------*/
-Ensure disambiguateCandidatesCanCall00NHandler() {
+Ensure (disambiguateCandidatesCanCall00NHandler) {
     Parameter *candidates = allocateParameterArray(5);
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
@@ -658,7 +665,7 @@ Ensure disambiguateCandidatesCanCall00NHandler() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure disambiguateCandidatesCanCall00YHandler() {
+Ensure (disambiguateCandidatesCanCall00YHandler) {
     Parameter *candidates = allocateParameterArray(5);
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
@@ -668,7 +675,7 @@ Ensure disambiguateCandidatesCanCall00YHandler() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure disambiguateCandidatesCanCall01NHandler() {
+Ensure (disambiguateCandidatesCanCall01NHandler) {
     Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
@@ -678,7 +685,7 @@ Ensure disambiguateCandidatesCanCall01NHandler() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure disambiguateCandidatesCanCall0MNHandler() {
+Ensure (disambiguateCandidatesCanCall0MNHandler) {
     Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 2; /* M non-present */
     candidates[1].instance = 2;
@@ -689,7 +696,7 @@ Ensure disambiguateCandidatesCanCall0MNHandler() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure disambiguateCandidatesCanCall10NHandler() {
+Ensure (disambiguateCandidatesCanCall10NHandler) {
     Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 1; /* 1 present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
@@ -699,7 +706,7 @@ Ensure disambiguateCandidatesCanCall10NHandler() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure disambiguateCandidatesCanCall11NHandler() {
+Ensure (disambiguateCandidatesCanCall11NHandler) {
     Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 1; /* 1 present */
     candidates[1].instance = 2; /* 1 non-present */
@@ -710,7 +717,7 @@ Ensure disambiguateCandidatesCanCall11NHandler() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure disambiguateCandidatesCanCall1MNHandler() {
+Ensure (disambiguateCandidatesCanCall1MNHandler) {
     Parameter *candidates = allocateParameterArray(5);
     candidates[0].instance = 1; /* 1 present */
     candidates[1].instance = 2; /* M non-present */
@@ -725,7 +732,7 @@ TestSuite *parseTests(void)
 {
     TestSuite *suite = create_test_suite();
 
-    setup(suite, setUp);
+    set_setup(suite, setUp);
     
     add_test(suite, canMatchEndOfSyntax);
     add_test(suite, canSetupParameterForWord);

@@ -41,11 +41,11 @@ static void tearDown(void) {
 	deleteStateStack(stateStack);
 }
 
-Ensure canSeeAnEmptyStateStack() {
+Ensure (canSeeAnEmptyStateStack) {
 	assert_true(stateStackIsEmpty(stateStack));
 }
 
-Ensure extendsANonAllocatedStack() {
+Ensure (extendsANonAllocatedStack) {
 	GameState gameState;
 
 	assert_equal(stateStack->stackSize, 0);
@@ -53,7 +53,7 @@ Ensure extendsANonAllocatedStack() {
 	assert_equal(stateStack->stackSize, EXTENT);
 }
 
-Ensure canPushAndPopAGameState() {
+Ensure (canPushAndPopAGameState) {
 	GameState originalGameState;
 	GameState poppedGameState;
 	char *playerCommand;
@@ -73,7 +73,7 @@ Ensure canPushAndPopAGameState() {
 	assert_equal(poppedGameState.eventQueue, originalGameState.eventQueue);
 }
 
-Ensure canPush100Times(void) {
+Ensure (canPush100Times) {
 	GameState gameState;
 	int i;
 
@@ -81,7 +81,7 @@ Ensure canPush100Times(void) {
 		pushGameState(stateStack, &gameState);
 }
 
-Ensure canRememberPlayerCommands() {
+Ensure (canRememberPlayerCommands) {
 	GameState gameState;
 	char *expectedPlayerCommands = "some player commands";
 	char *playerCommands;
@@ -93,7 +93,7 @@ Ensure canRememberPlayerCommands() {
 	assert_string_equal(playerCommands, expectedPlayerCommands);
 }
 
-Ensure pushClearsPlayerCommand() {
+Ensure (pushClearsPlayerCommand) {
 	GameState gameState;
 	pushGameState(stateStack, &gameState);
 	assert_equal(NULL, stateStack->playerCommands[stateStack->stackPointer-1]);
@@ -105,7 +105,7 @@ static void syserrHandler(char *message) {
 	syserrCalled = TRUE;
 }
 
-Ensure willGenerateSyserrorWhenPoppingFromEmptyStack() {
+Ensure (willGenerateSyserrorWhenPoppingFromEmptyStack) {
 	GameState gameState;
 	char *playerCommand;
 
@@ -120,8 +120,8 @@ Ensure willGenerateSyserrorWhenPoppingFromEmptyStack() {
 TestSuite *stateStackTests() {
   TestSuite *suite = create_test_suite();
 
-  setup(suite, setUp);
-  teardown(suite, tearDown);
+  set_setup(suite, setUp);
+  set_teardown(suite, tearDown);
 
   add_test(suite, canSeeAnEmptyStateStack);
   add_test(suite, extendsANonAllocatedStack);

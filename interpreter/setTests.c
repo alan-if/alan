@@ -3,7 +3,7 @@
 #include "set.c"
 
 
-static void testAddToSet() {
+Ensure(testAddToSet) {
   Set aSet = {0, 0, NULL};
   int i;
 
@@ -24,7 +24,7 @@ static void testAddToSet() {
   assert_true(aSet.size == 6);
 }
 
-static void testSetUnion() {
+Ensure(testSetUnion) {
   Set *set0 = newSet(0);
   Set *set678 = newSet(3);
   Set *set456 = newSet(3);
@@ -55,7 +55,7 @@ static void testSetUnion() {
   assert_true(inSet(theUnion, 8));
 }
 
-static void testSetRemove() {
+Ensure(testSetRemove) {
   Set *aSet = newSet(0);
   int i;
 
@@ -85,7 +85,7 @@ static void testSetRemove() {
   assert_true(aSet->size == 0);
 }
 
-static void testInSet() {
+Ensure(testInSet) {
   Set *aSet = newSet(0);
   int i;
 
@@ -96,7 +96,7 @@ static void testInSet() {
     assert_true(inSet(aSet, i));
 }
 
-static void testClearSet() {
+Ensure(testClearSet) {
   Set *aSet = newSet(0);
   int i;
 
@@ -107,7 +107,7 @@ static void testClearSet() {
 }
 
 
-static void testCompareSets() {
+Ensure(testCompareSets) {
   Set *set1 = newSet(0);
   Set *set2 = newSet(0);
   Set *set3 = newSet(0);

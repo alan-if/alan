@@ -25,7 +25,7 @@ static void given_that_literal_has_value(int literal_number, int value) {
 }
 
 
-Ensure canAccessLiteralValue() {
+Ensure (canAccessLiteralValue) {
     int value = 45;
     int literal_number = 1;
     
@@ -41,11 +41,11 @@ TestSuite *instanceTests(void)
 {
     TestSuite *suite = create_test_suite();
 
-    setup(suite, setUp);
+    set_setup(suite, setUp);
     
     add_test(suite, canAccessLiteralValue);
 
-    teardown(suite, tearDown);
+    set_teardown(suite, tearDown);
 
     return suite;
 }

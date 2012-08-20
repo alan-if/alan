@@ -11,7 +11,7 @@
 #include "sysdep.c"
 
 
-Ensure canCompareStringsIgnoringCase()
+Ensure (canCompareStringsIgnoringCase)
 {
   assert_true(compareStrings("abcd", "abcd")==0);
   assert_true(compareStrings("abcd", "Abcd")==0);
@@ -30,7 +30,7 @@ Ensure canCompareStringsIgnoringCase()
   assert_true(compareStrings("bcd", "abcD")!=0);
 }
 
-Ensure canSeeLowerCase()
+Ensure (canSeeLowerCase)
 {
   assert_true(isLowerCase(246));
 }

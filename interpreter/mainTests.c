@@ -3,7 +3,7 @@
 #include "main.c"
 
 
-Ensure canCopyAttributes() {
+Ensure(canCopyAttributes) {
     AttributeEntry *attributeArea;
     AttributeEntry *a = (AttributeEntry *)&memory[1];
 
@@ -55,7 +55,7 @@ Ensure canCopyAttributes() {
     assert_true(*(Aword*)&admin[2].attributes[2] == EOF);
 }
 
-Ensure canHandleMemoryStartForPre3_0alpha5IsShorter() {
+Ensure(canHandleMemoryStartForPre3_0alpha5IsShorter) {
     char version[4];
     version[3] = 3;
     version[2] = 0;
@@ -65,7 +65,7 @@ Ensure canHandleMemoryStartForPre3_0alpha5IsShorter() {
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-3==crcStart(version));
 }
 
-Ensure canHandleMemoryStartForPre3_0beta2IsShorter() {
+Ensure(canHandleMemoryStartForPre3_0beta2IsShorter) {
     char version[4];
     version[3] = 3;
     version[2] = 0;
@@ -82,7 +82,7 @@ Ensure canHandleMemoryStartForPre3_0beta2IsShorter() {
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==crcStart(version));
 }
 
-Ensure canHandleMemoryStartForPre3_0beta3IsShorter() {
+Ensure(canHandleMemoryStartForPre3_0beta3IsShorter) {
     char version[4];
     version[3] = 3;
     version[2] = 0;
@@ -92,7 +92,7 @@ Ensure canHandleMemoryStartForPre3_0beta3IsShorter() {
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==crcStart(version));
 }
 
-Ensure canSetEof() {
+Ensure(canSetEof) {
     Parameter parameters[10];
 
     setEndOfArray(&parameters[7]);

@@ -3,8 +3,7 @@
 #include "reverse.c"
 
 
-static void testAlreadyDone()
-{
+Ensure(testAlreadyDone) {
   addressesDone = NULL;
   doneSize = 0;
   numberDone = 0;

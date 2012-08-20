@@ -2,14 +2,14 @@
 
 #include "word.c"
 
-Ensure canAllocatePlayerWordsFromEmpty() {
+Ensure (canAllocatePlayerWordsFromEmpty) {
   assert_equal(playerWords, NULL);
   ensureSpaceForPlayerWords(1);
   assert_not_equal(playerWords, NULL);
   assert_equal(playerWordsLength, PLAYER_WORDS_EXTENT);
 }
 
-Ensure canExtendPlayerWords() {
+Ensure (canExtendPlayerWords) {
   assert_equal(playerWords, NULL);
   ensureSpaceForPlayerWords(0);
   ensureSpaceForPlayerWords(PLAYER_WORDS_EXTENT);

@@ -3,31 +3,31 @@
 
 #include "debug.c"
 
-Ensure parseDebugCommandReturnsHELP_COMMANDForHelp() {
+Ensure (parseDebugCommandReturnsHELP_COMMANDForHelp) {
 	assert_equal(HELP_COMMAND, parseDebugCommand("Help"));
 }
 
-Ensure parseDebugCommandReturnsHELP_COMMANDForQuestionMark() {
+Ensure (parseDebugCommandReturnsHELP_COMMANDForQuestionMark) {
 	assert_equal(HELP_COMMAND, parseDebugCommand("?"));
 }
 
-Ensure parseDebugCommandReturnsHELP_COMMANDForH() {
+Ensure (parseDebugCommandReturnsHELP_COMMANDForH) {
 	assert_equal(HELP_COMMAND, parseDebugCommand("H"));
 }
 
-Ensure parseDebugCommandReturnsEXIT_COMMANDForX() {
+Ensure (parseDebugCommandReturnsEXIT_COMMANDForX) {
 	assert_equal(EXIT_COMMAND, parseDebugCommand("X"));
 }
 
-Ensure parseDebugCommandReturnsBREAK_COMMANDForBr() {
+Ensure (parseDebugCommandReturnsBREAK_COMMANDForBr) {
 	assert_equal(BREAK_COMMAND, parseDebugCommand("Br"));
 }
 
-Ensure parseDebugCommandReturnsAMBIGUOUS_COMMANDForE() {
+Ensure (parseDebugCommandReturnsAMBIGUOUS_COMMANDForE) {
 	assert_equal(AMBIGUOUS_COMMAND, parseDebugCommand("E"));
 }
 
-Ensure findSourceLineIndexFindsSameLineInOtherFiles() {
+Ensure (findSourceLineIndexFindsSameLineInOtherFiles) {
 	SourceLineEntry lineTable[] = {
 		{0, 3},
 		{0, 5},

@@ -22,7 +22,7 @@ static void setUp() {
     setEndOfArray(rulPtr);
 }
 
-Ensure initRulesAllocatesLastEvalArray() {
+Ensure (initRulesAllocatesLastEvalArray) {
 
     initRules();
 
@@ -34,7 +34,7 @@ static void interpretAndReturnFalse(Aaddr adr) {
     push(stack, false);
 }
 
-Ensure rulesEvaluatingToFalseSetsLastEvalToFalse() {
+Ensure (rulesEvaluatingToFalseSetsLastEvalToFalse) {
     initRules();
     setInterpreterMock(interpretAndReturnFalse);
     rulesLastEval[0] = true;
@@ -53,7 +53,7 @@ static void interpretAndReturnTrueIfEval(Aaddr adr) {
         interpreterExecuted = true;
 }
 
-Ensure rulesEvaluatingToTrueWithLastEvalFalseSetsLastEvalToTrueAndExecutes() {
+Ensure (rulesEvaluatingToTrueWithLastEvalFalseSetsLastEvalToTrueAndExecutes) {
     initRules();
     setInterpreterMock(interpretAndReturnTrueIfEval);
     interpreterExecuted = false;
@@ -65,7 +65,7 @@ Ensure rulesEvaluatingToTrueWithLastEvalFalseSetsLastEvalToTrueAndExecutes() {
 }
 
 
-Ensure rulesEvaluatingToTrueWithLastEvalTrueDontExecute() {
+Ensure (rulesEvaluatingToTrueWithLastEvalTrueDontExecute) {
     initRules();
     setInterpreterMock(interpretAndReturnTrueIfEval);
     interpreterExecuted = false;
@@ -83,7 +83,7 @@ TestSuite *rulesTests(void)
 {
     TestSuite *suite = create_test_suite();
 
-    setup(suite, setUp);
+    set_setup(suite, setUp);
 
     add_test(suite, initRulesAllocatesLastEvalArray);
     add_test(suite, rulesEvaluatingToFalseSetsLastEvalToFalse);

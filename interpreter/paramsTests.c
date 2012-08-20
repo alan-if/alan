@@ -9,7 +9,7 @@ static void setUp(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canFindLastParameterInAList(void) {
+Ensure (canFindLastParameterInAList) {
     Parameter parameters[10];
 
     memset(parameters, 45, sizeof(parameters));
@@ -19,7 +19,7 @@ Ensure canFindLastParameterInAList(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSetAndGetParameters(void) {
+Ensure (canSetAndGetParameters) {
     int numberOfParameters = 4;
     Parameter *parameters;
     int p;
@@ -44,13 +44,13 @@ Ensure canSetAndGetParameters(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure getWillAllocateStoredParameters(void) {
+Ensure (getWillAllocateStoredParameters) {
     assert_not_equal(getParameters(), NULL);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure can_find_multiple_position(void) {
+Ensure (can_find_multiple_position) {
     Parameter parameters[10];
     int i;
 
@@ -64,7 +64,7 @@ Ensure can_find_multiple_position(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure returns_minus_one_for_no_multiple_position(void) {
+Ensure (returns_minus_one_for_no_multiple_position) {
     Parameter parameters[10];
     int i;
 
@@ -86,7 +86,7 @@ static Parameter *givenAnyParameterArrayOfLength(int length) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure unequal_length_parameter_arrays_are_not_equal(void) {
+Ensure (unequal_length_parameter_arrays_are_not_equal) {
     Parameter *parameters1 = givenAnyParameterArrayOfLength(4);
     Parameter *parameters2 = givenAnyParameterArrayOfLength(5);
 
@@ -94,7 +94,7 @@ Ensure unequal_length_parameter_arrays_are_not_equal(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure subtractParameterArraysCanSubtractNullArray(void) {
+Ensure (subtractParameterArraysCanSubtractNullArray) {
     Parameter *parameters1 = givenAnyParameterArrayOfLength(4);
     Parameter *parameters2 = NULL;
 
@@ -103,12 +103,12 @@ Ensure subtractParameterArraysCanSubtractNullArray(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure lengthOfParameterArrayReturnsZeroForNULLArray(void) {
+Ensure (lengthOfParameterArrayReturnsZeroForNULLArray) {
     assert_equal(0, lengthOfParameterArray(NULL));
 }
 
 /*----------------------------------------------------------------------*/
-Ensure copyParameterCopiesCandidates(void) {
+Ensure (copyParameterCopiesCandidates) {
     Parameter theOriginal;
     Parameter theCopy;
 
@@ -128,7 +128,7 @@ Ensure copyParameterCopiesCandidates(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure copyParameterArrayCanCopyNullToNull(void) {
+Ensure (copyParameterArrayCanCopyNullToNull) {
     copyParameterArray(NULL, NULL);
 }
 
@@ -144,7 +144,7 @@ static Parameter *newParameter(int id) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure addParameterSetsEndOfArray(void) {
+Ensure (addParameterSetsEndOfArray) {
 	Parameter *parameters = allocateParameterArray(5);
 	Parameter *parameter = newParameter(1);
 	
@@ -158,7 +158,7 @@ Ensure addParameterSetsEndOfArray(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure intersectParameterArraysReturnsAnEmptyResultForTwoEmpty(void) {
+Ensure (intersectParameterArraysReturnsAnEmptyResultForTwoEmpty) {
 	Parameter *first = allocateParameterArray(5);
 	Parameter *second = allocateParameterArray(5);
 
@@ -183,7 +183,7 @@ static Parameter *givenAParameterArrayWithTwoParameters(Parameter *theFirstParam
 
 
 /*----------------------------------------------------------------------*/
-Ensure intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty(void) {
+Ensure (intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty) {
 	Parameter *theParameter = newParameter(1);
 	Parameter *oneParameterArray = givenAParameterArrayWithOneParameter(theParameter);
 	Parameter *emptyParameterArray = allocateParameterArray(5);
@@ -195,7 +195,7 @@ Ensure intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure intersectParameterArraysReturnsTheSameIfBothAreEqual(void) {
+Ensure (intersectParameterArraysReturnsTheSameIfBothAreEqual) {
 	Parameter *theParameter = newParameter(1);
 	Parameter *first = givenAParameterArrayWithOneParameter(theParameter);
 	Parameter *second = givenAParameterArrayWithOneParameter(theParameter);
@@ -207,7 +207,7 @@ Ensure intersectParameterArraysReturnsTheSameIfBothAreEqual(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure intersectParameterArraysReturnsTheCommonParameter(void) {
+Ensure (intersectParameterArraysReturnsTheCommonParameter) {
 	Parameter *aParameter = newParameter(1);
 	Parameter *anotherParameter = newParameter(2);
 	Parameter *aThirdParameter = newParameter(3);
@@ -225,7 +225,7 @@ TestSuite *paramsTests(void)
 {
     TestSuite *suite = create_test_suite();
 
-	setup(suite, setUp);
+	set_setup(suite, setUp);
     add_test(suite, canFindLastParameterInAList);
     add_test(suite, canSetAndGetParameters);
     add_test(suite, getWillAllocateStoredParameters);

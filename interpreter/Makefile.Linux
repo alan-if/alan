@@ -27,7 +27,6 @@ ARUNOPTS = $(PROGNAME) $(GLK)
 #ALLOCLIBS = -ldmalloc
 
 OSFLAGS = 
-CGREEN = no
 
 CC = gcc
 COMPILEFLAGS = -g -Wall -funsigned-char $(ALLOC)
@@ -38,10 +37,10 @@ LINKFLAGS = -g $(ARUNOPTS)
 LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
 
 
-#CGREEN = yes
+CGREEN = yes
 CGREENROOT = /usr/local
-CGREENDIR = $(CGREENROOT)/include/cgreen
-CGREENLIB = -lcgreen
+CGREENINCLUDE = -I$(CGREENROOT)/include
+CGREENLIB = -lcgreen -lm
 
 ###################################################################
 #
@@ -68,7 +67,7 @@ release: all
 # libgarglk.dylib need to be built to binary form before making it from here.
 # It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
 # will be available as $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3
-GARGOYLE_DIR=../../gargoyle-alan
+GARGOYLE_DIR=../../garglk-current-alan3
 gararun:
 		cd $(GARGOYLE_DIR); jam alan3
 

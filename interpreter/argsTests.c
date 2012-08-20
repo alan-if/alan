@@ -2,14 +2,14 @@
 
 #include "args.c"
 
-Ensure canAddAcodeExtension(void) {
+Ensure (canAddAcodeExtension) {
     char *fileName = allocate(strlen("file")+strlen(".a3c")+1);
     strcpy(fileName, "file");
     assert_string_equal(addAcodeExtension(fileName), "file.a3c");
     free(fileName);
 }
 
-Ensure gameNameCanStripLeadingDotAndSlash(void) {
+Ensure (gameNameCanStripLeadingDotAndSlash) {
     char *sampleGameName = strdup("./game.a3c");
     assert_string_equal(gameName(sampleGameName), "game");
 }

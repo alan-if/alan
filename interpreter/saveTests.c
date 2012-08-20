@@ -3,7 +3,7 @@
 #include "save.c"
 
 
-Ensure canSaveRestore() {
+Ensure (canSaveRestore) {
   FILE *saveFile = fopen("testSaveFile", "w");
   Aword scoreTable = EOF;
   int i;
@@ -77,7 +77,7 @@ Ensure canSaveRestore() {
   assert_equal(33, admin[3].attributes[0].value);
 }
 
-Ensure canSaveStrings() {
+Ensure (canSaveStrings) {
   char *testFileName = "testSaveStringFile";
   char *testString = "hejhopp";
   FILE *saveFile = fopen(testFileName, "w");
@@ -131,7 +131,7 @@ Ensure canSaveStrings() {
   assert_equal(0, strcmp((char *)admin[1].attributes[0].value, testString));
 }
 
-Ensure canSaveSets() {
+Ensure (canSaveSets) {
   char *testFileName = "testSaveSetFile";
   Set *testSet[4];
   FILE *saveFile = fopen(testFileName, "w");
@@ -207,7 +207,7 @@ Ensure canSaveSets() {
     assert_true(equalSets((Set *)admin[1].attributes[i].value, testSet[i]));
 }
 
-Ensure canSaveRestoreScore() {
+Ensure (canSaveRestoreScore) {
   char *fileName = "testSaveRestoreScore";
   FILE *saveFile;
   int i;

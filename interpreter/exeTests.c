@@ -12,10 +12,10 @@
 #include "exe.c"
 
 #include "class.h"
-#include "container.h"
+#include "Container.h"
 
 /*----------------------------------------------------------------------*/
-Ensure canCountTrailingBlanks() {
+Ensure (canCountTrailingBlanks) {
   char *threeBlanks = "h   ";
   char *fiveBlanks = "     ";
   char *empty = "";
@@ -28,7 +28,7 @@ Ensure canCountTrailingBlanks() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSkipWordForwards() {
+Ensure (canSkipWordForwards) {
   char *string = "a string of words";
 
   assert_true(skipWordForwards(string, 0) == 1);
@@ -40,7 +40,7 @@ Ensure canSkipWordForwards() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canSkipWordBackwards() {
+Ensure (canSkipWordBackwards) {
   char *string = "a string of words";
   char *emptyString = "";
 
@@ -54,7 +54,7 @@ Ensure canSkipWordBackwards() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canStripCharsFromString() {
+Ensure (canStripCharsFromString) {
   char *characters;
   char *rest;
   char *result;
@@ -92,7 +92,7 @@ Ensure canStripCharsFromString() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canStripWordsFromString() {
+Ensure (canStripWordsFromString) {
   char *testString = "this is four  words";
   char *empty = "";
   char *result;
@@ -144,7 +144,7 @@ static void writeAndOpenGetStringTestFile(int fpos, char *testString)
 
 
 /*----------------------------------------------------------------------*/
-Ensure canGetString()
+Ensure (canGetString)
 {
   int fpos = 55;
   char testString[] = "hejhopp";
@@ -161,8 +161,7 @@ Ensure canGetString()
 
 
 /*----------------------------------------------------------------------*/
-static void testIncreaseEventQueue()
-{
+Ensure(testIncreaseEventQueue) {
   eventQueueSize = 0;
   eventQueue = NULL;
   eventQueueTop = 0;
@@ -209,7 +208,7 @@ static void failAssertion(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure syserrOnWhereForIllegalId() {
+Ensure (syserrOnWhereForIllegalId) {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -225,7 +224,7 @@ Ensure syserrOnWhereForIllegalId() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure syserrOnHereForIllegalId() {
+Ensure (syserrOnHereForIllegalId) {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -241,7 +240,7 @@ Ensure syserrOnHereForIllegalId() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure syserrOnLocateIllegalId() {
+Ensure (syserrOnLocateIllegalId) {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -267,7 +266,7 @@ Ensure syserrOnLocateIllegalId() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure callingWhereReturnsExpectedValues() {
+Ensure (callingWhereReturnsExpectedValues) {
     int LOCATION_CLASS = 1;
     /* TODO: define NOWHERE == 1 in acode.h */
     int FIRST_INSTANCE = 2;     /* Avoid 1 which is the predefined #nowhere */
@@ -312,7 +311,7 @@ Ensure callingWhereReturnsExpectedValues() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canGetMembersOfASet() {
+Ensure (canGetMembersOfASet) {
   Set *set = newSet(0);
   Aword code[] = {0,	/* Dummy */
 		  INSTRUCTION(I_SETSIZE),
@@ -329,7 +328,7 @@ Ensure canGetMembersOfASet() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canGetContainerSize() {
+Ensure (canGetContainerSize) {
   header = allocate(sizeof(ACodeHeader));
   instances = allocate(4*sizeof(InstanceEntry));
   admin = allocate(4*sizeof(AdminEntry));
@@ -358,7 +357,7 @@ static void tearDown() {
 TestSuite *exeTests() {
   TestSuite *suite = create_test_suite();
 
-  teardown(suite, tearDown);
+  set_teardown(suite, tearDown);
 
   add_test(suite, canCountTrailingBlanks);
   add_test(suite, canSkipWordForwards);

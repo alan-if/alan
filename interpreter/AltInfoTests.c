@@ -1,9 +1,10 @@
 #include "cgreen/cgreen.h"
+#include "cgreen/mocks.h"
 
 #include "AltInfo.c"
 
 
-Ensure canPrimeAltInfo() {
+Ensure(canPrimeAltInfo) {
   AltInfo altInfos[2];
   const int level = 17;
   const int parameter = 18;
@@ -19,7 +20,7 @@ Ensure canPrimeAltInfo() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canDuplicateAltInfoArray() {
+Ensure(canDuplicateAltInfoArray) {
   AltInfo original[20];
   AltInfo *duplicate;
   static int COPYSIZE = 15;
@@ -42,7 +43,7 @@ Ensure canDuplicateAltInfoArray() {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canFindLastAltInfoIndex() {
+Ensure(canFindLastAltInfoIndex) {
   AltInfo array[20];
   static int SIZE = 13;
   int i;
@@ -55,7 +56,7 @@ Ensure canFindLastAltInfoIndex() {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure canFindNextFreeAltInfo() {
+Ensure(canFindNextFreeAltInfo) {
   AltInfo array[20];
   static int SIZE = 13;
   int i;
@@ -74,7 +75,7 @@ AltEntry *finder(int verb, int parameterNumber, int theInstance, int theClass) {
   return &altEntry;
 }
 
-Ensure canAddGlobalAlternatives() {
+Ensure(canAddGlobalAlternatives) {
   AltInfo altInfos[10];
   altInfos[0].end = TRUE;
 
@@ -94,7 +95,7 @@ static AltInfo *mockedAlternativeFinder(int verb, Parameter parameters[]) {
     return NULL;
 }
 
-Ensure possibleIndicatesFalseOnEmptyAlternatives(void) {
+Ensure(possibleIndicatesFalseOnEmptyAlternatives) {
     globalParameters = allocateParameterArray(MAXINSTANCE);
     assert_false(possibleWithFinder(current.verb, globalParameters, mockedAlternativeFinder));
 }

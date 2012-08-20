@@ -26,7 +26,7 @@ static void tearDown() {
 
 
 /*----------------------------------------------------------------------*/
-static void testBlockInstructions()
+Ensure(testBlockInstructions)
 {
   Aword blockInstructionCode[] = {4, /* Dummy to not execute at zero */
 				  4,
@@ -57,7 +57,7 @@ static void testBlockInstructions()
 
 
 /*----------------------------------------------------------------------*/
-static void testLoopInstruction()
+Ensure(testLoopInstruction)
 {
   Aword loopInstructionCode1[] = {4, /* Dummy to not execute at zero */
 				  43, /* Marker */
@@ -73,7 +73,7 @@ static void testLoopInstruction()
 
 
 /*----------------------------------------------------------------------*/
-static void testLoopEndInstruction()
+Ensure(testLoopEndInstruction)
 {
   Aword loopEndInstructionCode[] = {4, /* Dummy to not execute at zero */
 				  1,
@@ -96,7 +96,7 @@ static void testLoopEndInstruction()
 
 
 /*----------------------------------------------------------------------*/
-static void testGoToLoop() {
+Ensure(testGoToLoop) {
   Aword testGoToLoopCode[] = {0,
 			      INSTRUCTION(I_LOOP), /* 1 */
 			      4,
@@ -115,7 +115,7 @@ static void testGoToLoop() {
 
 
 /*----------------------------------------------------------------------*/
-static void testLoopNext() {
+Ensure(testLoopNext) {
   Aword testLoopNextCode[] = {0,
 			      INSTRUCTION(I_LOOP),
 			      4, /* 2 */
@@ -134,7 +134,7 @@ static void testLoopNext() {
 
 
 /*----------------------------------------------------------------------*/
-static void testCountInstruction()
+Ensure(testCountInstruction)
 {
   Aword testCountInstructionCode[] = {0,
 				      INSTRUCTION(I_COUNT), /* 7 */
@@ -153,7 +153,7 @@ static void testCountInstruction()
 
 
 /*----------------------------------------------------------------------*/
-static void testMaxInstruction() {
+Ensure(testMaxInstruction) {
   Aword testMaxInstructionCode[] = {0,
 				    INSTRUCTION(I_MAX),
 				    INSTRUCTION(I_RETURN)};
@@ -181,7 +181,7 @@ static void testMaxInstruction() {
 
 
 /*----------------------------------------------------------------------*/
-static void testMaxInstance() {
+Ensure(testMaxInstance) {
   Aword testMaxInstanceCode[] = {0,
 				 CURVAR(V_MAX_INSTANCE),
 				 INSTRUCTION(I_RETURN)};
@@ -197,8 +197,8 @@ TestSuite *interTests(void)
 {
   TestSuite *suite = create_test_suite();
 
-  setup(suite, setUp);
-  teardown(suite, tearDown);
+  set_setup(suite, setUp);
+  set_teardown(suite, tearDown);
 
   add_test(suite, testBlockInstructions);
   add_test(suite, testGoToLoop);

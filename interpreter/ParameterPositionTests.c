@@ -1,7 +1,7 @@
 #include "cgreen/cgreen.h"
 #include "cgreen/mocks.h"
 
-#include "parameterPosition.c"
+#include "ParameterPosition.c"
 
 
 /* Private Data */
@@ -15,7 +15,7 @@ static void setUp(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canUncheckAllParameterPositions(void) {
+Ensure (canUncheckAllParameterPositions) {
     int i;
     ParameterPosition *parameterPositions = allocate((MAXPARAMS+1)*sizeof(ParameterPosition));
 
@@ -29,7 +29,7 @@ Ensure canUncheckAllParameterPositions(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure canFindMultipleParameterPosition(void) {
+Ensure (canFindMultipleParameterPosition) {
     ParameterPosition parameterPositions[10];
     int i;
 
@@ -45,7 +45,7 @@ Ensure canFindMultipleParameterPosition(void) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure copyParameterPositionsCopyTheWholeListIncludingTheEndMarker(void) {
+Ensure (copyParameterPositionsCopyTheWholeListIncludingTheEndMarker) {
     ParameterPosition original[2];
     ParameterPosition copy[2];
 
@@ -75,7 +75,7 @@ static ParameterPosition *givenAnyParameterPositionArrayOfLength(int length) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure parameterPositionsOfUnequalLengthAreNotEqual(void) {
+Ensure (parameterPositionsOfUnequalLengthAreNotEqual) {
     ParameterPosition *parameterPosition1 = givenAnyParameterPositionArrayOfLength(2);
     ParameterPosition *parameterPosition2 = givenAnyParameterPositionArrayOfLength(1);
 
@@ -83,7 +83,7 @@ Ensure parameterPositionsOfUnequalLengthAreNotEqual(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual(void) {
+Ensure (parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual) {
     ParameterPosition parameterPosition1[2];
     ParameterPosition parameterPosition2[2];
 
@@ -105,7 +105,7 @@ TestSuite *parameterPositionTests(void)
 {
     TestSuite *suite = create_test_suite();
 
-    setup(suite, setUp);
+    set_setup(suite, setUp);
 
     add_test(suite, canUncheckAllParameterPositions);
     add_test(suite, canFindMultipleParameterPosition);

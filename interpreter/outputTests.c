@@ -4,12 +4,12 @@
 #include "output.c"
 
 
-Ensure testUpdateColumn() {
+Ensure (testUpdateColumn) {
   assert_true(updateColumn(0, "\n") == 1);
   assert_true(updateColumn(11, "123456789") == 20);
 }
 
-Ensure testPunctuationNext() {
+Ensure (testPunctuationNext) {
   assert_true(punctuationNext("."));
   assert_true(punctuationNext("!"));
   assert_true(punctuationNext("?"));
@@ -20,7 +20,7 @@ Ensure testPunctuationNext() {
   assert_true(!punctuationNext("$p."));
 }
 
-Ensure testSpaceEquivalent(){
+Ensure (testSpaceEquivalent){
   assert_true(isSpaceEquivalent("$p"));
   assert_true(isSpaceEquivalent("$pafdjljf"));
   assert_true(isSpaceEquivalent("$t"));
