@@ -140,8 +140,11 @@ typedef enum TextStyle {
     QUOTE_STYLE
 } TextStyle;
 
+
+#define CONSTANT(op) ((Aword)op)
 #define INSTRUCTION(op) ((((Aword)C_STMOP)<<28)|((Aword)op))
 #define CURVAR(op) ((((Aword)C_CURVAR)<<28)|((Aword)op))
+
 typedef enum InstClass {
     I_LINE,			/* Source line debug info */
     I_PRINT,			/* Print a string from the text file */

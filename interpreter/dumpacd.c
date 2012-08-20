@@ -358,9 +358,11 @@ static void dumpInstance(int instanceCode, InstanceEntry *instances) {
   indent(level+1);
   printf("parent: %ld\n", instance->parent);
   indent(level+1);
-  printf("location: %ld\n", instance->initialLocation);
-  indent(level+1);
   printf("name: %s\n", dumpAddress(instance->name));
+  indent(level+1);
+  printf("pronoun: %ld\n", instance->pronoun);
+  indent(level+1);
+  printf("location: %ld\n", instance->initialLocation);
   indent(level+1);
   printf("initialize: %ld\n", instance->initialize);
   indent(level+1);
@@ -382,11 +384,13 @@ static void dumpInstance(int instanceCode, InstanceEntry *instances) {
   indent(level+1);
   printf("mentioned: %s\n", dumpAddress(instance->mentioned));
   indent(level+1);
+  printf("verbs: %s\n", dumpAddress(instance->verbs));
+  indent(level+1);
+  printf("entered: %s\n", dumpAddress(instance->entered));
+  indent(level+1);
   printf("exits: %s\n", dumpAddress(instance->exits));
   if (exitsFlag && instance->exits)
     dumpExts(level+2, instance->exits);
-  indent(level+1);
-  printf("verbs: %s\n", dumpAddress(instance->verbs));
 }
 
 
