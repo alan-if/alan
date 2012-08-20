@@ -352,8 +352,7 @@ Ensure (matchNounPhraseCanMatchSingleNounWithSingleMatch) {
     givenPlayerWordsForANoun(theExpectedWordIndex);
 
     expect(mockedReferenceFinder,
-	   when(currentWordIndex, is_equal_to(theExpectedWordIndex)));
-    expect(mockedReferenceFinder,
+	   when(currentWordIndex, is_equal_to(theExpectedWordIndex)),
 	   will_return(theExpectedInstance));
 
     matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
