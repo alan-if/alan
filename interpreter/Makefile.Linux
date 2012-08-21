@@ -42,9 +42,14 @@ CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = -lcgreen -lm
 
+unittests.so: CFLAGS += $(CGREENINCLUDE)
+unittests.so: LIBS = $(CGREENLIB) $(ALLOCLIBS)
+unittests.so: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
+	$(LINK) -shared -Wl,-soname,$@ -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
+
 ###################################################################
 #
-# Default target on Darwin
+# Default target on Linux
 # 
 .PHONY: default
 default all: unit arun
