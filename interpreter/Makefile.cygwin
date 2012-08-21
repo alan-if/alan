@@ -23,6 +23,11 @@ CGREENLIB = $(CGREENROOT)/lib/libcgreen.a
 
 unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
 
+unittests.dll: CFLAGS += $(CGREENINCLUDE)
+unittests.dll: LIBS = $(CGREENLIB) $(ALLOCLIBS)
+unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
+	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
+
 #################################################################
 # the default build is unittests and standard command line arun
 .PHONY: default
