@@ -1,5 +1,7 @@
 #include "cgreen/cgreen.h"
 #include "xml_reporter.h"
+#include <stdlib.h>
+#include "gopt.h"
 
 #ifdef SMARTALLOC
 #include "smartall.h"
@@ -10,11 +12,7 @@
   add_suite(suite, module##Tests());
 
 
-int main(int argc, char **argv) {
-	int return_code;
-    TestSuite *suite = create_test_suite();
-    TestReporter *reporter = create_text_reporter();
-
+static void add_unittests(TestSuite *suite) {
     ADD_UNIT_TESTS_FOR(act);
     ADD_UNIT_TESTS_FOR(altInfo);
     ADD_UNIT_TESTS_FOR(args);
@@ -36,30 +34,47 @@ int main(int argc, char **argv) {
     ADD_UNIT_TESTS_FOR(sysdep);
     ADD_UNIT_TESTS_FOR(output);
     ADD_UNIT_TESTS_FOR(word);
+}
 
-    // TODO: Awful hack, should use command arg parsing...
-    if (argc == 1)
-    	return_code = run_test_suite(suite, reporter);
-    else if (argc == 2) {
-        if (strcmp(argv[1], "-xml") == 0) {
-            reporter = create_xml_reporter();
-            return_code = run_test_suite(suite, reporter);
-        } else
-            return_code = run_single_test(suite, argv[2], reporter);
+
+int main(int argc, const char **argv) {
+    int return_code;
+    TestSuite *suite = create_test_suite();
+    TestReporter *reporter = create_text_reporter();
+
+    /* Option values: */
+    FILE *out_stream;
+    const char *filename;
+
+    add_unittests(suite);
+
+    void *options= gopt_sort(&argc, argv, gopt_start(
+                                                     gopt_option( 'x', 
+                                                                  GOPT_ARG, 
+                                                                  gopt_shorts( 'x' ), 
+                                                                  gopt_longs( "xml" ))));
+
+    if (gopt_arg(options, 'x', &filename) && strcmp(filename, "-")) {
+        /*
+         * if -x or --xml was specified, and its argument was not "-"
+         */
+        out_stream = fopen( filename, "wb" );
+        if(!out_stream ){
+            fprintf(stderr, "%s: %s: could not open file for output\n", argv[0], filename);
+            exit( EXIT_FAILURE);
+        }
+    } else
+        out_stream= stdout;
+    
+    if (gopt(options, 'x'))
+        reporter = create_xml_reporter(out_stream);
+    
+    if (argc == 2) {
+        return_code = run_test_suite(suite, reporter);
     } else if (argc == 3) {
-        if (strcmp(argv[1], "-xml") == 0) {
-            reporter = create_xml_reporter();
-            return_code = run_single_test(suite, argv[2], reporter);
-        } else if (strcmp(argv[2], "-xml") == 0) {
-            reporter = create_xml_reporter();
-            return_code = run_single_test(suite, argv[1], reporter);
-        } else
-            printf("Usage: %s [-xml] [<test case name>]", argv[0]);
+        return_code = run_single_test(suite, argv[2], reporter);
     } else {
-        printf("Usage: %s [-xml] [<test case name>]", argv[0]);
+        printf("Usage: %s [--xml] <library of unittests> [<test case name>]\n", argv[0]);
     }
-#ifdef SMARTALLOC
-    sm_dump(1);
-#endif
     return return_code;
 }

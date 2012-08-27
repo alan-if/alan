@@ -17,7 +17,10 @@ static void xml_show_incomplete(TestReporter *reporter, const char *filename, in
 
 static char *current_suite = NULL; /* TODO: actually need a stack... Could we use the breadcrumb? */
 
-TestReporter *create_xml_reporter() {
+static FILE *out;
+
+
+TestReporter *create_xml_reporter(FILE *output) {
     TestReporter *reporter = create_reporter();
     reporter->start_suite = &xml_reporter_start_suite;
     reporter->start_test = &xml_reporter_start_test;
@@ -25,62 +28,61 @@ TestReporter *create_xml_reporter() {
     reporter->show_incomplete = &xml_show_incomplete;
     reporter->finish_test = &xml_reporter_finish_test;
     reporter->finish_suite = &xml_reporter_finish_suite;
+    out = output;
+    fprintf(out, "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n");
     return reporter;
 }
 
 static void indent(TestReporter *reporter) {
     int depth = get_breadcrumb_depth((CgreenBreadcrumb *)reporter->breadcrumb);
     while (depth-- > 0) {
-        printf("\t");
+        fprintf(out, "\t");
     }
 }
 
 static void xml_reporter_start_suite(TestReporter *reporter, const char *name, int count) {
-    if (get_breadcrumb_depth((CgreenBreadcrumb *)reporter->breadcrumb) == 0) {
-        printf("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n");
-    }
     indent(reporter);
-    printf("<testsuite name=\"%s\">\n", name);
+    fprintf(out, "<testsuite name=\"%s\">\n", name);
     reporter_start(reporter, name);
     current_suite = strdup(name);
 }
 
 static void xml_reporter_start_test(TestReporter *reporter, const char *name) {
     indent(reporter);
-    printf("<testcase classname=\"%s\" name=\"%s\">\n", current_suite, name);
+    fprintf(out, "<testcase classname=\"%s\" name=\"%s\">\n", current_suite, name);
     reporter_start(reporter, name);
 }
 
 static void xml_show_fail(TestReporter *reporter, const char *file, int line, const char *message, va_list arguments) {
     indent(reporter);
-    printf("<failure message=\"");
-    vprintf(message, arguments);
-    printf("\">\n");
+    fprintf(out, "<failure message=\"");
+    vfprintf(out, message, arguments);
+    fprintf(out, "\">\n");
     indent(reporter);
-    printf("\t<location file=\"%s\" line=\"%d\"/>\n", file, line);
+    fprintf(out, "\t<location file=\"%s\" line=\"%d\"/>\n", file, line);
     indent(reporter);
-    printf("</failure>\n");
+    fprintf(out, "</failure>\n");
 }
 
 static void xml_show_incomplete(TestReporter *reporter, const char *filename, int line, const char *message, va_list arguments) {
     indent(reporter);
-    printf("<error type=\"Fatal\" message=\"");
-    vprintf(message, arguments);
-    printf("\">\n");
+    fprintf(out, "<error type=\"Fatal\" message=\"");
+    vfprintf(out, message, arguments);
+    fprintf(out, "\">\n");
     indent(reporter);
-    printf("</error>\n");
+    fprintf(out, "</error>\n");
 }
 
 static void xml_reporter_finish_test(TestReporter *reporter, const char *filename, int line) {
     reporter_finish(reporter, filename, line);
     indent(reporter);
-    printf("</testcase>\n");
+    fprintf(out, "</testcase>\n");
 }
 
 static void xml_reporter_finish_suite(TestReporter *reporter, const char *filename, int line) {
     reporter_finish(reporter, filename, line);
     indent(reporter);
-    printf("</suite>\n");
+    fprintf(out, "</suite>\n");
     free(current_suite);
     current_suite = NULL;
 }
