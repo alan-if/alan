@@ -4,7 +4,7 @@
 #######################################################################
 
 # On cygwin we try to build without cygwin1.dll if we can
-PLATFORM = -mno-cygwin
+PLATFORM =
 
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(ALLOC) -funsigned-char -g
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
@@ -21,16 +21,18 @@ CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = $(CGREENROOT)/lib/libcgreen.a
 
-unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
-
-unittests.dll: CFLAGS += $(CGREENINCLUDE)
-unittests.dll: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
-
 #################################################################
 # the default build is unittests and standard command line arun
 .PHONY: default
 default:
 	$(MAKE) unit
 	$(MAKE) arun
+
+unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
+
+unittests.dll: CFLAGS += $(CGREENINCLUDE)
+unittests.dll: LIBS = $(CGREENLIB) $(ALLOCLIBS)
+unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
+	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) -L/usr/local/bin -lcgreen.dll
+
+

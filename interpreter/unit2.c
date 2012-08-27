@@ -1,4 +1,5 @@
 #include "cgreen/cgreen.h"
+#include "xml_reporter.h"
 
 #ifdef SMARTALLOC
 #include "smartall.h"
@@ -36,10 +37,26 @@ int main(int argc, char **argv) {
     ADD_UNIT_TESTS_FOR(output);
     ADD_UNIT_TESTS_FOR(word);
 
-    if (argc > 1) {
-        return_code = run_single_test(suite, argv[1], reporter);
-    } else {
+    // TODO: Awful hack, should use command arg parsing...
+    if (argc == 1)
     	return_code = run_test_suite(suite, reporter);
+    else if (argc == 2) {
+        if (strcmp(argv[1], "-xml") == 0) {
+            reporter = create_xml_reporter();
+            return_code = run_test_suite(suite, reporter);
+        } else
+            return_code = run_single_test(suite, argv[2], reporter);
+    } else if (argc == 3) {
+        if (strcmp(argv[1], "-xml") == 0) {
+            reporter = create_xml_reporter();
+            return_code = run_single_test(suite, argv[2], reporter);
+        } else if (strcmp(argv[2], "-xml") == 0) {
+            reporter = create_xml_reporter();
+            return_code = run_single_test(suite, argv[1], reporter);
+        } else
+            printf("Usage: %s [-xml] [<test case name>]", argv[0]);
+    } else {
+        printf("Usage: %s [-xml] [<test case name>]", argv[0]);
     }
 #ifdef SMARTALLOC
     sm_dump(1);

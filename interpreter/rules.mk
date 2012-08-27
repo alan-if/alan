@@ -87,7 +87,7 @@ unit: unittests
 	@echo
 	@echo "        Unit Tests"
 	@echo
-	@./unittests
+	@./unittests $(TESTOUTPUT) $(OUT)
 	@echo
 	@echo
 endif

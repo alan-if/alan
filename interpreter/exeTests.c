@@ -347,8 +347,6 @@ Ensure (canGetContainerSize) {
   free(header);
 }
 
-
-
 static void tearDown() {
   setSyserrHandler(NULL);
 }

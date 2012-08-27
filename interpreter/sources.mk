@@ -59,7 +59,7 @@ MAINSRCS = \
 
 UNITTESTEDSRCS = ${UNITTESTED:.c=Tests.c}
 
-UNITTESTSSRCS = unittests.c $(UNITTESTEDSRCS) $(OTHERSRCS)
+UNITTESTSSRCS = unittests.c xml_reporter.c $(UNITTESTEDSRCS) $(OTHERSRCS)
 ARUNSRCS = arun.c $(MAINSRCS) smartall.c
 GLKSRCS = glkstart.c glkio.c
 WINARUNSRCS = ${GLKSRCS} ${ARUNSRCS} winglk.c
