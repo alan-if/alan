@@ -43,58 +43,58 @@ struct opt_s {
 };
 typedef struct opt_s opt_t;
 
-void *gopt_sort( int *argc, const char **argv, const void *opt_specs ){
+void *gopt_sort(int *argc, const char **argv, const void *opt_specs) {
     void *opts;
     {{{
                 const char* const *arg_p= argv + 1;
                 size_t opt_count= 1;
-                for( ; *arg_p; ++arg_p )
-                    if( '-' == (*arg_p)[0] && (*arg_p)[1] )
-                        if( '-' == (*arg_p)[1] )
-                            if( (*arg_p)[2] )
+                for(; *arg_p; ++arg_p)
+                    if('-' == (*arg_p)[0] && (*arg_p)[1])
+                        if('-' == (*arg_p)[1])
+                            if((*arg_p)[2])
                                 ++opt_count;
                             else
                                 break;
                         else {
                             const opt_spec_t *opt_spec_p= opt_specs;
-                            for( ; opt_spec_p-> key; ++opt_spec_p )
-                                if( strchr( opt_spec_p-> shorts, (*arg_p)[1] )){
-                                    opt_count+= opt_spec_p-> flags & GOPT_ARG ? 1 : strlen( (*arg_p) + 1 );
+                            for(; opt_spec_p-> key; ++opt_spec_p)
+                                if(strchr(opt_spec_p-> shorts, (*arg_p)[1])) {
+                                    opt_count+= opt_spec_p-> flags & GOPT_ARG ? 1 : strlen((*arg_p) + 1);
                                     break;
                                 }
                         }
-                opts= malloc( opt_count * sizeof(opt_t) );
+                opts= malloc(opt_count * sizeof(opt_t));
             }}}
     {
         const char **arg_p= argv + 1;
         const char **next_operand= arg_p;
         opt_t *next_option= opts;
       
-        if( ! opts ){
-            perror( argv[0] );
-            exit( EX_OSERR );
+        if(! opts) {
+            perror(argv[0]);
+            exit(EX_OSERR);
         }  
-        for( ; *arg_p; ++arg_p )
-            if( '-' == (*arg_p)[0] && (*arg_p)[1] )
-                if( '-' == (*arg_p)[1] )
-                    if( (*arg_p)[2] )
+        for(; *arg_p; ++arg_p)
+            if('-' == (*arg_p)[0] && (*arg_p)[1])
+                if('-' == (*arg_p)[1])
+                    if((*arg_p)[2])
                         {{{
                                     const opt_spec_t *opt_spec_p= opt_specs;
                                     const char* const *longs= opt_spec_p-> longs;
                                     next_option-> key= 0;
-                                    while( *longs ){
+                                    while(*longs) {
                                         const char *option_cp= (*arg_p) + 2;
                                         const char *name_cp= *longs;
-                                        while( *option_cp && *option_cp == *name_cp ){
+                                        while(*option_cp && *option_cp == *name_cp) {
                                             ++option_cp;
                                             ++name_cp;
                                         }
-                                        if( '=' == *option_cp || !*option_cp ){
-                                            if( *name_cp ){
-                                                if( next_option-> key ){
-                                                    fprintf( stderr, "%s: --%.*s: abbreviated option is ambiguous\n", argv[0], (int)( option_cp -( (*arg_p) + 2 )), (*arg_p) + 2 );
-                                                    free( opts );
-                                                    exit( EX_USAGE );
+                                        if('=' == *option_cp || !*option_cp) {
+                                            if(*name_cp) {
+                                                if(next_option-> key) {
+                                                    fprintf(stderr, "%s: --%.*s: abbreviated option is ambiguous\n", argv[0], (int)(option_cp -((*arg_p) + 2)), (*arg_p) + 2);
+                                                    free(opts);
+                                                    exit(EX_USAGE);
                                                 }
                                                 next_option-> key= opt_spec_p-> key;
                                             }
@@ -103,85 +103,85 @@ void *gopt_sort( int *argc, const char **argv, const void *opt_specs ){
                                                 goto found_long;
                                             }
                                         }
-                                        if( !*++longs ){
+                                        if(!*++longs) {
                                             ++opt_spec_p;
-                                            if( opt_spec_p-> key )
+                                            if(opt_spec_p-> key)
                                                 longs= opt_spec_p-> longs;
                                         }
                                     }
-                                    if( ! next_option-> key ){
-                                        fprintf( stderr, "%s: --%.*s: unknown option\n", argv[0], (int)strcspn( (*arg_p) + 2, "=" ), (*arg_p) + 2 );
-                                        free( opts );
-                                        exit( EX_USAGE );              
+                                    if(! next_option-> key) {
+                                        fprintf(stderr, "%s: --%.*s: unknown option\n", argv[0], (int)strcspn((*arg_p) + 2, "="), (*arg_p) + 2);
+                                        free(opts);
+                                        exit(EX_USAGE);              
                                     }
-                                    for( opt_spec_p= opt_specs; opt_spec_p-> key != next_option-> key; ++opt_spec_p );
+                                    for(opt_spec_p= opt_specs; opt_spec_p-> key != next_option-> key; ++opt_spec_p);
                                 found_long:
             
-                                    if( !( opt_spec_p-> flags & GOPT_REPEAT )){
+                                    if(!(opt_spec_p-> flags & GOPT_REPEAT)) {
                                         const opt_t *opt_p= opts;
-                                        for( ; opt_p != next_option; ++opt_p )
-                                            if( opt_p-> key == opt_spec_p-> key ){
-                                                fprintf( stderr, "%s: --%.*s: option may not be repeated (in any long or short form)\n", argv[0], (int)strcspn( (*arg_p) + 2, "=" ), (*arg_p) + 2 );
-                                                free( opts );
-                                                exit( EX_USAGE );
+                                        for(; opt_p != next_option; ++opt_p)
+                                            if(opt_p-> key == opt_spec_p-> key) {
+                                                fprintf(stderr, "%s: --%.*s: option may not be repeated (in any long or short form)\n", argv[0], (int)strcspn((*arg_p) + 2, "="), (*arg_p) + 2);
+                                                free(opts);
+                                                exit(EX_USAGE);
                                             }
                                     }
-                                    if( opt_spec_p-> flags & GOPT_ARG ){
-                                        next_option-> arg= strchr( (*arg_p) + 2, '=' ) + 1;
-                                        if( (char*)0 + 1 == next_option-> arg ){
+                                    if(opt_spec_p-> flags & GOPT_ARG) {
+                                        next_option-> arg= strchr((*arg_p) + 2, '=') + 1;
+                                        if((char*)0 + 1 == next_option-> arg) {
                                             ++arg_p;
-                                            if( !*arg_p || ('-' == (*arg_p)[0] && (*arg_p)[1] )){
-                                                fprintf( stderr, "%s: --%s: option requires an option argument\n", argv[0], (*(arg_p-1)) + 2 );
-                                                free( opts );
-                                                exit( EX_USAGE );
+                                            if(!*arg_p || ('-' == (*arg_p)[0] && (*arg_p)[1])) {
+                                                fprintf(stderr, "%s: --%s: option requires an option argument\n", argv[0], (*(arg_p-1)) + 2);
+                                                free(opts);
+                                                exit(EX_USAGE);
                                             }
                                             next_option-> arg= *arg_p;
                                         }
                                     }
                                     else {
-                                        if( strchr( (*arg_p) + 2, '=' )){
-                                            fprintf( stderr, "%s: --%.*s: option may not take an option argument\n", argv[0], (int)strcspn( (*arg_p) + 2, "=" ), (*arg_p) + 2 );
-                                            free( opts );
-                                            exit( EX_USAGE );
+                                        if(strchr((*arg_p) + 2, '=')) {
+                                            fprintf(stderr, "%s: --%.*s: option may not take an option argument\n", argv[0], (int)strcspn((*arg_p) + 2, "="), (*arg_p) + 2);
+                                            free(opts);
+                                            exit(EX_USAGE);
                                         }
                                         next_option-> arg= NULL;
                                     }
                                     ++next_option;
                                 }}}
                     else {
-                        for( ++arg_p; *arg_p; ++arg_p )
+                        for(++arg_p; *arg_p; ++arg_p)
                             *next_operand++= *arg_p;
                         break;
                     }
                 else
                     {{{
                                 const char *short_opt= (*arg_p) + 1;
-                                for( ;*short_opt; ++short_opt ){
+                                for(;*short_opt; ++short_opt) {
                                     const opt_spec_t *opt_spec_p= opt_specs;
             
-                                    for( ; opt_spec_p-> key; ++opt_spec_p )
-                                        if( strchr( opt_spec_p-> shorts, *short_opt )){
-                                            if( !( opt_spec_p-> flags & GOPT_REPEAT )){
+                                    for(; opt_spec_p-> key; ++opt_spec_p)
+                                        if(strchr(opt_spec_p-> shorts, *short_opt)) {
+                                            if(!(opt_spec_p-> flags & GOPT_REPEAT)) {
                                                 const opt_t *opt_p= opts;
-                                                for( ; opt_p != next_option; ++opt_p )
-                                                    if( opt_p-> key == opt_spec_p-> key ){
-                                                        fprintf( stderr, "%s: -%c: option may not be repeated (in any long or short form)\n", argv[0], *short_opt );
-                                                        free( opts );
-                                                        exit( EX_USAGE );
+                                                for(; opt_p != next_option; ++opt_p)
+                                                    if(opt_p-> key == opt_spec_p-> key) {
+                                                        fprintf(stderr, "%s: -%c: option may not be repeated (in any long or short form)\n", argv[0], *short_opt);
+                                                        free(opts);
+                                                        exit(EX_USAGE);
                                                     }
                                             }
                                             next_option-> key= opt_spec_p-> key;
 
-                                            if( opt_spec_p-> flags & GOPT_ARG ){
-                                                if( short_opt[1] )
+                                            if(opt_spec_p-> flags & GOPT_ARG) {
+                                                if(short_opt[1])
                                                     next_option-> arg= short_opt + 1;
                   
                                                 else {
                                                     ++arg_p;
-                                                    if( !*arg_p || ('-' == (*arg_p)[0] && (*arg_p)[1]) ){
-                                                        fprintf( stderr, "%s: -%c: option requires an option argument\n", argv[0], *short_opt );
-                                                        free( opts );
-                                                        exit( EX_USAGE );
+                                                    if(!*arg_p || ('-' == (*arg_p)[0] && (*arg_p)[1])) {
+                                                        fprintf(stderr, "%s: -%c: option requires an option argument\n", argv[0], *short_opt);
+                                                        free(opts);
+                                                        exit(EX_USAGE);
                                                     }
                                                     next_option-> arg= *arg_p;
                                                 }
@@ -192,9 +192,9 @@ void *gopt_sort( int *argc, const char **argv, const void *opt_specs ){
                                             ++next_option;
                                             goto continue_2;
                                         }
-                                    fprintf( stderr, "%s: -%c: unknown option\n", argv[0], *short_opt );
-                                    free( opts );
-                                    exit( EX_USAGE );
+                                    fprintf(stderr, "%s: -%c: unknown option\n", argv[0], *short_opt);
+                                    free(opts);
+                                    exit(EX_USAGE);
                                 continue_2: ;
                                 }
                             break_2: ;
@@ -209,57 +209,57 @@ void *gopt_sort( int *argc, const char **argv, const void *opt_specs ){
     return opts;
 }
 
-size_t gopt( const void *vptr_opts, int key ){
+size_t gopt(const void *vptr_opts, int key) {
     const opt_t *opts= vptr_opts;
     size_t count= 0;
-    for( ; opts-> key; ++opts )
+    for(; opts-> key; ++opts)
         count+= opts-> key == key;
 
     return count;
 }
 
-size_t gopt_arg( const void *vptr_opts, int key, const char **arg ){
+size_t gopt_arg(const void *vptr_opts, int key, const char **arg) {
     const opt_t *opts= vptr_opts;
     size_t count= 0;
  
-    for( ; opts-> key; ++opts )
-        if( opts-> key == key ){
-            if( ! count )
+    for(; opts-> key; ++opts)
+        if(opts-> key == key) {
+            if(! count)
                 *arg= opts-> arg;
             ++count;
         }
     return count;
 }
 
-const char *gopt_arg_i( const void *vptr_opts, int key, size_t i ){
+const char *gopt_arg_i(const void *vptr_opts, int key, size_t i) {
     const opt_t *opts= vptr_opts;
   
-    for( ; opts-> key; ++opts )
-        if( opts-> key == key ){
-            if( ! i )
+    for(; opts-> key; ++opts)
+        if(opts-> key == key) {
+            if(! i)
                 return opts-> arg;      
             --i;
         }
     return NULL;
 }
 
-size_t gopt_args( const void *vptr_opts, int key, const char **args, size_t args_len ){
+size_t gopt_args(const void *vptr_opts, int key, const char **args, size_t args_len) {
     const char **args_stop= args + args_len;
     const char **args_ptr= args;
     const opt_t *opts= vptr_opts;
 
-    for( ; opts-> key; ++opts )
-        if( opts-> key == key ){
-            if( args_stop == args_ptr )
-                return args_len + gopt( opts, key );
+    for(; opts-> key; ++opts)
+        if(opts-> key == key) {
+            if(args_stop == args_ptr)
+                return args_len + gopt(opts, key);
       
             *args_ptr++= opts-> arg;
         }
-    if( args_stop != args_ptr )
+    if(args_stop != args_ptr)
         *args_ptr= NULL;
     return args_ptr - args;
 }
 
-void gopt_free( void *vptr_opts ){
-    free( vptr_opts );
+void gopt_free(void *vptr_opts) {
+    free(vptr_opts);
 }
