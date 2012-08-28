@@ -1,5 +1,5 @@
 ifneq ($(EMACS),)
-TESTOUTPUT = -noansi
+JREGROUTPUT = -noansi
 endif
 
 
@@ -26,19 +26,19 @@ build:
 .PHONY: unit
 unit:
 	-cd compiler; $(MAKE) unit
-	-cd interpreter; $(MAKE) TESTOUTPUT=$(TESTOUTPUT) OUT="TEST-interpreter-unit.xml" unit
+	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) UNITOUT="--xml TEST-interpreter-unit.xml" unit
 
 .PHONY: test
 test:
-	@java -jar bin/jregr.jar -bin bin -dir regression $(TESTOUTPUT)
-#	@java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(TESTOUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(TESTOUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/tracing $(TESTOUTPUT)
-	@java -jar bin/jregr.jar -dir regression/restore $(TESTOUTPUT)		# Uses sh not the executables
-	@java -jar bin/jregr.jar -bin bin -dir compiler/testing $(TESTOUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir compiler/testing/positions $(TESTOUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir library/testing $(TESTOUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir converter/testing $(TESTOUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir regression $(JREGROUTPUT)
+#	@java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir regression/tracing $(JREGROUTPUT)
+	@java -jar bin/jregr.jar -dir regression/restore $(JREGROUTPUT)		# Uses sh not the executables
+	@java -jar bin/jregr.jar -bin bin -dir compiler/testing $(JREGROUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir library/testing $(JREGROUTPUT)
+	@java -jar bin/jregr.jar -bin bin -dir converter/testing $(JREGROUTPUT)
 
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING 
