@@ -47,7 +47,8 @@ build:
 #######################################################################
 # Settings for Release
 release: ALLOC =
-release: PLATFORM = -mno-cygwin
+release: CC = mingw32-gcc
+release: LINK = mingw32-gcc
 release: OPTIMIZE=-O4
 
 .PHONY: release
@@ -62,7 +63,8 @@ WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
 
 winarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(WINGLKINCLUDE) $(WINGLKDEFS)
-winarun: PLATFORM = -mno-cygwin 
+winarun: CC = mingw32-gcc
+winarun: LINK = mingw32-gcc 
 winarun: LIBS = $(WINGLKLIB) -mwindows
 
 WINARUNOBJDIR = .winarun
@@ -91,7 +93,6 @@ TERMGLKDEFS = -DHAVE_GLK
 TERMGLKINCLUDE = -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses -lcurses
 
-glkarun: PLATFORM = # Cannot be build with -mno-cygwin since glkterm cannot be build with out cygwin since I have no curses library for windows
 glkarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(TERMGLKINCLUDE) $(TERMGLKDEFS)
 glkarun: LIBS = $(TERMGLKLIB)
 

@@ -28,8 +28,6 @@ default:
 	$(MAKE) unit
 	$(MAKE) arun
 
-unittests: PLATFORM = # Cannot run with -mno-cygwin since cgreen cannot be compiled with it yet
-
 unittests.dll: CFLAGS += $(CGREENINCLUDE)
 unittests.dll: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)

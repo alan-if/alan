@@ -29,60 +29,60 @@ TestReporter *create_xml_reporter(FILE *output) {
     reporter->finish_test = &xml_reporter_finish_test;
     reporter->finish_suite = &xml_reporter_finish_suite;
     out = output;
-    fprintf(out, "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"); fflush(out);
+    fprintf(out, "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n");
     return reporter;
 }
 
 static void indent(TestReporter *reporter) {
     int depth = get_breadcrumb_depth((CgreenBreadcrumb *)reporter->breadcrumb);
     while (depth-- > 0) {
-        fprintf(out, "\t"); fflush(out);
+        fprintf(out, "\t");
     }
 }
 
 static void xml_reporter_start_suite(TestReporter *reporter, const char *name, int count) {
     indent(reporter);
-    fprintf(out, "<testsuite name=\"%s\">\n", name); fflush(out);
+    fprintf(out, "<testsuite name=\"%s\">\n", name);
     reporter_start(reporter, name);
     current_suite = strdup(name);
 }
 
 static void xml_reporter_start_test(TestReporter *reporter, const char *name) {
     indent(reporter);
-    fprintf(out, "<testcase classname=\"%s\" name=\"%s\">\n", current_suite, name); fflush(out);
+    fprintf(out, "<testcase classname=\"%s\" name=\"%s\">\n", current_suite, name);
     reporter_start(reporter, name);
 }
 
 static void xml_show_fail(TestReporter *reporter, const char *file, int line, const char *message, va_list arguments) {
     indent(reporter);
-    fprintf(out, "<failure message=\""); fflush(out);
-    vfprintf(out, message, arguments); fflush(out);
-    fprintf(out, "\">\n"); fflush(out);
+    fprintf(out, "<failure message=\"");
+    vfprintf(out, message, arguments);
+    fprintf(out, "\">\n");
     indent(reporter);
-    fprintf(out, "\t<location file=\"%s\" line=\"%d\"/>\n", file, line); fflush(out);
+    fprintf(out, "\t<location file=\"%s\" line=\"%d\"/>\n", file, line);
     indent(reporter);
-    fprintf(out, "</failure>\n"); fflush(out);
+    fprintf(out, "</failure>\n");
 }
 
 static void xml_show_incomplete(TestReporter *reporter, const char *filename, int line, const char *message, va_list arguments) {
     indent(reporter);
-    fprintf(out, "<error type=\"Fatal\" message=\""); fflush(out);
-    vfprintf(out, message, arguments); fflush(out);
-    fprintf(out, "\">\n"); fflush(out);
+    fprintf(out, "<error type=\"Fatal\" message=\"");
+    vfprintf(out, message, arguments);
+    fprintf(out, "\">\n");
     indent(reporter);
-    fprintf(out, "</error>\n"); fflush(out);
+    fprintf(out, "</error>\n");
 }
 
 static void xml_reporter_finish_test(TestReporter *reporter, const char *filename, int line) {
     reporter_finish(reporter, filename, line);
     indent(reporter);
-    fprintf(out, "</testcase>\n"); fflush(out);
+    fprintf(out, "</testcase>\n");
 }
 
 static void xml_reporter_finish_suite(TestReporter *reporter, const char *filename, int line) {
     reporter_finish(reporter, filename, line);
     indent(reporter);
-    fprintf(out, "</suite>\n"); fflush(out);
+    fprintf(out, "</suite>\n");
     free(current_suite);
     current_suite = NULL;
 }
