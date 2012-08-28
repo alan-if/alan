@@ -69,12 +69,12 @@ int main(int argc, const char **argv) {
     if (gopt(options, 'x'))
         reporter = create_xml_reporter(out_stream);
     
-    if (argc == 2) {
+    if (argc == 1) {
         return_code = run_test_suite(suite, reporter);
-    } else if (argc == 3) {
+    } else if (argc == 2) {
         return_code = run_single_test(suite, argv[2], reporter);
     } else {
-        printf("Usage: %s [--xml] <library of unittests> [<test case name>]\n", argv[0]);
+        printf("Usage: %s [--xml <output file>] [<test case name>]\n", argv[0]);
     }
     return return_code;
 }
