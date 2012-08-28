@@ -96,5 +96,5 @@ test: unit
 #
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o
+	-rm *.o .*/*.o .*/*.d
 

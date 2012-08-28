@@ -82,7 +82,7 @@ static void xml_reporter_finish_test(TestReporter *reporter, const char *filenam
 static void xml_reporter_finish_suite(TestReporter *reporter, const char *filename, int line) {
     reporter_finish(reporter, filename, line);
     indent(reporter);
-    fprintf(out, "</suite>\n");
+    fprintf(out, "</testsuite>\n");
     free(current_suite);
     current_suite = NULL;
 }

@@ -57,7 +57,7 @@ release: all
 
 #######################################################################
 # Settings for Windows GLK variant
-WINGLKROOT = $(GLKLIBROOT)/WindowsGLK-139
+WINGLKROOT = c:/Users/Thomas/Documents/Utveckling/Alan/WindowsGLK-139
 WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib

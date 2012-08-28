@@ -5,11 +5,11 @@
 # All rules are in rules.mk and included by Makefile
 
 # Compiler and linker are both gcc
-COMPILER = gcc
-LINKER = gcc
+COMPILER = mingw32-gcc
+LINKER = mingw32-gcc
 
 # Flags to send to both compiler & linker
-OS_FLAGS = -mno-cygwin
+OS_FLAGS = # not used anymore, obsolete: -mno-cygwin
 OPTIMIZE = -g
 
 EXTRA_COMPILER_FLAGS = -Wall -funsigned-char $(OPTIMIZE)
