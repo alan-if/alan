@@ -89,8 +89,10 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 TERMGLKROOT = $(GLKLIBROOT)/glkterm
 TERMGLKDEFS = -DHAVE_GLK
 TERMGLKINCLUDE = -I$(TERMGLKROOT)
-TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -lncurses -lcurses
+TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm -L/usr/lib/ncurses -lncurses -lcurses
 
+glkarun: CC = gcc
+glkarun: LINK = gcc
 glkarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(TERMGLKINCLUDE) $(TERMGLKDEFS)
 glkarun: LIBS = $(TERMGLKLIB)
 
