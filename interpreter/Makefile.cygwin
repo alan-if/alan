@@ -10,10 +10,9 @@ COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(ALLOC) -funsigned-char 
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 WARNINGFLAGS = -Wall
 
-CC = gcc
-
-LINKFLAGS = $(PLATFORM)
-LINK = gcc
+# For all targets use the mingw compiler (avoiding the use of cygwin1.dll) ...
+CC = i686-w64-mingw32-gcc
+LINK = i686-w64-mingw32-gcc
 
 # Cgreen unit testing settings
 CGREEN = yes
@@ -28,6 +27,11 @@ default:
 	$(MAKE) unit
 	$(MAKE) arun
 
+# ... except for unittests with cgreen which can not run under mingw
+unittests: CC = gcc
+unittests: LINK = gcc
+unittests.dll: CC = gcc
+unittests.dll: LINK = gcc
 unittests.dll: CFLAGS += $(CGREENINCLUDE)
 unittests.dll: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)

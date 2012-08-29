@@ -4,9 +4,9 @@
 # only sets some cygwin particular switches
 # All rules are in rules.mk and included by Makefile
 
-# Compiler and linker are both gcc
-COMPILER = mingw32-gcc
-LINKER = mingw32-gcc
+# Compiler and linker are both gcc for mingw32
+COMPILER = i686-w64-mingw32-gcc
+LINKER = i686-w64-mingw32-gcc
 
 # Flags to send to both compiler & linker
 OS_FLAGS = # not used anymore, obsolete: -mno-cygwin

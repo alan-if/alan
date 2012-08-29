@@ -47,8 +47,8 @@ build:
 #######################################################################
 # Settings for Release
 release: ALLOC =
-release: CC = mingw32-gcc
-release: LINK = mingw32-gcc
+release: CC = i686-w64-mingw32-gcc
+release: LINK = i686-w64-mingw32-gcc
 release: OPTIMIZE=-O4
 
 .PHONY: release
@@ -57,14 +57,12 @@ release: all
 
 #######################################################################
 # Settings for Windows GLK variant
-WINGLKROOT = c:/Users/Thomas/Documents/Utveckling/Alan/WindowsGLK-139
+WINGLKROOT = /home/thomas/Utveckling/Alan/WindowsGLK-139
 WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
 
 winarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(WINGLKINCLUDE) $(WINGLKDEFS)
-winarun: CC = mingw32-gcc
-winarun: LINK = mingw32-gcc 
 winarun: LIBS = $(WINGLKLIB) -mwindows
 
 WINARUNOBJDIR = .winarun
