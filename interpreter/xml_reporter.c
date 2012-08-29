@@ -49,7 +49,7 @@ static void xml_reporter_start_suite(TestReporter *reporter, const char *name, i
 
 static void xml_reporter_start_test(TestReporter *reporter, const char *name) {
     indent(reporter);
-    fprintf(out, "<testcase classname=\"%s\" name=\"%s\">\n", current_suite, name);
+    fprintf(out, "<testcase s classname=\"%s\" name=\"%s\">\n", current_suite, name);
     reporter_start(reporter, name);
 }
 
