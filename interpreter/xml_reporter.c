@@ -40,17 +40,25 @@ static void indent(TestReporter *reporter) {
     }
 }
 
-static void xml_reporter_start_suite(TestReporter *reporter, const char *name, int count) {
-    indent(reporter);
-    fprintf(out, "<testsuite name=\"%s\">\n", name);
-    reporter_start(reporter, name);
-    current_suite = strdup(name);
+static void pathprinter(const char *trail, int level, int depth, void *memo) {
+    fprintf(out, "%s/", trail);
 }
 
-static void xml_reporter_start_test(TestReporter *reporter, const char *name) {
+static void xml_reporter_start_suite(TestReporter *reporter, const char *suitename, int count) {
     indent(reporter);
-    fprintf(out, "<testcase s classname=\"%s\" name=\"%s\">\n", current_suite, name);
-    reporter_start(reporter, name);
+    fprintf(out, "<testsuite name=\"");
+    walk_breadcrumb(reporter->breadcrumb, pathprinter, NULL);
+    fprintf(out, "%s\">\n", suitename);
+    reporter_start(reporter, suitename);
+    current_suite = strdup(suitename);
+}
+
+static void xml_reporter_start_test(TestReporter *reporter, const char *testname) {
+    indent(reporter);
+    fprintf(out, "<testcase classname=\"");
+    walk_breadcrumb(reporter->breadcrumb, pathprinter, NULL);
+    fprintf(out, "\" name=\"%s\">\n", testname);
+    reporter_start(reporter, testname);
 }
 
 static void xml_show_fail(TestReporter *reporter, const char *file, int line, const char *message, va_list arguments) {

@@ -37,7 +37,7 @@ static void add_unittests(TestSuite *suite) {
 }
 
 
-int main(int argc, const char **argv) {
+static int interpreter_tests(int argc, const char **argv) {
     int return_code;
     TestSuite *suite = create_test_suite();
     TestReporter *reporter = create_text_reporter();
@@ -72,9 +72,13 @@ int main(int argc, const char **argv) {
     if (argc == 1) {
         return_code = run_test_suite(suite, reporter);
     } else if (argc == 2) {
-        return_code = run_single_test(suite, argv[2], reporter);
+        return_code = run_single_test(suite, argv[1], reporter);
     } else {
         printf("Usage: %s [--xml <output file>] [<test case name>]\n", argv[0]);
     }
     return return_code;
+}
+
+int main(int argc, const char **argv) {
+    return interpreter_tests(argc, argv);
 }
