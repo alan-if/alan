@@ -4,6 +4,6 @@
 #include <stdio.h>
 #include "cgreen/reporter.h"
 
-TestReporter *create_xml_reporter(FILE *output);
+TestReporter *create_xml_reporter(void);
 
 #endif

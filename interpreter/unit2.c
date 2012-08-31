@@ -42,32 +42,16 @@ static int interpreter_tests(int argc, const char **argv) {
     TestSuite *suite = create_test_suite();
     TestReporter *reporter = create_text_reporter();
 
-    /* Option values: */
-    FILE *out_stream;
-    const char *filename;
-
     add_unittests(suite);
 
     void *options= gopt_sort(&argc, argv, gopt_start(
                                                      gopt_option( 'x', 
-                                                                  GOPT_ARG, 
+                                                                  GOPT_NOARG, 
                                                                   gopt_shorts( 'x' ), 
                                                                   gopt_longs( "xml" ))));
 
-    if (gopt_arg(options, 'x', &filename) && strcmp(filename, "-")) {
-        /*
-         * if -x or --xml was specified, and its argument was not "-"
-         */
-        out_stream = fopen( filename, "wb" );
-        if(!out_stream ){
-            fprintf(stderr, "%s: %s: could not open file for output\n", argv[0], filename);
-            exit( EXIT_FAILURE);
-        }
-    } else
-        out_stream= stdout;
-    
     if (gopt(options, 'x'))
-        reporter = create_xml_reporter(out_stream);
+        reporter = create_xml_reporter();
     
     if (argc == 1) {
         return_code = run_test_suite(suite, reporter);
