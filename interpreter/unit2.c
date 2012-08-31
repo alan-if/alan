@@ -37,7 +37,7 @@ static void add_unittests(TestSuite *suite) {
 }
 
 
-static int interpreter_tests(int argc, const char **argv) {
+static int interpreter(int argc, const char **argv) {
     int return_code;
     TestSuite *suite = create_test_suite();
     TestReporter *reporter = create_text_reporter();
@@ -64,5 +64,5 @@ static int interpreter_tests(int argc, const char **argv) {
 }
 
 int main(int argc, const char **argv) {
-    return interpreter_tests(argc, argv);
+    return interpreter(argc, argv);
 }
