@@ -58,7 +58,7 @@ static int interpreter(int argc, const char **argv) {
     } else if (argc == 2) {
         return_code = run_single_test(suite, argv[1], reporter);
     } else {
-        printf("Usage: %s [--xml <output file>] [<test case name>]\n", argv[0]);
+        printf("Usage: %s [--xml] [<test case name>]\n", argv[0]);
     }
     return return_code;
 }
