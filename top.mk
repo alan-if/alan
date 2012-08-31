@@ -26,7 +26,7 @@ build:
 .PHONY: unit
 unit:
 	-cd compiler; $(MAKE) unit
-	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) UNITOUT="--xml TEST-interpreter-unit.xml" unit
+	-cd interpreter; $(MAKE) UNITOUT="--xml" unit
 
 .PHONY: test
 test:
