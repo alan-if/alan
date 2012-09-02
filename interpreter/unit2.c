@@ -40,25 +40,28 @@ static void add_unittests(TestSuite *suite) {
 static int interpreter(int argc, const char **argv) {
     int return_code;
     TestSuite *suite = create_test_suite();
-    TestReporter *reporter = create_text_reporter();
+    TestReporter *reporter;
+    const char *prefix;
 
     add_unittests(suite);
 
     void *options= gopt_sort(&argc, argv, gopt_start(
                                                      gopt_option( 'x', 
-                                                                  GOPT_NOARG, 
+                                                                  GOPT_ARG, 
                                                                   gopt_shorts( 'x' ), 
                                                                   gopt_longs( "xml" ))));
 
-    if (gopt(options, 'x'))
-        reporter = create_xml_reporter();
+    if (gopt_arg(options, 'x', &prefix))
+        reporter = create_xml_reporter(prefix);
+    else
+        reporter = create_text_reporter();
     
     if (argc == 1) {
         return_code = run_test_suite(suite, reporter);
     } else if (argc == 2) {
         return_code = run_single_test(suite, argv[1], reporter);
     } else {
-        printf("Usage: %s [--xml] [<test case name>]\n", argv[0]);
+        printf("Usage: %s [--xml <fileprefix>] [<test case name>]\n", argv[0]);
     }
     return return_code;
 }

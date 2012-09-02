@@ -84,12 +84,7 @@ unit:
 	echo "No unit tests run, cgreen not available"
 else
 unit: unittests
-	@echo
-	@echo "        Unit Tests"
-	@echo
 	@./unittests $(UNITOUT)
-	@echo
-	@echo
 endif
 
 #######################################################################

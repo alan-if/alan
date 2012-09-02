@@ -14,12 +14,11 @@ static void xml_reporter_finish_suite(TestReporter *reporter, const char *filena
 static void xml_show_fail(TestReporter *reporter, const char *file, int line, const char *message, va_list arguments);
 static void xml_show_incomplete(TestReporter *reporter, const char *filename, int line, const char *message, va_list arguments);
 
+static const char *file_prefix;
 
-static char *current_suite = NULL; /* TODO: actually need a stack... Could we use the breadcrumb? */
-
-
-TestReporter *create_xml_reporter() {
+TestReporter *create_xml_reporter(const char *prefix) {
     TestReporter *reporter = create_reporter();
+    file_prefix = prefix;
     reporter->start_suite = &xml_reporter_start_suite;
     reporter->start_test = &xml_reporter_start_test;
     reporter->show_fail = &xml_show_fail;
@@ -46,7 +45,7 @@ static void pathprinter(const char *trail, void *memo) {
 
 static void xml_reporter_start_suite(TestReporter *reporter, const char *suitename, int count) {
     char filename[80];
-    sprintf(filename, "TEST-%s.xml", suitename);
+    sprintf(filename, "%s-%s.xml", file_prefix, suitename);
     FILE *out = fopen(filename, "w");
     file_stack[file_stack_p++] = out;
     fprintf(out, "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n");
@@ -55,7 +54,6 @@ static void xml_reporter_start_suite(TestReporter *reporter, const char *suitena
     walk_breadcrumb(reporter->breadcrumb, pathprinter, out);
     fprintf(out, "%s\">\n", suitename);
     reporter_start(reporter, suitename);
-    current_suite = strdup(suitename);
 }
 
 static void xml_reporter_start_test(TestReporter *reporter, const char *testname) {
@@ -77,6 +75,7 @@ static void xml_show_fail(TestReporter *reporter, const char *file, int line, co
     fprintf(out, "\t<location file=\"%s\" line=\"%d\"/>\n", file, line);
     indent(reporter);
     fprintf(out, "</failure>\n");
+    fflush(out);
 }
 
 static void xml_show_incomplete(TestReporter *reporter, const char *filename, int line, const char *message, va_list arguments) {
@@ -87,13 +86,15 @@ static void xml_show_incomplete(TestReporter *reporter, const char *filename, in
     fprintf(out, "\">\n");
     indent(reporter);
     fprintf(out, "</error>\n");
+    fflush(out);
 }
 
 static void xml_reporter_finish_test(TestReporter *reporter, const char *filename, int line) {
     FILE *out = file_stack[file_stack_p-1];
+    fprintf(out, "</testcase>\n");
+    fflush(out);
     reporter_finish(reporter, filename, line);
     indent(reporter);
-    fprintf(out, "</testcase>\n");
 }
 
 static void xml_reporter_finish_suite(TestReporter *reporter, const char *filename, int line) {
@@ -101,7 +102,5 @@ static void xml_reporter_finish_suite(TestReporter *reporter, const char *filena
     reporter_finish(reporter, filename, line);
     indent(reporter);
     fprintf(out, "</testsuite>\n");
-    free(current_suite);
-    current_suite = NULL;
     fclose(out);
 }

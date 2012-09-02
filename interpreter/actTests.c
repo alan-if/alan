@@ -5,8 +5,12 @@
 
 #include "lists.h"
 
+Ensure(fails) {
+    assert_true(false);
+}
 
 TestSuite *actTests() {
     TestSuite *suite = create_test_suite();
-  return suite;
+    add_test(suite, fails);
+    return suite;
 }

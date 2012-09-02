@@ -55,7 +55,7 @@ include top.mk
 tags:
 	cvs rtag -F v$(VERSION) alan 
 	cvs rtag -F -b v$(VERSION)_branch alan
-	echo $(VERSION) > LASTRELEASE
+	echo -n $(VERSION) > LASTRELEASE
 
 
 
