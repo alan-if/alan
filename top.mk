@@ -26,7 +26,7 @@ build:
 .PHONY: unit
 unit:
 	-cd compiler; $(MAKE) unit
-	-cd interpreter; $(MAKE) UNITOUT="--xml" unit
+	-cd interpreter; $(MAKE) UNITOUT="--xml TEST" unit
 
 .PHONY: test
 test:
