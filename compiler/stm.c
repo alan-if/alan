@@ -252,10 +252,10 @@ static void analyzePrint(Statement *stm, Context *context)
 		if (buffer[i] == '$') {
 			parameter = 0;
 			i++;
-			if (!isdigit(buffer[i]) || buffer[i] == '0') {
+			if (!isdigit((int)buffer[i]) || buffer[i] == '0') {
 				if (strchr("+0-!", buffer[i]) != NULL) {
 					i++;
-					if (isdigit(buffer[i]))
+					if (isdigit((int)buffer[i]))
 						parameter = buffer[i] - '0';
 				}
 			} else

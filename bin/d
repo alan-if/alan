@@ -7,9 +7,9 @@ diffCase ()
 {
     echo "$case : "
     if [ -x /usr/local/bin/DiffMerge ] ; then
-        DiffMerge $case.expected $case.output
+        DiffMerge $case.output $case.expected
     else
-        diff -b -c $case.expected $case.output
+        diff -b -c $case.output $case.expected
     fi
 }
 

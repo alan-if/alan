@@ -79,11 +79,11 @@
 
 270	'Instances without explicit inheritance is assumed to inherit from the predefined class \'entity\'.';
 
-301	'\'%1\' already declared as a Direction.';
-303	'\'%1\' already declared as a Verb.';
-304	'\'%1\' already declared as an Instance (The).';
-305	'\'%1\' already declared as a Class (Every).';
-307	'\'%1\' already declared as an Event.';
+301	'\'%1\' also declared as a Direction.';
+303	'\'%1\' also declared as a Verb.';
+304	'\'%1\' also declared as an Instance (The).';
+305	'\'%1\' also declared as a Class (Every).';
+307	'\'%1\' also declared as an Event.';
 308	'\'%1\' already declared.';
 309	'In this context is THIS not a Container. Neither does the current entity inherit the Container property nor does it declare it.';
 310	'Identifier \'%1\' not defined.%2';
@@ -125,6 +125,8 @@
 352	'%1 \'%2\' does not inherit from \'%3\', but has %4.';
 354	'%1 \'%2\' inherits from \'%3\', but has %4.';
 355	'Initial location can only refer to instances inheriting from \'location\' using AT or to instances having the container property using IN.';
+
+399     'This is a previous declaration of \'%1\'.';
 
 400	'Script not defined for %1 \'%2\'.';
 401	'Actor reference required outside Actor specification.';

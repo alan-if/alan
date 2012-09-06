@@ -72,20 +72,21 @@ static Frame *currentFrame = NULL;
 
 
 /*======================================================================*/
-void idRedefined(IdNode *id, Symbol *sym)
+void idRedefined(IdNode *id, Symbol *sym, Srcp previousDefinition)
 {
-  int code = 0;                     /* Error code */
+  int error_code = 0;
 
   switch (sym->kind) {
-  case DIRECTION_SYMBOL: code = 301; break;
-  case VERB_SYMBOL: code = 303; break;
-  case INSTANCE_SYMBOL: code = 304; break;
-  case CLASS_SYMBOL: code = 305; break;
-  case EVENT_SYMBOL: code = 307; break;
-  default: code = 308; break;
+  case DIRECTION_SYMBOL: error_code = 301; break;
+  case VERB_SYMBOL: error_code = 303; break;
+  case INSTANCE_SYMBOL: error_code = 304; break;
+  case CLASS_SYMBOL: error_code = 305; break;
+  case EVENT_SYMBOL: error_code = 307; break;
+  default: error_code = 308; break;
   }
 
-  lmLog(&id->srcp, code, sevERR, id->string);
+  lmLog(&id->srcp, error_code, sevERR, id->string);
+  lmLog(&previousDefinition, 399, sevINF, id->string);
 }
 
 
@@ -223,12 +224,13 @@ Symbol *newSymbol(IdNode *id, SymbolKind kind)
   
   new = lookup(id->string);
   if (new != NULL && !mayOverride(kind, new->kind))
-    idRedefined(id, new);
+    idRedefined(id, new, new->srcp);
 
   new = NEW(Symbol);
   
   new->kind = kind;
   new->string = id->string;
+  new->srcp = id->srcp;
 
   if (kind == LOCAL_SYMBOL)
     addLocal(new);

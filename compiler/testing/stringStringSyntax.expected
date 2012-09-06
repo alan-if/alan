@@ -11,7 +11,7 @@ stringStringSyntax.alan
     4.  Verb string
 =====>       1
 
-  *1*   305 E : 'string' already declared as a Class (Every).
+  *1*   305 E : 'string' also declared as a Class (Every).
 
     6.      "You string" Say string.
 =====>                       1
@@ -25,5 +25,5 @@ stringStringSyntax.alan
 
         4 error(s).
         No detected warnings.
-        2 informational message(s).
+        3 informational message(s).
 

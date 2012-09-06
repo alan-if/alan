@@ -11,7 +11,7 @@ syserr1.alan
    11.  The l Isa location
 =====>      1
 
-  *1*   303 E : 'l' already declared as a Verb.
+  *1*   303 E : 'l' also declared as a Verb.
 
    17.  Start At l.
 =====>           1
@@ -22,5 +22,5 @@ syserr1.alan
 
         3 error(s).
         No detected warnings.
-        3 informational message(s).
+        4 informational message(s).
 

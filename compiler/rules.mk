@@ -61,6 +61,8 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 # Unit testing
 #
 .PHONY: unit
+unit: CC = gcc
+unit: LINK = gcc
 unit: unittests
 	@./unittests
 
@@ -75,7 +77,6 @@ $(UNITTESTSOBJDIR):
 
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS)
-
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

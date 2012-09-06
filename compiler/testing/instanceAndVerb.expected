@@ -6,7 +6,7 @@ instanceAndVerb.alan
     4.  Verb l
 =====>       1
 
-  *1*   304 E : 'l' already declared as an Instance (The).
+  *1*   304 E : 'l' also declared as an Instance (The).
 
 
 
@@ -15,5 +15,5 @@ instanceAndVerb.alan
 
         2 error(s).
         No detected warnings.
-        2 informational message(s).
+        3 informational message(s).
 
