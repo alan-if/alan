@@ -8,22 +8,28 @@
 
 #include "id.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 
 
-void testGeneratedId() {
+Ensure(testGeneratedId) {
   IdNode *id1 = NEW(IdNode);
   IdNode *id2 = NEW(IdNode);
   id1->string = generateIdName();
   id2->string = generateIdName();
 
-  ASSERT(isGeneratedId(id1));
-  ASSERT(isGeneratedId(id2));
-  ASSERT(!equalId(id1, id2));
+  assert_true(isGeneratedId(id1));
+  assert_true(isGeneratedId(id2));
+  assert_true(!equalId(id1, id2));
 }
 
-void idUnitTests()
+TestSuite *idTests()
 {
-  registerUnitTest(testGeneratedId);
+    TestSuite *suite = create_test_suite(); 
+
+    add_test(suite, testGeneratedId);
+
+    return suite;
 }
 

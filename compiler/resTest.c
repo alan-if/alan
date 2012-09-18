@@ -8,14 +8,15 @@
 
 #include "res.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 
 #include "stx_x.h"
 #include "elm_x.h"
 
 
-void testHasRestriction()
-{
+Ensure(testHasRestriction) {
   Symbol *verbSymbol = newVerbSymbol(newId(nulsrcp, "verb"));
 
   IdNode *parameterId1 = newId(nulsrcp, "p1");
@@ -31,13 +32,17 @@ void testHasRestriction()
   List *parameterList = concat(concat(NULL, getMember(syntax->elements, 1), ELEMENT_LIST), getMember(syntax->elements, 2), ELEMENT_LIST);
 
   setParameters(verbSymbol, parameterList);
-  ASSERT(hasRestriction(parameterId1->symbol, syntax));
-  ASSERT(!hasRestriction(parameterId2->symbol, syntax));
+  assert_true(hasRestriction(parameterId1->symbol, syntax));
+  assert_true(!hasRestriction(parameterId2->symbol, syntax));
 }
 
 
-void resUnitTests()
+TestSuite *resTests()
 {
-  registerUnitTest(testHasRestriction);
+    TestSuite *suite = create_test_suite(); 
+
+    add_test(suite, testHasRestriction);
+
+    return suite;
 }
 

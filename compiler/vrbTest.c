@@ -8,12 +8,13 @@
 
 #include "vrb.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 #include "unitList.h"
 
 
-void testMultipleVerbs()
-{
+Ensure(testMultipleVerbs) {
   IdNode *v1 = newId(nulsrcp, "v1");
   IdNode *v2 = newId(nulsrcp, "v2");
   IdNode *v3 = newId(nulsrcp, "v3");
@@ -32,20 +33,24 @@ void testMultipleVerbs()
 		       VERB_LIST);
 
   checkMultipleVerbDeclarations(verbs);
-  ASSERT(readEcode() != 0);
-  ASSERT(readSev() != 0);
+  assert_true(readEcode() != 0);
+  assert_true(readSev() != 0);
 
-  ASSERT(verbIdFound(v1, verbs));
-  ASSERT(verbIdFound(v2, verbs));
-  ASSERT(verbIdFound(v3, verbs));
-  ASSERT(!verbIdFound(v4, verbs));
-  ASSERT(verbIdFound(v5, verbs));
-  ASSERT(!verbIdFound(v6, verbs));
+  assert_true(verbIdFound(v1, verbs));
+  assert_true(verbIdFound(v2, verbs));
+  assert_true(verbIdFound(v3, verbs));
+  assert_true(!verbIdFound(v4, verbs));
+  assert_true(verbIdFound(v5, verbs));
+  assert_true(!verbIdFound(v6, verbs));
 }
 
 
-void vrbUnitTests()
+TestSuite *vrbTests()
 {
-  registerUnitTest(testMultipleVerbs);
+    TestSuite *suite = create_test_suite(); 
+
+    add_test(suite, testMultipleVerbs);
+
+    return suite;
 }
 

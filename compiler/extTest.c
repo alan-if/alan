@@ -8,6 +8,8 @@
 
 #include "ext.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 #include "unitList.h"
 
@@ -15,8 +17,7 @@
 #include "adv_x.h"
 
 
-void testNewExt()
-{
+Ensure(testNewExt) {
   IdNode *direction = newId(nulsrcp, "w");
   IdNode *targetLocation = newId(nulsrcp, "aLocation");
   Exit *theExit;
@@ -31,23 +32,22 @@ void testNewExt()
   aLocationSymbol = newSymbol(aLocationId, INSTANCE_SYMBOL);
 
   theExit = newExit(&nulsrcp, newList(direction, EXIT_LIST), targetLocation, NULL, NULL);
-  ASSERT(theExit->directions->member.id->symbol != NULL && theExit->directions->member.id->symbol->code == 1);
+  assert_true(theExit->directions->member.id->symbol != NULL && theExit->directions->member.id->symbol->code == 1);
 
   symbolizeExit(theExit);
-  ASSERT(readEcode() == 0);
+  assert_true(readEcode() == 0);
 
   analyzeExit(theExit, context);
-  ASSERT(readEcode() == 351);
+  assert_true(readEcode() == 351);
 
   initEmit("unit.a3c");
   firstAddress = nextEmitAddress();
   generateExitEntry(theExit);
-  ASSERT(nextEmitAddress() == firstAddress + entrySize);
+  assert_true(nextEmitAddress() == firstAddress + entrySize);
 }
 
 
-void testHaveExit()
-{
+Ensure(testHaveExit) {
   List *exits = concat(newList(newExit(&nulsrcp,
 				       newIdList(newIdList(NULL, "south"), "north"),
 				       NULL, NULL, NULL), EXIT_LIST),
@@ -56,15 +56,19 @@ void testHaveExit()
 			       NULL, NULL, NULL), EXIT_LIST);
 
   
-  ASSERT(haveExit(exits, newId(nulsrcp, "south")));
-  ASSERT(haveExit(exits, newId(nulsrcp, "north")));
-  ASSERT(haveExit(exits, newId(nulsrcp, "east")));
-  ASSERT(haveExit(exits, newId(nulsrcp, "west")));
+  assert_true(haveExit(exits, newId(nulsrcp, "south")));
+  assert_true(haveExit(exits, newId(nulsrcp, "north")));
+  assert_true(haveExit(exits, newId(nulsrcp, "east")));
+  assert_true(haveExit(exits, newId(nulsrcp, "west")));
 }
 
-void extUnitTests()
+TestSuite *extTests()
 {
-  registerUnitTest(testNewExt);
-  registerUnitTest(testHaveExit);
+    TestSuite *suite = create_test_suite(); 
+
+    add_test(suite, testNewExt);
+    add_test(suite, testHaveExit);
+
+    return suite;
 }
 

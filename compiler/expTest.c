@@ -8,7 +8,9 @@
 
 #include "exp.c"
 
-#include "unit.h"
+#include <cgreen/cgreen.h>
+
+#include "unitmock.h"
 #include "unitList.h"
 
 #include "ins_x.h"
@@ -16,44 +18,45 @@
 #include "cla_x.h"
 
 
-void testVerifySetMember() {
+Ensure(SetMembersAreVerifiedAccordingToClass) { 
   Expression *theSet = newWhatExpression(nulsrcp, NULL);
   Expression *theMember = newWhatExpression(nulsrcp, NULL);
+
+  initClasses();
 
   theSet->type = INTEGER_TYPE;
   theMember->type = INSTANCE_TYPE;
   theMember->class = locationSymbol;
   verifySetMember(theSet, theMember, "Set member test");
-  ASSERT(readEcode() == 410);
+  assert_that(readEcode(), is_equal_to(410));
 
   theSet->class = locationSymbol;
   theSet->type = INSTANCE_TYPE;
   verifySetMember(theSet, theMember, "Set member test");
-  ASSERT(readEcode() == 0);
+  assert_that(readEcode(), is_equal_to(0));
 }
 
-void testSymbolOf() {
+Ensure(testSymbolOf) { 
   Context *context = newNullContext();
   initSymbols();
-  ASSERT(symbolOfExpression(NULL, context) == NULL);
+  assert_true(symbolOfExpression(NULL, context) == NULL);
 
   Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
 				     NULL, newEmptyProps());
   What *theWhat = newWhatId(nulsrcp, theInstance->props->id);
   Expression *theWhatExp = newWhatExpression(nulsrcp, theWhat);
-  ASSERT(symbolOfExpression(theWhatExp, context) != NULL);
-  ASSERT(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
+  assert_true(symbolOfExpression(theWhatExp, context) != NULL);
+  assert_true(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
 
   Expression *theAttributeExpression = newAttributeExpression(nulsrcp,
 							      newId(nulsrcp, "atr"), FALSE,
 							      theWhatExp);
-  ASSERT(symbolOfExpression(theAttributeExpression, context) == NULL);
+  assert_true(symbolOfExpression(theAttributeExpression, context) == NULL);
 }
   
 
 
-void testAttributeToThis()
-{
+Ensure(testAttributeToThis) {
   Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
 				     NULL, newEmptyProps());
   IdNode *theAttributeId = newId(nulsrcp, "Atr");
@@ -71,11 +74,10 @@ void testAttributeToThis()
   theExp->fields.atr.wht = theWhatExp;
 
   analyzeAttributeExpression(theExp, theContext);
-  ASSERT(theExp->type == BOOLEAN_TYPE);
+  assert_true(theExp->type == BOOLEAN_TYPE);
 }
 
-static void testIsConstantIdentifier()
-{
+Ensure(testIsConstantIdentifier) {
   Symbol symbol;
   IdNode id;
   SymbolKind kind;
@@ -85,23 +87,21 @@ static void testIsConstantIdentifier()
   for (kind = CLASS_SYMBOL; kind <= LOCAL_SYMBOL; kind++) {
     symbol.kind = kind;
     if (kind == PARAMETER_SYMBOL || kind == LOCAL_SYMBOL)
-      ASSERT(!isConstantIdentifier(&id));
+      assert_true(!isConstantIdentifier(&id));
     else
-      ASSERT(isConstantIdentifier(&id));
+      assert_true(isConstantIdentifier(&id));
   }
 }
 
-static void testAnalyzeClassingFilter()
-{
+Ensure(testAnalyzeClassingFilter) {
   Expression *btw = newBetweenExpression(nulsrcp, NULL, FALSE, newIntegerExpression(nulsrcp, 1), newIntegerExpression(nulsrcp, 2));
 
   analyzeClassingFilter("", NULL, btw);
-  ASSERT(btw->class == integerSymbol);
-  ASSERT(readEcode() == 0);
+  assert_true(btw->class == integerSymbol);
+  assert_true(readEcode() == 0);
 }
 
-static void testIsConstant()
-{
+Ensure(testIsConstant) {
   Expression *integer = newIntegerExpression(nulsrcp, 4);
   IdNode *instanceId = newId(nulsrcp, "instanceId");
   Symbol *instanceSymbol = newInstanceSymbol(instanceId, NULL, NULL);
@@ -112,44 +112,48 @@ static void testIsConstant()
   List *members = newList(instanceExp, EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, members);
 
-  ASSERT(isConstantExpression(integer));
+  assert_true(isConstantExpression(integer));
 
   instanceId->symbol = instanceSymbol;
-  ASSERT(isConstantExpression(instanceExp));
+  assert_true(isConstantExpression(instanceExp));
 
   parameterSymbol->kind = PARAMETER_SYMBOL;
   parameterId->symbol = parameterSymbol;
-  ASSERT(!isConstantExpression(parameterExp));
+  assert_true(!isConstantExpression(parameterExp));
 
-  ASSERT(isConstantExpression(setExp));
+  assert_true(isConstantExpression(setExp));
   concat(members, parameterExp, EXPRESSION_LIST);
-  ASSERT(!isConstantExpression(setExp));
+  assert_true(!isConstantExpression(setExp));
 }
 
-static void testCombineFilterClasses() {
+Ensure(testCombineFilterClasses) {
   initSymbols();    
   initClasses();
   symbolizeClasses();
-  ASSERT(combineFilterClasses(NULL, NULL, nulsrcp) == NULL);
-  ASSERT(combineFilterClasses(NULL, integerSymbol, nulsrcp) == integerSymbol);
-  ASSERT(combineFilterClasses(integerSymbol, NULL, nulsrcp) == integerSymbol);
-  ASSERT(combineFilterClasses(integerSymbol, integerSymbol, nulsrcp) == integerSymbol);
-  ASSERT(combineFilterClasses(integerSymbol, literalSymbol, nulsrcp) == integerSymbol);
-  ASSERT(combineFilterClasses(literalSymbol, integerSymbol, nulsrcp) == integerSymbol);
+  assert_true(combineFilterClasses(NULL, NULL, nulsrcp) == NULL);
+  assert_true(combineFilterClasses(NULL, integerSymbol, nulsrcp) == integerSymbol);
+  assert_true(combineFilterClasses(integerSymbol, NULL, nulsrcp) == integerSymbol);
+  assert_true(combineFilterClasses(integerSymbol, integerSymbol, nulsrcp) == integerSymbol);
+  assert_true(combineFilterClasses(integerSymbol, literalSymbol, nulsrcp) == integerSymbol);
+  assert_true(combineFilterClasses(literalSymbol, integerSymbol, nulsrcp) == integerSymbol);
 
   /* Not compatible types should generate an error and return original */
-  ASSERT(combineFilterClasses(integerSymbol, stringSymbol, nulsrcp) == integerSymbol);
-  ASSERT(readEcode() == 441);
+  assert_true(combineFilterClasses(integerSymbol, stringSymbol, nulsrcp) == integerSymbol);
+  assert_true(readEcode() == 441);
 }
 
-void expUnitTests()
+TestSuite *expTests()
 {
-  registerUnitTest(testSymbolOf);
-  registerUnitTest(testAttributeToThis);
-  registerUnitTest(testIsConstantIdentifier);
-  registerUnitTest(testVerifySetMember);
-  registerUnitTest(testIsConstant);
-  registerUnitTest(testAnalyzeClassingFilter);
-  registerUnitTest(testCombineFilterClasses);
-}
+    TestSuite *suite = create_test_suite();
 
+    add_test(suite, testSymbolOf);
+    add_test(suite, testAttributeToThis);
+    add_test(suite, testIsConstantIdentifier);
+    add_test(suite, SetMembersAreVerifiedAccordingToClass);
+    add_test(suite, testIsConstant);
+    add_test(suite, testAnalyzeClassingFilter);
+    add_test(suite, testCombineFilterClasses);
+
+    return suite;
+
+}

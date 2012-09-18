@@ -8,22 +8,27 @@
 
 #include "description.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 
 
-void testChecksOf() {
+Ensure(testChecksOf) {
   Description *description = newDescription(nulsrcp, NULL, nulsrcp, NULL);
   List list;
 
-  ASSERT(checksOf(NULL) == NULL);
-  ASSERT(checksOf(description) == NULL);
+  assert_true(checksOf(NULL) == NULL);
+  assert_true(checksOf(description) == NULL);
   description->checks = &list;
-  ASSERT(checksOf(description) == &list);
+  assert_true(checksOf(description) == &list);
 }
 
 
-void descriptionUnitTests()
-{
-  registerUnitTest(testChecksOf);
+TestSuite *descriptionTests() {
+    TestSuite *suite = create_test_suite();
+
+    add_test(suite, testChecksOf);
+
+    return suite;
 }
 

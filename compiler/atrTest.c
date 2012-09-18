@@ -8,6 +8,8 @@
 
 #include "atr.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 #include "unitList.h"
 
@@ -17,37 +19,37 @@
 #include "prop_x.h"
 
 
-void testCreateSetAttribute()
+Ensure(testCreateSetAttribute)
 {
   List *set = newList(newIntegerExpression(nulsrcp, 1), EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, set);
   Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
-  ASSERT(atr->type == SET_TYPE);
-  ASSERT(length(atr->set->fields.set.members) == 1);
-  ASSERT(atr->set->fields.set.members->member.exp->kind == INTEGER_EXPRESSION);
+  assert_true(atr->type == SET_TYPE);
+  assert_true(length(atr->set->fields.set.members) == 1);
+  assert_true(atr->set->fields.set.members->member.exp->kind == INTEGER_EXPRESSION);
 }
 
-void testSingleIdentifierInMember() {
+Ensure(testSingleIdentifierInMember) {
   Expression *exp1 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
   Expression *exp2 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
 
-  ASSERT(!hasSingleIdentifierMember(NULL));
-  ASSERT(hasSingleIdentifierMember(newList(exp1, EXPRESSION_LIST)));
-  ASSERT(!hasSingleIdentifierMember(newList(exp2, EXPRESSION_LIST)));
-  ASSERT(!hasSingleIdentifierMember(concat(newList(exp1, EXPRESSION_LIST), exp2, EXPRESSION_LIST)));
+  assert_true(!hasSingleIdentifierMember(NULL));
+  assert_true(hasSingleIdentifierMember(newList(exp1, EXPRESSION_LIST)));
+  assert_true(!hasSingleIdentifierMember(newList(exp2, EXPRESSION_LIST)));
+  assert_true(!hasSingleIdentifierMember(concat(newList(exp1, EXPRESSION_LIST), exp2, EXPRESSION_LIST)));
 }
 
-void testIsWhatId() {
+Ensure(testIsWhatId) {
   Expression *exp1 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
   Expression *exp2 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
   Expression *exp3 = newBetweenExpression(nulsrcp, NULL, FALSE, NULL, NULL);
   
-  ASSERT(!isWhatId(exp1));
-  ASSERT(isWhatId(exp2));
-  ASSERT(!isWhatId(exp3));
+  assert_true(!isWhatId(exp1));
+  assert_true(isWhatId(exp2));
+  assert_true(!isWhatId(exp3));
 }
 
-void testInferClassInSetAttribute()
+Ensure(testInferClassInSetAttribute)
 {
   initAdventure();
   symbolizeClasses();
@@ -60,10 +62,10 @@ void testInferClassInSetAttribute()
 
   symbolizeProps(instance->props, FALSE);
   analyzeSetAttribute(atr);
-  ASSERT(atr->type == SET_TYPE);
-  ASSERT(atr->setType == INSTANCE_TYPE);
-  ASSERT(atr->setClass == objectSymbol);
-  ASSERT(length(atr->set->fields.set.members) == 1);
+  assert_true(atr->type == SET_TYPE);
+  assert_true(atr->setType == INSTANCE_TYPE);
+  assert_true(atr->setClass == objectSymbol);
+  assert_true(length(atr->set->fields.set.members) == 1);
 
   classId = newId(nulsrcp, "location");
   instance = newInstance(&nulsrcp, newId(nulsrcp, "u"), classId, NULL);
@@ -74,13 +76,13 @@ void testInferClassInSetAttribute()
 
   symbolizeProps(instance->props, FALSE);
   analyzeSetAttribute(atr);
-  ASSERT(atr->type == SET_TYPE);
-  ASSERT(atr->setType == INSTANCE_TYPE);
-  ASSERT(atr->setClass == entitySymbol);
-  ASSERT(length(atr->set->fields.set.members) == 2);
+  assert_true(atr->type == SET_TYPE);
+  assert_true(atr->setType == INSTANCE_TYPE);
+  assert_true(atr->setClass == entitySymbol);
+  assert_true(length(atr->set->fields.set.members) == 2);
 }
 
-void testMultipleAtr()
+Ensure(testMultipleAtr)
 {
   List *attributeList;
 
@@ -89,11 +91,11 @@ void testMultipleAtr()
 
   readEcode();
   checkMultipleAttributes(attributeList);
-  ASSERT(readEcode() == 218 && readSev() == sevERR);
+  assert_true(readEcode() == 218 && readSev() == sevERR);
 }
 
 
-void testFindInList()
+Ensure(testFindInList)
 {
   List *attributes = NULL;
   IdNode *id = newId(nulsrcp, "theAttribute");
@@ -101,20 +103,20 @@ void testFindInList()
   Attribute *anotherAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "another"), FALSE);
 
   /* Test empty list */
-  ASSERT(findAttribute(attributes, id) == NULL);
+  assert_true(findAttribute(attributes, id) == NULL);
 
   /* Test one element */
   attributes = concat(attributes, theAttribute, ATTRIBUTE_LIST);
-  ASSERT(findAttribute(attributes, id) == theAttribute);
+  assert_true(findAttribute(attributes, id) == theAttribute);
 
   /* Test last element */
   attributes = combine(newList(anotherAttribute, ATTRIBUTE_LIST), attributes);
   attributes = combine(newList(anotherAttribute, ATTRIBUTE_LIST), attributes);
-  ASSERT(findAttribute(attributes, id) == theAttribute);
+  assert_true(findAttribute(attributes, id) == theAttribute);
 
   /* Test in the middle */
   attributes = concat(attributes, anotherAttribute, ATTRIBUTE_LIST);
-  ASSERT(findAttribute(attributes, id) == theAttribute);
+  assert_true(findAttribute(attributes, id) == theAttribute);
 }
 
 static Class *createClass(char string[], List *attributes)
@@ -152,8 +154,6 @@ static int attributeCode(Properties *props, char *string)
   return atr->id->code;
 }
 
-static Instance *firstInstance, *secondInstance;
-
 
 static void numberTheAttributes(List *aList, int n1, int n2)
 {
@@ -174,37 +174,37 @@ static Bool equalLists(List *list1, List *list2)
   return t1 == NULL && t2 == NULL;
 }
 
-void testCombineAttributes()
+Ensure(testCombineAttributes)
 {
   List *ownList = create2Attributes("x", "y");
   List *inheritedList = create2Attributes("y", "z");
   List *theCombinedList;
 
-  ASSERT(combineAttributes(NULL, NULL) == NULL);
+  assert_true(combineAttributes(NULL, NULL) == NULL);
 
   numberTheAttributes(ownList, 1, 2);
   numberTheAttributes(inheritedList, 2, 3);
   theCombinedList = combineAttributes(ownList, NULL);
-  ASSERT(length(theCombinedList) == length(ownList));
-  ASSERT(theCombinedList == ownList);
+  assert_true(length(theCombinedList) == length(ownList));
+  assert_true(theCombinedList == ownList);
 
   theCombinedList = combineAttributes(NULL, inheritedList);
-  ASSERT(length(theCombinedList) == length(inheritedList));
-  ASSERT(equalLists(theCombinedList, inheritedList));
+  assert_true(length(theCombinedList) == length(inheritedList));
+  assert_true(equalLists(theCombinedList, inheritedList));
 
   theCombinedList = combineAttributes(ownList, inheritedList);
-  ASSERT(length(theCombinedList) == 3);
+  assert_true(length(theCombinedList) == 3);
 }
 
 
-
-
-void testAttributeListsInSymbolTable()
+Ensure(testAttributeListsInSymbolTable)
 {
   Class *firstClass, *secondClass;
   List *firstClassAttributes, *secondClassAttributes, *firstInstanceAttributes, *secondInstanceAttributes;
   Symbol *firstClassSymbol, *secondClassSymbol, *firstInstanceSymbol, *secondInstanceSymbol;
   int x, y, z;
+  Instance *firstInstance, *secondInstance;
+
 
   initAdventure();
   firstClassAttributes = create2Attributes("a1", "a12");
@@ -214,9 +214,9 @@ void testAttributeListsInSymbolTable()
   secondClass = createClass("secondClass", secondClassAttributes);
 
   firstClassSymbol = lookup("firstClass");
-  ASSERT(firstClassSymbol->fields.entity.props->attributes == firstClassAttributes);
+  assert_true(firstClassSymbol->fields.entity.props->attributes == firstClassAttributes);
   secondClassSymbol = lookup("secondClass");
-  ASSERT(secondClassSymbol->fields.entity.props->attributes == secondClassAttributes);
+  assert_true(secondClassSymbol->fields.entity.props->attributes == secondClassAttributes);
   
   firstInstanceAttributes = create2Attributes("a11", "a12");
   secondInstanceAttributes = create2Attributes("a1", "a22");
@@ -225,9 +225,9 @@ void testAttributeListsInSymbolTable()
   secondInstance = createInstance("secondInstance", secondInstanceAttributes);
 
   firstInstanceSymbol = lookup("firstInstance");
-  ASSERT(firstInstanceSymbol->fields.entity.props->attributes == firstInstanceAttributes);
+  assert_true(firstInstanceSymbol->fields.entity.props->attributes == firstInstanceAttributes);
   secondInstanceSymbol = lookup("secondInstance");
-  ASSERT(secondInstanceSymbol->fields.entity.props->attributes == secondInstanceAttributes);
+  assert_true(secondInstanceSymbol->fields.entity.props->attributes == secondInstanceAttributes);
 
   /* Now set up a class hierarchy:
   location
@@ -245,29 +245,29 @@ void testAttributeListsInSymbolTable()
 
   numberAllAttributes();
 
-  ASSERT(attributeCode(firstClass->props, "a1") != 0);
-  ASSERT(attributeCode(firstClass->props, "a12") != 0);
-  ASSERT(attributeCode(secondClass->props, "a1") != 0);
-  ASSERT(attributeCode(secondClass->props, "a21") != 0);
-  ASSERT(attributeCode(firstInstance->props, "a11") != 0);
-  ASSERT(attributeCode(firstInstance->props, "a12") != 0);
-  ASSERT(attributeCode(secondInstance->props, "a1") != 0);
-  ASSERT(attributeCode(secondInstance->props, "a22") != 0);
+  assert_true(attributeCode(firstClass->props, "a1") != 0);
+  assert_true(attributeCode(firstClass->props, "a12") != 0);
+  assert_true(attributeCode(secondClass->props, "a1") != 0);
+  assert_true(attributeCode(secondClass->props, "a21") != 0);
+  assert_true(attributeCode(firstInstance->props, "a11") != 0);
+  assert_true(attributeCode(firstInstance->props, "a12") != 0);
+  assert_true(attributeCode(secondInstance->props, "a1") != 0);
+  assert_true(attributeCode(secondInstance->props, "a22") != 0);
 
-  ASSERT(attributeCode(firstClass->props, "a1") != attributeCode(firstClass->props, "a12"));
-  ASSERT(attributeCode(secondClass->props, "a1") != attributeCode(secondClass->props, "a21"));
-  ASSERT(attributeCode(firstInstance->props, "a11") != attributeCode(firstInstance->props, "a12"));
-  ASSERT(attributeCode(secondInstance->props, "a1") != attributeCode(secondInstance->props, "a22"));
+  assert_true(attributeCode(firstClass->props, "a1") != attributeCode(firstClass->props, "a12"));
+  assert_true(attributeCode(secondClass->props, "a1") != attributeCode(secondClass->props, "a21"));
+  assert_true(attributeCode(firstInstance->props, "a11") != attributeCode(firstInstance->props, "a12"));
+  assert_true(attributeCode(secondInstance->props, "a1") != attributeCode(secondInstance->props, "a22"));
 
   x = attributeCode(firstClass->props, "a1");
-  ASSERT(attributeCode(secondClass->props, "a1") == x);
-  ASSERT(attributeCode(secondInstance->props, "a1") == x);
+  assert_true(attributeCode(secondClass->props, "a1") == x);
+  assert_true(attributeCode(secondInstance->props, "a1") == x);
 
   y = attributeCode(firstClass->props, "a12");
-  ASSERT(attributeCode(firstInstance->props, "a12") == y);
+  assert_true(attributeCode(firstInstance->props, "a12") == y);
 
   z = attributeCode(secondClass->props, "a21");
-  ASSERT(attributeCode(secondInstance->props, "a22") != z);
+  assert_true(attributeCode(secondInstance->props, "a22") != z);
 }
 
 
@@ -305,50 +305,46 @@ static Bool attributesAreSorted(List *list)
   return TRUE;
 }
 
-void testSortAttributes()
+Ensure(testSortAttributes)
 {
   List *attributeList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, "a"), FALSE), ATTRIBUTE_LIST);
   List *originalList = attributeList;
 
-  ASSERT(sortAttributes(NULL) == NULL);
-  ASSERT(sortAttributes(attributeList) == originalList);
+  assert_true(sortAttributes(NULL) == NULL);
+  assert_true(sortAttributes(attributeList) == originalList);
 
   attributeList = combine(attributeList, create2Attributes("x", "y"));
   numberAttributes123(attributeList);
   attributeList = sortAttributes(attributeList);
-  ASSERT(attributesAreSorted(attributeList));
+  assert_true(attributesAreSorted(attributeList));
 
   numberAttributes321(attributeList);
   attributeList = sortAttributes(attributeList);
-  ASSERT(attributesAreSorted(attributeList));
+  assert_true(attributesAreSorted(attributeList));
 
   numberAttributes231(attributeList);
   attributeList = sortAttributes(attributeList);
-  ASSERT(attributesAreSorted(attributeList));
+  assert_true(attributesAreSorted(attributeList));
 }
 
-void testGenerateAttributes()
+Ensure(testGenerateAttributes)
 {
   int attributeEntrySize = AwordSizeOf(AttributeEntry);
   int address;
+  Instance *firstInstance;
+  Aword buffer[100];
 
-  initEmit("unit.acd");
+  firstInstance = createInstance("firstInstance", create2Attributes("a11", "a12"));
 
-  /* firstInstance has
-     1 local attribute
-     1 inherited atribute which is locally redefined
-     1 inherited
-     = 3
-     But without analysis where we link in all inherited attributes we will
-     only generate 2.
-  */
+  initEmitBuffer(buffer);
+
   attributeAreaSize = 0;
   address = generateAttributes(firstInstance->props->attributes, 1);
-  ASSERT(nextEmitAddress() == address + 2*attributeEntrySize + 1);
-  ASSERT(attributeAreaSize == 2*attributeEntrySize+1);
+  assert_true(nextEmitAddress() == address + 2*attributeEntrySize + 1);
+  assert_true(attributeAreaSize == 2*attributeEntrySize+1);
 }
 
-static void testResolveThisAttributeForClass()
+Ensure(testResolveThisAttributeForClass)
 {
   List *theAttributes = create2Attributes("x", "y");
   Properties *theProps = newProps(NULL, NULL,
@@ -363,19 +359,21 @@ static void testResolveThisAttributeForClass()
   Attribute *theResolvedAttribute;
 
   theResolvedAttribute = resolveAttributeOfThis(newId(nulsrcp, "x"), &context);
-  ASSERT(theResolvedAttribute == theAttributes->member.atr);
+  assert_true(theResolvedAttribute == theAttributes->member.atr);
 }
 
-void atrUnitTests()
-{
-  registerUnitTest(testCreateSetAttribute);
-  registerUnitTest(testIsWhatId);
-  registerUnitTest(testSingleIdentifierInMember);
-  registerUnitTest(testInferClassInSetAttribute);
-  registerUnitTest(testMultipleAtr);
-  registerUnitTest(testAttributeListsInSymbolTable);
-  registerUnitTest(testSortAttributes);
-  registerUnitTest(testCombineAttributes);
-  registerUnitTest(testGenerateAttributes);
-  registerUnitTest(testResolveThisAttributeForClass);
+TestSuite *atrTests() {
+    TestSuite *suite = create_test_suite();
+
+    add_test(suite, testCreateSetAttribute);
+    add_test(suite, testIsWhatId);
+    add_test(suite, testSingleIdentifierInMember);
+    add_test(suite, testInferClassInSetAttribute);
+    add_test(suite, testMultipleAtr);
+    add_test(suite, testAttributeListsInSymbolTable);
+    add_test(suite, testSortAttributes);
+    add_test(suite, testCombineAttributes);
+    add_test(suite, testGenerateAttributes);
+    add_test(suite, testResolveThisAttributeForClass);
+    return suite;
 }

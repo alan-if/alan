@@ -7,63 +7,64 @@
 \*======================================================================*/
 
 #include "lst.c"
+
+#include <cgreen/cgreen.h>
+
 #include "id_x.h"
 
 #include "unit.h"
 #include <setjmp.h>
 
-void canCreateNewEmptyListWithType() {
+Ensure(canCreateNewEmptyListWithType) {
   List *list = newEmptyList(ID_LIST);
-  ASSERT(list->kind == ID_LIST);
-  ASSERT(list->member.lst == NULL);
+  assert_true(list->kind == ID_LIST);
+  assert_true(list->member.lst == NULL);
 }
 
 
-void canConcatToANewEmptyList() {
+Ensure(canConcatToANewEmptyList) {
   List *list = newEmptyList(ID_LIST);
   IdNode *theId = newId(nulsrcp, "theId");
 
   list = concat(list, theId, ID_LIST);
-  ASSERT((IdNode *)list->member.lst == theId);
-  ASSERT(list->next == NULL);
+  assert_true((IdNode *)list->member.lst == theId);
+  assert_true(list->next == NULL);
 }
 
 
-void canCreateNewListWithMember() {
+Ensure(canCreateNewListWithMember) {
   IdNode *theId = newId(nulsrcp, "theId");
   List *list = newList(theId, ID_LIST);
-  ASSERT(list->kind == ID_LIST);
-  ASSERT(list->member.ptr == theId);
+  assert_true(list->kind == ID_LIST);
+  assert_true(list->member.ptr == theId);
 }
 
 
-void testLength()
-{
+Ensure(testLength) {
   List *aList = NULL;
 
-  ASSERT(length(aList) == 0);
+  assert_true(length(aList) == 0);
 
   // TODO newIdList(NULL, "string") => newIdList("string)
   // and concatId(list, "string)
   aList = newIdList(NULL, "id1");
-  ASSERT(length(aList) == 1);
+  assert_true(length(aList) == 1);
 
   aList = concat(aList, "id2", ID_LIST);
-  ASSERT(length(aList) == 2);
+  assert_true(length(aList) == 2);
 
   aList = concat(aList, "id3", ID_LIST);
-  ASSERT(length(aList) == 3);
+  assert_true(length(aList) == 3);
 }
 
 
-void insertingShouldIncreaseLength()
-{
+Ensure(insertingShouldIncreaseLength) {
   IdNode *aMember = newId(nulsrcp, "aMember");
   List *aList = newList(aMember, ID_LIST);
-  ASSERT(length(aList) == 1);
+  assert_true(length(aList) == 1);
 
   insert(aList, aMember, ID_LIST);
-  ASSERT(length(aList) == 2);
+  assert_true(length(aList) == 2);
 }
 
 
@@ -93,86 +94,81 @@ extern void setSyserrHandler(void (*f)(char *));
   setSyserrHandler(NULL);
   
 
-void insertingIntoANullListFails()
-{
+Ensure(insertingIntoANullListFails) {
   IdNode *aMember = newId(nulsrcp, "aMember");
 
   TRY(
     insert(NULL, aMember, ID_LIST);
-    ASSERT(FALSE);
+    assert_true(FALSE);
   )
-  ASSERT(syserrHandlerCalled);
+  assert_true(syserrHandlerCalled);
 }
 
-void insertingANullMemberFails()
-{
+Ensure(insertingANullMemberFails) {
   IdNode *aMember = newId(nulsrcp, "aMember");
   List *aList = newList(aMember, ID_LIST);
 
   TRY(
     insert(aList, NULL, ID_LIST);
-    ASSERT(FALSE);
+    assert_true(FALSE);
   )
-  ASSERT(syserrHandlerCalled);
+  assert_true(syserrHandlerCalled);
 }
 
-void insertingWrongTypeOfMemberFails()
-{
+Ensure(insertingWrongTypeOfMemberFails) {
   IdNode *aMember = newId(nulsrcp, "aMember");
   List *aList = newIdList(NULL, "aMember");
 
   TRY(
     insert(aList, aMember, ATTRIBUTE_LIST);
-    ASSERT(FALSE);
+    assert_true(FALSE);
   );
-  ASSERT(syserrHandlerCalled);
+  assert_true(syserrHandlerCalled);
 }
 
-void testTailOf()
-{
+Ensure(testTailOf) {
   List *listOfOne = newIdList(NULL, "anId");
   List *listOfTwo = newIdList(newIdList(NULL, "anId"),
 			      "anId");
 			   
-  ASSERT(getLastListNode(NULL) == NULL);
-  ASSERT(getLastListNode(listOfOne) == listOfOne);
-  ASSERT(getLastListNode(listOfTwo) == listOfTwo->next);
+  assert_true(getLastListNode(NULL) == NULL);
+  assert_true(getLastListNode(listOfOne) == listOfOne);
+  assert_true(getLastListNode(listOfTwo) == listOfTwo->next);
 }
 
-void testRemoveFromList()
-{
+Ensure(testRemoveFromList) {
   List member1;
   List member2;
   List member3;
   List *result;
 
-  ASSERT(removeFromList(NULL, NULL) == NULL);
+  assert_true(removeFromList(NULL, NULL) == NULL);
 
   member1.next = NULL;
-  ASSERT(removeFromList(&member1, &member1) == NULL);
+  assert_true(removeFromList(&member1, &member1) == NULL);
 
   member1.next = &member2;
   member2.next = NULL;
   result = removeFromList(&member1, &member1);
-  ASSERT(result == &member2);
-  ASSERT(member2.next == NULL);
-  ASSERT(member1.next == NULL);
+  assert_true(result == &member2);
+  assert_true(member2.next == NULL);
+  assert_true(member1.next == NULL);
 
   member1.next = &member2;
   member2.next = &member3;
   member3.next = NULL;
   result = removeFromList(&member1, &member1);
-  ASSERT(result == &member2);
-  ASSERT(member2.next == &member3);
-  ASSERT(member1.next == NULL);
+  assert_true(result == &member2);
+  assert_true(member2.next == &member3);
+  assert_true(member1.next == NULL);
 
   member1.next = &member2;
   member2.next = &member3;
   member3.next = NULL;
   result = removeFromList(&member1, &member2);
-  ASSERT(result == &member1);
-  ASSERT(member1.next == &member3);
-  ASSERT(member2.next == NULL);
+  assert_true(result == &member1);
+  assert_true(member1.next == &member3);
+  assert_true(member2.next == NULL);
 }
 
 
@@ -187,45 +183,44 @@ int sorter(List *member1, List *member2)
 }
 
 
-void testSortList()
-{
-  List member1;
-  List member2;
-  List member3;
-  List *result;
+Ensure(testSortList) {
+    List *member1 = newList(NULL, ID_LIST);
+    List *member2 = newList(NULL, ID_LIST);
+    List *member3 = newList(NULL, ID_LIST);
+    List *result;
 
-  ASSERT(sortList(NULL, NULL) == NULL);
+  assert_true(sortList(NULL, NULL) == NULL);
 
-  member1.next = NULL;
-  ASSERT(sortList(&member1, &sorter) == &member1);
+  member1->next = NULL;
+  assert_true(sortList(member1, &sorter) == member1);
 
-  member1.kind = 1;
-  member1.next = &member2;
-  member2.kind = 3;
-  result = sortList(&member1, &sorter);
-  ASSERT(result->kind < result->next->kind);
+  member1->kind = 1;
+  member1->next = member2;
+  member2->kind = 3;
+  result = sortList(member1, &sorter);
+  assert_true(result->kind < result->next->kind);
 
-  member1.kind = 2;
-  member1.next = &member2;
-  member2.kind = 1;
-  result = sortList(&member1, &sorter);
-  ASSERT(result->kind == 1);
-  ASSERT(result->next->kind == 2);
+  member1->kind = 2;
+  member1->next = member2;
+  member2->kind = 1;
+  result = sortList(member1, &sorter);
+  assert_true(result->kind == 1);
+  assert_true(result->next->kind == 2);
 
-  member1.kind = 2;
-  member2.kind = 3;
-  member3.kind = 1;
-  member1.next = &member2;
-  member2.next = &member3;
-  member3.next = NULL;
-  result = sortList(&member1, &sorter);
-  ASSERT(result->kind == 1);
-  ASSERT(result->next->kind == 2);
-  ASSERT(result->next->next->kind == 3);
+  member1->kind = 2;
+  member2->kind = 3;
+  member3->kind = 1;
+  member1->next = member2;
+  member2->next = member3;
+  member3->next = NULL;
+  result = sortList(member1, &sorter);
+  assert_true(result->kind == 1);
+  assert_true(result->next->kind == 2);
+  assert_true(result->next->next->kind == 3);
 }
 
 
-static void testCopyList() {
+Ensure(testCopyList) {
   List *l1 = newIdList(NULL, "id1");
   List *l4 = newIdList(newIdList(newIdList(newIdList(NULL, "id1"),
 					   "id2"),
@@ -234,31 +229,33 @@ static void testCopyList() {
   List *copy;
   int i;
 
-  ASSERT(copyList(NULL) == NULL);
+  assert_true(copyList(NULL) == NULL);
 
   copy = copyList(l1);
-  ASSERT(l1->next == NULL);
-  ASSERT(l1->member.id == copy->member.id);
+  assert_true(l1->next == NULL);
+  assert_true(l1->member.id == copy->member.id);
 
   copy = copyList(l4);
-  ASSERT(length(copy) == length(l4));
+  assert_true(length(copy) == length(l4));
   for (i = 1; i<=length(copy); i++)
-    ASSERT(getMember(copy, i) == getMember(l4, i));
+    assert_true(getMember(copy, i) == getMember(l4, i));
 }
 
-void lstUnitTests()
+TestSuite *lstTests()
 {
-  registerUnitTest(canCreateNewEmptyListWithType);
-  registerUnitTest(canConcatToANewEmptyList);
-  registerUnitTest(canCreateNewListWithMember);
-  registerUnitTest(testLength);
-  registerUnitTest(insertingShouldIncreaseLength);
-  registerUnitTest(insertingIntoANullListFails);
-  registerUnitTest(insertingANullMemberFails);
-  registerUnitTest(insertingWrongTypeOfMemberFails);
-  registerUnitTest(testTailOf);
-  registerUnitTest(testRemoveFromList);
-  registerUnitTest(testSortList);
-  registerUnitTest(testCopyList);
+    TestSuite *suite = create_test_suite(); 
+    add_test(suite, canCreateNewEmptyListWithType);
+    add_test(suite, canConcatToANewEmptyList);
+    add_test(suite, canCreateNewListWithMember);
+    add_test(suite, testLength);
+    add_test(suite, insertingShouldIncreaseLength);
+    add_test(suite, insertingIntoANullListFails);
+    add_test(suite, insertingANullMemberFails);
+    add_test(suite, insertingWrongTypeOfMemberFails);
+    add_test(suite, testTailOf);
+    add_test(suite, testRemoveFromList);
+    add_test(suite, testSortList);
+    add_test(suite, testCopyList);
+    return suite;
 }
 

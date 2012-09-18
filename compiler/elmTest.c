@@ -8,24 +8,25 @@
 
 #include "elm.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 
 #include "stx_x.h"
 #include "lst_x.h"
 
 
-void testPartition()
-{
+Ensure(testPartition) {
     List *p = NULL;
     Element *e = newEndOfSyntax();
     List *ep = newList(e, ELEMENT_LIST);
     List *epp = newList(ep, LIST_LIST);
 
-    ASSERT(partitionElements(&p) == NULL);
-    ASSERT(partitionElements(&epp) != NULL);
+    assert_true(partitionElements(&p) == NULL);
+    assert_true(partitionElements(&epp) != NULL);
 }
 
-void entryForParameterShouldMergeFlagsFromAllElements() {
+Ensure(entryForParameterShouldMergeFlagsFromAllElements) {
     // Create three syntaxes
     Syntax *firstSyntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
     Syntax *secondSyntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
@@ -35,6 +36,9 @@ void entryForParameterShouldMergeFlagsFromAllElements() {
     Element *firstElement = newParameterElement(nulsrcp, NULL, 0);
     Element *secondElement = newParameterElement(nulsrcp, NULL, 0);
     Element *thirdElement = newParameterElement(nulsrcp, NULL, 0);
+
+    Aword buffer[100];
+    initEmitBuffer(buffer);
 
     // Add the elements to the syntaxes
     addElement(firstSyntax, firstElement);
@@ -54,14 +58,14 @@ void entryForParameterShouldMergeFlagsFromAllElements() {
     thirdElement->flags = 0;
 
     entryForParameter(&entry, partition, NULL);
-    ASSERT(entry.flags == MULTIPLEBIT);
+    assert_true(entry.flags == MULTIPLEBIT);
 
     firstElement->flags = 0;
     secondElement->flags = MULTIPLEBIT;
     thirdElement->flags = 0;
 
     entryForParameter(&entry, partition, NULL);
-    ASSERT(entry.flags == MULTIPLEBIT);
+    assert_true(entry.flags == MULTIPLEBIT);
 
 
     firstElement->flags = 0;
@@ -69,13 +73,17 @@ void entryForParameterShouldMergeFlagsFromAllElements() {
     thirdElement->flags = MULTIPLEBIT;
 
     entryForParameter(&entry, partition, NULL);
-    ASSERT(entry.flags == MULTIPLEBIT);
+    assert_true(entry.flags == MULTIPLEBIT);
 
 }
 
-void elmUnitTests()
+TestSuite *elmTests()
 {
-    registerUnitTest(testPartition);
-    registerUnitTest(entryForParameterShouldMergeFlagsFromAllElements);
+    TestSuite *suite = create_test_suite();
+
+    add_test(suite, testPartition);
+    add_test(suite, entryForParameterShouldMergeFlagsFromAllElements);
+
+    return suite;
 }
 

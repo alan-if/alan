@@ -8,18 +8,24 @@
 
 #include "ifid.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 
 
-static void testIsValidUUID() {
-  ASSERT(!isValidUUID(""));
-  ASSERT(!isValidUUID("UUID://"));
-  ASSERT(!isValidUUID("UUID://12312123-1231-1231-123t-12367813desd//"));
-  ASSERT(isValidUUID("UUID://ef306e25-5f83-cc43-995b-fadba9df90f5//"));
+Ensure(canVerifyUUID) {
+  assert_true(!isValidUUID(""));
+  assert_true(!isValidUUID("UUID://"));
+  assert_true(!isValidUUID("UUID://12312123-1231-1231-123t-12367813desd//"));
+  assert_true(isValidUUID("UUID://ef306e25-5f83-cc43-995b-fadba9df90f5//"));
 }
 
 
-void ifidUnitTests()
+TestSuite *ifidTests()
 {
-  registerUnitTest(testIsValidUUID);
+    TestSuite *suite = create_test_suite(); 
+
+    add_test(suite, canVerifyUUID);
+
+    return suite;
 }

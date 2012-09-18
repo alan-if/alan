@@ -8,11 +8,12 @@
 
 #include "emit.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 
 
-void testEmit()
-{
+Ensure(testEmit) {
   int expectedAddress;
   Aword emitTestArray[5] = {1, 2, 3, 4, 5};
 
@@ -22,32 +23,32 @@ void testEmit()
 
   emit(0);
   expectedAddress += 1;
-  ASSERT(nextEmitAddress() == expectedAddress);
+  assert_true(nextEmitAddress() == expectedAddress);
   expectedAddress = nextEmitAddress();
 
   emitString("123");
   expectedAddress += 1;
-  ASSERT(nextEmitAddress() == expectedAddress);
+  assert_true(nextEmitAddress() == expectedAddress);
   expectedAddress = nextEmitAddress();
 
   emitString("1234");
   expectedAddress += 2;
-  ASSERT(nextEmitAddress() == expectedAddress);
+  assert_true(nextEmitAddress() == expectedAddress);
   expectedAddress = nextEmitAddress();
 
   emit0(I_IF);
   expectedAddress += 1;
-  ASSERT(nextEmitAddress() == expectedAddress);
+  assert_true(nextEmitAddress() == expectedAddress);
   expectedAddress = nextEmitAddress();
 
   emitN((Aword *)&emitTestArray, 5);
   expectedAddress += 5;
-  ASSERT(nextEmitAddress() == expectedAddress);
+  assert_true(nextEmitAddress() == expectedAddress);
   expectedAddress = nextEmitAddress();
 
   emitEntry((Aword *)&emitTestArray, 6*4);
   expectedAddress += 6;
-  ASSERT(nextEmitAddress() == expectedAddress);
+  assert_true(nextEmitAddress() == expectedAddress);
   expectedAddress = nextEmitAddress();
 }
 
@@ -60,8 +61,7 @@ static void generateTextDataFile(char textDataFileName[], char textData[])
 }
 
 
-static void testEmitTextDataToAcodeFile()
-{
+Ensure(testEmitTextDataToAcodeFile) {
   char textDataFileName[] = "emitTestData";
   char textData[] = "asfasjfalsfhwerouwr87340183482jlasfls";
   int i;
@@ -73,19 +73,21 @@ static void testEmitTextDataToAcodeFile()
   acdfil = fopen("emitTestAcode", READ_MODE);
   for (i = 0; i < strlen(textData); i ++)
     if (fgetc(acdfil) != textData[i]) {
-      ASSERT(FALSE);
+      assert_true(FALSE);
     }
   fclose(acdfil);
   unlink(textDataFileName);
 }
 
 
-static void finalizeEmitShouldAdjustCRCWithoutChangingSize() {
+Ensure(finalizeEmitShouldAdjustCRCWithoutChangingSize) {
     int i;
+    Aword buffer[100];
 
     /* Given: */
     crc = 0;
     acodeHeader.acdcrc = 0;
+    initEmitBuffer(buffer);
     
     Aword *headerAsArray = (Aword *)&acodeHeader;
 
@@ -99,15 +101,19 @@ static void finalizeEmitShouldAdjustCRCWithoutChangingSize() {
     finalizeEmit();
 
     /* Then: */
-    ASSERT(acodeHeader.acdcrc == sizeDiff * ((Aword)0x22 + (Aword)0x33 + (Aword)0x44 + (Aword)0x55));
-    ASSERT(acodeHeader.size == size);
+    assert_true(acodeHeader.acdcrc == sizeDiff * ((Aword)0x22 + (Aword)0x33 + (Aword)0x44 + (Aword)0x55));
+    assert_true(acodeHeader.size == size);
 }
 
 
-void emitUnitTests()
+TestSuite *emitTests()
 {
-  registerUnitTest(testEmit);
-  registerUnitTest(testEmitTextDataToAcodeFile);
-  registerUnitTest(finalizeEmitShouldAdjustCRCWithoutChangingSize);
+    TestSuite *suite = create_test_suite();
+
+    add_test(suite, testEmit);
+    add_test(suite, testEmitTextDataToAcodeFile);
+    add_test(suite, finalizeEmitShouldAdjustCRCWithoutChangingSize);
+
+    return suite;
 }
 

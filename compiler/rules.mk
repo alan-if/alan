@@ -64,10 +64,11 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 unit: CC = gcc
 unit: LINK = gcc
 unit: unittests
-	@./unittests
+	@./unittests $(UNITOUT)
 
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
+UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 -include $(UNITTESTSOBJECTS:.o=.d)
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
@@ -75,8 +76,14 @@ $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
+unittests: CFLAGS += $(CGREENINCLUDE)
+unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
+unittests: COMPILER = gcc
+unittests: LINKER = gcc
+
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS)
+	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o unittests.dll $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

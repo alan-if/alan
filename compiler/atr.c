@@ -186,8 +186,8 @@ Attribute *findAttribute(List *attributes, IdNode *id)
   List *this;
 
   if (strcmp(id->string, "location") == 0) {
-	  locationAttributeFake.referenceClass = locationSymbol;
-	  return &locationAttributeFake;
+      locationAttributeFake.referenceClass = locationSymbol;
+      return &locationAttributeFake;
   }
 
   TRAVERSE(this, attributes)

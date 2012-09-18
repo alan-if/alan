@@ -8,6 +8,8 @@
 
 #include "prop.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 #include "unitList.h"
 
@@ -17,8 +19,7 @@
 #include "ins_x.h"
 
 
-static void testAddOpaqueAttribute()
-{
+Ensure(testAddOpaqueAttribute) {
   Properties *prop = newProps(NULL, NULL,
 			      nulsrcp, NULL,
 			      NULL, NULL, NULL,
@@ -31,8 +32,8 @@ static void testAddOpaqueAttribute()
   Attribute *attribute;
 
   addOpaqueAttribute(prop, TRUE);
-  ASSERT((attribute = findAttribute(prop->attributes, opaque)) != NULL);
-  ASSERT(attribute && attribute->value);
+  assert_true((attribute = findAttribute(prop->attributes, opaque)) != NULL);
+  assert_true(attribute && attribute->value);
 
 }
 
@@ -43,7 +44,7 @@ static Where *newWhereIdString(char id[]) {
 					      newId(nulsrcp, id))));
 }
 
-static void testCircularLocation() {
+Ensure(testCircularLocation) {
   Where *whr1 = newWhereIdString("loc2");
   Properties *props1 = newProps(NULL, NULL,
 				nulsrcp, NULL,
@@ -70,39 +71,42 @@ static void testCircularLocation() {
 
   readEcode();
   analyzeCircularLocations(props1);
-  ASSERT(readEcode() == 0);
+  assert_true(readEcode() == 0);
 
   props1->circularInspection = VISITED;
   analyzeCircularLocations(props1);
-  ASSERT(readEcode() == 802);
+  assert_true(readEcode() == 802);
 
   props1->circularInspection = REPORTED;
   analyzeCircularLocations(props1);
-  ASSERT(readEcode() == 0);
+  assert_true(readEcode() == 0);
 
   props1->circularInspection = VIRGIN;
   props1->whr = whr1;
   analyzeCircularLocations(props1);
-  ASSERT(readEcode() == 0);
+  assert_true(readEcode() == 0);
 
   props1->circularInspection = VIRGIN;
   analyzeCircularLocations(props2);
-  ASSERT(readEcode() == 0);
+  assert_true(readEcode() == 0);
 
   props1->circularInspection = VIRGIN;
   props2->circularInspection = VIRGIN;
   props1->whr = whr1;
   symbolizeWhere(whr1);
   analyzeCircularLocations(props1);
-  ASSERT(readEcode() == 802);
+  assert_true(readEcode() == 802);
 
   loc1 = loc2;			/* Do make use of variables... */
 }
 
 
 
-void propUnitTests()
-{
-  registerUnitTest(testCircularLocation);
-  registerUnitTest(testAddOpaqueAttribute);
+TestSuite *propTests() {
+    TestSuite *suite = create_test_suite(); 
+
+    add_test(suite, testCircularLocation);
+    add_test(suite, testAddOpaqueAttribute);
+
+    return suite;
 }

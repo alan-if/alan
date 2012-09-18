@@ -252,7 +252,8 @@ optional_attributes :
 
 is : 'IS' 
      | 'ARE' 
-     | 'HAS' 
+     | 'HAS'
+     | 'CAN' 
          ;
 
 optional_description : 

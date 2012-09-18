@@ -8,6 +8,8 @@
 
 #include "adv.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 #include "unitList.h"
 
@@ -16,8 +18,7 @@
 #include "id_x.h"
 
 
-void testInitAdv()
-{
+Ensure(testInitAdv) {
     Srcp srcp = {2,3,4};
 
     IdNode *atUnknownId = newId(srcp, "atUnknownId");
@@ -39,32 +40,34 @@ void testInitAdv()
     adv.whr = newWhere(&srcp, FALSE, WHERE_HERE, NULL);
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Here */
-    ASSERT(readEcode() == 211 && readSev() == sevERR);
+    assert_true(readEcode() == 211 && readSev() == sevERR);
 
     adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
                        newWhatExpression(srcp, newWhatId(srcp, atUnknownId)));
     symbolizeAdventure();
-    ASSERT(readSev() == sevERR && readEcode() == 310);
+    assert_true(readSev() == sevERR && readEcode() == 310);
 
     adv.whr->what->fields.wht.wht->id = atClaId;
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Id not an instance */
-    ASSERT(readSev() == sevERR && readEcode() == 351);
+    assert_true(readSev() == sevERR && readEcode() == 351);
  
     adv.whr->what->fields.wht.wht->id = atInsId;
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Id not inheriting from location */
-    ASSERT(readSev() == sevERR && readEcode() == 351);
+    assert_true(readSev() == sevERR && readEcode() == 351);
 
     adv.whr->what->fields.wht.wht->id = atInsLocId;
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Id not a instance */
-    ASSERT(readSev() == sevNONE && readEcode() == 0);
+    assert_true(readSev() == sevNONE && readEcode() == 0);
 }
 
 
-void advUnitTests()
+TestSuite *advTests()
 {
-    registerUnitTest(testInitAdv);
+    TestSuite *suite = create_test_suite();
+    add_test(suite, testInitAdv);
+    return suite;
 }
 

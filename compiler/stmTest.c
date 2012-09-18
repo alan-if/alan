@@ -8,13 +8,17 @@
 
 #include "stm.c"
 
-#include "unit.h"
+#include <cgreen/cgreen.h>
+
+#include "cla_x.h"
 #include "unitList.h"
 
 
-void testVerifySetAssignment() {
+Ensure(testVerifySetAssignment) {
   Expression *exp = newSetExpression(nulsrcp, NULL);
   Expression *wht = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "setAttribute")));
+
+  initClasses();
 
   wht->type = SET_TYPE;
   exp->type = SET_TYPE;
@@ -25,32 +29,36 @@ void testVerifySetAssignment() {
   /* Set a set attribute to an empty set (of a different member class) */
   (void)readEcode();
   verifySetAssignment(exp, wht);
-  ASSERT(readEcode() == 0);
+  assert_true(readEcode() == 0);
 
   /* Set a set attribute to a non-empty set of different type */
   /* Dummy element to make length > 0 */
   exp->fields.set.members = concat(NULL, exp, EXPRESSION_LIST);
   verifySetAssignment(exp, wht);
-  ASSERT(readEcode() == 431);
+  assert_true(readEcode() == 431);
 
   /* Set a set attribute to a non-empty set the same type */
   exp->class = wht->class;
   verifySetAssignment(exp, wht);
-  ASSERT(readEcode() == 0);
+  assert_true(readEcode() == 0);
 
   /* Assign a set attribute from another set attribute of the same type */
   exp->kind = ATTRIBUTE_EXPRESSION;
   verifySetAssignment(exp, wht);
-  ASSERT(readEcode() == 0);
+  assert_true(readEcode() == 0);
 
   /* Assign a set attribute from another set attribute of a different type */
   exp->class = locationSymbol;
   verifySetAssignment(exp, wht);
-  ASSERT(readEcode() == 431);
+  assert_true(readEcode() == 431);
 }
 
-void stmUnitTests()
+TestSuite *stmTests()
 {
-  registerUnitTest(testVerifySetAssignment);
+    TestSuite *suite = create_test_suite(); 
+
+    add_test(suite, testVerifySetAssignment);
+
+    return suite;
 }
 

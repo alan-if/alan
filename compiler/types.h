@@ -9,6 +9,8 @@
 #define _TYPES_
 
 typedef int Bool;
+typedef unsigned int uint;
+
 #ifndef TRUE
 #define TRUE (0==0)
 #define FALSE (!TRUE)

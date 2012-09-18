@@ -5,6 +5,9 @@
 \*======================================================================*/
 
 #include "cla.c"
+
+#include <cgreen/cgreen.h>
+
 #include "adv.h"
 #include "ins_x.h"
 #include "emit.h"
@@ -13,8 +16,7 @@
 #include "unitList.h"
 
 
-void testCreateClass()
-{
+Ensure(testCreateClass) {
   Srcp srcp = {1,2,3};
   IdNode *id = newId(srcp, "claId");
   IdNode *parent = newId(srcp, "parentId");
@@ -23,22 +25,21 @@ void testCreateClass()
   /* Create a class with unknown inheritance */
   Class *cla = newClass(&srcp, id, parent, NULL);
 
-  ASSERT(equalSrcp(cla->srcp, srcp));
-  ASSERT(equalId(cla->props->id, id));
-  ASSERT(equalId(cla->props->parentId, parent));
+  assert_true(equalSrcp(cla->srcp, srcp));
+  assert_true(equalId(cla->props->id, id));
+  assert_true(equalId(cla->props->parentId, parent));
 
   symbolizeClasses();
-  ASSERT(readEcode() == 310 && readSev() == sevERR);
+  assert_true(readEcode() == 310 && readSev() == sevERR);
 
   /* Add the inheritance id, resymbolize */
   ins = newInstance(&srcp, parent, NULL, NULL);
   symbolizeClasses();
-  ASSERT(readEcode() == 350 && readSev() == sevERR);
+  assert_true(readEcode() == 350 && readSev() == sevERR);
 }
 
 
-void testGenerateClasses()
-{
+Ensure(testGenerateClasses) {
   Srcp srcp = {12,13,14};
   Class *cla;
   Aaddr addr;
@@ -53,20 +54,19 @@ void testGenerateClasses()
   symbolizeAdventure();
   addr = generateClasses();
   /* Table should start directly after header */
-  ASSERT(addr == firstAdr);
+  assert_true(addr == firstAdr);
   /* header + PREDEFINED classes + 1 EOF should be generated*/
-  ASSERT(nextEmitAddress() == baseAddress + 1);
+  assert_true(nextEmitAddress() == baseAddress + 1);
 
   initEmit("unit.a3c");
   symbolizeClasses();
   cla = newClass(&srcp, newId(srcp, "aSimpleClass"), NULL, NULL);
   addr = generateClasses();
-  ASSERT(addr == firstAdr);	/* Should start at first address after header */
-  ASSERT(nextEmitAddress() == baseAddress + classSize + 1);	/* (predefined+1) classes + EOF */
+  assert_true(addr == firstAdr);	/* Should start at first address after header */
+  assert_true(nextEmitAddress() == baseAddress + classSize + 1);	/* (predefined+1) classes + EOF */
 }
 
-void testGenerateEmptyClassEntry()
-{
+Ensure(testGenerateEmptyClassEntry) {
   Properties *props = newProps(NULL,
 			       NULL,
 			       nulsrcp, NULL,
@@ -95,14 +95,18 @@ void testGenerateEmptyClassEntry()
 
   loadACD("unit.a3c");
   entry = (ClassEntry *) &memory[entryAddress];
-  ASSERT(convertFromACD(entry->description) == 0);
-  ASSERT(convertFromACD(entry->parent) == 0);
+  assert_true(convertFromACD(entry->description) == 0);
+  assert_true(convertFromACD(entry->parent) == 0);
 }
 
-void claUnitTests()
+TestSuite *claTests()
 {
-  registerUnitTest(testCreateClass);
-  registerUnitTest(testGenerateClasses);
-  registerUnitTest(testGenerateEmptyClassEntry);
+    TestSuite *suite = create_test_suite();
+
+    add_test(suite, testCreateClass);
+    add_test(suite, testGenerateClasses);
+    add_test(suite, testGenerateEmptyClassEntry);
+
+    return suite;
 }
 

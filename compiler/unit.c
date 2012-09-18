@@ -1,120 +1,18 @@
-/*======================================================================*\
+#include "cgreen/cgreen.h"
+#include "xml_reporter.h"
+#include <stdlib.h>
+#include "gopt.h"
 
-unit.c
+#ifdef SMARTALLOC
+#include "smartall.h"
+#endif
 
-A unit test main program for the Alan compiler
-
-\*======================================================================*/
-
-#include "sysdep.h"
-#include "acode.h"
-
-#include <stdio.h>
-#include <setjmp.h>
-
-
-#include "unit.h"
+#define ADD_UNIT_TESTS_FOR(module) \
+  TestSuite *module##Tests(); \
+  add_suite(suite, module##Tests());
 
 
-typedef struct Case {
-    void (*theCase)();
-    struct Case *next;
-} Case;
-
-static Case *caseList = NULL;
-static Case *lastCase = NULL;
-
-
-Aword *memory;
-
-
-/*======================================================================*/
-Aword convertFromACD(Aword w)
-{
-    Aword s;                      /* The swapped ACODE word */
-    char *wp, *sp;
-    int i;
-
-    wp = (char *) &w;
-    sp = (char *) &s;
-
-    if (littleEndian())
-        for (i = 0; i < sizeof(Aword); i++)
-            sp[sizeof(Aword)-1 - i] = wp[i];
-    else
-        for (i = 0; i < sizeof(Aword); i++)
-            sp[i] = wp[i];
-  
-    return s;
-}
-
-
-/*======================================================================*\
-
-Test harness for unit tests in Alan compiler
-
-\*======================================================================*/
-
-static int passed = 0;
-static int failed = 0;
-
-/*----------------------------------------------------------------------*/
-static void unitFail(char sourceFile[], int lineNumber, const char function[])
-{
-    printf("%s:%d: unit test '%s()' failed!\n", sourceFile, lineNumber, function);
-    failed++;
-}
-
-
-/*----------------------------------------------------------------------*/
-static void unitReportProgress(int failed, int passed)
-{
-    // printf("failed: %d, passed: %d\n", failed, passed);
-}
-
-
-/* Assert a particular test */
-/*======================================================================*/
-void unitAssert(int x, char sourceFile[], int lineNumber, const char function[])
-{
-    (x)? passed++ : unitFail(sourceFile, lineNumber, function);
-    unitReportProgress(failed, passed);
-}
-
-
-/* Run the tests in the test case array */
-/*----------------------------------------------------------------------*/
-static void unitTest(void)
-{
-    Case *current;
-
-    for (current = caseList; current != NULL; current = current->next) {
-        (*current->theCase)();
-    }
-    if (failed == 0)
-        printf("All %d unit tests PASSED!!\n", passed);
-    else {
-        printf("******************************\n");
-        printf("%d of %d unit tests FAILED!!\n", failed, passed+failed);
-        printf("******************************\n");
-    }
-}
-
-
-/* Faking the List system */
-#include "lmList.h"
-#include "unitList.h"
-
-
-#define ADD_UNIT_TESTS_FOR(module)              \
-    extern void module##UnitTests();            \
-    module##UnitTests();
-
-
-int main()
-{
-    lmLiInit("Alan Compiler Unit Test", "<no file>", lm_ENGLISH_Messages);
-
+static void add_unittests(TestSuite *suite) {
     ADD_UNIT_TESTS_FOR(add);
     ADD_UNIT_TESTS_FOR(adv);
     ADD_UNIT_TESTS_FOR(atr);
@@ -137,76 +35,38 @@ int main()
     ADD_UNIT_TESTS_FOR(vrb);
     ADD_UNIT_TESTS_FOR(whr);
     ADD_UNIT_TESTS_FOR(wrd);
-   
-    unitTest();
-
-    return 0;
 }
 
 
-/*======================================================================*/
-void registerUnitTest(void (*aCase)())
-{
-    if (lastCase == NULL) {
-        caseList = calloc(sizeof(Case), 1);
-        caseList->theCase = aCase;
-        lastCase = caseList;
+static int compiler_tests(int argc, const char **argv) {
+    int return_code;
+    TestSuite *suite = create_test_suite();
+    TestReporter *reporter;
+    const char *prefix;
+
+    add_unittests(suite);
+
+    void *options= gopt_sort(&argc, argv, gopt_start(
+                                                     gopt_option( 'x', 
+                                                                  GOPT_ARG, 
+                                                                  gopt_shorts( 'x' ), 
+                                                                  gopt_longs( "xml" ))));
+
+    if (gopt_arg(options, 'x', &prefix))
+        reporter = create_xml_reporter(prefix);
+    else
+        reporter = create_text_reporter();
+    
+    if (argc == 1) {
+        return_code = run_test_suite(suite, reporter);
+    } else if (argc == 2) {
+        return_code = run_single_test(suite, argv[1], reporter);
     } else {
-        lastCase->next = calloc(sizeof(Case), 1);
-        lastCase = lastCase->next;
-        lastCase->theCase = aCase;
+        printf("Usage: %s [--xml <fileprefix>] [<test case name>]\n", argv[0]);
     }
-    lastCase->next = NULL;
+    return return_code;
 }
 
-
-/*----------------------------------------------------------------------*/
-static Aword reversed(Aword w)		/* IN - The ACODE word to swap bytes in */
-{
-    Aword s;			/* The swapped ACODE word */
-    char *wp, *sp;
-    int i;
-
-    wp = (char *) &w;
-    sp = (char *) &s;
-
-    for (i = 0; i < sizeof(Aword); i++)
-        sp[sizeof(Aword)-1 - i] = wp[i];
-
-    return (s);
-}
-
-/*----------------------------------------------------------------------*/
-static void reverse(Aword *w)
-{
-    *w = reversed(*w);
-}
-
-/*----------------------------------------------------------------------*/
-static void reverseHdr(ACodeHeader *header)
-{
-    int i;
-
-    /* Reverse all words in the header except the first (version marking) */
-    for (i = 1; i < sizeof(ACodeHeader)/sizeof(Aword); i++)
-        reverse(&((Aword *)header)[i]);
-}
-
-/*======================================================================*/
-void loadACD(char fileName[])
-{
-    ACodeHeader temporaryHeader;
-    int readSize = 0;
-    FILE *acdFile = fopen(fileName, "rb");
-
-    readSize = fread(&temporaryHeader, 1, sizeof(temporaryHeader), acdFile);
-
-    if (littleEndian())
-        reverseHdr(&temporaryHeader);
-
-    memory = calloc(4*temporaryHeader.size, 1);
-
-    rewind(acdFile);
-    fread(memory, sizeof(Aword), temporaryHeader.size, acdFile);
-
+int main(int argc, const char **argv) {
+    return compiler_tests(argc, argv);
 }

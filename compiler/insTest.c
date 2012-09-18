@@ -6,14 +6,15 @@
 
 #include "ins.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 #include "unitList.h"
 
 #include "adv_x.h"
 
 
-static void testCreateIns()
-{
+Ensure(testCreateIns) {
   Srcp srcp = {1,2,3};
   IdNode *id = newId(srcp, "insId");
   IdNode *parent = newId(srcp, "parentId");
@@ -22,17 +23,16 @@ static void testCreateIns()
   initAdventure();
 
   ins = newInstance(&srcp, id, parent, NULL);
-  ASSERT(equalSrcp(srcp, ins->srcp));
-  ASSERT(equalId(id, ins->props->id));
-  ASSERT(equalId(parent, ins->props->parentId));
+  assert_true(equalSrcp(srcp, ins->srcp));
+  assert_true(equalId(id, ins->props->id));
+  assert_true(equalId(parent, ins->props->parentId));
 
   symbolizeInstance(ins);
-  ASSERT(readEcode() == 310 && readSev() == sevERR);
+  assert_true(readEcode() == 310 && readSev() == sevERR);
 }
 
 
-static void testGenerateEmptyInstanceEntry()
-{
+Ensure(testGenerateEmptyInstanceEntry) {
   Properties *props = newProps(NULL, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL, NULL,
@@ -57,12 +57,11 @@ static void testGenerateEmptyInstanceEntry()
 
   loadACD("unit.a3c");
   entry = (InstanceEntry *) &memory[entryAddress];
-  ASSERT(convertFromACD(entry->description) == 0);
-  ASSERT(convertFromACD(entry->parent) == 0);
+  assert_true(convertFromACD(entry->description) == 0);
+  assert_true(convertFromACD(entry->parent) == 0);
 }
 
-static void testGenerateInstances()
-{
+Ensure(testGenerateInstances) {
   Srcp srcp = {12,13,14};
   Instance *ins;
   Aaddr address;
@@ -76,9 +75,9 @@ static void testGenerateInstances()
   symbolizeAdventure();
 
   address = generateInstanceTable();
-  ASSERT(address == firstAdr);
+  assert_true(address == firstAdr);
   address = nextEmitAddress();
-  ASSERT(address == firstAdr + instanceSize + 1/*EOF*/);
+  assert_true(address == firstAdr + instanceSize + 1/*EOF*/);
 
   initAdventure();
   initEmit("unit.a3c");
@@ -91,7 +90,7 @@ static void testGenerateInstances()
 
   /* End should be at the size of the table and one instance */
   address = nextEmitAddress();
-  ASSERT(address == instanceTableAddress + instanceSize);
+  assert_true(address == instanceTableAddress + instanceSize);
   acodeHeader.size = address;
   finalizeEmit();
   writeHeader(&acodeHeader);
@@ -99,54 +98,56 @@ static void testGenerateInstances()
 
   loadACD("unit.a3c");
   instanceTable = (InstanceEntry *) &memory[instanceTableAddress];
-  ASSERT(convertFromACD(instanceTable->code) == ins->props->id->symbol->code);
-  ASSERT(convertFromACD(instanceTable->id) == ins->props->idAddress);
-  ASSERT(convertFromACD(instanceTable->parent) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
-  ASSERT(convertFromACD(instanceTable->initialAttributes) == ins->props->attributeAddress);
-  ASSERT(convertFromACD(instanceTable->checks) == checksAddressOf(ins->props->description));
-  ASSERT(convertFromACD(instanceTable->description) == doesAddressOf(ins->props->description));
-  ASSERT(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
-  ASSERT(convertFromACD(instanceTable->exits) == ins->props->exitsAddress);
-  ASSERT(convertFromACD(instanceTable->verbs) == ins->props->verbsAddress);
+  assert_true(convertFromACD(instanceTable->code) == ins->props->id->symbol->code);
+  assert_true(convertFromACD(instanceTable->id) == ins->props->idAddress);
+  assert_true(convertFromACD(instanceTable->parent) == (ins->props->parentId?ins->props->parentId->symbol->code:0));
+  assert_true(convertFromACD(instanceTable->initialAttributes) == ins->props->attributeAddress);
+  assert_true(convertFromACD(instanceTable->checks) == checksAddressOf(ins->props->description));
+  assert_true(convertFromACD(instanceTable->description) == doesAddressOf(ins->props->description));
+  assert_true(convertFromACD(instanceTable->mentioned) == ins->props->mentionedAddress);
+  assert_true(convertFromACD(instanceTable->exits) == ins->props->exitsAddress);
+  assert_true(convertFromACD(instanceTable->verbs) == ins->props->verbsAddress);
 }
 
 
-static void testHero()
-{
+Ensure(testHero) {
   ACodeHeader header;
   int count;
+  Aword buffer[100];
+  initEmitBuffer(buffer);
 
-  ASSERT(theHero == NULL);
+  assert_true(theHero == NULL);
   initAdventure();
   count = instanceCount;
   addHero();
-  ASSERT(theHero != NULL);
-  ASSERT(theHero->code != 0);
+  assert_true(theHero != NULL);
+  assert_true(theHero->code != 0);
   symbolizeAdventure();
-  ASSERT(inheritsFrom(theHero, lookup("actor")));
+  assert_true(inheritsFrom(theHero, lookup("actor")));
   generateInstances(&header);
-  ASSERT(header.theHero == count+1);
+  assert_true(header.theHero == count+1);
 }
 
 
-static void testNowhereIsGenerated()
-{
+Ensure(testNowhereIsGenerated) {
   nowhere = NULL;
   initAdventure();
-  ASSERT(nowhere != NULL);
-  ASSERT(nowhere->code == NOWHERE);
+  assert_true(nowhere != NULL);
+  assert_true(nowhere->code == NOWHERE);
   symbolizeAdventure();
-  ASSERT(inheritsFrom(nowhere, lookup("location")));
+  assert_true(inheritsFrom(nowhere, lookup("location")));
 }
 
 
-void insUnitTests()
+TestSuite *insTests()
 {
-  registerUnitTest(testCreateIns);
-  registerUnitTest(testGenerateEmptyInstanceEntry);
-  registerUnitTest(testGenerateInstances);
-  registerUnitTest(testHero);
-  registerUnitTest(testNowhereIsGenerated);
+    TestSuite *suite = create_test_suite(); 
+
+    add_test(suite, testCreateIns);
+    add_test(suite, testGenerateEmptyInstanceEntry);
+    add_test(suite, testGenerateInstances);
+    add_test(suite, testHero);
+    add_test(suite, testNowhereIsGenerated);
+
+    return suite;
 }
-
-

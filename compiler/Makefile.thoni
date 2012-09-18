@@ -42,7 +42,7 @@ release:
 # WinAlan is only available on Windows (= MinGW = Cygwin without cygwin1.dll)
 #
 # Build with flags:
-winalan: OS_FLAGS = -mwindows
+winalan: OS_FLAGS = -mwindows -mno-cygwin
 winalan: EXTRA_COMPILER_FLAGS = -Wall -funsigned-char $(OPTIMIZE) -DWINGUI
 
 WINALANOBJDIR = .winalan

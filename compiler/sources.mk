@@ -82,13 +82,18 @@ ALANSRCS = \
 # Sources for the test framework
 UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
 UNITSRCS = $(UNITTESTEDSRCS) \
-	unittests.c \
 	unitList.c \
+	unitmock.c \
+	xml_reporter.c \
+	gopt.c \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
 	smScanx.c smScSema.c
 
-UNITTESTSSRCS = $(UNITSRCS) $(OTHERSRCS)
+UNITTESTSMAIN = unittests.c
+
+UNITTESTSSRCS = $(UNITTESTSMAIN) $(UNITSRCS) $(OTHERSRCS)
+UNITTESTSDLLSRCS = $(UNITSRCS) $(OTHERSRCS)
 
 # Version timestamp dependencies
 VERSIONSRCS = $(ALANSRCS) $(TMSRCS)

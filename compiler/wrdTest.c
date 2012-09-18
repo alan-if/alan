@@ -8,11 +8,12 @@
 
 #include "wrd.c"
 
+#include <cgreen/cgreen.h>
+
 #include "unit.h"
 
 
-static void testInsertWord()
-{
+Ensure(testInsertWord) {
   Word w1, w2, w3, w4;
 
   w1.string = "s1";
@@ -26,32 +27,30 @@ static void testInsertWord()
 
   wordTree = NULL;
   insertWord(&w1);
-  ASSERT(wordTree == &w1);
+  assert_true(wordTree == &w1);
   insertWord(&w3);
-  ASSERT(wordTree->high == &w3);
+  assert_true(wordTree->high == &w3);
   insertWord(&w2);
-  ASSERT(wordTree->high->low == &w2);
+  assert_true(wordTree->high->low == &w2);
   insertWord(&w4);
-  ASSERT(wordTree->high->high == &w4);
+  assert_true(wordTree->high->high == &w4);
 }
 
-static void testNewWord()
-{
+Ensure(testNewWord) {
   Instance i1;
 
   wordTree = NULL;
 
   newPronounWord("p", &i1);
-  ASSERT(strcmp(wordTree->string, "p") == 0);
-  ASSERT(wordTree->ref[PRONOUN_WORD]->member.ins == &i1);
+  assert_true(strcmp(wordTree->string, "p") == 0);
+  assert_true(wordTree->ref[PRONOUN_WORD]->member.ins == &i1);
 
   newSynonymWord("s", findWord("p"));
-  ASSERT(strcmp(wordTree->high->string, "s") == 0);
-  ASSERT(wordTree->high->ref[SYNONYM_WORD]->member.word == findWord("p"));
+  assert_true(strcmp(wordTree->high->string, "s") == 0);
+  assert_true(wordTree->high->ref[SYNONYM_WORD]->member.word == findWord("p"));
 }
 
-static void testGenerateWordEntry()
-{
+Ensure(testGenerateWordEntry) {
   Word w1, *w2;
   DictionaryEntry de[2];
 
@@ -65,11 +64,11 @@ static void testGenerateWordEntry()
   w1.adjectiveRefAddress = 21;
 
   generateWordEntry(&w1);
-  ASSERT(convertFromACD(de[0].string) == 14);
-  ASSERT(convertFromACD(de[0].classBits) == VERB_BIT);
-  ASSERT(convertFromACD(de[0].code) == 17);
-  ASSERT(convertFromACD(de[0].nounRefs) == 19);
-  ASSERT(convertFromACD(de[0].adjectiveRefs) == 21);  
+  assert_true(convertFromACD(de[0].string) == 14);
+  assert_true(convertFromACD(de[0].classBits) == VERB_BIT);
+  assert_true(convertFromACD(de[0].code) == 17);
+  assert_true(convertFromACD(de[0].nounRefs) == 19);
+  assert_true(convertFromACD(de[0].adjectiveRefs) == 21);  
 
   newSynonymWord("w2", &w1);
   w2 = findWord("w2");
@@ -77,16 +76,20 @@ static void testGenerateWordEntry()
   w2->classbits = SYNONYM_BIT;
 
   generateWordEntry(w2);
-  ASSERT(convertFromACD(de[1].string) == 15);
-  ASSERT(convertFromACD(de[1].classBits) == (SYNONYM_BIT|VERB_BIT));
-  ASSERT(convertFromACD(de[1].code) == 17);
-  ASSERT(convertFromACD(de[1].nounRefs) == 19);
-  ASSERT(convertFromACD(de[1].adjectiveRefs) == 21);  
+  assert_true(convertFromACD(de[1].string) == 15);
+  assert_true(convertFromACD(de[1].classBits) == (SYNONYM_BIT|VERB_BIT));
+  assert_true(convertFromACD(de[1].code) == 17);
+  assert_true(convertFromACD(de[1].nounRefs) == 19);
+  assert_true(convertFromACD(de[1].adjectiveRefs) == 21);  
 }
 
-void wrdUnitTests()
+TestSuite *wrdTests()
 {
-  registerUnitTest(testInsertWord);
-  registerUnitTest(testNewWord);
-  registerUnitTest(testGenerateWordEntry);
+    TestSuite *suite = create_test_suite();
+    
+    add_test(suite, testInsertWord);
+    add_test(suite, testNewWord);
+    add_test(suite, testGenerateWordEntry);
+
+    return suite;
 }
