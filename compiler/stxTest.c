@@ -8,8 +8,6 @@
 
 #include <cgreen/cgreen.h>
 
-#include "unit.h"
-
 
 /*----------------------------------------------------------------------*/
 Ensure(canCountParameters) {

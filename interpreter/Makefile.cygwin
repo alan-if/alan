@@ -18,7 +18,7 @@ LINK = i686-w64-mingw32-gcc
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = $(CGREENROOT)/lib/libcgreen.a
+CGREENLIB = $(CGREENROOT)/lib/libcgreen.dll.a
 
 #################################################################
 # the default build is unittests and standard command line arun

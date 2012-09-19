@@ -10,7 +10,6 @@
 
 #include <cgreen/cgreen.h>
 
-#include "unit.h"
 #include "unitList.h"
 
 #include "elm_x.h"

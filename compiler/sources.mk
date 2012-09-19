@@ -84,13 +84,11 @@ UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
 UNITSRCS = $(UNITTESTEDSRCS) \
 	unitList.c \
 	unitmock.c \
-	xml_reporter.c \
-	gopt.c \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
 	smScanx.c smScSema.c
 
-UNITTESTSMAIN = unittests.c
+UNITTESTSMAIN = unittests.c xml_reporter.c gopt.c
 
 UNITTESTSSRCS = $(UNITTESTSMAIN) $(UNITSRCS) $(OTHERSRCS)
 UNITTESTSDLLSRCS = $(UNITSRCS) $(OTHERSRCS)

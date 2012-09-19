@@ -10,8 +10,6 @@
 
 #include <cgreen/cgreen.h>
 
-#include "unit.h"
-
 
 Ensure(testChecksOf) {
   Description *description = newDescription(nulsrcp, NULL, nulsrcp, NULL);

@@ -10,8 +10,6 @@
 
 #include <cgreen/cgreen.h>
 
-#include "unit.h"
-
 
 Ensure(testGeneratedId) {
   IdNode *id1 = NEW(IdNode);

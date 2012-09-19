@@ -10,7 +10,7 @@
 
 #include <cgreen/cgreen.h>
 
-#include "unit.h"
+#include "unitmock.h"
 
 
 Ensure(testInsertWord) {

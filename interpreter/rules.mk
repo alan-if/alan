@@ -61,6 +61,7 @@ gcov: $(GCOVOBJDIR) $(GCOVOBJECTS)
 #	CGREENLIB to something to link with (e.g. -lcgreen)
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
+UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 
 # Dependencies, if they exist yet
 -include $(UNITTESTSOBJECTS:.o=.d)
@@ -69,7 +70,7 @@ UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNI
 $(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
-#Create directory if it doesn't exist
+# Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
@@ -77,6 +78,7 @@ unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
+	$(LINK) -shared -o unittests.dll $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)

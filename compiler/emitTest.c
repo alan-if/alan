@@ -10,8 +10,6 @@
 
 #include <cgreen/cgreen.h>
 
-#include "unit.h"
-
 
 Ensure(testEmit) {
   int expectedAddress;

@@ -91,6 +91,7 @@ static void xml_show_incomplete(TestReporter *reporter, const char *filename, in
 
 static void xml_reporter_finish_test(TestReporter *reporter, const char *filename, int line) {
     FILE *out = file_stack[file_stack_p-1];
+    indent(reporter);
     fprintf(out, "</testcase>\n");
     fflush(out);
     reporter_finish(reporter, filename, line);
