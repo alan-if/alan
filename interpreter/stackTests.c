@@ -2,20 +2,21 @@
 
 #include "stack.c"
 
+Describe(stack, setup, teardown);
 
 static Stack theStack;
 
-static void setUp() {
+static void setup() {
   theStack = createStack(50);
 }
 
-static void tearDown() {
+static void teardown() {
   deleteStack(theStack);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testNewFrameAllocatesCorrectSpace) {
+Ensure(allocatesCorrectSpaceInNewFrame) {
   /* Add a block with four local variables */
   newFrame(theStack, 4);
   assert_equal(1/*old fp*/ + 4/*Locals*/, stackDepth(theStack));
@@ -77,10 +78,10 @@ TestSuite *stackTests()
 {
   TestSuite *suite = create_test_suite();
 
-  set_setup(suite, setUp);
-  set_teardown(suite, tearDown);
+  set_setup(suite, setup);
+  set_teardown(suite, teardown);
 
-  add_test(suite, testNewFrameAllocatesCorrectSpace);
+  add_test(suite, allocatesCorrectSpaceInNewFrame);
   add_test(suite, testNewFrameInStack);
   add_test(suite, testFrameInFrame);
   add_test(suite, testPushAndPop);

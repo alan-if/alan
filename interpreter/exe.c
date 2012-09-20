@@ -314,6 +314,14 @@ static void increaseEventQueue(void)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void moveEvent(int to, int from) {
+	eventQueue[to].event = eventQueue[from].event;
+	eventQueue[to].after = eventQueue[from].after;
+	eventQueue[to].where = eventQueue[from].where;
+}
+
+
 /*======================================================================*/
 void schedule(Aword event, Aword where, Aword after)
 {
@@ -328,9 +336,7 @@ void schedule(Aword event, Aword where, Aword after)
 
     /* Bubble this event down */
     for (i = eventQueueTop; i >= 1 && eventQueue[i-1].after <= after; i--) {
-        eventQueue[i].event = eventQueue[i-1].event;
-        eventQueue[i].after = eventQueue[i-1].after;
-        eventQueue[i].where = eventQueue[i-1].where;
+		moveEvent(i, i-1);
     }
 
     eventQueue[i].after = after;

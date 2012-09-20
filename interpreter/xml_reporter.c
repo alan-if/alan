@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 
 static void xml_reporter_start_suite(TestReporter *reporter, const char *name, int count);
@@ -82,7 +82,7 @@ static void xml_show_incomplete(TestReporter *reporter, const char *filename, in
     FILE *out = file_stack[file_stack_p-1];
     indent(reporter);
     fprintf(out, "<error type=\"Fatal\" message=\"");
-    vfprintf(out, message, arguments);
+	vfprintf(out, (message == NULL ? "Test exited unexpectedly, likely from a non-standard exception, SIGSEGV, or other signal" : message), arguments);
     fprintf(out, "\">\n");
     indent(reporter);
     fprintf(out, "</error>\n");

@@ -23,7 +23,7 @@ extern Stack createStack(int size);
 extern void deleteStack(Stack stack);
 extern void dumpStack(Stack theStack);
 extern Aptr pop(Stack stack);
-extern void push(Stack stack, Aptr item);
+extern void push(Stack stack, Aword item);
 extern Aptr top(Stack theStack);
 extern int stackDepth(Stack theStack);
 

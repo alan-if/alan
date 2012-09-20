@@ -15,7 +15,7 @@
 
 /* ABSTRACT TYPE */
 typedef struct StackStructure {
-  Aint *stack;
+  Aword *stack;
   int stackSize;
   int stackp;
   int framePointer;
@@ -72,7 +72,7 @@ void dumpStack(Stack theStack)
 
 
 /*======================================================================*/
-void push(Stack theStack, Aptr i)
+void push(Stack theStack, Aword i)
 {
   if (theStack == NULL)
     syserr("NULL stack not supported anymore");

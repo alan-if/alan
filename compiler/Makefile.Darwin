@@ -3,13 +3,18 @@
 # Makefile for compiling Alan compiler on MacOSX
 #
 
-OS_FLAGS = -mmacosx-version-min=10.5 -arch i386 # -arch ppc
+OS_FLAGS = -mmacosx-version-min=10.5
 
 COMPILER = gcc
 EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char
 
 LINKER = gcc
 EXTRA_LINKER_FLAGS = 
+
+CGREEN = yes
+CGREENROOT = /usr/local
+CGREENDIR = $(CGREENROOT)/include/cgreen
+CGREENLIB = -lcgreen
 
 release: OS_FLAGS = -arch i386 #-arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4

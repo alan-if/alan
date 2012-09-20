@@ -313,7 +313,7 @@ Ensure (callingWhereReturnsExpectedValues) {
 /*----------------------------------------------------------------------*/
 Ensure (canGetMembersOfASet) {
   Set *set = newSet(0);
-  Aword code[] = {0,	/* Dummy */
+  Aword code[] = {0,	/* Dummy to not start at address 0 */
 		  INSTRUCTION(I_SETSIZE),
 		  INSTRUCTION(I_RETURN)};
 
@@ -322,7 +322,7 @@ Ensure (canGetMembersOfASet) {
 
   memory = code;
   memTop = 100;
-  push(stack, (Aword)set);
+  push(stack, (Aptr)set);
   assert_equal(0, evaluate(1));
 }
 
