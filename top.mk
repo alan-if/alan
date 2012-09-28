@@ -3,7 +3,7 @@ JREGROUTPUT = -noansi
 endif
 
 
-VERSION = `cat LASTRELEASE`
+RELEASE = `cat LASTRELEASE`
 BUILD_NUMBER = $(wildcard BUILD_NUMBER)
 ifeq ($(BUILD_NUMBER),)
   BUILD=
@@ -43,16 +43,16 @@ test:
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING 
 	-rm alan*.zip
-	zip -j alan$(VERSION).win32.x86.zip $^
+	zip -j alan$(RELEASE).win32.x86.zip $^
 
 .PHONY: setup
 setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
 	-rm winarun*setup.exe
-	sed -e s/VERSION/$(VERSION)/ winarun.iss > winarun_tmp.iss
+	sed -e s/VERSION/$(RELEASE)/ winarun.iss > winarun_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
 	-rm winarun_tmp.iss
 	-rm alan*setup.exe
-	sed -e s/VERSION/$(VERSION)/ alan.iss > alan_tmp.iss
+	sed -e s/VERSION/$(RELEASE)/ alan.iss > alan_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
 	-rm alan_tmp.iss
 
