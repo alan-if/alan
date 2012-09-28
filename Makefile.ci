@@ -35,6 +35,3 @@ snapshots: zip setup lib
 	cp doc/manual/writing.pdf $(DISTDIR)/Snapshots/writing-$(BUILD).pdf
 
 include top.mk
-
-version:
-	echo $(VERSION)
