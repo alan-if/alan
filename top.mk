@@ -8,7 +8,7 @@ BUILD_NUMBER_FILE = $(wildcard BUILD_NUMBER)
 ifeq ($(BUILD_NUMBER_FILE),)
   BUILD=
 else
-  BUILD= `-cat $(BUILD_NUMBER_FILE)`
+  BUILD= -`cat $(BUILD_NUMBER_FILE)`
 endif
 
 .PHONY: clean
