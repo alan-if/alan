@@ -3,10 +3,8 @@
 # scratch with continuous integration and testing using Hudson.
 # It only works on ThoNi's machine.
 #######################################################################
-
-BUILD = `cat BUILD_NUMBER`
-VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`-$(BUILD)
-LIBRARYVERSION = `cat library/VERSION`-$(BUILD)
+VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`$(BUILD)
+LIBRARYVERSION = `cat library/VERSION`$(BUILD)
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
 JREGROUTPUT = -xml
@@ -30,8 +28,13 @@ snapshots: zip setup lib
 	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
 	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
 	cp library/library*.zip $(DISTDIR)/Snapshots/library$(LIBRARYVERSION).zip
-	cp doc/manual/manual.pdf $(DISTDIR)/Snapshots/manual-$(BUILD).pdf
-	cp doc/manual/conversion.pdf $(DISTDIR)/Snapshots/conversion-$(BUILD).pdf
-	cp doc/manual/writing.pdf $(DISTDIR)/Snapshots/writing-$(BUILD).pdf
+	cp doc/manual/manual.pdf $(DISTDIR)/Snapshots/manual$(BUILD).pdf
+	cp doc/manual/conversion.pdf $(DISTDIR)/Snapshots/conversion$(BUILD).pdf
+	cp doc/manual/writing.pdf $(DISTDIR)/Snapshots/writing$(BUILD).pdf
 
 include top.mk
+
+show-version:
+	echo $(VERSION)
+	echo $(BUILD_NUMBER_FILE)
+

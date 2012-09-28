@@ -4,11 +4,11 @@ endif
 
 
 RELEASE = `cat LASTRELEASE`
-BUILD_NUMBER = $(wildcard BUILD_NUMBER)
-ifeq ($(BUILD_NUMBER),)
+BUILD_NUMBER_FILE = $(wildcard BUILD_NUMBER)
+ifeq ($(BUILD_NUMBER_FILE),)
   BUILD=
 else
-  BUILD= -$(BUILD_NUMBER)
+  BUILD= `-cat $(BUILD_NUMBER_FILE)`
 endif
 
 .PHONY: clean
