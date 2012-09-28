@@ -52,7 +52,7 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
 	-rm winarun_tmp.iss
 	-rm alan*setup.exe
-	sed -e s/VERSION/$(VERSIONx)/ alan.iss > alan_tmp.iss
+	sed -e s/VERSION/$(VERSION)/ alan.iss > alan_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
 	-rm alan_tmp.iss
 
