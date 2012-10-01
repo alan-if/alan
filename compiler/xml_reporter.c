@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 
 static void xml_reporter_start_suite(TestReporter *reporter, const char *name, int count);

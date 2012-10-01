@@ -3,6 +3,27 @@
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # rules.mk
 
+TARGET = arun
+
+# Define the program name
+PROGNAME=-DPROGNAME=\"$(TARGET)\"
+ARUNOPTS = $(PROGNAME) $(GLK)
+
+#Settings for memory debugging which is used unless building RELEASE
+#ALLOC = -DSMARTALLOC
+#ALLOC = -DDMALLOC
+#ALLOCLIBS = -ldmalloc
+
+OSFLAGS = -g -mmacosx-version-min=10.5
+
+CC = gcc
+COMPILEFLAGS = -m32 -Wall -funsigned-char $(ALLOC)
+
+LINK = gcc
+LINKFLAGS = -m32
+
+LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
+
 # -- Glk definitions. Uncomment some of these to enable Glk.
 #GLKPREFIX = /usr/local
 #GLKPREFIX = ../../WindowsGLK
@@ -14,29 +35,7 @@
 #GLKSRCS = glkstart.c glkio.c winglk.c
 
 
-TARGET = arun
-
-# Define the program name
-PROGNAME=-DPROGNAME=\"$(TARGET)\"
-
-ARUNOPTS = $(PROGNAME) $(GLK)
-
-#Settings for memory debugging which is used unless building RELEASE
-#ALLOC = -DSMARTALLOC
-#ALLOC = -DDMALLOC
-#ALLOCLIBS = -ldmalloc
-
-OSFLAGS = -mmacosx-version-min=10.5
-
-CC = gcc
-COMPILEFLAGS = -g -Wall -funsigned-char $(ALLOC)
-
-LINK = gcc
-LINKFLAGS = -g $(ARUNOPTS)
-
-LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
-
-
+# -- CGreen unit test framework settings
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENDIR = $(CGREENROOT)/include/cgreen

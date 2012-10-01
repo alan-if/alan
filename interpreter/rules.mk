@@ -78,7 +78,7 @@ unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
-	$(LINK) -shared -o unittests.dll $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o unittests.dll $(LDFLAGS) $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)
