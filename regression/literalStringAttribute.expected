@@ -3,15 +3,20 @@
         No warnings or errors detected.
 
 
-'Play "c"'
+'Play "c"' then 'play piano' and then 'play "c"'
 
 
 L
+There is a piano here.
 
 > play "c"
 Wonderful!
 
-> 
+> play piano
+It sounds wonderful. It sounds terrible.
+
+> play "c"
+Wonderful!
 
 > 
 
