@@ -611,35 +611,35 @@ Attribute *resolveAttribute(Expression *exp, IdNode *attributeId, Context *conte
 /*----------------------------------------------------------------------*/
 static void generateAttribute(Attribute *attribute, int instanceCode)
 {
-  AttributeEntry entry;
-  Attribute *new;
+	AttributeEntry entry;
+	Attribute *new;
 
-  if (attribute->type == STRING_TYPE || attribute->type == SET_TYPE) {
-    /* Now make a copy to use for initialisation if attribute is
-       inherited, else the address will be overwritten by generation
-       of other instances of the same attribute */
-    if (attribute->type == STRING_TYPE) {
-      /* We need to ensure that it is encode it first */
-      if (!attribute->encoded) {
-	encode(&attribute->fpos, &attribute->len);
-	attribute->encoded = TRUE;
-      }
-      new = newStringAttribute(attribute->srcp, attribute->id, attribute->fpos, attribute->len);
-      adv.stringAttributes = concat(adv.stringAttributes, new, ATTRIBUTE_LIST);
-    } else {			/* SET ATTRIBUTE */
-      /* Make a copy to keep the address in */
-      new = newSetAttribute(attribute->srcp, attribute->id, attribute->set);
-      new->setType = attribute->setType;
-      adv.setAttributes = concat(adv.setAttributes, new, ATTRIBUTE_LIST);
-    }
-    new->address = nextEmitAddress(); /* Record on which Aadress to put it */
-    new->instanceCode = instanceCode; /* Which instance owns it? */
-  }
+	if (attribute->type == STRING_TYPE || attribute->type == SET_TYPE) {
+		/* Now make a copy to use for initialisation if attribute is
+		   inherited, else the address will be overwritten by generation
+		   of other instances of the same attribute */
+		if (attribute->type == STRING_TYPE) {
+			/* We need to ensure that it is encode it first */
+			if (!attribute->encoded) {
+				encode(&attribute->fpos, &attribute->len);
+				attribute->encoded = TRUE;
+			}
+			new = newStringAttribute(attribute->srcp, attribute->id, attribute->fpos, attribute->len);
+			adv.stringAttributes = concat(adv.stringAttributes, new, ATTRIBUTE_LIST);
+		} else {			/* SET ATTRIBUTE */
+			/* Make a copy to keep the address in */
+			new = newSetAttribute(attribute->srcp, attribute->id, attribute->set);
+			new->setType = attribute->setType;
+			adv.setAttributes = concat(adv.setAttributes, new, ATTRIBUTE_LIST);
+		}
+		new->address = nextEmitAddress(); /* Record on which Aadress to put it */
+		new->instanceCode = instanceCode; /* Which instance owns it? */
+	}
 
-  entry.code = attribute->id->code;
-  entry.value = attribute->value;
-  entry.id = attribute->stringAddress;
-  emitEntry(&entry, sizeof(entry));
+	entry.code = attribute->id->code;
+	entry.value = attribute->value;
+	entry.id = attribute->stringAddress;
+	emitEntry(&entry, sizeof(entry));
 }
 
 
@@ -776,7 +776,7 @@ void dumpAttribute(Attribute *atr)
   switch (atr->type) {
   case STRING_TYPE:
     put("stringAddress: "); dumpAddress(atr->stringAddress);
-    put(", fpos: "); dumpInt(atr->fpos); nl();
+    put(", fpos: "); dumpInt(atr->fpos);
     put(", len: "); dumpInt(atr->len);
     break;
   case INTEGER_TYPE:
