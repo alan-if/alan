@@ -23,6 +23,7 @@ Interpreter unit for Alan interpreter Arun
 #include "instance.h"
 #include "Container.h"
 #include "Location.h"
+#include "compatibility.h"
 
 #ifdef HAVE_GLK
 #define MAP_STDIO_TO_GLK
@@ -434,10 +435,12 @@ void interpret(Aaddr adr)
                 if (singleStepOption) printf("CURSCORE \t\t\t\t\t=%d\t", current.score);
                 push(stack, current.score);
                 break;
-            case V_MAX_INSTANCE:
-                if (singleStepOption) printf("MAXINSTANCE \t\t\t\t=%d\t", (int)header->instanceMax);
-                push(stack, header->instanceMax);
+            case V_MAX_INSTANCE: {
+                int instanceMax = isPreBeta3(header->version)?header->instanceMax:header->instanceMax-1;
+                if (singleStepOption) printf("MAXINSTANCE \t\t\t\t=%d\t", instanceMax);
+                push(stack, instanceMax);
                 break;
+            }
             default:
                 syserr("Unknown CURVAR instruction.");
                 break;

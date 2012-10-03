@@ -95,9 +95,7 @@ void setInstanceAttribute(int instance, int attribute, Aptr value)
 {
     char str[80];
 
-	if (instance == 0)
-		setAttribute(pointerTo(header->entityAttributeTableAddress), attribute, value);
-	else if (instance > 0 && instance <= header->instanceMax) {
+    if (instance > 0 && instance <= header->instanceMax) {
         setAttribute(admin[instance].attributes, attribute, value);
         if (isALocation(instance))   /* May have changed so describe next time */
             admin[instance].visitsCount = 0;
@@ -136,7 +134,7 @@ static Aptr literalAttribute(int literal, int attribute)
         if (attribute == 0)
             return literals[literalFromInstance(literal)].value;
         else
-            return getAttribute(pointerTo(header->entityAttributeTableAddress), attribute);
+            return getAttribute(admin[header->instanceMax].attributes, attribute);
     }
     return(EOF);
 }
@@ -150,9 +148,7 @@ Aptr getInstanceAttribute(int instance, int attribute)
     if (isLiteral(instance))
         return literalAttribute(instance, attribute);
     else {
-		if (instance == 0)
-			return getAttribute(pointerTo(header->entityAttributeTableAddress), attribute);
-        else if (instance > 0 && instance <= header->instanceMax) {
+        if (instance > 0 && instance <= header->instanceMax) {
             if (attribute == -1)
                 return locationOf(instance);
             else

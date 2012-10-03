@@ -90,7 +90,7 @@ static Bool findReference(Instance *ref, List *referenceList)
 
 
 /*----------------------------------------------------------------------*/
-static int newWord(char *theWord, WrdKind class, int code, void *references)
+static int newWord(char *theWord, WordKind class, int code, void *references)
 {
   Word *new;
   Word *existingWord;

@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------*\
 
-  ADV.C
+  adv.c
   Adventure Node
 
-  \*----------------------------------------------------------------------*/
+\*----------------------------------------------------------------------*/
 
 /* Own: */
 #include "adv.h"
@@ -145,6 +145,7 @@ void analyzeAdventure(void)
     if (nowhere == NULL || nowhere->code != NOWHERE)
 	SYSERR("Nowhere != 1");
 
+    addLiteralInstance();
     symbolizeAdventure();
     addAdditions();
     setupDefaultProperties();
@@ -239,7 +240,6 @@ void generateAdventure(char acodeFileName[],
 
     verbose("Classes");
     acodeHeader.classTableAddress = generateClasses();
-    acodeHeader.entityAttributeTableAddress = generateAttributes(entity->props->attributes, 0);
 
     verbose("Instances");
     generateInstances(&acodeHeader);

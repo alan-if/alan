@@ -261,7 +261,7 @@ static List *copyAttributeList(List *theOriginal)
 /*======================================================================*/
 List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 {
-  /* Insert all attributes from the list to add that are not there
+  /* Insert all attributes from the list that are not there
      already, then sort the list.
 
      NOTE! that we use the codes to combine, so this can't be used
@@ -660,13 +660,12 @@ Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute
   adr = nextEmitAddress();
 
   for (lst = atrs; lst != NULL; lst = lst->next) {
-    generateAttribute(lst->member.atr, instanceCode);
-    if (instanceCode != 0) // Otherwise it is class attributes which can't change and should not be counted
-        attributeAreaSize += AwordSizeOf(AttributeEntry);
+      if (instanceCode == 0) printf("instance == 0\n");
+      generateAttribute(lst->member.atr, instanceCode);
+      attributeAreaSize += AwordSizeOf(AttributeEntry);
   }
   emit(EOF);
-  if (instanceCode != 0) // Otherwise it is class attributes which can't change and should not be counted
-      attributeAreaSize += 1;
+  attributeAreaSize += 1;
 
   return(adr);
 }

@@ -30,11 +30,7 @@
 static List *allInstances = NULL;
 
 
-/*======================================================================
-
-  initInstances()
-
-*/
+/*======================================================================*/
 void initInstances()
 {
     allInstances = NULL;
@@ -54,6 +50,23 @@ void addHero(void)
     theHero = theHeroInstance->props->id->symbol;
   } else
     theHero = hero;
+}
+
+
+/*======================================================================*/
+void addLiteralInstance(void)
+{
+    // Add a special instance representing all literals
+    // Literals can't have modifiable attributes so one is enoough
+    // It should be generated as the last instance.
+    Instance *theLiteralInstance;
+    IdNode *literalClassId = newId(nulsrcp, "literal");
+    Symbol *literalClassSymbol = lookup("literal");
+    
+    Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL);
+    literalClassId->symbol = literalClassSymbol;
+    theLiteralInstance = newInstance(&nulsrcp, newId(nulsrcp, "#literal"), literalClassId, props);
+    props->predefined = TRUE;
 }
 
 

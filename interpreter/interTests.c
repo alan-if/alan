@@ -181,14 +181,30 @@ Ensure(testMaxInstruction) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testMaxInstance) {
+Ensure(MaxInstanceForBeta3DoesDetractTheLiteralInstance) {
   Aword testMaxInstanceCode[] = {0,
 				 CURVAR(V_MAX_INSTANCE),
 				 INSTRUCTION(I_RETURN)};
   header->instanceMax = 12;
   memory = testMaxInstanceCode;
   interpret(1);
-  assert_true(pop(theStack) == header->instanceMax);
+  assert_true(pop(theStack) == header->instanceMax-1);
+}
+
+
+/*----------------------------------------------------------------------*/
+Ensure(MaxInstanceInstructionForPreBeta3ReturnsNumberOfInstances) {
+  Aword testMaxInstanceCode[] = {0,
+				 CURVAR(V_MAX_INSTANCE),
+				 INSTRUCTION(I_RETURN)};
+  header->instanceMax = 12;
+  header->version[3] = 3;
+  header->version[2] = 0;
+  header->version[1] = 2;
+  header->version[0] = 'b';
+  memory = testMaxInstanceCode;
+  interpret(1);
+  assert_that(pop(theStack), is_equal_to(header->instanceMax));
 }
 
 
@@ -207,7 +223,8 @@ TestSuite *interTests(void)
   add_test(suite, testLoopEndInstruction);
   add_test(suite, testMaxInstruction);
   add_test(suite, testCountInstruction);
-  add_test(suite, testMaxInstance);
+  add_test(suite, MaxInstanceInstructionForPreBeta3ReturnsNumberOfInstances);
+  add_test(suite, MaxInstanceForBeta3DoesDetractTheLiteralInstance);
 
   return suite;
 }

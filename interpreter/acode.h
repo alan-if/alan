@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef size_t Aptr;			/* Type for an ACODE memory address */
+typedef size_t Aptr;		 /* Type for an ACODE memory address */
 
 typedef uint32_t Aword;		 /* Type for an ACODE word */
 typedef uint32_t Aaddr;		 /* Type for an ACODE address */
@@ -21,7 +21,7 @@ typedef int32_t Aset;		 /* Type for an ACODE Set value */
 #if INT_MAX==0x7fffffff
 typedef int CodeValue;		 /* Definition for the packing process */
 #elif LONG_MAX==0x7fffffff
-typedef signed   long CodeValue;   /* Definition for the packing process */
+typedef signed long CodeValue;   /* Definition for the packing process */
 #else
 #error "Can't find a 32-bit integer type"
 #endif
@@ -44,7 +44,7 @@ typedef signed   long CodeValue;   /* Definition for the packing process */
 
 
 /* AMACHINE Word Classes, bit positions */
-typedef int WrdKind;
+typedef int WordKind;
 #define  SYNONYM_WORD 0
 #define  SYNONYM_BIT (((Aword)1)<<SYNONYM_WORD)
 
