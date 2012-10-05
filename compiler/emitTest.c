@@ -77,7 +77,8 @@ Ensure(testEmitTextDataToAcodeFile) {
   unlink(textDataFileName);
 }
 
-
+#ifdef EXTENDED_HEADER
+// This is the prettiest test case in Alan, and we just don't need it...
 Ensure(finalizeEmitShouldAdjustCRCWithoutChangingSize) {
     int i;
     Aword buffer[100];
@@ -102,7 +103,7 @@ Ensure(finalizeEmitShouldAdjustCRCWithoutChangingSize) {
     assert_true(acodeHeader.acdcrc == sizeDiff * ((Aword)0x22 + (Aword)0x33 + (Aword)0x44 + (Aword)0x55));
     assert_true(acodeHeader.size == size);
 }
-
+#endif
 
 TestSuite *emitTests()
 {
@@ -110,7 +111,7 @@ TestSuite *emitTests()
 
     add_test(suite, testEmit);
     add_test(suite, testEmitTextDataToAcodeFile);
-    add_test(suite, finalizeEmitShouldAdjustCRCWithoutChangingSize);
+    //    add_test(suite, finalizeEmitShouldAdjustCRCWithoutChangingSize);
 
     return suite;
 }

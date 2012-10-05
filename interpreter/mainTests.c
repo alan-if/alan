@@ -62,7 +62,7 @@ Ensure(canHandleMemoryStartForPre3_0alpha5IsShorter) {
     version[1] = 4;
     version[0] = 'a';
 
-    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-3==crcStart(version));
+    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==crcStart(version));
 }
 
 Ensure(canHandleMemoryStartForPre3_0beta2IsShorter) {
@@ -72,21 +72,11 @@ Ensure(canHandleMemoryStartForPre3_0beta2IsShorter) {
     version[1] = 9;
     version[0] = 'a';
 
-    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==crcStart(version));
+    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==crcStart(version));
 
     version[3] = 3;
     version[2] = 0;
     version[1] = 1;
-    version[0] = 'b';
-
-    assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==crcStart(version));
-}
-
-Ensure(canHandleMemoryStartForPre3_0beta3IsShorter) {
-    char version[4];
-    version[3] = 3;
-    version[2] = 0;
-    version[1] = 2;
     version[0] = 'b';
 
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==crcStart(version));
@@ -107,7 +97,6 @@ TestSuite *mainTests()
     add_test(suite, canCopyAttributes);
     add_test(suite, canHandleMemoryStartForPre3_0alpha5IsShorter);
     add_test(suite, canHandleMemoryStartForPre3_0beta2IsShorter);
-    add_test(suite, canHandleMemoryStartForPre3_0beta3IsShorter);
     add_test(suite, canSetEof);
 
     return suite;

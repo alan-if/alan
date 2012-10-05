@@ -322,6 +322,8 @@ void finalizeEmit()
 
     acodeHeader.size = nextEmitAddress();	/* Save next address as size */
 
+#ifdef EXTENDED_HEADER
+    // I'll keep this for future reference if the header need to change size again
     /* From beta3 the header increased in length so to be somewhat
        backwards compatible we need to add the content of those words
        to the crc. We can do that by emitting them after we have
@@ -332,6 +334,7 @@ void finalizeEmit()
     int i;
     for (i = ASIZE(Pre3_0beta3Header); i < ASIZE(ACodeHeader); i++)
         emit(headerAsArray[i]);
+#endif
     
     acodeHeader.acdcrc = crc;	/* Save checksum */
 }

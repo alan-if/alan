@@ -601,9 +601,6 @@ static void reverseNative() {
 
     reverseTable(header->scores, sizeof(Aword));
     reverseTable(header->freq, sizeof(Aword));
-
-    if (!isPreBeta3(header->version))
-        reverseTable(header->entityAttributeTableAddress, sizeof(AttributeEntry));
 }
 
 

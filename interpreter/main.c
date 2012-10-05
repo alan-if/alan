@@ -280,9 +280,10 @@ static void checkVersion(ACodeHeader *header)
 
 
 /*----------------------------------------------------------------------
-  Calculate where to start calculating the CRC. Is different for different
-  versions. Beta 3 and onwards have a larger header but CRC is
-  calculated from pre-beta3 memory start to be compatible.
+  Calculate where to start calculating the CRC. Is different for
+  different versions. CRC is calculated from pre-beta2 memory start to
+  be compatible.  If header size changes this should return beta2
+  header size for later versions.
 */
 static int crcStart(char version[4]) {
     /* Some earlier versions had a shorter header */
@@ -291,7 +292,7 @@ static int crcStart(char version[4]) {
     else if (isPreBeta2(version))
         return sizeof(Pre3_0beta2Header)/sizeof(Aword);
     else
-        return sizeof(Pre3_0beta3Header)/sizeof(Aword);
+        return sizeof(ACodeHeader)/sizeof(Aword);
 }
 
 
