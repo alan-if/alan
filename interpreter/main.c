@@ -816,8 +816,11 @@ void run(void)
     while (TRUE) {
         if (debugOption)
             debug(FALSE, 0, 0);
-		
-        runPendingEvents();
+
+		do {
+			runPendingEvents();
+			evaluateRules();
+		} while (anyRuleRun);
 
         current.tick++;
 		

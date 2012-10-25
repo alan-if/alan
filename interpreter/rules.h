@@ -22,7 +22,7 @@ typedef struct RuleEntry {   /* RULE TABLE */
 
 /* DATA */
 extern RuleEntry *rules;      /* Rule table pointer */
-
+extern bool anyRuleRun;		  /* Did any rule run? */
 
 /* FUNCTIONS */
 extern void initRules(void);

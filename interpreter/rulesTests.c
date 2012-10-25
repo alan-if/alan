@@ -74,7 +74,7 @@ Ensure (rulesEvaluatingToTrueWithLastEvalTrueDontExecute) {
 
     evaluateRules();
 
-    assert_equal(rulesLastEval[0], true);
+    assert_that(rulesLastEval[0]);
     assert_false(interpreterExecuted);
 }
 

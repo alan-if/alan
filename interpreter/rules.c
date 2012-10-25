@@ -4,7 +4,9 @@
 
   Rule handling unit of Alan interpreter module, ARUN.
 
-  \*----------------------------------------------------------------------*/
+\*----------------------------------------------------------------------*/
+
+#include "types.h"
 #include "rules.h"
 
 
@@ -23,6 +25,7 @@
 
 /* PUBLIC DATA */
 RuleEntry *rules;         /* Rule table pointer */
+bool anyRuleRun;
 
 
 /* PRIVATE DATA: */
@@ -86,18 +89,18 @@ static void evaluateRulesPreBeta2(void)
 	rules[i-1].run = FALSE;
 
     while (change) {
-	change = FALSE;
-	for (i = 1; !isEndOfArray(&rules[i-1]); i++)
-	    if (!rules[i-1].run) {
-		traceRuleEvaluation(i);
-		if (evaluate(rules[i-1].exp)) {
-		    change = TRUE;
-		    rules[i-1].run = TRUE;
-		    traceRuleExecution(i);
-		    interpret(rules[i-1].stms);
-		} else if (sectionTraceOption && !singleStepOption)
-		    printf(":>\n");
-	    }
+		change = FALSE;
+		for (i = 1; !isEndOfArray(&rules[i-1]); i++)
+			if (!rules[i-1].run) {
+				traceRuleEvaluation(i);
+				if (evaluate(rules[i-1].exp)) {
+					change = TRUE;
+					rules[i-1].run = TRUE;
+					traceRuleExecution(i);
+					interpret(rules[i-1].stms);
+				} else if (sectionTraceOption && !singleStepOption)
+					printf(":>\n");
+			}
     }
 }
 
@@ -114,27 +117,45 @@ static void evaluateRulesBeta2Onwards(void)
     current.location = NOWHERE;
     current.actor = 0;
 
+	anyRuleRun = FALSE;
+
+#ifndef OLD
     while (change) {
-	change = FALSE;
-	for (i = 1; !isEndOfArray(&rules[i-1]); i++)
-	    if (!rules[i-1].run) {
+		change = FALSE;
+		for (i = 1; !isEndOfArray(&rules[i-1]); i++)
+			if (!rules[i-1].run) {
                 bool triggered = evaluate(rules[i-1].exp);
-		traceRuleEvaluation(i);
-		if (triggered) {
+				traceRuleEvaluation(i);
+				if (triggered) {
                     if (rulesLastEval[i-1] == false) {
                         change = TRUE;
                         rules[i-1].run = TRUE;
                         traceRuleExecution(i);
                         interpret(rules[i-1].stms);
+						anyRuleRun = TRUE;
                     }
                     rulesLastEval[i-1] = triggered;
-		} else {
+				} else {
                     rulesLastEval[i-1] = false;
                     if (sectionTraceOption && !singleStepOption)
                         printf(":>\n");
                 }
-	    }
+			}
     }
+#else
+	for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
+		bool triggered = evaluate(rules[i-1].exp);
+		traceRuleEvaluation(i);
+		rules[i-1].run = triggered;
+	}
+	for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
+		if (rules[i-1].run) {
+			traceRuleExecution(i);
+			interpret(rules[i-1].stms);
+			anyRuleRun = TRUE;
+		}
+	}
+#endif
 }
 
 
