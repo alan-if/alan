@@ -78,7 +78,12 @@ unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
+
+cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
+cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
+cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -shared -o unittests.dll $(LDFLAGS) $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
+	cgreen-runner unittests.dll
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)

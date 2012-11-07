@@ -1,5 +1,4 @@
 #include "cgreen/cgreen.h"
-#include "cgreen/mocks.h"
 
 #include "rules.c"
 
@@ -13,20 +12,22 @@ static void setUp() {
     memory = allocate(100*sizeof(Aword));
     header->ruleTableAddress = 5;
 
-    RuleEntry *rulPtr = (RuleEntry *)&memory[5];
-    rulPtr->exp = 77;
-    rulPtr->stms = 78;
-    rulPtr->run = false;
+    RuleEntry *rulEntry = (RuleEntry *)&memory[5];
+    rulEntry->exp = 77;
+    rulEntry->stms = 78;
+    rulEntry->alreadyRun = false;
 
-    rulPtr++;
-    setEndOfArray(rulPtr);
+    rulEntry++;
+    setEndOfArray(rulEntry);
 }
 
-Ensure (initRulesAllocatesLastEvalArray) {
+Ensure (initRulesInitsRulesAdmin) {
 
     initRules();
 
-    assert_not_equal(rulesLastEval, NULL);
+    assert_that(rulesAdmin, is_non_null);
+    assert_that(rulesAdmin[0].exp, is_equal_to(rules[0].exp));
+    assert_that(rulesAdmin[0].stms, is_equal_to(rules[0].stms));
 }
 
 
@@ -37,11 +38,11 @@ static void interpretAndReturnFalse(Aaddr adr) {
 Ensure (rulesEvaluatingToFalseSetsLastEvalToFalse) {
     initRules();
     setInterpreterMock(interpretAndReturnFalse);
-    rulesLastEval[0] = true;
+    rulesAdmin[0].lastEval = true;
 
     evaluateRules();
 
-    assert_equal(rulesLastEval[0], false);
+    assert_that(rulesAdmin[0].lastEval, is_false);
 }
 
 
@@ -60,8 +61,8 @@ Ensure (rulesEvaluatingToTrueWithLastEvalFalseSetsLastEvalToTrueAndExecutes) {
 
     evaluateRules();
 
-    assert_equal(rulesLastEval[0], true);
-    assert_true(interpreterExecuted);
+    assert_that(rulesAdmin[0].lastEval, is_true);
+    assert_that(interpreterExecuted);
 }
 
 
@@ -70,14 +71,19 @@ Ensure (rulesEvaluatingToTrueWithLastEvalTrueDontExecute) {
     setInterpreterMock(interpretAndReturnTrueIfEval);
     interpreterExecuted = false;
 
-    rulesLastEval[0] = true;
+    rulesAdmin[0].lastEval = true;
 
     evaluateRules();
 
-    assert_that(rulesLastEval[0]);
-    assert_false(interpreterExecuted);
+    assert_that(rulesAdmin[0].lastEval, is_true);
+    assert_that(interpreterExecuted, is_false);
 }
 
+Ensure(canClearRulesAdmin) {
+    rulesAdmin[0].alreadyRun = TRUE;
+    clearRulesAdmin();
+    assert_that(rulesAdmin[0].alreadyRun, is_false);
+}
 
 TestSuite *rulesTests(void)
 {
@@ -85,7 +91,7 @@ TestSuite *rulesTests(void)
 
     set_setup(suite, setUp);
 
-    add_test(suite, initRulesAllocatesLastEvalArray);
+    add_test(suite, initRulesInitsRulesAdmin);
     add_test(suite, rulesEvaluatingToFalseSetsLastEvalToFalse);
     add_test(suite, rulesEvaluatingToTrueWithLastEvalFalseSetsLastEvalToTrueAndExecutes);
     add_test(suite, rulesEvaluatingToTrueWithLastEvalTrueDontExecute);

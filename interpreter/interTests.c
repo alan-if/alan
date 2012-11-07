@@ -4,7 +4,7 @@
 
 
 static void syserrHandler(char *message) {
-	assert_true(FALSE);
+    assert_true(FALSE);
 }
 
 static Stack theStack;

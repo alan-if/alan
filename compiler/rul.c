@@ -92,13 +92,7 @@ void analyzeRules(void)
 
 
 
-/*======================================================================
-
-  generateRules()
-
-  Generate all rules to be checked between actor moves.
-
-  */
+/*======================================================================*/
 Aaddr generateRules(void)
 {
   List *lst;
@@ -116,9 +110,11 @@ Aaddr generateRules(void)
 
   adr = nextEmitAddress();
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
-    emit(FALSE);		/* Rule run */
-    emit(lst->member.rul->expadr); /* Address to expression code */
-    emit(lst->member.rul->stmadr); /* Address to statements code */
+      RuleEntry entry;
+      entry.alreadyRun = FALSE;
+      entry.exp = lst->member.rul->expadr;
+      entry.stms = lst->member.rul->stmadr;
+      emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
   return(adr);

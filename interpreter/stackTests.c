@@ -2,17 +2,19 @@
 
 #include "stack.c"
 
-Describe(stack, setup, teardown);
-
 static Stack theStack;
 
-static void setup() {
+
+Describe(Stack);
+
+BeforeEach(Stack) {
   theStack = createStack(50);
 }
 
-static void teardown() {
+AfterEach(Stack) {
   deleteStack(theStack);
 }
+
 
 
 /*----------------------------------------------------------------------*/

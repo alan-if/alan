@@ -13,13 +13,6 @@
 
 /* TYPES */
 
-typedef struct RuleEntry {   /* RULE TABLE */
-  Abool run;            /* Is rule already run? */
-  Aaddr exp;            /* Address to expression code */
-  Aaddr stms;           /* Address to run */
-} RuleEntry;
-
-
 /* DATA */
 extern RuleEntry *rules;      /* Rule table pointer */
 extern bool anyRuleRun;		  /* Did any rule run? */

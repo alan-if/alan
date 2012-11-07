@@ -348,6 +348,13 @@ typedef struct ExitEntry {	/* EXIT TABLE structure */
 } ExitEntry;
 
 
+typedef struct RuleEntry {      /* RULE TABLE */
+  Abool alreadyRun;
+  Aaddr exp;                    /* Address to expression code */
+  Aaddr stms;                   /* Address to run */
+} RuleEntry;
+
+
 #define RESTRICTIONCLASS_CONTAINER (-2)
 #define RESTRICTIONCLASS_INTEGER (-3)
 #define RESTRICTIONCLASS_STRING (-4)
