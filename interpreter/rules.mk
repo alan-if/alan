@@ -60,14 +60,14 @@ gcov: $(GCOVOBJDIR) $(GCOVOBJECTS)
 #	CGREENINCLUDE so that #include "cgreen/cgreen.h" works if needed
 #	CGREENLIB to something to link with (e.g. -lcgreen)
 UNITTESTSOBJDIR = .unittests
-UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
-UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
+UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_MAIN_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
+UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_RUNNER_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 
 # Dependencies, if they exist yet
--include $(UNITTESTSOBJECTS:.o=.d)
+-include $(UNITTESTS_USING_MAIN_OBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
-$(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
+$(UNITTESTS_ALL_OBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 # Create directory if it doesn't exist
@@ -76,14 +76,14 @@ $(UNITTESTSOBJDIR):
 
 unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
+unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS)
+	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
 
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -shared -o unittests.dll $(LDFLAGS) $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
-	cgreen-runner unittests.dll
+cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
+	$(LINK) -shared -o unittests.dll $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
+	arch -i386 cgreen-runner unittests.dll
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)

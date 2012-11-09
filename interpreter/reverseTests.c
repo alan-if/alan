@@ -2,32 +2,35 @@
 
 #include "reverse.c"
 
+Describe(Reverse);
+BeforeEach(Reverse){};
+AfterEach(Reverse){};
 
-Ensure(testAlreadyDone) {
+Ensure(Reverse, canSeeIfReversalIsAlreadyDone) {
   addressesDone = NULL;
   doneSize = 0;
   numberDone = 0;
 
-  assert_true(alreadyDone(0));
-  assert_equal(0, doneSize);
+  assert_that(alreadyDone(0));
+  assert_that(doneSize, is_equal_to(0));
 
-  assert_false(alreadyDone(1));
-  assert_equal(100, doneSize);
-  assert_equal(1, numberDone);
+  assert_that(alreadyDone(1), is_false);
+  assert_that(doneSize, is_equal_to(100));
+  assert_that(numberDone, is_equal_to(1));
 
-  assert_false(alreadyDone(2));
-  assert_equal(100, doneSize);
-  assert_equal(2, numberDone);
+  assert_that(alreadyDone(2), is_false);
+  assert_that(doneSize, is_equal_to(100));
+  assert_that(numberDone, is_equal_to(2));
 
-  assert_true(alreadyDone(1));
-  assert_equal(100, doneSize);
-  assert_equal(2, numberDone);
+  assert_that(alreadyDone(1));
+  assert_that(doneSize, is_equal_to(100));
+  assert_that(numberDone, is_equal_to(2));
 }
 
 
 TestSuite *reverseTests()
 {
   TestSuite *suite = create_test_suite();
-  add_test(suite, testAlreadyDone);
+  add_test_with_context(suite, Reverse, canSeeIfReversalIsAlreadyDone);
   return suite;
 }

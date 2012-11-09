@@ -203,7 +203,7 @@ static void statistics(void)
   }
   
   (void)sprintf(str,   "        Estimated dynamic memory usage = %ld bytes.",
-				(long dint)((char *)malloc(10000)-(char *)heap));
+				(long int)((char *)malloc(10000)-(char *)heap));
   lmLiPrint(str);
   (void)sprintf(str,   "        Calculated       - \"\" -        = %ld bytes.",
 	  allocated);

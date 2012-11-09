@@ -1,10 +1,15 @@
 # Declaration of sources required for various types of builds
 #
-# UNITTESTED are compiled and unittested with the excellent
+# Unittests are done using the excellent
 # CGreen unit test, stub and mocking framework by
 # Marcus Baker et al. (http://sourceforge.net/projects/cgreen)
 
-UNITTESTED = \
+# Either using its runner which discovers test automatically
+MODULES_WITH_UNITTESTS_USING_RUNNER = \
+	reverse.c
+
+# Or using a main program which requires adding every test manually
+MODULES_WITH_UNITTESTS_USING_MAIN = \
 	AltInfo.c \
 	StateStack.c \
 	args.c \
@@ -17,7 +22,6 @@ UNITTESTED = \
 	parse.c \
 	params.c \
 	ParameterPosition.c \
-	reverse.c \
 	rules.c \
 	save.c \
 	set.c \
@@ -27,7 +31,7 @@ UNITTESTED = \
 	output.c \
 	word.c \
 
-OTHERSRCS = \
+MODULES_WITHOUT_UNITTESTS = \
 	Container.c \
 	Location.c \
 	actor.c \
@@ -54,14 +58,18 @@ OTHERSRCS = \
 
 # All sources common for the main build
 MAINSRCS = \
-	$(UNITTESTED) \
-	$(OTHERSRCS)
+	$(MODULES_WITH_UNITTESTS_USING_RUNNER) \
+	$(MODULES_WITH_UNITTESTS_USING_MAIN) \
+	$(MODULES_WITHOUT_UNITTESTS)
 
-UNITTESTEDSRCS = ${UNITTESTED:.c=Tests.c}
+MODULES_WITH_UNITTESTS_USING_RUNNER_TESTSRCS = ${MODULES_WITH_UNITTESTS_USING_RUNNER:.c=Tests.c}
+MODULES_WITH_UNITTESTS_USING_MAIN_TESTSRCS = ${MODULES_WITH_UNITTESTS_USING_MAIN:.c=Tests.c}
 UNITTESTSMAIN = unittests.c xml_reporter.c gopt.c
 
-UNITTESTSSRCS = $(UNITTESTSMAIN) $(UNITTESTEDSRCS) $(OTHERSRCS)
-UNITTESTSDLLSRCS = $(UNITTESTEDSRCS) $(OTHERSRCS)
+UNITTESTS_USING_MAIN_SRCS = $(UNITTESTSMAIN) $(MODULES_WITH_UNITTESTS_USING_RUNNER_TESTSRCS) $(MODULES_WITH_UNITTESTS_USING_MAIN_TESTSRCS) $(MODULES_WITHOUT_UNITTESTS)
+UNITTESTS_USING_RUNNER_SRCS = $(MODULES_WITH_UNITTESTS_USING_RUNNER_TESTSRCS) $(MODULES_WITH_UNITTESTS_USING_MAIN) $(MODULES_WITHOUT_UNITTESTS)
+
+UNITTESTS_ALL_SRCS = $(MAINSRCS) $(MODULES_WITH_UNITTESTS_USING_MAIN_TESTSRCS) $(MODULES_WITH_UNITTESTS_USING_RUNNNER_TESTSRCS)
 
 ARUNSRCS = arun.c $(MAINSRCS) smartall.c
 GLKSRCS = glkstart.c glkio.c
