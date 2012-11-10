@@ -88,7 +88,7 @@ cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
 ifeq ($(OS),APPLE)
 	arch -i386 cgreen-runner unittests.dll
 else
-	cgreen-runner unittests.dll
+	cgreen-runner ./unittests.dll
 endif
 
 .PHONY: unit

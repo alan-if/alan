@@ -13,3 +13,9 @@ EXTRA_LINKER_FLAGS =
 
 release: OS_FLAGS =
 release: EXTRA_COMPILER_FLAGS = -O4
+
+# Cgreen unit testing settings
+CGREEN = yes
+CGREENROOT = /usr/local
+CGREENINCLUDE = -I$(CGREENROOT)/include
+CGREENLIB = $(CGREENROOT)/lib/libcgreen.so -lm
