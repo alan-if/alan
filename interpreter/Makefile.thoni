@@ -20,9 +20,9 @@ include Makefile.cygwin
 
 #Settings for memory debugging which is used unless building RELEASE
 #ALLOC = -DSMARTALLOC
-#ALLOCLIB = smartall.o
+#ALLOCLIBS = smartall.o
 #ALLOC = -DDMALLOC
-#ALLOCLIB = -ldmalloc
+#ALLOCLIBS = -ldmalloc
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 

@@ -76,7 +76,7 @@ $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
 unittests: CFLAGS += $(CGREENINCLUDE)
-unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
+unittests: LIBS = $(CGREENLIB)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
 	@./unittests $(UNITOUT)
@@ -85,7 +85,11 @@ cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
 	$(LINK) -shared -o unittests.dll $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
+ifeq ($(OS),APPLE)
 	arch -i386 cgreen-runner unittests.dll
+else
+	cgreen-runner unittests.dll
+endif
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)

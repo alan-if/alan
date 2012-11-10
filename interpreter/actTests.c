@@ -2,6 +2,9 @@
 
 #include "act.c"
 
+Describe(act);
+BeforeEach(act){}
+AfterEach(act){}
 
 #include "lists.h"
 

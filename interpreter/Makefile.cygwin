@@ -30,11 +30,7 @@ default:
 # ... except for unittests with cgreen which can not run under mingw
 unittests: CC = gcc
 unittests: LINK = gcc
-unittests.dll: CC = gcc
-unittests.dll: LINK = gcc
-unittests.dll: CFLAGS += $(CGREENINCLUDE)
-unittests.dll: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) -L/usr/local/bin -lcgreen.dll
 
+cgreenrunnertests: CC = gcc
+cgreenrunnertests: LINK = gcc
 

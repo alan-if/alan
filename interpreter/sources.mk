@@ -6,6 +6,7 @@
 
 # Either using its runner which discovers test automatically
 MODULES_WITH_UNITTESTS_USING_RUNNER = \
+	act.c \
 	reverse.c
 
 # Or using a main program which requires adding every test manually
@@ -13,7 +14,6 @@ MODULES_WITH_UNITTESTS_USING_MAIN = \
 	AltInfo.c \
 	StateStack.c \
 	args.c \
-	act.c \
 	debug.c \
 	exe.c \
 	inter.c \
