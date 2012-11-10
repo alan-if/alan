@@ -62,6 +62,7 @@ gcov: $(GCOVOBJDIR) $(GCOVOBJECTS)
 UNITTESTSOBJDIR = .unittests
 UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_MAIN_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_RUNNER_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
+UNITTESTS_ALL_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_ALL_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 
 # Dependencies, if they exist yet
 -include $(UNITTESTS_USING_MAIN_OBJECTS:.o=.d)
@@ -78,6 +79,7 @@ unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
+	@./unittests $(UNITOUT)
 
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
@@ -90,8 +92,7 @@ ifneq ($(CGREEN),yes)
 unit:
 	echo "No unit tests run, cgreen not available"
 else
-unit: unittests
-	@./unittests $(UNITOUT)
+unit: unittests cgreenrunnertests
 endif
 
 #######################################################################
