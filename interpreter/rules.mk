@@ -85,7 +85,7 @@ cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
 	$(LINK) -shared -o unittests.dll $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
-ifeq ($(OS),APPLE)
+ifeq ($(shell uname), Darwin)
 	arch -i386 cgreen-runner unittests.dll
 else
 	cgreen-runner ./unittests.dll
