@@ -4,15 +4,17 @@
 # CGreen unit test, stub and mocking framework by
 # Marcus Baker et al. (http://sourceforge.net/projects/cgreen)
 
-# Either using its runner which discovers test automatically
+# Either using its runner which discovers test automatically...
 MODULES_WITH_UNITTESTS_USING_RUNNER = \
-	act.c \
-	reverse.c
-
-# Or using a main program which requires adding every test manually
-MODULES_WITH_UNITTESTS_USING_MAIN = \
 	AltInfo.c \
+	ParameterPosition.c \
 	StateStack.c \
+	act.c \
+	reverse.c \
+	rules.c
+
+# ... or using a main program which requires adding every test manually
+MODULES_WITH_UNITTESTS_USING_MAIN = \
 	args.c \
 	debug.c \
 	exe.c \
@@ -21,8 +23,6 @@ MODULES_WITH_UNITTESTS_USING_MAIN = \
 	main.c \
 	parse.c \
 	params.c \
-	ParameterPosition.c \
-	rules.c \
 	save.c \
 	set.c \
 	stack.c \

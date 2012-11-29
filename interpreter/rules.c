@@ -40,21 +40,27 @@ typedef struct RulesAdmin {
 static int ruleCount;
 static RulesAdmin *rulesAdmin; /* Table for administration of the rules */
 
+/*----------------------------------------------------------------------*/
+static void clearRulesAdmin() {
+    int r;
+    for (r = 0; r < ruleCount; r++) {
+        rulesAdmin[r].lastEval = FALSE;
+        rulesAdmin[r].alreadyRun = FALSE;
+        rulesAdmin[r].exp = rules[r].exp;
+        rulesAdmin[r].stms = rules[r].stms;
+    }
+}
+
+
 /*======================================================================*/
 void initRules() {
 
     rules = (RuleEntry *) pointerTo(header->ruleTableAddress);
 
     if (ruleCount == 0) {       /* Not initiated */
-        int r;
         for (ruleCount = 0; !isEndOfArray(&rules[ruleCount]); ruleCount++);
         rulesAdmin = allocate(ruleCount*sizeof(RulesAdmin));
-        for (r = 0; r < ruleCount; r++) {
-            rulesAdmin[r].lastEval = FALSE;
-            rulesAdmin[r].alreadyRun = FALSE;
-            rulesAdmin[r].exp = rules[r].exp;
-            rulesAdmin[r].stms = rules[r].stms;
-        }
+	clearRulesAdmin();
     }
 }
 
@@ -119,11 +125,6 @@ static void evaluateRulesPreBeta2(void)
 		    printf(":>\n");
 	    }
     }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void clearRulesAdmin(void) {
 }
 
 

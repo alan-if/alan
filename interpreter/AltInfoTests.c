@@ -3,6 +3,9 @@
 
 #include "AltInfo.c"
 
+Describe(AltInfo);
+BeforeEach(AltInfo) {}
+AfterEach(AltInfo) {}
 
 Ensure(canPrimeAltInfo) {
   AltInfo altInfos[2];

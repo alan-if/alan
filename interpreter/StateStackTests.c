@@ -32,20 +32,20 @@ typedef struct GameState {
 
 static StateStack stateStack;
 
-
-static void setUp(void) {
+Describe(StateStack);
+BeforeEach(StateStack) {
 	stateStack = createStateStack(sizeof(GameState));
 }
 
-static void tearDown(void) {
+AfterEach(StateStack) {
 	deleteStateStack(stateStack);
 }
 
-Ensure(canSeeAnEmptyStateStack) {
+Ensure(StateStack, canSeeAnEmptyStateStack) {
 	assert_true(stateStackIsEmpty(stateStack));
 }
 
-Ensure(extendsANonAllocatedStack) {
+Ensure(StateStack, extendsANonAllocatedStack) {
 	GameState gameState;
 
 	assert_equal(stateStack->stackSize, 0);
@@ -53,7 +53,7 @@ Ensure(extendsANonAllocatedStack) {
 	assert_equal(stateStack->stackSize, EXTENT);
 }
 
-Ensure(canPushAndPopAGameState) {
+Ensure(StateStack, canPushAndPopAGameState) {
 	GameState originalGameState;
 	GameState poppedGameState;
 	char *playerCommand;
@@ -73,7 +73,7 @@ Ensure(canPushAndPopAGameState) {
 	assert_equal(poppedGameState.eventQueue, originalGameState.eventQueue);
 }
 
-Ensure(canPush100Times) {
+Ensure(StateStack, canPush100Times) {
 	GameState gameState;
 	int i;
 
@@ -81,7 +81,7 @@ Ensure(canPush100Times) {
 		pushGameState(stateStack, &gameState);
 }
 
-Ensure(canRememberPlayerCommands) {
+Ensure(StateStack, canRememberPlayerCommands) {
 	GameState gameState;
 	char *expectedPlayerCommands = "some player commands";
 	char *playerCommands;
@@ -93,7 +93,7 @@ Ensure(canRememberPlayerCommands) {
 	assert_string_equal(playerCommands, expectedPlayerCommands);
 }
 
-Ensure(pushClearsPlayerCommand) {
+Ensure(StateStack, pushClearsPlayerCommand) {
 	GameState gameState;
 	pushGameState(stateStack, &gameState);
 	assert_equal(NULL, stateStack->playerCommands[stateStack->stackPointer-1]);
@@ -105,7 +105,7 @@ static void syserrHandler(char *message) {
 	syserrCalled = TRUE;
 }
 
-Ensure(willGenerateSyserrorWhenPoppingFromEmptyStack) {
+Ensure(StateStack, willGenerateSyserrorWhenPoppingFromEmptyStack) {
 	GameState gameState;
 	char *playerCommand;
 
@@ -120,15 +120,13 @@ Ensure(willGenerateSyserrorWhenPoppingFromEmptyStack) {
 TestSuite *stateStackTests() {
   TestSuite *suite = create_test_suite();
 
-  set_setup(suite, setUp);
-  set_teardown(suite, tearDown);
+  add_test_with_context(suite, StateStack, canSeeAnEmptyStateStack);
+  add_test_with_context(suite, StateStack, extendsANonAllocatedStack);
+  add_test_with_context(suite, StateStack, canPushAndPopAGameState);
+  add_test_with_context(suite, StateStack, canPush100Times);
+  add_test_with_context(suite, StateStack, pushClearsPlayerCommand);
+  add_test_with_context(suite, StateStack, willGenerateSyserrorWhenPoppingFromEmptyStack);
+  add_test_with_context(suite, StateStack, canRememberPlayerCommands);
 
-  add_test(suite, canSeeAnEmptyStateStack);
-  add_test(suite, extendsANonAllocatedStack);
-  add_test(suite, canPushAndPopAGameState);
-  add_test(suite, canPush100Times);
-  add_test(suite, pushClearsPlayerCommand);
-  add_test(suite, willGenerateSyserrorWhenPoppingFromEmptyStack);
-  add_test(suite, canRememberPlayerCommands);
   return suite;
 }

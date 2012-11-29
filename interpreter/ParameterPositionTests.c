@@ -8,14 +8,16 @@
 
 static ACodeHeader acdHeader;
 
-static void setUp(void) {
+Describe(ParameterPosition);
+BeforeEach(ParameterPosition){
     header = &acdHeader;
     header->maxParameters = 10;
 }
+AfterEach(ParameterPosition) {}
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canUncheckAllParameterPositions) {
+Ensure(ParameterPosition, canUncheckAllParameterPositions) {
     int i;
     ParameterPosition *parameterPositions = allocate((MAXPARAMS+1)*sizeof(ParameterPosition));
 
@@ -29,7 +31,7 @@ Ensure (canUncheckAllParameterPositions) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canFindMultipleParameterPosition) {
+Ensure(ParameterPosition, canFindMultipleParameterPosition) {
     ParameterPosition parameterPositions[10];
     int i;
 
@@ -45,7 +47,7 @@ Ensure (canFindMultipleParameterPosition) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (copyParameterPositionsCopyTheWholeListIncludingTheEndMarker) {
+Ensure(ParameterPosition, copyParameterPositionsCopyTheWholeListIncludingTheEndMarker) {
     ParameterPosition original[2];
     ParameterPosition copy[2];
 
@@ -75,7 +77,7 @@ static ParameterPosition *givenAnyParameterPositionArrayOfLength(int length) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (parameterPositionsOfUnequalLengthAreNotEqual) {
+Ensure(ParameterPosition, parameterPositionsOfUnequalLengthAreNotEqual) {
     ParameterPosition *parameterPosition1 = givenAnyParameterPositionArrayOfLength(2);
     ParameterPosition *parameterPosition2 = givenAnyParameterPositionArrayOfLength(1);
 
@@ -83,7 +85,7 @@ Ensure (parameterPositionsOfUnequalLengthAreNotEqual) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual) {
+Ensure(ParameterPosition, parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual) {
     ParameterPosition parameterPosition1[2];
     ParameterPosition parameterPosition2[2];
 
@@ -105,13 +107,11 @@ TestSuite *parameterPositionTests(void)
 {
     TestSuite *suite = create_test_suite();
 
-    set_setup(suite, setUp);
-
-    add_test(suite, canUncheckAllParameterPositions);
-    add_test(suite, canFindMultipleParameterPosition);
-    add_test(suite, copyParameterPositionsCopyTheWholeListIncludingTheEndMarker);
-    add_test(suite, parameterPositionsOfUnequalLengthAreNotEqual);
-    add_test(suite, parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual);
+    add_test_with_context(suite, ParameterPosition, canUncheckAllParameterPositions);
+    add_test_with_context(suite, ParameterPosition, canFindMultipleParameterPosition);
+    add_test_with_context(suite, ParameterPosition, copyParameterPositionsCopyTheWholeListIncludingTheEndMarker);
+    add_test_with_context(suite, ParameterPosition, parameterPositionsOfUnequalLengthAreNotEqual);
+    add_test_with_context(suite, ParameterPosition, parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual);
 
     return suite;
 }

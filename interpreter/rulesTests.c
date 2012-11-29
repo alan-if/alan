@@ -5,8 +5,8 @@
 
 static Stack stack;
 
-
-static void setUp() {
+Describe(Rules);
+BeforeEach(Rules) {
     stack = createStack(10);
     setInterpreterStack(stack);
     memory = allocate(100*sizeof(Aword));
@@ -20,8 +20,9 @@ static void setUp() {
     rulEntry++;
     setEndOfArray(rulEntry);
 }
+AfterEach(Rules) {}
 
-Ensure (initRulesInitsRulesAdmin) {
+Ensure(Rules, canInitRulesAdmin) {
 
     initRules();
 
@@ -35,7 +36,7 @@ static void interpretAndReturnFalse(Aaddr adr) {
     push(stack, false);
 }
 
-Ensure (rulesEvaluatingToFalseSetsLastEvalToFalse) {
+Ensure(Rules, setsLastEvalToFalseForRulesEvaluatingToFalse) {
     initRules();
     setInterpreterMock(interpretAndReturnFalse);
     rulesAdmin[0].lastEval = true;
@@ -54,7 +55,7 @@ static void interpretAndReturnTrueIfEval(Aaddr adr) {
         interpreterExecuted = true;
 }
 
-Ensure (rulesEvaluatingToTrueWithLastEvalFalseSetsLastEvalToTrueAndExecutes) {
+Ensure(Rules, setsLastEvalToTrueAndExecutesRulesEvaluatingToTrueWithLastEvalFalse) {
     initRules();
     setInterpreterMock(interpretAndReturnTrueIfEval);
     interpreterExecuted = false;
@@ -66,7 +67,7 @@ Ensure (rulesEvaluatingToTrueWithLastEvalFalseSetsLastEvalToTrueAndExecutes) {
 }
 
 
-Ensure (rulesEvaluatingToTrueWithLastEvalTrueDontExecute) {
+Ensure(Rules, dontExecuteRulesEvaluatingToTrueWithLastEvalTrue) {
     initRules();
     setInterpreterMock(interpretAndReturnTrueIfEval);
     interpreterExecuted = false;
@@ -79,7 +80,8 @@ Ensure (rulesEvaluatingToTrueWithLastEvalTrueDontExecute) {
     assert_that(interpreterExecuted, is_false);
 }
 
-Ensure(canClearRulesAdmin) {
+Ensure(Rules, canClearRulesAdmin) {
+    initRules();
     rulesAdmin[0].alreadyRun = TRUE;
     clearRulesAdmin();
     assert_that(rulesAdmin[0].alreadyRun, is_false);
@@ -89,12 +91,10 @@ TestSuite *rulesTests(void)
 {
     TestSuite *suite = create_test_suite();
 
-    set_setup(suite, setUp);
-
-    add_test(suite, initRulesInitsRulesAdmin);
-    add_test(suite, rulesEvaluatingToFalseSetsLastEvalToFalse);
-    add_test(suite, rulesEvaluatingToTrueWithLastEvalFalseSetsLastEvalToTrueAndExecutes);
-    add_test(suite, rulesEvaluatingToTrueWithLastEvalTrueDontExecute);
+    add_test_with_context(suite, Rules, canInitRulesAdmin);
+    add_test_with_context(suite, Rules, setsLastEvalToFalseForRulesEvaluatingToFalse);
+    add_test_with_context(suite, Rules, setsLastEvalToTrueAndExecutesRulesEvaluatingToTrueWithLastEvalFalse);
+    add_test_with_context(suite, Rules, dontExecuteRulesEvaluatingToTrueWithLastEvalTrue);
 
     return suite;
 }
