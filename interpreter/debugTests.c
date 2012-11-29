@@ -3,31 +3,35 @@
 
 #include "debug.c"
 
-Ensure (parseDebugCommandReturnsHELP_COMMANDForHelp) {
+Describe(Debug);
+BeforeEach(Debug) {}
+AfterEach(Debug) {}
+
+Ensure(Debug, parseDebugCommandReturnsHELP_COMMANDForHelp) {
 	assert_equal(HELP_COMMAND, parseDebugCommand("Help"));
 }
 
-Ensure (parseDebugCommandReturnsHELP_COMMANDForQuestionMark) {
+Ensure(Debug, parseDebugCommandReturnsHELP_COMMANDForQuestionMark) {
 	assert_equal(HELP_COMMAND, parseDebugCommand("?"));
 }
 
-Ensure (parseDebugCommandReturnsHELP_COMMANDForH) {
+Ensure(Debug, parseDebugCommandReturnsHELP_COMMANDForH) {
 	assert_equal(HELP_COMMAND, parseDebugCommand("H"));
 }
 
-Ensure (parseDebugCommandReturnsEXIT_COMMANDForX) {
+Ensure(Debug, parseDebugCommandReturnsEXIT_COMMANDForX) {
 	assert_equal(EXIT_COMMAND, parseDebugCommand("X"));
 }
 
-Ensure (parseDebugCommandReturnsBREAK_COMMANDForBr) {
+Ensure(Debug, parseDebugCommandReturnsBREAK_COMMANDForBr) {
 	assert_equal(BREAK_COMMAND, parseDebugCommand("Br"));
 }
 
-Ensure (parseDebugCommandReturnsAMBIGUOUS_COMMANDForE) {
+Ensure(Debug, parseDebugCommandReturnsAMBIGUOUS_COMMANDForE) {
 	assert_equal(AMBIGUOUS_COMMAND, parseDebugCommand("E"));
 }
 
-Ensure (findSourceLineIndexFindsSameLineInOtherFiles) {
+Ensure(Debug, findSourceLineIndexFindsSameLineInOtherFiles) {
 	SourceLineEntry lineTable[] = {
 		{0, 3},
 		{0, 5},
@@ -47,14 +51,14 @@ TestSuite *debugTests(void)
 {
     TestSuite *suite = create_test_suite();
 
-    add_test(suite, parseDebugCommandReturnsHELP_COMMANDForHelp);
-    add_test(suite, parseDebugCommandReturnsHELP_COMMANDForQuestionMark);
-    add_test(suite, parseDebugCommandReturnsHELP_COMMANDForH);
-    add_test(suite, parseDebugCommandReturnsEXIT_COMMANDForX);
-    add_test(suite, parseDebugCommandReturnsBREAK_COMMANDForBr);
-    add_test(suite, parseDebugCommandReturnsAMBIGUOUS_COMMANDForE);
+    add_test_with_context(suite, Debug, parseDebugCommandReturnsHELP_COMMANDForHelp);
+    add_test_with_context(suite, Debug, parseDebugCommandReturnsHELP_COMMANDForQuestionMark);
+    add_test_with_context(suite, Debug, parseDebugCommandReturnsHELP_COMMANDForH);
+    add_test_with_context(suite, Debug, parseDebugCommandReturnsEXIT_COMMANDForX);
+    add_test_with_context(suite, Debug, parseDebugCommandReturnsBREAK_COMMANDForBr);
+    add_test_with_context(suite, Debug, parseDebugCommandReturnsAMBIGUOUS_COMMANDForE);
 
-	add_test(suite, findSourceLineIndexFindsSameLineInOtherFiles);
+    add_test_with_context(suite, Debug, findSourceLineIndexFindsSameLineInOtherFiles);
 
     return suite;
 }

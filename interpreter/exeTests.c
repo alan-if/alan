@@ -14,8 +14,18 @@
 #include "class.h"
 #include "Container.h"
 
+
+static void tearDown() {
+  setSyserrHandler(NULL);
+}
+
+Describe(Exe);
+BeforeEach(Exe) {}
+AfterEach(Exe) {tearDown();}
+
+
 /*----------------------------------------------------------------------*/
-Ensure (canCountTrailingBlanks) {
+Ensure(Exe, canCountTrailingBlanks) {
   char *threeBlanks = "h   ";
   char *fiveBlanks = "     ";
   char *empty = "";
@@ -28,7 +38,7 @@ Ensure (canCountTrailingBlanks) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canSkipWordForwards) {
+Ensure(Exe, canSkipWordForwards) {
   char *string = "a string of words";
 
   assert_true(skipWordForwards(string, 0) == 1);
@@ -40,7 +50,7 @@ Ensure (canSkipWordForwards) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canSkipWordBackwards) {
+Ensure(Exe, canSkipWordBackwards) {
   char *string = "a string of words";
   char *emptyString = "";
 
@@ -54,7 +64,7 @@ Ensure (canSkipWordBackwards) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canStripCharsFromString) {
+Ensure(Exe, canStripCharsFromString) {
   char *characters;
   char *rest;
   char *result;
@@ -92,7 +102,7 @@ Ensure (canStripCharsFromString) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canStripWordsFromString) {
+Ensure(Exe, canStripWordsFromString) {
   char *testString = "this is four  words";
   char *empty = "";
   char *result;
@@ -144,7 +154,7 @@ static void writeAndOpenGetStringTestFile(int fpos, char *testString)
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canGetString)
+Ensure(Exe, canGetString)
 {
   int fpos = 55;
   char testString[] = "hejhopp";
@@ -161,7 +171,7 @@ Ensure (canGetString)
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testIncreaseEventQueue) {
+Ensure(Exe, testIncreaseEventQueue) {
   eventQueueSize = 0;
   eventQueue = NULL;
   eventQueueTop = 0;
@@ -208,7 +218,7 @@ static void failAssertion(void) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (syserrOnWhereForIllegalId) {
+Ensure(Exe, syserrOnWhereForIllegalId) {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -224,7 +234,7 @@ Ensure (syserrOnWhereForIllegalId) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (syserrOnHereForIllegalId) {
+Ensure(Exe, syserrOnHereForIllegalId) {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -240,7 +250,7 @@ Ensure (syserrOnHereForIllegalId) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (syserrOnLocateIllegalId) {
+Ensure(Exe, syserrOnLocateIllegalId) {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
@@ -266,7 +276,7 @@ Ensure (syserrOnLocateIllegalId) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (callingWhereReturnsExpectedValues) {
+Ensure(Exe, callingWhereReturnsExpectedValues) {
     int LOCATION_CLASS = 1;
     /* TODO: define NOWHERE == 1 in acode.h */
     int FIRST_INSTANCE = 2;     /* Avoid 1 which is the predefined #nowhere */
@@ -311,7 +321,7 @@ Ensure (callingWhereReturnsExpectedValues) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canGetMembersOfASet) {
+Ensure(Exe, canGetMembersOfASet) {
   Set *set = newSet(0);
   Aword code[] = {0,	/* Dummy to not start at address 0 */
 		  INSTRUCTION(I_SETSIZE),
@@ -328,7 +338,7 @@ Ensure (canGetMembersOfASet) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canGetContainerSize) {
+Ensure(Exe, canGetContainerSize) {
   header = allocate(sizeof(ACodeHeader));
   instances = allocate(4*sizeof(InstanceEntry));
   admin = allocate(4*sizeof(AdminEntry));
@@ -347,29 +357,25 @@ Ensure (canGetContainerSize) {
   free(header);
 }
 
-static void tearDown() {
-  setSyserrHandler(NULL);
-}
-
 
 TestSuite *exeTests() {
   TestSuite *suite = create_test_suite();
 
   set_teardown(suite, tearDown);
 
-  add_test(suite, canCountTrailingBlanks);
-  add_test(suite, canSkipWordForwards);
-  add_test(suite, canSkipWordBackwards);
-  add_test(suite, canStripCharsFromString);
-  add_test(suite, canStripWordsFromString);
-  add_test(suite, canGetString);
-  add_test(suite, testIncreaseEventQueue);
-  add_test(suite, syserrOnWhereForIllegalId);
-  add_test(suite, syserrOnHereForIllegalId);
-  add_test(suite, syserrOnLocateIllegalId);
-  add_test(suite, callingWhereReturnsExpectedValues);
-  add_test(suite, canGetMembersOfASet);
-  add_test(suite, canGetContainerSize);
+  add_test_with_context(suite, Exe, canCountTrailingBlanks);
+  add_test_with_context(suite, Exe, canSkipWordForwards);
+  add_test_with_context(suite, Exe, canSkipWordBackwards);
+  add_test_with_context(suite, Exe, canStripCharsFromString);
+  add_test_with_context(suite, Exe, canStripWordsFromString);
+  add_test_with_context(suite, Exe, canGetString);
+  add_test_with_context(suite, Exe, testIncreaseEventQueue);
+  add_test_with_context(suite, Exe, syserrOnWhereForIllegalId);
+  add_test_with_context(suite, Exe, syserrOnHereForIllegalId);
+  add_test_with_context(suite, Exe, syserrOnLocateIllegalId);
+  add_test_with_context(suite, Exe, callingWhereReturnsExpectedValues);
+  add_test_with_context(suite, Exe, canGetMembersOfASet);
+  add_test_with_context(suite, Exe, canGetContainerSize);
 
   return suite;
 }

@@ -10,14 +10,14 @@ MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	ParameterPosition.c \
 	StateStack.c \
 	act.c \
+	args.c \
+	debug.c \
+	exe.c \
 	reverse.c \
 	rules.c
 
 # ... or using a main program which requires adding every test manually
 MODULES_WITH_UNITTESTS_USING_MAIN = \
-	args.c \
-	debug.c \
-	exe.c \
 	inter.c \
 	instance.c \
 	main.c \
