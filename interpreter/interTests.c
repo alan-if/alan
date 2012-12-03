@@ -10,23 +10,20 @@ static void syserrHandler(char *message) {
 static Stack theStack;
 
 
-
-/*----------------------------------------------------------------------*/
-static void setUp() {
+Describe(Inter);
+BeforeEach(Inter) {
   theStack = createStack(50);
   setInterpreterStack(theStack);
   setSyserrHandler(syserrHandler);
   memTop = 100;
 }
-
-static void tearDown() {
+AfterEach(Inter) {
   deleteStack(theStack);
   setSyserrHandler(NULL);
 }
 
-
 /*----------------------------------------------------------------------*/
-Ensure(testBlockInstructions)
+Ensure(Inter, testBlockInstructions)
 {
   Aword blockInstructionCode[] = {4, /* Dummy to not execute at zero */
 				  4,
@@ -57,7 +54,7 @@ Ensure(testBlockInstructions)
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testLoopInstruction)
+Ensure(Inter, testLoopInstruction)
 {
   Aword loopInstructionCode1[] = {4, /* Dummy to not execute at zero */
 				  43, /* Marker */
@@ -73,7 +70,7 @@ Ensure(testLoopInstruction)
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testLoopEndInstruction)
+Ensure(Inter, testLoopEndInstruction)
 {
   Aword loopEndInstructionCode[] = {4, /* Dummy to not execute at zero */
 				  1,
@@ -96,7 +93,7 @@ Ensure(testLoopEndInstruction)
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testGoToLoop) {
+Ensure(Inter, testGoToLoop) {
   Aword testGoToLoopCode[] = {0,
 			      INSTRUCTION(I_LOOP), /* 1 */
 			      4,
@@ -115,7 +112,7 @@ Ensure(testGoToLoop) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testLoopNext) {
+Ensure(Inter, testLoopNext) {
   Aword testLoopNextCode[] = {0,
 			      INSTRUCTION(I_LOOP),
 			      4, /* 2 */
@@ -134,7 +131,7 @@ Ensure(testLoopNext) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testCountInstruction)
+Ensure(Inter, testCountInstruction)
 {
   Aword testCountInstructionCode[] = {0,
 				      INSTRUCTION(I_COUNT), /* 7 */
@@ -153,7 +150,7 @@ Ensure(testCountInstruction)
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testMaxInstruction) {
+Ensure(Inter, testMaxInstruction) {
   Aword testMaxInstructionCode[] = {0,
 				    INSTRUCTION(I_MAX),
 				    INSTRUCTION(I_RETURN)};
@@ -181,7 +178,7 @@ Ensure(testMaxInstruction) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(MaxInstanceForBeta3DoesDetractTheLiteralInstance) {
+Ensure(Inter, MaxInstanceForBeta3DoesDetractTheLiteralInstance) {
   Aword testMaxInstanceCode[] = {0,
 				 CURVAR(V_MAX_INSTANCE),
 				 INSTRUCTION(I_RETURN)};
@@ -193,7 +190,7 @@ Ensure(MaxInstanceForBeta3DoesDetractTheLiteralInstance) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(MaxInstanceInstructionForPreBeta3ReturnsNumberOfInstances) {
+Ensure(Inter, MaxInstanceInstructionForPreBeta3ReturnsNumberOfInstances) {
   Aword testMaxInstanceCode[] = {0,
 				 CURVAR(V_MAX_INSTANCE),
 				 INSTRUCTION(I_RETURN)};
@@ -213,18 +210,15 @@ TestSuite *interTests(void)
 {
   TestSuite *suite = create_test_suite();
 
-  set_setup(suite, setUp);
-  set_teardown(suite, tearDown);
-
-  add_test(suite, testBlockInstructions);
-  add_test(suite, testGoToLoop);
-  add_test(suite, testLoopNext);
-  add_test(suite, testLoopInstruction);
-  add_test(suite, testLoopEndInstruction);
-  add_test(suite, testMaxInstruction);
-  add_test(suite, testCountInstruction);
-  add_test(suite, MaxInstanceInstructionForPreBeta3ReturnsNumberOfInstances);
-  add_test(suite, MaxInstanceForBeta3DoesDetractTheLiteralInstance);
+  add_test_with_context(suite, Inter, testBlockInstructions);
+  add_test_with_context(suite, Inter, testGoToLoop);
+  add_test_with_context(suite, Inter, testLoopNext);
+  add_test_with_context(suite, Inter, testLoopInstruction);
+  add_test_with_context(suite, Inter, testLoopEndInstruction);
+  add_test_with_context(suite, Inter, testMaxInstruction);
+  add_test_with_context(suite, Inter, testCountInstruction);
+  add_test_with_context(suite, Inter, MaxInstanceInstructionForPreBeta3ReturnsNumberOfInstances);
+  add_test_with_context(suite, Inter, MaxInstanceForBeta3DoesDetractTheLiteralInstance);
 
   return suite;
 }

@@ -83,8 +83,11 @@ unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS)
 
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
+cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) run_runner_tests
 	$(LINK) -shared -o unittests.dll $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
+
+.PHONY: run_runner_tests
+run_runner_tests:
 ifeq ($(shell uname), Darwin)
 	arch -i386 cgreen-runner unittests.dll $(UNITOUT)
 else
