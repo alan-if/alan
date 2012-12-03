@@ -81,17 +81,16 @@ unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
 	@./unittests $(UNITOUT)
 
+unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
+	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
+
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-cgreenrunnertests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) run_runner_tests
-	$(LINK) -shared -o unittests.dll $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
-
-.PHONY: run_runner_tests
-run_runner_tests:
+cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
-	arch -i386 cgreen-runner unittests.dll $(UNITOUT)
+	arch -i386 cgreen-runner $^ $(UNITOUT)
 else
-	cgreen-runner ./unittests.dll $(UNITOUT)
+	cgreen-runner $^ $(UNITOUT)
 endif
 
 .PHONY: unit
