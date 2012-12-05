@@ -90,7 +90,7 @@ cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
 	arch -i386 cgreen-runner $^ $(UNITOUT)
 else
-	cgreen-runner $^ $(UNITOUT)
+	cgreen-runner ./$^ $(UNITOUT)
 endif
 
 .PHONY: unit
