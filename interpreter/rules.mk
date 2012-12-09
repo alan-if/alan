@@ -88,9 +88,9 @@ cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
-	arch -i386 cgreen-runner $^ $(UNITOUT)
+	arch -i386 cgreen-runner $^ --suite Interpreter $(UNITOUT)
 else
-	cgreen-runner ./$^ $(UNITOUT)
+	cgreen-runner ./$^ --suite Interpreter $(UNITOUT)
 endif
 
 .PHONY: unit
