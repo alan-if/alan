@@ -2,10 +2,10 @@
 
 #include "rules.c"
 
+Describe(Rules);
 
 static Stack stack;
 
-Describe(Rules);
 BeforeEach(Rules) {
     stack = createStack(10);
     setInterpreterStack(stack);
@@ -20,10 +20,12 @@ BeforeEach(Rules) {
     rulEntry++;
     setEndOfArray(rulEntry);
 }
-AfterEach(Rules) {}
+
+AfterEach(Rules) {
+}
+
 
 Ensure(Rules, canInitRulesAdmin) {
-
     initRules();
 
     assert_that(rulesAdmin, is_non_null);

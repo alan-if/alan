@@ -6,19 +6,19 @@
 
 # Either using its runner which discovers test automatically...
 MODULES_WITH_UNITTESTS_USING_RUNNER = \
+	act.c \
+	reverse.c \
+	rules.c
+
+# Or using a main program which requires adding every test manually
+MODULES_WITH_UNITTESTS_USING_MAIN = \
 	AltInfo.c \
 	ParameterPosition.c \
 	StateStack.c \
-	act.c \
 	args.c \
 	debug.c \
 	exe.c \
 	inter.c \
-	reverse.c \
-	rules.c
-
-# ... or using a main program which requires adding every test manually
-MODULES_WITH_UNITTESTS_USING_MAIN = \
 	instance.c \
 	main.c \
 	parse.c \

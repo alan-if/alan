@@ -16,11 +16,12 @@ ARUNOPTS = $(PROGNAME) $(GLK)
 
 OSFLAGS = -g -mmacosx-version-min=10.5
 
+TARGETARCH = -m32
 CC = gcc
-COMPILEFLAGS = -m32 -Wall -funsigned-char $(ALLOC)
+COMPILEFLAGS = $(TARGETARCH) -Wall -funsigned-char $(ALLOC)
 
 LINK = gcc
-LINKFLAGS = -m32
+LINKFLAGS = $(TARGETARCH)
 
 LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
 
@@ -40,6 +41,7 @@ CGREEN = yes
 CGREENROOT = /usr/local
 CGREENDIR = $(CGREENROOT)/include/cgreen
 CGREENLIB = -lcgreen
+unittests cgreenrunnertests : TARGETARCH = -m32
 
 ###################################################################
 #
