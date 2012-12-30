@@ -19,6 +19,11 @@ all:
 
 .PHONY: snapshots
 snapshots: zip setup lib
+	-rm *win32.x86*
+	-rm library*.zip
+	-rm manual*.pdf
+	-rm conversion*.pdf
+	-rm writing*.pdf
 	-rm $(DISTDIR)/Snapshots/*win32.x86*
 	-rm $(DISTDIR)/Snapshots/library*.zip
 	-rm $(DISTDIR)/Snapshots/manual*.pdf
