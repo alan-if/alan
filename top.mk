@@ -18,6 +18,8 @@ clean:
 
 .PHONY: build
 build:
+	-rm *win32.x86*
+	-rm library*.zip
 	-cd compiler; $(MAKE) build
 	-cd interpreter; $(MAKE) build
 	-cd converter; $(MAKE) build
