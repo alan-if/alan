@@ -40,6 +40,7 @@ void setSyserrHandler(void (*f)(char *))
 // TODO Make syserr() use ... as printf()
 void syserr(char *description)
 {
+    lin = 0;
     if (handler == NULL) {
         char *blurb = "<If you are the creator of this piece of Interactive Fiction, \
 please help debug this Alan system error. Collect *all* the sources, and, if possible, an \
