@@ -1,0 +1,132 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf340
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\})}{\leveltext\leveltemplateid1\'02\'00);}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\})}{\leveltext\leveltemplateid101\'02\'00);}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\})}{\leveltext\leveltemplateid201\'02\'00);}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid3}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww13280\viewh14060\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\b\fs48 \cf0 Alan Rules!\
+
+\b0\fs24 \
+This short document describes the concept, usage and implementation of Rules in Alan.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl480\slmult1\pardirnatural
+
+\fs36 \cf0 Concepts
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural
+
+\b\fs26 \cf0 Location\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b0\fs24 \cf0 A location is simply a place in an Alan game where things and actors can "be". In the following locations are important because every Alan statement has to be executed "somewhere" since the concept of "here", "nearby" and so on can be used. It is also important since printouts in Alan are only shown to the player if that printout is made at the same location as the hero (the players alter ego) is, otherwise the player would see messages not within his view. (Read on to see the common solution to conveying information from distant locations to the player.)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural
+
+\b\fs26 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\fs24 \cf0 Events\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b0 \cf0 Events are named sequences of statements executed at the end of a player round. Events are executed at some precise location. That location may be defined at scheduling-time ("Schedule explosion At house\'85") or be dynamically determined when the event is about to be executed ("Schedule hunger At hero\'85") allowing events to "follow" an instance. A common use of the "following event" is to make the hero aware of distant events by scheduling a "messaging" event at the hero ("Schedule distant_explosion_sounds At hero After 0.").\
+\
+Note that it is possible to schedule an event after zero rounds. The semantics of this is that the scheduled event should be run within the 
+\i current
+\i0  round, i.e. before the player gets another chance to move.\
+\
+Events are always executed in a context with a particular location specified. If no location is specified the special location "nowhere" is used, allowing all location referencing expressions and statements to be used without errors.\
+\
+
+\b\fs26 Rules
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 The intended use of rules is to trigger actions, events and status changes when a particular condition occurs. In practice they consist of expressions that, when evaluated to true, execute some statements. But since it would be expensive to monitor all data all the time, the rules are evaluated at a few select moments during a player interaction instead.\
+\
+Rules are in general tricky because various forms of implementation gives different semantics. In Alan, rules are intended to be "flank triggered", meaning that it is only when an expression goes from false to true that the rule should fire its statements. (Earlier implementations fired the statements every time the rule evaluated to true, resulting in multiple executions of the statements even within the same round.)\
+\
+Rules are executed in a context without location, expressions and statements referring to the current location are prohibited by the compiler.\
+\
+
+\b\fs26 A Round\
+
+\b0\fs24 During a player round the following happens:\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls1\ilvl0\cf0 {\listtext	1)	}Player executes a command\
+{\listtext	2)	}Every other actor executes one step in their script\
+{\listtext	3)	}All pending events are run\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+In addition to this, rules need to be monitored, which is the subject of this document.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+
+\fs36 The Problem\
+
+\fs24 Rules should be evaluated so that common usecases works as most would expect.\
+\
+
+\b\fs26 Triggering Rules\
+
+\b0\fs24 Since every step in a round may affect the expressions triggering rules, the rule expressions have to be evaluated multiple times during a round. There are multiple options for this:\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls2\ilvl0\cf0 {\listtext	1)	}After each actor and after each event\
+{\listtext	2)	}After all actors and after each event\
+{\listtext	3)	}After all actors and after all events\
+{\listtext	4)	}After all actors and events\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+
+\b\fs26 Rule Looping\
+
+\b0\fs24 The statements executed by a rule that is triggered might change the world state so that further rules are triggered.\
+\
+
+\b\fs26 Events and Rule Looping
+\b0\fs24 \
+An event might set an attribute so that a rule is triggered. If that rule schedules the same event a non-terminating loop might be the result.\
+\
+
+\fs36 Design Solution\
+
+\b\fs26 \
+Rules Loops Until Stable\
+
+\b0\fs24 All rule expressions are evaluated and the ones evaluated to true are marked for execution. The statements for the marked rules are all executed. The expressions for all the rules that wasn't marked the first time around are evaluated. If any expressions are evaluated to true those are marked for execution. And so on until there is no rule marked for execution.\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls3\ilvl0\cf0 {\listtext	1)	}Evaluate all rule expressions and mark all that triggered for execution\
+{\listtext	2)	}Execute all rules marked for execution and mark those as executed\
+{\listtext	3)	}Evaluate all rules not marked executed and mark all that triggered for execution\
+{\listtext	4)	}If any was triggered for execution go to 2)\
+{\listtext	5)	}Reset all rules\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 This will always terminate because one rule that is executed will not be executed again and the set of possible rules to execute is decreased every loop.\
+\
+
+\b\fs26 When to Execute Rules\
+
+\b0\fs24 A possible scenario is that there are multiple rules that each trigger its own event. Imagine the following\
+\
+	When <trap triggered> Schedule <trap>.\
+	When <stone falls> Schedule <stone on trap>.\
+	Event <trap> "You are trapped."\
+	Event <stone on trap> "The stone lands on the trap." Make trap triggered.\
+\
+The expected sequence of events is that whatever makes the stone to land on the trap, the trap is triggered. Actually, whatever makes the trap triggered should run the trap event. This makes good cause-effect separation possible.\
+\
+To enable this, rules must run after each event.\
+\
+
+\b\fs26 Avoiding rule/event looping
+\b0\fs24 \
+Since rules are reset between runs, and events may trigger rules which in turn might schedule events that trigger new (or same) rules, it is necessary to check for these loops.\
+\
+	When <exp1> Schedule <event1>.\
+	Event <event1> Make Not <exp1>. Make <exp2>.\
+	When <exp2> Schedule <event2>.\
+	Event <event2> Make Not <exp2>. Make <exp1>.\
+\
+}
