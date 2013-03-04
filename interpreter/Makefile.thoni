@@ -20,7 +20,7 @@ include Makefile.cygwin
 
 #Settings for memory debugging which is used unless building RELEASE
 #ALLOC = -DSMARTALLOC
-#ALLOCLIBS = smartall.o
+#ALLOCSRCS = smartall.c
 #ALLOC = -DDMALLOC
 #ALLOCLIBS = -ldmalloc
 

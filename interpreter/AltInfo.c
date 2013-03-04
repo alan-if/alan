@@ -320,7 +320,7 @@ static bool possibleWithFinder(int verb, Parameter parameters[], AltInfoFinder *
     allAlternatives = finder(verb, parameters);
 
     // TODO Need to do this since anyCheckFailed() call execute() which assumes the global parameters
-    setParameters(parameters);
+    setGlobalParameters(parameters);
     if (anyCheckFailed(allAlternatives, DONT_EXECUTE_CHECK_BODY_ON_FAIL))
         anything = FALSE;
     else

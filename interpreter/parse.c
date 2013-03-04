@@ -114,7 +114,7 @@ static void handleDirectionalCommand() {
 /*----------------------------------------------------------------------*/
 static void errorWhichOne(Parameter alternative[]) {
     int p; /* Index into the list of alternatives */
-    Parameter *parameters = allocateParameterArray(MAXINSTANCE);
+    ParameterArray parameters = newParameterArray();
 
     parameters[0] = alternative[0];
     setEndOfArray(&parameters[1]);
@@ -125,7 +125,7 @@ static void errorWhichOne(Parameter alternative[]) {
     }
     parameters[0] = alternative[p];
     printMessageWithParameters(M_WHICH_ONE_OR, parameters);
-    free(parameters);
+    freeParameterArray(&parameters);
     abortPlayerCommand(); /* Return with empty error message */
 }
 
@@ -644,7 +644,7 @@ static bool restrictionCheck(RestrictionEntry *restriction, int instance) {
 /*----------------------------------------------------------------------*/
 static void runRestriction(RestrictionEntry *restriction, Parameter parameters[]) {
     if (restriction->stms) {
-        setParameters(parameters);
+        setGlobalParameters(parameters);
         interpret(restriction->stms);
     } else
         error(M_CANT0);
@@ -868,7 +868,7 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
                          * prepare a printout with $1/2/3
                          */
                         sprintf(marker, "($%ld)", (unsigned long) restriction->parameterNumber);
-                        setParameters(localParameters);
+                        setGlobalParameters(localParameters);
                         output(marker);
                         runRestriction(restriction, localParameters);
                         para();
@@ -1028,9 +1028,9 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions) {
 
 /*----------------------------------------------------------------------*/
 static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
-    Parameter *parameters = parameterPosition->parameters;
+    ParameterArray parameters = parameterPosition->parameters;
 
-    if (exists(parameters)) {
+    if (!parameterArrayIsEmpty(parameters)) {
         if (parameters[0].isThem) {
             parameterPosition->them = TRUE;
             getPreviousMultipleParameters(parameters);
@@ -1040,7 +1040,7 @@ static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
                 parameterPosition->explicitMultiple = TRUE;
         } else if (parameterPosition->all) {
             buildAllHere(parameters);
-            if (exists(parameterPosition->exceptions))
+            if (!parameterArrayIsEmpty(parameterPosition->exceptions))
                 findCandidates(parameterPosition->exceptions, instanceMatcher);
         } else
             findCandidates(parameters, instanceMatcher);

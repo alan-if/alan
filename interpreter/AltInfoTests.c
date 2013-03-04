@@ -16,10 +16,10 @@ Ensure(canPrimeAltInfo) {
 
   primeAltInfo(altInfos, level, parameter, instance, class);
 
-  assert_equal(level, altInfos[0].level);
-  assert_equal(parameter, altInfos[0].parameter);
-  assert_equal(instance, altInfos[0].instance);
-  assert_equal(class, altInfos[0].class);
+  assert_that(level, is_equal_to(altInfos[0].level));
+  assert_that(parameter, is_equal_to(altInfos[0].parameter));
+  assert_that(instance, is_equal_to(altInfos[0].instance));
+  assert_that(class, is_equal_to(altInfos[0].class));
 }
 
 /*----------------------------------------------------------------------*/
@@ -37,8 +37,8 @@ Ensure(canDuplicateAltInfoArray) {
 
   duplicate = duplicateAltInfoArray(original);
   for (i = 0; i < COPYSIZE; i++) {
-	  assert_equal(i, duplicate[i].instance);
-	  assert_equal(FALSE, duplicate[i].end);
+      assert_that(i, is_equal_to(duplicate[i].instance));
+      assert_that(!duplicate[i].end);
   }
   assert_true(duplicate[COPYSIZE].end);
   free(duplicate);
@@ -99,7 +99,7 @@ static AltInfo *mockedAlternativeFinder(int verb, Parameter parameters[]) {
 }
 
 Ensure(possibleIndicatesFalseOnEmptyAlternatives) {
-    globalParameters = allocateParameterArray(MAXINSTANCE);
+    globalParameters = newParameterArray();
     assert_false(possibleWithFinder(current.verb, globalParameters, mockedAlternativeFinder));
 }
 

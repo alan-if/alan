@@ -817,10 +817,10 @@ void run(void)
         if (debugOption)
             debug(FALSE, 0, 0);
 
-		do {
-			runPendingEvents();
-			evaluateRules();
-		} while (anyRuleRun);
+	do {
+	    runPendingEvents();
+	    evaluateRules();
+	} while (anyRuleRun);
 
         current.tick++;
 		
@@ -847,7 +847,7 @@ void run(void)
         /* TODO: Why 'playerChangedState' since gameStateChanged is sufficient
          * Actually it isn't since it might have been one of the events or other actors
          * that changed the state. Why is this important?
-         * Yes, because for UNDO we want to undo the last command the player did that
+         * Yes, because for UNDO we want to undo the last command the *player* did that
          * changed the state, not any of the others. */
         playerChangedState = FALSE;
         moveActor(header->theHero);
@@ -857,8 +857,8 @@ void run(void)
             rememberCommands();
         else
             forgetGameState();
-		
-        evaluateRules();
+	
+        evaluateRules();	/* Remove this call? Since Eval is done up there after each event... */
         for (i = 1; i <= header->instanceMax; i++)
             if (i != header->theHero && isAActor(i)) {
                 moveActor(i);

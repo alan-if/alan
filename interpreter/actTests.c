@@ -8,6 +8,9 @@ AfterEach(act){}
 
 #include "lists.h"
 
+Ensure(act, canDoSomething) {
+}
+
 TestSuite *actTests() {
     TestSuite *suite = create_test_suite();
     return suite;

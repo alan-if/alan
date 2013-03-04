@@ -181,11 +181,11 @@ char *getStringFromFile(Aword fpos, Aword len)
 void score(Aword sc)
 {
     if (sc == 0) {
-        Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
+        ParameterArray messageParameters = newParameterArray();
         addParameterForInteger(messageParameters, current.score);
         addParameterForInteger(messageParameters, header->maximumScore);
         printMessageWithParameters(M_SCORE, messageParameters);
-        free(messageParameters);
+        freeParameterArray(&messageParameters);
     } else {
         current.score += scores[sc-1];
         scores[sc-1] = 0;

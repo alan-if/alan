@@ -25,12 +25,12 @@ int memTop = 0;         /* Top of load memory */
 /*======================================================================*/
 void *allocate(unsigned long lengthInBytes)
 {
-  void *p = (void *)calloc((size_t)lengthInBytes, 1);
+    void *p = (void *)calloc((size_t)lengthInBytes, 1);
 
-  if (p == NULL)
-    syserr("Out of memory.");
+    if (p == NULL)
+	syserr("Out of memory.");
 
-  return p;
+    return p;
 }
 #endif
 

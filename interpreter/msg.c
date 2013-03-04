@@ -64,20 +64,20 @@ void abortPlayerCommand(void)
 
 /*======================================================================*/
 void printMessageWithInstanceParameter(MsgKind message, int i) {
-    Parameter *parameters = allocateParameterArray(MAXINSTANCE);
+    ParameterArray parameters = newParameterArray();
     addParameterForInstance(parameters, i);
     printMessageWithParameters(message, parameters);
-    free(parameters);
+    freeParameterArray(&parameters);
 }
 
 
 /*======================================================================*/
 void printMessageUsing2InstanceParameters(MsgKind message, int instance1, int instance2) {
-    Parameter *parameters = allocateParameterArray(MAXINSTANCE);
+    ParameterArray parameters = newParameterArray();
     addParameterForInstance(parameters, instance1);
     addParameterForInstance(parameters, instance2);
     printMessageWithParameters(message, parameters);
-    free(parameters);
+    freeParameterArray(&parameters);
 }
 
 

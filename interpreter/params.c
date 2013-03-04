@@ -11,7 +11,6 @@
 #include "lists.h"
 #include "memory.h"
 #include "literal.h"
-#include "ParameterPosition.h"
 #include "syserr.h"
 
 /* PUBLIC DATA */
@@ -20,8 +19,51 @@ Parameter *globalParameters = NULL;
 
 
 /*======================================================================*/
-bool exists(Parameter *parameters) {
-    return parameters != NULL && lengthOfParameterArray(parameters) > 0;
+Parameter *newParameter(int id) {
+    Parameter *parameter = NEW(Parameter);
+    parameter->instance = id;
+    parameter->candidates = NULL;
+
+    return parameter;
+}
+
+
+/*======================================================================*/
+Parameter *newParameterArray(void) {
+    Parameter *newArray = allocate((MAXINSTANCE+1)*sizeof(Parameter));
+    setEndOfArray(newArray);
+    return newArray;
+}
+
+
+/*======================================================================*/
+void freeParameterArray(ParameterArray *arrayPointer) {
+    free(*arrayPointer);
+    *arrayPointer = NULL;
+}
+
+
+/*======================================================================*/
+Parameter *ensureParameterArrayAllocated(ParameterArray currentArray) {
+    if (currentArray == NULL)
+        currentArray = newParameterArray();
+    else
+	clearParameterArray(currentArray);
+    return currentArray;
+}
+
+
+/*======================================================================*/
+Parameter *allocateParameterArray(int n) {
+    Parameter *newArray = allocate((n+1)*sizeof(Parameter));
+    setEndOfArray(newArray);
+    return newArray;
+}
+
+
+/*======================================================================*/
+bool parameterArrayIsEmpty(ParameterArray parameters) {
+    return parameters == NULL || lengthOfParameterArray(parameters) == 0;
 }
 
 
@@ -35,15 +77,15 @@ void clearParameter(Parameter *parameter, Parameter *candidates) {
 
 
 /*======================================================================*/
-void setParameters(Parameter *newParameters) {
+void setGlobalParameters(ParameterArray newParameters) {
     if (globalParameters == NULL)
-        globalParameters = allocateParameterArray(MAXINSTANCE);
+        globalParameters = newParameterArray();
     copyParameterArray(globalParameters, newParameters);
 }
 
 
 /*======================================================================*/
-Parameter *getParameters(void) {
+Parameter *getGlobalParameters(void) {
     if (globalParameters == NULL)
         globalParameters = allocateParameterArray(MAXINSTANCE);
     return globalParameters;
@@ -51,26 +93,8 @@ Parameter *getParameters(void) {
 
 
 /*======================================================================*/
-Parameter *getParameter(int parameterIndex) {
+Parameter *getGlobalParameter(int parameterIndex) {
     return &globalParameters[parameterIndex];
-}
-
-
-/*======================================================================*/
-Parameter *ensureParameterArrayAllocated(Parameter *currentArray) {
-    if (currentArray == NULL)
-        currentArray = allocateParameterArray(MAXINSTANCE);
-    else
-	clearParameterArray(currentArray);
-    return currentArray;
-}
-
-
-/*======================================================================*/
-Parameter *allocateParameterArray(int n) {
-    Parameter *newArray = allocate((n+1)*sizeof(Parameter)*(MAXINSTANCE+1));
-    setEndOfArray(newArray);
-    return newArray;
 }
 
 
@@ -172,18 +196,39 @@ void addParameter(Parameter theArrayPosition[], Parameter *theParameter)
     setEndOfArray(&theArrayPosition[1]);
 }
 
+
 /*======================================================================*/
-void copyParameterArray(Parameter to[], Parameter from[])
+void addParameterToParameterArray(ParameterArray theArray, Parameter *theParameter)
+{
+    if (theArray == NULL) syserr("Adding to null parameter array");
+
+    int i;
+
+    for (i = 0; !isEndOfArray(&theArray[i]) && i > MAXINSTANCE; i++)
+	;
+    if (isEndOfArray(&theArray[i])) {
+	clearParameter(&theArray[i], NULL);
+	copyParameter(&theArray[i], theParameter);
+	setEndOfArray(&theArray[i+1]);
+    } else
+	syserr("Couldn't find end of ParameterArray");
+}
+
+
+/*======================================================================*/
+void copyParameterArray(ParameterArray to, ParameterArray from)
 {
     int i;
 
     if (to == NULL && from == NULL) return;
 
-    if (to == NULL) syserr("Copying to null parameter array");
-
+    if (to == NULL)
+	syserr("Copying to null parameter array");
+    else {
 	setEndOfArray(&to[0]);
-    for (i = 0; !isEndOfArray(&from[i]); i++)
-        addParameter(&to[i], &from[i]);
+	for (i = 0; !isEndOfArray(&from[i]); i++)
+	    addParameter(&to[i], &from[i]);
+    }
 }
 
 
@@ -212,6 +257,7 @@ void clearParameterArray(Parameter theArray[]) {
 void intersectParameterArrays(Parameter one[], Parameter other[])
 {
     int i, last = 0;
+
 
     for (i = 0; !isEndOfArray(&one[i]); i++)
 		if (inParameterArray(other, one[i].instance))
@@ -245,7 +291,7 @@ void addParameterForInstance(Parameter *parameters, int instance) {
 
 
 /*======================================================================*/
-void addParameterForInteger(Parameter *parameters, int value) {
+void addParameterForInteger(ParameterArray parameters, int value) {
     Parameter *parameter = findEndOfParameterArray(parameters);
 
     createIntegerLiteral(value);

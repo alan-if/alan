@@ -2,14 +2,16 @@
 
 #include "params.c"
 
-static void setUp(void) {
+Describe(ParameterArray);
+BeforeEach(ParameterArray) {
 	header->maxParameters = 4;
 	header->instanceMax = 6;
 }
+AfterEach(ParameterArray) {}
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canFindLastParameterInAList) {
+Ensure(ParameterArray, canFindLastParameterInAList) {
     Parameter parameters[10];
 
     memset(parameters, 45, sizeof(parameters));
@@ -19,7 +21,7 @@ Ensure (canFindLastParameterInAList) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canSetAndGetParameters) {
+Ensure(ParameterArray, canSetAndGetParameters) {
     int numberOfParameters = 4;
     Parameter *parameters;
     int p;
@@ -34,23 +36,23 @@ Ensure (canSetAndGetParameters) {
     for (p = 0; p<numberOfParameters; p++)
         parameters[p].instance = p;
     
-    setParameters(parameters);
+    setGlobalParameters(parameters);
 
-    assert_equal(lengthOfParameterArray(getParameters()), lengthOfParameterArray(parameters));
+    assert_equal(lengthOfParameterArray(getGlobalParameters()), lengthOfParameterArray(parameters));
     
     for (p = 0; !isEndOfArray(&parameters[p]); p++)
-        assert_equal(getParameter(p)->instance, p);
+        assert_equal(getGlobalParameter(p)->instance, p);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure (getWillAllocateStoredParameters) {
-    assert_not_equal(getParameters(), NULL);
+Ensure(ParameterArray, getWillAllocateStoredParameters) {
+    assert_not_equal(getGlobalParameters(), NULL);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure (can_find_multiple_position) {
+Ensure(ParameterArray, can_find_multiple_position) {
     Parameter parameters[10];
     int i;
 
@@ -64,7 +66,7 @@ Ensure (can_find_multiple_position) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (returns_minus_one_for_no_multiple_position) {
+Ensure(ParameterArray, returns_minus_one_for_no_multiple_position) {
     Parameter parameters[10];
     int i;
 
@@ -86,7 +88,7 @@ static Parameter *givenAnyParameterArrayOfLength(int length) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (unequal_length_parameter_arrays_are_not_equal) {
+Ensure(ParameterArray, unequal_length_parameter_arrays_are_not_equal) {
     Parameter *parameters1 = givenAnyParameterArrayOfLength(4);
     Parameter *parameters2 = givenAnyParameterArrayOfLength(5);
 
@@ -94,7 +96,7 @@ Ensure (unequal_length_parameter_arrays_are_not_equal) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (subtractParameterArraysCanSubtractNullArray) {
+Ensure(ParameterArray, subtractParameterArraysCanSubtractNullArray) {
     Parameter *parameters1 = givenAnyParameterArrayOfLength(4);
     Parameter *parameters2 = NULL;
 
@@ -103,12 +105,12 @@ Ensure (subtractParameterArraysCanSubtractNullArray) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (lengthOfParameterArrayReturnsZeroForNULLArray) {
+Ensure(ParameterArray, lengthOfParameterArrayReturnsZeroForNULLArray) {
     assert_equal(0, lengthOfParameterArray(NULL));
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (copyParameterCopiesCandidates) {
+Ensure(ParameterArray, copyParameterCopiesCandidates) {
     Parameter theOriginal;
     Parameter theCopy;
 
@@ -128,23 +130,43 @@ Ensure (copyParameterCopiesCandidates) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (copyParameterArrayCanCopyNullToNull) {
+Ensure(ParameterArray, canCopyNullToNull) {
     copyParameterArray(NULL, NULL);
 }
 
+static bool syserrCalled = FALSE;
+static void syserrHandler(char *message) {
+    syserrCalled = TRUE;
+}
 
 /*----------------------------------------------------------------------*/
-static Parameter *newParameter(int id) {
-	Parameter *parameter = NEW(Parameter);
-	parameter->instance = id;
-	parameter->candidates = NULL;
+Ensure(ParameterArray, bailsOutOnCopyToNull) {
+    ParameterArray theCopy = newParameterArray();
 
-	return parameter;
+    setSyserrHandler(syserrHandler);
+    copyParameterArray(NULL, theCopy);
+    assert_that(syserrCalled);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure (addParameterSetsEndOfArray) {
+Ensure(ParameterArray, canCopyArrayToEmpty) {
+    ParameterArray theOriginal = newParameterArray();
+    ParameterArray theCopy = newParameterArray();
+    Parameter *aParameter = newParameter(12);
+
+    addParameterToParameterArray(theOriginal, aParameter);
+
+    assert_that(lengthOfParameterArray(theCopy), is_equal_to(0));
+    copyParameterArray(theCopy, theOriginal);
+    assert_that(lengthOfParameterArray(theCopy), is_equal_to(lengthOfParameterArray(theOriginal)));
+    assert_that(theCopy[0].instance, is_equal_to(aParameter->instance));
+}
+
+
+
+/*----------------------------------------------------------------------*/
+Ensure(ParameterArray, addParameterSetsEndOfArray) {
 	Parameter *parameters = allocateParameterArray(5);
 	Parameter *parameter = newParameter(1);
 	
@@ -158,7 +180,7 @@ Ensure (addParameterSetsEndOfArray) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (intersectParameterArraysReturnsAnEmptyResultForTwoEmpty) {
+Ensure(ParameterArray, intersectParameterArraysReturnsAnEmptyResultForTwoEmpty) {
 	Parameter *first = allocateParameterArray(5);
 	Parameter *second = allocateParameterArray(5);
 
@@ -183,7 +205,7 @@ static Parameter *givenAParameterArrayWithTwoParameters(Parameter *theFirstParam
 
 
 /*----------------------------------------------------------------------*/
-Ensure (intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty) {
+Ensure(ParameterArray, intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty) {
 	Parameter *theParameter = newParameter(1);
 	Parameter *oneParameterArray = givenAParameterArrayWithOneParameter(theParameter);
 	Parameter *emptyParameterArray = allocateParameterArray(5);
@@ -195,7 +217,7 @@ Ensure (intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (intersectParameterArraysReturnsTheSameIfBothAreEqual) {
+Ensure(ParameterArray, intersectParameterArraysReturnsTheSameIfBothAreEqual) {
 	Parameter *theParameter = newParameter(1);
 	Parameter *first = givenAParameterArrayWithOneParameter(theParameter);
 	Parameter *second = givenAParameterArrayWithOneParameter(theParameter);
@@ -207,7 +229,7 @@ Ensure (intersectParameterArraysReturnsTheSameIfBothAreEqual) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (intersectParameterArraysReturnsTheCommonParameter) {
+Ensure(ParameterArray, intersectParameterArraysReturnsTheCommonParameter) {
 	Parameter *aParameter = newParameter(1);
 	Parameter *anotherParameter = newParameter(2);
 	Parameter *aThirdParameter = newParameter(3);
@@ -220,26 +242,21 @@ Ensure (intersectParameterArraysReturnsTheCommonParameter) {
 }
 
 
+/*----------------------------------------------------------------------*/
+Ensure(ParameterArray, freesSubordinateParameterArrays) {
+    Parameter *parameterArray = newParameterArray();
+    Parameter *parameter = newParameter(7);
+    parameter->candidates = newParameterArray();
+    addParameterToParameterArray(parameterArray, parameter); 
+    freeParameterArray(&parameterArray);
+    assert_that(parameterArray, is_null);
+}
+
 /*======================================================================*/
-TestSuite *paramsTests(void)
-{
+TestSuite *paramsTests(void) {
     TestSuite *suite = create_test_suite();
 
-	set_setup(suite, setUp);
-    add_test(suite, canFindLastParameterInAList);
-    add_test(suite, canSetAndGetParameters);
-    add_test(suite, getWillAllocateStoredParameters);
-    add_test(suite, can_find_multiple_position);
-    add_test(suite, returns_minus_one_for_no_multiple_position);
-    add_test(suite, unequal_length_parameter_arrays_are_not_equal);
-    add_test(suite, subtractParameterArraysCanSubtractNullArray);
-    add_test(suite, lengthOfParameterArrayReturnsZeroForNULLArray);
-    add_test(suite, copyParameterCopiesCandidates);
-    add_test(suite, copyParameterArrayCanCopyNullToNull);
-	add_test(suite, addParameterSetsEndOfArray);
-	add_test(suite, intersectParameterArraysReturnsAnEmptyResultForTwoEmpty);
-	add_test(suite, intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty);
-	add_test(suite, intersectParameterArraysReturnsTheSameIfBothAreEqual);
-	add_test(suite, intersectParameterArraysReturnsTheCommonParameter);
+    add_test_with_context(suite, ParameterArray, bailsOutOnCopyToNull);
+
     return suite;
 }
