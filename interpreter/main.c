@@ -109,7 +109,8 @@ void checkobj(Aword *obj) {
 static void runPendingEvents(void)
 {
     int i;
-	
+
+    resetRules();
     while (eventQueueTop != 0 && eventQueue[eventQueueTop-1].after == 0) {
         eventQueueTop--;
         if (isALocation(eventQueue[eventQueueTop].where))
@@ -122,8 +123,7 @@ static void runPendingEvents(void)
             printf("):>\n");
         }
         interpret(events[eventQueue[eventQueueTop].event].code);
-        if (isPreBeta2(header->version))
-            evaluateRules();
+        evaluateRules(rules);
     }
 	
     for (i = 0; i<eventQueueTop; i++)
@@ -468,7 +468,7 @@ static void initStaticData(void)
     stxs = (SyntaxEntry *) pointerTo(header->syntaxTableAddress);
     vrbs = (VerbEntry *) pointerTo(header->verbTableAddress);
     msgs = (MessageEntry *) pointerTo(header->messageTableAddress);
-    initRules();
+    initRules(header->ruleTableAddress);
 
     if (header->pack)
         freq = (Aword *) pointerTo(header->freq);
@@ -602,7 +602,7 @@ static void start(void)
 
     if (where(HERO, FALSE) == startloc)
         look();
-    evaluateRules();
+    resetAndEvaluateRules(rules, header->version);
 }
 
 
@@ -817,11 +817,8 @@ void run(void)
         if (debugOption)
             debug(FALSE, 0, 0);
 
-	do {
-	    runPendingEvents();
-	    evaluateRules();
-	} while (anyRuleRun);
-
+        runPendingEvents();
+        
         current.tick++;
 		
         /* Return here if error during execution */
@@ -858,11 +855,11 @@ void run(void)
         else
             forgetGameState();
 	
-        evaluateRules();	/* Remove this call? Since Eval is done up there after each event... */
+        resetAndEvaluateRules(rules, header->version);	/* Remove this call? Since Eval is done up there after each event... */
         for (i = 1; i <= header->instanceMax; i++)
             if (i != header->theHero && isAActor(i)) {
                 moveActor(i);
-                evaluateRules();
+                resetAndEvaluateRules(rules, header->version);
             }
     }
 #ifdef SMARTALLOC

@@ -30,6 +30,8 @@ default:
 # ... except for unittests with cgreen which can not run under mingw
 unittests: CC = gcc
 unittests: LINK = gcc
+unittests.dll: CC = gcc
+unittests.dll: LINK = gcc
 
 cgreenrunnertests: CC = gcc
 cgreenrunnertests: LINK = gcc

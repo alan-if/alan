@@ -99,6 +99,7 @@ static AltInfo *mockedAlternativeFinder(int verb, Parameter parameters[]) {
 }
 
 Ensure(possibleIndicatesFalseOnEmptyAlternatives) {
+    cgreen_mocks_are(learning_mocks);
     globalParameters = newParameterArray();
     assert_false(possibleWithFinder(current.verb, globalParameters, mockedAlternativeFinder));
 }

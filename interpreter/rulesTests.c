@@ -1,10 +1,18 @@
-#include "cgreen/cgreen.h"
+
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
 
 #include "rules.c"
 
 Describe(Rules);
 
+#define VERSION "\3\0\3b" // 3.0beta3
+
 static Stack stack;
+
+static void interpret_and_return_false(Aaddr adr) {
+    push(stack, false);
+}
 
 BeforeEach(Rules) {
     stack = createStack(10);
@@ -19,6 +27,11 @@ BeforeEach(Rules) {
 
     rulEntry++;
     setEndOfArray(rulEntry);
+
+    initRules(header->ruleTableAddress);
+
+    setInterpreterMock(interpret_and_return_false);
+    resetRules();
 }
 
 AfterEach(Rules) {
@@ -26,77 +39,113 @@ AfterEach(Rules) {
 
 
 Ensure(Rules, canInitRulesAdmin) {
-    initRules();
-
     assert_that(rulesAdmin, is_non_null);
     assert_that(rulesAdmin[0].exp, is_equal_to(rules[0].exp));
     assert_that(rulesAdmin[0].stms, is_equal_to(rules[0].stms));
 }
 
 
-static void interpretAndReturnFalse(Aaddr adr) {
-    push(stack, false);
+Ensure(Rules, canClearRulesAdmin) {
+    rulesAdmin[0].alreadyRun = TRUE;
+    clearRulesAdmin(ruleCount);
+    assert_that(rulesAdmin[0].alreadyRun, is_false);
+}
+
+
+static void interpreter_mock(Aaddr adr) {
+    push(stack, (Aword)mock(adr));
 }
 
 Ensure(Rules, setsLastEvalToFalseForRulesEvaluatingToFalse) {
-    initRules();
-    setInterpreterMock(interpretAndReturnFalse);
+    setInterpreterMock(interpreter_mock);
+
+    always_expect(interpreter_mock, will_return(false));
     rulesAdmin[0].lastEval = true;
 
-    evaluateRules();
+    resetAndEvaluateRules(rules, VERSION);
 
     assert_that(rulesAdmin[0].lastEval, is_false);
 }
 
+Ensure(Rules, setsLastEvalToTrueForRulesEvaluatingToTrue) {
+    setInterpreterMock(interpreter_mock);
 
-static bool interpreterExecuted = false;
-static void interpretAndReturnTrueIfEval(Aaddr adr) {
-    if (adr == rules[0].exp)
-        push(stack, true);
-    else
-        interpreterExecuted = true;
-}
+    always_expect(interpreter_mock, when(adr, is_equal_to(rules[0].exp)), will_return(true));
 
-Ensure(Rules, setsLastEvalToTrueAndExecutesRulesEvaluatingToTrueWithLastEvalFalse) {
-    initRules();
-    setInterpreterMock(interpretAndReturnTrueIfEval);
-    interpreterExecuted = false;
+    rulesAdmin[0].lastEval = false;
 
-    evaluateRules();
+    resetAndEvaluateRules(rules, VERSION);
 
     assert_that(rulesAdmin[0].lastEval, is_true);
-    assert_that(interpreterExecuted);
 }
 
 
-Ensure(Rules, dontExecuteRulesEvaluatingToTrueWithLastEvalTrue) {
-    initRules();
-    setInterpreterMock(interpretAndReturnTrueIfEval);
-    interpreterExecuted = false;
+static bool rule0_statements_have_been_executed = false;
+static void interpret_and_return_true_if_evaluated(Aaddr adr) {
+    if (adr == rules[0].exp)
+        push(stack, true);
+    else if (adr == rules[0].stms)
+        rule0_statements_have_been_executed = true;
+}
+
+Ensure(Rules, sets_last_eval_to_true_and_executes) {
+    setInterpreterMock(interpreter_mock);
+
+    expect(interpreter_mock, when(adr, is_equal_to(rules[0].exp)), will_return(true));
+    expect(interpreter_mock, when(adr, is_equal_to(rules[0].stms)), will_return(0));
+    expect(interpreter_mock);
+
+    evaluateRules(rules);
+
+    assert_that(rulesAdmin[0].lastEval, is_true);
+}
+
+
+Ensure(Rules, dontExecuteStatementsForRulesWithLastEvalTrue) {
+    setInterpreterMock(interpret_and_return_true_if_evaluated);
+
+    rule0_statements_have_been_executed = false;
 
     rulesAdmin[0].lastEval = true;
 
-    evaluateRules();
+    evaluateRules(rules);
 
-    assert_that(rulesAdmin[0].lastEval, is_true);
-    assert_that(interpreterExecuted, is_false);
+    assert_that(rule0_statements_have_been_executed, is_false);
 }
 
-Ensure(Rules, canClearRulesAdmin) {
-    initRules();
-    rulesAdmin[0].alreadyRun = TRUE;
-    clearRulesAdmin();
-    assert_that(rulesAdmin[0].alreadyRun, is_false);
+static void reset_all_rules_to_false() {
+    setInterpreterMock(interpret_and_return_false);
+    resetRules();
 }
 
-TestSuite *rulesTests(void)
-{
-    TestSuite *suite = create_test_suite();
 
-    add_test_with_context(suite, Rules, canInitRulesAdmin);
-    add_test_with_context(suite, Rules, setsLastEvalToFalseForRulesEvaluatingToFalse);
-    add_test_with_context(suite, Rules, setsLastEvalToTrueAndExecutesRulesEvaluatingToTrueWithLastEvalFalse);
-    add_test_with_context(suite, Rules, dontExecuteRulesEvaluatingToTrueWithLastEvalTrue);
+Ensure(Rules, executes_statements_for_a_rule_triggered_again_after_reset) {
 
-    return suite;
+    setInterpreterMock(interpret_and_return_true_if_evaluated);
+
+    rule0_statements_have_been_executed = false;
+    evaluateRules(rules);
+    assert_that(rule0_statements_have_been_executed);
+
+	reset_all_rules_to_false();
+
+    rule0_statements_have_been_executed = false;
+    setInterpreterMock(interpret_and_return_true_if_evaluated);
+    evaluateRules(rules);
+    assert_that(rule0_statements_have_been_executed);
 }
+
+Ensure(Rules, dont_execute_statements_for_a_rule_triggered_a_second_time_without_being_reset) {
+    setInterpreterMock(interpret_and_return_true_if_evaluated);
+
+    rule0_statements_have_been_executed = false;
+    evaluateRules(rules);
+    assert_that(rule0_statements_have_been_executed);
+
+    rulesAdmin[0].lastEval = false; /* Simulate another evaluation returning false */
+
+    rule0_statements_have_been_executed = false;
+    evaluateRules(rules);
+    assert_that(rule0_statements_have_been_executed, is_false);
+}
+

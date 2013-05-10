@@ -24,7 +24,6 @@ static void add_unittests(TestSuite *suite) {
     ADD_UNIT_TESTS_FOR(parameterPosition);
     ADD_UNIT_TESTS_FOR(parse);
     ADD_UNIT_TESTS_FOR(reverse);
-    ADD_UNIT_TESTS_FOR(rules);
     ADD_UNIT_TESTS_FOR(save);
     ADD_UNIT_TESTS_FOR(set);
     ADD_UNIT_TESTS_FOR(stack);
