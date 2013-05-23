@@ -7,7 +7,7 @@ Describe(AltInfo);
 BeforeEach(AltInfo) {}
 AfterEach(AltInfo) {}
 
-Ensure(canPrimeAltInfo) {
+Ensure(AltInfo, canPrimeAltInfo) {
   AltInfo altInfos[2];
   const int level = 17;
   const int parameter = 18;
@@ -23,7 +23,7 @@ Ensure(canPrimeAltInfo) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure(canDuplicateAltInfoArray) {
+Ensure(AltInfo, canDuplicateAltInfoArray) {
   AltInfo original[20];
   AltInfo *duplicate;
   static int COPYSIZE = 15;
@@ -46,7 +46,7 @@ Ensure(canDuplicateAltInfoArray) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(canFindLastAltInfoIndex) {
+Ensure(AltInfo, canFindLastAltInfoIndex) {
   AltInfo array[20];
   static int SIZE = 13;
   int i;
@@ -59,7 +59,7 @@ Ensure(canFindLastAltInfoIndex) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure(canFindNextFreeAltInfo) {
+Ensure(AltInfo, canFindNextFreeAltInfo) {
   AltInfo array[20];
   static int SIZE = 13;
   int i;
@@ -78,7 +78,7 @@ AltEntry *finder(int verb, int parameterNumber, int theInstance, int theClass) {
   return &altEntry;
 }
 
-Ensure(canAddGlobalAlternatives) {
+Ensure(AltInfo, canAddGlobalAlternatives) {
   AltInfo altInfos[10];
   altInfos[0].end = TRUE;
 
@@ -98,7 +98,7 @@ static AltInfo *mockedAlternativeFinder(int verb, Parameter parameters[]) {
     return NULL;
 }
 
-Ensure(possibleIndicatesFalseOnEmptyAlternatives) {
+Ensure(AltInfo, possibleIndicatesFalseOnEmptyAlternatives) {
 	expect(mockedAlternativeFinder);
     globalParameters = allocateParameterArray(MAXINSTANCE);
     assert_false(possibleWithFinder(current.verb, globalParameters, mockedAlternativeFinder));
@@ -107,12 +107,12 @@ Ensure(possibleIndicatesFalseOnEmptyAlternatives) {
 TestSuite *altInfoTests() {
   TestSuite *suite = create_test_suite();
 
-  add_test(suite, canPrimeAltInfo);
-  add_test(suite, canDuplicateAltInfoArray);
-  add_test(suite, canFindLastAltInfoIndex);
-  add_test(suite, canFindNextFreeAltInfo);
-  add_test(suite, canAddGlobalAlternatives);
-  add_test(suite, possibleIndicatesFalseOnEmptyAlternatives);
+  add_test_with_context(suite, AltInfo, canPrimeAltInfo);
+  add_test_with_context(suite, AltInfo, canDuplicateAltInfoArray);
+  add_test_with_context(suite, AltInfo, canFindLastAltInfoIndex);
+  add_test_with_context(suite, AltInfo, canFindNextFreeAltInfo);
+  add_test_with_context(suite, AltInfo, canAddGlobalAlternatives);
+  add_test_with_context(suite, AltInfo, possibleIndicatesFalseOnEmptyAlternatives);
 
   return suite;
 }
