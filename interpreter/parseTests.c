@@ -322,8 +322,8 @@ Ensure (canMatchSingleParameter) {
     playerWords = allocate(10);
 
     expect(mockedInstanceMatcher,
-           when(parameter.firstWord, is_equal_to(parameters[0].firstWord)),
-           when(parameter.lastWord, is_equal_to(parameters[0].lastWord)));
+           when(parameter->firstWord, is_equal_to(parameters[0].firstWord)),
+           when(parameter->lastWord, is_equal_to(parameters[0].lastWord)));
     
     findCandidates(parameters, mockedInstanceMatcher);
 
@@ -352,7 +352,7 @@ Ensure (matchNounPhraseCanMatchSingleNounWithSingleMatch) {
     givenPlayerWordsForANoun(theExpectedWordIndex);
 
     expect(mockedReferenceFinder,
-	   when(currentWordIndex, is_equal_to(theExpectedWordIndex)),
+	   when(wordIndex, is_equal_to(theExpectedWordIndex)),
 	   will_return(theExpectedInstance));
 
     matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
@@ -379,10 +379,10 @@ Ensure (canMatchNounAndAdjectiveWithSingleMatch) {
     givenADictionary();
 
     expect(mockedReferenceFinder,
-	   when(currentWordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
+	   when(wordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
 	   will_return(firstAdjectiveInstances));
     expect(mockedReferenceFinder,
-	   when(currentWordIndex, is_equal_to(theExpectedNounWordIndex)),
+	   when(wordIndex, is_equal_to(theExpectedNounWordIndex)),
 	   will_return(theNounInstances));
 
     matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
@@ -415,13 +415,13 @@ Ensure (canMatchMultipleAdjectivesAndNounWithSingleMatch) {
     givenADictionary();
 
     expect(mockedReferenceFinder,
-	   when(currentWordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
+	   when(wordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
 	   will_return(firstAdjectiveInstances));
     expect(mockedReferenceFinder,
-	   when(currentWordIndex, is_equal_to(theExpectedSecondAdjectiveWordIndex)),
+	   when(wordIndex, is_equal_to(theExpectedSecondAdjectiveWordIndex)),
 	   will_return(secondAdjectiveInstances));
     expect(mockedReferenceFinder,
-	   when(currentWordIndex, is_equal_to(theExpectedNounWordIndex)),
+	   when(wordIndex, is_equal_to(theExpectedNounWordIndex)),
 	   will_return(theNounInstances));
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);

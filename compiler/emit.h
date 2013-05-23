@@ -20,7 +20,7 @@ ACodeHeader acodeHeader;
 
 extern void initEmit(char acodeFileName[]);
 extern void initEmitBuffer(Aword *bufferToUse);
-extern Aword nextEmitAddress(void);
+extern Aaddr nextEmitAddress(void);
 extern void emitString(char str[]);
 extern void emitVariable(Aword word);
 extern void emitConstant(int word);

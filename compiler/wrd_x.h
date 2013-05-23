@@ -38,6 +38,7 @@ extern int newNounWord(char *theWord, int code, Instance *reference);
 
 extern void prepareWords(void);
 extern void analyzeAllWords(void);
+extern void finalizeWords(void);
 extern Aaddr generateAllWords(void);
 
 

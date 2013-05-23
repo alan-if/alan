@@ -396,6 +396,8 @@ static void listingOnFile() {
 static void listingOnScreen() {
   lmSev sevs;
 
+  if (verboseFlag) printf("\n");
+
   /* Check what messages to show on the screen */
   sevs = sevALL;
   if (!warningFlag)

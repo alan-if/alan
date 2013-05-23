@@ -83,6 +83,12 @@ Ensure(testGenerateWordEntry) {
   assert_true(convertFromACD(de[1].adjectiveRefs) == 21);  
 }
 
+Ensure(canSeeIfWordDefinedInDictionary) {
+	assert_that(findWord("added"), is_null);
+	newWord("added", NOISE_WORD, 0, NULL);
+	assert_that(findWord("added"), is_not_equal_to(NULL));
+}
+
 TestSuite *wrdTests()
 {
     TestSuite *suite = create_test_suite();
@@ -90,6 +96,7 @@ TestSuite *wrdTests()
     add_test(suite, testInsertWord);
     add_test(suite, testNewWord);
     add_test(suite, testGenerateWordEntry);
+	add_test(suite, canSeeIfWordDefinedInDictionary);
 
     return suite;
 }

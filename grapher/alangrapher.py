@@ -72,7 +72,7 @@ try :
 
             # Did that line split?
             if line[0] != '.' :
-                # Yes, so past them together again
+                # Yes, so paste them together again
                 target += line.split(":")[0].strip()
             target = target.split()[11].strip().split(":")[0].strip('"')
             
