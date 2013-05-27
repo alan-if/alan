@@ -32,8 +32,6 @@ bool anyRuleRun;
 typedef struct RulesAdmin {
     bool lastEval;
     bool alreadyRun;
-    Aaddr exp;
-    Aaddr stms;
 } RulesAdmin;
 
 /* PRIVATE DATA: */
@@ -54,11 +52,10 @@ static void clearRulesAdmin(int ruleCount) {
 static void initRulesAdmin(int ruleCount) {
     int r;
 
-    rulesAdmin = allocate(ruleCount*sizeof(RulesAdmin));
-    for (r = 0; r < ruleCount; r++) {
-	rulesAdmin[r].exp = rules[r].exp;
-        rulesAdmin[r].stms = rules[r].stms;
-    }
+    rulesAdmin = allocate((ruleCount+1)*sizeof(RulesAdmin));
+    for (r = 0; r < ruleCount; r++)
+        ;
+    setEndOfArray(&rulesAdmin[r]);
 }
 
 

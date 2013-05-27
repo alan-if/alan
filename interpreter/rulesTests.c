@@ -38,13 +38,6 @@ AfterEach(Rules) {
 }
 
 
-Ensure(Rules, canInitRulesAdmin) {
-    assert_that(rulesAdmin, is_non_null);
-    assert_that(rulesAdmin[0].exp, is_equal_to(rules[0].exp));
-    assert_that(rulesAdmin[0].stms, is_equal_to(rules[0].stms));
-}
-
-
 Ensure(Rules, canClearRulesAdmin) {
     rulesAdmin[0].alreadyRun = TRUE;
     clearRulesAdmin(ruleCount);
@@ -56,7 +49,7 @@ static void interpreter_mock(Aaddr adr) {
     push(stack, (Aword)mock(adr));
 }
 
-Ensure(Rules, setsLastEvalToFalseForRulesEvaluatingToFalse) {
+Ensure(Rules, sets_last_eval_to_false_for_rules_evaluating_to_false) {
     setInterpreterMock(interpreter_mock);
 
     always_expect(interpreter_mock, will_return(false));

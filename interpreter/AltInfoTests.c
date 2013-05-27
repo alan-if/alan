@@ -99,8 +99,8 @@ static AltInfo *mockedAlternativeFinder(int verb, Parameter parameters[]) {
 }
 
 Ensure(AltInfo, possibleIndicatesFalseOnEmptyAlternatives) {
-	expect(mockedAlternativeFinder);
-    globalParameters = allocateParameterArray(MAXINSTANCE);
+    expect(mockedAlternativeFinder, when(verb, is_equal_to(0)));
+    globalParameters = newParameterArray();
     assert_false(possibleWithFinder(current.verb, globalParameters, mockedAlternativeFinder));
 }
 
