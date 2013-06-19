@@ -133,7 +133,7 @@ void analyzeAllInstanceAttributes() {
   List *l;
   TRAVERSE(l, allInstances) {
     Properties *props = l->member.ins->props;
-    analyzeAttributes(props->attributes, props->id->symbol);
+    analyzeAttributes(props->attributes, props->id->symbol, newInstanceContext(l->member.ins));
   }
 }
 

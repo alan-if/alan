@@ -316,7 +316,7 @@ static char *theSingleIdentifier(List *members)
 }
 
 /*----------------------------------------------------------------------*/
-static void analyzeSetAttribute(Attribute *thisAttribute)
+static void analyzeSetAttribute(Attribute *thisAttribute, Context *context)
 {
   List *members = thisAttribute->set->fields.set.members;
 
@@ -334,7 +334,7 @@ static void analyzeSetAttribute(Attribute *thisAttribute)
     }
   }
   if (length(members) > 0) {
-    analyzeExpression(thisAttribute->set, NULL);
+    analyzeExpression(thisAttribute->set, context);
     if (!isConstantExpression(thisAttribute->set))
       lmLog(&thisAttribute->set->srcp, 433, sevERR, "");
     thisAttribute->setType = thisAttribute->set->fields.set.memberType;
@@ -405,7 +405,7 @@ static void analyzeInheritedReferenceAttribute(Attribute *thisAttribute,
 
 
 /*======================================================================*/
-void analyzeAttributes(List *atrs, Symbol *owningSymbol)
+void analyzeAttributes(List *atrs, Symbol *owningSymbol, Context *context)
 {
   List *theList;
 
@@ -416,7 +416,7 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol)
     thisAttribute->definingSymbol = owningSymbol;
     switch (thisAttribute->type) {
     case SET_TYPE:
-      analyzeSetAttribute(thisAttribute);
+      analyzeSetAttribute(thisAttribute, context);
       break;
     case INSTANCE_TYPE:
     case REFERENCE_TYPE:

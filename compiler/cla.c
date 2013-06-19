@@ -198,7 +198,7 @@ void analyzeAllClassAttributes() {
   List *l;
   TRAVERSE(l, allClasses) {
     Properties *props = l->member.cla->props;
-    analyzeAttributes(props->attributes, props->id->symbol);
+    analyzeAttributes(props->attributes, props->id->symbol, newClassContext(l->member.cla));
   }
 }
 

@@ -490,7 +490,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeSetExpression(Expression *exp, Context *context)
 {
-    analyzeSetMembers(exp->fields.set.members, &exp->fields.set.memberType, &exp->fields.set.memberClass);
+    analyzeSetMembers(exp->fields.set.members, &exp->fields.set.memberType, &exp->fields.set.memberClass, context);
     if (exp->fields.set.memberType == ERROR_TYPE)
         exp->type = ERROR_TYPE;
     else {

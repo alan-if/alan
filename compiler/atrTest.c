@@ -16,6 +16,7 @@
 #include "cla_x.h"
 #include "wht_x.h"
 #include "prop_x.h"
+#include "context_x.h"
 
 
 Ensure(testCreateSetAttribute)
@@ -60,7 +61,7 @@ Ensure(testInferClassInSetAttribute)
   Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
 
   symbolizeProps(instance->props, FALSE);
-  analyzeSetAttribute(atr);
+  analyzeSetAttribute(atr, newNullContext());
   assert_true(atr->type == SET_TYPE);
   assert_true(atr->setType == INSTANCE_TYPE);
   assert_true(atr->setClass == objectSymbol);
@@ -74,7 +75,7 @@ Ensure(testInferClassInSetAttribute)
 	       EXPRESSION_LIST);
 
   symbolizeProps(instance->props, FALSE);
-  analyzeSetAttribute(atr);
+  analyzeSetAttribute(atr, newNullContext());
   assert_true(atr->type == SET_TYPE);
   assert_true(atr->setType == INSTANCE_TYPE);
   assert_true(atr->setClass == entitySymbol);

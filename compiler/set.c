@@ -42,6 +42,7 @@ void verifySetMember(Expression *theSet, Expression *theMember, char contextMess
   case STRING_TYPE: theMember->class = stringSymbol; break;
   case INSTANCE_TYPE: break;
   case SET_TYPE: break;
+  case ERROR_TYPE: break;
   default: SYSERR("Unexpected member type");
   }
   if (theMember->class != NULL)
@@ -76,7 +77,7 @@ static Symbol *commonAncestor(Symbol *inferedClass, Expression *exp) {
 
 
 /*======================================================================*/
-void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass) {
+void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass, Context *context) {
   List *elements;
   TypeKind inferedType = UNINITIALIZED_TYPE;
   Symbol *inferedClass = NULL;
@@ -88,7 +89,7 @@ void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass
   } else
     TRAVERSE(elements, set) {
       Expression *exp = elements->member.exp;
-      analyzeExpression(exp, NULL);
+      analyzeExpression(exp, context);
       if (inferedType == UNINITIALIZED_TYPE)
 	inferedType = exp->type;
       if (!equalTypes(inferedType, exp->type)) {

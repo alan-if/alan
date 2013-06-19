@@ -63,7 +63,9 @@ Ensure(Rules, sets_last_eval_to_false_for_rules_evaluating_to_false) {
 Ensure(Rules, setsLastEvalToTrueForRulesEvaluatingToTrue) {
     setInterpreterMock(interpreter_mock);
 
-    always_expect(interpreter_mock, when(adr, is_equal_to(rules[0].exp)), will_return(true));
+    expect(interpreter_mock, when(adr, is_equal_to(rules[0].exp)), will_return(true));
+    expect(interpreter_mock, when(adr, is_equal_to(rules[0].stms)));
+    always_expect(interpreter_mock);
 
     rulesAdmin[0].lastEval = false;
 
@@ -102,7 +104,6 @@ Ensure(Rules, dontExecuteStatementsForRulesWithLastEvalTrue) {
     rulesAdmin[0].lastEval = true;
 
     evaluateRules(rules);
-
     assert_that(rule0_statements_have_been_executed, is_false);
 }
 
