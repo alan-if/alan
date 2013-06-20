@@ -611,18 +611,14 @@ static void analyzeStop(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeDepend(Statement *stm, Context *context)
 {
-	/* Analyze a DEPENDING statement. It has partial expressions in the
-	   cases which must be connected to the depend expression. */
+	/* Analyze a DEPENDING statement. The case clauses have partial expressions
+	   (operator & right hand side) that must be completed with the
+	   one in the depend as their left hand side. The case clauses are
+	   just hooked to the depend part of the expression. Each case is
+	   analyzed as a complete expression, relying on binary expression
+	   logic to avoid analyzing the left hand side multiple times. */
 
 	List *cases;
-
-	/* The expression will be analysed once for each case so no need to
-	   do this separately, is there?
-
-	   FIXME - performance may be somewhat improved by not re-analyze the
-	   expression for every case => some indication of an anlyzed
-	   expression must be available (the type?) in the expressions nodes.
-	*/
 
 	for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
 		if (cases->member.stm->fields.depcase.exp != NULL) {
