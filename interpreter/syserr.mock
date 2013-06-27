@@ -1,0 +1,11 @@
+/* Mocking SYSERR.H */
+#include "syserr.h"
+
+/* DATA: */
+
+/* FUNCTIONS: */
+void syserr(char *msg) {mock(msg);}
+void apperr(char *msg) {mock(msg);}
+void playererr(char *msg) {mock(msg);}
+void setSyserrHandler(void (*handler)(char *)) {mock(handler);}
+

@@ -672,8 +672,8 @@ typedef struct DebugParseEntry {
 static DebugParseEntry commandEntries[] = {
     {"help", "", HELP_COMMAND, "this help"},
     {"?", "", HELP_COMMAND, "d:o"},
-    {"break", "[file:[n]]", BREAK_COMMAND, "set breakpoint at source line [n] in [file]"},
-    {"delete", "[file:[n]]", DELETE_COMMAND, "delete breakpoint at source line [n] in [file]"},
+    {"break", "[[file:]n]", BREAK_COMMAND, "set breakpoint at source line [n] (optionally in [file])"},
+    {"delete", "[[file:]n]", DELETE_COMMAND, "delete breakpoint at source line [n] (optionally in [file])"},
     {"files", "", FILES_COMMAND, "list source files"},
     {"events", "", EVENTS_COMMAND, "show events"},
     {"classes", "", CLASSES_COMMAND, "show class hierarchy"},

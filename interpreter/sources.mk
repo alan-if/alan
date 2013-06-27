@@ -5,6 +5,9 @@
 # Marcus Baker et al. (http://sourceforge.net/projects/cgreen)
 
 # Either using its runner which discovers test automatically...
+MODULES_WITH_ISOLATED_UNITTESTS = \
+	rules
+
 MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	act.c \
 	reverse.c \

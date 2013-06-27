@@ -65,7 +65,7 @@ Ensure(Rules, setsLastEvalToTrueForRulesEvaluatingToTrue) {
 
     expect(interpreter_mock, when(adr, is_equal_to(rules[0].exp)), will_return(true));
     expect(interpreter_mock, when(adr, is_equal_to(rules[0].stms)));
-    always_expect(interpreter_mock);
+    always_expect(interpreter_mock, will_return(false));
 
     rulesAdmin[0].lastEval = false;
 

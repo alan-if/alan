@@ -1,0 +1,8 @@
+/* Mocking lists.c */
+#include "lists.h"
+
+#include "acode.h"
+#include "types.h"
+
+bool implementationOfIsEndOfList(Aword *adr) { return (bool)mock(adr); }
+void implementationOfSetEndOfArray(Aword *adr) { mock(adr); }

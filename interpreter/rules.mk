@@ -64,11 +64,11 @@ UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING
 UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_RUNNER_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 UNITTESTS_ALL_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_ALL_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 
-# Dependencies, if they exist yet
+# Dependencies, if they don't exist yet
 -include $(UNITTESTS_USING_MAIN_OBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
-$(UNITTESTS_ALL_OBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
+$(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 # Create directory if it doesn't exist
@@ -81,9 +81,12 @@ unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
 	@./unittests $(UNITOUT)
 
+# Build the DLL...
 unittests.dll: LIBS = $(CGREENLIB)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
 	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
+
+# ... that can be run with the cgreen runner
 
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
@@ -94,12 +97,32 @@ else
 	cgreen-runner ./$^ --suite Interpreter $(UNITOUT)
 endif
 
+
+# Here we try to build a runnable DLL for each module where it can be 
+# tested in total isolation (with everything else mocked away,
+# except lists.c and memory.c
+
+# A test .dll for a module is built from its .o and the _test.o (and some extras)
+$(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o $(UNITTESTSOBJDIR)/lists.o $(UNITTESTSOBJDIR)/memory.o
+	$(LINK) -shared -o $@ $^ $(LDFLAGS) $(LIBS)
+
+ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
+
+# Then run all _tests.dll's with the cgreen-runner
+isolated_unittests: CFLAGS += $(CGREENINCLUDE)
+isolated_unittests: LIBS = $(CGREENLIB)
+isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)
+	for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
+		cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
+	done
+
 .PHONY: unit
 ifneq ($(CGREEN),yes)
 unit:
 	echo "No unit tests run, cgreen not available"
 else
-unit: unittests cgreenrunnertests
+unit: unittests cgreenrunnertests isolated_unittests
+
 endif
 
 #######################################################################
