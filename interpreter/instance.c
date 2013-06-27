@@ -825,7 +825,7 @@ static void traceEnteredInstance(Aint instance, bool empty) {
 static void executeInheritedEntered(Aint theClass) {
     if (theClass == 0) return;
     executeInheritedEntered(classes[theClass].parent);
-    if (sectionTraceOption)
+    if (traceSectionOption)
         traceEnteredClass(theClass, classes[theClass].entered == 0);
     if (classes[theClass].entered) {
         interpret(classes[theClass].entered);
@@ -840,7 +840,7 @@ static void executeEntered(Aint instance) {
     if (admin[instance].location != 0)
         executeEntered(admin[instance].location);
     executeInheritedEntered(instances[instance].parent);
-    if (sectionTraceOption)
+    if (traceSectionOption)
         traceEnteredInstance(instance, instances[instance].entered == 0);
     if (instances[instance].entered != 0) {
         interpret(instances[instance].entered);
@@ -925,7 +925,7 @@ void locate(int instance, int whr)
         theContainer = &containers[containerId];
 
         if (theContainer->extractChecks != 0) {
-            if (sectionTraceOption)
+            if (traceSectionOption)
                 traceExtract(instance, containerId, "Checking");
             if (checksFailed(theContainer->extractChecks, EXECUTE_CHECK_BODY_ON_FAIL)) {
                 fail = TRUE;
@@ -935,7 +935,7 @@ void locate(int instance, int whr)
             }
         }
         if (theContainer->extractStatements != 0) {
-            if (sectionTraceOption)
+            if (traceSectionOption)
                 traceExtract(instance, containerId, "Executing");
             interpret(theContainer->extractStatements);
         }

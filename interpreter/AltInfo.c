@@ -74,7 +74,7 @@ static void traceAltInfo(AltInfo *alt) {
 /*----------------------------------------------------------------------*/
 static void traceVerbCheck(AltInfo *alt, bool execute)
 {
-    if (sectionTraceOption && execute) {
+    if (traceSectionOption && execute) {
         printf("\n<VERB %d, ", current.verb);
         traceAltInfo(alt);
         printf(", CHECK:>\n");
@@ -100,7 +100,7 @@ bool checkFailed(AltInfo *altInfo, bool execute)
 /*----------------------------------------------------------------------*/
 static void traceVerbExecution(AltInfo *alt)
 {
-    if (sectionTraceOption) {
+    if (traceSectionOption) {
         printf("\n<VERB %d, ", current.verb);
         traceAltInfo(alt);
         printf(", DOES");

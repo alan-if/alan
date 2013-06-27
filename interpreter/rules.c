@@ -74,37 +74,53 @@ void initRules(Aaddr ruleTableAddress) {
 
 
 /*----------------------------------------------------------------------*/
-static void traceRule(int i, char *what, char *tail) {
-    printf("\n<RULE %d", i);
+static void traceRuleStart(int rule, char *what) {
+    printf("\n<RULE %d", rule);
     if (current.location != 0) {
         printf(" (at ");
         traceSay(current.location);
     } else
         printf(" (nowhere");
-    printf("[%d]), %s%s", current.location, what, tail);
+    printf("[%d]), %s", current.location, what);
+}
+
+static bool detailedTraceOn() {
+	return traceInstructionOption || traceSourceOption || tracePushOption || traceStackOption;
 }
 
 
 /*----------------------------------------------------------------------*/
-static void traceRuleEvaluation(int i) {
-    if (sectionTraceOption) {
-        char *eval = evaluate(rules[i-1].exp)?"Evaluating to true":"Evaluating to false";
-        if (!singleStepOption && !traceSourceOption) {
-            traceRule(i, eval, "");
+static void traceRuleEvaluation(int rule) {
+    if (traceSectionOption) {
+	    if (detailedTraceOn()) {
+	        traceRuleStart(rule, "Evaluating:>");
+            if (!traceInstructionOption)
+	            printf("\n");
         } else {
-            traceRule(i, eval, ":>\n");
+	        traceRuleStart(rule, "Evaluating to ");
         }
     }
 }
 
+/*----------------------------------------------------------------------*/
+static void traceRuleResult(int rule, bool result) {
+	if (traceSectionOption) {
+		if (detailedTraceOn())
+	        printf("<RULE %d %s%s", rule, "Evaluated to ", result?": true>\n":": false>\n");
+        else
+	        printf(result?"true":"false");
+	}
+}
 
 /*----------------------------------------------------------------------*/
-static void traceRuleExecution(int i) {
-    if (sectionTraceOption) {
-        if (!singleStepOption && !traceSourceOption)
+static void traceRuleExecution(int rule) {
+    if (traceSectionOption) {
+        if (!traceInstructionOption && !traceSourceOption)
             printf(", Executing:>\n");
         else {
-            traceRule(i, "Executing:>\n", "");
+            traceRuleStart(rule, "Executing:>");
+            if (!traceInstructionOption)
+	            printf("\n");
         }
     }
 }
@@ -130,7 +146,7 @@ static void evaluateRulesPreBeta2(void)
                     rules[i-1].alreadyRun = TRUE;
                     traceRuleExecution(i);
                     interpret(rules[i-1].stms);
-                } else if (sectionTraceOption && !singleStepOption)
+                } else if (traceSectionOption && !traceInstructionOption)
                     printf(":>\n");
             }
     }
@@ -150,8 +166,8 @@ static void evaluateRulesBeta2New(void) {
     anyRuleRun = FALSE;
 
     for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
-        bool evaluated_value = evaluate(rules[i-1].exp);
-        traceRuleEvaluation(i);
+	    bool evaluated_value = evaluate(rules[i-1].exp);
+	    traceRuleEvaluation(i);
         rules[i-1].alreadyRun = evaluated_value;
     }
     for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
@@ -182,8 +198,8 @@ static void evaluateRulesBeta2(void)
         change = FALSE;
         for (i = 1; !isEndOfArray(&rules[i-1]); i++)
             if (!rules[i-1].alreadyRun) {
-                bool triggered = evaluate(rules[i-1].exp);
                 traceRuleEvaluation(i);
+                bool triggered = evaluate(rules[i-1].exp);
                 if (triggered) {
                     if (rulesAdmin[i-1].lastEval == false) {
                         change = TRUE;
@@ -194,7 +210,7 @@ static void evaluateRulesBeta2(void)
                     rulesAdmin[i-1].lastEval = triggered;
                 } else {
                     rulesAdmin[i-1].lastEval = false;
-                    if (sectionTraceOption && !singleStepOption)
+                    if (traceSectionOption && !traceInstructionOption)
                         printf(":>\n");
                 }
 	    }
@@ -207,7 +223,6 @@ void resetRules() {
     int i;
     for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
         rulesAdmin[i-1].alreadyRun = FALSE;
-
     }
 }
 
@@ -215,28 +230,29 @@ void resetRules() {
 /*======================================================================*/
 void evaluateRules(RuleEntry rules[]) {
     bool change = TRUE;
-    int i;
+    int rule;
 
     current.location = NOWHERE;
     current.actor = 0;
 
     while (change) {
         change = FALSE;
-        for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
-            traceRuleEvaluation(i);
-            bool evaluated_value = evaluate(rules[i-1].exp);
-            if (evaluated_value == true && rulesAdmin[i-1].lastEval == false
-                && !rulesAdmin[i-1].alreadyRun) {
+        for (rule = 1; !isEndOfArray(&rules[rule-1]); rule++) {
+            traceRuleEvaluation(rule);
+            bool evaluated_value = evaluate(rules[rule-1].exp);
+            traceRuleResult(rule, evaluated_value);
+            if (evaluated_value == true && rulesAdmin[rule-1].lastEval == false
+                && !rulesAdmin[rule-1].alreadyRun) {
                 change = TRUE;
-                traceRuleExecution(i);
-                interpret(rules[i-1].stms);
-                rulesAdmin[i-1].alreadyRun = TRUE;
+                traceRuleExecution(rule);
+                interpret(rules[rule-1].stms);
+                rulesAdmin[rule-1].alreadyRun = TRUE;
                 anyRuleRun = TRUE;
             } else {
-                if (sectionTraceOption && !(singleStepOption || traceSourceOption))
+                if (traceSectionOption && !(traceInstructionOption || traceSourceOption))
                     printf(":>\n");
             }
-            rulesAdmin[i-1].lastEval = evaluated_value;
+            rulesAdmin[rule-1].lastEval = evaluated_value;
         }
     }
 }

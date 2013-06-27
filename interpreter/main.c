@@ -117,7 +117,7 @@ static void runPendingEvents(void)
             current.location = eventQueue[eventQueueTop].where;
         else
             current.location = where(eventQueue[eventQueueTop].where, FALSE);
-        if (sectionTraceOption) {
+        if (traceSectionOption) {
             printf("\n<EVENT %d (at ", eventQueue[eventQueueTop].event);
             traceSay(current.location);
             printf("):>\n");
@@ -309,10 +309,10 @@ static void readTemporaryHeader(ACodeHeader *tmphdr) {
 /*----------------------------------------------------------------------*/
 static void reverseMemory() {
     if (littleEndian()) {
-        if (debugOption||sectionTraceOption||singleStepOption)
+        if (debugOption||traceSectionOption||traceInstructionOption)
             output("<Hmm, this is a little-endian machine, fixing byte ordering....");
         reverseACD();			/* Reverse content of the ACD file */
-        if (debugOption||sectionTraceOption||singleStepOption)
+        if (debugOption||traceSectionOption||traceInstructionOption)
             output("OK.>$n");
     }
 }
@@ -401,14 +401,14 @@ static void checkDebug(void)
 {
     /* Make sure he can't debug if not allowed! */
     if (!header->debug) {
-        if (debugOption|sectionTraceOption|singleStepOption) {
+        if (debugOption|traceSectionOption|traceInstructionOption) {
             printf("<Sorry, '%s' is not compiled for debug! Exiting.>\n", adventureFileName);
             terminate(0);
         }
         para();
         debugOption = FALSE;
-        sectionTraceOption = FALSE;
-        singleStepOption = FALSE;
+        traceSectionOption = FALSE;
+        traceInstructionOption = FALSE;
         tracePushOption = FALSE;
     }
 	
@@ -595,13 +595,16 @@ static void start(void)
 	
     initializeInstances();
 	
-    if (sectionTraceOption)
+    if (traceSectionOption)
         printf("\n<START:>\n");
     interpret(header->start);
     para();
 
-    if (where(HERO, FALSE) == startloc)
-        look();
+    if (where(HERO, FALSE) == startloc) {
+	    if (traceSectionOption)
+		    printf("<CURRENT LOCATION:>");
+	    look();
+    }
     resetAndEvaluateRules(rules, header->version);
 }
 
@@ -641,7 +644,7 @@ static void init(void)
 {
     int i;
 	
-    if (!regressionTestOption && (debugOption||sectionTraceOption||singleStepOption)) {
+    if (!regressionTestOption && (debugOption||traceSectionOption||traceInstructionOption)) {
         char str[80];
         output("<Hi! This is Alan interactive fiction interpreter Arun,");
         sprintf(str, "version %ld.%ld%s%ld",
@@ -687,7 +690,7 @@ static void init(void)
 /*----------------------------------------------------------------------*/
 static bool traceActor(int theActor)
 {
-    if (sectionTraceOption) {
+    if (traceSectionOption) {
         printf("\n<ACTOR ");
         traceSay(theActor);
         printf("[%d]", theActor);
@@ -698,7 +701,7 @@ static bool traceActor(int theActor)
 	    printf(" (nowhere");
         printf("[%d])", current.location);
     }
-    return sectionTraceOption;
+    return traceSectionOption;
 }
 
 

@@ -630,11 +630,11 @@ static void traceRestriction(RestrictionEntry *restriction, int classId, bool co
 /*----------------------------------------------------------------------*/
 static bool restrictionCheck(RestrictionEntry *restriction, int instance) {
     if (restriction->class == RESTRICTIONCLASS_CONTAINER) {
-        if (sectionTraceOption)
+        if (traceSectionOption)
             traceRestriction(restriction, -1, instances[instance].container != 0);
         return instances[instance].container != 0;
     } else {
-        if (sectionTraceOption)
+        if (traceSectionOption)
             traceRestriction(restriction, restriction->class, isA(instance, restriction->class));
         return isA(instance, restriction->class);
     }

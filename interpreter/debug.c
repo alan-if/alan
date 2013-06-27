@@ -607,18 +607,19 @@ static void deleteBreakpoint(int line, int file) {
 
 
 
-static bool trc, stp, cap, psh, stk;
+static bool saved_traceSection, saved_traceInstruction, saved_capitilize, saved_tracePush, saved_traceStack, saved_traceSource;
 static int loc;
 
 /*======================================================================*/
 void saveInfo(void)
 {
     /* Save some important things */
-    cap = capitalize; capitalize = FALSE;
-    trc = sectionTraceOption; sectionTraceOption = FALSE;
-    stp = singleStepOption; singleStepOption = FALSE;
-    psh = tracePushOption; tracePushOption = FALSE;
-    stk = traceStackOption; traceStackOption = FALSE;
+    saved_capitilize = capitalize; capitalize = FALSE;
+    saved_traceSection = traceSectionOption; traceSectionOption = FALSE;
+    saved_traceSource = traceSourceOption; traceSourceOption = FALSE;
+    saved_traceInstruction = traceInstructionOption; traceInstructionOption = FALSE;
+    saved_tracePush = tracePushOption; tracePushOption = FALSE;
+    saved_traceStack = traceStackOption; traceStackOption = FALSE;
     loc = current.location; current.location = where(HERO, TRUE);
 }
 
@@ -627,11 +628,12 @@ void saveInfo(void)
 void restoreInfo(void)
 {
     /* Restore! */
-    capitalize = cap;
-    sectionTraceOption = trc;
-    singleStepOption = stp;
-    tracePushOption = psh;
-    traceStackOption = stk;
+    capitalize = saved_capitilize;
+    traceSectionOption = saved_traceSection;
+    traceInstructionOption = saved_traceInstruction;
+    traceSourceOption = saved_traceSource;
+    tracePushOption = saved_tracePush;
+    traceStackOption = saved_traceStack;
     current.location = loc;
 }
 
@@ -648,11 +650,17 @@ void restoreInfo(void)
 #define EVENTS_COMMAND 'E'
 #define BREAK_COMMAND 'B'
 #define DELETE_COMMAND 'D'
+#define TRACE_COMMAND 'R'
 #define SECTION_TRACE_COMMAND 'T'
 #define INSTRUCTION_TRACE_COMMAND 'S'
 #define NEXT_COMMAND 'N'
 #define UNKNOWN_COMMAND '?'
 #define AMBIGUOUS_COMMAND '-'
+#define TRACE_SOURCE_COMMAND 's'
+#define TRACE_SECTION_COMMAND 'e'
+#define TRACE_INSTRUCTION_COMMAND 'i'
+#define TRACE_PUSH_COMMAND 'p'
+#define TRACE_STACK_COMMAND 't'
 
 typedef struct DebugParseEntry {
     char *command;
@@ -673,13 +681,21 @@ static DebugParseEntry commandEntries[] = {
     {"objects", "[n]", OBJECTS_COMMAND, "show instance(s) that are objects"},
     {"actors", "[n]", ACTORS_COMMAND, "show instance(s) that are actors"},
     {"locations", "[n]", LOCATIONS_COMMAND, "show instances that are locations"},
-    {"section", "", SECTION_TRACE_COMMAND, "toggle section trace"},
-    {"single", "", INSTRUCTION_TRACE_COMMAND, "toggle single instruction trace"},
+    {"trace", "('source'|'section'|'instruction'|'push'|'stack')", TRACE_COMMAND, "toggle various traces"},
     {"next", "", NEXT_COMMAND, "execute to next source line"},
     {"go", "", GO_COMMAND, "go another player turn"},
-    {"exit", "", EXIT_COMMAND, "exit debug mode and return to game, get back with 'debug' as player input"},
+    {"exit", "", EXIT_COMMAND, "exit to game, enter 'debug' to get back"},
     {"x", "", EXIT_COMMAND, "d:o"},
     {"quit", "", QUIT_COMMAND, "quit game"},
+    {NULL, NULL}
+};
+
+static DebugParseEntry traceSubcommand[] = {
+    {"source", "", TRACE_SOURCE_COMMAND, ""},
+    {"section", "", TRACE_SECTION_COMMAND, ""},
+    {"instructions", "", TRACE_INSTRUCTION_COMMAND, ""},
+    {"pushs", "", TRACE_PUSH_COMMAND, ""},
+    {"stacks", "", TRACE_STACK_COMMAND, ""},
     {NULL, NULL}
 };
 
@@ -781,10 +797,79 @@ static void displaySourceLocation(int line, int fileNumber) {
 
 /*----------------------------------------------------------------------*/
 static void toggleSectionTrace() {
-	if ((trc = !trc))
+	if ((saved_traceSection = !saved_traceSection))
 		printf("Section trace on.");
 	else
 		printf("Section trace off.");
+}
+
+/*----------------------------------------------------------------------*/
+static void toggleInstructionTrace() {
+	if ((saved_traceInstruction = !saved_traceInstruction))
+		printf("Single instruction trace on.");
+	else
+		printf("Single instruction trace off.");
+}
+
+/*----------------------------------------------------------------------*/
+static void toggleSourceTrace() {
+	if ((saved_traceSource = !saved_traceSource))
+		printf("Source code trace on.");
+	else
+		printf("Source code trace off.");
+}
+
+
+/*----------------------------------------------------------------------*/
+static void togglePushTrace() {
+	if ((saved_tracePush = !saved_tracePush))
+		printf("Stack Push trace on.");
+	else
+		printf("Stack Push trace off.");
+}
+
+
+/*----------------------------------------------------------------------*/
+static void toggleStackTrace() {
+	if ((saved_traceStack = !saved_traceStack))
+		printf("Full stack trace on.");
+	else
+		printf("Full stack trace off.");
+}
+
+
+/*----------------------------------------------------------------------*/
+static int parseTraceCommand() {
+	char *subcommand = strtok(NULL, "");
+	DebugParseEntry *entry;
+	if (subcommand == 0)
+		return UNKNOWN_COMMAND;
+	else {
+		entry = findEntry(subcommand, traceSubcommand);
+		if (entry != NULL) {
+			if (strlen(subcommand) < strlen(entry->command)) {
+				if (findEntry(subcommand, entry+1) != NULL)
+					return AMBIGUOUS_COMMAND;
+			}
+			return entry->code;
+		} else
+			return UNKNOWN_COMMAND;
+	}
+}
+
+/*----------------------------------------------------------------------*/
+static void handleTraceCommand() {
+	char subcommand = parseTraceCommand();
+
+	switch (subcommand) {
+	case TRACE_INSTRUCTION_COMMAND: toggleInstructionTrace(); break;
+	case TRACE_SECTION_COMMAND: toggleSectionTrace(); break;
+	case TRACE_SOURCE_COMMAND: toggleSourceTrace(); break;
+	case TRACE_PUSH_COMMAND: togglePushTrace(); break;
+	case TRACE_STACK_COMMAND: toggleStackTrace(); break;
+	case AMBIGUOUS_COMMAND: output("Ambiguous Trace subcommand abbreviation. ? for help."); break;
+	default: output("Unknown Trace subcommand. ? for help."); break;
+	}
 }
 
 
@@ -826,15 +911,6 @@ static void handleNextCommand(bool calledFromBreakpoint) {
 	if (!calledFromBreakpoint)
 		current.sourceLine = 0;
 	restoreInfo();
-}
-
-
-/*----------------------------------------------------------------------*/
-static void toggleInstructionTrace() {
-	if ((stp = !stp))
-		printf("Single instruction trace on.");
-	else
-		printf("Single instruction trace off.");
 }
 
 
@@ -921,6 +997,7 @@ void debug(bool calledFromBreakpoint, int line, int fileNumber)
         case GO_COMMAND: restoreInfo(); goto exit_debug;
         case HELP_COMMAND: handleHelpCommand(); break;
         case INSTANCES_COMMAND: handleInstancesCommand(); break;
+        case TRACE_COMMAND: handleTraceCommand(); break;
         case INSTRUCTION_TRACE_COMMAND: toggleInstructionTrace(); break;
         case LOCATIONS_COMMAND: handleLocationsCommand(); break;
         case NEXT_COMMAND: handleNextCommand(calledFromBreakpoint); goto exit_debug;

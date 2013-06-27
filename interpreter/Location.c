@@ -41,20 +41,20 @@ void go(int location, int dir)
 	    if (theExit->code == dir) {
 		ok = TRUE;
 		if (theExit->checks != 0) {
-		    if (sectionTraceOption)
+		    if (traceSectionOption)
                         traceExit(location, dir, "Checking");
 		    ok = !checksFailed(theExit->checks, EXECUTE_CHECK_BODY_ON_FAIL);
 		}
 		if (ok) {
 		    oldloc = location;
 		    if (theExit->action != 0) {
-			if (sectionTraceOption)
+			if (traceSectionOption)
                             traceExit(location, dir, "Executing");
 			interpret(theExit->action);
 		    }
 		    /* Still at the same place? */
 		    if (where(HERO, FALSE) == oldloc) {
-			if (sectionTraceOption)
+			if (traceSectionOption)
                             traceExit(location, dir, "Moving");
 			locate(HERO, theExit->target);
 		    }

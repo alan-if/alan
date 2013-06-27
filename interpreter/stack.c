@@ -11,11 +11,11 @@
 #include "types.h"
 #include "syserr.h"
 #include "memory.h"
-
+#include "options.h"
 
 /* ABSTRACT TYPE */
 typedef struct StackStructure {
-  Aword *stack;
+  Aptr *stack;					/* TODO: Shouldn't this be Aptr? */
   int stackSize;
   int stackp;
   int framePointer;
@@ -68,11 +68,13 @@ void dumpStack(Stack theStack)
   for (i = 0; i < theStack->stackp; i++)
     printf("%ld ", (unsigned long) theStack->stack[i]);
   printf("]");
+  if (!traceInstructionOption && !tracePushOption)
+	  printf("\n");
 }
 
 
 /*======================================================================*/
-void push(Stack theStack, Aword i)
+void push(Stack theStack, Aptr i)
 {
   if (theStack == NULL)
     syserr("NULL stack not supported anymore");
@@ -101,7 +103,7 @@ Aptr top(Stack theStack)
   if (theStack == NULL)
     syserr("NULL stack not supported anymore");
 
-  return(theStack->stack[theStack->stackp-1]);
+  return theStack->stack[theStack->stackp-1];
 }
 
 

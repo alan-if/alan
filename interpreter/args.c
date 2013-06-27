@@ -89,7 +89,7 @@ static void switches(int argc, char *argv[])
                     ignoreErrorOption = TRUE;
                     break;
                 case 't':
-                    sectionTraceOption = TRUE;
+                    traceSectionOption = TRUE;
                     switch (argument[2]) {
                     case '9':
                     case '8':
@@ -97,10 +97,10 @@ static void switches(int argc, char *argv[])
                     case '6':
                     case '5' : traceStackOption = TRUE;
                     case '4' : tracePushOption = TRUE;
-                    case '3' : singleStepOption = TRUE;
+                    case '3' : traceInstructionOption = TRUE;
                     case '2' : traceSourceOption = TRUE;
                     case '\0':
-                    case '1': sectionTraceOption = TRUE;
+                    case '1': traceSectionOption = TRUE;
                     }
                     break;
                 case 'd':

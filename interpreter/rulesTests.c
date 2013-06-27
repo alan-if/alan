@@ -107,12 +107,6 @@ Ensure(Rules, dontExecuteStatementsForRulesWithLastEvalTrue) {
     assert_that(rule0_statements_have_been_executed, is_false);
 }
 
-static void reset_all_rules_to_false() {
-    setInterpreterMock(interpret_and_return_false);
-    resetRules();
-}
-
-
 Ensure(Rules, executes_statements_for_a_rule_triggered_again_after_reset) {
 
     setInterpreterMock(interpret_and_return_true_if_evaluated);
@@ -121,7 +115,7 @@ Ensure(Rules, executes_statements_for_a_rule_triggered_again_after_reset) {
     evaluateRules(rules);
     assert_that(rule0_statements_have_been_executed);
 
-	reset_all_rules_to_false();
+    resetRules();
 
     rule0_statements_have_been_executed = false;
     setInterpreterMock(interpret_and_return_true_if_evaluated);

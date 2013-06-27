@@ -19,11 +19,13 @@ typedef struct StackStructure *Stack;
 
 /* FUNCTIONS: */
 
+/* NB: The stack uses Aptr size elements since we need to be able to store pointers to allocated memory */
+
 extern Stack createStack(int size);
 extern void deleteStack(Stack stack);
 extern void dumpStack(Stack theStack);
 extern Aptr pop(Stack stack);
-extern void push(Stack stack, Aword item);
+extern void push(Stack stack, Aptr item);
 extern Aptr top(Stack theStack);
 extern int stackDepth(Stack theStack);
 
