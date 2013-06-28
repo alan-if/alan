@@ -6,11 +6,11 @@
 bool verboseOption;
 bool ignoreErrorOption;
 bool debugOption;
-bool sectionTraceOption;
+bool traceSectionOption;
 bool tracePushOption;
 bool traceStackOption;
 bool traceSourceOption;
-bool singleStepOption;
+bool traceInstructionOption;
 bool transcriptOption;
 bool logOption;
 bool statusLineOption;

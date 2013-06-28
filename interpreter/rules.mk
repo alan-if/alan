@@ -109,9 +109,12 @@ $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_test
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 # Then run all _tests.dll's with the cgreen-runner
+.PHONY: isolated_unittests
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
-isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)
+isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS) run_isolated_unittests
+.PHONY: run_isolated_unittests
+run_isolated_unittests:
 	for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
 		cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
 	done
@@ -122,7 +125,6 @@ unit:
 	echo "No unit tests run, cgreen not available"
 else
 unit: unittests cgreenrunnertests isolated_unittests
-
 endif
 
 #######################################################################
@@ -135,7 +137,7 @@ clean:
 #
 # Run all tests!
 # No tests except unit tests are available
-#
+# Interpreter is tested through the regressions tests
 .PHONY: test
 test: unit
 
