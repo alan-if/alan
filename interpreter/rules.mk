@@ -79,6 +79,8 @@ unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
+
+unit_tests: unittests
 	@./unittests $(UNITOUT)
 
 # Build the DLL...
@@ -112,9 +114,7 @@ ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d
 .PHONY: isolated_unittests
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
-isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS) run_isolated_unittests
-.PHONY: run_isolated_unittests
-run_isolated_unittests:
+isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)
 	for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
 		cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
 	done
@@ -124,7 +124,7 @@ ifneq ($(CGREEN),yes)
 unit:
 	echo "No unit tests run, cgreen not available"
 else
-unit: unittests cgreenrunnertests isolated_unittests
+unit: unit_tests cgreenrunnertests isolated_unittests
 endif
 
 #######################################################################
