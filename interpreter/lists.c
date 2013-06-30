@@ -3,22 +3,22 @@
 #include "syserr.h"
 
 void initArray(void *array) {
-  implementationOfSetEndOfArray((Aword *)array);
+	implementationOfSetEndOfArray((Aword *)array);
 }
 
 /* How to know we are at end of a table or array, first Aword == EOF */
 void implementationOfSetEndOfArray(Aword *adr)
 {
-  *adr = EOF;
+	*adr = EOF;
 }
 
 
 bool implementationOfIsEndOfList(Aword *adr)
 {
-  return *adr == EOF;
+	return *adr == EOF;
 }
 
-int lengthOfArray(void *array_of_any_type, int element_size_in_bytes) {
+int lengthOfArrayImplementation(void *array_of_any_type, int element_size_in_bytes) {
     int length;
     int element_size = element_size_in_bytes/sizeof(Aword);
     Aword *array = (Aword *)array_of_any_type;
@@ -29,10 +29,10 @@ int lengthOfArray(void *array_of_any_type, int element_size_in_bytes) {
     return length;
 }
 
-void addElement(void *array_of_any_type, void *element, int element_size_in_bytes) {
-  Aword *array = (Aword *)array_of_any_type;
-  int length = lengthOfArray(array, element_size_in_bytes);
-  int element_size_in_words = element_size_in_bytes/sizeof(Aword);
-  memcpy(&array[length*element_size_in_words], element, element_size_in_bytes);
-  setEndOfArray(&array[(length+1)*element_size_in_words]);
+void addElementImplementation(void *array_of_any_type, void *element, int element_size_in_bytes) {
+	Aword *array = (Aword *)array_of_any_type;
+	int length = lengthOfArray(array);
+	int element_size_in_words = element_size_in_bytes/sizeof(Aword);
+	memcpy(&array[length*element_size_in_words], element, element_size_in_bytes);
+	setEndOfArray(&array[(length+1)*element_size_in_words]);
 }

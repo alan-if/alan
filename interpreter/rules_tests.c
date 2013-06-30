@@ -32,9 +32,9 @@ static RuleEntry *setup_rules(int count) {
 	    RuleEntry entry;
         entry.exp = 10*rule_no+1;
         entry.stms = 10*rule_no+2;
-        addElement(rules, &entry, sizeof(RuleEntry));
+        addElement(rules, entry);
     }
-    assert_that(lengthOfArray(rules, sizeof(RuleEntry)), is_equal_to(rule_no));
+    assert_that(lengthOfArrayImplementation(rules, sizeof(RuleEntry)), is_equal_to(rule_no));
     return (RuleEntry *)pointerTo(sizeof(ACodeHeader));
 }
 
