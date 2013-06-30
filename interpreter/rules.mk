@@ -89,7 +89,6 @@ unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
 	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
 
 # ... that can be run with the cgreen runner
-
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 cgreenrunnertests: unittests.dll
@@ -102,7 +101,7 @@ endif
 
 # Here we try to build a runnable DLL for each module where it can be 
 # tested in total isolation (with everything else mocked away,
-# except lists.c and memory.c
+# except lists.c and memory.c)
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o $(UNITTESTSOBJDIR)/lists.o $(UNITTESTSOBJDIR)/memory.o
@@ -111,13 +110,18 @@ $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_test
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 # Then run all _tests.dll's with the cgreen-runner
-.PHONY: isolated_unittests
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)
+ifeq ($(shell uname), Darwin)
+	for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
+		arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
+	done
+else
 	for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
 		cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
 	done
+endif
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)
