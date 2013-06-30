@@ -5,14 +5,15 @@
 # Marcus Baker et al. (http://sourceforge.net/projects/cgreen)
 
 # Either using its runner which discovers test automatically...
+# With everything mocked so they run in complete isolation...
 MODULES_WITH_ISOLATED_UNITTESTS = \
 	rules \
 	lists
 
+# ... or with a common runner (much less clean...)
 MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	act.c \
 	reverse.c \
-	rules.c \
 	params.c
 
 # Or using a main program which requires adding every test manually
@@ -53,6 +54,7 @@ MODULES_WITHOUT_UNITTESTS = \
 	msg.c \
 	options.c \
 	readline.c \
+	rules.c \
 	scan.c \
 	score.c \
 	syntax.c \
