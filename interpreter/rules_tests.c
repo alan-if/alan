@@ -29,10 +29,12 @@ static RuleEntry *setup_rules(int count) {
 
     initArray(rules);
     for (rule_no = 0; rule_no < count; rule_no++) {
-        rules[rule_no].exp = 10*rule_no+1;
-        rules[rule_no].stms = 10*rule_no+2;
+	    RuleEntry entry;
+        entry.exp = 10*rule_no+1;
+        entry.stms = 10*rule_no+2;
+        addElement(rules, &entry, sizeof(RuleEntry));
     }
-    setEndOfArray(&memory[address_to_rules + count*sizeof(RuleEntry)]);
+    assert_that(lengthOfArray(rules, sizeof(RuleEntry)), is_equal_to(rule_no));
     return (RuleEntry *)pointerTo(sizeof(ACodeHeader));
 }
 

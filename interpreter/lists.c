@@ -33,6 +33,6 @@ void addElement(void *array_of_any_type, void *element, int element_size_in_byte
   Aword *array = (Aword *)array_of_any_type;
   int length = lengthOfArray(array, element_size_in_bytes);
   int element_size_in_words = element_size_in_bytes/sizeof(Aword);
-  memcpy(element, array[length*element_size_in_words], element_size_in_bytes);
+  memcpy(&array[length*element_size_in_words], element, element_size_in_bytes);
   setEndOfArray(&array[(length+1)*element_size_in_words]);
 }
