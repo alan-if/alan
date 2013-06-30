@@ -41,7 +41,7 @@ CGREEN = yes
 CGREENROOT = /usr/local
 CGREENDIR = $(CGREENROOT)/include/cgreen
 CGREENLIB = -lcgreen
-unittests cgreenrunnertests : TARGETARCH = -m32
+unittests cgreenrunnertests isolated_unittests: TARGETARCH = -m32
 
 ###################################################################
 #

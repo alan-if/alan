@@ -562,7 +562,7 @@ Ensure (parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput) {
 
 
 // TODO: Generalise this to replace lengthOfParameterArray() and other loops
-static int lengthOfArray(Pronoun *array, int elementSize) {
+static int lengthOfPronounArray(Pronoun *array, int elementSize) {
     int length;
     for (length = 0; !isEndOfArray(&array[length]); length++)
         ;
@@ -577,11 +577,11 @@ Ensure (addPronounForInstanceDontAddSameTwice) {
     pronouns[0].instance = 3;
     setEndOfArray(&pronouns[1]);
 
-    assert_equal(lengthOfArray(pronouns, sizeof(Pronoun)), 1);
+    assert_equal(lengthOfPronounArray(pronouns, sizeof(Pronoun)), 1);
     addPronounForInstance(7, 3);
-    assert_equal(lengthOfArray(pronouns, sizeof(Pronoun)), 2);
+    assert_equal(lengthOfPronounArray(pronouns, sizeof(Pronoun)), 2);
     addPronounForInstance(10, 3);
-    assert_equal(lengthOfArray(pronouns, sizeof(Pronoun)), 2);
+    assert_equal(lengthOfPronounArray(pronouns, sizeof(Pronoun)), 2);
 }
 
 

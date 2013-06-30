@@ -25,11 +25,12 @@ static Aword *allocate_memory() {
 
 static RuleEntry *setup_rules(int count) {
     RuleEntry *rules = pointerTo(memory[sizeof(ACodeHeader)]);
-    int i;
-    for (i = 0; i < count; i++) {
-        int rule_no = 10*i;
-        rules[i].exp = rule_no+1;
-        rules[i].stms = rule_no+2;
+    int rule_no;
+
+    initArray(rules);
+    for (rule_no = 0; rule_no < count; rule_no++) {
+        rules[rule_no].exp = 10*rule_no+1;
+        rules[rule_no].stms = 10*rule_no+2;
     }
     setEndOfArray(&memory[address_to_rules + count*sizeof(RuleEntry)]);
     return (RuleEntry *)pointerTo(sizeof(ACodeHeader));
@@ -41,7 +42,9 @@ BeforeEach(Rules) {
     memory = allocate_memory();
 }
 
-AfterEach(Rules) {}
+AfterEach(Rules) {
+    free(memory);
+}
 
 
 Ensure(Rules, dont_run_if_no_rules) {

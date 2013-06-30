@@ -42,11 +42,6 @@ CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = -lcgreen -lm
 
-unittests.so: CFLAGS += $(CGREENINCLUDE)
-unittests.so: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-unittests.so: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -shared -Wl,-soname,$@ -o $@ $(LDFLAGS) $(UNITTESTSOBJECTS) $(LIBS)
-
 ###################################################################
 #
 # Default target on Linux
@@ -61,7 +56,6 @@ release: OS_FLAGS = -arch i386 #-arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
 release: DEPENDENCY = 
 release: all
-
 
 #--------------------------------------------------------------------
 # Extra targets on Darwin
