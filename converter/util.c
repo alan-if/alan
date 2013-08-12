@@ -105,7 +105,7 @@ void syserr(char *errorMessage, char insertString[])
     sprintf(messageString, errorMessage, insertString);
   } else {
     messageString = allocate(strlen(errorMessage)+1);
-    sprintf(messageString, errorMessage);
+    sprintf(messageString, "%s", errorMessage);
   }
   lmLog(&nulsrcp, 997, sevSYS, messageString);
   lmList("", 0, 79, liTINY, sevALL);
@@ -140,5 +140,59 @@ void terminate(int ecode)
 	printf("Command-Q to quit.");
 #endif
 	exit(ecode);
+}
+
+
+/*======================================================================*/
+void onlyOneSpace(char string[])
+{
+    int from = 0;
+    int to = 0;
+    char *p;
+
+    /* Convert all non-blank to white space */
+    while((p=strpbrk(string,"\t\n\r"))!=NULL)
+        *p=' ';
+
+    while (string[from] != '\0') {
+        /* Copy until we find a double blank, from will point to first blank */
+        while (string[from] != '\0' && !(isspace(string[from]) && isspace(string[from+1]))) {
+            string[to++] = string[from++];
+        }
+    
+        /* If we are not at the end of the string, skip all spaces except the first */
+        if (string[from] != '\0') {
+            string[to++] = string[from++];
+            while (isspace(string[from]))
+                from++;
+        }
+    }
+
+    /* Terminate */
+    string[to] = '\0';
+}
+
+void onlyOneSpace_old(char string[])
+{
+  int i = 0;
+  int j;
+
+  while (string[i] != '\0') {
+    while (string[i] != '\0' && !isspace(string[i])) i++;
+    if (string[i] != '\0' && string[i+1] != '\0')
+      string[i] = ' ';
+      if (isspace(string[i+1])) {
+	string[i+1] = ' ';
+        j = i+1;
+        while (string[j] != '\0' && isspace(string[j])) j++;
+        if (string[j] == '\0')
+	  string[i] = '\0';
+        else {
+          strcpy(&string[i+1], &string[j]);
+	  i++;
+	}
+      }
+    if (string[i] != '\0') i++;
+  }
 }
 

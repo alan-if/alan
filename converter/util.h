@@ -33,5 +33,5 @@ extern void unimpl(Srcp *srcp, char *phase);
 extern void syserr(char *str, char function[]);
 extern void panic(char *str);
 extern void terminate(int ecode);
-
+extern void onlyOneSpace(char string[]);
 #endif

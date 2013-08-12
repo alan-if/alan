@@ -44,7 +44,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-all : a2a3 Makefile test
+all : unit a2a3 Makefile test
 
 build : a2a3
 
@@ -63,8 +63,49 @@ release: win
 clean:
 	-rm *.o
 
+CGREEN = yes
+CGREENROOT = /usr/local
+CGREENINCLUDE = -I$(CGREENROOT)/include
+CGREENLIB = -lcgreen -lm
+
+.PHONY: unit
+ifneq ($(CGREEN),yes)
+unit:
+	echo "No unit tests run, cgreen not available"
+else
+unit: unittests
+endif
+
+# Here we try to build a runnable DLL for each module where it can be 
+# tested in total isolation (with everything else mocked away,
+# except lists.c and memory.c)
+
+MODULES_WITH_UNITTESTS = util
+
+# A test .dll for a module is built from its .o and the _test.o (and some extras)
+%_tests.dll: %.o %_tests.o
+	$(LD) -shared -o $@ $^ $(LDFLAGS) $(LIBS)
+
+UNITTESTS_DLLS = $(patsubst %,%_tests.dll,$(MODULES_WITH_UNITTESTS))
+
+# Then run all _tests.dll's with the cgreen-runner
+unittests: CFLAGS += $(CGREENINCLUDE)
+unittests: LIBS = $(CGREENLIB)
+unittests: $(UNITTESTS_DLLS)
+ifeq ($(shell uname), Darwin)
+	for f in $(UNITTESTS_DLLS) ; do \
+		arch -i386 cgreen-runner ./$$f --suite Converter $(UNITOUT) ; \
+	done
+else
+	for f in $(UNITTESTS_DLLS) ; do \
+		cgreen-runner ./$$f --suite Converter $(UNITOUT) ; \
+	done
+endif
+
+
 test : 
 	cd testing ; ../../bin/jregr -bin ..
+
 
 .PHONY: checkTarget
 ARCH	= `echo $(PLATFORM) $(OPTIMIZE)`

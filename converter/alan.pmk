@@ -83,7 +83,7 @@ static char *(v3Keywords[]) = {"to", "is", "at", "in", "an", "by",
 
 static void print(char string[])
 {
-  fprintf(outFile, string);
+  fprintf(outFile, "%s", string);
 }
 
 static void idPrint(char id[])
@@ -93,31 +93,7 @@ static void idPrint(char id[])
   while (v3Keywords[wordIndex] != NULL && strcmp(id, v3Keywords[wordIndex]) != 0)
     wordIndex++;
   if (v3Keywords[wordIndex] != NULL) fprintf(outFile, "'%s'", id);
-  else fprintf(outFile, id);
-}
-
-static void onlyOneSpace(char string[])
-{
-  int i = 0;
-  int j;
-
-  while (string[i] != '\0') {
-    while (string[i] != '\0' && !isspace(string[i])) i++;
-    if (string[i] != '\0' && string[i+1] != '\0')
-      string[i] = ' ';
-      if (isspace(string[i+1])) {
-	string[i+1] = ' ';
-        j = i+1;
-        while (string[j] != '\0' && isspace(string[j])) j++;
-        if (string[j] == '\0')
-	  string[i] = '\0';
-        else {
-          strcpy(&string[i+1], &string[j]);
-	  i++;
-	}
-      }
-    if (string[i] != '\0') i++;
-  }
+  else fprintf(outFile, "%s", id);
 }
 
 static void stringPrint(char string[])
