@@ -9,7 +9,7 @@
 
 #include "exp.h"
 
-#include "Context.h"
+#include "context.h"
 
 extern Symbol *classOfMembers(Expression *exp);
 extern void verifySetMember(Expression *theSet, Expression *theMember, char contextMessage[]);

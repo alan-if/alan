@@ -103,7 +103,7 @@ else
 endif
 
 
-test : 
+test : unit
 	cd testing ; ../../bin/jregr -bin ..
 
 

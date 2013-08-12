@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
     if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
 	printf("You should supply a game file to play.\n");
 	usage(PROGNAME);
+	free(adventureFileName);
 	terminate(0);
     }
 #endif
