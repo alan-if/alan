@@ -171,28 +171,3 @@ void onlyOneSpace(char string[])
     /* Terminate */
     string[to] = '\0';
 }
-
-void onlyOneSpace_old(char string[])
-{
-  int i = 0;
-  int j;
-
-  while (string[i] != '\0') {
-    while (string[i] != '\0' && !isspace(string[i])) i++;
-    if (string[i] != '\0' && string[i+1] != '\0')
-      string[i] = ' ';
-      if (isspace(string[i+1])) {
-	string[i+1] = ' ';
-        j = i+1;
-        while (string[j] != '\0' && isspace(string[j])) j++;
-        if (string[j] == '\0')
-	  string[i] = '\0';
-        else {
-          strcpy(&string[i+1], &string[j]);
-	  i++;
-	}
-      }
-    if (string[i] != '\0') i++;
-  }
-}
-
