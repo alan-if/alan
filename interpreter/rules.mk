@@ -114,11 +114,11 @@ isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)
 ifeq ($(shell uname), Darwin)
-	for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
+	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
 		arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
 	done
 else
-	for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
+	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
 		cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
 	done
 endif

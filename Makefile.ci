@@ -8,6 +8,7 @@ LIBRARYVERSION = `cat library/VERSION`$(BUILD)
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
 JREGROUTPUT = -xml
+UNITOUTPUT = --xml TEST
 
 .PHONY: all
 all:

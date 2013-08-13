@@ -92,7 +92,7 @@ UNITTESTS_DLLS = $(patsubst %,%_tests.dll,$(MODULES_WITH_UNITTESTS))
 unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB)
 unittests: $(UNITTESTS_DLLS)
-	for f in $(UNITTESTS_DLLS) ; do \
+	@for f in $(UNITTESTS_DLLS) ; do \
 		cgreen-runner ./$$f --suite Converter $(UNITOUT) ; \
 	done
 
