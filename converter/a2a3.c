@@ -19,9 +19,6 @@ int fileNo = 0;
 
 #define FILENAMESIZE 1000
 static char inFileName[FILENAMESIZE];
-static char fullInFileName[FILENAMESIZE];
-static char outFileName[FILENAMESIZE];
-static char fullOutFileName[FILENAMESIZE];
 
 FILE *outFile;
 

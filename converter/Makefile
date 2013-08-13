@@ -92,15 +92,9 @@ UNITTESTS_DLLS = $(patsubst %,%_tests.dll,$(MODULES_WITH_UNITTESTS))
 unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB)
 unittests: $(UNITTESTS_DLLS)
-ifeq ($(shell uname), Darwin)
-	for f in $(UNITTESTS_DLLS) ; do \
-		arch -i386 cgreen-runner ./$$f --suite Converter $(UNITOUT) ; \
-	done
-else
 	for f in $(UNITTESTS_DLLS) ; do \
 		cgreen-runner ./$$f --suite Converter $(UNITOUT) ; \
 	done
-endif
 
 
 test : unit
