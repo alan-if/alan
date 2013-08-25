@@ -13,9 +13,13 @@
 
 
 /* DATA */
+struct GameState;
+typedef struct GameState *GameStatePointer;
 
 
 /* FUNCTIONS */
+extern void freeGameState(GameStatePointer gameStateP
+);
 extern bool anySavedState(void);
 extern void initStateStack(void);
 extern void rememberGameState(void);
@@ -23,4 +27,5 @@ extern void forgetGameState(void);
 extern void rememberCommands(void);
 extern void recallGameState(void);
 extern char *recreatePlayerCommand(void);
+extern void terminateState(void);
 #endif

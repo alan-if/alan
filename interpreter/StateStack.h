@@ -3,6 +3,8 @@
 
 /* IMPORTS */
 #include "types.h"
+#include "state.h"
+
 
 /* CONSTANTS */
 
@@ -20,7 +22,7 @@ extern bool stateStackIsEmpty(StateStack stateStack);
 extern void pushGameState(StateStack stateStack, void *state);
 extern void popGameState(StateStack stateStack, void *state, char **playerCommandPointer);
 extern void attachPlayerCommandsToLastState(StateStack stateStack, char *playerCommand);
-extern void deleteStateStack(StateStack stateStack);
+extern void deleteStateStack(StateStack stateStack, void (*element_freer)(struct GameState *));
 
 
 #endif /* STATESTACK_H_ */
