@@ -185,7 +185,7 @@ void score(Aword sc)
         addParameterForInteger(messageParameters, current.score);
         addParameterForInteger(messageParameters, header->maximumScore);
         printMessageWithParameters(M_SCORE, messageParameters);
-        freeParameterArray(&messageParameters);
+        freeParameterArray(messageParameters);
     } else {
         current.score += scores[sc-1];
         scores[sc-1] = 0;

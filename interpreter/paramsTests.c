@@ -1,6 +1,7 @@
 #include "cgreen/cgreen.h"
 
 #include "params.c"
+#include <malloc.h>
 
 Describe(ParameterArray);
 BeforeEach(ParameterArray) {
@@ -244,12 +245,19 @@ Ensure(ParameterArray, intersectParameterArraysReturnsTheCommonParameter) {
 
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, freesSubordinateParameterArrays) {
+    struct mallinfo mallocinfo;
+    size_t used = mallinfo().uordblks;
+
     Parameter *parameterArray = newParameterArray();
     Parameter *parameter = newParameter(7);
     parameter->candidates = newParameterArray();
-    addParameterToParameterArray(parameterArray, parameter); 
-    freeParameterArray(&parameterArray);
-    assert_that(parameterArray, is_null);
+    addParameterToParameterArray(parameterArray, parameter);
+    free(parameter);
+
+    freeParameterArray(parameterArray);
+
+    mallocinfo = mallinfo();
+    assert_that(mallocinfo.uordblks, is_equal_to(used));
 }
 
 /*======================================================================*/

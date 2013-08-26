@@ -37,9 +37,15 @@ Parameter *newParameterArray(void) {
 
 
 /*======================================================================*/
-void freeParameterArray(ParameterArray *arrayPointer) {
-    free(*arrayPointer);
-    *arrayPointer = NULL;
+void freeParameterArray(ParameterArray arrayPointer) {
+    Parameter *parameter = arrayPointer;
+
+    while(!isEndOfArray(parameter)) {
+        if (parameter->candidates != NULL)
+            freeParameterArray(parameter->candidates);
+        parameter++;
+    }
+    free(arrayPointer);
 }
 
 

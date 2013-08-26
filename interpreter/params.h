@@ -41,7 +41,7 @@ extern void copyParameter(Parameter *theCopy, Parameter *theOriginal);
 /* ParameterArray: */
 extern ParameterArray newParameterArray(void);
 extern ParameterArray ensureParameterArrayAllocated(ParameterArray currentArray);
-extern void freeParameterArray(ParameterArray *arrayPointer);
+extern void freeParameterArray(ParameterArray arrayPointer);
 
 extern bool parameterArrayIsEmpty(ParameterArray parameters);
 extern void addParameterToParameterArray(ParameterArray theArray, Parameter *theParameter);
