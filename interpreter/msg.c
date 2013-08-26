@@ -93,5 +93,5 @@ void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
 
     copyParameterArray(globalParameters, savedParameters);
 
-    freeParameterArray(&savedParameters);
+    freeParameterArray(savedParameters);
 }

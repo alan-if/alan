@@ -18,7 +18,7 @@ AfterEach(Stack) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(allocatesCorrectSpaceInNewFrame) {
+Ensure(Stack, allocatesCorrectSpaceInNewFrame) {
   /* Add a block with four local variables */
   newFrame(theStack, 4);
   assert_equal(1/*old fp*/ + 4/*Locals*/, stackDepth(theStack));
@@ -26,7 +26,7 @@ Ensure(allocatesCorrectSpaceInNewFrame) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testNewFrameInStack) {
+Ensure(Stack, testNewFrameInStack) {
   /* Add a block with four local variables */
   newFrame(theStack, 4);
   assert_equal(1/*old fp*/ + 4/*Locals*/, stackDepth(theStack));
@@ -44,7 +44,7 @@ Ensure(testNewFrameInStack) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(testFrameInFrame) {
+Ensure(Stack, testFrameInFrame) {
   /* Add a block with one local variable */
   newFrame(theStack, 1);
   setLocal(theStack, 0,1,14);
@@ -60,7 +60,7 @@ Ensure(testFrameInFrame) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure(testPushAndPop) {
+Ensure(Stack, testPushAndPop) {
   Stack myStack = createStack(10);
 
   push(myStack, 1);
@@ -83,10 +83,10 @@ TestSuite *stackTests()
   set_setup(suite, setup);
   set_teardown(suite, teardown);
 
-  add_test(suite, allocatesCorrectSpaceInNewFrame);
-  add_test(suite, testNewFrameInStack);
-  add_test(suite, testFrameInFrame);
-  add_test(suite, testPushAndPop);
+  add_test_with_context(suite, Stack, allocatesCorrectSpaceInNewFrame);
+  add_test_with_context(suite, Stack, testNewFrameInStack);
+  add_test_with_context(suite, Stack, testFrameInFrame);
+  add_test_with_context(suite, Stack, testPushAndPop);
 
   return suite;
 }

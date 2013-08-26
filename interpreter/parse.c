@@ -125,7 +125,7 @@ static void errorWhichOne(Parameter alternative[]) {
     }
     parameters[0] = alternative[p];
     printMessageWithParameters(M_WHICH_ONE_OR, parameters);
-    freeParameterArray(&parameters);
+    freeParameterArray(parameters);
     abortPlayerCommand(); /* Return with empty error message */
 }
 
