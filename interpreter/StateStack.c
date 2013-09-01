@@ -9,6 +9,7 @@
 #include "syserr.h"
 #include "memory.h"
 
+
 /* CONSTANTS: */
 #define EXTENT 10
 
@@ -43,22 +44,20 @@ StateStack createStateStack(int elementSize) {
 
 
 /*======================================================================*/
-void deleteStateStack(StateStack stateStack, void (*element_freer)(struct GameState *)) {
-    if (stateStack != NULL) {
-        while (stateStack->stackPointer > 0)
-            element_freer(stateStack->stack[--stateStack->stackPointer]);
-        if (stateStack->stackSize > 0) {
-            free(stateStack->stack);
-            free(stateStack->playerCommands);
-        }
-        free(stateStack);
-    }
+void deleteStateStack(StateStack stateStack) {
+	while (stateStack->stackPointer >0)
+		free(stateStack->stack[--stateStack->stackPointer]);
+	if (stateStack->stackSize > 0) {
+		free(stateStack->stack);
+		free(stateStack->playerCommands);
+	}
+	free(stateStack);
 }
 
 
 /*======================================================================*/
 bool stateStackIsEmpty(StateStack stateStack) {
-    return stateStack->stackPointer == 0;
+	return stateStack->stackPointer == 0;
 }
 
 
@@ -75,8 +74,8 @@ static void ensureSpaceForGameState(StateStack stack)
 
 /*======================================================================*/
 void pushGameState(StateStack stateStack, void *gameState) {
-    void *element = allocate(stateStack->elementSize);
-    memcpy(element, gameState, stateStack->elementSize);
+	void *element = allocate(stateStack->elementSize);
+	memcpy(element, gameState, stateStack->elementSize);
     ensureSpaceForGameState(stateStack);
     stateStack->playerCommands[stateStack->stackPointer] = NULL;
     stateStack->stack[stateStack->stackPointer++] = element;
@@ -85,18 +84,18 @@ void pushGameState(StateStack stateStack, void *gameState) {
 
 /*======================================================================*/
 void attachPlayerCommandsToLastState(StateStack stateStack, char *playerCommands) {
-    stateStack->playerCommands[stateStack->stackPointer-1] = strdup(playerCommands);
+	stateStack->playerCommands[stateStack->stackPointer-1] = strdup(playerCommands);
 }
 
 
 /*======================================================================*/
 void popGameState(StateStack stateStack, void *gameState, char** playerCommand) {
-    if (stateStack->stackPointer == 0)
-        syserr("Popping GameState from empty stack");
-    else {
-        stateStack->stackPointer--;
-        memcpy(gameState, stateStack->stack[stateStack->stackPointer], stateStack->elementSize);
-        free(stateStack->stack[stateStack->stackPointer]);
-        *playerCommand = stateStack->playerCommands[stateStack->stackPointer];
-    }
+	if (stateStack->stackPointer == 0)
+		syserr("Popping GameState from empty stack");
+	else {
+		stateStack->stackPointer--;
+		memcpy(gameState, stateStack->stack[stateStack->stackPointer], stateStack->elementSize);
+		free(stateStack->stack[stateStack->stackPointer]);
+		*playerCommand = stateStack->playerCommands[stateStack->stackPointer];
+	}
 }

@@ -5,6 +5,25 @@
 
 #include "literal.h"
 
+static ACodeHeader acdHeader;
+
+static DictionaryEntry *makeDictionary(void);
+static void setUp(void) {
+    header = &acdHeader;
+    header->maxParameters = 10;
+    header->instanceMax = 10;
+
+    memory = allocate(100*sizeof(Aword));
+
+    dictionary = makeDictionary();
+}
+
+Describe(Parse);
+BeforeEach(Parse) {
+    setUp();
+}
+AfterEach(Parse) {}
+
 /*----------------------------------------------------------------------*/
 static void makeEOS(ElementEntry *element) {
     element->code = EOS;
@@ -76,19 +95,6 @@ static void givenPlayerWordsForTwoParameters(int firstWordIndex) {
 }
 
 
-static ACodeHeader acdHeader;
-
-static void setUp(void) {
-    header = &acdHeader;
-    header->maxParameters = 10;
-    header->instanceMax = 10;
-
-    memory = allocate(100*sizeof(Aword));
-
-    dictionary = makeDictionary();
-}
-
-
 /*----------------------------------------------------------------------*/
 static void given_EndOfPlayerWords(void) {
     ensureSpaceForPlayerWords(0);
@@ -110,7 +116,7 @@ static void given_AParseTreeWithOnlyEos(ElementEntry *elementTable) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (canMatchEndOfSyntax) {
+Ensure(Parse, canMatchEndOfSyntax) {
     ElementEntry *element;
     ElementEntry *elementTable;
 
@@ -145,7 +151,7 @@ static void given_AParameterTreeWithEosAndParameter(ElementEntry *elementTable) 
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canMatchParameterElement) {
+Ensure(Parse, canMatchParameterElement) {
     ElementEntry *element;
     ElementEntry *elementTable;
 
@@ -191,7 +197,7 @@ static void given_AParseTreeAllowingWordFollowedByEos(ElementEntry *elementTable
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canParseInputAccordingToParseTree) {
+Ensure(Parse, canParseInputAccordingToParseTree) {
 
     int ELEMENT_TABLE_ADDRESS = 50;
     ElementEntry *element;
@@ -225,7 +231,7 @@ Ensure (canParseInputAccordingToParseTree) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (canSetupParameterForWord) {
+Ensure(Parse, canSetupParameterForWord) {
     Parameter *messageParameters;
 
     dictionary = makeDictionary();
@@ -234,7 +240,7 @@ Ensure (canSetupParameterForWord) {
     memcpy(&memory[12], "qwerty", 7);
     dictionary[2].string = 12;
 
-    messageParameters = allocateParameterArray(5);
+    messageParameters = newParameterArray();
     ensureSpaceForPlayerWords(2);
     playerWords[1].code = 2;
     litCount = 0;
@@ -253,7 +259,7 @@ Ensure (canSetupParameterForWord) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canSeeBitsInFlag) {
+Ensure(Parse, canSeeBitsInFlag) {
     assert_true(hasBit(-1, OMNIBIT));
     assert_false(hasBit(0, OMNIBIT));
     assert_true(hasBit(-1, MULTIPLEBIT));
@@ -262,8 +268,8 @@ Ensure (canSeeBitsInFlag) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canSetupInstanceParametersForMessages) {
-    Parameter *parameters = allocateParameterArray(5);
+Ensure(Parse, canSetupInstanceParametersForMessages) {
+    Parameter *parameters = newParameterArray();
 
     addParameterForInstance(parameters, 2);
 
@@ -276,8 +282,8 @@ Ensure (canSetupInstanceParametersForMessages) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canSetupStringParametersForMessages) {
-    Parameter *parameters = allocateParameterArray(5);
+Ensure(Parse, canSetupStringParametersForMessages) {
+    Parameter *parameters = newParameterArray();
 
     addParameterForString(parameters, "a string");
 
@@ -290,8 +296,8 @@ Ensure (canSetupStringParametersForMessages) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canSetupIntegerParametersForMessages) {
-    Parameter *parameters = allocateParameterArray(5);
+Ensure(Parse, canSetupIntegerParametersForMessages) {
+    Parameter *parameters = newParameterArray();
 
     addParameterForInteger(parameters, 14);
 
@@ -310,10 +316,10 @@ static void mockedInstanceMatcher(Parameter *parameter) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (canMatchSingleParameter) {
+Ensure(Parse, canMatchSingleParameter) {
     Parameter parameters[2];
 
-    clearParameter(&parameters[0], NULL);
+    clearParameter(&parameters[0]);
     parameters[0].firstWord = 1;
     parameters[0].lastWord = 1;
     parameters[0].candidates = NULL;
@@ -340,14 +346,13 @@ static Aint *mockedReferenceFinder(int wordIndex) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (matchNounPhraseCanMatchSingleNounWithSingleMatch) {
+Ensure(Parse, matchNounPhraseCanMatchSingleNounWithSingleMatch) {
     int theExpectedInstance[2] = {23, EOF};
     int theExpectedWordIndex = 3;
-    Parameter candidates[MAXINSTANCE+1];
-    Parameter parameter;
+    Parameter *parameter = newParameter(0);
 
-    clearParameter(&parameter, candidates);
-    parameter.firstWord = parameter.lastWord = 3;
+    parameter->firstWord = parameter->lastWord = 3;
+    parameter->candidates = newParameterArray();
 
     givenPlayerWordsForANoun(theExpectedWordIndex);
 
@@ -355,26 +360,26 @@ Ensure (matchNounPhraseCanMatchSingleNounWithSingleMatch) {
 	   when(wordIndex, is_equal_to(theExpectedWordIndex)),
 	   will_return(theExpectedInstance));
 
-    matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
+    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
     
-    assert_not_equal(parameter.candidates, NULL);
-    assert_equal(lengthOfParameterArray(parameter.candidates), 1);
-    assert_equal(parameter.candidates[0].instance, theExpectedInstance[0]);
+    assert_not_equal(parameter->candidates, NULL);
+    assert_equal(lengthOfParameterArray(parameter->candidates), 1);
+    assert_equal(parameter->candidates[0].instance, theExpectedInstance[0]);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canMatchNounAndAdjectiveWithSingleMatch) {
+Ensure(Parse, canMatchNounAndAdjectiveWithSingleMatch) {
     int theExpectedInstance = 55;
     int firstAdjectiveInstances[4] = {23, theExpectedInstance, 33, EOF};
     int theNounInstances[4] = {25, theExpectedInstance, 34, EOF};
     int theExpectedFirstAdjectiveWordIndex = 3;
     int theExpectedNounWordIndex = 4;
-    Parameter *candidates = allocateParameterArray(MAXINSTANCE);
-    Parameter parameter;
-    clearParameter(&parameter, candidates);
-    parameter.firstWord = theExpectedFirstAdjectiveWordIndex;
-    parameter.lastWord = theExpectedNounWordIndex;
+    Parameter *parameter = newParameter(0);
+
+    parameter->firstWord = theExpectedFirstAdjectiveWordIndex;
+    parameter->lastWord = theExpectedNounWordIndex;
+    parameter->candidates = newParameterArray();
 
     givenADictionary();
 
@@ -385,16 +390,16 @@ Ensure (canMatchNounAndAdjectiveWithSingleMatch) {
 	   when(wordIndex, is_equal_to(theExpectedNounWordIndex)),
 	   will_return(theNounInstances));
 
-    matchNounPhrase(&parameter, mockedReferenceFinder, mockedReferenceFinder);
+    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
     
-    assert_not_equal(parameter.candidates, NULL);
-    assert_equal(lengthOfParameterArray(parameter.candidates), 1);
-    assert_equal(parameter.candidates[0].instance, theExpectedInstance);
+    assert_not_equal(parameter->candidates, NULL);
+    assert_equal(lengthOfParameterArray(parameter->candidates), 1);
+    assert_equal(parameter->candidates[0].instance, theExpectedInstance);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure (canMatchMultipleAdjectivesAndNounWithSingleMatch) {
+Ensure(Parse, canMatchMultipleAdjectivesAndNounWithSingleMatch) {
     int theExpectedInstance = 55;
     int firstAdjectiveInstances[4] = {23, theExpectedInstance, 33, EOF};
     int secondAdjectiveInstances[4] = {24, theExpectedInstance, 33, EOF};
@@ -402,14 +407,14 @@ Ensure (canMatchMultipleAdjectivesAndNounWithSingleMatch) {
     int theExpectedFirstAdjectiveWordIndex = 3;
     int theExpectedSecondAdjectiveWordIndex = 4;
     int theExpectedNounWordIndex = 5;
-    Parameter *candidates = allocateParameterArray(5);
-    Parameter *parameter = allocateParameterArray(5);
-    clearParameter(parameter, candidates);
-    parameter[0].firstWord = theExpectedFirstAdjectiveWordIndex;
-    parameter[0].lastWord = theExpectedNounWordIndex;
+    Parameter *parameters = newParameterArray();
+    Parameter *parameter = newParameter(0);
 
-    clearParameterArray(candidates);
-    
+    parameter->firstWord = theExpectedFirstAdjectiveWordIndex;
+    parameter->lastWord = theExpectedNounWordIndex;
+    parameter->candidates = newParameterArray();
+    addParameterToParameterArray(parameters, parameter);
+
     givenPlayerWordsWithTwoAdjectivesAndANoun(theExpectedFirstAdjectiveWordIndex);
 
     givenADictionary();
@@ -424,11 +429,11 @@ Ensure (canMatchMultipleAdjectivesAndNounWithSingleMatch) {
 	   when(wordIndex, is_equal_to(theExpectedNounWordIndex)),
 	   will_return(theNounInstances));
 
-    matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
+    matchNounPhrase(parameters, mockedReferenceFinder, mockedReferenceFinder);
     
-    assert_not_equal(parameter[0].candidates, NULL);
-    assert_equal(lengthOfParameterArray(parameter[0].candidates), 1);
-    assert_equal(parameter[0].candidates[0].instance, theExpectedInstance);
+    assert_not_equal(parameters[0].candidates, NULL);
+    assert_equal(lengthOfParameterArray(parameters[0].candidates), 1);
+    assert_equal(parameters[0].candidates[0].instance, theExpectedInstance);
 }
 
 void mockedAllBuilder(Parameter candidates[])
@@ -440,7 +445,7 @@ void mockedAllBuilder(Parameter candidates[])
 
 
 /*----------------------------------------------------------------------*/
-Ensure (anyAllFindsAnyAllIndication) {
+Ensure(Parse, anyAllFindsAnyAllIndication) {
     ParameterPosition *parameterPositions = allocate(5*sizeof(ParameterPosition));
     
     parameterPositions[0].endOfList = FALSE;
@@ -463,7 +468,7 @@ Ensure (anyAllFindsAnyAllIndication) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (anyAllFindsExplicitMultipleIndication) {
+Ensure(Parse, anyAllFindsExplicitMultipleIndication) {
     ParameterPosition *parameterPositions = allocate(5*sizeof(ParameterPosition));
     
     parameterPositions[0].endOfList = FALSE;
@@ -485,22 +490,20 @@ Ensure (anyAllFindsExplicitMultipleIndication) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (parsePronounSetsPronounMarker) {
-    Parameter parameter[2];
-    clearParameter(&parameter[0], NULL);
+Ensure(Parse, parsePronounSetsPronounMarker) {
+    Parameter *parameters = newParameterArray();
+    Parameter *parameter = newParameter(0);
 
-    setEndOfArray(&parameter[0]);
-    parameter[0].isPronoun = FALSE;
+    addParameterToParameterArray(parameters, parameter);
+    parameter->isPronoun = FALSE;
 
-    parsePronoun(&parameter[0]);
+    parsePronoun(parameters);
 
-    assert_true(parameter[0].isPronoun);
-    assert_false(isEndOfArray(&parameter[0]));
-    assert_true(isEndOfArray(&parameter[1]));
+    assert_true(parameters[0].isPronoun);
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (parseLiteralSetsLiteralMarker) {
+Ensure(Parse, parseLiteralSetsLiteralMarker) {
     Parameter parameter[2];
 
     setEndOfArray(&parameter[0]);
@@ -514,7 +517,7 @@ Ensure (parseLiteralSetsLiteralMarker) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (parseReferenceToPreviousMultipleParameterSetsThemMarker) {
+Ensure(Parse, parseReferenceToPreviousMultipleParameterSetsThemMarker) {
     Parameter parameter[2];
 
     setEndOfArray(&parameter[0]);
@@ -528,8 +531,8 @@ Ensure (parseReferenceToPreviousMultipleParameterSetsThemMarker) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (simpleParameterParserCanParseExplicitMultiple) {
-    Parameter *parameters = allocateParameterArray(5);
+Ensure(Parse, simpleParameterParserCanParseExplicitMultiple) {
+    Parameter *parameters = newParameterArray();
 
     givenADictionary();
     givenPlayerWordsForTwoParameters(1);
@@ -541,7 +544,7 @@ Ensure (simpleParameterParserCanParseExplicitMultiple) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (getPreviousMultipleParametersSetsEndOfArray) {
+Ensure(Parse, getPreviousMultipleParametersSetsEndOfArray) {
     Parameter parameters[2];
     Parameter multipleParameters[2];
     previousMultipleParameters = multipleParameters;
@@ -552,7 +555,7 @@ Ensure (getPreviousMultipleParametersSetsEndOfArray) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput) {
+Ensure(Parse, parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput) {
     Parameter parameters[2];
     given_EndOfPlayerWords();
     
@@ -570,7 +573,7 @@ static int lengthOfPronounArray(Pronoun *array, int elementSize) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (addPronounForInstanceDontAddSameTwice) {
+Ensure(Parse, addPronounForInstanceDontAddSameTwice) {
     pronouns = allocate(2*sizeof(Pronoun)+1);
 
     pronouns[0].pronoun = 10;
@@ -654,8 +657,8 @@ static DisambiguationHandlerTable mockedHandlerTable =
             
     
 /*----------------------------------------------------------------------*/
-Ensure (disambiguateCandidatesCanCall00NHandler) {
-    Parameter *candidates = allocateParameterArray(5);
+Ensure(Parse, disambiguateCandidatesCanCall00NHandler) {
+    Parameter *candidates = newParameterArray();
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
     disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
@@ -664,8 +667,8 @@ Ensure (disambiguateCandidatesCanCall00NHandler) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (disambiguateCandidatesCanCall00YHandler) {
-    Parameter *candidates = allocateParameterArray(5);
+Ensure(Parse, disambiguateCandidatesCanCall00YHandler) {
+    Parameter *candidates = newParameterArray();
     setEndOfArray(&candidates[0]); /* == 0 instance */
 
     disambiguateCandidates(candidates, TRUE, mockedReachable, mockedHandlerTable);
@@ -674,8 +677,8 @@ Ensure (disambiguateCandidatesCanCall00YHandler) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure (disambiguateCandidatesCanCall01NHandler) {
-    Parameter *candidates = allocateParameterArray(5);
+Ensure(Parse, disambiguateCandidatesCanCall01NHandler) {
+    Parameter *candidates = newParameterArray();
     candidates[0].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
 
@@ -684,8 +687,8 @@ Ensure (disambiguateCandidatesCanCall01NHandler) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (disambiguateCandidatesCanCall0MNHandler) {
-    Parameter *candidates = allocateParameterArray(5);
+Ensure(Parse, disambiguateCandidatesCanCall0MNHandler) {
+    Parameter *candidates = newParameterArray();
     candidates[0].instance = 2; /* M non-present */
     candidates[1].instance = 2;
     setEndOfArray(&candidates[2]); /* == 2 instances */
@@ -695,8 +698,8 @@ Ensure (disambiguateCandidatesCanCall0MNHandler) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (disambiguateCandidatesCanCall10NHandler) {
-    Parameter *candidates = allocateParameterArray(5);
+Ensure(Parse, disambiguateCandidatesCanCall10NHandler) {
+    Parameter *candidates = newParameterArray();
     candidates[0].instance = 1; /* 1 present */
     setEndOfArray(&candidates[1]); /* == 1 instance */
 
@@ -705,8 +708,8 @@ Ensure (disambiguateCandidatesCanCall10NHandler) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (disambiguateCandidatesCanCall11NHandler) {
-    Parameter *candidates = allocateParameterArray(5);
+Ensure(Parse, disambiguateCandidatesCanCall11NHandler) {
+    Parameter *candidates = newParameterArray();
     candidates[0].instance = 1; /* 1 present */
     candidates[1].instance = 2; /* 1 non-present */
     setEndOfArray(&candidates[2]); /* == 2 instances */
@@ -716,8 +719,8 @@ Ensure (disambiguateCandidatesCanCall11NHandler) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure (disambiguateCandidatesCanCall1MNHandler) {
-    Parameter *candidates = allocateParameterArray(5);
+Ensure(Parse, disambiguateCandidatesCanCall1MNHandler) {
+    Parameter *candidates = newParameterArray();
     candidates[0].instance = 1; /* 1 present */
     candidates[1].instance = 2; /* M non-present */
     candidates[2].instance = 2;
@@ -729,38 +732,39 @@ Ensure (disambiguateCandidatesCanCall1MNHandler) {
 
 TestSuite *parseTests(void)
 {
+    // TODO Parse unittests does not run in cgreen-runner, fix that!
     TestSuite *suite = create_test_suite();
 
     set_setup(suite, setUp);
     
-    add_test(suite, canMatchEndOfSyntax);
-    add_test(suite, canSetupParameterForWord);
-    add_test(suite, canMatchParameterElement);
-    add_test(suite, canParseInputAccordingToParseTree);
-    add_test(suite, canSeeBitsInFlag);
-    add_test(suite, canSetupInstanceParametersForMessages);
-    add_test(suite, canSetupStringParametersForMessages);
-    add_test(suite, canSetupIntegerParametersForMessages);
-    add_test(suite, canMatchSingleParameter);
-    add_test(suite, matchNounPhraseCanMatchSingleNounWithSingleMatch);
-    add_test(suite, canMatchNounAndAdjectiveWithSingleMatch);
-    add_test(suite, canMatchMultipleAdjectivesAndNounWithSingleMatch);
-    add_test(suite, anyAllFindsAnyAllIndication);
-    add_test(suite, anyAllFindsExplicitMultipleIndication);
-    add_test(suite, parseLiteralSetsLiteralMarker);
-    add_test(suite, parsePronounSetsPronounMarker);
-    add_test(suite, parseReferenceToPreviousMultipleParameterSetsThemMarker);
-    add_test(suite, simpleParameterParserCanParseExplicitMultiple);
-    add_test(suite, getPreviousMultipleParametersSetsEndOfArray);
-    add_test(suite, parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput);
-    add_test(suite, addPronounForInstanceDontAddSameTwice);
-    add_test(suite, disambiguateCandidatesCanCall00NHandler);
-    add_test(suite, disambiguateCandidatesCanCall01NHandler);
-    add_test(suite, disambiguateCandidatesCanCall0MNHandler);
-    add_test(suite, disambiguateCandidatesCanCall10NHandler);
-    add_test(suite, disambiguateCandidatesCanCall11NHandler);
-    add_test(suite, disambiguateCandidatesCanCall1MNHandler);
-    add_test(suite, disambiguateCandidatesCanCall00YHandler);
+    add_test_with_context(suite, Parse, canMatchEndOfSyntax);
+    add_test_with_context(suite, Parse, canSetupParameterForWord);
+    add_test_with_context(suite, Parse, canMatchParameterElement);
+    add_test_with_context(suite, Parse, canParseInputAccordingToParseTree);
+    add_test_with_context(suite, Parse, canSeeBitsInFlag);
+    add_test_with_context(suite, Parse, canSetupInstanceParametersForMessages);
+    add_test_with_context(suite, Parse, canSetupStringParametersForMessages);
+    add_test_with_context(suite, Parse, canSetupIntegerParametersForMessages);
+    add_test_with_context(suite, Parse, canMatchSingleParameter);
+    add_test_with_context(suite, Parse, matchNounPhraseCanMatchSingleNounWithSingleMatch);
+    add_test_with_context(suite, Parse, canMatchNounAndAdjectiveWithSingleMatch);
+    add_test_with_context(suite, Parse, canMatchMultipleAdjectivesAndNounWithSingleMatch);
+    add_test_with_context(suite, Parse, anyAllFindsAnyAllIndication);
+    add_test_with_context(suite, Parse, anyAllFindsExplicitMultipleIndication);
+    add_test_with_context(suite, Parse, parseLiteralSetsLiteralMarker);
+    add_test_with_context(suite, Parse, parsePronounSetsPronounMarker);
+    add_test_with_context(suite, Parse, parseReferenceToPreviousMultipleParameterSetsThemMarker);
+    add_test_with_context(suite, Parse, simpleParameterParserCanParseExplicitMultiple);
+    add_test_with_context(suite, Parse, getPreviousMultipleParametersSetsEndOfArray);
+    add_test_with_context(suite, Parse, parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput);
+    add_test_with_context(suite, Parse, addPronounForInstanceDontAddSameTwice);
+    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall00NHandler);
+    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall01NHandler);
+    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall0MNHandler);
+    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall10NHandler);
+    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall11NHandler);
+    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall1MNHandler);
+    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall00YHandler);
 
 
     return suite;

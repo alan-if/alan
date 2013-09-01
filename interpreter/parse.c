@@ -132,28 +132,31 @@ static void errorWhichOne(Parameter alternative[]) {
 /*----------------------------------------------------------------------*/
 static void errorWhichPronoun(int pronounWordIndex, Parameter alternatives[]) {
     int p; /* Index into the list of alternatives */
-    Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
+    Parameter *messageParameters = newParameterArray();
 
     addParameterForWord(messageParameters, pronounWordIndex);
     printMessageWithParameters(M_WHICH_PRONOUN_START, messageParameters);
 
-    messageParameters[0] = alternatives[0];
-    setEndOfArray(&messageParameters[1]);
+    clearParameterArray(messageParameters);
+    addParameterToParameterArray(messageParameters, &alternatives[0]);
+
     printMessageWithParameters(M_WHICH_PRONOUN_FIRST, messageParameters);
 
     for (p = 1; !isEndOfArray(&alternatives[p+1]); p++) {
-        messageParameters[0] = alternatives[p];
+        clearParameterArray(messageParameters);
+        addParameterToParameterArray(messageParameters, &alternatives[p]);
         printMessageWithParameters(M_WHICH_ONE_COMMA, messageParameters);
     }
-    messageParameters[0] = alternatives[p];
+    clearParameterArray(messageParameters);
+    addParameterToParameterArray(messageParameters, &alternatives[p]);
     printMessageWithParameters(M_WHICH_ONE_OR, messageParameters);
-    free(messageParameters);
+    freeParameterArray(messageParameters);
     abortPlayerCommand();
 }
 
 /*----------------------------------------------------------------------*/
 static void errorWhat(int playerWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
+    Parameter *messageParameters = newParameterArray();
 
     addParameterForWord(messageParameters, playerWordIndex);
     printMessageWithParameters(M_WHAT_WORD, messageParameters);
@@ -163,7 +166,7 @@ static void errorWhat(int playerWordIndex) {
 
 /*----------------------------------------------------------------------*/
 static void errorAfterExcept(int butWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
+    Parameter *messageParameters = newParameterArray();
     addParameterForWord(messageParameters, butWordIndex);
     printMessageWithParameters(M_AFTER_BUT, messageParameters);
     free(messageParameters);
@@ -190,7 +193,7 @@ static int fakePlayerWordForAll() {
 
 /*----------------------------------------------------------------------*/
 static void errorButAfterAll(int butWordIndex) {
-    Parameter *messageParameters = allocateParameterArray(MAXINSTANCE);
+    Parameter *messageParameters = newParameterArray();
     addParameterForWord(messageParameters, butWordIndex);
     addParameterForWord(messageParameters, fakePlayerWordForAll());
     printMessageWithParameters(M_BUT_ALL, messageParameters);
@@ -217,7 +220,8 @@ static void errorNoSuch(Parameter parameter) {
         parameter.instance = findInstanceForNoun(playerWords[parameter.lastWord].code);
     parameter.useWords = TRUE; /* Indicate to use words and not names */
 
-    addParameter(&globalParameters[0], &parameter);
+    clearParameterArray(globalParameters);
+    addParameterToParameterArray(globalParameters, &parameter);
     error(M_NO_SUCH);
 }
 
@@ -366,7 +370,7 @@ static void filterOutNonReachable(Parameter filteredCandidates[], bool (*reachab
 /*----------------------------------------------------------------------*/
 static void disambiguateCandidatesForPosition(ParameterPosition parameterPositions[], int position, Parameter candidates[]) {
     int i;
-    Parameter *parameters = allocateParameterArray(MAXINSTANCE);
+    Parameter *parameters = newParameterArray();
 
     convertPositionsToParameters(parameterPositions, parameters);
     for (i = 0; !isEndOfArray(&candidates[i]); i++) {
@@ -477,8 +481,7 @@ static void parseReferenceToPreviousMultipleParameters(Parameter parameters[]) {
 
 /*----------------------------------------------------------------------*/
 static bool parseOneParameter(Parameter parameters[], int parameterIndex) {
-    Parameter parameter[2];
-    clearParameter(parameter, NULL);
+    Parameter *parameter = newParameterArray();
 
     // TODO Maybe this should go in the complex()?
     if (isThemWord(currentWordIndex) && (!isPronounWord(currentWordIndex) ||
@@ -849,7 +852,6 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
     localParameters = ensureParameterArrayAllocated(localParameters);
 
     for (i=0; !parameterPositions[i].endOfList; i++)
-      /* TODO Convert to allocateParameterArray */
         copyParameter(&localParameters[i], &parameterPositions[i].parameters[0]);
     // TODO: This is stupid, why should the caller need to handle end of array? Introduce addParameter()
     setEndOfArray(&localParameters[i]);

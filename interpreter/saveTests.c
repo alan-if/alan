@@ -3,7 +3,12 @@
 #include "save.c"
 
 
-Ensure (canSaveRestore) {
+Describe(Save);
+BeforeEach(Save) {}
+AfterEach(Save) {}
+
+
+Ensure(Save, canSaveRestore) {
   FILE *saveFile = fopen("testSaveFile", "w");
   Aword scoreTable = EOF;
   int i;
@@ -77,7 +82,7 @@ Ensure (canSaveRestore) {
   assert_equal(33, admin[3].attributes[0].value);
 }
 
-Ensure (canSaveStrings) {
+Ensure(Save, canSaveStrings) {
   char *testFileName = "testSaveStringFile";
   char *testString = "hejhopp";
   FILE *saveFile = fopen(testFileName, "w");
@@ -131,7 +136,7 @@ Ensure (canSaveStrings) {
   assert_equal(0, strcmp((char *)admin[1].attributes[0].value, testString));
 }
 
-Ensure (canSaveSets) {
+Ensure(Save, canSaveSets) {
   char *testFileName = "testSaveSetFile";
   Set *testSet[4];
   FILE *saveFile = fopen(testFileName, "w");
@@ -207,7 +212,7 @@ Ensure (canSaveSets) {
     assert_true(equalSets((Set *)admin[1].attributes[i].value, testSet[i]));
 }
 
-Ensure (canSaveRestoreScore) {
+Ensure(Save, canSaveRestoreScore) {
   char *fileName = "testSaveRestoreScore";
   FILE *saveFile;
   int i;
@@ -242,14 +247,4 @@ Ensure (canSaveRestoreScore) {
   free(scores);
   free(oldScores);
   free(header);
-}
-
-
-TestSuite *saveTests() {
-  TestSuite *suite = create_test_suite();
-  add_test(suite, canSaveRestore);
-  add_test(suite, canSaveStrings);
-  add_test(suite, canSaveSets);
-  add_test(suite, canSaveRestoreScore);
-  return suite;
 }

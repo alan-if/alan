@@ -78,15 +78,15 @@ Ensure(Stack, testPushAndPop) {
 
 TestSuite *stackTests()
 {
-  TestSuite *suite = create_test_suite();
+    TestSuite *suite = create_test_suite();
 
-  set_setup(suite, setup);
-  set_teardown(suite, teardown);
+    set_setup(suite, setup);
+    set_teardown(suite, teardown);
 
-  add_test_with_context(suite, Stack, allocatesCorrectSpaceInNewFrame);
-  add_test_with_context(suite, Stack, testNewFrameInStack);
-  add_test_with_context(suite, Stack, testFrameInFrame);
-  add_test_with_context(suite, Stack, testPushAndPop);
+    add_test_with_context(suite, Stack, allocatesCorrectSpaceInNewFrame);
+    add_test_with_context(suite, Stack, testNewFrameInStack);
+    add_test_with_context(suite, Stack, testFrameInFrame);
+    add_test_with_context(suite, Stack, testPushAndPop);
 
-  return suite;
+    return suite;
 }

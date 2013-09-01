@@ -45,14 +45,17 @@ static void clearRulesAdmin(int ruleCount) {
         rulesAdmin[r].lastEval = FALSE;
         rulesAdmin[r].alreadyRun = FALSE;
     }
-    setEndOfArray(&rulesAdmin[ruleCount]);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void initRulesAdmin(int ruleCount) {
-    rulesAdmin = allocate((ruleCount+2)*sizeof(RulesAdmin)); /* sizeof(RulesAdmin) < sizeof(EOF) so need more space at the end */
-    clearRulesAdmin(ruleCount);
+    int r;
+
+    rulesAdmin = allocate((ruleCount+1)*sizeof(RulesAdmin));
+    for (r = 0; r < ruleCount; r++)
+        ;
+    setEndOfArray(&rulesAdmin[r]);
 }
 
 

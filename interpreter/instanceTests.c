@@ -3,6 +3,11 @@
 
 #include "instance.c"
 
+Describe(Instance);
+
+BeforeEach(Instance) {}
+AfterEach(Instance) {}
+
 static ACodeHeader localHeader;
 
 void setUp() {
@@ -25,7 +30,7 @@ static void given_that_literal_has_value(int literal_number, int value) {
 }
 
 
-Ensure (canAccessLiteralValue) {
+Ensure(Instance, canAccessLiteralValue) {
     int value = 45;
     int literal_number = 1;
     
@@ -43,7 +48,7 @@ TestSuite *instanceTests(void)
 
     set_setup(suite, setUp);
     
-    add_test(suite, canAccessLiteralValue);
+    add_test_with_context(suite, Instance, canAccessLiteralValue);
 
     set_teardown(suite, tearDown);
 

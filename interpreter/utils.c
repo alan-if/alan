@@ -7,7 +7,7 @@
 #include "memory.h"
 #include "output.h"
 #include "exe.h"
-#include "state.h"
+
 
 /*======================================================================
 
@@ -20,7 +20,6 @@
 void terminate(int code)
 {
     newline();
-    terminateState();
     if (memory)
         free(memory);
 

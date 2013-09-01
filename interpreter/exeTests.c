@@ -356,26 +356,3 @@ Ensure(Exe, canGetContainerSize) {
   free(instances);
   free(header);
 }
-
-
-TestSuite *exeTests() {
-  TestSuite *suite = create_test_suite();
-
-  set_teardown(suite, tearDown);
-
-  add_test_with_context(suite, Exe, canCountTrailingBlanks);
-  add_test_with_context(suite, Exe, canSkipWordForwards);
-  add_test_with_context(suite, Exe, canSkipWordBackwards);
-  add_test_with_context(suite, Exe, canStripCharsFromString);
-  add_test_with_context(suite, Exe, canStripWordsFromString);
-  add_test_with_context(suite, Exe, canGetString);
-  add_test_with_context(suite, Exe, testIncreaseEventQueue);
-  add_test_with_context(suite, Exe, syserrOnWhereForIllegalId);
-  add_test_with_context(suite, Exe, syserrOnHereForIllegalId);
-  add_test_with_context(suite, Exe, syserrOnLocateIllegalId);
-  add_test_with_context(suite, Exe, callingWhereReturnsExpectedValues);
-  add_test_with_context(suite, Exe, canGetMembersOfASet);
-  add_test_with_context(suite, Exe, canGetContainerSize);
-
-  return suite;
-}

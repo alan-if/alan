@@ -11,7 +11,12 @@
 #include "sysdep.c"
 
 
-Ensure (canCompareStringsIgnoringCase)
+Describe(Sysdep);
+BeforeEach(Sysdep) {}
+AfterEach(Sysdep) {}
+
+
+Ensure(Sysdep, canCompareStringsIgnoringCase)
 {
   assert_true(compareStrings("abcd", "abcd")==0);
   assert_true(compareStrings("abcd", "Abcd")==0);
@@ -30,16 +35,8 @@ Ensure (canCompareStringsIgnoringCase)
   assert_true(compareStrings("bcd", "abcD")!=0);
 }
 
-Ensure (canSeeLowerCase)
+Ensure(Sysdep, canSeeLowerCase)
 {
   assert_true(isLowerCase(246));
-}
-
-
-TestSuite *sysdepTests() {
-  TestSuite *suite = create_test_suite();
-  add_test(suite, canSeeLowerCase);
-  add_test(suite, canCompareStringsIgnoringCase);
-  return suite;
 }
 

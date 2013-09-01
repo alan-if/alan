@@ -1,7 +1,9 @@
 #include "cgreen/cgreen.h"
+#include "assert.h"
+
+#include <malloc.h>
 
 #include "params.c"
-#include <malloc.h>
 
 Describe(ParameterArray);
 BeforeEach(ParameterArray) {
@@ -13,10 +15,13 @@ AfterEach(ParameterArray) {}
 
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, canFindLastParameterInAList) {
-    Parameter parameters[10];
+    Parameter *parameters = newParameterArray();
+    Parameter *parameter = newParameter(5);
+    int i;
 
-    memset(parameters, 45, sizeof(parameters));
-    setEndOfArray(&parameters[5]);
+    for (i=0; i<5; i++)
+        addParameterToParameterArray(parameters, parameter);
+
     assert_equal(&parameters[5], findEndOfParameterArray(parameters));
 }
 
@@ -24,14 +29,15 @@ Ensure(ParameterArray, canFindLastParameterInAList) {
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, canSetAndGetParameters) {
     int numberOfParameters = 4;
-    Parameter *parameters;
+    Parameter *parameters = newParameterArray();
+    Parameter *parameter = newParameter(19);
     int p;
 
-    header->instanceMax = 10;
-    parameters = allocateParameterArray(5);
-    
-    parameters[0].instance = 0;	/* Not end of parameters... */
-    setEndOfArray(&parameters[numberOfParameters]);
+    int i;
+
+    for (i = 0; i < numberOfParameters; i++)
+        addParameterToParameterArray(parameters, parameter);
+
     assert_equal(lengthOfParameterArray(parameters), numberOfParameters);
 
     for (p = 0; p<numberOfParameters; p++)
@@ -81,8 +87,9 @@ Ensure(ParameterArray, returns_minus_one_for_no_multiple_position) {
 
 /*----------------------------------------------------------------------*/
 static Parameter *givenAnyParameterArrayOfLength(int length) {
-    Parameter *parameters = allocateParameterArray(length);
-    parameters->instance = 1;
+    Parameter *parameters = newParameterArray();
+    assert(header->instanceMax > length);
+    parameters->instance = 1;   /* To patch over the endOfArray indicator */
     setEndOfArray(&parameters[length]);
     return parameters;
 }
@@ -107,31 +114,38 @@ Ensure(ParameterArray, subtractParameterArraysCanSubtractNullArray) {
 
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, lengthOfParameterArrayReturnsZeroForNULLArray) {
-    assert_equal(0, lengthOfParameterArray(NULL));
+    assert_that(lengthOfParameterArray(NULL), is_equal_to(0));
+}
+
+/*----------------------------------------------------------------------*/
+Ensure(ParameterArray, lengthOfParameterArrayReturnsCorrectLength) {
+    Parameter *parameters = newParameterArray();
+    Parameter *parameter = newParameter(3);
+    int i;
+
+    for (i=0; i<3; i++)
+        addParameterToParameterArray(parameters, parameter);
+    assert_that(lengthOfParameterArray(parameters), is_equal_to(3));
 }
 
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, copyParameterCopiesCandidates) {
-    Parameter theOriginal;
-    Parameter theCopy;
+    Parameter *theOriginal = newParameter(2);
+    Parameter *theCopy = newParameter(0);
 
-    clearParameter(&theOriginal, NULL);
-    clearParameter(&theCopy, NULL);
+    theOriginal->candidates = newParameterArray();
+    addParameterToParameterArray(theOriginal->candidates, theCopy); /* NOTE Careful to not add the original ;-) */
 
-    theOriginal.instance = 2;
-    theOriginal.candidates = allocate(4*sizeof(Parameter));
-    setEndOfArray(&theOriginal.candidates[3]);
+    copyParameter(theCopy, theOriginal);
 
-    copyParameter(&theCopy, &theOriginal);
-
-    assert_equal(theOriginal.instance, theCopy.instance);
-    assert_true(equalParameterArrays(theOriginal.candidates, theCopy.candidates));
-    assert_not_equal(theOriginal.candidates, theCopy.candidates);
+    assert_equal(theOriginal->instance, theCopy->instance);
+    assert_true(equalParameterArrays(theOriginal->candidates, theCopy->candidates));
+    assert_not_equal(theOriginal->candidates, theCopy->candidates);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure(ParameterArray, canCopyNullToNull) {
+Ensure(ParameterArray, dontCrashOnCopyNullToNull) {
     copyParameterArray(NULL, NULL);
 }
 
@@ -168,22 +182,22 @@ Ensure(ParameterArray, canCopyArrayToEmpty) {
 
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, addParameterSetsEndOfArray) {
-	Parameter *parameters = allocateParameterArray(5);
+	Parameter *parameters = newParameterArray();
 	Parameter *parameter = newParameter(1);
 	
 	setEndOfArray(&parameters[0]);
 	assert_true(lengthOfParameterArray(parameters) == 0);
-	addParameter(&parameters[0], parameter);
+	addParameterToParameterArray(parameters, parameter);
 	assert_true(lengthOfParameterArray(parameters) == 1);
-	addParameter(&parameters[1], parameter);
+	addParameterToParameterArray(parameters, parameter);
 	assert_true(lengthOfParameterArray(parameters) == 2);
 }
 
 
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, intersectParameterArraysReturnsAnEmptyResultForTwoEmpty) {
-	Parameter *first = allocateParameterArray(5);
-	Parameter *second = allocateParameterArray(5);
+	Parameter *first = newParameterArray();
+	Parameter *second = newParameterArray();
 
 	intersectParameterArrays(first, second);
 
@@ -192,15 +206,15 @@ Ensure(ParameterArray, intersectParameterArraysReturnsAnEmptyResultForTwoEmpty) 
 
 
 static Parameter *givenAParameterArrayWithOneParameter(Parameter *theParameter) {
-	Parameter *theArray = allocateParameterArray(5);
-	addParameter(theArray, theParameter);
+	Parameter *theArray = newParameterArray();
+	addParameterToParameterArray(theArray, theParameter);
 	return theArray;
 }
 
 static Parameter *givenAParameterArrayWithTwoParameters(Parameter *theFirstParameter, Parameter *theSecondParameter) {
-	Parameter *theArray = allocateParameterArray(5);
-	addParameter(theArray, theFirstParameter);
-	addParameter(&theArray[1], theSecondParameter);
+	Parameter *theArray = newParameterArray();
+	addParameterToParameterArray(theArray, theFirstParameter);
+	addParameterToParameterArray(theArray, theSecondParameter);
 	return theArray;
 }
 
@@ -209,7 +223,7 @@ static Parameter *givenAParameterArrayWithTwoParameters(Parameter *theFirstParam
 Ensure(ParameterArray, intersectParameterArraysReturnsAnEmptyIfEitherIsEmpty) {
 	Parameter *theParameter = newParameter(1);
 	Parameter *oneParameterArray = givenAParameterArrayWithOneParameter(theParameter);
-	Parameter *emptyParameterArray = allocateParameterArray(5);
+	Parameter *emptyParameterArray = newParameterArray();
 
 	intersectParameterArrays(oneParameterArray, emptyParameterArray);
 
@@ -242,29 +256,40 @@ Ensure(ParameterArray, intersectParameterArraysReturnsTheCommonParameter) {
 	assert_equal(lengthOfParameterArray(first), 1);
 }
 
+/*----------------------------------------------------------------------*/
+Ensure(ParameterArray, canCompactSparseArray)
+{
+    int initialLength = 7;
+    int actual_member_count;
+    Parameter *compacted = newParameterArray();
+    Parameter *parameter = newParameter(14);
+    int i;
+
+    for (i = 0; i<initialLength; i++)
+        addParameterToParameterArray(compacted, parameter);
+
+    compacted[1].instance = 0;
+    compacted[3].instance = 0;
+    compacted[6].instance = 0;
+    actual_member_count = initialLength - 3;
+
+    compressParameterArray(compacted);    
+
+    assert_that(lengthOfParameterArray(compacted), is_equal_to(actual_member_count));
+}
 
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, freesSubordinateParameterArrays) {
     struct mallinfo mallocinfo;
+    Parameter *parameter = newParameter(7);
     size_t used = mallinfo().uordblks;
 
     Parameter *parameterArray = newParameterArray();
-    Parameter *parameter = newParameter(7);
-    parameter->candidates = newParameterArray();
-    addParameterToParameterArray(parameterArray, parameter);
-    free(parameter);
+    addParameterToParameterArray(parameterArray, parameter); 
+    parameterArray[0].candidates = newParameterArray();
 
     freeParameterArray(parameterArray);
 
     mallocinfo = mallinfo();
     assert_that(mallocinfo.uordblks, is_equal_to(used));
-}
-
-/*======================================================================*/
-TestSuite *paramsTests(void) {
-    TestSuite *suite = create_test_suite();
-
-    add_test_with_context(suite, ParameterArray, bailsOutOnCopyToNull);
-
-    return suite;
 }

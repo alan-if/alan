@@ -2,8 +2,12 @@
 
 #include "set.c"
 
+Describe(Set);
+BeforeEach(Set) {}
+AfterEach(Set) {}
 
-Ensure(testAddToSet) {
+
+Ensure(Set, testAddToSet) {
   Set aSet = {0, 0, NULL};
   int i;
 
@@ -24,7 +28,7 @@ Ensure(testAddToSet) {
   assert_true(aSet.size == 6);
 }
 
-Ensure(testSetUnion) {
+Ensure(Set, testSetUnion) {
   Set *set0 = newSet(0);
   Set *set678 = newSet(3);
   Set *set456 = newSet(3);
@@ -55,7 +59,7 @@ Ensure(testSetUnion) {
   assert_true(inSet(theUnion, 8));
 }
 
-Ensure(testSetRemove) {
+Ensure(Set, testSetRemove) {
   Set *aSet = newSet(0);
   int i;
 
@@ -85,7 +89,7 @@ Ensure(testSetRemove) {
   assert_true(aSet->size == 0);
 }
 
-Ensure(testInSet) {
+Ensure(Set, testInSet) {
   Set *aSet = newSet(0);
   int i;
 
@@ -96,7 +100,7 @@ Ensure(testInSet) {
     assert_true(inSet(aSet, i));
 }
 
-Ensure(testClearSet) {
+Ensure(Set, testClearSet) {
   Set *aSet = newSet(0);
   int i;
 
@@ -107,7 +111,7 @@ Ensure(testClearSet) {
 }
 
 
-Ensure(testCompareSets) {
+Ensure(Set, testCompareSets) {
   Set *set1 = newSet(0);
   Set *set2 = newSet(0);
   Set *set3 = newSet(0);
@@ -119,17 +123,4 @@ Ensure(testCompareSets) {
   assert_true(equalSets(set1, set2));
   assert_true(!equalSets(set1, set3));
   assert_true(equalSets(set3, set4));
-}
-
-
-TestSuite *setTests()
-{
-  TestSuite *suite = create_test_suite();
-  add_test(suite, testAddToSet);
-  add_test(suite, testSetUnion);
-  add_test(suite, testSetRemove);
-  add_test(suite, testInSet);
-  add_test(suite, testClearSet);
-  add_test(suite, testCompareSets);
-  return suite;
 }

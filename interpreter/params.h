@@ -35,17 +35,16 @@ extern Parameter *globalParameters;
 /* FUNCTIONS */
 /* Single Parameter: */
 extern Parameter *newParameter(int instanceId);
-extern void clearParameter(Parameter *parameter, Parameter *candidates);
+extern void clearParameter(Parameter *parameter);
 extern void copyParameter(Parameter *theCopy, Parameter *theOriginal);
 
 /* ParameterArray: */
 extern ParameterArray newParameterArray(void);
 extern ParameterArray ensureParameterArrayAllocated(ParameterArray currentArray);
-extern void freeParameterArray(ParameterArray arrayPointer);
+extern void freeParameterArray(Parameter *array);
 
 extern bool parameterArrayIsEmpty(ParameterArray parameters);
 extern void addParameterToParameterArray(ParameterArray theArray, Parameter *theParameter);
-extern void addParameter(ParameterArray parameters, Parameter *theParameter);
 extern void addParameterForInstance(ParameterArray parameters, int instance);
 extern void addParameterForInteger(ParameterArray parameters, int value);
 extern void addParameterForString(ParameterArray parameters, char *value);
@@ -68,8 +67,5 @@ extern int findMultiplePosition(ParameterArray parameters);
 extern void setGlobalParameters(ParameterArray parameters);
 extern ParameterArray getGlobalParameters(void);
 extern ParameterArray getGlobalParameter(int parameterIndex);
-
-/* Deprecated allocation: */
-extern ParameterArray allocateParameterArray(int n);
 
 #endif

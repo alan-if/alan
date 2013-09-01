@@ -77,7 +77,7 @@ $(UNITTESTSOBJDIR):
 
 unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB)
-unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS)
+unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS) add_unittests.include
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
 
 unit_tests: unittests
@@ -85,7 +85,7 @@ unit_tests: unittests
 
 # Build the DLL...
 unittests.dll: LIBS = $(CGREENLIB)
-unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS)
+unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
 
 # ... that can be run with the cgreen runner
@@ -97,6 +97,20 @@ ifeq ($(shell uname), Darwin)
 else
 	cgreen-runner ./$^ --suite Interpreter $(UNITOUT)
 endif
+
+# To make sure that all modules are included when we run the ones that
+# are to be run in the "old fashion" way with a main program that
+# collects all the tests. This means that we must remember to manually
+# add every new test (and change name in more than one place). So to
+# make some automation of this until they have all migrate to the
+# reflective runner, here we generate a list of those modules in a
+# fashion that the main program can include. And pow, the correct
+# modules are called and collected.
+add_unittests.include : sources.mk
+	-@rm $@
+	for f in $(MODULES_WITH_UNITTESTS_USING_MAIN:.c=) ; do \
+		echo "    ADD_UNITTESTS_FOR($$f);" >> $@ ; \
+	done
 
 
 # Here we try to build a runnable DLL for each module where it can be 
@@ -110,6 +124,8 @@ $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_test
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 # Then run all _tests.dll's with the cgreen-runner
+isolated_unittests: CC = gcc
+isolated_unittests: LINK = gcc
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)

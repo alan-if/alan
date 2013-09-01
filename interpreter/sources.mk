@@ -8,33 +8,34 @@
 # With everything mocked so they run in complete isolation...
 MODULES_WITH_ISOLATED_UNITTESTS = \
 	rules \
-	lists
+	lists \
 
-# ... or with a common runner (much less clean...)
+# ... or with a common runner (much less clean... but better than ...)
 MODULES_WITH_UNITTESTS_USING_RUNNER = \
-	act.c \
-	reverse.c \
-	params.c
-
-# Or using a main program which requires adding every test manually
-MODULES_WITH_UNITTESTS_USING_MAIN = \
-	AltInfo.c \
-	ParameterPosition.c \
-	StateStack.c \
 	args.c \
+	AltInfo.c \
+	act.c \
 	debug.c \
 	exe.c \
-	inter.c \
 	instance.c \
+	inter.c \
 	main.c \
-	parse.c \
+	output.c \
+	ParameterPosition.c \
+	params.c \
+	reverse.c \
 	save.c \
 	set.c \
 	stack.c \
 	state.c \
+	StateStack.c \
 	sysdep.c \
-	output.c \
 	word.c \
+
+# ... using a main program which requires remembering adding every test
+# manually in a collector function
+MODULES_WITH_UNITTESTS_USING_MAIN = \
+	parse.c \
 
 MODULES_WITHOUT_UNITTESTS = \
 	Container.c \

@@ -7,31 +7,13 @@
 #include "smartall.h"
 #endif
 
-#define ADD_UNIT_TESTS_FOR(module) \
+#define ADD_UNITTESTS_FOR(module) \
   TestSuite *module##Tests(); \
   add_suite(suite, module##Tests());
 
 
 static void add_unittests(TestSuite *suite) {
-    ADD_UNIT_TESTS_FOR(altInfo);
-    ADD_UNIT_TESTS_FOR(args);
-    ADD_UNIT_TESTS_FOR(debug);
-    ADD_UNIT_TESTS_FOR(exe);
-    ADD_UNIT_TESTS_FOR(inter);
-    ADD_UNIT_TESTS_FOR(instance);
-    ADD_UNIT_TESTS_FOR(params);
-    ADD_UNIT_TESTS_FOR(main);
-    ADD_UNIT_TESTS_FOR(parameterPosition);
-    ADD_UNIT_TESTS_FOR(parse);
-    ADD_UNIT_TESTS_FOR(reverse);
-    ADD_UNIT_TESTS_FOR(save);
-    ADD_UNIT_TESTS_FOR(set);
-    ADD_UNIT_TESTS_FOR(stack);
-    ADD_UNIT_TESTS_FOR(stateStack);
-    ADD_UNIT_TESTS_FOR(state);
-    ADD_UNIT_TESTS_FOR(sysdep);
-    ADD_UNIT_TESTS_FOR(output);
-    ADD_UNIT_TESTS_FOR(word);
+#include "add_unittests.include"
 }
 
 

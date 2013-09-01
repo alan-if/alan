@@ -5,6 +5,7 @@
 
 #include "lists.h"
 
+
 #define INSTANCEMAX 7
 #define ATTRIBUTECOUNT 5
 
@@ -32,21 +33,28 @@ static void teardownInstances() {
 }
 
 
-Ensure (collectGameStateCollectsAdminAndAttributesData) {
+Describe(State);
+BeforeEach(State) {
+    setupInstances();
+}
+AfterEach(State) {
+    teardownInstances();
+}
+
+
+Ensure(State, pushGameStateCollectsAdminAndAttributesData) {
   int adminSize = (INSTANCEMAX+1)*sizeof(AdminEntry)/sizeof(Aword);
   int attributeAreaSize = ATTRIBUTECOUNT*INSTANCEMAX*sizeof(AttributeEntry)/sizeof(Aword);
-  GameState gameState;
 
   eventQueueTop = 0;
 
-  collectGameState(&gameState);
+  rememberGameState();
 
   assert_true(memcmp(gameState.attributes, attributes, attributeAreaSize*sizeof(Aword)) == 0);
   assert_true(memcmp(gameState.admin, admin, adminSize*sizeof(Aword)) == 0);
 }
 
-
-Ensure (pushAndPopCanHandleSetAttributes) {
+Ensure(State, pushAndPopCanHandleSetAttributes) {
   Set *originalSet = newSet(3);
   SetInitEntry *initEntry;
 
@@ -65,23 +73,27 @@ Ensure (pushAndPopCanHandleSetAttributes) {
   initEntry->attributeCode = 1;
   memory[1+sizeof(SetInitEntry)/sizeof(Aword)] = EOF;
 
+
   rememberGameState();
 
-  /* Now, modify some set */
+  assert_not_equal(gameState.sets[0], (Aword)originalSet);
+  assert_true(equalSets((Set*)gameState.sets[0], originalSet));
+
   Set *modifiedSet = newSet(4);
   attributes[0].value = (Aword)modifiedSet;
   addToSet(modifiedSet, 11);
   addToSet(modifiedSet, 12);
+  assert_false(equalSets((Set*)gameState.sets[0], modifiedSet));
+  assert_true(equalSets((Set*)attributes[0].value, modifiedSet));
 
   recallGameState();
 
-  /* Ensure they are back to original value */
   assert_not_equal(attributes[0].value, (Aword)modifiedSet);
   assert_not_equal(attributes[0].value, (Aword)originalSet);
   assert_true(equalSets((Set*)attributes[0].value, originalSet));
 }
 
-Ensure (canPushAndPopAttributeState) {
+Ensure(State, canPushAndPopAttributeState) {
 
   attributes[0].value = 12;
   attributes[2].value = 3;
@@ -109,7 +121,7 @@ Ensure (canPushAndPopAttributeState) {
 
 
 
-Ensure (canPushAndPopAdminState) {
+Ensure(State, canPushAndPopAdminState) {
   int INSTANCE1_LOCATION = 12;
   int INSTANCE2_LOCATION = 22;
   int INSTANCE2_FIRST_SCRIPT = 3;
@@ -151,7 +163,7 @@ Ensure (canPushAndPopAdminState) {
   assert_equal(INSTANCE2_FIRST_SCRIPT, admin[2].script);
 }
 
-Ensure (canPushAndPopEvents) {
+Ensure(State, canPushAndPopEvents) {
   eventQueue = NULL;
   eventQueueTop = 0;
 
@@ -176,7 +188,7 @@ Ensure (canPushAndPopEvents) {
   assert_equal(0, eventQueueTop);
 }
 
-Ensure (doesNotCrashOnSequenceOfRememberForgetAndRecall) {
+Ensure(State, doesNotCrashOnSequenceOfRememberForgetAndRecall) {
 	rememberGameState();
 	forgetGameState();
 	rememberGameState();
@@ -200,7 +212,7 @@ Ensure (doesNotCrashOnSequenceOfRememberForgetAndRecall) {
 	rememberGameState();
 }
 
-Ensure (canRememberPlayerCommand) {
+Ensure(State, canRememberPlayerCommand) {
   int i;
   char *command = "go w, e and south";
 
@@ -222,41 +234,20 @@ Ensure (canRememberPlayerCommand) {
   assert_true(strncmp(playerCommand, command, 3) == 0);
 }
 
-Ensure (freeGameStateFreesMemory) {
-    GameState gameState;
+Ensure(State, freeGameStateFreesMemory) {
+	gameState.admin = allocate(1);
+	gameState.attributes = allocate(1);
+	gameState.eventQueue = allocate(1);
+	gameState.scores = allocate(1);
+	gameState.sets = allocate(1);
+	gameState.strings = allocate(1);
 
-    gameState.admin = allocate(1);
-    gameState.attributes = allocate(1);
-    gameState.eventQueue = allocate(1);
-    gameState.scores = allocate(1);
-    gameState.sets = allocate(1);
-    gameState.strings = allocate(1);
-    
-    freeGameState(&gameState);
-        
-    assert_equal(gameState.admin, 0);
-    assert_equal(gameState.attributes, 0);
-    assert_equal(gameState.eventQueue, 0);
-    assert_equal(gameState.scores, 0);
-    assert_equal(gameState.sets, 0);
-    assert_equal(gameState.strings, 0);
-}
+	freeGameState();
 
-
-TestSuite *stateTests() {
-    TestSuite *suite = create_test_suite();
-
-    set_setup(suite, setupInstances);
-    set_teardown(suite, teardownInstances);
-
-    add_test(suite, freeGameStateFreesMemory);
-    add_test(suite, canRememberPlayerCommand);
-    add_test(suite, collectGameStateCollectsAdminAndAttributesData);
-    add_test(suite, canPushAndPopAttributeState);
-    add_test(suite, canPushAndPopAdminState);
-    add_test(suite, canPushAndPopEvents);
-    add_test(suite, pushAndPopCanHandleSetAttributes);
-    add_test(suite, doesNotCrashOnSequenceOfRememberForgetAndRecall);
-
-    return suite;
+	assert_equal(gameState.admin, 0);
+	assert_equal(gameState.attributes, 0);
+	assert_equal(gameState.eventQueue, 0);
+	assert_equal(gameState.scores, 0);
+	assert_equal(gameState.sets, 0);
+	assert_equal(gameState.strings, 0);
 }

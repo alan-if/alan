@@ -3,13 +3,17 @@
 #define RUNNING_UNITTESTS
 #include "output.c"
 
+Describe(Output);
+BeforeEach(Output) {}
+AfterEach(Output) {}
 
-Ensure (testUpdateColumn) {
+
+Ensure(Output, testUpdateColumn) {
   assert_true(updateColumn(0, "\n") == 1);
   assert_true(updateColumn(11, "123456789") == 20);
 }
 
-Ensure (testPunctuationNext) {
+Ensure(Output, testPunctuationNext) {
   assert_true(punctuationNext("."));
   assert_true(punctuationNext("!"));
   assert_true(punctuationNext("?"));
@@ -20,7 +24,7 @@ Ensure (testPunctuationNext) {
   assert_true(!punctuationNext("$p."));
 }
 
-Ensure (testSpaceEquivalent){
+Ensure(Output, testSpaceEquivalent){
   assert_true(isSpaceEquivalent("$p"));
   assert_true(isSpaceEquivalent("$pafdjljf"));
   assert_true(isSpaceEquivalent("$t"));
@@ -31,15 +35,4 @@ Ensure (testSpaceEquivalent){
   assert_true(!isSpaceEquivalent("..."));
   assert_true(!isSpaceEquivalent(""));
   assert_true(isSpaceEquivalent(" "));
-}
-
-TestSuite *outputTests()
-{
-  TestSuite *suite = create_test_suite();
-
-  add_test(suite, testUpdateColumn);
-  add_test(suite, testSpaceEquivalent);
-  add_test(suite, testPunctuationNext);
-
-  return suite;
 }

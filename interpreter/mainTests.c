@@ -3,7 +3,12 @@
 #include "main.c"
 
 
-Ensure(canCopyAttributes) {
+Describe(Main);
+BeforeEach(Main) {}
+AfterEach(Main) {}
+
+
+Ensure(Main, canCopyAttributes) {
     AttributeEntry *attributeArea;
     AttributeEntry *a = (AttributeEntry *)&memory[1];
 
@@ -55,7 +60,7 @@ Ensure(canCopyAttributes) {
     assert_true(*(Aword*)&admin[2].attributes[2] == EOF);
 }
 
-Ensure(canHandleMemoryStartForPre3_0alpha5IsShorter) {
+Ensure(Main, canHandleMemoryStartForPre3_0alpha5IsShorter) {
     char version[4];
     version[3] = 3;
     version[2] = 0;
@@ -65,7 +70,7 @@ Ensure(canHandleMemoryStartForPre3_0alpha5IsShorter) {
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-2==crcStart(version));
 }
 
-Ensure(canHandleMemoryStartForPre3_0beta2IsShorter) {
+Ensure(Main, canHandleMemoryStartForPre3_0beta2IsShorter) {
     char version[4];
     version[3] = 3;
     version[2] = 0;
@@ -82,22 +87,10 @@ Ensure(canHandleMemoryStartForPre3_0beta2IsShorter) {
     assert_true(sizeof(ACodeHeader)/sizeof(Aword)-1==crcStart(version));
 }
 
-Ensure(canSetEof) {
+Ensure(Main, canSetEof) {
     Parameter parameters[10];
 
     setEndOfArray(&parameters[7]);
     assert_false(isEndOfArray(&parameters[0]));
     assert_true(isEndOfArray(&parameters[7]));
-}
-
-TestSuite *mainTests()
-{
-    TestSuite *suite = create_test_suite();
-
-    add_test(suite, canCopyAttributes);
-    add_test(suite, canHandleMemoryStartForPre3_0alpha5IsShorter);
-    add_test(suite, canHandleMemoryStartForPre3_0beta2IsShorter);
-    add_test(suite, canSetEof);
-
-    return suite;
 }
