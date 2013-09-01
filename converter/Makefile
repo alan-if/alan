@@ -66,7 +66,7 @@ clean:
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = -lcgreen -lm
+CGREENLIB = -L/usr/local/lib -lcgreen -lm
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)

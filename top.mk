@@ -27,9 +27,9 @@ build:
 
 .PHONY: unit
 unit:
-	-cd compiler; $(MAKE) $(UNITOUTPUT) unit
-	-cd interpreter; $(MAKE) $(UNITOUTPUT) unit
-	-cd converter; $(MAKE) $(UNITOUTPUT) unit
+	-cd compiler; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
+	-cd interpreter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
+	-cd converter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
 
 .PHONY: test
 test:
