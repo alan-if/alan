@@ -35,4 +35,3 @@ unittests.dll: LINK = gcc
 
 cgreenrunnertests: CC = gcc
 cgreenrunnertests: LINK = gcc
-

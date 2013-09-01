@@ -23,6 +23,7 @@ MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	output.c \
 	ParameterPosition.c \
 	params.c \
+	parse.c \
 	reverse.c \
 	save.c \
 	set.c \
@@ -35,7 +36,6 @@ MODULES_WITH_UNITTESTS_USING_RUNNER = \
 # ... using a main program which requires remembering adding every test
 # manually in a collector function
 MODULES_WITH_UNITTESTS_USING_MAIN = \
-	parse.c \
 
 MODULES_WITHOUT_UNITTESTS = \
 	Container.c \

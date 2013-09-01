@@ -144,7 +144,7 @@ ifneq ($(CGREEN),yes)
 unit:
 	echo "No unit tests run, cgreen not available"
 else
-unit: unit_tests cgreenrunnertests isolated_unittests
+unit: cgreenrunnertests isolated_unittests
 endif
 
 #######################################################################

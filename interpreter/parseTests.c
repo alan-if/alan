@@ -317,13 +317,12 @@ static void mockedInstanceMatcher(Parameter *parameter) {
 
 /*----------------------------------------------------------------------*/
 Ensure(Parse, canMatchSingleParameter) {
-    Parameter parameters[2];
+    Parameter *parameters = newParameterArray();
+    Parameter *parameter = newParameter(0);
 
-    clearParameter(&parameters[0]);
-    parameters[0].firstWord = 1;
-    parameters[0].lastWord = 1;
-    parameters[0].candidates = NULL;
-    setEndOfArray(&parameters[1]);
+    parameters->firstWord = 1;
+    parameters->lastWord = 1;
+    addParameterToParameterArray(parameters, parameter);
 
     playerWords = allocate(10);
 
