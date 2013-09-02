@@ -52,7 +52,7 @@ Parameter *ensureParameterArrayAllocated(ParameterArray currentArray) {
     if (currentArray == NULL)
         currentArray = newParameterArray();
     else
-	clearParameterArray(currentArray);
+        clearParameterArray(currentArray);
     return currentArray;
 }
 
