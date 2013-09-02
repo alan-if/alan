@@ -15,7 +15,6 @@ all: build-alan build-arun alan.readme.macosx test package
 
 .PHONY: package
 package:
-	echo $(BUILD) 
 	cp bin/alan bin/arun .
 	tar zcvf alan$(VERSION)$(BUILD).macosx.x86.tgz alan arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan
 	-rm alan arun

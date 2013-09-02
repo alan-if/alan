@@ -1,7 +1,9 @@
 #include "cgreen/cgreen.h"
 #include "assert.h"
 
+#ifndef __APPLE__
 #include <malloc.h>
+#endif
 
 #include "params.c"
 
@@ -280,9 +282,11 @@ Ensure(ParameterArray, canCompactSparseArray)
 
 /*----------------------------------------------------------------------*/
 Ensure(ParameterArray, freesSubordinateParameterArrays) {
-    struct mallinfo mallocinfo;
     Parameter *parameter = newParameter(7);
+#ifndef __APPLE__
+    struct mallinfo mallocinfo;
     size_t used = mallinfo().uordblks;
+#endif
 
     Parameter *parameterArray = newParameterArray();
     addParameterToParameterArray(parameterArray, parameter); 
@@ -290,6 +294,8 @@ Ensure(ParameterArray, freesSubordinateParameterArrays) {
 
     freeParameterArray(parameterArray);
 
+#ifndef __APPLE__
     mallocinfo = mallinfo();
     assert_that(mallocinfo.uordblks, is_equal_to(used));
+#endif
 }
