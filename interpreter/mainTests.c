@@ -9,7 +9,6 @@ AfterEach(Main) {}
 
 
 Ensure(Main, canCopyAttributes) {
-    AttributeEntry *attributeArea;
     AttributeEntry *a = (AttributeEntry *)&memory[1];
 
     memory = allocate(6*sizeof(AttributeEntry));
@@ -41,7 +40,7 @@ Ensure(Main, canCopyAttributes) {
     instances[1].initialAttributes = 1;
     instances[2].initialAttributes = 10;
 
-    attributeArea = initializeAttributes(5*sizeof(AttributeEntry)/sizeof(Aword));
+    initializeAttributes(5*sizeof(AttributeEntry)/sizeof(Aword));
 
     assert_true(admin[1].attributes[0].code == 13);
     assert_true(admin[1].attributes[0].value == 15);

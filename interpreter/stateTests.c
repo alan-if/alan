@@ -93,6 +93,7 @@ Ensure(State, pushAndPopCanHandleSetAttributes) {
   assert_true(equalSets((Set*)attributes[0].value, originalSet));
 }
 
+
 Ensure(State, canPushAndPopAttributeState) {
 
   attributes[0].value = 12;
@@ -118,7 +119,6 @@ Ensure(State, canPushAndPopAttributeState) {
   assert_equal(12, attributes[0].value);
   assert_equal(3, attributes[2].value);
 }
-
 
 
 Ensure(State, canPushAndPopAdminState) {
@@ -163,6 +163,7 @@ Ensure(State, canPushAndPopAdminState) {
   assert_equal(INSTANCE2_FIRST_SCRIPT, admin[2].script);
 }
 
+
 Ensure(State, canPushAndPopEvents) {
   eventQueue = NULL;
   eventQueueTop = 0;
@@ -188,6 +189,7 @@ Ensure(State, canPushAndPopEvents) {
   assert_equal(0, eventQueueTop);
 }
 
+
 Ensure(State, doesNotCrashOnSequenceOfRememberForgetAndRecall) {
 	rememberGameState();
 	forgetGameState();
@@ -211,6 +213,7 @@ Ensure(State, doesNotCrashOnSequenceOfRememberForgetAndRecall) {
 	recallGameState();
 	rememberGameState();
 }
+
 
 Ensure(State, canRememberPlayerCommand) {
   int i;
