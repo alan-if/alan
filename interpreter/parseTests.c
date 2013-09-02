@@ -543,14 +543,16 @@ Ensure(Parse, simpleParameterParserCanParseExplicitMultiple) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(Parse, getPreviousMultipleParametersSetsEndOfArray) {
-    Parameter parameters[2];
-    Parameter multipleParameters[2];
-    previousMultipleParameters = multipleParameters;
-    assert_true(!isEndOfArray(&parameters[0]));
-    setEndOfArray(&previousMultipleParameters[0]);
+Ensure(Parse, getPreviousMultipleParametersGetsACopy) {
+    Parameter *parameters = newParameterArray();
+    Parameter *parameter = newParameter(5);
+
+    previousMultipleParameters = newParameterArray();
+
+    addParameterToParameterArray(parameters, parameter);
+
     getPreviousMultipleParameters(parameters);
-    assert_true(isEndOfArray(&parameters[0]));
+    assert_that(equalParameterArrays(parameters, previousMultipleParameters));
 }
 
 /*----------------------------------------------------------------------*/
@@ -573,7 +575,7 @@ static int lengthOfPronounArray(Pronoun *array, int elementSize) {
 
 /*----------------------------------------------------------------------*/
 Ensure(Parse, addPronounForInstanceDontAddSameTwice) {
-    pronouns = allocate(2*sizeof(Pronoun)+1);
+    pronouns = allocate(3*sizeof(Pronoun));
 
     pronouns[0].pronoun = 10;
     pronouns[0].instance = 3;
@@ -727,44 +729,4 @@ Ensure(Parse, disambiguateCandidatesCanCall1MNHandler) {
 
     disambiguateCandidates(candidates, FALSE, mockedReachable, mockedHandlerTable);
     assert_true(handlerFor1MNCalled);
-}
-
-TestSuite *parseTests(void)
-{
-    // TODO Parse unittests does not run in cgreen-runner, fix that!
-    TestSuite *suite = create_test_suite();
-
-    set_setup(suite, setUp);
-    
-    add_test_with_context(suite, Parse, canMatchEndOfSyntax);
-    add_test_with_context(suite, Parse, canSetupParameterForWord);
-    add_test_with_context(suite, Parse, canMatchParameterElement);
-    add_test_with_context(suite, Parse, canParseInputAccordingToParseTree);
-    add_test_with_context(suite, Parse, canSeeBitsInFlag);
-    add_test_with_context(suite, Parse, canSetupInstanceParametersForMessages);
-    add_test_with_context(suite, Parse, canSetupStringParametersForMessages);
-    add_test_with_context(suite, Parse, canSetupIntegerParametersForMessages);
-    add_test_with_context(suite, Parse, canMatchSingleParameter);
-    add_test_with_context(suite, Parse, matchNounPhraseCanMatchSingleNounWithSingleMatch);
-    add_test_with_context(suite, Parse, canMatchNounAndAdjectiveWithSingleMatch);
-    add_test_with_context(suite, Parse, canMatchMultipleAdjectivesAndNounWithSingleMatch);
-    add_test_with_context(suite, Parse, anyAllFindsAnyAllIndication);
-    add_test_with_context(suite, Parse, anyAllFindsExplicitMultipleIndication);
-    add_test_with_context(suite, Parse, parseLiteralSetsLiteralMarker);
-    add_test_with_context(suite, Parse, parsePronounSetsPronounMarker);
-    add_test_with_context(suite, Parse, parseReferenceToPreviousMultipleParameterSetsThemMarker);
-    add_test_with_context(suite, Parse, simpleParameterParserCanParseExplicitMultiple);
-    add_test_with_context(suite, Parse, getPreviousMultipleParametersSetsEndOfArray);
-    add_test_with_context(suite, Parse, parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput);
-    add_test_with_context(suite, Parse, addPronounForInstanceDontAddSameTwice);
-    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall00NHandler);
-    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall01NHandler);
-    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall0MNHandler);
-    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall10NHandler);
-    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall11NHandler);
-    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall1MNHandler);
-    add_test_with_context(suite, Parse, disambiguateCandidatesCanCall00YHandler);
-
-
-    return suite;
 }

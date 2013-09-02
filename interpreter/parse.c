@@ -1338,9 +1338,9 @@ static void addPronounForInstance(int thePronoun, int instanceCode) {
     int i;
 
     for (i = 0; !endOfPronouns(i); i++)
-	if (pronouns[i].pronoun == thePronoun && pronouns[i].instance == instanceCode)
-	    // Don't add the same instance twice for the same pronoun
-	    return;
+        if (pronouns[i].pronoun == thePronoun && pronouns[i].instance == instanceCode)
+            // Don't add the same instance twice for the same pronoun
+            return;
     pronouns[i].pronoun = thePronoun;
     pronouns[i].instance = instanceCode;
     setEndOfArray(&pronouns[i + 1]);

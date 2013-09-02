@@ -1,10 +1,13 @@
 #include "cgreen/cgreen.h"
 
 #include "main.c"
+#include <assert.h>
 
 
 Describe(Main);
-BeforeEach(Main) {}
+BeforeEach(Main) {
+    header->instanceMax = 10;
+}
 AfterEach(Main) {}
 
 
@@ -89,6 +92,7 @@ Ensure(Main, canHandleMemoryStartForPre3_0beta2IsShorter) {
 Ensure(Main, canSetEof) {
     Parameter *parameters = newParameterArray();
 
+    assert(7 < MAXINSTANCE);
     assert_false(isEndOfArray(&parameters[7]));
     setEndOfArray(&parameters[7]);
     assert_true(isEndOfArray(&parameters[7]));
