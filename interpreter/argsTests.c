@@ -7,10 +7,10 @@ BeforeEach(Args) {}
 AfterEach(Args) {}
 
 Ensure(Args, canAddAcodeExtension) {
-    char *fileName = allocate(strlen("file")+strlen(".a3c")+1);
-    strcpy(fileName, "file");
-    assert_string_equal(addAcodeExtension(fileName), "file.a3c");
-    free(fileName);
+    char *filename = strdup("file");
+    filename = addAcodeExtension(filename);
+    assert_string_equal(filename, "file.a3c");
+    free(filename);
 }
 
 Ensure(Args, gameNameCanStripLeadingDotAndSlash) {

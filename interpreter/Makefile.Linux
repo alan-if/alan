@@ -47,7 +47,7 @@ CGREENLIB = -lcgreen -lm
 # Default target on Linux
 # 
 .PHONY: default
-default all: arun unit
+default all: unit arun
 
 
 ##################################################################

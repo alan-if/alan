@@ -88,9 +88,9 @@ Ensure(Main, canHandleMemoryStartForPre3_0beta2IsShorter) {
 }
 
 Ensure(Main, canSetEof) {
-    Parameter parameters[10];
+    Parameter *parameters = newParameterArray();
 
+    assert_false(isEndOfArray(&parameters[7]));
     setEndOfArray(&parameters[7]);
-    assert_false(isEndOfArray(&parameters[0]));
     assert_true(isEndOfArray(&parameters[7]));
 }

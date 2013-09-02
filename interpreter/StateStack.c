@@ -90,12 +90,12 @@ void attachPlayerCommandsToLastState(StateStack stateStack, char *playerCommands
 
 /*======================================================================*/
 void popGameState(StateStack stateStack, void *gameState, char** playerCommand) {
-	if (stateStack->stackPointer == 0)
-		syserr("Popping GameState from empty stack");
-	else {
-		stateStack->stackPointer--;
-		memcpy(gameState, stateStack->stack[stateStack->stackPointer], stateStack->elementSize);
-		free(stateStack->stack[stateStack->stackPointer]);
-		*playerCommand = stateStack->playerCommands[stateStack->stackPointer];
-	}
+    if (stateStack->stackPointer == 0)
+        syserr("Popping GameState from empty stack");
+    else {
+        stateStack->stackPointer--;
+        memcpy(gameState, stateStack->stack[stateStack->stackPointer], stateStack->elementSize);
+        free(stateStack->stack[stateStack->stackPointer]);
+        *playerCommand = stateStack->playerCommands[stateStack->stackPointer];
+    }
 }
