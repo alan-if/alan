@@ -9,8 +9,8 @@
 
 Describe(ParameterArray);
 BeforeEach(ParameterArray) {
-	header->maxParameters = 4;
-	header->instanceMax = 6;
+  header->maxParameters = 4;
+  header->instanceMax = 8;
 }
 AfterEach(ParameterArray) {}
 
@@ -267,6 +267,7 @@ Ensure(ParameterArray, canCompactSparseArray)
     Parameter *parameter = newParameter(14);
     int i;
 
+	assert(initialLength < MAXINSTANCE);
     for (i = 0; i<initialLength; i++)
         addParameterToParameterArray(compacted, parameter);
 

@@ -192,7 +192,6 @@ void addParameterToParameterArray(ParameterArray theArray, Parameter *theParamet
     for (i = 0; !isEndOfArray(&theArray[i]) && i < MAXINSTANCE; i++)
         ;
     if (isEndOfArray(&theArray[i])) {
-        clearParameter(&theArray[i]);
         copyParameter(&theArray[i], theParameter);
         setEndOfArray(&theArray[i+1]);
     } else
