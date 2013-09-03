@@ -41,7 +41,8 @@ int eot(Aword *adr)
 }
 
 
-static void syserr(char str[])
+/*======================================================================*/
+void syserr(char str[])
 {
   printf("SYSTEM ERROR - %s\n", str);
   exit(-1);

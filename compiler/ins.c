@@ -57,9 +57,9 @@ void addHero(void)
 void addLiteralInstance(void)
 {
     // Add a special instance representing all literals
-    // Literals can't have modifiable attributes so one is enoough
+    // Literals can't have modifiable attributes so one is enough
     // It should be generated as the last instance.
-    Instance *theLiteralInstance;
+    Instance *theLiteralInstance; /* TODO Remove this variable */
     IdNode *literalClassId = newId(nulsrcp, "literal");
     Symbol *literalClassSymbol = lookup("literal");
     

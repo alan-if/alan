@@ -311,6 +311,7 @@ static void addScripts(AddNode *add, Symbol *original)
 static void addEntered(AddNode *add, Symbol *originalSymbol)
 {
   Properties *props = add->props;
+  // TODO Why is this here? It doesn't do anything
   Bool inhibitAdd = FALSE;
 
   if (props->enteredStatements != NULL) {

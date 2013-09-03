@@ -81,7 +81,7 @@ unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS) add_unittests.incl
 	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
 
 unit_tests: unittests
-	@./unittests $(UNITOUT)
+	@./unittests $(UNITOUTPUT)
 
 # Build the DLL...
 unittests.dll: LIBS = $(CGREENLIB)
@@ -93,9 +93,9 @@ cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
-	arch -i386 cgreen-runner $^ --suite Interpreter $(UNITOUT)
+	arch -i386 cgreen-runner $^ --suite Interpreter $(UNITOUTPUT)
 else
-	cgreen-runner ./$^ --suite Interpreter $(UNITOUT)
+	cgreen-runner ./$^ --suite Interpreter $(UNITOUTPUT)
 endif
 
 # To make sure that all modules are included when we run the ones that
@@ -131,11 +131,11 @@ isolated_unittests: LIBS = $(CGREENLIB)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)
 ifeq ($(shell uname), Darwin)
 	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
-		arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
+		arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) ; \
 	done
 else
 	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
-		cgreen-runner $$f --suite Interpreter $(UNITOUT) ; \
+		cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) ; \
 	done
 endif
 

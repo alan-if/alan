@@ -64,7 +64,7 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 unit: CC = gcc
 unit: LINK = gcc
 unit: unittests
-	@./unittests $(UNITOUT)
+	@./unittests $(UNITOUTPUT)
 
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o

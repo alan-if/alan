@@ -4,18 +4,18 @@
 VERSION = `cat VERSION`
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
-all: test zip
+all: test package
 
-build: zip
+build:
+
+snapshots: zip
 
 .PHONY: test
 test:
 	cd testing; java -jar ../../bin/jregr.jar
 
-.PHONY: zip
-zip: changelog.txt classes.i COPYING.txt verbs.i locations.i messages.i library.i QuickRef.txt readme.txt testgame.alan
-	-rm library*.zip
-	zip library$(VERSION).zip $^
+.PHONY: package
+package: zip
 
 # Release is only possible on Thoni's machines
 .PHONY: release
@@ -23,3 +23,10 @@ release: test zip
 	cp library$(VERSION).zip $(DISTDIR)/Library
 	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
 	echo "Please update VERSION file to indicate next version number"
+
+#####################################################################
+
+.PHONY: zip
+zip: changelog.txt classes.i COPYING.txt verbs.i locations.i messages.i library.i QuickRef.txt readme.txt testgame.alan
+	-rm library*.zip
+	zip library$(VERSION).zip $^

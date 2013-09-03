@@ -11,6 +11,7 @@ else
   BUILD= -`cat $(BUILD_NUMBER_FILE)`
 endif
 
+# Main common targets: clean build unit test package
 .PHONY: clean
 clean:
 	cd interpreter; make clean
@@ -18,8 +19,6 @@ clean:
 
 .PHONY: build
 build:
-	-rm *win32.x86*
-	-rm library*.zip
 	-cd compiler; $(MAKE) build
 	-cd interpreter; $(MAKE) build
 	-cd converter; $(MAKE) build
@@ -42,6 +41,12 @@ test:
 	@java -jar bin/jregr.jar -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir library/testing $(JREGROUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir converter/testing $(JREGROUTPUT)
+
+.PHONY: package
+package: zip
+	-cd library; $(MAKE) package
+
+#################################################################################
 
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING 
