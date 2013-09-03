@@ -42,10 +42,6 @@ test:
 	@java -jar bin/jregr.jar -bin bin -dir library/testing $(JREGROUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir converter/testing $(JREGROUTPUT)
 
-.PHONY: package
-package: zip
-	-cd library; $(MAKE) package
-
 #################################################################################
 
 .PHONY: zip
