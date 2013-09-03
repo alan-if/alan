@@ -11,11 +11,13 @@ else
   BUILD= -`cat $(BUILD_NUMBER_FILE)`
 endif
 
-# Main common targets: clean build unit test package
+# Main common targets: clean build unit test
+# package must be defined in platform dependent makefiles
 .PHONY: clean
 clean:
 	cd interpreter; make clean
 	cd compiler; make clean
+	cd converter; make clean
 
 .PHONY: build
 build:
@@ -42,42 +44,3 @@ test:
 	@java -jar bin/jregr.jar -bin bin -dir library/testing $(JREGROUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir converter/testing $(JREGROUTPUT)
 
-#################################################################################
-
-.PHONY: zip
-zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING 
-	-rm alan*.zip
-	zip -j alan$(VERSION).win32.x86.zip $^
-
-.PHONY: setup
-setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
-	-rm winarun*setup.exe
-	sed -e s/VERSION/$(VERSION)/ winarun.iss > winarun_tmp.iss
-	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
-	-rm winarun_tmp.iss
-	-rm alan*setup.exe
-	sed -e s/VERSION/$(VERSION)/ alan.iss > alan_tmp.iss
-	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
-	-rm alan_tmp.iss
-
-.PHONY: sync
-sync:
-	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
-
-games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
-	cd games/adventv3; ../../bin/alan adventv3
-
-COPYING.txt: COPYING
-	unix2dos >$@ <$<
-
-CHANGES.txt: CHANGES
-	unix2dos >$@ <$<
-
-alan.readme.txt: alan.readme
-	unix2dos >$@ <$<
-
-alan.readme.windows.txt: alan.readme.windows
-	unix2dos >$@ <$<
-
-converter/a2a3.readme.txt: converter/a2a3.readme
-	unix2dos >$@ <$<

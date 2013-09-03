@@ -26,6 +26,8 @@ $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
 $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
 
+all build: unit arun
+
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LIBS)
 	cp $@ ../bin/

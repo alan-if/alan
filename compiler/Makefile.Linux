@@ -3,8 +3,6 @@
 # Makefile for compiling Alan compiler on Linux
 #
 
-OS_FLAGS = 
-
 COMPILER = gcc
 EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char
 

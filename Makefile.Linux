@@ -4,29 +4,14 @@
 
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
-all dist: build-alan build-arun build-a2a3 alan.readme.linux test package
+all dist: unit build alan.readme.linux test package
 
+# Include common recursive definitions for unit build clean ...
+include top.mk
+
+# We need to define how to package on Linux
 .PHONY: package
 package:
-	echo $(BUILD) 
 	cp bin/alan bin/arun .
 	tar zcvf alan$(VERSION)$(BUILD).linux.x86.tgz alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
 	rm alan arun
-
-.PHONY: build-alan
-build-alan:
-	cd compiler; make all
-
-.PHONY: build-arun
-build-arun: 
-	cd interpreter; make all
-
-.PHONY: build-a2a3
-build-a2a3: 
-	cd converter; make all
-
-include top.mk
-
-#alan.readme.linux: bin/alan bin/arun
-#	@echo "alan.readme.linux is not updated"
-#	exit 1

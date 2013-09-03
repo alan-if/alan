@@ -6,7 +6,6 @@
 #	INCLUDES : directives to include the required directories
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
-# Then include this file in your Makefile, and you are done
 
 CC = $(COMPILER)
 CFLAGS = $(INCLUDES) -I../interpreter $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
@@ -14,28 +13,33 @@ CFLAGS = $(INCLUDES) -I../interpreter $(OS_FLAGS) $(EXTRA_COMPILER_FLAGS)
 LINK = $(LINKER)
 LINKFLAGS = $(OS_FLAGS) $(EXTRA_LINKER_FLAGS)
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# Main target to do everything
+#
+.PHONY: all
+all: unit build test
 
-# Include common list of sources
-include sources.mk
+# Target to just build
+.PHONY: build
+build: alan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Main target
+# Run all tests!
 #
-.PHONY: all
-all: unit alan
+ifneq ($(EMACS),)
+JREGROUTPUT = -noansi
+endif
+.PHONY: test
+test: unit
+	../bin/jregr -bin ../bin -dir testing $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir testing/positions $(JREGROUTPUT)
 
-
-.PHONY: help
-help:
-	@echo "This the generic Makefile for the Alan compiler"
-	@echo "The following targets are available:"
-	@echo
-	@echo "    make all  - Build and test the alan compiler"
-	@echo "    make alan - Build the alan compiler"
-	@echo "    make unit - Build and run the unit tests"
-	@echo "    make test - Build the alan compiler and run its regression tests"
-	@echo "    make clean"
+# Clean
+.PHONY: clean
+clean:
+	-rm *.o .*/*.o .*/*.d
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -84,25 +88,4 @@ unittests: LINKER = gcc
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
 	$(LINK) -shared -o unittests.dll $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Run all tests!
-#
-ifneq ($(EMACS),)
-JREGROUTPUT = -noansi
-endif
-.PHONY: test
-test: unit
-	../bin/jregr -bin ../bin -dir testing $(JREGROUTPUT)
-	../bin/jregr -bin ../bin -dir testing/positions $(JREGROUTPUT)
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Clean
-#
-.PHONY: clean
-clean:
-	-rm *.o .*/*.o .*/*.d
 
