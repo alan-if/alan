@@ -18,12 +18,6 @@ include Makefile.cygwin
 #CRCLOG = -DCRCLOG
 #OPTIMIZE = -ggdb
 
-#Settings for memory debugging which is used unless building RELEASE
-#ALLOC = -DSMARTALLOC
-#ALLOCSRCS = smartall.c
-#ALLOC = -DDMALLOC
-#ALLOCLIBS = -ldmalloc
-
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 
@@ -31,28 +25,19 @@ GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
 
 ###############################################################
 .PHONY: all
-all : build
+all : unit build test
 
 ###############################################################
-# 'build' is the target the continuous integration will use
 .PHONY: build
-build:
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "ALLOC=$(ALLOC)" arun
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "ALLOC=$(ALLOC)" winarun
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "ALLOC=$(ALLOC)" glkarun
-	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "ALLOC=$(ALLOC)" dumpacd
-#	$(MAKE) "OPTIMIZE=$(OPTIMIZE)" "ALLOC=$(ALLOC)" gararun
+build: arun winarun glkarun dumpacd # gararun
 
 
 #######################################################################
 # Settings for Release
-release: ALLOC =
-release: CC = i686-w64-mingw32-gcc
-release: LINK = i686-w64-mingw32-gcc
 release: OPTIMIZE=-O4
 
 .PHONY: release
-release: all
+release: clean all
 
 
 #######################################################################

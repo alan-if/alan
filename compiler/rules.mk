@@ -32,7 +32,7 @@ ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
 .PHONY: test
-test: unit
+test:
 	../bin/jregr -bin ../bin -dir testing $(JREGROUTPUT)
 	../bin/jregr -bin ../bin -dir testing/positions $(JREGROUTPUT)
 
@@ -65,8 +65,8 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 # Unit testing
 #
 .PHONY: unit
-unit: CC = gcc
-unit: LINK = gcc
+unit: COMPILER = gcc
+unit: LINKER = gcc
 unit: unittests
 	@./unittests $(UNITOUTPUT)
 
@@ -82,9 +82,6 @@ $(UNITTESTSOBJDIR):
 
 unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-unittests: COMPILER = gcc
-unittests: LINKER = gcc
-
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
 	$(LINK) -shared -o unittests.dll $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)

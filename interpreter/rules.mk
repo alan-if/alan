@@ -8,8 +8,16 @@
 
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
+CC = $(COMPILER)
 CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD) $(OSFLAGS)
+
+LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS)
+
+all: unit arun
+
+build: arun
+
 
 #######################################################################
 # Standard console Arun
@@ -25,8 +33,6 @@ $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
 
 $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
-
-all build: unit arun
 
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LIBS)
@@ -161,7 +167,7 @@ clean:
 # No tests except unit tests are available
 # Interpreter is tested through the regressions tests
 .PHONY: test
-test: unit
+test:
 
 
 # Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?

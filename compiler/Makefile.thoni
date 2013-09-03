@@ -13,8 +13,7 @@
 #
 # Default target on thoni is :
 #
-alanFromToolMaker: tm unit alan
-
+all: tm unit alan test
 
 include Makefile.cygwin
 
@@ -24,17 +23,15 @@ include Makefile.cygwin
 #
 # 'build' is the target the continuous integration will use
 .PHONY: build
-build :
-	$(MAKE) alan
-	$(MAKE) winalan
+build : alan winalan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # release
 #
+release: OPTIMIZE = -O4
 .PHONY: release
-release:
-	$(MAKE) "OPTIMIZE = -O4" clean alan winalan
+release: clean build
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -63,8 +60,7 @@ alan.res: alan.rc alan.ico
 	windres $< -O coff -o $@
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# rndalan - Progam to generate a randomized Alan source
+## rndalan - Progam to generate a randomized Alan source
 #
 rndalan: rndalan.o
 	$(LINK) $(LINKFLAGS) -o rndalan rndalan.o
