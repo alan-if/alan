@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     getPageSize();
 
 #ifdef HAVE_GLK
-    /* args() is called from glkstart.c */
+    /* args() is then called from glkstart.c */
 #else
     args(argc, argv);
 
