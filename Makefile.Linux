@@ -4,14 +4,14 @@
 
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
-all dist: unit build alan.readme.linux test package
+all dist: unit build test package
 
 # Include common recursive definitions for unit build clean ...
 include top.mk
 
 # We need to define how to package on Linux
 .PHONY: package
-package:
+package: alan.readme.linux
 	cp bin/alan bin/arun .
 	tar zcvf alan$(VERSION)$(BUILD).linux.x86.tgz alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
 	rm alan arun

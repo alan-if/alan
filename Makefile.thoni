@@ -1,6 +1,6 @@
 #######################################################################
-# This Makefile is the top level for building the Alan System from
-# scratch. It only works on ThoNi's machine.
+# This Makefile is the top level for building the Alan System.
+# It only works on ThoNi's machine.
 #######################################################################
 
 VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
