@@ -65,8 +65,6 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 # Unit testing
 #
 .PHONY: unit
-unit: COMPILER = gcc
-unit: LINKER = gcc
 unit: unittests
 	@./unittests $(UNITOUTPUT)
 

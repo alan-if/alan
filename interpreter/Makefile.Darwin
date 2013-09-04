@@ -9,32 +9,16 @@ TARGET = arun
 PROGNAME=-DPROGNAME=\"$(TARGET)\"
 ARUNOPTS = $(PROGNAME) $(GLK)
 
-#Settings for memory debugging which is used unless building RELEASE
-#ALLOC = -DSMARTALLOC
-#ALLOC = -DDMALLOC
-#ALLOCLIBS = -ldmalloc
-
 OSFLAGS = -g -mmacosx-version-min=10.5
-
 TARGETARCH = -m32
-CC = gcc
-COMPILEFLAGS = $(TARGETARCH) -Wall -funsigned-char $(ALLOC)
 
-LINK = gcc
+COMPILER = gcc
+COMPILEFLAGS = $(TARGETARCH) -Wall -funsigned-char
+
+LINKER = gcc
 LINKFLAGS = $(TARGETARCH)
 
-LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
-
-# -- Glk definitions. Uncomment some of these to enable Glk.
-#GLKPREFIX = /usr/local
-#GLKPREFIX = ../../WindowsGLK
-#GLKINCLUDEDIR = $(GLKPREFIX)/Include
-#GLKLIBDIR = -L$(GLKPREFIX)/lib
-#GLK = -DHAVE_GLK
-#GLKLIB = -lglkterm -lcurses
-#GLKLIB = $(GLKPREFIX)/Glk.lib
-#GLKSRCS = glkstart.c glkio.c winglk.c
-
+LIBS = $(GLKLIB) $(LINKLIBS)
 
 # -- CGreen unit test framework settings
 CGREEN = yes
@@ -75,6 +59,17 @@ gararun:
 
 # Extra targets on Darwin (maybe later...)
 
+# -- Glk definitions. Uncomment some of these to enable Glk.
+#GLKPREFIX = /usr/local
+#GLKPREFIX = ../../WindowsGLK
+#GLKINCLUDEDIR = $(GLKPREFIX)/Include
+#GLKLIBDIR = -L$(GLKPREFIX)/lib
+#GLK = -DHAVE_GLK
+#GLKLIB = -lglkterm -lcurses
+#GLKLIB = $(GLKPREFIX)/Glk.lib
+#GLKSRCS = glkstart.c glkio.c winglk.c
+
+
 #glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
 #	$(LINK) -o $@ $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)
 #	cp $@ ../bin
@@ -91,7 +86,7 @@ gararun:
 #
 DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o smartall.o
 dumpacd: $(DUMPACDOBJECTS)
-	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) $(DUMPACDOBJECTS)
+	$(LINK) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
 
 

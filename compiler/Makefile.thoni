@@ -13,7 +13,7 @@
 #
 # Default target on thoni is :
 #
-all: tm unit alan test
+default: tm unit build test
 
 include Makefile.cygwin
 

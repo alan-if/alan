@@ -14,6 +14,7 @@ CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS)
 
+# Default top rule if platform specific makefile doesn't add a default that is found before this
 all: unit arun
 
 build: arun

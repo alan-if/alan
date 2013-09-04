@@ -16,10 +16,8 @@ include Makefile.cygwin
 
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
-#OPTIMIZE = -ggdb
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
-
 
 GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
 

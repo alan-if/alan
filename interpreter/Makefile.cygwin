@@ -3,16 +3,18 @@
 # on cygwin. It is included from Makefile if run on a cygwin machine
 #######################################################################
 
-# On cygwin we try to build without cygwin1.dll if we can
-PLATFORM =
-
-COMMONCOMPILEFLAGS = $(OPTIMIZE) $(PLATFORM) $(CRCLOG) $(ALLOC) -funsigned-char -g
+COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) $(ALLOC) -funsigned-char -g
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 WARNINGFLAGS = -Wall
 
+# On cygwin we try to build without cygwin1.dll if we can
 # For all targets use the mingw compiler (avoiding the use of cygwin1.dll) ...
-CC = i686-w64-mingw32-gcc
-LINK = i686-w64-mingw32-gcc
+COMPILER = i686-w64-mingw32-gcc
+LINKER = i686-w64-mingw32-gcc
+
+# ... except for unittests with cgreen which can not run under mingw
+unit: COMPILER = gcc
+unit: LINKER = gcc
 
 # Cgreen unit testing settings
 CGREEN = yes
@@ -20,18 +22,3 @@ CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = $(CGREENROOT)/lib/libcgreen.dll.a
 
-#################################################################
-# the default build is unittests and standard command line arun
-.PHONY: default
-default:
-	$(MAKE) unit
-	$(MAKE) arun
-
-# ... except for unittests with cgreen which can not run under mingw
-unittests: CC = gcc
-unittests: LINK = gcc
-unittests.dll: CC = gcc
-unittests.dll: LINK = gcc
-
-cgreenrunnertests: CC = gcc
-cgreenrunnertests: LINK = gcc

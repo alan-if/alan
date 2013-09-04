@@ -3,17 +3,6 @@
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # rules.mk
 
-# -- Glk definitions. Uncomment some of these to enable Glk.
-#GLKPREFIX = /usr/local
-#GLKPREFIX = ../../WindowsGLK
-#GLKINCLUDEDIR = $(GLKPREFIX)/Include
-#GLKLIBDIR = -L$(GLKPREFIX)/lib
-#GLK = -DHAVE_GLK
-#GLKLIB = -lglkterm -lcurses
-#GLKLIB = $(GLKPREFIX)/Glk.lib
-#GLKSRCS = glkstart.c glkio.c winglk.c
-
-
 TARGET = arun
 
 # Define the program name
@@ -21,26 +10,22 @@ PROGNAME=-DPROGNAME=\"$(TARGET)\"
 
 ARUNOPTS = $(PROGNAME) $(GLK)
 
-#Settings for memory debugging which is used unless building RELEASE
-#ALLOC = -DSMARTALLOC
-#ALLOC = -DDMALLOC
-#ALLOCLIBS = -ldmalloc
-
 OSFLAGS = 
 
-CC = gcc
+COMPILER = gcc
 COMPILEFLAGS = -g -Wall -funsigned-char $(ALLOC)
 
-LINK = gcc
+LINKER = gcc
 LINKFLAGS = -g $(ARUNOPTS)
 
 LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
 
-
+# Enable Use of Cgreen unit test and mocking
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = -lcgreen -lm
+
 
 ###################################################################
 #
@@ -72,6 +57,16 @@ gararun:
 
 
 # Extra targets on Darwin (maybe later...)
+
+# -- Glk definitions. Uncomment some of these to enable Glk.
+#GLKPREFIX = /usr/local
+#GLKPREFIX = ../../WindowsGLK
+#GLKINCLUDEDIR = $(GLKPREFIX)/Include
+#GLKLIBDIR = -L$(GLKPREFIX)/lib
+#GLK = -DHAVE_GLK
+#GLKLIB = -lglkterm -lcurses
+#GLKLIB = $(GLKPREFIX)/Glk.lib
+#GLKSRCS = glkstart.c glkio.c winglk.c
 
 #glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
 #	$(LINK) -o $@ $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)

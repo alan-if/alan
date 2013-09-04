@@ -1,6 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Makefile for compiling Alan compiler on MacOSX
+# Makefile settings for compiling Alan compiler on MacOSX
 #
 
 OS_FLAGS = -mmacosx-version-min=10.5

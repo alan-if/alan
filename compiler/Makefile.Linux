@@ -1,6 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Makefile for compiling Alan compiler on Linux
+# Makefile setings for compiling Alan compiler on Linux
 #
 
 COMPILER = gcc

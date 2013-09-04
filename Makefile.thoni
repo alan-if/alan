@@ -9,6 +9,10 @@ DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 .PHONY: all
 all: build unit documentation test cygwintests
 
+.PHONY: ci
+ci: JREGROUTPUT = -xml
+ci: UNITOUTPUT = --xml TEST
+ci: unit build test
 
 .PHONY: cygwintests
 cygwintests:
@@ -16,7 +20,7 @@ cygwintests:
 	@java -jar bin/jregr.jar -bin bin -dir regression/transcript $(JREGROUTPUT)
 
 .PHONY: release
-release: doc/manual/manual.pdf
+release: doc/manual/manual.pdf 
 	@if cvs status 2> /dev/null | egrep Status | egrep -v Up-to-date ; then \
 	 	exit 1 ; \
 	fi
@@ -25,6 +29,21 @@ release: doc/manual/manual.pdf
 	$(MAKE) -f Makefile.thoni packages
 	$(MAKE) -f Makefile.thoni sync
 	$(MAKE) -f Makefile.thoni tags
+
+.PHONY: snapshots
+snapshots: zip setup lib
+	-rm $(DISTDIR)/Snapshots/*win32.x86*
+	-rm $(DISTDIR)/Snapshots/library*.zip
+	-rm $(DISTDIR)/Snapshots/manual*.pdf
+	-rm $(DISTDIR)/Snapshots/conversion*.pdf
+	-rm $(DISTDIR)/Snapshots/writing*.pdf
+	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/Snapshots
+	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
+	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
+	cp library/library*.zip $(DISTDIR)/Snapshots/library$(LIBRARYVERSION).zip
+	cp doc/manual/manual.pdf $(DISTDIR)/Snapshots/manual$(BUILD).pdf
+	cp doc/manual/conversion.pdf $(DISTDIR)/Snapshots/conversion$(BUILD).pdf
+	cp doc/manual/writing.pdf $(DISTDIR)/Snapshots/writing$(BUILD).pdf
 
 # Create pdf from odt
 .PHONY: documentation

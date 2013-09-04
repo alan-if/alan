@@ -8,6 +8,10 @@
 COMPILER = i686-w64-mingw32-gcc
 LINKER = i686-w64-mingw32-gcc
 
+# Except when compiling unit tests
+unit: COMPILER = gcc
+unit: LINKER = gcc
+
 # Flags to send to both compiler & linker
 OS_FLAGS = 
 OPTIMIZE = -g
