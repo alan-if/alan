@@ -17,6 +17,9 @@ test:
 .PHONY: package
 package: zip
 
+.PHONY: clean
+clean:
+
 # Release is only possible on Thoni's machines
 .PHONY: release
 release: test zip

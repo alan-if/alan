@@ -15,12 +15,15 @@ endif
 # package must be defined in platform dependent makefiles
 .PHONY: clean
 clean:
-	cd interpreter; make clean
-	cd compiler; make clean
-	cd converter; make clean
+	@echo "***************** Clean *****************"
+	-cd interpreter; make clean
+	-cd compiler; make clean
+	-cd converter; make clean
+	-cd library; make clean
 
 .PHONY: build
 build:
+	@echo "***************** Build *****************"
 	-cd compiler; $(MAKE) build
 	-cd interpreter; $(MAKE) build
 	-cd converter; $(MAKE) build
@@ -28,12 +31,14 @@ build:
 
 .PHONY: unit
 unit:
+	@echo "***************** Unit *****************"
 	-cd compiler; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
 	-cd interpreter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
 	-cd converter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
 
 .PHONY: test
 test:
+	@echo "***************** Test *****************"
 	@java -jar bin/jregr.jar -bin bin -dir regression $(JREGROUTPUT)
 #	@java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)

@@ -20,12 +20,13 @@ cygwintests:
 	@java -jar bin/jregr.jar -bin bin -dir regression/transcript $(JREGROUTPUT)
 
 .PHONY: release
-release: doc/manual/manual.pdf 
+release: 
 	@if cvs status 2> /dev/null | egrep Status | egrep -v Up-to-date ; then \
 	 	exit 1 ; \
 	fi
 	$(MAKE) -f Makefile.thoni releasebuild
 	$(MAKE) -f Makefile.thoni test
+	$(MAKE) -f Makefile.thoni documentation
 	$(MAKE) -f Makefile.thoni packages
 	$(MAKE) -f Makefile.thoni sync
 	$(MAKE) -f Makefile.thoni tags
@@ -47,7 +48,12 @@ snapshots: zip setup lib
 
 # Create pdf from odt
 .PHONY: documentation
-documentation: doc/manual/manual.pdf doc/manual/conversion.pdf doc/manual/writing.pdf
+documentation:
+	echo "***************** Documentation *****************"
+    $(MAKE) documents
+
+.PHONY: documents
+documents: doc/manual/manual.pdf doc/manual/conversion.pdf doc/manual/writing.pdf
 
 doc/manual/manual.pdf: doc/manual/manual.odt
 	"/cygdrive/c/Program Files/OpenOffice.org 3/program/swriter" "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Documents\Utveckling\Alan\alan\doc\manual\manual.odt)"
@@ -63,7 +69,7 @@ releasebuild:
 	cd compiler ; make release
 	cd interpreter ; make release
 	cd converter ; make release
-	cd lib ; make -f Makefile.thoni
+	cd library ; make release
 
 include top.mk
 
@@ -72,7 +78,7 @@ tags:
 	cvs rtag -F v$(VERSION) alan 
 	cvs rtag -F -b v$(VERSION)_branch alan
 	echo -n $(VERSION) > LASTRELEASE
-
+    @echo "If you are satisfied with the result, and on thoni's machine, do a venum +r, at least"
 
 
 
