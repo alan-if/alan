@@ -798,7 +798,6 @@ static void moveActor(int theActor)
 void run(void)
 {
     int i;
-    bool playerChangedState;
     static Stack theStack = NULL; /* Needs to survive longjmp() */
 
     openFiles();
@@ -844,14 +843,7 @@ void run(void)
         /* Move all characters, hero first */
         rememberGameState();
 		
-        /* TODO: Why 'playerChangedState' since gameStateChanged is sufficient
-         * Actually it isn't since it might have been one of the events or other actors
-         * that changed the state. Why is this important?
-         * Yes, because for UNDO we want to undo the last command the *player* did that
-         * changed the state, not any of the others. */
-        playerChangedState = FALSE;
         moveActor(header->theHero);
-        playerChangedState = gameStateChanged;
 		
         if (gameStateChanged)
             rememberCommands();

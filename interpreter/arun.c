@@ -45,14 +45,6 @@ void glk_main(void)
 int main(int argc, char *argv[])
 #endif
 {
-#ifdef DMALLOC
-    /*
-     * Get environ variable DMALLOC_OPTIONS and pass the settings string
-     * on to dmalloc_debug_setup to setup the dmalloc debugging flags.
-     */
-    //dmalloc_debug_setup(getenv("DMALLOC_OPTIONS"));
-#endif
-
     /* Pick up any locale settings */
     setlocale(LC_ALL, "");
 

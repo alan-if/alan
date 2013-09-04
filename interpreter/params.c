@@ -50,10 +50,11 @@ void freeParameterArray(ParameterArray arrayPointer) {
 /*======================================================================*/
 Parameter *ensureParameterArrayAllocated(ParameterArray currentArray) {
     if (currentArray == NULL)
-        currentArray = newParameterArray();
-    else
+        return newParameterArray();
+    else {
         clearParameterArray(currentArray);
-    return currentArray;
+        return currentArray;
+    }
 }
 
 
