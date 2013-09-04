@@ -50,7 +50,7 @@ snapshots: zip setup lib
 .PHONY: documentation
 documentation:
 	echo "***************** Documentation *****************"
-    $(MAKE) documents
+	$(MAKE) documents
 
 .PHONY: documents
 documents: doc/manual/manual.pdf doc/manual/conversion.pdf doc/manual/writing.pdf
@@ -78,7 +78,7 @@ tags:
 	cvs rtag -F v$(VERSION) alan 
 	cvs rtag -F -b v$(VERSION)_branch alan
 	echo -n $(VERSION) > LASTRELEASE
-    @echo "If you are satisfied with the result, and on thoni's machine, do a venum +r, at least"
+	@echo "If you are satisfied with the result, and on thoni's machine, do a venum +r, at least"
 
 
 

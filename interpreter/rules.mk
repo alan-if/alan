@@ -14,11 +14,35 @@ CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS)
 
-# Default top rule if platform specific makefile doesn't add a default that is found before this
+# Default top rule if platform specific makefile doesn't add a default
+# that is found before this
 all: unit arun
 
+#######################################################################
 build: arun
 
+#######################################################################
+.PHONY: unit
+ifneq ($(CGREEN),yes)
+unit:
+	echo "No unit tests run, cgreen not available"
+else
+unit: cgreenrunnertests isolated_unittests
+endif
+
+#######################################################################
+.PHONY: clean
+clean:
+	-rm *.o .*/*.o .*/*.d
+
+
+###################################################################
+#
+# Run all tests!
+# No tests except unit tests are available
+# Interpreter is tested through the regressions tests
+.PHONY: test
+test:
 
 #######################################################################
 # Standard console Arun
@@ -101,6 +125,7 @@ unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 cgreenrunnertests: unittests.dll
+	echo UNITOUTPUT = $(UNITOUTPUT)
 ifeq ($(shell uname), Darwin)
 	arch -i386 cgreen-runner $^ --suite Interpreter $(UNITOUTPUT)
 else
@@ -147,28 +172,6 @@ else
 		cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) ; \
 	done
 endif
-
-.PHONY: unit
-ifneq ($(CGREEN),yes)
-unit:
-	echo "No unit tests run, cgreen not available"
-else
-unit: cgreenrunnertests isolated_unittests
-endif
-
-#######################################################################
-.PHONY: clean
-clean:
-	-rm *.o .*/*.o .*/*.d
-
-
-###################################################################
-#
-# Run all tests!
-# No tests except unit tests are available
-# Interpreter is tested through the regressions tests
-.PHONY: test
-test:
 
 
 # Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?

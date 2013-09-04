@@ -16,10 +16,10 @@ endif
 .PHONY: clean
 clean:
 	@echo "***************** Clean *****************"
-	-cd interpreter; make clean
-	-cd compiler; make clean
-	-cd converter; make clean
-	-cd library; make clean
+	-cd interpreter; $(MAKE) clean
+	-cd compiler; $(MAKE) clean
+	-cd converter; $(MAKE) clean
+	-cd library; $(MAKE) clean
 
 .PHONY: build
 build:
