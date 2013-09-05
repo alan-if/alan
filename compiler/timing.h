@@ -3,6 +3,7 @@
 #include <sys/times.h>
 
 typedef struct {
+    struct tms tms;
         long proc_user_time;	/* ticks */
         long proc_system_time;	/* ticks */
         long child_user_time;	/* ticks */

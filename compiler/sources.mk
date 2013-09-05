@@ -36,6 +36,7 @@ UNITTESTED = \
 	stm.c \
 	stx.c \
 	sym.c \
+	util.c \
 	vrb.c \
 	whr.c \
 	wrd.c \
@@ -68,7 +69,6 @@ OTHERSRCS = \
 	sysdep.c \
 	timing.c \
 	type.c \
-	util.c \
 	wht.c \
 
 

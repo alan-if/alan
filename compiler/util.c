@@ -45,6 +45,20 @@ void progressCounter() {
 }
 
 
+/*----------------------------------------------------------------------*/
+static char *spaces(int length) {
+    static char *string = "                                                                             ";
+
+    return &string[strlen(string)-length];
+}
+
+
+/*======================================================================*/
+void verbose(char *msg) {
+    if (verboseFlag)
+        printf("\n\t%s:%s", msg, spaces(30-strlen(msg)));
+}
+
 
 /*======================================================================*/
 void *allocate(int len)		/* IN - Length to allocate */

@@ -276,12 +276,6 @@ static void prepareFileNames(void)
 
 
 /*----------------------------------------------------------------------*/
-static void verbose(char *message) {
-  if (verboseFlag) printf("\n%s:\t", message);
-}
-
-
-/*----------------------------------------------------------------------*/
 static void bookmarkHeap() {
   heap = malloc((size_t)10000);		/* Remember where heap starts */
   free(heap);

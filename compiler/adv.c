@@ -129,15 +129,6 @@ static void analyzeSourceFilenames() {
 }
 
 
-
-/*----------------------------------------------------------------------*/
-static void verbose(char *msg) {
-    if (verboseFlag)
-        printf("\n\t%s:\t", msg);
-}
-
-
-
 /*====================================================================== */
 void analyzeAdventure(void)
 {

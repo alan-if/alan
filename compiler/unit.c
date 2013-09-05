@@ -33,6 +33,7 @@ static void add_unittests(TestSuite *suite) {
     ADD_UNIT_TESTS_FOR(stx);
     ADD_UNIT_TESTS_FOR(sym);
     ADD_UNIT_TESTS_FOR(vrb);
+    ADD_UNIT_TESTS_FOR(util);
     ADD_UNIT_TESTS_FOR(whr);
     ADD_UNIT_TESTS_FOR(wrd);
 }

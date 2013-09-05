@@ -29,6 +29,7 @@ extern void syserr(char *errorMessage, const char *function, char *file, int lin
 extern void createListing(char *listFileName, int lines, int columns,
 		    lmTyp listingType, lmSev severities);
 extern void progressCounter(void);
+extern void verbose(char *msg);
 extern void *allocate(int len);
 extern void unimpl(Srcp srcp, char *phase);
 extern void panic(char *str);
