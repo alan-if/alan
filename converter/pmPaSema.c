@@ -52,13 +52,6 @@ extern pmGrammar pmSeSt[];
 #line 37 "alan.pmk"
 
 
-static int val(char str[])
-{
-  int temp;
-  sscanf(str, "%d", &temp);
-  return(temp);
-}
-
 static int level = 0;
 static void newline()
 {

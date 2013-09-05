@@ -145,7 +145,7 @@ static void switches(int argc, char *argv[])
 
 
 /*----------------------------------------------------------------------*/
-static bool differentInterpreterName(char *string) {
+bool differentInterpreterName(char *string) {
     return strcasecmp(string, PROGNAME) != 0;
 }
 
