@@ -170,10 +170,6 @@
 
 
 /* Special cases and definition overrides */
-#ifdef __unix__
-#define MULTI
-#endif
-
 
 #ifdef __dos__
 

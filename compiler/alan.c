@@ -92,11 +92,7 @@ static void startTiming(void)
 static void endParseTiming(void)
 {
   tistop(&tbuf);
-#ifdef MULTI
   tim.pars = tbuf.pu_elapsed;
-#else
-  tim.pars = tbuf.real_elapsed*1000;
-#endif
 }
 
 
@@ -104,11 +100,7 @@ static void endParseTiming(void)
 static void endSemanticsTiming(void)
 {
   tistop(&tbuf);
-#ifdef MULTI
   tim.sem = tbuf.pu_elapsed;
-#else
-  tim.sem = tbuf.real_elapsed*1000;
-#endif
 }
 
 
@@ -116,11 +108,7 @@ static void endSemanticsTiming(void)
 static void endGenerationTiming(void)
 {
   tistop(&tbuf);
-#ifdef MULTI
   tim.gen = tbuf.pu_elapsed;
-#else
-  tim.gen = tbuf.real_elapsed*1000;
-#endif
 }
 
 
@@ -128,11 +116,7 @@ static void endGenerationTiming(void)
 static void endCompilationTiming(void)
 {
   tistop(&compilationTime);
-#ifdef MULTI
   tim.comp = compilationTime.pu_elapsed;
-#else
-  tim.comp = compilationTime.real_elapsed*1000;
-#endif
 }
 
 
@@ -419,10 +403,6 @@ void compile(void) {
 
   startTotalTiming();
   prepareFileNames();
-
-#ifdef MALLOC
-  malloc_debug(2);
-#endif
 
   bookmarkHeap();
   setupCompilation();
