@@ -8,6 +8,7 @@ Mock some basic structures and functions for unittesting of the Alan compiler
 
 #include "sysdep.h"
 #include "acode.h"
+#include "util.h"
 
 #include <stdio.h>
 #include <setjmp.h>
@@ -80,6 +81,8 @@ void loadACD(char fileName[])
     FILE *acdFile = fopen(fileName, "rb");
 
     readSize = fread(&temporaryHeader, 1, sizeof(temporaryHeader), acdFile);
+    if (readSize != sizeof(temporaryHeader))
+        SYSERR("Could not read header");
 
     if (littleEndian())
         reverseHdr(&temporaryHeader);

@@ -22,13 +22,12 @@ Ensure(testNewExt) {
   Exit *theExit;
   Context *context = pushContext(NULL);
   IdNode *aLocationId = newId(nulsrcp, "aLocation");
-  Symbol *aLocationSymbol;
   int firstAddress;
   int entrySize = AwordSizeOf(ExitEntry);
 
   initAdventure();
   (void) readEcode();
-  aLocationSymbol = newSymbol(aLocationId, INSTANCE_SYMBOL);
+  (void) newSymbol(aLocationId, INSTANCE_SYMBOL);
 
   theExit = newExit(&nulsrcp, newList(direction, EXIT_LIST), targetLocation, NULL, NULL);
   assert_true(theExit->directions->member.id->symbol != NULL && theExit->directions->member.id->symbol->code == 1);

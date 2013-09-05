@@ -7,6 +7,10 @@
 # This makefile instead assumes all sources are generated and
 # only builds from C source.
 
+ifneq ($(EMACS),)
+JREGROUTPUT = -noansi
+endif
+
 OPTIMIZE = -g
 
 win:	PLATFORM = -DWINGUI -mwindows -mno-cygwin
@@ -16,6 +20,7 @@ gcov:	GCOV = -fprofile-arcs -ftest-coverage
 CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
 LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
 
+CC = gcc
 CPP	= gcc -MM -ansi
 LD	= gcc
 
@@ -44,7 +49,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-all : unit a2a3 Makefile test
+all : Makefile unit a2a3 test
 
 build : a2a3
 
@@ -97,8 +102,8 @@ unittests: $(UNITTESTS_DLLS)
 	done
 
 
-test : unit
-	cd testing ; ../../bin/jregr -bin ..
+test :
+	cd testing ; ../../bin/jregr $(JREGROUTPUT) -bin ..
 
 
 .PHONY: checkTarget

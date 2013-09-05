@@ -59,13 +59,12 @@ void addLiteralInstance(void)
     // Add a special instance representing all literals
     // Literals can't have modifiable attributes so one is enough
     // It should be generated as the last instance.
-    Instance *theLiteralInstance; /* TODO Remove this variable */
     IdNode *literalClassId = newId(nulsrcp, "literal");
     Symbol *literalClassSymbol = lookup("literal");
     
     Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL);
     literalClassId->symbol = literalClassSymbol;
-    theLiteralInstance = newInstance(&nulsrcp, newId(nulsrcp, "#literal"), literalClassId, props);
+    (void) newInstance(&nulsrcp, newId(nulsrcp, "#literal"), literalClassId, props);
     props->predefined = TRUE;
 }
 

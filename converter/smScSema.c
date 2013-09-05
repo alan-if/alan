@@ -23,9 +23,7 @@
 #ifdef __dos__
 #include <io.h>
 #endif
-#ifdef __mac__
 #include <fcntl.h>
-#endif
 
 
 /* END %%IMPORT */
@@ -126,13 +124,6 @@ extern unsigned char *smMacDFAerrCol;
 extern unsigned char *smDosMap;
 extern unsigned char *smDosDFAcolVal;
 extern unsigned char *smDosDFAerrCol;
-
-static int charset;
-
-void setCharacterSet(int set)
-{
-}
-
 
 
 /* END %%DECLARATION */

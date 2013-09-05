@@ -1,5 +1,7 @@
 /* timing.h */
 
+#include <sys/times.h>
+
 typedef struct {
         long proc_user_time;	/* ticks */
         long proc_system_time;	/* ticks */
@@ -16,9 +18,7 @@ typedef struct {
 #define TICK (1000/60)		/* Factor to make ticks to ms */
 
 typedef enum { TIP_PROC, TIP_CHILD, TIP_REAL } TI_TIME;
-typedef enum { TIP_S_F, TIP_M_S, TIP_M_S_F } TI_MODE;
 
 
 extern void tistart(TIBUFP tb);
 extern void tistop(TIBUFP tb);
-extern void tipr(TIBUFP tb, TI_TIME type, TI_MODE mode);

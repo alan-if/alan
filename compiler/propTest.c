@@ -52,7 +52,6 @@ Ensure(testCircularLocation) {
 				NULL, NULL,
 				nulsrcp, NULL,
 				NULL, NULL);
-  Instance *loc1;
   Where *whr2 = newWhereIdString("loc1");
   Properties *props2 = newProps(whr2, NULL,
 				nulsrcp, NULL,
@@ -61,11 +60,10 @@ Ensure(testCircularLocation) {
 				NULL, NULL,
 				nulsrcp, NULL,
 				NULL, NULL);
-  Instance *loc2;
 
   initAdventure();
-  loc1 = newInstance(&nulsrcp, newId(nulsrcp, "loc1"), NULL, props1);
-  loc2 = newInstance(&nulsrcp, newId(nulsrcp, "loc2"), NULL, props2);
+  (void) newInstance(&nulsrcp, newId(nulsrcp, "loc1"), NULL, props1);
+  (void) newInstance(&nulsrcp, newId(nulsrcp, "loc2"), NULL, props2);
   symbolizeAdventure();
 
   readEcode();
@@ -95,8 +93,6 @@ Ensure(testCircularLocation) {
   symbolizeWhere(whr1);
   analyzeCircularLocations(props1);
   assert_true(readEcode() == 802);
-
-  loc1 = loc2;			/* Do make use of variables... */
 }
 
 

@@ -25,16 +25,11 @@ Ensure(testInitAdv) {
     IdNode *atInsLocId = newId(srcp, "atInsLocId");
     IdNode *atClaId = newId(srcp, "atClaId");
 
-    Instance *ins;
-    Instance *locationIns;
-    Class *cla;
-
-
     initAdventure();
 
-    cla = newClass(&srcp, atClaId, NULL, NULL);
-    ins = newInstance(&srcp, atInsId, NULL, NULL);
-    locationIns = newInstance(&srcp, atInsLocId, newId(srcp, "location"), NULL);
+    (void) newClass(&srcp, atClaId, NULL, NULL);
+    (void) newInstance(&srcp, atInsId, NULL, NULL);
+    (void) newInstance(&srcp, atInsLocId, newId(srcp, "location"), NULL);
 
     adv.whr = newWhere(&srcp, FALSE, WHERE_HERE, NULL);
     symbolizeAdventure();

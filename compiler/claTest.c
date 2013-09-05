@@ -20,7 +20,6 @@ Ensure(testCreateClass) {
   Srcp srcp = {1,2,3};
   IdNode *id = newId(srcp, "claId");
   IdNode *parent = newId(srcp, "parentId");
-  Instance *ins;
 
   /* Create a class with unknown inheritance */
   Class *cla = newClass(&srcp, id, parent, NULL);
@@ -33,7 +32,7 @@ Ensure(testCreateClass) {
   assert_true(readEcode() == 310 && readSev() == sevERR);
 
   /* Add the inheritance id, resymbolize */
-  ins = newInstance(&srcp, parent, NULL, NULL);
+  (void) newInstance(&srcp, parent, NULL, NULL);
   symbolizeClasses();
   assert_true(readEcode() == 350 && readSev() == sevERR);
 }
@@ -41,7 +40,6 @@ Ensure(testCreateClass) {
 
 Ensure(testGenerateClasses) {
   Srcp srcp = {12,13,14};
-  Class *cla;
   Aaddr addr;
   int firstAdr = AwordSizeOf(ACodeHeader);
   static int NOOFPREDEFEINEDCLASSES = 8;
@@ -60,7 +58,7 @@ Ensure(testGenerateClasses) {
 
   initEmit("unit.a3c");
   symbolizeClasses();
-  cla = newClass(&srcp, newId(srcp, "aSimpleClass"), NULL, NULL);
+  (void) newClass(&srcp, newId(srcp, "aSimpleClass"), NULL, NULL);
   addr = generateClasses();
   assert_true(addr == firstAdr);	/* Should start at first address after header */
   assert_true(nextEmitAddress() == baseAddress + classSize + 1);	/* (predefined+1) classes + EOF */

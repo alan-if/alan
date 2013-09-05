@@ -423,16 +423,14 @@ Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols)
 /*======================================================================*/
 Symbol *lookup(char *idString)
 {
-  Symbol *s1,*s2;               /* Traversal pointers */
+  Symbol *s1;                   /* Traversal pointer */
   int comp;                     /* Result of comparison */
 
   if (idString == NULL) SYSERR("NULL string");
 
   s1 = symbolTree;
-  s2 = NULL;
 
   while (s1 != NULL) {
-    s2 = s1;
     comp = compareStrings(idString, s1->string);
     if (comp == 0)
       return(s1);

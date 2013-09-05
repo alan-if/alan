@@ -71,11 +71,9 @@ int resourceNameComparer(List *element1, List *element2)
 static void numberResources(List *resourceList)
 {
     List *currentResource;
-    char *currentResourceName;
 
     TRAVERSE(currentResource, resourceList) {
         currentResource->member.resource->fileName->code = resourceNumber;
-        currentResourceName = currentResource->member.resource->fileName->string;
         while (currentResource->next != NULL
                && resourceNameComparer(currentResource, currentResource->next) == 0) {
             currentResource = currentResource->next;

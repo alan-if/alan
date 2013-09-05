@@ -80,7 +80,7 @@ tm:
 
 .PHONY: test
 test : 
-	jregr -dir testing
+	jregr $(JREGROUTPUT)-dir testing
 
 .PHONY: checkTarget
 checkTarget:

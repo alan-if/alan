@@ -16,7 +16,6 @@
 
 Ensure(testMultipleAddAttribute) {
   IdNode *theId = newId(nulsrcp, "aClassId");
-  Class *theClass;
   Attribute *theFirstAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "firstAttribute"), FALSE);
   Attribute *theSecondAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "secondAttribute"), FALSE);
   Properties *theFirstAttributeProps = newProps(NULL, NULL,
@@ -39,7 +38,7 @@ Ensure(testMultipleAddAttribute) {
   AddNode *add2 = newAdd(nulsrcp, theId, NULL, theSecondAttributeProps);
   Symbol *aSymbol;
 
-  theClass = newClass(&nulsrcp, theId, NULL, NULL);
+  (void) newClass(&nulsrcp, theId, NULL, NULL);
   aSymbol = lookup("aClassId");
   assert_true(aSymbol != NULL);
   assert_true(length(aSymbol->fields.entity.props->attributes) == 0);
