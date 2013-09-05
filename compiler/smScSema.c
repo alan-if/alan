@@ -263,7 +263,7 @@ int smScAction(
       Srcp srcp, start;
       Token token;
       static int i;
-      static char c;
+      static int ch;
 
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smScan(smThis, &token);		/* Get file name */
@@ -274,10 +274,10 @@ int smScAction(
 	/* Skip all whitespace */
 	do {
 	  i = smScSkip(smThis, 1);
-	  c = smThis->smText[smThis->smLength-1];
-	} while (isspace(c) && i > 0);
+	  ch = smThis->smText[smThis->smLength-1];
+	} while (isspace(ch) && i > 0);
 
-	if (c != '.') {
+	if (ch != '.') {
 	  lmLog(&token.srcp, 109, sevERR, "expected terminating '.'");
 	  i = smScSkip(smThis, -1);
 	}

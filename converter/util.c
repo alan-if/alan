@@ -51,7 +51,7 @@ char *strlow(char str[])        /* INOUT - Native string to convert */
   char *s;
 
   for (s = str; *s; s++)
-    *s = tolower(*s);
+      *s = tolower((int)*s);
   return(str);
 }
 
@@ -156,14 +156,14 @@ void onlyOneSpace(char string[])
 
     while (string[from] != '\0') {
         /* Copy until we find a double blank, from will point to first blank */
-        while (string[from] != '\0' && !(isspace(string[from]) && isspace(string[from+1]))) {
+        while (string[from] != '\0' && !(isspace((int)string[from]) && isspace((int)string[from+1]))) {
             string[to++] = string[from++];
         }
     
         /* If we are not at the end of the string, skip all spaces except the first */
         if (string[from] != '\0') {
             string[to++] = string[from++];
-            while (isspace(string[from]))
+            while (isspace((int)string[from]))
                 from++;
         }
     }

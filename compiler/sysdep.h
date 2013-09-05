@@ -130,23 +130,6 @@
 #endif
 
 
-/****************************/
-/* Allocates cleared bytes? */
-/****************************/
-
-#ifdef __CYGWIN__
-#define NOTCALLOC
-#endif
-
-#ifdef __MINGW32__
-#define NOTCALLOC
-#endif
-
-#ifdef __unix__
-#define NOTCALLOC
-#endif
-
-
 /****************/
 /* Have termio? */
 /****************/
@@ -161,13 +144,18 @@
 
 
 /*******************************/
-/* Is ANSI control available? */
+/* Is ANSI control available?  */
 /*******************************/
 
 #ifdef __CYGWIN__
 #define HAVE_ANSI
 #endif
 
+
+/* Have times.h? */
+#ifndef __MINGW32__
+#define HAVE_TIMES_H
+#endif
 
 /* Special cases and definition overrides */
 

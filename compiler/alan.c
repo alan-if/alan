@@ -124,11 +124,7 @@ static void endCompilationTiming(void)
 static void endTotalTiming(void)
 {
   tistop(&totalTime);
-#ifdef MULTI
   tim.tot = totalTime.pu_elapsed;
-#else
-  tim.tot = totalTime.real_elapsed*1000;
-#endif
 }
 
 

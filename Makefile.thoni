@@ -7,7 +7,7 @@ VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
 .PHONY: all
-all: build unit documentation test cygwintests
+all: unit build documentation test cygwintests
 
 .PHONY: ci
 ci: JREGROUTPUT = -xml

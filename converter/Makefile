@@ -49,21 +49,16 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-all : Makefile unit a2a3 test
+all : unit build test Makefile
 
 build : a2a3
-
-win: checkTarget $(MAINOBJECTS)
-	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
-	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp a2a3 ../bin
 
 a2a3: checkTarget $(MAINOBJECTS)
 	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) 
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp a2a3 ../bin
 
-release: win
+release: a2a3
 
 clean:
 	-rm *.o

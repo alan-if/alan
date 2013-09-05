@@ -1,9 +1,13 @@
 /* timing.h */
 
+#ifdef HAVE_TIMES_H
 #include <sys/times.h>
+#endif
 
 typedef struct {
+#ifdef HAVE_TIMES_H
     struct tms tms;
+#endif
     long pu_start;		/* ticks */
     long pu_elapsed;	/* ms */
     long cu_start;		/* ticks */
@@ -13,9 +17,6 @@ typedef struct {
 } TIBUF, *TIBUFP;
 
 #define TICK (1000/60)		/* Factor to make ticks to ms */
-
-typedef enum { TIP_PROC, TIP_CHILD, TIP_REAL } TI_TIME;
-
 
 extern void tistart(TIBUFP tb);
 extern void tistop(TIBUFP tb);
