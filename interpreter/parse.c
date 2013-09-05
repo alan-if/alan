@@ -1360,6 +1360,33 @@ static void notePronounsForParameters(Parameter parameters[]) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static void parseVerbCommand(Parameter parameters[], Parameter multipleParameters[]) {
+    verbWord = playerWords[currentWordIndex].code;
+    verbWordCode = dictionary[verbWord].code;
+    if (isPreBeta2(header->version))
+        /* Pre-beta2 didn't generate syntax elements for verb words,
+           need to skip first word which should be the verb */
+        currentWordIndex++;
+    parseOneCommand(parameters, multipleParameters);
+    notePronounsForParameters(parameters);
+    fail = FALSE;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void parseInstanceCommand(Parameter parameters[], Parameter multipleParameters[]) {
+    /* Pick up the parse tree for the syntaxes that start with an
+       instance reference and parse according to that. The
+       verbWord code is set to 0 to indicate that it is not a verb
+       but an instance that starts the command. */
+    verbWordCode = 0;
+    parseOneCommand(parameters, multipleParameters);
+    notePronounsForParameters(parameters);
+    fail = FALSE;
+}
+
+
 /*======================================================================*/
 void parse(Parameter parameters[]) {
     static Parameter *multipleParameters = NULL;
@@ -1376,29 +1403,14 @@ void parse(Parameter parameters[]) {
 
     firstWord = currentWordIndex;
     if (isVerbWord(currentWordIndex)) {
-        verbWord = playerWords[currentWordIndex].code;
-        verbWordCode = dictionary[verbWord].code;
-        if (isPreBeta2(header->version))
-            /* Pre-beta2 didn't generate syntax elements for verb words,
-               need to skip first word which should be the verb */
-            currentWordIndex++;
-        parseOneCommand(parameters, multipleParameters);
-        notePronounsForParameters(parameters);
-        fail = FALSE;
+        parseVerbCommand(parameters, multipleParameters);
         action(current.verb, parameters, multipleParameters);
     } else if (isDirectionWord(currentWordIndex)) {
         clearParameterArray(previousMultipleParameters);
         clearPronounList(pronouns);
         handleDirectionalCommand();
     } else if (isInstanceReferenceWord(currentWordIndex)) {
-        /* Pick up the parse tree for the syntaxes that start with an
-           instance reference and parse according to that. The
-           verbWord code is set to 0 to indicate that it is not a verb
-           but an instance that starts the command. */
-        verbWordCode = 0;
-        parseOneCommand(parameters, multipleParameters);
-        notePronounsForParameters(parameters);
-        fail = FALSE;
+        parseInstanceCommand(parameters, multipleParameters);
         action(current.verb, parameters, multipleParameters);
     } else
         error(M_WHAT);
