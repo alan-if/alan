@@ -67,16 +67,6 @@ Ensure(testNumberImages) {
 }
 
 
-Ensure(testOpenNewBlcFile) {
-  FILE *file = openNewBlcFile("unittest");
-  fclose(file);
-  file = fopen("unittest.blc", "r");
-  assert_true(file != NULL);
-  unlink("unittest.a3r");
-  unlink("unittest");
-}
-
-
 Ensure(testGenerateBlcFile) {
   char *blcFileName = "unittest.blc";
   FILE *blcFile = openNewBlcFile("unittest.blc");
@@ -154,7 +144,6 @@ TestSuite *resourceTests()
 
     add_test(suite, testNumberImages);
     add_test(suite, testAnalyzeResource);
-    add_test(suite, testOpenNewBlcFile);
     add_test(suite, testGenerateBlcFile);
 
     return suite;
