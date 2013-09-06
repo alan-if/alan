@@ -486,11 +486,13 @@ static bool parseOneParameter(Parameter parameters[], int parameterIndex) {
     // TODO Maybe this should go in the complex()?
     if (isThemWord(currentWordIndex) && (!isPronounWord(currentWordIndex) ||
                                          (isPronounWord(currentWordIndex) && lengthOfParameterArray(previousMultipleParameters) > 0))) {
-        // "them" is also a common pronoun for some instances, but if there are previous multiple parameters we give precedence to those
+        // "them" is also a common pronoun for some instances, but if there
+        // are previous multiple parameters we give precedence to those
         parseReferenceToPreviousMultipleParameters(parameter);
     } else {
         parseReference(parameter);
         if (lengthOfParameterArray(parameter) == 0) { /* Failed to find any exceptions! */
+            freeParameterArray(parameter);
             return FALSE;
         }
     }
@@ -498,6 +500,7 @@ static bool parseOneParameter(Parameter parameters[], int parameterIndex) {
     /* Add the one we found to the parameters */
     parameters[parameterIndex] = parameter[0];
     setEndOfArray(&parameters[parameterIndex+1]);
+    freeParameterArray(parameter);
     return TRUE;
 }
 
