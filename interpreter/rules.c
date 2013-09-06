@@ -52,7 +52,7 @@ static void clearRulesAdmin(int ruleCount) {
 static void initRulesAdmin(int ruleCount) {
     int r;
 
-    rulesAdmin = allocate((ruleCount+1)*sizeof(RulesAdmin));
+    rulesAdmin = allocate(ruleCount*sizeof(RulesAdmin)+sizeof(EOF));
     for (r = 0; r < ruleCount; r++)
         ;
     setEndOfArray(&rulesAdmin[r]);
@@ -154,7 +154,8 @@ static void evaluateRulesPreBeta2(void)
 
 
 /*----------------------------------------------------------------------*/
-static void evaluateRulesBeta2New(void) {
+static void 
+evaluateRulesBeta2New(void) {
     int i;
 
     for (i = 1; !isEndOfArray(&rules[i-1]); i++)
