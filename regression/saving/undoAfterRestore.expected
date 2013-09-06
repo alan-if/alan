@@ -4,12 +4,12 @@
         2 informational message(s).
 
 
-
 Loc
 
 > save
 Enter file name to save in (undoAfterRestore.sav) : undoAfterRestore.sav
-That file already exists, overwrite (RETURN confirms) ? 
+
+> 
 
 > q
 

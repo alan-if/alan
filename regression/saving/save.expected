@@ -17,7 +17,6 @@ save.alan
         8 informational message(s).
 
 
-
 Welcome to the game of SAVIOUR!
 
 In this game your mission is to salvage the last copy of the famous
@@ -46,8 +45,9 @@ You have scored 0 points out of 135.
 
 > save
 Enter file name to save in (save.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
 Ok. Saved.
+
+> 
 
 > restore
 Enter file name to restore from (save.sav) : 

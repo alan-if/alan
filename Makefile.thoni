@@ -49,7 +49,7 @@ snapshots: zip setup lib
 # Create pdf from odt
 .PHONY: documentation
 documentation:
-	echo "***************** Documentation *****************"
+	@echo "***************** Documentation *****************"
 	$(MAKE) documents
 
 .PHONY: documents
