@@ -173,13 +173,16 @@ bool inParameterArray(Parameter theArray[], Aword theCode)
 
 /*======================================================================*/
 void copyParameter(Parameter *to, Parameter *from) {
-    Parameter *theOldCandidates = to->candidates;
+    Parameter *toCandidates = to->candidates;
 
     *to = *from;
-    if (lengthOfParameterArray(theOldCandidates) < lengthOfParameterArray(from->candidates))
-		// TODO Should we free the to->candidates here
-		to->candidates = newParameterArray();
-    copyParameterArray(to->candidates, from->candidates);
+    if (from->candidates != NULL) {
+        if (toCandidates == NULL)
+            to->candidates = newParameterArray();
+        else
+            to->candidates = toCandidates;
+        copyParameterArray(to->candidates, from->candidates);
+    }
 }
 
 

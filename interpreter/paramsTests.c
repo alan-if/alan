@@ -300,3 +300,44 @@ Ensure(ParameterArray, freesSubordinateParameterArrays) {
     assert_that(mallocinfo.uordblks, is_equal_to(used));
 #endif
 }
+
+/*----------------------------------------------------------------------*/
+Ensure(ParameterArray, canCopyParameterWithAndWithoutCaniddates) {
+    Parameter *original = newParameter(1);
+    Parameter *copy;
+
+    /* Basic test that the instance values are copied */
+    copy = newParameter(0);
+    copyParameter(copy, original);
+
+    assert_that(copy->candidates, is_null);
+    assert_that(copy->instance, is_equal_to(original->instance));
+
+
+    /* Original has no candidates, copy has */
+    copy->candidates = newParameterArray();
+    original->candidates = NULL;
+
+    copyParameter(copy, original);
+    
+    assert_that(copy->candidates, is_null);
+
+
+    /* Original has candidates, copy hasn't */
+    original->candidates = newParameterArray();
+    copy->candidates = NULL;
+
+    copyParameter(copy, original);
+    
+    assert_that(copy->candidates, is_non_null);
+    assert_that(copy->candidates, is_not_equal_to(original->candidates));
+
+    /* Original has candidates, copy has too */
+    original->candidates = newParameterArray();
+    copy->candidates = newParameterArray();
+
+    copyParameter(copy, original);
+    
+    assert_that(copy->candidates, is_non_null);
+    assert_that(copy->candidates, is_not_equal_to(original->candidates));
+}
