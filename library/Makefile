@@ -6,9 +6,7 @@ DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
 all: test package
 
-build:
-
-snapshots: zip
+build: zip
 
 .PHONY: test
 test:
