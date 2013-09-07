@@ -15,7 +15,7 @@
 
 
 /* PUBLIC DATA */
-int litCount;
+int litCount = 0;
 static LiteralEntry literalTable[100];
 LiteralEntry *literals = literalTable;
 
@@ -50,11 +50,12 @@ void createStringLiteral(char *unquotedString) {
 void freeLiterals() {
     int i;
 
-    for (i = 0; i < litCount; i++)
-        if (literals[i].type == STRING_LITERAL && literals[i].value != 0)
-            free((char*) literals[i].value);
-    litCount = 0;
-}
+    for (i = 0; i <= litCount; i++)
+        if (literals[i].type == STRING_LITERAL && (void *)literals[i].value != NULL) {
+            free((void *) literals[i].value);
+        }
+    litCount = 0;}
+
 
 
 /*======================================================================*/
