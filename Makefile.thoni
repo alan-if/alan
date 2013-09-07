@@ -38,9 +38,9 @@ snapshots: zip setup lib
 	-rm $(DISTDIR)/Snapshots/manual*.pdf
 	-rm $(DISTDIR)/Snapshots/conversion*.pdf
 	-rm $(DISTDIR)/Snapshots/writing*.pdf
-	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/Snapshots
-	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
-	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots
+	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/Snapshots/alan$(VERSION)$(BUILD).win32.x86.zip
+	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots/alan$(VERSION)$(BUILD).win32.x86.setup.exe
+	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots/winarun$(VERSION)$(BUILD).win32.x86.setup.exe
 	cp library/library*.zip $(DISTDIR)/Snapshots/library$(LIBRARYVERSION).zip
 	cp doc/manual/manual.pdf $(DISTDIR)/Snapshots/manual$(BUILD).pdf
 	cp doc/manual/conversion.pdf $(DISTDIR)/Snapshots/conversion$(BUILD).pdf
