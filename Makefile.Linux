@@ -5,7 +5,7 @@
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
 # Default target
-all : unit build test package
+all : unit build
 
 # Include common recursive definitions for unit build clean ...
 include top.mk

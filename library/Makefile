@@ -28,6 +28,6 @@ release: test zip
 #####################################################################
 
 .PHONY: zip
-zip: changelog.txt classes.i COPYING.txt verbs.i locations.i messages.i library.i QuickRef.txt readme.txt testgame.alan
+zip: Changelog.txt classes.i COPYING.txt verbs.i locations.i messages.i library.i QuickRef.txt readme.txt testgame.alan
 	-rm library*.zip
 	zip library$(VERSION).zip $^
