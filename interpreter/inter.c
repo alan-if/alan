@@ -881,6 +881,7 @@ void interpret(Aaddr adr)
                 if (traceInstructionOption)
                     printf("INSET \t%7ld, %7ld", (long)element, (long)set);
                 push(stack, inSet((Set*)set, element));
+                freeSet((Set *)set);
                 tracebooleanTopValue();
                 break;
             }
