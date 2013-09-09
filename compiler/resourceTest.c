@@ -104,6 +104,7 @@ Ensure(testGenerateBlcFile) {
     assert_true(number == 1);
     assert_true(strcmp(fileName, resourceName) == 0);
   }
+  unlink(blcFileName);
 }
 
 Ensure(testAnalyzeResource) {

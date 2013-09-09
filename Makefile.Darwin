@@ -13,7 +13,7 @@ endif
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 
 # Default target
-all : unit build test package
+all : unit build
 
 .PHONY: package
 package: alan.readme.macosx
