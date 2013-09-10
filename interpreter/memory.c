@@ -24,9 +24,16 @@ void *allocate(unsigned long lengthInBytes)
     void *p = (void *)calloc((size_t)lengthInBytes, 1);
 
     if (p == NULL)
-	syserr("Out of memory.");
+        syserr("Out of memory.");
 
     return p;
+}
+
+
+/*======================================================================*/
+void deallocate(void *memory)
+{
+    free(memory);
 }
 
 

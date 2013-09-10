@@ -30,5 +30,6 @@ extern int memTop;
 /* FUNCTIONS */
 extern void *allocate(unsigned long lengthInBytes);
 extern void *duplicate(void *original, unsigned long len);
+extern void deallocate(void *memory);
 
 #endif /* MEMORY_H_ */
