@@ -1005,8 +1005,8 @@ void interpret(Aaddr adr)
                 tracebooleanTopValue();
                 if (traceInstructionOption)
 	                printf("\t");
-                deallocate((void *)lh);
-                deallocate((void *)rh);
+                deallocate((void*)lh);
+                deallocate((void*)rh);
                 break;
             }
             case I_STREXACT: {
@@ -1130,6 +1130,8 @@ void interpret(Aaddr adr)
                     printf("CONCAT \t%s, %s", pointerValue(s1), pointerValue(s2));
                 push(stack, concat(s1, s2));
                 traceStringTopValue();
+                deallocate((void*)s1);
+                deallocate((void*)s2);
                 break;
             }
 
@@ -1140,6 +1142,8 @@ void interpret(Aaddr adr)
                     printf("CONTAINS \t%s, %s", pointerValue(string), pointerValue(substring));
                 push(stack, contains(string, substring));
                 traceIntegerTopValue();
+                deallocate((void*)string);
+                deallocate((void*)substring);
                 break;
             }
 

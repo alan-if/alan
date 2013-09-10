@@ -353,8 +353,6 @@ Aptr concat(Aptr s1, Aptr s2)
     char *result = allocate(strlen((char*)s1)+strlen((char*)s2)+1);
     strcpy(result, (char*)s1);
     strcat(result, (char*)s2);
-    deallocate((char*)s1);
-    deallocate((char*)s2);
     return (Aptr)result;
 }
 
@@ -669,9 +667,6 @@ bool contains(Aptr string, Aptr substring)
     strlow((char *)substring);
 
     found = (strstr((char *)string, (char *)substring) != 0);
-
-    deallocate((char *)string);
-    deallocate((char *)substring);
 
     return(found);
 }
