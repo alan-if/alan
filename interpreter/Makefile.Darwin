@@ -84,7 +84,7 @@ gararun:
 #
 # Dump Acode file into text format
 #
-DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o smartall.o
+DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o
 dumpacd: $(DUMPACDOBJECTS)
 	$(LINK) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/

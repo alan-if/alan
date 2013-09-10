@@ -154,8 +154,7 @@ static void evaluateRulesPreBeta2(void)
 
 
 /*----------------------------------------------------------------------*/
-static void 
-evaluateRulesBeta2New(void) {
+static void evaluateRulesBeta2New(void) {
     int i;
 
     for (i = 1; !isEndOfArray(&rules[i-1]); i++)

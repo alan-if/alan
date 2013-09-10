@@ -28,11 +28,7 @@ extern int memTop;
 
 
 /* FUNCTIONS */
-#ifndef SMARTALLOC
 extern void *allocate(unsigned long lengthInBytes);
-#else
-#define allocate(s) calloc(s, 1)
-#endif
 extern void *duplicate(void *original, unsigned long len);
 
 #endif /* MEMORY_H_ */

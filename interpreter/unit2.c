@@ -3,10 +3,6 @@
 #include <stdlib.h>
 #include "gopt.h"
 
-#ifdef SMARTALLOC
-#include "smartall.h"
-#endif
-
 #define ADD_UNITTESTS_FOR(module) \
   TestSuite *module##Tests(); \
   add_suite(suite, module##Tests());

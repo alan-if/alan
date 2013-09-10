@@ -14,10 +14,6 @@
 #include "memory.h"
 
 
-/* MEMORY DEBUGGING? */
-#include "smartall.h"
-
-
 /* PREPROCESSOR */
 #define FORWARD
 #define NEW(type) ((type *)allocate(sizeof(type)))

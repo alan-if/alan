@@ -18,10 +18,6 @@ ACodeHeader *header = &dummyHeader;
 int memTop = 0;         /* Top of load memory */
 
 
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
-#ifndef SMARTALLOC
 /*======================================================================*/
 void *allocate(unsigned long lengthInBytes)
 {
@@ -32,7 +28,7 @@ void *allocate(unsigned long lengthInBytes)
 
     return p;
 }
-#endif
+
 
 /*======================================================================*/
 void *duplicate(void *original, unsigned long len)

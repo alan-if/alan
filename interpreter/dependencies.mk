@@ -95,7 +95,6 @@ term.o: term.c sysdep.h memory.h acode.h output.h types.h options.h \
   instance.h set.h current.h
 utils.o: utils.c utils.h alan.version.h version.h options.h types.h \
   sysdep.h acode.h memory.h output.h
-smartall.o: smartall.c
 alan.version.o: alan.version.c alan.version.h version.h
 AltInfo.o: AltInfo.c AltInfo.h types.h sysdep.h acode.h params.h \
   ParameterPosition.h checkentry.h debug.h inter.h stack.h lists.h \

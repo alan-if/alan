@@ -857,7 +857,4 @@ void run(void)
                 resetAndEvaluateRules(rules, header->version);
             }
     }
-#ifdef SMARTALLOC
-    sm_dump(1);
-#endif
 }

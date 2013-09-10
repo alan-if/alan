@@ -25,10 +25,6 @@ void terminate(int code)
 
     stopTranscript();
 
-#ifdef SMARTALLOC
-    sm_dump(1);
-#endif
-
 #ifdef HAVE_GLK
     glk_exit();
 #else
