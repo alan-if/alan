@@ -687,9 +687,6 @@ bool streq(char a[], char b[])
 
     eq = (strcmp(a, b) == 0);
 
-    deallocate(a);
-    deallocate(b);
-
     return(eq);
 }
 

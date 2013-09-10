@@ -773,7 +773,7 @@ void interpret(Aaddr adr)
                 Aint atr = pop(stack);
                 Aid id = pop(stack);
                 if (traceInstructionOption)
-                    printf("STRATTR \t%7ld, %7ld", (long)id, (long)atr);
+                    printf("ATTRSTR \t%7ld, %7ld", (long)id, (long)atr);
                 push(stack, (Aptr)getInstanceStringAttribute(id, atr));
                 traceStringTopValue();
                 break;
@@ -1000,18 +1000,20 @@ void interpret(Aaddr adr)
                 Aptr rh = pop(stack);
                 Aptr lh = pop(stack);
                 if (traceInstructionOption)
-                    printf("STREQ \t%7ld, %7ld", (long)lh, (long)rh);
+                    printf("STREQ \t0x%7lx, 0x%7lx", (long)lh, (long)rh);
                 push(stack, streq((char *)lh, (char *)rh));
                 tracebooleanTopValue();
                 if (traceInstructionOption)
 	                printf("\t");
+                deallocate((void *)lh);
+                deallocate((void *)rh);
                 break;
             }
             case I_STREXACT: {
                 Aptr rh = pop(stack);
                 Aptr lh = pop(stack);
                 if (traceInstructionOption)
-                    printf("STREXACT \t%7ld, %7ld", (long)lh, (long)rh);
+                    printf("STREXACT \t0x%7lx, 0x%7lx", (long)lh, (long)rh);
                 push(stack, strcmp((char *)lh, (char *)rh) == 0);
                 tracebooleanTopValue();
                 deallocate((void *)lh);
