@@ -531,6 +531,7 @@ static void analyzeBinary(Expression *exp) {
 			lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'=='", NULL);
 		if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
 			lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
+		exp->type = BOOLEAN_TYPE;
 		break;
 
 	case LE_OPERATOR:
