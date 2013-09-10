@@ -54,15 +54,15 @@ static char *playerCommand;
 /*----------------------------------------------------------------------*/
 static void freeGameState() {
 
-    free(gameState.admin);
-    free(gameState.attributes);
+    deallocate(gameState.admin);
+    deallocate(gameState.attributes);
 
     if (gameState.eventQueueTop > 0) {
-        free(gameState.eventQueue);
+        deallocate(gameState.eventQueue);
         gameState.eventQueue = NULL;
     }
     if (gameState.scores)
-        free(gameState.scores);
+        deallocate(gameState.scores);
 
     memset(&gameState, 0, sizeof(GameState));
 }
@@ -74,7 +74,7 @@ void forgetGameState(void) {
     popGameState(stateStack, &gameState, &playerCommand);
     freeGameState();
     if (playerCommand != NULL)
-        free(playerCommand);
+        deallocate(playerCommand);
 }
 
 
@@ -158,7 +158,7 @@ static char **collectStrings() {
 void rememberCommands(void) {
     char *command = playerWordsAsCommandString();
     attachPlayerCommandsToLastState(stateStack, command);
-    free(command);
+    deallocate(command);
 }
 
 
@@ -236,7 +236,7 @@ static void freeStringAttributes(void) {
     if (header->stringInitTable == 0) return;
     for (entry = pointerTo(header->stringInitTable); *(Aword *)entry != EOF; entry++) {
         Aptr attributeValue = getAttribute(admin[entry->instanceCode].attributes, entry->attributeCode);
-        free((char*)attributeValue);
+        deallocate((char*)attributeValue);
     }
 }
 

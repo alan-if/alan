@@ -327,7 +327,7 @@ static bool possibleWithFinder(int verb, Parameter parameters[], AltInfoFinder *
 	anything = anythingToExecute(allAlternatives);
 
     if (allAlternatives != NULL)
-      free(allAlternatives);
+      deallocate(allAlternatives);
 
     return(anything);
 }

@@ -148,7 +148,7 @@ void sys(Aword fpos, Aword len)
 
     command = getStringFromFile(fpos, len);
     system(command);
-    free(command);
+    deallocate(command);
 }
 
 
@@ -353,8 +353,8 @@ Aptr concat(Aptr s1, Aptr s2)
     char *result = allocate(strlen((char*)s1)+strlen((char*)s2)+1);
     strcpy(result, (char*)s1);
     strcat(result, (char*)s2);
-    free((char*)s1);
-    free((char*)s2);
+    deallocate((char*)s1);
+    deallocate((char*)s2);
     return (Aptr)result;
 }
 
@@ -670,8 +670,8 @@ bool contains(Aptr string, Aptr substring)
 
     found = (strstr((char *)string, (char *)substring) != 0);
 
-    free((char *)string);
-    free((char *)substring);
+    deallocate((char *)string);
+    deallocate((char *)substring);
 
     return(found);
 }
@@ -687,8 +687,8 @@ bool streq(char a[], char b[])
 
     eq = (strcmp(a, b) == 0);
 
-    free(a);
-    free(b);
+    deallocate(a);
+    deallocate(b);
 
     return(eq);
 }

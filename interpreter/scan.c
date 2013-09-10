@@ -60,7 +60,7 @@ static void unknown(char token[]) {
 #endif
     addParameterForString(messageParameters, str);
     printMessageWithParameters(M_UNKNOWN_WORD, messageParameters);
-	free(messageParameters);
+	deallocate(messageParameters);
     free(str);
     abortPlayerCommand();
 }

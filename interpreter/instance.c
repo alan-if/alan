@@ -109,7 +109,7 @@ void setInstanceAttribute(int instance, int attribute, Aptr value)
 /*======================================================================*/
 void setInstanceStringAttribute(int instance, int attribute, char *string)
 {
-    free((char *)getInstanceAttribute(instance, attribute));
+    deallocate((char *)getInstanceAttribute(instance, attribute));
     setInstanceAttribute(instance, attribute, (Aptr)string);
 }
 
@@ -371,7 +371,7 @@ void sayInstance(int instance)
                         capitalized = strdup((char *)pointerTo(dict[wrds[params[p].lastWord]].wrd));
                         capitalized[0] = IsoToUpperCase(capitalized[0]);
                         output(capitalized);
-                        free(capitalized);
+                        deallocate(capitalized);
                     } else
                         output((char *)pointerTo(dict[wrds[params[p].lastWord]].wrd));
                 }
@@ -400,7 +400,7 @@ void sayString(char *string)
 {
     if (isHere(HERO, FALSE))
         output(string);
-    free(string);
+    deallocate(string);
 }
 
 

@@ -52,7 +52,7 @@ void freeLiterals() {
 
     for (i = 0; i <= litCount; i++)
         if (literals[i].type == STRING_LITERAL && (void *)literals[i].value != NULL) {
-            free((void *) literals[i].value);
+            deallocate((void *) literals[i].value);
         }
     litCount = 0;}
 

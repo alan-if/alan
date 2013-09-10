@@ -27,15 +27,11 @@
 #endif
 
 
-#ifdef DMALLOC
-#include "dmalloc.h"
-#endif
-
 /*======================================================================
 
-main()
+  main()
 
-Main program of main unit in Alan interpreter module, ARUN
+  Main program of main unit in Alan interpreter module, ARUN
 
 */
 
@@ -61,19 +57,19 @@ int main(int argc, char *argv[])
     args(argc, argv);
 
     if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
-	printf("You should supply a game file to play.\n");
-	usage(PROGNAME);
-	free(adventureFileName);
-	terminate(0);
+        printf("You should supply a game file to play.\n");
+        usage(PROGNAME);
+        free(adventureFileName);
+        terminate(0);
     }
 #endif
 
     if ((debugOption && !regressionTestOption) || verboseOption) {
-	if (debugOption) printf("<");
-	printVersion(BUILD);
-	if (debugOption) printf(">");
-	newline();
-	newline();
+        if (debugOption) printf("<");
+        printVersion(BUILD);
+        if (debugOption) printf(">");
+        newline();
+        newline();
     }
 
 #ifdef HAVE_GARGLK

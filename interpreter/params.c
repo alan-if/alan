@@ -43,7 +43,7 @@ void freeParameterArray(ParameterArray arrayPointer) {
     for (p = arrayPointer; !isEndOfArray(p); p++)
         if (p->candidates != NULL)
             freeParameterArray(p->candidates);
-    free(arrayPointer);
+    deallocate(arrayPointer);
 }
 
 

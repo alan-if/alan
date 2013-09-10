@@ -46,12 +46,12 @@ StateStack createStateStack(int elementSize) {
 /*======================================================================*/
 void deleteStateStack(StateStack stateStack) {
 	while (stateStack->stackPointer >0)
-		free(stateStack->stack[--stateStack->stackPointer]);
+		deallocate(stateStack->stack[--stateStack->stackPointer]);
 	if (stateStack->stackSize > 0) {
-		free(stateStack->stack);
-		free(stateStack->playerCommands);
+		deallocate(stateStack->stack);
+		deallocate(stateStack->playerCommands);
 	}
-	free(stateStack);
+	deallocate(stateStack);
 }
 
 
@@ -95,7 +95,7 @@ void popGameState(StateStack stateStack, void *gameState, char** playerCommand) 
     else {
         stateStack->stackPointer--;
         memcpy(gameState, stateStack->stack[stateStack->stackPointer], stateStack->elementSize);
-        free(stateStack->stack[stateStack->stackPointer]);
+        deallocate(stateStack->stack[stateStack->stackPointer]);
         *playerCommand = stateStack->playerCommands[stateStack->stackPointer];
     }
 }

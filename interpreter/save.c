@@ -219,7 +219,7 @@ static void restoreScores(AFILE saveFile) {
 static void restoreEventQueue(AFILE saveFile) {
   fread((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
   if (eventQueueTop > eventQueueSize) {
-    free(eventQueue);
+    deallocate(eventQueue);
     eventQueue = allocate(eventQueueTop*sizeof(eventQueue[0]));
   }
   fread((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop, saveFile);

@@ -160,7 +160,7 @@ static void errorWhat(int playerWordIndex) {
 
     addParameterForWord(messageParameters, playerWordIndex);
     printMessageWithParameters(M_WHAT_WORD, messageParameters);
-    free(messageParameters);
+    deallocate(messageParameters);
     abortPlayerCommand();
 }
 
@@ -169,7 +169,7 @@ static void errorAfterExcept(int butWordIndex) {
     Parameter *messageParameters = newParameterArray();
     addParameterForWord(messageParameters, butWordIndex);
     printMessageWithParameters(M_AFTER_BUT, messageParameters);
-    free(messageParameters);
+    deallocate(messageParameters);
     abortPlayerCommand();
 }
 
@@ -197,7 +197,7 @@ static void errorButAfterAll(int butWordIndex) {
     addParameterForWord(messageParameters, butWordIndex);
     addParameterForWord(messageParameters, fakePlayerWordForAll());
     printMessageWithParameters(M_BUT_ALL, messageParameters);
-    free(messageParameters);
+    deallocate(messageParameters);
     abortPlayerCommand();
 }
 
@@ -384,7 +384,7 @@ static void disambiguateCandidatesForPosition(ParameterPosition parameterPositio
     parameters[position].instance = 0; /* Restore multiple marker */
 
     compressParameterArray(candidates);
-    free(parameters);
+    deallocate(parameters);
 }
 
 

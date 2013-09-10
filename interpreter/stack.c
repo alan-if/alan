@@ -45,8 +45,8 @@ void deleteStack(Stack theStack)
   if (theStack == NULL)
     syserr("deleting a NULL stack");
 
-  free(theStack->stack);
-  free(theStack);
+  deallocate(theStack->stack);
+  deallocate(theStack);
 }
 
 

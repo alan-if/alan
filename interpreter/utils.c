@@ -21,7 +21,7 @@ void terminate(int code)
 {
     newline();
     if (memory)
-        free(memory);
+        deallocate(memory);
 
     stopTranscript();
 

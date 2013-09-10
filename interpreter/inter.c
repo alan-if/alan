@@ -1014,8 +1014,8 @@ void interpret(Aaddr adr)
                     printf("STREXACT \t%7ld, %7ld", (long)lh, (long)rh);
                 push(stack, strcmp((char *)lh, (char *)rh) == 0);
                 tracebooleanTopValue();
-                free((void *)lh);
-                free((void *)rh);
+                deallocate((void *)lh);
+                deallocate((void *)rh);
                 break;
             }
             case I_LE: {
