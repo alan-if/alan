@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from sys import argv, exit
 from subprocess import check_call, call, Popen, PIPE
 
@@ -54,6 +55,7 @@ try :
 
         # Is there an exit?
         line = i.next()
+        original = line
         while 1 :
             while line.find("DIRECTION") == -1 and line.find("INS:") == -1 :
                 line = i.next()
@@ -61,22 +63,29 @@ try :
                 # No, found next instancs, so start over
                 break
 
-            # Yes, so find the direction
+            directions = []
+
+            # Yes, so find the direction(s)
             # 9th field and then remove the part after colon
-            direction = line.split()[11].split(":")[0].strip('"')
+            while line.find("DIRECTION") != -1 :
+                direction = line.split()[11].split(":")[0].strip('"')
+                directions.append(direction)
+                line = i.next()
 
             # So, to where does it lead?
-            line = i.next()
-            target = line.strip()
+            # line = i.next()
+            target = line.strip("\n\r")
             line = i.next()
 
             # Did that line split?
             if line[0] != '.' :
                 # Yes, so paste them together again
-                target += line.split(":")[0].strip()
+                target = target + line.strip()
             target = target.split()[11].strip().split(":")[0].strip('"')
             
-            print "  " + id + " -> " + target + " [label=" + direction + "];"
+            # Print all directions
+            for d in directions :
+                print "  " + id + " -> " + target + " [label=" + d + "];"
 
 except StopIteration as x :
     print "}"
