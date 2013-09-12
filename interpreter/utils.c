@@ -61,7 +61,7 @@ void usage(char *programName)
     printf("    -d       enter debug mode\n");
     printf("    -t[<n>]  trace game execution, higher <n> gives more trace\n");
     printf("    -i       ignore version and checksum errors\n");
-    printf("    -r       refrain from printing timestamps and paging (making regression testing easier)\n");
+    printf("    -r       make regression test easier (refrain from printing timestamps, paging, don't randomize...)\n");
 #ifdef HAVE_GLK
     glk_set_style(style_Normal);
 #endif
