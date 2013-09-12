@@ -49,6 +49,7 @@ typedef struct ParameterPosition {
 
 
 /* Functions: */
+extern void deallocateParameterPositions(ParameterPosition *parameterPositions);
 extern void uncheckAllParameterPositions(ParameterPosition parameterPositions[]);
 extern void copyParameterPositions(ParameterPosition originalParameterPositions[], ParameterPosition parameterPositions[]);
 extern bool equalParameterPositions(ParameterPosition parameterPositions1[], ParameterPosition parameterPositions2[]);

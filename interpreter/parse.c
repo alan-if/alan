@@ -1248,20 +1248,20 @@ static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *e
         if (!parameterPosition->all && !parameterPosition->them) {
             Parameter *parameters = parameterPosition->parameters;
             int p;
-	    for (p = 0; p < lengthOfParameterArray(parameters); p++) {
+            for (p = 0; p < lengthOfParameterArray(parameters); p++) {
                 Parameter *parameter = &parameters[p];
                 Parameter *candidates = parameter->candidates;
-		disambiguateCandidates(candidates, omni, reachable, disambiguationHandlerTable);
+                disambiguateCandidates(candidates, omni, reachable, disambiguationHandlerTable);
                 parameter->instance = candidates[0].instance;
             }
         }
-	if (parameterPosition->all) {
+        if (parameterPosition->all) {
             Parameter *exceptions = parameterPosition->exceptions;
             int p;
-	    for (p = 0; p < lengthOfParameterArray(exceptions); p++) {
+            for (p = 0; p < lengthOfParameterArray(exceptions); p++) {
                 Parameter *parameter = &exceptions[p];
                 Parameter *candidates = parameter->candidates;
-		disambiguateCandidates(candidates, omni, reachable, disambiguationHandlerTable);
+                disambiguateCandidates(candidates, omni, reachable, disambiguationHandlerTable);
                 parameter->instance = candidates[0].instance;
             }
         }
@@ -1289,6 +1289,9 @@ static void try(Parameter parameters[], Parameter multipleParameters[]) {
     convertPositionsToParameters(parameterPositions, parameters);
     markExplicitMultiple(parameterPositions, parameters);
     convertMultipleCandidatesToMultipleParameters(parameterPositions, multipleParameters);
+
+    deallocateParameterPositions(parameterPositions);
+    parameterPositions = NULL;
 }
 
 
