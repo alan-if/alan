@@ -161,7 +161,7 @@ int lastAltInfoIndex(AltInfo altInfo[])
     /* Loop to last alternative */
     for (altIndex = -1; !altInfo[altIndex+1].end; altIndex++)
         ;
-    return(altIndex);
+    return altIndex;
 }
 
 
