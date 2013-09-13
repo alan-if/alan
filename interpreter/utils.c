@@ -20,10 +20,13 @@
 void terminate(int code)
 {
     newline();
-    if (memory)
-        deallocate(memory);
+
+    terminateStateStack();
 
     stopTranscript();
+
+    if (memory)
+        deallocate(memory);
 
 #ifdef HAVE_GLK
     glk_exit();

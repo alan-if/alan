@@ -245,7 +245,7 @@ Ensure(State, freeGameStateFreesMemory) {
 	gameState.sets = allocate(1);
 	gameState.strings = allocate(1);
 
-	freeGameState();
+	freeGameState(&gameState);
 
 	assert_equal(gameState.admin, 0);
 	assert_equal(gameState.attributes, 0);

@@ -23,4 +23,6 @@ extern void forgetGameState(void);
 extern void rememberCommands(void);
 extern void recallGameState(void);
 extern char *recreatePlayerCommand(void);
+extern void terminateStateStack(void);
+
 #endif
