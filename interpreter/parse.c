@@ -162,7 +162,7 @@ static void errorWhat(int playerWordIndex) {
 
     addParameterForWord(messageParameters, playerWordIndex);
     printMessageWithParameters(M_WHAT_WORD, messageParameters);
-    deallocate(messageParameters);
+    freeParameterArray(messageParameters);
     abortPlayerCommand();
 }
 
@@ -171,7 +171,7 @@ static void errorAfterExcept(int butWordIndex) {
     Parameter *messageParameters = newParameterArray();
     addParameterForWord(messageParameters, butWordIndex);
     printMessageWithParameters(M_AFTER_BUT, messageParameters);
-    deallocate(messageParameters);
+    freeParameterArray(messageParameters);
     abortPlayerCommand();
 }
 
