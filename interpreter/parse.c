@@ -1278,8 +1278,12 @@ static void disambiguate(ParameterPosition parameterPositions[], ElementEntry *e
 static void try(Parameter parameters[], Parameter multipleParameters[]) {
     ElementEntry *element;      /* Pointer to element list */
     static ParameterPosition *parameterPositions = NULL;
-    if (parameterPositions == NULL)
-        parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+    if (parameterPositions != NULL)
+        deallocateParameterPositions(parameterPositions);
+
+    // TODO newParameterPositionArray()!!!! Or even reallocatePP.. or cleanPP..
+    parameterPositions = allocate(sizeof(ParameterPosition)*(MAXPARAMS+1));
+    parameterPositions[0].endOfList = TRUE;
 
     element = parseInput(parameterPositions);
 
