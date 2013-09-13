@@ -127,9 +127,9 @@ cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
-	arch -i386 cgreen-runner $^ --suite "interpreter unit tests"" $(UNITOUTPUT)
+	arch -i386 cgreen-runner $^ --suite "interpreter unit tests" $(UNITOUTPUT)
 else
-	cgreen-runner ./$^ --suite Interpreter $(UNITOUTPUT)
+	cgreen-runner ./$^ --suite "interpreter unit tests" $(UNITOUTPUT)
 endif
 
 # To make sure that all modules are included when we run the ones that
