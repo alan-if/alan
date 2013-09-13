@@ -33,14 +33,14 @@ print '  rankdir=LR;'
 print '  node [shape=octagon;style=filled;]'
 
 # Mapping from possible exit directions to DOT port directions
-portname = {"n":"n", "north":"n",
-            "s":"s", "south":"s",
-            "e":"e", "east":"e",
-            "w":"w", "west":"w",
-            "se":"se", "southeast":"se",
-            "sw":"sw", "southwest":"sw",
-            "ne":"ne", "northeast":"ne",
-            "nw":"nw", "northwest":"nw"
+portname = {"n":":n", "north":":n",
+            "s":":s", "south":":s",
+            "e":":e", "east":":e",
+            "w":":w", "west":":w",
+            "se":":se", "southeast":":se",
+            "sw":":sw", "southwest":":sw",
+            "ne":":ne", "northeast":":ne",
+            "nw":":nw", "northwest":":nw"
 }
 
 try :
