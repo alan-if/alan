@@ -120,10 +120,12 @@ static void errorWhichOne(Parameter alternative[]) {
     setEndOfArray(&parameters[1]);
     printMessageWithParameters(M_WHICH_ONE_START, parameters);
     for (p = 1; !isEndOfArray(&alternative[p+1]); p++) {
-        parameters[0] = alternative[p];
+        clearParameterArray(parameters);
+        addParameterToParameterArray(parameters, &alternative[p]);
         printMessageWithParameters(M_WHICH_ONE_COMMA, parameters);
     }
-    parameters[0] = alternative[p];
+    clearParameterArray(parameters);
+    addParameterToParameterArray(parameters, &alternative[p]);
     printMessageWithParameters(M_WHICH_ONE_OR, parameters);
     freeParameterArray(parameters);
     abortPlayerCommand(); /* Return with empty error message */

@@ -63,9 +63,9 @@ void abortPlayerCommand(void)
 
 
 /*======================================================================*/
-void printMessageWithInstanceParameter(MsgKind message, int i) {
+void printMessageWithInstanceParameter(MsgKind message, int instanceId) {
     ParameterArray parameters = newParameterArray();
-    addParameterForInstance(parameters, i);
+    addParameterForInstance(parameters, instanceId);
     printMessageWithParameters(message, parameters);
     freeParameterArray(parameters);
 }
