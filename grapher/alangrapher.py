@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 from sys import argv, exit
+from os.path import basename
 from subprocess import check_call, call, Popen, PIPE
+import argparse
+
+parser = argparse.ArgumentParser(description='Create a DOT graph from an Alan source file.')
+parser.add_argument('filename', help='the name of the Alan source file to create the graph from.')
+parser.add_argument('--ports', dest='use_ports', action="store_true", help='use ports (tries to determine where to attach the outgoing arrows if directions are compass points)')
+
+args = parser.parse_args()
 
 if len(argv) == 1 :
     print argv[0] + " - a program to extract location graph data from an Alan game"
@@ -8,7 +16,7 @@ if len(argv) == 1 :
     print "Usage: " + argv[0] + " <alan source file>"
     exit()
 
-script, filename = argv
+filename = args.filename
 
 process = Popen(["alan", "-dump", "ci", filename], stdout=PIPE)
 
@@ -28,7 +36,7 @@ try :
 except :
     print message
 
-print 'digraph finite_state_machine {'
+print 'digraph '+basename(filename)+' {'
 print '  rankdir=LR;'
 print '  node [shape=octagon;style=filled;]'
 
@@ -97,9 +105,12 @@ try :
             
             # Print all directions
             for direction in directions :
-                try :
-                    port = portname[direction]
-                except KeyError :
+                if args.use_ports :
+                    try :
+                        port = portname[direction]
+                    except KeyError :
+                        port = ""
+                else :
                     port = ""
                 print "  " + id + port + " -> " + target + " [label=" + direction + "];"
 
