@@ -6,7 +6,9 @@
 #include "event.h"
 
 /* PRIVATE TYPES */
-typedef struct GameState {
+
+/* Implementation of the abstract type typedef struct game_state GameState */
+struct game_state {
   /* Event queue */
   EventQueueEntry *eventQueue;
   int eventQueueTop;		/* Event queue top pointer */
@@ -26,7 +28,7 @@ typedef struct GameState {
 
   /* List of word indices the player said, EOF terminated */
   char *playerCommand;
-} GameState;
+};
 
 
 

@@ -25,7 +25,9 @@
 
 
 /* PRIVATE TYPES */
-typedef struct GameState {
+
+/* Implementation of the abstract type typedef struct game_state GameState */
+struct game_state {
     /* Event queue */
     EventQueueEntry *eventQueue;
     int eventQueueTop;			/* Event queue top pointer */
@@ -42,7 +44,7 @@ typedef struct GameState {
        saving of attributes, instead they require special storage */
     Set **sets;					/* Array of set pointers */
     char **strings;				/* Array of string pointers */
-} GameState;
+};
 
 /* PRIVATE DATA */
 static GameState gameState;

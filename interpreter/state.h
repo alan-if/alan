@@ -13,7 +13,8 @@
 
 
 /* DATA */
-typedef struct GameState GameState;
+struct game_state;
+typedef struct game_state GameState;
 
 /* FUNCTIONS */
 extern bool anySavedState(void);
