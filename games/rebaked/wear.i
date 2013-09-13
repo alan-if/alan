@@ -21,7 +21,7 @@ add to every object
 	    	else "You can't pick" say the obj. "up."
 		does
 	    	if obj not in hero then
-	    		"(First picking up" say the obj.)$n"
+	    		"(First picking up" say the obj. ")$n"
 	    	end if.
 	    	locate obj in worn.
 	    	"You put on" say the obj. "."

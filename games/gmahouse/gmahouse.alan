@@ -49,7 +49,7 @@ End The gbedroom.
 The pantry isa location
   Description
       "The pantry is full of canned foods. There is enough food here for several people to eat for years. To the north is the kitchen, there are hallways to both the south and east."
-  Exit north to droom.
+  Exit north to ubedroom.
   Exit south to hallwayw.
 End The pantry.
 
