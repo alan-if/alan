@@ -377,16 +377,14 @@ static void disambiguateCandidatesForPosition(ParameterPosition parameterPositio
     convertPositionsToParameters(parameterPositions, parameters);
     for (i = 0; !isEndOfArray(&candidates[i]); i++) {
         if (candidates[i].instance != 0) { /* Already empty? */
-            parameters[position] = candidates[i];
+            copyParameter(&parameters[position], &candidates[i]);
             // DISAMBIGUATION!!
             if (!reachable(candidates[i].instance) || !possible(current.verb, parameters, parameterPositions))
                 candidates[i].instance = 0; /* Then remove this candidate from list */
         }
     }
-    parameters[position].instance = 0; /* Restore multiple marker */
-
     compressParameterArray(candidates);
-    deallocate(parameters);
+    freeParameterArray(parameters);
 }
 
 
