@@ -52,7 +52,7 @@ static char *playerCommand;
 
 
 /*======================================================================*/
-void freeGameState(GameState *gameState) {
+void deallocateGameState(GameState *gameState) {
 
     deallocate(gameState->admin);
     deallocate(gameState->attributes);
@@ -72,7 +72,7 @@ void freeGameState(GameState *gameState) {
 void forgetGameState(void) {
     char *playerCommand;
     popGameState(stateStack, &gameState, &playerCommand);
-    freeGameState(&gameState);
+    deallocateGameState(&gameState);
     if (playerCommand != NULL)
         deallocate(playerCommand);
 }
@@ -100,7 +100,7 @@ bool anySavedState(void) {
 
 
 /*----------------------------------------------------------------------*/
-static int setCount(void) {
+static int countSets(void) {
     SetInitEntry *entry;
     int count = 0;
 
@@ -114,7 +114,7 @@ static int setCount(void) {
 /*----------------------------------------------------------------------*/
 static Set **collectSets(void) {
     SetInitEntry *entry;
-    int count = setCount();
+    int count = countSets();
     Set **sets;
     int i;
 
@@ -131,7 +131,7 @@ static Set **collectSets(void) {
 
 
 /*----------------------------------------------------------------------*/
-static int stringCount(void) {
+static int countStrings(void) {
     StringInitEntry *entry;
     int count = 0;
 
@@ -145,7 +145,7 @@ static int stringCount(void) {
 /*----------------------------------------------------------------------*/
 static char **collectStrings(void) {
     StringInitEntry *entry;
-    int count = stringCount();
+    int count = countStrings();
     char **strings;
     int i;
 
@@ -225,7 +225,7 @@ static void freeSetAttributes(void) {
 /*----------------------------------------------------------------------*/
 static void recallSets(Set **sets) {
     SetInitEntry *entry;
-    int count = setCount();
+    int count = countSets();
     int i;
 
     if (header->setInitTable == 0) return;
@@ -251,7 +251,7 @@ static void freeStringAttributes(void) {
 /*----------------------------------------------------------------------*/
 static void recallStrings(char **strings) {
     StringInitEntry *entry;
-    int count = stringCount();
+    int count = countStrings();
     int i;
 
     if (header->stringInitTable == 0) return;
@@ -306,7 +306,7 @@ void recallGameState(void) {
     recallEvents();
     recallInstances();
     recallScores();
-    freeGameState(&gameState);
+    deallocateGameState(&gameState);
 }
 
 
