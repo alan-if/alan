@@ -199,7 +199,7 @@ static void errorButAfterAll(int butWordIndex) {
     addParameterForWord(messageParameters, butWordIndex);
     addParameterForWord(messageParameters, fakePlayerWordForAll());
     printMessageWithParameters(M_BUT_ALL, messageParameters);
-    deallocate(messageParameters);
+    freeParameterArray(messageParameters);
     abortPlayerCommand();
 }
 
