@@ -30,6 +30,18 @@ except :
 
 print 'digraph finite_state_machine {'
 print '  rankdir=LR;'
+print '  node [shape=octagon;style=filled;]'
+
+# Mapping from possible exit directions to DOT port directions
+portname = {"n":"n", "north":"n",
+            "s":"s", "south":"s",
+            "e":"e", "east":"e",
+            "w":"w", "west":"w",
+            "se":"se", "southeast":"se",
+            "sw":"sw", "southwest":"sw",
+            "ne":"ne", "northeast":"ne",
+            "nw":"nw", "northwest":"nw"
+}
 
 try :
     while 1 :
@@ -84,8 +96,12 @@ try :
             target = target.split()[11].strip().split(":")[0].strip('"')
             
             # Print all directions
-            for d in directions :
-                print "  " + id + " -> " + target + " [label=" + d + "];"
+            for direction in directions :
+                try :
+                    port = portname[direction]
+                except KeyError :
+                    port = ""
+                print "  " + id + port + " -> " + target + " [label=" + direction + "];"
 
 except StopIteration as x :
     print "}"
