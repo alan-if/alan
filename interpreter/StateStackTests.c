@@ -31,10 +31,12 @@ typedef struct GameState {
 
 
 static StateStack stateStack;
+static GameState gameState;
 
 Describe(StateStack);
 BeforeEach(StateStack) {
 	stateStack = createStateStack(sizeof(GameState));
+    memset(&gameState, 0, sizeof(gameState)); /* TODO newGameState()? or clearGameState()? */
 }
 
 AfterEach(StateStack) {
@@ -46,8 +48,6 @@ Ensure(StateStack, canSeeAnEmptyStateStack) {
 }
 
 Ensure(StateStack, extendsANonAllocatedStack) {
-	GameState gameState;
-
 	assert_equal(stateStack->stackSize, 0);
 	pushGameState(stateStack, &gameState);
 	assert_equal(stateStack->stackSize, EXTENT);
@@ -74,7 +74,6 @@ Ensure(StateStack, canPushAndPopAGameState) {
 }
 
 Ensure(StateStack, canPush100Times) {
-	GameState gameState;
 	int i;
 
 	for (i = 0; i<100; i++)
@@ -82,7 +81,6 @@ Ensure(StateStack, canPush100Times) {
 }
 
 Ensure(StateStack, canRememberPlayerCommands) {
-	GameState gameState;
 	char *expectedPlayerCommands = "some player commands";
 	char *playerCommands;
 
@@ -94,7 +92,6 @@ Ensure(StateStack, canRememberPlayerCommands) {
 }
 
 Ensure(StateStack, pushClearsPlayerCommand) {
-	GameState gameState;
 	pushGameState(stateStack, &gameState);
 	assert_equal(NULL, stateStack->playerCommands[stateStack->stackPointer-1]);
 }
@@ -106,7 +103,6 @@ static void syserrHandler(char *message) {
 }
 
 Ensure(StateStack, willGenerateSyserrorWhenPoppingFromEmptyStack) {
-	GameState gameState;
 	char *playerCommand;
 
 	syserrCalled = FALSE;
@@ -115,18 +111,4 @@ Ensure(StateStack, willGenerateSyserrorWhenPoppingFromEmptyStack) {
 	popGameState(stateStack, &gameState, &playerCommand);
 
 	assert_true(syserrCalled);
-}
-
-TestSuite *stateStackTests() {
-  TestSuite *suite = create_test_suite();
-
-  add_test_with_context(suite, StateStack, canSeeAnEmptyStateStack);
-  add_test_with_context(suite, StateStack, extendsANonAllocatedStack);
-  add_test_with_context(suite, StateStack, canPushAndPopAGameState);
-  add_test_with_context(suite, StateStack, canPush100Times);
-  add_test_with_context(suite, StateStack, pushClearsPlayerCommand);
-  add_test_with_context(suite, StateStack, willGenerateSyserrorWhenPoppingFromEmptyStack);
-  add_test_with_context(suite, StateStack, canRememberPlayerCommands);
-
-  return suite;
 }

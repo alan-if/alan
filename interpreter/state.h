@@ -13,7 +13,7 @@
 
 
 /* DATA */
-
+typedef struct GameState GameState;
 
 /* FUNCTIONS */
 extern bool anySavedState(void);
@@ -24,5 +24,6 @@ extern void rememberCommands(void);
 extern void recallGameState(void);
 extern char *recreatePlayerCommand(void);
 extern void terminateStateStack(void);
+extern void deallocateGameState(GameState *gameState);
 
 #endif

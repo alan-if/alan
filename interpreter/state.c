@@ -51,6 +51,50 @@ static StateStack stateStack = NULL;
 static char *playerCommand;
 
 
+/*----------------------------------------------------------------------*/
+static int countStrings(void) {
+    StringInitEntry *entry;
+    int count = 0;
+
+    if (header->stringInitTable != 0)
+        for (entry = pointerTo(header->stringInitTable); *(Aword *)entry != EOF; entry++)
+            count++;
+    return(count);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void deallocateStrings(GameState *gameState) {
+    int count = countStrings();
+    int i;
+
+    for (i = 0; i < count; i++)
+        deallocate(gameState->strings[i]);
+    deallocate(gameState->strings);
+}
+
+/*----------------------------------------------------------------------*/
+static int countSets(void) {
+    SetInitEntry *entry;
+    int count = 0;
+
+    if (header->setInitTable != 0)
+        for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++)
+            count++;
+    return(count);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void deallocateSets(GameState *gameState) {
+    int count = countSets();
+    int i;
+
+    for (i = 0; i < count; i++)
+        deallocate(gameState->sets[i]);
+    deallocate(gameState->sets);
+}
+
 /*======================================================================*/
 void deallocateGameState(GameState *gameState) {
 
@@ -63,6 +107,9 @@ void deallocateGameState(GameState *gameState) {
     }
     if (gameState->scores)
         deallocate(gameState->scores);
+
+    deallocateStrings(gameState);
+    deallocateSets(gameState);
 
     memset(gameState, 0, sizeof(GameState));
 }
@@ -100,18 +147,6 @@ bool anySavedState(void) {
 
 
 /*----------------------------------------------------------------------*/
-static int countSets(void) {
-    SetInitEntry *entry;
-    int count = 0;
-
-    if (header->setInitTable != 0)
-        for (entry = pointerTo(header->setInitTable); *(Aword *)entry != EOF; entry++)
-            count++;
-    return(count);
-}
-
-
-/*----------------------------------------------------------------------*/
 static Set **collectSets(void) {
     SetInitEntry *entry;
     int count = countSets();
@@ -127,18 +162,6 @@ static Set **collectSets(void) {
         sets[i] = getInstanceSetAttribute(entry[i].instanceCode, entry[i].attributeCode);
 
     return sets;
-}
-
-
-/*----------------------------------------------------------------------*/
-static int countStrings(void) {
-    StringInitEntry *entry;
-    int count = 0;
-
-    if (header->stringInitTable != 0)
-        for (entry = pointerTo(header->stringInitTable); *(Aword *)entry != EOF; entry++)
-            count++;
-    return(count);
 }
 
 
@@ -211,7 +234,7 @@ void rememberGameState(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void freeSetAttributes(void) {
+static void freeCurrentSetAttributes(void) {
     SetInitEntry *entry;
 
     if (header->setInitTable == 0) return;
@@ -231,13 +254,15 @@ static void recallSets(Set **sets) {
     if (header->setInitTable == 0) return;
 
     entry = pointerTo(header->setInitTable);
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; i++) {
         setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, (Aptr)sets[i]);
+        sets[i] = NULL; /* Since we reuse the saved set, we need to clear the pointer */
+    }
 }
 
 
 /*----------------------------------------------------------------------*/
-static void freeStringAttributes(void) {
+static void freeCurrentStringAttributes(void) {
     StringInitEntry *entry;
 
     if (header->stringInitTable == 0) return;
@@ -257,8 +282,10 @@ static void recallStrings(char **strings) {
     if (header->stringInitTable == 0) return;
 
     entry = pointerTo(header->stringInitTable);
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; i++) {
         setAttribute(admin[entry[i].instanceCode].attributes, entry[i].attributeCode, (Aptr)strings[i]);
+        strings[i] = NULL;      /* Since we reuse the saved, we need to clear the state */
+    }
 }
 
 
@@ -281,8 +308,8 @@ static void recallInstances(void) {
     memcpy(admin, gameState.admin,
            (header->instanceMax+1)*sizeof(AdminEntry));
 
-    freeSetAttributes();		/* Need to free previous set values */
-    freeStringAttributes();	/* Need to free previous string values */
+    freeCurrentSetAttributes();		/* Need to free previous set values */
+    freeCurrentStringAttributes();	/* Need to free previous string values */
 
     memcpy(attributes, gameState.attributes,
            header->attributesAreaSize*sizeof(Aword));
@@ -295,8 +322,7 @@ static void recallInstances(void) {
 /*----------------------------------------------------------------------*/
 static void recallScores(void) {
     current.score = gameState.score;
-    memcpy(scores, gameState.scores,
-           header->scoreCount*sizeof(Aword));
+    memcpy(scores, gameState.scores, header->scoreCount*sizeof(Aword));
 }
 
 

@@ -8,6 +8,7 @@
 /* IMPORTS: */
 #include "syserr.h"
 #include "memory.h"
+#include "state.h"
 
 
 /* CONSTANTS: */
@@ -45,8 +46,11 @@ StateStack createStateStack(int elementSize) {
 
 /*======================================================================*/
 void deleteStateStack(StateStack stateStack) {
-	while (stateStack->stackPointer > 0)
-		deallocate(stateStack->stack[--stateStack->stackPointer]);
+	while (stateStack->stackPointer > 0) {
+        stateStack->stackPointer--;
+		deallocateGameState(stateStack->stack[stateStack->stackPointer]);
+        deallocate(stateStack->playerCommands[stateStack->stackPointer]);
+    }
 	if (stateStack->stackSize > 0) {
 		deallocate(stateStack->stack);
 		deallocate(stateStack->playerCommands);
