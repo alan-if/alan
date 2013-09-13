@@ -39,10 +39,19 @@ clean:
 ###################################################################
 #
 # Run all tests!
-# No tests except unit tests are available
 # Interpreter is tested through the regressions tests
+ifneq ($(EMACS),)
+JREGROUTPUT = -noansi
+endif
+
 .PHONY: test
 test:
+	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression $(JREGROUTPUT)
+#	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/versions/compiler $(JREGROUTPUT)
+	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/versions/interpreter $(JREGROUTPUT)
+	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/tracing $(JREGROUTPUT)
+	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/saving $(JREGROUTPUT)
+	@java -jar ../bin/jregr.jar -dir ../regression/restore $(JREGROUTPUT)		# Uses sh not the executables
 
 #######################################################################
 # Standard console Arun

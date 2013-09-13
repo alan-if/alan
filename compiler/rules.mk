@@ -18,7 +18,7 @@ LINKFLAGS = $(OS_FLAGS) $(EXTRA_LINKER_FLAGS)
 # Main target to do everything
 #
 .PHONY: all
-all: unit build test
+all: unit build
 
 # Target to just build
 .PHONY: build

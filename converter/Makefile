@@ -49,7 +49,7 @@ VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 # Main targets
 #
 
-all : unit build test Makefile
+all : unit build Makefile
 
 build : a2a3
 
@@ -98,7 +98,7 @@ unittests: $(UNITTESTS_DLLS)
 
 
 test :
-	cd testing ; ../../bin/jregr $(JREGROUTPUT) -bin ..
+	cd testing ; ../../bin/jregr -bin .. $(JREGROUTPUT)
 
 
 .PHONY: checkTarget

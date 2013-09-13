@@ -10,7 +10,7 @@ build: zip
 
 .PHONY: test
 test:
-	cd testing; java -jar ../../bin/jregr.jar
+	cd testing; java -jar ../../bin/jregr.jar $(JREGROUTPUT)
 
 .PHONY: package
 package: zip

@@ -39,14 +39,8 @@ unit:
 .PHONY: test
 test:
 	@echo "***************** Test *****************"
-	@java -jar bin/jregr.jar -bin bin -dir regression $(JREGROUTPUT)
-#	@java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/tracing $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/saving $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -dir regression/restore $(JREGROUTPUT)		# Uses sh not the executables
-	@java -jar bin/jregr.jar -bin bin -dir compiler/testing $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir library/testing $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir converter/testing $(JREGROUTPUT)
+	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	-cd compiler; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	-cd library; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	-cd converter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 
