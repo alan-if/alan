@@ -1,7 +1,9 @@
+# Main common targets: clean build unit test
+# package must be defined in platform dependent makefiles
+
 ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
-
 
 RELEASE = `cat LASTRELEASE`
 BUILD_NUMBER_FILE = $(wildcard BUILD_NUMBER)
@@ -11,8 +13,6 @@ else
   BUILD= -`cat $(BUILD_NUMBER_FILE)`
 endif
 
-# Main common targets: clean build unit test
-# package must be defined in platform dependent makefiles
 .PHONY: clean
 clean:
 	@echo "***************** Clean *****************"

@@ -36,4 +36,5 @@ void args(int argc, char * argv[])
             adventureName = strdup(argv[0]);
             strcat(adventureFileName, ".a3c");
         }
+    free(prgnam);
 }
