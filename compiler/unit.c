@@ -39,7 +39,7 @@ static void add_unittests(TestSuite *suite) {
 }
 
 
-static int compiler_tests(int argc, const char **argv) {
+static int compiler_unit_tests(int argc, const char **argv) {
     int return_code;
     TestSuite *suite = create_test_suite();
     TestReporter *reporter;
@@ -69,5 +69,5 @@ static int compiler_tests(int argc, const char **argv) {
 }
 
 int main(int argc, const char **argv) {
-    return compiler_tests(argc, argv);
+    return compiler_unit_tests(argc, argv);
 }

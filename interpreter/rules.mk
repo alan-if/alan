@@ -117,14 +117,6 @@ $(UNITTESTSOBJDIR)/%.o: %.c
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
-unittests: CFLAGS += $(CGREENINCLUDE)
-unittests: LIBS = $(CGREENLIB)
-unittests: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_MAIN_OBJECTS) add_unittests.include
-	$(LINK) -o $@ $(LDFLAGS) $(UNITTESTS_USING_MAIN_OBJECTS) $(LIBS)
-
-unit_tests: unittests
-	@./unittests $(UNITOUTPUT)
-
 # Build the DLL...
 unittests.dll: LIBS = $(CGREENLIB)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
@@ -135,7 +127,7 @@ cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
-	arch -i386 cgreen-runner $^ --suite Interpreter $(UNITOUTPUT)
+	arch -i386 cgreen-runner $^ --suite "interpreter unit tests"" $(UNITOUTPUT)
 else
 	cgreen-runner ./$^ --suite Interpreter $(UNITOUTPUT)
 endif
