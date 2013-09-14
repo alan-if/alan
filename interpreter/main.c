@@ -723,7 +723,7 @@ static void moveActor(int theActor)
 {
     ScriptEntry *scr;
     StepEntry *step;
-    Aword previousInstance = current.instance;
+    Aint previousInstance = current.instance;
 	
     current.actor = theActor;
     current.instance = theActor;
@@ -731,7 +731,7 @@ static void moveActor(int theActor)
     if (theActor == HERO) {
         /* Ask him! */
         if (setjmp(forfeitLabel) == 0) {
-            parse(globalParameters);
+            parse();
             capitalize = TRUE;
             fail = FALSE;			/* fail only aborts one actor */
         }

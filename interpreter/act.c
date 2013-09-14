@@ -24,6 +24,7 @@ static void executeCommand(int verb, Parameter parameters[])
     int altIndex;
 
     altInfos = findAllAlternatives(verb, parameters);
+
     if (anyCheckFailed(altInfos, EXECUTE_CHECK_BODY_ON_FAIL))
         return;
 
@@ -80,6 +81,7 @@ void action(int verb, Parameter parameters[], Parameter multipleMatches[])
         sprintf(marker, "($%d)", multiplePosition+1); /* Prepare a printout with $1/2/3 */
         for (i = 0; multipleMatches[i].instance != EOF; i++) {
             parameters[multiplePosition] = multipleMatches[i];
+            setGlobalParameters(parameters);
             output(marker);
             // TODO: if execution for one parameter aborts we should return here, not to top level
             if (setjmp(returnLabel) == NO_JUMP_RETURN)
@@ -89,6 +91,9 @@ void action(int verb, Parameter parameters[], Parameter multipleMatches[])
         }
         memcpy(returnLabel, savedReturnLabel, sizeof(returnLabel));
         parameters[multiplePosition].instance = 0;
-    } else
+    } else {
+        setGlobalParameters(parameters);
         executeCommand(verb, parameters);
+    }
+
 }

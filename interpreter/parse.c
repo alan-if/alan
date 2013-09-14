@@ -1398,7 +1398,8 @@ static void parseInstanceCommand(Parameter parameters[], Parameter multipleParam
 
 
 /*======================================================================*/
-void parse(Parameter parameters[]) {
+void parse(void) {
+    Parameter *parameters = newParameterArray();
     static Parameter *multipleParameters = NULL; /* Need to survive longjmp */
     multipleParameters = ensureParameterArrayAllocated(multipleParameters);
     clearParameterArray(parameters);
