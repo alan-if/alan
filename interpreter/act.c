@@ -81,7 +81,7 @@ void action(int verb, Parameter parameters[], Parameter multipleMatches[])
         sprintf(marker, "($%d)", multiplePosition+1); /* Prepare a printout with $1/2/3 */
         for (i = 0; multipleMatches[i].instance != EOF; i++) {
             parameters[multiplePosition] = multipleMatches[i];
-            setGlobalParameters(parameters);
+            setGlobalParameters(parameters); /* Need to do this here since the marker use them */
             output(marker);
             // TODO: if execution for one parameter aborts we should return here, not to top level
             if (setjmp(returnLabel) == NO_JUMP_RETURN)

@@ -1399,10 +1399,11 @@ static void parseInstanceCommand(Parameter parameters[], Parameter multipleParam
 
 /*======================================================================*/
 void parse(void) {
-    Parameter *parameters = newParameterArray();
-    static Parameter *multipleParameters = NULL; /* Need to survive longjmp */
+    /* longjmp's ahead so these need to survive to not leak memory */
+    static Parameter *parameters = NULL;
+    static Parameter *multipleParameters = NULL;
+    parameters = ensureParameterArrayAllocated(parameters);
     multipleParameters = ensureParameterArrayAllocated(multipleParameters);
-    clearParameterArray(parameters);
 
     if (endOfWords(currentWordIndex)) {
         currentWordIndex = 0;
