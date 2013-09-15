@@ -362,12 +362,12 @@ Ensure(Exe, canGenerateRandomInOrderIfRegressionTestOption) {
     regressionTestOption = TRUE;
 
     /* Should generate next value within interval, if exceeded, restart */
-    assert_that(randomInteger(0, 1), is_equal_to(0));
-    assert_that(randomInteger(0, 1), is_equal_to(1));
-    assert_that(randomInteger(5, 6), is_equal_to(5));
-    assert_that(randomInteger(5, 6), is_equal_to(6));
-    assert_that(randomInteger(5, 6), is_equal_to(5));
-    assert_that(randomInteger(1, 1), is_equal_to(1));
-    assert_that(randomInteger(5, 8), is_equal_to(6));
-    assert_that(randomInteger(5, 8), is_equal_to(7));
+    assert_that(randomInteger(0, 1), is_equal_to(0)); /* First value in range */
+    assert_that(randomInteger(0, 1), is_equal_to(1)); /* Second value in range */
+    assert_that(randomInteger(5, 6), is_equal_to(5)); /* First value in range */
+    assert_that(randomInteger(5, 6), is_equal_to(6)); /* Second value in range */
+    assert_that(randomInteger(5, 6), is_equal_to(5)); /* First value in range */
+    assert_that(randomInteger(1, 1), is_equal_to(1)); /* First value in range */
+    assert_that(randomInteger(5, 8), is_equal_to(6)); /* Second value in range */
+    assert_that(randomInteger(5, 8), is_equal_to(7)); /* Third value in range */
 }
