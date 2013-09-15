@@ -124,7 +124,7 @@ void compressParameterArray(Parameter theArray[])
 {
     int i, j;
 
-    for (i = 0, j = 0; theArray[j].instance != EOF; j++)
+    for (i = 0, j = 0; !isEndOfArray(&theArray[j]); j++)
 		if (theArray[j].instance != 0)
 			theArray[i++] = theArray[j];
     setEndOfArray(&theArray[i]);

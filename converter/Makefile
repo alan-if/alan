@@ -98,7 +98,7 @@ unittests: $(UNITTESTS_DLLS)
 
 
 test :
-	cd testing ; ../../bin/jregr -bin .. $(JREGROUTPUT)
+	@cd testing ; ../../bin/jregr -bin .. $(JREGROUTPUT)
 
 
 .PHONY: checkTarget

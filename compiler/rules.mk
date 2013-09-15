@@ -33,8 +33,8 @@ JREGROUTPUT = -noansi
 endif
 .PHONY: test
 test:
-	../bin/jregr -bin ../bin -dir testing $(JREGROUTPUT)
-	../bin/jregr -bin ../bin -dir testing/positions $(JREGROUTPUT)
+	@../bin/jregr -bin ../bin -dir testing $(JREGROUTPUT)
+	@../bin/jregr -bin ../bin -dir testing/positions $(JREGROUTPUT)
 
 # Clean
 .PHONY: clean

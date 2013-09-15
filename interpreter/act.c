@@ -14,7 +14,7 @@
 #include "output.h"
 #include "msg.h"
 #include "exe.h"
-
+#include "lists.h"
 
 
 /*----------------------------------------------------------------------*/
@@ -79,8 +79,8 @@ void action(int verb, Parameter parameters[], Parameter multipleMatches[])
         jmp_buf savedReturnLabel;
         memcpy(savedReturnLabel, returnLabel, sizeof(returnLabel));
         sprintf(marker, "($%d)", multiplePosition+1); /* Prepare a printout with $1/2/3 */
-        for (i = 0; multipleMatches[i].instance != EOF; i++) {
-            parameters[multiplePosition] = multipleMatches[i];
+        for (i = 0; !isEndOfArray(&multipleMatches[i]); i++) {
+            copyParameter(&parameters[multiplePosition], &multipleMatches[i]);
             setGlobalParameters(parameters); /* Need to do this here since the marker use them */
             output(marker);
             // TODO: if execution for one parameter aborts we should return here, not to top level

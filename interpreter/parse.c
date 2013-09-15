@@ -1010,11 +1010,11 @@ static void handleFailedParse(ElementEntry *elms) {
 
 /*----------------------------------------------------------------------*/
 static void convertMultipleCandidatesToMultipleParameters(ParameterPosition parameterPositions[], Parameter multipleParameters[]) {
-    int parameterCount;
-    for (parameterCount=0; !parameterPositions[parameterCount].endOfList; parameterCount++)
-        if (parameterPositions[parameterCount].explicitMultiple) {
-            compressParameterArray(parameterPositions[parameterCount].parameters);
-            copyParameterArray(multipleParameters, parameterPositions[parameterCount].parameters);
+    int parameterIndex;
+    for (parameterIndex=0; !parameterPositions[parameterIndex].endOfList; parameterIndex++)
+        if (parameterPositions[parameterIndex].explicitMultiple) {
+            compressParameterArray(parameterPositions[parameterIndex].parameters);
+            copyParameterArray(multipleParameters, parameterPositions[parameterIndex].parameters);
         }
 }
 
@@ -1437,4 +1437,9 @@ void parse(void) {
         copyParameterArray(previousMultipleParameters, multipleParameters);
     else
         clearParameterArray(previousMultipleParameters);
+
+    freeParameterArray(parameters);
+    parameters = NULL;
+    freeParameterArray(multipleParameters);
+    multipleParameters = NULL;
 }
