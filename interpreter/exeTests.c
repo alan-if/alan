@@ -356,3 +356,18 @@ Ensure(Exe, canGetContainerSize) {
   free(instances);
   free(header);
 }
+
+/*----------------------------------------------------------------------*/
+Ensure(Exe, canGenerateRandomInOrderIfRegressionTestOption) {
+    regressionTestOption = TRUE;
+
+    /* Should generate next value within interval, if exceeded, restart */
+    assert_that(randomInteger(0, 1), is_equal_to(0));
+    assert_that(randomInteger(0, 1), is_equal_to(1));
+    assert_that(randomInteger(5, 6), is_equal_to(5));
+    assert_that(randomInteger(5, 6), is_equal_to(6));
+    assert_that(randomInteger(5, 6), is_equal_to(5));
+    assert_that(randomInteger(1, 1), is_equal_to(1));
+    assert_that(randomInteger(5, 8), is_equal_to(6));
+    assert_that(randomInteger(5, 8), is_equal_to(7));
+}

@@ -633,16 +633,29 @@ void stop(int act)
 
 
 
-
+static int randomValue = 0;
 /*----------------------------------------------------------------------*/
 int randomInteger(int from, int to)
 {
-    if (to == from)
-        return to;
-    else if (to > from)
-        return (rand()/10)%(to-from+1)+from;
-    else
-        return (rand()/10)%(from-to+1)+to;
+    if (regressionTestOption) {
+        int ret = from + randomValue;
+        /* Generate them in sequence */
+        if (ret > to) {
+            ret = from;
+            randomValue = 1;
+        } else if (ret == to)
+            randomValue = 0;
+        else
+            randomValue++;
+        return ret;
+    } else {
+        if (to == from)
+            return to;
+        else if (to > from)
+            return (rand()/10)%(to-from+1)+from;
+        else
+            return (rand()/10)%(from-to+1)+to;
+    }
 }
 
 
