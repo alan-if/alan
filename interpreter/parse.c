@@ -853,11 +853,10 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
     int i;
 
     localParameters = ensureParameterArrayAllocated(localParameters);
+    clearParameterArray(localParameters);
 
     for (i=0; !parameterPositions[i].endOfList; i++)
-        copyParameter(&localParameters[i], &parameterPositions[i].parameters[0]);
-    // TODO: This is stupid, why should the caller need to handle end of array? Introduce addParameter()
-    setEndOfArray(&localParameters[i]);
+        addParameterToParameterArray(localParameters, &parameterPositions[i].parameters[0]);
 
     for (restriction = (RestrictionEntry *) pointerTo(elms->next); !isEndOfArray(restriction); restriction++) {
         ParameterPosition *parameterPosition = &parameterPositions[restriction->parameterNumber-1];
@@ -865,7 +864,7 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
             /* This was a multiple parameter position, so check all multipleCandidates */
             int i;
             for (i = 0; !isEndOfArray(&parameterPosition->parameters[i]); i++) {
-                localParameters[restriction->parameterNumber-1] = parameterPosition->parameters[i];
+                copyParameter(&localParameters[restriction->parameterNumber-1], &parameterPosition->parameters[i]);
                 if (!restrictionCheck(restriction, parameterPosition->parameters[i].instance)) {
                     /* Multiple could be both an explicit list of instance references and an expansion of ALL */
                     if (!parameterPosition->all) {
@@ -890,6 +889,8 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
         }
         parameterPositions[restriction->parameterNumber - 1].checked = TRUE;
     }
+    freeParameterArray(localParameters);
+    localParameters = NULL;
 }
 
 

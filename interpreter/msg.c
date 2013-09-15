@@ -84,8 +84,7 @@ void printMessageUsing2InstanceParameters(MsgKind message, int instance1, int in
 /*======================================================================*/
 void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
 {
-    static Parameter *savedParameters = NULL;
-    savedParameters = ensureParameterArrayAllocated(savedParameters);
+    Parameter *savedParameters = newParameterArray();
 
     copyParameterArray(savedParameters, globalParameters);
     copyParameterArray(globalParameters, messageParameters);
@@ -93,4 +92,5 @@ void printMessageWithParameters(MsgKind msg, Parameter *messageParameters)
     interpret(msgs[msg].stms);
 
     copyParameterArray(globalParameters, savedParameters);
+    freeParameterArray(savedParameters);
 }
