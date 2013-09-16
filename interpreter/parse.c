@@ -229,23 +229,19 @@ static void errorNoSuch(Parameter parameter) {
 
 /*----------------------------------------------------------------------*/
 static void buildAllHere(Parameter list[]) {
-    int o, i = 0;
+    int instance;
     bool found = FALSE;
     int word = list[0].firstWord;
 
-    for (o = 1; o <= header->instanceMax; o++)
-        if (isHere(o, FALSE)) {
+    for (instance = 1; instance <= header->instanceMax; instance++)
+        if (isHere(instance, FALSE)) {
+            Parameter *parameter = newParameter(instance);
+            addParameterToParameterArray(list, parameter);
+            deallocate(parameter);
             found = TRUE;
-            list[i].instance = o;
-            list[i].candidates = ensureParameterArrayAllocated(list[i].candidates);
-            list[i].candidates[0].instance = o;
-            setEndOfArray(&list[i].candidates[1]);
-            i++;
         }
     if (!found)
         errorWhat(word);
-    else
-        setEndOfArray(&list[i]);
 }
 
 

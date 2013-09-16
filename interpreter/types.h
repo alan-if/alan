@@ -38,6 +38,10 @@
 #define MAXPARAMS (header->maxParameters)
 #define MAXINSTANCE (header->instanceMax)
 
+/* For transitivity in HERE, IN etc. */
+#define DIRECTLY TRUE
+#define TRANSITIVE FALSE
+
 #define pointerTo(x) ((void *)&memory[x])
 #define addressOf(x) ((((long)x)-((long)memory))/sizeof(Aword))
 #define stringAt(x) ((char *)pointerTo(x))
