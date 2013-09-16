@@ -191,31 +191,31 @@ static void verifyInstance(int instance, char *action) {
 
 
 /*======================================================================*/
-bool isHere(int id, bool directly)
+bool isHere(int id, transitivity trans)
 {
     verifyInstance(id, "HERE");
 
-    if (directly)
+    if (trans == DIRECTLY)
         return(admin[id].location == current.location);
     else
-        return at(id, current.location, directly);
+        return isAt(id, current.location, trans);
 }
 
 
 /*======================================================================*/
-bool isNearby(int instance, bool directly)
+bool isNearby(int instance, transitivity trans)
 {
     verifyInstance(instance, "NEARBY");
 
     if (isALocation(instance))
         return exitto(current.location, instance);
     else
-        return exitto(current.location, where(instance, directly));
+        return exitto(current.location, where(instance, trans));
 }
 
 
 /*======================================================================*/
-bool isNear(int instance, int other, bool directly)
+bool isNear(int instance, int other, transitivity trans)
 {
     Aint l1, l2;
 
@@ -224,25 +224,25 @@ bool isNear(int instance, int other, bool directly)
     if (isALocation(instance))
         l1 = instance;
     else
-        l1 = where(instance, directly);
+        l1 = where(instance, trans);
     if (isALocation(other))
         l2 = other;
     else
-        l2 = where(other, directly);
+        l2 = where(other, trans);
     return exitto(l2, l1);
 }
 
 
 /*======================================================================*/
 /* Look in a container to see if the instance is in it. */
-bool in(int instance, int container, bool directly)
+bool isIn(int instance, int container, transitivity trans)
 {
     int loc;
 
     if (!isAContainer(container))
         syserr("IN in a non-container.");
 
-    if (directly)
+    if (trans == DIRECTLY)
         return admin[instance].location == container;
     else {
         loc = admin[instance].location;
@@ -259,11 +259,11 @@ bool in(int instance, int container, bool directly)
 
 /*======================================================================*/
 /* Look see if an instance is AT another. */
-bool at(int instance, int other, bool directly)
+bool isAt(int instance, int other, transitivity trans)
 {
     if (instance == 0 || other == 0) return FALSE;
 
-    if (directly) {
+    if (trans == DIRECTLY) {
         if (isALocation(other))
             return admin[instance].location == other;
         else
@@ -275,7 +275,7 @@ bool at(int instance, int other, bool directly)
         else if (locationOf(instance) == other)
             return TRUE;
         else if (locationOf(other) != 0)
-            return at(instance, locationOf(other), FALSE);
+            return isAt(instance, locationOf(other), FALSE);
         else
             return FALSE;
     }
@@ -313,13 +313,13 @@ int locationOf(int instance)
 
 /*======================================================================*/
 /* Return the current position of an instance, directly or not */
-int where(int instance, bool directly)
+int where(int instance, transitivity trans)
 {
     verifyInstance(instance, "WHERE");
 
     if (isALocation(instance))
         return 0;
-    else if (directly)
+    else if (trans == DIRECTLY)
         return admin[instance].location;
     else
         return locationOf(instance);
@@ -691,7 +691,7 @@ void describeInstances(void)
                 printMessageWithInstanceParameter(M_SEE_COMMA, lastInstanceFound);
             admin[i].alreadyDescribed = TRUE;
 
-            if (instances[i].container && containerSize(i, TRUE) > 0 && !getInstanceAttribute(i, OPAQUEATTRIBUTE)) {
+            if (instances[i].container && containerSize(i, DIRECTLY) > 0 && !getInstanceAttribute(i, OPAQUEATTRIBUTE)) {
                 if (found > 0)
                     printMessageWithInstanceParameter(M_SEE_AND, i);
                 printMessage(M_SEE_END);
@@ -883,13 +883,13 @@ static void locateActor(Aint movingActor, Aint whr)
         else {
             if (anyOutput)
                 para();
-            say(where(HERO, TRUE));
+            say(where(HERO, DIRECTLY));
             printMessage(M_AGAIN);
             newline();
             describeInstances();
         }
-        admin[where(HERO, TRUE)].visitsCount++;
-        admin[where(HERO, TRUE)].visitsCount %= (current.visits+1);
+        admin[where(HERO, DIRECTLY)].visitsCount++;
+        admin[where(HERO, DIRECTLY)].visitsCount %= (current.visits+1);
     } else
         admin[whr].visitsCount = 0;
 

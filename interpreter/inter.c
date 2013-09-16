@@ -861,7 +861,7 @@ void interpret(Aaddr adr)
                 Aint instance = pop(stack);
                 if (traceInstructionOption)
                     printf("AT \t%7ld, %7ld, %s", (long)instance, (long)other, directlyFlag(directly));
-                push(stack, at(instance, other, directly));
+                push(stack, isAt(instance, other, directly));
                 tracebooleanTopValue();
                 break;
             }
@@ -871,7 +871,7 @@ void interpret(Aaddr adr)
                 Aint obj = pop(stack);
                 if (traceInstructionOption)
                     printf("IN \t%7ld, %7ld, %s", (long)obj, (long)cnt, directlyFlag(directly));
-                push(stack, in(obj, cnt, directly));
+                push(stack, isIn(obj, cnt, directly));
                 tracebooleanTopValue();
                 break;
             }

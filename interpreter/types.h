@@ -41,6 +41,7 @@
 /* For transitivity in HERE, IN etc. */
 #define DIRECTLY TRUE
 #define TRANSITIVE FALSE
+typedef enum {directly = TRUE, transitive = FALSE} transitivity;
 
 #define pointerTo(x) ((void *)&memory[x])
 #define addressOf(x) ((((long)x)-((long)memory))/sizeof(Aword))

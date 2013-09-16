@@ -222,12 +222,12 @@ Ensure(Exe, syserrOnWhereForIllegalId) {
   header->instanceMax = 1;
 
   if (triedAndNoSyserrCaught()) {
-    where(0, TRUE);
+    where(0, DIRECTLY);
     failAssertion();
   }
 
   if (triedAndNoSyserrCaught()) {
-    where(2, TRUE);
+    where(2, DIRECTLY);
     failAssertion();
   }
 }
@@ -295,23 +295,23 @@ Ensure(Exe, callingWhereReturnsExpectedValues) {
 
   instances[FIRST_INSTANCE].parent = LOCATION_CLASS;	/* A location */
   admin[FIRST_INSTANCE].location = THIRD_INSTANCE;
-  assert_true(where(FIRST_INSTANCE, TRUE) == 0);	/* Locations are always nowhere */
-  assert_true(where(FIRST_INSTANCE, FALSE) == 0);
+  assert_true(where(FIRST_INSTANCE, DIRECTLY) == 0);	/* Locations are always nowhere */
+  assert_true(where(FIRST_INSTANCE, TRANSITIVE) == 0);
 
   instances[SECOND_INSTANCE].parent = 0;	/* Not a location */
   admin[SECOND_INSTANCE].location = FIRST_INSTANCE;	/* At FIRST_INSTANCE */
-  assert_true(where(SECOND_INSTANCE, TRUE) == FIRST_INSTANCE);
-  assert_true(where(SECOND_INSTANCE, FALSE) == FIRST_INSTANCE);
+  assert_true(where(SECOND_INSTANCE, DIRECTLY) == FIRST_INSTANCE);
+  assert_true(where(SECOND_INSTANCE, TRANSITIVE) == FIRST_INSTANCE);
 
   instances[THIRD_INSTANCE].parent = 0;	/* Not a location */
   admin[THIRD_INSTANCE].location = SECOND_INSTANCE;	/* In SECOND_INSTANCE which is at FIRST_INSTANCE */
-  assert_true(where(THIRD_INSTANCE, TRUE) == SECOND_INSTANCE);
-  assert_true(where(THIRD_INSTANCE, FALSE) == FIRST_INSTANCE);
+  assert_true(where(THIRD_INSTANCE, DIRECTLY) == SECOND_INSTANCE);
+  assert_true(where(THIRD_INSTANCE, TRANSITIVE) == FIRST_INSTANCE);
 
   instances[FOURTH_INSTANCE].parent = 0;	/* Not a location */
   admin[FOURTH_INSTANCE].location = THIRD_INSTANCE; /* In THIRD which is in SECOND which is at FIRST */
-  assert_true(where(FOURTH_INSTANCE, TRUE) == THIRD_INSTANCE);
-  assert_true(where(FOURTH_INSTANCE, FALSE) == FIRST_INSTANCE);
+  assert_true(where(FOURTH_INSTANCE, DIRECTLY) == THIRD_INSTANCE);
+  assert_true(where(FOURTH_INSTANCE, TRANSITIVE) == FIRST_INSTANCE);
 
   free(admin);
   free(instances);
@@ -349,8 +349,8 @@ Ensure(Exe, canGetContainerSize) {
   admin[2].location = 1;
   admin[3].location = 2;
 
-  assert_true(containerSize(1, TRUE) == 1);
-  assert_true(containerSize(1, FALSE) == 2);
+  assert_true(containerSize(1, DIRECTLY) == 1);
+  assert_true(containerSize(1, TRANSITIVE) == 2);
 
   free(admin);
   free(instances);

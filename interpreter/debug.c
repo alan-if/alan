@@ -80,7 +80,7 @@ static void showContents(int cnt)
 
     output("$iContains:");
     for (i = 1; i <= header->instanceMax; i++) {
-        if (in(i, cnt, TRUE)) { /* Yes, it's directly in this container */
+        if (isIn(i, cnt, TRUE)) { /* Yes, it's directly in this container */
             if (!found)
                 found = TRUE;
             output("$i$t");
@@ -620,7 +620,7 @@ void saveInfo(void)
     saved_traceInstruction = traceInstructionOption; traceInstructionOption = FALSE;
     saved_tracePush = tracePushOption; tracePushOption = FALSE;
     saved_traceStack = traceStackOption; traceStackOption = FALSE;
-    loc = current.location; current.location = where(HERO, TRUE);
+    loc = current.location; current.location = where(HERO, DIRECTLY);
 }
 
 
