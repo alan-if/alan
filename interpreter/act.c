@@ -20,8 +20,12 @@
 /*----------------------------------------------------------------------*/
 static void executeCommand(int verb, Parameter parameters[])
 {
-    AltInfo *altInfos;
+    static AltInfo *altInfos = NULL; /* Need to survive lots of different exits...*/
     int altIndex;
+
+    /* Did we leave anything behind last time... */
+    if (altInfos != NULL)
+        free(altInfos);
 
     altInfos = findAllAlternatives(verb, parameters);
 
