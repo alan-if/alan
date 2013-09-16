@@ -23,7 +23,7 @@ GLKLIBROOT = /cygdrive/c/Users/Thomas/Documents/Utveckling/Alan
 
 ###############################################################
 .PHONY: all
-all : unit build test
+all : unit build
 
 ###############################################################
 .PHONY: build
