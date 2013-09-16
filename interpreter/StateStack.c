@@ -17,8 +17,8 @@
 
 /* PRIVATE TYPES: */
 typedef struct StateStackStructure {
-	void **stack;
-	char **playerCommands;
+	void **states;
+	char **commands;
 	int stackSize;
 	int stackPointer;	/* Points above used stack, 0 initially */
 	int elementSize;	/* Size of elements in the stack */
@@ -35,8 +35,8 @@ static void *reallocate(void *from, int newSize)
 }
 
 /*======================================================================*/
-StateStack createStateStack(int elementSize) {
-    StateStack stack = NEW(StateStackStructure);
+StateStackP createStateStack(int elementSize) {
+    StateStackP stack = NEW(StateStackStructure);
     stack->stackSize = 0;
     stack->stackPointer = 0;
     stack->elementSize = elementSize;
@@ -45,61 +45,63 @@ StateStack createStateStack(int elementSize) {
 
 
 /*======================================================================*/
-void deleteStateStack(StateStack stateStack) {
-	while (stateStack->stackPointer > 0) {
-        stateStack->stackPointer--;
-		deallocateGameState(stateStack->stack[stateStack->stackPointer]);
-        deallocate(stateStack->playerCommands[stateStack->stackPointer]);
+void deleteStateStack(StateStackP stateStack) {
+    if (stateStack != NULL) {
+        while (stateStack->stackPointer > 0) {
+            stateStack->stackPointer--;
+            deallocateGameState(stateStack->states[stateStack->stackPointer]);
+            deallocate(stateStack->commands[stateStack->stackPointer]);
+        }
+        if (stateStack->stackSize > 0) {
+            deallocate(stateStack->states);
+            deallocate(stateStack->commands);
+        }
+        deallocate(stateStack);
     }
-	if (stateStack->stackSize > 0) {
-		deallocate(stateStack->stack);
-		deallocate(stateStack->playerCommands);
-	}
-	deallocate(stateStack);
 }
 
 
 /*======================================================================*/
-bool stateStackIsEmpty(StateStack stateStack) {
+bool stateStackIsEmpty(StateStackP stateStack) {
 	return stateStack->stackPointer == 0;
 }
 
 
 /*----------------------------------------------------------------------*/
-static void ensureSpaceForGameState(StateStack stack)
+static void ensureSpaceForGameState(StateStackP stack)
 {
     if (stack->stackPointer == stack->stackSize) {
-    	stack->stack = reallocate(stack->stack, stack->stackSize+EXTENT);
-    	stack->playerCommands = reallocate(stack->playerCommands, stack->stackSize+EXTENT);
+    	stack->states = reallocate(stack->states, stack->stackSize+EXTENT);
+    	stack->commands = reallocate(stack->commands, stack->stackSize+EXTENT);
     	stack->stackSize += EXTENT;
     }
 }
 
 
 /*======================================================================*/
-void pushGameState(StateStack stateStack, void *gameState) {
+void pushGameState(StateStackP stateStack, void *gameState) {
 	void *element = allocate(stateStack->elementSize);
 	memcpy(element, gameState, stateStack->elementSize);
     ensureSpaceForGameState(stateStack);
-    stateStack->playerCommands[stateStack->stackPointer] = NULL;
-    stateStack->stack[stateStack->stackPointer++] = element;
+    stateStack->commands[stateStack->stackPointer] = NULL;
+    stateStack->states[stateStack->stackPointer++] = element;
 }
 
 
 /*======================================================================*/
-void attachPlayerCommandsToLastState(StateStack stateStack, char *playerCommands) {
-	stateStack->playerCommands[stateStack->stackPointer-1] = strdup(playerCommands);
+void attachPlayerCommandsToLastState(StateStackP stateStack, char *playerCommands) {
+	stateStack->commands[stateStack->stackPointer-1] = strdup(playerCommands);
 }
 
 
 /*======================================================================*/
-void popGameState(StateStack stateStack, void *gameState, char** playerCommand) {
+void popGameState(StateStackP stateStack, void *gameState, char** playerCommand) {
     if (stateStack->stackPointer == 0)
         syserr("Popping GameState from empty stack");
     else {
         stateStack->stackPointer--;
-        memcpy(gameState, stateStack->stack[stateStack->stackPointer], stateStack->elementSize);
-        deallocate(stateStack->stack[stateStack->stackPointer]);
-        *playerCommand = stateStack->playerCommands[stateStack->stackPointer];
+        memcpy(gameState, stateStack->states[stateStack->stackPointer], stateStack->elementSize);
+        deallocate(stateStack->states[stateStack->stackPointer]);
+        *playerCommand = stateStack->commands[stateStack->stackPointer];
     }
 }

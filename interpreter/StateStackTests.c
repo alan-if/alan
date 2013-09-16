@@ -32,7 +32,7 @@ struct game_state {
 
 
 
-static StateStack stateStack;
+static StateStackP stateStack;
 static GameState gameState;
 
 Describe(StateStack);
@@ -95,7 +95,7 @@ Ensure(StateStack, canRememberPlayerCommands) {
 
 Ensure(StateStack, pushClearsPlayerCommand) {
 	pushGameState(stateStack, &gameState);
-	assert_equal(NULL, stateStack->playerCommands[stateStack->stackPointer-1]);
+	assert_equal(NULL, stateStack->commands[stateStack->stackPointer-1]);
 }
 
 static bool syserrCalled;

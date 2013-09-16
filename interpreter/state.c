@@ -48,7 +48,7 @@ struct game_state {
 
 /* PRIVATE DATA */
 static GameState gameState;
-static StateStack stateStack = NULL;
+static StateStackP stateStack = NULL;
 
 static char *playerCommand;
 
