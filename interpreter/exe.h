@@ -61,7 +61,7 @@ extern void schedule(Aword evt, Aword whr, Aword aft);
 extern void cancelEvent(Aword evt);
 
 extern int randomInteger(int from, int to);
-extern bool btw(int val, int from, int to);
+extern bool between(int val, int from, int to);
 extern bool contains(Aptr string, Aptr substring);
 extern bool streq(char a[], char b[]);
 

@@ -1115,7 +1115,7 @@ void interpret(Aaddr adr)
                 Aint val = pop(stack);
                 if (traceInstructionOption)
                     printf("BETWEEN \t%7ld, %7ld, %7ld", (long)val, (long)low, (long)high);
-                push(stack, btw(val, low, high));
+                push(stack, between(val, low, high));
                 traceIntegerTopValue();
                 break;
             }

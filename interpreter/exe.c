@@ -661,7 +661,7 @@ int randomInteger(int from, int to)
 
 
 /*----------------------------------------------------------------------*/
-bool btw(int val, int low, int high)
+bool between(int val, int low, int high)
 {
     if (high > low)
         return low <= val && val <= high;
@@ -681,7 +681,7 @@ bool contains(Aptr string, Aptr substring)
 
     found = (strstr((char *)string, (char *)substring) != 0);
 
-    return(found);
+    return found;
 }
 
 
@@ -695,7 +695,7 @@ bool streq(char a[], char b[])
 
     eq = (strcmp(a, b) == 0);
 
-    return(eq);
+    return eq;
 }
 
 
