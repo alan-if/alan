@@ -50,6 +50,7 @@ void deleteStateStack(StateStackP stateStack) {
         while (stateStack->stackPointer > 0) {
             stateStack->stackPointer--;
             deallocateGameState(stateStack->states[stateStack->stackPointer]);
+            deallocate(stateStack->states[stateStack->stackPointer]);
             deallocate(stateStack->commands[stateStack->stackPointer]);
         }
         if (stateStack->stackSize > 0) {
