@@ -47,7 +47,7 @@ struct game_state {
 };
 
 /* PRIVATE DATA */
-static GameState gameState;
+static GameState gameState;     /* TODO: Make pointer, then we don't have to copy to stack, we can just use the pointer */
 static StateStackP stateStack = NULL;
 
 static char *playerCommand;

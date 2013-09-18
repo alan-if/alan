@@ -182,7 +182,8 @@ void copyParameter(Parameter *to, Parameter *from) {
         else
             to->candidates = toCandidates;
         copyParameterArray(to->candidates, from->candidates);
-    }
+    } else if (toCandidates != NULL)
+        freeParameterArray(toCandidates);
 }
 
 

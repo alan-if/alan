@@ -14,11 +14,15 @@
 #include "options.h"
 
 /* ABSTRACT TYPE */
+
+/* TODO: Maybe convert this to interpreter stack and keep this as a
+   generic auto-growing stack... */
+
 typedef struct StackStructure {
-  Aptr *stack;					/* TODO: Shouldn't this be Aptr? */
-  int stackSize;
-  int stackp;
-  int framePointer;
+    Aptr *stack; /* Array that can take largest type we need, which is 64-bit pointers */
+    int stackSize;
+    int stackp;
+    int framePointer;
 } StackStructure;
 
 
@@ -176,5 +180,3 @@ void endFrame(Stack theStack)
   theStack->stackp = theStack->framePointer;
   theStack->framePointer = pop(theStack);
 }
-
-
