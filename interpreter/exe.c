@@ -526,7 +526,7 @@ int getContainerMember(int container, int index, bool directly) {
     Aint count = 0;
 
     for (i = 1; i <= header->instanceMax; i++) {
-        if (isIn(i, container, directly)) {
+        if (isIn(i, container, DIRECTLY)) {
             count++;
             if (count == index)
                 return i;

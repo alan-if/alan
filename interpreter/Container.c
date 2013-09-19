@@ -95,12 +95,12 @@ bool passesContainerLimits(Aint theContainer, Aint theAddedInstance) {
 
 
 /*======================================================================*/
-int containerSize(int container, bool directly) {
+int containerSize(int container, transitivity trans) {
     Aint i;
     Aint count = 0;
 
     for (i = 1; i <= header->instanceMax; i++) {
-        if (isIn(i, container, directly))
+        if (isIn(i, container, trans))
             count++;
     }
     return(count);
