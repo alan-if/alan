@@ -3,9 +3,7 @@
 # then run a command in current directory
 if [ $# -lt 2 ] ; then
   echo "Usage: `basename $0` <file> <command>"
-  echo "where"
-  echo "    <file> : the file to monitor"
-  echo "    <command> : the command(s) to run when <file> changes"
+  echo "Run <command>, then wait until <file> changes and run it again"
   exit
 fi
 file="$1"
@@ -13,12 +11,12 @@ shift
 commands="$*"
 d0=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
 while true; do 
+  echo -ne '\033c'
+  $commands
+  d0=$d1
   d1=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
   while [ $d0 -eq $d1 ] ; do
     sleep 5
 	d1=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
   done
-  echo -ne '\033c'
-  $commands
-  d0=$d1
 done
