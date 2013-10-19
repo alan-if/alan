@@ -93,7 +93,7 @@ static void deallocateSets(GameState *gameState) {
     int i;
 
     for (i = 0; i < count; i++)
-        deallocate(gameState->sets[i]);
+        freeSet(gameState->sets[i]);
     deallocate(gameState->sets);
 }
 
