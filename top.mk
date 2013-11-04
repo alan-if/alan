@@ -39,8 +39,8 @@ unit:
 .PHONY: test
 test:
 	@echo "***************** Test *****************"
-	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd compiler; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd library; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd converter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 
