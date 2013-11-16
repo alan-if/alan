@@ -16,8 +16,8 @@ endif
 .PHONY: clean
 clean:
 	@echo "***************** Clean *****************"
-	-cd interpreter; $(MAKE) clean
 	-cd compiler; $(MAKE) clean
+	-cd interpreter; $(MAKE) clean
 	-cd converter; $(MAKE) clean
 	-cd library; $(MAKE) clean
 

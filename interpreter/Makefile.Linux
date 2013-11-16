@@ -10,7 +10,7 @@ PROGNAME=-DPROGNAME=\"$(TARGET)\"
 
 ARUNOPTS = $(PROGNAME) $(GLK)
 
-OSFLAGS = 
+OSFLAGS = -m32
 
 COMPILER = gcc
 COMPILEFLAGS = -g -Wall -funsigned-char $(ALLOC)
@@ -37,7 +37,6 @@ default all: unit arun
 
 ##################################################################
 .PHONY: release
-release: OS_FLAGS = -arch i386 #-arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
 release: DEPENDENCY = 
 release: all
@@ -53,7 +52,7 @@ release: all
 # will be available as $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3
 GARGOYLE_DIR=../../garglk-current-alan3
 gararun:
-		cd $(GARGOYLE_DIR); jam alan3
+	cd $(GARGOYLE_DIR); jam alan3
 
 
 # Extra targets on Darwin (maybe later...)

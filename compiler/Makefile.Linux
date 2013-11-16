@@ -6,10 +6,10 @@
 COMPILER = gcc
 EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char
 
+OSFLAGS = -m32
 LINKER = gcc
 EXTRA_LINKER_FLAGS = 
 
-release: OS_FLAGS =
 release: EXTRA_COMPILER_FLAGS = -O4
 
 # Cgreen unit testing settings
