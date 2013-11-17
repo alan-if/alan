@@ -158,8 +158,6 @@ $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_test
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 # Then run all _tests.dll's with the cgreen-runner
-isolated_unittests: CC = gcc
-isolated_unittests: LINK = gcc
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)

@@ -15,5 +15,5 @@ Product alan = {
   {"3.0beta3", 3, 0, 3, 1379348618, "beta"}
 };
 
-static char *alanId =
+char *alanId =
   "@(#)RELEASE ";

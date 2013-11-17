@@ -15,5 +15,5 @@ Product a2a3 = {
   {"0.0(1)", 0, 0, 1, 1063663120, ""}
 };
 
-static char *a2a3Id =
+char *a2a3Id =
   "@(#)RELEASE a2tov3 0.0(1) 2003-09-15 23:58:40 thoni/cygwin32";

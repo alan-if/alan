@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef size_t Aptr;		 /* Type for an ACODE memory address */
+typedef uint32_t Aptr;		 /* Type for an ACODE memory address used in the structures */
 
 typedef uint32_t Aword;		 /* Type for an ACODE word */
 typedef uint32_t Aaddr;		 /* Type for an ACODE address */

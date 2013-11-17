@@ -3,10 +3,11 @@
 # Makefile setings for compiling Alan compiler on Linux
 #
 
-COMPILER = gcc
-EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char
-
 OSFLAGS = -m32
+
+COMPILER = gcc
+EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char #-fPIC
+
 LINKER = gcc
 EXTRA_LINKER_FLAGS = 
 
@@ -16,4 +17,4 @@ release: EXTRA_COMPILER_FLAGS = -O4
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = $(CGREENROOT)/lib/libcgreen.so -lm
+CGREENLIB = -lcgreen -lm
