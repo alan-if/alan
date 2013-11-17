@@ -13,6 +13,7 @@ endif
 
 OPTIMIZE = -g
 
+PLATFORM = -m32
 win:	PLATFORM = -DWINGUI -mwindows -mno-cygwin
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage

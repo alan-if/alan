@@ -41,7 +41,7 @@ static void add_unittests(TestSuite *suite) {
 
 static int compiler_unit_tests(int argc, const char **argv) {
     int return_code;
-    TestSuite *suite = create_test_suite();
+    TestSuite *suite = create_named_test_suite("compiler_unit_tests");
     TestReporter *reporter;
     const char *prefix;
 
