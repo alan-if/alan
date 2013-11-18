@@ -50,12 +50,12 @@ void *gopt_sort(int *argc, const char **argv, const void *opt_specs) {
                 size_t opt_count= 1;
                 for(; *arg_p; ++arg_p)
                     if('-' == (*arg_p)[0] && (*arg_p)[1]) {
-                        if('-' == (*arg_p)[1]) {
+                        if('-' == (*arg_p)[1])
                             if((*arg_p)[2])
                                 ++opt_count;
                             else
                                 break;
-                        } else {
+                        else {
                             const opt_spec_t *opt_spec_p= opt_specs;
                             for(; opt_spec_p-> key; ++opt_spec_p)
                                 if(strchr(opt_spec_p-> shorts, (*arg_p)[1])) {

@@ -40,10 +40,12 @@ static void add_unittests(TestSuite *suite) {
 
 
 static int compiler_unit_tests(int argc, const char **argv) {
-    int return_code;
+    int return_code = 0;
     TestSuite *suite = create_named_test_suite("compiler_unit_tests");
     TestReporter *reporter;
+    TextReporterOptions reporter_options;
     const char *prefix;
+    const char *tmp;
 
     add_unittests(suite);
 
@@ -51,13 +53,24 @@ static int compiler_unit_tests(int argc, const char **argv) {
                                                      gopt_option( 'x', 
                                                                   GOPT_ARG, 
                                                                   gopt_shorts( 'x' ), 
-                                                                  gopt_longs( "xml" ))));
+                                                                  gopt_longs( "xml" )),
+                                                     gopt_option( 'c', 
+                                                                  GOPT_NOARG, 
+                                                                  gopt_shorts( 'c' ), 
+                                                                  gopt_longs( "color" ))));
 
     if (gopt_arg(options, 'x', &prefix))
         reporter = create_xml_reporter(prefix);
     else
         reporter = create_text_reporter();
+
+    if (gopt_arg(options, 'c', &tmp))
+        reporter_options.use_colours = true;
+    else
+        reporter_options.use_colours = false;
     
+    set_reporter_options(reporter, &reporter_options);
+
     if (argc == 1) {
         return_code = run_test_suite(suite, reporter);
     } else if (argc == 2) {
