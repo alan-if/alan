@@ -3,7 +3,10 @@
 
 ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
+else
+UNITOUTPUT ?= -c
 endif
+
 
 RELEASE = `cat LASTRELEASE`
 BUILD_NUMBER_FILE = $(wildcard BUILD_NUMBER)
