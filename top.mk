@@ -8,7 +8,6 @@ UNITOUTPUT ?= -c
 endif
 
 
-RELEASE = `cat LASTRELEASE`
 BUILD_NUMBER_FILE = $(wildcard BUILD_NUMBER)
 ifeq ($(BUILD_NUMBER_FILE),)
   BUILD=
