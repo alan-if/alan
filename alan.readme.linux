@@ -2,7 +2,9 @@ About the Alan distribution for Linux:
 
 This distribution does not contain anything apart from the executable
 compiler and interpreter. As of now there are only command line
-versions available of them for Linux.
+dversions available of them for Linux from this source. There is
+however the Gargoyle initiative which aims to unify most (if not all)
+interpreters under the same hood.
 
 You can use any text editor to write you Alan game. A recommended GUI
 to create new games is the AlanIDE, available from
