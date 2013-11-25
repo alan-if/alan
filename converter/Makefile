@@ -107,7 +107,7 @@ endif
 
 
 test :
-	@cd testing ; ../../bin/jregr -bin .. $(JREGROUTPUT)
+	@cd ..; bin/jregr -bin bin -dir converter/testing $(JREGROUTPUT)
 
 
 .PHONY: checkTarget
