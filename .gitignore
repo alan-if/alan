@@ -3,3 +3,5 @@
 *.ifid
 TEST-*.xml
 *.output
+*.vg
+*.leaks
