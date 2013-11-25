@@ -1,7 +1,7 @@
 The l Isa location
   Has x 4.
   Description
-    "This is is l."
+    "This is is l. it has x =" Say x Of l. "."
 End The l.
 
 Syntax 'save' = 'save'.
