@@ -1,3 +1,6 @@
 .arun
 .unittests
+.winarun
+.glkarun
 arun
+*.res

@@ -4,3 +4,6 @@ alan
 emitTestAcode
 unittest.jpg
 unittests
+.winalan
+*.res
+
