@@ -1,3 +1,5 @@
 *.a3c
 *.a3r
 *.ifid
+TEST-*.xml
+*.output
