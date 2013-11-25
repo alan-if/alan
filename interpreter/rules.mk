@@ -46,12 +46,12 @@ endif
 
 .PHONY: test
 test:
-	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression $(JREGROUTPUT)
-#	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/versions/compiler $(JREGROUTPUT)
-	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/versions/interpreter $(JREGROUTPUT)
-	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/tracing $(JREGROUTPUT)
-	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/saving $(JREGROUTPUT)
-	@java -jar ../bin/jregr.jar -dir ../regression/restore $(JREGROUTPUT)		# Uses sh not the executables
+	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression $(JREGROUTPUT)
+#	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
+	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
+	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/tracing $(JREGROUTPUT)
+	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/saving $(JREGROUTPUT)
+	@cd ..;java -jar bin/jregr.jar -dir regression/restore $(JREGROUTPUT)		# Uses sh not the executables
 
 #######################################################################
 # Standard console Arun
