@@ -9,7 +9,8 @@ This is is l. it has x = 4.
 
 > save
 Enter file name to save in (restore.sav) : 
-That file already exists, overwrite (RETURN confirms) ? 
+
+> 
 
 > restore
 Enter file name to restore from (restore.sav) : 

@@ -155,12 +155,15 @@ void save(void)
     strcpy(str, saveFileName);
   col = 1;
   if ((saveFile = fopen(str, READ_MODE)) != NULL)
-    /* It already existed */
-    if (!confirm(M_SAVEOVERWRITE))
-      abortPlayerCommand();            /* Return to player without saying anything */
-  if ((saveFile = fopen(str, WRITE_MODE)) == NULL)
-    error(M_SAVEFAILED);
+      /* It already existed */
+      if (!regressionTestOption) {
+          /* Ask for overwrite confirmation */
+          if (!confirm(M_SAVEOVERWRITE))
+              abortPlayerCommand();            /* Return to player without saying anything */
+      }
   strcpy(saveFileName, str);
+  if ((saveFile = fopen(saveFileName, WRITE_MODE)) == NULL)
+      error(M_SAVEFAILED);
 #endif
 
   saveGame(saveFile);
