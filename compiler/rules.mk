@@ -37,9 +37,8 @@ build: alan
 
 .PHONY: test
 test:
-	@cd ..
-	@../bin/jregr -bin bin -dir compiler/testing $(JREGROUTPUT)
-	@../bin/jregr -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
+	@cd ..;bin/jregr -bin bin -dir compiler/testing $(JREGROUTPUT)
+	@cd ..;bin/jregr -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
 
 # Clean
 .PHONY: clean
