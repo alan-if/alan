@@ -34,8 +34,8 @@ Ensure(Restriction, can_say_has_restriction_for_symbol) {
   List *parameterList = concat(concat(NULL, getMember(syntax->elements, 1), ELEMENT_LIST), getMember(syntax->elements, 2), ELEMENT_LIST);
 
   setParameters(verbSymbol, parameterList);
-  assert_true(hasRestriction(parameterId1->symbol, syntax));
-  assert_true(!hasRestriction(parameterId2->symbol, syntax));
+  assert_that(hasRestriction(parameterId1->symbol, syntax));
+  assert_that(!hasRestriction(parameterId2->symbol, syntax));
 }
 
 
