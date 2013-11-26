@@ -16,7 +16,12 @@
 #include "adv_x.h"
 
 
-Ensure(testNewExt) {
+Describe(Exit);
+BeforeEach(Exit) {}
+AfterEach(Exit) {}
+
+
+Ensure(Exit, testNewExt) {
   IdNode *direction = newId(nulsrcp, "w");
   IdNode *targetLocation = newId(nulsrcp, "aLocation");
   Exit *theExit;
@@ -45,7 +50,7 @@ Ensure(testNewExt) {
 }
 
 
-Ensure(testHaveExit) {
+Ensure(Exit, testHaveExit) {
   List *exits = concat(newList(newExit(&nulsrcp,
 				       newIdList(newIdList(NULL, "south"), "north"),
 				       NULL, NULL, NULL), EXIT_LIST),
@@ -64,8 +69,8 @@ TestSuite *extTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testNewExt);
-    add_test(suite, testHaveExit);
+    add_test_with_context(suite, Exit, testNewExt);
+    add_test_with_context(suite, Exit, testHaveExit);
 
     return suite;
 }

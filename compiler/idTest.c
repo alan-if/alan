@@ -11,7 +11,12 @@
 #include <cgreen/cgreen.h>
 
 
-Ensure(testGeneratedId) {
+Describe(Id);
+BeforeEach(Id) {}
+AfterEach(Id) {}
+
+
+Ensure(Id, testGeneratedId) {
   IdNode *id1 = NEW(IdNode);
   IdNode *id2 = NEW(IdNode);
   id1->string = generateIdName();
@@ -26,7 +31,7 @@ TestSuite *idTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testGeneratedId);
+    add_test_with_context(suite, Id, testGeneratedId);
 
     return suite;
 }

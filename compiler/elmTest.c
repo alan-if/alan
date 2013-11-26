@@ -13,8 +13,12 @@
 #include "stx_x.h"
 #include "lst_x.h"
 
+Describe(Element);
+BeforeEach(Element) {}
+AfterEach(Element) {}
 
-Ensure(testPartition) {
+
+Ensure(Element, testPartition) {
     List *p = NULL;
     Element *e = newEndOfSyntax();
     List *ep = newList(e, ELEMENT_LIST);
@@ -24,7 +28,7 @@ Ensure(testPartition) {
     assert_true(partitionElements(&epp) != NULL);
 }
 
-Ensure(entryForParameterShouldMergeFlagsFromAllElements) {
+Ensure(Element, entryForParameterShouldMergeFlagsFromAllElements) {
     // Create three syntaxes
     Syntax *firstSyntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
     Syntax *secondSyntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
@@ -79,8 +83,8 @@ TestSuite *elmTests()
 {
     TestSuite *suite = create_test_suite();
 
-    add_test(suite, testPartition);
-    add_test(suite, entryForParameterShouldMergeFlagsFromAllElements);
+    add_test_with_context(suite, Element, testPartition);
+    add_test_with_context(suite, Element, entryForParameterShouldMergeFlagsFromAllElements);
 
     return suite;
 }

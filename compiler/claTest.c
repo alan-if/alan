@@ -16,7 +16,12 @@
 #include "unitList.h"
 
 
-Ensure(testCreateClass) {
+Describe(Class);
+BeforeEach(Class) {}
+AfterEach(Class) {}
+
+
+Ensure(Class, testCreateClass) {
   Srcp srcp = {1,2,3};
   IdNode *id = newId(srcp, "claId");
   IdNode *parent = newId(srcp, "parentId");
@@ -38,7 +43,7 @@ Ensure(testCreateClass) {
 }
 
 
-Ensure(testGenerateClasses) {
+Ensure(Class, testGenerateClasses) {
   Srcp srcp = {12,13,14};
   Aaddr addr;
   int firstAdr = AwordSizeOf(ACodeHeader);
@@ -64,7 +69,7 @@ Ensure(testGenerateClasses) {
   assert_true(nextEmitAddress() == baseAddress + classSize + 1);	/* (predefined+1) classes + EOF */
 }
 
-Ensure(testGenerateEmptyClassEntry) {
+Ensure(Class, testGenerateEmptyClassEntry) {
   Properties *props = newProps(NULL,
 			       NULL,
 			       nulsrcp, NULL,
@@ -101,9 +106,9 @@ TestSuite *claTests()
 {
     TestSuite *suite = create_test_suite();
 
-    add_test(suite, testCreateClass);
-    add_test(suite, testGenerateClasses);
-    add_test(suite, testGenerateEmptyClassEntry);
+    add_test_with_context(suite, Class, testCreateClass);
+    add_test_with_context(suite, Class, testGenerateClasses);
+    add_test_with_context(suite, Class, testGenerateEmptyClassEntry);
 
     return suite;
 }

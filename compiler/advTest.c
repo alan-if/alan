@@ -16,8 +16,11 @@
 #include "exp_x.h"
 #include "id_x.h"
 
+Describe(Adventure);
+BeforeEach(Adventure) {}
+AfterEach(Adventure) {}
 
-Ensure(testInitAdv) {
+Ensure(Adventure, can_initialize) {
     Srcp srcp = {2,3,4};
 
     IdNode *atUnknownId = newId(srcp, "atUnknownId");
@@ -61,7 +64,7 @@ Ensure(testInitAdv) {
 TestSuite *advTests()
 {
     TestSuite *suite = create_test_suite();
-    add_test(suite, testInitAdv);
+    add_test_with_context(suite, Adventure, can_initialize);
     return suite;
 }
 

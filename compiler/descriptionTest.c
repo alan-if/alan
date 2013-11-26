@@ -10,8 +10,12 @@
 
 #include <cgreen/cgreen.h>
 
+Describe(Description);
+BeforeEach(Description) {}
+AfterEach(Description) {}
 
-Ensure(testChecksOf) {
+
+Ensure(Description, can_return_ChecksOf) {
   Description *description = newDescription(nulsrcp, NULL, nulsrcp, NULL);
   List list;
 
@@ -25,7 +29,7 @@ Ensure(testChecksOf) {
 TestSuite *descriptionTests() {
     TestSuite *suite = create_test_suite();
 
-    add_test(suite, testChecksOf);
+    add_test_with_context(suite, Description, can_return_ChecksOf);
 
     return suite;
 }
