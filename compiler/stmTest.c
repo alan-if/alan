@@ -14,7 +14,12 @@
 #include "unitList.h"
 
 
-Ensure(testVerifySetAssignment) {
+Describe(Statement);
+BeforeEach(Statement) {}
+AfterEach(Statement) {}
+
+
+Ensure(Statement, testVerifySetAssignment) {
   Expression *exp = newSetExpression(nulsrcp, NULL);
   Expression *wht = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "setAttribute")));
 
@@ -57,7 +62,7 @@ TestSuite *stmTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testVerifySetAssignment);
+    add_test_with_context(suite, Statement, testVerifySetAssignment);
 
     return suite;
 }

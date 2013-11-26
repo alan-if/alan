@@ -18,7 +18,12 @@
 #include "ins_x.h"
 
 
-Ensure(testAddOpaqueAttribute) {
+Describe(Properties);
+BeforeEach(Properties) {}
+AfterEach(Properties) {}
+
+
+Ensure(Properties, testAddOpaqueAttribute) {
   Properties *prop = newProps(NULL, NULL,
 			      nulsrcp, NULL,
 			      NULL, NULL, NULL,
@@ -43,7 +48,7 @@ static Where *newWhereIdString(char id[]) {
 					      newId(nulsrcp, id))));
 }
 
-Ensure(testCircularLocation) {
+Ensure(Properties, testCircularLocation) {
   Where *whr1 = newWhereIdString("loc2");
   Properties *props1 = newProps(NULL, NULL,
 				nulsrcp, NULL,
@@ -100,8 +105,8 @@ Ensure(testCircularLocation) {
 TestSuite *propTests() {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testCircularLocation);
-    add_test(suite, testAddOpaqueAttribute);
+    add_test_with_context(suite, Properties, testCircularLocation);
+    add_test_with_context(suite, Properties, testAddOpaqueAttribute);
 
     return suite;
 }

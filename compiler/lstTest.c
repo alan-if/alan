@@ -14,14 +14,19 @@
 
 #include <setjmp.h>
 
-Ensure(canCreateNewEmptyListWithType) {
+Describe(List);
+BeforeEach(List) {}
+AfterEach(List) {}
+
+
+Ensure(List, canCreateNewEmptyListWithType) {
   List *list = newEmptyList(ID_LIST);
   assert_true(list->kind == ID_LIST);
   assert_true(list->member.lst == NULL);
 }
 
 
-Ensure(canConcatToANewEmptyList) {
+Ensure(List, canConcatToANewEmptyList) {
   List *list = newEmptyList(ID_LIST);
   IdNode *theId = newId(nulsrcp, "theId");
 
@@ -31,7 +36,7 @@ Ensure(canConcatToANewEmptyList) {
 }
 
 
-Ensure(canCreateNewListWithMember) {
+Ensure(List, canCreateNewListWithMember) {
   IdNode *theId = newId(nulsrcp, "theId");
   List *list = newList(theId, ID_LIST);
   assert_true(list->kind == ID_LIST);
@@ -39,7 +44,7 @@ Ensure(canCreateNewListWithMember) {
 }
 
 
-Ensure(testLength) {
+Ensure(List, testLength) {
   List *aList = NULL;
 
   assert_true(length(aList) == 0);
@@ -57,7 +62,7 @@ Ensure(testLength) {
 }
 
 
-Ensure(insertingShouldIncreaseLength) {
+Ensure(List, insertingShouldIncreaseLength) {
   IdNode *aMember = newId(nulsrcp, "aMember");
   List *aList = newList(aMember, ID_LIST);
   assert_true(length(aList) == 1);
@@ -93,7 +98,7 @@ extern void setSyserrHandler(void (*f)(char *));
   setSyserrHandler(NULL);
   
 
-Ensure(insertingIntoANullListFails) {
+Ensure(List, insertingIntoANullListFails) {
   IdNode *aMember = newId(nulsrcp, "aMember");
 
   TRY(
@@ -103,7 +108,7 @@ Ensure(insertingIntoANullListFails) {
   assert_true(syserrHandlerCalled);
 }
 
-Ensure(insertingANullMemberFails) {
+Ensure(List, insertingANullMemberFails) {
   IdNode *aMember = newId(nulsrcp, "aMember");
   List *aList = newList(aMember, ID_LIST);
 
@@ -114,7 +119,7 @@ Ensure(insertingANullMemberFails) {
   assert_true(syserrHandlerCalled);
 }
 
-Ensure(insertingWrongTypeOfMemberFails) {
+Ensure(List, insertingWrongTypeOfMemberFails) {
   IdNode *aMember = newId(nulsrcp, "aMember");
   List *aList = newIdList(NULL, "aMember");
 
@@ -125,7 +130,7 @@ Ensure(insertingWrongTypeOfMemberFails) {
   assert_true(syserrHandlerCalled);
 }
 
-Ensure(testTailOf) {
+Ensure(List, testTailOf) {
   List *listOfOne = newIdList(NULL, "anId");
   List *listOfTwo = newIdList(newIdList(NULL, "anId"),
 			      "anId");
@@ -135,7 +140,7 @@ Ensure(testTailOf) {
   assert_true(getLastListNode(listOfTwo) == listOfTwo->next);
 }
 
-Ensure(testRemoveFromList) {
+Ensure(List, testRemoveFromList) {
   List member1;
   List member2;
   List member3;
@@ -182,7 +187,7 @@ int sorter(List *member1, List *member2)
 }
 
 
-Ensure(testSortList) {
+Ensure(List, testSortList) {
     List *member1 = newList(NULL, ID_LIST);
     List *member2 = newList(NULL, ID_LIST);
     List *member3 = newList(NULL, ID_LIST);
@@ -219,7 +224,7 @@ Ensure(testSortList) {
 }
 
 
-Ensure(testCopyList) {
+Ensure(List, testCopyList) {
   List *l1 = newIdList(NULL, "id1");
   List *l4 = newIdList(newIdList(newIdList(newIdList(NULL, "id1"),
 					   "id2"),
@@ -243,18 +248,18 @@ Ensure(testCopyList) {
 TestSuite *lstTests()
 {
     TestSuite *suite = create_test_suite(); 
-    add_test(suite, canCreateNewEmptyListWithType);
-    add_test(suite, canConcatToANewEmptyList);
-    add_test(suite, canCreateNewListWithMember);
-    add_test(suite, testLength);
-    add_test(suite, insertingShouldIncreaseLength);
-    add_test(suite, insertingIntoANullListFails);
-    add_test(suite, insertingANullMemberFails);
-    add_test(suite, insertingWrongTypeOfMemberFails);
-    add_test(suite, testTailOf);
-    add_test(suite, testRemoveFromList);
-    add_test(suite, testSortList);
-    add_test(suite, testCopyList);
+    add_test_with_context(suite, List, canCreateNewEmptyListWithType);
+    add_test_with_context(suite, List, canConcatToANewEmptyList);
+    add_test_with_context(suite, List, canCreateNewListWithMember);
+    add_test_with_context(suite, List, testLength);
+    add_test_with_context(suite, List, insertingShouldIncreaseLength);
+    add_test_with_context(suite, List, insertingIntoANullListFails);
+    add_test_with_context(suite, List, insertingANullMemberFails);
+    add_test_with_context(suite, List, insertingWrongTypeOfMemberFails);
+    add_test_with_context(suite, List, testTailOf);
+    add_test_with_context(suite, List, testRemoveFromList);
+    add_test_with_context(suite, List, testSortList);
+    add_test_with_context(suite, List, testCopyList);
     return suite;
 }
 
