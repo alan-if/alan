@@ -14,7 +14,11 @@
 #include "adv_x.h"
 
 
-Ensure(testCreateIns) {
+Describe(Instance);
+BeforeEach(Instance) {}
+AfterEach(Instance) {}
+
+Ensure(Instance, testCreateIns) {
   Srcp srcp = {1,2,3};
   IdNode *id = newId(srcp, "insId");
   IdNode *parent = newId(srcp, "parentId");
@@ -32,7 +36,7 @@ Ensure(testCreateIns) {
 }
 
 
-Ensure(testGenerateEmptyInstanceEntry) {
+Ensure(Instance, testGenerateEmptyInstanceEntry) {
   Properties *props = newProps(NULL, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL, NULL,
@@ -61,7 +65,7 @@ Ensure(testGenerateEmptyInstanceEntry) {
   assert_true(convertFromACD(entry->parent) == 0);
 }
 
-Ensure(testGenerateInstances) {
+Ensure(Instance, testGenerateInstances) {
   Srcp srcp = {12,13,14};
   Instance *ins;
   Aaddr address;
@@ -110,7 +114,7 @@ Ensure(testGenerateInstances) {
 }
 
 
-Ensure(testHero) {
+Ensure(Instance, testHero) {
   ACodeHeader header;
   int count;
   Aword buffer[100];
@@ -129,7 +133,7 @@ Ensure(testHero) {
 }
 
 
-Ensure(testNowhereIsGenerated) {
+Ensure(Instance, testNowhereIsGenerated) {
   nowhere = NULL;
   initAdventure();
   assert_true(nowhere != NULL);
@@ -143,11 +147,11 @@ TestSuite *insTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testCreateIns);
-    add_test(suite, testGenerateEmptyInstanceEntry);
-    add_test(suite, testGenerateInstances);
-    add_test(suite, testHero);
-    add_test(suite, testNowhereIsGenerated);
+    add_test_with_context(suite, Instance, testCreateIns);
+    add_test_with_context(suite, Instance, testGenerateEmptyInstanceEntry);
+    add_test_with_context(suite, Instance, testGenerateInstances);
+    add_test_with_context(suite, Instance, testHero);
+    add_test_with_context(suite, Instance, testNowhereIsGenerated);
 
     return suite;
 }

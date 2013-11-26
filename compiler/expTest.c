@@ -18,7 +18,12 @@
 #include "cla_x.h"
 
 
-Ensure(SetMembersAreVerifiedAccordingToClass) { 
+Describe(Expression);
+BeforeEach(Expression) {}
+AfterEach(Expression) {}
+
+
+Ensure(Expression, SetMembersAreVerifiedAccordingToClass) { 
   Expression *theSet = newWhatExpression(nulsrcp, NULL);
   Expression *theMember = newWhatExpression(nulsrcp, NULL);
 
@@ -36,7 +41,7 @@ Ensure(SetMembersAreVerifiedAccordingToClass) {
   assert_that(readEcode(), is_equal_to(0));
 }
 
-Ensure(testSymbolOf) { 
+Ensure(Expression, testSymbolOf) { 
   Context *context = newNullContext();
   initSymbols();
   assert_true(symbolOfExpression(NULL, context) == NULL);
@@ -56,7 +61,7 @@ Ensure(testSymbolOf) {
   
 
 
-Ensure(testAttributeToThis) {
+Ensure(Expression, testAttributeToThis) {
   Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
 				     NULL, newEmptyProps());
   IdNode *theAttributeId = newId(nulsrcp, "Atr");
@@ -77,7 +82,7 @@ Ensure(testAttributeToThis) {
   assert_true(theExp->type == BOOLEAN_TYPE);
 }
 
-Ensure(testIsConstantIdentifier) {
+Ensure(Expression, testIsConstantIdentifier) {
   Symbol symbol;
   IdNode id;
   SymbolKind kind;
@@ -93,7 +98,7 @@ Ensure(testIsConstantIdentifier) {
   }
 }
 
-Ensure(testAnalyzeClassingFilter) {
+Ensure(Expression, testAnalyzeClassingFilter) {
   Expression *btw = newBetweenExpression(nulsrcp, NULL, FALSE, newIntegerExpression(nulsrcp, 1), newIntegerExpression(nulsrcp, 2));
 
   analyzeClassingFilter("", NULL, btw);
@@ -101,7 +106,7 @@ Ensure(testAnalyzeClassingFilter) {
   assert_true(readEcode() == 0);
 }
 
-Ensure(testIsConstant) {
+Ensure(Expression, testIsConstant) {
   Expression *integer = newIntegerExpression(nulsrcp, 4);
   IdNode *instanceId = newId(nulsrcp, "instanceId");
   Symbol *instanceSymbol = newInstanceSymbol(instanceId, NULL, NULL);
@@ -126,7 +131,7 @@ Ensure(testIsConstant) {
   assert_true(!isConstantExpression(setExp));
 }
 
-Ensure(testCombineFilterClasses) {
+Ensure(Expression, testCombineFilterClasses) {
   initSymbols();    
   initClasses();
   symbolizeClasses();
@@ -146,13 +151,13 @@ TestSuite *expTests()
 {
     TestSuite *suite = create_test_suite();
 
-    add_test(suite, testSymbolOf);
-    add_test(suite, testAttributeToThis);
-    add_test(suite, testIsConstantIdentifier);
-    add_test(suite, SetMembersAreVerifiedAccordingToClass);
-    add_test(suite, testIsConstant);
-    add_test(suite, testAnalyzeClassingFilter);
-    add_test(suite, testCombineFilterClasses);
+    add_test_with_context(suite, Expression, testSymbolOf);
+    add_test_with_context(suite, Expression, testAttributeToThis);
+    add_test_with_context(suite, Expression, testIsConstantIdentifier);
+    add_test_with_context(suite, Expression, SetMembersAreVerifiedAccordingToClass);
+    add_test_with_context(suite, Expression, testIsConstant);
+    add_test_with_context(suite, Expression, testAnalyzeClassingFilter);
+    add_test_with_context(suite, Expression, testCombineFilterClasses);
 
     return suite;
 

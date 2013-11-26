@@ -14,7 +14,11 @@
 #include "elm_x.h"
 
 
-Ensure(testHasRestriction) {
+Describe(Restriction);
+BeforeEach(Restriction) {}
+AfterEach(Restriction) {}
+
+Ensure(Restriction, can_say_has_restriction_for_symbol) {
   Symbol *verbSymbol = newVerbSymbol(newId(nulsrcp, "verb"));
 
   IdNode *parameterId1 = newId(nulsrcp, "p1");
@@ -39,7 +43,7 @@ TestSuite *resTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testHasRestriction);
+    add_test_with_context(suite, Restriction, can_say_has_restriction_for_symbol);
 
     return suite;
 }

@@ -9,8 +9,12 @@
 #include <cgreen/cgreen.h>
 
 
-/*----------------------------------------------------------------------*/
-Ensure(canCountParameters) {
+Describe(Syntax);
+BeforeEach(Syntax) {}
+AfterEach(Syntax) {}
+
+
+Ensure(Syntax, canCountParameters) {
   List *elementList;
 
   elementList = concat(NULL, newParameterElement(nulsrcp, NULL, 0), ELEMENT_LIST);
@@ -23,7 +27,7 @@ Ensure(canCountParameters) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters) {
+Ensure(Syntax, parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters) {
   Syntax s1, s2;
 
   s1.elements = concat(NULL, newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0), ELEMENT_LIST);
@@ -45,14 +49,14 @@ Ensure(parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters) {
 // getLastElement(list)
 // getElement(list, n)
 /*----------------------------------------------------------------------*/
-Ensure(canCreateNewSyntaxWithEOS) {
+Ensure(Syntax, canCreateNewSyntaxWithEOS) {
   Syntax *syntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
   assert_true(syntax->elements->member.elm->kind == END_OF_SYNTAX);
 }
 
 
 /*----------------------------------------------------------------------*/
-Ensure(canAddElementBeforeEOS) {
+Ensure(Syntax, canAddElementBeforeEOS) {
   Syntax *syntax = newSyntaxWithEOS(nulsrcp, NULL, NULL, nulsrcp);
   Element *firstElement = newParameterElement(nulsrcp, NULL, 0);
   addElement(syntax, firstElement);
@@ -84,7 +88,7 @@ static List *givenAListOfFourSyntaxes(Syntax *stx1, Syntax *stx2, Syntax *stx3, 
 
 
 /*----------------------------------------------------------------------*/
-Ensure(connectSyntaxesConnectsVerbsForSameVerb) {
+Ensure(Syntax, connectSyntaxesConnectsVerbsForSameVerb) {
   Syntax *s1 = givenASyntax("verb", givenAnElementListWithOneParameterElement("parameter"));
   Syntax *s2 = givenASyntax("verb", givenAnElementListWithOneParameterElement("parameter"));
   Syntax *s3 = givenASyntax("verb", givenAnElementListWithOneParameterElement("parameter"));
@@ -105,7 +109,7 @@ Ensure(connectSyntaxesConnectsVerbsForSameVerb) {
 
 
 /*----------------------------------------------------------------------*/
-Ensure(analyzeSyntaxWillAddSyntaxesStartingWithInstance) {
+Ensure(Syntax, analyzeSyntaxWillAddSyntaxesStartingWithInstance) {
     newVerbSymbol(newId(nulsrcp, "verb"));
     List *elms = givenAnElementListWithOneParameterElement("parameter");
     Syntax *stx = givenASyntax("verb", elms);
@@ -122,12 +126,12 @@ TestSuite *stxTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, canCountParameters);
-    add_test(suite, parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters);
-    add_test(suite, canCreateNewSyntaxWithEOS);
-    add_test(suite, canAddElementBeforeEOS);
-    add_test(suite, connectSyntaxesConnectsVerbsForSameVerb);
-    add_test(suite, analyzeSyntaxWillAddSyntaxesStartingWithInstance);
+    add_test_with_context(suite, Syntax, canCountParameters);
+    add_test_with_context(suite, Syntax, parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters);
+    add_test_with_context(suite, Syntax, canCreateNewSyntaxWithEOS);
+    add_test_with_context(suite, Syntax, canAddElementBeforeEOS);
+    add_test_with_context(suite, Syntax, connectSyntaxesConnectsVerbsForSameVerb);
+    add_test_with_context(suite, Syntax, analyzeSyntaxWillAddSyntaxesStartingWithInstance);
 
     return suite;
 }

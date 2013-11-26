@@ -18,8 +18,12 @@
 #include "prop_x.h"
 #include "context_x.h"
 
+Describe(Attribute);
+BeforeEach(Attribute) {}
+AfterEach(Attribute) {}
 
-Ensure(testCreateSetAttribute)
+
+Ensure(Attribute, testCreateSetAttribute)
 {
   List *set = newList(newIntegerExpression(nulsrcp, 1), EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, set);
@@ -29,7 +33,7 @@ Ensure(testCreateSetAttribute)
   assert_true(atr->set->fields.set.members->member.exp->kind == INTEGER_EXPRESSION);
 }
 
-Ensure(testSingleIdentifierInMember) {
+Ensure(Attribute, testSingleIdentifierInMember) {
   Expression *exp1 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
   Expression *exp2 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
 
@@ -39,7 +43,7 @@ Ensure(testSingleIdentifierInMember) {
   assert_true(!hasSingleIdentifierMember(concat(newList(exp1, EXPRESSION_LIST), exp2, EXPRESSION_LIST)));
 }
 
-Ensure(testIsWhatId) {
+Ensure(Attribute, testIsWhatId) {
   Expression *exp1 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
   Expression *exp2 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
   Expression *exp3 = newBetweenExpression(nulsrcp, NULL, FALSE, NULL, NULL);
@@ -49,7 +53,7 @@ Ensure(testIsWhatId) {
   assert_true(!isWhatId(exp3));
 }
 
-Ensure(testInferClassInSetAttribute)
+Ensure(Attribute, testInferClassInSetAttribute)
 {
   initAdventure();
   symbolizeClasses();
@@ -82,7 +86,7 @@ Ensure(testInferClassInSetAttribute)
   assert_true(length(atr->set->fields.set.members) == 2);
 }
 
-Ensure(testMultipleAtr)
+Ensure(Attribute, testMultipleAtr)
 {
   List *attributeList;
 
@@ -95,7 +99,7 @@ Ensure(testMultipleAtr)
 }
 
 
-Ensure(testFindInList)
+Ensure(Attribute, testFindInList)
 {
   List *attributes = NULL;
   IdNode *id = newId(nulsrcp, "theAttribute");
@@ -174,7 +178,7 @@ static Bool equalLists(List *list1, List *list2)
   return t1 == NULL && t2 == NULL;
 }
 
-Ensure(testCombineAttributes)
+Ensure(Attribute, testCombineAttributes)
 {
   List *ownList = create2Attributes("x", "y");
   List *inheritedList = create2Attributes("y", "z");
@@ -197,7 +201,7 @@ Ensure(testCombineAttributes)
 }
 
 
-Ensure(testAttributeListsInSymbolTable)
+Ensure(Attribute, testAttributeListsInSymbolTable)
 {
   Class *firstClass, *secondClass;
   List *firstClassAttributes, *secondClassAttributes, *firstInstanceAttributes, *secondInstanceAttributes;
@@ -305,7 +309,7 @@ static Bool attributesAreSorted(List *list)
   return TRUE;
 }
 
-Ensure(testSortAttributes)
+Ensure(Attribute, testSortAttributes)
 {
   List *attributeList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, "a"), FALSE), ATTRIBUTE_LIST);
   List *originalList = attributeList;
@@ -327,7 +331,7 @@ Ensure(testSortAttributes)
   assert_true(attributesAreSorted(attributeList));
 }
 
-Ensure(testGenerateAttributes)
+Ensure(Attribute, testGenerateAttributes)
 {
   int attributeEntrySize = AwordSizeOf(AttributeEntry);
   int address;
@@ -344,7 +348,7 @@ Ensure(testGenerateAttributes)
   assert_true(attributeAreaSize == 2*attributeEntrySize+1);
 }
 
-Ensure(testResolveThisAttributeForClass)
+Ensure(Attribute, testResolveThisAttributeForClass)
 {
   List *theAttributes = create2Attributes("x", "y");
   Properties *theProps = newProps(NULL, NULL,
@@ -365,15 +369,15 @@ Ensure(testResolveThisAttributeForClass)
 TestSuite *atrTests() {
     TestSuite *suite = create_test_suite();
 
-    add_test(suite, testCreateSetAttribute);
-    add_test(suite, testIsWhatId);
-    add_test(suite, testSingleIdentifierInMember);
-    add_test(suite, testInferClassInSetAttribute);
-    add_test(suite, testMultipleAtr);
-    add_test(suite, testAttributeListsInSymbolTable);
-    add_test(suite, testSortAttributes);
-    add_test(suite, testCombineAttributes);
-    add_test(suite, testGenerateAttributes);
-    add_test(suite, testResolveThisAttributeForClass);
+    add_test_with_context(suite, Attribute, testCreateSetAttribute);
+    add_test_with_context(suite, Attribute, testIsWhatId);
+    add_test_with_context(suite, Attribute, testSingleIdentifierInMember);
+    add_test_with_context(suite, Attribute, testInferClassInSetAttribute);
+    add_test_with_context(suite, Attribute, testMultipleAtr);
+    add_test_with_context(suite, Attribute, testAttributeListsInSymbolTable);
+    add_test_with_context(suite, Attribute, testSortAttributes);
+    add_test_with_context(suite, Attribute, testCombineAttributes);
+    add_test_with_context(suite, Attribute, testGenerateAttributes);
+    add_test_with_context(suite, Attribute, testResolveThisAttributeForClass);
     return suite;
 }

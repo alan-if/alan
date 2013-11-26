@@ -13,8 +13,12 @@
 #include "cla_x.h"
 #include "sym.h"
 
+Describe(Add);
+BeforeEach(Add) {}
+AfterEach(Add) {}
 
-Ensure(testMultipleAddAttribute) {
+
+Ensure(Add, testMultipleAddAttribute) {
   IdNode *theId = newId(nulsrcp, "aClassId");
   Attribute *theFirstAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "firstAttribute"), FALSE);
   Attribute *theSecondAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "secondAttribute"), FALSE);
@@ -51,7 +55,7 @@ Ensure(testMultipleAddAttribute) {
 }
 
 
-Ensure(testAddDescription) {
+Ensure(Add, testAddDescription) {
   Description *addedDescription = newDescription(nulsrcp, NULL, nulsrcp, NULL);
   Properties *addProps = newProps(NULL, NULL,
 				  nulsrcp, NULL,
@@ -108,7 +112,7 @@ Ensure(testAddDescription) {
 
 TestSuite *addTests() {
     TestSuite *suite = create_test_suite();
-    add_test(suite, testMultipleAddAttribute);
-    add_test(suite, testAddDescription);
+    add_test_with_context(suite, Add, testMultipleAddAttribute);
+    add_test_with_context(suite, Add, testAddDescription);
     return suite;
 }

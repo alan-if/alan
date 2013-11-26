@@ -10,8 +10,12 @@
 
 #include <cgreen/cgreen.h>
 
+Describe(Emit);
+BeforeEach(Emit) {}
+AfterEach(Emit) {}
 
-Ensure(testEmit) {
+
+Ensure(Emit, testEmit) {
   int expectedAddress;
   Aword emitTestArray[5] = {1, 2, 3, 4, 5};
 
@@ -59,7 +63,7 @@ static void generateTextDataFile(char textDataFileName[], char textData[])
 }
 
 
-Ensure(testEmitTextDataToAcodeFile) {
+Ensure(Emit, testEmitTextDataToAcodeFile) {
   char textDataFileName[] = "emitTestData";
   char textData[] = "asfasjfalsfhwerouwr87340183482jlasfls";
   int i;
@@ -79,7 +83,7 @@ Ensure(testEmitTextDataToAcodeFile) {
 
 #ifdef EXTENDED_HEADER
 // This is the prettiest test case in Alan, and we just don't need it...
-Ensure(finalizeEmitShouldAdjustCRCWithoutChangingSize) {
+Ensure(Emit, finalizeEmitShouldAdjustCRCWithoutChangingSize) {
     int i;
     Aword buffer[100];
 
@@ -109,9 +113,9 @@ TestSuite *emitTests()
 {
     TestSuite *suite = create_test_suite();
 
-    add_test(suite, testEmit);
-    add_test(suite, testEmitTextDataToAcodeFile);
-    //    add_test(suite, finalizeEmitShouldAdjustCRCWithoutChangingSize);
+    add_test_with_context(suite, Emit, testEmit);
+    add_test_with_context(suite, Emit, testEmitTextDataToAcodeFile);
+    //    add_test_with_context(suite, Emit, finalizeEmitShouldAdjustCRCWithoutChangingSize);
 
     return suite;
 }

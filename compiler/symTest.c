@@ -19,6 +19,11 @@
 #include "context_x.h"
 
 
+Describe(Symbol);
+BeforeEach(Symbol) {}
+AfterEach(Symbol) {}
+
+
 /*======================================================================
 
   Symbol table tests
@@ -47,7 +52,7 @@ static void initUnitTestSymbols() {
     sym3 = newSymbol(symbolId3, CLASS_SYMBOL);
 }
 
-Ensure(testContentOfSymbol) {
+Ensure(Symbol, testContentOfSymbol) {
   IdNode *contentClassId = newId(nulsrcp, "contentClassId");
   Symbol *contentSymbol = newClassSymbol(contentClassId, NULL, NULL);
   IdNode *content = newId(nulsrcp, "content");
@@ -73,7 +78,7 @@ Ensure(testContentOfSymbol) {
 }
 
 
-Ensure(testSymCheck)
+Ensure(Symbol, testSymCheck)
 {
   Srcp srcp = {14, 12, 333};
   IdNode *unknownId = newId(srcp, "unknownId");
@@ -121,7 +126,7 @@ static List *createThreeParameters(char *id1, char *id2, char *id3)
                   ELEMENT_LIST);
 }
 
-Ensure(testVerbSymbols) {
+Ensure(Symbol, testVerbSymbols) {
   IdNode *v1Id = newId(nulsrcp, "v1");
   Symbol *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
   Symbol *foundSymbol;
@@ -153,7 +158,7 @@ Ensure(testVerbSymbols) {
 
 
 /* Test symbol table by inserting a symbol with an initial name */
-Ensure(testBuildSymbol1) {
+Ensure(Symbol, testBuildSymbol1) {
     initUnitTestSymbols();
 
     sym2 = lookup(symbolName1);
@@ -165,7 +170,7 @@ Ensure(testBuildSymbol1) {
 
 
 /* Test symbol table by inserting a symbol with a higher name */
-Ensure(testBuildSymbolHigher) {
+Ensure(Symbol, testBuildSymbolHigher) {
     IdNode *symbolId2 = newId(nulsrcp, symbolName2);
 
     Symbol *sym1 = newSymbol(symbolId2, CLASS_SYMBOL);
@@ -177,7 +182,7 @@ Ensure(testBuildSymbolHigher) {
 }
 
 /* Test symbol table by inserting a symbol with a lower name */
-Ensure(testBuildSymbolLower) {
+Ensure(Symbol, testBuildSymbolLower) {
     IdNode *symbolId3 = newId(nulsrcp, symbolName3);
 
     Symbol *sym1 = newSymbol(symbolId3, CLASS_SYMBOL);
@@ -189,7 +194,7 @@ Ensure(testBuildSymbolLower) {
 }
 
 /* Test inheritance by setting it and retrieving it */
-Ensure(testInherit1) {
+Ensure(Symbol, testInherit1) {
     /* Insert inheritance in alphabetical order */
     initUnitTestSymbols();
 
@@ -203,7 +208,7 @@ Ensure(testInherit1) {
 
 
 /* Test symbol table by verifying inheritance */
-Ensure(testInherit2) {
+Ensure(Symbol, testInherit2) {
     initUnitTestSymbols();
 
     setParent(sym1, sym2);
@@ -222,7 +227,7 @@ Ensure(testInherit2) {
 
 
 /* Test symbol table by verifying inheritance */
-Ensure(testInheritErrorSymbol) {
+Ensure(Symbol, testInheritErrorSymbol) {
     Symbol *err = newSymbol(newId(nulsrcp, "ErrorSymbol"), ERROR_SYMBOL);
 
     initUnitTestSymbols();
@@ -234,7 +239,7 @@ Ensure(testInheritErrorSymbol) {
 
 
 /* Test symbol table initialisation */
-Ensure(testSymbolTableInit) {
+Ensure(Symbol, testSymbolTableInit) {
     Symbol *entitySymbol;
     Symbol *thingSymbol;
     Symbol *objectSymbol;
@@ -286,7 +291,7 @@ Ensure(testSymbolTableInit) {
 
 
 /* Create a new CLAss symbol */
-Ensure(testCreateClassSymbol) {
+Ensure(Symbol, testCreateClassSymbol) {
     Srcp srcp = {12,3,45};
     IdNode *id = newId(srcp, "cla");
     IdNode *heritage = newId(nulsrcp, "object");
@@ -307,7 +312,7 @@ Ensure(testCreateClassSymbol) {
     assert_true(inheritsFrom(sym, obj));
 }
 
-Ensure(testLookupScript) {
+Ensure(Symbol, testLookupScript) {
     Symbol *classSymbol;
     Symbol *instanceSymbol;
     IdNode *notAScriptId = newId(nulsrcp, "notAScript");
@@ -348,7 +353,7 @@ Ensure(testLookupScript) {
 }
 
 
-Ensure(testNewFrame) {
+Ensure(Symbol, testNewFrame) {
     Symbol *verbSymbol;
     Element *element;
     Symbol *parameterSymbol;
@@ -389,7 +394,7 @@ Ensure(testNewFrame) {
 }
 
 
-Ensure(testReplicateContainer) {
+Ensure(Symbol, testReplicateContainer) {
     Symbol *child = newSymbol(newId(nulsrcp, "child"), CLASS_SYMBOL);
     Symbol *parent = newSymbol(newId(nulsrcp, "parent"), CLASS_SYMBOL);
     Container *container = newContainer(newContainerBody(nulsrcp, FALSE, NULL, (void *)1, (void *)2, (void *)3, (void *)4, (void *)5));
@@ -406,7 +411,7 @@ Ensure(testReplicateContainer) {
     assert_true(child->fields.entity.props->container->body->estms == (void *)3);
 }
 
-Ensure(testCreateMessageVerbs) {
+Ensure(Symbol, testCreateMessageVerbs) {
     Symbol *v, *p;
     Symbol *typeSymbol = newClassSymbol(newId(nulsrcp, "type"), NULL, NULL);
 
@@ -428,7 +433,7 @@ Ensure(testCreateMessageVerbs) {
     assert_true(p->fields.parameter.class == typeSymbol);
 }
 
-Ensure(testInheritOpaqueAttribute) {
+Ensure(Symbol, testInheritOpaqueAttribute) {
     /* Set up a parent class with container properties */
     Bool opaqueState = TRUE;
     ContainerBody *pBody = newContainerBody(nulsrcp, opaqueState, NULL, NULL,
@@ -467,14 +472,14 @@ Ensure(testInheritOpaqueAttribute) {
 }
 
 /*----------------------------------------------------------------------*/
-Ensure(testMultipleSymbolKinds) {
+Ensure(Symbol, testMultipleSymbolKinds) {
     assert_true(multipleSymbolKinds(0) == FALSE);
     assert_true(multipleSymbolKinds(INSTANCE_SYMBOL) == FALSE);
     assert_true(multipleSymbolKinds(INSTANCE_SYMBOL|CLASS_SYMBOL) == TRUE);
 }
 
 
-Ensure(testClassToType) {
+Ensure(Symbol, testClassToType) {
     Symbol *symbol = newClassSymbol(newId(nulsrcp, "newclass"), NULL, NULL);
 
     initClasses();
@@ -513,7 +518,7 @@ static Context *givenAVerbContextWithThreeParameters(IdNode *v1Id) {
 }
 
 
-Ensure(testParameterReference) {
+Ensure(Symbol, testParameterReference) {
     IdNode *p1Id = newId(nulsrcp, "p1");
     Symbol *foundSymbol;
     IdNode *v1Id = newId(nulsrcp, "v1");
@@ -532,7 +537,7 @@ Ensure(testParameterReference) {
     assert_true(equalId(foundSymbol->fields.parameter.element->id, p1Id));
 }
 
-Ensure(testCanFindParametersFromVerbContext) {
+Ensure(Symbol, testCanFindParametersFromVerbContext) {
     List *parameterSymbols;
     IdNode *p1Id = newId(nulsrcp, "p1");
     IdNode *v1Id = newId(nulsrcp, "v1");
@@ -545,7 +550,7 @@ Ensure(testCanFindParametersFromVerbContext) {
     assert_true(strcmp(parameterSymbols->member.sym->string, p1Id->string) == 0);
 }
 
-Ensure(testCanListParametersFromVerbContext) {
+Ensure(Symbol, testCanListParametersFromVerbContext) {
     List *parameterSymbols;
     IdNode *v1Id = newId(nulsrcp, "v1");
     Context *context;
@@ -562,27 +567,27 @@ TestSuite *symTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testMultipleSymbolKinds);
-    add_test(suite, testContentOfSymbol);
-    add_test(suite, testSymCheck);
-    add_test(suite, testBuildSymbol1);
-    add_test(suite, testBuildSymbolHigher);
-    add_test(suite, testBuildSymbolLower);
-    add_test(suite, testInherit1);
-    add_test(suite, testInherit2);
-    add_test(suite, testInheritErrorSymbol);
-    add_test(suite, testSymbolTableInit);
-    add_test(suite, testCreateClassSymbol);
-    add_test(suite, testVerbSymbols);
-    add_test(suite, testLookupScript);
-    add_test(suite, testNewFrame);
-    add_test(suite, testReplicateContainer);
-    add_test(suite, testCreateMessageVerbs);
-    add_test(suite, testInheritOpaqueAttribute);
-    add_test(suite, testClassToType);
-    add_test(suite, testParameterReference);
-    add_test(suite, testCanFindParametersFromVerbContext);
-    add_test(suite, testCanListParametersFromVerbContext);
+    add_test_with_context(suite, Symbol, testMultipleSymbolKinds);
+    add_test_with_context(suite, Symbol, testContentOfSymbol);
+    add_test_with_context(suite, Symbol, testSymCheck);
+    add_test_with_context(suite, Symbol, testBuildSymbol1);
+    add_test_with_context(suite, Symbol, testBuildSymbolHigher);
+    add_test_with_context(suite, Symbol, testBuildSymbolLower);
+    add_test_with_context(suite, Symbol, testInherit1);
+    add_test_with_context(suite, Symbol, testInherit2);
+    add_test_with_context(suite, Symbol, testInheritErrorSymbol);
+    add_test_with_context(suite, Symbol, testSymbolTableInit);
+    add_test_with_context(suite, Symbol, testCreateClassSymbol);
+    add_test_with_context(suite, Symbol, testVerbSymbols);
+    add_test_with_context(suite, Symbol, testLookupScript);
+    add_test_with_context(suite, Symbol, testNewFrame);
+    add_test_with_context(suite, Symbol, testReplicateContainer);
+    add_test_with_context(suite, Symbol, testCreateMessageVerbs);
+    add_test_with_context(suite, Symbol, testInheritOpaqueAttribute);
+    add_test_with_context(suite, Symbol, testClassToType);
+    add_test_with_context(suite, Symbol, testParameterReference);
+    add_test_with_context(suite, Symbol, testCanFindParametersFromVerbContext);
+    add_test_with_context(suite, Symbol, testCanListParametersFromVerbContext);
 
     return suite;
 }

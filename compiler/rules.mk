@@ -69,8 +69,16 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 # Unit testing
 #
 .PHONY: unit
-unit: unittests
-	@./unittests $(UNITOUTPUT)
+#unit: unittests
+#	@./unittests $(UNITOUTPUT)
+
+unit: unittests.dll
+ifeq ($(shell uname), Darwin)
+	arch -i386 cgreen-runner $^ --suite compiler_unit_tests $(UNITOUTPUT)
+else
+	cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
+endif
+
 
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
@@ -86,5 +94,9 @@ unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
 unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
+
+unittests.dll: CFLAGS += $(CGREENINCLUDE)
+unittests.dll: LIBS = $(CGREENLIB) $(ALLOCLIBS)
+unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -shared -o unittests.dll $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 

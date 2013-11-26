@@ -15,7 +15,12 @@
 #include "prop_x.h"
 
 
-Ensure(testClassOfContent) {
+Describe(Where);
+BeforeEach(Where) {}
+AfterEach(Where) {}
+
+
+Ensure(Where, testClassOfContent) {
   initSymbols();
   initClasses();
   IdNode *id = newId(nulsrcp, "inCont");
@@ -45,7 +50,7 @@ Ensure(testClassOfContent) {
   assert_true(contentOf(whatId, NULL) == locationSymbol);
 }
 
-Ensure(InitialLocationOfObjectIsNowhere) {
+Ensure(Where, InitialLocationOfObjectIsNowhere) {
   IdNode *locId = newId(nulsrcp, "atLoc");
   Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
 			newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
@@ -67,7 +72,7 @@ Ensure(InitialLocationOfObjectIsNowhere) {
   assert_true(generateInitialLocation(properties) == atLoc->props->id->symbol->code);
 }
 
-Ensure(InitialLocationOfLocationIsNull) {
+Ensure(Where, InitialLocationOfLocationIsNull) {
   IdNode *locId = newId(nulsrcp, "atLoc");
   Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
 			newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
@@ -96,9 +101,9 @@ TestSuite *whrTests()
 {
     TestSuite *suite = create_test_suite();
 
-    add_test(suite, testClassOfContent);
-    add_test(suite, InitialLocationOfObjectIsNowhere);
-    add_test(suite, InitialLocationOfLocationIsNull);
+    add_test_with_context(suite, Where, testClassOfContent);
+    add_test_with_context(suite, Where, InitialLocationOfObjectIsNowhere);
+    add_test_with_context(suite, Where, InitialLocationOfLocationIsNull);
 
     return suite;
 }

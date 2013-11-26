@@ -11,7 +11,12 @@
 #include <cgreen/cgreen.h>
 
 
-Ensure(canVerifyUUID) {
+Describe(Ifid);
+BeforeEach(Ifid) {}
+AfterEach(Ifid) {}
+
+
+Ensure(Ifid, canVerifyUUID) {
   assert_true(!isValidUUID(""));
   assert_true(!isValidUUID("UUID://"));
   assert_true(!isValidUUID("UUID://12312123-1231-1231-123t-12367813desd//"));
@@ -23,7 +28,7 @@ TestSuite *ifidTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, canVerifyUUID);
+    add_test_with_context(suite, Ifid, canVerifyUUID);
 
     return suite;
 }

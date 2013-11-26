@@ -16,7 +16,12 @@
 #include "unitList.h"
 
 
-Ensure(testNumberImages) {
+Describe(Resource);
+BeforeEach(Resource) {}
+AfterEach(Resource) {}
+
+
+Ensure(Resource, testNumberImages) {
   List e[5];
   int j;
   IdNode *i[5] = {NULL,
@@ -67,7 +72,7 @@ Ensure(testNumberImages) {
 }
 
 
-Ensure(testGenerateBlcFile) {
+Ensure(Resource, testGenerateBlcFile) {
   char *blcFileName = "unittest.blc";
   FILE *blcFile = openNewBlcFile("unittest.blc");
   struct stat fileStat;
@@ -107,7 +112,7 @@ Ensure(testGenerateBlcFile) {
   unlink(blcFileName);
 }
 
-Ensure(testAnalyzeResource) {
+Ensure(Resource, testAnalyzeResource) {
   Resource *resource = newResource(nulsrcp, newId(nulsrcp, ""));
   char fileName[200] = "resourceUnitTest.jpg";
   char *legalExtensions[] = {".jpg", ".jpeg", ".png", ".PnG", ".mod", NULL};
@@ -143,9 +148,9 @@ TestSuite *resourceTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testNumberImages);
-    add_test(suite, testAnalyzeResource);
-    add_test(suite, testGenerateBlcFile);
+    add_test_with_context(suite, Resource, testNumberImages);
+    add_test_with_context(suite, Resource, testAnalyzeResource);
+    add_test_with_context(suite, Resource, testGenerateBlcFile);
 
     return suite;
 }
