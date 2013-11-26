@@ -45,7 +45,6 @@ snapshots: zip setup lib
 	cp doc/manual/manual.pdf $(DISTDIR)/Snapshots/manual$(BUILD).pdf
 	cp doc/manual/conversion.pdf $(DISTDIR)/Snapshots/conversion$(BUILD).pdf
 	cp doc/manual/writing.pdf $(DISTDIR)/Snapshots/writing$(BUILD).pdf
-	cd /cygdrive/c/Program/FullSync; ./fullsync -r "AlanIF Snapshots"
 
 # Create pdf from odt
 .PHONY: documentation
@@ -137,7 +136,8 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 
 .PHONY: sync
 sync:
-	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
+	cd /cygdrive/c/Program/FullSync; ./fullsync -r "AlanIF Snapshots"
+    #	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
 
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; ../../bin/alan adventv3
