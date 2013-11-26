@@ -13,7 +13,12 @@
 #include "unitmock.h"
 
 
-Ensure(testInsertWord) {
+Describe(Word);
+BeforeEach(Word) {}
+AfterEach(Word) {}
+
+
+Ensure(Word, testInsertWord) {
   Word w1, w2, w3, w4;
 
   w1.string = "s1";
@@ -36,7 +41,7 @@ Ensure(testInsertWord) {
   assert_true(wordTree->high->high == &w4);
 }
 
-Ensure(testNewWord) {
+Ensure(Word, testNewWord) {
   Instance i1;
 
   wordTree = NULL;
@@ -50,7 +55,7 @@ Ensure(testNewWord) {
   assert_true(wordTree->high->ref[SYNONYM_WORD]->member.word == findWord("p"));
 }
 
-Ensure(testGenerateWordEntry) {
+Ensure(Word, testGenerateWordEntry) {
   Word w1, *w2;
   DictionaryEntry de[2];
 
@@ -83,7 +88,7 @@ Ensure(testGenerateWordEntry) {
   assert_true(convertFromACD(de[1].adjectiveRefs) == 21);  
 }
 
-Ensure(canSeeIfWordDefinedInDictionary) {
+Ensure(Word, canSeeIfWordDefinedInDictionary) {
 	assert_that(findWord("added"), is_null);
 	newWord("added", NOISE_WORD, 0, NULL);
 	assert_that(findWord("added"), is_not_equal_to(NULL));
@@ -92,11 +97,11 @@ Ensure(canSeeIfWordDefinedInDictionary) {
 TestSuite *wrdTests()
 {
     TestSuite *suite = create_test_suite();
-    
-    add_test(suite, testInsertWord);
-    add_test(suite, testNewWord);
-    add_test(suite, testGenerateWordEntry);
-	add_test(suite, canSeeIfWordDefinedInDictionary);
+
+    add_test_with_context(suite, Word, testInsertWord);
+    add_test_with_context(suite, Word, testNewWord);
+    add_test_with_context(suite, Word, testGenerateWordEntry);
+	add_test_with_context(suite, Word, canSeeIfWordDefinedInDictionary);
 
     return suite;
 }

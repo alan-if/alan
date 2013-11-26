@@ -13,7 +13,12 @@
 #include "unitList.h"
 
 
-Ensure(testMultipleVerbs) {
+Describe(Verb);
+BeforeEach(Verb) {}
+AfterEach(Verb) {}
+
+
+Ensure(Verb, testMultipleVerbs) {
   IdNode *v1 = newId(nulsrcp, "v1");
   IdNode *v2 = newId(nulsrcp, "v2");
   IdNode *v3 = newId(nulsrcp, "v3");
@@ -48,7 +53,7 @@ TestSuite *vrbTests()
 {
     TestSuite *suite = create_test_suite(); 
 
-    add_test(suite, testMultipleVerbs);
+    add_test_with_context(suite, Verb, testMultipleVerbs);
 
     return suite;
 }
