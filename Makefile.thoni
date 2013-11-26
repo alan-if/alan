@@ -45,7 +45,7 @@ snapshots: zip setup lib
 	cp doc/manual/manual.pdf $(DISTDIR)/Snapshots/manual$(BUILD).pdf
 	cp doc/manual/conversion.pdf $(DISTDIR)/Snapshots/conversion$(BUILD).pdf
 	cp doc/manual/writing.pdf $(DISTDIR)/Snapshots/writing$(BUILD).pdf
-    cd /cygdrive/c/Program/FullSync; ./fullsync -r "AlanIF Snapshots"
+	cd /cygdrive/c/Program/FullSync; ./fullsync -r "AlanIF Snapshots"
 
 # Create pdf from odt
 .PHONY: documentation
