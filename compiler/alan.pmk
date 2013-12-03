@@ -53,6 +53,7 @@
 #include "stp_x.h"
 #include "stx_x.h"
 #include "sym_x.h"
+#include "scrp_x.h"
 #include "vrb_x.h"
 #include "whr_x.h"
 #include "wht_x.h"

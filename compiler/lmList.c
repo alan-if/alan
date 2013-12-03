@@ -1441,12 +1441,12 @@ void lmLiInit(
 
  */
 void lmLog(
-    Srcp *pos,		/* IN - Source position */
-    int ecode,				/* IN - The error code */
-    lmSev sev,		/* IN - Severity code */
-    char istrs[]			/* IN - Insert strings */
+    Srcp *pos,                  /* IN - Source position */
+    int ecode,                  /* IN - The error code */
+    lmSev sev,                  /* IN - Severity code */
+    char istrs[]                /* IN - Insert strings */
 ) {
-    Srcp srcpos, *srcp = &srcpos;	/* Source position copy */
+    Srcp srcpos, *srcp = &srcpos; /* Source position copy */
     
   /* Check phase */
   if (phase != PH_COLL) {

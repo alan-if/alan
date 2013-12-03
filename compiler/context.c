@@ -167,4 +167,18 @@ Bool thisIsaContainer(Context *context)
     return symbolIsContainer(symbol);
 }
 
+/*======================================================================*/
+Symbol *contextRestrictionsFor(Context *context, IdNode *id) {
+    if (context->classRestriction == NULL)
+        return NULL;
+    if (context->classRestriction->kind != ISA_EXPRESSION)
+        SYSERR("Wrong kind of expression in context restriction");
+    return context->classRestriction->fields.isa.class->symbol;
+}
 
+/*======================================================================*/
+void addRestrictionInContext(Context *context, Expression *exp) {
+    if (exp->kind != ISA_EXPRESSION)
+        SYSERR("Wrong kind of expression in context restriction");
+    context->classRestriction = exp;
+}

@@ -15,14 +15,12 @@
 #include "lmList.h"
 #include "smScan.h"
 #include "options.h"
+#include "srcp_x.h"
 
 #include <setjmp.h>
 
 
 /* PUBLIC DATA */
-
-Srcp nulsrcp			/* NULL position for list */
-  = {0,0,0};
 
 Bool verboseFlag;		/* Verbose output */
 long counter;			/* And counter for verbose mode */
@@ -118,41 +116,41 @@ static int test_severity(char *err, lmSev sevs)
 /*----------------------------------------------------------------------*/
 static void specialListing(lmSev sevs)
 {
-  int i,j;
-  char err[1024], line[1024];
-  Srcp srcp;
-  List *fnm;
-  List nofile;
-	
-  nofile.member.str = "<no file>";
-  for (i = 1; lmMsg(i, &srcp, err); i++) {
-    if (test_severity(err, sevs)) {
-      /* Advance to the correct file name */
-      if (srcp.file == -1) 
-	fnm = &nofile;
-      else
-	for (fnm = fileNames, j = 0; j < srcp.file; j++)
-	  if (fnm != NULL)
-	    fnm = fnm->next;
-      if (fnm == NULL)
-	fnm = &nofile;
-      if (ccFlag)
-	sprintf(line, "\"%s\", line %d(%d): %s\n",
-		fnm->member.str, srcp.line, srcp.col, err);
-      else if (ideFlag)
-	sprintf(line, "\"%s\", line %d %d-%d: %s\n",
-		fnm->member.str, srcp.line, srcp.startpos, srcp.endpos, err);
-      else
-	sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
-		fnm->member.str, srcp.line, srcp.col, err, srcp.col);
+    int i,j;
+    char err[1024], line[1024];
+    Srcp srcp;
+    List *fnm;
+    List nofile;
 
+    nofile.member.str = "<no file>";
+    for (i = 1; lmMsg(i, &srcp, err); i++) {
+        if (test_severity(err, sevs)) {
+            /* Advance to the correct file name */
+            if (srcp.file == -1) 
+                fnm = &nofile;
+            else
+                for (fnm = fileNames, j = 0; j < srcp.file; j++)
+                    if (fnm != NULL)
+                        fnm = fnm->next;
+            if (fnm == NULL)
+                fnm = &nofile;
+            if (ccFlag)
+                sprintf(line, "\"%s\", line %d(%d): %s\n",
+                        fnm->member.str, srcp.line, srcp.col, err);
+            else if (ideFlag)
+                sprintf(line, "\"%s\", line %d %d-%d: %s\n",
+                        fnm->member.str, srcp.line, srcp.startpos, srcp.endpos, err);
+            else
+                sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
+                        fnm->member.str, srcp.line, srcp.col, err, srcp.col);
+            
 #ifdef __mac__
-      lmLiPrint(line);
+            lmLiPrint(line);
 #else
-      printf("%s", line);
+            printf("%s", line);
 #endif
+        }
     }
-  }
 }
 
 

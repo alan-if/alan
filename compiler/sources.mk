@@ -15,6 +15,11 @@ TMCSRCS = \
 	smScanx.c smScSema.c\
 	lmList.c
 
+# Either using its runner which discovers test automatically...
+# With everything mocked so they run in complete isolation...
+MODULES_WITH_ISOLATED_UNITTESTS = \
+	context \
+
 # Sources which have unittests defined
 UNITTESTED = \
 	add.c \
@@ -95,4 +100,3 @@ UNITTESTSDLLSRCS = $(UNITSRCS) $(OTHERSRCS)
 
 # Version timestamp dependencies
 VERSIONSRCS = $(ALANSRCS) $(TMSRCS)
-

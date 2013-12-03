@@ -15,6 +15,7 @@
 
 
 /* DATA: */
+extern Srcp nulsrcp;
 
 
 /* FUNCTIONS: */

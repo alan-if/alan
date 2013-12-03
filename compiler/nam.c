@@ -10,6 +10,7 @@
 #include "alan.h"
 #include "msg.h"
 #include "stm_x.h"
+#include "srcp_x.h"
 #include "lst_x.h"
 #include "emit.h"
 #include "util.h"

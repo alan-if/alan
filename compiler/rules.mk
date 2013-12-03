@@ -69,34 +69,67 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 # Unit testing
 #
 .PHONY: unit
-#unit: unittests
-#	@./unittests $(UNITOUTPUT)
+unit: cgreenrunnertests isolated_unittests
 
-unit: unittests.dll
+
+UNITTESTSOBJDIR = .unittests
+UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
+UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
+
+# Dependencies, if they don't exist yet
+-include $(UNITTESTSOBJECTS:.o=.d)
+
+# Rule to compile objects to subdirectory
+.PRECIOUS: $(UNITTESTSOBJDIR)/%.o
+$(UNITTESTSOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+# Create directory if it doesn't exist
+$(UNITTESTSOBJDIR):
+	@mkdir $(UNITTESTSOBJDIR)
+
+unittests: CFLAGS += $(CGREENINCLUDE)
+unittests: LIBS = $(CGREENLIB)
+unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
+	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
+
+unittests.dll: CFLAGS += $(CGREENINCLUDE)
+unittests.dll: LIBS = $(CGREENLIB)
+unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
+	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
+
+# ... that can be run with the cgreen runner
+cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
+cgreenrunnertests: LIBS = $(CGREENLIB)
+cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
 	arch -i386 cgreen-runner $^ --suite compiler_unit_tests $(UNITOUTPUT)
 else
 	cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 endif
 
+# Here we try to build a runnable DLL for each module where it can be 
+# tested in total isolation (with everything else mocked away,
+# except lists.c and memory.c)
 
-UNITTESTSOBJDIR = .unittests
-UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
-UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
--include $(UNITTESTSOBJECTS:.o=.d)
-$(UNITTESTSOBJECTS): $(UNITTESTSOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, lists util lmList options))
 
-$(UNITTESTSOBJDIR):
-	@mkdir $(UNITTESTSOBJDIR)
+# A test .dll for a module is built from its .o and the _test.o (and some extras)
+$(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o $(ISOLATED_UNITTESTS_EXTRA_OBJS)
+	$(LINK) -shared -Wl,--no-undefined -o $@ $^ $(LINKFLAGS) $(LIBS)
 
-unittests: CFLAGS += $(CGREENINCLUDE)
-unittests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
+ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
-unittests.dll: CFLAGS += $(CGREENINCLUDE)
-unittests.dll: LIBS = $(CGREENLIB) $(ALLOCLIBS)
-unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -shared -o unittests.dll $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
-
+# Then run all _tests.dll's with the cgreen-runner
+isolated_unittests: CFLAGS += $(CGREENINCLUDE)
+isolated_unittests: LIBS = $(CGREENLIB)
+isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)
+ifeq ($(shell uname), Darwin)
+	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
+		arch -i386 cgreen-runner $$f --suite Compiler $(UNITOUTPUT) ; \
+	done
+else
+	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
+		cgreen-runner $$f --suite Compiler $(UNITOUTPUT) ; \
+	done
+endif

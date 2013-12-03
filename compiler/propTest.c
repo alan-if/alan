@@ -12,6 +12,7 @@
 
 #include "unitList.h"
 
+#include "srcp_x.h"
 #include "exp_x.h"
 #include "wht_x.h"
 #include "adv_x.h"

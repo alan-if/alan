@@ -132,21 +132,6 @@ else
 	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 endif
 
-# To make sure that all modules are included when we run the ones that
-# are to be run in the "old fashion" way with a main program that
-# collects all the tests. This means that we must remember to manually
-# add every new test (and change name in more than one place). So to
-# make some automation of this until they have all migrate to the
-# reflective runner, here we generate a list of those modules in a
-# fashion that the main program can include. And pow, the correct
-# modules are called and collected.
-add_unittests.include : sources.mk
-	-@rm $@
-	for f in $(MODULES_WITH_UNITTESTS_USING_MAIN:.c=) ; do \
-		echo "    ADD_UNITTESTS_FOR($$f);" >> $@ ; \
-	done
-
-
 # Here we try to build a runnable DLL for each module where it can be 
 # tested in total isolation (with everything else mocked away,
 # except lists.c and memory.c)

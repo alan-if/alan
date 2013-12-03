@@ -46,6 +46,7 @@
 #include "prop_x.h"
 #include "res_x.h"
 #include "scr_x.h"
+#include "srcp_x.h"
 #include "stm_x.h"
 #include "stp_x.h"
 #include "stx_x.h"

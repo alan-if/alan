@@ -14,6 +14,11 @@
 #include "lst_x.h"
 
 
+/* Public: */
+Srcp nulsrcp			/* NULL position for list */
+  = {0,0,0};
+
+
 /* Private: */
 static List *srcps = NULL;
 

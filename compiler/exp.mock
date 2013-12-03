@@ -1,0 +1,70 @@
+#include <cgreen/mocks.h>
+
+#include "exp.h"
+
+/* USE other definitions */
+#include "srcp.h"
+#include "context.h"
+
+
+
+/* Data: */
+
+
+/* Functions: */
+
+Expression *newAttributeExpression(Srcp srcp, IdNode *attribute,
+                                   Bool not, Expression *ofWhat) {return (Expression*)mock();}
+Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
+                                OperatorKind operator,
+                                Expression *right) {return (Expression*)mock();}
+Expression *newBetweenExpression(Srcp srcp, Expression *exp, Bool not,
+                                 Expression *low, Expression *high) {return (Expression*)mock();}
+Expression *newStringExpression(Srcp srcp, long fpos, int len) {return (Expression*)mock();}
+Expression *newSetExpression(Srcp srcp, List *set) {return (Expression*)mock();}
+Expression *newScoreExpression(Srcp srcp);
+Expression *newIntegerExpression(Srcp srcp, int value) {return (Expression*)mock();}
+
+Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
+                             IdNode *class) {
+    Expression *exp = NEW(Expression);
+    exp->kind = ISA_EXPRESSION;
+    exp->fields.isa.what = what;
+    exp->fields.isa.class = class;
+    exp->not = not;
+    return exp;
+}
+
+Expression *newWhatExpression(Srcp srcp, What *what) {
+    Expression *exp = NEW(Expression);
+    exp->kind = WHAT_EXPRESSION;
+    exp->fields.wht.wht = what;
+    return exp;
+}
+
+Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not, Where *where) {return (Expression*)mock();}
+Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
+                                   IdNode *attribute, List *filters) {return (Expression*)mock();}
+Expression *newRandomRangeExpression(Srcp srcp, Expression *from,
+                                     Expression *to) {return (Expression*)mock();}
+Expression *newRandomInExpression(Srcp srcp, Expression *what, Bool directly);
+
+void symbolizeExpression(Expression *exp) {mock();}
+void analyzeExpression(Expression *exp, Context *context) {mock();}
+Bool analyzeFilterExpressions(char *message, List *filters,
+                              Context *context, Symbol **foundClass) {return (Bool)mock();}
+Bool isConstantIdentifier(IdNode *id) {return (Bool)mock();}
+Bool isConstantExpression(Expression *exp) {return (Bool)mock();}
+Symbol *contentOf(Expression *what, Context *context) {return (Symbol*)mock();}
+Bool verifyContainerExpression(Expression *what, Context *context,
+                               char referer[]) {return (Bool)mock();}
+Symbol *symbolOfExpression(Expression *exp, Context *context) {return (Symbol*)mock();}
+void generateExpression(Expression *exp) {mock();}
+void generateFilter(Expression *exp) {mock();}
+void generateBinaryOperator(Expression *exp) {mock();}
+void generateLvalue(Expression *exp) {mock();}
+void generateAttributeReference(Expression *exp) {mock();}
+void generateAttributeAccess(Expression *exp) {mock();}
+void generateBetweenCheck(Expression *exp) {mock();}
+void dumpType(TypeKind typ) {mock();}
+void dumpExpression(Expression *exp) {mock();}

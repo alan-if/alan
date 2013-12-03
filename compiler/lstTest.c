@@ -11,6 +11,7 @@
 #include <cgreen/cgreen.h>
 
 #include "id_x.h"
+#include "srcp_x.h"
 
 #include <setjmp.h>
 
