@@ -1,0 +1,9 @@
+The l Isa location
+End The l.
+
+The o Isa object At l
+  Container
+End The o.
+
+Start At l.
+  Locate o In o.
