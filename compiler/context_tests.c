@@ -1,0 +1,41 @@
+#include <cgreen/cgreen.h>
+
+#include "context_x.h"
+
+#include "srcp.mock"
+#include "sym.mock"
+#include "id.mock"
+#include "exp.mock"
+#include "wht.mock"
+
+List *fileNames = NULL;
+
+Symbol *theVerbSymbol;
+
+Describe(Context);
+BeforeEach(Context) {
+    theVerbSymbol = newSymbol(newId(nulsrcp, "theVerb"), VERB_SYMBOL);
+}
+AfterEach(Context) {}
+
+Ensure(Context, can_return_null_for_not_restricted_parameter_in_single_context) {
+    Context *context = newVerbContext(theVerbSymbol);
+    IdNode *parameter = newId(nulsrcp, "parameter");
+
+    assert_that(contextRestrictionsFor(context, parameter), is_null);
+}
+
+Ensure(Context, can_return_class_for_restricted_in_single_context) {
+    Context *context = newVerbContext(theVerbSymbol);
+    IdNode *parameter = newId(nulsrcp, "parameter");
+    What *parameterWhat = newWhatId(nulsrcp, parameter);
+    Expression *parameterExpression = newWhatExpression(nulsrcp, parameterWhat);
+    IdNode *theClassId = newId(nulsrcp, "theClass");
+    Symbol *theClass = newSymbol(theClassId, CLASS_SYMBOL);
+    Expression *theExpression = newIsaExpression(nulsrcp, parameterExpression, FALSE, theClassId);
+
+    theClassId->symbol = theClass;
+
+    addRestrictionInContext(context, theExpression);
+    assert_that(contextRestrictionsFor(context, parameter), is_equal_to(theClass));
+}
