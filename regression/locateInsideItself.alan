@@ -5,5 +5,10 @@ The o Isa object At l
   Container
 End The o.
 
+Verb abracadabra
+  Does
+      Locate o In o.
+      Look.
+End Verb.
+
 Start At l.
-  Locate o In o.
