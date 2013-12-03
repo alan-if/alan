@@ -304,24 +304,24 @@ typedef struct ClassEntry {	/* CLASS TABLE */
 } ClassEntry;
 
 typedef struct InstanceEntry {	/* INSTANCE TABLE */
-    Aint code;			/* Own code */
-    Aaddr id;			/* Address to identifier string */
-    Aint parent;		/* Code for the parent class, 0 if none */
-    Aaddr name;			/* Address to name printing code */
-    Aint pronoun;		/* Word code for the pronoun */
-    Aint initialLocation;	/* Code for current location */
-    Aaddr initialize;		/* Address to initialization statements */
-    Aint container;		/* Code for a possible container property */
+    Aint code;                  /* Own code */
+    Aaddr id;                   /* Address to identifier string */
+    Aint parent;                /* Code for the parent class, 0 if none */
+    Aaddr name;                 /* Address to name printing code */
+    Aint pronoun;               /* Word code for the pronoun */
+    Aint initialLocation;       /* Code for current location */
+    Aaddr initialize;           /* Address to initialization statements */
+    Aint container;             /* Code for a possible container property */
     Aaddr initialAttributes;	/* Address of attribute list */
-    Aaddr checks;		/* Address of description checks */
-    Aaddr description;		/* Address of description code */
-    ArticleEntry definite;	/* Definite article entry */
-    ArticleEntry indefinite;	/* Indefinite article entry */
-    ArticleEntry negative;	/* Negative article entry */
-    Aaddr mentioned;		/* Address to short description code */
-    Aaddr verbs;		/* Address of local verb list */
-    Aaddr entered;		/* Address of entered code (location only) */
-    Aaddr exits;		/* Address of exit list */
+    Aaddr checks;		        /* Address of description checks */
+    Aaddr description;          /* Address of description code */
+    ArticleEntry definite;	    /* Definite article entry */
+    ArticleEntry indefinite;    /* Indefinite article entry */
+    ArticleEntry negative;	    /* Negative article entry */
+    Aaddr mentioned;		    /* Address to short description code */
+    Aaddr verbs;                /* Address of local verb list */
+    Aaddr entered;              /* Address of entered code (location only) */
+    Aaddr exits;		        /* Address of exit list */
 } InstanceEntry;
 
 typedef struct AttributeEntry {	/* ATTRIBUTE LIST */

@@ -246,7 +246,7 @@ bool isIn(int instance, int container, transitivity trans)
         return admin[instance].location == container;
     else {
         loc = admin[instance].location;
-        while (loc != 0)
+        while (loc != 0 && !isA(loc, LOCATION))
             if (loc == container)
                 return TRUE;
             else

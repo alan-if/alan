@@ -42,15 +42,26 @@ Ensure(Instance, canAccessLiteralValue) {
     assert_equal(value, literalAttribute(instanceFromLiteral(literal_number), attribute_number_for_literal_value));
 }
 
-TestSuite *instanceTests(void)
-{
-    TestSuite *suite = create_test_suite();
+Ensure(Instance, stopsLookingInsideContainersWhenEncounteringLocation) {
+    header->locationClassId = 42;
 
-    set_setup(suite, setUp);
-    
-    add_test_with_context(suite, Instance, canAccessLiteralValue);
+    /* Create 3 instances */
+    header->instanceMax = 3;
+    admin = allocate(4);
+    instances = allocate(4);
 
-    set_teardown(suite, tearDown);
+    /* Make them all containers */
+    instances[1].container = 1;
+    instances[2].container = 1;
+    instances[3].container = 1;
 
-    return suite;
+    /* Nest them */
+    admin[1].location = 2;
+    admin[2].location = 3;
+    admin[3].location = 0;
+
+    /* Make intermediate into location */
+    instances[2].parent = LOCATION;
+
+    assert_that(isIn(1, 3, TRANSITIVE), is_false);
 }
