@@ -80,7 +80,6 @@ UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o})
 -include $(UNITTESTSOBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
-.PRECIOUS: $(UNITTESTSOBJDIR)/%.o
 $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 

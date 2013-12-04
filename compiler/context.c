@@ -9,6 +9,7 @@
 #include "string.h"
 #include "util.h"
 #include "sym_x.h"
+#include "id_x.h"
 
 
 /*----------------------------------------------------------------------*/
@@ -95,13 +96,23 @@ Symbol *symbolOfContext(Context *context) {
     return NULL;
 }
 
+/*----------------------------------------------------------------------*/
+static Context *duplicateContext(Context *previous) {
+    Context *new = NEW(Context);
+
+    if (previous) {
+        memcpy(new, previous, sizeof(Context));
+        new->classRestriction = NULL;
+    }
+    return new;
+}
+
+
 /*======================================================================*/
 Context *pushContext(Context *previous)
 {
-    Context *new = NEW(Context);
+    Context *new = duplicateContext(previous);
 
-    if (previous)
-        memcpy(new, previous, sizeof(Context));
     new->previous = previous;
     return new;
 }
@@ -169,11 +180,19 @@ Bool thisIsaContainer(Context *context)
 
 /*======================================================================*/
 Symbol *contextRestrictionsFor(Context *context, IdNode *id) {
+    Context *currentContext = context;
+
     if (context->classRestriction == NULL)
         return NULL;
     if (context->classRestriction->kind != ISA_EXPRESSION)
         SYSERR("Wrong kind of expression in context restriction");
-    return context->classRestriction->fields.isa.class->symbol;
+
+    while (currentContext != NULL)
+        if (equalId(id, currentContext->classRestriction->fields.isa.what->fields.wht.wht->id))
+            return context->classRestriction->fields.isa.class->symbol;
+        else
+            currentContext = context->previous;
+    return NULL;
 }
 
 /*======================================================================*/

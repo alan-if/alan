@@ -1,0 +1,20 @@
+The l Isa location
+End The l.
+
+Syntax p = p (o) Where o Isa thing Else ""
+
+Add To Every location
+  Is Not lit.
+End Add.
+
+Add To Every thing
+  Verb p
+    Does
+      If o Isa location Then
+        Make o lit.
+        Make o dark.
+      End If.
+    End Verb.
+End Add.
+
+Start At l.

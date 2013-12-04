@@ -42,13 +42,17 @@ Ensure(Instance, canAccessLiteralValue) {
     assert_equal(value, literalAttribute(instanceFromLiteral(literal_number), attribute_number_for_literal_value));
 }
 
+static void given_number_of_instances(int count) {
+    header->instanceMax = count;
+    admin = allocate((count+1)*sizeof(AdminEntry));
+    instances = allocate((count+1)*sizeof(InstanceEntry));
+}
+
+
 Ensure(Instance, stopsLookingInsideContainersWhenEncounteringLocation) {
     header->locationClassId = 42;
 
-    /* Create 3 instances */
-    header->instanceMax = 3;
-    admin = allocate(4);
-    instances = allocate(4);
+	given_number_of_instances(3);
 
     /* Make them all containers */
     instances[1].container = 1;

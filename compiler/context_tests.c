@@ -18,14 +18,14 @@ BeforeEach(Context) {
 }
 AfterEach(Context) {}
 
-Ensure(Context, can_return_null_for_not_restricted_parameter_in_single_context) {
+Ensure(Context, returns_null_for_not_restricted_parameter_in_single_context) {
     Context *context = newVerbContext(theVerbSymbol);
     IdNode *parameter = newId(nulsrcp, "parameter");
 
     assert_that(contextRestrictionsFor(context, parameter), is_null);
 }
 
-Ensure(Context, can_return_class_for_restricted_in_single_context) {
+Ensure(Context, returns_class_for_restricted_parameter_in_single_context) {
     Context *context = newVerbContext(theVerbSymbol);
     IdNode *parameter = newId(nulsrcp, "parameter");
     What *parameterWhat = newWhatId(nulsrcp, parameter);
@@ -38,4 +38,7 @@ Ensure(Context, can_return_class_for_restricted_in_single_context) {
 
     addRestrictionInContext(context, theExpression);
     assert_that(contextRestrictionsFor(context, parameter), is_equal_to(theClass));
+
+    Context *context2 = pushContext(context);
+    assert_that(contextRestrictionsFor(context2, parameter), is_equal_to(theClass));
 }

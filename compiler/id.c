@@ -66,8 +66,7 @@ List *newIdList(List *list, char *str) {
 
 
 /*======================================================================*/
-Bool equalId(IdNode *id1,
-	     IdNode *id2)
+Bool equalId(IdNode *id1, IdNode *id2)
 {
   if (id1 && id2)
     return (compareStrings(id1->string, id2->string) == 0);

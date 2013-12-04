@@ -7,7 +7,13 @@ char *generateIdName(void) {return (char *)mock();}
 Bool isGeneratedId(IdNode *id) {return (Bool)mock(id);}
 IdNode *newId(Srcp srcp, char str[]) { IdNode *id = NEW(IdNode); id->string = strdup(str); return id;}
 List *newIdList(List *list, char *str) {return (List *)mock(list, str);}
-Bool equalId(IdNode *id1, IdNode *id2) {return (Bool)mock(id1, id2);}
+Bool equalId(IdNode *id1, IdNode *id2) {
+    if (id1 && id2)
+        return (compareStrings(id1->string, id2->string) == 0);
+    else
+        SYSERR("ID == NULL");                  
+    return FALSE;   
+}
 void symbolizeId(IdNode *id) {mock(id);}
 IdNode *findIdInList(IdNode *theId, List *theList) {return (IdNode *)mock(theId, theList);}
 void generateId(IdNode *id) {}

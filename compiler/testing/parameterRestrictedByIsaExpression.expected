@@ -1,0 +1,16 @@
+########## parameterRestrictedByIsaExpression ##########
+
+
+parameterRestrictedByIsaExpression.alan
+
+   15.          Make o dark.
+=====>                 1
+
+  *1*   316 E : Attribute 'dark' is not defined for parameter 'o' since its
+                class ('location') does not have it.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+
