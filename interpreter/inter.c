@@ -1020,6 +1020,19 @@ void interpret(Aaddr adr)
                 deallocate((void *)rh);
                 break;
             }
+            case I_STRNEQ: {
+                Aptr rh = pop(stack);
+                Aptr lh = pop(stack);
+                if (traceInstructionOption)
+                    printf("STRNEQ \t0x%7lx, 0x%7lx", (long)lh, (long)rh);
+                push(stack, strcmp((char *)lh, (char *)rh) != 0);
+                tracebooleanTopValue();
+                if (traceInstructionOption)
+	                printf("\t");
+                deallocate((void*)lh);
+                deallocate((void*)rh);
+                break;
+            }
             case I_LE: {
                 Aint rh = pop(stack);
                 Aint lh = pop(stack);

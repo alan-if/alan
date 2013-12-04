@@ -729,7 +729,7 @@ static void handleHelpCommand() {
 	output("$nADBG Commands (can be abbreviated):");
 	for (entry = commandEntries; entry->command != NULL; entry++) {
 		char buf[200];
-		sprintf(buf, "$i%s %s %s -- %s", entry->command, entry->parameter, padding(entry, maxLength), entry->helpText);
+		sprintf(buf, "$i%s %s %s$n$t$t-- %s", entry->command, entry->parameter, padding(entry, maxLength), entry->helpText);
 		output(buf);
 	}
 }
