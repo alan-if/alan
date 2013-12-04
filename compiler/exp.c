@@ -1092,9 +1092,10 @@ void generateBinaryOperator(Expression *exp)
         emit0(I_OR);
         break;
     case NE_OPERATOR:
-        if (exp->fields.bin.right->type == STRING_TYPE)
-            emit0(I_STRNEQ);
-        else
+        if (exp->fields.bin.right->type == STRING_TYPE) {
+            emit0(I_STREQ);
+            emit0(I_NOT);
+        } else
             emit0(I_NE);
         break;
     case EQ_OPERATOR:
