@@ -1,4 +1,4 @@
-grammar alan;
+Grammar alan;
 
 WHITESPACE  : (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;} ;
 
@@ -19,15 +19,15 @@ adventure : optional_options declarations start
              ;
 
 optional_options : 
-                 | genSym0 optionlist 
+                 | genSym0 options 
                     ;
 
 genSym0 : 'options' 
          | 'option' 
             ;
 
-optionlist : option 
-        | optionlist option 
+options : option 
+        | options option 
            ;
 
 option : ID '.' 
