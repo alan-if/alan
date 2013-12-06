@@ -66,7 +66,6 @@ void initAdventure(void)
     initSymbols();
     initClasses();
     initInstances();
-    initDumpNodeList();
     adv.ifids = initIfids();
 }
 

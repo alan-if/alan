@@ -66,5 +66,4 @@ void generateLvalue(Expression *exp) {mock();}
 void generateAttributeReference(Expression *exp) {mock();}
 void generateAttributeAccess(Expression *exp) {mock();}
 void generateBetweenCheck(Expression *exp) {mock();}
-void dumpType(TypeKind typ) {mock();}
 void dumpExpression(Expression *exp) {mock();}

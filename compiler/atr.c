@@ -129,18 +129,18 @@ Attribute *newSetAttribute(Srcp srcp, IdNode *id, Expression *set)
 /*----------------------------------------------------------------------*/
 static void checkMultipleAttributes(List *atrs)
 {
-  List *al1;
-  List *al2;
+    List *al1;
+    List *al2;
 
-  TRAVERSE(al1, atrs) {
-    Attribute *thisAttribute = al1->member.atr;
-    /* Check multiple declaration */
-    TRAVERSE(al2, al1->next) {
-      Attribute *nextAttribute = al2->member.atr;
-      if (equalId(thisAttribute->id, nextAttribute->id))
-	  lmLog(&nextAttribute->id->srcp, 218, sevERR, nextAttribute->id->string);
+    TRAVERSE(al1, atrs) {
+        Attribute *thisAttribute = al1->member.atr;
+        /* Check multiple declaration */
+        TRAVERSE(al2, al1->next) {
+            Attribute *nextAttribute = al2->member.atr;
+            if (equalId(thisAttribute->id, nextAttribute->id))
+                lmLog(&nextAttribute->id->srcp, 218, sevERR, nextAttribute->id->string);
+        }
     }
-  }
 }
 
 

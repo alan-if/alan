@@ -16,10 +16,10 @@ extern Class *entity, *thing, *object, *location, *actor, *string, *integer;
 
 
 /* Methods: */
-extern void initClasses();
+extern void initClasses(void);
 extern Class *newClass(Srcp *srcp, IdNode *id, IdNode *parent, Properties *props);
 extern void symbolizeClasses(void);
-extern void analyzeAllClassAttributes();
+extern void analyzeAllClassAttributes(void);
 extern void analyzeClasses(void);
 extern void setupDefaultProperties(void);
 extern Aaddr generateClasses(void);

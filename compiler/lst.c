@@ -40,35 +40,10 @@ extern void dumpLimit();
 extern void dumpIfid();
 
 
-/*======================================================================
-
-  initDumpNodeList()
-
-*/
-void initDumpNodeList()
-{
-  dumpNodeTable[ADD_LIST] = &dumpAdd;
-  dumpNodeTable[ALTERNATIVE_LIST] = &dumpAlternative;
-  dumpNodeTable[ATTRIBUTE_LIST] = &dumpAttribute;
-  dumpNodeTable[CHECK_LIST] = &dumpCheck;
-  dumpNodeTable[CLASS_LIST] = &dumpClass;
-  dumpNodeTable[CONTAINER_LIST] = &dumpPointer;
-  dumpNodeTable[ELEMENT_LIST] = &dumpElement;
-  dumpNodeTable[EXIT_LIST] = &dumpExit;
-  dumpNodeTable[ID_LIST] = &dumpId;
-  dumpNodeTable[INSTANCE_LIST] = &dumpInstance;
-  dumpNodeTable[RESTRICTION_LIST] = &dumpRestriction;
-  dumpNodeTable[STATEMENT_LIST] = &dumpStatement;
-  dumpNodeTable[SYNTAX_LIST] = &dumpSyntax;
-  dumpNodeTable[VERB_LIST] = &dumpVerb;
-  dumpNodeTable[SCRIPT_LIST] = &dumpScript;
-  dumpNodeTable[STEP_LIST] = &dumpStep;
-  dumpNodeTable[EXPRESSION_LIST] = &dumpExpression;  
-  dumpNodeTable[NAME_LIST] = &dumpId;
-  dumpNodeTable[LIMIT_LIST] = &dumpLimit;
-  dumpNodeTable[IFID_LIST] = &dumpIfid;
+/*======================================================================*/
+void addListNodeDumper(ListKind kind, void (dumper)(void *)) {
+    dumpNodeTable[kind] = dumper;
 }
-
 
 /*======================================================================*/
 List *newEmptyList(ListKind kind) {

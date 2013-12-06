@@ -19,6 +19,7 @@ TMCSRCS = \
 # With everything mocked so they run in complete isolation...
 MODULES_WITH_ISOLATED_UNITTESTS = \
 	context \
+	atr \
 
 # Sources which have unittests defined
 UNITTESTED = \
@@ -93,9 +94,7 @@ UNITSRCS = $(UNITTESTEDSRCS) \
 	pmErr.c \
 	smScanx.c smScSema.c
 
-UNITTESTSMAIN = unittests.c xml_reporter.c gopt.c
-
-UNITTESTSSRCS = $(UNITTESTSMAIN) $(UNITSRCS) $(OTHERSRCS)
+UNITTESTSSRCS = $(UNITSRCS) $(OTHERSRCS)
 UNITTESTSDLLSRCS = $(UNITSRCS) $(OTHERSRCS)
 
 # Version timestamp dependencies

@@ -19,7 +19,7 @@
 /* IMPORTS */
 #include "alan.version.h"
 #include "opt.h"
-#include "dump.h"
+#include "dump_x.h"
 #include "lmList.h"
 #include "pmParse.h"
 #include "smScan.h"
@@ -393,32 +393,79 @@ static void listingOnScreen() {
   }
 }
 
+/* Import of dump functions to be used in initDumpers */
+extern void dumpAlternative();
+extern void dumpCheck();
+extern void dumpElement();
+extern void dumpExit();
+extern void dumpAdd();
+extern void dumpAttribute();
+extern void dumpClass();
+extern void dumpId();
+extern void dumpInstance();
+extern void dumpRestriction();
+extern void dumpScript();
+extern void dumpStatement();
+extern void dumpSyntax();
+extern void dumpStep();
+extern void dumpVerb();
+extern void dumpExpression();
+extern void dumpLimit();
+extern void dumpIfid();
+extern void dumpPointer();
+
+/*----------------------------------------------------------------------*/
+static void initDumpers(void) {
+    addListNodeDumper(ADD_LIST, &dumpAdd);
+    addListNodeDumper(ALTERNATIVE_LIST, &dumpAlternative);
+    addListNodeDumper(ATTRIBUTE_LIST, &dumpAttribute);
+    addListNodeDumper(CHECK_LIST, &dumpCheck);
+    addListNodeDumper(CLASS_LIST, &dumpClass);
+    addListNodeDumper(CONTAINER_LIST, &dumpPointer);
+    addListNodeDumper(ELEMENT_LIST, &dumpElement);
+    addListNodeDumper(EXIT_LIST, &dumpExit);
+    addListNodeDumper(ID_LIST, &dumpId);
+    addListNodeDumper(INSTANCE_LIST, &dumpInstance);
+    addListNodeDumper(RESTRICTION_LIST, &dumpRestriction);
+    addListNodeDumper(STATEMENT_LIST, &dumpStatement);
+    addListNodeDumper(SYNTAX_LIST, &dumpSyntax);
+    addListNodeDumper(VERB_LIST, &dumpVerb);
+    addListNodeDumper(SCRIPT_LIST, &dumpScript);
+    addListNodeDumper(STEP_LIST, &dumpStep);
+    addListNodeDumper(EXPRESSION_LIST, &dumpExpression); 
+    addListNodeDumper(NAME_LIST, &dumpId);
+    addListNodeDumper(LIMIT_LIST, &dumpLimit);
+    addListNodeDumper(IFID_LIST, &dumpIfid);
+}
+
 
 /************************************************************************/
 void compile(void) {
 
-  startTotalTiming();
-  prepareFileNames();
+    initDumpers();
 
-  bookmarkHeap();
-  setupCompilation();
-  parse();
-  dumpAndExitAfterPhase(DUMP_AFTER_PARSE);
-  analyze();
-  dumpAndExitAfterPhase(DUMP_AFTER_ANALYSIS);
-  generate();
-  endCompilationTiming();
-  removeTemporaryFiles();
-  listingOnFile();
-  listingOnScreen();
-  lmLiTerminate();
+    startTotalTiming();
+    prepareFileNames();
+
+    bookmarkHeap();
+    setupCompilation();
+    parse();
+    dumpAndExitAfterPhase(DUMP_AFTER_PARSE);
+    analyze();
+    dumpAndExitAfterPhase(DUMP_AFTER_ANALYSIS);
+    generate();
+    endCompilationTiming();
+    removeTemporaryFiles();
+    listingOnFile();
+    listingOnScreen();
+    lmLiTerminate();
 
 #ifdef MALLOC
-  if (malloc_verify() == 0) printf("Error in heap!\n");
+    if (malloc_verify() == 0) printf("Error in heap!\n");
 #endif
 
-  if (lmSeverity() < sevERR)
-    terminate(EXIT_SUCCESS);
-  else
-    terminate(EXIT_FAILURE);
+    if (lmSeverity() < sevERR)
+        terminate(EXIT_SUCCESS);
+    else
+        terminate(EXIT_FAILURE);
 }

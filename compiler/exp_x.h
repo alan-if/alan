@@ -58,7 +58,6 @@ extern void generateLvalue(Expression *exp);
 extern void generateAttributeReference(Expression *exp);
 extern void generateAttributeAccess(Expression *exp);
 extern void generateBetweenCheck(Expression *exp);
-extern void dumpType(TypeKind typ);
 extern void dumpExpression(Expression *exp);
 
 #endif

@@ -37,10 +37,8 @@ extern void *getMember(List *aList, int number);
 extern void *getLastMember(List *theList);
 extern List *getListNode(List *aList, int number);
 
-/* Dump a list of nodes */
+extern void addListNodeDumper(ListKind kind, void (dumper)(void *));
 extern void dumpList(List *lst, ListKind nod);
-
-/* Dump a list of lists of nodes */
 extern void dumpListOfLists(List *lstlst, ListKind nod);
 
 #endif
