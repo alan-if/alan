@@ -43,7 +43,7 @@ test:
 # Clean
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d
+	-rm *.o .*/*.o .*/*.d .*/*.dll
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -111,18 +111,21 @@ endif
 # tested in total isolation (with everything else mocked away,
 # except lists.c and memory.c)
 
-ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, lists util lmList options))
+-include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
+-include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
+
+ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, util lmList options sysdep))
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
-$(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o $(ISOLATED_UNITTESTS_EXTRA_OBJS)
-	$(LINK) -shared -Wl,--no-undefined -o $@ $^ $(LINKFLAGS) $(LIBS)
+$(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
+	$(LINK) -shared -Wl,--no-undefined -o $@ $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^ $(LINKFLAGS) $(LIBS)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 # Then run all _tests.dll's with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
-isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_DLLS)
+isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS) $(ISOLATED_UNITTESTS_EXTRA_OBJS)
 ifeq ($(shell uname), Darwin)
 	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
 		arch -i386 cgreen-runner $$f --suite Compiler $(UNITOUTPUT) ; \

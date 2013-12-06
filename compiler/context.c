@@ -179,19 +179,18 @@ Bool thisIsaContainer(Context *context)
 }
 
 /*======================================================================*/
-Symbol *contextRestrictionsFor(Context *context, IdNode *id) {
-    Context *currentContext = context;
+Symbol *contextRestrictionsFor(Context *initialContext, IdNode *id) {
+    Context *currentContext = initialContext;
 
-    if (context->classRestriction == NULL)
-        return NULL;
-    if (context->classRestriction->kind != ISA_EXPRESSION)
-        SYSERR("Wrong kind of expression in context restriction");
-
-    while (currentContext != NULL)
-        if (equalId(id, currentContext->classRestriction->fields.isa.what->fields.wht.wht->id))
-            return context->classRestriction->fields.isa.class->symbol;
-        else
-            currentContext = context->previous;
+    while (currentContext != NULL) {
+        if (currentContext->classRestriction != NULL) {
+            if (currentContext->classRestriction->kind != ISA_EXPRESSION)
+                SYSERR("Wrong kind of expression in context restriction");
+            if (equalId(id, currentContext->classRestriction->fields.isa.what->fields.wht.wht->id))
+                return currentContext->classRestriction->fields.isa.class->symbol;
+        }
+        currentContext = currentContext->previous;
+    }
     return NULL;
 }
 
