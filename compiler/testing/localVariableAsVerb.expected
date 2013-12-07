@@ -6,8 +6,8 @@ localVariableAsVerb.alan
    10.      Say a Of e.
 =====>          1
 
-  *1*   316 E : Attribute 'a' is not defined for variable 'e' since its class
-                ('object') does not have it.
+  *1*   316 E : Attribute 'a' is not defined for variable 'e' since the class
+                it is known to be in this context ('object') does not have it.
 
 
         1 error(s).

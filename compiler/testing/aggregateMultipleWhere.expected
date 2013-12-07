@@ -7,14 +7,16 @@ aggregateMultipleWhere.alan
 =====>              1                   2
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
-                using 'MAX' since its class ('object') does not have it.
+                using 'MAX' since the class it is known to be in this context
+                ('object') does not have it.
   *2*   224 E : Multiple use of Where in filter list for MAX Aggregation.
 
    10.    If Max Of y Isa object, Here, In unknown = 9 Then "" End If.
 =====>              1                   2  3
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
-                using 'MAX' since its class ('object') does not have it.
+                using 'MAX' since the class it is known to be in this context
+                ('object') does not have it.
   *2*   224 E : Multiple use of Where in filter list for MAX Aggregation.
   *3*   310 E : Identifier 'unknown' not defined.
 

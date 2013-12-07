@@ -6,8 +6,9 @@ attributeOfAttribute.alan
    13.    Say unknown Of sister Of brother.
 =====>        1
 
-  *1*   317 E : Attribute 'unknown' is not defined for the expression since its
-                class ('actor') does not have it.
+  *1*   317 E : Attribute 'unknown' is not defined for the expression since the
+                class it is known to be in this context ('actor') does not have
+                it.
 
    14.    Say unknown Of size Of brother.
 =====>                        1

@@ -528,7 +528,13 @@ static void analyzeIf(Statement *stm, Context *context)
 	analyzeExpression(stm->fields.iff.exp, context);
 	if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
 		lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
-	analyzeStatements(stm->fields.iff.thn, context);
+    if (stm->fields.iff.exp->kind == ISA_EXPRESSION) {
+        Context *restricted_context = pushContext(context);
+        restricted_context->classRestriction = stm->fields.iff.exp;
+        analyzeStatements(stm->fields.iff.thn, restricted_context);
+        free(restricted_context);
+    } else        
+        analyzeStatements(stm->fields.iff.thn, context);
 	if (stm->fields.iff.els != NULL)
 		analyzeStatements(stm->fields.iff.els, context);
 }

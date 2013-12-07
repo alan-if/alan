@@ -6,8 +6,9 @@ assumedSyntax.alan
    13.      Does "x" Say x of topic.
 =====>                   1
 
-  *1*   316 E : Attribute 'x' is not defined for parameter 'topic' since its
-                class ('topic') does not have it.
+  *1*   316 E : Attribute 'x' is not defined for parameter 'topic' since the
+                class it is known to be in this context ('topic') does not have
+                it.
 
 
         1 error(s).

@@ -6,8 +6,9 @@ colon.alan
    13.    Say brother:sister:unknown.
 =====>                       1
 
-  *1*   317 E : Attribute 'unknown' is not defined for the expression since its
-                class ('actor') does not have it.
+  *1*   317 E : Attribute 'unknown' is not defined for the expression since the
+                class it is known to be in this context ('actor') does not have
+                it.
 
    14.    Say brother:size:unknown.
 =====>               1

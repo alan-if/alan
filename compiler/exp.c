@@ -983,16 +983,14 @@ static void analyzeBetweenExpression(Expression *exp, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeIsaExpression(Expression *expression,
-                                 Context *context)
+static void analyzeIsaExpression(Expression *expression, Context *context)
 {
     Expression *what = expression->fields.isa.what;
     switch (expression->fields.isa.what->kind) {
     case WHAT_EXPRESSION:
         switch (what->fields.wht.wht->kind) {
         case WHAT_ID:
-            symcheck(what->fields.wht.wht->id,
-                     INSTANCE_SYMBOL, context);
+            symcheck(what->fields.wht.wht->id, INSTANCE_SYMBOL, context);
             break;
         case WHAT_LOCATION:
         case WHAT_ACTOR:
@@ -1018,10 +1016,9 @@ static void analyzeIsaExpression(Expression *expression,
 }
 
 /*======================================================================*/
-void analyzeExpression(Expression *expression,
-                       Context *context)
+void analyzeExpression(Expression *expression, Context *context)
 {
-    if (expression == NULL)       /* Ignore empty expressions (syntax error) */
+    if (expression == NULL)       /* Ignore empty expressions (syntax error probably) */
         return;
 
     switch (expression->kind) {

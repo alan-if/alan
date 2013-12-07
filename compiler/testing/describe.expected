@@ -36,14 +36,15 @@ describe.alan
    32.    Describe l Of ref Of o.
 =====>             1
 
-  *1*   317 E : Attribute 'l' is not defined for the expression since its class
-                ('location') does not have it.
+  *1*   317 E : Attribute 'l' is not defined for the expression since the class
+                it is known to be in this context ('location') does not have
+                it.
 
    33.    Describe l Of cref Of o.
 =====>             1
 
-  *1*   317 E : Attribute 'l' is not defined for the expression since its class
-                ('cont') does not have it.
+  *1*   317 E : Attribute 'l' is not defined for the expression since the class
+                it is known to be in this context ('cont') does not have it.
 
 
         8 error(s).
