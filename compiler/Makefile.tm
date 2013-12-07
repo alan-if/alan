@@ -25,7 +25,7 @@ TMSRCS = \
 
 IMPQ    = -sTMHOME\(\"$(TMHOME)\"\)
 
-all : x tm smScanx.c sysdep.h sysdep.c version.h alan.atg alan.g
+all : tm smScanx.c sysdep.h sysdep.c version.h alan.atg alan.g
 
 .PHONY: x
 x :

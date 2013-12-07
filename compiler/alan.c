@@ -269,7 +269,7 @@ static void setupCompilation() {
 
   if (!smScanEnter(nulsrcp, srcfnm, FALSE)) {
     /* Failed to open the source file */
-    createListing("", 0, 79, liMSG, sevALL);
+      createListingOnScreen(liMSG, sevALL);
     terminate(EXIT_FAILURE);
   }
 }
@@ -341,7 +341,7 @@ static void removeTemporaryFiles() {
 /*----------------------------------------------------------------------*/
 static void dumpAndExitAfterPhase(int phase) {
   if ((dumpFlags&phase) != 0) {
-    createListing("", 0, 79, liTINY, 0);
+    createListingOnScreen(liTINY, 0);
     lmSkipLines(0);
     dumpAdventure(dumpFlags);
     terminate(EXIT_FAILURE);
@@ -352,7 +352,7 @@ static void dumpAndExitAfterPhase(int phase) {
 /*----------------------------------------------------------------------*/
 static void listingOnFile() {
   if (listingFlag) {
-    createListing(lstfnm, lcount, ccount, fullFlag?liFULL:liTINY, sevALL);
+    createListingOnFile(lstfnm, lcount, ccount, fullFlag?liFULL:liTINY, sevALL);
     if (dumpFlags) {
       lmSkipLines(0);
       dumpAdventure(dumpFlags);
@@ -378,7 +378,7 @@ static void listingOnScreen() {
     sevs &= ~sevWAR;
   if (!infoFlag)
     sevs &= ~sevINF;
-  createListing("", 0, 79, listingFlag?liTINY:(fullFlag?liFULL:liTINY), sevs);
+  createListingOnScreen(listingFlag?liTINY:(fullFlag?liFULL:liTINY), sevs);
 
   if (dumpFlags != 0 && !listingFlag) {
     lmSkipLines(0);

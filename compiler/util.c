@@ -168,10 +168,6 @@ static void listing(lmSev sevs)
     fnm = lstfnm;
   else
     fnm = "";
-#ifdef __MWERKS__
-  _fcreator = 'ttxt';
-  _ftype = 'TEXT';
-#endif
 
   listing(fnm, lcount, ccount, fulflg?liFULL:liTINY, sevs);
 
@@ -191,14 +187,28 @@ static void listing(lmSev sevs)
 }
 #else
 
+/*----------------------------------------------------------------------*/
+static int get_terminal_columns() {
+    return 0;
+}
+
 /*======================================================================*/
-void createListing(char *listFileName, int lines, int columns,
-	     lmTyp listingType, lmSev severities) {
-  if (ccFlag || ideFlag) {
-    lmList(listFileName, lines, columns, 0, 0);	/* Sort and prepare for retrieval */
-    specialListing(severities);
-  } else
-    lmList(listFileName, lines, columns, listingType, severities);
+void createListingOnFile(char *listFileName, int lines, int columns,
+                         lmTyp listingType, lmSev severities) {
+    if (ccFlag || ideFlag) {
+        lmList(listFileName, lines, columns, 0, 0);	/* Sort and prepare for retrieval */
+        specialListing(severities);
+    } else
+        lmList(listFileName, lines, columns, listingType, severities);
+}
+
+/*======================================================================*/
+void createListingOnScreen(lmTyp listingType, lmSev severities) {
+    int lines = 0;
+    int columns = get_terminal_columns();
+
+    if (columns == 0) columns = 79;
+    createListingOnFile("", lines, columns, listingType, severities);
 }
 
 #endif
@@ -228,7 +238,7 @@ void syserr(char *errorMessage, const char *function, char *file, int line)
 
     lmLog(&nulsrcp, 997, sevSYS, messageString);
 
-    createListing("", 0, 79, liTINY, sevALL);
+    createListingOnScreen(liTINY, sevALL);
     terminate(EXIT_FAILURE);
   }
 }
@@ -279,9 +289,6 @@ void terminate(int ecode)
 #else
 void terminate(int ecode)
 {
-#ifdef __MWERKS__
-  printf("Command-Q to quit.");
-#endif
   exit(ecode);
 }
 #endif
