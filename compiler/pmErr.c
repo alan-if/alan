@@ -50,6 +50,7 @@
 #include "stp_x.h"
 #include "stx_x.h"
 #include "sym_x.h"
+#include "srcp_x.h"
 #include "vrb_x.h"
 #include "whr_x.h"
 #include "wht_x.h"
@@ -129,7 +130,7 @@ void pmISym(
 #define sym token
 #define sstr symString
 #define pstr printString
-#line 65 "alan.pmk"
+#line 66 "alan.pmk"
 
 
 {

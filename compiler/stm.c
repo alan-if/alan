@@ -391,6 +391,8 @@ static void analyzeMake(Statement *stm, Context *context)
 	analyzeExpression(wht, context);
 	atr = resolveAttribute(wht, stm->fields.make.atr, context);
 	verifyMakeAttribute(stm->fields.make.atr, atr);
+    if (inheritsFrom(wht->class, literalSymbol))
+        lmLog(&stm->srcp, 406, sevERR, "");
 }
 
 
@@ -419,6 +421,8 @@ static void analyzeSet(Statement *stm, Context *context)
 		if (wht->type == BOOLEAN_TYPE)
 			lmLog(&wht->srcp, 419, sevERR, "Target for");
 	}
+    if (inheritsFrom(wht->fields.atr.wht->class, literalSymbol))
+        lmLog(&stm->srcp, 406, sevERR, "");
 
 	analyzeExpression(exp, context);
 	if (exp->type != ERROR_TYPE)

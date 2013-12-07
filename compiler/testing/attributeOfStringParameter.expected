@@ -6,7 +6,8 @@ attributeOfStringParameter.alan
     7.        "You s" Say x Of s.
 =====>                    1
 
-  *1*   406 E : Integer and String parameters have no attributes.
+  *1*   316 E : Attribute 'x' is not defined for parameter 's' since the class
+                it is known to be in this context ('string') does not have it.
 
 
         1 error(s).

@@ -23,7 +23,9 @@ messageParameter.alan
    18.    If parameter1 Is neuter Then
 =====>                     1
 
-  *1*   406 E : Integer and String parameters have no attributes.
+  *1*   316 E : Attribute 'neuter' is not defined for parameter 'parameter1'
+                since the class it is known to be in this context ('string')
+                does not have it.
 
 
         4 error(s).

@@ -6,7 +6,9 @@ unknownWordMessage.alan
     3.    If parameter1 Is large Then "large" End If.
 =====>                     1
 
-  *1*   406 E : Integer and String parameters have no attributes.
+  *1*   316 E : Attribute 'large' is not defined for parameter 'parameter1'
+                since the class it is known to be in this context ('string')
+                does not have it.
 
 
         1 error(s).

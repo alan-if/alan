@@ -187,7 +187,7 @@ static lmMsgs msg[] = {
     { "403   ", "Script multiply defined for Actor \'%1\'." },
     { "404   ", "Container is restricted to only contain instances of \'%1\' and its subclasses." },
     { "405   ", "Only instances and classes inheriting from Thing can %1." },
-    { "406   ", "Integer and String parameters have no attributes." },
+    { "406   ", "You cannot modify attributes to Integer and String parameters." },
     { "407   ", "Attribute in Limits must be an attribute for every instance of the class the container accepts, in this case \'%1\'." },
     { "408   ", "%1 in %2 must be of %3 type." },
     { "409   ", "No parameters defined in this context." },
@@ -1441,12 +1441,12 @@ void lmLiInit(
 
  */
 void lmLog(
-    Srcp *pos,                  /* IN - Source position */
-    int ecode,                  /* IN - The error code */
-    lmSev sev,                  /* IN - Severity code */
-    char istrs[]                /* IN - Insert strings */
+    Srcp *pos,		/* IN - Source position */
+    int ecode,				/* IN - The error code */
+    lmSev sev,		/* IN - Severity code */
+    char istrs[]			/* IN - Insert strings */
 ) {
-    Srcp srcpos, *srcp = &srcpos; /* Source position copy */
+    Srcp srcpos, *srcp = &srcpos;	/* Source position copy */
     
   /* Check phase */
   if (phase != PH_COLL) {
