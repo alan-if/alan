@@ -7,6 +7,7 @@
 #include "id.mock"
 #include "exp.mock"
 #include "wht.mock"
+#include "lmList.mock"
 
 List *fileNames = NULL;
 

@@ -1,0 +1,20 @@
+#include <cgreen/mocks.h>
+
+#include "adv.h"
+
+/* USE other definitions */
+#include "dump.h"
+
+
+/* Data: */
+Adventure adv;
+
+
+/* FUNCTIONS: */
+
+void initAdventure(void) {}
+void symbolizeAdventure(void) {}
+void analyzeAdventure(void) {}
+void generateAdventure(char acdfnm[], char txtfnm[], char datfnm[]) {mock(acdfnm, txtfnm, datfnm);}
+void dumpAdventure(enum dmpKd dmp) {mock(dmp);}
+void summary(void) {}

@@ -114,7 +114,7 @@ endif
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
-ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, util lmList options sysdep emit lst dump opt type alan.version))
+ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, util options sysdep emit lst dump opt type alan.version))
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
@@ -127,11 +127,7 @@ isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS) $(ISOLATED_UNITTESTS_EXTRA_OBJS)
 ifeq ($(shell uname), Darwin)
-	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
-		arch -i386 cgreen-runner $$f --suite Compiler $(UNITOUTPUT) ; \
-	done
+	arch -i386 cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 else
-	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
-		cgreen-runner $$f --suite Compiler $(UNITOUTPUT) ; \
-	done
+	cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif

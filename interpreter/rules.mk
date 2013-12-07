@@ -152,13 +152,9 @@ isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 ifeq ($(shell uname), Darwin)
-	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
-		arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) ; \
-	done
+	arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 else
-	@for f in $(ISOLATED_UNITTESTS_DLLS) ; do \
-		cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) ; \
-	done
+	cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif
 
 

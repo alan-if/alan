@@ -11,8 +11,12 @@ Add To Every thing
   Verb p
     Does
       If o Isa location Then
-        Make o lit.
-        Make o dark.
+        If o Is Not lit Then
+          Make o lit.
+        End If.
+        If o Is Not dark Then
+          Make o dark.
+        End If.
       End If.
     End Verb.
 End Add.

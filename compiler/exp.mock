@@ -13,8 +13,16 @@
 
 /* Functions: */
 
-Expression *newAttributeExpression(Srcp srcp, IdNode *attribute,
-                                   Bool not, Expression *ofWhat) {return (Expression*)mock();}
+Expression *newAttributeExpression(Srcp srcp, IdNode *attributeId,
+                                   Bool not, Expression *ofWhat) {
+    Expression *expression = (Expression*)NEW(Expression);
+    expression->kind = ATTRIBUTE_EXPRESSION;
+    expression->srcp = srcp;
+    expression->fields.atr.id = attributeId;
+    expression->fields.atr.wht = ofWhat;
+    expression->not = not;
+    return expression;
+}
 Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
                                 OperatorKind operator,
                                 Expression *right) {return (Expression*)mock();}

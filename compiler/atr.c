@@ -9,18 +9,6 @@
 
 
 /* IMPORT: */
-#include "srcp_x.h"
-#include "id_x.h"
-#include "adv_x.h"
-#include "cla_x.h"
-#include "ins_x.h"
-#include "sym_x.h"
-#include "lst_x.h"
-#include "exp_x.h"
-#include "sym_x.h"
-#include "dump_x.h"
-#include "type_x.h"
-
 #include "util.h"
 #include "emit.h"
 
@@ -32,6 +20,19 @@
 #include "lmList.h"
 #include "encode.h"
 
+/* USE: */
+#include "srcp_x.h"
+#include "id_x.h"
+#include "adv_x.h"
+#include "cla_x.h"
+#include "ins_x.h"
+#include "sym_x.h"
+#include "lst_x.h"
+#include "exp_x.h"
+#include "sym_x.h"
+#include "dump_x.h"
+#include "type_x.h"
+#include "context_x.h"
 
 /* Exported data: */
 
@@ -457,43 +458,74 @@ void analyzeAllAttributes() {
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute,
-				       Context *context)
-{
-  Attribute *atr = NULL;
-  Symbol *sym;
+static Attribute *resolveAttributeToInstance(IdNode *id, IdNode *attribute) {
+    Attribute *atr = NULL;
+    Symbol *sym = id->symbol;
 
-  sym = id->symbol;
-  if (sym) {
-    if (sym->kind == INSTANCE_SYMBOL) {
-      id->code = sym->code;
-      atr = findAttribute(sym->fields.entity.props->attributes, attribute);
-      if (atr == NULL)
-	lmLog(&attribute->srcp, 315, sevERR, id->string);
-    } else if (sym->kind == PARAMETER_SYMBOL) {
-      if (sym->fields.parameter.class != NULL) {
-	if (inheritsFrom(sym->fields.parameter.class, literalSymbol)) {
-	  lmLog(&attribute->srcp, 406, sevERR, "");
-	} else {
-	  Symbol *classOfParameter = sym->fields.parameter.class;
-	  atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
-	  if (atr == NULL)
-	    lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "parameter",
-		   id->string, classOfParameter->string, NULL);
-	}
-      }
-    } if (sym->kind == LOCAL_SYMBOL) {
-      if (sym->fields.local.class) {
-	Symbol *classOfLocal = sym->fields.local.class;
-	atr = findAttribute(classOfLocal->fields.entity.props->attributes, attribute);
-	if (atr == NULL)
-	  lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "variable",
-		 id->string, classOfLocal->string, NULL);
-      }
+    id->code = sym->code;
+    atr = findAttribute(sym->fields.entity.props->attributes, attribute);
+    if (atr == NULL)
+        lmLog(&attribute->srcp, 315, sevERR, id->string);
+	return atr;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Attribute *resolveAttributeToParameter(IdNode *parameterId, IdNode *attribute, Context *context) {
+    Attribute *atr = NULL;
+    Symbol *sym = parameterId->symbol;
+
+    if (sym->fields.parameter.class != NULL) {
+        if (inheritsFrom(sym->fields.parameter.class, literalSymbol)) {
+            lmLog(&attribute->srcp, 406, sevERR, "");
+        } else {
+            Symbol *classOfParameter = contextRestrictionsFor(context, parameterId);
+            if (classOfParameter == NULL)
+                classOfParameter = sym->fields.parameter.class;
+            atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
+            if (atr == NULL)
+                lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "parameter",
+                       parameterId->string, classOfParameter->string, NULL);
+        }
     }
-    return atr;
-  } else /* no symbol found */
-    return NULL;
+	return atr;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Attribute *resolveAttributeToLocal(IdNode *id, IdNode *attribute) {
+    Attribute *atr = NULL;
+    Symbol *sym = id->symbol;
+
+    if (sym->fields.local.class) {
+        Symbol *classOfLocal = sym->fields.local.class;
+        atr = findAttribute(classOfLocal->fields.entity.props->attributes, attribute);
+        if (atr == NULL)
+            lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "variable",
+                   id->string, classOfLocal->string, NULL);
+    }
+	return atr;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute, Context *context)
+{
+    Attribute *atr = NULL;
+    Symbol *sym;
+
+    sym = id->symbol;
+    if (sym) {
+        switch (sym->kind) {
+        case INSTANCE_SYMBOL: atr = resolveAttributeToInstance(id, attribute); break;
+        case PARAMETER_SYMBOL: atr = resolveAttributeToParameter(id, attribute, context); break;
+        case LOCAL_SYMBOL: atr = resolveAttributeToLocal(id, attribute); break;
+        case ERROR_SYMBOL: break;
+        default: SYSERR("Unexpected symbol kind");
+        }
+        return atr;
+    } else /* no symbol found */
+        return NULL;
 }
 
 
@@ -528,51 +560,51 @@ static Attribute *resolveAttributeOfLocation(IdNode *attribute, Context *context
 /*----------------------------------------------------------------------*/
 static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
 {
-  Attribute *atr = NULL;
-  Context *thisContext = context;
-  Bool contextFound = FALSE;
+    Attribute *atr = NULL;
+    Context *thisContext = context;
+    Bool contextFound = FALSE;
 
-  while (!contextFound && thisContext != NULL) {
-    switch (thisContext->kind) {
-    case CLASS_CONTEXT:
-      if (thisContext->class == NULL)
-	SYSERR("Context->class == NULL");
+    while (!contextFound && thisContext != NULL) {
+        switch (thisContext->kind) {
+        case CLASS_CONTEXT:
+            if (thisContext->class == NULL)
+                SYSERR("Context->class == NULL");
 
-      atr = findAttribute(thisContext->class->props->attributes, attribute);
-      contextFound = TRUE;
-      break;
+            atr = findAttribute(thisContext->class->props->attributes, attribute);
+            contextFound = TRUE;
+            break;
 
-    case INSTANCE_CONTEXT:
-      if (thisContext->instance == NULL)
-	SYSERR("context->instance == NULL");
+        case INSTANCE_CONTEXT:
+            if (thisContext->instance == NULL)
+                SYSERR("context->instance == NULL");
 
-      atr = findAttribute(thisContext->instance->props->attributes, attribute);
-      contextFound = TRUE;
-      break;
+            atr = findAttribute(thisContext->instance->props->attributes, attribute);
+            contextFound = TRUE;
+            break;
 
-    default:
-      thisContext = thisContext->previous;
+        default:
+            thisContext = thisContext->previous;
+        }
     }
-  }
-  /* If no context found then THIS is not defined here which we should
-     already have reported. Report of the attribute was not found. */
-  if (contextFound && atr == NULL)
-    lmLog(&attribute->srcp, 313, sevERR, attribute->string);
-  return atr;
+    /* If no context found then THIS is not defined here which we should
+       already have reported. Report of the attribute was not found. */
+    if (contextFound && atr == NULL)
+        lmLog(&attribute->srcp, 313, sevERR, attribute->string);
+    return atr;
 }
 
 
 /*----------------------------------------------------------------------*/
 static Attribute *resolveAttributeToClass(Symbol *class, IdNode *attribute, Context *context) {
-  Attribute *atr = NULL;
+    Attribute *atr = NULL;
 
-  if (class != NULL) {
-    atr = findAttribute(class->fields.entity.props->attributes, attribute);
-    if (!atr)
-      lmLogv(&attribute->srcp, 317, sevERR, attribute->string, "the expression",
-	     class->string, NULL);
-  }
-  return atr;
+    if (class != NULL) {
+        atr = findAttribute(class->fields.entity.props->attributes, attribute);
+        if (!atr)
+            lmLogv(&attribute->srcp, 317, sevERR, attribute->string, "the expression",
+                   class->string, NULL);
+    }
+    return atr;
 }
 
 
@@ -587,7 +619,7 @@ static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context 
   case WHAT_ACTOR: return resolveAttributeOfActor(attribute, context); break;
   case WHAT_LOCATION: return resolveAttributeOfLocation(attribute, context); break;
   case WHAT_THIS: return resolveAttributeOfThis(attribute, context); break;
-  default: SYSERR("Unexpected switch");
+  default: SYSERR("Unexpected what->kind in switch");
   }
   return NULL;
 }
@@ -595,16 +627,15 @@ static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context 
 
 /*======================================================================*/
 Attribute *resolveAttribute(Expression *exp, IdNode *attributeId, Context *context) {
-  switch (exp->kind) {
-  case WHAT_EXPRESSION:
-    return resolveAttributeToWhat(exp->fields.wht.wht, attributeId, context);
-  case ATTRIBUTE_EXPRESSION:
-    return resolveAttributeToClass(exp->class, attributeId, context);
-
-  default:
-    lmLog(&exp->srcp, 442, sevERR, "");
-  }
-  return NULL;
+    switch (exp->kind) {
+    case WHAT_EXPRESSION:
+        return resolveAttributeToWhat(exp->fields.wht.wht, attributeId, context);
+    case ATTRIBUTE_EXPRESSION:
+        return resolveAttributeToClass(exp->class, attributeId, context);
+    default:
+        lmLog(&exp->srcp, 442, sevERR, "");
+    }
+    return NULL;
 }
 
 
