@@ -2,8 +2,10 @@ The l Isa location
     Verb v
         Does
             If o Isa object Then
+                -- This should be ok because of the IF
                 Say attribute Of o.
             Else
+                -- Here it is not since the parameter is only restricted to thing
                 Say attribute Of o.
             End If.
     End Verb.
@@ -16,6 +18,9 @@ Add To Every object
   Has attribute 42.
 End Add.
 
-Syntax v = v (o) Where o Isa thing Else Say attribute Of o.
+Syntax v = v (o) Where o Isa thing
+                 Else
+                     -- Here the parameter known only to *not* be an object => entity
+                     Say attribute Of o.
 
 Start At l.
