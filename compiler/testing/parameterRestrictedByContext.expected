@@ -1,0 +1,24 @@
+########## parameterRestrictedByContext ##########
+
+
+parameterRestrictedByContext.alan
+
+    7.                  Say attribute Of o.
+=====>                      1
+
+  *1*   316 E : Attribute 'attribute' is not defined for parameter 'o' since
+                the class it is known to be in this context ('thing') does not
+                have it.
+
+   19.  Syntax v = v (o) Where o Isa thing Else Say attribute Of o.
+=====>                                              1
+
+  *1*   316 E : Attribute 'attribute' is not defined for parameter 'o' since
+                the class it is known to be in this context ('entity') does not
+                have it.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+
