@@ -452,8 +452,8 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol, Context *context)
 
 /*======================================================================*/
 void analyzeAllAttributes() {
-  analyzeAllClassAttributes();
-  analyzeAllInstanceAttributes();
+    analyzeAllClassAttributes();
+    analyzeAllInstanceAttributes();
 }
 
 
@@ -476,13 +476,13 @@ static Attribute *resolveAttributeToParameter(IdNode *parameterId, IdNode *attri
     Symbol *sym = parameterId->symbol;
 
     if (sym->fields.parameter.class != NULL) {
-            Symbol *classOfParameter = contextRestrictionsFor(context, parameterId);
-            if (classOfParameter == NULL)
-                classOfParameter = sym->fields.parameter.class;
-            atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
-            if (atr == NULL)
-                lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "parameter",
-                       parameterId->string, classOfParameter->string, NULL);
+        Symbol *classOfParameter = contextRestrictionsFor(context, parameterId);
+        if (classOfParameter == NULL)
+            classOfParameter = sym->fields.parameter.class;
+        atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
+        if (atr == NULL)
+            lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "parameter",
+                   parameterId->string, classOfParameter->string, NULL);
     }
 	return atr;
 }
