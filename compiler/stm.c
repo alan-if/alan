@@ -487,7 +487,7 @@ static void analyzeSchedule(Statement *stm, Context *context)
 	if (what->type != ERROR_TYPE && what->type != EVENT_TYPE)
 		lmLog(&stm->fields.schedule.what->srcp, 331, sevERR, "SCHEDULE statement. Event type required");
 
-	/* Now lookup where */
+	/* Now lookup where-clause */
 	analyzeWhere(stm->fields.schedule.whr, context);
 	switch (stm->fields.schedule.whr->kind) {
 	case WHERE_DEFAULT:

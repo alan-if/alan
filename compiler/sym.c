@@ -464,34 +464,34 @@ static Symbol *lookupInFrames(char *idString)
 /*----------------------------------------------------------------------*/
 static Symbol *lookupInContext(char *idString, Context *context)
 {
-  Symbol *foundSymbol = NULL;
+    Symbol *foundSymbol = NULL;
 
-  if ((foundSymbol = lookupInFrames(idString)) != NULL)
-    return foundSymbol;
+    if ((foundSymbol = lookupInFrames(idString)) != NULL)
+        return foundSymbol;
 
-  if (context != NULL) {
-    switch (context->kind){
-    case VERB_CONTEXT:
-      if (context->verb != NULL)
-	foundSymbol = lookupInParameterList(idString, context->verb->fields.verb.parameterSymbols);
-      break;
-    case EVENT_CONTEXT:
-    case RULE_CONTEXT:
-    case START_CONTEXT:
-    case CLASS_CONTEXT:
-    case INSTANCE_CONTEXT:
-    case NULL_CONTEXT:
-      foundSymbol = lookup(idString);
-      break;
-    default:
-      SYSERR("Unexpected context kind");
-      break;
+    if (context != NULL) {
+        switch (context->kind){
+        case VERB_CONTEXT:
+            if (context->verb != NULL)
+                foundSymbol = lookupInParameterList(idString, context->verb->fields.verb.parameterSymbols);
+            break;
+        case EVENT_CONTEXT:
+        case RULE_CONTEXT:
+        case START_CONTEXT:
+        case CLASS_CONTEXT:
+        case INSTANCE_CONTEXT:
+        case NULL_CONTEXT:
+            foundSymbol = lookup(idString);
+            break;
+        default:
+            SYSERR("Unexpected context kind");
+            break;
+        }
+        if (foundSymbol != NULL)
+            return foundSymbol;
     }
-    if (foundSymbol != NULL)
-      return foundSymbol;
-  }
 
-  return lookup(idString);
+    return lookup(idString);
 }
 
 
