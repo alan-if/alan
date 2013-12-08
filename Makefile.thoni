@@ -56,7 +56,7 @@ documentation:
 documents: doc/manual/manual.pdf doc/manual/conversion.pdf doc/manual/writing.pdf
 
 doc/manual/manual.pdf: doc/manual/manual.odt
-	"/cygdrive/c/Program Files/OpenOffice.org 3/program/swriter" "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Documents\Utveckling\Alan\alan\doc\manual\manual.odt)"
+	"/cygdrive/c/Program Files/OpenOffice 4/program/swriter" "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Documents\Utveckling\Alan\alan\doc\manual\manual.odt)"
 
 doc/manual/conversion.pdf: doc/manual/conversion.odt
 	"/cygdrive/c/Program Files/OpenOffice.org 3/program/swriter" "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Documents\Utveckling\Alan\alan\doc\manual\conversion.odt)"

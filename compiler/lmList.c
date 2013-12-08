@@ -223,6 +223,7 @@ static lmMsgs msg[] = {
     { "442   ", "Only instances have attributes." },
     { "443   ", "There is no location defined in %1, so %2 is not defined." },
     { "444   ", "There is no location defined in %1, so output can never be seen by the player." },
+    { "445   ", "The event will be executed at no location." },
     { "450   ", "Wrong type of resource file for %1 statement." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
@@ -246,7 +247,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 166}
+    {0, 167}
 };
 static lmMessages currMsect = (lmMessages)0;
 

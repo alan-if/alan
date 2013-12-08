@@ -491,6 +491,8 @@ static void analyzeSchedule(Statement *stm, Context *context)
 	analyzeWhere(stm->fields.schedule.whr, context);
 	switch (stm->fields.schedule.whr->kind) {
 	case WHERE_DEFAULT:
+        if (context->kind == RULE_CONTEXT)
+            lmLog(&stm->srcp, 445, sevWAR, "");
 		stm->fields.schedule.whr->kind = WHERE_HERE;
 		break;
 	case WHERE_HERE:
