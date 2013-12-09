@@ -2,34 +2,7 @@
 
 #include "alanCommon.h"
 
-
-/* Insert string separator */
-#define lmSEPARATOR ((char)0xff)
-
-/* Severity type and codes */
-typedef int lmSev;
-#define sevNONE 0
-#define sevOK   (1<<0)
-#define sevINF  (1<<1)
-#define sevWAR  (1<<2)
-#define sevERR  (1<<3)
-#define sevFAT  (1<<4)
-#define sevSYS  (1<<5)
-
-#define sevALL (sevOK|sevINF|sevWAR|sevERR|sevFAT|sevSYS)
-
-
-/* Listing types */
-typedef int lmTyp;
-#define liNONE  0
-#define liSUM   (1<<0)		/* Summary */
-#define liMSG   (1<<1)		/* Source lines with messages*/
-#define liOK    (1<<2)		/* Correct source lines */
-#define liINCL  (1<<3)		/* Look also in PUSHed files */
-#define liHEAD  (1<<4)		/* Heading */
-
-#define liTINY (liSUM|liMSG|liHEAD|liINCL)
-#define liFULL (liTINY|liOK)
+#include "lmList.h"
 
 
 /* UNINITIALISED: */

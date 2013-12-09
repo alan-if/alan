@@ -135,11 +135,11 @@ endif
 # Here we try to build a runnable DLL for each module where it can be 
 # tested in total isolation (with everything else mocked away,
 # except lists.c and memory.c)
+ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists
 
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
-ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists
 ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, $(ISOLATED_UNITTESTS_EXTRA_MODULES)))
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
