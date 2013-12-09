@@ -526,10 +526,8 @@ static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute, Context *c
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfActor(IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfCurrentActor(IdNode *attribute, Context *context)
 {
-  /* Resolve an attribute reference for reference to current Actor. */
-
   Attribute *atr = NULL;
 
   atr = findAttribute(actorSymbol->fields.entity.props->attributes, attribute);
@@ -540,10 +538,8 @@ static Attribute *resolveAttributeOfActor(IdNode *attribute, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfLocation(IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfCurrentLocation(IdNode *attribute, Context *context)
 {
-  /* Resolve an attribute reference for reference to current Location. */
-
   Attribute *atr = NULL;
 
   atr = findAttribute(locationSymbol->fields.entity.props->attributes, attribute);
@@ -612,8 +608,8 @@ static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context 
 
   switch (what->kind) {
   case WHAT_ID: return resolveAttributeOfId(what->id, attribute, context); break;
-  case WHAT_ACTOR: return resolveAttributeOfActor(attribute, context); break;
-  case WHAT_LOCATION: return resolveAttributeOfLocation(attribute, context); break;
+  case WHAT_ACTOR: return resolveAttributeOfCurrentActor(attribute, context); break;
+  case WHAT_LOCATION: return resolveAttributeOfCurrentLocation(attribute, context); break;
   case WHAT_THIS: return resolveAttributeOfThis(attribute, context); break;
   default: SYSERR("Unexpected what->kind in switch");
   }

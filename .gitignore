@@ -5,3 +5,4 @@ TEST-*.xml
 *.output
 *.vg
 *.leaks
+alan.linux.x86.tgz
