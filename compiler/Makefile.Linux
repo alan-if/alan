@@ -9,7 +9,7 @@ COMPILER = gcc
 EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char #-fPIC
 
 LINKER = gcc
-EXTRA_LINKER_FLAGS = 
+EXTRA_LINKER_FLAGS = -Wl,--no-undefined
 
 release: EXTRA_COMPILER_FLAGS = -O4
 

@@ -95,7 +95,7 @@ unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 unittests.dll: CFLAGS += $(CGREENINCLUDE)
 unittests.dll: LIBS = $(CGREENLIB)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -shared -Wl,--no-undefined -o $@ $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
@@ -118,7 +118,7 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -Wl,--no-undefined -o $@ $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^ $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^ $(LINKFLAGS) $(LIBS)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 

@@ -26,23 +26,23 @@ clean:
 .PHONY: build
 build:
 	@echo "***************** Build *****************"
-	-cd compiler; $(MAKE) build
-	-cd interpreter; $(MAKE) build
-	-cd converter; $(MAKE) build
-	-cd library; $(MAKE) build
+	cd compiler; $(MAKE) build
+	cd interpreter; $(MAKE) build
+	cd converter; $(MAKE) build
+	cd library; $(MAKE) build
 
 .PHONY: unit
 unit:
 	@echo "***************** Unit *****************"
-	-cd compiler; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
-	-cd interpreter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
-	-cd converter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
+	cd compiler; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
+	cd interpreter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
+	cd converter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
 
 .PHONY: test
 test:
 	@echo "***************** Test *****************"
-	-cd compiler; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
-	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
-	-cd library; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
-	-cd converter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	cd compiler; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	cd library; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	cd converter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 
