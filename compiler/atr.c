@@ -480,10 +480,10 @@ static Symbol *classOfSymbol(Symbol *symbol) {
 }
 
 /*----------------------------------------------------------------------*/
-static Symbol *classOfIdInContext(IdNode *parameterId, Context *context) {
-    Symbol *restrictedTo = contextRestrictionsFor(context, parameterId);
+static Symbol *classOfIdInContext(IdNode *id, Context *context) {
+    Symbol *restrictedTo = contextRestrictsIdTo(context, id);
     if (restrictedTo == NULL)
-        return classOfSymbol(parameterId->symbol);
+        return classOfSymbol(id->symbol);
     else
         return restrictedTo;
 }
@@ -545,7 +545,7 @@ static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute, Context *c
 /*----------------------------------------------------------------------*/
 static Attribute *resolveAttributeOfActor(IdNode *attribute, Context *context)
 {
-    /* Resolve an attribute reference for reference to current Actor. */
+    /* Resolve an attribute reference for reference to Current Actor. */
 
     Attribute *atr = NULL;
 
@@ -559,7 +559,7 @@ static Attribute *resolveAttributeOfActor(IdNode *attribute, Context *context)
 /*----------------------------------------------------------------------*/
 static Attribute *resolveAttributeOfLocation(IdNode *attribute, Context *context)
 {
-    /* Resolve an attribute reference for reference to current Location. */
+    /* Resolve an attribute reference for reference to Current Location. */
 
     Attribute *atr = NULL;
 
