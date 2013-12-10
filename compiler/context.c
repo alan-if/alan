@@ -179,7 +179,7 @@ Bool thisIsaContainer(Context *context)
 }
 
 /*======================================================================*/
-Symbol *contextRestrictionsFor(Context *initialContext, IdNode *id) {
+Symbol *contextRestrictsIdTo(Context *initialContext, IdNode *id) {
     Context *currentContext = initialContext;
 
     while (currentContext != NULL) {

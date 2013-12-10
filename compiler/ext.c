@@ -72,7 +72,7 @@ Exit *newExit(Srcp *srcp, List *dirs, IdNode *target, List *chks, List *stms)
 static void symbolizeExit(Exit *theExit)
 {
     symbolizeId(theExit->target);
-#ifdef FIXME
+#ifdef FIXME // Why?
     symbolizeChecks(theExit->checks);
     symbolizeStatements(theExit->does);
 #endif
