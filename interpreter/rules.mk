@@ -40,9 +40,7 @@ clean:
 #
 # Run all tests!
 # Interpreter is tested through the regressions tests
-ifneq ($(EMACS),)
-JREGROUTPUT = -noansi
-endif
+UNITOUTPUT ?= -c
 
 .PHONY: test
 test:

@@ -41,22 +41,22 @@ Ensure(Expression, SetMembersAreVerifiedAccordingToClass) {
   assert_that(readEcode(), is_equal_to(0));
 }
 
-Ensure(Expression, testSymbolOf) { 
+Ensure(Expression, canFindClassOfExpression) { 
   Context *context = newNullContext();
   initSymbols();
-  assert_true(symbolOfExpression(NULL, context) == NULL);
+  assert_true(classOfExpression(NULL, context) == NULL);
 
   Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
 				     NULL, newEmptyProps());
   What *theWhat = newWhatId(nulsrcp, theInstance->props->id);
   Expression *theWhatExp = newWhatExpression(nulsrcp, theWhat);
-  assert_true(symbolOfExpression(theWhatExp, context) != NULL);
-  assert_true(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
+  assert_true(classOfExpression(theWhatExp, context) != NULL);
+  assert_true(classOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
 
   Expression *theAttributeExpression = newAttributeExpression(nulsrcp,
 							      newId(nulsrcp, "atr"), FALSE,
 							      theWhatExp);
-  assert_true(symbolOfExpression(theAttributeExpression, context) == NULL);
+  assert_true(classOfExpression(theAttributeExpression, context) == NULL);
 }
   
 
@@ -151,7 +151,7 @@ TestSuite *expTests()
 {
     TestSuite *suite = create_test_suite();
 
-    add_test_with_context(suite, Expression, testSymbolOf);
+    add_test_with_context(suite, Expression, canFindClassOfExpression);
     add_test_with_context(suite, Expression, testAttributeToThis);
     add_test_with_context(suite, Expression, testIsConstantIdentifier);
     add_test_with_context(suite, Expression, SetMembersAreVerifiedAccordingToClass);

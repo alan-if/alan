@@ -6,12 +6,7 @@
 #	INCLUDES : directives to include the required directories
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
-
-ifneq ($(EMACS),)
-JREGROUTPUT = -noansi
-else
 UNITOUTPUT ?= -c
-endif
 
 CC = $(COMPILER)
 CFLAGS = $(INCLUDES) -I../interpreter $(OSFLAGS) $(EXTRA_COMPILER_FLAGS)
