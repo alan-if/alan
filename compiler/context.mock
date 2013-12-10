@@ -29,4 +29,4 @@ Bool inLocationContext(Context *context) {return (Bool)mock(context);}
 IdNode *classIdInContext(Context *context) {return (IdNode*)mock(context);}
 Bool thisIsaContainer(Context *context) {return (Bool)mock(context);}
 void addRestrictionInContext(Context *context, Expression *isa) {mock(context, isa);}
-Symbol *contextRestrictionsFor(Context *context, IdNode *id) {return (Symbol*)mock(context, id);}
+Symbol *contextRestrictsIdTo(Context *context, IdNode *id) {return (Symbol*)mock(context, id);}

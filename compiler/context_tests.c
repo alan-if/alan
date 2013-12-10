@@ -23,7 +23,7 @@ Ensure(Context, returns_null_for_not_restricted_parameter_in_single_context) {
     Context *context = newVerbContext(theVerbSymbol);
     IdNode *parameter = newId(nulsrcp, "parameter");
 
-    assert_that(contextRestrictionsFor(context, parameter), is_null);
+    assert_that(contextRestrictsIdTo(context, parameter), is_null);
 }
 
 Ensure(Context, returns_class_for_restricted_parameter_in_single_context) {
@@ -38,8 +38,8 @@ Ensure(Context, returns_class_for_restricted_parameter_in_single_context) {
     theClassId->symbol = theClass;
 
     addRestrictionInContext(context, theExpression);
-    assert_that(contextRestrictionsFor(context, parameter), is_equal_to(theClass));
+    assert_that(contextRestrictsIdTo(context, parameter), is_equal_to(theClass));
 
     Context *context2 = pushContext(context);
-    assert_that(contextRestrictionsFor(context2, parameter), is_equal_to(theClass));
+    assert_that(contextRestrictsIdTo(context2, parameter), is_equal_to(theClass));
 }

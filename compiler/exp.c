@@ -225,7 +225,7 @@ void symbolizeExpression(Expression *exp) {
 
 /*----------------------------------------------------------------------*/
 static Bool expressionIsContainer(Expression *exp, Context *context) {
-    return symbolIsContainer(symbolOfExpression(exp, context));
+    return symbolIsContainer(classOfExpression(exp, context));
 }
 
 /*----------------------------------------------------------------------*/
@@ -260,7 +260,7 @@ Bool verifyContainerExpression(Expression *what, Context *context,
 
 
 /*======================================================================*/
-Symbol *symbolOfExpression(Expression *exp, Context *context) {
+Symbol *classOfExpression(Expression *exp, Context *context) {
     if (exp == NULL) return NULL;
 
     switch (exp->kind) {
