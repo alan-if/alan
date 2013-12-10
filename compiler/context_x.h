@@ -31,5 +31,5 @@ extern Bool inLocationContext(Context *context);
 extern IdNode *classIdInContext(Context *context);
 extern Bool thisIsaContainer(Context *context);
 extern void addRestrictionInContext(Context *context, Expression *isa);
-extern Symbol *contextRestrictionsFor(Context *context, IdNode *id);
+extern Symbol *contextRestrictsIdTo(Context *context, IdNode *id);
 #endif

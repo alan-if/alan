@@ -64,7 +64,7 @@ Ensure(Attribute, finds_restriction_for_parameter_from_context) {
 
     given_that_the_class_has_the_attribute(classId, atr);
 
-    expect(contextRestrictionsFor, will_return(classId->symbol));
+    expect(contextRestrictsIdTo, will_return(classId->symbol));
 
     assert_that(resolveAttribute(exp, attributeId, context), is_equal_to(atr));
 }
