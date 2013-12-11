@@ -458,7 +458,7 @@ void analyzeAllAttributes() {
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeToInstance(IdNode *id, IdNode *attribute) {
+static Attribute *resolveAttributeOfInstance(IdNode *id, IdNode *attribute) {
     Attribute *atr = NULL;
     Symbol *sym = id->symbol;
 
@@ -490,32 +490,50 @@ static Symbol *classOfIdInContext(IdNode *id, Context *context) {
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeToParameter(IdNode *parameterId, IdNode *attribute, Context *context) {
+static Attribute *findAttributeOfSymbol(Symbol *symbol, IdNode *attribute, IdNode *id, char *message) {
+	Attribute *atr = NULL;
+
+    if (symbol) {
+        switch (symbol->kind) {
+        case CLASS_SYMBOL:
+        case INSTANCE_SYMBOL:
+            atr = findAttribute(symbol->fields.entity.props->attributes, attribute);
+            break;
+        case ERROR_SYMBOL:
+            break;
+        default:
+            SYSERR("unexpected symbol->kind");
+            break;
+        }
+    }
+    if (atr == NULL)
+        lmLogv(&attribute->srcp, 316, sevERR, attribute->string, message,
+               id->string, symbol->string, NULL);
+	return(atr);
+}
+
+
+/*----------------------------------------------------------------------*/
+static Attribute *resolveAttributeOfParameter(IdNode *id, IdNode *attributeId, Context *context) {
     Attribute *atr = NULL;
-    Symbol *sym = parameterId->symbol;
+    Symbol *sym = id->symbol;
 
     if (sym->fields.parameter.class != NULL) {
-        Symbol *classOfParameter = classOfIdInContext(parameterId, context);
-        atr = findAttribute(classOfParameter->fields.entity.props->attributes, attribute);
-        if (atr == NULL)
-            lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "parameter",
-                   parameterId->string, classOfParameter->string, NULL);
+        Symbol *classOfId = classOfIdInContext(id, context);
+        atr = findAttributeOfSymbol(classOfId, attributeId, id, "parameter");
     }
 	return atr;
 }
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeToLocal(IdNode *id, IdNode *attribute, Context *context) {
+static Attribute *resolveAttributeOfLocal(IdNode *id, IdNode *attribute, Context *context) {
     Attribute *atr = NULL;
     Symbol *sym = id->symbol;
 
-    if (sym->fields.local.class) {
+    if (sym->fields.local.class != NULL) {
         Symbol *classOfLocal = classOfIdInContext(id, context);
-        atr = findAttribute(classOfLocal->fields.entity.props->attributes, attribute);
-        if (atr == NULL)
-            lmLogv(&attribute->srcp, 316, sevERR, attribute->string, "variable",
-                   id->string, classOfLocal->string, NULL);
+        atr = findAttributeOfSymbol(classOfLocal, attribute, id, "variable");
     }
 	return atr;
 }
@@ -530,9 +548,9 @@ static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute, Context *c
     sym = id->symbol;
     if (sym) {
         switch (sym->kind) {
-        case INSTANCE_SYMBOL: atr = resolveAttributeToInstance(id, attribute); break;
-        case PARAMETER_SYMBOL: atr = resolveAttributeToParameter(id, attribute, context); break;
-        case LOCAL_SYMBOL: atr = resolveAttributeToLocal(id, attribute, context); break;
+        case INSTANCE_SYMBOL: atr = resolveAttributeOfInstance(id, attribute); break;
+        case PARAMETER_SYMBOL: atr = resolveAttributeOfParameter(id, attribute, context); break;
+        case LOCAL_SYMBOL: atr = resolveAttributeOfLocal(id, attribute, context); break;
         case ERROR_SYMBOL: break;
         default: SYSERR("Unexpected symbol kind");
         }
@@ -596,7 +614,7 @@ static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
         }
     }
     /* If no context found then THIS is not defined here which we should
-       already have reported. Report of the attribute was not found. */
+       already have reported. Report that the attribute was not found. */
     if (contextFound && atr == NULL)
         lmLog(&attribute->srcp, 313, sevERR, attribute->string);
     return atr;
