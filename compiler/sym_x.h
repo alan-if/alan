@@ -53,6 +53,7 @@ extern void createMessageVerbs();
 
 extern Symbol *newSymbol(IdNode *id, SymbolKind kind);
 extern Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent);
+extern Symbol *newParameterSymbol(Element *element);
 extern Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent);
 extern Symbol *newVerbSymbol(IdNode *id);
 extern Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context);

@@ -177,18 +177,15 @@ static char *symbolKindsAsString(SymbolKind kinds)
 
 
 
-/*----------------------------------------------------------------------*/
-static Symbol *newParameterSymbol(char *string, Element *element)
+/*======================================================================*/
+Symbol *newParameterSymbol(Element *element)
 {
     Symbol *new;                  /* The newly created symnod */
   
-    if (string == NULL)
-        return (0);
-  
     new = NEW(Symbol);
-  
+ 
     new->kind = PARAMETER_SYMBOL;
-    new->string = string;
+    new->string = element->id->string;
     new->fields.parameter.element = element;
     element->id->symbol = new;
     element->id->symbol->code = element->id->code;
@@ -741,7 +738,7 @@ void setParameters(Symbol *verb, List *parameters)
         SYSERR("Not a parameter list");
 
     TRAVERSE(param, parameters) {
-        Symbol *parameterSymbol = newParameterSymbol(param->member.elm->id->string, param->member.elm);
+        Symbol *parameterSymbol = newParameterSymbol(param->member.elm);
         parameterSymbols = concat(parameterSymbols, parameterSymbol, SYMBOL_LIST);
     }
 

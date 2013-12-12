@@ -138,7 +138,7 @@ Ensure(Symbol, testVerbSymbols) {
 
   parameters = createOneParameter("p1");
   setParameters(v1Symbol, parameters);
-  assert_true(v1Symbol->fields.verb.parameterSymbols != NULL);
+  assert_that(v1Symbol->fields.verb.parameterSymbols, is_not_null);
   for (l = v1Symbol->fields.verb.parameterSymbols,
 	 p = parameters;
        l && p;
@@ -367,7 +367,7 @@ Ensure(Symbol, testNewFrame) {
     /* Create a verb v with a parameter p */
     verbSymbol = newSymbol(newId(nulsrcp, "v"), VERB_SYMBOL);
     element = newParameterElement(nulsrcp, parameterId, 0);
-    parameterSymbol = newParameterSymbol("p", element);
+    parameterSymbol = newParameterSymbol(element);
 
     verbSymbol->fields.verb.parameterSymbols = concat(NULL, parameterSymbol, SYMBOL_LIST);
     context.kind = VERB_CONTEXT;
