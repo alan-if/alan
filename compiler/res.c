@@ -73,7 +73,7 @@ static void resolveParameterClass(Restriction *res, Symbol *parameter)
     case ID_RESTRICTION:
         classSymbol = lookup(res->classId->string);
         if (classSymbol != NULL)
-            if (classSymbol->kind != CLASS_SYMBOL) {
+            if (!isClass(classSymbol)) {
                 lmLog(&res->classId->srcp, 323, sevERR, "");
                 classSymbol = NULL;
             } else {

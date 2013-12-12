@@ -547,7 +547,7 @@ Bool isClass(Symbol *symbol) {
 
 /*======================================================================*/
 TypeKind classToType(Symbol* symbol) {
-    if (symbol->kind != CLASS_SYMBOL)
+    if (!isClass(symbol))
         SYSERR("Not a class");
     if (symbol == integerSymbol) return INTEGER_TYPE;
     else if (symbol == stringSymbol) return STRING_TYPE;
@@ -608,7 +608,7 @@ Symbol *contentOfSymbol(Symbol *symbol) {
 /*======================================================================*/
 void setParent(Symbol *child, Symbol *parent)
 {
-    if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
+    if (!isClass(child) && child->kind != INSTANCE_SYMBOL)
         SYSERR("Not a CLASS or INSTANCE");
     child->fields.entity.parent = parent;
 }
@@ -617,7 +617,7 @@ void setParent(Symbol *child, Symbol *parent)
 /*======================================================================*/
 Symbol *parentOf(Symbol *child)
 {
-    if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
+    if (!isClass(child) && child->kind != INSTANCE_SYMBOL)
         SYSERR("Not a CLASS or INSTANCE");
     return child->fields.entity.parent;
 }
@@ -639,8 +639,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
     if (child->kind == PARAMETER_SYMBOL)
         child = child->fields.parameter.class;
 
-    if ((child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL) ||
-        (ancestor->kind != CLASS_SYMBOL))
+    if ((!isClass(child) && child->kind != INSTANCE_SYMBOL) || !isClass(ancestor))
         return FALSE;		/* Probably spurious */
 
     p = child;			/* To be the class itself is OK */
@@ -669,7 +668,7 @@ static Bool multipleSymbolKinds(SymbolKind kind) {
 
 /*----------------------------------------------------------------------*/
 static Symbol *lookupClass(IdNode *id, Symbol *symbol) {
-    if (symbol != NULL && symbol->kind != CLASS_SYMBOL) {
+    if (symbol != NULL && !isClass(symbol)) {
         Symbol *otherSymbol = lookup(id->string);
         if (otherSymbol != NULL)
             return otherSymbol;
@@ -849,7 +848,7 @@ Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
     if (symbol == NULL)
         return NULL;
 
-    if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
+    if (!isClass(symbol) && symbol->kind != INSTANCE_SYMBOL)
         return NULL;
 
     if ((foundAttribute = findAttribute(symbol->fields.entity.props->attributes, id)) == NULL)
@@ -919,7 +918,7 @@ static void numberAttributesRecursively(Symbol *symbol)
 
     if (symbol == NULL) return;
 
-    if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
+    if (isClass(symbol) || symbol->kind == INSTANCE_SYMBOL) {
         /* Only a class or instance have attributes */
 
         numberParentAttributes(symbol->fields.entity.parent);
@@ -983,8 +982,7 @@ static void replicateAttributes(Symbol *symbol)
     TRAVERSE(atr, propertiesOf(symbol)->attributes) {
         Attribute *thisAttribute = atr->member.atr;
         if (thisAttribute->type == REFERENCE_TYPE)
-            if (!thisAttribute->initialized
-                && symbol->kind != CLASS_SYMBOL)
+            if (!thisAttribute->initialized && !isClass(symbol))
                 lmLogv(&symbol->fields.entity.props->id->srcp, 328, sevERR,
                        thisAttribute->id->string,
                        thisAttribute->definingSymbol->string,
@@ -1087,7 +1085,7 @@ static void replicateSymbolTree(Symbol *symbol)
 {
     if (symbol == NULL) return;
 
-    if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
+    if (isClass(symbol) || symbol->kind == INSTANCE_SYMBOL) {
         replicateParent(symbol);
     }
 
