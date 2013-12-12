@@ -3,13 +3,12 @@
 #	COMPILER : which command to run the C compiler
 #	LINKER : which command to run the linker
 #	OSFLAGS : what flags must be passed to both compiler and linker
-#	INCLUDES : directives to include the required directories
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
 UNITOUTPUT ?= -c
 
 CC = $(COMPILER)
-CFLAGS = $(INCLUDES) -I../interpreter $(OSFLAGS) $(EXTRA_COMPILER_FLAGS)
+CFLAGS = -I../interpreter $(OSFLAGS) $(EXTRA_COMPILER_FLAGS)
 
 LINK = $(LINKER)
 LINKFLAGS = $(OSFLAGS) $(EXTRA_LINKER_FLAGS)
@@ -77,16 +76,14 @@ UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o})
 # Rule to compile objects to subdirectory
 $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+$(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 # Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
-unittests: CFLAGS += $(CGREENINCLUDE)
-unittests: LIBS = $(CGREENLIB)
-unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
-
+# Build a DLL of all unittests...
 unittests.dll: CFLAGS += $(CGREENINCLUDE)
 unittests.dll: LIBS = $(CGREENLIB)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
@@ -109,12 +106,12 @@ endif
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
-ISOLATED_UNITTESTS_EXTRA_MODULESS = util options sysdep emit lst dump opt type alan.version
+ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep emit lst dump opt type alan.version
 ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, $(ISOLATED_UNITTESTS_EXTRA_MODULES)))
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -o $(sort $@ $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LINKFLAGS) $(LIBS)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 

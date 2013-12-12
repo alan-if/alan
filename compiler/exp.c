@@ -685,7 +685,7 @@ static void analyzeAttributeFilter(Expression *theFilterExpression,
     Attribute *attribute;
     IdNode *attributeId = theFilterExpression->fields.atr.id;
 
-    if (classSymbol != NULL && classSymbol->kind == CLASS_SYMBOL) {
+    if (classSymbol != NULL && isClass(classSymbol)) {
         /* Only do attribute semantic check if class is defined */
         attribute = findAttribute(classSymbol->fields.entity.props->attributes,
                                   attributeId);

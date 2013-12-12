@@ -62,6 +62,7 @@ void newFrame(void) {}
 void deleteFrame(void) {}
 char *verbHasParametersMessage(Context *context) { return (char *)mock(context); }
 char *verbHasParametersOrNoneMessage(Context *context) { return (char *)mock(context); }
+Symbol *classOfSymbol(Symbol *symbol) { return (Symbol *)mock(symbol); }
 
 /* Inheritance of a class */
 void setParent(Symbol *child, Symbol *parent) { mock(child, parent); }

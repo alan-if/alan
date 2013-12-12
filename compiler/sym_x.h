@@ -69,6 +69,7 @@ extern void newFrame(void);
 extern void deleteFrame(void);
 extern char *verbHasParametersMessage(Context *context);
 extern char *verbHasParametersOrNoneMessage(Context *context);
+extern Symbol *classOfSymbol(Symbol *symbol);
 
 /* Inheritance of a class */
 extern void setParent(Symbol *child, Symbol *parent);

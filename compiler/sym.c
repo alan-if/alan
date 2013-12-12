@@ -531,6 +531,15 @@ Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
 
 
 /*======================================================================*/
+Symbol *classOfSymbol(Symbol *symbol) {
+    switch (symbol->kind) {
+    case PARAMETER_SYMBOL: return symbol->fields.parameter.class;
+    case LOCAL_SYMBOL: return symbol->fields.local.class;
+    default: SYSERR("Unexpected symbol kind"); return NULL;
+    }
+}
+
+/*======================================================================*/
 Bool isClass(Symbol *symbol) {
     return symbol->kind == CLASS_SYMBOL;
 }

@@ -162,7 +162,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
                     thisAttribute->type = INSTANCE_TYPE;
                 else if (thisAttribute->reference->symbol->kind == EVENT_SYMBOL)
                     thisAttribute->type = EVENT_TYPE;
-                else if (thisAttribute->reference->symbol->kind == CLASS_SYMBOL
+                else if (isClass(thisAttribute->reference->symbol)
                          && inClassDeclaration)
                     thisAttribute->initialized = FALSE;
                 else {
@@ -324,7 +324,7 @@ static void analyzeSetAttribute(Attribute *thisAttribute, Context *context)
     if (hasSingleIdentifierMember(members)) {
         Symbol *symbol = lookup(theSingleIdentifier(members));
         if (symbol != NULL) {
-            if (symbol->kind == CLASS_SYMBOL) {
+            if (isClass(symbol)) {
                 thisAttribute->set->fields.set.memberClass = symbol;
                 thisAttribute->setClass = thisAttribute->set->fields.set.memberClass;
                 thisAttribute->set->fields.set.memberType = classToType(symbol);
@@ -471,16 +471,7 @@ static Attribute *resolveAttributeOfInstance(IdNode *id, IdNode *attribute) {
 
 
 /*----------------------------------------------------------------------*/
-static Symbol *classOfSymbol(Symbol *symbol) {
-    switch (symbol->kind) {
-    case PARAMETER_SYMBOL: return symbol->fields.parameter.class;
-    case LOCAL_SYMBOL: return symbol->fields.local.class;
-    default: SYSERR("Unexpected symbol kind"); return NULL;
-    }
-}
-
-/*----------------------------------------------------------------------*/
-static Symbol *classOfIdInContext(IdNode *id, Context *context) {
+static Symbol *classOfIdInContext(Context *context, IdNode *id) {
     Symbol *restrictedTo = contextRestrictsIdTo(context, id);
     if (restrictedTo == NULL)
         return classOfSymbol(id->symbol);
@@ -519,7 +510,7 @@ static Attribute *resolveAttributeOfParameter(IdNode *id, IdNode *attributeId, C
     Symbol *sym = id->symbol;
 
     if (sym->fields.parameter.class != NULL) {
-        Symbol *classOfId = classOfIdInContext(id, context);
+        Symbol *classOfId = classOfIdInContext(context, id);
         atr = findAttributeOfSymbol(classOfId, attributeId, id, "parameter");
     }
 	return atr;
@@ -532,7 +523,7 @@ static Attribute *resolveAttributeOfLocal(IdNode *id, IdNode *attribute, Context
     Symbol *sym = id->symbol;
 
     if (sym->fields.local.class != NULL) {
-        Symbol *classOfLocal = classOfIdInContext(id, context);
+        Symbol *classOfLocal = classOfIdInContext(context, id);
         atr = findAttributeOfSymbol(classOfLocal, attribute, id, "variable");
     }
 	return atr;
@@ -543,9 +534,8 @@ static Attribute *resolveAttributeOfLocal(IdNode *id, IdNode *attribute, Context
 static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute, Context *context)
 {
     Attribute *atr = NULL;
-    Symbol *sym;
+    Symbol *sym = id->symbol;
 
-    sym = id->symbol;
     if (sym) {
         switch (sym->kind) {
         case INSTANCE_SYMBOL: atr = resolveAttributeOfInstance(id, attribute); break;

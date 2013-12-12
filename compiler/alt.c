@@ -119,7 +119,7 @@ void analyzeAlternatives(List *alts,
 
 
 /*----------------------------------------------------------------------*/
-static Aint generateQualifier(QualClass qualifier)
+static Aint generateQualifier(QualKind qualifier)
 {
   switch (qualifier) {
   case QUAL_BEFORE: return Q_BEFORE;

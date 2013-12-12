@@ -97,7 +97,7 @@ static void symbolizeParent(Properties *props)
         parent = lookup(props->parentId->string);
         if (parent == NULL)
             lmLogv(&props->parentId->srcp, 310, sevERR, props->parentId->string, "", NULL);
-        else if (parent->kind != CLASS_SYMBOL)
+        else if (!isClass(parent))
             lmLog(&props->parentId->srcp, 350, sevERR, "");
         else {
             props->parentId->symbol = parent;
@@ -115,7 +115,7 @@ void addOpaqueAttribute(Properties *props, Bool opaque)
 
     attribute->id->code = OPAQUEATTRIBUTE;	/* Pre-defined 'opaque' code */
     /* Make sure the opaque attribute is first, so combine the lists */
-    props->attributes = combine(concat(NULL, attribute, ATTRIBUTE_EXPRESSION),
+    props->attributes = combine(concat(NULL, attribute, ATTRIBUTE_LIST),
                                 props->attributes);
 }
 

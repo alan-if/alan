@@ -71,27 +71,6 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	cp $@ ../bin/
 
 #######################################################################
-# Standard console Arun with gcov
-gcov: EXTRA_COMPILER_FLAGS = -fprofile-arcs -ftest-coverage
-gcov: EXTRA_LINKER_FLAGS = -fprofile-arcs -ftest-coverage
-GCOVOBJDIR = .gcov
-GCOVOBJECTS = $(addprefix $(GCOVOBJDIR)/,${ARUNSRCS:.c=.o}) $(GCOVOBJDIR)/alan.version.o
-
-# Dependencies
--include $(GCOVOBJECTS:.o=.d)
-
-# Rule to compile objects to subdirectory
-$(GCOVOBJECTS): $(GCOVOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
-
-$(GCOVOBJDIR):
-	@mkdir $(GCOVOBJDIR)
-
-gcov: $(GCOVOBJDIR) $(GCOVOBJECTS)
-	$(LINK) -o $@ $(LDFLAGS) $(GCOVOBJECTS) $(LIBS)
-	cp $@ ../bin/
-
-#######################################################################
 #
 # CGreen unit tests
 #
@@ -110,6 +89,8 @@ UNITTESTS_ALL_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_ALL_SRCS:.c=
 # Rule to compile objects to subdirectory
 $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+$(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 # Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):
@@ -118,7 +99,7 @@ $(UNITTESTSOBJDIR):
 # Build the DLL...
 unittests.dll: LIBS = $(CGREENLIB)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(LINK) -shared -o $@ $(LDFLAGS) $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LINKFLAGS) $(LIBS)
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
@@ -142,7 +123,7 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LINKFLAGS) $(LIBS)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
