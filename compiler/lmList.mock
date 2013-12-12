@@ -16,7 +16,7 @@ void lmLiInit(char header[],
 void lmLog(Srcp *pos,
            int ecode,
            lmSev sev,
-           char *istrs) {mock(pos, ecode, sev);}
+           char *istrs) { printf("Error: %d %s\n", ecode, istrs); mock(pos, ecode, sev);}
 
 /* Log a message at a source position using va_arg handling */
 void lmLogv(Srcp *pos,

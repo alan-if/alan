@@ -20,7 +20,7 @@
 /* Create a new Syntax Element node */
 extern Element *newWordElement(Srcp srcp, IdNode *id);
 extern Element *newParameterElement(Srcp srcp, IdNode *id, int flags);
-extern Element *newEndOfSyntax();
+extern Element *newEndOfSyntax(void);
 
 /* Analyze a list of Syntax elements and return a list of the parameters */
 extern List *analyzeElements(List *elms, List *ress, struct Syntax *stx);

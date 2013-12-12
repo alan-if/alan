@@ -26,7 +26,7 @@ extern Properties *newEmptyProps(void);
 
 extern Properties *newProps(Where *whr,
 			    List *names,
-			    Srcp pronounsSrcp, List *pronoun,
+			    Srcp pronounsSrcp, List *pronouns,
 			    List *attributes,
 			    Initialize *init,
 			    Description *description,

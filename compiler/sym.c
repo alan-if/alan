@@ -433,7 +433,7 @@ Symbol *lookup(char *idString)
     while (s1 != NULL) {
         comp = compareStrings(idString, s1->string);
         if (comp == 0)
-            return(s1);
+            return s1;
         else if (comp < 0)
             s1 = s1->lower;
         else
@@ -535,13 +535,21 @@ Symbol *classOfSymbol(Symbol *symbol) {
     switch (symbol->kind) {
     case PARAMETER_SYMBOL: return symbol->fields.parameter.class;
     case LOCAL_SYMBOL: return symbol->fields.local.class;
+    case INSTANCE_SYMBOL: return symbol->fields.entity.parent;
     default: SYSERR("Unexpected symbol kind"); return NULL;
     }
 }
 
+
 /*======================================================================*/
 Bool isClass(Symbol *symbol) {
     return symbol->kind == CLASS_SYMBOL;
+}
+
+
+/*======================================================================*/
+Bool isInstance(Symbol *symbol) {
+    return symbol->kind == INSTANCE_SYMBOL;
 }
 
 
@@ -1085,7 +1093,7 @@ static void replicateSymbolTree(Symbol *symbol)
 {
     if (symbol == NULL) return;
 
-    if (isClass(symbol) || symbol->kind == INSTANCE_SYMBOL) {
+    if (isClass(symbol) || isInstance(symbol)) {
         replicateParent(symbol);
     }
 

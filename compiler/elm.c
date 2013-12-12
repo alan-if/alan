@@ -78,7 +78,7 @@ Element *newParameterElement(Srcp srcp, IdNode *word, int flags)
 
 
 /*======================================================================*/
-Element *newEndOfSyntax()
+Element *newEndOfSyntax(void)
 {
     Element *new;			/* The newly created node */
 

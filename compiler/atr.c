@@ -158,7 +158,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
             symbolizeId(thisAttribute->reference);
             if (thisAttribute->reference->symbol) {
                 thisAttribute->initialized = TRUE;
-                if (thisAttribute->reference->symbol->kind == INSTANCE_SYMBOL)
+                if (isInstance(thisAttribute->reference->symbol))
                     thisAttribute->type = INSTANCE_TYPE;
                 else if (thisAttribute->reference->symbol->kind == EVENT_SYMBOL)
                     thisAttribute->type = EVENT_TYPE;

@@ -20,6 +20,7 @@ TMCSRCS = \
 MODULES_WITH_ISOLATED_UNITTESTS = \
 	context \
 	atr \
+	sym \
 
 # Sources which have unittests defined
 UNITTESTED = \
