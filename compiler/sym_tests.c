@@ -47,3 +47,18 @@ Ensure(Symbol, can_return_class_of_symbol_for_local) {
 
     assert_that(classOfSymbol(symbol), is_equal_to(parent));
 }
+
+
+static void mocked_syserr(char *string) {
+    mock(string);
+}
+
+Ensure(Symbol, cannot_return_class_of_symbol_for_verb) {
+    IdNode *id = newId(nulsrcp, "verbname");
+    Symbol *symbol = newVerbSymbol(id);
+
+    setSyserrHandler(mocked_syserr);
+    expect(mocked_syserr);
+
+    classOfSymbol(symbol);
+}
