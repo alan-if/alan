@@ -104,16 +104,6 @@ static void resolveParameterClass(Restriction *res, Symbol *parameter)
         parameter->fields.parameter.type = INSTANCE_TYPE;
         break;
 
-    case STRING_RESTRICTION:
-        parameter->fields.parameter.class = NULL;
-        parameter->fields.parameter.type = STRING_TYPE;
-        break;
-
-    case INTEGER_RESTRICTION:
-        parameter->fields.parameter.class = NULL;
-        parameter->fields.parameter.type = INTEGER_TYPE;
-        break;
-
     default:
         SYSERR("Unimplemented restriction kind");
         break;
@@ -195,12 +185,6 @@ static void generateRestrictionEntry(Restriction *res)
     case CONTAINER_RESTRICTION:
         restriction.class = RESTRICTIONCLASS_CONTAINER;
         break;
-    case INTEGER_RESTRICTION:
-        restriction.class = RESTRICTIONCLASS_INTEGER;
-        break;
-    case STRING_RESTRICTION:
-        restriction.class = RESTRICTIONCLASS_STRING;
-        break;
     default:
         SYSERR("Unexpected RestrictionKind");
         break;
@@ -240,8 +224,6 @@ static void dumpRestrictionKind(RestrictionKind kind)
 {
     switch (kind) {
     case ID_RESTRICTION: put("ID"); break;
-    case INTEGER_RESTRICTION: put("INTEGER"); break;
-    case STRING_RESTRICTION: put("STRING"); break;
     case CONTAINER_RESTRICTION: put("CONTAINER"); break;
     default: put("*** UNKNOWN ***"); break;
     }

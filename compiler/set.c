@@ -37,29 +37,25 @@ Symbol *classOfMembers(Expression *exp)
 /*======================================================================*/
 void verifySetMember(Expression *theSet, Expression *theMember, char contextMessage[]) {
 
-  switch (theMember->type) {
-  case INTEGER_TYPE: theMember->class = integerSymbol; break;
-  case STRING_TYPE: theMember->class = stringSymbol; break;
-  case INSTANCE_TYPE: break;
-  case SET_TYPE: break;
-  case ERROR_TYPE: break;
-  default: SYSERR("Unexpected member type");
-  }
-  if (theMember->class != NULL)
-    if (!inheritsFrom(theMember->class, theSet->class)) {
-      char *setContentsMessage;
-      char buffer[1000];
-      if (theSet->class != NULL) {
-	if (theSet->class->fields.entity.isBasicType)
-	  setContentsMessage = theSet->class->string;
-	else {
-	  sprintf(buffer, "instances of '%s' and its subclasses", theSet->class->string);
-	  setContentsMessage = buffer;
-	}
-      } else
-	setContentsMessage = "unknown class";
-      lmLogv(&theMember->srcp, 410, sevERR, contextMessage, setContentsMessage, NULL);
+    switch (theMember->type) {
+    case INTEGER_TYPE: theMember->class = integerSymbol; break;
+    case STRING_TYPE: theMember->class = stringSymbol; break;
+    case INSTANCE_TYPE: break;
+    case SET_TYPE: break;
+    case ERROR_TYPE: break;
+    default: SYSERR("Unexpected member type");
     }
+    if (theMember->class != NULL)
+        if (!inheritsFrom(theMember->class, theSet->class)) {
+            char memberMessage[1000] = "unknown class";
+            if (theSet->class != NULL) {
+                if (theSet->class->fields.entity.isBasicType)
+                    sprintf(memberMessage, "elements of type %s", theSet->class->string);
+                else
+                    sprintf(memberMessage, "instances of '%s' and its subclasses", theSet->class->string);
+            }
+            lmLogv(&theMember->srcp, 410, sevERR, contextMessage, "This", memberMessage, NULL);
+        }
 }
 
 
@@ -78,51 +74,51 @@ static Symbol *commonAncestor(Symbol *inferedClass, Expression *exp) {
 
 /*======================================================================*/
 void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass, Context *context) {
-  List *elements;
-  TypeKind inferedType = UNINITIALIZED_TYPE;
-  Symbol *inferedClass = NULL;
+    List *elements;
+    TypeKind inferedType = UNINITIALIZED_TYPE;
+    Symbol *inferedClass = NULL;
 
-  if (length(set) == 0) {
-    /* If the set is empty it could match anything */
-    inferedType = INSTANCE_TYPE;
-    inferedClass = entitySymbol;
-  } else
-    TRAVERSE(elements, set) {
-      Expression *exp = elements->member.exp;
-      analyzeExpression(exp, context);
-      if (inferedType == UNINITIALIZED_TYPE)
-	inferedType = exp->type;
-      if (!equalTypes(inferedType, exp->type)) {
-	lmLogv(&exp->srcp, 408, sevERR, "Expressions", "a Set", "the same", NULL);
-	inferedType = ERROR_TYPE;
-      } else if (exp->type == ERROR_TYPE)
-	inferedType = ERROR_TYPE;
-      else
-	switch (exp->type) {
-	case INSTANCE_TYPE:
-	  if (inferedClass == NULL)
-	    inferedClass = exp->class;
-	  else
-	    inferedClass = commonAncestor(inferedClass, exp);
-	  break;
-	case INTEGER_TYPE:
-	  inferedClass = integerSymbol;
-	  break;
-	case STRING_TYPE:
-	case SET_TYPE:
-	case BOOLEAN_TYPE:
-	case EVENT_TYPE:
-	  lmLogv(&exp->srcp, 410, sevERR, "Set literal expression", "integers or instance references", NULL);
-	  break;
-	case UNINITIALIZED_TYPE:
-	case REFERENCE_TYPE:
-	  SYSERR("Unexpected type kind");
-	  break;
-	case ERROR_TYPE:
-	  ;
-	}
-    }
+    if (length(set) == 0) {
+        /* If the set is empty it could match anything */
+        inferedType = INSTANCE_TYPE;
+        inferedClass = entitySymbol;
+    } else
+        TRAVERSE(elements, set) {
+            Expression *exp = elements->member.exp;
+            analyzeExpression(exp, context);
+            if (inferedType == UNINITIALIZED_TYPE)
+                inferedType = exp->type;
+            if (!equalTypes(inferedType, exp->type)) {
+                lmLogv(&exp->srcp, 408, sevERR, "Expressions", "a Set", "the same", NULL);
+                inferedType = ERROR_TYPE;
+            } else if (exp->type == ERROR_TYPE)
+                inferedType = ERROR_TYPE;
+            else
+                switch (exp->type) {
+                case INSTANCE_TYPE:
+                    if (inferedClass == NULL)
+                        inferedClass = exp->class;
+                    else
+                        inferedClass = commonAncestor(inferedClass, exp);
+                    break;
+                case INTEGER_TYPE:
+                    inferedClass = integerSymbol;
+                    break;
+                case STRING_TYPE:
+                case SET_TYPE:
+                case BOOLEAN_TYPE:
+                case EVENT_TYPE:
+                    lmLogv(&exp->srcp, 410, sevERR, "Set literal expression", "A", "integers or instance references", NULL);
+                    break;
+                case UNINITIALIZED_TYPE:
+                case REFERENCE_TYPE:
+                    SYSERR("Unexpected type kind");
+                    break;
+                case ERROR_TYPE:
+                    ;
+                }
+        }
 
-  *_inferedType = inferedType;
-  *_inferedClass = inferedClass;
+    *_inferedType = inferedType;
+    *_inferedClass = inferedClass;
 }

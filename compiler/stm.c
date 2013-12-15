@@ -225,13 +225,7 @@ Statement *newPrintStatementFromString(char *string) {
 
 /*======================================================================*/
 List *newPrintStatementListFromString(char *string) {
-	int fpos;
-	int length;
-
-	fpos = ftell(txtfil);
-	length = strlen(string);
-	fprintf(txtfil, "%s", string);
-	return concat(NULL, newPrintStatement(nulsrcp, fpos, length), STATEMENT_LIST);
+	return newList(newPrintStatementFromString(string), STATEMENT_LIST);
 }
 
 /*----------------------------------------------------------------------*/

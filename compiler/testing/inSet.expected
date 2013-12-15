@@ -6,14 +6,14 @@ inSet.alan
     7.    If l In l:nSet Then "It's in!" End If.
 =====>       1
 
-  *1*   410 E : Incompatible types in Set member test. A Set can only contain
-                integer.
+  *1*   410 E : Incompatible types in Set member test. This Set can only
+                contain elements of type integer.
 
    10.    If 3 In l:iSet Then "It's in!" End If.
 =====>       1
 
-  *1*   410 E : Incompatible types in Set member test. A Set can only contain
-                instances of 'location' and its subclasses.
+  *1*   410 E : Incompatible types in Set member test. This Set can only
+                contain instances of 'location' and its subclasses.
 
 
         2 error(s).

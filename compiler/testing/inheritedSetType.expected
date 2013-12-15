@@ -22,8 +22,8 @@ inheritedSetType.alan
    33.    Include l In a of aSubTalker.	-- Should only allow topics
 =====>            1
 
-  *1*   410 E : Incompatible types in INCLUDE statement. A Set can only contain
-                instances of 'topic' and its subclasses.
+  *1*   410 E : Incompatible types in INCLUDE statement. This Set can only
+                contain instances of 'topic' and its subclasses.
 
 
         3 error(s).

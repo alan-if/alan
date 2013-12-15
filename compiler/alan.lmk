@@ -138,7 +138,7 @@
 407	'Attribute in Limits must be an attribute for every instance of the class the container accepts, in this case \'%1\'.';
 408	'%1 in %2 must be of %3 type.';
 409	'No parameters defined in this context.';
-410	'Incompatible types in %1. A Set can only contain %2.';
+410	'Incompatible types in %1. %2 Set can only contain %3.';
 411	'%1 ignored for Actor \'hero\'.';
 412	'Current %1 is not defined in %2.';
 413	'Empty Sets are not allowed unless the attribute is inherited. At least one member is necessary to infer the type and class of members.';

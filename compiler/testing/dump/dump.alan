@@ -23,6 +23,7 @@ OPTIONS
     Language English.
     Pack.
     Debug.
+    Length 24.
 
 Add To Every object
   Is
@@ -1349,6 +1350,7 @@ End The hero.
 The robot Isa actor At outside
   Script walking
     Step "The robot is walking..."
+    Use Script walking For Robot.
 End The robot.
 
 -- Here's a rule to make sure we dump one...
@@ -1367,7 +1369,20 @@ Start At outside.
      salvaging hero of all Adventurers!$p$pThis game was produced
      with the ALAN Adventure Development System and is brought to
      you by ThoNi&GorFo Adventure Factories."
+     Style emphasized.
+     Style preformatted.
+     Style normal.
+     Style alert.
+     Style quote.
     "$iVisit the Alan Home Pages at:"
     "$n$n$ihttp://www.alanif.se"
 
     Visits 2.
+
+    Transcript Off.
+
+    Cancel terminal_response.
+
+    Depending On pwindex Of manual
+    = 1 Then ""
+    End Depend.

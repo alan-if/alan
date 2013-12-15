@@ -30,6 +30,6 @@ typedef struct Synonym {
 
 extern Synonym *newSynonym(Srcp *srcp, List *ids, IdNode *id);
 extern void analyzeSynonyms(void);
-extern void dumpSynonyms(Synonym *syn);
+extern void dumpSynonym(Synonym *syn);
 
 #endif

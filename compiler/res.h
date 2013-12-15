@@ -21,8 +21,6 @@
 
 typedef enum RestrictionKind {
   ID_RESTRICTION,
-  INTEGER_RESTRICTION,
-  STRING_RESTRICTION,
   CONTAINER_RESTRICTION
 } RestrictionKind;
 

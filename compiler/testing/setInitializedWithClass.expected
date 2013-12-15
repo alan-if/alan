@@ -6,14 +6,14 @@ setInitializedWithClass.alan
     7.    Include hero In aSet Of loc.		-- Error: not correct type
 =====>            1
 
-  *1*   410 E : Incompatible types in INCLUDE statement. A Set can only contain
-                instances of 'location' and its subclasses.
+  *1*   410 E : Incompatible types in INCLUDE statement. This Set can only
+                contain instances of 'location' and its subclasses.
 
     8.    Include 3 In aSet Of loc.		-- Error: not correct type
 =====>            1
 
-  *1*   410 E : Incompatible types in INCLUDE statement. A Set can only contain
-                instances of 'location' and its subclasses.
+  *1*   410 E : Incompatible types in INCLUDE statement. This Set can only
+                contain instances of 'location' and its subclasses.
 
 
         2 error(s).
