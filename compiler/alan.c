@@ -398,6 +398,7 @@ extern void dumpAlternative();
 extern void dumpCheck();
 extern void dumpElement();
 extern void dumpExit();
+extern void dumpEvent();
 extern void dumpAdd();
 extern void dumpAttribute();
 extern void dumpClass();
@@ -424,6 +425,7 @@ static void initDumpers(void) {
     addListNodeDumper(CONTAINER_LIST, &dumpPointer);
     addListNodeDumper(ELEMENT_LIST, &dumpElement);
     addListNodeDumper(EXIT_LIST, &dumpExit);
+    addListNodeDumper(EVENT_LIST, &dumpEvent);
     addListNodeDumper(ID_LIST, &dumpId);
     addListNodeDumper(INSTANCE_LIST, &dumpInstance);
     addListNodeDumper(RESTRICTION_LIST, &dumpRestriction);

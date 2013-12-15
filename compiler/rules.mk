@@ -33,6 +33,8 @@ build: alan
 test:
 	@cd ..;bin/jregr -bin bin -dir compiler/testing $(JREGROUTPUT)
 	@cd ..;bin/jregr -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
+	@cd ..;bin/jregr -bin bin -dir compiler/testing/dump $(JREGROUTPUT)
+	@cd ..;bin/jregr -bin bin -dir regression/debug $(JREGROUTPUT)
 
 # Clean
 .PHONY: clean
@@ -58,8 +60,7 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 	cp alan ../bin/alan
 
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
+#################################################################
 # Unit testing
 #
 .PHONY: unit
@@ -83,6 +84,7 @@ $(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
+###################################################################
 # Build a DLL of all unittests...
 unittests.dll: CFLAGS += $(CGREENINCLUDE)
 unittests.dll: LIBS = $(CGREENLIB)
@@ -99,6 +101,7 @@ else
 	cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 endif
 
+#####################################################################
 # Here we try to build a runnable DLL for each module where it can be 
 # tested in total isolation (with everything else mocked away,
 # except lists.c and memory.c)
@@ -124,3 +127,11 @@ ifeq ($(shell uname), Darwin)
 else
 	cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif
+
+############################################
+# Coverage
+coverage: EXTRA_COMPILER_FLAGS += --coverage
+coverage: EXTRA_LINKER_FLAGS += --coverage
+coverage: all test
+	lcov --capture --directory . -b . --output-file coverage.info
+	genhtml coverage.info --output coverage

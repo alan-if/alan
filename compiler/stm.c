@@ -536,7 +536,7 @@ static void analyzeIf(Statement *stm, Context *context)
 		lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
     if (stm->fields.iff.exp->kind == ISA_EXPRESSION) {
         Context *restricted_context = pushContext(context);
-        restricted_context->classRestriction = stm->fields.iff.exp;
+        addRestrictionInContext(restricted_context, stm->fields.iff.exp);
         analyzeStatements(stm->fields.iff.thn, restricted_context);
         free(restricted_context);
     } else        

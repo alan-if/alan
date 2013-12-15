@@ -164,23 +164,6 @@ IdNode *classIdInContext(Context *context)
 }
 
 /*======================================================================*/
-Bool thisIsaContainer(Context *context)
-{
-    Symbol *symbol;
-
-    if (context == NULL) return FALSE;
-
-    if (context->instance != NULL)
-        symbol = context->instance->props->id->symbol;
-    else if (context->class != NULL)
-        symbol = context->class->props->id->symbol;
-    else
-        return FALSE;
-
-    return symbolIsContainer(symbol);
-}
-
-/*======================================================================*/
 Symbol *contextRestrictsIdTo(Context *initialContext, IdNode *id) {
     Context *currentContext = initialContext;
 
