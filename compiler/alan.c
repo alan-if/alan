@@ -394,26 +394,28 @@ static void listingOnScreen() {
 }
 
 /* Import of dump functions to be used in initDumpers */
-extern void dumpAlternative();
-extern void dumpCheck();
-extern void dumpElement();
-extern void dumpExit();
-extern void dumpEvent();
 extern void dumpAdd();
+extern void dumpAlternative();
 extern void dumpAttribute();
+extern void dumpCheck();
 extern void dumpClass();
+extern void dumpElement();
+extern void dumpEvent();
+extern void dumpExit();
+extern void dumpExpression();
 extern void dumpId();
+extern void dumpIfid();
 extern void dumpInstance();
+extern void dumpLimit();
+extern void dumpPointer();
 extern void dumpRestriction();
+extern void dumpRule();
 extern void dumpScript();
 extern void dumpStatement();
-extern void dumpSyntax();
 extern void dumpStep();
+extern void dumpSyntax();
+extern void dumpSynonym();
 extern void dumpVerb();
-extern void dumpExpression();
-extern void dumpLimit();
-extern void dumpIfid();
-extern void dumpPointer();
 
 /*----------------------------------------------------------------------*/
 static void initDumpers(void) {
@@ -424,20 +426,22 @@ static void initDumpers(void) {
     addListNodeDumper(CLASS_LIST, &dumpClass);
     addListNodeDumper(CONTAINER_LIST, &dumpPointer);
     addListNodeDumper(ELEMENT_LIST, &dumpElement);
-    addListNodeDumper(EXIT_LIST, &dumpExit);
     addListNodeDumper(EVENT_LIST, &dumpEvent);
-    addListNodeDumper(ID_LIST, &dumpId);
-    addListNodeDumper(INSTANCE_LIST, &dumpInstance);
-    addListNodeDumper(RESTRICTION_LIST, &dumpRestriction);
-    addListNodeDumper(STATEMENT_LIST, &dumpStatement);
-    addListNodeDumper(SYNTAX_LIST, &dumpSyntax);
-    addListNodeDumper(VERB_LIST, &dumpVerb);
-    addListNodeDumper(SCRIPT_LIST, &dumpScript);
-    addListNodeDumper(STEP_LIST, &dumpStep);
+    addListNodeDumper(EXIT_LIST, &dumpExit);
     addListNodeDumper(EXPRESSION_LIST, &dumpExpression); 
-    addListNodeDumper(NAME_LIST, &dumpId);
-    addListNodeDumper(LIMIT_LIST, &dumpLimit);
+    addListNodeDumper(ID_LIST, &dumpId);
     addListNodeDumper(IFID_LIST, &dumpIfid);
+    addListNodeDumper(INSTANCE_LIST, &dumpInstance);
+    addListNodeDumper(LIMIT_LIST, &dumpLimit);
+    addListNodeDumper(NAME_LIST, &dumpId);
+    addListNodeDumper(RESTRICTION_LIST, &dumpRestriction);
+    addListNodeDumper(RULE_LIST, &dumpRule);
+    addListNodeDumper(SCRIPT_LIST, &dumpScript);
+    addListNodeDumper(STATEMENT_LIST, &dumpStatement);
+    addListNodeDumper(STEP_LIST, &dumpStep);
+    addListNodeDumper(SYNTAX_LIST, &dumpSyntax);
+    addListNodeDumper(SYNONYM_LIST, &dumpSynonym);
+    addListNodeDumper(VERB_LIST, &dumpVerb);
 }
 
 

@@ -81,6 +81,7 @@ Syntax open = 'open' (object).
 Syntax close = 'close' (object).
 
 Add To Every object
+  Initialize ""
   Verb examine
     Check object Is examinable
         Else "There is nothing special about the $o."
@@ -129,6 +130,12 @@ Add To Every thing
         Else "You already have it!"
     Does Only
         "You have to find things yourself..."
+        Say Current Actor.
+        Say Current Location.
+        Say This.
+        For Each a Isa actor Do
+          Say a.
+        End For.
   End Verb find.
 End Add.
 
@@ -1338,6 +1345,15 @@ The hero Isa actor
         Header "You are carrying"
         Else "You are empty-handed."
 End The hero.
+
+The robot Isa actor At outside
+  Script walking
+    Step "The robot is walking..."
+End The robot.
+
+-- Here's a rule to make sure we dump one...
+When Hero At outside =>
+  Empty hero At outside.
 
 -- This is where it all begins...
 -- 

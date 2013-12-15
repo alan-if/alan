@@ -73,7 +73,7 @@ void analyzeSynonyms(void)
 
 
 /*======================================================================*/
-void dumpSynonyms(Synonym *syn)
+void dumpSynonym(Synonym *syn)
 {
   if (syn == NULL) {
     put("NULL");
