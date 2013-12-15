@@ -113,7 +113,7 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
 			switch (sym->kind) {
 			case PARAMETER_SYMBOL:
 				lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a Container",
-					   "because it is not restricted to Container in the Syntax", NULL);
+					   "because it is not restricted to Container, or to a class which has the Container property in the Syntax or using surrounding If statements", NULL);
 				break;
 			default:
 				lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);

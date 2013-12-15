@@ -168,6 +168,8 @@ Bool thisIsaContainer(Context *context)
 {
     Symbol *symbol;
 
+    if (context == NULL) return FALSE;
+
     if (context->instance != NULL)
         symbol = context->instance->props->id->symbol;
     else if (context->class != NULL)

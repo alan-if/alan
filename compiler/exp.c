@@ -225,7 +225,7 @@ void symbolizeExpression(Expression *exp) {
 
 /*----------------------------------------------------------------------*/
 static Bool expressionIsContainer(Expression *exp, Context *context) {
-    return symbolIsContainer(classOfExpression(exp, context));
+    return symbolIsContainer(symbolOfExpression(exp, context));
 }
 
 /*----------------------------------------------------------------------*/
@@ -260,7 +260,7 @@ Bool verifyContainerExpression(Expression *what, Context *context,
 
 
 /*======================================================================*/
-Symbol *classOfExpression(Expression *exp, Context *context) {
+Symbol *symbolOfExpression(Expression *exp, Context *context) {
     if (exp == NULL) return NULL;
 
     switch (exp->kind) {
@@ -456,7 +456,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
     analyzeExpression(what, context);
 
     switch (what->kind) {
-    case WHAT_EXPRESSION:
+    case WHAT_EXPRESSION: {
         atr = resolveAttribute(what, exp->fields.atr.id, context);
         exp->type = verifyExpressionAttribute(exp, atr);
         if (atr) exp->readonly = atr->readonly;
@@ -467,6 +467,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
         } else if (exp->type == SET_TYPE)
             exp->class = classOfMembers(exp);
         break;
+    }
 
     case ATTRIBUTE_EXPRESSION:
         if (what->type != ERROR_TYPE) {

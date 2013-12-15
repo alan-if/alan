@@ -568,7 +568,7 @@ static void analyzeUse(Statement *stm, Context *context)
 					lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
 					return;
 				}
-			symbol = classOfExpression(exp, context);
+			symbol = symbolOfExpression(exp, context);
 		} else {
 			if (context->kind == INSTANCE_CONTEXT) {
 				if (context->instance == NULL || context->instance->props == NULL)
@@ -611,7 +611,7 @@ static void analyzeStop(Statement *stm, Context *context)
 
 	analyzeExpression(exp, context);
 	if (exp->type != ERROR_TYPE) {
-		sym = classOfExpression(exp, context);
+		sym = symbolOfExpression(exp, context);
 		if (sym) {
 			if (!inheritsFrom(sym, actorSymbol))
 				lmLogv(&stm->fields.stop.actor->srcp, 351, sevERR, "STOP statement", "an instance", "actor", NULL);

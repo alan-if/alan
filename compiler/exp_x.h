@@ -50,7 +50,7 @@ extern Bool isConstantExpression(Expression *exp);
 extern Symbol *contentOf(Expression *what, Context *context);
 extern Bool verifyContainerExpression(Expression *what, Context *context,
 				      char referer[]);
-extern Symbol *classOfExpression(Expression *exp, Context *context);
+extern Symbol *symbolOfExpression(Expression *exp, Context *context);
 extern void generateExpression(Expression *exp);
 extern void generateFilter(Expression *exp);
 extern void generateBinaryOperator(Expression *exp);

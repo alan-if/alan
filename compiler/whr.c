@@ -77,7 +77,7 @@ Bool verifyInitialLocation(Where *whr)
             }
             break;
         case WHERE_IN:
-            verifyContainer(whr->what->fields.wht.wht, NULL, "Expression after IN");
+            verifyContainerForInitialLocation(whr->what->fields.wht.wht, NULL, "Expression after IN");
             break;
         default:
             lmLogv(&whr->srcp, 355, sevERR, "", NULL);
