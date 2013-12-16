@@ -564,13 +564,13 @@ TypeKind classToType(Symbol* symbol) {
 Bool symbolIsContainer(Symbol *symbol) {
     if (symbol != NULL) {
         switch (symbol->kind) {
-        case PARAMETER_SYMBOL:
-            return symbol->fields.parameter.restrictedToContainer
-                || symbolIsContainer(symbol->fields.parameter.class);
         case CLASS_SYMBOL:
         case INSTANCE_SYMBOL:
             return symbol->fields.entity.props->container != NULL
                 || symbolIsContainer(symbol->fields.entity.parent);
+        case PARAMETER_SYMBOL:
+            return symbol->fields.parameter.restrictedToContainer
+                || symbolIsContainer(symbol->fields.parameter.class);
         case LOCAL_SYMBOL:
             return symbolIsContainer(symbol->fields.local.class);
         default:
@@ -607,7 +607,6 @@ Symbol *contentOfSymbol(Symbol *symbol) {
     }
     return NULL;
 }
-
 
 
 /*======================================================================*/

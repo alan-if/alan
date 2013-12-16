@@ -19,6 +19,8 @@ End Every.
 Syntax v = v (o) Where o Isa thing
                  Else
                      List o. -- Error, here the parameter is known only to *not* be an object => entity
-
+                     If o Isa cont Then
+                       List o. -- Ok, since restricted by the surrounding If
+                     End If.
 
 Start At l.

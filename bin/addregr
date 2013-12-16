@@ -6,4 +6,6 @@ if [ $# -ne 1 ] ; then
   echo "    <case> : the regresion case whose file should be added to the repository"
   exit
 fi
-cvs add "$1".alan "$1".input "$1".expected
+git add "$1".alan
+git add "$1".expected
+if [ -f "$1".input ] ; then git add "$1".input ; fi

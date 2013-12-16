@@ -41,7 +41,7 @@ Where *newWhere(Srcp *srcp, Bool directly, WhereKind kind, Expression *what) {
 }
 
 
-/*======================================================================  */
+/*======================================================================*/
 void symbolizeWhere(Where *whr)
 {
     if (whr == NULL) return;

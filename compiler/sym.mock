@@ -55,9 +55,9 @@ Symbol *lookup(char idString[]) { return (Symbol *)mock(idString); }
 Script *lookupScript(Symbol *aSymbol, IdNode *scriptName) { return (Script *)mock(aSymbol, scriptName); }
 Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols) { return (Symbol *)mock(parameterId, parameterSymbols); }
 void instanceCheck(IdNode *id, char *what, char className[]) { mock(id, what, className); }
-Bool isClass(Symbol *symbol) { return mock(symbol); }
-Bool isInstance(Symbol *symbol) { return mock(symbol); }
-Bool symbolIsContainer(Symbol *symbol) { return mock(); }
+Bool isClass(Symbol *symbol) { return (Bool)mock(symbol); }
+Bool isInstance(Symbol *symbol) { return (Bool)mock(symbol); }
+Bool symbolIsContainer(Symbol *symbol) { return (Bool)mock(symbol); }
 Symbol *contentOfSymbol(Symbol *symbol) { return (Symbol *)mock(symbol); }
 void newFrame(void) {}
 void deleteFrame(void) {}

@@ -168,19 +168,13 @@ static void symbolizeClass(Class *cla)
 }
 
 
-/*======================================================================
-
-  symbolizeClasses()
-
-  Symbolize all Class nodes.
-
- */
+/*======================================================================*/
 void symbolizeClasses(void)
 {
-  List *l;
+    List *l;
 
-  for (l = allClasses; l; l = l->next)
-    symbolizeClass(l->member.cla);
+    for (l = allClasses; l; l = l->next)
+        symbolizeClass(l->member.cla);
 }
 
 

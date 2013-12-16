@@ -222,10 +222,39 @@ void symbolizeExpression(Expression *exp) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static Bool idIsContainer(IdNode *id, Context *context) {
+    switch (id->symbol->kind) {
+    case PARAMETER_SYMBOL:
+        return id->symbol->fields.parameter.restrictedToContainer || symbolIsContainer(classOfIdInContext(context, id));
+    case LOCAL_SYMBOL:
+        return symbolIsContainer(classOfIdInContext(context, id));
+    case INSTANCE_SYMBOL:
+        return symbolIsContainer(id->symbol);
+    default: SYSERR("Unexpected id->symbol->kind");
+    }
+    return TRUE;                /* Assume the best to avoid spurious errors */
+}
+
 
 /*----------------------------------------------------------------------*/
 static Bool expressionIsContainer(Expression *exp, Context *context) {
-    return symbolIsContainer(symbolOfExpression(exp, context));
+    switch (exp->kind) {
+    case WHAT_EXPRESSION:
+        switch (exp->fields.wht.wht->kind) {
+        case WHAT_THIS: return symbolIsContainer(symbolOfContext(context));
+        case WHAT_LOCATION: return symbolIsContainer(locationSymbol);
+        case WHAT_ACTOR: return symbolIsContainer(actorSymbol);
+        case WHAT_ID: return idIsContainer(exp->fields.wht.wht->id, context);
+        default: SYSERR("Unexpected wht->kind");
+        }
+    case ATTRIBUTE_EXPRESSION:
+        return symbolIsContainer(exp->class);
+        break;
+    default:
+        SYSERR("Unexpected Expression kind");
+    }
+    return TRUE; /* If anything is wrong assume that it is a container to get fewer spurious errors */
 }
 
 /*----------------------------------------------------------------------*/
@@ -342,15 +371,16 @@ Bool isConstantExpression(Expression *exp)
         }
     case WHAT_EXPRESSION:
         return isConstantWhat(exp->fields.wht.wht);
+    case BETWEEN_EXPRESSION:
+    case ISA_EXPRESSION:
+    case BINARY_EXPRESSION:
+        /* TODO: Some of these might also be constant, e.g. <instance id> Isa <class> */
     case ATTRIBUTE_EXPRESSION:
     case WHERE_EXPRESSION:
-    case BINARY_EXPRESSION:
     case AGGREGATE_EXPRESSION:
     case RANDOM_EXPRESSION:
     case RANDOM_IN_EXPRESSION:
     case SCORE_EXPRESSION:
-    case BETWEEN_EXPRESSION:
-    case ISA_EXPRESSION:
         return FALSE;
     }
     return FALSE;
@@ -926,7 +956,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
             switch (symbol->kind) {
             case PARAMETER_SYMBOL:
                 exp->type = symbol->fields.parameter.type;
-                exp->class = symbol->fields.parameter.class;
+                exp->class = classOfIdInContext(context, exp->fields.wht.wht->id);
                 break;
             case LOCAL_SYMBOL:
                 exp->type = symbol->fields.local.type;

@@ -86,7 +86,7 @@ Symbol *symbolOfWhat(What *what, Context *context) {
 	case WHAT_ACTOR:
 		return actorSymbol;
 	case WHAT_ID:
-		return what->id->symbol;
+        return what->id->symbol;
 	default:
 		SYSERR("Unexpected What kind");
 	}
@@ -144,9 +144,10 @@ Bool isConstantWhat(What *what) {
 		return FALSE;
 	case WHAT_ID:
 		return isConstantIdentifier(what->id);
+    default:
+        SYSERR("Unexpected what->kind");
+        return FALSE;
 	}
-	SYSERR("Fall-through in switch");
-	return FALSE;
 }
 
 /*======================================================================*/
