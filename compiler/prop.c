@@ -115,7 +115,7 @@ void addOpaqueAttribute(Properties *props, Bool opaque)
 
     attribute->id->code = OPAQUEATTRIBUTE;	/* Pre-defined 'opaque' code */
     /* Make sure the opaque attribute is first, so combine the lists */
-    props->attributes = combine(concat(NULL, attribute, ATTRIBUTE_LIST),
+    props->attributes = combine(newList(attribute, ATTRIBUTE_LIST),
                                 props->attributes);
 }
 

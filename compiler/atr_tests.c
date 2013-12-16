@@ -50,7 +50,7 @@ static Expression *given_a_what_expression_of_class(IdNode *parameterName, Symbo
 static void given_that_the_class_has_the_attribute(IdNode *classId, Attribute *attribute) {
     Symbol *symbol = classId->symbol;
     symbol->fields.entity.props = NEW(Properties);
-    symbol->fields.entity.props->attributes = concat(NULL, attribute, ATTRIBUTE_LIST);
+    symbol->fields.entity.props->attributes = newList(attribute, ATTRIBUTE_LIST);
 }
 
 

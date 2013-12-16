@@ -106,18 +106,16 @@ Ensure(Symbol, testSymCheck)
 
 static List *createOneParameter(char *id)
 {
-  return concat(NULL, newParameterElement(nulsrcp,
-                                          newId(nulsrcp, id), 0), ELEMENT_LIST);
+    return newList(newParameterElement(nulsrcp, newId(nulsrcp, id), 0), ELEMENT_LIST);
 }
 
 static List *createThreeParameters(char *id1, char *id2, char *id3)
 {
     return concat(
                   concat(
-                         concat(NULL,
-                                newParameterElement(nulsrcp,
-                                                    newId(nulsrcp, id1), 0),
-                                ELEMENT_LIST),
+                         newList(newParameterElement(nulsrcp,
+                                                     newId(nulsrcp, id1), 0),
+                                 ELEMENT_LIST),
                          newParameterElement(nulsrcp,
                                              newId(nulsrcp, id2), 0),
                          ELEMENT_LIST),
@@ -331,9 +329,9 @@ Ensure(Symbol, testLookupScript) {
     classSymbol = newSymbol(newId(nulsrcp, "aClass"), CLASS_SYMBOL);
     instanceSymbol = newSymbol(newId(nulsrcp, "anInstance"), INSTANCE_SYMBOL);
     setParent(instanceSymbol, classSymbol);
-    classScripts = concat(NULL, &script1, SCRIPT_LIST);
+    classScripts = newList(&script1, SCRIPT_LIST);
     classScripts = concat(classScripts, &script2, SCRIPT_LIST);
-    instanceScripts = concat(NULL, &script3, SCRIPT_LIST);
+    instanceScripts = newList(&script3, SCRIPT_LIST);
     instanceScripts = concat(instanceScripts, &script4, SCRIPT_LIST);
 
     classSymbol->fields.entity.props = NEW(Properties);
@@ -369,7 +367,7 @@ Ensure(Symbol, testNewFrame) {
     element = newParameterElement(nulsrcp, parameterId, 0);
     parameterSymbol = newParameterSymbol(element);
 
-    verbSymbol->fields.verb.parameterSymbols = concat(NULL, parameterSymbol, SYMBOL_LIST);
+    verbSymbol->fields.verb.parameterSymbols = newList(parameterSymbol, SYMBOL_LIST);
     context.kind = VERB_CONTEXT;
     context.verb = verbSymbol;
     context.previous = NULL;
@@ -450,9 +448,10 @@ Ensure(Symbol, testInheritOpaqueAttribute) {
     Symbol *parent = newClassSymbol(newId(nulsrcp, "p"), pProps, NULL);
 
     /* Setup a child */
-    List *attributes = concat(NULL, newBooleanAttribute(nulsrcp,
-                                                        newId(nulsrcp, "b"),
-                                                        FALSE), ATTRIBUTE_LIST);
+    List *attributes = newList(newBooleanAttribute(nulsrcp,
+                                                   newId(nulsrcp, "b"),
+                                                   FALSE),
+                               ATTRIBUTE_LIST);
 						      
     Properties *cProps = newProps(NULL, NULL,
                                   nulsrcp, NULL,

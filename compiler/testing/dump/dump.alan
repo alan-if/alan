@@ -1386,3 +1386,10 @@ Start At outside.
     Depending On pwindex Of manual
     = 1 Then ""
     End Depend.
+
+    If terminal Near hero Then
+      "Type! Damn it!"
+    Elsif terminal Nearby Then
+      "Type! Damn it!"
+    End If.
+  

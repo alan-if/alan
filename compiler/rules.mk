@@ -133,5 +133,6 @@ endif
 coverage: EXTRA_COMPILER_FLAGS += --coverage
 coverage: EXTRA_LINKER_FLAGS += --coverage
 coverage: all test
-	lcov --capture --directory . -b . --output-file coverage.info
+	lcov --capture --directory . -b . --output-file coverage_tmp.info
+	lcov --extract coverage_tmp.info '*.c' -o coverage.info
 	genhtml coverage.info --output coverage

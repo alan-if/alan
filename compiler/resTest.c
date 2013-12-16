@@ -25,13 +25,13 @@ Ensure(Restriction, can_say_has_restriction_for_symbol) {
   IdNode *parameterId2 = newId(nulsrcp, "p2");
 
   Restriction *res1 = newRestriction(nulsrcp, parameterId1, ID_RESTRICTION, newId(nulsrcp, "resclas"), NULL);
-  List *restrictions = concat(NULL, res1, RESTRICTION_LIST);
+  List *restrictions = newList(res1, RESTRICTION_LIST);
   Syntax *syntax = newSyntaxWithEOS(nulsrcp, NULL, restrictions, nulsrcp);
 
   addElement(syntax, newParameterElement(nulsrcp, parameterId1, 0));
   addElement(syntax, newParameterElement(nulsrcp, parameterId2, 0));
 
-  List *parameterList = concat(concat(NULL, getMember(syntax->elements, 1), ELEMENT_LIST), getMember(syntax->elements, 2), ELEMENT_LIST);
+  List *parameterList = concat(newList(getMember(syntax->elements, 1), ELEMENT_LIST), getMember(syntax->elements, 2), ELEMENT_LIST);
 
   setParameters(verbSymbol, parameterList);
   assert_that(hasRestriction(parameterId1->symbol, syntax));
