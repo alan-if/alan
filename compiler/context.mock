@@ -27,5 +27,6 @@ Symbol *symbolOfContext(Context *context) {return (Symbol*)mock(context);}
 Bool inEntityContext(Context *context) {return (Bool)mock(context);}
 Bool inLocationContext(Context *context) {return (Bool)mock(context);}
 IdNode *classIdInContext(Context *context) {return (IdNode*)mock(context);}
+Symbol *classOfIdInContext(Context *context, IdNode *id) { return (Symbol *)mock(context, id); }
 void addRestrictionInContext(Context *context, Expression *isa) {mock(context, isa);}
 Symbol *contextRestrictsIdTo(Context *context, IdNode *id) {return (Symbol*)mock(context, id);}

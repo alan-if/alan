@@ -96,6 +96,16 @@ Symbol *symbolOfContext(Context *context) {
     return NULL;
 }
 
+/*======================================================================*/
+Symbol *classOfIdInContext(Context *context, IdNode *id) {
+    Symbol *restrictedTo = contextRestrictsIdTo(context, id);
+    if (restrictedTo == NULL)
+        return classOfSymbol(id->symbol);
+    else
+        return restrictedTo;
+}
+
+
 /*----------------------------------------------------------------------*/
 static Context *duplicateContext(Context *previous) {
     Context *new = NEW(Context);

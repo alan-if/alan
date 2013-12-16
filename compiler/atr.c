@@ -471,16 +471,6 @@ static Attribute *resolveAttributeOfInstance(IdNode *id, IdNode *attribute) {
 
 
 /*----------------------------------------------------------------------*/
-static Symbol *classOfIdInContext(Context *context, IdNode *id) {
-    Symbol *restrictedTo = contextRestrictsIdTo(context, id);
-    if (restrictedTo == NULL)
-        return classOfSymbol(id->symbol);
-    else
-        return restrictedTo;
-}
-
-
-/*----------------------------------------------------------------------*/
 static Attribute *findAttributeOfSymbol(Symbol *symbol, IdNode *attribute, IdNode *id, char *message) {
 	Attribute *atr = NULL;
 
