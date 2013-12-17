@@ -36,7 +36,7 @@ extern Attribute *findAttribute(List *attributeList, IdNode *id);
 extern List *combineAttributes(List *ownAttributes, List *inheritedAttributes);
 extern void analyzeAllAttributes(void);
 extern void analyzeAttributes(List *attributeList, Symbol *symbol, Context *context);
-extern Attribute *resolveAttribute(Expression *exp, IdNode *attribute, Context *context);
+extern Attribute *resolveAttributeToExpression(Expression *exp, IdNode *attribute, Context *context);
 extern Aaddr generateAttributes(List *attributeList, int instanceCode);
 extern Aaddr generateStringInit(void);
 extern Aaddr generateSetInit(void);

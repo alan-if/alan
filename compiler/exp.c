@@ -487,7 +487,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 
     switch (what->kind) {
     case WHAT_EXPRESSION: {
-        atr = resolveAttribute(what, exp->fields.atr.id, context);
+        atr = resolveAttributeToExpression(what, exp->fields.atr.id, context);
         exp->type = verifyExpressionAttribute(exp, atr);
         if (atr) exp->readonly = atr->readonly;
         if (exp->type == INSTANCE_TYPE || exp->type == REFERENCE_TYPE) {
@@ -505,7 +505,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
                 exp->type = ERROR_TYPE;
                 lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
             } else {
-                atr = resolveAttribute(what, exp->fields.atr.id, context);
+                atr = resolveAttributeToExpression(what, exp->fields.atr.id, context);
                 exp->type = verifyExpressionAttribute(exp, atr);
                 if (atr) exp->readonly = atr->readonly;
             }

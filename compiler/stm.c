@@ -341,6 +341,7 @@ static void analyzeLocate(Statement *stm, Context *context)
 		whr->directly = TRUE;
 		break;
 	case WHERE_IN:
+        /* Can the located be in a container? Not if its a location or actor. */
 		if (inheritsFrom(what->class, locationSymbol))
 			lmLog(&what->srcp, 402, sevERR, "A Location");
 		else if (inheritsFrom(what->class, actorSymbol))
@@ -358,7 +359,6 @@ static void analyzeLocate(Statement *stm, Context *context)
 		SYSERR("Unexpected Where kind");
 		break;
 	}
-
 }
 
 
@@ -383,7 +383,7 @@ static void analyzeMake(Statement *stm, Context *context)
 	Attribute *atr = NULL;
 
 	analyzeExpression(wht, context);
-	atr = resolveAttribute(wht, stm->fields.make.atr, context);
+	atr = resolveAttributeToExpression(wht, stm->fields.make.atr, context);
 	verifyMakeAttribute(stm->fields.make.atr, atr);
     if (inheritsFrom(wht->class, literalSymbol))
         lmLog(&stm->srcp, 406, sevERR, "");

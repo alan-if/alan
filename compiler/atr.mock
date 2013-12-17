@@ -29,7 +29,7 @@ Attribute *findAttribute(List *attributeList, IdNode *id) { return (Attribute*)f
 List *combineAttributes(List *ownAttributes, List *inheritedAttributes) { return (List*)mock(ownAttributes, inheritedAttributes); }
 void analyzeAllAttributes(void) {}
 void analyzeAttributes(List *attributeList, Symbol *symbol, Context *context) { mock(attributeList, symbol, context); }
-Attribute *resolveAttribute(Expression *exp, IdNode *attribute, Context *context) { return (Attribute*)mock(exp, attribute, context); }
+Attribute *resolveAttributeToExpression(Expression *exp, IdNode *attribute, Context *context) { return (Attribute*)mock(exp, attribute, context); }
 Aaddr generateAttributes(List *attributeList, int instanceCode) { return (Aaddr)mock(attributeList, instanceCode); }
 Aaddr generateStringInit(void) { return (Aaddr)mock(); }
 Aaddr generateSetInit(void) { return (Aaddr)mock(); }

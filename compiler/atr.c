@@ -633,7 +633,7 @@ static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context 
 
 
 /*======================================================================*/
-Attribute *resolveAttribute(Expression *exp, IdNode *attributeId, Context *context) {
+Attribute *resolveAttributeToExpression(Expression *exp, IdNode *attributeId, Context *context) {
     switch (exp->kind) {
     case WHAT_EXPRESSION:
         return resolveAttributeToWhat(exp->fields.wht.wht, attributeId, context);

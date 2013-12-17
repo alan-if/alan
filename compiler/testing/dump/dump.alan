@@ -1348,8 +1348,10 @@ The hero Isa actor
 End The hero.
 
 The robot Isa actor At outside
+  Has alternatives {1,2,3}.
   Script walking
     Step "The robot is walking..."
+      If 1 In alternatives Of This Then "" End If.
     Use Script walking For Robot.
 End The robot.
 
