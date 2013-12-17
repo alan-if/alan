@@ -569,7 +569,31 @@ static Symbol *analyzeUseWithActor(Statement *stm, Context *context) {
             lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
             return NULL;
         }
-    return symbolOfExpression(exp, context);
+    switch (exp->kind) {
+    case WHAT_EXPRESSION:
+        switch (exp->fields.wht.wht->kind) {
+        case WHAT_ID:
+            if (exp->fields.wht.wht->id->symbol != NULL)
+                switch (exp->fields.wht.wht->id->symbol->kind) {
+                case PARAMETER_SYMBOL:
+                case LOCAL_SYMBOL:
+                    return classOfIdInContext(context, exp->fields.wht.wht->id);
+                case INSTANCE_SYMBOL:
+                    return exp->fields.wht.wht->id->symbol;
+                default: SYSERR("Unexpected id->symbol->kind");
+                }
+            break;
+        case WHAT_THIS:
+        case WHAT_LOCATION:
+        case WHAT_ACTOR:
+            return symbolOfExpression(exp, context);
+        }
+        break;
+    case ATTRIBUTE_EXPRESSION:
+        return symbolOfExpression(exp, context);
+    default: SYSERR("Unexpected exp->kind");
+    }
+    return NULL;
 }
 
 
@@ -578,14 +602,14 @@ static Symbol *analyzeUseWithoutActor(Statement *stm, Context *context) {
     Symbol *sym = NULL;
     if (context->kind == INSTANCE_CONTEXT) {
         if (context->instance == NULL || context->instance->props == NULL)
-            SYSERR("Unexpected context");
+            SYSERR("Strange context");
         if (!inheritsFrom(context->instance->props->id->symbol, actorSymbol))
             lmLog(&stm->srcp, 356, sevERR, "");
         else
             sym = context->instance->props->id->symbol;
     } else if (context->kind == CLASS_CONTEXT) {
         if (context->class == NULL || context->class->props == NULL)
-            SYSERR("Unexpected context");
+            SYSERR("Strange context");
         if (!inheritsFrom(context->class->props->id->symbol, actorSymbol))
             lmLog(&stm->srcp, 356, sevERR, "");
         else

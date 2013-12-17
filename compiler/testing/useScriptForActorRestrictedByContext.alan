@@ -1,0 +1,22 @@
+The l Isa location
+End The l.
+
+Every scripted Isa actor
+  Script one
+    Step "one"
+End Every scripted.
+
+Syntax s = s (a) Where a Isa actor Else ""
+
+Add To Every actor
+  Verb s
+    Does
+      Use Script one For a. -- Error, because every actor does not have the script
+      If a Isa scripted Then
+        Use Script one For a. -- Ok, since a is restricted to scripted actors
+      End If.
+      Use Script one For Current Actor. -- Error, not restricted here
+  End Verb.
+End Add.
+
+Start At l.

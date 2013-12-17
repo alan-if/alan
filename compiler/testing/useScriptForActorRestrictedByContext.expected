@@ -1,0 +1,21 @@
+########## useScriptForActorRestrictedByContext ##########
+
+
+useScriptForActorRestrictedByContext.alan
+
+   14.        Use Script one For a. -- Error, because every actor does not have
+         the script
+=====>                   1
+
+  *1*   400 E : Script not defined for class 'actor'.
+
+   18.        Use Script one For Current Actor. -- Error, not restricted here
+=====>                   1
+
+  *1*   400 E : Script not defined for class 'actor'.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+
