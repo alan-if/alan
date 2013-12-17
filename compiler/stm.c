@@ -555,7 +555,7 @@ static void findScript(Symbol *symbol, IdNode *scriptId) {
         case PARAMETER_SYMBOL: str = "parameter"; break;
         default: SYSERR("Unexpected symbol kind");
         }
-        lmLogv(&scriptId->srcp, 400, sevERR, str, symbol->string, NULL);
+        lmLogv(&scriptId->srcp, 400, sevERR, scriptId->string, str, symbol->string, NULL);
     }
 }
 

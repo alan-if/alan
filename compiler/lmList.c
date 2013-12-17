@@ -182,7 +182,7 @@ static lmMsgs msg[] = {
     { "355   ", "Initial location can only refer to instances inheriting from \'location\' using AT or to instances having the container property using IN." },
     { "356   ", "Only instances or classes inheriting from \'actor\' can have scripts." },
     { "399   ", "This is a previous declaration of \'%1\'." },
-    { "400   ", "Script not defined for %1 \'%2\'." },
+    { "400   ", "Script '%1' not defined for %2 \'%3\'." },
     { "401   ", "Actor reference required outside Actor specification." },
     { "402   ", "%1 can not be inside a Container." },
     { "403   ", "Script multiply defined for Actor \'%1\'." },
