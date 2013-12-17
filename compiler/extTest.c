@@ -22,11 +22,11 @@ AfterEach(Exit) {}
 
 
 Ensure(Exit, testNewExt) {
-  IdNode *direction = newId(nulsrcp, "w");
-  IdNode *targetLocation = newId(nulsrcp, "aLocation");
+  Id *direction = newId(nulsrcp, "w");
+  Id *targetLocation = newId(nulsrcp, "aLocation");
   Exit *theExit;
   Context *context = pushContext(NULL);
-  IdNode *aLocationId = newId(nulsrcp, "aLocation");
+  Id *aLocationId = newId(nulsrcp, "aLocation");
   int firstAddress;
   int entrySize = AwordSizeOf(ExitEntry);
 

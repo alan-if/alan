@@ -18,7 +18,7 @@
 
 typedef struct Script {
   Srcp srcp;			/* Source position */
-  IdNode *id;			/* Id for this script */
+  Id *id;			/* Id for this script */
   Aaddr stringAddress;
   List *description;		/* List of optional description statements */
   Aaddr descriptionAddress;	/* ACODE address description statements */

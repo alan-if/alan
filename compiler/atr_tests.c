@@ -23,31 +23,31 @@ Describe(Attribute);
 BeforeEach(Attribute) {entitySymbol = newSymbol(newId(nulsrcp, "entity"), CLASS_SYMBOL);}
 AfterEach(Attribute) {}
 
-static IdNode *given_a_parameter_id_of_class(char *parameterName, Symbol *classOfParameter) {
-    IdNode *id = newId(nulsrcp, parameterName);
+static Id *given_a_parameter_id_of_class(char *parameterName, Symbol *classOfParameter) {
+    Id *id = newId(nulsrcp, parameterName);
     id->symbol = newSymbol(id, PARAMETER_SYMBOL);
     id->symbol->fields.parameter.class = classOfParameter;
     return id;
 }
-static IdNode *given_an_attribute_id(char *attributeName) {
+static Id *given_an_attribute_id(char *attributeName) {
     return newId(nulsrcp, attributeName);
 }
-static IdNode *given_a_class(char *className) {
-    IdNode *classId = newId(nulsrcp, className);
+static Id *given_a_class(char *className) {
+    Id *classId = newId(nulsrcp, className);
     Symbol *classSymbol = newSymbol(classId, CLASS_SYMBOL);
     classId->symbol = classSymbol;
     return classId;
 }
-static Attribute *given_an_attribute(IdNode *id) {
+static Attribute *given_an_attribute(Id *id) {
     return newBooleanAttribute(nulsrcp, id, TRUE);
 }
-static Expression *given_a_what_expression_of_class(IdNode *parameterName, Symbol *classSymbol) {
+static Expression *given_a_what_expression_of_class(Id *parameterName, Symbol *classSymbol) {
     What *what = newWhatId(nulsrcp, parameterName);
     Expression *whatExp = newWhatExpression(nulsrcp, what);
     whatExp->class = classSymbol;
     return whatExp;
 }
-static void given_that_the_class_has_the_attribute(IdNode *classId, Attribute *attribute) {
+static void given_that_the_class_has_the_attribute(Id *classId, Attribute *attribute) {
     Symbol *symbol = classId->symbol;
     symbol->fields.entity.props = NEW(Properties);
     symbol->fields.entity.props->attributes = newList(attribute, ATTRIBUTE_LIST);
@@ -55,10 +55,10 @@ static void given_that_the_class_has_the_attribute(IdNode *classId, Attribute *a
 
 
 Ensure(Attribute, finds_restriction_for_parameter_from_context) {
-    IdNode *parameterId = given_a_parameter_id_of_class("parameter", entitySymbol);
-    IdNode *attributeId = given_an_attribute_id("atr");
+    Id *parameterId = given_a_parameter_id_of_class("parameter", entitySymbol);
+    Id *attributeId = given_an_attribute_id("atr");
     Attribute *atr = given_an_attribute(attributeId);
-    IdNode *classId = given_a_class("someClass");
+    Id *classId = given_a_class("someClass");
     Expression *exp = given_a_what_expression_of_class(parameterId, classId->symbol);
     Context *context = NULL;    /* Any will do since we have mocked it away */
 

@@ -90,7 +90,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 	lmLog(&ids->member.id->srcp, 230, sevINF, ids->member.id->string);
 	stx = defaultSyntax0(ids->member.id->string);
       } else {
-	IdNode *className = classIdInContext(context);
+	Id *className = classIdInContext(context);
 	if (className == NULL)
 	  className = newId(nulsrcp, "object");
 	lmLogv(&ids->member.id->srcp, 231, sevINF, ids->member.id->string,
@@ -133,7 +133,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 
 
 /*======================================================================*/
-Bool verbIdFound(IdNode *targetId, List *verbs)
+Bool verbIdFound(Id *targetId, List *verbs)
 {
   List *theVerb;
   List *theIdInList;
@@ -152,7 +152,7 @@ static void checkMultipleVerbDeclarations(List *verbs)
 {
   List *thisVerbDeclaration, *otherVerbs;
   List *firstId;
-  IdNode *foundId;
+  Id *foundId;
 
   for (thisVerbDeclaration = verbs; thisVerbDeclaration != NULL; thisVerbDeclaration = thisVerbDeclaration->next) {
     for (firstId = thisVerbDeclaration->member.vrb->ids; firstId != NULL; firstId = firstId->next) {

@@ -59,7 +59,7 @@ void addLiteralInstance(void)
     // Add a special instance representing all literals
     // Literals can't have modifiable attributes so one is enough
     // It should be generated as the last instance.
-    IdNode *literalClassId = newId(nulsrcp, "literal");
+    Id *literalClassId = newId(nulsrcp, "literal");
     Symbol *literalClassSymbol = lookup("literal");
     
     Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL);
@@ -82,8 +82,8 @@ void addNowhere(void)
 
 /*======================================================================*/
 Instance *newInstance(Srcp *srcp,
-		      IdNode *id,
-		      IdNode *parent,
+		      Id *id,
+		      Id *parent,
 		      Properties *props)
 {
   Instance *new;                  /* The newly allocated area */

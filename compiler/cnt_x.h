@@ -19,7 +19,7 @@
 
 /* FUNCTIONS: */
 
-extern ContainerBody *newContainerBody(Srcp srcp, Bool opaque, IdNode *takes, List *lims, List *hstms, List *estms, List *extractChecks, List *extractStatements);
+extern ContainerBody *newContainerBody(Srcp srcp, Bool opaque, Id *takes, List *lims, List *hstms, List *estms, List *extractChecks, List *extractStatements);
 extern Container *newContainer( ContainerBody *info);
 extern void symbolizeContainer(Container *cnt);
 extern void verifyContainerForInitialLocation(What *wht, Context *context, char construct[]);

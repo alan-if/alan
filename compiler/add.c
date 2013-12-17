@@ -30,8 +30,8 @@
 
 /*======================================================================*/
 AddNode *newAdd(Srcp srcp,
-		IdNode *id,
-		IdNode *parent,
+		Id *id,
+		Id *parent,
 		Properties *props)
 {
   AddNode *new;

@@ -19,12 +19,12 @@ AfterEach(Verb) {}
 
 
 Ensure(Verb, testMultipleVerbs) {
-    IdNode *v1 = newId(nulsrcp, "v1");
-    IdNode *v2 = newId(nulsrcp, "v2");
-    IdNode *v3 = newId(nulsrcp, "v3");
-    IdNode *v4 = newId(nulsrcp, "v4");
-    IdNode *v5 = newId(nulsrcp, "v5");
-    IdNode *v6 = newId(nulsrcp, "v6");
+    Id *v1 = newId(nulsrcp, "v1");
+    Id *v2 = newId(nulsrcp, "v2");
+    Id *v3 = newId(nulsrcp, "v3");
+    Id *v4 = newId(nulsrcp, "v4");
+    Id *v5 = newId(nulsrcp, "v5");
+    Id *v6 = newId(nulsrcp, "v6");
     List *verbIds1 = newList(v1, ID_LIST);
     List *verbIds2 = concat(newList(v2, ID_LIST), v3, ID_LIST);
     List *verbIds3 = concat(newList(v1, ID_LIST), v5, ID_LIST);

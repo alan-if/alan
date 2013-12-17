@@ -40,7 +40,7 @@ int containerCount = 0;
 /*======================================================================*/
 ContainerBody *newContainerBody(Srcp srcp,
                                 Bool opaque,
-                                IdNode *takes,
+                                Id *takes,
                                 List *lims,
                                 List *hstms,
                                 List *estms,
@@ -89,7 +89,7 @@ Container *newContainer(ContainerBody *body)
 /*======================================================================*/
 void symbolizeContainer(Container *theContainer) {
     if (theContainer != NULL) {
-        IdNode *id = theContainer->body->taking;
+        Id *id = theContainer->body->taking;
         id->symbol = lookup(id->string);
     }
 }
@@ -152,7 +152,7 @@ void analyzeContainer(Container *theContainer, Context *context)
 
     if (!theContainer->body->analyzed) {
         /* Analyze which class it takes */
-        IdNode *id = theContainer->body->taking;
+        Id *id = theContainer->body->taking;
         id->symbol = symcheck(id, CLASS_SYMBOL, context);
 
         /* Analyze the limits */

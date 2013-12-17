@@ -58,7 +58,7 @@ Ensure(Attribute, testInferClassInSetAttribute)
   initAdventure();
   symbolizeClasses();
 
-  IdNode *classId = newId(nulsrcp, "object");
+  Id *classId = newId(nulsrcp, "object");
   Instance *instance = newInstance(&nulsrcp, newId(nulsrcp, "t"), classId, NULL);
   List *set = newList(newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "t"))), EXPRESSION_LIST);
   Expression *setExp = newSetExpression(nulsrcp, set);
@@ -102,7 +102,7 @@ Ensure(Attribute, testMultipleAtr)
 Ensure(Attribute, testFindInList)
 {
   List *attributes = NULL;
-  IdNode *id = newId(nulsrcp, "theAttribute");
+  Id *id = newId(nulsrcp, "theAttribute");
   Attribute *theAttribute = newBooleanAttribute(nulsrcp, id, FALSE);
   Attribute *anotherAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "another"), FALSE);
 

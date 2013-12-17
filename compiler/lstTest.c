@@ -29,16 +29,16 @@ Ensure(List, canCreateNewEmptyListWithType) {
 
 Ensure(List, canConcatToANewEmptyList) {
   List *list = newEmptyList(ID_LIST);
-  IdNode *theId = newId(nulsrcp, "theId");
+  Id *theId = newId(nulsrcp, "theId");
 
   list = concat(list, theId, ID_LIST);
-  assert_true((IdNode *)list->member.lst == theId);
+  assert_true((Id *)list->member.lst == theId);
   assert_true(list->next == NULL);
 }
 
 
 Ensure(List, canCreateNewListWithMember) {
-  IdNode *theId = newId(nulsrcp, "theId");
+  Id *theId = newId(nulsrcp, "theId");
   List *list = newList(theId, ID_LIST);
   assert_true(list->kind == ID_LIST);
   assert_true(list->member.ptr == theId);
@@ -64,7 +64,7 @@ Ensure(List, testLength) {
 
 
 Ensure(List, insertingShouldIncreaseLength) {
-  IdNode *aMember = newId(nulsrcp, "aMember");
+  Id *aMember = newId(nulsrcp, "aMember");
   List *aList = newList(aMember, ID_LIST);
   assert_true(length(aList) == 1);
 
@@ -100,7 +100,7 @@ extern void setSyserrHandler(void (*f)(char *));
   
 
 Ensure(List, insertingIntoANullListFails) {
-  IdNode *aMember = newId(nulsrcp, "aMember");
+  Id *aMember = newId(nulsrcp, "aMember");
 
   TRY(
     insert(NULL, aMember, ID_LIST);
@@ -110,7 +110,7 @@ Ensure(List, insertingIntoANullListFails) {
 }
 
 Ensure(List, insertingANullMemberFails) {
-  IdNode *aMember = newId(nulsrcp, "aMember");
+  Id *aMember = newId(nulsrcp, "aMember");
   List *aList = newList(aMember, ID_LIST);
 
   TRY(
@@ -121,7 +121,7 @@ Ensure(List, insertingANullMemberFails) {
 }
 
 Ensure(List, insertingWrongTypeOfMemberFails) {
-  IdNode *aMember = newId(nulsrcp, "aMember");
+  Id *aMember = newId(nulsrcp, "aMember");
   List *aList = newIdList(NULL, "aMember");
 
   TRY(

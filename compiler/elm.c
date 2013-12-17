@@ -35,7 +35,7 @@ static int level = 0;
 /*----------------------------------------------------------------------*/
 static Element *newElement(Srcp *srcp,
 			   ElementKind kind,
-			   IdNode *id,
+			   Id *id,
 			   int flags)
 {
     Element *new;                                  /* The newly created node */
@@ -56,7 +56,7 @@ static Element *newElement(Srcp *srcp,
 
 
 /*======================================================================*/
-Element *newWordElement(Srcp srcp, IdNode *word)
+Element *newWordElement(Srcp srcp, Id *word)
 {
     Element *new;			/* The newly created node */
 
@@ -67,7 +67,7 @@ Element *newWordElement(Srcp srcp, IdNode *word)
 
 
 /*======================================================================*/
-Element *newParameterElement(Srcp srcp, IdNode *word, int flags)
+Element *newParameterElement(Srcp srcp, Id *word, int flags)
 {
     Element *new;			/* The newly created node */
 

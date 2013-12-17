@@ -42,11 +42,11 @@ int attributeAreaSize = 0;	/* # of Awords needed for attribute storage */
 /*----------------------------------------------------------------------*/
 static Attribute *newAttribute(Srcp *srcp,
                                TypeKind type,
-                               IdNode *id,
+                               Id *id,
                                int value,
                                long int fpos,
                                int len,
-                               IdNode *reference,
+                               Id *reference,
                                Expression *set)
 {
     Attribute *new;			/* The newly allocated area */
@@ -73,7 +73,7 @@ static Attribute *newAttribute(Srcp *srcp,
 
 
 /*======================================================================*/
-Attribute *newBooleanAttribute(Srcp srcp, IdNode *id, Bool value)
+Attribute *newBooleanAttribute(Srcp srcp, Id *id, Bool value)
 {
     Attribute *new;			/* The newly allocated area */
 
@@ -84,7 +84,7 @@ Attribute *newBooleanAttribute(Srcp srcp, IdNode *id, Bool value)
 
 
 /*======================================================================*/
-Attribute *newStringAttribute(Srcp srcp, IdNode *id, long fpos, int len)
+Attribute *newStringAttribute(Srcp srcp, Id *id, long fpos, int len)
 {
     Attribute *new;			/* The newly allocated area */
 
@@ -95,7 +95,7 @@ Attribute *newStringAttribute(Srcp srcp, IdNode *id, long fpos, int len)
 
 
 /*======================================================================*/
-Attribute *newIntegerAttribute(Srcp srcp, IdNode *id, int value)
+Attribute *newIntegerAttribute(Srcp srcp, Id *id, int value)
 {
     Attribute *new;			/* The newly allocated area */
 
@@ -106,7 +106,7 @@ Attribute *newIntegerAttribute(Srcp srcp, IdNode *id, int value)
 
 
 /*======================================================================*/
-Attribute *newReferenceAttribute(Srcp srcp, IdNode *id, IdNode *instance)
+Attribute *newReferenceAttribute(Srcp srcp, Id *id, Id *instance)
 {
     Attribute *new;			/* The newly allocated area */
 
@@ -117,7 +117,7 @@ Attribute *newReferenceAttribute(Srcp srcp, IdNode *id, IdNode *instance)
 
 
 /*======================================================================*/
-Attribute *newSetAttribute(Srcp srcp, IdNode *id, Expression *set)
+Attribute *newSetAttribute(Srcp srcp, Id *id, Expression *set)
 {
     Attribute *new;			/* The newly allocated area */
 
@@ -179,10 +179,10 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
 }
 
 
-static IdNode id = {{0,0,0}, "location", NULL, -1};
+static Id id = {{0,0,0}, "location", NULL, -1};
 static Attribute locationAttributeFake = {{0,0,0}, INSTANCE_TYPE, &id, TRUE};
 /*======================================================================*/
-Attribute *findAttribute(List *attributes, IdNode *id)
+Attribute *findAttribute(List *attributes, Id *id)
 {
     List *this;
 
@@ -458,7 +458,7 @@ void analyzeAllAttributes() {
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfInstance(IdNode *id, IdNode *attribute) {
+static Attribute *resolveAttributeOfInstance(Id *id, Id *attribute) {
     Attribute *atr = NULL;
     Symbol *sym = id->symbol;
 
@@ -471,7 +471,7 @@ static Attribute *resolveAttributeOfInstance(IdNode *id, IdNode *attribute) {
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *findAttributeOfSymbol(Symbol *symbol, IdNode *attribute, IdNode *id, char *message) {
+static Attribute *findAttributeOfSymbol(Symbol *symbol, Id *attribute, Id *id, char *message) {
 	Attribute *atr = NULL;
 
     if (symbol) {
@@ -495,7 +495,7 @@ static Attribute *findAttributeOfSymbol(Symbol *symbol, IdNode *attribute, IdNod
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfParameter(IdNode *id, IdNode *attributeId, Context *context) {
+static Attribute *resolveAttributeOfParameter(Id *id, Id *attributeId, Context *context) {
     Attribute *atr = NULL;
     Symbol *sym = id->symbol;
 
@@ -508,7 +508,7 @@ static Attribute *resolveAttributeOfParameter(IdNode *id, IdNode *attributeId, C
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfLocal(IdNode *id, IdNode *attribute, Context *context) {
+static Attribute *resolveAttributeOfLocal(Id *id, Id *attribute, Context *context) {
     Attribute *atr = NULL;
     Symbol *sym = id->symbol;
 
@@ -521,7 +521,7 @@ static Attribute *resolveAttributeOfLocal(IdNode *id, IdNode *attribute, Context
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfId(Id *id, Id *attribute, Context *context)
 {
     Attribute *atr = NULL;
     Symbol *sym = id->symbol;
@@ -541,7 +541,7 @@ static Attribute *resolveAttributeOfId(IdNode *id, IdNode *attribute, Context *c
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfCurrentActor(IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfCurrentActor(Id *attribute, Context *context)
 {
     Attribute *atr = NULL;
 
@@ -553,7 +553,7 @@ static Attribute *resolveAttributeOfCurrentActor(IdNode *attribute, Context *con
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfCurrentLocation(IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfCurrentLocation(Id *attribute, Context *context)
 {
     Attribute *atr = NULL;
 
@@ -565,7 +565,7 @@ static Attribute *resolveAttributeOfCurrentLocation(IdNode *attribute, Context *
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
+static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
 {
     Attribute *atr = NULL;
     Context *thisContext = context;
@@ -602,7 +602,7 @@ static Attribute *resolveAttributeOfThis(IdNode *attribute, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeToClass(Symbol *class, IdNode *attribute, Context *context) {
+static Attribute *resolveAttributeToClass(Symbol *class, Id *attribute, Context *context) {
     Attribute *atr = NULL;
 
     if (class != NULL) {
@@ -616,7 +616,7 @@ static Attribute *resolveAttributeToClass(Symbol *class, IdNode *attribute, Cont
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context *context)
+static Attribute *resolveAttributeToWhat(What *what, Id *attribute, Context *context)
 {
     /* Analyze a reference to an attribute. Will handle static identifiers and
        parameters and return a reference to the attribute node, if all is well. */
@@ -633,7 +633,7 @@ static Attribute *resolveAttributeToWhat(What *what, IdNode *attribute, Context 
 
 
 /*======================================================================*/
-Attribute *resolveAttributeToExpression(Expression *exp, IdNode *attributeId, Context *context) {
+Attribute *resolveAttributeToExpression(Expression *exp, Id *attributeId, Context *context) {
     switch (exp->kind) {
     case WHAT_EXPRESSION:
         return resolveAttributeToWhat(exp->fields.wht.wht, attributeId, context);

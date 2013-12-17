@@ -21,17 +21,17 @@ AfterEach(Context) {}
 
 Ensure(Context, returns_null_for_not_restricted_parameter_in_single_context) {
     Context *context = newVerbContext(theVerbSymbol);
-    IdNode *parameter = newId(nulsrcp, "parameter");
+    Id *parameter = newId(nulsrcp, "parameter");
 
     assert_that(contextRestrictsIdTo(context, parameter), is_null);
 }
 
 Ensure(Context, returns_class_for_restricted_parameter_in_single_context) {
     Context *context = newVerbContext(theVerbSymbol);
-    IdNode *parameter = newId(nulsrcp, "parameter");
+    Id *parameter = newId(nulsrcp, "parameter");
     What *parameterWhat = newWhatId(nulsrcp, parameter);
     Expression *parameterExpression = newWhatExpression(nulsrcp, parameterWhat);
-    IdNode *theClassId = newId(nulsrcp, "theClass");
+    Id *theClassId = newId(nulsrcp, "theClass");
     Symbol *theClass = newSymbol(theClassId, CLASS_SYMBOL);
     Expression *theExpression = newIsaExpression(nulsrcp, parameterExpression, FALSE, theClassId);
 

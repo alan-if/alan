@@ -64,7 +64,7 @@ Ensure(Expression, canFindClassOfExpression) {
 Ensure(Expression, testAttributeToThis) {
   Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
 				     NULL, newEmptyProps());
-  IdNode *theAttributeId = newId(nulsrcp, "Atr");
+  Id *theAttributeId = newId(nulsrcp, "Atr");
   Attribute *theAttribute = newBooleanAttribute(nulsrcp, theAttributeId, FALSE);
   Context *theContext = newInstanceContext(theInstance);
   What *theWhat = newWhatThis(nulsrcp);
@@ -84,7 +84,7 @@ Ensure(Expression, testAttributeToThis) {
 
 Ensure(Expression, testIsConstantIdentifier) {
   Symbol symbol;
-  IdNode id;
+  Id id;
   SymbolKind kind;
 
   id.symbol = &symbol;
@@ -108,10 +108,10 @@ Ensure(Expression, testAnalyzeClassingFilter) {
 
 Ensure(Expression, testIsConstant) {
   Expression *integer = newIntegerExpression(nulsrcp, 4);
-  IdNode *instanceId = newId(nulsrcp, "instanceId");
+  Id *instanceId = newId(nulsrcp, "instanceId");
   Symbol *instanceSymbol = newInstanceSymbol(instanceId, NULL, NULL);
   Expression *instanceExp = newWhatExpression(nulsrcp, newWhatId(nulsrcp, instanceId));
-  IdNode *parameterId = newId(nulsrcp, "parameterId");
+  Id *parameterId = newId(nulsrcp, "parameterId");
   Symbol *parameterSymbol = newInstanceSymbol(parameterId, NULL, NULL);
   Expression *parameterExp = newWhatExpression(nulsrcp, newWhatId(nulsrcp, parameterId));
   List *members = newList(instanceExp, EXPRESSION_LIST);

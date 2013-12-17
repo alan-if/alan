@@ -21,7 +21,7 @@
 
 extern Verb *newVerb(Srcp *srcp, List *ids, List *alts);
 extern void analyzeVerbs(List *vrbs, Context *context);
-extern Bool verbIdFound(IdNode *verbId, List *verbList);
+extern Bool verbIdFound(Id *verbId, List *verbList);
 extern Aaddr generateVerbs(List *vrbs);
 extern void dumpVerb(Verb *vrb);
 

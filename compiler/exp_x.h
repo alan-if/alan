@@ -20,7 +20,7 @@
 
 /* Functions: */
 
-extern Expression *newAttributeExpression(Srcp srcp, IdNode *attribute,
+extern Expression *newAttributeExpression(Srcp srcp, Id *attribute,
 					  Bool not, Expression *ofWhat);
 extern Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
 				       OperatorKind operator,
@@ -32,11 +32,11 @@ extern Expression *newSetExpression(Srcp srcp, List *set);
 extern Expression *newScoreExpression(Srcp srcp);
 extern Expression *newIntegerExpression(Srcp srcp, int value);
 extern Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
-				    IdNode *class);
+				    Id *class);
 extern Expression *newWhatExpression(Srcp srcp, What *what);
 extern Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not, Where *where);
 extern Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
-					  IdNode *attribute, List *filters);
+					  Id *attribute, List *filters);
 extern Expression *newRandomRangeExpression(Srcp srcp, Expression *from,
 					    Expression *to);
 extern Expression *newRandomInExpression(Srcp srcp, Expression *what, Bool directly);
@@ -45,7 +45,7 @@ extern void symbolizeExpression(Expression *exp);
 extern void analyzeExpression(Expression *exp, Context *context);
 extern Bool analyzeFilterExpressions(char *message, List *filters,
 				     Context *context, Symbol **foundClass);
-extern Bool isConstantIdentifier(IdNode *id);
+extern Bool isConstantIdentifier(Id *id);
 extern Bool isConstantExpression(Expression *exp);
 extern Symbol *contentOf(Expression *what, Context *context);
 extern Bool verifyContainerExpression(Expression *what, Context *context,

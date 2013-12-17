@@ -47,22 +47,22 @@ extern Symbol *messageVerbSymbolFor2Integers;
 
 /* FUNCTIONS: */
 
-extern void idRedefined(IdNode *id, Symbol *sym, Srcp previousDefinition);
+extern void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition);
 extern void initSymbols(void);
 extern void createMessageVerbs();
 
-extern Symbol *newSymbol(IdNode *id, SymbolKind kind);
-extern Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent);
+extern Symbol *newSymbol(Id *id, SymbolKind kind);
+extern Symbol *newInstanceSymbol(Id *id, Properties *props, Symbol *parent);
 extern Symbol *newParameterSymbol(Element *element);
-extern Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent);
-extern Symbol *newVerbSymbol(IdNode *id);
-extern Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context);
+extern Symbol *newClassSymbol(Id *id, Properties *props, Symbol *parent);
+extern Symbol *newVerbSymbol(Id *id);
+extern Symbol *symcheck(Id *id, SymbolKind kind, Context *context);
 
 /* Lookup a symbol */
 extern Symbol *lookup(char idString[]);
-extern Script *lookupScript(Symbol *aSymbol, IdNode *scriptName);
-extern Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols);
-extern void instanceCheck(IdNode *id, char *what, char className[]);
+extern Script *lookupScript(Symbol *aSymbol, Id *scriptName);
+extern Symbol *lookupParameter(Id *parameterId, List *parameterSymbols);
+extern void instanceCheck(Id *id, char *what, char className[]);
 extern Bool isClass(Symbol *symbol);
 extern Bool isInstance(Symbol *symbol);
 extern Bool symbolIsContainer(Symbol *symbol);
@@ -77,13 +77,13 @@ extern Symbol *classOfSymbol(Symbol *symbol);
 extern void setParent(Symbol *child, Symbol *parent);
 extern Symbol *parentOf(Symbol *child);
 extern Bool inheritsFrom(Symbol *child, Symbol *ancestor);
-extern void inheritCheck(IdNode *id, char *what, char classOrInstance[], char className[]);
+extern void inheritCheck(Id *id, char *what, char classOrInstance[], char className[]);
 
 extern void setParameters(Symbol *verb, List *parameters);
 
 extern TypeKind classToType(Symbol *symbol);
-extern Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id);
-extern Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id);
+extern Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id);
+extern Attribute *findInheritedAttribute(Symbol *symbol, Id *id);
 extern void numberAllAttributes(void);
 extern void replicateInherited(void);
 

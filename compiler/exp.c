@@ -104,7 +104,7 @@ Expression *newIntegerExpression(Srcp srcp, int value)
 }
 
 /*======================================================================*/
-Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not,
+Expression *newAttributeExpression(Srcp srcp, Id *attribute, Bool not,
                                    Expression *ofWhat) {
     Expression *exp = newExpression(srcp, ATTRIBUTE_EXPRESSION);
     exp->fields.atr.id = attribute;
@@ -115,7 +115,7 @@ Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not,
 
 /*======================================================================*/
 Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
-                             IdNode *class) {
+                             Id *class) {
     Expression *exp = newExpression(srcp, ISA_EXPRESSION);
     exp->fields.isa.what = what;
     exp->not = not;
@@ -125,7 +125,7 @@ Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
 
 /*======================================================================*/
 Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
-                                   IdNode *attribute, List *filters) {
+                                   Id *attribute, List *filters) {
     Expression *exp = newExpression(srcp, AGGREGATE_EXPRESSION);
     exp->fields.agr.kind = kind;
     exp->fields.agr.attribute = attribute;
@@ -223,7 +223,7 @@ void symbolizeExpression(Expression *exp) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool idIsContainer(IdNode *id, Context *context) {
+static Bool idIsContainer(Id *id, Context *context) {
     switch (id->symbol->kind) {
     case PARAMETER_SYMBOL:
         return id->symbol->fields.parameter.restrictedToContainer || symbolIsContainer(classOfIdInContext(context, id));
@@ -343,7 +343,7 @@ static char *aggregateToString(AggregateKind agr)
 
 
 /*======================================================================*/
-Bool isConstantIdentifier(IdNode *id)
+Bool isConstantIdentifier(Id *id)
 {
     if (id->symbol)
         return id->symbol->kind != PARAMETER_SYMBOL
@@ -459,7 +459,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 static TypeKind verifyExpressionAttribute(Expression *attributeExpression,
                                           Attribute *foundAttribute)
 {
-    IdNode *attributeId = attributeExpression->fields.atr.id;
+    Id *attributeId = attributeExpression->fields.atr.id;
     TypeKind type = UNINITIALIZED_TYPE;
 
     if (attributeExpression->kind != ATTRIBUTE_EXPRESSION)
@@ -714,7 +714,7 @@ static void analyzeAttributeFilter(Expression *theFilterExpression,
                                    char *aggregateString)
 {
     Attribute *attribute;
-    IdNode *attributeId = theFilterExpression->fields.atr.id;
+    Id *attributeId = theFilterExpression->fields.atr.id;
 
     if (classSymbol != NULL && isClass(classSymbol)) {
         /* Only do attribute semantic check if class is defined */
@@ -925,7 +925,7 @@ static void analyzeRandomIn(Expression *exp, Context *context)
 static void analyzeWhatExpression(Expression *exp, Context *context)
 {
     Symbol *symbol;
-    IdNode *classId;
+    Id *classId;
 
     if (exp->kind != WHAT_EXPRESSION)
         SYSERR("Not a WHAT-expression");

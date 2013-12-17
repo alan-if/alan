@@ -12,7 +12,7 @@
 
 /* FUNCTIONS: */
 
-ContainerBody *newContainerBody(Srcp srcp, Bool opaque, IdNode *takes, List *lims, List *hstms, List *estms, List *extractChecks, List *extractStatements) { ContainerBody *cnt = NEW(ContainerBody); cnt->srcp = srcp; cnt->taking = takes; cnt->limits = lims; cnt->hstms = hstms; cnt->estms = estms; cnt->extractChecks = extractChecks; cnt->extractStatements = extractStatements; return cnt; }
+ContainerBody *newContainerBody(Srcp srcp, Bool opaque, Id *takes, List *lims, List *hstms, List *estms, List *extractChecks, List *extractStatements) { ContainerBody *cnt = NEW(ContainerBody); cnt->srcp = srcp; cnt->taking = takes; cnt->limits = lims; cnt->hstms = hstms; cnt->estms = estms; cnt->extractChecks = extractChecks; cnt->extractStatements = extractStatements; return cnt; }
 Container *newContainer(ContainerBody *info) { return (Container*)mock(info); }
 void symbolizeContainer(Container *cnt) { mock(cnt); }
 void verifyContainerForInitialLocation(What *wht, Context *context, char construct[]) { mock(wht, context, construct); }

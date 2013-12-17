@@ -21,8 +21,8 @@ AfterEach(Restriction) {}
 Ensure(Restriction, can_say_has_restriction_for_symbol) {
   Symbol *verbSymbol = newVerbSymbol(newId(nulsrcp, "verb"));
 
-  IdNode *parameterId1 = newId(nulsrcp, "p1");
-  IdNode *parameterId2 = newId(nulsrcp, "p2");
+  Id *parameterId1 = newId(nulsrcp, "p1");
+  Id *parameterId2 = newId(nulsrcp, "p2");
 
   Restriction *res1 = newRestriction(nulsrcp, parameterId1, ID_RESTRICTION, newId(nulsrcp, "resclas"), NULL);
   List *restrictions = newList(res1, RESTRICTION_LIST);

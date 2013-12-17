@@ -24,7 +24,7 @@ AfterEach(Resource) {}
 Ensure(Resource, testNumberImages) {
   List e[5];
   int j;
-  IdNode *i[5] = {NULL,
+  Id *i[5] = {NULL,
 		  newId(nulsrcp, "a"),
 		  newId(nulsrcp, "b"),
 		  newId(nulsrcp, "b"),

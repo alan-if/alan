@@ -27,7 +27,7 @@
 
 
 /*======================================================================*/
-Synonym *newSynonym(Srcp *srcp, List *synonymIdList, IdNode *targetId)
+Synonym *newSynonym(Srcp *srcp, List *synonymIdList, Id *targetId)
 {
   Synonym *new;
 

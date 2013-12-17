@@ -29,7 +29,7 @@ static List *allScripts;
 
 
 /*======================================================================*/
-Script *newScript(Srcp *srcp, IdNode *id, Description *description, List *steps
+Script *newScript(Srcp *srcp, Id *id, Description *description, List *steps
 )
 {
   Script *new;          /* The newly allocated node */
@@ -61,7 +61,7 @@ Script *newScript(Srcp *srcp, IdNode *id, Description *description, List *steps
   Prepare scripts for this actor (i.e. number them)
 
   */
-void prepareScripts(List *scrs, IdNode *id)
+void prepareScripts(List *scrs, Id *id)
 {
   List *lst;
   List *scrlst;

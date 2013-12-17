@@ -20,7 +20,7 @@
 typedef struct Exit {		/* EXIT */
   Srcp srcp;			/* Source position of this exit */
   List *directions;			/* Directions of the exits */
-  IdNode *target;		/* Id of the location to exit to */
+  Id *target;		/* Id of the location to exit to */
   List *chks;			/* List of checks */
   Aaddr chkadr;			/* ACODE address of check code */
   List *stms;			/* List of statements */

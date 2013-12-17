@@ -14,7 +14,7 @@
 
 /* FUNCTIONS: */
 
-extern Resource *newResource(Srcp srcp, IdNode *fileName);
+extern Resource *newResource(Srcp srcp, Id *fileName);
 extern void analyzeResource(Resource *resource);
 extern List *analyzeResources(List *resources);
 extern void generateResources(List *resources);

@@ -33,7 +33,7 @@ Ensure(Properties, testAddOpaqueAttribute) {
 			      NULL, NULL,
 			      nulsrcp, NULL,
 			      NULL, NULL);
-  IdNode *opaque = newId(nulsrcp, "opaque");
+  Id *opaque = newId(nulsrcp, "opaque");
   Attribute *attribute;
 
   addOpaqueAttribute(prop, TRUE);

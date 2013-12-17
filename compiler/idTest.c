@@ -17,8 +17,8 @@ AfterEach(Id) {}
 
 
 Ensure(Id, testGeneratedId) {
-  IdNode *id1 = NEW(IdNode);
-  IdNode *id2 = NEW(IdNode);
+  Id *id1 = NEW(Id);
+  Id *id2 = NEW(Id);
   id1->string = generateIdName();
   id2->string = generateIdName();
 

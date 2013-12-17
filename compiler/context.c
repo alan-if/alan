@@ -97,7 +97,7 @@ Symbol *symbolOfContext(Context *context) {
 }
 
 /*======================================================================*/
-Symbol *classOfIdInContext(Context *context, IdNode *id) {
+Symbol *classOfIdInContext(Context *context, Id *id) {
     Symbol *restrictedTo = contextRestrictsIdTo(context, id);
     if (restrictedTo == NULL)
         return classOfSymbol(id->symbol);
@@ -146,9 +146,9 @@ Bool inLocationContext(Context *context)
 
 
 /*======================================================================*/
-IdNode *classIdInContext(Context *context)
+Id *classIdInContext(Context *context)
 {
-    IdNode *classId = NULL;
+    Id *classId = NULL;
 
     switch (context->kind) {
     case INSTANCE_CONTEXT:
@@ -174,7 +174,7 @@ IdNode *classIdInContext(Context *context)
 }
 
 /*======================================================================*/
-Symbol *contextRestrictsIdTo(Context *initialContext, IdNode *id) {
+Symbol *contextRestrictsIdTo(Context *initialContext, Id *id) {
     Context *currentContext = initialContext;
 
     while (currentContext != NULL) {

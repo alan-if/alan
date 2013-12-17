@@ -23,7 +23,7 @@
 /*----------------------------------------------------------------------*/
 static What *newWhat(Srcp *srcp,	/* IN - Source position */
 					 WhatKind kind,	/* IN - What kind */
-					 IdNode *id)	/* IN - ID or NULL */
+					 Id *id)	/* IN - ID or NULL */
 {
 	What *new;
 
@@ -58,7 +58,7 @@ What *newWhatThis(Srcp srcp)
 }
 
 /*======================================================================*/
-What *newWhatId(Srcp srcp, IdNode *id)
+What *newWhatId(Srcp srcp, Id *id)
 {
 	return newWhat(&srcp, WHAT_ID, id);
 }

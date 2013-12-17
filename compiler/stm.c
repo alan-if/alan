@@ -66,7 +66,7 @@ Statement *newDescribeStatement(Srcp srcp, Expression *what)
 
 
 /*======================================================================*/
-Statement *newUseStatement(Srcp srcp, IdNode *script, Expression *actor)
+Statement *newUseStatement(Srcp srcp, Id *script, Expression *actor)
 {
 	Statement *new = newStatement(&srcp, USE_STATEMENT);
 	new->fields.use.script = script;
@@ -118,7 +118,7 @@ Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set)
 
 
 /*======================================================================*/
-Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *statements)
+Statement *newEachStatement(Srcp srcp, Id *loopId, List *filters, List *statements)
 {
 	Statement *new = newStatement(&srcp, EACH_STATEMENT);
 	new->fields.each.loopId = loopId;
@@ -129,7 +129,7 @@ Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *stat
 
 
 /*======================================================================*/
-Statement *newStyleStatement(Srcp srcp, IdNode *style)
+Statement *newStyleStatement(Srcp srcp, Id *style)
 {
 	Statement *new = newStatement(&srcp, STYLE_STATEMENT);
 
@@ -364,7 +364,7 @@ static void analyzeLocate(Statement *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
+static void verifyMakeAttribute(Id *attributeId, Attribute *foundAttribute)
 {
 	/* Verify that a found attribute can be used in a MAKE statement. */
 	if (foundAttribute != NULL) {
@@ -541,7 +541,7 @@ static void analyzeIf(Statement *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void findScript(Symbol *symbol, IdNode *scriptId) {
+static void findScript(Symbol *symbol, Id *scriptId) {
 	Script *script;
     script = lookupScript(symbol, scriptId);
     if (script != NULL)
@@ -561,7 +561,7 @@ static void findScript(Symbol *symbol, IdNode *scriptId) {
 
 
 /*----------------------------------------------------------------------*/
-static Symbol *analyzeIdForActorStatement(IdNode *id, Context *context) {
+static Symbol *analyzeIdForActorStatement(Id *id, Context *context) {
     if (id->symbol != NULL)
         switch (id->symbol->kind) {
         case PARAMETER_SYMBOL:

@@ -27,9 +27,9 @@
 
 
 /*======================================================================*/
-Restriction *newRestriction(Srcp srcp, IdNode *parameterId,
+Restriction *newRestriction(Srcp srcp, Id *parameterId,
                             RestrictionKind kind,
-                            IdNode *classId, List *stms)
+                            Id *classId, List *stms)
 {
     Restriction *new;         /* The newly created node */
 

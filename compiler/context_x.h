@@ -28,8 +28,8 @@ extern Context *pushContext(Context *context);
 extern Symbol *symbolOfContext(Context *context);
 extern Bool inEntityContext(Context *context);
 extern Bool inLocationContext(Context *context);
-extern IdNode *classIdInContext(Context *context);
-extern Symbol *classOfIdInContext(Context *context, IdNode *id);
+extern Id *classIdInContext(Context *context);
+extern Symbol *classOfIdInContext(Context *context, Id *id);
 extern void addRestrictionInContext(Context *context, Expression *isa);
-extern Symbol *contextRestrictsIdTo(Context *context, IdNode *id);
+extern Symbol *contextRestrictsIdTo(Context *context, Id *id);
 #endif

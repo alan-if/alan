@@ -236,7 +236,7 @@ void generateText(char *txt)		/* IN - The text to output */
 
 
 /*======================================================================*/
-Message *newMessage(Srcp *srcp, IdNode *id, List *stms)
+Message *newMessage(Srcp *srcp, Id *id, List *stms)
 {
   Message *msg;
 

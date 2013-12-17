@@ -22,7 +22,7 @@ AfterEach(Symbol) {}
 
 Ensure(Symbol, can_return_class_of_symbol_for_instance) {
     Symbol *parent = NEW(Symbol);
-    IdNode *id = newId(nulsrcp, "classname");
+    Id *id = newId(nulsrcp, "classname");
     Symbol *symbol = newInstanceSymbol(id, NULL, parent);
 
     assert_that(classOfSymbol(symbol), is_equal_to(parent));
@@ -30,7 +30,7 @@ Ensure(Symbol, can_return_class_of_symbol_for_instance) {
 
 Ensure(Symbol, can_return_class_of_symbol_for_parameter) {
     Symbol *parent = NEW(Symbol);
-    IdNode *id = newId(nulsrcp, "classname");
+    Id *id = newId(nulsrcp, "classname");
     Element *element = newParameterElement(nulsrcp, id, 0);
     Symbol *symbol = newParameterSymbol(element);
     symbol->fields.parameter.class = parent;
@@ -40,7 +40,7 @@ Ensure(Symbol, can_return_class_of_symbol_for_parameter) {
 
 Ensure(Symbol, can_return_class_of_symbol_for_local) {
     Symbol *parent = NEW(Symbol);
-    IdNode *id = newId(nulsrcp, "classname");
+    Id *id = newId(nulsrcp, "classname");
     Element *element = newParameterElement(nulsrcp, id, 0);
     Symbol *symbol = newParameterSymbol(element);
     symbol->fields.parameter.class = parent;
@@ -54,7 +54,7 @@ static void mocked_syserr(char *string) {
 }
 
 Ensure(Symbol, cannot_return_class_of_symbol_for_verb) {
-    IdNode *id = newId(nulsrcp, "verbname");
+    Id *id = newId(nulsrcp, "verbname");
     Symbol *symbol = newVerbSymbol(id);
 
     setSyserrHandler(mocked_syserr);

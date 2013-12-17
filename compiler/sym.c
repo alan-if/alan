@@ -72,7 +72,7 @@ static Frame *currentFrame = NULL;
 
 
 /*======================================================================*/
-void idRedefined(IdNode *id, Symbol *sym, Srcp previousDefinition)
+void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition)
 {
     int error_code = 0;
 
@@ -212,7 +212,7 @@ static Bool mayOverride(SymbolKind overridingKind, SymbolKind originalKind) {
 
 
 /*======================================================================*/
-Symbol *newSymbol(IdNode *id, SymbolKind kind)
+Symbol *newSymbol(Id *id, SymbolKind kind)
 {
     Symbol *new;                  /* The newly created symnod */
   
@@ -267,7 +267,7 @@ Symbol *newSymbol(IdNode *id, SymbolKind kind)
 }
 
 /*======================================================================*/
-Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent) {
+Symbol *newInstanceSymbol(Id *id, Properties *props, Symbol *parent) {
     Symbol *new = newSymbol(id, INSTANCE_SYMBOL);
     new->fields.entity.props = props;
     new->fields.entity.parent = parent;
@@ -275,7 +275,7 @@ Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent) {
 }
 
 /*======================================================================*/
-Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent) {
+Symbol *newClassSymbol(Id *id, Properties *props, Symbol *parent) {
     Symbol *new = newSymbol(id, CLASS_SYMBOL);
     new->fields.entity.props = props;
     new->fields.entity.parent = parent;
@@ -284,7 +284,7 @@ Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent) {
 
 
 /*======================================================================*/
-Symbol *newVerbSymbol(IdNode *id) {
+Symbol *newVerbSymbol(Id *id) {
     Symbol *new = newSymbol(id, VERB_SYMBOL);
     new->fields.verb.parameterSymbols = NULL;
     new->fields.verb.firstSyntax = NULL;
@@ -314,7 +314,7 @@ static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
     Symbol *symbol;
     char name[50];
     int p;
-    IdNode *id;
+    Id *id;
     List *parameterList = NULL;
 
     sprintf(name, "$message%d%s$", parameterCount, typeSymbol->string);
@@ -404,7 +404,7 @@ static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
 
 
 /*======================================================================*/
-Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols)
+Symbol *lookupParameter(Id *parameterId, List *parameterSymbols)
 {
     List *p;
 
@@ -493,7 +493,7 @@ static Symbol *lookupInContext(char *idString, Context *context)
 
 
 /*======================================================================*/
-Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
+Script *lookupScript(Symbol *theSymbol, Id *scriptName)
 {
     List *scripts;
 
@@ -671,7 +671,7 @@ static Bool multipleSymbolKinds(SymbolKind kind) {
 
 
 /*----------------------------------------------------------------------*/
-static Symbol *lookupClass(IdNode *id, Symbol *symbol) {
+static Symbol *lookupClass(Id *id, Symbol *symbol) {
     if (symbol != NULL && !isClass(symbol)) {
         Symbol *otherSymbol = lookup(id->string);
         if (otherSymbol != NULL)
@@ -774,7 +774,7 @@ char *verbHasParametersOrNoneMessage(Context *context) {
 
 
 /*======================================================================*/
-Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
+Symbol *symcheck(Id *id, SymbolKind requestedKinds, Context *context)
 {
 	Symbol *sym;
 
@@ -809,7 +809,7 @@ Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 
 
 /*======================================================================*/
-void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
+void inheritCheck(Id *id, char reference[], char toWhat[], char className[])
 {
     /* Check that the given identifier inherits the class passed as a string.
        This will only be used for built in class checks (location, actor etc.)
@@ -825,7 +825,7 @@ void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
 
 
 /*======================================================================*/
-void instanceCheck(IdNode *id, char reference[], char className[])
+void instanceCheck(Id *id, char reference[], char className[])
 {
     /* Check that the given identifier inherits the class passed as a string.
        This will only be used for built in class checks (location, actor etc.)
@@ -843,7 +843,7 @@ void instanceCheck(IdNode *id, char reference[], char className[])
 
 
 /*======================================================================*/
-Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
+Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id)
 {
     /* Find the symbol which defines an attribute by traversing its parents. */
 
@@ -864,7 +864,7 @@ Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 
 
 /*======================================================================*/
-Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id)
+Attribute *findInheritedAttribute(Symbol *symbol, Id *id)
 {
     /* From a symbol traverse its inheritance tree to find a named attribute. */
     Symbol *definingSymbol =

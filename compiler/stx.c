@@ -34,7 +34,7 @@
 
 
 /*======================================================================*/
-Syntax *newSyntax(Srcp srcp, IdNode *id, List *elements, List *restrictionList,
+Syntax *newSyntax(Srcp srcp, Id *id, List *elements, List *restrictionList,
 		  Srcp restrictionSrcp)
 {
 	Syntax *new;                  /* The newly created node */
@@ -60,7 +60,7 @@ Syntax *newSyntax(Srcp srcp, IdNode *id, List *elements, List *restrictionList,
 
 
 /*======================================================================*/
-Syntax *newSyntaxWithEOS(Srcp srcp, IdNode *id, List *restrictionList,
+Syntax *newSyntaxWithEOS(Srcp srcp, Id *id, List *restrictionList,
 						 Srcp restrictionSrcp)
 {
 	Syntax *this;                  /* The newly created node */
@@ -325,7 +325,7 @@ Syntax *defaultSyntax0(char *verbName)
 
 
 /*======================================================================*/
-Syntax *defaultSyntax1(IdNode *verb, Context *context)
+Syntax *defaultSyntax1(Id *verb, Context *context)
 {
 	/*
 	  Returns the address a default syntax node which is used for verbs
@@ -339,7 +339,7 @@ Syntax *defaultSyntax1(IdNode *verb, Context *context)
 
 	Syntax *stx;
 	List *elements;
-	IdNode *classId;
+	Id *classId;
 	Restriction *res;
 
 	classId = classIdInContext(context);

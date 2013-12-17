@@ -20,7 +20,7 @@
 
 typedef struct Event {		/* EVENT */
   Srcp srcp;			/* Source position */
-  IdNode *id;			/* Name of this event */
+  Id *id;			/* Name of this event */
   Aaddr namadr;			/* Address to name string (debug) */
   List *stms;			/* List of statements to execute */
   Aaddr stmadr;			/* ACODE address of event statements */
@@ -33,7 +33,7 @@ typedef struct Event {		/* EVENT */
 
 /* Functions: */
 
-extern Event *newEvent(Srcp *srcp, IdNode *id, List *stms);
+extern Event *newEvent(Srcp *srcp, Id *id, List *stms);
 extern void analyzeEvents(void);
 extern Aaddr generateEvents(ACodeHeader *header);
 extern void dumpEvent(Event *evt);

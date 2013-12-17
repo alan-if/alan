@@ -19,16 +19,16 @@
 
 /* FUNCTIONS: */
 
-extern Syntax *newSyntax(Srcp srcp, IdNode *verb, List *elements,
+extern Syntax *newSyntax(Srcp srcp, Id *verb, List *elements,
 			 List *restrictions, Srcp restrictionSrcp);
-extern Syntax *newSyntaxWithEOS(Srcp srcp, IdNode *id, List *restrictionList,
+extern Syntax *newSyntaxWithEOS(Srcp srcp, Id *id, List *restrictionList,
 				Srcp restrictionSrcp);
 
 extern void addElement(Syntax *syntax, Element *element);
 
 /* Create a default syntax node */
 extern Syntax *defaultSyntax0(char vrbstr[]);
-extern Syntax *defaultSyntax1(IdNode *verb, Context *context);
+extern Syntax *defaultSyntax1(Id *verb, Context *context);
 
 /* Compare parameter lists of two syntaxes */
 extern Bool equalParameterLists(Syntax *stx1,
