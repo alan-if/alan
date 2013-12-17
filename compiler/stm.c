@@ -561,6 +561,35 @@ static void findScript(Symbol *symbol, IdNode *scriptId) {
 
 
 /*----------------------------------------------------------------------*/
+static Symbol *analyzeIdForActorStatement(IdNode *id, Context *context) {
+    if (id->symbol != NULL)
+        switch (id->symbol->kind) {
+        case PARAMETER_SYMBOL:
+        case LOCAL_SYMBOL:
+            return classOfIdInContext(context, id);
+        case INSTANCE_SYMBOL:
+            return id->symbol;
+        default: SYSERR("Unexpected id->symbol->kind");
+        }
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *analyzeWhatForActorStatement(What *wht, Context *context) {
+    switch (wht->kind) {
+    case WHAT_ID:
+        return analyzeIdForActorStatement(wht->id, context);
+    case WHAT_THIS:
+    case WHAT_LOCATION:
+    case WHAT_ACTOR:
+        return symbolOfWhat(wht, context);
+    }
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
 static Symbol *analyzeUseWithActor(Statement *stm, Context *context) {
     Expression *exp = stm->fields.use.actorExp;
     analyzeExpression(exp, context);
@@ -571,24 +600,7 @@ static Symbol *analyzeUseWithActor(Statement *stm, Context *context) {
         }
     switch (exp->kind) {
     case WHAT_EXPRESSION:
-        switch (exp->fields.wht.wht->kind) {
-        case WHAT_ID:
-            if (exp->fields.wht.wht->id->symbol != NULL)
-                switch (exp->fields.wht.wht->id->symbol->kind) {
-                case PARAMETER_SYMBOL:
-                case LOCAL_SYMBOL:
-                    return classOfIdInContext(context, exp->fields.wht.wht->id);
-                case INSTANCE_SYMBOL:
-                    return exp->fields.wht.wht->id->symbol;
-                default: SYSERR("Unexpected id->symbol->kind");
-                }
-            break;
-        case WHAT_THIS:
-        case WHAT_LOCATION:
-        case WHAT_ACTOR:
-            return symbolOfExpression(exp, context);
-        }
-        break;
+        return analyzeWhatForActorStatement(exp->fields.wht.wht, context);
     case ATTRIBUTE_EXPRESSION:
         return symbolOfExpression(exp, context);
     default: SYSERR("Unexpected exp->kind");
@@ -651,7 +663,12 @@ static void analyzeStop(Statement *stm, Context *context)
 
 	analyzeExpression(exp, context);
 	if (exp->type != ERROR_TYPE) {
-		sym = symbolOfExpression(exp, context);
+        if (exp->kind == WHAT_EXPRESSION && exp->fields.wht.wht->kind == WHAT_ID
+            && exp->fields.wht.wht->id->symbol != NULL 
+            && exp->fields.wht.wht->id->symbol->kind != INSTANCE_SYMBOL)
+            sym = classOfIdInContext(context, exp->fields.wht.wht->id);
+        else
+            sym = symbolOfExpression(exp, context);
 		if (sym) {
 			if (!inheritsFrom(sym, actorSymbol))
 				lmLogv(&stm->fields.stop.actor->srcp, 351, sevERR, "STOP statement", "an instance", "actor", NULL);
