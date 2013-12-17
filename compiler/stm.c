@@ -541,6 +541,61 @@ static void analyzeIf(Statement *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
+static void findScript(Symbol *symbol, IdNode *scriptId) {
+	Script *script;
+    script = lookupScript(symbol, scriptId);
+    if (script != NULL)
+        scriptId->code = script->id->code;
+    else {
+        char *str = "class";
+        switch (symbol->kind) {
+        case CLASS_SYMBOL: str = "class"; break;
+        case LOCAL_SYMBOL:
+        case INSTANCE_SYMBOL: str = "actor"; break;
+        case PARAMETER_SYMBOL: str = "parameter"; break;
+        default: SYSERR("Unexpected symbol kind");
+        }
+        lmLogv(&scriptId->srcp, 400, sevERR, str, symbol->string, NULL);
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *analyzeUseWithActor(Statement *stm, Context *context) {
+    Expression *exp = stm->fields.use.actorExp;
+    analyzeExpression(exp, context);
+    if (exp->type != ERROR_TYPE)
+        if (exp->type != INSTANCE_TYPE || !inheritsFrom(exp->class, actorSymbol)) {
+            lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
+            return NULL;
+        }
+    return symbolOfExpression(exp, context);
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *analyzeUseWithoutActor(Statement *stm, Context *context) {
+    Symbol *sym = NULL;
+    if (context->kind == INSTANCE_CONTEXT) {
+        if (context->instance == NULL || context->instance->props == NULL)
+            SYSERR("Unexpected context");
+        if (!inheritsFrom(context->instance->props->id->symbol, actorSymbol))
+            lmLog(&stm->srcp, 356, sevERR, "");
+        else
+            sym = context->instance->props->id->symbol;
+    } else if (context->kind == CLASS_CONTEXT) {
+        if (context->class == NULL || context->class->props == NULL)
+            SYSERR("Unexpected context");
+        if (!inheritsFrom(context->class->props->id->symbol, actorSymbol))
+            lmLog(&stm->srcp, 356, sevERR, "");
+        else
+            sym = context->class->props->id->symbol;
+    }
+	return sym;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void analyzeUse(Statement *stm, Context *context)
 {
 	/* Analyze a USE statement. It must refer to a script that is
@@ -549,51 +604,18 @@ static void analyzeUse(Statement *stm, Context *context)
 	   are not). */
 
 	Symbol *symbol = NULL;
-	Script *script;
 
 	if (stm->fields.use.actorExp == NULL && context->kind != CLASS_CONTEXT && context->kind != INSTANCE_CONTEXT)
 		lmLog(&stm->srcp, 401, sevERR, "");
 	else {
-		if (stm->fields.use.actorExp != NULL) {
-			Expression *exp = stm->fields.use.actorExp;
-			analyzeExpression(exp, context);
-			if (exp->type != ERROR_TYPE)
-				if (exp->type != INSTANCE_TYPE || !inheritsFrom(exp->class, actorSymbol)) {
-					lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
-					return;
-				}
-			symbol = symbolOfExpression(exp, context);
-		} else {
-			if (context->kind == INSTANCE_CONTEXT) {
-				if (context->instance == NULL || context->instance->props == NULL)
-					SYSERR("Unexpected context");
-				symbol = context->instance->props->id->symbol;
-			} else if (context->kind == CLASS_CONTEXT) {
-				if (context->class == NULL || context->class->props == NULL)
-					SYSERR("Unexpected context");
-				symbol = context->class->props->id->symbol;
-			}
-		}
+		if (stm->fields.use.actorExp != NULL)
+            symbol = analyzeUseWithActor(stm, context);
+		else
+            symbol = analyzeUseWithoutActor(stm, context);
 
-		/* Find the script */
-		if (symbol != NULL) {
-			script = lookupScript(symbol, stm->fields.use.script);
-			if (script != NULL)
-				stm->fields.use.script->code = script->id->code;
-			else {
-				char *str = "class";
-				switch (symbol->kind) {
-				case CLASS_SYMBOL: str = "class"; break;
-				case LOCAL_SYMBOL:
-				case INSTANCE_SYMBOL: str = "actor"; break;
-				case PARAMETER_SYMBOL: str = "parameter"; break;
-				default: SYSERR("Unexpected symbol kind");
-				}
-				lmLogv(&stm->fields.use.script->srcp, 400, sevERR,
-					   str, symbol->string, NULL);
-			}
-		}
-	}  
+		if (symbol != NULL)
+            findScript(symbol, stm->fields.use.script);
+	}
 }
 
 

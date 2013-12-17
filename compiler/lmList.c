@@ -180,6 +180,7 @@ static lmMsgs msg[] = {
     { "352   ", "%1 \'%2\' does not inherit from \'%3\', but has %4." },
     { "354   ", "%1 \'%2\' inherits from \'%3\', but has %4." },
     { "355   ", "Initial location can only refer to instances inheriting from \'location\' using AT or to instances having the container property using IN." },
+    { "356   ", "Only instances or classes inheriting from \'actor\' can have scripts." },
     { "399   ", "This is a previous declaration of \'%1\'." },
     { "400   ", "Script not defined for %1 \'%2\'." },
     { "401   ", "Actor reference required outside Actor specification." },
