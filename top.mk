@@ -40,6 +40,9 @@ unit:
 
 .PHONY: test
 test:
+ifeq ($(shell uname), Linux)
+	@touch regression/isochars.suspended regression/unknownWordMessage.suspended
+endif
 	@echo "***************** Test *****************"
 	-cd compiler; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
