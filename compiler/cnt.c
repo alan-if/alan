@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				CNT.C
-			   Container Nodes
+  CNT.C
+  Container Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -39,140 +39,140 @@ int containerCount = 0;
 
 /*======================================================================*/
 ContainerBody *newContainerBody(Srcp srcp,
-				Bool opaque,
-				IdNode *takes,
-				List *lims,
-				List *hstms,
-				List *estms,
-				List *extractChecks,
-				List *extractStatements)
+                                Bool opaque,
+                                IdNode *takes,
+                                List *lims,
+                                List *hstms,
+                                List *estms,
+                                List *extractChecks,
+                                List *extractStatements)
 {
-  ContainerBody *new;		/* The newly allocated area */
+    ContainerBody *new;		/* The newly allocated area */
 
-  new = NEW(ContainerBody);
+    new = NEW(ContainerBody);
 
-  new->srcp = srcp;
-  new->analyzed = FALSE;
-  new->generated = FALSE;
-  new->opaque = opaque;
-  if (takes != NULL)
-    new->taking = takes;
-  else
-    new->taking = newId(nulsrcp, "object");
-  new->limits = lims;
-  new->hstms = hstms;
-  new->estms = estms;
-  new->extractChecks = extractChecks;
-  new->extractStatements = extractStatements;
+    new->srcp = srcp;
+    new->analyzed = FALSE;
+    new->generated = FALSE;
+    new->opaque = opaque;
+    if (takes != NULL)
+        new->taking = takes;
+    else
+        new->taking = newId(nulsrcp, "object");
+    new->limits = lims;
+    new->hstms = hstms;
+    new->estms = estms;
+    new->extractChecks = extractChecks;
+    new->extractStatements = extractStatements;
 
-  return(new);
+    return(new);
 }
 
 
 /*======================================================================*/
 Container *newContainer(ContainerBody *body)
 {
-  Container *new;		/* The newly allocated area */
+    Container *new;		/* The newly allocated area */
 
-  progressCounter();
+    progressCounter();
 
-  new = NEW(Container);
-  new->ownerProperties = NULL;
-  new->body = body;
+    new = NEW(Container);
+    new->ownerProperties = NULL;
+    new->body = body;
 
-  adv.cnts = concat(adv.cnts, new, CONTAINER_LIST);
+    adv.cnts = concat(adv.cnts, new, CONTAINER_LIST);
 
-  return(new);
+    return(new);
 }
 
 
 /*======================================================================*/
 void symbolizeContainer(Container *theContainer) {
-  if (theContainer != NULL) {
-    IdNode *id = theContainer->body->taking;
-    id->symbol = lookup(id->string);
-  }
+    if (theContainer != NULL) {
+        IdNode *id = theContainer->body->taking;
+        id->symbol = lookup(id->string);
+    }
 }
 
 
 /*======================================================================*/
 void verifyContainer(What *wht, Context *context, char construct[])
 {
-  Symbol *sym;
+    Symbol *sym;
 
-  if (wht == NULL)
-    return;
+    if (wht == NULL)
+        return;
 
-  switch (wht->kind) {
-  case WHAT_THIS:
-    if (!thisIsaContainer(context))
-      lmLog(&wht->srcp, 309, sevERR, "");
-    break;
-  case WHAT_ID:
-    sym = symcheck(wht->id, INSTANCE_SYMBOL, context);
-    if (sym)
-      switch (sym->kind) {
-      case INSTANCE_SYMBOL:
-	if (sym->fields.entity.props->container == NULL)
-	  lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
-	break;
-      case PARAMETER_SYMBOL:
-	if (!symbolIsContainer(sym))
-	  lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a container", "which is required", NULL);
-	break;
-      case ERROR_SYMBOL:
-	break;
-      default:
-	SYSERR("Unexpected symbol kind");
-      }
-    break;
+    switch (wht->kind) {
+    case WHAT_THIS:
+        if (!thisIsaContainer(context))
+            lmLog(&wht->srcp, 309, sevERR, "");
+        break;
+    case WHAT_ID:
+        sym = symcheck(wht->id, INSTANCE_SYMBOL, context);
+        if (sym)
+            switch (sym->kind) {
+            case INSTANCE_SYMBOL:
+                if (sym->fields.entity.props->container == NULL)
+                    lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
+                break;
+            case PARAMETER_SYMBOL:
+                if (!symbolIsContainer(sym))
+                    lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a container", "which is required", NULL);
+                break;
+            case ERROR_SYMBOL:
+                break;
+            default:
+                SYSERR("Unexpected symbol kind");
+            }
+        break;
 
-  case WHAT_LOCATION:
-    lmLogv(&wht->srcp, 428, sevERR, construct, "a Container", NULL);
-    break;
+    case WHAT_LOCATION:
+        lmLogv(&wht->srcp, 428, sevERR, construct, "a Container", NULL);
+        break;
 
-  case WHAT_ACTOR:
-    if (!symbolIsContainer(actorSymbol))
-      lmLogv(&wht->srcp, 428, sevERR, construct, "a Container, which the Current Actor is not since the class 'actor' does not have the Container property", NULL);
-    break;
+    case WHAT_ACTOR:
+        if (!symbolIsContainer(actorSymbol))
+            lmLogv(&wht->srcp, 428, sevERR, construct, "a Container, which the Current Actor is not since the class 'actor' does not have the Container property", NULL);
+        break;
 
-  default:
-    SYSERR("Unrecognized switch");
-    break;
-  }
+    default:
+        SYSERR("Unrecognized switch");
+        break;
+    }
 }
 
 
 /*======================================================================*/
 void analyzeContainer(Container *theContainer, Context *context)
 {
-  List *lims;			/* List of limits */
+    List *lims;			/* List of limits */
 
-  if (theContainer == NULL) return;
+    if (theContainer == NULL) return;
 
-  progressCounter();
+    progressCounter();
 
-  if (context->kind == INSTANCE_CONTEXT)
-    theContainer->ownerProperties = context->instance->props;
+    if (context->kind == INSTANCE_CONTEXT)
+        theContainer->ownerProperties = context->instance->props;
 
-  if (!theContainer->body->analyzed) {
-    /* Analyze which class it takes */
-    IdNode *id = theContainer->body->taking;
-    id->symbol = symcheck(id, CLASS_SYMBOL, context);
+    if (!theContainer->body->analyzed) {
+        /* Analyze which class it takes */
+        IdNode *id = theContainer->body->taking;
+        id->symbol = symcheck(id, CLASS_SYMBOL, context);
 
-    /* Analyze the limits */
-    for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
-      analyzeLimit(lims->member.lim, id->symbol);
+        /* Analyze the limits */
+        for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
+            analyzeLimit(lims->member.lim, id->symbol);
 
-    /* Analyze header and empty statments */
-    analyzeStatements(theContainer->body->hstms, context);
-    analyzeStatements(theContainer->body->estms, context);
-    theContainer->body->analyzed = TRUE;
+        /* Analyze header and empty statments */
+        analyzeStatements(theContainer->body->hstms, context);
+        analyzeStatements(theContainer->body->estms, context);
+        theContainer->body->analyzed = TRUE;
 
-    /* Analyze the extract checks and statements */
-    analyzeChecks(theContainer->body->extractChecks, context);
-    analyzeStatements(theContainer->body->extractStatements, context);
-  }
+        /* Analyze the extract checks and statements */
+        analyzeChecks(theContainer->body->extractChecks, context);
+        analyzeStatements(theContainer->body->extractStatements, context);
+    }
 }
 
 
@@ -180,52 +180,52 @@ void analyzeContainer(Container *theContainer, Context *context)
 /*======================================================================*/
 void numberContainers(void)
 {
-  List *lst;			/* The list of containers */
+    List *lst;			/* The list of containers */
 
-  /* We must number the containers in the order that they have in the
-     adv-list since that is the order the container bodies will be
-     generated into the ContainerEntry table */
-  for (lst = adv.cnts; lst != NULL; lst = lst->next)
-    if (lst->member.cnt->ownerProperties != NULL)
-      lst->member.cnt->code = ++containerCount;
+    /* We must number the containers in the order that they have in the
+       adv-list since that is the order the container bodies will be
+       generated into the ContainerEntry table */
+    for (lst = adv.cnts; lst != NULL; lst = lst->next)
+        if (lst->member.cnt->ownerProperties != NULL)
+            lst->member.cnt->code = ++containerCount;
 }
 
 
 /*----------------------------------------------------------------------*/
 static void generateContainerBody(ContainerBody *body)
 {
-  progressCounter();
+    progressCounter();
 
-  if (!body->generated) {
-    body->limadr = generateLimits(body);
+    if (!body->generated) {
+        body->limadr = generateLimits(body);
 
-    if (body->hstms != NULL) {
-      body->hadr = nextEmitAddress();
-      generateStatements(body->hstms);
-      emit0(I_RETURN);
-    } else
-      body->hadr = 0;
+        if (body->hstms != NULL) {
+            body->hadr = nextEmitAddress();
+            generateStatements(body->hstms);
+            emit0(I_RETURN);
+        } else
+            body->hadr = 0;
 
-    if (body->estms != NULL) {
-      body->eadr = nextEmitAddress();
-      generateStatements(body->estms);
-      emit0(I_RETURN);
-    } else
-      body->eadr = 0;
+        if (body->estms != NULL) {
+            body->eadr = nextEmitAddress();
+            generateStatements(body->estms);
+            emit0(I_RETURN);
+        } else
+            body->eadr = 0;
 
-    if (body->extractChecks != NULL) {
-      body->extractChecksAddress = generateChecks(body->extractChecks);
-    } else
-      body->extractChecksAddress = 0;
+        if (body->extractChecks != NULL) {
+            body->extractChecksAddress = generateChecks(body->extractChecks);
+        } else
+            body->extractChecksAddress = 0;
 
-    if (body->extractStatements != NULL) {
-      body->extractStatementsAddress = nextEmitAddress();
-      generateStatements(body->extractStatements);
-      emit0(I_RETURN);
-    } else
-      body->extractStatementsAddress = 0;
-    body->generated = TRUE;
-  }
+        if (body->extractStatements != NULL) {
+            body->extractStatementsAddress = nextEmitAddress();
+            generateStatements(body->extractStatements);
+            emit0(I_RETURN);
+        } else
+            body->extractStatementsAddress = 0;
+        body->generated = TRUE;
+    }
 }
 
 
@@ -233,44 +233,44 @@ static void generateContainerBody(ContainerBody *body)
 /*----------------------------------------------------------------------*/
 static void generateContainerEntry(Container *cnt)
 {
-  ContainerEntry entry;
+    ContainerEntry entry;
 
-  entry.class = cnt->body->taking->symbol->code;
-  entry.limits = cnt->body->limadr;
-  entry.header = cnt->body->hadr;
-  entry.empty = cnt->body->eadr;
-  entry.extractChecks = cnt->body->extractChecksAddress;
-  entry.extractStatements = cnt->body->extractStatementsAddress;
-  entry.owner = cnt->ownerProperties->id->symbol->code;
-  emitEntry(&entry, sizeof(entry));
+    entry.class = cnt->body->taking->symbol->code;
+    entry.limits = cnt->body->limadr;
+    entry.header = cnt->body->hadr;
+    entry.empty = cnt->body->eadr;
+    entry.extractChecks = cnt->body->extractChecksAddress;
+    entry.extractStatements = cnt->body->extractStatementsAddress;
+    entry.owner = cnt->ownerProperties->id->symbol->code;
+    emitEntry(&entry, sizeof(entry));
 }
 
 
 /*======================================================================*/
 Aaddr generateContainers(ACodeHeader *header)
 {
-  List *lst;			/* The list of containers */
-  Aaddr adr;
+    List *lst;			/* The list of containers */
+    Aaddr adr;
 
-  if (adv.cnts == NULL)		/* Any containers at all? */
-    adr = nextEmitAddress();
-  else {
-    /* Limits, header and empty statements for the container */
-    for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      if (lst->member.cnt->ownerProperties != NULL)
-	generateContainerBody(lst->member.cnt->body);
+    if (adv.cnts == NULL)		/* Any containers at all? */
+        adr = nextEmitAddress();
+    else {
+        /* Limits, header and empty statements for the container */
+        for (lst = adv.cnts; lst != NULL; lst = lst->next)
+            if (lst->member.cnt->ownerProperties != NULL)
+                generateContainerBody(lst->member.cnt->body);
 
-    adr = nextEmitAddress();	/* Save ACODE address to container list */
-    /* Container list */
-    for (lst = adv.cnts; lst != NULL; lst = lst->next)
-      if (lst->member.cnt->ownerProperties != NULL)
-	generateContainerEntry(lst->member.cnt);
-  }
-  emit(EOF);
+        adr = nextEmitAddress();	/* Save ACODE address to container list */
+        /* Container list */
+        for (lst = adv.cnts; lst != NULL; lst = lst->next)
+            if (lst->member.cnt->ownerProperties != NULL)
+                generateContainerEntry(lst->member.cnt);
+    }
+    emit(EOF);
 
-  header->containerMax = containerCount;
+    header->containerMax = containerCount;
 
-  return(adr);
+    return(adr);
 }
 
 
@@ -278,26 +278,26 @@ Aaddr generateContainers(ACodeHeader *header)
 /*======================================================================*/
 void dumpContainer(Container *container)
 {
-  if (container == NULL) {
-    put("NULL");
-    return;
-  }
+    if (container == NULL) {
+        put("NULL");
+        return;
+    }
 
-  put("CONTAINER: "); dumpPointer(container); dumpSrcp(container->body->srcp); indent();
-  put("code: "); dumpInt(container->code); nl();
-  put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
-  put("body: "); dumpPointer(container->body); nl();
-  put("body.takes: "); dumpId(container->body->taking); nl();
-  put("body.lims: "); dumpList(container->body->limits, LIMIT_LIST); nl();
-  put("body.limadr: "); dumpAddress(container->body->limadr); nl();
-  put("body.hstms: "); dumpList(container->body->hstms, STATEMENT_LIST); nl();
-  put("body.hadr: "); dumpAddress(container->body->hadr); nl();
-  put("body.estms: "); dumpList(container->body->estms, STATEMENT_LIST); nl();
-  put("body.eadr: "); dumpAddress(container->body->eadr); nl();
-  put("body.extractCheck: "); dumpList(container->body->extractChecks, CHECK_LIST); nl();
-  put("body.extractCheckAdr: "); dumpAddress(container->body->extractChecksAddress); nl();
-  put("body.extractStatements: "); dumpList(container->body->extractStatements, STATEMENT_LIST); nl();
-  put("body.extractStatementsAdr: "); dumpAddress(container->body->extractStatementsAddress); out();
+    put("CONTAINER: "); dumpPointer(container); dumpSrcp(container->body->srcp); indent();
+    put("code: "); dumpInt(container->code); nl();
+    put("ownerProperties: "); dumpPointer(container->ownerProperties); nl();
+    put("body: "); dumpPointer(container->body); nl();
+    put("body.takes: "); dumpId(container->body->taking); nl();
+    put("body.lims: "); dumpList(container->body->limits, LIMIT_LIST); nl();
+    put("body.limadr: "); dumpAddress(container->body->limadr); nl();
+    put("body.hstms: "); dumpList(container->body->hstms, STATEMENT_LIST); nl();
+    put("body.hadr: "); dumpAddress(container->body->hadr); nl();
+    put("body.estms: "); dumpList(container->body->estms, STATEMENT_LIST); nl();
+    put("body.eadr: "); dumpAddress(container->body->eadr); nl();
+    put("body.extractCheck: "); dumpList(container->body->extractChecks, CHECK_LIST); nl();
+    put("body.extractCheckAdr: "); dumpAddress(container->body->extractChecksAddress); nl();
+    put("body.extractStatements: "); dumpList(container->body->extractStatements, STATEMENT_LIST); nl();
+    put("body.extractStatementsAdr: "); dumpAddress(container->body->extractStatementsAddress); out();
 }
 
 
