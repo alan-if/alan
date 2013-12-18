@@ -3,14 +3,16 @@
 
 parameterRestrictedByContext.alan
 
-    9.                  Say attribute Of o.
+    7.                  Say attribute Of o. -- Error, since parameter is only r
+        estricted to thing
 =====>                      1
 
   *1*   316 E : Attribute 'attribute' is not defined for parameter 'o' since
                 the class it is known to be in this context ('thing') does not
                 have it.
 
-   24.                       Say attribute Of o.
+   21.                       Say attribute Of o. -- Error, since here the param
+        eter is known only to *not* be an object => entity
 =====>                           1
 
   *1*   316 E : Attribute 'attribute' is not defined for parameter 'o' since

@@ -23,7 +23,7 @@
 /*----------------------------------------------------------------------*/
 static What *newWhat(Srcp *srcp,	/* IN - Source position */
 					 WhatKind kind,	/* IN - What kind */
-					 IdNode *id)	/* IN - ID or NULL */
+					 Id *id)	/* IN - ID or NULL */
 {
 	What *new;
 
@@ -58,7 +58,7 @@ What *newWhatThis(Srcp srcp)
 }
 
 /*======================================================================*/
-What *newWhatId(Srcp srcp, IdNode *id)
+What *newWhatId(Srcp srcp, Id *id)
 {
 	return newWhat(&srcp, WHAT_ID, id);
 }
@@ -86,7 +86,7 @@ Symbol *symbolOfWhat(What *what, Context *context) {
 	case WHAT_ACTOR:
 		return actorSymbol;
 	case WHAT_ID:
-		return what->id->symbol;
+        return what->id->symbol;
 	default:
 		SYSERR("Unexpected What kind");
 	}
@@ -113,7 +113,7 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
 			switch (sym->kind) {
 			case PARAMETER_SYMBOL:
 				lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a Container",
-					   "because it is not restricted to Container in the Syntax", NULL);
+					   "because it is not restricted to Container, or to a class which has the Container property in the Syntax or using surrounding If statements", NULL);
 				break;
 			default:
 				lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
@@ -144,9 +144,10 @@ Bool isConstantWhat(What *what) {
 		return FALSE;
 	case WHAT_ID:
 		return isConstantIdentifier(what->id);
+    default:
+        SYSERR("Unexpected what->kind");
+        return FALSE;
 	}
-	SYSERR("Fall-through in switch");
-	return FALSE;
 }
 
 /*======================================================================*/

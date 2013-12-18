@@ -123,7 +123,7 @@ static int newWord(char *theWord, WordKind class, int code, void *references)
   new->string = string;
   new->code = code;
   memset(new->ref, 0, sizeof(new->ref));
-  new->ref[class] = concat(NULL, references, REFERENCE_LIST);
+  new->ref[class] = newList(references, REFERENCE_LIST);
 
   new->low = NULL;
   new->high = NULL;

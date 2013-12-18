@@ -34,7 +34,7 @@ int dircount = 0;
 
 
 /*======================================================================*/
-Exit *newExit(Srcp *srcp, List *dirs, IdNode *target, List *chks, List *stms)
+Exit *newExit(Srcp *srcp, List *dirs, Id *target, List *chks, List *stms)
 {
     Exit *new;			/* The newly created node */
     Symbol *sym;
@@ -72,7 +72,7 @@ Exit *newExit(Srcp *srcp, List *dirs, IdNode *target, List *chks, List *stms)
 static void symbolizeExit(Exit *theExit)
 {
     symbolizeId(theExit->target);
-#ifdef FIXME
+#ifdef FIXME // Why?
     symbolizeChecks(theExit->checks);
     symbolizeStatements(theExit->does);
 #endif
@@ -101,7 +101,7 @@ void analyzeExit(Exit *ext, Context *context)
 
 
 /*======================================================================*/
-Bool exitIdFound(IdNode *targetId, List *exits)
+Bool exitIdFound(Id *targetId, List *exits)
 {
     List *theExit;
     List *theIdInList;
@@ -149,7 +149,7 @@ void analyzeExits(List *exts, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Bool haveExit(List *ownExits, IdNode *direction) {
+static Bool haveExit(List *ownExits, Id *direction) {
     List *exits;
     List *directions;
 

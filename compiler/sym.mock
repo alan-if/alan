@@ -40,40 +40,42 @@ Symbol *messageVerbSymbolFor2Integers;
 
 /* FUNCTIONS: */
 
-void idRedefined(IdNode *id, Symbol *sym, Srcp previousDefinition) { mock(id, sym, &previousDefinition); }
+void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition) { mock(id, sym, &previousDefinition); }
 void initSymbols(void) {}
 void createMessageVerbs(void) {}
 
-Symbol *newSymbol(IdNode *id, SymbolKind kind) { Symbol *symbol = NEW(Symbol); symbol->string = id->string; symbol->kind = kind; return symbol; }
-Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent) { return (Symbol *)mock(id, props, parent); }
-Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent) { return (Symbol *)mock(id, props, parent); }
-Symbol *newVerbSymbol(IdNode *id) { return (Symbol *)mock(id); }
-Symbol *symcheck(IdNode *id, SymbolKind kind, Context *context) { return (Symbol *)mock(id, kind, context); }
+Symbol *newSymbol(Id *id, SymbolKind kind) { Symbol *symbol = NEW(Symbol); symbol->string = id->string; symbol->kind = kind; return symbol; }
+Symbol *newInstanceSymbol(Id *id, Properties *props, Symbol *parent) { return (Symbol *)mock(id, props, parent); }
+Symbol *newClassSymbol(Id *id, Properties *props, Symbol *parent) { return (Symbol *)mock(id, props, parent); }
+Symbol *newVerbSymbol(Id *id) { return (Symbol *)mock(id); }
+Symbol *symcheck(Id *id, SymbolKind kind, Context *context) { return (Symbol *)mock(id, kind, context); }
 
 /* Lookup a symbol */
 Symbol *lookup(char idString[]) { return (Symbol *)mock(idString); }
-Script *lookupScript(Symbol *aSymbol, IdNode *scriptName) { return (Script *)mock(aSymbol, scriptName); }
-Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols) { return (Symbol *)mock(parameterId, parameterSymbols); }
-void instanceCheck(IdNode *id, char *what, char className[]) { mock(id, what, className); }
-Bool isClass(Symbol *symbol) { return mock(); }
-Bool symbolIsContainer(Symbol *symbol) { return mock(); }
+Script *lookupScript(Symbol *aSymbol, Id *scriptName) { return (Script *)mock(aSymbol, scriptName); }
+Symbol *lookupParameter(Id *parameterId, List *parameterSymbols) { return (Symbol *)mock(parameterId, parameterSymbols); }
+void instanceCheck(Id *id, char *what, char className[]) { mock(id, what, className); }
+Bool isClass(Symbol *symbol) { return (Bool)mock(symbol); }
+Bool isInstance(Symbol *symbol) { return (Bool)mock(symbol); }
+Bool symbolIsContainer(Symbol *symbol) { return (Bool)mock(symbol); }
 Symbol *contentOfSymbol(Symbol *symbol) { return (Symbol *)mock(symbol); }
 void newFrame(void) {}
 void deleteFrame(void) {}
 char *verbHasParametersMessage(Context *context) { return (char *)mock(context); }
 char *verbHasParametersOrNoneMessage(Context *context) { return (char *)mock(context); }
+Symbol *classOfSymbol(Symbol *symbol) { return (Symbol *)mock(symbol); }
 
 /* Inheritance of a class */
 void setParent(Symbol *child, Symbol *parent) { mock(child, parent); }
 Symbol *parentOf(Symbol *child) { return (Symbol *)mock(child); }
 Bool inheritsFrom(Symbol *child, Symbol *ancestor) { return (Bool)mock(child, ancestor); }
-void inheritCheck(IdNode *id, char *what, char classOrInstance[], char className[]) { mock(id, what, classOrInstance, className); }
+void inheritCheck(Id *id, char *what, char classOrInstance[], char className[]) { mock(id, what, classOrInstance, className); }
 
 void setParameters(Symbol *verb, List *parameters) { mock(verb, parameters); }
 
 TypeKind classToType(Symbol *symbol) { return mock(); }
-Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id) { return (Symbol *)mock(symbol, id); }
-Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id) { return (Attribute *)mock(symbol, id); }
+Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id) { return (Symbol *)mock(symbol, id); }
+Attribute *findInheritedAttribute(Symbol *symbol, Id *id) { return (Attribute *)mock(symbol, id); }
 void numberAllAttributes(void) {}
 void replicateInherited(void) {}
 

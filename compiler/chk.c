@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				CHK.C
-			     Check Nodes
+  CHK.C
+  Check Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -22,59 +22,41 @@
 
 
 
-/*======================================================================
-
-  newchk()
-
-  Allocates and initialises a chknod.
-
- */
-CheckNode *newCheck(Expression *exp,	/* IN - Expression for this CHECK */
-	       List *stms)	/* IN - Statements for a false CHECK */
+/*======================================================================*/
+CheckNode *newCheck(Expression *exp, /* IN - Expression for this CHECK */
+                    List *stms)	/* IN - Statements for a false CHECK */
 {
-  CheckNode *new;			/* The newly allocated area */
+    CheckNode *new;                     /* The newly allocated area */
 
-  progressCounter();
+    progressCounter();
 
-  new = NEW(CheckNode);
+    new = NEW(CheckNode);
 
-  new->exp = exp;
-  new->stms = stms;
+    new->exp = exp;
+    new->stms = stms;
 
-  return(new);
+    return(new);
 }
 
 
-/*----------------------------------------------------------------------
-
-  anchk()
-
-  Analyze one CHECK.
-
- */
+/*----------------------------------------------------------------------*/
 static void anchk(CheckNode *chk,
-		  Context *context)
+                  Context *context)
 {
-  analyzeExpression(chk->exp, context);
-  analyzeStatements(chk->stms, context);
+    analyzeExpression(chk->exp, context);
+    analyzeStatements(chk->stms, context);
 }
 
 
 
-/*======================================================================
-
-  anchks()
-
-  Analyze all CHECKs in a list.
-
- */
+/*======================================================================*/
 void analyzeChecks(List *chks,
-	    Context *context)
+                   Context *context)
 {
-  while (chks != NULL) {
-    anchk(chks->member.chk, context);
-    chks = chks->next;
-  }
+    while (chks != NULL) {
+        anchk(chks->member.chk, context);
+        chks = chks->next;
+    }
 }
 
 
@@ -83,57 +65,51 @@ void analyzeChecks(List *chks,
 /*======================================================================*/
 Aword generateChecks(List *chks)
 {
-  List *lst;			/* Traversal pointer */
-  Aword tbladr;			/* Save ACODE address to check table */
+    List *lst;			/* Traversal pointer */
+    Aword tbladr;			/* Save ACODE address to check table */
 
-  if (chks == NULL) return 0;
+    if (chks == NULL) return 0;
 
-  /* First checks */
-  if (chks->member.chk->exp == NULL) { /* An unconditional CHECK */
-    chks->member.chk->expadr = 0;
-    chks->member.chk->stmadr = nextEmitAddress();
-    generateStatements(chks->member.chk->stms);
-    emit0(I_RETURN);
-  } else
+    /* First checks */
+    if (chks->member.chk->exp == NULL) { /* An unconditional CHECK */
+        chks->member.chk->expadr = 0;
+        chks->member.chk->stmadr = nextEmitAddress();
+        generateStatements(chks->member.chk->stms);
+        emit0(I_RETURN);
+    } else
+        for (lst = chks; lst != NULL; lst = lst->next) {
+            lst->member.chk->expadr = nextEmitAddress();
+            generateExpression(lst->member.chk->exp);
+            emit0(I_RETURN);
+            lst->member.chk->stmadr = nextEmitAddress();
+            generateStatements(lst->member.chk->stms);
+            emit0(I_RETURN);
+        }
+
+    /* Then generate a check table */
+    tbladr = nextEmitAddress();
     for (lst = chks; lst != NULL; lst = lst->next) {
-      lst->member.chk->expadr = nextEmitAddress();
-      generateExpression(lst->member.chk->exp);
-      emit0(I_RETURN);
-      lst->member.chk->stmadr = nextEmitAddress();
-      generateStatements(lst->member.chk->stms);
-      emit0(I_RETURN);
+        emit(lst->member.chk->expadr);
+        emit(lst->member.chk->stmadr);
     }
+    emit(EOF);
 
-  /* Then generate a check table */
-  tbladr = nextEmitAddress();
-  for (lst = chks; lst != NULL; lst = lst->next) {
-    emit(lst->member.chk->expadr);
-    emit(lst->member.chk->stmadr);
-  }
-  emit(EOF);
-
-  return(tbladr);
+    return(tbladr);
 }
 
 
 
-/*======================================================================
-
-  duchk()
-
-  Dump a Check node.
-
- */
+/*======================================================================*/
 void dumpCheck(CheckNode *chk)
 {
-  if (chk == NULL) {
-    put("NULL");
-    return;
-  }
+    if (chk == NULL) {
+        put("NULL");
+        return;
+    }
 
-  put("CHECK: "); indent();
-  put("exp: "); dumpExpression(chk->exp); nl();
-  put("expadr: "); dumpAddress(chk->expadr); nl();
-  put("stms: "); dumpList(chk->stms, STATEMENT_LIST); nl();
-  put("stmadr: "); dumpAddress(chk->stmadr); out();
+    put("CHECK: "); indent();
+    put("exp: "); dumpExpression(chk->exp); nl();
+    put("expadr: "); dumpAddress(chk->expadr); nl();
+    put("stms: "); dumpList(chk->stms, STATEMENT_LIST); nl();
+    put("stmadr: "); dumpAddress(chk->stmadr); out();
 }

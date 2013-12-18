@@ -2,11 +2,9 @@ The l Isa location
     Verb v
         Does
             If o Isa object Then
-                -- This should be ok because of the IF
-                Say attribute Of o.
+                Say attribute Of o. -- Ok, since restricted by Isa object
             Else
-                -- Here it is not since the parameter is only restricted to thing
-                Say attribute Of o.
+                Say attribute Of o. -- Error, since parameter is only restricted to thing
             End If.
     End Verb.
 End The l.
@@ -20,7 +18,7 @@ End Add.
 
 Syntax v = v (o) Where o Isa thing
                  Else
-                     -- Here the parameter known only to *not* be an object => entity
-                     Say attribute Of o.
+                     Say attribute Of o. -- Error, since here the parameter is known only to *not* be an object => entity
+
 
 Start At l.

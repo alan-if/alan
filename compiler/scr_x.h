@@ -24,8 +24,8 @@
 
 /* FUNCTIONS: */
 
-extern Script *newScript(Srcp *srcp, IdNode *id, Description *descr, List *steps);
-extern void prepareScripts(List *scripts, IdNode *id);
+extern Script *newScript(Srcp *srcp, Id *id, Description *descr, List *steps);
+extern void prepareScripts(List *scripts, Id *id);
 extern void analyzeScripts(List *scripts, Context *context);
 extern Aword generateScripts(ACodeHeader *header);
 extern void dumpScript(Script *script);

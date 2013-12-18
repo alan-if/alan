@@ -27,7 +27,7 @@ typedef enum ElementKind {
 typedef struct Element {
     Srcp srcp;			/* Source position of this element */
     ElementKind kind;		/* Kind of Parameter */
-    IdNode *id;			/* Identifier */
+    Id *id;			/* Identifier */
     Aaddr idAddress;            /* Address to parameter name */
     int flags;			/* Multiple/omni etc. flags */
     Restriction *res;		/* Link to the class restriction check */

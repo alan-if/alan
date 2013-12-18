@@ -20,7 +20,9 @@ unknownParameter.alan
 =====>                         1
 
   *1*   312 E : Parameter 'indirect' is not guaranteed to be a Container,
-                because it is not restricted to Container in the Syntax.
+                because it is not restricted to Container, or to a class which
+                has the Container property in the Syntax or using surrounding
+                If statements.
 
 
         2 error(s).

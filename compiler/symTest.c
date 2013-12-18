@@ -34,9 +34,9 @@ static char symbolName1[] = "n-is-in-the-middle";
 static char symbolName2[] = "b-is-lower";
 static char symbolName3[] = "p-is-higher";
 
-IdNode *symbolId1;
-IdNode *symbolId2;
-IdNode *symbolId3;
+Id *symbolId1;
+Id *symbolId2;
+Id *symbolId3;
 
 Symbol *sym1;
 Symbol *sym2;
@@ -53,12 +53,12 @@ static void initUnitTestSymbols() {
 }
 
 Ensure(Symbol, testContentOfSymbol) {
-  IdNode *contentClassId = newId(nulsrcp, "contentClassId");
+  Id *contentClassId = newId(nulsrcp, "contentClassId");
   Symbol *contentSymbol = newClassSymbol(contentClassId, NULL, NULL);
-  IdNode *content = newId(nulsrcp, "content");
+  Id *content = newId(nulsrcp, "content");
   Container *container = newContainer(newContainerBody(nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
 
-  IdNode *id = newId(nulsrcp, "id");
+  Id *id = newId(nulsrcp, "id");
   Properties *props = newProps(NULL, NULL,
 			       nulsrcp, NULL,
 			       NULL, NULL, NULL,
@@ -68,7 +68,7 @@ Ensure(Symbol, testContentOfSymbol) {
 			       nulsrcp, NULL,
 			       NULL, NULL);
   Symbol *classTakingContent = newClassSymbol(id, props, NULL);
-  IdNode *instanceId = newId(nulsrcp, "instance");
+  Id *instanceId = newId(nulsrcp, "instance");
   Symbol *instance = newInstanceSymbol(instanceId, newEmptyProps(), classTakingContent);
   content->symbol = contentSymbol;
 
@@ -81,10 +81,10 @@ Ensure(Symbol, testContentOfSymbol) {
 Ensure(Symbol, testSymCheck)
 {
   Srcp srcp = {14, 12, 333};
-  IdNode *unknownId = newId(srcp, "unknownId");
-  IdNode *aClassId = newId(srcp, "aClassId");
+  Id *unknownId = newId(srcp, "unknownId");
+  Id *aClassId = newId(srcp, "aClassId");
   Symbol *aClassSymbol = newSymbol(aClassId, CLASS_SYMBOL);
-  IdNode *anInstanceId = newId(srcp, "anInstanceId");
+  Id *anInstanceId = newId(srcp, "anInstanceId");
   Symbol *anInstanceSymbol = newSymbol(anInstanceId, INSTANCE_SYMBOL);
   Symbol *foundSymbol;
 
@@ -106,18 +106,16 @@ Ensure(Symbol, testSymCheck)
 
 static List *createOneParameter(char *id)
 {
-  return concat(NULL, newParameterElement(nulsrcp,
-                                          newId(nulsrcp, id), 0), ELEMENT_LIST);
+    return newList(newParameterElement(nulsrcp, newId(nulsrcp, id), 0), ELEMENT_LIST);
 }
 
 static List *createThreeParameters(char *id1, char *id2, char *id3)
 {
     return concat(
                   concat(
-                         concat(NULL,
-                                newParameterElement(nulsrcp,
-                                                    newId(nulsrcp, id1), 0),
-                                ELEMENT_LIST),
+                         newList(newParameterElement(nulsrcp,
+                                                     newId(nulsrcp, id1), 0),
+                                 ELEMENT_LIST),
                          newParameterElement(nulsrcp,
                                              newId(nulsrcp, id2), 0),
                          ELEMENT_LIST),
@@ -127,7 +125,7 @@ static List *createThreeParameters(char *id1, char *id2, char *id3)
 }
 
 Ensure(Symbol, testVerbSymbols) {
-  IdNode *v1Id = newId(nulsrcp, "v1");
+  Id *v1Id = newId(nulsrcp, "v1");
   Symbol *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
   Symbol *foundSymbol;
   List *parameters, *l, *p;
@@ -138,7 +136,7 @@ Ensure(Symbol, testVerbSymbols) {
 
   parameters = createOneParameter("p1");
   setParameters(v1Symbol, parameters);
-  assert_true(v1Symbol->fields.verb.parameterSymbols != NULL);
+  assert_that(v1Symbol->fields.verb.parameterSymbols, is_not_null);
   for (l = v1Symbol->fields.verb.parameterSymbols,
 	 p = parameters;
        l && p;
@@ -171,7 +169,7 @@ Ensure(Symbol, testBuildSymbol1) {
 
 /* Test symbol table by inserting a symbol with a higher name */
 Ensure(Symbol, testBuildSymbolHigher) {
-    IdNode *symbolId2 = newId(nulsrcp, symbolName2);
+    Id *symbolId2 = newId(nulsrcp, symbolName2);
 
     Symbol *sym1 = newSymbol(symbolId2, CLASS_SYMBOL);
     Symbol *sym2 = lookup(symbolName2);
@@ -183,7 +181,7 @@ Ensure(Symbol, testBuildSymbolHigher) {
 
 /* Test symbol table by inserting a symbol with a lower name */
 Ensure(Symbol, testBuildSymbolLower) {
-    IdNode *symbolId3 = newId(nulsrcp, symbolName3);
+    Id *symbolId3 = newId(nulsrcp, symbolName3);
 
     Symbol *sym1 = newSymbol(symbolId3, CLASS_SYMBOL);
     Symbol *sym2 = lookup(symbolName3);
@@ -293,8 +291,8 @@ Ensure(Symbol, testSymbolTableInit) {
 /* Create a new CLAss symbol */
 Ensure(Symbol, testCreateClassSymbol) {
     Srcp srcp = {12,3,45};
-    IdNode *id = newId(srcp, "cla");
-    IdNode *heritage = newId(nulsrcp, "object");
+    Id *id = newId(srcp, "cla");
+    Id *heritage = newId(nulsrcp, "object");
     Symbol *sym, *obj;
 
     (void) newClass(&srcp, heritage, NULL, NULL);
@@ -315,11 +313,11 @@ Ensure(Symbol, testCreateClassSymbol) {
 Ensure(Symbol, testLookupScript) {
     Symbol *classSymbol;
     Symbol *instanceSymbol;
-    IdNode *notAScriptId = newId(nulsrcp, "notAScript");
-    IdNode *script1Id = newId(nulsrcp, "script1");
-    IdNode *script2Id = newId(nulsrcp, "script2");
-    IdNode *script3Id = newId(nulsrcp, "script3");
-    IdNode *script4Id = newId(nulsrcp, "script4");
+    Id *notAScriptId = newId(nulsrcp, "notAScript");
+    Id *script1Id = newId(nulsrcp, "script1");
+    Id *script2Id = newId(nulsrcp, "script2");
+    Id *script3Id = newId(nulsrcp, "script3");
+    Id *script4Id = newId(nulsrcp, "script4");
     Script script1 = {{0,0,0}, script1Id};
     Script script2 = {{0,0,0}, script2Id};
     Script script3 = {{0,0,0}, script3Id};
@@ -331,9 +329,9 @@ Ensure(Symbol, testLookupScript) {
     classSymbol = newSymbol(newId(nulsrcp, "aClass"), CLASS_SYMBOL);
     instanceSymbol = newSymbol(newId(nulsrcp, "anInstance"), INSTANCE_SYMBOL);
     setParent(instanceSymbol, classSymbol);
-    classScripts = concat(NULL, &script1, SCRIPT_LIST);
+    classScripts = newList(&script1, SCRIPT_LIST);
     classScripts = concat(classScripts, &script2, SCRIPT_LIST);
-    instanceScripts = concat(NULL, &script3, SCRIPT_LIST);
+    instanceScripts = newList(&script3, SCRIPT_LIST);
     instanceScripts = concat(instanceScripts, &script4, SCRIPT_LIST);
 
     classSymbol->fields.entity.props = NEW(Properties);
@@ -359,17 +357,17 @@ Ensure(Symbol, testNewFrame) {
     Symbol *parameterSymbol;
     Symbol *localSymbol1;
     Symbol *localSymbol2;
-    IdNode *parameterId = newId(nulsrcp, "p");
-    IdNode *localId = newId(nulsrcp, "p");
+    Id *parameterId = newId(nulsrcp, "p");
+    Id *localId = newId(nulsrcp, "p");
     Context context;
 
     initAdventure();
     /* Create a verb v with a parameter p */
     verbSymbol = newSymbol(newId(nulsrcp, "v"), VERB_SYMBOL);
     element = newParameterElement(nulsrcp, parameterId, 0);
-    parameterSymbol = newParameterSymbol("p", element);
+    parameterSymbol = newParameterSymbol(element);
 
-    verbSymbol->fields.verb.parameterSymbols = concat(NULL, parameterSymbol, SYMBOL_LIST);
+    verbSymbol->fields.verb.parameterSymbols = newList(parameterSymbol, SYMBOL_LIST);
     context.kind = VERB_CONTEXT;
     context.verb = verbSymbol;
     context.previous = NULL;
@@ -450,9 +448,10 @@ Ensure(Symbol, testInheritOpaqueAttribute) {
     Symbol *parent = newClassSymbol(newId(nulsrcp, "p"), pProps, NULL);
 
     /* Setup a child */
-    List *attributes = concat(NULL, newBooleanAttribute(nulsrcp,
-                                                        newId(nulsrcp, "b"),
-                                                        FALSE), ATTRIBUTE_LIST);
+    List *attributes = newList(newBooleanAttribute(nulsrcp,
+                                                   newId(nulsrcp, "b"),
+                                                   FALSE),
+                               ATTRIBUTE_LIST);
 						      
     Properties *cProps = newProps(NULL, NULL,
                                   nulsrcp, NULL,
@@ -489,7 +488,7 @@ Ensure(Symbol, testClassToType) {
     assert_true(classToType(symbol) == INSTANCE_TYPE);
 }
 
-static Context *givenAVerbContextWithOneParameter(IdNode *v1Id) {
+static Context *givenAVerbContextWithOneParameter(Id *v1Id) {
     List *parameters;
     Symbol *v1Symbol;
     Context *context;
@@ -503,7 +502,7 @@ static Context *givenAVerbContextWithOneParameter(IdNode *v1Id) {
     return context;
 }
 
-static Context *givenAVerbContextWithThreeParameters(IdNode *v1Id) {
+static Context *givenAVerbContextWithThreeParameters(Id *v1Id) {
     List *parameters;
     Symbol *v1Symbol;
     Context *context;
@@ -519,9 +518,9 @@ static Context *givenAVerbContextWithThreeParameters(IdNode *v1Id) {
 
 
 Ensure(Symbol, testParameterReference) {
-    IdNode *p1Id = newId(nulsrcp, "p1");
+    Id *p1Id = newId(nulsrcp, "p1");
     Symbol *foundSymbol;
-    IdNode *v1Id = newId(nulsrcp, "v1");
+    Id *v1Id = newId(nulsrcp, "v1");
     Context *context;
 
     context = givenAVerbContextWithOneParameter(v1Id);
@@ -539,8 +538,8 @@ Ensure(Symbol, testParameterReference) {
 
 Ensure(Symbol, testCanFindParametersFromVerbContext) {
     List *parameterSymbols;
-    IdNode *p1Id = newId(nulsrcp, "p1");
-    IdNode *v1Id = newId(nulsrcp, "v1");
+    Id *p1Id = newId(nulsrcp, "p1");
+    Id *v1Id = newId(nulsrcp, "v1");
     Context *context;
 
     context = givenAVerbContextWithOneParameter(v1Id);
@@ -552,7 +551,7 @@ Ensure(Symbol, testCanFindParametersFromVerbContext) {
 
 Ensure(Symbol, testCanListParametersFromVerbContext) {
     List *parameterSymbols;
-    IdNode *v1Id = newId(nulsrcp, "v1");
+    Id *v1Id = newId(nulsrcp, "v1");
     Context *context;
 
     context = givenAVerbContextWithThreeParameters(v1Id);

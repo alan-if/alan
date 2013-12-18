@@ -36,20 +36,20 @@ char *generateIdName(void) {
 
 
 /*======================================================================*/
-Bool isGeneratedId(IdNode *id) {
+Bool isGeneratedId(Id *id) {
   return id->string[0] == GENERATED_ID_PREFIX;
 }
 
 
 /*======================================================================*/
-IdNode *newId(Srcp srcp,	/* IN - Source Position */
+Id *newId(Srcp srcp,	/* IN - Source Position */
 	      char *str)	/* IN - The string */
 {
-  IdNode *new;			/* The newly allocated area */
+  Id *new;			/* The newly allocated area */
 
   progressCounter();
 
-  new = NEW(IdNode);
+  new = NEW(Id);
   
   new->srcp = srcp;
   new->string  = newString(str);
@@ -66,7 +66,7 @@ List *newIdList(List *list, char *str) {
 
 
 /*======================================================================*/
-Bool equalId(IdNode *id1, IdNode *id2)
+Bool equalId(Id *id1, Id *id2)
 {
   if (id1 && id2)
     return (compareStrings(id1->string, id2->string) == 0);
@@ -77,7 +77,7 @@ Bool equalId(IdNode *id1, IdNode *id2)
 
 
 /*======================================================================*/
-void symbolizeId(IdNode *id)
+void symbolizeId(Id *id)
 {
   id->symbol = lookup(id->string);
   if (id->symbol == NULL) {
@@ -91,7 +91,7 @@ void symbolizeId(IdNode *id)
 
 
 /*======================================================================*/
-IdNode *findIdInList(IdNode *theId, List *theList) {
+Id *findIdInList(Id *theId, List *theList) {
   List *here;
 
   for (here = theList; here != NULL; here = here->next)
@@ -102,7 +102,7 @@ IdNode *findIdInList(IdNode *theId, List *theList) {
 
 
 /*======================================================================*/
-void generateId(IdNode *id)
+void generateId(Id *id)
 {
   if (id->symbol != NULL) {
     if (id->symbol->kind == PARAMETER_SYMBOL) {
@@ -143,7 +143,7 @@ void generateId(IdNode *id)
 
 
 /*======================================================================*/
-void dumpId(IdNode *id)
+void dumpId(Id *id)
 {
   if (id == NULL) {
     put("NULL");

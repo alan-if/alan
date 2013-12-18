@@ -125,10 +125,11 @@
 352	'%1 \'%2\' does not inherit from \'%3\', but has %4.';
 354	'%1 \'%2\' inherits from \'%3\', but has %4.';
 355	'Initial location can only refer to instances inheriting from \'location\' using AT or to instances having the container property using IN.';
+356 'Only instances or classes inheriting from \'actor\' can have scripts.';
 
 399 'This is a previous declaration of \'%1\'.';
 
-400	'Script not defined for %1 \'%2\'.';
+400	'Script '%1' not defined for %2 \'%3\'.';
 401	'Actor reference required outside Actor specification.';
 402	'%1 can not be inside a Container.';
 403	'Script multiply defined for Actor \'%1\'.';
@@ -138,7 +139,7 @@
 407	'Attribute in Limits must be an attribute for every instance of the class the container accepts, in this case \'%1\'.';
 408	'%1 in %2 must be of %3 type.';
 409	'No parameters defined in this context.';
-410	'Incompatible types in %1. A Set can only contain %2.';
+410	'Incompatible types in %1. %2 Set can only contain %3.';
 411	'%1 ignored for Actor \'hero\'.';
 412	'Current %1 is not defined in %2.';
 413	'Empty Sets are not allowed unless the attribute is inherited. At least one member is necessary to infer the type and class of members.';

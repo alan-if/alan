@@ -118,7 +118,7 @@ typedef struct Statement {	/* STATEMENT */
     struct {			/* for MAKE */
       Expression *wht;		/* What? */
       Bool not;			/* Was there a NOT ? */
-      IdNode *atr;		/* Id of the attribute */
+      Id *atr;		/* Id of the attribute */
     } make;
 
     struct {			/* for SET */
@@ -148,7 +148,7 @@ typedef struct Statement {	/* STATEMENT */
     } iff;
 
     struct {			/* USE */
-      IdNode *script;		/* Which script to use (name) */
+      Id *script;		/* Which script to use (name) */
       Expression *actorExp;	/* For which actor */
     } use;
 
@@ -172,7 +172,7 @@ typedef struct Statement {	/* STATEMENT */
     } depcase;
 
     struct {			/* EACH */
-      IdNode *loopId;
+      Id *loopId;
       TypeKind type;
       List *filters;
       List *stms;

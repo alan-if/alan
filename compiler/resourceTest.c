@@ -24,7 +24,7 @@ AfterEach(Resource) {}
 Ensure(Resource, testNumberImages) {
   List e[5];
   int j;
-  IdNode *i[5] = {NULL,
+  Id *i[5] = {NULL,
 		  newId(nulsrcp, "a"),
 		  newId(nulsrcp, "b"),
 		  newId(nulsrcp, "b"),
@@ -90,7 +90,7 @@ Ensure(Resource, testGenerateBlcFile) {
   assert_true(fileStat.st_size == 0);
 
   resourceNumber = 1;
-  resources = concat(NULL, newResource(nulsrcp, newId(nulsrcp, resourceName)), RESOURCE_LIST);
+  resources = newList(newResource(nulsrcp, newId(nulsrcp, resourceName)), RESOURCE_LIST);
   analyzeResources(resources);
   analyzeResource(resources->member.resource);
   blcFile = openNewBlcFile("unittest.blc");

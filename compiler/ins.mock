@@ -16,8 +16,8 @@ void addHero(void) {}
 void addLiteralInstance(void) {}
 void addNowhere(void) {}
 Instance *newInstance(Srcp *srcp,
-                      IdNode *id,
-                      IdNode *heritage,
+                      Id *id,
+                      Id *heritage,
                       Properties *props) {return (Instance *)mock(srcp, id, heritage);}
 void symbolizeInstances(void) {}
 void analyzeAllInstanceAttributes() {}

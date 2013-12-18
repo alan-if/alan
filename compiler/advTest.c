@@ -23,10 +23,10 @@ AfterEach(Adventure) {}
 Ensure(Adventure, can_initialize) {
     Srcp srcp = {2,3,4};
 
-    IdNode *atUnknownId = newId(srcp, "atUnknownId");
-    IdNode *atInsId = newId(srcp, "atInsId");
-    IdNode *atInsLocId = newId(srcp, "atInsLocId");
-    IdNode *atClaId = newId(srcp, "atClaId");
+    Id *atUnknownId = newId(srcp, "atUnknownId");
+    Id *atInsId = newId(srcp, "atInsId");
+    Id *atInsLocId = newId(srcp, "atInsLocId");
+    Id *atClaId = newId(srcp, "atClaId");
 
     initAdventure();
 

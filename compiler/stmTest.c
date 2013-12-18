@@ -38,7 +38,7 @@ Ensure(Statement, testVerifySetAssignment) {
 
   /* Set a set attribute to a non-empty set of different type */
   /* Dummy element to make length > 0 */
-  exp->fields.set.members = concat(NULL, exp, EXPRESSION_LIST);
+  exp->fields.set.members = newList(exp, EXPRESSION_LIST);
   verifySetAssignment(exp, wht);
   assert_true(readEcode() == 431);
 

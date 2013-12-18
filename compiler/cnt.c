@@ -40,7 +40,7 @@ int containerCount = 0;
 /*======================================================================*/
 ContainerBody *newContainerBody(Srcp srcp,
                                 Bool opaque,
-                                IdNode *takes,
+                                Id *takes,
                                 List *lims,
                                 List *hstms,
                                 List *estms,
@@ -89,14 +89,14 @@ Container *newContainer(ContainerBody *body)
 /*======================================================================*/
 void symbolizeContainer(Container *theContainer) {
     if (theContainer != NULL) {
-        IdNode *id = theContainer->body->taking;
+        Id *id = theContainer->body->taking;
         id->symbol = lookup(id->string);
     }
 }
 
 
 /*======================================================================*/
-void verifyContainer(What *wht, Context *context, char construct[])
+void verifyContainerForInitialLocation(What *wht, Context *context, char *constructMessage)
 {
     Symbol *sym;
 
@@ -105,8 +105,7 @@ void verifyContainer(What *wht, Context *context, char construct[])
 
     switch (wht->kind) {
     case WHAT_THIS:
-        if (!thisIsaContainer(context))
-            lmLog(&wht->srcp, 309, sevERR, "");
+        lmLogv(&wht->srcp, 412, sevERR, "instance (This)", "declarations", NULL);
         break;
     case WHAT_ID:
         sym = symcheck(wht->id, INSTANCE_SYMBOL, context);
@@ -114,30 +113,26 @@ void verifyContainer(What *wht, Context *context, char construct[])
             switch (sym->kind) {
             case INSTANCE_SYMBOL:
                 if (sym->fields.entity.props->container == NULL)
-                    lmLogv(&wht->srcp, 318, sevERR, wht->id->string, construct, NULL);
-                break;
-            case PARAMETER_SYMBOL:
-                if (!symbolIsContainer(sym))
-                    lmLogv(&wht->srcp, 312, sevERR, "Parameter", wht->id->string, "a container", "which is required", NULL);
+                    lmLogv(&wht->srcp, 318, sevERR, wht->id->string, constructMessage, NULL);
                 break;
             case ERROR_SYMBOL:
                 break;
             default:
                 SYSERR("Unexpected symbol kind");
+                break;
             }
         break;
 
     case WHAT_LOCATION:
-        lmLogv(&wht->srcp, 428, sevERR, construct, "a Container", NULL);
+        lmLogv(&wht->srcp, 412, sevERR, "Location", "declarations", NULL);
         break;
 
     case WHAT_ACTOR:
-        if (!symbolIsContainer(actorSymbol))
-            lmLogv(&wht->srcp, 428, sevERR, construct, "a Container, which the Current Actor is not since the class 'actor' does not have the Container property", NULL);
+        lmLogv(&wht->srcp, 412, sevERR, "Actor", "declarations", NULL);
         break;
 
     default:
-        SYSERR("Unrecognized switch");
+        SYSERR("Unexpected wht->kind");
         break;
     }
 }
@@ -157,7 +152,7 @@ void analyzeContainer(Container *theContainer, Context *context)
 
     if (!theContainer->body->analyzed) {
         /* Analyze which class it takes */
-        IdNode *id = theContainer->body->taking;
+        Id *id = theContainer->body->taking;
         id->symbol = symcheck(id, CLASS_SYMBOL, context);
 
         /* Analyze the limits */

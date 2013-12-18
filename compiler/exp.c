@@ -104,7 +104,7 @@ Expression *newIntegerExpression(Srcp srcp, int value)
 }
 
 /*======================================================================*/
-Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not,
+Expression *newAttributeExpression(Srcp srcp, Id *attribute, Bool not,
                                    Expression *ofWhat) {
     Expression *exp = newExpression(srcp, ATTRIBUTE_EXPRESSION);
     exp->fields.atr.id = attribute;
@@ -115,7 +115,7 @@ Expression *newAttributeExpression(Srcp srcp, IdNode *attribute, Bool not,
 
 /*======================================================================*/
 Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
-                             IdNode *class) {
+                             Id *class) {
     Expression *exp = newExpression(srcp, ISA_EXPRESSION);
     exp->fields.isa.what = what;
     exp->not = not;
@@ -125,7 +125,7 @@ Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
 
 /*======================================================================*/
 Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
-                                   IdNode *attribute, List *filters) {
+                                   Id *attribute, List *filters) {
     Expression *exp = newExpression(srcp, AGGREGATE_EXPRESSION);
     exp->fields.agr.kind = kind;
     exp->fields.agr.attribute = attribute;
@@ -222,10 +222,39 @@ void symbolizeExpression(Expression *exp) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static Bool idIsContainer(Id *id, Context *context) {
+    switch (id->symbol->kind) {
+    case PARAMETER_SYMBOL:
+        return id->symbol->fields.parameter.restrictedToContainer || symbolIsContainer(classOfIdInContext(context, id));
+    case LOCAL_SYMBOL:
+        return symbolIsContainer(classOfIdInContext(context, id));
+    case INSTANCE_SYMBOL:
+        return symbolIsContainer(id->symbol);
+    default: SYSERR("Unexpected id->symbol->kind");
+    }
+    return TRUE;                /* Assume the best to avoid spurious errors */
+}
+
 
 /*----------------------------------------------------------------------*/
 static Bool expressionIsContainer(Expression *exp, Context *context) {
-    return symbolIsContainer(symbolOfExpression(exp, context));
+    switch (exp->kind) {
+    case WHAT_EXPRESSION:
+        switch (exp->fields.wht.wht->kind) {
+        case WHAT_THIS: return symbolIsContainer(symbolOfContext(context));
+        case WHAT_LOCATION: return symbolIsContainer(locationSymbol);
+        case WHAT_ACTOR: return symbolIsContainer(actorSymbol);
+        case WHAT_ID: return idIsContainer(exp->fields.wht.wht->id, context);
+        default: SYSERR("Unexpected wht->kind");
+        }
+    case ATTRIBUTE_EXPRESSION:
+        return symbolIsContainer(exp->class);
+        break;
+    default:
+        SYSERR("Unexpected Expression kind");
+    }
+    return TRUE; /* If anything is wrong assume that it is a container to get fewer spurious errors */
 }
 
 /*----------------------------------------------------------------------*/
@@ -314,7 +343,7 @@ static char *aggregateToString(AggregateKind agr)
 
 
 /*======================================================================*/
-Bool isConstantIdentifier(IdNode *id)
+Bool isConstantIdentifier(Id *id)
 {
     if (id->symbol)
         return id->symbol->kind != PARAMETER_SYMBOL
@@ -342,15 +371,16 @@ Bool isConstantExpression(Expression *exp)
         }
     case WHAT_EXPRESSION:
         return isConstantWhat(exp->fields.wht.wht);
+    case BETWEEN_EXPRESSION:
+    case ISA_EXPRESSION:
+    case BINARY_EXPRESSION:
+        /* TODO: Some of these might also be constant, e.g. <instance id> Isa <class> */
     case ATTRIBUTE_EXPRESSION:
     case WHERE_EXPRESSION:
-    case BINARY_EXPRESSION:
     case AGGREGATE_EXPRESSION:
     case RANDOM_EXPRESSION:
     case RANDOM_IN_EXPRESSION:
     case SCORE_EXPRESSION:
-    case BETWEEN_EXPRESSION:
-    case ISA_EXPRESSION:
         return FALSE;
     }
     return FALSE;
@@ -429,7 +459,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
 static TypeKind verifyExpressionAttribute(Expression *attributeExpression,
                                           Attribute *foundAttribute)
 {
-    IdNode *attributeId = attributeExpression->fields.atr.id;
+    Id *attributeId = attributeExpression->fields.atr.id;
     TypeKind type = UNINITIALIZED_TYPE;
 
     if (attributeExpression->kind != ATTRIBUTE_EXPRESSION)
@@ -456,8 +486,8 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
     analyzeExpression(what, context);
 
     switch (what->kind) {
-    case WHAT_EXPRESSION:
-        atr = resolveAttribute(what, exp->fields.atr.id, context);
+    case WHAT_EXPRESSION: {
+        atr = resolveAttributeToExpression(what, exp->fields.atr.id, context);
         exp->type = verifyExpressionAttribute(exp, atr);
         if (atr) exp->readonly = atr->readonly;
         if (exp->type == INSTANCE_TYPE || exp->type == REFERENCE_TYPE) {
@@ -467,6 +497,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
         } else if (exp->type == SET_TYPE)
             exp->class = classOfMembers(exp);
         break;
+    }
 
     case ATTRIBUTE_EXPRESSION:
         if (what->type != ERROR_TYPE) {
@@ -474,7 +505,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
                 exp->type = ERROR_TYPE;
                 lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
             } else {
-                atr = resolveAttribute(what, exp->fields.atr.id, context);
+                atr = resolveAttributeToExpression(what, exp->fields.atr.id, context);
                 exp->type = verifyExpressionAttribute(exp, atr);
                 if (atr) exp->readonly = atr->readonly;
             }
@@ -683,9 +714,9 @@ static void analyzeAttributeFilter(Expression *theFilterExpression,
                                    char *aggregateString)
 {
     Attribute *attribute;
-    IdNode *attributeId = theFilterExpression->fields.atr.id;
+    Id *attributeId = theFilterExpression->fields.atr.id;
 
-    if (classSymbol != NULL && classSymbol->kind == CLASS_SYMBOL) {
+    if (classSymbol != NULL && isClass(classSymbol)) {
         /* Only do attribute semantic check if class is defined */
         attribute = findAttribute(classSymbol->fields.entity.props->attributes,
                                   attributeId);
@@ -894,7 +925,7 @@ static void analyzeRandomIn(Expression *exp, Context *context)
 static void analyzeWhatExpression(Expression *exp, Context *context)
 {
     Symbol *symbol;
-    IdNode *classId;
+    Id *classId;
 
     if (exp->kind != WHAT_EXPRESSION)
         SYSERR("Not a WHAT-expression");
@@ -925,7 +956,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
             switch (symbol->kind) {
             case PARAMETER_SYMBOL:
                 exp->type = symbol->fields.parameter.type;
-                exp->class = symbol->fields.parameter.class;
+                exp->class = classOfIdInContext(context, exp->fields.wht.wht->id);
                 break;
             case LOCAL_SYMBOL:
                 exp->type = symbol->fields.local.type;

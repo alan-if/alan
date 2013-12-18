@@ -3,12 +3,12 @@
 # Makefile settings for compiling Alan compiler on MacOSX
 #
 
-OS_FLAGS = -mmacosx-version-min=10.5
+OSFLAGS = -m32 -mmacosx-version-min=10.5
 
-COMPILER = gcc -m32
+COMPILER = gcc
 EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char
 
-LINKER = gcc -m32
+LINKER = gcc
 EXTRA_LINKER_FLAGS = 
 
 CGREEN = yes
@@ -16,5 +16,4 @@ CGREENROOT = /usr/local
 CGREENDIR = $(CGREENROOT)/include/cgreen
 CGREENLIB = -lcgreen
 
-release: OS_FLAGS = -m32
 release: EXTRA_COMPILER_FLAGS = -O4

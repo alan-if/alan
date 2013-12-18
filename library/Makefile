@@ -17,6 +17,7 @@ package: zip
 
 .PHONY: clean
 clean:
+	rm library*.zip
 
 # Release is only possible on Thoni's machines
 .PHONY: release

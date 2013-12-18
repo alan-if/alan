@@ -20,8 +20,8 @@ AfterEach(Instance) {}
 
 Ensure(Instance, testCreateIns) {
   Srcp srcp = {1,2,3};
-  IdNode *id = newId(srcp, "insId");
-  IdNode *parent = newId(srcp, "parentId");
+  Id *id = newId(srcp, "insId");
+  Id *parent = newId(srcp, "parentId");
   Instance *ins;
 
   initAdventure();

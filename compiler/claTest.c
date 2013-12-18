@@ -23,8 +23,8 @@ AfterEach(Class) {}
 
 Ensure(Class, testCreateClass) {
   Srcp srcp = {1,2,3};
-  IdNode *id = newId(srcp, "claId");
-  IdNode *parent = newId(srcp, "parentId");
+  Id *id = newId(srcp, "claId");
+  Id *parent = newId(srcp, "parentId");
 
   /* Create a class with unknown inheritance */
   Class *cla = newClass(&srcp, id, parent, NULL);

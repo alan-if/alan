@@ -19,7 +19,7 @@ typedef struct IdNode {		/* ID */
   char *string;			/* String representation */
   Symbol *symbol;		/* Symbol table pointer */
   int code;
-} IdNode;
+} Id;
 
 #endif
 

@@ -19,7 +19,7 @@
 typedef struct Synonym {
   Srcp srcp;		/* Source position */
   List *ids;		/* List of synonyms */
-  IdNode *id;		/* Target identifier */
+  Id *id;		/* Target identifier */
 } Synonym;
 
 
@@ -28,8 +28,8 @@ typedef struct Synonym {
 
 /* Functions: */
 
-extern Synonym *newSynonym(Srcp *srcp, List *ids, IdNode *id);
+extern Synonym *newSynonym(Srcp *srcp, List *ids, Id *id);
 extern void analyzeSynonyms(void);
-extern void dumpSynonyms(Synonym *syn);
+extern void dumpSynonym(Synonym *syn);
 
 #endif

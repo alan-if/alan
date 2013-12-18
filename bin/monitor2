@@ -36,7 +36,7 @@ while true ; do
   while true ; do
     d0=$lasttime
     for file in ${files[@]} ; do
-      d1=`stat -c %Y $file`
+      d1=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
       if [ $d0 -lt $d1 ] ; then
         d0=$d1
       fi

@@ -21,7 +21,7 @@ typedef enum {
 typedef struct Attribute {
 	Srcp srcp;			  /* Source position of the attribute */
 	TypeKind type;		  /* Type of this attribute */
-	IdNode *id;			  /* Id of the attribute */
+	Id *id;			  /* Id of the attribute */
 	Bool readonly;		  /* Is the attribute a readonly attribute? */
 	Symbol *definingSymbol;	/* Which entity originally defined it? */
 	AttributeInheritance inheritance;
@@ -37,7 +37,7 @@ typedef struct Attribute {
 	long len;				/* STRING */
 	Bool encoded;			/* STRING */
 
-	IdNode *reference;		/* REFERENCE - initial value and class in the
+	Id *reference;		/* REFERENCE - initial value and class in the
 							   symbol */
 	Symbol *referenceClass;
 	Bool initialized;		/* Is it initialized or only classified */

@@ -30,8 +30,8 @@
 
 /*======================================================================*/
 AddNode *newAdd(Srcp srcp,
-		IdNode *id,
-		IdNode *parent,
+		Id *id,
+		Id *parent,
 		Properties *props)
 {
   AddNode *new;
@@ -61,83 +61,83 @@ AddNode *newAdd(Srcp srcp,
 /*----------------------------------------------------------------------*/
 static void addInitialLocation(AddNode *add, Symbol *original)
 {
-  Properties *props = add->props;
+    Properties *props = add->props;
 
-  if (props->whr != NULL) {
-    if (PROPERTIESOF(original)->whr != NULL)
-      lmLog(&add->props->whr->srcp, 336, sevERR,
-	    "an Initial location when the class already have it");
-    else {
-      if (!inheritsFrom(PROPERTIESOF(original)->id->symbol, thingSymbol) && props->whr != NULL)
-	lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
-      else {
-	symbolizeWhere(props->whr);
-	if (verifyInitialLocation(props->whr))
-	  PROPERTIESOF(original)->whr = props->whr;
-      }
+    if (props->whr != NULL) {
+        if (PROPERTIESOF(original)->whr != NULL)
+            lmLog(&add->props->whr->srcp, 336, sevERR,
+                  "an Initial location when the class already have it");
+        else {
+            if (!inheritsFrom(PROPERTIESOF(original)->id->symbol, thingSymbol) && props->whr != NULL)
+                lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
+            else {
+                symbolizeWhere(props->whr);
+                if (verifyInitialLocation(props->whr))
+                    PROPERTIESOF(original)->whr = props->whr;
+            }
+        }
     }
-  }
 }
 
 
 /*----------------------------------------------------------------------*/
 static void addNames(AddNode *add, Symbol *original)
 {
-  Properties *props = add->props;
+    Properties *props = add->props;
 
-  if (props->names != NULL)
-    PROPERTIESOF(original)->names = combine(props->names,
-					    PROPERTIESOF(original)->names);
+    if (props->names != NULL)
+        PROPERTIESOF(original)->names = combine(props->names,
+                                                PROPERTIESOF(original)->names);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void addPronouns(AddNode *add, Symbol *original)
 {
-  Properties *props = add->props;
+    Properties *props = add->props;
 
-  if (props->pronouns != NULL) {
-    if (PROPERTIESOF(original)->pronouns != NULL)
-      lmLog(&add->props->pronounsSrcp, 336, sevERR,
-	    "Pronouns when the class already have it");
-    else
-      PROPERTIESOF(original)->pronouns = props->pronouns;
-  }
+    if (props->pronouns != NULL) {
+        if (PROPERTIESOF(original)->pronouns != NULL)
+            lmLog(&add->props->pronounsSrcp, 336, sevERR,
+                  "Pronouns when the class already have it");
+        else
+            PROPERTIESOF(original)->pronouns = props->pronouns;
+    }
 }
 
 /*----------------------------------------------------------------------*/
 static void addAttributes(AddNode *add, Symbol *originalSymbol)
 {
-  List *addedAttributes = add->props->attributes;
-  Properties *originalProps = originalSymbol->fields.entity.props;
-  List *originalAttributes = originalProps->attributes;
-  List *l;
+    List *addedAttributes = add->props->attributes;
+    Properties *originalProps = originalSymbol->fields.entity.props;
+    List *originalAttributes = originalProps->attributes;
+    List *l;
 
-  if (addedAttributes == NULL) return;
-  symbolizeAttributes(addedAttributes, TRUE);
+    if (addedAttributes == NULL) return;
+    symbolizeAttributes(addedAttributes, TRUE);
 
-  TRAVERSE(l, addedAttributes) {
-    Attribute *originalAttribute = findAttribute(originalAttributes, l->member.atr->id);
-    if (originalAttribute != NULL) /* It was found in the original */
-      lmLog(&l->member.atr->id->srcp, 336, sevERR, "an attribute which already exists");
-  }
-  originalProps->attributes = combine(originalProps->attributes,
-				      addedAttributes);
+    TRAVERSE(l, addedAttributes) {
+        Attribute *originalAttribute = findAttribute(originalAttributes, l->member.atr->id);
+        if (originalAttribute != NULL) /* It was found in the original */
+            lmLog(&l->member.atr->id->srcp, 336, sevERR, "an attribute which already exists");
+    }
+    originalProps->attributes = combine(originalProps->attributes,
+                                        addedAttributes);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void addInitialize(AddNode *add, Symbol *original)
 {
-  Properties *props = add->props;
+    Properties *props = add->props;
 
-  if (props->initialize != NULL) {
-    if (PROPERTIESOF(original)->initialize != NULL)
-      lmLog(&add->props->initializeSrcp, 336, sevERR,
-	    "an Initialize clause when the class already have it");
-    else
-      PROPERTIESOF(original)->initialize = props->initialize;
-  }
+    if (props->initialize != NULL) {
+        if (PROPERTIESOF(original)->initialize != NULL)
+            lmLog(&add->props->initializeSrcp, 336, sevERR,
+                  "an Initialize clause when the class already have it");
+        else
+            PROPERTIESOF(original)->initialize = props->initialize;
+    }
 }
 
 

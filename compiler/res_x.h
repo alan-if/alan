@@ -21,8 +21,8 @@
 
 /* FUNCTIONS: */
 
-extern Restriction *newRestriction(Srcp srcp, IdNode *parameterId,
-			      RestrictionKind kind, IdNode *classId,
+extern Restriction *newRestriction(Srcp srcp, Id *parameterId,
+			      RestrictionKind kind, Id *classId,
 			      List *stms);
 extern Bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax);
 extern void symbolizeRestrictions(List *restrictions, Symbol *theVerb);

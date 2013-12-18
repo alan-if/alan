@@ -17,7 +17,7 @@
 
 
 /*----------------------------------------------------------------------*/
-static int saveName(List *names, IdNode *id)
+static int saveName(List *names, Id *id)
 {
   List *nameList;
   char *buf = NULL;

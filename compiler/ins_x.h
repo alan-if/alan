@@ -23,8 +23,8 @@ extern void addHero(void);
 extern void addLiteralInstance(void);
 extern void addNowhere(void);
 extern Instance *newInstance(Srcp *srcp,
-			     IdNode *id,
-			     IdNode *heritage,
+			     Id *id,
+			     Id *heritage,
 			     Properties *props);
 extern void symbolizeInstances(void);
 extern void analyzeAllInstanceAttributes();

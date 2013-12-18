@@ -59,14 +59,14 @@ static void addPredefinedProperties() {
 /*======================================================================*/
 void initClasses()
 {
-  IdNode *entityId = newId(nulsrcp, "entity");
-  IdNode *literalId = newId(nulsrcp, "literal");
-  IdNode *locationId = newId(nulsrcp, "location");
-  IdNode *thingId = newId(nulsrcp, "thing");
-  IdNode *objectId = newId(nulsrcp, "object");
-  IdNode *actorId = newId(nulsrcp, "actor");
-  IdNode *integerId = newId(nulsrcp, "integer");
-  IdNode *stringId = newId(nulsrcp, "string");
+  Id *entityId = newId(nulsrcp, "entity");
+  Id *literalId = newId(nulsrcp, "literal");
+  Id *locationId = newId(nulsrcp, "location");
+  Id *thingId = newId(nulsrcp, "thing");
+  Id *objectId = newId(nulsrcp, "object");
+  Id *actorId = newId(nulsrcp, "actor");
+  Id *integerId = newId(nulsrcp, "integer");
+  Id *stringId = newId(nulsrcp, "string");
 
   allClasses = NULL;
 
@@ -122,8 +122,8 @@ void initClasses()
 
 /*======================================================================*/
 Class *newClass(Srcp *srcp,	/* IN - Source Position */
-		IdNode *id,
-		IdNode *parent,
+		Id *id,
+		Id *parent,
 		Properties *props)
 {
   Class *new;                  /* The newly allocated area */
@@ -155,32 +155,26 @@ Class *newClass(Srcp *srcp,	/* IN - Source Position */
 /*----------------------------------------------------------------------*/
 static void symbolizeClass(Class *cla)
 {
-  symbolizeProps(cla->props, TRUE);
+    symbolizeProps(cla->props, TRUE);
 
-  if (cla->props->parentId != NULL) {
-    if (cla->props->parentId->symbol != NULL) {
-      if (cla->props->parentId->symbol->kind != CLASS_SYMBOL)
-	lmLog(&cla->props->parentId->srcp, 350, sevERR, "");
-      else
-	setParent(cla->props->id->symbol, cla->props->parentId->symbol);
+    if (cla->props->parentId != NULL) {
+        if (cla->props->parentId->symbol != NULL) {
+            if (!isClass(cla->props->parentId->symbol))
+                lmLog(&cla->props->parentId->srcp, 350, sevERR, "");
+            else
+                setParent(cla->props->id->symbol, cla->props->parentId->symbol);
+        }
     }
-  }
 }
 
 
-/*======================================================================
-
-  symbolizeClasses()
-
-  Symbolize all Class nodes.
-
- */
+/*======================================================================*/
 void symbolizeClasses(void)
 {
-  List *l;
+    List *l;
 
-  for (l = allClasses; l; l = l->next)
-    symbolizeClass(l->member.cla);
+    for (l = allClasses; l; l = l->next)
+        symbolizeClass(l->member.cla);
 }
 
 

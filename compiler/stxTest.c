@@ -17,7 +17,7 @@ AfterEach(Syntax) {}
 Ensure(Syntax, canCountParameters) {
   List *elementList;
 
-  elementList = concat(NULL, newParameterElement(nulsrcp, NULL, 0), ELEMENT_LIST);
+  elementList = newList(newParameterElement(nulsrcp, NULL, 0), ELEMENT_LIST);
   assert_true(countParameters(elementList) == 1);
   elementList = concat(elementList, newWordElement(nulsrcp, NULL), ELEMENT_LIST);
   assert_true(countParameters(elementList) == 1);
@@ -30,8 +30,8 @@ Ensure(Syntax, canCountParameters) {
 Ensure(Syntax, parameterListsShouldBeCompatibleIfTheyHaveTheSameNumberOfParameters) {
   Syntax s1, s2;
 
-  s1.elements = concat(NULL, newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0), ELEMENT_LIST);
-  s2.elements = concat(NULL, newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0), ELEMENT_LIST);
+  s1.elements = newList(newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0), ELEMENT_LIST);
+  s2.elements = newList(newParameterElement(nulsrcp, newId(nulsrcp, "a"), 0), ELEMENT_LIST);
 	     
 
   s2.elements = concat(s2.elements, newWordElement(nulsrcp, newId(nulsrcp, "x")), ELEMENT_LIST);
@@ -73,7 +73,7 @@ Ensure(Syntax, canAddElementBeforeEOS) {
 
 
 static List *givenAnElementListWithOneParameterElement(char *parameterName) {
-    return concat(NULL, newParameterElement(nulsrcp, newId(nulsrcp, parameterName), 0), ELEMENT_LIST);
+    return newList(newParameterElement(nulsrcp, newId(nulsrcp, parameterName), 0), ELEMENT_LIST);
 }
 
 
@@ -83,7 +83,7 @@ static Syntax *givenASyntax(char *id, List *elements) {
 
 
 static List *givenAListOfFourSyntaxes(Syntax *stx1, Syntax *stx2, Syntax *stx3, Syntax *stx4) {
-    return concat(concat(concat(concat(NULL, stx1, SYNTAX_LIST), stx2, SYNTAX_LIST), stx3, SYNTAX_LIST), stx4, SYNTAX_LIST);
+    return concat(concat(concat(newList(stx1, SYNTAX_LIST), stx2, SYNTAX_LIST), stx3, SYNTAX_LIST), stx4, SYNTAX_LIST);
 }
 
 

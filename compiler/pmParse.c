@@ -132,7 +132,7 @@ typedef struct pmGrammar {
     Article *indefinite;
     List *idList2;
     List *idList;
-    IdNode *id;
+    Id *id;
     List *form;
     Bool first;
     List *exts;

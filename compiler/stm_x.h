@@ -26,17 +26,17 @@
 
 /* Create a new Statement node */
 extern Statement *newStatement(Srcp *srcp, StmKind class);
-extern Statement *newUseStatement(Srcp srcp, IdNode *script, Expression *actor);
+extern Statement *newUseStatement(Srcp srcp, Id *script, Expression *actor);
 extern Statement *newDescribeStatement(Srcp srcp, Expression *what);
 extern Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where);
 extern Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set);
 extern Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set);
-extern Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *statements);
+extern Statement *newEachStatement(Srcp srcp, Id *loopId, List *filters, List *statements);
 extern Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expression *when);
 extern Statement *newCancelStatement(Srcp srcp, Expression *what);
 extern Statement *newListStatement(Srcp srcp, Expression *what);
-extern Statement *newStyleStatement(Srcp srcp, IdNode *style);
+extern Statement *newStyleStatement(Srcp srcp, Id *style);
 extern Statement *newShowStatement(Srcp srcp, Resource *resource);
 extern Statement *newPlayStatement(Srcp srcp, Resource *resource);
 extern List *newPrintStatementListFromString(char *string);

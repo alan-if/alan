@@ -23,12 +23,12 @@ AfterEach(Where) {}
 Ensure(Where, testClassOfContent) {
   initSymbols();
   initClasses();
-  IdNode *id = newId(nulsrcp, "inCont");
+  Id *id = newId(nulsrcp, "inCont");
   Expression *whatLocation = newWhatExpression(nulsrcp,
 						 newWhatId(nulsrcp, id));
   Expression *whatId = newWhatExpression(nulsrcp,
 					 newWhatId(nulsrcp, id));
-  IdNode *takesId = newId(nulsrcp, "location");
+  Id *takesId = newId(nulsrcp, "location");
   ContainerBody *containerBody = newContainerBody(nulsrcp, FALSE, takesId,
 						  NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
@@ -51,10 +51,10 @@ Ensure(Where, testClassOfContent) {
 }
 
 Ensure(Where, InitialLocationOfObjectIsNowhere) {
-  IdNode *locId = newId(nulsrcp, "atLoc");
+  Id *locId = newId(nulsrcp, "atLoc");
   Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
 			newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
-  IdNode *id = newId(nulsrcp, "id");
+  Id *id = newId(nulsrcp, "id");
   Instance *atLoc = newInstance(&nulsrcp, locId, NULL, NULL);
   Properties *properties = newProps(NULL, NULL, nulsrcp,
 				    NULL, NULL, NULL, NULL, nulsrcp,
@@ -73,11 +73,11 @@ Ensure(Where, InitialLocationOfObjectIsNowhere) {
 }
 
 Ensure(Where, InitialLocationOfLocationIsNull) {
-  IdNode *locId = newId(nulsrcp, "atLoc");
+  Id *locId = newId(nulsrcp, "atLoc");
   Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
 			newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
   Instance *atLoc = newInstance(&nulsrcp, locId, NULL, NULL);
-  IdNode *id = newId(nulsrcp, "id");
+  Id *id = newId(nulsrcp, "id");
   Properties *properties = newProps(NULL, NULL, nulsrcp,
 				    NULL, NULL, NULL, NULL, nulsrcp,
 				    NULL, NULL, NULL, NULL, NULL,

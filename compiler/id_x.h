@@ -19,12 +19,12 @@
 
 /* METHODS: */
 extern char *generateIdName(void);
-extern Bool isGeneratedId(IdNode *id);
-extern IdNode *newId(Srcp srcp, char str[]);
+extern Bool isGeneratedId(Id *id);
+extern Id *newId(Srcp srcp, char str[]);
 extern List *newIdList(List *list, char *str);
-extern Bool equalId(IdNode *id1, IdNode *id2);
-extern void symbolizeId(IdNode *id);
-extern IdNode *findIdInList(IdNode *theId, List *theList);
-extern void generateId(IdNode *id);
-extern void dumpId(IdNode *id);
+extern Bool equalId(Id *id1, Id *id2);
+extern void symbolizeId(Id *id);
+extern Id *findIdInList(Id *theId, List *theList);
+extern void generateId(Id *id);
+extern void dumpId(Id *id);
 #endif

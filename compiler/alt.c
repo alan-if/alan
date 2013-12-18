@@ -30,7 +30,7 @@
 
 /*======================================================================*/
 Alternative *newAlternative(Srcp srcp,	/* IN - Source Position */
-		       IdNode *id,	/* IN - The name */
+		       Id *id,	/* IN - The name */
 		       List *chks,	/* IN - Checks */
 		       QualKind qual,	/* IN - Action qualifier */
 		       List *stms)	/* IN - Statements (does-part) */
@@ -119,7 +119,7 @@ void analyzeAlternatives(List *alts,
 
 
 /*----------------------------------------------------------------------*/
-static Aint generateQualifier(QualClass qualifier)
+static Aint generateQualifier(QualKind qualifier)
 {
   switch (qualifier) {
   case QUAL_BEFORE: return Q_BEFORE;

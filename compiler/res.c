@@ -27,9 +27,9 @@
 
 
 /*======================================================================*/
-Restriction *newRestriction(Srcp srcp, IdNode *parameterId,
+Restriction *newRestriction(Srcp srcp, Id *parameterId,
                             RestrictionKind kind,
-                            IdNode *classId, List *stms)
+                            Id *classId, List *stms)
 {
     Restriction *new;         /* The newly created node */
 
@@ -73,7 +73,7 @@ static void resolveParameterClass(Restriction *res, Symbol *parameter)
     case ID_RESTRICTION:
         classSymbol = lookup(res->classId->string);
         if (classSymbol != NULL)
-            if (classSymbol->kind != CLASS_SYMBOL) {
+            if (!isClass(classSymbol)) {
                 lmLog(&res->classId->srcp, 323, sevERR, "");
                 classSymbol = NULL;
             } else {
@@ -102,16 +102,6 @@ static void resolveParameterClass(Restriction *res, Symbol *parameter)
     case CONTAINER_RESTRICTION:
         parameter->fields.parameter.restrictedToContainer = TRUE;
         parameter->fields.parameter.type = INSTANCE_TYPE;
-        break;
-
-    case STRING_RESTRICTION:
-        parameter->fields.parameter.class = NULL;
-        parameter->fields.parameter.type = STRING_TYPE;
-        break;
-
-    case INTEGER_RESTRICTION:
-        parameter->fields.parameter.class = NULL;
-        parameter->fields.parameter.type = INTEGER_TYPE;
         break;
 
     default:
@@ -195,12 +185,6 @@ static void generateRestrictionEntry(Restriction *res)
     case CONTAINER_RESTRICTION:
         restriction.class = RESTRICTIONCLASS_CONTAINER;
         break;
-    case INTEGER_RESTRICTION:
-        restriction.class = RESTRICTIONCLASS_INTEGER;
-        break;
-    case STRING_RESTRICTION:
-        restriction.class = RESTRICTIONCLASS_STRING;
-        break;
     default:
         SYSERR("Unexpected RestrictionKind");
         break;
@@ -240,8 +224,6 @@ static void dumpRestrictionKind(RestrictionKind kind)
 {
     switch (kind) {
     case ID_RESTRICTION: put("ID"); break;
-    case INTEGER_RESTRICTION: put("INTEGER"); break;
-    case STRING_RESTRICTION: put("STRING"); break;
     case CONTAINER_RESTRICTION: put("CONTAINER"); break;
     default: put("*** UNKNOWN ***"); break;
     }

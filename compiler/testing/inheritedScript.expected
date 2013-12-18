@@ -11,17 +11,17 @@ inheritedScript.alan
    23.    Use Script p For a.
 =====>               1
 
-  *1*   400 E : Script not defined for actor 'a'.
+  *1*   400 E : Script 'p' not defined for actor 'a'.
 
    24.    Use Script s For b.
 =====>               1
 
-  *1*   400 E : Script not defined for actor 'b'.
+  *1*   400 E : Script 's' not defined for actor 'b'.
 
    25.    Use Script p For b.
 =====>               1
 
-  *1*   400 E : Script not defined for actor 'b'.
+  *1*   400 E : Script 'p' not defined for actor 'b'.
 
 
         4 error(s).

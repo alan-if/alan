@@ -45,4 +45,3 @@ test:
 	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd library; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd converter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
-

@@ -32,7 +32,7 @@ int evtcount = 0;
 
 
 /*======================================================================*/
-Event *newEvent(Srcp *srcp, IdNode *id, List *stms)
+Event *newEvent(Srcp *srcp, Id *id, List *stms)
 {
   Event *new;		/* The newly allocated node */
 

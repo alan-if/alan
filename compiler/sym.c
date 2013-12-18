@@ -72,7 +72,7 @@ static Frame *currentFrame = NULL;
 
 
 /*======================================================================*/
-void idRedefined(IdNode *id, Symbol *sym, Srcp previousDefinition)
+void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition)
 {
     int error_code = 0;
 
@@ -177,18 +177,15 @@ static char *symbolKindsAsString(SymbolKind kinds)
 
 
 
-/*----------------------------------------------------------------------*/
-static Symbol *newParameterSymbol(char *string, Element *element)
+/*======================================================================*/
+Symbol *newParameterSymbol(Element *element)
 {
     Symbol *new;                  /* The newly created symnod */
   
-    if (string == NULL)
-        return (0);
-  
     new = NEW(Symbol);
-  
+ 
     new->kind = PARAMETER_SYMBOL;
-    new->string = string;
+    new->string = element->id->string;
     new->fields.parameter.element = element;
     element->id->symbol = new;
     element->id->symbol->code = element->id->code;
@@ -215,7 +212,7 @@ static Bool mayOverride(SymbolKind overridingKind, SymbolKind originalKind) {
 
 
 /*======================================================================*/
-Symbol *newSymbol(IdNode *id, SymbolKind kind)
+Symbol *newSymbol(Id *id, SymbolKind kind)
 {
     Symbol *new;                  /* The newly created symnod */
   
@@ -270,7 +267,7 @@ Symbol *newSymbol(IdNode *id, SymbolKind kind)
 }
 
 /*======================================================================*/
-Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent) {
+Symbol *newInstanceSymbol(Id *id, Properties *props, Symbol *parent) {
     Symbol *new = newSymbol(id, INSTANCE_SYMBOL);
     new->fields.entity.props = props;
     new->fields.entity.parent = parent;
@@ -278,7 +275,7 @@ Symbol *newInstanceSymbol(IdNode *id, Properties *props, Symbol *parent) {
 }
 
 /*======================================================================*/
-Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent) {
+Symbol *newClassSymbol(Id *id, Properties *props, Symbol *parent) {
     Symbol *new = newSymbol(id, CLASS_SYMBOL);
     new->fields.entity.props = props;
     new->fields.entity.parent = parent;
@@ -287,7 +284,7 @@ Symbol *newClassSymbol(IdNode *id, Properties *props, Symbol *parent) {
 
 
 /*======================================================================*/
-Symbol *newVerbSymbol(IdNode *id) {
+Symbol *newVerbSymbol(Id *id) {
     Symbol *new = newSymbol(id, VERB_SYMBOL);
     new->fields.verb.parameterSymbols = NULL;
     new->fields.verb.firstSyntax = NULL;
@@ -317,7 +314,7 @@ static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
     Symbol *symbol;
     char name[50];
     int p;
-    IdNode *id;
+    Id *id;
     List *parameterList = NULL;
 
     sprintf(name, "$message%d%s$", parameterCount, typeSymbol->string);
@@ -407,7 +404,7 @@ static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
 
 
 /*======================================================================*/
-Symbol *lookupParameter(IdNode *parameterId, List *parameterSymbols)
+Symbol *lookupParameter(Id *parameterId, List *parameterSymbols)
 {
     List *p;
 
@@ -433,7 +430,7 @@ Symbol *lookup(char *idString)
     while (s1 != NULL) {
         comp = compareStrings(idString, s1->string);
         if (comp == 0)
-            return(s1);
+            return s1;
         else if (comp < 0)
             s1 = s1->lower;
         else
@@ -496,7 +493,7 @@ static Symbol *lookupInContext(char *idString, Context *context)
 
 
 /*======================================================================*/
-Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
+Script *lookupScript(Symbol *theSymbol, Id *scriptName)
 {
     List *scripts;
 
@@ -531,14 +528,31 @@ Script *lookupScript(Symbol *theSymbol, IdNode *scriptName)
 
 
 /*======================================================================*/
+Symbol *classOfSymbol(Symbol *symbol) {
+    switch (symbol->kind) {
+    case PARAMETER_SYMBOL: return symbol->fields.parameter.class;
+    case LOCAL_SYMBOL: return symbol->fields.local.class;
+    case INSTANCE_SYMBOL: return symbol->fields.entity.parent;
+    default: SYSERR("Unexpected symbol kind"); return NULL;
+    }
+}
+
+
+/*======================================================================*/
 Bool isClass(Symbol *symbol) {
     return symbol->kind == CLASS_SYMBOL;
 }
 
 
 /*======================================================================*/
+Bool isInstance(Symbol *symbol) {
+    return symbol->kind == INSTANCE_SYMBOL;
+}
+
+
+/*======================================================================*/
 TypeKind classToType(Symbol* symbol) {
-    if (symbol->kind != CLASS_SYMBOL)
+    if (!isClass(symbol))
         SYSERR("Not a class");
     if (symbol == integerSymbol) return INTEGER_TYPE;
     else if (symbol == stringSymbol) return STRING_TYPE;
@@ -550,13 +564,13 @@ TypeKind classToType(Symbol* symbol) {
 Bool symbolIsContainer(Symbol *symbol) {
     if (symbol != NULL) {
         switch (symbol->kind) {
-        case PARAMETER_SYMBOL:
-            return symbol->fields.parameter.restrictedToContainer
-                || symbolIsContainer(symbol->fields.parameter.class);
         case CLASS_SYMBOL:
         case INSTANCE_SYMBOL:
             return symbol->fields.entity.props->container != NULL
                 || symbolIsContainer(symbol->fields.entity.parent);
+        case PARAMETER_SYMBOL:
+            return symbol->fields.parameter.restrictedToContainer
+                || symbolIsContainer(symbol->fields.parameter.class);
         case LOCAL_SYMBOL:
             return symbolIsContainer(symbol->fields.local.class);
         default:
@@ -595,11 +609,10 @@ Symbol *contentOfSymbol(Symbol *symbol) {
 }
 
 
-
 /*======================================================================*/
 void setParent(Symbol *child, Symbol *parent)
 {
-    if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
+    if (!isClass(child) && child->kind != INSTANCE_SYMBOL)
         SYSERR("Not a CLASS or INSTANCE");
     child->fields.entity.parent = parent;
 }
@@ -608,7 +621,7 @@ void setParent(Symbol *child, Symbol *parent)
 /*======================================================================*/
 Symbol *parentOf(Symbol *child)
 {
-    if (child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL)
+    if (!isClass(child) && child->kind != INSTANCE_SYMBOL)
         SYSERR("Not a CLASS or INSTANCE");
     return child->fields.entity.parent;
 }
@@ -630,8 +643,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
     if (child->kind == PARAMETER_SYMBOL)
         child = child->fields.parameter.class;
 
-    if ((child->kind != CLASS_SYMBOL && child->kind != INSTANCE_SYMBOL) ||
-        (ancestor->kind != CLASS_SYMBOL))
+    if ((!isClass(child) && child->kind != INSTANCE_SYMBOL) || !isClass(ancestor))
         return FALSE;		/* Probably spurious */
 
     p = child;			/* To be the class itself is OK */
@@ -659,8 +671,8 @@ static Bool multipleSymbolKinds(SymbolKind kind) {
 
 
 /*----------------------------------------------------------------------*/
-static Symbol *lookupClass(IdNode *id, Symbol *symbol) {
-    if (symbol != NULL && symbol->kind != CLASS_SYMBOL) {
+static Symbol *lookupClass(Id *id, Symbol *symbol) {
+    if (symbol != NULL && !isClass(symbol)) {
         Symbol *otherSymbol = lookup(id->string);
         if (otherSymbol != NULL)
             return otherSymbol;
@@ -725,7 +737,7 @@ void setParameters(Symbol *verb, List *parameters)
         SYSERR("Not a parameter list");
 
     TRAVERSE(param, parameters) {
-        Symbol *parameterSymbol = newParameterSymbol(param->member.elm->id->string, param->member.elm);
+        Symbol *parameterSymbol = newParameterSymbol(param->member.elm);
         parameterSymbols = concat(parameterSymbols, parameterSymbol, SYMBOL_LIST);
     }
 
@@ -762,7 +774,7 @@ char *verbHasParametersOrNoneMessage(Context *context) {
 
 
 /*======================================================================*/
-Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
+Symbol *symcheck(Id *id, SymbolKind requestedKinds, Context *context)
 {
 	Symbol *sym;
 
@@ -797,7 +809,7 @@ Symbol *symcheck(IdNode *id, SymbolKind requestedKinds, Context *context)
 
 
 /*======================================================================*/
-void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
+void inheritCheck(Id *id, char reference[], char toWhat[], char className[])
 {
     /* Check that the given identifier inherits the class passed as a string.
        This will only be used for built in class checks (location, actor etc.)
@@ -813,7 +825,7 @@ void inheritCheck(IdNode *id, char reference[], char toWhat[], char className[])
 
 
 /*======================================================================*/
-void instanceCheck(IdNode *id, char reference[], char className[])
+void instanceCheck(Id *id, char reference[], char className[])
 {
     /* Check that the given identifier inherits the class passed as a string.
        This will only be used for built in class checks (location, actor etc.)
@@ -831,7 +843,7 @@ void instanceCheck(IdNode *id, char reference[], char className[])
 
 
 /*======================================================================*/
-Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
+Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id)
 {
     /* Find the symbol which defines an attribute by traversing its parents. */
 
@@ -840,7 +852,7 @@ Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
     if (symbol == NULL)
         return NULL;
 
-    if (symbol->kind != CLASS_SYMBOL && symbol->kind != INSTANCE_SYMBOL)
+    if (!isClass(symbol) && symbol->kind != INSTANCE_SYMBOL)
         return NULL;
 
     if ((foundAttribute = findAttribute(symbol->fields.entity.props->attributes, id)) == NULL)
@@ -852,7 +864,7 @@ Symbol *definingSymbolOfAttribute(Symbol *symbol, IdNode *id)
 
 
 /*======================================================================*/
-Attribute *findInheritedAttribute(Symbol *symbol, IdNode *id)
+Attribute *findInheritedAttribute(Symbol *symbol, Id *id)
 {
     /* From a symbol traverse its inheritance tree to find a named attribute. */
     Symbol *definingSymbol =
@@ -910,7 +922,7 @@ static void numberAttributesRecursively(Symbol *symbol)
 
     if (symbol == NULL) return;
 
-    if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
+    if (isClass(symbol) || symbol->kind == INSTANCE_SYMBOL) {
         /* Only a class or instance have attributes */
 
         numberParentAttributes(symbol->fields.entity.parent);
@@ -974,8 +986,7 @@ static void replicateAttributes(Symbol *symbol)
     TRAVERSE(atr, propertiesOf(symbol)->attributes) {
         Attribute *thisAttribute = atr->member.atr;
         if (thisAttribute->type == REFERENCE_TYPE)
-            if (!thisAttribute->initialized
-                && symbol->kind != CLASS_SYMBOL)
+            if (!thisAttribute->initialized && !isClass(symbol))
                 lmLogv(&symbol->fields.entity.props->id->srcp, 328, sevERR,
                        thisAttribute->id->string,
                        thisAttribute->definingSymbol->string,
@@ -1078,7 +1089,7 @@ static void replicateSymbolTree(Symbol *symbol)
 {
     if (symbol == NULL) return;
 
-    if (symbol->kind == CLASS_SYMBOL || symbol->kind == INSTANCE_SYMBOL) {
+    if (isClass(symbol) || isInstance(symbol)) {
         replicateParent(symbol);
     }
 

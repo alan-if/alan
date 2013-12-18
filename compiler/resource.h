@@ -33,7 +33,7 @@ typedef struct Resource {
   Srcp srcp;
   ResourceKind kind;
   ChunkKind chunk;
-  IdNode *fileName;
+  Id *fileName;
 } Resource;
 
 

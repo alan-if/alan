@@ -18,7 +18,7 @@
 
 typedef struct AddNode {	/* ADD TO */
   Srcp srcp;			/* Source position */
-  IdNode *toId;			/* Class to add to */
+  Id *toId;			/* Class to add to */
   Properties *props;
   Aaddr adr;			/* Generated at address */
 } AddNode;

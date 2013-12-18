@@ -66,7 +66,7 @@ Statement *newDescribeStatement(Srcp srcp, Expression *what)
 
 
 /*======================================================================*/
-Statement *newUseStatement(Srcp srcp, IdNode *script, Expression *actor)
+Statement *newUseStatement(Srcp srcp, Id *script, Expression *actor)
 {
 	Statement *new = newStatement(&srcp, USE_STATEMENT);
 	new->fields.use.script = script;
@@ -118,7 +118,7 @@ Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set)
 
 
 /*======================================================================*/
-Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *statements)
+Statement *newEachStatement(Srcp srcp, Id *loopId, List *filters, List *statements)
 {
 	Statement *new = newStatement(&srcp, EACH_STATEMENT);
 	new->fields.each.loopId = loopId;
@@ -129,7 +129,7 @@ Statement *newEachStatement(Srcp srcp, IdNode *loopId, List *filters, List *stat
 
 
 /*======================================================================*/
-Statement *newStyleStatement(Srcp srcp, IdNode *style)
+Statement *newStyleStatement(Srcp srcp, Id *style)
 {
 	Statement *new = newStatement(&srcp, STYLE_STATEMENT);
 
@@ -225,13 +225,7 @@ Statement *newPrintStatementFromString(char *string) {
 
 /*======================================================================*/
 List *newPrintStatementListFromString(char *string) {
-	int fpos;
-	int length;
-
-	fpos = ftell(txtfil);
-	length = strlen(string);
-	fprintf(txtfil, "%s", string);
-	return concat(NULL, newPrintStatement(nulsrcp, fpos, length), STATEMENT_LIST);
+	return newList(newPrintStatementFromString(string), STATEMENT_LIST);
 }
 
 /*----------------------------------------------------------------------*/
@@ -347,6 +341,7 @@ static void analyzeLocate(Statement *stm, Context *context)
 		whr->directly = TRUE;
 		break;
 	case WHERE_IN:
+        /* Can the located be in a container? Not if its a location or actor. */
 		if (inheritsFrom(what->class, locationSymbol))
 			lmLog(&what->srcp, 402, sevERR, "A Location");
 		else if (inheritsFrom(what->class, actorSymbol))
@@ -364,13 +359,12 @@ static void analyzeLocate(Statement *stm, Context *context)
 		SYSERR("Unexpected Where kind");
 		break;
 	}
-
 }
 
 
 
 /*----------------------------------------------------------------------*/
-static void verifyMakeAttribute(IdNode *attributeId, Attribute *foundAttribute)
+static void verifyMakeAttribute(Id *attributeId, Attribute *foundAttribute)
 {
 	/* Verify that a found attribute can be used in a MAKE statement. */
 	if (foundAttribute != NULL) {
@@ -389,7 +383,7 @@ static void analyzeMake(Statement *stm, Context *context)
 	Attribute *atr = NULL;
 
 	analyzeExpression(wht, context);
-	atr = resolveAttribute(wht, stm->fields.make.atr, context);
+	atr = resolveAttributeToExpression(wht, stm->fields.make.atr, context);
 	verifyMakeAttribute(stm->fields.make.atr, atr);
     if (inheritsFrom(wht->class, literalSymbol))
         lmLog(&stm->srcp, 406, sevERR, "");
@@ -536,13 +530,104 @@ static void analyzeIf(Statement *stm, Context *context)
 		lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
     if (stm->fields.iff.exp->kind == ISA_EXPRESSION) {
         Context *restricted_context = pushContext(context);
-        restricted_context->classRestriction = stm->fields.iff.exp;
+        addRestrictionInContext(restricted_context, stm->fields.iff.exp);
         analyzeStatements(stm->fields.iff.thn, restricted_context);
         free(restricted_context);
     } else        
         analyzeStatements(stm->fields.iff.thn, context);
 	if (stm->fields.iff.els != NULL)
 		analyzeStatements(stm->fields.iff.els, context);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void findScript(Symbol *symbol, Id *scriptId) {
+	Script *script;
+    script = lookupScript(symbol, scriptId);
+    if (script != NULL)
+        scriptId->code = script->id->code;
+    else {
+        char *str = "class";
+        switch (symbol->kind) {
+        case CLASS_SYMBOL: str = "class"; break;
+        case LOCAL_SYMBOL:
+        case INSTANCE_SYMBOL: str = "actor"; break;
+        case PARAMETER_SYMBOL: str = "parameter"; break;
+        default: SYSERR("Unexpected symbol kind");
+        }
+        lmLogv(&scriptId->srcp, 400, sevERR, scriptId->string, str, symbol->string, NULL);
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *analyzeIdForActorStatement(Id *id, Context *context) {
+    if (id->symbol != NULL)
+        switch (id->symbol->kind) {
+        case PARAMETER_SYMBOL:
+        case LOCAL_SYMBOL:
+            return classOfIdInContext(context, id);
+        case INSTANCE_SYMBOL:
+            return id->symbol;
+        default: SYSERR("Unexpected id->symbol->kind");
+        }
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *analyzeWhatForActorStatement(What *wht, Context *context) {
+    switch (wht->kind) {
+    case WHAT_ID:
+        return analyzeIdForActorStatement(wht->id, context);
+    case WHAT_THIS:
+    case WHAT_LOCATION:
+    case WHAT_ACTOR:
+        return symbolOfWhat(wht, context);
+    }
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *analyzeUseWithActor(Statement *stm, Context *context) {
+    Expression *exp = stm->fields.use.actorExp;
+    analyzeExpression(exp, context);
+    if (exp->type != ERROR_TYPE)
+        if (exp->type != INSTANCE_TYPE || !inheritsFrom(exp->class, actorSymbol)) {
+            lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
+            return NULL;
+        }
+    switch (exp->kind) {
+    case WHAT_EXPRESSION:
+        return analyzeWhatForActorStatement(exp->fields.wht.wht, context);
+    case ATTRIBUTE_EXPRESSION:
+        return symbolOfExpression(exp, context);
+    default: SYSERR("Unexpected exp->kind");
+    }
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *analyzeUseWithoutActor(Statement *stm, Context *context) {
+    Symbol *sym = NULL;
+    if (context->kind == INSTANCE_CONTEXT) {
+        if (context->instance == NULL || context->instance->props == NULL)
+            SYSERR("Strange context");
+        if (!inheritsFrom(context->instance->props->id->symbol, actorSymbol))
+            lmLog(&stm->srcp, 356, sevERR, "");
+        else
+            sym = context->instance->props->id->symbol;
+    } else if (context->kind == CLASS_CONTEXT) {
+        if (context->class == NULL || context->class->props == NULL)
+            SYSERR("Strange context");
+        if (!inheritsFrom(context->class->props->id->symbol, actorSymbol))
+            lmLog(&stm->srcp, 356, sevERR, "");
+        else
+            sym = context->class->props->id->symbol;
+    }
+	return sym;
 }
 
 
@@ -555,51 +640,18 @@ static void analyzeUse(Statement *stm, Context *context)
 	   are not). */
 
 	Symbol *symbol = NULL;
-	Script *script;
 
 	if (stm->fields.use.actorExp == NULL && context->kind != CLASS_CONTEXT && context->kind != INSTANCE_CONTEXT)
 		lmLog(&stm->srcp, 401, sevERR, "");
 	else {
-		if (stm->fields.use.actorExp != NULL) {
-			Expression *exp = stm->fields.use.actorExp;
-			analyzeExpression(exp, context);
-			if (exp->type != ERROR_TYPE)
-				if (exp->type != INSTANCE_TYPE || !inheritsFrom(exp->class, actorSymbol)) {
-					lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
-					return;
-				}
-			symbol = symbolOfExpression(exp, context);
-		} else {
-			if (context->kind == INSTANCE_CONTEXT) {
-				if (context->instance == NULL || context->instance->props == NULL)
-					SYSERR("Unexpected context");
-				symbol = context->instance->props->id->symbol;
-			} else if (context->kind == CLASS_CONTEXT) {
-				if (context->class == NULL || context->class->props == NULL)
-					SYSERR("Unexpected context");
-				symbol = context->class->props->id->symbol;
-			}
-		}
+		if (stm->fields.use.actorExp != NULL)
+            symbol = analyzeUseWithActor(stm, context);
+		else
+            symbol = analyzeUseWithoutActor(stm, context);
 
-		/* Find the script */
-		if (symbol != NULL) {
-			script = lookupScript(symbol, stm->fields.use.script);
-			if (script != NULL)
-				stm->fields.use.script->code = script->id->code;
-			else {
-				char *str = "class";
-				switch (symbol->kind) {
-				case CLASS_SYMBOL: str = "class"; break;
-				case LOCAL_SYMBOL:
-				case INSTANCE_SYMBOL: str = "actor"; break;
-				case PARAMETER_SYMBOL: str = "parameter"; break;
-				default: SYSERR("Unexpected symbol kind");
-				}
-				lmLogv(&stm->fields.use.script->srcp, 400, sevERR,
-					   str, symbol->string, NULL);
-			}
-		}
-	}  
+		if (symbol != NULL)
+            findScript(symbol, stm->fields.use.script);
+	}
 }
 
 
@@ -611,7 +663,12 @@ static void analyzeStop(Statement *stm, Context *context)
 
 	analyzeExpression(exp, context);
 	if (exp->type != ERROR_TYPE) {
-		sym = symbolOfExpression(exp, context);
+        if (exp->kind == WHAT_EXPRESSION && exp->fields.wht.wht->kind == WHAT_ID
+            && exp->fields.wht.wht->id->symbol != NULL 
+            && exp->fields.wht.wht->id->symbol->kind != INSTANCE_SYMBOL)
+            sym = classOfIdInContext(context, exp->fields.wht.wht->id);
+        else
+            sym = symbolOfExpression(exp, context);
 		if (sym) {
 			if (!inheritsFrom(sym, actorSymbol))
 				lmLogv(&stm->fields.stop.actor->srcp, 351, sevERR, "STOP statement", "an instance", "actor", NULL);

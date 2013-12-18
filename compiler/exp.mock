@@ -13,7 +13,7 @@
 
 /* Functions: */
 
-Expression *newAttributeExpression(Srcp srcp, IdNode *attributeId,
+Expression *newAttributeExpression(Srcp srcp, Id *attributeId,
                                    Bool not, Expression *ofWhat) {
     Expression *expression = (Expression*)NEW(Expression);
     expression->kind = ATTRIBUTE_EXPRESSION;
@@ -34,7 +34,7 @@ Expression *newScoreExpression(Srcp srcp);
 Expression *newIntegerExpression(Srcp srcp, int value) {return (Expression*)mock();}
 
 Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
-                             IdNode *class) {
+                             Id *class) {
     Expression *exp = NEW(Expression);
     exp->kind = ISA_EXPRESSION;
     exp->fields.isa.what = what;
@@ -52,7 +52,7 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 
 Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not, Where *where) {return (Expression*)mock();}
 Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
-                                   IdNode *attribute, List *filters) {return (Expression*)mock();}
+                                   Id *attribute, List *filters) {return (Expression*)mock();}
 Expression *newRandomRangeExpression(Srcp srcp, Expression *from,
                                      Expression *to) {return (Expression*)mock();}
 Expression *newRandomInExpression(Srcp srcp, Expression *what, Bool directly);
@@ -61,7 +61,7 @@ void symbolizeExpression(Expression *exp) {mock();}
 void analyzeExpression(Expression *exp, Context *context) {mock();}
 Bool analyzeFilterExpressions(char *message, List *filters,
                               Context *context, Symbol **foundClass) {return (Bool)mock();}
-Bool isConstantIdentifier(IdNode *id) {return (Bool)mock();}
+Bool isConstantIdentifier(Id *id) {return (Bool)mock();}
 Bool isConstantExpression(Expression *exp) {return (Bool)mock();}
 Symbol *contentOf(Expression *what, Context *context) {return (Symbol*)mock();}
 Bool verifyContainerExpression(Expression *what, Context *context,

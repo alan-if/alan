@@ -48,7 +48,7 @@ static char *resourceKindAsString(ResourceKind kind) {
 
 
 /*======================================================================*/
-Resource *newResource(Srcp srcp, IdNode *fileName) {
+Resource *newResource(Srcp srcp, Id *fileName) {
   Resource *new = NEW(Resource);
 
   new->srcp = srcp;
@@ -203,7 +203,7 @@ static void generateBlcFile(FILE *blcFile, List *resourceList)
 
   TRAVERSE(currentResource, resourceList) {
     Resource *resource = currentResource->member.resource;
-    IdNode *fileName = resource->fileName;
+    Id *fileName = resource->fileName;
     fprintf(blcFile, "%s %d %s %s\n", resourceKindAsString(resource->kind),
 	    fileName->code, chunkTypeAsString(resource->chunk), fileName->string);
     while (currentResource->next != NULL

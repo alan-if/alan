@@ -96,6 +96,16 @@ Symbol *symbolOfContext(Context *context) {
     return NULL;
 }
 
+/*======================================================================*/
+Symbol *classOfIdInContext(Context *context, Id *id) {
+    Symbol *restrictedTo = contextRestrictsIdTo(context, id);
+    if (restrictedTo == NULL)
+        return classOfSymbol(id->symbol);
+    else
+        return restrictedTo;
+}
+
+
 /*----------------------------------------------------------------------*/
 static Context *duplicateContext(Context *previous) {
     Context *new = NEW(Context);
@@ -136,9 +146,9 @@ Bool inLocationContext(Context *context)
 
 
 /*======================================================================*/
-IdNode *classIdInContext(Context *context)
+Id *classIdInContext(Context *context)
 {
-    IdNode *classId = NULL;
+    Id *classId = NULL;
 
     switch (context->kind) {
     case INSTANCE_CONTEXT:
@@ -164,22 +174,7 @@ IdNode *classIdInContext(Context *context)
 }
 
 /*======================================================================*/
-Bool thisIsaContainer(Context *context)
-{
-    Symbol *symbol;
-
-    if (context->instance != NULL)
-        symbol = context->instance->props->id->symbol;
-    else if (context->class != NULL)
-        symbol = context->class->props->id->symbol;
-    else
-        return FALSE;
-
-    return symbolIsContainer(symbol);
-}
-
-/*======================================================================*/
-Symbol *contextRestrictionsFor(Context *initialContext, IdNode *id) {
+Symbol *contextRestrictsIdTo(Context *initialContext, Id *id) {
     Context *currentContext = initialContext;
 
     while (currentContext != NULL) {

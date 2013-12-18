@@ -23,7 +23,7 @@ typedef enum WhatKind {
 typedef struct What {
   Srcp srcp;			/* Source position */
   WhatKind kind;		/* What kind */
-  IdNode *id;			/* Identifier if WHAT_ID */
+  Id *id;			/* Identifier if WHAT_ID */
 } What;
 
 #endif

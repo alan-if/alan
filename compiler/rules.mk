@@ -3,18 +3,12 @@
 #	COMPILER : which command to run the C compiler
 #	LINKER : which command to run the linker
 #	OSFLAGS : what flags must be passed to both compiler and linker
-#	INCLUDES : directives to include the required directories
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
-
-ifneq ($(EMACS),)
-JREGROUTPUT = -noansi
-else
 UNITOUTPUT ?= -c
-endif
 
 CC = $(COMPILER)
-CFLAGS = $(INCLUDES) -I../interpreter $(OSFLAGS) $(EXTRA_COMPILER_FLAGS)
+CFLAGS = -I../interpreter $(OSFLAGS) $(EXTRA_COMPILER_FLAGS)
 
 LINK = $(LINKER)
 LINKFLAGS = $(OSFLAGS) $(EXTRA_LINKER_FLAGS)
@@ -39,11 +33,13 @@ build: alan
 test:
 	@cd ..;bin/jregr -bin bin -dir compiler/testing $(JREGROUTPUT)
 	@cd ..;bin/jregr -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
+	@cd ..;bin/jregr -bin bin -dir compiler/testing/dump $(JREGROUTPUT)
+	@cd ..;bin/jregr -bin bin -dir regression/debug $(JREGROUTPUT)
 
 # Clean
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d .*/*.dll
+	@-rm .*/*.o .*/*.d .*/*.dll .*/*.gcno .*/*.gcda
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -64,8 +60,7 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 	cp alan ../bin/alan
 
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
+#################################################################
 # Unit testing
 #
 .PHONY: unit
@@ -82,16 +77,15 @@ UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o})
 # Rule to compile objects to subdirectory
 $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+$(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 # Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
-unittests: CFLAGS += $(CGREENINCLUDE)
-unittests: LIBS = $(CGREENLIB)
-unittests: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
-	$(LINK) -o unittests $(UNITTESTSOBJECTS) $(LINKFLAGS) $(LIBS)
-
+###################################################################
+# Build a DLL of all unittests...
 unittests.dll: CFLAGS += $(CGREENINCLUDE)
 unittests.dll: LIBS = $(CGREENLIB)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
@@ -107,6 +101,7 @@ else
 	cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 endif
 
+#####################################################################
 # Here we try to build a runnable DLL for each module where it can be 
 # tested in total isolation (with everything else mocked away,
 # except lists.c and memory.c)
@@ -114,11 +109,12 @@ endif
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
-ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, util options sysdep emit lst dump opt type alan.version))
+ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep emit lst dump opt type alan.version
+ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, $(ISOLATED_UNITTESTS_EXTRA_MODULES)))
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -o $@ $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^ $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LINKFLAGS) $(LIBS)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
@@ -131,3 +127,12 @@ ifeq ($(shell uname), Darwin)
 else
 	cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif
+
+############################################
+# Coverage
+coverage: EXTRA_COMPILER_FLAGS += --coverage
+coverage: EXTRA_LINKER_FLAGS += --coverage
+coverage: all test
+	lcov --capture --directory . -b . --output-file coverage_tmp.info
+	lcov --extract coverage_tmp.info '*.c' -o coverage.info
+	genhtml coverage.info --output coverage
