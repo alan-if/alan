@@ -1,4 +1,4 @@
-/*======================================================================*\
+/*======================================================================* \
 
   symTest.c
 
@@ -136,7 +136,7 @@ Ensure(Symbol, testVerbSymbols) {
 
   parameters = createOneParameter("p1");
   setParameters(v1Symbol, parameters);
-  assert_that(v1Symbol->fields.verb.parameterSymbols, is_not_null);
+  assert_that(v1Symbol->fields.verb.parameterSymbols, is_non_null);
   for (l = v1Symbol->fields.verb.parameterSymbols,
 	 p = parameters;
        l && p;
