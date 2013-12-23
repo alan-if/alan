@@ -1549,7 +1549,7 @@ Start Here.
      closet."
     "$p*** You have won ***"
     Quit.'exit' Then
-      STRING**** object **** Or 
+      STRINGobject Or 
       "Book of Gnomes" Is loose
       Verb examine, look_in
         Does Only
@@ -2379,3 +2379,4 @@ Start Here.
         "$pCOMING OUT OF THE CLOSET"
         "$nWritten by Mikko Vuorinen (mvuorine@cc.helsinki.fi)"
         "$nRelease 2; Compiled with Alan 2.7(5)"
+        

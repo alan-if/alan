@@ -24,32 +24,32 @@ Syntax
   ta = ta (o)*.
 
 Verb ta
-  Check **** object **** Is Not takable
+  Check object Is Not takable
     Else 
       "Du kan inte ta"
-      If **** object **** Are plural Then
+      If object Are plural Then
         "dem."
-      Elsif **** object **** Is neutrum Then 
+      Elsif object Is neutrum Then 
         "det."
       Else 
         "den."
       End If.
-  And **** object **** Not In inventory
+  And object Not In inventory
     Else 
       "Du bär redan på"
-      If **** object **** Are plural Then
+      If object Are plural Then
         "dem."
-      Elsif **** object **** Is neutrum Then 
+      Elsif object Is neutrum Then 
         "det."
       Else 
         "den."
       End If.
   Does
-    Locate **** object **** In inventory.
+    Locate object In inventory.
     "OK!"
-    If **** object **** Are plural Then
+    If object Are plural Then
       "Tagna."
-    Elsif **** object **** Is neutrum Then 
+    Elsif object Is neutrum Then 
       "Taget."
     Else 
       "Tagen."
@@ -57,20 +57,20 @@ Verb ta
 End Verb.
 
 Verb släpp
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "Du bär inte på"
-      If **** object **** Are plural Then
+      If object Are plural Then
         "dem."
-      Elsif **** object **** Is neutrum Then 
+      Elsif object Is neutrum Then 
         "det."
       Else 
         "den."
       End If.
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "OK!"
-    If **** object **** Are plural Then
+    If object Are plural Then
       "Släppta."
     Else 
       "Släppt."
@@ -126,10 +126,10 @@ Verb klättra
 End Verb.
 
 Verb läs
-  Check **** object **** Is readable
+  Check object Is readable
     Else 
       "Du kan inte läsa"
-      If **** object **** Is neutrum Then
+      If object Is neutrum Then
         "den."
       Else 
         "det."
@@ -1460,3 +1460,4 @@ Start At p_plats.
    norrut in på stranden. Själv stannar Du efter ett ögonblick och bara ser
    Dig omkring."
   Locate föräldrar At filtplats.
+  

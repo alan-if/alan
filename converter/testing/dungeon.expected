@@ -897,3 +897,4 @@ End The nowhere.
 Start At w_of_house.
   Visits 3.
   Schedule bird_chirp At hero After 3.
+  

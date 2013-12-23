@@ -68,7 +68,7 @@ Start At a_location.
     ""
   Elsif Current Location Then 
     ""
-  Elsif **** object **** Then 
+  Elsif object Then 
     ""
   Elsif Current Actor Then 
     ""
@@ -91,3 +91,4 @@ Start At a_location.
   Elsif Random 1 To 10 Then 
     ""
   End If.
+  

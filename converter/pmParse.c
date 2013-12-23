@@ -14,6 +14,7 @@
 #include "token.h"
 #include "lmList.h"
 #include "a2a3.h"
+#include "util.h"
 
 /* END %%IMPORT */
 

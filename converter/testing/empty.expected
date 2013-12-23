@@ -32,51 +32,52 @@ End Event event_id.
 
 
 Start At location_id.
-  Empty **** object **** .
+  Empty object .
   Empty Current Location .
   Empty object_id .
   Empty unknown_id .
   Empty location_id .
   Empty container_id .
-  Empty **** object **** Here .
+  Empty object Here .
   Empty Current Location Here .
   Empty object_id Here .
   Empty unknown_id Here .
   Empty location_id Here .
   Empty container_id Here .
-  Empty **** object **** At Current Location .
+  Empty object At Current Location .
   Empty Current Location At Current Location .
   Empty object_id At Current Location .
   Empty unknown_id At Current Location .
   Empty location_id At Current Location .
   Empty container_id At Current Location .
-  Empty **** object **** At hero .
+  Empty object At hero .
   Empty Current Location At hero .
   Empty object_id At hero .
   Empty unknown_id At hero .
   Empty location_id At hero .
   Empty container_id At hero .
-  Empty **** object **** At location_id .
+  Empty object At location_id .
   Empty location_id At location_id .
   Empty object_id At location_id .
   Empty unknown_id At location_id .
   Empty location_id At location_id .
   Empty container_id At location_id .
-  Empty **** object **** At object_id .
+  Empty object At object_id .
   Empty Current Location At object_id .
   Empty object_id At object_id .
   Empty unknown_id At object_id .
   Empty location_id At object_id .
   Empty container_id At object_id .
-  Empty **** object **** At unknown_id .
+  Empty object At unknown_id .
   Empty Current Location At unknown_id .
   Empty object_id At unknown_id .
   Empty unknown_id At unknown_id .
   Empty location_id At unknown_id .
   Empty container_id At unknown_id .
-  Empty **** object **** In container_id .
+  Empty object In container_id .
   Empty Current Location In container_id .
   Empty object_id In container_id .
   Empty unknown_id In container_id .
   Empty location_id In container_id .
   Empty container_id In container_id .
+  

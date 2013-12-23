@@ -33,7 +33,7 @@ The obj4 Isa object
 End The obj4.
 
 The obj5 Isa object
-  At **** object **** 
+  At object 
 End The obj5.
 Event e1
   STRING
@@ -45,10 +45,11 @@ The loc Isa location
   Entered
     Locate obj1 Nearby.
     Schedule e1 At Current Actor After 1.
-    Schedule e1 At **** object **** After 1.
+    Schedule e1 At object After 1.
     Schedule e1 Nearby After 1.
 End The loc.
 
 Start At loc.
   "Chicken.$p"
   Score .
+  

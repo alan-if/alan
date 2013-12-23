@@ -32,8 +32,9 @@ End Event event_id.
 
 
 Start At location_id.
-  Describe **** object ****.
+  Describe object.
   Describe Current Location.
   Describe unknown_id.
   Describe object_id.
   Describe location_id.
+  

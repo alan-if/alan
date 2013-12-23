@@ -25,10 +25,10 @@ End The gizmo.
 Verb clean
   Does Only
     "You clean the"
-    If **** object **** Is clean Then
-      Say **** object ****.
+    If object Is clean Then
+      Say object.
     Else 
-      Make **** object **** clean.
+      Make object clean.
       "dirty $o"
     End If.
     "enthusiastically."
@@ -41,3 +41,4 @@ Start At aaa.
    immediately after a double-quoted string that ended with a dollar-o or
    dollar-1 (and other dollar-things perhaps?)"
   "$p'clean gizmo' to see a missing space before word 'enthusiastically'"
+  

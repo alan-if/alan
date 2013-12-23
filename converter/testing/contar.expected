@@ -62,7 +62,7 @@ Verb put_in
       "It would be a good trick to put the $1 inside the $2, if you could
        do it!!"
   Does
-    Locate **** object **** In box.
+    Locate object In box.
     "Ok!"
     List box.
 End Verb.
@@ -80,11 +80,11 @@ Syntax
   drop = 'drop' (o)*.
 
 Verb drop
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "You don't have the $o."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
 End Verb.
 
 Syntax
@@ -112,3 +112,4 @@ End Verb.
 Start At somewhere.
   "$pTry: $i'take (o)*'$i'drop (o)*'$i'list (o)*'$i'put (o)* in
    (c)'$nand$i'l'"
+  

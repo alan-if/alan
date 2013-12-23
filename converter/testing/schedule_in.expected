@@ -30,3 +30,4 @@ Start At loc.
   List cont.
   "Locating HERO at OBJ which is inside CONT."
   Locate hero At obj.
+  

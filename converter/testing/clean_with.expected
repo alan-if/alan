@@ -18,7 +18,7 @@ End Verb.
 Verb clean
   Does
     "Cleaning"
-    Say **** object ****.
+    Say object.
 End Verb.
 
 
@@ -32,3 +32,4 @@ End The o2.
 
 Start At l.
   "Testing syntax for 'clean with' and default for 'clean'."
+  

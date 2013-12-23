@@ -209,14 +209,14 @@ Verb order
 End Verb.
 
 Verb examine
-  Check **** object **** Is real_object
+  Check object Is real_object
     Else 
       "That's not an object."
-  And **** object **** Here
+  And object Here
     Else 
       "I cant see any $o here."
   Does
-    Describe **** object ****.
+    Describe object.
 End Verb.
 
 Synonyms
@@ -224,17 +224,17 @@ Synonyms
   
 
 Verb get, take
-  Check **** object **** Here
+  Check object Here
     Else 
       "I cant see any $o here."
-  And **** object **** Is takable
+  And object Is takable
     Else 
       "You can't take that!"
-  And **** object **** Not In inventory
+  And object Not In inventory
     Else 
       "You are already carrying that."
   Does
-    Locate **** object **** In inventory.
+    Locate object In inventory.
     "OK. Taken."
 End Verb.
 
@@ -243,14 +243,14 @@ Synonyms
   
 
 Verb drop, leave
-  Check **** object **** Here
+  Check object Here
     Else 
       "I cant see any $o here."
-  And **** object **** In inventory
+  And object In inventory
     Else 
       "You are not carrying that."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "OK. Dropped."
 End Verb.
 
@@ -431,7 +431,7 @@ The window_table Isa location
   End Verb.
   
   Verb order
-    Check **** object **** Is consumable
+    Check object Is consumable
       Else 
         "You can't order $o"
     Does
@@ -454,15 +454,15 @@ The coat_check Isa location
   Exit e, east To restaurant_entrance.
   
   Verb 'check', leave
-    Check **** object **** Here
+    Check object Here
       Else 
         "I cant see any $o here."
-    And **** object **** In inventory
+    And object In inventory
       Else 
         "You are not carrying that."
     Does Only
       "You leave your $o to the tired man behind the counter."
-      Locate **** object **** In wardrobe.
+      Locate object In wardrobe.
       Score 10.
       If tag In wardrobe Then
         Locate tag In inventory.
@@ -475,16 +475,16 @@ The coat_check Isa location
       Else 
         "The man behind the counter refuses to give you anything unless you
          are able to show him your wardrobe tag."
-    And **** object **** In wardrobe
+    And object In wardrobe
       Else 
         "There is no $o checked here."
     Does Only
       "The tired man give you your $o"
-      Locate **** object **** In inventory.
+      Locate object In inventory.
   End Verb.
   
   Verb get
-    Check **** object **** Not In wardrobe
+    Check object Not In wardrobe
       Else 
         "The $o is checked in the wardobe. You can't just take it."
   End Verb.
@@ -580,3 +580,4 @@ Start At outside_restaurant.
    ask the driver to get you to a place where you can do something about
    your growing hunger. Somehow you manage to explain what you want and
    after a neck-breaking ride he lets you off outside a restaurant."
+  

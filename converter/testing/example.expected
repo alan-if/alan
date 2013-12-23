@@ -1,14 +1,14 @@
 ########## example ##########
 
 Verb take
-  Check **** object **** Not In inventory
+  Check object Not In inventory
     Else 
       "You already have it."
-  And **** object **** Here
+  And object Here
     Else 
       "I can't see such a thing here."
   Does
-    Locate **** object **** In inventory.
+    Locate object In inventory.
     "Taken."
 End Verb.
 
@@ -16,20 +16,20 @@ Syntax
   put_down = put (o) down.
 
 Verb put_down
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "You don't have such a thing."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "Dropped."
 End Verb.
 
 Verb drop, throw
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "You don't have such a thing."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "Dropped."
 End Verb.
 
@@ -71,3 +71,4 @@ The limbo Isa location
 End The limbo.
 
 Start At bright_place.
+  

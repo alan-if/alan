@@ -27,7 +27,7 @@ Syntax
 
 Verb x
   Does
-    If **** object **** =fred Then
+    If object =fred Then
       "x fred!"
     End If.
 End Verb.
@@ -45,3 +45,4 @@ End The fred.
 
 Start At w.
   "Examine Fred!"
+  

@@ -46,26 +46,26 @@ Verb q
 End Verb.
 
 Verb take, get, pick
-  Check **** object **** Here
+  Check object Here
     Else 
       "I can't see any $o here!"
-  And **** object **** Not In inventory
+  And object Not In inventory
     Else 
       "You already have the $o."
-  And **** object **** Is takeable
+  And object Is takeable
     Else 
       "You can't take the $o."
   Does
-    Locate **** object **** In inventory.
+    Locate object In inventory.
     "Taken."
 End Verb.
 
 Verb drop
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "You don't have the $o!"
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "Dropped."
 End Verb.
 
@@ -78,19 +78,19 @@ Verb i
 End Verb.
 
 Verb read
-  Check **** object **** Here Or **** object **** In inventory
+  Check object Here Or object In inventory
     Else 
       "I can't see any $o here!"
-  And **** object **** Is readable
+  And object Is readable
     Else 
       "There is nothing written on the $o."
 End Verb.
 
 Verb open
-  Check **** object **** Here Or **** object **** In inventory
+  Check object Here Or object In inventory
     Else 
       "I can't see any $o here!"
-  And **** object **** Is openable
+  And object Is openable
     Else 
       "There is no way to open the $o."
 End Verb.
@@ -196,3 +196,4 @@ End The lamp.
 
 Start At round_room.
   "$pWelcome to a small ADVENTURE written in ALAN.$p"
+  

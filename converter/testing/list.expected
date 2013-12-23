@@ -32,8 +32,9 @@ End Event event_id.
 
 
 Start At location_id.
-  List **** object ****.
+  List object.
   List Current Location.
   List unknown_id.
   List object_id.
   List location_id.
+  

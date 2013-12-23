@@ -13,11 +13,11 @@ Syntax
   drop = 'drop' (o)*.
 
 Verb drop
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "You don't have the $o."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
 End Verb.
 
 Syntax
@@ -53,19 +53,20 @@ Verb z
 End Verb.
 
 Event e1
-  Locate **** object **** Here.
-  Describe **** object ****.
+  Locate object Here.
+  Describe object.
 End Event e1.
 
 
 The l1 Isa location
   
   Description
-    Locate **** object **** Here.
-    Describe **** object ****.
+    Locate object Here.
+    Describe object.
   
 End The l1.
 
 Start At l1.
-  Locate **** object **** Here.
-  Describe **** object ****.
+  Locate object Here.
+  Describe object.
+  

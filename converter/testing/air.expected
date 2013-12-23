@@ -14,7 +14,7 @@ The air Isa object
   In always_here 
 End The air.
 Verb breath
-  Check **** object **** Is breathable
+  Check object Is breathable
     Else 
       "You can't breath $o."
   Does
@@ -28,3 +28,4 @@ End The 'this'.
 
 Start At 'this'.
   "Breath air!"
+  

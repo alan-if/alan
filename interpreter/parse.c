@@ -420,7 +420,6 @@ static void parseAdjectivesAndNoun(Parameter parameters[]) {
             // TODO When does this get executed? Maybe if conjunctions can be nouns? Or nouns be adjectives?
             printf("DEBUG:When does this get executed?\n");
         } else
-            printf("DEBUG:When does this get executed?\n");
             error(M_NOUN);
     }
 

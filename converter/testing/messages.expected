@@ -32,3 +32,4 @@ Start At l1.
   "Try west a couple of times, the again-message should be ""(here
    again)"". and the 'no exit' message should read: ""There is no exit in
    that direction""."
+  

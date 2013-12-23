@@ -2,7 +2,7 @@
 
 Verb x
   Does
-    Describe **** object ****.
+    Describe object.
 End Verb.
 
 
@@ -18,3 +18,4 @@ End The l.
 
 Start At l.
   "Try 'x first o1' and 'x second name of o2'. Both should work..."
+  

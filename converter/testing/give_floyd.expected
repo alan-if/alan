@@ -10,7 +10,7 @@ Syntax
 
 Verb take
   Does
-    Locate **** object **** In inventory.
+    Locate object In inventory.
 End Verb.
 
 Syntax
@@ -62,3 +62,4 @@ End The l.
 
 Start At l.
   "Take all, then give floyd a widget."
+  

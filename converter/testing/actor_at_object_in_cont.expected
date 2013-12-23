@@ -25,3 +25,4 @@ End The loc.
 Start At loc.
   "Locating hero at obj which is in container, should end up at L."
   Locate hero At obj.
+  

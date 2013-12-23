@@ -18,7 +18,7 @@ Syntax
   unlock = unlock (o).
 
 Verb unlock
-  Check **** object **** Is openable
+  Check object Is openable
     Else 
       "There is no way to $v the $o."
   Does
@@ -50,3 +50,4 @@ The l Isa location
 End The l.
 
 Start At l.
+  

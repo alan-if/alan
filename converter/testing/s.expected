@@ -29,11 +29,11 @@ The $genid#3
 End The $genid#3.
 
 Verb drop
-  Check **** object **** In hero
+  Check object In hero
     Else 
       "You don't have the $o."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "Dropped."
 End Verb.
 
@@ -56,19 +56,19 @@ Verb 'restore'
 End Verb.
 
 Verb examine
-  Check **** object **** Is examinable
+  Check object Is examinable
     Else 
       "There is nothing special about the $o."
 End Verb.
 
 Verb read
-  Check **** object **** Is readable
+  Check object Is readable
     Else 
       "There is nothing written on the $o."
 End Verb.
 
 Verb lock, unlock
-  Check **** object **** Is openable
+  Check object Is openable
     Else 
       "There is no way to $v the $1."
   Does
@@ -85,7 +85,7 @@ Verb unlock_with
 End Verb.
 
 Verb open, close
-  Check **** object **** Is openable
+  Check object Is openable
     Else 
       "There is no way to $v the $1."
 End Verb.
@@ -125,7 +125,7 @@ Verb insert_into
 End Verb.
 
 Verb 'start'
-  Check **** object **** Is startable
+  Check object Is startable
     Else 
       "You can't start the $o."
 End Verb.
@@ -217,14 +217,14 @@ Syntax
   take = take (o)*.
 
 Verb take
-  Check **** object **** Not In hero
+  Check object Not In hero
     Else 
       "You already have the $1."
-  And **** object **** Is takeable
+  And object Is takeable
     Else 
       "You can't take the $1."
   Does
-    Locate **** object **** In hero.
+    Locate object In hero.
     "Taken."
 End Verb.
 
@@ -1382,3 +1382,4 @@ Start At outside.
    produced with the ALAN Adventure Development System and is brought to you
    by ThoNi&GorFo Adventure Factories."
   Visits 2.
+  

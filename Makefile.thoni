@@ -133,6 +133,7 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 	sed -e s/VERSION/$(VERSION)/ alan.iss > alan_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
 	-rm alan_tmp.iss
+	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
 
 .PHONY: sync
 sync:

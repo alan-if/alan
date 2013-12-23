@@ -13,11 +13,11 @@ Syntax
   drop = 'drop' (o)*.
 
 Verb drop
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "You don't have the $o."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
 End Verb.
 
 Syntax
@@ -137,3 +137,4 @@ The l1 Isa location
 End The l1.
 
 Start At l1.
+  

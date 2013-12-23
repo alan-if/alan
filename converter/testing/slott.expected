@@ -64,23 +64,23 @@ Syntax
   tag = 'tag' (o)*.
 
 Verb tag
-  Check **** object **** Is tagbar
+  Check object Is tagbar
     Else 
       "Det kan du inte göra!"
-  And **** object **** Not In inventory
+  And object Not In inventory
     Else 
       "Det har du redan gjort!"
   Does
-    Locate **** object **** In inventory.
+    Locate object In inventory.
     "OK!"
 End Verb.
 
 Verb släpp
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "Du har inte nåt sånt!"
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "OK!"
 End Verb.
 
@@ -586,3 +586,4 @@ Start At mitten.
   Visits 2.
   "$pVälkommen till ditt livs stora äventyr. I detta spel kommer du att
    möta lyckan, eller olyckan, HA HA!!$p"
+  

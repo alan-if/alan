@@ -10,7 +10,7 @@ End Verb.
 
 Verb examine
   Does
-    Describe **** object ****.
+    Describe object.
 End Verb.
 
 The body
@@ -42,3 +42,4 @@ End The that.
 
 Start At 'this'.
   "Examine your arms! 'i' for inventory."
+  

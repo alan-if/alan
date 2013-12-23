@@ -13,11 +13,11 @@ Syntax
   take = take (o)*.
 
 Verb take
-  Check **** object **** Not In inventory
+  Check object Not In inventory
     Else 
       "You already have the $1."
   Does
-    Locate **** object **** In inventory.
+    Locate object In inventory.
     "Taken."
 End Verb.
 
@@ -25,11 +25,11 @@ Syntax
   drop = drop (o)*.
 
 Verb drop
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "You don't have the $1."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "Dropped."
 End Verb.
 
@@ -100,3 +100,4 @@ End The thing8.
 
 Start At loc.
   "Try 'take all', 'drop all' and 'omni all'"
+  

@@ -39,3 +39,4 @@ End Event hello.
 Start At loc1.
   "A 'Hello' is scheduled at hero every other turn."
   Schedule hello At hero After 2.
+  

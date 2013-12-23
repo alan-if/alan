@@ -5,7 +5,7 @@ Syntax
 
 Verb open
   Does
-    Make **** object **** open.
+    Make object open.
     Make o open.
     Increase i Of o.
     Set i Of o To 47.
@@ -17,3 +17,4 @@ The l Isa location
 End The l.
 
 Start At l.
+  

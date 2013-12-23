@@ -137,13 +137,13 @@ The notebook Isa object
   
   Verb take
     Does
-      Locate **** object **** In inventory.
+      Locate object In inventory.
       "Taken!"
   End Verb.
   
   Verb drop
     Does
-      Locate **** object **** Here.
+      Locate object Here.
       "Dropped!"
   End Verb.
   
@@ -182,13 +182,13 @@ The fungus Isa object
   
   Verb take
     Does
-      Locate **** object **** In inventory.
+      Locate object In inventory.
       "Taken!"
   End Verb.
   
   Verb drop
     Does
-      Locate **** object **** Here.
+      Locate object Here.
       "The fungus immediately clings to a new vine."
   End Verb.
   
@@ -250,3 +250,4 @@ End The hero.
 Start At path.
   "$p'Oh, my head. It hurts. Why am I out here when I've got this kind of
    headache? And where is 'here'? And who am I?'"
+  

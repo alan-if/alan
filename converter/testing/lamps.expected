@@ -15,23 +15,23 @@ Syntax
   get = get (o)*.
 
 Verb take, get, pick
-  Check **** object **** Not In inventory
+  Check object Not In inventory
     Else 
       "You already have the $o."
-  And **** object **** Is takeable
+  And object Is takeable
     Else 
       "You can't take the $o."
   Does
-    Locate **** object **** In inventory.
+    Locate object In inventory.
     "Taken."
 End Verb.
 
 Verb drop
-  Check **** object **** In inventory
+  Check object In inventory
     Else 
       "You don't have the $o!"
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     "Dropped."
 End Verb.
 
@@ -99,3 +99,4 @@ The ball Isa object
 End The ball.
 
 Start At outside.
+  

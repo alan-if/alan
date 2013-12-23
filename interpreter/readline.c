@@ -184,11 +184,7 @@ bool readline(char buffer[])
 #include <termios.h>
 #endif
 
-#ifdef __PACIFIC__
-#include <unixio.h>
-#else
 #include <unistd.h>
-#endif
 
 #include "readline.h"
 
@@ -661,7 +657,7 @@ static void copyToUserBuffer(char *usrbuf, char *buffer) {
 
 */
 
-/* 4f - length of user buffer should be used */
+/* TODO - length of user buffer should be used */
 bool readline(char usrbuf[])
 {
     static bool readingCommands = FALSE;

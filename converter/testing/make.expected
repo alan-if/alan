@@ -32,9 +32,9 @@ End Event event_id.
 
 
 Start At location_id.
-  Make **** object **** unknown_attribute.
-  Make **** object **** global_object_attribute.
-  Make **** object **** local_object_attribute.
+  Make object unknown_attribute.
+  Make object global_object_attribute.
+  Make object local_object_attribute.
   Make object_id unknown_attribute.
   Make object_id global_object_attribute.
   Make object_id local_object_attribute.
@@ -47,3 +47,4 @@ Start At location_id.
   Make location_id unknown_attribute.
   Make location_id global_object_attribute.
   Make location_id local_object_attribute.
+  

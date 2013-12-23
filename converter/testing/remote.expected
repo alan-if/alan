@@ -19,7 +19,7 @@ End The p.
 Verb x
   Does
     "x"
-    Say **** object ****.
+    Say object.
 End Verb.
 
 Syntax
@@ -28,9 +28,10 @@ Syntax
 Verb y
   Does
     "y"
-    Say **** object ****.
+    Say object.
 End Verb.
 
 
 Start At present.
   "Try 'x r' and 'x p' for present and remote object."
+  

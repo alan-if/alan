@@ -32,17 +32,17 @@ End Event event_id.
 
 Verb 'locate'
   Does
-    Locate **** object **** Here.
+    Locate object Here.
     Look.
-    Locate **** object **** At Current Location.
+    Locate object At Current Location.
     Look.
-    Locate **** object **** At **** object ****.
+    Locate object At object.
     Look.
-    Locate **** object **** At location_id.
+    Locate object At location_id.
     Look.
-    Locate **** object **** At obj.
+    Locate object At obj.
     Look.
-    Locate **** object **** At hero.
+    Locate object At hero.
     Look.
     Locate obj Here.
     Look.
@@ -54,3 +54,4 @@ End Verb.
 Start At location_id.
   "$pTry 'locate obj'."
   Schedule event_id After 3.
+  

@@ -23,10 +23,10 @@ Syntax
 Verb examine
   Does
     "xxx"
-    If **** object **** Is openable Then
+    If object Is openable Then
       "yyy"
       "$p"
-      If **** object **** Is closed Then
+      If object Is closed Then
         "The $o is closed."
       Else 
         "zzz"
@@ -38,10 +38,10 @@ End Verb.
 Verb examine_a
   Does
     "xxx"
-    If **** object **** Is openable Then
+    If object Is openable Then
       "yyy"
       "$p"
-      If **** object **** Is closed Then
+      If object Is closed Then
         "The $o is closed."
       Else 
         "zzz"
@@ -73,3 +73,4 @@ The l2 Isa location
 End The l2.
 
 Start At l1.
+  

@@ -30,7 +30,7 @@ Syntax
   
 
 Verb take
-  Check dobj =**** object ****
+  Check dobj =object
     Else 
       If dobj Is propernamed Then
         "You suspect"
@@ -62,3 +62,4 @@ End Verb.
 
 
 Start Here.
+  

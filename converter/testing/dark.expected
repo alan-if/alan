@@ -31,19 +31,19 @@ Verb i
 End Verb.
 
 Verb take
-  Check **** object **** Not In hero
+  Check object Not In hero
     Else 
       "You already have that."
   Does
-    Locate **** object **** In hero.
+    Locate object In hero.
 End Verb.
 
 Verb drop
-  Check **** object **** In hero
+  Check object In hero
     Else 
       "You don't have that."
   Does
-    Locate **** object **** Here.
+    Locate object Here.
 End Verb.
 
 
@@ -88,3 +88,4 @@ End The lamp.
 Start At outdoors.
   "Try moving 'in' and 'out' with and without the lamp. You can light the
    lamp and drop it. Also try 'look' in various situations."
+  

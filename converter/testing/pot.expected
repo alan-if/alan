@@ -24,7 +24,7 @@ The l Isa location
 End The l.
 Verb x
   Does
-    Say **** object ****.
+    Say object.
 End Verb.
 
 Syntax
@@ -33,3 +33,4 @@ Syntax
 
 Start At l.
   "Try 'x' on the objects, then 'plant the pot plant in the plant pot'."
+  
