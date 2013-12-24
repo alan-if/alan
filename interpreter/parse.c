@@ -418,7 +418,7 @@ static void parseAdjectivesAndNoun(Parameter parameters[]) {
         /* Perhaps the last word could also be interpreted as a noun? */
         if (isNounWord(currentWordIndex - 1)) {
             // TODO When does this get executed? Maybe if conjunctions can be nouns? Or nouns be adjectives?
-            printf("DEBUG:When does this get executed?\n");
+            printf("DEBUG: When does this get executed? Found adjective or Noun and the previous word could also be a noun...\n");
         } else
             error(M_NOUN);
     }
