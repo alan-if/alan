@@ -7,11 +7,13 @@ COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) $(ALLOC) -funsigned-char -g
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 WARNINGFLAGS = -Wall
 
+###########################################################
 # On cygwin we try to build without cygwin1.dll if we can
-# For all targets use the mingw compiler (avoiding the use of cygwin1.dll) ...
+# So for all targets use the mingw compiler and linker
 COMPILER = i686-w64-mingw32-gcc
 LINKER = i686-w64-mingw32-gcc
 
+#############################################################
 # ... except for unittests with cgreen which can not run under mingw
 unit: COMPILER = gcc
 unit: LINKER = gcc
@@ -22,4 +24,8 @@ CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = $(CGREENROOT)/lib/libcgreen.dll.a
 
-CURSESLIB = ../../../PDCurses-3.4/win32/pdcurses.a
+###############################################################
+# glkarun needs curses which are only available in cygwin
+CURSESLIB = -lcurses
+glkarun: COMPILER = gcc
+glkarun: LINKER = gcc
