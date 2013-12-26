@@ -19,6 +19,7 @@
 #include "alan.h"
 #include "lmList.h"
 #include "encode.h"
+#include "util.h"
 
 /* END %%IMPORT */
 
