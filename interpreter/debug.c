@@ -95,28 +95,39 @@ static void showContents(int cnt)
 
 
 /*----------------------------------------------------------------------*/
-static void showInstanceLocation(int ins, char *prefix) {
-    char buffer[1000];
+static char *idOfInstance(int instance) {
+    int base = header->instanceTableAddress+
+        header->instanceMax*sizeof(InstanceEntry)/sizeof(Aword)+1;
+    return (char *)&memory[memory[base+instance-1]];
+}
 
+
+/*----------------------------------------------------------------------*/
+static void sayInstanceNumberAndName(int ins) {
+    char buf[1000];
+
+    sprintf(buf, "[%d] %s (\"$$", ins, idOfInstance(ins));
+    output(buf);
+    say(ins);
+    output("$$\")");
+}
+
+
+/*----------------------------------------------------------------------*/
+static void showInstanceLocation(int ins, char *prefix) {
     if (admin[ins].location == 0)
         return;
     else {
         output(prefix);
         if (isALocation(admin[ins].location)) {
             output("at");
-            say(admin[ins].location);
-            sprintf(buffer, "[%d]", admin[ins].location);
-            output(buffer);
+            sayInstanceNumberAndName(admin[ins].location);
         } else if (isAContainer(admin[ins].location)) {
-		  
             if (isAObject(admin[ins].location))
                 output("in");
             else if (isAActor(admin[ins].location))
                 output("carried by");
-            say(admin[ins].location);
-            sprintf(buffer, "[%d]", admin[ins].location);
-            output(buffer);
-
+            sayInstanceNumberAndName(admin[ins].location);
         } else
             output("Illegal location!");
     }
@@ -126,20 +137,12 @@ static void showInstanceLocation(int ins, char *prefix) {
 /*----------------------------------------------------------------------*/
 static void showInstances(void)
 {
-    char str[80];
     int ins;
 
-    int base = header->instanceTableAddress+
-        header->instanceMax*sizeof(InstanceEntry)/sizeof(Aword)+1;
     output("Instances:");
     for (ins = 1; ins <= header->instanceMax; ins++) {
-        int a = base + ins - 1;
-        sprintf(str, "$i%3d %s: \"", ins, (char *)&memory[memory[a]]);
-        output(str);
-        needSpace = false;
-        say(ins);
-        needSpace = false;
-        output("\"");
+        output("$i");
+        sayInstanceNumberAndName(ins);
         if (instances[ins].container)
             output("(container)");
         showInstanceLocation(ins, ", ");
@@ -157,10 +160,9 @@ static void showInstance(int ins)
         return;
     }
 
-    output("The");
-    say(ins);
-    sprintf(str, "[%d]", ins);
+    sprintf(str, "%s:$nThe", idOfInstance(ins));
     output(str);
+    sayInstanceNumberAndName(ins);
     if (instances[ins].parent) {
         sprintf(str, "Isa %s[%d]", idOfClass(instances[ins].parent), instances[ins].parent);
         output(str);
