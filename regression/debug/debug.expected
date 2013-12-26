@@ -7,69 +7,89 @@
 
 adbg> o
 Objects: 
-      6: door 
-      9: rats 
-     11: spool of computer tape 
-     13: old book 
-     15: 3 metre long ladder 
-     18: rather heavy computer terminal 
-     19: small coin 
-     24: birds nest 
-     25: set of rusty keys 
-     28: clock 
-     31: drawer 
-     32: desk 
-     33: dirty manual 
-     35: computer 
-     37: vending machine 
-     38: old mouldy candy bar
+    [6] door ("door"), at [5] Hall ("Hall") 
+    [9] rats ("rats"), at [8] cellar ("cellar") 
+    [11] tape ("spool of computer tape"), at [10] store ("store") 
+    [13] book ("old book"), at [12] first_floor ("First Floor") 
+    [15] ladder ("3 metre long ladder"), at [14] office ("office") 
+    [18] terminal ("rather heavy computer terminal"), at [17]
+terminal_room ("Terminal Room") 
+    [19] coin ("small coin"), at [1] #nowhere ("#nowhere") 
+    [24] nest ("birds nest"), at [23] walless ("Walless Room") 
+    [25] keys ("set of rusty keys"), at [1] #nowhere ("#nowhere") 
+    [28] clock ("clock"), at [27] clockroom ("Clock Room") 
+    [31] drawer ("drawer"), at [30] deskroom ("Small Office") 
+    [32] desk ("desk"), at [30] deskroom ("Small Office") 
+    [33] manual ("dirty manual"), at [1] #nowhere ("#nowhere") 
+    [35] computer ("computer"), at [34] computer_room ("Computer Room") 
+    [37] machine ("vending machine"), at [36] cafe ("cafe") 
+    [38] candy ("old mouldy candy bar"), at [1] #nowhere ("#nowhere")
 adbg> o 2
 Instance 2 is not an object
 adbg> i
 Instances: 
-      1: #nowhere 
-      2: pseudowords (container), at #nowhere [1] 
-      3: nowhere 
-      4: Outside The Tall Building 
-      5: Hall 
-      6: door, at Hall [5] 
-      7: Stairs 
-      8: cellar 
-      9: rats, at cellar [8] 
-     10: store 
-     11: spool of computer tape, at store [10] 
-     12: First Floor 
-     13: old book, at First Floor [12] 
-     14: office 
-     15: 3 metre long ladder, at office [14] 
-     16: Second Floor 
-     17: Terminal Room 
-     18: rather heavy computer terminal, at Terminal Room [17] 
-     19: small coin, at #nowhere [1] 
-     20: Third Floor 
-     21: Fourth Floor 
-     22: Windy Room 
-     23: Walless Room 
-     24: birds nest, at Walless Room [23] 
-     25: set of rusty keys, at #nowhere [1] 
-     26: Fifth Floor 
-     27: Clock Room 
-     28: clock, at Clock Room [27] 
-     29: Corridor 
-     30: Small Office 
-     31: drawer, at Small Office [30] 
-     32: desk, at Small Office [30] 
-     33: dirty manual, at #nowhere [1] 
-     34: Computer Room 
-     35: computer, at Computer Room [34] 
-     36: cafe 
-     37: vending machine, at cafe [36] 
-     38: old mouldy candy bar, at #nowhere [1] 
-     39: hero (container), at Outside The Tall Building [4] 
-     40: #literal, at #nowhere [1]
+    [1] #nowhere ("#nowhere") 
+    [2] pseudowords ("pseudowords") (container), at [1] #nowhere ("
+#nowhere") 
+    [3] nowhere ("nowhere") 
+    [4] outside ("Outside The Tall Building") 
+    [5] Hall ("Hall") 
+    [6] door ("door"), at [5] Hall ("Hall") 
+    [7] stairs ("Stairs") 
+    [8] cellar ("cellar") 
+    [9] rats ("rats"), at [8] cellar ("cellar") 
+    [10] store ("store") 
+    [11] tape ("spool of computer tape"), at [10] store ("store") 
+    [12] first_floor ("First Floor") 
+    [13] book ("old book"), at [12] first_floor ("First Floor") 
+    [14] office ("office") 
+    [15] ladder ("3 metre long ladder"), at [14] office ("office") 
+    [16] second ("Second Floor") 
+    [17] terminal_room ("Terminal Room") 
+    [18] terminal ("rather heavy computer terminal"), at [17]
+terminal_room ("Terminal Room") 
+    [19] coin ("small coin"), at [1] #nowhere ("#nowhere") 
+    [20] third ("Third Floor") 
+    [21] fourth ("Fourth Floor") 
+    [22] holeroom ("Windy Room") 
+    [23] walless ("Walless Room") 
+    [24] nest ("birds nest"), at [23] walless ("Walless Room") 
+    [25] keys ("set of rusty keys"), at [1] #nowhere ("#nowhere") 
+    [26] fifth ("Fifth Floor") 
+    [27] clockroom ("Clock Room") 
+    [28] clock ("clock"), at [27] clockroom ("Clock Room") 
+    [29] corr ("Corridor") 
+    [30] deskroom ("Small Office") 
+    [31] drawer ("drawer"), at [30] deskroom ("Small Office") 
+    [32] desk ("desk"), at [30] deskroom ("Small Office") 
+    [33] manual ("dirty manual"), at [1] #nowhere ("#nowhere") 
+    [34] computer_room ("Computer Room") 
+    [35] computer ("computer"), at [34] computer_room ("Computer Room") 
+    [36] cafe ("cafe") 
+    [37] machine ("vending machine"), at [36] cafe ("cafe") 
+    [38] candy ("old mouldy candy bar"), at [1] #nowhere ("#nowhere") 
+    [39] hero ("hero") (container), at [4] outside ("Outside The Tall
+Building") 
+    [40] #literal ("#literal"), at [1] #nowhere ("#nowhere")
 adbg> 
+adbg> 
+adbg> i a*
+No instances matched the pattern.
+adbg> i *m
+Instances: 
+    [17] terminal_room ("Terminal Room") 
+    [22] holeroom ("Windy Room") 
+    [27] clockroom ("Clock Room") 
+    [30] deskroom ("Small Office") 
+    [34] computer_room ("Computer Room")
+adbg> i *o*r
+Instances: 
+    [6] door ("door"), at [5] Hall ("Hall") 
+    [12] first_floor ("First Floor") 
+    [29] corr ("Corridor") 
+    [35] computer ("computer"), at [34] computer_room ("Computer Room")
 adbg> i 4
-The Outside The Tall Building [4] Isa location[2] 
+The [4] outside ("Outside The Tall Building") Isa location[2] 
     Attributes:
 adbg> events
 Events: 

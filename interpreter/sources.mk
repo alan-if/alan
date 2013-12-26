@@ -31,6 +31,7 @@ MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	state.c \
 	StateStack.c \
 	sysdep.c \
+	utils.c \
 	word.c \
 
 # ... using a main program which requires remembering adding every test
@@ -60,8 +61,7 @@ MODULES_WITHOUT_UNITTESTS = \
 	score.c \
 	syntax.c \
 	syserr.c \
-	term.c \
-	utils.c
+	term.c
 
 # All sources common for the main build
 MAINSRCS = \

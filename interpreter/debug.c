@@ -4,7 +4,7 @@
 
   Debugger unit in Alan interpreter ARUN
   
-  \*----------------------------------------------------------------------*/
+\*----------------------------------------------------------------------*/
 
 #include "debug.h"
 
@@ -114,7 +114,7 @@ static void sayInstanceNumberAndName(int ins) {
 
 
 /*----------------------------------------------------------------------*/
-static void showInstanceLocation(int ins, char *prefix) {
+static void sayLocationOfInstance(int ins, char *prefix) {
     if (admin[ins].location == 0)
         return;
     else {
@@ -122,12 +122,14 @@ static void showInstanceLocation(int ins, char *prefix) {
         if (isALocation(admin[ins].location)) {
             output("at");
             sayInstanceNumberAndName(admin[ins].location);
+            sayLocationOfInstance(admin[ins].location, prefix);
         } else if (isAContainer(admin[ins].location)) {
             if (isAObject(admin[ins].location))
                 output("in");
             else if (isAActor(admin[ins].location))
                 output("carried by");
             sayInstanceNumberAndName(admin[ins].location);
+            sayLocationOfInstance(admin[ins].location, prefix);
         } else
             output("Illegal location!");
     }
@@ -139,19 +141,27 @@ static void listInstance(int ins) {
     sayInstanceNumberAndName(ins);
     if (instances[ins].container)
         output("(container)");
-    showInstanceLocation(ins, ", ");
+    sayLocationOfInstance(ins, ", ");
 }
 
 
 /*----------------------------------------------------------------------*/
-static void listInstances(void)
+static void listInstances(char *pattern)
 {
     int ins;
+    bool found = FALSE;
 
-    output("Instances:");
     for (ins = 1; ins <= header->instanceMax; ins++) {
-        listInstance(ins);
+        if (pattern == NULL || (pattern != NULL && match(pattern, idOfInstance(ins)))) {
+            if (!found) {
+                output("Instances:");
+                found = TRUE;
+            }
+            listInstance(ins);
+        }
     }
+    if (pattern != NULL && !found)
+        output("No instances matched the pattern.");
 }
 
 /*----------------------------------------------------------------------*/
@@ -173,9 +183,9 @@ static void showInstance(int ins)
     }
 
     if (!isA(ins, header->locationClassId) || (isA(ins, header->locationClassId) && admin[ins].location != 0)) {
-        sprintf(str, "$iLocation: ");
+        sprintf(str, "$iLocation:");
         output(str);
-        showInstanceLocation(ins, " ");
+        sayLocationOfInstance(ins, "");
     }
 
     output("$iAttributes:");
@@ -344,7 +354,7 @@ static void showClassHierarchy(int this, int depth)
 
 
 /*----------------------------------------------------------------------*/
-static void showLocations(void)
+static void listLocations(void)
 {
     int loc;
 
@@ -672,7 +682,7 @@ static DebugParseEntry commandEntries[] = {
     {"files", "", FILES_COMMAND, "list source files"},
     {"events", "", EVENTS_COMMAND, "list events"},
     {"classes", "", CLASSES_COMMAND, "list class hierarchy"},
-    {"instances", "[n]", INSTANCES_COMMAND, "list instance(s), all, number or name"},
+    {"instances", "[n]", INSTANCES_COMMAND, "list instance(s), all, wildcard, number or name"},
     {"objects", "[n]", OBJECTS_COMMAND, "list instance(s) that are objects"},
     {"actors", "[n]", ACTORS_COMMAND, "list instance(s) that are actors"},
     {"locations", "[n]", LOCATIONS_COMMAND, "list instances that are locations"},
@@ -706,11 +716,13 @@ static char *spaces(int length) {
 }
 
 
+/*----------------------------------------------------------------------*/
 static char *padding(DebugParseEntry *entry, int maxLength) {
 	return spaces(maxLength-strlen(entry->command)-strlen(entry->parameter));
 }
 
 
+/*----------------------------------------------------------------------*/
 static void handleHelpCommand() {
 	output(alan.longHeader);
 	DebugParseEntry *entry = commandEntries;
@@ -913,7 +925,7 @@ static void handleNextCommand(bool calledFromBreakpoint) {
 static void handleLocationsCommand() {
 	char *parameter = strtok(NULL, "");
 	if (parameter == 0)
-		showLocations();
+		listLocations();
 	else
 		showLocation(atoi(parameter));
 }
@@ -952,10 +964,10 @@ static void handleObjectsCommand() {
 
 /*----------------------------------------------------------------------*/
 static void handleInstancesCommand() {
-	char *parameter = strtok(NULL, "");
+    char *parameter = strtok(NULL, "");
 
-	if (parameter == NULL)
-		listInstances();
+	if (parameter == NULL || strchr(parameter, '*') != 0)
+		listInstances(parameter);
 	else if (isdigit(parameter[0]))
 		showInstance(atoi(parameter));
     else {
@@ -964,7 +976,7 @@ static void handleInstancesCommand() {
                 showInstance(i);
                 return;
             }
-        output("No instance with that name.");
+        output("No such instance.");
     }
 }
 

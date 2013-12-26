@@ -46,19 +46,3 @@ Ensure(Debug, findSourceLineIndexFindsSameLineInOtherFiles) {
 	assert_equal(findSourceLineIndex(lineTable, 1, 33), 3);
 	assert_equal(findSourceLineIndex(lineTable, 2, 35), 4);
 }
-
-TestSuite *debugTests(void)
-{
-    TestSuite *suite = create_test_suite();
-
-    add_test_with_context(suite, Debug, parseDebugCommandReturnsHELP_COMMANDForHelp);
-    add_test_with_context(suite, Debug, parseDebugCommandReturnsHELP_COMMANDForQuestionMark);
-    add_test_with_context(suite, Debug, parseDebugCommandReturnsHELP_COMMANDForH);
-    add_test_with_context(suite, Debug, parseDebugCommandReturnsEXIT_COMMANDForX);
-    add_test_with_context(suite, Debug, parseDebugCommandReturnsBREAK_COMMANDForBr);
-    add_test_with_context(suite, Debug, parseDebugCommandReturnsAMBIGUOUS_COMMANDForE);
-
-    add_test_with_context(suite, Debug, findSourceLineIndexFindsSameLineInOtherFiles);
-
-    return suite;
-}

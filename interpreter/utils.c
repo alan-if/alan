@@ -9,6 +9,8 @@
 #include "exe.h"
 #include "state.h"
 
+#include <fnmatch.h>
+
 /*======================================================================
 
   terminate()
@@ -70,4 +72,7 @@ void usage(char *programName)
 #endif
 }
 
-
+/*======================================================================*/
+bool match(char *pattern, char *input) {
+    return fnmatch(pattern, input, FNM_CASEFOLD) == 0;
+}

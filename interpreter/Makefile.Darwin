@@ -13,7 +13,7 @@ OSFLAGS =
 ARCH = -m32
 
 COMPILER = gcc -g
-COMPILEFLAGS = -Wall -funsigned-char
+COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
 
 LINKER = gcc -g
 LINKFLAGS = 
