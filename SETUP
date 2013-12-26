@@ -1,18 +1,18 @@
 Here are some quick reminders on how to set up for Alan development.
 
 Cygwin:
+
         - install cygwin, ensure you have selected xemacs/emacs, cvs,
           gcc, mingw-runtime, gdb, make. I also use mintty as a
           replacement for the Windows Command window.
 
-        - Xemacs: current xemacs does not seem to have been configured
-          with the packages I wanted and it didn't support configuring
-          the packages the way it was described in the manual so I
-          needed to copy the two mule-packages and emacs-packages from
-          a packaged based installation that works (I have forgotten
-          where...)
+All:
+        - CGreen: To run unit tests you also need Cgreen. You can
+          install Cgreen from http://cgreen.sourceforge.net
 
-	- Emacs: I actually got GNU Emacs 23.x for Windows working with
+
+Optional:
+        - Emacs: I actually got GNU Emacs 24.x for Windows working with
           cygwin as its shell and command layer *and* xref, so now I'm
           using that. I found some hints on the net to setup Emacs
 
@@ -21,23 +21,10 @@ Cygwin:
           when running jregr), but I am unsure if it is required when
           using mintty.
 
-        - CGreen: To run unit tests you also need Cgreen. Cgreen needs
-          cmake and flex, so install those using the cygwin
-          installer. Download it somewhere, create a subdirectory
-          'build', cd there, type 'ccmake ..'. This configures the
-          cgreen make files for your environment. Find the static
-          library option and turn it on. Type 'c' then 'g' and
-          exit. Back at the command prompt type 'make', 'make install'
-          and you should be done.
-
         - Xref: to refactor C code in emacs I use the free C/Java
           version from xref-tech. Download it, build and install it
           according to the instructions there in. I compiled xref
           using -mno-cygwin and a minor change of 'sleep' to 'Sleep'
           (the Windows version). In this way it works on windows
           (e.g. under GNU-Emacs).
-
-        - Hudson Tray Tracker helps me keep tabs on the continous
-          integration builds.
-          (http://code.google.com/p/hudson-tray-tracker/)
 
