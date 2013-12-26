@@ -292,3 +292,13 @@ void terminate(int ecode)
   exit(ecode);
 }
 #endif
+
+
+/*======================================================================*/
+void strmov(char *to, char *from) {
+    int i = 0;
+    do {
+        to[i] = from[i];
+        i++;
+    } while (from[i-1] != '\0');
+}

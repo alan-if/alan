@@ -9,7 +9,7 @@ TARGET = arun
 PROGNAME=-DPROGNAME=\"$(TARGET)\"
 ARUNOPTS = $(PROGNAME) $(GLK)
 
-OSFLAGS = -g -mmacosx-version-min=10.5
+OSFLAGS = 
 ARCH = -m32
 
 COMPILER = gcc

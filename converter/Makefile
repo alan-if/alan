@@ -58,7 +58,6 @@ build : a2a3
 
 a2a3: checkTarget $(MAINOBJECTS)
 	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) 
-	#-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
 	cp a2a3 ../bin
 
 release: a2a3

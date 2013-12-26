@@ -37,4 +37,5 @@ extern void terminate(int ecode);
 
 extern void setSyserrHandler(void (*handler)(char *));
 
+extern void strmov(char *to, char *from);
 #endif
