@@ -6,7 +6,7 @@
 OSFLAGS = -m32
 
 COMPILER = gcc
-EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char
+EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char -Wno-invalid-source-encoding
 
 LINKER = gcc
 EXTRA_LINKER_FLAGS = 

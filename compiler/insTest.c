@@ -78,7 +78,7 @@ Ensure(Instance, testGenerateInstances) {
   initEmit("unit.a3c");
   symbolizeAdventure();
 
-  address = generateInstanceTable();
+  address = generateInstanceTable(allInstances);
   assert_true(address == firstAdr);
   address = nextEmitAddress();
   assert_true(address == firstAdr + instanceSize + 1/*EOF*/);

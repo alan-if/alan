@@ -587,6 +587,8 @@ static void reverseNative() {
     reverseVerbs(header->verbTableAddress);
     reverseClasses(header->classTableAddress);
     reverseInstances(header->instanceTableAddress);
+    if (header->debug)
+        reverseTable(header->instanceTableAddress+header->instanceMax*sizeof(InstanceEntry)/sizeof(Aword)+1, sizeof(Aword));
     reverseScrs(header->scriptTableAddress);
     reverseContainers(header->containerTableAddress);
     reverseEvts(header->eventTableAddress);

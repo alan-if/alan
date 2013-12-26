@@ -129,11 +129,17 @@ static void showInstances(void)
     char str[80];
     int ins;
 
+    int base = header->instanceTableAddress+
+        header->instanceMax*sizeof(InstanceEntry)/sizeof(Aword)+1;
     output("Instances:");
     for (ins = 1; ins <= header->instanceMax; ins++) {
-        sprintf(str, "$i%3d: ", ins);
+        int a = base + ins - 1;
+        sprintf(str, "$i%3d %s: \"", ins, (char *)&memory[memory[a]]);
         output(str);
+        needSpace = false;
         say(ins);
+        needSpace = false;
+        output("\"");
         if (instances[ins].container)
             output("(container)");
         showInstanceLocation(ins, ", ");
@@ -961,8 +967,10 @@ static void handleInstancesCommand() {
 
 	if (parameter == NULL)
 		showInstances();
-	else
+	else if (isdigit(parameter[0]))
 		showInstance(atoi(parameter));
+    else
+        printf("Instace : '%s'\n", parameter);
 }
 
 

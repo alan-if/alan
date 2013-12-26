@@ -17,9 +17,9 @@
 /* METHODS: */
 
 extern AddNode *newAdd(Srcp srcp,
-		       Id *id,
-		       Id *parent,
-		       Properties *props);
+                       Id *id,
+                       Id *parent,
+                       Properties *props);
 extern void addAdditions(void);
 extern void dumpAdd(AddNode *add);
 

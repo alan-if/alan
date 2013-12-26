@@ -12,10 +12,10 @@ ARUNOPTS = $(PROGNAME) $(GLK)
 OSFLAGS = 
 ARCH = -m32
 
-COMPILER = gcc
+COMPILER = gcc -g
 COMPILEFLAGS = -Wall -funsigned-char
 
-LINKER = gcc
+LINKER = gcc -g
 LINKFLAGS = 
 
 # -- CGreen unit test framework settings

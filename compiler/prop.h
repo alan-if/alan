@@ -53,12 +53,12 @@ typedef enum {
 
 
 typedef struct Properties {
-  Id *id;			/* Identifier */
+  Id *id;                       /* Identifier */
   InspectionState circularInspection;
   Bool predefined;
   Aaddr idAddress;
-  Id *parentId;		/* The instances parent */
-  Where *whr;			/* Where is it initially? */
+  Id *parentId;       /* The instances parent */
+  Where *whr;         /* Where is it initially? */
   List *names;			/* List of lists of adjectives and nouns (ids)*/
   List *nameStatement;		/* Statement to print the first name */
   Aaddr nameAddress;		/* Address to name printing statement */

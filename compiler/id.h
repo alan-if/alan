@@ -8,17 +8,19 @@
 \*----------------------------------------------------------------------*/
 
 /* USE: */
+#include "acode.h"
 #include "sym.h"
 #include "srcp.h"
 
 
 /* TYPES: */
 
-typedef struct IdNode {		/* ID */
-  Srcp srcp;			/* Source position of the identifier */
-  char *string;			/* String representation */
-  Symbol *symbol;		/* Symbol table pointer */
-  int code;
+typedef struct IdNode {        /* ID */
+    Srcp srcp;                 /* Source position of the identifier */
+    char *string;              /* String representation */
+    Symbol *symbol;            /* Symbol table pointer */
+    int code;
+    Aaddr stringAddress;        /* Amemory address to string, if any */
 } Id;
 
 #endif

@@ -16,11 +16,11 @@
 
 /* TYPES: */
 
-typedef struct AddNode {	/* ADD TO */
-  Srcp srcp;			/* Source position */
-  Id *toId;			/* Class to add to */
-  Properties *props;
-  Aaddr adr;			/* Generated at address */
+typedef struct AddNode {        /* ADD TO */
+    Srcp srcp;                  /* Source position */
+    Id *toId;                   /* Class to add to */
+    Properties *props;
+    Aaddr adr;                  /* Generated at address */
 } AddNode;
 
 
