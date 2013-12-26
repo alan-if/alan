@@ -71,6 +71,30 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	cp $@ ../bin/
 
 #######################################################################
+# Settings for TermGLK => glkarun
+TERMGLKROOT = $(GLKLIBROOT)/glkterm
+TERMGLKDEFS = -DHAVE_GLK
+TERMGLKINCLUDE = -I$(TERMGLKROOT)
+TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm
+
+glkarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(TERMGLKINCLUDE) $(TERMGLKDEFS)
+glkarun: LIBS = $(TERMGLKLIB) $(CURSESLIB)
+
+GLKARUNOBJDIR = .glkarun
+GLKARUNOBJECTS = $(addprefix $(GLKARUNOBJDIR)/,${GLKARUNSRCS:.c=.o}) $(GLKARUNOBJDIR)/alan.version.o
+-include $(GLKARUNOBJECTS:.o=.d)
+$(GLKARUNOBJECTS): $(GLKARUNOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(GLKARUNOBJDIR):
+	@mkdir $(GLKARUNOBJDIR)
+
+glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS) arun.res
+	$(LINK) -o $@ $(LINKFLAGS) $(GLKARUNOBJECTS) $(LIBS)
+	cp $@ ../bin/
+
+
+#######################################################################
 #
 # CGreen unit tests
 #

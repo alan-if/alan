@@ -22,3 +22,4 @@ CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = $(CGREENROOT)/lib/libcgreen.dll.a
 
+CURSESLIB = ../../../PDCurses-3.4/win32/pdcurses.a

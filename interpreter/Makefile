@@ -17,7 +17,11 @@ else
 include Makefile.cygwin
 endif
 else
+ifeq ($(findstring MINGW, $(shell uname)), MINGW)
+include Makefile.Mingw
+else
 include Makefile.$(shell uname)
+endif
 endif
 
 # Include common build rules
