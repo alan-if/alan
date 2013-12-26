@@ -9,10 +9,10 @@
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
 CC = $(COMPILER)
-CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) $(WARNINGFLAGS) -DBUILD=$(BUILD) $(OSFLAGS)
+CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS) $(ARCH)
 
 LINK = $(LINKER)
-LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS)
+LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCH)
 
 # Default top rule if platform specific makefile doesn't add a default
 # that is found before this
@@ -72,12 +72,12 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 
 #######################################################################
 # Settings for TermGLK => glkarun
-TERMGLKROOT = $(GLKLIBROOT)/glkterm
+TERMGLKROOT ?= $(GLKLIBROOT)/glkterm
 TERMGLKDEFS = -DHAVE_GLK
-TERMGLKINCLUDE = -I$(TERMGLKROOT)
+TERMGLKINCLUDE ?= -I$(TERMGLKROOT)
 TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm
 
-glkarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(TERMGLKINCLUDE) $(TERMGLKDEFS)
+glkarun: EXTRA_COMPILER_FLAGS = $(TERMGLKINCLUDE) $(TERMGLKDEFS)
 glkarun: LIBS = $(TERMGLKLIB) $(CURSESLIB)
 
 GLKARUNOBJDIR = .glkarun
@@ -89,8 +89,8 @@ $(GLKARUNOBJECTS): $(GLKARUNOBJDIR)/%.o: %.c
 $(GLKARUNOBJDIR):
 	@mkdir $(GLKARUNOBJDIR)
 
-glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS) arun.res
-	$(LINK) -o $@ $(LINKFLAGS) $(GLKARUNOBJECTS) $(LIBS)
+glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
+	$(LINK) -o $@ $(LDFLAGS) $(GLKARUNOBJECTS) $(LIBS)
 	cp $@ ../bin/
 
 
@@ -127,7 +127,7 @@ unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
-cgreenrunnertests: LIBS = $(CGREENLIB) $(ALLOCLIBS)
+cgreenrunnertests: LIBS = $(CGREENLIB)
 cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
 	arch -i386 cgreen-runner $^ --suite interpreter_unit_tests $(UNITOUTPUT)

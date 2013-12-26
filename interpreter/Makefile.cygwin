@@ -3,7 +3,7 @@
 # on cygwin. It is included from Makefile if run on a cygwin machine
 #######################################################################
 
-COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) $(ALLOC) -funsigned-char -g
+COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 WARNINGFLAGS = -Wall
 
