@@ -72,6 +72,10 @@ void usage(char *programName)
 #endif
 }
 
+
+#ifndef FNM_CASEFOLD
+#define FNM_CASEFOLD 0
+#endif
 /*======================================================================*/
 bool match(char *pattern, char *input) {
     return fnmatch(pattern, input, FNM_CASEFOLD) == 0;

@@ -965,13 +965,14 @@ static void handleObjectsCommand() {
 /*----------------------------------------------------------------------*/
 static void handleInstancesCommand() {
     char *parameter = strtok(NULL, "");
+    int i;
 
 	if (parameter == NULL || strchr(parameter, '*') != 0)
 		listInstances(parameter);
 	else if (isdigit(parameter[0]))
 		showInstance(atoi(parameter));
     else {
-        for (int i = 1; i<header->instanceMax; i++)
+        for (i = 1; i<header->instanceMax; i++)
             if (strcmp(parameter, idOfInstance(i)) == 0) {
                 showInstance(i);
                 return;

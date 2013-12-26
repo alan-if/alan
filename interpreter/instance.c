@@ -54,7 +54,7 @@ bool isAObject(int instance)
 
 bool isAContainer(int instance)
 {
-  return instance != 0 && instances[instance].container != 0;
+    return instance != 0 && !isLiteral(instance) && instances[instance].container != 0;
 }
 
 bool isAActor(int instance)
