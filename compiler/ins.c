@@ -222,7 +222,6 @@ void generateInstanceId(Instance *ins)
 {
     ins->props->id->stringAddress = nextEmitAddress();
     emitString(ins->props->id->string);
-    printf("%d: %s\n", ins->props->id->stringAddress, ins->props->id->string);
 }
 
 
@@ -231,7 +230,6 @@ void generateInstanceIdTable(List *instances)
 {
     List *l;
 
-    printf("InstanceIdTable starts at %d\n", nextEmitAddress());
     for (l = instances; l; l = l->next) {
         emit(l->member.ins->props->id->stringAddress);
     }
