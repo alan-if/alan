@@ -13,12 +13,12 @@ ARUNOPTS = $(PROGNAME) $(GLK)
 OSFLAGS = -m32
 
 COMPILER = gcc
-COMPILEFLAGS = -g -Wall -funsigned-char $(ALLOC)
+COMPILEFLAGS = -g -Wall -funsigned-char 
 
 LINKER = gcc
 LINKFLAGS = -g $(ARUNOPTS)
 
-LIBS = $(GLKLIB) $(LINKLIBS) $(ALLOCLIBS)
+LIBS = $(GLKLIB) $(LINKLIBS)
 
 # Enable Use of Cgreen unit test and mocking
 CGREEN = yes
@@ -54,26 +54,6 @@ GARGOYLE_DIR=../../garglk-current-alan3
 gararun:
 	cd $(GARGOYLE_DIR); jam alan3
 
-
-# Extra targets on Darwin (maybe later...)
-
-# -- Glk definitions. Uncomment some of these to enable Glk.
-#GLKPREFIX = /usr/local
-#GLKPREFIX = ../../WindowsGLK
-#GLKINCLUDEDIR = $(GLKPREFIX)/Include
-#GLKLIBDIR = -L$(GLKPREFIX)/lib
-#GLK = -DHAVE_GLK
-#GLKLIB = -lglkterm -lcurses
-#GLKLIB = $(GLKPREFIX)/Glk.lib
-#GLKSRCS = glkstart.c glkio.c winglk.c
-
-#glkarun : $(ARUNOBJECTS) $(GLKOBJECTS)
-#	$(LINK) -o $@ $(ARUNOBJECTS) $(GLKOBJECTS) $(LINKFLAGS) $(LIBS)
-#	cp $@ ../bin
-
-#termarun : $(TERMARUNOBJECTS)
-#	$(LINK) -o $@ $(TERMARUNOBJECTS) $(LINKFLAGS) $(LIBS)
-#	cp $@ ../bin
 
 #######################################################################
 #
