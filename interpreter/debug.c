@@ -133,19 +133,24 @@ static void showInstanceLocation(int ins, char *prefix) {
     }
 }
 
+/*----------------------------------------------------------------------*/
+static void listInstance(int ins) {
+    output("$i");
+    sayInstanceNumberAndName(ins);
+    if (instances[ins].container)
+        output("(container)");
+    showInstanceLocation(ins, ", ");
+}
+
 
 /*----------------------------------------------------------------------*/
-static void showInstances(void)
+static void listInstances(void)
 {
     int ins;
 
     output("Instances:");
     for (ins = 1; ins <= header->instanceMax; ins++) {
-        output("$i");
-        sayInstanceNumberAndName(ins);
-        if (instances[ins].container)
-            output("(container)");
-        showInstanceLocation(ins, ", ");
+        listInstance(ins);
     }
 }
 
@@ -154,14 +159,13 @@ static void showInstance(int ins)
 {
     char str[80];
 
-    if (ins > header->instanceMax) {
+    if (ins > header->instanceMax || ins < 1) {
         sprintf(str, "Instance code %d is out of range", ins);
         output(str);
         return;
     }
 
-    sprintf(str, "%s:$nThe", idOfInstance(ins));
-    output(str);
+    output("The");
     sayInstanceNumberAndName(ins);
     if (instances[ins].parent) {
         sprintf(str, "Isa %s[%d]", idOfClass(instances[ins].parent), instances[ins].parent);
@@ -192,19 +196,14 @@ static void showInstance(int ins)
 
 
 /*----------------------------------------------------------------------*/
-static void showObjects(void)
+static void listObjects(void)
 {
-    char str[80];
     int obj;
 
     output("Objects:");
-    for (obj = 1; obj <= header->instanceMax; obj++) {
-        if (isAObject(obj)) {
-            sprintf(str, "$i%3d: ", obj);
-            output(str);
-            say(obj);
-        }
-    }
+    for (obj = 1; obj <= header->instanceMax; obj++)
+        if (isAObject(obj))
+            listInstance(obj);
 }
 
 
@@ -347,17 +346,12 @@ static void showClassHierarchy(int this, int depth)
 /*----------------------------------------------------------------------*/
 static void showLocations(void)
 {
-    char str[80];
     int loc;
 
     output("Locations:");
-    for (loc = 1; loc <= header->instanceMax; loc++) {
-        if (isALocation(loc)) {
-            sprintf(str, "$i%3d: ", loc);
-            output(str);
-            say(loc);
-        }
-    }
+    for (loc = 1; loc <= header->instanceMax; loc++)
+        if (isALocation(loc))
+            listInstance(loc);
 }
 
 
@@ -384,21 +378,14 @@ static void showLocation(int loc)
 
 
 /*----------------------------------------------------------------------*/
-static void showActors(void)
+static void listActors(void)
 {
-    char str[80];
     int act;
 
     output("Actors:");
-    for (act = 1; act <= header->instanceMax; act++) {
-        if (isAActor(act)) {
-            sprintf(str, "$i%3d: ", act);
-            output(str);
-            say(act);
-            if (instances[act].container)
-                output("(container)");
-        }
-    }
+    for (act = 1; act <= header->instanceMax; act++)
+        if (isAActor(act))
+            listInstance(act);
 }
 
 
@@ -683,14 +670,14 @@ static DebugParseEntry commandEntries[] = {
     {"break", "[[file:]n]", BREAK_COMMAND, "set breakpoint at source line [n] (optionally in [file])"},
     {"delete", "[[file:]n]", DELETE_COMMAND, "delete breakpoint at source line [n] (optionally in [file])"},
     {"files", "", FILES_COMMAND, "list source files"},
-    {"events", "", EVENTS_COMMAND, "show events"},
-    {"classes", "", CLASSES_COMMAND, "show class hierarchy"},
-    {"instances", "[n]", INSTANCES_COMMAND, "show instance(s)"},
-    {"objects", "[n]", OBJECTS_COMMAND, "show instance(s) that are objects"},
-    {"actors", "[n]", ACTORS_COMMAND, "show instance(s) that are actors"},
-    {"locations", "[n]", LOCATIONS_COMMAND, "show instances that are locations"},
+    {"events", "", EVENTS_COMMAND, "list events"},
+    {"classes", "", CLASSES_COMMAND, "list class hierarchy"},
+    {"instances", "[n]", INSTANCES_COMMAND, "list instance(s), all, number or name"},
+    {"objects", "[n]", OBJECTS_COMMAND, "list instance(s) that are objects"},
+    {"actors", "[n]", ACTORS_COMMAND, "list instance(s) that are actors"},
+    {"locations", "[n]", LOCATIONS_COMMAND, "list instances that are locations"},
     {"trace", "('source'|'section'|'instruction'|'push'|'stack')", TRACE_COMMAND, "toggle various traces"},
-    {"next", "", NEXT_COMMAND, "execute to next source line"},
+    {"next", "", NEXT_COMMAND, "run game and stop at next source line"},
     {"go", "", GO_COMMAND, "go another player turn"},
     {"exit", "", EXIT_COMMAND, "exit to game, enter 'debug' to get back"},
     {"x", "", EXIT_COMMAND, "d:o"},
@@ -936,7 +923,7 @@ static void handleLocationsCommand() {
 static void handleActorsCommand() {
 	char *parameter = strtok(NULL, "");
 	if (parameter == NULL)
-		showActors();
+		listActors();
 	else
 		showActor(atoi(parameter));
 }
@@ -957,7 +944,7 @@ static void handleClassesCommand() {
 static void handleObjectsCommand() {
 	char *parameter = strtok(NULL, "");
 	if (parameter == NULL)
-		showObjects();
+		listObjects();
 	else
 		showObject(atoi(parameter));
 }
@@ -968,11 +955,17 @@ static void handleInstancesCommand() {
 	char *parameter = strtok(NULL, "");
 
 	if (parameter == NULL)
-		showInstances();
+		listInstances();
 	else if (isdigit(parameter[0]))
 		showInstance(atoi(parameter));
-    else
-        printf("Instace : '%s'\n", parameter);
+    else {
+        for (int i = 1; i<header->instanceMax; i++)
+            if (strcmp(parameter, idOfInstance(i)) == 0) {
+                showInstance(i);
+                return;
+            }
+        output("No instance with that name.");
+    }
 }
 
 
