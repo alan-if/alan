@@ -494,7 +494,7 @@ static void dumpParameterNames(int level, Aaddr table) {
 
     if (table == 0) return;
 
-    for (adr = (SyntaxEntry *)pointerTo(table); !endOfTable(adr); adr++) {
+    for (adr = (Aaddr*)pointerTo(table); !endOfTable(adr); adr++) {
         indent(level);
         printf("'%s'\n", stringAt(*adr));
     }

@@ -9,7 +9,7 @@
 #include "exe.h"
 #include "state.h"
 
-#include <fnmatch.h>
+#include "fnmatch.h"
 
 /*======================================================================
 

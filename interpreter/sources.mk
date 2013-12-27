@@ -61,7 +61,8 @@ MODULES_WITHOUT_UNITTESTS = \
 	score.c \
 	syntax.c \
 	syserr.c \
-	term.c
+	term.c \
+	fnmatch.c
 
 # All sources common for the main build
 MAINSRCS = \

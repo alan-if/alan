@@ -92,13 +92,14 @@ static void reverseTable(Aword adr, int elementSize)
   Aword *e = &memory[adr];
   int i;
 
+  if (elementSize < sizeof(Aword)) {
+      printf("***Wrong size in 'reverseTable()' ***");
+      exit(-1);
+  }
+
   if (adr == 0) return;
 
   while (!isEndOfArray(e)) {
-    if (elementSize < sizeof(Aword)) {
-      printf("***Wrong size in 'reverseTable()' ***");
-      exit(-1);
-    }
     for (i = 0; i < elementSize/sizeof(Aword); i++) {
       reverse(e);
       e++;
