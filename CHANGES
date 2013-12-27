@@ -1,3 +1,16 @@
+Changes in V3.0beta3:
+- FEATURE: the class of parameters and locals can now be asserted using If .. Isa .. allowing general restrictions in parameter restrictions and more specific access (attributes, scripts, containers) with the If-statement
+- FEATURE: Attributes from entity can now be referenced for literals
+- FEATURE: Debugger now has a command to toggle a levels of trace off and on
+- FEATURE: Debugger now lists the programmer name of instances as well as the player name
+- FEATURE: Debugger can now list instances matching a wildcard pattern ("instance a*")
+- FEATURE: Compiler now flags all occurrences of a multiply defined identifier
+- BUGFIX: Out of memory error in interpreter for very large game fixed
+- BUGFIX: sometimes locating a location At itself crashed the interpreter
+- BUGFIX: comparing strings with '<>' did not work
+- BUGFIX: using a location identifier as a direction sometimes caused a compiler crash
+- BUGFIX: A DEBUG message would be printed in some games in some circumstances
+
 Changes in V3.0beta2:
 - FEATURE: improved rules handling to simplify usage
 - FEATURE: "Location Of" expression to investigate the current location of an instance

@@ -1,8 +1,8 @@
 
-			    Welcome to the
-		       ALAN ADVENTURE LANGUAGE
-                               3.0beta2
-			      2011-09-27
+                Welcome to the
+            ALAN ADVENTURE LANGUAGE
+                  3.0beta3
+                 2013-12-28
 
 
 THE NEWS IN SHORT:
@@ -11,9 +11,8 @@ Alan is a tool to create text adventure games, interactive fiction,
 text-based simulations for teaching or other similar types of
 interactive software.
 
-This is the first public (but actually second) beta version
-(v3.0beta2) of Alan V3. Alan v3 features many new enhancements
-especially object orientation.
+This is the third beta version (v3.0beta3) of Alan V3. Alan v3
+features many new enhancements especially object orientation.
 
 This package contains at least the compiler and the interpreter. It
 might also, depending on the distribution package, include the manual,
