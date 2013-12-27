@@ -14,6 +14,8 @@ AllowNoIcons=yes
 ChangesAssociations = yes
 OutputDir=.
 OutputBaseFilename=alanVERSION.win32.x86.setup
+WizardImageFile=setup_wizard.bmp
+WizardImageStretch=no
 
 [Registry]
 Root: HKCR; Subkey: ".a3c"; ValueType: string; ValueName: ""; ValueData: "AlanV3Game"; Flags: uninsdeletevalue

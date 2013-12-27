@@ -1,5 +1,5 @@
 Changes in V3.0beta3:
-- FEATURE: the class of parameters and locals can now be asserted using If .. Isa .. allowing general restrictions in parameter restrictions and more specific access (attributes, scripts, containers) with the If-statement
+- MAJOR FEATURE: the class of parameters and locals can now be asserted using If .. Isa .. allowing general restrictions in parameter restrictions and more specific access (attributes, scripts, containers) with the If-statement
 - FEATURE: Attributes from entity can now be referenced for literals
 - FEATURE: Debugger now has a command to toggle a levels of trace off and on
 - FEATURE: Debugger now lists the programmer name of instances as well as the player name
