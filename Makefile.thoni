@@ -22,10 +22,10 @@ cygwintests:
 
 .PHONY: release
 release:
-	@if git --no-pager diff --exit-code --quiet ; then \
+	@if ! git --no-pager diff --exit-code --quiet ; then \
 		echo "commit changes before making a release" ; \
 		exit 1 ; \
-	else if git --no-pager diff --exit-code --quiet --cached ; then \
+	else if ! git --no-pager diff --exit-code --quiet --cached ; then \
 		echo "commit cached changes before making a release" ; \
 		exit 1 ; \
 	else if [[ -z `git rev-list @{upstream}.. -n 1` ]] ; then \
