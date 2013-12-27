@@ -23,7 +23,6 @@ clean:
 .PHONY: release
 release: test zip
 	cp library$(VERSION).zip $(DISTDIR)/Library
-	/cygdrive/c/Program\ Files/Allway\ Sync/Bin/syncappw.exe -s AlanIFDownloadSync -m -e
 	echo "Please update VERSION file to indicate next version number"
 
 #####################################################################
