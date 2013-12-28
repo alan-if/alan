@@ -576,6 +576,12 @@ void reverseHdr(ACodeHeader *hdr)
 
 
 /*----------------------------------------------------------------------*/
+static void reverseInstanceIdTable(ACodeHeader *header) {
+    reverseTable(header->instanceTableAddress+header->instanceMax*sizeof(InstanceEntry)/sizeof(Aword)+1, sizeof(Aword));
+}
+
+
+/*----------------------------------------------------------------------*/
 static void reverseNative() {
     /* NOTE that the reversePreXXX() have different header definitions */
     ACodeHeader *header = (ACodeHeader *)memory;
@@ -588,8 +594,8 @@ static void reverseNative() {
     reverseVerbs(header->verbTableAddress);
     reverseClasses(header->classTableAddress);
     reverseInstances(header->instanceTableAddress);
-    if (header->debug)
-        reverseTable(header->instanceTableAddress+header->instanceMax*sizeof(InstanceEntry)/sizeof(Aword)+1, sizeof(Aword));
+    if (header->debug && !isPreBeta3(header->version))
+        reverseInstanceIdTable(header);
     reverseScrs(header->scriptTableAddress);
     reverseContainers(header->containerTableAddress);
     reverseEvts(header->eventTableAddress);
