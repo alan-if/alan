@@ -23,7 +23,7 @@ extern Aword *memory;
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
+static int memorySize = 0;
 static Aword *addressesDone = NULL;
 static int numberDone = 0;
 static int doneSize = 0;
@@ -86,7 +86,7 @@ void reverseWord(Aword *w)          /* IN - The ACODE word to reverse bytes in *
 
 void reverse(Aword *w)          /* IN - The ACODE word to reverse bytes in */
 {
-    if (w < memory || w > &memory[header->size])
+    if (w < &memory[0] || w > &memory[memorySize])
         syserr("Reversing address outside of memory");
     reverseWord(w);
 }
@@ -588,6 +588,7 @@ static void reverseInstanceIdTable(ACodeHeader *header) {
 static void reverseNative() {
     /* NOTE that the reversePreXXX() have different header definitions */
     ACodeHeader *header = (ACodeHeader *)memory;
+    memorySize = header->size;
 
     reverseHdr(header);
 
