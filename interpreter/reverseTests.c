@@ -1,4 +1,5 @@
 #include "cgreen/cgreen.h"
+#include "cgreen/mocks.h"
 
 #include "reverse.c"
 
@@ -27,6 +28,23 @@ Ensure(Reverse, canSeeIfReversalIsAlreadyDone) {
   assert_that(numberDone, is_equal_to(2));
 }
 
+static void mySyserr(char *string) {
+    mock(string);
+}
+
+Ensure(Reverse, reverseTableProhibitsTableElementsSmallerThanAword) {
+    setSyserrHandler(mySyserr);
+    expect(mySyserr);
+
+    reverseTable(0, sizeof(Aword)-1);
+}
+
+Ensure(Reverse, reverseTableProhibitsTableElementsNotMultipleOfAword) {
+    setSyserrHandler(mySyserr);
+    expect(mySyserr);
+
+    reverseTable(0, 4*sizeof(Aword)+1);
+}
 
 TestSuite *reverseTests()
 {
