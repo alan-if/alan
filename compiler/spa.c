@@ -219,7 +219,7 @@ PRIVATE int FUNCTION(match, (p, s))
     IN(register char, *s)	/* SPA_ITEM string */
 IS {
     while (*p) {
-    	if (*s==' ' || lwr(*s)!=lwr(*p)) return FALSE;
+    	if (*s==' ' || lwr((int)*s)!=lwr((int)*p)) return FALSE;
     	s++; p++;
     }
     return (*s!=' '? SPA_MATCH_PREFIX: _SPA_EXACT);
@@ -544,7 +544,7 @@ IS {
 		if (*arg=='-') { bon = !bon; continue; }
 		if (*arg=='*') { *item->ip = bon? -1: 0; continue; }
 		for (bp= item->s; *bp; bp++) /* and descriptor*/
-		    if (lwr(*arg)==lwr(*bp)) break;
+		    if (lwr((int)*arg)==lwr((int)*bp)) break;
 		if (*bp) {
 		    if (bon)
 			*item->ip |= 1<<(bp-item->s);

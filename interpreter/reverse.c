@@ -23,7 +23,7 @@ extern Aword *memory;
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static int memorySize = 0;
+static Aaddr memorySize = 0;
 static Aword *addressesDone = NULL;
 static int numberDone = 0;
 static int doneSize = 0;
@@ -504,6 +504,7 @@ static void reversePreAlpha5() {
     Pre3_0alpha5Header *header = (Pre3_0alpha5Header *)memory;
 
     reversePreAlpha5Header(header);
+    memorySize = header->size;
 
     reverseDictionary(header->dictionary);
     reverseSyntaxTable(header->syntaxTableAddress, header->version);
@@ -544,6 +545,7 @@ static void reversePreBeta2() {
     Pre3_0beta2Header *header = (Pre3_0beta2Header *)memory;
 
     reversePreBeta2Header(header);
+    memorySize = header->size;
 
     reverseDictionary(header->dictionary);
     reverseSyntaxTable(header->syntaxTableAddress, header->version);
@@ -588,9 +590,9 @@ static void reverseInstanceIdTable(ACodeHeader *header) {
 static void reverseNative() {
     /* NOTE that the reversePreXXX() have different header definitions */
     ACodeHeader *header = (ACodeHeader *)memory;
-    memorySize = header->size;
 
     reverseHdr(header);
+    memorySize = header->size;
 
     reverseDictionary(header->dictionary);
     reverseSyntaxTable(header->syntaxTableAddress, header->version);

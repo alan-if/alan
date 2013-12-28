@@ -298,7 +298,7 @@ void setCharacterSet(int set)
 	do {
 	  i = smScSkip(smThis, 1);
 	  c = smThis->smText[smThis->smLength-1];
-	} while (isspace(c) && i > 0);
+	} while (isspace((int)c) && i > 0);
 
 	if (c != '.') {
 	  lmLog(`&token.srcp, 109, sevERR, "expected terminating '.'");

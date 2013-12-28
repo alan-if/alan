@@ -470,9 +470,9 @@ static void insert(
       /* escaped character */
       msidx++;
       rb[rbidx++] = mstr[msidx++];
-    } else if (mstr[msidx] == '%' && isdigit(mstr[msidx+1])) {
+    } else if (mstr[msidx] == '%' && isdigit((int)mstr[msidx+1])) {
       /* insertion string */
-      for (msidx++, iptr = 0; isdigit(mstr[msidx]); msidx++)
+      for (msidx++, iptr = 0; isdigit((int)mstr[msidx]); msidx++)
         iptr = iptr * 10 + mstr[msidx] - '0';
 
       if (iptr > 0) {
