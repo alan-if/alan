@@ -45,7 +45,6 @@ UNITOUTPUT ?= -c
 .PHONY: test
 test:
 	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression $(JREGROUTPUT)
-#	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
 	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
 	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/tracing $(JREGROUTPUT)
 	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/saving $(JREGROUTPUT)

@@ -35,6 +35,7 @@ test:
 	@cd ..;bin/jregr -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
 	@cd ..;bin/jregr -bin bin -dir compiler/testing/dump $(JREGROUTPUT)
 	@cd ..;bin/jregr -bin bin -dir regression/debug $(JREGROUTPUT)
+#	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
 
 # Clean
 .PHONY: clean
