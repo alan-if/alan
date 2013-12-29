@@ -3,8 +3,6 @@
 # It only works on ThoNi's machines, which are Windows machines
 # It is included from Makefile if run on ThoNi's machine
 #######################################################################
-BUILD = `cat ../BUILD`
-COMPILEFLAGS = -DBUILD=$(BUILD)
 
 # We know we are on cygwin
 include Makefile.cygwin
