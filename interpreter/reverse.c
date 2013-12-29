@@ -31,7 +31,6 @@ static int doneSize = 0;
 static bool alreadyDone(Aaddr address)
 {
     int i;
-    bool found = FALSE;
 
     if (address == 0) return TRUE;
 

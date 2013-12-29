@@ -3,9 +3,8 @@
 # on cygwin. It is included from Makefile if run on a cygwin machine
 #######################################################################
 
-COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g
+COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
-WARNINGFLAGS = -Wall
 
 ###########################################################
 # On cygwin we try to build without cygwin1.dll if we can
