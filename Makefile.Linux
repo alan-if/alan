@@ -2,18 +2,39 @@
 # Partial Makefile to be included from top level Makefile on Linux
 #
 
+# Create version and build numbers
+VERSION = `cat LASTRELEASE`
+
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
+PACKAGE = alan$(VERSION)$(BUILD).linux.x86.tgz
 
 # Default target
 all : unit build
 
-# Include common recursive definitions for unit build clean ...
-include top.mk
 
 # We need to define how to package on Linux
-.PHONY: package
-package: alan.readme.linux
-	@echo "***************** Package *****************"
+package: alan.readme.linux $(PACKAGE)
+
+$(PACKAGE): bin/alan bin/arun
 	cp bin/alan bin/arun .
-	tar zcvf alan$(VERSION)$(BUILD).linux.x86.tgz alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
-	rm alan arun
+	tar zcvf $(PACKAGE) alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
+	-rm alan arun
+
+distribution:
+	@if [[ -f BUILD_NUMBER ]] ; then \
+	  echo Should not upload a version with BUILD_NUMBER, remove it first ; \
+	  exit 1 ; \
+	fi
+	$(MAKE) clean all package
+	alanftp "Complete Distributions/Linux/" $(PACKAGE)
+
+snapshot:
+	-wget -q 'alanif.dyndns.org:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath -q -e 'number/text()' > BUILD_NUMBER
+	@if [ ! -f BUILD_NUMBER ] ; then \
+	  echo Should not upload a snapshot without BUILD_NUMBER, create it first ; \
+	  exit 1 ; \
+	fi
+	$(MAKE) clean all package
+	alanftp Snapshots/ $(PACKAGE)
+
+include top.mk

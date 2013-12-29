@@ -4,12 +4,7 @@
 
 # Create version and build numbers
 VERSION = `cat LASTRELEASE`
-BUILD = $(wildcard BUILD_NUMBER)
-ifeq ($(BUILD), "")
-  BUILD=
-else
-  BUILD= -`cat BUILD_NUMBER`
-endif
+
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 PACKAGE = alan$(VERSION)$(BUILD).macosx.x86.tgz
 
@@ -17,7 +12,7 @@ PACKAGE = alan$(VERSION)$(BUILD).macosx.x86.tgz
 all : unit build
 
 .PHONY: package
-package: all alan.readme.macosx $(PACKAGE)
+package: alan.readme.macosx $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
 	cp bin/alan bin/arun .
@@ -33,6 +28,7 @@ distribution:
 	alanftp "Complete Distributions/MacOSX/" $(PACKAGE)
 
 snapshot:
+	wget 'alanif.dyndns.org:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath -e 'number/text()' > BUID_NUMBER
 	@if [[ ! -f BUILD_NUMBER ]] ; then \
 	  echo Should not upload a snapshot without BUILD_NUMBER, create it first ; \
 	  exit 1 ; \

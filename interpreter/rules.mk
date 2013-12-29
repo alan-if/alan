@@ -67,7 +67,7 @@ $(ARUNOBJDIR):
 
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LIBS)
-	cp $@ ../bin/
+	cp -f $@ ../bin/
 
 #######################################################################
 # Settings for TermGLK => glkarun
@@ -90,7 +90,7 @@ $(GLKARUNOBJDIR):
 
 glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 	$(LINK) -o $@ $(LDFLAGS) $(GLKARUNOBJECTS) $(LIBS)
-	cp $@ ../bin/
+	cp -f $@ ../bin/
 
 
 #######################################################################
