@@ -44,7 +44,7 @@ void terminate(int code)
 /*======================================================================*/
 void printVersion(int buildNumber) {
     printf("Arun, Adventure Interpreter version %s", alan.version.string);
-    if (buildNumber != 0) printf(" - build %d", buildNumber);
+    if (buildNumber != 0) printf(" - snapshot build %d", buildNumber);
     printf(" (%s %s)", alan.date, alan.time);
 }
 

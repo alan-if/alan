@@ -5,10 +5,11 @@
 #	OSFLAGS : what flags must be passed to both compiler and linker
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
-UNITOUTPUT ?= -c
+
+BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
 CC = $(COMPILER)
-CFLAGS = -I../interpreter $(OSFLAGS) $(EXTRA_COMPILER_FLAGS)
+CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS)
 
 LINK = $(LINKER)
 LINKFLAGS = $(OSFLAGS) $(EXTRA_LINKER_FLAGS)
@@ -28,6 +29,7 @@ build: alan
 #
 # Run all tests!
 #
+UNITOUTPUT ?= -c
 
 .PHONY: test
 test:

@@ -20,7 +20,8 @@
 
 static SPA_FUN(usage)
 {
-  printf("Usage: ALAN <adventure> [-help] [options]\n");
+    printf("Usage: ALAN <adventure> [-help] [options]\n");
+    
 }
 
 static SPA_ERRFUN(paramError)
@@ -67,9 +68,7 @@ static SPA_DECLARE(arguments)
 SPA_END
 
 static SPA_DECLARE(options)
-#ifndef THINK_C
      SPA_HELP("help", "this help", usage, xit)
-#endif
      SPA_FLAG("verbose", "verbose messages", verboseFlag, FALSE, NULL)
      SPA_FLAG("warnings", "[don't] show warning messages", warningFlag, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infoFlag, FALSE, NULL)
@@ -88,7 +87,6 @@ static SPA_DECLARE(options)
 #ifdef WINGUI
      SPA_FLAG("gui", "use gui", guiMode, TRUE, NULL)
 #endif
-#ifndef THINK_C
      SPA_BITS("dump", "dump the internal form, where\n\
 synonyms\n\
 parameter mapping table\n\
@@ -105,7 +103,6 @@ include pointer addresses\n\
 after parse (will abort after dump)\n\
 after analysis (will abort after dump)\n\
 after code generation", dumpFlags, "ypxsvciker!a123", NULL, NULL)
-#endif
 SPA_END
 
 /*======================================================================*\
@@ -257,8 +254,10 @@ int main(int argc,		/* IN - argument count */
 #endif
 
     /* Say hello ! */
-    if (verboseFlag)
-        printf("%s\n\n", alan.longHeader);
+    if (verboseFlag) {
+        printVersion(BUILD);
+        printf("\n");
+    }
 
     if (nArgs == 0) {
         usage(NULL, NULL, 0);

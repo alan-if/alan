@@ -24,6 +24,7 @@ extern long counter;            /* yAnd counter for verbose mode */
 
 /* FUNCTIONS */
 #define SYSERR(m) syserr(m, __FUNCTION__, __FILE__, __LINE__)
+extern void printVersion(int build_number);
 extern void syserr(char *errorMessage, const char *function, char *file, int line);
 extern void createListingOnFile(char *listFileName, int lines, int columns,
 		    lmTyp listingType, lmSev severities);

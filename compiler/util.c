@@ -11,6 +11,7 @@
 
 /* IMPORTS */
 #include "alan.h"
+#include "alan.version.h"
 #include "sysdep.h"
 #include "lmList.h"
 #include "smScan.h"
@@ -32,6 +33,12 @@ long allocated;			/* Calculated memory usage */
 
 /* FUNCTIONS */
 
+/*======================================================================*/
+void printVersion(int buildNumber) {
+    printf("Alan, Adventure Compiler version %s", alan.version.string);
+    if (buildNumber != 0) printf(" - snapshot build %d", buildNumber);
+    printf(" (%s %s)", alan.date, alan.time);
+}
 
 
 /*======================================================================*/
