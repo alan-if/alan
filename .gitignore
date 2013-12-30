@@ -6,3 +6,4 @@ TEST-*.xml
 *.vg
 *.leaks
 alan.linux.x86.tgz
+BUILD_NUMBER
