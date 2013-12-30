@@ -28,7 +28,7 @@ distribution:
 	alanftp "Complete Distributions/MacOSX/" $(PACKAGE)
 
 snapshot:
-	wget 'alanif.dyndns.org:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath -e 'number/text()' > BUID_NUMBER
+	wget 'alanif.dyndns.org:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath 'number/text()' > BUILD_NUMBER
 	@if [[ ! -f BUILD_NUMBER ]] ; then \
 	  echo Should not upload a snapshot without BUILD_NUMBER, create it first ; \
 	  exit 1 ; \
