@@ -89,7 +89,7 @@ include top.mk
 tags:
 	git tag -a -f v$(VERSION)
 	echo -n $(VERSION) > LASTRELEASE
-	@echo "If you are satisfied with the result, and on thoni's machine, do a venum update revision, at least"
+	@echo "If you are satisfied with the result, and on thoni's machine, do a 'venum update revision', at least"
 
 
 
