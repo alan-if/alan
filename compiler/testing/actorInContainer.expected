@@ -6,12 +6,12 @@ actorInContainer.alan
     1.  The a Isa actor In c
 =====>                  1
 
-  *1*   402 E : An Actor can not be inside a Container.
+  *1*   402 E : An Actor cannot be inside a Container.
 
    12.    Locate a In c.
 =====>           1
 
-  *1*   402 E : An Actor can not be inside a Container.
+  *1*   402 E : An Actor cannot be inside a Container.
 
 
         2 error(s).

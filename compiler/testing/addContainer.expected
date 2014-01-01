@@ -6,8 +6,8 @@ addContainer.alan
     6.    Container
 =====>    1
 
-  *1*   336 E : You can not Add container properties when the class already
-                have it.
+  *1*   336 E : You cannot Add container properties when the class already have
+                it.
 
 
         1 error(s).

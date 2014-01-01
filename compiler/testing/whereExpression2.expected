@@ -6,7 +6,7 @@ whereExpression2.alan
    15.    If Current Location In Current Location Then "l in l" End If.
 =====>       1
 
-  *1*   324 E : Can not refer to Current Location in the What-clause of a Where
+  *1*   324 E : Cannot refer to Current Location in the What-clause of a Where
                 expression.
 
 

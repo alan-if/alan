@@ -6,7 +6,7 @@ restriction0.alan
     2.    Where y Isa x
 =====>                1
 
-  *1*   323 E : Can not restrict a parameter to something not a class.
+  *1*   323 E : Cannot restrict a parameter to something not a class.
 
 
         1 error(s).

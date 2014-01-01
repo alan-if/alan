@@ -6,7 +6,7 @@ currentLocationInWhere.alan
     3.      If Current Location Here Then
 =====>         1
 
-  *1*   324 E : Can not refer to Current Location in the What-clause of a Where
+  *1*   324 E : Cannot refer to Current Location in the What-clause of a Where
                 expression.
 
 
