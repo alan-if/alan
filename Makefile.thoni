@@ -88,7 +88,7 @@ include top.mk
 .PHONY: tags
 tags: last-release
 	git tag -a -f v$(VERSION)
-	@echo "If you are satisfied with the result, and on thoni's machine, do a venum update revision, at least"
+	@echo "If you are satisfied with the result, and on thoni's machine, do a 'venum update correction', at least"
 
 .PHONY: last-release
 last-release:
