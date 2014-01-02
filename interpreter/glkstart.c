@@ -101,6 +101,7 @@ static void openResourceFile() {
     if (glk_fileref_does_file_exist(resourceFileRef)) {
         resourceFile = glk_stream_open_file(resourceFileRef, filemode_Read, 0);
         ecode = giblorb_set_resource_map(resourceFile);
+        (void)ecode;
     }
     free(originalFileName);
 }
@@ -140,17 +141,18 @@ int glkunix_startup_code(glkunix_startup_t *data)
 
 
 
+#ifdef HAVE_WINGLK
 static int argCount;
 static char *argumentVector[10];
 
 /*----------------------------------------------------------------------*/
 static void splitArgs(char *commandLine) {
-    unsigned char *cp = commandLine;
+    unsigned char *cp = (unsigned char *)commandLine;
 
     while (*cp) {
         while (*cp && isspace(*cp)) cp++;
         if (*cp) {
-            argumentVector[argCount++] = cp;
+            argumentVector[argCount++] = (char *)cp;
             if (*cp == '"') {
                 do {
                     cp++;
@@ -168,7 +170,6 @@ static void splitArgs(char *commandLine) {
 }
 
 
-#ifdef HAVE_WINGLK
 /*======================================================================*/
 int winglk_startup_code(const char* cmdline)
 {

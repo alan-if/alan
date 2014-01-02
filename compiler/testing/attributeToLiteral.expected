@@ -6,7 +6,7 @@ attributeToLiteral.alan
     2.    Has attr.
 =====>        1
 
-  *1*   424 E : You can not add attributes to non-instantiable class 'integer'.
+  *1*   424 E : You cannot add attributes to non-instantiable class 'integer'.
 
 
         1 error(s).

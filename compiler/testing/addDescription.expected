@@ -6,8 +6,8 @@ addDescription.alan
     6.    Description ""
 =====>    1
 
-  *1*   241 E : A Description is already defined for class 'th'. You can not
-                add it. You can override it by subclassing from class 'th'.
+  *1*   241 E : A Description is already defined for class 'th'. You cannot add
+                it. You can override it by subclassing from class 'th'.
 
 
         1 error(s).

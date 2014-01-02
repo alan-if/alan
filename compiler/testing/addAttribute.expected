@@ -6,7 +6,7 @@ addAttribute.alan
     6.    Has a 5.
 =====>        1
 
-  *1*   336 E : You can not Add an attribute which already exists.
+  *1*   336 E : You cannot Add an attribute which already exists.
 
 
         1 error(s).

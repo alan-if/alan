@@ -366,6 +366,10 @@ void dumpProps(Properties *props)
     put("container: "); dumpContainer(props->container); nl();
     put("attributes: "); dumpList(props->attributes, ATTRIBUTE_LIST); nl();
     put("attributeAddress: "); dumpAddress(props->attributeAddress); nl();
+
+    put("enteredSrcp: "); dumpSrcp(props->enteredSrcp); nl();
+    put("entered: "); dumpList(props->enteredStatements, STATEMENT_LIST); nl();
+
     put("description: "); dumpDescription(props->description); nl();
     put("definite: "); dumpArticle(props->definite); nl();
     put("indefinite: "); dumpArticle(props->indefinite); nl();

@@ -7,7 +7,7 @@ randomSemantics.alan
 =====>    1     2
 
   *1*   331 E : Incompatible types in target and expression in SET statement.
-  *2*   419 E : Target for SET statement can not be of boolean type.
+  *2*   419 E : Target for SET statement cannot be of boolean type.
 
     8.    Set a Of l To Random b Of l To 7.
 =====>                           1

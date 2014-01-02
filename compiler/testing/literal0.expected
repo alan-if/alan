@@ -12,13 +12,13 @@ literal0.alan
 =====>        1           2
 
   *1*   305 E : 'integer' also declared as a Class (Every).
-  *2*   423 E : You can not instantiate or sub-class 'literal'.
+  *2*   423 E : You cannot instantiate or sub-class 'literal'.
 
     7.  Every string Isa literal
 =====>        1          2
 
   *1*   305 E : 'string' also declared as a Class (Every).
-  *2*   423 E : You can not instantiate or sub-class 'literal'.
+  *2*   423 E : You cannot instantiate or sub-class 'literal'.
 
 
         5 error(s).

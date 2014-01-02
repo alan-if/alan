@@ -6,7 +6,7 @@ globalVerb.alan
     3.  Verb x
 =====>  1
 
-  *1*   219 E : Global verbs can not have parameters.
+  *1*   219 E : Global verbs cannot have parameters.
 
 
         1 error(s).

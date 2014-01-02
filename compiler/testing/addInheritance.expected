@@ -6,7 +6,7 @@ addInheritance.alan
     6.    Isa thing.
 =====>        1
 
-  *1*   341 E : Can not Add heritage to classes. 
+  *1*   341 E : Cannot Add heritage to classes. 
 
 
         1 error(s).

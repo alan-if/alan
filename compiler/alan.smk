@@ -61,14 +61,15 @@ static Bool find_and_open_in_path_element(smScContext this, List *ip, char fnm[]
     if (ip != NULL) {
         strcpy(fnmbuf, ip->member.str);
 #ifndef __mac__
-        strcat(fnmbuf, "/");
+        if (fnmbuf[strlen(fnmbuf)-1] != '/')
+            strcat(fnmbuf, "/");
 #endif
     }
     strcat(fnmbuf, fnm);
     return (this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) > 0;
 }
 
-static Bool open_import(smScContext this, char fnm[], Bool search) {
+static char *open_import(smScContext this, char fnm[], Bool search) {
     List *ip;
 
     if (search) {
@@ -77,19 +78,30 @@ static Bool open_import(smScContext this, char fnm[], Bool search) {
                 if (find_and_open_in_path_element(this, ip, fnm))
                     break;
             }
-            if (ip == NULL)
-                return FALSE;
+            if (ip)
+                return ip->member.str;    /* Return the prefix found */
+            else
+                return NULL;
         }
+        
     } else {
         if (!find_and_open_in_path_element(this, NULL, fnm))
-            return FALSE;
+            return NULL;              /* Return not found */
     }
-    return TRUE;
+    return "";
 }
 
-static void register_filename(smScContext this, char filename[]) {
-    this->fileName = newString(filename);
+static void register_filename(smScContext this, char *prefix, char filename[]) {
+    char *full_name = allocate(strlen(prefix)+strlen(filename)+2);
+    if (prefix != NULL) {
+        strcpy(full_name, prefix);
+        if (strlen(prefix) > 0 && prefix[strlen(prefix)-1] != '/')
+            strcat(full_name, "/");
+    }
+    strcat(full_name, filename);   
+    this->fileName = newString(full_name);
     fileNames = concat(fileNames, this->fileName, STRING_LIST);
+    free(full_name);
 }
 
 static void switch_scanner(smScContext this) {
@@ -102,10 +114,11 @@ static void switch_scanner(smScContext this) {
 
 Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statement */
                  char fnm[],	/* IN - Name of file to open */
-		 Bool search	/* IN - Search the import paths? */
+                 Bool search	/* IN - Search the import paths? */
 ){
     smScContext this;
     List *p;
+    char *prefix = "";
 
     for (p = fileNames; p != NULL; p = p->next) {
         if (strcmp(fnm, p->member.str) == 0) {
@@ -118,13 +131,13 @@ Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statem
     if (fnm == NULL)
         this->fd = 0;
     else {
-        if (!open_import(this, fnm, search)) {
+        if (!(prefix = open_import(this, fnm, search))) {
             lmLog(&srcp, 199, sevFAT, fnm);
             return FALSE;
         }
     }
 
-    register_filename(this, fnm);
+    register_filename(this, prefix, fnm);
     switch_scanner(this);
 
     return TRUE;

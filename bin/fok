@@ -5,7 +5,6 @@
 
 diffCase ()
 {
-    echo "$case : "
     if [ -x /usr/local/bin/DiffMerge ] ; then
         DiffMerge $case.output $case.expected
     else
@@ -29,18 +28,20 @@ if [ $# != 0 ] ; then
   for f in ${*} ; do
     case=`basename ${f%%.} .output`
     if [ "$case" != "$f" ] ; then
+echo Now!
 	    diffCase
-    elif [ -f $case.alan ] ; then
+        ok $case
+    elif [ -f $case.alan -a -f $case.expected ] ; then
         diffCase
+        ok $case
     fi
-    ok $case
   done
 else
   for f in *.output ; do
     case=`basename $f .output`
     if [ -f $case.alan -a -f $case.expected ] ; then
 	    diffCase
+        ok $case
     fi
-    ok $case
   done
 fi

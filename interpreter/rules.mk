@@ -5,6 +5,9 @@
 # Makefile.thoni, Makefile.cygwin, Makefile.Darwin, also included from
 # Makefile
 # This file will build a standard command line arun and all unittests
+ifneq ($(EMACS),)
+JREGROUTPUT = -noansi
+endif
 
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 

@@ -6,12 +6,12 @@ locationInLocation.alan
     4.  The l2 Isa location In c
 =====>                      1
 
-  *1*   402 E : A Location can not be inside a Container.
+  *1*   402 E : A Location cannot be inside a Container.
 
    13.    Locate l2 In c.
 =====>           1  2
 
-  *1*   402 E : A Location can not be inside a Container.
+  *1*   402 E : A Location cannot be inside a Container.
   *2*   404 E : Container is restricted to only contain instances of 'object'
                 and its subclasses.
 

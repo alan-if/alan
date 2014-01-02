@@ -1,0 +1,15 @@
+########## addEntered2 ##########
+
+
+addEntered2.alan
+
+    6.    Entered ""
+=====>    1
+
+  *1*   336 E : You cannot Add Entered clause when the class already have it.
+
+
+        1 error(s).
+        No detected warnings.
+        1 informational message(s).
+

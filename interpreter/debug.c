@@ -22,6 +22,7 @@
 #include "readline.h"
 #endif
 
+#include "compatibility.h"
 #include "lists.h"
 #include "inter.h"
 #include "current.h"
@@ -969,7 +970,7 @@ static void handleInstancesCommand() {
 
 	if (parameter == NULL || strchr(parameter, '*') != 0)
 		listInstances(parameter);
-	else if (isdigit(parameter[0]))
+	else if (isdigit((int)parameter[0]))
 		showInstance(atoi(parameter));
     else {
         for (i = 1; i<header->instanceMax; i++)
@@ -981,10 +982,20 @@ static void handleInstancesCommand() {
     }
 }
 
+/*----------------------------------------------------------------------*/
+static bool exactSameVersion() {
+    return header->version[3] == alan.version.version
+        && header->version[2] == alan.version.revision
+        && header->version[1] == alan.version.correction
+        && header->version[0] == alan.version.state[0];
+}
+
 
 /*======================================================================*/
 void debug(bool calledFromBreakpoint, int line, int fileNumber)
 {
+    static bool warned = FALSE;
+
     saveInfo();
 
 #ifdef HAVE_GLK
@@ -993,6 +1004,15 @@ void debug(bool calledFromBreakpoint, int line, int fileNumber)
 
     if (calledFromBreakpoint)
         displaySourceLocation(line, fileNumber);
+    else {
+        if (!exactSameVersion() && !warned) {
+            printf("<WARNING: You are debugging a game which has version %s.>\n",
+                   decodedGameVersion(header->version));
+            printf("<That is not exactly the same as this interpreter (%s).>\n", alan.version.string);
+            printf("<This might cause a lot of trouble. Cross your fingers...>\n");
+            warned = TRUE;
+        }
+    }
 
     while (TRUE) {
 

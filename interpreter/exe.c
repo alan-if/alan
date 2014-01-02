@@ -555,6 +555,7 @@ void showImage(int image, int align)
         glk_window_flow_break(glkMainWin);
         printf("\n");
         ecode = glk_image_draw(glkMainWin, image, imagealign_MarginLeft, 0);
+        (void)ecode;
     }
 #endif
 }
@@ -574,6 +575,7 @@ void playSound(int sound)
         if (soundChannel != NULL) {
             glk_schannel_stop(soundChannel);
             ecode = glk_schannel_play(soundChannel, sound);
+            (void)ecode;
         }
     }
 #endif

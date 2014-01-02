@@ -17,12 +17,12 @@ initialInForLocation.alan
    11.  The l Isa location In cont
 =====>                     1
 
-  *1*   402 E : A Location can not be inside a Container.
+  *1*   402 E : A Location cannot be inside a Container.
 
    14.  The l2 Isa location In o
 =====>                      1  2
 
-  *1*   402 E : A Location can not be inside a Container.
+  *1*   402 E : A Location cannot be inside a Container.
   *2*   318 E : The 'o' does not have the container property, which is required
                 in Expression after IN.
 

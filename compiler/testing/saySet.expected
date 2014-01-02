@@ -6,7 +6,7 @@ saySet.alan
     6.    Say l:members.
 =====>    1
 
-  *1*   337 E : You can not Say values of Set type.
+  *1*   337 E : You cannot Say values of Set type.
 
 
         1 error(s).

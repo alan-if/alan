@@ -142,8 +142,8 @@ void printAndLog(char string[])
 {
 #ifdef HAVE_GLK
     static int column = 0;
-    unsigned char *stringCopy;
-    unsigned char *stringPart;
+    char *stringCopy;
+    char *stringPart;
 #endif
 
     printf("%s", string);
@@ -155,7 +155,7 @@ void printAndLog(char string[])
             stringPart = stringCopy;
             while (strlen(stringPart) > 70-column) {
                 int p;
-                for (p = 70-column; p>0 && !isspace(stringPart[p]); p--);
+                for (p = 70-column; p>0 && !isspace((int)stringPart[p]); p--);
                 stringPart[p] = '\0';
                 glk_put_string_stream(logFile, stringPart);
                 glk_put_char_stream(logFile, '\n');

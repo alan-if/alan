@@ -35,12 +35,12 @@ aggregateMax.alan
 
   *1*   330 E : Wrong type of expression in context of 'IF'. Must be of boolean
                 type.
-  *2*   226 E : Attributes can not be used for filtering applied to instances
-                of unknown class. Filter out instances of a particular class
-                e.g. by adding a 'Isa <class>' filter.
-  *3*   226 E : Attributes can not be used for filtering applied to instances
-                of unknown class. Filter out instances of a particular class
-                e.g. by adding a 'Isa <class>' filter.
+  *2*   226 E : Attributes cannot be used for filtering applied to instances of
+                unknown class. Filter out instances of a particular class e.g.
+                by adding a 'Isa <class>' filter.
+  *3*   226 E : Attributes cannot be used for filtering applied to instances of
+                unknown class. Filter out instances of a particular class e.g.
+                by adding a 'Isa <class>' filter.
 
    13.    If Max Of y Isa x = 7 Then "" End If.
 =====>                    1

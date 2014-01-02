@@ -53,7 +53,7 @@
 #include "stp_x.h"
 #include "stx_x.h"
 #include "sym_x.h"
-#include "scrp_x.h"
+#include "srcp_x.h"
 #include "vrb_x.h"
 #include "whr_x.h"
 #include "wht_x.h"
@@ -130,7 +130,7 @@ static int val(char str[])
   exts %% List *%1%%,
   first %% Bool %1%%,
   form %% List *%1%%,
-  id %% IdNode *%1%%,
+  id %% Id *%1%%,
   idList %% List *%1%%,
   idList2 %% List *%1%%,
   indefinite %% Article *%1%%,
@@ -1478,13 +1478,13 @@ static int val(char str[])
     = 'script' ID ['.'] <optional_description> <step_list>
     %%
 	if (%<optional_description>.description != NULL &&
-	    %<optional_description>.description->checks != NULL)
+        %<optional_description>.description->checks != NULL)
 	  lmLog(`&%<optional_description>.description->checkSrcp,
-		228, sevERR, "");
+      		228, sevERR, "");
 	%<script>.scr = newScript(`&%'script'.srcp,
-			          %ID.id,
-			          %<optional_description>.description,
-			          %<step_list>.stps);
+                              %ID.id,
+			                  %<optional_description>.description,
+			                  %<step_list>.stps);
     %%
     ;
 
@@ -1509,7 +1509,7 @@ static int val(char str[])
 			   %<statements>.stms);
     %%
 
-    ! 'step' 'after' <expression> <statements>
+    ! 'step' 'after' <expression> ['.'] <statements>
     %%
 	%<step>.stp = newStep(`&%'step'.srcp,
 				%<expression>.exp,
@@ -1517,7 +1517,7 @@ static int val(char str[])
 				%<statements>.stms);
     %%
 
-    ! 'step' 'wait' 'until' <expression> <statements>
+    ! 'step' 'wait' 'until' <expression> ['.'] <statements>
     %%
 	%<step>.stp = newStep(`&%'step'.srcp,
 				NULL,

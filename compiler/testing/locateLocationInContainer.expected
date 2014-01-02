@@ -6,7 +6,7 @@ locateLocationInContainer.alan
     9.    Locate place In cont.
 =====>           1     2
 
-  *1*   402 E : A Location can not be inside a Container.
+  *1*   402 E : A Location cannot be inside a Container.
   *2*   404 E : Container is restricted to only contain instances of 'object'
                 and its subclasses.
 

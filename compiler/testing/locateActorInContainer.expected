@@ -6,7 +6,7 @@ locateActorInContainer.alan
     7.        Locate i In c.
 =====>               1 2
 
-  *1*   402 E : An Actor can not be inside a Container.
+  *1*   402 E : An Actor cannot be inside a Container.
   *2*   404 E : Container is restricted to only contain instances of 'object'
                 and its subclasses.
 
