@@ -1,5 +1,6 @@
 %%OPTIONS
 
+    Os 'cygwin';
 	Target 'ansi-c';
 	Prefix 'alan';
 

@@ -145,6 +145,97 @@ static char codfnm[256] = "";
 static char txtfnm[256] = "";
 
 
+/*----------------------------------------------------------------------
+  Calculate where to start calculating the CRC. Is different for
+  different versions. CRC is calculated from pre-beta2 memory start to
+  be compatible.  If header size changes this should return beta2
+  header size for later versions.
+*/
+static int crcStart(char version[4]) {
+    /* Some earlier versions had a shorter header */
+    if (isPreAlpha5(version))
+        return sizeof(Pre3_0alpha5Header)/sizeof(Aword);
+    else if (isPreBeta2(version))
+        return sizeof(Pre3_0beta2Header)/sizeof(Aword);
+    else
+        return sizeof(ACodeHeader)/sizeof(Aword);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void readTemporaryHeader(ACodeHeader *tmphdr) {
+    rewind(codfil);
+    fread(tmphdr, sizeof(*tmphdr), 1, codfil);
+    rewind(codfil);
+    if (strncmp((char *)tmphdr, "ALAN", 4) != 0)
+        playererr("Not an Alan game file, does not start with \"ALAN\"");
+}
+
+
+/*----------------------------------------------------------------------*/
+static void reverseMemory() {
+    if (littleEndian()) {
+        if (debugOption||traceSectionOption||traceInstructionOption)
+            output("<Hmm, this is a little-endian machine, fixing byte ordering....");
+        reverseACD();			/* Reverse content of the ACD file */
+        if (debugOption||traceSectionOption||traceInstructionOption)
+            output("OK.>$n");
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void setupHeader(ACodeHeader tmphdr) {
+    if (isPreBeta2(tmphdr.version)) {
+        header = duplicate(&memory[0], sizeof(ACodeHeader));
+        if (isPreAlpha5(tmphdr.version)) {
+            header->ifids = 0;
+        }
+        header->prompt = 0;
+    } else if (isPreBeta3(tmphdr.version)) {
+        header = (ACodeHeader *) pointerTo(0);
+    } else {
+        header = pointerTo(0);
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static void loadAndCheckMemory(ACodeHeader tmphdr, Aword crc, char err[]) {
+    int i;
+    /* No memory allocated yet? */
+    if (memory == NULL) {
+        memory = allocate(tmphdr.size*sizeof(Aword));
+    }
+
+    memTop = fread(pointerTo(0), sizeof(Aword), tmphdr.size, codfil);
+    if (memTop != tmphdr.size)
+        syserr("Could not read all ACD code.");
+	
+    /* Calculate checksum */
+    for (i = crcStart(tmphdr.version); i < memTop; i++) {
+        crc += memory[i]&0xff;
+        crc += (memory[i]>>8)&0xff;
+        crc += (memory[i]>>16)&0xff;
+        crc += (memory[i]>>24)&0xff;
+#ifdef CRCLOG
+        printf("%6x\t%6lx\t%6lx\n", i, crc, memory[i]);
+#endif
+    }
+    if (crc != tmphdr.acdcrc) {
+        sprintf(err, "Checksum error in Acode (.a3c) file (0x%lx instead of 0x%lx).",
+                (unsigned long) crc, (unsigned long) tmphdr.acdcrc);
+        if (!ignoreErrorOption)
+            syserr(err);
+        else {
+            output("<WARNING! $$");
+            output(err);
+            output("$$ Ignored, proceed at your own risk.>$n");
+        }
+    }
+}
+
+
 /*----------------------------------------------------------------------*/
 static char *decodeState(int c) {
     static char state[2] = "\0\0";
@@ -159,6 +250,16 @@ static char *decodeState(int c) {
     }
 }
 
+/*======================================================================*/
+char *decodedGameVersion(char version[]) {
+    static char str[100];
+    sprintf(str, "%d.%d%s%d",
+            (int)version[3],
+            (int)version[2],
+            decodeState(version[0]),
+            (int)version[1]);
+    return str;
+}
 
 /*----------------------------------------------------------------------*/
 static void incompatibleDevelopmentVersion(ACodeHeader *header) {
@@ -212,8 +313,8 @@ static void nonDevelopmentRunningDevelopmentStateGame(char version[]) {
 }
 
 
-/*----------------------------------------------------------------------*/
-static void checkVersion(ACodeHeader *header)
+/*======================================================================*/
+void checkVersion(ACodeHeader *header)
 {
     /* Strategy for version matching is:
        1) Development interpreters/games require exact match
@@ -224,6 +325,8 @@ static void checkVersion(ACodeHeader *header)
        alpha interpreters, example is introduction of a new opcode if it is
        done at the end of the list)
        5) Release interpreters should run alpha and beta games without problems
+
+       NOTE that we are working with a non-reversed version string/word here.
     */
 	
     char interpreterVersion[4];
@@ -240,12 +343,12 @@ static void checkVersion(ACodeHeader *header)
 	
     /* Check version of .ACD file */
     if (debugOption && !regressionTestOption) {
-        printf("<Version of '%s' is %d.%d%s%d>",
-               adventureFileName,
-               (int)(header->version[0]),
-               (int)(header->version[1]),
-               decodeState(gameState),
-               (int)(header->version[2]));
+        printf("<Version of '%s' is %d.%d%s%d!>\n",
+               adventureFileName, 
+               (int)header->version[0],
+               (int)header->version[1],
+               decodeState(header->version[3]),
+               (int)header->version[2]);
         newline();
     }
 	
@@ -277,98 +380,6 @@ static void checkVersion(ACodeHeader *header)
         }
     }
 }
-
-
-/*----------------------------------------------------------------------
-  Calculate where to start calculating the CRC. Is different for
-  different versions. CRC is calculated from pre-beta2 memory start to
-  be compatible.  If header size changes this should return beta2
-  header size for later versions.
-*/
-static int crcStart(char version[4]) {
-    /* Some earlier versions had a shorter header */
-    if (isPreAlpha5(version))
-        return sizeof(Pre3_0alpha5Header)/sizeof(Aword);
-    else if (isPreBeta2(version))
-        return sizeof(Pre3_0beta2Header)/sizeof(Aword);
-    else
-        return sizeof(ACodeHeader)/sizeof(Aword);
-}
-
-
-/*----------------------------------------------------------------------*/
-static void readTemporaryHeader(ACodeHeader *tmphdr) {
-    rewind(codfil);
-    fread(tmphdr, sizeof(*tmphdr), 1, codfil);
-    rewind(codfil);
-    if (strncmp((char *)tmphdr, "ALAN", 4) != 0)
-        playererr("Not an Alan game file, does not start with \"ALAN\"");
-}
-
-
-/*----------------------------------------------------------------------*/
-static void reverseMemory() {
-    if (littleEndian()) {
-        if (debugOption||traceSectionOption||traceInstructionOption)
-            output("<Hmm, this is a little-endian machine, fixing byte ordering....");
-        reverseACD();			/* Reverse content of the ACD file */
-        if (debugOption||traceSectionOption||traceInstructionOption)
-            output("OK.>$n");
-    }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void setupHeader(ACodeHeader tmphdr) {
-    if (isPreBeta2(tmphdr.version)) {
-        header = duplicate(&memory[0], sizeof(ACodeHeader));
-        if (isPreAlpha5(tmphdr.version)) {
-	    header->ifids = 0;
-        }
-        header->prompt = 0;
-    } else if (isPreBeta3(tmphdr.version)) {
-        header = (ACodeHeader *) pointerTo(0);
-    } else {
-        header = pointerTo(0);
-    }
-}
-
-
-/*----------------------------------------------------------------------*/
-static void loadAndCheckMemory(ACodeHeader tmphdr, Aword crc, char err[]) {
-    int i;
-    /* No memory allocated yet? */
-    if (memory == NULL) {
-        memory = allocate(tmphdr.size*sizeof(Aword));
-    }
-
-    memTop = fread(pointerTo(0), sizeof(Aword), tmphdr.size, codfil);
-    if (memTop != tmphdr.size)
-        syserr("Could not read all ACD code.");
-	
-    /* Calculate checksum */
-    for (i = crcStart(tmphdr.version); i < memTop; i++) {
-        crc += memory[i]&0xff;
-        crc += (memory[i]>>8)&0xff;
-        crc += (memory[i]>>16)&0xff;
-        crc += (memory[i]>>24)&0xff;
-#ifdef CRCLOG
-        printf("%6x\t%6lx\t%6lx\n", i, crc, memory[i]);
-#endif
-    }
-    if (crc != tmphdr.acdcrc) {
-        sprintf(err, "Checksum error in Acode (.a3c) file (0x%lx instead of 0x%lx).",
-                (unsigned long) crc, (unsigned long) tmphdr.acdcrc);
-        if (!ignoreErrorOption)
-            syserr(err);
-        else {
-            output("<WARNING! $$");
-            output(err);
-            output("$$ Ignored, proceed at your own risk.>$n");
-        }
-    }
-}
-
 
 /*----------------------------------------------------------------------*/
 static void load(void)
@@ -411,7 +422,7 @@ static void checkDebug(void)
         traceInstructionOption = FALSE;
         tracePushOption = FALSE;
     }
-	
+
     if (debugOption || regressionTestOption) /* If debugging... */
         srand(1);			/* ... use no randomization */
     else
@@ -643,22 +654,6 @@ static void openFiles(void)
 static void init(void)
 {
     int i;
-	
-    if (!regressionTestOption && (debugOption||traceSectionOption||traceInstructionOption)) {
-        char str[80];
-        output("<Hi! This is Alan interactive fiction interpreter Arun,");
-        sprintf(str, "version %ld.%ld%s%ld",
-                (long)alan.version.version,
-                (long)alan.version.revision,
-                alan.version.state[0]=='\0'?".":alan.version.state,
-                (long)alan.version.correction);
-        output(str);
-	if (BUILD != 0)
-	    sprintf(str, "- build %d!>$n", BUILD);
-	else
-	    sprintf(str, "!>$n");
-	output(str);
-    }
 	
     /* Initialise some status */
     eventQueueTop = 0;			/* No pending events */

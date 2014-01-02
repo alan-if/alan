@@ -14,9 +14,9 @@ how they are described:
 1. without any description it gets a default description that lists the instances in the container
 2. authors can tweak the way all container lists are presented using message overrides
 3. authors can add a description to the container object and if so have to cater for the listing with the possibility to
-    1. leave the listing out completely or conditionally (depending on an attribute for example)
-    2. use the built in `List` statement
-    3. use specialised lists by iterating over instances in the container (`For Each i In This...`)
+    a. leave the listing out completely or conditionally (depending on an attribute for example)
+    b. use the built in `List` statement
+    c. use specialised lists by iterating over instances in the container (`For Each i In This...`)
 
 This example shows the true flexibility of the Alan language, allowing much to
 be achieved with very little but yet allowing more complex behaviour with little
@@ -26,7 +26,7 @@ true for every aspect of this.
 As an extra complication we want to make any change to the langauge and the game
 format backwards compatible, if possible.
 
-## Question -2
+## Question 1: Can actors move?
 
 **Q:** What happens if an actor is in a container and then moves to another
 location?
@@ -78,7 +78,7 @@ container.
 **Testcase:** Locate an actor out of a container into another location with
 prohibiting Exit checks.
 
-## Question -1
+## Question 2: What if an actor can't be extracted?
 
 **Q:** What happens if an actor is in a container that prohibits removals using
 the EXTRACT clause and the actor moves to another location?
@@ -118,8 +118,8 @@ execution? There are three options:
 1.  The step is considered ok and the script advances to the next step.
 2.  The script execution is stopped, as if the aborted step was the last in the
     current script.
- 3. The step is retried until it succeeds.
- 4. Introducing a new clause to catch this type of errors in scripts.
+3. The step is retried until it succeeds.
+4. Introducing a new clause to catch this type of errors in scripts.
 
 It seems like #1 is wrong. It could lead to unimaginable spurious errors by
 allowing the actor to continue executing with the assumption that the previous
@@ -155,7 +155,7 @@ actually achieved? A couple of ideas:
 - Rules?
 - Step Wait Until?
 
-## Question 1
+## Question 3: Can the hero get out of the bed(room)?
 
 **Q:** What happens if the hero is in the bed and types 'out' (when 'out' is an
 exit out of the bedroom)?
@@ -169,7 +169,7 @@ movement. But a message that the hero gets out of bed could be in place anyway.
 
 *This can be done in an EXIT DOES statement, by the author.*
 
-True, but see **Question -2**.
+True, but see **Question 1**.
 
 Additionally, to do the printout of the "You raise out of bed first.", the Exit
 would need extra If statements to check if the hero is in the bed. This would be
@@ -178,7 +178,7 @@ what not, that the hero needed to get out of before moving to another room, this
 would be extremely tedious to handle in every exit. Especially if the containers
 could be moved around so you don't actually know which checks that need them...
 
-## Question 2
+## Question 4: How would an actor be described?
 
 **Q:** How would the hero be described if inside a container? How would any
 actor be described if inside a container?
@@ -222,12 +222,12 @@ not that simple or clearcut. But there is an interesting duality with containers
 vis a vis actors and vis a vis objects.
 
 Containers are by default described using an implicit List statement. The
-deafult for this is `The <container> contains`, followed by the objects
+default for this is `The <container> contains`, followed by the objects
 that are in the container. And here we are actually talking about instances of
 object (or its subclasses). Instances of Entity cannot be in containers at all,
 and instances of Things are 'invisible'.
 
-But for actors it might be the other way around. The container would
+But for actors it might be the other way around. Maybe the container would
 say nothing about the actor (?) but the actor would say that it is in the
 container?
 
@@ -241,10 +241,9 @@ container...
 
 Maybe it is possible to arrive at some logical structure here. E.g. other actors
 when described should work like containers. If there is no description clause
-the default actor print out (`<the actor> is here`)  could be amended with
-`In the &lt;the container` or even replaced with "&lt;the actor&gt; is in
-the &lt;the container&gt;". But the default is only used if there is no
-description. To draw on the similarity to containers, if the container has a
+the default actor print out (`<actor> is here`)  could be amended with
+`in the <container>` or even replaced with `<actor> is in the <container>`. But the default is only used if there is no explicit
+description clause. To draw on the similarity to containers, if the container has a
 description, the listing of its content must be added explicitly in that
 description.
 
@@ -279,6 +278,8 @@ And since the hero is only described when explicitly requested by "Describe
 hero." and never mentioned in any special context this should suffice, I think.
 But ...
 
+What about the difference between the "in" and "on"? 
+
 **Action** How do we know if we should print "in" or "on" or something else?
 Probably need some extra customization possibilities.
 
@@ -300,19 +301,23 @@ So, yes, probably. But also consider:
     The bedroom (in bed)
     This is your bed room. There is a bed here. The bed contains a pillow, you and your mistress.
 
-Although not optimal this probably works as a reasonable default. And, considering the theory that mentioned actors should not indicate their containment, this probably works as a reasonable default. If mentioned actors would indicate their containment we would get
+Although not optimal this probably works as a reasonable default. And, considering the theory
+that mentioned actors should not indicate their containment, this probably works as a reasonable
+default. If mentioned actors would indicate their containment we would get
 
 	> look
     The bedroom (in bed)
     This is your bed room. There is a bed here. The bed contains a pillow, you (in bed) and your mistress.
 
+which clearly is not what we want.
+
 To not list actors of the container seems a less natural choice. But, again this would be the default and the author must have the possibility to
 
-1. modify the description of the container and fairly easily replicate the standard behaviour (using **List This.**)
-2. modify the way containers presents the items in itself (using **For Each i In This Do *formatting* End For.**)
-3. modify which type of items, if any, in the container gets listed (using **For Each i In This, Isa *something* Do ...**)
+1. modify the description of the container and fairly easily replicate the standard behaviour (using `List This.`)
+2. modify the way containers presents the items in itself (using `For Each i In This Do *formatting* End For.`)
+3. modify which type of items, if any, in the container gets listed (using `For Each i In This, Isa *something* Do ...`)
 
-## Question 3
+## Question 5: Can the hero escape from the cage?
 
 **Q:** What happens if the hero is in a cage and types 'w' (out of the room)?
 Can a check in EXTRACT prohibit exit commands?
@@ -333,12 +338,12 @@ EXIT statement. Even now, an actor moving from room to room through a script
 could move through locked doors if the game author doesn't check that it
 shouldn't happen.*
 
-This is the same question a **Question -1**. The hero would be prohibited by the
+This is the same question a **Question 2**. The hero would be prohibited by the
 Extract checks in the same way as Exit checks, but they should be applie first. Other
 actors are subject to Extract checks which might abort their step (but might
-continue, depending on the discussion in **Questions -1**)
+continue, depending on the discussion in **Questions 2**).
 
-## Question 4
+## Question 6: Can actors randomly be located in containers?
 
 **Q:** Will there be a problem with RANDOM in cases such as:
 
@@ -363,16 +368,16 @@ for cases like this by himself?
 using limits or other precautions to not allow what is unreasonable given the
 game world semantics. Not a job for the compiler.
 
-## Question 5
+## Question 7: Is the seat occupied?
 
 **Q:** If an NPC is scripted to sit down on a chair (container), and the hero is
 already sitting on that chair, there should be a restriction that the NPC cannot
 be seated on the same chair. This is more of a theoretical problem, since the
 author can prohibit the hero from sitting down in all cases anyway.
 
-**A:** Same as **Question 4**. Not a job for the compiler.
+**A:** Same as **Question 6**. Not a job for the compiler.
 
-## Question 6
+## Question 8: Do limits apply?
 
 **Q:** Do LIMITS - COUNT apply when an NPC is acting out a script? E.g.
 
@@ -399,7 +404,7 @@ container. If there already was **anything** in the seat (had it not been restri
     The seat is already taken.
     >
 
-Note that, as discussed previously, the actors script step is aborted. But depending on the decision in **Question -1** a third step in that script might be next to execute.
+Note that, as discussed previously, the actors script step is aborted. But depending on the decision in **Question 2** a third step in that script might be next to execute.
 
 # Summary
 
@@ -407,7 +412,17 @@ There seems to be quite a few issues to resolve before a complete author/languag
 
 1. Decide where the hero ends up if trying to move through an Exit to another location from inside a container and the Exit checks prohibit this. In or out of the container. My suggestion would be to stay put, i.e. in the container.
 2. Decide if the current implementation of failing script steps is ok, namely that failing steps are considered completed and execution will continue with the next step in the script, if any.
-3. Figure out a simple way to indicate the actors "containment" that can be used in explicit descriptions in the same way as an author can add **List This.** in container descriptions.
-4. Find on a way to do the amended actor default printout (**The actor is here.** or **The actor is on/in the bed.**) so that it can be customized as needed and preferably don't break backwards compatibility (HARD!)
+3. Figure out a simple way to indicate the actors "containment" that can be used in explicit descriptions in the same way as an author can add `List This.` in container descriptions.
+4. Find a way to do the amended actor default printout (`The actor is here.` or `The actor is on/in the bed.`) so that it can be customized as needed and preferably don't break backwards compatibility (HARD!)
 5. Decide if the containment message should go in the Location header and if so, how would that can be handled. (Probably the same way as the AGAIN message, indicating a new Message.)
-6. Figure out a way to let each container decide if it is "on" or "in".
+6. Figure out a way to let each container decide if instances in it is "on" or "in" or even "carried". Note that this is in addition to the current way because the current only prints when listing content, now the container also needs to decide what to say when amending the actors description and the Location header (for the hero).
+
+# Design Decisions (so far...)
+
+* DD#1 If the hero is in a container and moves extract checks are applied first then exit checks
+* DD#2 If the extract checks prohibit moving the heros move is aborted as if an exit check failed
+* DD#3 If the exit checks fail the hero will remain in the container
+* DD#4 If an actor (not the hero) is in a container and moves extract checks are applied
+* DD#5 If an actor (not the hero) moves out of a container and the extract check fail that action fails and is aborted (event, script step or even a player command that tried to move the actor)
+* DD#6 The location header should be possible to amend with "(in <cont>)", probably by adding an author level general amendment message, akin to M_AGAIN.
+* DD#7 The built-in messages should say "in". The author is responsible for any deviation.

@@ -150,6 +150,7 @@ bool readline(char buffer[])
                         break;
                     case ID_MENU_ABOUT:
                         e = DialogBox(myInstance, MAKEINTRESOURCE(IDD_ABOUT), NULL, &AboutDialogProc);
+                        (void)e;
                         break;
                     }
                     break;
