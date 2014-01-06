@@ -316,11 +316,14 @@ static void addEntered(AddNode *add, Symbol *originalSymbol)
         if (!inheritsFrom(originalSymbol, locationSymbol)) {
             lmLog(&add->props->enteredSrcp, 336, sevERR, "Entered clause to something not inheriting from the predefined class 'location'");
         } else {
-            if (originalSymbol->fields.entity.props->enteredStatements != NULL)
-                lmLog(&add->props->enteredSrcp, 336, sevERR,
-                      "Entered clause when the class already have it");
-            else
+            if (originalSymbol->fields.entity.props->enteredStatements != NULL) {
+                lmLogv(&add->props->enteredSrcp, 344, sevWAR,
+                       "Entered clause",  originalSymbol->string, NULL);
+                lmLog(&originalSymbol->fields.entity.props->enteredSrcp, 345, sevWAR, "Entered clause");
+            } else {
                 PROPERTIESOF(originalSymbol)->enteredStatements = props->enteredStatements;
+                PROPERTIESOF(originalSymbol)->enteredSrcp = props->enteredSrcp;
+            }
         }
     }
 }

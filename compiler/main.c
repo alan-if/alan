@@ -266,6 +266,6 @@ int main(int argc,		/* IN - argument count */
         terminate(EXIT_FAILURE);
 
     compile();
-    return(0);
+    return 0;
 }
 

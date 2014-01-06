@@ -175,6 +175,8 @@ static lmMsgs msg[] = {
     { "341   ", "Cannot Add %1 to classes. %2" },
     { "342   ", "Cannot inherit %1." },
     { "343   ", "Cannot inherit %1. (Yet!)" },
+    { "344   ", "Adding this %1 will overwrite an already existing %1 for \'%2\'. Consider sub-classing \'%2\' and adding the %1 to it instead." },
+    { "345   ", "This %1 will be overwritten by an Add." },
     { "350   ", "Cannot inherit from something not a class." },
     { "351   ", "%1 must refer to %2 inheriting from \'%3\'." },
     { "352   ", "%1 \'%2\' does not inherit from \'%3\', but has %4." },
@@ -240,8 +242,8 @@ static lmMsgs msg[] = {
     { "997   ", "SYSTEM ERROR: %1" },
     { "998   ", "Feature not implemented in %1." },
     { "999   ", "No Adventure generated." },
-    { NULL }
-};
+    { NULL }}
+    ;
 typedef struct MSect {
   int offs;
   int len;
