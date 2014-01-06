@@ -14,9 +14,9 @@ how they are described:
 1. without any description it gets a default description that lists the instances in the container
 2. authors can tweak the way all container lists are presented using message overrides
 3. authors can add a description to the container object and if so have to cater for the listing with the possibility to
-    a. leave the listing out completely or conditionally (depending on an attribute for example)
-    b. use the built in `List` statement
-    c. use specialised lists by iterating over instances in the container (`For Each i In This...`)
+    1. leave the listing out completely or conditionally (depending on an attribute for example)
+    2. use the built in `List` statement
+    3. use specialised lists by iterating over instances in the container (`For Each i In This...`)
 
 This example shows the true flexibility of the Alan language, allowing much to
 be achieved with very little but yet allowing more complex behaviour with little

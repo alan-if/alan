@@ -507,6 +507,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
             } else {
                 atr = resolveAttributeToExpression(what, exp->fields.atr.id, context);
                 exp->type = verifyExpressionAttribute(exp, atr);
+                exp->class = what->class;
                 if (atr) exp->readonly = atr->readonly;
             }
         }

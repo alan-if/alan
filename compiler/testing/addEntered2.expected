@@ -13,7 +13,7 @@ addEntered2.alan
 
   *1*   344 W : Adding this Entered clause will overwrite an already existing
                 Entered clause for 'location'. Consider sub-classing 'location'
-                and adding the Entered clause to it instead.
+                and adding the Entered clause to the subclass instead.
 
 
         No detected errors.
