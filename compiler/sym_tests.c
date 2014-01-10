@@ -63,11 +63,24 @@ Ensure(Symbol, cannot_return_class_of_symbol_for_verb) {
     classOfSymbol(symbol);
 }
 
-Ensure(Symbol, can_set_type_according_to_symbol) {
+Ensure(Symbol, can_get_type_according_to_symbol) {
     Symbol *integer = newSymbol(newId(nulsrcp, "integer"), INSTANCE_SYMBOL);
 
     integerSymbol = integer;
 
-    assert_that(basicTypeOfSymbol(integer), is_equal_to(INTEGER_TYPE));
+    assert_that(basicTypeFromSymbol(integer), is_equal_to(INTEGER_TYPE));
+}
 
+Ensure(Symbol, can_get_type_of_a_local_or_parameter_symbol) {
+    Symbol *local_symbol = NEW(Symbol);
+    Symbol *parameter_symbol = NEW(Symbol);
+
+    local_symbol->kind = LOCAL_SYMBOL;
+    parameter_symbol->kind = PARAMETER_SYMBOL;
+
+    local_symbol->fields.local.type = STRING_TYPE;
+    parameter_symbol->fields.parameter.type = INTEGER_TYPE;
+
+    assert_that(typeOfSymbol(local_symbol), is_equal_to(STRING_TYPE));
+    assert_that(typeOfSymbol(parameter_symbol), is_equal_to(INTEGER_TYPE));
 }

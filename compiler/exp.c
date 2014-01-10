@@ -957,15 +957,11 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
         if (symbol != NULL) {
             switch (symbol->kind) {
             case PARAMETER_SYMBOL:
-                /* TODO: This should be the same code as for LOCAL_SYMBOL */
-                exp->type = symbol->fields.parameter.type;
+            case LOCAL_SYMBOL:
+                exp->type = typeOfSymbol(symbol);
                 exp->class = classOfIdInContext(context, exp->fields.wht.wht->id);
                 if (exp->class->fields.entity.isBasicType)
-                    exp->type = basicTypeOfSymbol(exp->class);
-                break;
-            case LOCAL_SYMBOL:
-                exp->type = symbol->fields.local.type;
-                exp->class = symbol->fields.local.class;
+                    exp->type = basicTypeFromSymbol(exp->class);
                 break;
             case INSTANCE_SYMBOL:
                 exp->type = INSTANCE_TYPE;
