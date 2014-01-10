@@ -11,6 +11,9 @@ PACKAGE = alan$(VERSION)$(BUILD).macosx.x86.tgz
 # Default target
 all : unit build
 
+v :
+	echo $(PACKAGE)
+
 .PHONY: package
 package: alan.readme.macosx $(PACKAGE)
 
