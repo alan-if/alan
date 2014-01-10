@@ -19,5 +19,5 @@ void whatIsNotContainer(What *wht, Context *context, char construct[]) {mock();}
 Symbol *symbolOfWhat(What *what, Context *context) {return (Symbol*)mock();}
 Bool isConstantWhat(What *what) {return (Bool)mock();}
 Bool verifyWhatContext(What *what, Context *context) {return (Bool)mock();}
-void generateWhat(What *wht) {mock();}
+void generateWhat(What *wht, TypeKind type) {mock();}
 void dumpWhat(What *wht) {mock();}

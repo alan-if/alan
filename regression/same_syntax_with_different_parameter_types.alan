@@ -7,6 +7,9 @@ Syntax type_password = type (password) on (obj)
        And obj Isa Object
          Else "You can't type on" Say The obj. "."
 
+Syntax type = type (password)
+       Where password Isa String
+         Else "You can only type passwords."
 
 The keypad Isa object At office
 
@@ -15,11 +18,21 @@ The keypad Isa object At office
     "You type" Say password. "on the keypad."
     If password Isa String Then
        If password = "password" Then
-          "It was the correct password."
+          "It was the correct password you typed on" Say The obj. "."
        End If.
     End If.
   End Verb.
 
 End The keypad.
+
+Add To Every Literal
+  Verb type
+    Does
+      "You type" Say password. "."
+      If password = "password" Then
+          "It was the correct password you typed."
+      End If.
+  End Verb.
+End Add.
 
 Start At office.

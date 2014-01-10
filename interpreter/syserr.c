@@ -56,10 +56,10 @@ it to support@alanif.se. Thank you!>";
 void apperr(char *description)
 {
     if (handler == NULL) {
-        char *blurb = "<If you are just playing this piece of Interactive Fiction, \
+        char *blurb = "<If you are playing this piece of Interactive Fiction, \
 please help the author to debug this programming error. Send an exact \
 transcript of the commands that led to this error to the author. Thank you! \
-If you are the author, then you have to figure this out before releasing the game.>";
+If you *are* the author, then you have to figure this out before releasing the game.>";
         runtimeError("APPLICATION ERROR: ", description, blurb);
     } else
         handler(description);

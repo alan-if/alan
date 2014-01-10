@@ -62,3 +62,12 @@ Ensure(Symbol, cannot_return_class_of_symbol_for_verb) {
 
     classOfSymbol(symbol);
 }
+
+Ensure(Symbol, can_set_type_according_to_symbol) {
+    Symbol *integer = newSymbol(newId(nulsrcp, "integer"), INSTANCE_SYMBOL);
+
+    integerSymbol = integer;
+
+    assert_that(basicTypeOfSymbol(integer), is_equal_to(INTEGER_TYPE));
+
+}

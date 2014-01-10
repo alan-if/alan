@@ -759,7 +759,9 @@ static char parseDebugCommand(char *command) {
     DebugParseEntry *entry = findEntry(command, commandEntries);
     if (entry != NULL) {
         if (strlen(command) < strlen(entry->command)) {
+            /* See if there are any more partial matches */
             if (findEntry(command, entry+1) != NULL)
+                /* TODO: we should list the possible matches somehow */
                 return AMBIGUOUS_COMMAND;
         }
         return entry->code;

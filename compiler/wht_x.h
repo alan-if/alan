@@ -26,7 +26,7 @@ extern void whatIsNotContainer(What *wht, Context *context, char construct[]);
 extern Symbol *symbolOfWhat(What *what, Context *context);
 extern Bool isConstantWhat(What *what);
 extern Bool verifyWhatContext(What *what, Context *context);
-extern void generateWhat(What *wht);
+extern void generateWhat(What *wht, TypeKind type);
 extern void dumpWhat(What *wht);
 
 #endif

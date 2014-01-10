@@ -1081,7 +1081,7 @@ static void generateSchedule(Statement *stm)
 		break;
     
 	case WHERE_AT:
-		generateWhat(stm->fields.schedule.whr->what->fields.wht.wht);
+		generateWhat(stm->fields.schedule.whr->what->fields.wht.wht, INSTANCE_TYPE);
 		break;
 
 	default:

@@ -16,5 +16,5 @@ Bool equalId(Id *id1, Id *id2) {
 }
 void symbolizeId(Id *id) {mock(id);}
 Id *findIdInList(Id *theId, List *theList) {return (Id *)mock(theId, theList);}
-void generateId(Id *id) {}
+void generateId(Id *id, TypeKind type) {}
 void dumpId(Id *id) {}
