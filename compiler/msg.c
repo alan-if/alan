@@ -207,6 +207,11 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "That's impossible with $+1.",
    "Det går inte med $+1.",
    "Es gibt nicht mit $+1."},
+  {M_CONTAINMENT_LOOP, "containment_loop",
+   /* Actually has two parameters, but we only use one in the standard message */
+   "That would be putting $+1 inside itself.",
+   "Det vore att stoppa $+1 inuti sig själv.",
+   "Das wäre, um $+1 in sich selbst stecken."},
   {0, NULL, NULL, NULL, NULL}        /* MUST end with NULL */
 
 };
@@ -392,6 +397,7 @@ Context *contextFor(MsgKind messageNo) {
     return newVerbContext(messageVerbSymbolFor2Strings);
 
   case M_CANNOTCONTAIN:
+  case M_CONTAINMENT_LOOP:
     return newVerbContext(messageVerbSymbolFor2Instances);
 
   case M_SCORE:

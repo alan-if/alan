@@ -9,6 +9,7 @@ Interpreter unit for Alan interpreter Arun
 
 
 #include <stdio.h>
+#include <stdarg.h>
 
 #include "current.h"
 #include "exe.h"
@@ -53,6 +54,21 @@ void setInterpreterMock(void (*mock)(Aaddr adr)) {
 void setInterpreterStack(Stack theStack)
 {
     stack = theStack;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void traceInstruction(char *str, ...) {
+    va_list args;
+
+    if (traceInstructionOption) {
+        va_start(args, str);
+
+        fflush(NULL);
+        vprintf(str, args);
+        fflush(NULL);
+        va_end(args);
+    }
 }
 
 
@@ -476,8 +492,7 @@ void interpret(Aaddr adr)
             case I_LINE: {
                 Aint line = pop(stack);
                 Aint file = pop(stack);
-                if (traceInstructionOption)
-                    printf("LINE\t%7ld, %7ld\t\t\t", (long)file, (long)line);
+                traceInstruction("LINE\t%7ld, %7ld\t\t\t", (long)file, (long)line);
                 if (traceStackOption)
                     dumpStack(stack);
                 skipStackDump = TRUE;
