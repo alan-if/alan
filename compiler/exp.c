@@ -531,6 +531,7 @@ static void analyzeSetExpression(Expression *exp, Context *context)
     }
 }
 
+/*----------------------------------------------------------------------*/
 static void analyzeBinary(Expression *exp) {
 	switch (exp->fields.bin.op) {
 	case AND_OPERATOR:
@@ -956,12 +957,11 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
         if (symbol != NULL) {
             switch (symbol->kind) {
             case PARAMETER_SYMBOL:
-                exp->type = symbol->fields.parameter.type;
-                exp->class = classOfIdInContext(context, exp->fields.wht.wht->id);
-                break;
             case LOCAL_SYMBOL:
-                exp->type = symbol->fields.local.type;
-                exp->class = symbol->fields.local.class;
+                exp->type = typeOfSymbol(symbol);
+                exp->class = classOfIdInContext(context, exp->fields.wht.wht->id);
+                if (exp->class->fields.entity.isBasicType)
+                    exp->type = basicTypeFromSymbol(exp->class);
                 break;
             case INSTANCE_SYMBOL:
                 exp->type = INSTANCE_TYPE;
@@ -1249,7 +1249,7 @@ void generateAttributeAccess(Expression *exp)
 /*======================================================================*/
 void generateAttributeReference(Expression *exp) {
     generateExpression(exp->fields.atr.wht);
-    generateId(exp->fields.atr.id);
+    generateId(exp->fields.atr.id, exp->type);
 }
 
 
@@ -1257,7 +1257,7 @@ void generateAttributeReference(Expression *exp) {
 void generateLvalue(Expression *exp) {
     switch (exp->kind) {
     case WHAT_EXPRESSION:
-        generateWhat(exp->fields.wht.wht);
+        generateWhat(exp->fields.wht.wht, exp->type);
         break;
     case ATTRIBUTE_EXPRESSION:
         generateAttributeReference(exp);
@@ -1289,7 +1289,7 @@ void generateFilter(Expression *exp)
         generateWhereRHS(exp->fields.whr.whr);
         break;
     case ISA_EXPRESSION:
-        generateId(exp->fields.isa.class);
+        generateId(exp->fields.isa.class, exp->type);
         emit0(I_ISA);
         break;
     case BINARY_EXPRESSION:
@@ -1297,7 +1297,7 @@ void generateFilter(Expression *exp)
         generateBinaryOperator(exp);
         break;
     case ATTRIBUTE_EXPRESSION:
-        generateId(exp->fields.atr.id);
+        generateId(exp->fields.atr.id, exp->type);
         generateAttributeAccess(exp);
         break;
     case BETWEEN_EXPRESSION:
@@ -1467,7 +1467,7 @@ static void generateScoreExpression(Expression *exp)
 /*----------------------------------------------------------------------*/
 static void generateWhatExpression(Expression *exp)
 {
-    generateWhat(exp->fields.wht.wht);
+    generateWhat(exp->fields.wht.wht, exp->type);
 }
 
 
@@ -1494,7 +1494,7 @@ static void generateBetweenExpression(Expression *exp)
 static void generateIsaExpression(Expression *exp)
 {
     generateExpression(exp->fields.isa.what);
-    generateId(exp->fields.isa.class);
+    generateId(exp->fields.isa.class, exp->type);
     emit0(I_ISA);
     if (exp->not) emit0(I_NOT);
 }

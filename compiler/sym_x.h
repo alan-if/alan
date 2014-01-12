@@ -72,6 +72,8 @@ extern void deleteFrame(void);
 extern char *verbHasParametersMessage(Context *context);
 extern char *verbHasParametersOrNoneMessage(Context *context);
 extern Symbol *classOfSymbol(Symbol *symbol);
+extern TypeKind basicTypeFromSymbol(Symbol *class);
+extern TypeKind typeOfSymbol(Symbol *symbol);
 
 /* Inheritance of a class */
 extern void setParent(Symbol *child, Symbol *parent);

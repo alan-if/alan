@@ -198,12 +198,12 @@ static void generateVerb(Verb *vrb)
 /*----------------------------------------------------------------------*/
 static void generateVerbEntry(Verb *vrb)
 {
-  List *ids;
+    List *ids;
 
-  for (ids = vrb->ids; ids != NULL; ids = ids->next) {
-    generateId(ids->member.id);
-    emit(vrb->altAddress);
-  }
+    for (ids = vrb->ids; ids != NULL; ids = ids->next) {
+        generateId(ids->member.id, 0);
+        emit(vrb->altAddress);
+    }
 }
 
 

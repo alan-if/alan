@@ -314,7 +314,7 @@ static void generateWordReference(Word *wrd) {
   if (wrd->classbits&NOUN_BIT) {
     wrd->nounRefAddress = nextEmitAddress();
     for (lst = wrd->ref[NOUN_WORD]; lst != NULL; lst = lst->next)
-      generateId(lst->member.ins->props->id);
+        generateId(lst->member.ins->props->id, 0);
     emit(EOF);
   } else
     wrd->nounRefAddress = 0;
@@ -322,7 +322,7 @@ static void generateWordReference(Word *wrd) {
   if (wrd->classbits&ADJECTIVE_BIT) {
     wrd->adjectiveRefAddress = nextEmitAddress();
     for (lst = wrd->ref[ADJECTIVE_WORD]; lst != NULL; lst = lst->next)
-      generateId(lst->member.ins->props->id);
+        generateId(lst->member.ins->props->id, 0);
     emit(EOF);
   } else
     wrd->adjectiveRefAddress = 0;
@@ -330,7 +330,7 @@ static void generateWordReference(Word *wrd) {
   if (wrd->classbits&PRONOUN_BIT) {
     wrd->pronounRefAddress = nextEmitAddress();
     for (lst = wrd->ref[PRONOUN_WORD]; lst != NULL; lst = lst->next)
-      generateId(lst->member.ins->props->id);
+        generateId(lst->member.ins->props->id, 0);
     emit(EOF);
   } else
     wrd->pronounRefAddress = 0;

@@ -181,7 +181,7 @@ Bool verifyWhatContext(What *what, Context *context) {
 
 
 /*======================================================================*/
-void generateWhat(What *wht)
+void generateWhat(What *wht, TypeKind type)
 {
 	switch (wht->kind) {
 	case WHAT_LOCATION:
@@ -191,7 +191,7 @@ void generateWhat(What *wht)
 		emitVariable(V_CURACT);
 		break;
 	case WHAT_ID:
-		generateId(wht->id);
+		generateId(wht->id, type);
 		break;
 	case WHAT_THIS:
 		emitVariable(V_CURRENT_INSTANCE);

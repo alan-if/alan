@@ -291,6 +291,25 @@ Symbol *newVerbSymbol(Id *id) {
     return new;
 }
 
+/*======================================================================*/
+TypeKind basicTypeFromSymbol(Symbol *class) {
+    if (class == stringSymbol)
+        return STRING_TYPE;
+    else if (class == integerSymbol)
+        return INTEGER_TYPE;
+    else
+        return INSTANCE_TYPE;
+}
+
+/*======================================================================*/
+TypeKind typeOfSymbol(Symbol *symbol) {
+    switch (symbol->kind) {
+    case LOCAL_SYMBOL: return symbol->fields.local.type;
+    case PARAMETER_SYMBOL: return symbol->fields.parameter.type;
+    default: SYSERR("Unexpected symbol->kind"); return ERROR_TYPE;
+    }
+}
+
 /*----------------------------------------------------------------------*/
 static void setParameterClass(Symbol *s, int parameter, Symbol *class) {
     List *pl = s->fields.verb.parameterSymbols;
@@ -300,12 +319,7 @@ static void setParameterClass(Symbol *s, int parameter, Symbol *class) {
         pl = pl->next;
 
     pl->member.sym->fields.parameter.class = class;
-    if (class == stringSymbol)
-        pl->member.sym->fields.parameter.type = STRING_TYPE;
-    else if (class == integerSymbol)
-        pl->member.sym->fields.parameter.type = INTEGER_TYPE;
-    else
-        pl->member.sym->fields.parameter.type = INSTANCE_TYPE;
+	pl->member.sym->fields.parameter.type = basicTypeFromSymbol(class);
 }
 
 
