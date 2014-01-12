@@ -14,7 +14,7 @@ Ok.
 You can't put anything in the notacont.
 
 > put cont in cont
-Ok.
+That would be putting the cont inside itself.
 
 > 
 

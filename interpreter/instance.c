@@ -918,6 +918,20 @@ void locate(int instance, int whr)
     verifyInstance(instance, "LOCATE");
     verifyInstance(whr, "LOCATE AT");
 
+    /* Will this create a containment loop? */
+    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVE))) {
+        if (isPreBeta3(header->version))
+            output("That would be to put something inside itself.");
+        else {
+            ParameterArray parameters = newParameterArray();
+            addParameterForInstance(parameters, instance);
+            addParameterForInstance(parameters, whr);
+            printMessageWithParameters(M_CONTAINMENT_LOOP, parameters);
+            free(parameters);
+        }
+        error(NO_MSG);
+    }
+
     /* First check if the instance is in a container, if so run extract checks */
     if (isAContainer(admin[instance].location)) {    /* In something? */
         current.instance = admin[instance].location;

@@ -590,7 +590,7 @@ void empty(int cnt, int whr)
     int i;
 
     for (i = 1; i <= header->instanceMax; i++)
-        if (isIn(i, cnt, TRUE))
+        if (isIn(i, cnt, DIRECTLY))
             locate(i, whr);
 }
 
