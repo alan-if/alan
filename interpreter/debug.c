@@ -867,18 +867,37 @@ static int parseTraceCommand() {
 	}
 }
 
+
+/*----------------------------------------------------------------------*/
+static char *printTraceState(bool state) {
+    if (state)
+        return "on  - Traces";
+    else
+        return "off - Doesn't trace";
+}
+
+/*----------------------------------------------------------------------*/
+static void printTrace(void) {
+    printf("Section trace     : %s entry to every section (check, description, event, actor, ...)\n", printTraceState(saved_traceSection));
+    printf("Source trace      : %s every source line executed\n", printTraceState(saved_traceSource));
+    printf("Instruction trace : %s every Amachine instruction executed\n", printTraceState(saved_traceInstruction));
+    printf("Push trace        : %s every push onto the Amachine stack\n", printTraceState(saved_tracePush));
+    printf("Stack trace       : %s the complete stack between every time\n", printTraceState(saved_traceStack));
+}
+
+
 /*----------------------------------------------------------------------*/
 static void handleTraceCommand() {
 	char subcommand = parseTraceCommand();
 
 	switch (subcommand) {
-	case TRACE_INSTRUCTION_COMMAND: toggleInstructionTrace(); break;
 	case TRACE_SECTION_COMMAND: toggleSectionTrace(); break;
 	case TRACE_SOURCE_COMMAND: toggleSourceTrace(); break;
+	case TRACE_INSTRUCTION_COMMAND: toggleInstructionTrace(); break;
 	case TRACE_PUSH_COMMAND: togglePushTrace(); break;
 	case TRACE_STACK_COMMAND: toggleStackTrace(); break;
 	case AMBIGUOUS_COMMAND: output("Ambiguous Trace subcommand abbreviation. ? for help."); break;
-	default: output("Unknown Trace subcommand. ? for help."); break;
+	default: printTrace();
 	}
 }
 
