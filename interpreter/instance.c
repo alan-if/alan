@@ -908,6 +908,24 @@ static void traceExtract(int instance, int containerId, char *what) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static void containmentLoopError(int instance, int whr) {
+    ParameterArray parameters = newParameterArray();
+    if (isPreBeta4(header->version))
+        output("That would be to put something inside itself.");
+    else if (whr == instance) {
+        addParameterForInstance(parameters, instance);
+        printMessageWithParameters(M_CONTAINMENT_LOOP, parameters);
+    } else {
+        addParameterForInstance(parameters, instance);
+        addParameterForInstance(parameters, whr);
+        printMessageWithParameters(M_CONTAINMENT_LOOP2, parameters);
+    }
+    free(parameters);
+    error(NO_MSG);
+}
+
+
 /*======================================================================*/
 void locate(int instance, int whr)
 {
@@ -919,18 +937,8 @@ void locate(int instance, int whr)
     verifyInstance(whr, "LOCATE AT");
 
     /* Will this create a containment loop? */
-    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVE))) {
-        if (isPreBeta3(header->version))
-            output("That would be to put something inside itself.");
-        else {
-            ParameterArray parameters = newParameterArray();
-            addParameterForInstance(parameters, instance);
-            addParameterForInstance(parameters, whr);
-            printMessageWithParameters(M_CONTAINMENT_LOOP, parameters);
-            free(parameters);
-        }
-        error(NO_MSG);
-    }
+    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVE)))
+        containmentLoopError(instance, whr);
 
     /* First check if the instance is in a container, if so run extract checks */
     if (isAContainer(admin[instance].location)) {    /* In something? */

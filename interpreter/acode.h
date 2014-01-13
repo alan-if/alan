@@ -677,6 +677,7 @@ typedef enum MsgKind {
     M_WHICH_PRONOUN_FIRST,
 	M_IMPOSSIBLE_WITH,
     M_CONTAINMENT_LOOP,
+    M_CONTAINMENT_LOOP2,
     MSGMAX
 } MsgKind;
 

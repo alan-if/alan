@@ -10,10 +10,12 @@ L
 There is a o1 here. The o1 contains a o2.
 
 > put o1 in o2
-That would be putting the o1 inside itself.
+Putting the o1 in the o2 is impossible since the o2 already is inside the 
+o1.
 
 > put o1 in o3
-That would be putting the o1 inside itself.
+Putting the o1 in the o3 is impossible since the o3 already is inside the 
+o1.
 
 > 
 

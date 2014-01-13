@@ -13,9 +13,6 @@ Ok.
 > put cont in notacont
 You can't put anything in the notacont.
 
-> put cont in cont
-That would be putting the cont inside itself.
-
 > 
 
 Do you want to UNDO, RESTART, RESTORE or QUIT ? 

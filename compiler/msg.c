@@ -208,10 +208,13 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
    "Det går inte med $+1.",
    "Es gibt nicht mit $+1."},
   {M_CONTAINMENT_LOOP, "containment_loop",
-   /* Actually has two parameters, but we only use one in the standard message */
-   "That would be putting $+1 inside itself.",
-   "Det vore att stoppa $+1 inuti sig själv.",
-   "Das wäre, um $+1 in sich selbst stecken."},
+   "Putting $+1 in itself is impossible.",
+   "Det är omöjligt att stoppa $+1 i sig själv.",
+   "Es ist unmöglich, $+1 in sich selbst zu setzen."},
+  {M_CONTAINMENT_LOOP2, "containment_loop2",
+   "Putting $+1 in $+2 is impossible since $+2 already is inside $+1.",
+   "Det är omöjligt att stoppa $+1 i $+2 eftersom $+2 redan är inuti $+1.",
+   "Es ist unmöglich, $+1 in $+2 zu setzen, weil $+2 bereits in $+1 ist."},
   {0, NULL, NULL, NULL, NULL}        /* MUST end with NULL */
 
 };
@@ -385,6 +388,7 @@ Context *contextFor(MsgKind messageNo) {
   case M_EMPTY:
   case M_EMPTYHANDED:
   case M_IMPOSSIBLE_WITH:
+  case M_CONTAINMENT_LOOP:
     return newVerbContext(messageVerbSymbolForInstance);
 
   case M_WHAT_WORD:
@@ -397,7 +401,7 @@ Context *contextFor(MsgKind messageNo) {
     return newVerbContext(messageVerbSymbolFor2Strings);
 
   case M_CANNOTCONTAIN:
-  case M_CONTAINMENT_LOOP:
+  case M_CONTAINMENT_LOOP2:
     return newVerbContext(messageVerbSymbolFor2Instances);
 
   case M_SCORE:
