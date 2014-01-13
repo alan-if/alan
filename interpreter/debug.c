@@ -171,7 +171,7 @@ static void showInstance(int ins)
     char str[80];
 
     if (ins > header->instanceMax || ins < 1) {
-        sprintf(str, "Instance code %d is out of range", ins);
+        sprintf(str, "Instance index %d is out of range.", ins);
         output(str);
         return;
     }
@@ -312,15 +312,21 @@ static void showClassInheritance(int c) {
 
 
 /*----------------------------------------------------------------------*/
-static void showClass(int c)
+static void showClass(int cla)
 {
     char str[80];
 
+    if (cla < 1) {
+        sprintf(str, "Class index %d is out of range.", cla);
+        output(str);
+        return;
+    }
+
     output("$t");
-    printClassName(c);
-    sprintf(str, "[%d]", c);
+    printClassName(cla);
+    sprintf(str, "[%d]", cla);
     output(str);
-    showClassInheritance(c);
+    showClassInheritance(cla);
 }
 
 
@@ -882,7 +888,7 @@ static void printTrace(void) {
     printf("Source trace      : %s every source line executed\n", printTraceState(saved_traceSource));
     printf("Instruction trace : %s every Amachine instruction executed\n", printTraceState(saved_traceInstruction));
     printf("Push trace        : %s every push onto the Amachine stack\n", printTraceState(saved_tracePush));
-    printf("Stack trace       : %s the complete stack between every time\n", printTraceState(saved_traceStack));
+    printf("Stack trace       : %s the complete stack every time\n", printTraceState(saved_traceStack));
 }
 
 
@@ -966,11 +972,15 @@ static void handleActorsCommand() {
 /*----------------------------------------------------------------------*/
 static void handleClassesCommand() {
 	char *parameter = strtok(NULL, "");
-	if (parameter == NULL) {
+	if (parameter == NULL || strchr(parameter, '*') != 0) {
 		output("Classes:");
 		showClassHierarchy(1, 0);
-	} else
+		listInstances(parameter);
+    } else if (isdigit((int)parameter[0]))
 		showClass(atoi(parameter));
+    else {
+        printf("You have to give a class index to display. You can't use names (yet).");
+    }
 }
 
 
@@ -999,7 +1009,7 @@ static void handleInstancesCommand() {
                 showInstance(i);
                 return;
             }
-        output("No such instance.");
+        printf("No instance named '%s'.", parameter);
     }
 }
 
