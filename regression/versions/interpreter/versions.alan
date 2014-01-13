@@ -16,9 +16,22 @@ End Add.
 Syntax v = v (o)
   Where o Isa object Else If o Is plural Then "plural:" Say string of o. Else "You can't v" Say o. "." End If.
 
+Syntax put_in = put (o) 'in' (c)
+       Where o Isa object
+             Else "Need to put object."
+       And c Isa object
+           Else "Need to put in container."
+
 Add To Every object
+  Container
+
   Verb x
     Does "x"
+  End Verb.
+
+  Verb put_in
+    When o Does
+      Locate o In c.
   End Verb.
 End Add.
 
