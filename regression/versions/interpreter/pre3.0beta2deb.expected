@@ -19,6 +19,9 @@ You can't do that.
 > v "c"
 You can't v c.
 
+> put t in t
+That would be to put something inside itself.
+
 > 
 
 Do you want to UNDO, RESTART, RESTORE or QUIT ? 
