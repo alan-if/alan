@@ -3,8 +3,8 @@
 # It only works on ThoNi's machine.
 #######################################################################
 
-VERSION	= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
-DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
+VERSION	:= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
+DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
 default: unit build
 

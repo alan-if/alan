@@ -141,18 +141,17 @@ static void getLine(void) {
             needSpace = FALSE;
         } else
             printAndLog("> ");
+
 #ifdef USE_READLINE
         if (!readline(buf)) {
-            newline();
-            quitGame();
-        }
 #else
         fflush(stdout);
         if (fgets(buf, LISTLEN, stdin) == NULL) {
+#endif
             newline();
             quitGame();
         }
-#endif
+
         getPageSize();
         anyOutput = FALSE;
         if (transcriptOption || logOption) {

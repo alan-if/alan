@@ -36,6 +36,7 @@ extern Bool equalParameterLists(Syntax *stx1,
 
 extern void analyzeSyntaxes(void);
 extern Aaddr generateParseTable(void);
+extern Aaddr generateParameterNames(List *stxs);
 extern Aaddr generateParameterMappingTable(void);
 extern void dumpSyntax(Syntax *stx);
 

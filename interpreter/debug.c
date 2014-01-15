@@ -786,10 +786,13 @@ static void readCommand(char buf[]) {
 		output("adbg> ");
 
 #ifdef USE_READLINE
-		(void) readline(buf);
+		if (!readline(buf)) {
 #else
-		fgets(buf, 255, stdin);
+        if (fgets(buf, 255, stdin) == NULL) {
 #endif
+            newline();
+            quitGame();
+        }
 		lin = 1;
 		c = buf[0];
 	} while (c == '\0');

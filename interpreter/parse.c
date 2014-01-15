@@ -610,7 +610,7 @@ static char *classNameAndId(int classId) {
 /*----------------------------------------------------------------------*/
 static char *parameterNumberAndName(int parameterNumber) {
     static char buffer[1000] = "";
-	char *parameterName = parameterNameInSyntax(parameterNumber);
+	char *parameterName = parameterNameInSyntax(current.verb, parameterNumber);
 
     if (parameterName != NULL)
         sprintf(buffer, "%s(#%d)", parameterName, parameterNumber);

@@ -453,7 +453,7 @@ static void generateRestrictionTable(void) {
 
 
 /*----------------------------------------------------------------------*/
-static void generateParameterNames(Syntax *syntax) {
+Aaddr generateParameterNamesForOneSyntax(Syntax *syntax) {
     List *lst;
     Aaddr adr;
 
@@ -471,7 +471,25 @@ static void generateParameterNames(Syntax *syntax) {
         emit(elm->idAddress);
     }
     emit(EOF);
-    syntax->parameterNameTable = adr;
+    return adr;
+}
+
+
+/*======================================================================*/
+Aaddr generateParameterNames(List *stxs) {
+    List *stx;
+    Aaddr adr;
+
+    TRAVERSE(stx, stxs)
+        stx->member.stx->parameterNameTable = generateParameterNamesForOneSyntax(stx->member.stx);
+
+    adr = nextEmitAddress();
+    TRAVERSE(stx, stxs)
+        emit(stx->member.stx->parameterNameTable);
+    emit(EOF);
+
+    emit(adr);
+    return adr;
 }
 
 
@@ -484,10 +502,6 @@ Aaddr generateParseTable(void) {
 
     TRAVERSE(lst, adv.stxs)
         generateParseTree(lst->member.stx);
-
-    if (opts[OPTDEBUG].value)
-        TRAVERSE(lst, adv.stxs)
-            generateParameterNames(lst->member.stx);
 
     parseTableAddress = nextEmitAddress();
     TRAVERSE(lst, adv.stxs)
