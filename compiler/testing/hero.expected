@@ -10,7 +10,8 @@ hero.alan
                 properties, which is dubious in use.
   *1*   352 E : Instance 'hero' does not inherit from 'actor', but has SCRIPTs,
                 which can never be executed.
-  *2*   411 E : Inheritance from anything but 'actor' ignored for Actor 'hero'.
+  *2*   411 E : Inheritance from anything but 'actor' and its subclasses
+                ignored for Actor 'hero'.
 
     2.    Script x
 =====>    1
