@@ -3,7 +3,7 @@
   INS.C
   Instance Nodes
 
-  \*----------------------------------------------------------------------*/
+\*----------------------------------------------------------------------*/
 
 #include "ins_x.h"
 
@@ -53,6 +53,13 @@ static void ensureHeroInheritsFromActor(Symbol *hero) {
 
 
 /*======================================================================*/
+void addHeroContainer() {
+    if (!symbolIsContainer(theHero))
+        theHero->fields.entity.props->container = newContainer(NULL);
+}
+
+
+/*======================================================================*/
 void addHero(void)
 {
     Symbol *hero = lookup("hero");
@@ -66,8 +73,6 @@ void addHero(void)
     } else {
         theHero = hero;
         ensureHeroInheritsFromActor(hero);
-        if (hero->fields.entity.props->container == NULL)
-            hero->fields.entity.props->container = newContainer(NULL);
     }
 }
 

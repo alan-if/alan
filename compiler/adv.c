@@ -138,6 +138,7 @@ void analyzeAdventure(void)
     addLiteralInstance();
     symbolizeAdventure();
     addAdditions();
+    addHeroContainer();
     setupDefaultProperties();
 
     analyzeAllAttributes();	/* Make sure attributes are analyzed

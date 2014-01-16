@@ -251,7 +251,7 @@ static void sayParameter(int p, int form)
 
     for (i = 0; i <= p; i++)
         if (isEndOfArray(&globalParameters[i]))
-            syserr("Nonexistent parameter referenced.");
+            apperr("Nonexistent parameter referenced.");
 
 #ifdef ALWAYS_SAY_PARAMETERS_USING_PLAYER_WORDS
     if (params[p].firstWord != EOF) /* Any words he used? */
