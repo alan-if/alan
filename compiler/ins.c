@@ -52,8 +52,10 @@ void addHero(void)
     } else {
         theHero = hero;
         if (actorSymbol == NULL) SYSERR("ActorSymbol == NULL");
-        hero->fields.entity.parent = actorSymbol;
-        hero->fields.entity.props->parentId = actorId;
+        if (hero->fields.entity.props->parentId == NULL) {
+            hero->fields.entity.parent = actorSymbol;
+            hero->fields.entity.props->parentId = actorId;
+        }
     }
 }
 
