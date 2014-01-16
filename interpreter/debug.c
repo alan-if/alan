@@ -81,7 +81,7 @@ static void showContents(int cnt)
 
     output("$iContains:");
     for (i = 1; i <= header->instanceMax; i++) {
-        if (isIn(i, cnt, TRUE)) { /* Yes, it's directly in this container */
+        if (isIn(i, cnt, DIRECTLY)) { /* Yes, it's directly in this container */
             if (!found)
                 found = TRUE;
             output("$i$t");
