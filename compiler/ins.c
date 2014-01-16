@@ -42,14 +42,19 @@ void initInstances()
 void addHero(void)
 {
     Symbol *hero = lookup("hero");
-    Instance *theHeroInstance;
+    Instance *theHeroInstance = NULL;
+    Id *actorId = newId(nulsrcp, "actor");
 
     if (hero == NULL) {
         theHeroInstance = newInstance(&nulsrcp, newId(nulsrcp, "hero"),
-                                      newId(nulsrcp, "actor"), NULL);
+                                      actorId, NULL);
         theHero = theHeroInstance->props->id->symbol;
-    } else
+    } else {
         theHero = hero;
+        if (actorSymbol == NULL) SYSERR("ActorSymbol == NULL");
+        hero->fields.entity.parent = actorSymbol;
+        hero->fields.entity.props->parentId = actorId;
+    }
 }
 
 
