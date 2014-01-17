@@ -75,6 +75,6 @@ char *parameterNameInSyntax(int parameterNumber) {
     Aaddr *parameterNameTable = (Aaddr *)pointerTo(syntax->parameterNameTable);
     if (isPreBeta2(header->version) || syntax->parameterNameTable != 0) {
         return stringAt(parameterNameTable[parameterNumber-1]);
-	} else
+    } else
         return NULL;
 }
