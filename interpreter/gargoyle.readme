@@ -8,11 +8,24 @@ To use it you just need to find your Gargoyle installation or
 application, figure out where the files should go and copy it (or
 them) there.
 
-On Windows your Gargoyle installation directory contains all files so
-you should just drop the file there.
+Windows
+-------
 
-On MacOSX you need to "show package content" and drop the alan3 file
-in the PlugIns folder, while the library file goes in the "Frameworks"
+Your Gargoyle installation directory contains all files so you should
+just drop the file there.
+
+
+MacOSX
+------
+
+You need to "show package content" and drop the alan3 file in the
+PlugIns folder, while the library file goes in the "Frameworks"
 folder.
+
+Linux
+-----
+
+All interpreters are installed in /usr/lib/gargoyle so copy the new
+alan3 there.
 
 /Thomas
