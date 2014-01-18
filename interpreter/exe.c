@@ -704,7 +704,7 @@ bool streq(char a[], char b[])
 
 /*======================================================================*/
 #include <sys/time.h>
-void startTranscript() {
+void startTranscript(void) {
     time_t tick;
 
     if (logFile != NULL)
@@ -737,7 +737,7 @@ void startTranscript() {
 
 
 /*======================================================================*/
-void stopTranscript() {
+void stopTranscript(void) {
     if (logFile == NULL)
         return;
 
