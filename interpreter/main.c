@@ -767,8 +767,8 @@ static void moveActor(int theActor)
                            (long)admin[theActor].step);
                 interpret(step->stms);
                 step++;
-                /* ... so that we can see if he is USEing another script now */
-                if (admin[theActor].step != 0 && isEndOfArray(step))
+                /* ... so that we can see if he failed or is USEing another script now */
+                if (fail || (admin[theActor].step != 0 && isEndOfArray(step)))
                     /* No more steps in this script, so stop him */
                     admin[theActor].script = 0;
                 fail = FALSE;			/* fail only aborts one actor */
