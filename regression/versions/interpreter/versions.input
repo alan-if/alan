@@ -3,3 +3,4 @@ x t
 x hero
 x "c"
 v "c"
+put t in t

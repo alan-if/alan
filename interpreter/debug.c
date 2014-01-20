@@ -81,7 +81,7 @@ static void showContents(int cnt)
 
     output("$iContains:");
     for (i = 1; i <= header->instanceMax; i++) {
-        if (isIn(i, cnt, TRUE)) { /* Yes, it's directly in this container */
+        if (isIn(i, cnt, DIRECTLY)) { /* Yes, it's directly in this container */
             if (!found)
                 found = TRUE;
             output("$i$t");
@@ -786,10 +786,13 @@ static void readCommand(char buf[]) {
 		output("adbg> ");
 
 #ifdef USE_READLINE
-		(void) readline(buf);
+		if (!readline(buf)) {
 #else
-		fgets(buf, 255, stdin);
+        if (fgets(buf, 255, stdin) == NULL) {
 #endif
+            newline();
+            quitGame();
+        }
 		lin = 1;
 		c = buf[0];
 	} while (c == '\0');

@@ -62,6 +62,7 @@ MODULES_WITHOUT_UNITTESTS = \
 	syntax.c \
 	syserr.c \
 	term.c \
+	types.c \
 	fnmatch.c
 
 # All sources common for the main build

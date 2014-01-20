@@ -16,18 +16,15 @@ diffCase ()
 if [ $# != 0 ] ; then
   for f in ${*} ; do
     case=`basename ${f%%.} .output`
-    if [ "$case" != "$f" ] ; then
-	diffCase
-    elif [ -f $case.alan ] ; then
+    if [ -f $case.output -a -f $case.expected ] ; then
         diffCase
     fi
   done
 else
   for f in *.output ; do
     case=`basename $f .output`
-    if [ -f $case.alan -a -f $case.expected ] ; then
-	diffCase
+    if [ -f $case.output -a -f $case.expected ] ; then
+        diffCase
     fi
   done
 fi
-

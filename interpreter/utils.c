@@ -8,6 +8,7 @@
 #include "output.h"
 #include "exe.h"
 #include "state.h"
+#include "lists.h"
 
 #include "fnmatch.h"
 

@@ -69,6 +69,12 @@ ContainerBody *newContainerBody(Srcp srcp,
 }
 
 
+/*----------------------------------------------------------------------*/
+static ContainerBody *newEmptyContainerBody(void) {
+    return newContainerBody(nulsrcp, FALSE, NULL, NULL, NULL, NULL, NULL, NULL);
+}
+
+
 /*======================================================================*/
 Container *newContainer(ContainerBody *body)
 {
@@ -78,7 +84,10 @@ Container *newContainer(ContainerBody *body)
 
     new = NEW(Container);
     new->ownerProperties = NULL;
-    new->body = body;
+    if (body == NULL)
+        new->body = newEmptyContainerBody();
+    else
+        new->body = body;
 
     adv.cnts = concat(adv.cnts, new, CONTAINER_LIST);
 

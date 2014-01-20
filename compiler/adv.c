@@ -138,6 +138,7 @@ void analyzeAdventure(void)
     addLiteralInstance();
     symbolizeAdventure();
     addAdditions();
+    addHeroContainer();
     setupDefaultProperties();
 
     analyzeAllAttributes();	/* Make sure attributes are analyzed
@@ -210,6 +211,8 @@ void generateAdventure(char acodeFileName[],
 		       char textFileName[],
 		       char dataFileName[])
 {
+    Aaddr parameterNamesAddress = 0;
+
     initEmit(acodeFileName);		/* Initialise code emit */
     initEncoding(textFileName, dataFileName);	/* Initialise encoding of text */
     if (lmSeverity() > sevWAR)
@@ -224,7 +227,10 @@ void generateAdventure(char acodeFileName[],
     acodeHeader.syntaxTableAddress = generateParseTable();
 
     verbose("Parameter Mapping");
+    if (debugFlag)
+        parameterNamesAddress = generateParameterNames(adv.stxs);
     acodeHeader.parameterMapAddress = generateParameterMappingTable();
+    emit(parameterNamesAddress);
     acodeHeader.maxParameters = 10;	/* TODO calculate and move this to a better place */
 
     verbose("Verbs");

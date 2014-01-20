@@ -17,7 +17,7 @@
 #include "utils.h"
 #include "compatibility.h"
 #include "syserr.h"
-
+#include "memory.h"
 
 extern Aword *memory;
 
@@ -384,6 +384,24 @@ static void reverseSyntaxTable(Aword adr, char version[])
 }
 
 
+static void reverseParameterNames(Aaddr parameterMapAddress) {
+    Aaddr *e;
+    Aaddr adr;
+    
+    adr = addressAfterParameterMap(parameterMapAddress);
+    reverse(&memory[adr]);
+    adr = memory[adr];
+    
+    reverseTable(adr, sizeof(Aaddr));
+    
+    e = (Aaddr*) &memory[adr];
+    while (!isEndOfArray(e)) {
+        reverseTable(*e, sizeof(Aaddr));
+        e++;
+    }
+}
+
+
 static void reverseParameterTable(Aword adr)
 {
   ParameterMapEntry *e = (ParameterMapEntry *) &memory[adr];
@@ -595,6 +613,8 @@ static void reverseNative() {
 
     reverseDictionary(header->dictionary);
     reverseSyntaxTable(header->syntaxTableAddress, header->version);
+    if (header->debug && !isPreBeta3(header->version))
+        reverseParameterNames(header->parameterMapAddress);
     reverseParameterTable(header->parameterMapAddress);
     reverseVerbs(header->verbTableAddress);
     reverseClasses(header->classTableAddress);

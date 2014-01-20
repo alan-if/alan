@@ -25,7 +25,7 @@
 #include "prop_x.h"
 #include "dump_x.h"
 #include "emit.h"
-
+#include "options.h"
 
 /* EXPORTS: */
 int frameLevel = 0;
@@ -94,8 +94,8 @@ void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition)
 /*----------------------------------------------------------------------*/
 static void insertSymbol(Symbol *symbol)
 {
-    Symbol *s1,*s2;               /* Traversal pointers */
-    int comp = 0;			/* Result of comparison */
+    Symbol *s1,*s2;             /* Traversal pointers */
+    int comp = 0;               /* Result of comparison */
 
     symbol->lower = NULL;
     symbol->higher = NULL;
@@ -1162,8 +1162,12 @@ static void dumpSymbolLeaf(Symbol *symbol)
 
     put("SYMBOL: "); dumpPointer(symbol); dumpSymbolKind(symbol->kind); indent();
     put("string: "); dumpString(symbol->string);
-    put(", code: "); dumpInt(symbol->code); nl();
-    put("lower: "); dumpPointer(symbol->lower); put("higher: "); dumpPointer(symbol->higher); out();
+    put(", code: "); dumpInt(symbol->code);
+    if (dumpFlags&DUMP_ADDRESSES) {
+        nl();
+        put("lower: "); dumpPointer(symbol->lower); put("higher: "); dumpPointer(symbol->higher);
+    }
+    out();
 }
 
 

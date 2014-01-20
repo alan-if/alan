@@ -377,10 +377,10 @@ typedef struct ContainerEntry {	/* CONTAINER TABLE */
 
 
 typedef struct ElementEntry {	/* SYNTAX ELEMENT TABLES */
-    Aint code;			/* Code for this element, 0 -> parameter */
-    Aword flags;		/* Flags for multiple/omni (if parameter) */
-    Aaddr next;			/* Address to next element table ... */
-				/* ... or restrictions if code == EOS */
+    Aint code;             /* Code for this element, 0 -> parameter */
+    Aword flags;           /* Flags for multiple/omni (if parameter), syntax number/verb of EOS */
+    Aaddr next;            /* Address to next element table ... */
+                           /* ... or restrictions if code == EOS */
 } ElementEntry;
 
 typedef struct SyntaxEntryPreBeta2 {	/* SYNTAX TABLE */

@@ -3,9 +3,15 @@
   INS.C
   Instance Nodes
 
-  \*----------------------------------------------------------------------*/
+\*----------------------------------------------------------------------*/
 
 #include "ins_x.h"
+
+#include "options.h"
+#include "sysdep.h"
+#include "util.h"
+#include "emit.h"
+#include "adv.h"
 
 #include "description_x.h"
 #include "id_x.h"
@@ -18,11 +24,7 @@
 #include "atr_x.h"
 #include "context_x.h"
 #include "dump_x.h"
-#include "options.h"
-#include "sysdep.h"
-#include "util.h"
-#include "emit.h"
-#include "adv.h"
+#include "cnt_x.h"
 
 #include "lmList.h"
 
@@ -38,18 +40,40 @@ void initInstances()
 }
 
 
+/*----------------------------------------------------------------------*/
+static void ensureHeroInheritsFromActor(Symbol *hero) {
+    Id *actorId = newId(nulsrcp, "actor");
+
+    if (actorSymbol == NULL) SYSERR("ActorSymbol == NULL");
+    if (hero->fields.entity.props->parentId == NULL) {
+        hero->fields.entity.parent = actorSymbol;
+        hero->fields.entity.props->parentId = actorId;
+    }
+}
+
+
+/*======================================================================*/
+void addHeroContainer() {
+    if (!symbolIsContainer(theHero))
+        theHero->fields.entity.props->container = newContainer(NULL);
+}
+
+
 /*======================================================================*/
 void addHero(void)
 {
     Symbol *hero = lookup("hero");
-    Instance *theHeroInstance;
+    Instance *theHeroInstance = NULL;
+    Id *actorId = newId(nulsrcp, "actor");
 
     if (hero == NULL) {
         theHeroInstance = newInstance(&nulsrcp, newId(nulsrcp, "hero"),
-                                      newId(nulsrcp, "actor"), NULL);
+                                      actorId, NULL);
         theHero = theHeroInstance->props->id->symbol;
-    } else
+    } else {
         theHero = hero;
+        ensureHeroInheritsFromActor(hero);
+    }
 }
 
 

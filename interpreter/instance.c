@@ -902,9 +902,11 @@ static void locateActor(Aint movingActor, Aint whr)
 
 /*----------------------------------------------------------------------*/
 static void traceExtract(int instance, int containerId, char *what) {
-    printf("\n<EXTRACT from ");
-    traceSay(instance);
-    printf("[%d, container %d], %s:>\n", instance, containerId, what);
+    if (traceSectionOption) {
+        printf("\n<EXTRACT from ");
+        traceSay(instance);
+        printf("[%d, container %d], %s:>\n", instance, containerId, what);
+    }
 }
 
 
@@ -926,11 +928,36 @@ static void containmentLoopError(int instance, int whr) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static void runExtractStatements(int instance, int containerId) {
+    ContainerEntry *theContainer = &containers[containerId];
+
+    if (theContainer->extractStatements != 0) {
+        traceExtract(instance, containerId, "Executing");
+        interpret(theContainer->extractStatements);
+    }
+}
+
+
+/*----------------------------------------------------------------------*/
+static bool runExtractChecks(int instance, int containerId) {
+    ContainerEntry *theContainer = &containers[containerId];
+
+    if (theContainer->extractChecks != 0) {
+        traceExtract(instance, containerId, "Checking");
+        if (checksFailed(theContainer->extractChecks, EXECUTE_CHECK_BODY_ON_FAIL)) {
+            fail = TRUE;
+            return FALSE;       /* Failed! */
+        }
+    }
+    return TRUE;                /* Passed! */
+}
+
+
 /*======================================================================*/
 void locate(int instance, int whr)
 {
     int containerId;
-    ContainerEntry *theContainer;
     int previousInstance = current.instance;
 
     verifyInstance(instance, "LOCATE");
@@ -942,26 +969,21 @@ void locate(int instance, int whr)
 
     /* First check if the instance is in a container, if so run extract checks */
     if (isAContainer(admin[instance].location)) {    /* In something? */
-        current.instance = admin[instance].location;
-        containerId = instances[admin[instance].location].container;
-        theContainer = &containers[containerId];
+        int loc = admin[instance].location;
 
-        if (theContainer->extractChecks != 0) {
-            if (traceSectionOption)
-                traceExtract(instance, containerId, "Checking");
-            if (checksFailed(theContainer->extractChecks, EXECUTE_CHECK_BODY_ON_FAIL)) {
-                fail = TRUE;
-                // TODO: this should be done for the above return as well as before exiting the extract checks :
-                // current.instance = previousInstance;
+        /* Run all nested extraction checks */
+        while (isAContainer(loc)) {
+            current.instance = loc;
+            containerId = instances[loc].container;
+
+            if (!runExtractChecks(instance, containerId)) {
+                current.instance = previousInstance;
                 return;
             }
+            runExtractStatements(instance, containerId);
+            loc = admin[loc].location;
         }
-        if (theContainer->extractStatements != 0) {
-            if (traceSectionOption)
-                traceExtract(instance, containerId, "Executing");
-            interpret(theContainer->extractStatements);
-        }
-	current.instance = previousInstance;
+        current.instance = previousInstance;
     }
 
     if (isAActor(instance))

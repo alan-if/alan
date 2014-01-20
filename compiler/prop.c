@@ -149,8 +149,8 @@ static void checkSubclassing(Properties *props)
 {
     if (props->parentId) {
         if (props->id->symbol == theHero) {
-            if (props->parentId->symbol != actorSymbol)
-                lmLog(&props->parentId->srcp, 411, sevERR, "Inheritance from anything but 'actor'");
+            if (!inheritsFrom(props->parentId->symbol, actorSymbol))
+                lmLog(&props->parentId->srcp, 411, sevERR, "Inheritance from anything but 'actor' and its subclasses");
         } else if (props->parentId->symbol)
             if (props->parentId->symbol->fields.entity.prohibitedSubclassing &&
                 !props->predefined)
