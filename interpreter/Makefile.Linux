@@ -3,6 +3,7 @@
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # rules.mk
 
+VERSION := `cat ../LASTRELEASE`
 TARGET = arun
 
 # Define the program name
@@ -53,7 +54,8 @@ release: all
 GARGOYLE_DIR=../../garglk-current-alan3
 gararun:
 	cd $(GARGOYLE_DIR); jam alan3
-
+	cp $(GARGOYLE_DIR)/build/linux.release/alan3/alan3 .
+	zip -j gargoyle-alan3-$(VERSION).linux.x86.zip alan3 gargoyle.readme
 
 #######################################################################
 #
