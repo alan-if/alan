@@ -2,11 +2,11 @@ The l Isa location
 End The l.
 
 The c1 Isa object At l
-  Container
+  Container Taking thing.
 End The c1.
 
 The c2 Isa thing At l
-  Container
+  Container Taking thing.
 End The c2.
 
 The t1 Isa thing In c1

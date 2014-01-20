@@ -59,7 +59,7 @@ void symbolizeWhere(Where *whr)
 
 
 /*======================================================================*/
-Bool verifyInitialLocation(Where *whr)
+Bool verifyInitialLocation(Where *whr, Context *context)
 {
     if (whr->directly)
         lmLog(&whr->srcp, 422, sevERR, "Initial location");
@@ -77,7 +77,7 @@ Bool verifyInitialLocation(Where *whr)
             }
             break;
         case WHERE_IN:
-            verifyContainerForInitialLocation(whr->what->fields.wht.wht, NULL, "Expression after IN");
+            verifyContainerForInitialLocation(whr->what->fields.wht.wht, context, "Expression after IN");
             break;
         default:
             lmLogv(&whr->srcp, 355, sevERR, "", NULL);

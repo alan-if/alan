@@ -72,7 +72,7 @@ static void addInitialLocation(AddNode *add, Symbol *original)
                 lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
             else {
                 symbolizeWhere(props->whr);
-                if (verifyInitialLocation(props->whr))
+                if (verifyInitialLocation(props->whr, NULL))
                     PROPERTIESOF(original)->whr = props->whr;
             }
         }

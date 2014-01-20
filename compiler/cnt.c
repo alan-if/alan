@@ -57,8 +57,10 @@ ContainerBody *newContainerBody(Srcp srcp,
     new->opaque = opaque;
     if (takes != NULL)
         new->taking = takes;
-    else
+    else {
         new->taking = newId(nulsrcp, "object");
+        new->taking->symbol = objectSymbol;
+    }
     new->limits = lims;
     new->hstms = hstms;
     new->estms = estms;
@@ -123,6 +125,16 @@ void verifyContainerForInitialLocation(What *wht, Context *context, char *constr
             case INSTANCE_SYMBOL:
                 if (sym->fields.entity.props->container == NULL)
                     lmLogv(&wht->srcp, 318, sevERR, wht->id->string, constructMessage, NULL);
+                else {
+                    Symbol *class;
+                    switch (context->kind) {
+                    case CLASS_CONTEXT: class = context->class->props->id->symbol; break;
+                    case INSTANCE_CONTEXT: class = context->instance->props->parentId->symbol; break;
+                    default: SYSERR("Unexpected context->kind");
+                    }
+                    if (!inheritsFrom(class, sym->fields.entity.props->container->body->taking->symbol))
+                        lmLog(&wht->srcp, 404, sevERR, sym->fields.entity.props->container->body->taking->string);
+                }
                 break;
             case ERROR_SYMBOL:
                 break;

@@ -14,7 +14,7 @@ Add To Every thing
 End Add To thing.
 
 Add To Every actor
-  Container
+  Container Taking thing.
 End Add To actor.
 
 The place Isa location

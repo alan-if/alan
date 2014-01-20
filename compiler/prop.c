@@ -189,7 +189,7 @@ void analyzeProps(Properties *props, Context *context)
     checkSubclassing(props);
 
     if (props->whr != NULL)
-        verifyInitialLocation(props->whr);
+        verifyInitialLocation(props->whr, context);
     if (props->whr != NULL &&
         !(inheritsFrom(props->id->symbol, thingSymbol)
           || inheritsFrom(props->id->symbol, locationSymbol)))
