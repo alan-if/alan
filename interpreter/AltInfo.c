@@ -39,12 +39,12 @@ void primeAltInfo(AltInfo *altInfo, int level, int parameter, int instance, int 
 
 
 /*----------------------------------------------------------------------*/
-static void traceInstanceAndItsClass(AltInfo *alt)
+static void traceInstanceAndItsClass(Aid instance, Aid class)
 {
-    traceSay(globalParameters[alt->parameter-1].instance);
-    printf("[%d]", globalParameters[alt->parameter-1].instance);
-    if (alt->class != NO_CLASS)
-        printf(", inherited from %s[%d]", idOfClass(alt->class), alt->class);
+    traceSay(instance);
+    printf("[%d]", instance);
+    if (class != NO_CLASS)
+        printf(", inherited from %s[%d]", idOfClass(class), class);
 }
 
 
@@ -56,7 +56,7 @@ static void traceAltInfo(AltInfo *alt) {
         break;
     case LOCATION_LEVEL:
         printf("in (location) ");
-        traceInstanceAndItsClass(alt);
+        traceInstanceAndItsClass(current.location, alt->class);
         break;
     case PARAMETER_LEVEL: {
 		char *parameterName = parameterNameInSyntax(current.verb, alt->parameter);
@@ -64,7 +64,7 @@ static void traceAltInfo(AltInfo *alt) {
 			printf("in parameter %s(#%d)=", parameterName, alt->parameter);
 		else
 			printf("in parameter #%d=", alt->parameter);
-        traceInstanceAndItsClass(alt);
+        traceInstanceAndItsClass(globalParameters[alt->parameter-1].instance, alt->class);
         break;
 	}
     }
