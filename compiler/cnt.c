@@ -130,7 +130,7 @@ void verifyContainerForInitialLocation(What *wht, Context *context, char *constr
                     switch (context->kind) {
                     case CLASS_CONTEXT: class = context->class->props->id->symbol; break;
                     case INSTANCE_CONTEXT: class = context->instance->props->parentId->symbol; break;
-                    default: SYSERR("Unexpected context->kind");
+                    default: SYSERR("Unexpected context->kind"); return;
                     }
                     if (!inheritsFrom(class, sym->fields.entity.props->container->body->taking->symbol))
                         lmLog(&wht->srcp, 404, sevERR, sym->fields.entity.props->container->body->taking->string);
