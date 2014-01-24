@@ -10,7 +10,7 @@ PROGNAME=-DPROGNAME=\"$(TARGET)\"
 ARUNOPTS = $(PROGNAME) $(GLK)
 
 OSFLAGS = 
-ARCH = -m32
+ARCHFLAGS = -m32
 
 COMPILER = gcc -g
 COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
@@ -34,7 +34,7 @@ default all: unit arun
 
 ##################################################################
 .PHONY: release
-release: ARCH = -arch i386 -arch ppc
+release: ARCHFLAGS = -arch i386 -arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
 release: DEPENDENCY = 
 release: all
@@ -56,7 +56,7 @@ gararun:
 ############################################################
 # glkarun
 glkarun: TERMGLKROOT = ../../glkterm
-glkarun: ARCH = -m32
+glkarun: ARCHFLAGS = -m32
 
 CURSESLIB = -lcurses
 

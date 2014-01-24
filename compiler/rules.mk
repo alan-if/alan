@@ -98,8 +98,6 @@ unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
 	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 
 # ... that can be run with the cgreen runner
-cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
-cgreenrunnertests: LIBS = $(CGREENLIB)
 cgreenrunnertests: unittests.dll
 ifeq ($(shell uname), Darwin)
 	arch -i386 cgreen-runner $^ --suite compiler_unit_tests $(UNITOUTPUT)
