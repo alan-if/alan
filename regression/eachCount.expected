@@ -1,6 +1,32 @@
 ########## eachCount ##########
 
-        No warnings or errors detected.
+
+eachCount.alan
+
+   28.    For Each o Isa object, In c Do
+=====>                           1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+   32.    If Count Isa object, In c = l:c Then "Ok" Else "not ok" End If.
+=====>                         1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+   33.    If Count Isa object, In c = 2 Then "Ok" Else "not ok" End If.
+=====>                         1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+
+        No detected errors.
+        3 warning(s).
 
 
 Ok Ok

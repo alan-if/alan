@@ -7,54 +7,54 @@
 \*----------------------------------------------------------------------*/
 
 /* %%IMPORT */
-
-
-#include "util.h"
-#include "acode.h"
-
-#include "types.h"
-#include "smScan.h"
-#include "token.h"
-
-#include "lmList.h"
-
-#include "alt.h"
-#include "evt.h"
-#include "lim.h"
-#include "msg.h"
-#include "opt.h"
-#include "sco.h"
-#include "str.h"
-#include "syn.h"
-#include "adv_x.h"
-#include "add_x.h"
-#include "article_x.h"
-#include "atr_x.h"
-#include "cla_x.h"
-#include "chk_x.h"
-#include "cnt_x.h"
-#include "elm_x.h"
-#include "exp_x.h"
-#include "ext_x.h"
-#include "id_x.h"
-#include "ins_x.h"
-#include "description_x.h"
-#include "initialize_x.h"
-#include "resource_x.h"
-#include "rul_x.h"
-#include "lst_x.h"
-#include "prop_x.h"
-#include "res_x.h"
-#include "scr_x.h"
-#include "stm_x.h"
-#include "stp_x.h"
-#include "stx_x.h"
-#include "sym_x.h"
-#include "srcp_x.h"
-#include "vrb_x.h"
-#include "whr_x.h"
-#include "wht_x.h"
-
+
+
+#include "util.h"
+#include "acode.h"
+
+#include "types.h"
+#include "smScan.h"
+#include "token.h"
+
+#include "lmList.h"
+
+#include "alt.h"
+#include "evt.h"
+#include "lim.h"
+#include "msg.h"
+#include "opt.h"
+#include "sco.h"
+#include "str.h"
+#include "syn.h"
+#include "adv_x.h"
+#include "add_x.h"
+#include "article_x.h"
+#include "atr_x.h"
+#include "cla_x.h"
+#include "chk_x.h"
+#include "cnt_x.h"
+#include "elm_x.h"
+#include "exp_x.h"
+#include "ext_x.h"
+#include "id_x.h"
+#include "ins_x.h"
+#include "description_x.h"
+#include "initialize_x.h"
+#include "resource_x.h"
+#include "rul_x.h"
+#include "lst_x.h"
+#include "prop_x.h"
+#include "res_x.h"
+#include "scr_x.h"
+#include "stm_x.h"
+#include "stp_x.h"
+#include "stx_x.h"
+#include "sym_x.h"
+#include "srcp_x.h"
+#include "vrb_x.h"
+#include "whr_x.h"
+#include "wht_x.h"
+
 /* END %%IMPORT */
 
 #include <string.h>
@@ -131,24 +131,24 @@ void pmISym(
 #define sstr symString
 #define pstr printString
 #line 66 "alan.pmk"
-
-
-{
-  static int idno = 1;
-
-    /* Make the requested token */
-    token->code = code;
-    if (token->code == sm_MAIN_IDENTIFIER_Token) {
-      sprintf(token->chars, "$identifier#%d", idno++);
-#ifdef INSERTIDINMESSAGE
-      strcat(insStr, " ('");
-      strcat(insStr, token->chars);
-      strcat(insStr, "')");
-#endif
-    } else
-      strcpy(token->chars, symString);
-}
-
+
+
+{
+  static int idno = 1;
+
+    /* Make the requested token */
+    token->code = code;
+    if (token->code == sm_MAIN_IDENTIFIER_Token) {
+      sprintf(token->chars, "$identifier#%d", idno++);
+#ifdef INSERTIDINMESSAGE
+      strcat(insStr, " ('");
+      strcat(insStr, token->chars);
+      strcat(insStr, "')");
+#endif
+    } else
+      strcpy(token->chars, symString);
+}
+
 #undef sym
 #undef sstr
 #undef pstr

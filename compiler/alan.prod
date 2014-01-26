@@ -677,39 +677,40 @@
 
 357. <optional_directly> = 
 358.                     ! 'directly' 
+359.                     ! 'indirectly' 
                          ;
 
-359. <optional_id> = 
-360.               ! ID 
+360. <optional_id> = 
+361.               ! ID 
                    ;
 
-361. <ids> = ID 
-362.       ! <ids> ID 
+362. <ids> = ID 
+363.       ! <ids> ID 
            ;
 
-363. <id_list> = ID 
-364.           ! <id_list> ',' ID 
+364. <id_list> = ID 
+365.           ! <id_list> ',' ID 
                ;
 
-365. <optional_integer> = 
-366.                    ! Integer 
+366. <optional_integer> = 
+367.                    ! Integer 
                         ;
 
-367. <optional_minus> = 
-368.                  ! '-' 
+368. <optional_minus> = 
+369.                  ! '-' 
                       ;
 
-369. ID = Identifier 
-370.    ! 'location' 
-371.    ! 'actor' 
-372.    ! 'opaque' 
-373.    ! 'contains' 
-374.    ! 'on' 
-375.    ! 'it' 
-376.    ! 'of' 
-377.    ! 'first' 
-378.    ! 'into' 
-379.    ! 'taking' 
-380.    ! 'off' 
+370. ID = Identifier 
+371.    ! 'location' 
+372.    ! 'actor' 
+373.    ! 'opaque' 
+374.    ! 'contains' 
+375.    ! 'on' 
+376.    ! 'it' 
+377.    ! 'of' 
+378.    ! 'first' 
+379.    ! 'into' 
+380.    ! 'taking' 
+381.    ! 'off' 
         ;
 

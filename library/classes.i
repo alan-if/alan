@@ -401,7 +401,7 @@ EVERY clothing ISA OBJECT
 --------------------------------------------------------------------
 
 
-	IF topcover OF THIS <> 0 AND topcover OF THIS <= SUM OF topcover IN worn 
+    IF topcover OF THIS <> 0 AND topcover OF THIS <= SUM OF topcover Directly IN worn 
 		THEN
 			INCREASE wear_flag OF hero BY 5.
 	END IF.
@@ -413,19 +413,19 @@ EVERY clothing ISA OBJECT
 
 
 --	IF THIS IN tempworn THEN
-	IF handscover OF THIS <> 0 AND handscover OF THIS <= SUM OF handscover IN worn 
+	IF handscover OF THIS <> 0 AND handscover OF THIS <= SUM OF handscover Directly IN worn 
 		THEN
 			INCREASE wear_flag OF hero BY 5.
 	END IF.
 	
 
-	IF feetcover OF THIS <> 0 AND feetcover OF THIS <= SUM OF feetcover IN worn 
+	IF feetcover OF THIS <> 0 AND feetcover OF THIS <= SUM OF feetcover Directly IN worn 
 		THEN
 			INCREASE wear_flag OF hero BY 5.	
 	END IF.
 
 	
-	IF headcover OF THIS <> 0 AND headcover OF THIS <= SUM OF headcover IN worn 
+	IF headcover OF THIS <> 0 AND headcover OF THIS <= SUM OF headcover Directly IN worn 
 		THEN
 			INCREASE wear_flag OF hero BY 5.	
 	END IF.
@@ -439,7 +439,7 @@ EVERY clothing ISA OBJECT
 --------------------------------------------------------------------
 
 
-	SET tempcovered OF hero TO SUM OF botcover in worn.
+	SET tempcovered OF hero TO SUM OF botcover Directly in worn.
 		IF tempcovered OF hero >63 and botcover OF THIS < 33
 			 THEN 
 				SET tempcovered OF hero TO tempcovered OF hero -64.
@@ -547,7 +547,7 @@ VERB remove
 --------------------------------------------------------------------
 
 
-	SET tempcovered OF hero TO SUM OF topcover IN worn /2.
+	SET tempcovered OF hero TO SUM OF topcover Directly IN worn /2.
 	IF topcover OF THIS <> 0 AND topcover OF THIS < tempcovered OF hero
 		 THEN
 			INCREASE wear_flag OF hero BY 1.
@@ -559,21 +559,21 @@ VERB remove
 --------------------------------------------------------------------
 
 
-	SET tempcovered OF hero TO SUM OF handscover IN worn /2.
+	SET tempcovered OF hero TO SUM OF handscover Directly IN worn /2.
 	IF handscover OF THIS <> 0 AND handscover OF THIS < tempcovered OF hero 
 		THEN
 			INCREASE wear_flag OF hero BY 1.
 	END IF.		
 
 
-	SET tempcovered OF hero TO SUM OF feetcover IN worn /2.
+	SET tempcovered OF hero TO SUM OF feetcover Directly IN worn /2.
 	IF feetcover OF THIS <> 0 AND feetcover OF THIS < tempcovered OF hero 
 		THEN
 			INCREASE wear_flag OF hero BY 1.		
 	END IF.	
 
 
-	SET tempcovered OF hero TO SUM OF headcover IN worn /2.
+	SET tempcovered OF hero TO SUM OF headcover Directly IN worn /2.
 	IF headcover OF THIS <> 0 AND headcover OF THIS < tempcovered OF hero 
 		THEN
 			INCREASE wear_flag OF hero BY 1.
@@ -586,7 +586,7 @@ VERB remove
 --------------------------------------------------------------------
 
 
-	SET tempcovered OF hero TO SUM OF botcover in worn.
+	SET tempcovered OF hero TO SUM OF botcover Directly in worn.
 	IF tempcovered OF hero >63 
 		THEN 
 			SET tempcovered OF hero TO tempcovered OF hero -64.

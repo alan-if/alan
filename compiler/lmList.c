@@ -228,6 +228,7 @@ static lmMsgs msg[] = {
     { "444   ", "There is no location defined in %1, so output can never be seen by the player." },
     { "445   ", "The event will be executed at no location." },
     { "450   ", "Wrong type of resource file for %1 statement." },
+    { "451   ", "Filter using IN transitively can possibly return instances of any type. If this is not what you want use \'Directly In\' instead." },
     { "501   ", "Location \'%1\' has no EXITs." },
     { "502   ", "Instance \'%1\' does not inherit from any of the common base classes." },
     { "550   ", "Unknown text style. Use %1." },
@@ -250,7 +251,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 170}
+    {0, 171}
 };
 static lmMessages currMsect = (lmMessages)0;
 

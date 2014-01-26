@@ -4,7 +4,7 @@ os=$(uname -s)
 case $os in
   "Linux")
         diff=meld ;;
-  "Cygwin")
+  "CYGWIN_NT-6.1")
         diff=/cygdrive/c/Program/Winmerge/WinMergeU ;;
   *)
         echo "No visual diff defined for" $os ;;

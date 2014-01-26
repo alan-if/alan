@@ -1,6 +1,25 @@
 ########## belt ##########
 
-        No warnings or errors detected.
+
+belt.alan
+
+    4.                    If Count In hero > 0 Then "and"
+=====>                             1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+   20.      Else "You are empty-handed" If Count In belt = 0 Then "." End If.
+=====>                                           1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+
+        No detected errors.
+        2 warning(s).
         1 informational message(s).
 
 

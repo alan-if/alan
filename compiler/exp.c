@@ -371,10 +371,11 @@ Bool isConstantExpression(Expression *exp)
         }
     case WHAT_EXPRESSION:
         return isConstantWhat(exp->fields.wht.wht);
+
+        /* TODO: Some of these might also be constant, e.g. <instance id> Isa <class> */
     case BETWEEN_EXPRESSION:
     case ISA_EXPRESSION:
     case BINARY_EXPRESSION:
-        /* TODO: Some of these might also be constant, e.g. <instance id> Isa <class> */
     case ATTRIBUTE_EXPRESSION:
     case WHERE_EXPRESSION:
     case AGGREGATE_EXPRESSION:
@@ -691,7 +692,13 @@ static void analyzeClassingFilter(char *message,
             theFilter->type = theFilter->fields.whr.whr->what->type;
             break;
         case WHERE_IN:
-            theFilter->class = contentOf(theFilter->fields.whr.whr->what, context);
+            if (theFilter->fields.whr.whr->directly)
+                theFilter->class = contentOf(theFilter->fields.whr.whr->what, context);
+            else {
+                if (theFilter->fields.whr.whr->what->type != ERROR_TYPE)
+                    lmLog(&theFilter->srcp, 451, sevWAR, "");
+                theFilter->class = entitySymbol;
+            }
             theFilter->type = theFilter->fields.whr.whr->what->type;
             break;
         case WHERE_HERE:

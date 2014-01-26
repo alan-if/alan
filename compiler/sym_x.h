@@ -67,6 +67,7 @@ extern Bool isClass(Symbol *symbol);
 extern Bool isInstance(Symbol *symbol);
 extern Bool symbolIsContainer(Symbol *symbol);
 extern Symbol *contentOfSymbol(Symbol *symbol);
+extern Symbol *transitiveContentOfSymbol(Symbol *symbol);
 extern void newFrame(void);
 extern void deleteFrame(void);
 extern char *verbHasParametersMessage(Context *context);
@@ -80,6 +81,7 @@ extern void setParent(Symbol *child, Symbol *parent);
 extern Symbol *parentOf(Symbol *child);
 extern Bool inheritsFrom(Symbol *child, Symbol *ancestor);
 extern void inheritCheck(Id *id, char *what, char classOrInstance[], char className[]);
+extern Symbol *commonParent(Symbol *sym1, Symbol *sym2);
 
 extern void setParameters(Symbol *verb, List *parameters);
 

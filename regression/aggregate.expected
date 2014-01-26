@@ -1,6 +1,39 @@
 ########## aggregate ##########
 
-        No warnings or errors detected.
+
+aggregate.alan
+
+   36.    If Sum Of y Isa object, In c = 5 Then "Ok" Else "not ok" End If.
+=====>                            1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+   37.    If Max Of y Isa object, In c = 4 Then "Ok" Else "not ok" End If.
+=====>                            1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+   38.    If Min Of y Isa object, In c = 1 Then "Ok" Else "not ok" End If.
+=====>                            1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+   39.    If Count Isa object, In c = 2 Then "Ok" Else "not ok" End If.
+=====>                         1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+
+        No detected errors.
+        4 warning(s).
 
 
 Ok Ok Ok Ok Ok Ok Ok Ok Ok Ok Ok Ok

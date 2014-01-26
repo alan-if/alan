@@ -1,0 +1,25 @@
+########## warnForInContainerInLoop ##########
+
+
+warnForInContainerInLoop.alan
+
+   17.    For Each i In cont1 Do
+=====>               1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead.
+
+   18.      Say attr Of i. -- i Is defined on objects, but a transitive IN will
+         find thing:s inside cont2
+=====>          1
+
+  *1*   316 E : Attribute 'attr' is not defined for variable 'i' since the
+                class it is known to be in this context ('entity') does not
+                have it.
+
+
+        1 error(s).
+        1 warning(s).
+        1 informational message(s).
+
