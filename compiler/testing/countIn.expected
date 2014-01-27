@@ -8,7 +8,7 @@ countIn.alan
 
   *1*   451 W : Filter using IN transitively can possibly return instances of
                 any type. If this is not what you want use 'Directly In'
-                instead.
+                instead. To silence this warning use an explict transitivity.
 
 
         No detected errors.

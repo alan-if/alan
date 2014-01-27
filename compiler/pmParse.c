@@ -86,6 +86,7 @@ typedef struct pmGrammar {
     List *vrbs;
     Verb *vrb;
     int val;
+    Transitivity transitivity;
     List *syns;
     Synonym *syn;
     List *stxs;
@@ -146,7 +147,6 @@ typedef struct pmGrammar {
     List *entered;
     List *elms;
     Element *elm;
-    Bool directly;
     Srcp descriptionSrcp;
     List *descriptionDoes;
     List *descriptionChecks;

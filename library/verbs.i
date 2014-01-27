@@ -1955,7 +1955,7 @@ ADD TO EVERY OBJECT
 		END IF.
 		-- end of implicit taking.
 
-		IF COUNT ISA OBJECT, IN obj = 0
+		IF COUNT ISA OBJECT, Indirectly IN obj = 0
 			THEN "There is nothing in" SAY THE obj.
 			ELSE 	"You $v the contents of" SAY THE obj.
 					IF floor HERE
@@ -2093,7 +2093,7 @@ VERB empty_in, pour_in
 		END IF.
 		-- end of implicit taking.
 			
-		IF COUNT ISA OBJECT, IN obj = 0
+		IF COUNT ISA OBJECT, Indirectly IN obj = 0
 			THEN "There is nothing in" SAY THE obj. "."
 		ELSE EMPTY obj IN cont.
 			"You $v the contents of" SAY THE obj. 
@@ -2220,7 +2220,7 @@ VERB empty_on, pour_on
 		END IF.
 		-- end of implicit taking.
 			
-		IF COUNT ISA OBJECT, IN obj = 0
+		IF COUNT ISA OBJECT, Indirectly IN obj = 0
 			THEN "There is nothing in" SAY THE obj. "."
 		ELSE 
 				IF surface = floor OR surface = ground 
@@ -2673,7 +2673,7 @@ SYNTAX fire_at_error = fire 'at' (target)
 
 ADD TO EVERY THING
 VERB fire_at_error
-	CHECK COUNT ISA WEAPON, IS fireable, IN hero > 0
+	CHECK COUNT ISA WEAPON, IS fireable, Indirectly IN hero > 0
 		ELSE "You are not holding any firearm."
 	AND target <> hero
 		ELSE "There's no need to be that desperate."
@@ -3120,7 +3120,7 @@ VERB i
 		-- If you leave the above addition out, the outcome will be just "You are carrying a bag.", with
 		-- no comment on what is inside the bag.
 		
-		IF COUNT IN worn > 0		-- See the file 'classes.i', subclass 'clothing'.
+		IF COUNT Indirectly IN worn > 0		-- See the file 'classes.i', subclass 'clothing'.
 			THEN LIST worn. 		-- This code will list what the hero is wearing.
 		END IF.
 	
@@ -5667,7 +5667,7 @@ ADD TO EVERY THING
   VERB shoot
 	CHECK target <> hero 
 		ELSE "There's no need to be that desperate."
-	AND COUNT ISA WEAPON, IS fireable, IN hero > 0
+	AND COUNT ISA WEAPON, IS fireable, Indirectly IN hero > 0
 		ELSE "You don't have anything to shoot with."
 	AND CURRENT LOCATION IS lit
 		ELSE "It is too dark to see."

@@ -169,10 +169,11 @@ Expression *newRandomRangeExpression(Srcp srcp, Expression *from, Expression *to
 
 
 /*======================================================================*/
-Expression *newRandomInExpression(Srcp srcp, Expression *what, Bool directly) {
+Expression *newRandomInExpression(Srcp srcp, Expression *what, Transitivity transitivity) {
     Expression *exp = newExpression(srcp, RANDOM_IN_EXPRESSION);
     exp->fields.rin.what = what;
-    exp->fields.rin.directly = directly;
+    exp->fields.rin.directly = (transitivity != INDIRECTLY);
+    exp->fields.rin.transitivity = transitivity;
     return exp;
 }
 
@@ -411,8 +412,8 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
         analyzeExpression(where->what, context);
         if (where->what->type != SET_TYPE) /* Can be in a container and in a set */
             verifyContainerExpression(where->what, context, "Expression after IN");
-        else if (exp->fields.whr.whr->directly)
-            lmLog(&where->srcp, 325, sevERR, "");
+        else if (exp->fields.whr.whr->transitivity != DEFAULT)
+            lmLog(&where->srcp, 325, sevERR, transitivityToString(exp->fields.whr.whr->transitivity));
         break;
     default:
         SYSERR("Unrecognized switch");
@@ -692,10 +693,11 @@ static void analyzeClassingFilter(char *message,
             theFilter->type = theFilter->fields.whr.whr->what->type;
             break;
         case WHERE_IN:
-            if (theFilter->fields.whr.whr->directly)
+            if (theFilter->fields.whr.whr->transitivity == DIRECTLY)
                 theFilter->class = contentOf(theFilter->fields.whr.whr->what, context);
             else {
-                if (theFilter->fields.whr.whr->what->type != ERROR_TYPE)
+                if (theFilter->fields.whr.whr->transitivity == DEFAULT 
+                    && theFilter->fields.whr.whr->what->type != ERROR_TYPE)
                     lmLog(&theFilter->srcp, 451, sevWAR, "");
                 theFilter->class = entitySymbol;
             }
@@ -775,7 +777,7 @@ static Bool expressionIsActualWhere(Expression *expression) {
         case WHERE_NEAR:
         case WHERE_AT:
         case WHERE_IN:
-            return !expression->fields.whr.whr->directly;
+            return expression->fields.whr.whr->transitivity != DIRECTLY;
         case WHERE_INSET:
             return FALSE;
         }
@@ -815,19 +817,20 @@ Bool analyzeFilterExpressions(char *message, List *filters,
 
     /* Analyze the filters which may restrict to a class, return the class id */
     TRAVERSE(lst, filters) {
-        analyzeClassingFilter(message, context, lst->member.exp);
-        class = combineFilterClasses(class, lst->member.exp->class, lst->member.exp->srcp);
-        if (lst->member.exp->type == ERROR_TYPE)
+        Expression *exp = lst->member.exp;
+        analyzeClassingFilter(message, context, exp);
+        class = combineFilterClasses(class, exp->class, exp->srcp);
+        if (exp->type == ERROR_TYPE)
             error = TRUE;
-        if (lst->member.exp->kind == ISA_EXPRESSION) {
+        if (exp->kind == ISA_EXPRESSION) {
             if (foundIsa)
-                lmLogv(&lst->member.exp->srcp, 224, sevWAR, "Isa (class)",
+                lmLogv(&exp->srcp, 224, sevWAR, "Isa (class)",
                        message, NULL);
             foundIsa = TRUE;
         }
-        if (expressionIsActualWhere(lst->member.exp)) {
+        if (expressionIsActualWhere(exp)) {
             if (foundWhere)
-                lmLogv(&lst->member.exp->srcp, 224, sevERR, "Where", message, NULL);
+                lmLogv(&exp->srcp, 224, sevERR, "Where", message, NULL);
             foundWhere = TRUE;
         }
     }
@@ -924,8 +927,9 @@ static void analyzeRandomIn(Expression *exp, Context *context)
     } else {
         exp->class = exp->fields.rin.what->class;
         exp->type = classToType(exp->fields.rin.what->class);
-        if (exp->fields.rin.directly)
-            lmLog(&exp->srcp, 422, sevERR, "Random In operating on a Set");
+        if (exp->fields.rin.transitivity != DEFAULT)
+            lmLogv(&exp->srcp, 422, sevERR, transitivityToString(exp->fields.rin.transitivity),
+                   "not allowed for", "Random In operating on a Set", NULL);
     }
 }
 
@@ -1188,26 +1192,27 @@ static void generateBinaryExpression(Expression *exp)
     if (exp->not) emit0(I_NOT);
 }
 
+
 /*----------------------------------------------------------------------*/
 static void generateWhereRHS(Where *where) {
 
     switch (where->kind) {
     case WHERE_HERE:
-        emitConstant(where->directly);
+        generateTransitivity(where->transitivity);
         emit0(I_HERE);
         break;
     case WHERE_NEARBY:
-        emitConstant(where->directly);
+        generateTransitivity(where->transitivity);
         emit0(I_NEARBY);
         break;
     case WHERE_NEAR:
         generateExpression(where->what);
-        emitConstant(where->directly);
+        generateTransitivity(where->transitivity);
         emit0(I_NEAR);
         break;
     case WHERE_IN:
         generateExpression(where->what);
-        emitConstant(where->directly);
+        generateTransitivity(where->transitivity);
         emit0(I_IN);
         break;
     case WHERE_INSET:
@@ -1215,7 +1220,7 @@ static void generateWhereRHS(Where *where) {
         emit0(I_INSET);
         break;
     case WHERE_AT:
-        emitConstant(where->directly);
+        generateTransitivity(where->transitivity);
         emit0(I_WHERE);
         generateWhere(where);
         emit0(I_EQ);

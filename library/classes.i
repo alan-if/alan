@@ -645,7 +645,7 @@ VERB undress
 	CHECK CURRENT LOCATION IS lit
 		ELSE "It is too dark to see."
 	DOES
-		IF COUNT IN worn, ISA CLOTHING > 0
+        IF COUNT Indirectly IN worn, ISA CLOTHING > 0
 			THEN "You don't feel like undressing is a good idea right now."
 			ELSE "You're not wearing anything you can remove."  											
 		END IF.									
@@ -664,7 +664,7 @@ VERB examine
 	DOES AFTER
 		IF THIS IS NOT OPAQUE
 			THEN 
-				IF COUNT ISA OBJECT, IN THIS > 0		-- if the piece of clothing contains
+				IF COUNT ISA OBJECT, Indirectly IN THIS > 0		-- if the piece of clothing contains
 					THEN LIST THIS.				-- something, e.g. if a jacket contains a wallet,
 				END IF.						-- the wallet will be mentioned when the
 		END IF.								-- jacket is examined
@@ -2353,7 +2353,7 @@ ADD TO EVERY ACTOR
 
    VERB examine
 	DOES 
-		IF COUNT ISA THING, IN THIS > 0  			-- This if-statement will make a description of an
+		IF COUNT ISA THING, Indirectly IN THIS > 0  			-- This if-statement will make a description of an
 			THEN LIST THIS. 					-- actor's possessions show up every time the actor is examined.
 		END IF.							-- Note that this doesn't apply to the hero which is defined
 										-- separately further below.-- This listing will be overridden if you give an 
@@ -2599,7 +2599,7 @@ THE hero ISA ACTOR
 	VERB examine
 		DOES ONLY "You notice nothing unusual about yourself."	-- edit this line to change the way the hero is 
 												-- described after the player command 'examine myself'.
-			IF COUNT ISA CLOTHING, IN worn > 0
+			IF COUNT ISA CLOTHING, Indirectly IN worn > 0
 				THEN LIST worn.			-- This will list what the hero is wearing.
 			END IF.					-- (The verb 'inventory' in 'verbs.i' will take care
 	END VERB.							-- of listing the hero's possessions.)

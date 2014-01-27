@@ -308,8 +308,16 @@ static void analyzeEmpty(Statement *stm, Context *context)
 	analyzeWhere(stm->fields.empty.where, context);
 	if (stm->fields.empty.where->kind == WHERE_NEARBY)
 		lmLog(&stm->fields.empty.where->srcp, 415, sevERR, "EMPTY");
-	if (stm->fields.empty.where->directly)
-		lmLog(&stm->fields.empty.where->srcp, 422, sevERR, "EMPTY statement");
+	if (stm->fields.empty.where->transitivity != DEFAULT) {
+        if (stm->fields.empty.where->transitivity == DIRECTLY)
+            lmLogv(&stm->fields.empty.where->srcp, 422, sevWAR,
+                   transitivityToString(stm->fields.empty.where->transitivity),
+                   "ignored in", "EMPTY statement", NULL);
+        else
+            lmLogv(&stm->fields.empty.where->srcp, 422, sevERR,
+                   transitivityToString(stm->fields.empty.where->transitivity),
+                   "not allowed in", "EMPTY statement", NULL);
+    }
 }
 
 
@@ -332,13 +340,19 @@ static void analyzeLocate(Statement *stm, Context *context)
 		}
 	}
 	analyzeWhere(whr, context);
-	if (stm->fields.locate.where->directly)
-		lmLog(&stm->fields.locate.where->srcp, 422, sevERR, "LOCATE statement");
+	if (stm->fields.locate.where->transitivity != DEFAULT) {
+        if (stm->fields.locate.where->transitivity == DIRECTLY)
+            lmLogv(&stm->fields.locate.where->srcp, 422, sevWAR,
+                   transitivityToString(stm->fields.locate.where->transitivity), "ignored in", "LOCATE statement", NULL);
+        else
+            lmLogv(&stm->fields.locate.where->srcp, 422, sevERR,
+                   transitivityToString(stm->fields.locate.where->transitivity), "not allowed in", "LOCATE statement", NULL);
+    }
 
 	switch (whr->kind) {
 	case WHERE_HERE:
 	case WHERE_AT:
-		whr->directly = TRUE;
+		whr->transitivity = DIRECTLY;
 		break;
 	case WHERE_IN:
         /* Can the located be in a container? Not if its a location or actor. */

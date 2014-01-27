@@ -1,20 +1,26 @@
 #!/bin/sh
-for f in *.output ; do
-    case=`basename $f .output`
-        if [ -f $case`cat .case` ] ; then
-	        /bin/echo -n $case
-            if [ -f $case.expected ] ; then
-                if [ -f $case.suspended ] ; then
-	                /bin/echo " (but suspended)"
-                else
-                    /bin/echo
-                fi
+if [ -f .jregr ] ; then
+    read ext _ < .jregr
+else
+    ext=.alan
+fi
+for f in *$ext ; do
+    case=`basename $f $ext`
+    if [ -f $case.expected ] ; then
+        if [ -f $case.output ] ; then
+	        /bin/echo -n "$case: failed"
+            if [ -f $case.suspended ] ; then
+	            /bin/echo " (but suspended)"
             else
-                if [ -f $case.suspended ] ; then
-	                /bin/echo " (suspended)"
-                else
-                    /bin/echo " (pending)"
-                fi
+                /bin/echo
             fi
         fi
+    else
+        /bin/echo -n "$case: pending"
+        if [ -f $case.suspended ] ; then
+	        /bin/echo " (and suspended)"
+        else
+            /bin/echo
+        fi
+    fi
 done

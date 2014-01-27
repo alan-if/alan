@@ -30,5 +30,5 @@ End The.
 Start At l.
   Say "Count Isa Object, Here = ". Say Count Isa Object, Here. "Should be 8.$n"
   Say "Count Isa Object, Directly Here = ". Say Count Isa Object, Directly Here. "Should be 3.$n"
-  Say "Count Isa Object, In c = ". Say Count Isa Object, In c. "Should be 5.$n"
+  Say "Count Isa Object, In c = ". Say Count Isa Object, Indirectly In c. "Should be 5.$n"
   Say "Count Isa Object, Directly In c = ". Say Count Isa Object, Directly In c. "Should be 3.$n"

@@ -1,46 +1,6 @@
 ########## containerLimitCountNotObjects ##########
 
-
-containerLimitCountNotObjects.alan
-
-   23.    Describe cont. "Count =" Say Count In cont.
-=====>                                       1
-
-  *1*   451 W : Filter using IN transitively can possibly return instances of
-                any type. If this is not what you want use 'Directly In'
-                instead.
-
-   26.    Describe cont. "Count =" Say Count In cont.
-=====>                                       1
-
-  *1*   451 W : Filter using IN transitively can possibly return instances of
-                any type. If this is not what you want use 'Directly In'
-                instead.
-
-   29.    Describe cont. "Count =" Say Count In cont.
-=====>                                       1
-
-  *1*   451 W : Filter using IN transitively can possibly return instances of
-                any type. If this is not what you want use 'Directly In'
-                instead.
-
-   32.    Describe cont. "Count =" Say Count In cont.
-=====>                                       1
-
-  *1*   451 W : Filter using IN transitively can possibly return instances of
-                any type. If this is not what you want use 'Directly In'
-                instead.
-
-   35.    Describe cont. "Count =" Say Count In cont.
-=====>                                       1
-
-  *1*   451 W : Filter using IN transitively can possibly return instances of
-                any type. If this is not what you want use 'Directly In'
-                instead.
-
-
-        No detected errors.
-        5 warning(s).
+        No warnings or errors detected.
 
 
 Empty: There is a cont here. Count = 0 

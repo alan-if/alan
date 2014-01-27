@@ -2,8 +2,8 @@
 #define _WHR_X_H_
 /*----------------------------------------------------------------------*\
 
-				WHR.H
-			  Where Nodes Export
+  WHR.H
+  Where Nodes Export
                                                                      
 \*----------------------------------------------------------------------*/
 
@@ -19,12 +19,14 @@
 
 /* FUNCTIONS: */
 
-extern Where *newWhere(Srcp *srcp, Bool directly, WhereKind kind, struct Expression *what);
+extern Where *newWhere(Srcp *srcp, Transitivity transitivity, WhereKind kind, struct Expression *what);
 extern void symbolizeWhere(Where *whr);
 extern Bool verifyInitialLocation(Where *whr, Context *context);
 extern void analyzeWhere(Where *whr, Context *context);
 extern Aword generateInitialLocation(Properties *props);
+extern void generateTransitivity(Transitivity transitivity);
 extern void generateWhere(Where *whr);
+extern char *transitivityToString(Transitivity transitivity);
 extern void dumpWhere(Where *whr);
 
 #endif

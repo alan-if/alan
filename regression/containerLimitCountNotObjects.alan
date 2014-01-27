@@ -20,16 +20,16 @@ End The l.
 
 Start At l.
   "Empty:"
-  Describe cont. "Count =" Say Count In cont.
+  Describe cont. "Count =" Say Count Indirectly In cont.
   "$pLocating e1..."
   Locate e1 In cont.
-  Describe cont. "Count =" Say Count In cont.
+  Describe cont. "Count =" Say Count Indirectly In cont.
   "$pLocating o1..."
   Locate o1 In cont.
-  Describe cont. "Count =" Say Count In cont.
+  Describe cont. "Count =" Say Count Indirectly In cont.
   "$pLocating e1..."
   Locate e2 In cont.
-  Describe cont. "Count =" Say Count In cont.
+  Describe cont. "Count =" Say Count Indirectly In cont.
   "$pLocating o2..."
   Locate o2 In cont.
-  Describe cont. "Count =" Say Count In cont.
+  Describe cont. "Count =" Say Count Indirectly In cont.

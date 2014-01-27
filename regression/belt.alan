@@ -1,11 +1,11 @@
 The belt Isa entity
-	Container
-                Header
-                  If Count In hero > 0 Then "and"
-                  Else "but" End If.
-                  "in your belt you have"
-                Else
-                  ""         
+    Container
+        Header
+            If Count Directly In hero > 0 Then "and"
+            Else "but" End If.
+            "in your belt you have"
+        Else
+            ""         
 End The belt.
 
 Verb invent
@@ -17,7 +17,7 @@ End Verb invent.
 The hero Isa actor
   Container
     Header "You are carrying"
-    Else "You are empty-handed" If Count In belt = 0 Then "." End If.
+    Else "You are empty-handed" If Count Directly In belt = 0 Then "." End If.
 End The hero.
 
 The l Isa location
