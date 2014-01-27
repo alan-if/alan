@@ -3,6 +3,7 @@
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # rules.mk
 
+VERSION := `cat ../LASTRELEASE`
 TARGET = arun
 
 # Define the program name
@@ -51,7 +52,16 @@ release: all
 # will be available as $(GARGOYLE_DIR)/build/<platform>.<buildtype>.release/alan3/alan3
 GARGOYLE_DIR=../../garglk-current-alan3
 gararun:
-		cd $(GARGOYLE_DIR); jam garglk alan3
+	cd $(GARGOYLE_DIR); jam garglk alan3
+	cp $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3 .
+	install_name_tool -change @executable_path/libgarglk.dylib @executable_path/../Frameworks/libgarglk.dylib alan3
+	install_name_tool -change /opt/local/lib/libfreetype.6.dylib @executable_path/../Frameworks/libfreetype.6.dylib alan3
+	install_name_tool -change /opt/local/lib/libz.1.dylib /usr/lib/libgcc_s.1.dylib alan3
+	mkdir -p Gargoyle.app/Contents/PlugIns Gargoyle.app/Contents/Frameworks
+	mv alan3 Gargoyle.app/Contents/PlugIns
+	cp /opt/local/lib/libfreetype.6.dylib Gargoyle.app/Contents/Frameworks
+	tar zcvf gargoyle-alan3-$(VERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
+	rm -r Gargoyle.app
 
 ############################################################
 # glkarun
@@ -70,5 +80,3 @@ DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compile
 dumpacd: $(DUMPACDOBJECTS)
 	$(LINK) $(LDFLAGS) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
-
-

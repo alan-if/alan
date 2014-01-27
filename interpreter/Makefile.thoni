@@ -91,7 +91,7 @@ gararun:
 	cd ../../garglk-current-alan3; \
 	jam alan3 ; \
 	cp build/cygwin.release/alan3/alan3.exe ../alan/interpreter
-	zip -j gargoyle-alan3-$(VERSION).win32.x86.zip alan3.exe gargoyle.readme
+	zip -j gargoyle-alan3-$(VERSION).win32.x86.zip alan3.exe gargoyle.alan3-slot-in.readme
 
 
 #######################################################################

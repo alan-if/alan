@@ -56,7 +56,7 @@ GARGOYLE_DIR=../../garglk-current-alan3
 gararun:
 	cd $(GARGOYLE_DIR); jam alan3
 	cp $(GARGOYLE_DIR)/build/linux.release/alan3/alan3 .
-	tar zcvf gargoyle-alan3-$(VERSION).linux.$(ARCH).tgz alan3 gargoyle.readme
+	tar zcvf gargoyle-alan3-$(VERSION).linux.$(ARCH).tgz alan3 gargoyle.alan3-slot-in.readme
 
 #######################################################################
 #
