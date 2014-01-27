@@ -20,36 +20,6 @@ BeforeEach(Where) {}
 AfterEach(Where) {}
 
 
-Ensure(Where, testClassOfContent) {
-  initSymbols();
-  initClasses();
-  Id *id = newId(nulsrcp, "inCont");
-  Expression *whatLocation = newWhatExpression(nulsrcp,
-						 newWhatId(nulsrcp, id));
-  Expression *whatId = newWhatExpression(nulsrcp,
-					 newWhatId(nulsrcp, id));
-  Id *takesId = newId(nulsrcp, "location");
-  ContainerBody *containerBody = newContainerBody(nulsrcp, FALSE, takesId,
-						  NULL, NULL, NULL, NULL, NULL);
-  Container *container = newContainer(containerBody);
-  Properties *properties = newProps(NULL, NULL,
-				    nulsrcp, NULL,
-				    NULL, NULL, NULL,
-				    nulsrcp, NULL, NULL,
-				    NULL, NULL,
-				    container, NULL, 
-				    nulsrcp, NULL,
-				    NULL,NULL);
-
-  Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);
-
-  (void)containerInstance;
-  assert_true(contentOf(whatLocation, NULL) == NULL);
-
-  symbolizeId(takesId);
-  assert_true(contentOf(whatId, NULL) == locationSymbol);
-}
-
 Ensure(Where, InitialLocationOfObjectIsNowhere) {
   Id *locId = newId(nulsrcp, "atLoc");
   Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
@@ -101,7 +71,6 @@ TestSuite *whrTests()
 {
     TestSuite *suite = create_test_suite();
 
-    add_test_with_context(suite, Where, testClassOfContent);
     add_test_with_context(suite, Where, InitialLocationOfObjectIsNowhere);
     add_test_with_context(suite, Where, InitialLocationOfLocationIsNull);
 

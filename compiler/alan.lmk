@@ -101,7 +101,7 @@
 322	'Word \'%1\' already defined as a synonym.';
 323	'Cannot restrict a parameter to something not a class.';
 324	'Cannot refer to %1 in %2.';
-325	'Cannot use DIRECTLY with IN operating on a SET.';
+325	'Cannot use transitivity (\'%1\') with IN operating on a SET.';
 326	'Pronoun clause not allowed on entities inheriting from \'location\'.';
 328	'Attribute \'%1\' is inherited from \'%2\' as an abstract attribute which is not initilized, only defined. Instances are required to initialize all abstract attributes.';
 329	'Attribute is inherited from class \'%1\', but the class %2 in this declaration (\'%3\') is not a subclass of the class infered for the inherited (\'%4\'), which it must be.';
@@ -153,7 +153,7 @@
 419	'%1 SET statement cannot be of boolean type.';
 420	'Invalid What-specification in %1.';
 421	'THIS instance is not defined in this context.';
-422	'\'Directly\' not allowed in %1.';
+422	'Explicit transitivity \'%1\' %2 %3.';
 423	'You cannot instantiate or sub-class \'%1\'.';
 424	'You cannot add %1 to non-instantiable class \'%2\'.';
 425	'A Mentioned clause overrides the Name for an instance inheriting from location.';
@@ -175,6 +175,7 @@
 444	'There is no location defined in %1, so output can never be seen by the player.';
 445 'The event will be executed at no location.';
 450	'Wrong type of resource file for %1 statement.';
+451 'Filter using IN transitively can possibly return instances of any type. If this is not what you want use \'Directly In\' instead. To silence this warning use an explict transitivity.';
 
 501	'Location \'%1\' has no EXITs.';
 502	'Instance \'%1\' does not inherit from any of the common base classes.';

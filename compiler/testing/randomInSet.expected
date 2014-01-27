@@ -25,7 +25,8 @@ randomInSet.alan
    17.    Say Random Directly In c Of l. -- Not OK with directly on a Set
 =====>        1
 
-  *1*   422 E : 'Directly' not allowed in Random In operating on a Set.
+  *1*   422 E : Explicit transitivity 'Directly' not allowed for Random In
+                operating on a Set.
 
 
         6 error(s).

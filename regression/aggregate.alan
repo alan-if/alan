@@ -33,7 +33,7 @@ Start At l.
   If Min Of y Isa object, At l = 2 Then "Ok" Else "not ok" End If.
   If Count Isa object, At l = 2 Then "Ok" Else "not ok" End If.
 
-  If Sum Of y Isa object, In c = 5 Then "Ok" Else "not ok" End If.
-  If Max Of y Isa object, In c = 4 Then "Ok" Else "not ok" End If.
-  If Min Of y Isa object, In c = 1 Then "Ok" Else "not ok" End If.
-  If Count Isa object, In c = 2 Then "Ok" Else "not ok" End If.
+  If Sum Of y Isa object, Indirectly In c = 5 Then "Ok" Else "not ok" End If.
+  If Max Of y Isa object, Indirectly In c = 4 Then "Ok" Else "not ok" End If.
+  If Min Of y Isa object, Indirectly In c = 1 Then "Ok" Else "not ok" End If.
+  If Count Isa object, Indirectly In c = 2 Then "Ok" Else "not ok" End If.

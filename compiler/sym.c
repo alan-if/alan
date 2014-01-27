@@ -547,6 +547,7 @@ Symbol *classOfSymbol(Symbol *symbol) {
     case PARAMETER_SYMBOL: return symbol->fields.parameter.class;
     case LOCAL_SYMBOL: return symbol->fields.local.class;
     case INSTANCE_SYMBOL: return symbol->fields.entity.parent;
+    case CLASS_SYMBOL: return symbol;
     default: SYSERR("Unexpected symbol kind"); return NULL;
     }
 }
@@ -624,6 +625,20 @@ Symbol *contentOfSymbol(Symbol *symbol) {
 
 
 /*======================================================================*/
+Symbol *transitiveContentOfSymbol(Symbol *symbol) {
+    Symbol *class = contentOfSymbol(symbol);
+
+    if (class != NULL && class->fields.entity.props != NULL) {
+        if (class->fields.entity.props->container != NULL)
+            return class->fields.entity.props->container->body->taking->symbol;
+        else
+            return class;
+    }
+    return NULL;
+}
+
+
+/*======================================================================*/
 void setParent(Symbol *child, Symbol *parent)
 {
     if (!isClass(child) && child->kind != INSTANCE_SYMBOL)
@@ -665,6 +680,23 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
         p = p->fields.entity.parent;
 
     return (p != NULL);
+}
+
+
+/*======================================================================*/
+Symbol *commonParent(Symbol *symbol1, Symbol *symbol2)
+{
+    Symbol *class1 = classOfSymbol(symbol1);
+    Symbol *class2 = classOfSymbol(symbol2);
+
+    if (class1 == class2)
+        return class1;
+    else if (inheritsFrom(symbol1, symbol2))
+        return symbol2;
+    else if (inheritsFrom(symbol2, symbol1))
+        return symbol1;
+    else
+        return commonParent(symbol1->fields.entity.parent, symbol2->fields.entity.parent);
 }
 
 

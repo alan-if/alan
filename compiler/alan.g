@@ -693,6 +693,7 @@ optional_not :
 
 optional_directly : 
                   | 'directly' 
+                  | 'indirectly' 
                      ;
 
 optional_id : 

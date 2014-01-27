@@ -114,8 +114,8 @@ static int val(char str[])
   definiteSrcp %% Srcp %1%%,
   description %% Description *%1%%,
   descriptionCheckSrcp %% Srcp %1%%,
-  descriptionChecks %% List *%1%%,	-- of Checks: descriptionCheck-clause,
-  descriptionDoes %% List *%1%%,	-- of Statements: descriptionDoes-clause,
+  descriptionChecks %% List *%1%%,      -- of Checks: descriptionCheck-clause,
+  descriptionDoes %% List *%1%%,        -- of Statements: descriptionDoes-clause,
   descriptionSrcp %% Srcp %1%%,
   elm %% Element *%1%%,
   elms %% List *%1%%,
@@ -134,23 +134,23 @@ static int val(char str[])
   idList %% List *%1%%,
   idList2 %% List *%1%%,
   indefinite %% Article *%1%%,
-  ins %% Instance *%1%%,		-- Instance
-  inss %% List *%1%%,			-- of Instances
+  ins %% Instance *%1%%,                -- Instance
+  inss %% List *%1%%,                   -- of Instances
   isForm %% Bool %1%%,
   lim %% LimNod *%1%%,
   lims %% List *%1%%,
-  mentioned %% List *%1%%,		-- of Statement: mentioned-clause,
+  mentioned %% List *%1%%,              -- of Statement: mentioned-clause,
   mentionedSrcp %% Srcp %1%%,
   minus %% Bool %1%%,
   msg %% Message *%1%%,
   msgs %% List *%1%%,
-  nam %% List *%1%%,		-- of NamNod: name-clause
-  nams %% List *%1%%,		-- of NamNods: name-clause list (list of lists)
+  nam %% List *%1%%,                    -- of NamNod: name-clause
+  nams %% List *%1%%,                   -- of NamNods: name-clause list (list of lists)
   negative %% Article *%1%%,
   on_or_off %% Bool %1%%,
   op %% OperatorKind %1%%,
   opaque %% Bool %1%%,
-  present %% Bool %1%%,		-- an optional marker was present
+  present %% Bool %1%%,                 -- an optional marker was present
   prompt %% List *%1%%,
   pronouns %% List *%1%%,
   pronounsSrcp %% Srcp %1%%,
@@ -177,6 +177,7 @@ static int val(char str[])
   stxs %% List *%1%%,
   syn %% Synonym *%1%%,
   syns %% List *%1%%,
+  transitivity %% Transitivity %1%%,
   val %% int %1%%,
   vrb %% Verb *%1%%,
   vrbs %% List *%1%%,
@@ -192,8 +193,8 @@ static int val(char str[])
 %%RECOVERY
 
     Fiducial('verb', 'the', 'every', 'exit', 'event', 'start',
-		'syntax', 'script', 'synonyms', 'when',
-		'mentioned', 'attributes', 'description', 'end', 'check', 'quit');
+             'syntax', 'script', 'synonyms', 'when',
+             'mentioned', 'attributes', 'description', 'end', 'check', 'quit');
 
     Separator(',');
 
@@ -220,17 +221,17 @@ static int val(char str[])
 <option>			-- RETURNS: <nothing>
     = ID '.'
     %%
-	optBool(%ID.id->string, `&%ID.id->srcp, TRUE);
+        optBool(%ID.id->string, `&%ID.id->srcp, TRUE);
     %%
 
     ! ID ID '.'
     %%
-	optenum(%ID.id->string, `&%ID.id->srcp, %2ID.id->string);
+        optenum(%ID.id->string, `&%ID.id->srcp, %2ID.id->string);
     %%
 
     ! ID Integer '.'
     %%
-	optint(%ID.id->string, `&%ID.id->srcp, val(%Integer.chars));
+        optint(%ID.id->string, `&%ID.id->srcp, val(%Integer.chars));
     %%
     ;
 
@@ -290,47 +291,47 @@ static int val(char str[])
 <attributes>		-- RETURNS: atrs
     = <attribute_definition> '.'
     %%
-	%<attributes>.atrs = newList(%<attribute_definition>.atr, ATTRIBUTE_LIST);
+        %<attributes>.atrs = newList(%<attribute_definition>.atr, ATTRIBUTE_LIST);
     %%
 
     ! <attributes> <attribute_definition> '.'
     %%
-	%<attributes>.atrs = concat(%<attributes>.atrs, %<attribute_definition>.atr, ATTRIBUTE_LIST);
+        %<attributes>.atrs = concat(%<attributes>.atrs, %<attribute_definition>.atr, ATTRIBUTE_LIST);
     %%
     ;
 
 <attribute_definition>		-- RETURNS: atr
     = ID
     %%
-	%<attribute_definition>.atr = newBooleanAttribute(%ID.id->srcp, %ID.id, TRUE);
+        %<attribute_definition>.atr = newBooleanAttribute(%ID.id->srcp, %ID.id, TRUE);
     %%
 
     ! 'not' ID
     %%
-	%<attribute_definition>.atr = newBooleanAttribute(%ID.id->srcp,	%ID.id, FALSE);
+        %<attribute_definition>.atr = newBooleanAttribute(%ID.id->srcp, %ID.id, FALSE);
     %%
 
     ! ID <optional_minus> Integer
     %%
-	if (%<optional_minus>.minus)
-		%<attribute_definition>.atr = newIntegerAttribute(%ID.id->srcp, %ID.id, -val(%Integer.chars));
-	else
-		%<attribute_definition>.atr = newIntegerAttribute(%ID.id->srcp, %ID.id, val(%Integer.chars));
+        if (%<optional_minus>.minus)
+           %<attribute_definition>.atr = newIntegerAttribute(%ID.id->srcp, %ID.id, -val(%Integer.chars));
+        else
+           %<attribute_definition>.atr = newIntegerAttribute(%ID.id->srcp, %ID.id, val(%Integer.chars));
     %%
 
-    ! ID STRING	
+    ! ID STRING
     %%
-	%<attribute_definition>.atr = newStringAttribute(%ID.id->srcp, %ID.id, %STRING.fpos, %STRING.len);
+        %<attribute_definition>.atr = newStringAttribute(%ID.id->srcp, %ID.id, %STRING.fpos, %STRING.len);
     %%
     ! ID ID
     %%
-	%<attribute_definition>.atr = newReferenceAttribute(%1ID.id->srcp, %1ID.id, %2ID.id);
+        %<attribute_definition>.atr = newReferenceAttribute(%1ID.id->srcp, %1ID.id, %2ID.id);
     %%
 
     ! ID '{' <optional_members> '}'
     %%
-	%<attribute_definition>.atr = newSetAttribute(%ID.id->srcp, %ID.id,
-			newSetExpression(%'{'.srcp, %<optional_members>.set));
+        %<attribute_definition>.atr = newSetAttribute(%ID.id->srcp, %ID.id,
+                                                      newSetExpression(%'{'.srcp, %<optional_members>.set));
     %%
     ;
 
@@ -345,29 +346,29 @@ static int val(char str[])
 <set_members>				-- RETURNS: set
     = <set_member>
     %%
-	%<set_member>.set = newList(%<set_member>.exp, EXPRESSION_LIST);
+        %<set_member>.set = newList(%<set_member>.exp, EXPRESSION_LIST);
     %%
 
     ! <set_members> ',' <set_member>
     %%
-	%<set_members>.set = concat(%<set_members>.set, %<set_member>.exp, EXPRESSION_LIST);
+        %<set_members>.set = concat(%<set_members>.set, %<set_member>.exp, EXPRESSION_LIST);
     %%
     ;
 
 <set_member>				-- RETURNS exp
     = <what>
     %%
-	%<set_member>.exp = %<what>.exp;
+        %<set_member>.exp = %<what>.exp;
     %%
 
     ! <optional_minus> Integer
     %%
-	%<set_member>.exp = newIntegerExpression(%Integer.srcp, %<optional_minus>.minus?-val(%Integer.chars):val(%Integer.chars));
+        %<set_member>.exp = newIntegerExpression(%Integer.srcp, %<optional_minus>.minus?-val(%Integer.chars):val(%Integer.chars));
     %%
 
     ! STRING
     %%
-	%<set_member>.exp = newStringExpression(%STRING.srcp, %STRING.fpos, %STRING.len);
+        %<set_member>.exp = newStringExpression(%STRING.srcp, %STRING.fpos, %STRING.len);
     %%
     ;
 
@@ -375,26 +376,26 @@ static int val(char str[])
 <synonyms>			-- RETURNS: syns
     = 'synonyms' <synonym_list>
     %%
-	%<synonyms>.syns = %<synonym_list>.syns;
+        %<synonyms>.syns = %<synonym_list>.syns;
     %%
     ;
 
 <synonym_list>			-- RETURNS: syns
     = <synonym_declaration>
     %%
-	%<synonym_list>.syns = newList(%<synonym_declaration>.syn, SYNONYM_LIST);
+        %<synonym_list>.syns = newList(%<synonym_declaration>.syn, SYNONYM_LIST);
     %%
 
     ! <synonym_list> <synonym_declaration>
     %%
-	%<synonym_list>.syns = concat(%<synonym_list>.syns, %<synonym_declaration>.syn, SYNONYM_LIST);
+        %<synonym_list>.syns = concat(%<synonym_list>.syns, %<synonym_declaration>.syn, SYNONYM_LIST);
     %%
     ;
 
 <synonym_declaration>				-- RETURNS: syn
     = <id_list> '=' ID '.'
     %%
-	%<synonym_declaration>.syn = newSynonym(`&%'='.srcp, %<id_list>.idList, %ID.id);
+        %<synonym_declaration>.syn = newSynonym(`&%'='.srcp, %<id_list>.idList, %ID.id);
     %%
     ;
 
@@ -402,28 +403,28 @@ static int val(char str[])
 <messages>			-- RETURNS: msgs
     = 'message' <message_list>
     %%
-	%<messages>.msgs = %<message_list>.msgs;
+        %<messages>.msgs = %<message_list>.msgs;
     %%
     ;
 
 <message_list>			-- RETURNS: msgs
     = <message>
     %%
-	%<message_list>.msgs = newList(%<message>.msg, MESSAGE_LIST);
+        %<message_list>.msgs = newList(%<message>.msg, MESSAGE_LIST);
     %%
 
     ! <message_list> <message>
     %%
-	%<message_list>.msgs = concat(%<message_list>.msgs, %<message>.msg, MESSAGE_LIST);
+        %<message_list>.msgs = concat(%<message_list>.msgs, %<message>.msg, MESSAGE_LIST);
     %%
     ;
 
 <message>				-- RETURNS: msg
     = ID ':' <statements>
     %%
-	%<message>.msg = newMessage(`&%':'.srcp,
-				      	%ID.id,
-					%<statements>.stms);
+        %<message>.msg = newMessage(`&%':'.srcp,
+                                    %ID.id,
+                                    %<statements>.stms);
     %%
 
     ;
@@ -432,85 +433,85 @@ static int val(char str[])
 <syntax>
     = 'syntax' <syntax_list>
     %%
-	%<syntax>.stxs = %<syntax_list>.stxs;
+        %<syntax>.stxs = %<syntax_list>.stxs;
     %%
     ;
 
 <syntax_list>
     = <syntax_item>
     %%
-	%<syntax_list>.stxs = newList(%<syntax_item>.stx, SYNTAX_LIST);
+        %<syntax_list>.stxs = newList(%<syntax_item>.stx, SYNTAX_LIST);
     %%
 
     ! <syntax_list> <syntax_item>
     %%
-	%<syntax_list>.stxs = concat(%<syntax_list>.stxs, %<syntax_item>.stx, SYNTAX_LIST);
+        %<syntax_list>.stxs = concat(%<syntax_list>.stxs, %<syntax_item>.stx, SYNTAX_LIST);
     %%
     ;
 
 <syntax_item>
     = ID '=' <syntax_elements> <optional_syntax_restrictions>
     %%
-	%<syntax_item>.stx = newSyntax(%'='.srcp,
-				  	%ID.id,
-				  	concat(%<syntax_elements>.elms,
-				        	newEndOfSyntax(),
-						ELEMENT_LIST),
-					%<optional_syntax_restrictions>.ress,
-					%<optional_syntax_restrictions>.srcp);
+        %<syntax_item>.stx = newSyntax(%'='.srcp,
+                                       %ID.id,
+                                       concat(%<syntax_elements>.elms,
+                                              newEndOfSyntax(),
+                                              ELEMENT_LIST),
+                                       %<optional_syntax_restrictions>.ress,
+	                                   %<optional_syntax_restrictions>.srcp);
     %%
     ;
 
 <syntax_elements>
     = <syntax_element>
     %%
-	%<syntax_elements>.elms = newList(%<syntax_element>.elm, ELEMENT_LIST);
+        %<syntax_elements>.elms = newList(%<syntax_element>.elm, ELEMENT_LIST);
     %%
 
     ! <syntax_elements> <syntax_element>
     %%
-	%<syntax_elements>.elms = concat(%<syntax_elements>.elms,
-				       %<syntax_element>.elm,
-	                                ELEMENT_LIST);
+        %<syntax_elements>.elms = concat(%<syntax_elements>.elms,
+                                         %<syntax_element>.elm,
+                                         ELEMENT_LIST);
     %%
     ;
 
 <syntax_element>
     = ID
     %%
-	%<syntax_element>.elm = newWordElement(%ID.id->srcp, %ID.id);
+        %<syntax_element>.elm = newWordElement(%ID.id->srcp, %ID.id);
     %%
 
     ! '(' ID ')' <optional_indicators>
 
     %%
-	%<syntax_element>.elm = newParameterElement(%ID.id->srcp,
-					   %ID.id,
-					   %<optional_indicators>.bits);
+        %<syntax_element>.elm = newParameterElement(%ID.id->srcp,
+                                                    %ID.id,
+                                                    %<optional_indicators>.bits);
     %%
     ;
 
 <optional_indicators>
     =
     %%
-	%<optional_indicators>.bits = 0;
+        %<optional_indicators>.bits = 0;
     %%
 
     ! <optional_indicators> <indicator>
     %%
-	%<optional_indicators>.bits |= %<indicator>.bits;
+        %<optional_indicators>.bits |= %<indicator>.bits;
     %%
     ;
 
 <indicator>
     = '*'
     %%
-	%<indicator>.bits = MULTIPLEBIT;
+        %<indicator>.bits = MULTIPLEBIT;
     %%
 
     ! '!'
     %%
-	%<indicator>.bits = OMNIBIT;
+        %<indicator>.bits = OMNIBIT;
     %%
     ;
 
@@ -523,51 +524,51 @@ static int val(char str[])
 <syntax_restriction_clauses>
     = <syntax_restriction>
     %%
-	%<syntax_restriction_clauses>.ress = newList(%<syntax_restriction>.res, RESTRICTION_LIST);
+        %<syntax_restriction_clauses>.ress = newList(%<syntax_restriction>.res, RESTRICTION_LIST);
     %%
 
     ! <syntax_restriction_clauses> 'and' <syntax_restriction>
     %%
-	%<syntax_restriction_clauses>.ress = concat(%<syntax_restriction_clauses>.ress,
-				       %<syntax_restriction>.res, RESTRICTION_LIST);
+        %<syntax_restriction_clauses>.ress = concat(%<syntax_restriction_clauses>.ress,
+                                                    %<syntax_restriction>.res, RESTRICTION_LIST);
     %%
     ;
 
 <syntax_restriction>
     = ID 'isa' <restriction_class> 'else' <statements>
     %%
-	%<syntax_restriction>.res = newRestriction(%'isa'.srcp,
-			  			  %ID.id,
-						  %<restriction_class>.restrictionKind,
-						  %<restriction_class>.id,
-						  %<statements>.stms);
+        %<syntax_restriction>.res = newRestriction(%'isa'.srcp,
+                                                   %ID.id,
+                                                   %<restriction_class>.restrictionKind,
+                                                   %<restriction_class>.id,
+                                                   %<statements>.stms);
     %%
     ;
 
 <restriction_class>			-- RETURNS: id, restrictionKind
     = ID
     %%
-	%<restriction_class>.id = %ID.id;
-	%<restriction_class>.restrictionKind = ID_RESTRICTION;
+        %<restriction_class>.id = %ID.id;
+        %<restriction_class>.restrictionKind = ID_RESTRICTION;
     %%
 
     ! 'container'
     %%
-	%<restriction_class>.id = NULL;
-	%<restriction_class>.restrictionKind = CONTAINER_RESTRICTION;
+        %<restriction_class>.id = NULL;
+        %<restriction_class>.restrictionKind = CONTAINER_RESTRICTION;
     %%
     ;
 
 <optional_syntax_restrictions>
     = '.'
     %%
-	%<optional_syntax_restrictions>.ress = NULL;
+        %<optional_syntax_restrictions>.ress = NULL;
     %%
 
     ! 'where' <syntax_restriction_clauses>
     %%
-	%<optional_syntax_restrictions>.srcp = %'where'.srcp;
-	%<optional_syntax_restrictions>.ress = %<syntax_restriction_clauses>.ress;
+        %<optional_syntax_restrictions>.srcp = %'where'.srcp;
+        %<optional_syntax_restrictions>.ress = %<syntax_restriction_clauses>.ress;
     %%
     ;
 
@@ -576,84 +577,84 @@ static int val(char str[])
 <verb>			-- RETURNS: vrb
     = <verb_header> <verb_body> <verb_tail>
     %%
-	%<verb>.vrb = newVerb(`&%<verb_header>.srcp,
-			   %<verb_header>.idList,
-			   %<verb_body>.alts);
-	if (%<verb_tail>.id != NULL) { /* END-id given */
-	    if (compareStrings(%<verb_header>.str, %<verb_tail>.id->string) != 0)
-		lmLog(`&%<verb_tail>.id->srcp, 200, sevWAR, %<verb_header>.str);
-	}
+        %<verb>.vrb = newVerb(`&%<verb_header>.srcp,
+                              %<verb_header>.idList,
+                              %<verb_body>.alts);
+        if (%<verb_tail>.id != NULL) { /* END-id given */
+            if (compareStrings(%<verb_header>.str, %<verb_tail>.id->string) != 0)
+                lmLog(`&%<verb_tail>.id->srcp, 200, sevWAR, %<verb_header>.str);
+        }
     %%
     ;
 
 <verb_header>		-- RETURNS: srcp, str, idList
     = 'verb' <id_list>
     %%
-	%<verb_header>.srcp   = %'verb'.srcp;
-	%<verb_header>.str    = %<id_list>.str;
-	%<verb_header>.idList   = %<id_list>.idList;
+        %<verb_header>.srcp   = %'verb'.srcp;
+        %<verb_header>.str    = %<id_list>.str;
+        %<verb_header>.idList   = %<id_list>.idList;
     %%
     ;
 
 <verb_body>
     = <simple_verb_body>
     %%
-	%<verb_body>.alts = newList(newAlternative(%<simple_verb_body>.srcp,
-					NULL,
-					%<simple_verb_body>.chks,
-					%<simple_verb_body>.qual,
-					%<simple_verb_body>.stms),
-				   ALTERNATIVE_LIST);
+        %<verb_body>.alts = newList(newAlternative(%<simple_verb_body>.srcp,
+                                                   NULL,
+                                                   %<simple_verb_body>.chks,
+                                                   %<simple_verb_body>.qual,
+                                                   %<simple_verb_body>.stms),
+                                    ALTERNATIVE_LIST);
     %%
 
     ! <verb_alternatives>
     %%
-	%<verb_body>.alts = %<verb_alternatives>.alts;
+        %<verb_body>.alts = %<verb_alternatives>.alts;
     %%
     ;
 
 <verb_alternatives>
     = <verb_alternative>
     %%
-	%<verb_alternatives>.alts = newList(%<verb_alternative>.alt, ALTERNATIVE_LIST);
+        %<verb_alternatives>.alts = newList(%<verb_alternative>.alt, ALTERNATIVE_LIST);
     %%
 
     ! <verb_alternatives> <verb_alternative>
     %%
-	%<verb_alternatives>.alts = concat(%<verb_alternatives>.alts,
-					 %<verb_alternative>.alt,
-	     				ALTERNATIVE_LIST);
+        %<verb_alternatives>.alts = concat(%<verb_alternatives>.alts,
+                                           %<verb_alternative>.alt,
+                                           ALTERNATIVE_LIST);
     %%
     ;
 
 <verb_alternative>
     = 'when' ID <simple_verb_body>
     %%
-	%<verb_alternative>.alt = newAlternative(%'when'.srcp,
-						%ID.id,
-						%<simple_verb_body>.chks,
-						%<simple_verb_body>.qual,
-						%<simple_verb_body>.stms);
+        %<verb_alternative>.alt = newAlternative(%'when'.srcp,
+                                                 %ID.id,
+                                                 %<simple_verb_body>.chks,
+                                                 %<simple_verb_body>.qual,
+                                                 %<simple_verb_body>.stms);
     %%
     ;
 
 <simple_verb_body>		-- RETURNS: srcp, chks, stms, qual
     = <optional_checks> <optional_does>
     %%
-	if (%<optional_does>.stms == NULL) /* No DOES */
-	  %<simple_verb_body>.srcp = %<optional_checks>.srcp;
-	else
-	  %<simple_verb_body>.srcp = %<optional_does>.srcp;
-	%<simple_verb_body>.chks = %<optional_checks>.chks;
-	%<simple_verb_body>.qual = %<optional_does>.qual;
-	%<simple_verb_body>.stms = %<optional_does>.stms;
+        if (%<optional_does>.stms == NULL) /* No DOES */
+            %<simple_verb_body>.srcp = %<optional_checks>.srcp;
+        else
+            %<simple_verb_body>.srcp = %<optional_does>.srcp;
+        %<simple_verb_body>.chks = %<optional_checks>.chks;
+        %<simple_verb_body>.qual = %<optional_does>.qual;
+        %<simple_verb_body>.stms = %<optional_does>.stms;
     %%
     ;
 
 <verb_tail>		-- RETURNS: id
     = 'end' 'verb' <optional_id> '.'
     %%
-	%<verb_tail>.id = %<optional_id>.id;
+        %<verb_tail>.id = %<optional_id>.id;
     %%
     ;
 
@@ -661,39 +662,39 @@ static int val(char str[])
 <optional_checks>		-- RETURNS: srcp, chks
     =
     %%
-	%<optional_checks>.chks = NULL;
-	%<optional_checks>.srcp = nulsrcp;
+        %<optional_checks>.chks = NULL;
+        %<optional_checks>.srcp = nulsrcp;
     %%
 
     ! 'check' <statements>
     %%
-	%<optional_checks>.srcp = %'check'.srcp;
-	%<optional_checks>.chks = newList(newCheck(NULL, %<statements>.stms), CHECK_LIST);
+        %<optional_checks>.srcp = %'check'.srcp;
+        %<optional_checks>.chks = newList(newCheck(NULL, %<statements>.stms), CHECK_LIST);
     %%
 
     ! 'check' <check_list>
     %%
-	%<optional_checks>.srcp = %'check'.srcp;
-	%<optional_checks>.chks = %<check_list>.chks;
+        %<optional_checks>.srcp = %'check'.srcp;
+        %<optional_checks>.chks = %<check_list>.chks;
     %%
     ;
 
 <check_list>		-- RETURNS: chks
     = <check>
     %%
-	%<check_list>.chks = newList(%<check>.chk, CHECK_LIST);
+        %<check_list>.chks = newList(%<check>.chk, CHECK_LIST);
     %%
 
     ! <check_list> 'and' <check>
     %%
-	%<check_list>.chks = concat(%<check_list>.chks, %<check>.chk, CHECK_LIST);
+        %<check_list>.chks = concat(%<check_list>.chks, %<check>.chk, CHECK_LIST);
     %%
     ;
 
 <check>			-- RETURNS: chk
     = <expression> 'else' <statements>
     %%
-	%<check>.chk = newCheck(%<expression>.exp, %<statements>.stms);
+        %<check>.chk = newCheck(%<expression>.exp, %<statements>.stms);
     %%
     ;
 
@@ -701,25 +702,25 @@ static int val(char str[])
 <optional_does>		-- RETURNS: qual, srcp, stms
     =
     %%
-	%<optional_does>.qual = QUAL_DEFAULT;
-	%<optional_does>.srcp = nulsrcp;
-	%<optional_does>.stms = NULL;
+        %<optional_does>.qual = QUAL_DEFAULT;
+        %<optional_does>.srcp = nulsrcp;
+        %<optional_does>.stms = NULL;
     %%
 
     ! <does>
     %%
-	%<optional_does>.qual = %<does>.qual;
-	%<optional_does>.srcp = %<does>.srcp;
-	%<optional_does>.stms = %<does>.stms;
+        %<optional_does>.qual = %<does>.qual;
+        %<optional_does>.srcp = %<does>.srcp;
+        %<optional_does>.stms = %<does>.stms;
     %%
     ;
 
 <does>
     = 'does' <optional_qual> <statements>
     %%
-	%<does>.qual = %<optional_qual>.qual;
-	%<does>.srcp = %'does'.srcp;
-	%<does>.stms = %<statements>.stms;
+        %<does>.qual = %<optional_qual>.qual;
+        %<does>.srcp = %'does'.srcp;
+        %<does>.stms = %<statements>.stms;
     %%
     ;
 
@@ -728,36 +729,36 @@ static int val(char str[])
 <class>			-- RETURNS: cla
     = 'every' ID <optional_heritage> <properties> <class_tail>
     %%
-	%<class>.cla = newClass(`&%'every'.srcp,
-				%ID.id,
-				%<optional_heritage>.id,
-				newProps(%<properties>.whr,
-					%<properties>.nams,
-					%<properties>.pronounsSrcp,
-					%<properties>.pronouns,
-					%<properties>.atrs,
-					%<properties>.initialize,
-					%<properties>.description,
-					%<properties>.mentionedSrcp,
-					%<properties>.mentioned,
-					%<properties>.definite,
-					%<properties>.indefinite,
-					%<properties>.negative,
-					%<properties>.cnt,
-					%<properties>.vrbs,
-					%<properties>.enteredSrcp,
-					%<properties>.entered,
-					%<properties>.exts,
-					%<properties>.scrs));
-	if (%<class_tail>.id != NULL)  /* END-id given */
-	    if (!equalId(%ID.id, %<class_tail>.id))
-		lmLog(`&%<class_tail>.id->srcp, 200, sevWAR, %ID.id->string);
+        %<class>.cla = newClass(`&%'every'.srcp,
+                                %ID.id,
+                                %<optional_heritage>.id,
+                                newProps(%<properties>.whr,
+                                         %<properties>.nams,
+                                         %<properties>.pronounsSrcp,
+                                         %<properties>.pronouns,
+                                         %<properties>.atrs,
+                                         %<properties>.initialize,
+                                         %<properties>.description,
+                                         %<properties>.mentionedSrcp,
+                                         %<properties>.mentioned,
+                                         %<properties>.definite,
+                                         %<properties>.indefinite,
+                                         %<properties>.negative,
+                                         %<properties>.cnt,
+                                         %<properties>.vrbs,
+                                         %<properties>.enteredSrcp,
+                                         %<properties>.entered,
+                                         %<properties>.exts,
+                                         %<properties>.scrs));
+        if (%<class_tail>.id != NULL)  /* END-id given */
+            if (!equalId(%ID.id, %<class_tail>.id))
+                lmLog(`&%<class_tail>.id->srcp, 200, sevWAR, %ID.id->string);
     %%
     ;
 
 <class_tail>		-- RETURNS: id
     = 'end' 'every' <optional_id> ['.']
-    %% %<class_tail>.id = %<optional_id>.id; %%
+      %% %<class_tail>.id = %<optional_id>.id; %%
     ;
 
 
@@ -1624,7 +1625,7 @@ static int val(char str[])
 
 ----> Output Statements
 <output_statement>		-- RETURNS: stm
-    = STRING		%-('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'directly')
+    = STRING		%-('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'directly', 'indirectly')
     %%
 	%<output_statement>.stm = newStatement(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
@@ -2287,36 +2288,36 @@ static int val(char str[])
 							val(%Integer.chars));
     %%
 
-    ! STRING		%+('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'directly')
+    ! STRING		%+('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'directly', 'indirectly')
     %%
-	%<primary>.exp = newStringExpression(%STRING.srcp,
-					     %STRING.fpos,
-					     %STRING.len);
+        %<primary>.exp = newStringExpression(%STRING.srcp,
+                                             %STRING.fpos,
+                                             %STRING.len);
     %%
 
     ! <what>
     %%
-	%<primary>.exp = %<what>.exp;
+        %<primary>.exp = %<what>.exp;
     %%
 
     ! 'random' <primary> 'to' <primary>
     %%
-	%<primary>.exp = newRandomRangeExpression(%'random'.srcp, %2<primary>.exp, %3<primary>.exp);
+        %<primary>.exp = newRandomRangeExpression(%'random'.srcp, %2<primary>.exp, %3<primary>.exp);
     %%
 
     ! 'random' <optional_directly> 'in' <primary>
     %%
-	%1<primary>.exp = newRandomInExpression(%'random'.srcp, %2<primary>.exp, %<optional_directly>.present);
+        %1<primary>.exp = newRandomInExpression(%'random'.srcp, %2<primary>.exp, %<optional_directly>.transitivity);
     %%
 
     ! 'score'
     %%
-	%<primary>.exp = newScoreExpression(%'score'.srcp);
+        %<primary>.exp = newScoreExpression(%'score'.srcp);
     %%
 
     ! '{' <optional_members> '}'
     %%
-	%<primary>.exp = newSetExpression(%'{'.srcp, %<optional_members>.set);
+        %<primary>.exp = newSetExpression(%'{'.srcp, %<optional_members>.set);
     %%
     ;
 
@@ -2324,36 +2325,36 @@ static int val(char str[])
 <aggregate>			-- RETURNS: srcp, agr, id
     = <aggregator> 'of' ID
     %%
-	%<aggregate>.srcp = %<aggregator>.srcp;
-	%<aggregate>.agr = %<aggregator>.agr;
-	%<aggregate>.id = %ID.id;
+        %<aggregate>.srcp = %<aggregator>.srcp;
+        %<aggregate>.agr = %<aggregator>.agr;
+        %<aggregate>.id = %ID.id;
     %%
 
     ! 'count'
     %%
-	%<aggregate>.srcp = %'count'.srcp;
-	%<aggregate>.agr = COUNT_AGGREGATE;
-	%<aggregate>.id = NULL;
+        %<aggregate>.srcp = %'count'.srcp;
+        %<aggregate>.agr = COUNT_AGGREGATE;
+        %<aggregate>.id = NULL;
     %%
     ;
 
 <aggregator>
     = 'max'
     %%
-	%<aggregator>.srcp = %'max'.srcp;
-	%<aggregator>.agr = MAX_AGGREGATE;
+        %<aggregator>.srcp = %'max'.srcp;
+        %<aggregator>.agr = MAX_AGGREGATE;
     %%
 
     ! 'min'
     %%
-	%<aggregator>.srcp = %'min'.srcp;
-	%<aggregator>.agr = MIN_AGGREGATE;
+        %<aggregator>.srcp = %'min'.srcp;
+        %<aggregator>.agr = MIN_AGGREGATE;
     %%
 
     ! 'sum'
     %%
-	%<aggregator>.srcp = %'sum'.srcp;
-	%<aggregator>.agr = SUM_AGGREGATE;
+        %<aggregator>.srcp = %'sum'.srcp;
+        %<aggregator>.agr = SUM_AGGREGATE;
     %%
     ;
 
@@ -2361,46 +2362,46 @@ static int val(char str[])
 <something>		-- RETURNS: not, id
     = <optional_not> ID
     %%
-	%<something>.present = %<optional_not>.present;
-	%<something>.id = %ID.id;
+        %<something>.present = %<optional_not>.present;
+        %<something>.id = %ID.id;
     %%
     ;
 
 <what>			-- RETURNS: exp
     = <simple_what>
     %%
-	%<what>.exp = newWhatExpression(%<simple_what>.srcp, %<simple_what>.wht);
+        %<what>.exp = newWhatExpression(%<simple_what>.srcp, %<simple_what>.wht);
     %%
 
     ! <attribute_reference>
     %%
-	%<what>.exp = %<attribute_reference>.exp;
+        %<what>.exp = %<attribute_reference>.exp;
     %%
     ;
 
 <simple_what>			-- RETURNS: srcp, wht
     = ID					%-('of')
     %%
-	%<simple_what>.wht = newWhatId(%ID.id->srcp, %ID.id);
-	%<simple_what>.srcp = %ID.id->srcp;
+        %<simple_what>.wht = newWhatId(%ID.id->srcp, %ID.id);
+        %<simple_what>.srcp = %ID.id->srcp;
     %%
 
     ! 'current' 'actor'
     %%
-	%<simple_what>.wht = newWhatActor(%'current'.srcp);
-	%<simple_what>.srcp = %'current'.srcp;
+        %<simple_what>.wht = newWhatActor(%'current'.srcp);
+        %<simple_what>.srcp = %'current'.srcp;
     %%
 
     ! 'current' 'location'
     %%
-	%<simple_what>.wht = newWhatLocation(%'current'.srcp);
-	%<simple_what>.srcp = %'current'.srcp;
+        %<simple_what>.wht = newWhatLocation(%'current'.srcp);
+        %<simple_what>.srcp = %'current'.srcp;
     %%
 
     ! 'this'
     %%
-	%<simple_what>.wht = newWhatThis(%'this'.srcp);
-	%<simple_what>.srcp = %'this'.srcp;
+        %<simple_what>.wht = newWhatThis(%'this'.srcp);
+        %<simple_what>.srcp = %'this'.srcp;
     %%
     ;
 
@@ -2408,12 +2409,12 @@ static int val(char str[])
 <attribute_reference>		-- RETURNS: exp
     = ID 'of' <what>				%-(':')
     %%
-	%<attribute_reference>.exp = newAttributeExpression(%'of'.srcp, %ID.id, FALSE, %<what>.exp);
+        %<attribute_reference>.exp = newAttributeExpression(%'of'.srcp, %ID.id, FALSE, %<what>.exp);
     %%
 
     ! <what> ':' ID
     %%
-	%<attribute_reference>.exp = newAttributeExpression(%':'.srcp, %ID.id, FALSE, %<what>.exp);
+        %<attribute_reference>.exp = newAttributeExpression(%':'.srcp, %ID.id, FALSE, %<what>.exp);
     %%
     ;
 
@@ -2432,58 +2433,58 @@ static int val(char str[])
 <where>			-- RETURNS: srcp, whr
     = <optional_directly> 'here'
     %%
-        %<where>.whr = newWhere(`&%'here'.srcp, %<optional_directly>.present, WHERE_HERE, NULL);
-	%<where>.srcp = %'here'.srcp;
+        %<where>.whr = newWhere(`&%'here'.srcp, %<optional_directly>.transitivity, WHERE_HERE, NULL);
+        %<where>.srcp = %'here'.srcp;
     %%
 
     ! <optional_directly> 'nearby'
     %%
-        %<where>.whr = newWhere(`&%'nearby'.srcp, %<optional_directly>.present, WHERE_NEARBY, NULL);
-	%<where>.srcp = %'nearby'.srcp;
+        %<where>.whr = newWhere(`&%'nearby'.srcp, %<optional_directly>.transitivity, WHERE_NEARBY, NULL);
+        %<where>.srcp = %'nearby'.srcp;
     %%
 
     ! <optional_directly> 'at' <primary>
     %%
-        %<where>.whr = newWhere(`&%'at'.srcp, %<optional_directly>.present, WHERE_AT, %<primary>.exp);
-	%<where>.srcp = %'at'.srcp;
+        %<where>.whr = newWhere(`&%'at'.srcp, %<optional_directly>.transitivity, WHERE_AT, %<primary>.exp);
+        %<where>.srcp = %'at'.srcp;
     %%
 
     ! <optional_directly> 'in' <primary>
     %%
-        %<where>.whr = newWhere(`&%'in'.srcp, %<optional_directly>.present, WHERE_IN, %<primary>.exp);
-	%<where>.srcp = %'in'.srcp;
+        %<where>.whr = newWhere(`&%'in'.srcp, %<optional_directly>.transitivity, WHERE_IN, %<primary>.exp);
+        %<where>.srcp = %'in'.srcp;
     %%
 
     ! <optional_directly> 'near' <what>
     %%
-        %<where>.whr = newWhere(`&%'near'.srcp, %<optional_directly>.present, WHERE_NEAR, %<what>.exp);
-	%<where>.srcp = %'near'.srcp;
+        %<where>.whr = newWhere(`&%'near'.srcp, %<optional_directly>.transitivity, WHERE_NEAR, %<what>.exp);
+        %<where>.srcp = %'near'.srcp;
     %%
     ;
 
 <binop>			-- RETURNS: op, srcp
     = '+'
     %%
-	%<binop>.op = PLUS_OPERATOR;
-	%<binop>.srcp = %'+'.srcp;
+        %<binop>.op = PLUS_OPERATOR;
+        %<binop>.srcp = %'+'.srcp;
     %%
 
     ! '-'
     %%
-	%<binop>.op = MINUS_OPERATOR;
-	%<binop>.srcp = %'-'.srcp;
+        %<binop>.op = MINUS_OPERATOR;
+        %<binop>.srcp = %'-'.srcp;
     %%
 
     ! '*'
     %%
-	%<binop>.op = MULT_OPERATOR;
-	%<binop>.srcp = %'*'.srcp;
+        %<binop>.op = MULT_OPERATOR;
+        %<binop>.srcp = %'*'.srcp;
     %%
 
     ! '/'
     %%
-	%<binop>.op = DIV_OPERATOR;
-	%<binop>.srcp = %'/'.srcp;
+        %<binop>.op = DIV_OPERATOR;
+        %<binop>.srcp = %'/'.srcp;
     %%
     ;
 
@@ -2492,43 +2493,43 @@ static int val(char str[])
     = '<>'
     %%
         %<relop>.op   = NE_OPERATOR;
-	%<relop>.srcp = %'<>'.srcp;
+        %<relop>.srcp = %'<>'.srcp;
     %%
 
     ! '='
     %%
         %<relop>.op   = EQ_OPERATOR;
-	%<relop>.srcp = %'='.srcp;
+        %<relop>.srcp = %'='.srcp;
     %%
 
     ! '=='
     %%
         %<relop>.op   = EXACT_OPERATOR;
-	%<relop>.srcp = %'=='.srcp;
+        %<relop>.srcp = %'=='.srcp;
     %%
 
     ! '>='
     %%
         %<relop>.op   = GE_OPERATOR;
-	%<relop>.srcp = %'>='.srcp;
+        %<relop>.srcp = %'>='.srcp;
     %%
 
     ! '<='
     %%
         %<relop>.op   = LE_OPERATOR;
-	%<relop>.srcp = %'<='.srcp;
+        %<relop>.srcp = %'<='.srcp;
     %%
 
     ! '>'
     %%
         %<relop>.op   = GT_OPERATOR;
-	%<relop>.srcp = %'>'.srcp;
+        %<relop>.srcp = %'>'.srcp;
     %%
 
     ! '<'
     %%
         %<relop>.op   = LT_OPERATOR;
-	%<relop>.srcp = %'<'.srcp;
+        %<relop>.srcp = %'<'.srcp;
     %%
     ;
 
@@ -2575,12 +2576,17 @@ static int val(char str[])
 <optional_directly>
     =
     %%
-        %<optional_directly>.present = FALSE;
+        %<optional_directly>.transitivity = DEFAULT;
     %%
 
     ! 'directly'
     %%
-        %<optional_directly>.present = TRUE;
+        %<optional_directly>.transitivity = DIRECTLY;
+    %%
+
+    ! 'indirectly'
+    %%
+        %<optional_directly>.transitivity = INDIRECTLY;
     %%
     ;
 
@@ -2637,19 +2643,19 @@ static int val(char str[])
 <optional_minus>			-- RETURNS: minus
     =
     %%
-	%<optional_minus>.minus = FALSE;
+        %<optional_minus>.minus = FALSE;
     %%
 
     ! '-'
     %%
-	%<optional_minus>.minus = TRUE;
+        %<optional_minus>.minus = TRUE;
     %%
     ;
 
 ID
     = Identifier
     %%
-	%ID.id = newId(%Identifier.srcp, %Identifier.chars);
+        %ID.id = newId(%Identifier.srcp, %Identifier.chars);
     %%
 
 -- Possibly we could add further keywords here. But let's not at this point
@@ -2657,56 +2663,56 @@ ID
 -- added keyword too.
     ! 'location'		-- Must be allowed, predefined class
     %%
-	%ID.id = newId(%'location'.srcp, %'location'.chars);
+        %ID.id = newId(%'location'.srcp, %'location'.chars);
     %%
 
     ! 'actor'			-- Must be allowed, predefined class
     %%
-	%ID.id = newId(%'actor'.srcp, %'actor'.chars);
+        %ID.id = newId(%'actor'.srcp, %'actor'.chars);
     %%
 
     ! 'opaque'			-- Must be allowed since there is a predefined attribute.
     %%
-	%ID.id = newId(%'opaque'.srcp, %'opaque'.chars);
+        %ID.id = newId(%'opaque'.srcp, %'opaque'.chars);
     %%
 
     ! 'contains'
     %%
-	%ID.id = newId(%'contains'.srcp, %'contains'.chars);
+        %ID.id = newId(%'contains'.srcp, %'contains'.chars);
     %%
 
     ! 'on'
     %%
-	%ID.id = newId(%'on'.srcp, %'on'.chars);
+        %ID.id = newId(%'on'.srcp, %'on'.chars);
     %%
 
     ! 'it'
     %%
-	%ID.id = newId(%'it'.srcp, %'it'.chars);
+        %ID.id = newId(%'it'.srcp, %'it'.chars);
     %%
 
     ! 'of'
     %%
-	%ID.id = newId(%'of'.srcp, %'of'.chars);
+        %ID.id = newId(%'of'.srcp, %'of'.chars);
     %%
 
     ! 'first'
     %%
-	%ID.id = newId(%'first'.srcp, %'first'.chars);
+        %ID.id = newId(%'first'.srcp, %'first'.chars);
     %%
 
     ! 'into'
     %%
-	%ID.id = newId(%'into'.srcp, %'into'.chars);
+        %ID.id = newId(%'into'.srcp, %'into'.chars);
     %%
 
     ! 'taking'
     %%
-	%ID.id = newId(%'taking'.srcp, %'taking'.chars);
+        %ID.id = newId(%'taking'.srcp, %'taking'.chars);
     %%
 
     ! 'off'
     %%
-	%ID.id = newId(%'off'.srcp, %'off'.chars);
+        %ID.id = newId(%'off'.srcp, %'off'.chars);
     %%
     ;

@@ -11,6 +11,6 @@ Start At l.
     Say i.
   End Each.
 
-  Each i In l Do
+  Each i Directly In l Do
     Say i.
   End Each.

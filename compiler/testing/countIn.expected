@@ -1,4 +1,16 @@
 ########## countIn ##########
 
-        No warnings or errors detected.
+
+countIn.alan
+
+    9.    Say Count In c. -- This should not generate error 225 since
+=====>              1
+
+  *1*   451 W : Filter using IN transitively can possibly return instances of
+                any type. If this is not what you want use 'Directly In'
+                instead. To silence this warning use an explict transitivity.
+
+
+        No detected errors.
+        1 warning(s).
 

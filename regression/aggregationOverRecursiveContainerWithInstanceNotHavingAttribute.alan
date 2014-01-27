@@ -17,4 +17,4 @@ The l Isa location
 End The l.
 
 Start At l.
-  "The case weighs" Say Sum Of weight In case + weight Of case. "."
+  "The case weighs" Say Sum Of weight Directly In case + weight Of case. "."

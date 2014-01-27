@@ -5,7 +5,7 @@ End The worn.
 Every clothing Isa object
   Has size 1.
   Verb wear
-    Check Sum Of size In worn > 1
+    Check Sum Of size Directly In worn > 1
       Else "You can't wear anything more."
     Does
       Locate this In worn.

@@ -6,20 +6,19 @@ directlyStm.alan
     4.  The c Isa object Directly At l.
 =====>                            1
 
-  *1*   422 E : 'Directly' not allowed in Initial location.
+  *1*   422 W : Explicit transitivity 'Directly' ignored for Initial location.
 
     9.    Locate c Directly At l.
 =====>                      1
 
-  *1*   422 E : 'Directly' not allowed in LOCATE statement.
+  *1*   422 W : Explicit transitivity 'Directly' ignored in LOCATE statement.
 
    10.    Empty c Directly At l.
 =====>                     1
 
-  *1*   422 E : 'Directly' not allowed in EMPTY statement.
+  *1*   422 W : Explicit transitivity 'Directly' ignored in EMPTY statement.
 
 
-        3 error(s).
-        No detected warnings.
-        1 informational message(s).
+        No detected errors.
+        3 warning(s).
 

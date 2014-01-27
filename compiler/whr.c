@@ -25,7 +25,7 @@
 
 
 /*======================================================================*/
-Where *newWhere(Srcp *srcp, Bool directly, WhereKind kind, Expression *what) {
+Where *newWhere(Srcp *srcp, Transitivity transitivity, WhereKind kind, Expression *what) {
     Where *new;
 
     progressCounter();
@@ -33,11 +33,22 @@ Where *newWhere(Srcp *srcp, Bool directly, WhereKind kind, Expression *what) {
     new = NEW(Where);
 
     new->srcp = *srcp;
-    new->directly = directly;
+    new->transitivity = transitivity;
     new->kind = kind;
     new->what = what;
 
     return(new);
+}
+
+
+/*======================================================================*/
+char *transitivityToString(Transitivity transitivity) {
+    switch (transitivity) {
+    case DEFAULT: return "Default";
+    case DIRECTLY: return "Directly";
+    case INDIRECTLY: return "Indirectly";
+    default: SYSERR("Unexpected transitivity"); return "ERROR";
+    }
 }
 
 
@@ -61,8 +72,14 @@ void symbolizeWhere(Where *whr)
 /*======================================================================*/
 Bool verifyInitialLocation(Where *whr, Context *context)
 {
-    if (whr->directly)
-        lmLog(&whr->srcp, 422, sevERR, "Initial location");
+    if (whr->transitivity != DEFAULT) {
+        if (whr->transitivity == DIRECTLY)
+            lmLogv(&whr->srcp, 422, sevWAR, transitivityToString(whr->transitivity),
+                   "ignored for", "Initial location", NULL);
+        else
+            lmLogv(&whr->srcp, 422, sevERR, transitivityToString(whr->transitivity),
+                   "not allowed for", "Initial location", NULL);
+    }
 
     if (whr->what == NULL || whr->what->kind != WHAT_EXPRESSION)
         lmLogv(&whr->srcp, 355, sevERR, "", NULL);
@@ -146,6 +163,14 @@ Aword generateInitialLocation(Properties *props)
 }
 
 
+/*======================================================================*/
+void generateTransitivity(Transitivity transitivity) {
+    if (transitivity == DIRECTLY)
+        emitConstant(TRUE);
+    else                        /* Default is also INDIRECTLYu */
+        emitConstant(FALSE);
+}
+
 
 /*======================================================================*/
 void generateWhere(Where *where)
@@ -155,7 +180,7 @@ void generateWhere(Where *where)
     case WHERE_AT:
         generateExpression(where->what);
         if (!inheritsFrom(where->what->class, locationSymbol)) {
-            emitConstant(where->directly);
+            generateTransitivity(where->transitivity);
             emit0(I_WHERE);
         }
         break;
@@ -186,7 +211,7 @@ void dumpWhere(Where *whr)
     }
 
     put("WHR: "); dumpSrcp(whr->srcp); indent();
-    put("whr: "); if (whr->directly) put("DIRECTLY ");
+    put("whr: "); if (whr->transitivity != DEFAULT) put(transitivityToString(whr->transitivity));
     switch (whr->kind) {
     case WHERE_DEFAULT: put("DEFAULT"); break;
     case WHERE_HERE: put("HERE"); break;

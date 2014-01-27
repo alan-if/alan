@@ -6,5 +6,5 @@ The c Isa object
 End The c.
 
 Start At l.
-  Say Count In c.		-- This should not generate 225 since
-				-- it is known to only count objects
+  Say Count In c. -- This should not generate error 225 since
+                  -- it is known to only count objects

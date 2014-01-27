@@ -124,6 +124,7 @@ typedef struct Expression {
         struct {                /* For RANDOM IN */
             struct Expression *what;
             Bool directly;
+            Transitivity transitivity;
         } rin;
 
         struct {			/* For WHAT */

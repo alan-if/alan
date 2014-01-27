@@ -401,7 +401,7 @@ EVERY clothing ISA OBJECT
 --------------------------------------------------------------------
 
 
-	IF topcover OF THIS <> 0 AND topcover OF THIS <= SUM OF topcover IN worn 
+    IF topcover OF THIS <> 0 AND topcover OF THIS <= SUM OF topcover Directly IN worn 
 		THEN
 			INCREASE wear_flag OF hero BY 5.
 	END IF.
@@ -413,19 +413,19 @@ EVERY clothing ISA OBJECT
 
 
 --	IF THIS IN tempworn THEN
-	IF handscover OF THIS <> 0 AND handscover OF THIS <= SUM OF handscover IN worn 
+	IF handscover OF THIS <> 0 AND handscover OF THIS <= SUM OF handscover Directly IN worn 
 		THEN
 			INCREASE wear_flag OF hero BY 5.
 	END IF.
 	
 
-	IF feetcover OF THIS <> 0 AND feetcover OF THIS <= SUM OF feetcover IN worn 
+	IF feetcover OF THIS <> 0 AND feetcover OF THIS <= SUM OF feetcover Directly IN worn 
 		THEN
 			INCREASE wear_flag OF hero BY 5.	
 	END IF.
 
 	
-	IF headcover OF THIS <> 0 AND headcover OF THIS <= SUM OF headcover IN worn 
+	IF headcover OF THIS <> 0 AND headcover OF THIS <= SUM OF headcover Directly IN worn 
 		THEN
 			INCREASE wear_flag OF hero BY 5.	
 	END IF.
@@ -439,7 +439,7 @@ EVERY clothing ISA OBJECT
 --------------------------------------------------------------------
 
 
-	SET tempcovered OF hero TO SUM OF botcover in worn.
+	SET tempcovered OF hero TO SUM OF botcover Directly in worn.
 		IF tempcovered OF hero >63 and botcover OF THIS < 33
 			 THEN 
 				SET tempcovered OF hero TO tempcovered OF hero -64.
@@ -547,7 +547,7 @@ VERB remove
 --------------------------------------------------------------------
 
 
-	SET tempcovered OF hero TO SUM OF topcover IN worn /2.
+	SET tempcovered OF hero TO SUM OF topcover Directly IN worn /2.
 	IF topcover OF THIS <> 0 AND topcover OF THIS < tempcovered OF hero
 		 THEN
 			INCREASE wear_flag OF hero BY 1.
@@ -559,21 +559,21 @@ VERB remove
 --------------------------------------------------------------------
 
 
-	SET tempcovered OF hero TO SUM OF handscover IN worn /2.
+	SET tempcovered OF hero TO SUM OF handscover Directly IN worn /2.
 	IF handscover OF THIS <> 0 AND handscover OF THIS < tempcovered OF hero 
 		THEN
 			INCREASE wear_flag OF hero BY 1.
 	END IF.		
 
 
-	SET tempcovered OF hero TO SUM OF feetcover IN worn /2.
+	SET tempcovered OF hero TO SUM OF feetcover Directly IN worn /2.
 	IF feetcover OF THIS <> 0 AND feetcover OF THIS < tempcovered OF hero 
 		THEN
 			INCREASE wear_flag OF hero BY 1.		
 	END IF.	
 
 
-	SET tempcovered OF hero TO SUM OF headcover IN worn /2.
+	SET tempcovered OF hero TO SUM OF headcover Directly IN worn /2.
 	IF headcover OF THIS <> 0 AND headcover OF THIS < tempcovered OF hero 
 		THEN
 			INCREASE wear_flag OF hero BY 1.
@@ -586,7 +586,7 @@ VERB remove
 --------------------------------------------------------------------
 
 
-	SET tempcovered OF hero TO SUM OF botcover in worn.
+	SET tempcovered OF hero TO SUM OF botcover Directly in worn.
 	IF tempcovered OF hero >63 
 		THEN 
 			SET tempcovered OF hero TO tempcovered OF hero -64.
@@ -645,7 +645,7 @@ VERB undress
 	CHECK CURRENT LOCATION IS lit
 		ELSE "It is too dark to see."
 	DOES
-		IF COUNT IN worn, ISA CLOTHING > 0
+        IF COUNT Indirectly IN worn, ISA CLOTHING > 0
 			THEN "You don't feel like undressing is a good idea right now."
 			ELSE "You're not wearing anything you can remove."  											
 		END IF.									
@@ -664,7 +664,7 @@ VERB examine
 	DOES AFTER
 		IF THIS IS NOT OPAQUE
 			THEN 
-				IF COUNT ISA OBJECT, IN THIS > 0		-- if the piece of clothing contains
+				IF COUNT ISA OBJECT, Indirectly IN THIS > 0		-- if the piece of clothing contains
 					THEN LIST THIS.				-- something, e.g. if a jacket contains a wallet,
 				END IF.						-- the wallet will be mentioned when the
 		END IF.								-- jacket is examined
@@ -2353,7 +2353,7 @@ ADD TO EVERY ACTOR
 
    VERB examine
 	DOES 
-		IF COUNT ISA THING, IN THIS > 0  			-- This if-statement will make a description of an
+		IF COUNT ISA THING, Indirectly IN THIS > 0  			-- This if-statement will make a description of an
 			THEN LIST THIS. 					-- actor's possessions show up every time the actor is examined.
 		END IF.							-- Note that this doesn't apply to the hero which is defined
 										-- separately further below.-- This listing will be overridden if you give an 
@@ -2599,7 +2599,7 @@ THE hero ISA ACTOR
 	VERB examine
 		DOES ONLY "You notice nothing unusual about yourself."	-- edit this line to change the way the hero is 
 												-- described after the player command 'examine myself'.
-			IF COUNT ISA CLOTHING, IN worn > 0
+			IF COUNT ISA CLOTHING, Indirectly IN worn > 0
 				THEN LIST worn.			-- This will list what the hero is wearing.
 			END IF.					-- (The verb 'inventory' in 'verbs.i' will take care
 	END VERB.							-- of listing the hero's possessions.)
