@@ -123,7 +123,7 @@ static void runPendingEvents(void)
         else
             current.location = where(eventQueue[eventQueueTop].where, TRANSITIVE);
         if (traceSectionOption) {
-            printf("\n<EVENT %s [%d] (at ", eventName(eventQueue[eventQueueTop].event),
+            printf("\n<EVENT %s[%d] (at ", eventName(eventQueue[eventQueueTop].event),
                    eventQueue[eventQueueTop].event);
             traceSay(current.location);
             printf(" [%d]):>\n", current.location);
@@ -695,12 +695,11 @@ static bool traceActor(int theActor)
         printf("\n<ACTOR ");
         traceSay(theActor);
         printf("[%d]", theActor);
-	if (current.location != 0) {
-	    printf(" (at ");
-	    traceSay(current.location);
-        printf("[%d]", current.location);
-	} else
-	    printf(" (nowhere");
+        if (current.location != 0) {
+            printf(" (at ");
+            traceSay(current.location);
+        } else
+            printf(" (nowhere");
         printf("[%d])", current.location);
     }
     return traceSectionOption;
