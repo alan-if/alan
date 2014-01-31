@@ -2,8 +2,8 @@
 #define _EVT_H_
 /*----------------------------------------------------------------------*\
 
-				EVT.H
-			     Event Nodes
+  EVT.H
+  Event Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -18,12 +18,12 @@
 
 /* Types: */
 
-typedef struct Event {		/* EVENT */
-  Srcp srcp;			/* Source position */
-  Id *id;			/* Name of this event */
-  Aaddr namadr;			/* Address to name string (debug) */
-  List *stms;			/* List of statements to execute */
-  Aaddr stmadr;			/* ACODE address of event statements */
+typedef struct Event {         /* EVENT */
+    Srcp srcp;                 /* Source position */
+    Id *id;                    /* Name of this event */
+    Aaddr nameAddress;         /* Address to name string (debug) */
+    List *stms;                /* List of statements to execute */
+    Aaddr stmadr;              /* ACODE address of event statements */
 } Event;
 
 

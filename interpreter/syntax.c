@@ -71,7 +71,7 @@ SyntaxEntry *findSyntaxTreeForVerb(int verbCode) {
 
 /*======================================================================*/
 char *parameterNameInSyntax(int syntaxNumber, int parameterNumber) {
-    Aaddr adr = addressAfterParameterMap(header->parameterMapAddress);
+    Aaddr adr = addressAfterTable(header->parameterMapAddress, sizeof(ParameterMapEntry));
     Aaddr *syntaxParameterNameTable = pointerTo(memory[adr]);
     Aaddr *parameterNameTable = (Aaddr *)pointerTo(syntaxParameterNameTable[syntaxNumber-1]);
     return stringAt(parameterNameTable[parameterNumber-1]);

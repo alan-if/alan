@@ -2,7 +2,8 @@
 
   options.h
 
-  Alan compiler command line options
+  Alan compiler command line option flags
+  NOTE that options in the generated Acode is handled by opt.h/.c
 
 \*----------------------------------------------------------------------*/
 

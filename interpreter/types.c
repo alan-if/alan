@@ -6,12 +6,9 @@
 #include "lists.h"
 
 /*======================================================================*/
-Aaddr addressAfterParameterMap(Aaddr adr) {
-    ParameterMapEntry *e = (ParameterMapEntry *) &memory[adr];
-    
-    while (!isEndOfArray(e)) {
-        e++;
-        adr += AwordSizeOf(ParameterMapEntry);
+Aaddr addressAfterTable(Aaddr adr, int size) {
+    while (!isEndOfArray(&memory[adr])) {
+        adr += size/sizeof(Aword);
     }
     return adr+1;
 }

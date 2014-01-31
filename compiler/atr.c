@@ -682,27 +682,40 @@ static void generateAttribute(Attribute *attribute, int instanceCode)
 
 
 /*======================================================================*/
-Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute nodes */
-{
-    Aaddr adr;
-    List *lst;
-
-    /* First generate the names of the attributes if needed */
-    if ((Bool) opts[OPTDEBUG].value) {
+static void generateAttributeNames(List *atrs) {
+	List *lst;
+    if (opts[OPTDEBUG].value) {
         for (lst = atrs; lst != NULL; lst = lst->next) {
             lst->member.atr->stringAddress = nextEmitAddress();
             emitString(lst->member.atr->id->string);
         }
     }
+}
 
-    adr = nextEmitAddress();
 
+/*======================================================================*/
+static void generateAttributeEntries(List *atrs, int instanceCode) {
+	List *lst;
     for (lst = atrs; lst != NULL; lst = lst->next) {
         if (instanceCode == 0) printf("instance == 0\n");
         generateAttribute(lst->member.atr, instanceCode);
         attributeAreaSize += AwordSizeOf(AttributeEntry);
     }
     emit(EOF);
+}
+
+
+/*======================================================================*/
+Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute nodes */
+{
+    Aaddr adr;
+
+	generateAttributeNames(atrs);
+
+    adr = nextEmitAddress();
+
+	generateAttributeEntries(atrs, instanceCode);
+
     attributeAreaSize += 1;
 
     return(adr);

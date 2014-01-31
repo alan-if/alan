@@ -15,9 +15,9 @@ if [ $# != 0 ] ; then
   for f in ${*} ; do
     case=`basename ${f%%.} .alan`
     if [ "$case" != "$f" ] ; then
-	run
+      run
     elif [ -f $case.alan ] ; then
-        run
+      run
     fi
   done
 else

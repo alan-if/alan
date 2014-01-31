@@ -5,6 +5,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "evt.h"
+
 #include "util.h"
 
 #include "srcp_x.h"
@@ -18,7 +20,6 @@
 
 #include "lmList.h"
 
-#include "evt.h"                /* EVT-nodes */
 #include "opt.h"                /* Options */
 
 #include "emit.h"
@@ -34,19 +35,19 @@ int evtcount = 0;
 /*======================================================================*/
 Event *newEvent(Srcp *srcp, Id *id, List *stms)
 {
-  Event *new;		/* The newly allocated node */
+    Event *new;		/* The newly allocated node */
 
-  progressCounter();
+    progressCounter();
 
-  new = NEW(Event);
+    new = NEW(Event);
 
-  new->srcp = *srcp;
-  new->id = id;
-  new->stms = stms;
+    new->srcp = *srcp;
+    new->id = id;
+    new->stms = stms;
 
-  new->id->symbol = newSymbol(id, EVENT_SYMBOL);
+    new->id->symbol = newSymbol(id, EVENT_SYMBOL);
 
-  return(new);
+    return(new);
 }
 
 
@@ -58,52 +59,63 @@ void analyzeEvents(void)
     Context *context = newEventContext();
 
     for (evts = adv.evts; evts != NULL; evts = evts->next) {
-      progressCounter();
-      context->event = evts->member.evt;
-      analyzeStatements(evts->member.evt->stms, context);
+        progressCounter();
+        context->event = evts->member.evt;
+        analyzeStatements(evts->member.evt->stms, context);
     }
 }
 
 
 
 /*----------------------------------------------------------------------*/
-static void generateEvent(Event *evt)	/* IN - The event to generate */
+static void generateEventData(Event *evt)	/* IN - The event to generate */
 {
-  progressCounter();
+    progressCounter();
 
-  if ((Bool) opts[OPTDEBUG].value) {
-    evt->namadr = nextEmitAddress();
-    emitString(evt->id->string);
-  } else
-    evt->namadr = 0;
-  evt->stmadr = nextEmitAddress();
-  generateStatements(evt->stms);
-  emit0(I_RETURN);
+    if ((Bool) opts[OPTDEBUG].value) {
+        evt->nameAddress = nextEmitAddress();
+        emitString(evt->id->string);
+    } else
+        evt->nameAddress = 0;
+    evt->stmadr = nextEmitAddress();
+    generateStatements(evt->stms);
+    emit0(I_RETURN);
+}
+
+
+/*======================================================================*/
+static Aaddr generateEventTable(EventEntry entry2) {
+	List *lst;
+	Aaddr adr;
+    EventEntry entry;
+
+    adr = nextEmitAddress();		/* Save address of event table */
+    for (lst = adv.evts; lst != NULL; lst = lst->next) {
+        entry.id = lst->member.evt->nameAddress;
+        entry.code = lst->member.evt->stmadr;
+        emitEntry(&entry, sizeof(entry));
+    }
+    emit(EOF);
+	return(adr);
 }
 
 
 /*======================================================================*/
 Aaddr generateEvents(ACodeHeader *header)
 {
-  List *lst;	/* Traversal pointer */
-  Aaddr adr;
-  EventEntry entry;
+    List *lst;	/* Traversal pointer */
+    Aaddr adr;
+    EventEntry entry;
 
-  /* First all the events */
-  for (lst = adv.evts; lst != NULL; lst = lst->next)
-    generateEvent(lst->member.evt);
+    /* First all the events */
+    for (lst = adv.evts; lst != NULL; lst = lst->next)
+        generateEventData(lst->member.evt);
 
-  adr = nextEmitAddress();		/* Save address of event table */
-  for (lst = adv.evts; lst != NULL; lst = lst->next) {
-    entry.id = lst->member.evt->namadr;
-    entry.code = lst->member.evt->stmadr;
-    emitEntry(&entry, sizeof(entry));
-  }
-  emit(EOF);
+    adr = generateEventTable(entry);
+  
+    header->eventMax = eventCount;
 
-  header->eventMax = eventCount;
-
-  return(adr);
+    return(adr);
 }
 
 
@@ -111,14 +123,14 @@ Aaddr generateEvents(ACodeHeader *header)
 /*======================================================================*/
 void dumpEvent(Event *evt)
 {
-  if (evt == NULL) {
-    put("NULL");
-    return;
-  }
+    if (evt == NULL) {
+        put("NULL");
+        return;
+    }
 
-  put("EVENT: "); dumpSrcp(evt->srcp); indent();
-  put("id: "); dumpId(evt->id); nl();
-  put("stms: "); dumpList(evt->stms, STATEMENT_LIST); out();
+    put("EVENT: "); dumpSrcp(evt->srcp); indent();
+    put("id: "); dumpId(evt->id); nl();
+    put("stms: "); dumpList(evt->stms, STATEMENT_LIST); out();
 }
 
 

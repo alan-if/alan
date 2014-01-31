@@ -65,6 +65,6 @@ typedef struct LimEntry {	/* LIMIT Type */
 
 
 /* Functions: */
-extern Aaddr addressAfterParameterMap(Aaddr adr);
+extern Aaddr addressAfterTable(Aaddr adr, int size);
 
 #endif

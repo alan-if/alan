@@ -104,6 +104,11 @@ void checkobj(Aword *obj) {
  *
  *----------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------*/
+static char *eventName(int event) {
+    return stringAt(events[event].id);
+}
+
 
 /*----------------------------------------------------------------------*/
 static void runPendingEvents(void)
@@ -118,9 +123,10 @@ static void runPendingEvents(void)
         else
             current.location = where(eventQueue[eventQueueTop].where, TRANSITIVE);
         if (traceSectionOption) {
-            printf("\n<EVENT %d (at ", eventQueue[eventQueueTop].event);
+            printf("\n<EVENT %s [%d] (at ", eventName(eventQueue[eventQueueTop].event),
+                   eventQueue[eventQueueTop].event);
             traceSay(current.location);
-            printf("):>\n");
+            printf(" [%d]):>\n", current.location);
         }
         interpret(events[eventQueue[eventQueueTop].event].code);
         evaluateRules(rules);
@@ -692,6 +698,7 @@ static bool traceActor(int theActor)
 	if (current.location != 0) {
 	    printf(" (at ");
 	    traceSay(current.location);
+        printf("[%d]", current.location);
 	} else
 	    printf(" (nowhere");
         printf("[%d])", current.location);

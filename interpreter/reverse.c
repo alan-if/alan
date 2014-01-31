@@ -388,7 +388,7 @@ static void reverseParameterNames(Aaddr parameterMapAddress) {
     Aaddr *e;
     Aaddr adr;
     
-    adr = addressAfterParameterMap(parameterMapAddress);
+    adr = addressAfterTable(parameterMapAddress, sizeof(ParameterMapEntry));
     reverse(&memory[adr]);
     adr = memory[adr];
     
