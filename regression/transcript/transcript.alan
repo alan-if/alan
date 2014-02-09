@@ -1,4 +1,5 @@
 The loc Isa location
+  Is done.
 End The loc.
 
 Syntax transcript_on = 'transcript' on.
@@ -15,4 +16,12 @@ Verb transcript_off
 	"Transcript turned off."
 End Verb.
 
+Event delay
+  For i Between 1 And 100000 Do
+    Make loc done.
+  End For.
+  Schedule delay After 1.
+End Event.
+
 Start At loc.
+  Schedule delay After 1.

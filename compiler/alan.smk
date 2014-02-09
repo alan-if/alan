@@ -296,94 +296,94 @@ void setCharacterSet(int set)
 
   'import' = 'import' 
     %%
-      Srcp srcp, start;
-      Token token;
-      static int i;
-      static char c;
+        Srcp srcp, start;
+        Token token;
+        static int i;
+        static char c;
 
-      smThis->smScanner = sm_MAIN_FILENAME_Scanner;
-      smScan(smThis, `&token);		/* Get file name */
-      smThis->smScanner = sm_MAIN_MAIN_Scanner;
-      if (token.code == sm_MAIN_IDENTIFIER_Token) {
-	/* Found an ID which is a file name */
+        smThis->smScanner = sm_MAIN_FILENAME_Scanner;
+        smScan(smThis, `&token);		/* Get file name */
+        smThis->smScanner = sm_MAIN_MAIN_Scanner;
+        if (token.code == sm_MAIN_IDENTIFIER_Token) {
+	        /* Found an ID which is a file name */
 
-	/* Skip all whitespace */
-	do {
-	  i = smScSkip(smThis, 1);
-	  c = smThis->smText[smThis->smLength-1];
-	} while (isspace((int)c) && i > 0);
+            /* Skip all whitespace */
+            do {
+                i = smScSkip(smThis, 1);
+                c = smThis->smText[smThis->smLength-1];
+            } while (isspace((int)c) && i > 0);
 
-	if (c != '.') {
-	  lmLog(`&token.srcp, 109, sevERR, "expected terminating '.'");
-	  i = smScSkip(smThis, -1);
-	}
+            if (c != '.') {
+                lmLog(`&token.srcp, 109, sevERR, "expected terminating '.'");
+                i = smScSkip(smThis, -1);
+            }
 
-	srcp = token.srcp;	/* Insert the file before next line */
-	srcp.line++;
-	srcp.col = 1;
+            srcp = token.srcp;	/* Insert the file before next line */
+            srcp.line++;
+            srcp.col = 1;
 
-	if (smScanEnter(token.srcp, token.chars, TRUE)) {
-	  start.file = fileNo-1;
-	  start.line = 0;	/* Start at beginning */
-	  lmLiEnter(`&srcp, `&start, lexContext->fileName);
-	}
-      } else
-	lmLog(`&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
+            if (smScanEnter(token.srcp, token.chars, TRUE)) {
+                start.file = fileNo-1;
+                start.line = 0;	/* Start at beginning */
+                lmLiEnter(`&srcp, `&start, lexContext->fileName);
+            }
+        } else
+            lmLog(`&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
   %%;
 
   'location' = 'location'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'actor' = 'actor'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'opaque' = 'opaque'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'on' = 'on'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'it' = 'it'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'contains' = 'contains'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'of' = 'of'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'first' = 'first'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'into' = 'into'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'taking' = 'taking'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   'off' = 'off'
     %%
-  smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
   Unknown = _Unknown;
@@ -409,28 +409,29 @@ void setCharacterSet(int set)
       smScan(smThis, `&token);		/* Get file name */
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
       if (token.code == sm_MAIN_IDENTIFIER_Token) {
-	/* Found an ID which is a file name */
-	srcp = token.srcp;	/* Insert the file before next line */
-	srcp.line++;
-	srcp.col = 1;
+          /* Found an ID which is a file name */
+          srcp = token.srcp;	/* Insert the file before next line */
+          srcp.line++;
+          srcp.col = 1;
 
-	/* Skip to end of line or EOF */
-	do {
-	  i = smScSkip(smThis, 1);
-	  c = smThis->smText[smThis->smLength-1];
-	} while (c != '\n' && i != 0);
+          /* Skip to end of line or EOF */
+          do {
+              i = smScSkip(smThis, 1);
+              c = smThis->smText[smThis->smLength-1];
+          } while (c != '\n' && i != 0);
 
-      	lmLog(`&smToken->srcp, 154, sevWAR, token.chars); /* INCLUDE is deprecated */
-	if (smScanEnter(token.srcp, token.chars, TRUE)) {
-	  smToken->srcp.file = fileNo-1;
-	  start.file = fileNo-1;
-	  start.line = 0;	/* Start at beginning */
-	  lmLiEnter(`&srcp, `&start, lexContext->fileName);
-	  /* Use the new scanner to get next token and return it */
-	  return smScan(lexContext, smToken);
-	}
+          lmLog(`&smToken->srcp, 154, sevERR, token.chars); /* INCLUDE is deprecated */
+
+          if (smScanEnter(token.srcp, token.chars, TRUE)) {
+              smToken->srcp.file = fileNo-1;
+              start.file = fileNo-1;
+              start.line = 0;	/* Start at beginning */
+              lmLiEnter(`&srcp, `&start, lexContext->fileName);
+              /* Use the new scanner to get next token and return it */
+              return smScan(lexContext, smToken);
+          }
       } else  /* Did not scan any file name */
-	lmLog(`&token.srcp, 151, sevFAT, token.chars);
+          lmLog(`&token.srcp, 151, sevFAT, token.chars);
   %%;
 
 
@@ -440,7 +441,7 @@ void setCharacterSet(int set)
 
   Identifier = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
     %%{
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }%%;
 
   Unknown = _Unknown;
