@@ -30,7 +30,8 @@ CGREENLIB = $(CGREENROOT)/lib/libcgreen.dll.a
 # WinAlan is only available on Windows (= MinGW = Cygwin without cygwin1.dll)
 #
 # Build with flags:
-winalan: EXTRA_COMPILER_FLAGS = -Wall -funsigned-char $(OPTIMIZE) -DWINGUI
+winalan: EXTRA_COMPILER_FLAGS = -std=c99 -Wall -funsigned-char $(OPTIMIZE) -DWINGUI #-DARGSDISPLAY
+WINALANLIBS = -lshlwapi
 
 WINALANOBJDIR = .winalan
 WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o}) $(WINALANOBJDIR)/alan.version.o
@@ -42,7 +43,7 @@ $(WINALANOBJDIR):
 	@mkdir $(WINALANOBJDIR)
 
 winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res
-	$(LINK) $(LINKFLAGS) -o winalan -mwindows $(WINALANOBJECTS) alan.res
+	$(LINK) $(LINKFLAGS) -o winalan -mwindows $(WINALANOBJECTS) alan.res $(WINALANLIBS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp winalan ../bin
 

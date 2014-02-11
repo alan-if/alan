@@ -110,6 +110,7 @@ SPA_END
 \*======================================================================*/
 #ifdef WINGUI
 #include <windows.h>
+#include <shlwapi.h>
 
 #define FILENAMESIZE 1000
 static char inFileName[FILENAMESIZE];
@@ -167,18 +168,18 @@ static int splitCommandLine(char commandLine[])
 
 static char *removeExeResidue(char cmdLine[])
 {
-  /* MingW seems to forget to strip of the whole program name if it
-     contains spaces, Windows surrounds those with quote-marks so any
-     residue will end in: */
-  static char *residue = ".exe\"";
-  char *cp = strstr(cmdLine, residue);
-  if (cp) {
-    MessageBox(NULL, "INTERNAL: Had to strip exe.residue...", "Alan V3 compiler", MB_OK);
-    cp += strlen(residue);
-    while (*cp == ' ') cp++;
-  } else
-    cp = cmdLine;
-  return cp;
+    /* MingW seems to forget to strip of the whole program name if it
+       contains spaces, Windows surrounds those with quote-marks so any
+       residue will end in: */
+    static char *residue = ".exe\"";
+    char *cp = strstr(cmdLine, residue);
+    if (cp) {
+        MessageBox(NULL, "INTERNAL: Had to strip exe.residue...", "Alan V3 compiler", MB_OK);
+        cp += strlen(residue);
+        while (*cp == ' ') cp++;
+    } else
+        cp = cmdLine;
+    return cp;
 }
 
 
@@ -198,50 +199,54 @@ static void remapWindowsFilename(char string[])
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int cmdShow)
 {
-  int nArgs;
+    int nArgs;
 
-  nArgs = splitCommandLine(removeExeResidue(cmdLine));
-
-#ifdef ARGSDISPLAY
-  MessageBox(NULL, "Hello!", "Alan V3 compiler", MB_OK);
-  for (int i = 0; i < nArgs; i++) {
-    char buf[199];
-    sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
-    MessageBox(NULL, buf, "Alan V3 compiler", MB_OK);
-  }
-#endif
-
-  if (nArgs == 1) {
-    if (!getInFileName())
-      return -1;
-    argv[1] = fullInFileName;
-    argc = 2;
-  }
-  else
-    /* If we run from a CMD windows we will see Windows-style filenames */
-    remapWindowsFilename(argv[1]);
+    nArgs = splitCommandLine(removeExeResidue(cmdLine));
 
 #ifdef ARGSDISPLAY
-  MessageBox(NULL, argv[1], "Alan V3 compiler : argv[1]", MB_OK);
-  MessageBox(NULL, fullInFileName, "Alan V3 compiler : fullInFileName", MB_OK);
-  MessageBox(NULL, inFileName, "Alan V3 compiler : inFileName", MB_OK);
-  MessageBox(NULL, fopen(argv[1], "r")!=NULL?"OK":"Not Ok", "Alan V3 compiler : open argv[1]", MB_OK);
+    MessageBox(NULL, "Hello!", "Alan V3 compiler", MB_OK);
+    for (int i = 0; i < nArgs; i++) {
+        char buf[199];
+        sprintf(buf, "arg %d :\"%s\"", i, argv[i]);
+        MessageBox(NULL, buf, "Alan V3 compiler", MB_OK);
+    }
 #endif
 
-  /* -- get arguments -- */
-  nArgs = spaProcess(argc, argv, arguments, options, paramError);
+    if (nArgs == 1) {
+        if (!getInFileName())
+            return -1;
+        argv[1] = fullInFileName;
+        argc = 2;
+    } else
+        /* If we run from a CMD windows we will see Windows-style filenames */
+        remapWindowsFilename(argv[1]);
 
-  if (guiMode) {
-      if (AllocConsole())
-          freopen("con:", "w", stdout);
-      else
-          MessageBox(NULL, "Failed to allocate a console.\nCompilation will continue but can not display error messages.", "Error", MB_OK);
-  }
+#ifdef ARGSDISPLAY
+    MessageBox(NULL, argv[1], "Alan V3 compiler : argv[1]", MB_OK);
+    MessageBox(NULL, fullInFileName, "Alan V3 compiler : fullInFileName", MB_OK);
+    MessageBox(NULL, inFileName, "Alan V3 compiler : inFileName", MB_OK);
+    MessageBox(NULL, fopen(argv[1], "r")!=NULL?"OK":"Not Ok", "Alan V3 compiler : open argv[1]", MB_OK);
+#endif
+
+    /* -- get arguments -- */
+    nArgs = spaProcess(argc, argv, arguments, options, paramError);
+
+    if (guiMode) {
+        if (AllocConsole())
+            freopen("con:", "w", stdout);
+        else
+            MessageBox(NULL, "Failed to allocate a console.\nCompilation will continue but can not display error messages.", "Error", MB_OK);
+    }
+
+    char directory[500];
+    strcpy(directory, argv[1]);
+    PathRemoveFileSpec(directory);
+    SetCurrentDirectory(directory);
 
 #else
 
 int main(int argc,		/* IN - argument count */
-	 char **argv		/* IN - program arguments */
+         char **argv		/* IN - program arguments */
 )
 {
     int nArgs;			/* Number of supplied args */
