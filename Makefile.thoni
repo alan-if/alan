@@ -9,12 +9,12 @@ DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 default: unit build
 
 .PHONY: all
-all: unit build documentation test cygwintests
+all: unit build documentation tests
 
 .PHONY: ci
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
-ci: unit build tests
+ci: all
 
 .PHONY:tests
 tests: test cygwintests
