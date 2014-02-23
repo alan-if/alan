@@ -38,6 +38,8 @@ test:
 	@cd ..;bin/jregr -bin bin -dir compiler/testing/dump $(JREGROUTPUT)
 	@cd ..;bin/jregr -dir compiler/testing/arguments $(JREGROUTPUT)
 	@cd ..;bin/jregr -bin bin -dir regression/debug $(JREGROUTPUT)
+	@cd ../regression/platforms; ../../bin/alan $(shell uname)
+	@cd ..;bin/jregr -bin bin -dir regression/platforms $(JREGROUTPUT)
 # TODO: Since older interpreters barf on the tests for backwards compatibility of the compiler
 # TODO: we need to split that up somehow
 #	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
