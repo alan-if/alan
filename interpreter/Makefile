@@ -5,12 +5,14 @@
 # compile and link commands
 #
 
+OS := ${if ${findstring CYGWIN, ${shell uname}}, Cygwin, ${shell uname}}
+
 # Include list of all sources
 include sources.mk
 
-# Include the correct main Makefile depending on the system name
+# Include correct main Makefile depending on OS and possibly system name
 #
-ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+ifeq ($(OS), Cygwin)
 ifeq ($(shell uname -n), thoni)
 include Makefile.thoni
 else

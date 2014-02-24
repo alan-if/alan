@@ -8,12 +8,20 @@
 # target specific compile and link settings
 #
 
+ifneq ($(EMACS),)
+JREGROUTPUT = -noansi
+else
+UNITOUTPUT ?= -c
+endif
+
+OS=${if ${findstring CYGWIN, ${shell uname}}, Cygwin, ${shell uname}}
+
 # Include the common source lists, need to be before the included rules
 include sources.mk
 
 # Include the correct main Makefile depending on the system name
 #
-ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+ifeq ($(OS), Cygwin)
 ifeq ($(shell uname -n), thoni)
 include Makefile.thoni
 else

@@ -9,6 +9,8 @@ ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
 
+OS=${if ${findstring CYGWIN, ${shell uname}}, Cygwin, ${shell uname}}
+
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
 CC = $(COMPILER)
@@ -131,7 +133,7 @@ unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB)
 cgreenrunnertests: unittests.dll
-ifeq ($(shell uname), Darwin)
+ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite interpreter_unit_tests $(UNITOUTPUT)
 else
 	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
@@ -157,7 +159,7 @@ ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
-ifeq ($(shell uname), Darwin)
+ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 else
 	cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)

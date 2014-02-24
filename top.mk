@@ -40,7 +40,7 @@ unit:
 
 .PHONY: test
 test:
-ifeq ($(shell uname), Linux)
+ifeq ($(OS), Linux)
 	@touch regression/isochars.suspended regression/unknownWordMessage.suspended
 endif
 	@echo "***************** Test *****************"
