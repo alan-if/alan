@@ -21,7 +21,7 @@ include sources.mk
 
 # Include the correct main Makefile depending on the system name
 #
-ifeq ($(OS), Cygwin)
+ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
 ifeq ($(shell uname -n), thoni)
 include Makefile.thoni
 else
