@@ -66,7 +66,7 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 
 
 #######################################################################
-# Settings for Gargoyle GLK variant (experimental!)
+# Settings for Gargoyle GLK variant (native compilation is experimental!)
 #GARGLKROOT = $(GLKLIBROOT)/Gargoyle-2006-09-17/garglk
 #GARGLKDEFS = -DHAVE_GARGLK
 #GARGLKINCLUDE = -I$(GARGLKROOT)
@@ -87,10 +87,18 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 #gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
 #	$(LINK) -o $@ $(LINKFLAGS) $(GARARUNOBJECTS) arun.res $(LIBS)
 #	cp $@ ../bin/
-gararun:
-	cd ../../garglk-current-alan3; \
-	jam alan3 ; \
-	cp build/cygwin.release/alan3/alan3.exe ../alan/interpreter
+
+
+#######################################################################
+# Gargoyle GLK variant (using garglk's jam build)
+gararun: build-gararun package-gararun
+
+build-gararun:
+	-sh -c "cd ../../garglk-current-alan3/terps; jam alan3"
+	@echo "NOTE: If the above failed: do the above command manually and then 'make package-gararun'"
+
+package-gararun:
+	cp ../../garglk-current-alan3/build/cygwin.release/alan3/alan3.exe .
 	zip -j gargoyle-alan3-$(VERSION).win32.x86.zip alan3.exe gargoyle.alan3-slot-in.readme
 
 
