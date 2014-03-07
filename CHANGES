@@ -1,3 +1,15 @@
+Changes in V3.0beta4:
+- MAJOR FEATURE: Indirectly keyword to complement Directly In, allowing explicit transitivity of containment
+- FEATURE: The hero is now a container by default
+- FEATURE: The hero may inherit from any subclass of actor
+- FEATURE: Actor scripts are now aborted if an error, such as an extraction failure, occurs
+- FEATURE: Debugger shows symbolic name of events when tracing
+- FEATURE: WinAlan now generates the output file in the correct directory if a source file is dropped on the WinAlan icon
+- BUGFIX: Locating something inside itself hanged the interpreter, now generates controlled Application Error
+- BUGFIX: For Each loops with In-filters did not take transitivity into account
+- BUGFIX: Debugger section trace crashed on verb bodies in locations
+- BUGFIX: Initial locations in containers did not consider the Taking <class> of the container
+
 Changes in V3.0beta3:
 - MAJOR FEATURE: the class of parameters and locals can now be asserted using If .. Isa .. allowing general restrictions in parameter restrictions and more specific access (attributes, scripts, containers) with the If-statement
 - FEATURE: Attributes from entity can now be referenced for literals
