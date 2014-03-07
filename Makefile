@@ -8,7 +8,7 @@
 # target specific compile and link settings
 #
 
-OS=${if ${findstring CYGWIN, ${shell uname}}, Cygwin, ${strip ${shell uname}}}
+OS=${if ${findstring CYGWIN, ${shell uname}},Cygwin,${strip ${shell uname}}}
 
 # Include the correct main Makefile depending on the system name
 #
