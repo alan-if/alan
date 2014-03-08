@@ -5380,7 +5380,7 @@ The loc_99 Isa location
   Exit nw To loc_98.
   
   Exit e To loc_100
-    Check  Count Isa object, In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, In inventory =1)
+    Check  Count Isa object, Directly In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, Directly In inventory =1)
       Else 
         "Something you're carrying won't fit through the tunnel with you.
          You'd best take inventory and drop something."
@@ -5392,7 +5392,7 @@ The loc_99 Isa location
   End Verb.
   
   Verb omv_tunnel
-    Check  Count Isa object, In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, In inventory =1)
+    Check  Count Isa object, Directly In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, Directly In inventory =1)
       Else 
         "Something you're carrying won't fit through the tunnel with you.
          You'd best take inventory and drop something."
@@ -5419,7 +5419,7 @@ The loc_100 Isa location
   End Exit.
   
   Exit w To loc_99
-    Check  Count Isa object, In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, In inventory =1)
+    Check  Count Isa object, Directly In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, Directly In inventory =1)
       Else 
         "Something you're carrying won't fit through the tunnel with you.
          You'd best take inventory and drop something."
@@ -5435,7 +5435,7 @@ The loc_100 Isa location
   End Verb.
   
   Verb omv_tunnel, mv_exit
-    Check  Count Isa object, In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, In inventory =1)
+    Check  Count Isa object, Directly In inventory =0 Or (obj_59_emerald In inventory And  Count Isa object, Directly In inventory =1)
       Else 
         "Something you're carrying won't fit through the tunnel with you.
          You'd best take inventory and drop something."
