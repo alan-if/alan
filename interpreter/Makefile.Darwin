@@ -56,10 +56,12 @@ gararun:
 	cp $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3 .
 	install_name_tool -change @executable_path/libgarglk.dylib @executable_path/../Frameworks/libgarglk.dylib alan3
 	install_name_tool -change /opt/local/lib/libfreetype.6.dylib @executable_path/../Frameworks/libfreetype.6.dylib alan3
+	install_name_tool -change /opt/local/lib/libpng16.16.dylib @executable_path/../Frameworks/libpng16.16.dylib alan3
 	install_name_tool -change /opt/local/lib/libz.1.dylib /usr/lib/libgcc_s.1.dylib alan3
 	mkdir -p Gargoyle.app/Contents/PlugIns Gargoyle.app/Contents/Frameworks
 	mv alan3 Gargoyle.app/Contents/PlugIns
 	cp /opt/local/lib/libfreetype.6.dylib Gargoyle.app/Contents/Frameworks
+	cp /opt/local/lib/libpng16.16.dylib Gargoyle.app/Contents/Frameworks
 	tar zcvf gargoyle-alan3-$(VERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
 	rm -r Gargoyle.app
 
