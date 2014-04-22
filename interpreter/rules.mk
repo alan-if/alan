@@ -131,7 +131,6 @@ unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB)
 cgreenrunnertests: unittests.dll
-	echo OS='$(OS)'
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite interpreter_unit_tests $(UNITOUTPUT)
 else
