@@ -9,8 +9,6 @@ ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
 
-OS=${if ${findstring CYGWIN, ${shell uname}}, Cygwin, ${shell uname}}
-
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
 CC = $(COMPILER)
@@ -133,6 +131,7 @@ unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: LIBS = $(CGREENLIB)
 cgreenrunnertests: unittests.dll
+	echo OS='$(OS)'
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite interpreter_unit_tests $(UNITOUTPUT)
 else

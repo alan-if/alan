@@ -14,7 +14,8 @@ else
 UNITOUTPUT ?= -c
 endif
 
-OS=${if ${findstring CYGWIN, ${shell uname}}, Cygwin, ${shell uname}}
+# Note that this must not have spaces in it lest the variable will include it
+OS := ${if ${findstring CYGWIN,${shell uname}},Cygwin,${shell uname}}
 
 # Include the common source lists, need to be before the included rules
 include sources.mk
