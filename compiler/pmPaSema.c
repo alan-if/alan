@@ -2295,47 +2295,47 @@ int rule			/* IN production number */
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 374: { /* ID = 'contains'; */
+    case 374: { /* ID = 'visits'; */
 #line 2680 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 375: { /* ID = 'on'; */
+    case 375: { /* ID = 'contains'; */
 #line 2685 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 376: { /* ID = 'it'; */
+    case 376: { /* ID = 'on'; */
 #line 2690 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 377: { /* ID = 'of'; */
+    case 377: { /* ID = 'it'; */
 #line 2695 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 378: { /* ID = 'first'; */
+    case 378: { /* ID = 'of'; */
 #line 2700 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 379: { /* ID = 'into'; */
+    case 379: { /* ID = 'first'; */
 #line 2705 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 380: { /* ID = 'taking'; */
+    case 380: { /* ID = 'into'; */
 #line 2710 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 381: { /* ID = 'off'; */
+    case 381: { /* ID = 'taking'; */
 #line 2715 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
-    case 382: { /* ID = 'visits'; */
+    case 382: { /* ID = 'off'; */
 #line 2720 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);

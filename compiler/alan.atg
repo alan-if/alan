@@ -737,6 +737,7 @@ PRODUCTIONS
   | "location" 
   | "actor" 
   | "opaque" 
+  | "visits" 
   | "contains" 
   | "on" 
   | "it" 
@@ -745,7 +746,6 @@ PRODUCTIONS
   | "into" 
   | "taking" 
   | "off" 
-  | "visits" 
    .
 
 END adventure.

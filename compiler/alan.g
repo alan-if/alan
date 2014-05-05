@@ -720,6 +720,7 @@ ID : IDENTIFIER
  | 'location' 
  | 'actor' 
  | 'opaque' 
+ | 'visits' 
  | 'contains' 
  | 'on' 
  | 'it' 
@@ -728,6 +729,5 @@ ID : IDENTIFIER
  | 'into' 
  | 'taking' 
  | 'off' 
- | 'visits' 
     ;
 
