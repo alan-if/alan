@@ -274,6 +274,7 @@ static bool inOpaqueContainer(int originalInstance) {
     int instance = admin[originalInstance].location;
 
     while (isAContainer(instance)) {
+        // TODO : isOpaque()
         if (getInstanceAttribute(instance, OPAQUEATTRIBUTE))
             return TRUE;
         instance = admin[instance].location;

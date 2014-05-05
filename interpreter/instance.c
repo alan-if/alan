@@ -691,6 +691,7 @@ void describeInstances(void)
                 printMessageWithInstanceParameter(M_SEE_COMMA, lastInstanceFound);
             admin[i].alreadyDescribed = TRUE;
 
+            // TODO : isOpaque()
             if (instances[i].container && containerSize(i, DIRECTLY) > 0 && !getInstanceAttribute(i, OPAQUEATTRIBUTE)) {
                 if (found > 0)
                     printMessageWithInstanceParameter(M_SEE_AND, i);

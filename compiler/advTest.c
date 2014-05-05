@@ -16,55 +16,64 @@
 #include "exp_x.h"
 #include "id_x.h"
 
+static Srcp srcp = {2,3,4};
+static Id *unknownId;
+static Id *instanceId;
+static Id *locationInstanceId;
+static Id *classId;
+
 Describe(Adventure);
-BeforeEach(Adventure) {}
+BeforeEach(Adventure) {
+    unknownId = newId(srcp, "UnknownId");
+    instanceId = newId(srcp, "InstanceId");
+    locationInstanceId = newId(srcp, "LocationInstanceId");
+    classId = newId(srcp, "ClassId");
+    initAdventure();
+    (void) newClass(&srcp, classId, NULL, NULL);
+    (void) newInstance(&srcp, instanceId, NULL, NULL);
+    (void) newInstance(&srcp, locationInstanceId, newId(srcp, "location"), NULL);
+}
 AfterEach(Adventure) {}
 
-Ensure(Adventure, can_initialize) {
-    Srcp srcp = {2,3,4};
-
-    Id *atUnknownId = newId(srcp, "atUnknownId");
-    Id *atInsId = newId(srcp, "atInsId");
-    Id *atInsLocId = newId(srcp, "atInsLocId");
-    Id *atClaId = newId(srcp, "atClaId");
-
-    initAdventure();
-
-    (void) newClass(&srcp, atClaId, NULL, NULL);
-    (void) newInstance(&srcp, atInsId, NULL, NULL);
-    (void) newInstance(&srcp, atInsLocId, newId(srcp, "location"), NULL);
-
+Ensure(Adventure, can_analyze_start_at_here) {
     adv.whr = newWhere(&srcp, FALSE, WHERE_HERE, NULL);
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Here */
-    assert_true(readEcode() == 211 && readSev() == sevERR);
+    assert_that(readSev(), is_equal_to(sevERR));
+    assert_that(readEcode(), is_equal_to(211));
+}
 
+Ensure(Adventure, can_analyze_start_at_unknown_id) {
     adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
-                       newWhatExpression(srcp, newWhatId(srcp, atUnknownId)));
+                       newWhatExpression(srcp, newWhatId(srcp, unknownId)));
     symbolizeAdventure();
-    assert_true(readSev() == sevERR && readEcode() == 310);
+    assert_that(readSev(), is_equal_to(sevERR));
+    assert_that(readEcode(), is_equal_to(310));
+}
 
-    adv.whr->what->fields.wht.wht->id = atClaId;
+Ensure(Adventure, can_analyze_start_at_class) {
+    adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
+                       newWhatExpression(srcp, newWhatId(srcp, classId)));
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Id not an instance */
-    assert_true(readSev() == sevERR && readEcode() == 351);
- 
-    adv.whr->what->fields.wht.wht->id = atInsId;
+    assert_that(readSev(), is_equal_to(sevERR));
+    assert_that(readEcode(), is_equal_to(351));
+}
+
+Ensure(Adventure, can_analyze_start_at_not_location){
+    adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
+                       newWhatExpression(srcp, newWhatId(srcp, instanceId)));
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Id not inheriting from location */
-    assert_true(readSev() == sevERR && readEcode() == 351);
+    assert_that(readSev(), is_equal_to(sevERR));
+    assert_that(readEcode(), is_equal_to(351));
+}
 
-    adv.whr->what->fields.wht.wht->id = atInsLocId;
+Ensure(Adventure, can_analyze_start_at_location) {
+    adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
+                       newWhatExpression(srcp, newWhatId(srcp, locationInstanceId)));
     symbolizeAdventure();
-    analyzeStartAt();		/* Can not Start At Id not a instance */
-    assert_true(readSev() == sevNONE && readEcode() == 0);
+    analyzeStartAt();		/* Can Start At Id that's an instance */
+    assert_that(readSev(), is_equal_to(sevNONE));
+    assert_that(readEcode(), is_equal_to(0));
 }
-
-
-TestSuite *advTests()
-{
-    TestSuite *suite = create_test_suite();
-    add_test_with_context(suite, Adventure, can_initialize);
-    return suite;
-}
-
