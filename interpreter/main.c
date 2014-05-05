@@ -852,6 +852,8 @@ void run(void)
             forgetGameState();
 	
         resetAndEvaluateRules(rules, header->version);	/* Remove this call? Since Eval is done up there after each event... */
+
+        /* Then all the other actors... */
         for (i = 1; i <= header->instanceMax; i++)
             if (i != header->theHero && isAActor(i)) {
                 moveActor(i);

@@ -23,8 +23,6 @@ tests: test cygwintests
 cygwintests:
 	@java -jar bin/jregr.jar -bin bin -dir regression/winalan $(JREGROUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir regression/transcript $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/versions/compiler-non-literal-attributes $(JREGROUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
 
 .PHONY: release

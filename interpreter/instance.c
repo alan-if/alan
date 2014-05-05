@@ -851,6 +851,39 @@ static void executeEntered(Aint instance) {
     current.instance = currentInstance;
 }
 
+
+/*----------------------------------------------------------------------*/
+static int getVisits(void) {
+    return getInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void incrementVisits(void) {
+    setInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE, getVisits()+1);
+}
+
+
+/*----------------------------------------------------------------------*/
+static void revisited(void) {
+    if (anyOutput)
+        para();
+    say(where(HERO, DIRECTLY));
+    printMessage(M_AGAIN);
+    newline();
+    describeInstances();
+}
+
+
+/*----------------------------------------------------------------------*/
+static bool shouldBeDescribed(void) {
+    if (!isPreBeta5(header->version))
+        return getVisits() % (current.visits+1) == 0 || admin[admin[HERO].location].visitsCount == 0;
+    else
+        return admin[admin[HERO].location].visitsCount % (current.visits+1) == 0;
+}
+
+
 /*----------------------------------------------------------------------*/
 static void locateActor(Aint movingActor, Aint whr)
 {
@@ -858,6 +891,11 @@ static void locateActor(Aint movingActor, Aint whr)
     Aint previousActorLocation = admin[movingActor].location;
     Aint previousActor = current.actor;
     Aint previousInstance = current.instance;
+
+    /* Before leaving, remember that we visited the location */
+    if (!isPreBeta5(header->version))
+        if (movingActor == HERO)
+            incrementVisits();
 
     /* TODO Actors locating into containers is dubious, anyway as it
        is now it allows the hero to be located into a container. And what
@@ -875,26 +913,19 @@ static void locateActor(Aint movingActor, Aint whr)
     /* Execute possible entered */
     current.actor = movingActor;
     if (previousActorLocation != current.location) {
-	executeEntered(current.location);
+        executeEntered(current.location);
     }
     current.instance = previousInstance;
     current.actor = previousActor;
 
     if (movingActor == HERO) {
-        if (!isPreBeta5(header->version))
-            setInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE, getInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE)+1);
-        if (admin[admin[movingActor].location].visitsCount % (current.visits+1) == 0)
+        if (shouldBeDescribed())
             look();
-        else {
-            if (anyOutput)
-                para();
-            say(where(HERO, DIRECTLY));
-            printMessage(M_AGAIN);
-            newline();
-            describeInstances();
-        }
+        else
+            revisited();
         admin[where(HERO, DIRECTLY)].visitsCount++;
     } else
+        /* Ensure that the location will be described to the hero next time */
         admin[whr].visitsCount = 0;
 
     if (current.actor != movingActor)
