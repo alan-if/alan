@@ -881,7 +881,8 @@ static void locateActor(Aint movingActor, Aint whr)
     current.actor = previousActor;
 
     if (movingActor == HERO) {
-        setInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE, getInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE)+1);
+        if (!isPreBeta5(header->version))
+            setInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE, getInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE)+1);
         if (admin[admin[movingActor].location].visitsCount % (current.visits+1) == 0)
             look();
         else {
@@ -893,7 +894,6 @@ static void locateActor(Aint movingActor, Aint whr)
             describeInstances();
         }
         admin[where(HERO, DIRECTLY)].visitsCount++;
-        //admin[where(HERO, DIRECTLY)].visitsCount %= (current.visits+1);
     } else
         admin[whr].visitsCount = 0;
 
