@@ -84,27 +84,3 @@ Transcript turned on.
 I don't understand.
 
 > transcript off
-Transcript turned on.
-
-> 4
-I don't understand.
-
-> transcript on
-Transcript turned on.
-
-> 5
-I don't understand.
-
-> transcript off
-Transcript turned on.
-
-> 8
-I don't understand.
-
-> transcript off
-Transcript turned on.
-
-> 2
-I don't understand.
-
-> transcript off

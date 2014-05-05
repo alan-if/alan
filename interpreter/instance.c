@@ -97,7 +97,9 @@ void setInstanceAttribute(int instance, int attribute, Aptr value)
 
     if (instance > 0 && instance <= header->instanceMax) {
         setAttribute(admin[instance].attributes, attribute, value);
-        if (isALocation(instance))   /* May have changed so describe next time */
+        if (isALocation(instance) && attribute != VISITSATTRIBUTE)
+            /* If it wasn't the VISITSATTRIBUTE the location may have
+               changed so describe next time */
             admin[instance].visitsCount = 0;
     } else {
         sprintf(str, "Can't SET/MAKE instance (%d).", instance);
@@ -879,6 +881,7 @@ static void locateActor(Aint movingActor, Aint whr)
     current.actor = previousActor;
 
     if (movingActor == HERO) {
+        setInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE, getInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE)+1);
         if (admin[admin[movingActor].location].visitsCount % (current.visits+1) == 0)
             look();
         else {
@@ -890,7 +893,7 @@ static void locateActor(Aint movingActor, Aint whr)
             describeInstances();
         }
         admin[where(HERO, DIRECTLY)].visitsCount++;
-        admin[where(HERO, DIRECTLY)].visitsCount %= (current.visits+1);
+        //admin[where(HERO, DIRECTLY)].visitsCount %= (current.visits+1);
     } else
         admin[whr].visitsCount = 0;
 
