@@ -333,6 +333,13 @@ int smScAction(
 }
     break;
 
+  case  99:		/* 'visits'*/ 
+    {
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    
+}
+    break;
+
   case  25:		/* 'on'*/ 
     {
         smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';

@@ -269,7 +269,10 @@ typedef enum VarClass {
     V_MAX_INSTANCE
 } VarClass;
 
+/* Predefined attributes, one is for containers and the other for locations
+   and since instances cannot be both, the attributes can have the same number */
 #define OPAQUEATTRIBUTE 1
+#define VISITSATTRIBUTE 1
 #define PREDEFINEDATTRIBUTES OPAQUEATTRIBUTE
 
 

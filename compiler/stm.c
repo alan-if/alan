@@ -455,7 +455,11 @@ static void analyzeSet(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeIncrease(Statement *stm, Context *context)
 {
-	analyzeExpression(stm->fields.incr.wht, context);
+    Expression *wht = stm->fields.incr.wht;
+	analyzeExpression(wht, context);
+    if (wht->readonly)
+        lmLog(&wht->srcp, 436, sevERR, "");
+
 
 	if (stm->fields.incr.step != NULL) {
 		analyzeExpression(stm->fields.incr.step, context);

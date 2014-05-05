@@ -90,7 +90,8 @@ Instances:
     [35] computer ("computer"), at [34] computer_room ("Computer Room")
 adbg> i 4
 The [4] outside ("Outside The Tall Building") Isa location[2] 
-    Attributes:
+    Attributes: 
+        visits[1] = 0
 adbg> events
 Events: 
     1 [terminal_response]: Not scheduled.

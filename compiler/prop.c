@@ -125,8 +125,9 @@ void addVisitsAttribute(Properties *props)
 {
     Id *attributeId = newId(nulsrcp, "visits");
     Attribute *attribute = newIntegerAttribute(nulsrcp, attributeId, 0);
+    attribute->readonly = TRUE;
 
-    attribute->id->code = 1; //VISITSATTRIBUTE;	/* Pre-defined 'visits' code */
+    attribute->id->code = VISITSATTRIBUTE;	/* Pre-defined 'visits' code */
     /* Make sure the visits attribute is first, so combine the lists */
     props->attributes = combine(newList(attribute, ATTRIBUTE_LIST),
                                 props->attributes);

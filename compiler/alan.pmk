@@ -2661,6 +2661,9 @@ ID
 -- Possibly we could add further keywords here. But let's not at this point
 -- Remember to change scanner so that the characters are copied for the
 -- added keyword too.
+-- NOTE that in order for the string for the id you also have to add a
+-- rule in the scanner to transfer it for this particular keyword
+-- (which it otherwise throws away)
     ! 'location'		-- Must be allowed, predefined class
     %%
         %ID.id = newId(%'location'.srcp, %'location'.chars);

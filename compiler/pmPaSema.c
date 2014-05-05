@@ -2281,62 +2281,62 @@ int rule			/* IN production number */
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 371: { /* ID = 'location'; */
-#line 2665 "alan.pmk"
+#line 2668 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 372: { /* ID = 'actor'; */
-#line 2670 "alan.pmk"
+#line 2673 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 373: { /* ID = 'opaque'; */
-#line 2675 "alan.pmk"
+#line 2678 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 374: { /* ID = 'visits'; */
-#line 2680 "alan.pmk"
+#line 2683 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 375: { /* ID = 'contains'; */
-#line 2685 "alan.pmk"
+#line 2688 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 376: { /* ID = 'on'; */
-#line 2690 "alan.pmk"
+#line 2693 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 377: { /* ID = 'it'; */
-#line 2695 "alan.pmk"
+#line 2698 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 378: { /* ID = 'of'; */
-#line 2700 "alan.pmk"
+#line 2703 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 379: { /* ID = 'first'; */
-#line 2705 "alan.pmk"
+#line 2708 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 380: { /* ID = 'into'; */
-#line 2710 "alan.pmk"
+#line 2713 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 381: { /* ID = 'taking'; */
-#line 2715 "alan.pmk"
+#line 2718 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}
     case 382: { /* ID = 'off'; */
-#line 2720 "alan.pmk"
+#line 2723 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}

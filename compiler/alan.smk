@@ -346,6 +346,11 @@ void setCharacterSet(int set)
         smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     %%;
 
+  'visits' = 'visits'
+    %%
+        smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
+    %%;
+
   'on' = 'on'
     %%
         smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
