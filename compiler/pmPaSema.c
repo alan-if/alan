@@ -1107,7 +1107,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].cnt = newContainer(newContainerBody(pmSySt[pmStkP+3].srcp,
 					pmSeSt[pmStkP+2].opaque,
 					pmSeSt[pmStkP+4].id,
-					pmSeSt[pmStkP+4].lims,
+					pmSeSt[pmStkP+4].lims,
 					pmSeSt[pmStkP+4].stms,
 					pmSeSt[pmStkP+4].stms2,
 					pmSeSt[pmStkP+4].chks,
@@ -2332,6 +2332,11 @@ int rule			/* IN production number */
     	break;}
     case 381: { /* ID = 'off'; */
 #line 2715 "alan.pmk"
+
+        pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
+    	break;}
+    case 382: { /* ID = 'visits'; */
+#line 2720 "alan.pmk"
 
         pmSeSt[pmStkP+1].id = newId(pmSySt[pmStkP+1].srcp, pmSySt[pmStkP+1].chars);
     	break;}

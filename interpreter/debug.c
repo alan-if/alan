@@ -1039,7 +1039,7 @@ void debug(bool calledFromBreakpoint, int line, int fileNumber)
     if (calledFromBreakpoint)
         displaySourceLocation(line, fileNumber);
     else {
-        if (!exactSameVersion() && !warned) {
+        if (!exactSameVersion() && !warned && !regressionTestOption) {
             printf("<WARNING: You are debugging a game which has version %s.>\n",
                    decodedGameVersion(header->version));
             printf("<That is not exactly the same as this interpreter (%s).>\n", alan.version.string);

@@ -364,14 +364,14 @@ EVERY dark_location ISA LOCATION
 	ENTERED
 
 		IF COUNT ISA LIGHTSOURCE, IS lit, HERE > 0	
-			THEN MAKE THIS lit.	
+			THEN If This is not lit Then MAKE THIS lit.	End If.
 				IF CURRENT ACTOR <> hero
 					THEN LOOK.
 				END IF.			
 		END IF.
 
 		IF COUNT ISA LIGHTSOURCE, IS lit, HERE = 0
-			THEN MAKE THIS NOT lit.
+			THEN If This Is lit Then MAKE THIS NOT lit. End If.
 		END IF.								
 
 		-- These ENTERED statements take care

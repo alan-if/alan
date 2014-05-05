@@ -745,6 +745,7 @@ PRODUCTIONS
   | "into" 
   | "taking" 
   | "off" 
+  | "visits" 
    .
 
 END adventure.

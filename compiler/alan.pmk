@@ -420,7 +420,7 @@ static int val(char str[])
     ;
 
 <message>				-- RETURNS: msg
-    = ID ':' <statements>
+    = ID ':' <statements>			%+('visits')
     %%
         %<message>.msg = newMessage(`&%':'.srcp,
                                     %ID.id,
@@ -535,7 +535,7 @@ static int val(char str[])
     ;
 
 <syntax_restriction>
-    = ID 'isa' <restriction_class> 'else' <statements>
+    = ID 'isa' <restriction_class> 'else' <statements>		%+('visits')
     %%
         %<syntax_restriction>.res = newRestriction(%'isa'.srcp,
                                                    %ID.id,
@@ -1373,7 +1373,7 @@ static int val(char str[])
     ;
 
 <limit>			-- RETURNS: lim
-    = <limit_attribute> <else_or_then> <statements>
+    = <limit_attribute> <else_or_then> <statements>		%+('visits')
     %%
 	%<limit>.lim = newlim(`&%<else_or_then>.srcp,
 			    %<limit_attribute>.atr,
@@ -2674,6 +2674,11 @@ ID
     ! 'opaque'			-- Must be allowed since there is a predefined attribute.
     %%
         %ID.id = newId(%'opaque'.srcp, %'opaque'.chars);
+    %%
+
+    ! 'visits'			-- Must be allowed since there is a predefined attribute.
+    %%
+        %ID.id = newId(%'visits'.srcp, %'visits'.chars);
     %%
 
     ! 'contains'

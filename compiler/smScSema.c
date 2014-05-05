@@ -326,7 +326,7 @@ int smScAction(
 }
     break;
 
-  case  99:		/* 'opaque'*/ 
+  case 100:		/* 'opaque'*/ 
     {
         smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     
@@ -375,7 +375,7 @@ int smScAction(
 }
     break;
 
-  case 100:		/* 'taking'*/ 
+  case 101:		/* 'taking'*/ 
     {
         smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     
