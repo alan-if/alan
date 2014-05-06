@@ -853,14 +853,17 @@ static void executeEntered(Aint instance) {
 
 
 /*----------------------------------------------------------------------*/
-static int getVisits(void) {
-    return getInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE);
+static int getVisits(int location) {
+    return getInstanceAttribute(location, VISITSATTRIBUTE);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void incrementVisits(void) {
-    setInstanceAttribute(where(HERO, DIRECTLY), VISITSATTRIBUTE, getVisits()+1);
+static void incrementVisits(int location) {
+    setInstanceAttribute(location, VISITSATTRIBUTE, getVisits(location)+1);
+    if (admin[location].location != 0)
+        /* Nested location, so increment that too */
+        incrementVisits(admin[location].location);
 }
 
 
@@ -878,7 +881,8 @@ static void revisited(void) {
 /*----------------------------------------------------------------------*/
 static bool shouldBeDescribed(void) {
     if (!isPreBeta5(header->version))
-        return getVisits() % (current.visits+1) == 0 || admin[admin[HERO].location].visitsCount == 0;
+        return getVisits(admin[HERO].location) % (current.visits+1) == 0
+            || admin[admin[HERO].location].visitsCount == 0;
     else
         return admin[admin[HERO].location].visitsCount % (current.visits+1) == 0;
 }
@@ -895,7 +899,7 @@ static void locateActor(Aint movingActor, Aint whr)
     /* Before leaving, remember that we visited the location */
     if (!isPreBeta5(header->version))
         if (movingActor == HERO)
-            incrementVisits();
+            incrementVisits(where(HERO, DIRECTLY));
 
     /* TODO Actors locating into containers is dubious, anyway as it
        is now it allows the hero to be located into a container. And what
