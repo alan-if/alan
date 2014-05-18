@@ -614,6 +614,9 @@ Symbol *contentOfSymbol(Symbol *symbol) {
         case PARAMETER_SYMBOL:
             return contentOfSymbol(symbol->fields.parameter.class);
             break;
+        case LOCAL_SYMBOL:
+            return contentOfSymbol(symbol->fields.local.class);
+            break;
         case ERROR_SYMBOL:
             break;
         default:
