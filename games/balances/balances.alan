@@ -39,10 +39,33 @@ The scales Isa object At hall
   Name pair 'of' scales balance
   Container Taking pan.
     Header "It consists of"
+  Description
+    "There is" Say An This. "here."
+    List This.
+    If Count Directly In left_pan = Count Directly In right_pan Then
+      "Both the right and the left pan"
+      If Count Directly In left_pan = 0 Then
+        "are empty."
+      Else
+        "contains" Say Count Directly In left_pan. "stones."
+      End If.
+    Else
+      For Each p Directly In This Do
+        Describe p.
+      End For.
+    End If.
 End The scales.
 
 Every pan Isa object
   Container Taking stone.
+  Description
+      Say The This.
+      If Count Directly In This = 0 Then
+        "is empty."
+      Else
+        "contains" Say Count Directly In This.
+        If Count Directly In This = 1 Then "stone." Else "stones." End If.
+      End If.
 End Every pan.
 
 The left_pan Isa pan In scales
