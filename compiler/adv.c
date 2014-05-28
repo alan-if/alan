@@ -131,18 +131,21 @@ static void analyzeSourceFilenames() {
 /*====================================================================== */
 void analyzeAdventure(void)
 {
-    addHero();
+    addHero(&adv);
     if (nowhere == NULL || nowhere->code != NOWHERE)
-	SYSERR("Nowhere != 1");
+        SYSERR("Nowhere != 1");
 
     addLiteralInstance();
+
     symbolizeAdventure();
+
     addAdditions();
     addHeroContainer();
+
     setupDefaultProperties();
 
     analyzeAllAttributes();	/* Make sure attributes are analyzed
-				   and typed before expressions */
+                               and typed before expressions */
     numberAllAttributes();	/* Then we can number and type check
 				   inherited attributes */
     replicateInherited();

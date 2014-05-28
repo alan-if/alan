@@ -250,7 +250,7 @@ Ensure(Symbol, testSymbolTableInit) {
     adv.whr = NULL;
     assert_true(classCount == 8);	/* Standard classes */
     assert_true(instanceCount == 1);	/* #nowhere */
-    addHero();
+    addHero(&adv);
     assert_true(instanceCount == 2);
 
     symbolizeAdventure();

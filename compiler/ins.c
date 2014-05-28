@@ -52,15 +52,16 @@ static void ensureHeroInheritsFromActor(Symbol *hero) {
 }
 
 
-/*======================================================================*/
+/*----------------------------------------------------------------------*/
 void addHeroContainer() {
     if (!symbolIsContainer(theHero))
         theHero->fields.entity.props->container = newContainer(NULL);
+    symbolizeProps(theHero->fields.entity.props, FALSE);
 }
 
 
 /*======================================================================*/
-void addHero(void)
+void addHero(Adventure *adv)
 {
     Symbol *hero = lookup("hero");
     Instance *theHeroInstance = NULL;
@@ -69,11 +70,12 @@ void addHero(void)
     if (hero == NULL) {
         theHeroInstance = newInstance(&nulsrcp, newId(nulsrcp, "hero"),
                                       actorId, NULL);
+        adv->inss = concat(adv->inss, theHeroInstance, INSTANCE_LIST);
         theHero = theHeroInstance->props->id->symbol;
     } else {
         theHero = hero;
-        ensureHeroInheritsFromActor(hero);
     }
+    ensureHeroInheritsFromActor(theHero);
 }
 
 

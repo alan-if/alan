@@ -117,15 +117,18 @@ Ensure(Instance, testGenerateInstances) {
 Ensure(Instance, testHero) {
   ACodeHeader header;
   int count;
+  int count2;
   Aword buffer[100];
   initEmitBuffer(buffer);
 
   assert_true(theHero == NULL);
   initAdventure();
   count = instanceCount;
-  addHero();
+  count2 = length(adv.inss);
+  addHero(&adv);
   assert_true(theHero != NULL);
   assert_true(theHero->code != 0);
+  assert_that(length(adv.inss), is_equal_to(count2+1));
   symbolizeAdventure();
   assert_true(inheritsFrom(theHero, lookup("actor")));
   generateInstances(&header);
