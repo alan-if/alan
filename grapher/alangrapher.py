@@ -10,20 +10,29 @@ parser.add_argument('--ports', dest='use_ports', action="store_true", help='use 
 
 args = parser.parse_args()
 
-if len(argv) == 1 :
+
+def usage():
     print argv[0] + " - a program to extract location graph data from an Alan game"
     print
     print "Usage: " + argv[0] + " <alan source file>"
+
+
+if len(argv) == 1 :
+    usage()
     exit()
 
 filename = args.filename
 
-process = Popen(["alan", "-dump", "ci", filename], stdout=PIPE)
 
-output = process.communicate(None)[0]
-lines = ''.join(output).split("\n")
+def compile_game_to_dump_format():
+    global process, output, lines, i
+    process = Popen(["alan", "-dump", "ci", filename], stdout=PIPE)
+    output = process.communicate(None)[0]
+    lines = ''.join(output).split("\n")
+    i = iter(lines)
 
-i = iter(lines)
+
+compile_game_to_dump_format()
 line = i.next()
 message = line
 
@@ -36,9 +45,14 @@ try :
 except :
     print message
 
-print 'digraph '+basename(filename)+' {'
-print '  rankdir=LR;'
-print '  node [shape=octagon;style=filled;]'
+
+def init_output():
+    print 'digraph ' + basename(filename) + ' {'
+    print '  rankdir=LR;'
+    print '  node [shape=octagon;style=filled;]'
+
+
+init_output()
 
 # Mapping from possible exit directions to DOT port directions
 portname = {"n":":n", "north":":n",
@@ -61,8 +75,8 @@ try :
         idline = line
         line = i.next()
 
-        # Found an instance. Is it a direct decendant of "location"?
-        # We can't handle indirect decendants yet
+        # Found an instance. Is it a direct descendant of "location"?
+        # We can't handle indirect descendants yet
         while line.find("parentId:") == -1 :
             line = i.next()
         if line.find("location") == -1 :
