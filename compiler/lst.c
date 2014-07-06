@@ -17,6 +17,7 @@
 /* PUBLIC DATA */
 
 void (*(dumpNodeTable[LAST_LIST_KIND]))();
+void (*(xmlNodeTable[LAST_LIST_KIND]))();
 
 
 /* Import of dump functions to be used in dumpNodeTable */
@@ -45,6 +46,54 @@ void addListNodeDumper(ListKind kind, void (dumper)(void *)) {
     dumpNodeTable[kind] = dumper;
 }
 
+
+/*======================================================================*/
+void addXmlNodeDumper(ListKind kind, void (dumper)(FILE *)) {
+    xmlNodeTable[kind] = dumper;
+}
+
+
+/*----------------------------------------------------------------------*/
+static char *listKindToString(ListKind kind) {
+    switch (kind) {
+    case UNKNOWN_LIST: return "UNKNOWN";
+    case ADD_LIST: return "ADD";
+    case ALTERNATIVE_LIST: return "ALTERNATIVE";
+    case ATTRIBUTE_LIST: return "ATTRIBUTE";
+    case CASE_LIST: return "CASE";
+    case CHECK_LIST: return "CHECK";
+    case CLASS_LIST: return "CLASS";
+    case CONTAINER_LIST: return "CONTAINER";
+    case ELEMENT_LIST: return "ELEMENT";
+    case EVENT_LIST: return "EVENT";
+    case EXIT_LIST: return "EXIT";
+    case EXPRESSION_LIST: return "EXPRESSION";
+    case ID_LIST: return "ID";
+    case INSTANCE_LIST: return "INSTANCE";
+    case LIMIT_LIST: return "LIMIT";
+    case ELEMENT_ENTRIES_LIST: return "ELEMENT_ENTRIES";
+    case LIST_LIST: return "LIST";
+    case MESSAGE_LIST: return "MESSAGE";
+    case NAME_LIST: return "NAME";
+    case REFERENCE_LIST: return "REFERENCE";
+    case RESTRICTION_LIST: return "RESTRICTION";
+    case RESOURCE_LIST: return "RESOURCE";
+    case RULE_LIST: return "RULE";
+    case SCRIPT_LIST: return "SCRIPT";
+    case STATEMENT_LIST: return "STATEMENT";
+    case STEP_LIST: return "STEP";
+    case STRING_LIST: return "STRING";
+    case SYMBOL_LIST: return "SYMBOL";
+    case SYNONYM_LIST: return "SYNONYM";
+    case SYNTAX_LIST: return "SYNTAX";
+    case SRCP_LIST: return "SRCP";
+    case VERB_LIST: return "VERB";
+    case IFID_LIST: return "IFID";
+    default: SYSERR("ListKind not implemented in 'listKindToString()'"); return NULL;
+    }
+}
+
+
 /*======================================================================*/
 List *newEmptyList(ListKind kind) {
   List *new = NEW(List);
@@ -55,6 +104,7 @@ List *newEmptyList(ListKind kind) {
 }
 
 
+/*======================================================================*/
 List *newList(void *member, ListKind kind)	
 {
   List *new = NEW(List);	/* The newly created list node */
@@ -336,4 +386,24 @@ void dumpListOfLists(List *listOfList, ListKind listKind)
     if (listOfList != NULL) nl();
   }
   out();
+}
+
+
+/*----------------------------------------------------------------------*/
+static void xmlNode(void *theNode, ListKind kind, FILE *xmlFile)
+{
+    if (xmlNodeTable[kind] == NULL) {
+        printf("*** Not implemented in xmlNode(), '%s' ***", listKindToString(kind));
+    } else
+        xmlNodeTable[kind](theNode, xmlFile);
+}
+
+
+/*======================================================================*/
+void xmlList(List *theList, ListKind kind, FILE *xmlFile)
+{
+    while (theList) {
+        xmlNode((void *)theList->member.atr, kind, xmlFile);
+        theList = theList->next;
+    }
 }

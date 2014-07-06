@@ -21,6 +21,7 @@ extern Bool ideFlag;		/* Format messages for AlanIDE */
 extern int lcount;			/* Number of lines per page */
 extern int ccount;			/* -"-    columns */
 extern DmpKind dumpFlags;	/* Dump internal form flags */
+extern Bool xmlFlag;		/* Output XML option flag */
 extern Bool debugFlag;		/* Debug option flag */
 extern Bool packFlag;		/* Pack option flag */
 extern Bool summaryFlag;	/* Print a summary */

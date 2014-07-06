@@ -12,7 +12,7 @@ def usage():
     print "Usage: " + argv[0] + " <alan source file>"
 
 def compile_game_to_dump_format():
-    global process, output, lines, reader
+    global reader
     process = Popen(["alan", "-dump", "ci", filename], stdout=PIPE)
     output = process.communicate(None)[0]
     lines = ''.join(output).split("\n")
@@ -22,7 +22,6 @@ def init_output():
     print 'digraph ' + basename(filename) + ' {'
     print '  rankdir=LR;'
     print '  node [shape=octagon;style=filled;]'
-
 
 # Mapping from possible exit directions to DOT port directions
 portname = {"n":":n", "north":":n",
@@ -88,7 +87,6 @@ if len(argv) == 1 :
 filename = args.filename
 compile_game_to_dump_format()
 line = reader.next()
-message = line
 
 init_output()
 

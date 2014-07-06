@@ -9,6 +9,7 @@
 #include "cla.h"
 
 /* Use: */
+#include <stdio.h>
 
 
 /* Data: */
@@ -23,6 +24,6 @@ extern void analyzeAllClassAttributes(void);
 extern void analyzeClasses(void);
 extern void setupDefaultProperties(void);
 extern Aaddr generateClasses(void);
-extern void dumpClasses(void);
+extern void xmlClasses(FILE *xmlFile);
 
 #endif

@@ -11,6 +11,8 @@
 
 /* USE: */
 #include "adv.h"
+#include <stdio.h>
+
 
 /* DATA: */
 extern int instanceCount;
@@ -32,5 +34,7 @@ extern void analyzeAllInstanceAttributes();
 extern void analyzeInstances(void);
 extern void generateInstances(ACodeHeader *header);
 extern void dumpInstance(Instance *ins);
+extern void xmlInstance(Instance *ins, FILE *xmlFile);
+extern void xmlInstances(FILE *xmlFile);
 
 #endif

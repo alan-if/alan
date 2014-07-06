@@ -298,3 +298,21 @@ void dumpInstance(Instance *ins)
     put("INS: "); dumpSrcp(ins->srcp); indent();
     put("props: "); dumpProps(ins->props); out();
 }
+
+
+/*======================================================================*/
+void xmlInstance(Instance *ins, FILE* xmlFile)
+{
+    fprintf(xmlFile, "        <instance NAME=\"%s\">\n", ins->props->id->string);
+    xmlList(ins->props->exits, EXIT_LIST, xmlFile);
+    fprintf(xmlFile, "        </instance>\n");
+}
+
+
+/*======================================================================*/
+void xmlInstances(FILE *xmlFile)
+{
+    fprintf(xmlFile, "    <instances>\n");
+    xmlList(allInstances, INSTANCE_LIST, xmlFile);
+    fprintf(xmlFile, "    </instances>\n");
+}

@@ -417,6 +417,10 @@ extern void dumpSyntax();
 extern void dumpSynonym();
 extern void dumpVerb();
 
+extern void xmlClass();
+extern void xmlInstance();
+extern void xmlExit();
+
 /*----------------------------------------------------------------------*/
 static void initDumpers(void) {
     addListNodeDumper(ADD_LIST, &dumpAdd);
@@ -442,6 +446,10 @@ static void initDumpers(void) {
     addListNodeDumper(SYNTAX_LIST, &dumpSyntax);
     addListNodeDumper(SYNONYM_LIST, &dumpSynonym);
     addListNodeDumper(VERB_LIST, &dumpVerb);
+
+    addXmlNodeDumper(CLASS_LIST, &xmlClass);
+    addXmlNodeDumper(INSTANCE_LIST, &xmlInstance);
+    addXmlNodeDumper(EXIT_LIST, &xmlExit);
 }
 
 
@@ -462,6 +470,7 @@ void compile(void) {
     generate();
     endCompilationTiming();
     removeTemporaryFiles();
+    xmlAdventure();
     listingOnFile();
     listingOnScreen();
     lmLiTerminate();

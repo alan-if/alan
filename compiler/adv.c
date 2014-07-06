@@ -398,6 +398,25 @@ void dumpAdventure(enum dmpKd dmp)
 }
 
 
+/*======================================================================*/
+void xmlAdventure(void) {
+    char *xmlFileName = strdup(adv.name);
+    FILE *xmlFile;
+
+    if (xmlFlag) {
+        xmlFileName = realloc(xmlFileName, strlen(xmlFileName)+4+1);
+        strcat(xmlFileName, ".xml");
+
+        xmlFile = fopen(xmlFileName, "w");
+        fprintf(xmlFile, "<?xml version=\"1.0\"?>\n");
+        fprintf(xmlFile, "<adventure>\n");
+        xmlClasses(xmlFile);
+        xmlInstances(xmlFile);
+        fprintf(xmlFile, "</adventure>\n");
+        fclose(xmlFile);
+    }
+}
+
 
 /*======================================================================
 

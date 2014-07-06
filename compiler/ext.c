@@ -291,3 +291,12 @@ void dumpExit(Exit *ext)
 }
 
 
+/*======================================================================*/
+void xmlExit(Exit *exit, FILE* xmlFile)
+{
+    List *direction;
+    TRAVERSE(direction, exit->directions) {
+        fprintf(xmlFile, "            <exit DIRECTION=\"%s\" TARGET=\"%s\" />\n",
+                direction->member.id->string, exit->target->string);
+    }
+}

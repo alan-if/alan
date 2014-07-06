@@ -11,10 +11,13 @@
 
 
 /* USE: */
+#include <stdio.h>
+
 
 /* DATA: */
 
 extern void (*(dumpNodeTable[]))();
+extern void (*(xmlNodeTable[]))();
 
 
 /* FUNCTIONS: */
@@ -38,7 +41,10 @@ extern void *getLastMember(List *theList);
 extern List *getListNode(List *aList, int number);
 
 extern void addListNodeDumper(ListKind kind, void (dumper)(void *));
-extern void dumpList(List *lst, ListKind nod);
-extern void dumpListOfLists(List *lstlst, ListKind nod);
+extern void addXmlNodeDumper(ListKind kind, void (dumper)(FILE *));
+extern void dumpList(List *lst, ListKind node);
+extern void dumpListOfLists(List *lstlst, ListKind node);
+
+extern void xmlList(List *lst, ListKind node, FILE *xmlFile);
 
 #endif
