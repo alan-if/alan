@@ -1015,7 +1015,7 @@ void interpret(Aaddr adr)
                 Aptr rh = pop(stack);
                 Aptr lh = pop(stack);
                 if (traceInstructionOption)
-                    printf("STREQ \t0x%7lx, 0x%7lx", (long)lh, (long)rh);
+                    printf("STREQ \t0x%lx, 0x%lx", (long)lh, (long)rh);
                 push(stack, streq((char *)lh, (char *)rh));
                 tracebooleanTopValue();
                 if (traceInstructionOption)
@@ -1028,7 +1028,7 @@ void interpret(Aaddr adr)
                 Aptr rh = pop(stack);
                 Aptr lh = pop(stack);
                 if (traceInstructionOption)
-                    printf("STREXACT \t0x%7lx, 0x%7lx", (long)lh, (long)rh);
+                    printf("STREXACT \t0x%lx, 0x%lx", (long)lh, (long)rh);
                 push(stack, strcmp((char *)lh, (char *)rh) == 0);
                 tracebooleanTopValue();
                 deallocate((void *)lh);

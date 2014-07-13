@@ -1,38 +1,38 @@
 The l Isa location
-  Has gender "hero".
+  Has namn "hero".
 End The l.
 
 Start At l.
 
-  Set gender of l To "hero".
-  Depending on gender Of l
-  = "hero" Then "hero"
-  = "heroine" Then "heroine"
-  = "heroin" Then "heroin"
-  = "douglas addams" Then "douglas addams"
+  Set namn of l To "adam".
+  Depending on namn Of l
+  = "adam" Then "adam"
+  = "bertil" Then "bertil"
+  = "cesar" Then "cesar"
+  = "david" Then "david"
   End depend.
 
-  Set gender of l To "heroine".
-  Depending on gender Of l
-  = "hero" Then "hero"
-  = "heroine" Then "heroine"
-  = "heroin" Then "heroin"
-  = "douglas addams" Then "douglas addams"
+  Set namn of l To "bertil".
+  Depending on namn Of l
+  = "adam" Then "adam"
+  = "bertil" Then "bertil"
+  = "cesar" Then "cesar"
+  = "david" Then "david"
   End depend.
 
-  Set gender of l To "heroin".
-  Depending on gender Of l
-  = "hero" Then "hero"
-  = "heroine" Then "heroine"
-  = "heroin" Then "heroin"
-  = "douglas addams" Then "douglas addams"
+  Set namn of l To "cesar".
+  Depending on namn Of l
+  = "adam" Then "adam"
+  = "bertil" Then "bertil"
+  = "cesar" Then "cesar"
+  = "david" Then "david"
   End depend.
 
-  Set gender of l To "douglas addams".
-  Depending on gender Of l
-  = "hero" Then "hero"
-  = "heroine" Then "heroine"
-  = "heroin" Then "heroin"
-  = "douglas addams" Then "douglas addams"
+  Set namn of l To "david".
+  Depending on namn Of l
+  = "adam" Then "adam"
+  = "bertil" Then "bertil"
+  = "cesar" Then "cesar"
+  = "david" Then "david"
   End depend.
 
