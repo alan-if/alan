@@ -239,7 +239,7 @@ typedef enum InstClass {
     I_LOOP,
     I_LOOPNEXT,
     I_LOOPEND,
-    I_SUM,                      /* Aggregates */
+    I_SUM,                /* Aggregates */
     I_MAX,
     I_MIN,
     I_COUNT,              /* COUNT aggregate & limit meta-attribute */
@@ -248,7 +248,8 @@ typedef enum InstClass {
     I_CONCAT,
     I_STRIP,
     I_POP,
-	I_TRANSCRIPT
+	I_TRANSCRIPT,
+    I_DUPSTR              /* Duplicate the string on the top of the stack */
 } InstClass;
 
 typedef enum SayForm {

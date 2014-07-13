@@ -1165,32 +1165,43 @@ static void generateDepend(Statement *stm)
 
 	   DEPEND
 
-	   depend expression					d-exp
+	   depend expression						   	d-exp
 
-	   DEPCASE ----------+ (not present for first case)	d-exp
-	   DUP               |				d-exp	d-exp  
-	   case1 expression  |				c-exp	d-exp	d-exp
-	   case1 operator    |				case?	d-exp
-	   DEPEXEC           > repeat for each case		d-exp
+       <no DEPCASE for first case>
+	   DUP---------------+					d-exp	d-exp  
+	   case1 expression  |			c-exp	d-exp	d-exp
+	   case1 operator    |					case1?	d-exp
+	   DEPEXEC           |							d-exp
 	   stms1 ------------+
 
-	   DEPELSE--+ optional
-	   stmsn----+
+	   DEPCASE ----------+							d-exp
+	   DUP               |					d-exp	d-exp  
+	   case2 expression  |			c-exp	d-exp	d-exp
+	   case2 operator    |					case2?	d-exp
+	   DEPEXEC           |							d-exp
+	   stms1 ------------+
+
+       <repeat for each case>
+
+	   DEPELSE-----------+ optional
+	   stmsn-------------+
 
 	   ENDDEP
 
-	   DEPSTART does nothing but must be there to indicate start of a new
-	   level for skipping over statements.
+	   DEPCASE does nothing but must be there to indicate start of a
+	   new level for skipping over statements.
 
 	   Executing a DEPCASE or DEPELSE indicates the end of executing a
 	   matching case so skip to the ENDDEP (on this level).
 
-	   After the DEPCASE is a DUP to duplicate the depend value, then
-	   comes the case expression and then the operator which does the
-	   compare.
+	   After the DEPCASE is a DUP to duplicate the depend value, note
+	   that this must be done with DUPSTR if the type of the value is
+	   a string. Then comes the case expression and then the operator
+	   which does the compare.
 
-	   DEPEXEC inspects the results on the stack top and if true continues
-	   else skips to the instruction after next DEPCASE, DEPELSE or to the ENDDEP.
+	   DEPEXEC inspects the results on the stack top and if true
+	   continues else skips to the instruction after next DEPCASE,
+	   DEPELSE or to the ENDDEP.
 
 	   ENDDEP just pops off the initially pushed depend expression.
 
@@ -1207,7 +1218,10 @@ static void generateDepend(Statement *stm)
 			/* Generate a DEPCASE (if not first case) and a DUP */
 			if (cases != stm->fields.depend.cases)
 				emit0(I_DEPCASE);
-			emit0(I_DUP);
+            if (stm->fields.depend.exp->type == STRING_TYPE)
+                emit0(I_DUPSTR);
+            else
+                emit0(I_DUP);
 			/* ...and the case expression (right hand + operator) */
 			generateFilter(cases->member.stm->fields.depcase.exp);
 			emit0(I_DEPEXEC);
