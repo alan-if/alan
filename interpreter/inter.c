@@ -482,6 +482,12 @@ void interpret(Aaddr adr)
                 stackDup();
                 break;
 
+            case I_DUPSTR:
+                if (traceInstructionOption)
+                    printf("DUPSTR\t\t\t\t\t\t");
+                push(stack, (Aword)strdup((char*)top(stack)));
+                break;
+
             case I_POP: {
                 Aptr top = pop(stack);
                 if (traceInstructionOption)
