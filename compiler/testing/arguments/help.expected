@@ -44,3 +44,4 @@ Options:
                        2 -- after analysis (will abort after dump)
                        3 -- after code generation
                        (default: {})
+  -[-]xml           -- output an XML representation of the game (experimental) (default: OFF)
