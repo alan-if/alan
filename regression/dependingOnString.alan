@@ -1,0 +1,38 @@
+The l Isa location
+  Has gender "hero".
+End The l.
+
+Start At l.
+
+  Set gender of l To "hero".
+  Depending on gender Of l
+  = "hero" Then "hero"
+  = "heroine" Then "heroine"
+  = "heroin" Then "heroin"
+  = "douglas addams" Then "douglas addams"
+  End depend.
+
+  Set gender of l To "heroine".
+  Depending on gender Of l
+  = "hero" Then "hero"
+  = "heroine" Then "heroine"
+  = "heroin" Then "heroin"
+  = "douglas addams" Then "douglas addams"
+  End depend.
+
+  Set gender of l To "heroin".
+  Depending on gender Of l
+  = "hero" Then "hero"
+  = "heroine" Then "heroine"
+  = "heroin" Then "heroin"
+  = "douglas addams" Then "douglas addams"
+  End depend.
+
+  Set gender of l To "douglas addams".
+  Depending on gender Of l
+  = "hero" Then "hero"
+  = "heroine" Then "heroine"
+  = "heroin" Then "heroin"
+  = "douglas addams" Then "douglas addams"
+  End depend.
+
