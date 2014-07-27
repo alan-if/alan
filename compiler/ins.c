@@ -303,7 +303,7 @@ void dumpInstance(Instance *ins)
 /*======================================================================*/
 void xmlInstance(Instance *ins, FILE* xmlFile)
 {
-    fprintf(xmlFile, "        <instance NAME=\"%s\">\n", ins->props->id->string);
+    fprintf(xmlFile, "        <instance NAME=\"%s\" PARENT=\"%s\">\n", ins->props->id->string, ins->props->parentId->string);
     xmlList(ins->props->exits, EXIT_LIST, xmlFile);
     fprintf(xmlFile, "        </instance>\n");
 }
