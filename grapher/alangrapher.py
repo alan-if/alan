@@ -3,6 +3,11 @@ from sys import argv, exit
 from os.path import basename
 import argparse
 
+import gtk
+import gtk.gdk
+
+import xdot
+
 from alangrapher_utils import compile_game_to_xml, get_locations, get_exits, dot_for_location_header, dot_for_exit
 
 
@@ -24,30 +29,43 @@ def handle_args():
     return parser.parse_args()
 
 
-def init_output():
-    print('digraph {} {{'.format(basename(filename)))
-    print('  rankdir=LR;')
-    print('  node [shape=octagon;style=filled;]')
+def init_output(filename):
+    return """
+        digraph {} {{
+                concentrate=true
+                node [shape=octagon;style=filled;]
+        """.format(basename(filename))
 
 
 def terminate_output():
-    print('}')
+    return '}'
 
 
-args = handle_args()
 
-filename = args.filename
+def main():
+    args = handle_args()
 
-xmltree = compile_game_to_xml(filename)
-location_list = get_locations(xmltree)
+    filename = args.filename
 
-init_output()
+    xmltree = compile_game_to_xml(filename)
+    location_list = get_locations(xmltree)
 
-for l in location_list:
-    name = l.attributes['NAME'].value
-    print("\n  {}".format(dot_for_location_header(l)))
-    xs = get_exits(l)
-    for x in xs:
-        print("    {}".format(dot_for_exit(name, x)))
+    dotcode = init_output(filename)
 
-terminate_output()
+    for l in location_list:
+        name = l.attributes['NAME'].value
+        dotcode += "\n  {}".format(dot_for_location_header(l))
+        xs = get_exits(l)
+        for x in xs:
+            dotcode += "    {}".format(dot_for_exit(name, x))
+
+    dotcode += terminate_output()
+
+    window = xdot.DotWindow()
+    window.set_dotcode(dotcode)
+    window.connect('destroy', gtk.main_quit)
+    gtk.main()
+
+
+if __name__ == '__main__':
+    main()

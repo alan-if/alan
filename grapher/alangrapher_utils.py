@@ -22,8 +22,8 @@ def get_locations(xmltree):
            ]
 
 def compile_game_to_xml(gamename):
-    # process = Popen(["alan", "-xml", gamename], stdout=PIPE)
-    # output = process.communicate(None)[0]
+    process = Popen(["alan", "-xml", gamename], stdout=PIPE)
+    output = process.communicate(None)[0]
     return minidom.parse(gamename+".xml")
 
 
@@ -32,11 +32,11 @@ def get_exits(location):
 
 
 def dot_for_location_header(l):
-    name = l.attributes['NAME'].value
+    name = l.attributes['NAME'].value.lower()
     return '{0} [label="{0}"];'.format(name)
 
 
 def dot_for_exit(location_name, x):
-    target = x.attributes['TARGET'].value
-    direction = x.attributes['DIRECTION'].value
-    return "  {0} -> {1} [label={2}];".format(location_name, target, direction)
+    target = x.attributes['TARGET'].value.lower()
+    direction = x.attributes['DIRECTION'].value.lower()
+    return "  {0} -> {1} [label={2}];".format(location_name.lower(), target, direction)
