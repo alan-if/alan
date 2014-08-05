@@ -23,6 +23,7 @@ def handle_args():
     parser.add_argument('filename', help='the name of the Alan source file to create the graph from.')
     parser.add_argument('--ports', dest='use_ports', action="store_true",
                         help='use ports (tries to determine where to attach the outgoing arrows if directions are compass points)')
+    parser.add_argument('--version', action='version', version='%(prog)s v0.2')
     if len(argv) == 1:
         usage()
         exit()
@@ -43,6 +44,7 @@ def terminate_output():
 
 
 def main():
+
     args = handle_args()
 
     filename = args.filename
