@@ -73,7 +73,7 @@ extern void deleteFrame(void);
 extern char *verbHasParametersMessage(Context *context);
 extern char *verbHasParametersOrNoneMessage(Context *context);
 extern Symbol *classOfSymbol(Symbol *symbol);
-extern TypeKind basicTypeFromSymbol(Symbol *class);
+extern TypeKind basicTypeFromClassSymbol(Symbol *class);
 extern TypeKind typeOfSymbol(Symbol *symbol);
 
 /* Inheritance of a class */
@@ -83,16 +83,20 @@ extern Bool inheritsFrom(Symbol *child, Symbol *ancestor);
 extern void inheritCheck(Id *id, char *what, char classOrInstance[], char className[]);
 extern Symbol *commonParent(Symbol *sym1, Symbol *sym2);
 
-extern void setParameters(Symbol *verb, List *parameters);
-
 extern TypeKind classToType(Symbol *symbol);
 extern Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id);
+
+extern Symbol *find_contained_class(void);
+
+extern void setParameters(Symbol *verb, List *parameters);
+
 extern Attribute *findInheritedAttribute(Symbol *symbol, Id *id);
 extern void numberAllAttributes(void);
 extern void replicateInherited(void);
 
 extern void generateSymbol(Symbol *symbol);
 
+/* Dump */
 extern void dumpSymbol(Symbol *symbol);
 extern void dumpSymbols(void);
 

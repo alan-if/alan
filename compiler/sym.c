@@ -292,7 +292,7 @@ Symbol *newVerbSymbol(Id *id) {
 }
 
 /*======================================================================*/
-TypeKind basicTypeFromSymbol(Symbol *class) {
+TypeKind basicTypeFromClassSymbol(Symbol *class) {
     if (class == stringSymbol)
         return STRING_TYPE;
     else if (class == integerSymbol)
@@ -319,7 +319,7 @@ static void setParameterClass(Symbol *s, int parameter, Symbol *class) {
         pl = pl->next;
 
     pl->member.sym->fields.parameter.class = class;
-	pl->member.sym->fields.parameter.type = basicTypeFromSymbol(class);
+	pl->member.sym->fields.parameter.type = basicTypeFromClassSymbol(class);
 }
 
 
@@ -624,6 +624,21 @@ Symbol *contentOfSymbol(Symbol *symbol) {
         }
     }
     return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+Symbol *recurse_for_contained_class(Symbol *symbol) {
+    if (symbol->kind == INSTANCE_SYMBOL)
+        if (symbol->fields.entity.props != NULL)
+            if (symbol->fields.entity.props->container != NULL)
+                return symbol->fields.entity.props->container->body->taking->symbol;
+    return NULL;
+}
+
+/*======================================================================*/
+Symbol *find_contained_class(void) {
+    return recurse_for_contained_class(symbolTree);
 }
 
 

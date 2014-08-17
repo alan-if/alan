@@ -17,7 +17,25 @@
 List *fileNames = NULL;
 
 Describe(Symbol);
-BeforeEach(Symbol) {}
+
+BeforeEach(Symbol) {
+    entitySymbol = newSymbol(newId(nulsrcp, "entity"), CLASS_SYMBOL);
+    entitySymbol->fields.entity.parent = NULL;
+    objectSymbol = newSymbol(newId(nulsrcp, "object"), CLASS_SYMBOL);
+    objectSymbol->fields.entity.parent = entitySymbol;
+    locationSymbol = newSymbol(newId(nulsrcp, "location"), CLASS_SYMBOL);
+    locationSymbol->fields.entity.parent = entitySymbol;
+    thingSymbol = newSymbol(newId(nulsrcp, "thing"), CLASS_SYMBOL);
+    thingSymbol->fields.entity.parent = entitySymbol;
+
+    literalSymbol = newSymbol(newId(nulsrcp, "literal"), CLASS_SYMBOL);
+    thingSymbol->fields.entity.parent = entitySymbol;
+    integerSymbol = newSymbol(newId(nulsrcp, "integer"), CLASS_SYMBOL);
+    integerSymbol->fields.entity.parent = literalSymbol;
+    stringSymbol = newSymbol(newId(nulsrcp, "string"), CLASS_SYMBOL);
+    stringSymbol->fields.entity.parent = literalSymbol;
+}
+
 AfterEach(Symbol) {}
 
 Ensure(Symbol, can_return_class_of_symbol_for_instance) {
@@ -64,11 +82,7 @@ Ensure(Symbol, cannot_return_class_of_symbol_for_verb) {
 }
 
 Ensure(Symbol, can_get_type_according_to_symbol) {
-    Symbol *integer = newSymbol(newId(nulsrcp, "integer"), INSTANCE_SYMBOL);
-
-    integerSymbol = integer;
-
-    assert_that(basicTypeFromSymbol(integer), is_equal_to(INTEGER_TYPE));
+    assert_that(basicTypeFromClassSymbol(integerSymbol), is_equal_to(INTEGER_TYPE));
 }
 
 Ensure(Symbol, can_get_type_of_a_local_or_parameter_symbol) {
@@ -114,4 +128,31 @@ Ensure(Symbol, should_return_the_common_parent_as_common_parent_if_both_have_sam
 
     assert_that(commonParent(child1, child2), is_equal_to(parent));
     assert_that(commonParent(child2, child1), is_equal_to(parent));
+}
+
+
+static void createInstanceWithContainerTaking(Symbol *taken_class) {
+    ContainerBody *containerBody = NEW(ContainerBody);
+    containerBody->taking = newId(nulsrcp, "");
+    containerBody->taking->symbol = taken_class;
+
+    Container *container = NEW(Container);
+    container->body = containerBody;
+
+    Properties *properties = newProps(NULL, NULL, nulsrcp, NULL, NULL,
+                                      NULL, NULL, nulsrcp, NULL, NULL,
+                                      NULL, NULL, container, NULL, nulsrcp,
+                                      NULL, NULL, NULL);
+    newInstanceSymbol(newId(nulsrcp, "instance"), properties, NULL);
+}
+
+
+Ensure(Symbol, can_figure_out_most_general_class_taken_by_any_container) {
+    /* If there are no containers it should return null */
+    assert_that(find_contained_class(), is_null);
+
+    /* If we add one instance that is a container it should return the class it takes */
+    Symbol *taken_class = objectSymbol;
+	createInstanceWithContainerTaking(taken_class);
+    assert_that(find_contained_class(), is_equal_to(taken_class));
 }
