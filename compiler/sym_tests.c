@@ -131,7 +131,7 @@ Ensure(Symbol, should_return_the_common_parent_as_common_parent_if_both_have_sam
 }
 
 
-static void createInstanceWithContainerTaking(Symbol *taken_class) {
+static void createInstanceWithContainerTaking(char *name, Symbol *taken_class) {
     ContainerBody *containerBody = NEW(ContainerBody);
     containerBody->taking = newId(nulsrcp, "");
     containerBody->taking->symbol = taken_class;
@@ -143,7 +143,7 @@ static void createInstanceWithContainerTaking(Symbol *taken_class) {
                                       NULL, NULL, nulsrcp, NULL, NULL,
                                       NULL, NULL, container, NULL, nulsrcp,
                                       NULL, NULL, NULL);
-    newInstanceSymbol(newId(nulsrcp, "instance"), properties, NULL);
+    newInstanceSymbol(newId(nulsrcp, name), properties, NULL);
 }
 
 
@@ -153,6 +153,11 @@ Ensure(Symbol, can_figure_out_most_general_class_taken_by_any_container) {
 
     /* If we add one instance that is a container it should return the class it takes */
     Symbol *taken_class = objectSymbol;
-	createInstanceWithContainerTaking(taken_class);
+	createInstanceWithContainerTaking("o", taken_class);
+    assert_that(find_contained_class(), is_equal_to(taken_class));
+
+    /* If we add another taking a more abstract class it should return that */
+    taken_class = thingSymbol;
+    createInstanceWithContainerTaking("t", taken_class);
     assert_that(find_contained_class(), is_equal_to(taken_class));
 }

@@ -629,11 +629,23 @@ Symbol *contentOfSymbol(Symbol *symbol) {
 
 /*----------------------------------------------------------------------*/
 Symbol *recurse_for_contained_class(Symbol *symbol) {
+    Symbol *taken = NULL;
+    Symbol *taken2 = NULL;
+    if (symbol == NULL)
+        return NULL;
     if (symbol->kind == INSTANCE_SYMBOL)
         if (symbol->fields.entity.props != NULL)
             if (symbol->fields.entity.props->container != NULL)
-                return symbol->fields.entity.props->container->body->taking->symbol;
-    return NULL;
+                taken = symbol->fields.entity.props->container->body->taking->symbol;
+    if ((taken2 = recurse_for_contained_class(symbol->higher)) != NULL) {
+        if (taken == NULL || inheritsFrom(taken, taken2))
+            taken = taken2;
+    }
+    if ((taken2 = recurse_for_contained_class(symbol->lower)) != NULL) {
+        if (taken == NULL || inheritsFrom(taken, taken2))
+            taken = taken2;
+    }
+    return taken;
 }
 
 /*======================================================================*/
@@ -691,9 +703,9 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
         child = child->fields.parameter.class;
 
     if ((!isClass(child) && child->kind != INSTANCE_SYMBOL) || !isClass(ancestor))
-        return FALSE;		/* Probably spurious */
+        return FALSE;           /* Probably spurious */
 
-    p = child;			/* To be the class itself is OK */
+    p = child;                  /* To be the class itself is OK */
     while (p && p != ancestor)
         p = p->fields.entity.parent;
 
@@ -748,36 +760,36 @@ static Symbol *lookupClass(Id *id, Symbol *symbol) {
 /*----------------------------------------------------------------------*/
 static List *getParameterSymbols(Context *context)
 {
-	if (context->kind == VERB_CONTEXT)
-		return context->verb->fields.verb.parameterSymbols;
-	else
-		return NULL;
+        if (context->kind == VERB_CONTEXT)
+                return context->verb->fields.verb.parameterSymbols;
+        else
+                return NULL;
 }
 
 
 /*----------------------------------------------------------------------*/
 static char *identifierListForParameters(Context *context) {
-	List *parameters = getParameterSymbols(context);
-	char *identifiers = (char *)allocate(200);
-	List *list;
-	Bool first = TRUE;
+        List *parameters = getParameterSymbols(context);
+        char *identifiers = (char *)allocate(200);
+        List *list;
+        Bool first = TRUE;
 
-	if (parameters == NULL)
-		SYSERR("NULL parameters");
+        if (parameters == NULL)
+                SYSERR("NULL parameters");
 
-	TRAVERSE(list, parameters) {
-		if (!first) {
-			if (list->next != NULL)
-				strcat(identifiers, "', '");
-			else
-				strcat(identifiers, "' and '");
-		} else
-			strcat(identifiers, "'");
-		strcat(identifiers, list->member.sym->string);
-		first = FALSE;
-	}
-	strcat(identifiers, "'");
-	return identifiers;
+        TRAVERSE(list, parameters) {
+                if (!first) {
+                        if (list->next != NULL)
+                                strcat(identifiers, "', '");
+                        else
+                                strcat(identifiers, "' and '");
+                } else
+                        strcat(identifiers, "'");
+                strcat(identifiers, list->member.sym->string);
+                first = FALSE;
+        }
+        strcat(identifiers, "'");
+        return identifiers;
 }
 
 
@@ -811,64 +823,64 @@ void setParameters(Symbol *verb, List *parameters)
 
 /*======================================================================*/
 char *verbHasParametersMessage(Context *context) {
-	static char message[2000];
-	message[0] = '\0';
-	if (context && context->kind == VERB_CONTEXT) {
-		List *parameterSymbols = getParameterSymbols(context);
-		if (length(parameterSymbols) > 0)
-			sprintf(message, " The verb '%s' has the parameter%s %s.",
-					context->verb->string, length(parameterSymbols)>1?"s":"",
-					identifierListForParameters(context));
-	}
-	return message;
+        static char message[2000];
+        message[0] = '\0';
+        if (context && context->kind == VERB_CONTEXT) {
+                List *parameterSymbols = getParameterSymbols(context);
+                if (length(parameterSymbols) > 0)
+                        sprintf(message, " The verb '%s' has the parameter%s %s.",
+                                        context->verb->string, length(parameterSymbols)>1?"s":"",
+                                        identifierListForParameters(context));
+        }
+        return message;
 }
 
 
 /*======================================================================*/
 char *verbHasParametersOrNoneMessage(Context *context) {
-	char *message = verbHasParametersMessage(context);
-	if (strlen(message) > 0)
-		return message;
-	else {
-		static char noParametersMessage[2000];
-		sprintf(noParametersMessage, " The verb '%s' has no parameters.", context->verb->string);
-		return noParametersMessage;
-	}
+        char *message = verbHasParametersMessage(context);
+        if (strlen(message) > 0)
+                return message;
+        else {
+                static char noParametersMessage[2000];
+                sprintf(noParametersMessage, " The verb '%s' has no parameters.", context->verb->string);
+                return noParametersMessage;
+        }
 }
 
 
 /*======================================================================*/
 Symbol *symcheck(Id *id, SymbolKind requestedKinds, Context *context)
 {
-	Symbol *sym;
+        Symbol *sym;
 
-	sym = lookupInContext(id->string, context);
-	if (requestedKinds == CLASS_SYMBOL)
-		sym = lookupClass(id, sym);
+        sym = lookupInContext(id->string, context);
+        if (requestedKinds == CLASS_SYMBOL)
+                sym = lookupClass(id, sym);
 
-	if (!sym) {
-		if (!isGeneratedId(id)) {
-			lmLogv(&id->srcp, 310, sevERR, id->string, verbHasParametersMessage(context), NULL);
-		}
-	} else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
-		if ((requestedKinds&INSTANCE_SYMBOL) == 0) {
-			if (multipleSymbolKinds(requestedKinds))
-				lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
-			else
-				lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
-			return NULL;
-		}
-	} else
-		if (requestedKinds != 0)
-			if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
-				if (multipleSymbolKinds(requestedKinds))
-					lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
-				else
-					lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
-				return NULL;
-			}
-	id->symbol = sym;
-	return sym;
+        if (!sym) {
+                if (!isGeneratedId(id)) {
+                        lmLogv(&id->srcp, 310, sevERR, id->string, verbHasParametersMessage(context), NULL);
+                }
+        } else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
+                if ((requestedKinds&INSTANCE_SYMBOL) == 0) {
+                        if (multipleSymbolKinds(requestedKinds))
+                                lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+                        else
+                                lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+                        return NULL;
+                }
+        } else
+                if (requestedKinds != 0)
+                        if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
+                                if (multipleSymbolKinds(requestedKinds))
+                                        lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+                                else
+                                        lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+                                return NULL;
+                        }
+        id->symbol = sym;
+        return sym;
 }
 
 
@@ -1254,3 +1266,8 @@ void dumpSymbol(Symbol *symbol)
     dumpString(symbol->string); 
     put(":"); dumpInt(symbol->code);
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* indent-tabs-mode: nil */
+/* End: */
