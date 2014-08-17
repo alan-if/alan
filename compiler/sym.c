@@ -633,10 +633,9 @@ Symbol *recurse_for_contained_class(Symbol *symbol) {
     Symbol *taken2 = NULL;
     if (symbol == NULL)
         return NULL;
-    if (symbol->kind == INSTANCE_SYMBOL)
-        if (symbol->fields.entity.props != NULL)
-            if (symbol->fields.entity.props->container != NULL)
-                taken = symbol->fields.entity.props->container->body->taking->symbol;
+    if (symbol->fields.entity.props != NULL)
+        if (symbol->fields.entity.props->container != NULL)
+            taken = symbol->fields.entity.props->container->body->taking->symbol;
     if ((taken2 = recurse_for_contained_class(symbol->higher)) != NULL) {
         if (taken == NULL || inheritsFrom(taken, taken2))
             taken = taken2;
