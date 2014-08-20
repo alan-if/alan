@@ -19,11 +19,11 @@ def is_location(instance, classes):
 def get_locations(xmltree, ignore):
     classes = xmltree.getElementsByTagName("class")
     return [i for i in xmltree.getElementsByTagName("instance")
-            if is_location(i, classes) and not (i.attributes['NAME'].value.lower() in map(str.lower , ignore))
+            if is_location(i, classes) and not (i.attributes['NAME'].value.lower() in map(str.lower, ignore))
            ]
 
 def compile_game_to_xml(filename):
-    process = Popen(["alan.exe", "-xml", filename], stdout=PIPE)
+    process = Popen(["alan", "-xml", filename], stdout=PIPE)
     output = process.communicate(None)[0]
     return minidom.parse(split(filename)[1]+".xml")
 

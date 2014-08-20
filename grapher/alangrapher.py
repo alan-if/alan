@@ -34,7 +34,8 @@ def handle_args():
 def init_output(gamename):
     return """
         digraph {} {{
-                concentrate=true
+                concentrate=true;
+                rankdir=LR;
                 node [shape=octagon;style=filled;]
         """.format("gamename")
 
@@ -89,6 +90,9 @@ def main():
     path, filename = split(filename)
     chdir(path)
     xmltree = compile_game_to_xml(filename)
+
+    if ignore_list is None:
+        ignore_list = []
 
     location_list = get_locations(xmltree, ignore_list)
 
