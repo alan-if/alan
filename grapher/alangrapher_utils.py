@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from xml.dom import minidom
+from os.path import split
 
 __author__ = 'Thomas'
 
@@ -15,20 +16,22 @@ def is_location(instance, classes):
     except Exception as e:
         return False
 
-def get_locations(xmltree):
+def get_locations(xmltree, ignore):
     classes = xmltree.getElementsByTagName("class")
     return [i for i in xmltree.getElementsByTagName("instance")
-            if is_location(i, classes)
+            if is_location(i, classes) and not (i.attributes['NAME'].value.lower() in map(str.lower , ignore))
            ]
 
-def compile_game_to_xml(gamename):
-    process = Popen(["alan", "-xml", gamename], stdout=PIPE)
+def compile_game_to_xml(filename):
+    process = Popen(["alan.exe", "-xml", filename], stdout=PIPE)
     output = process.communicate(None)[0]
-    return minidom.parse(gamename+".xml")
+    return minidom.parse(split(filename)[1]+".xml")
 
 
-def get_exits(location):
-    return location.getElementsByTagName('exit')
+def get_exits(location, ignore):
+    return [e for e in location.getElementsByTagName('exit')
+            if not (e.attributes['TARGET'].value.lower() in map(str.lower, ignore))
+            ]
 
 
 def dot_for_location_header(l):

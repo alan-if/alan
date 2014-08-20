@@ -19,12 +19,10 @@ Syntax v = v (o)
 Syntax put_in = put (o) 'in' (c)
        Where o Isa object
              Else "Need to put object."
-       And c Isa object
+       And c Isa container
            Else "Need to put in container."
 
 Add To Every object
-  Container
-
   Verb x
     Does "x"
   End Verb.
@@ -41,9 +39,24 @@ The loc Isa location
 End The loc.
 
 The t Isa object At loc
+  Container
   Verb x,v 
     Does Say o.
   End Verb.
 End The t.
 
+The o1 Isa object
+  Container
+End The o1.
+
+The o2 Isa object In o1
+  Container
+End The o2.
+
+The o3 Isa object In o2
+End The o3.
+
 Start At loc.
+-- Test IN since it changed between beta3, beta4 and beta5
+  Say Count In o1.
+  Say Count Directly In o1.

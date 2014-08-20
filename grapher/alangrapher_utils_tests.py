@@ -59,24 +59,41 @@ class AlangrapherUtilsTests(unittest.TestCase):
                         </classes>
                         <instances>
                             <instance NAME='loc1' PARENT='location_class'></instance>
-                            <instance NAME='loc1' PARENT='location'></instance>
-                            <instance NAME='loc1' PARENT='location_class_parent'></instance>
+                            <instance NAME='loc2' PARENT='location'></instance>
+                            <instance NAME='loc3' PARENT='location_class_parent'></instance>
                         </instances>
                     </adventure>"""
         xmltree = minidom.parseString(document)
-        self.assertEqual(3, len(get_locations(xmltree)))
+        self.assertEqual(3, len(get_locations(xmltree, [])))
+
+    def test_can_return_list_of_locations_ignoring_some(self):
+        document = """<adventure>
+                        <classes>
+                            <class NAME='location_class_parent' PARENT='location'>
+                            </class>
+                            <class NAME='location_class' PARENT='location_class_parent'>
+                            </class>
+                        </classes>
+                        <instances>
+                            <instance NAME='loc1' PARENT='location_class'></instance>
+                            <instance NAME='loc2' PARENT='location'></instance>
+                            <instance NAME='loc3' PARENT='location_class_parent'></instance>
+                        </instances>
+                    </adventure>"""
+        xmltree = minidom.parseString(document)
+        self.assertEqual(2, len(get_locations(xmltree, ['loc1'])))
 
     def test_can_find_exits_in_location_instance(self):
         document = """<adventure>
                         <instances>
                             <instance NAME='loc1' PARENT='location'>
-                                <exit DIRECTION='e' TARGET='loc1'></exit>
-                                <exit DIRECTION='w' TARGET='loc1' />
+                                <exit DIRECTION='e' TARGET='loc2'></exit>
+                                <exit DIRECTION='w' TARGET='loc3' />
                             </instance>
                         </instances>
                     </adventure>"""
-        location = get_locations(minidom.parseString(document))[0]
-        self.assertEqual(2, len(get_exits(location)))
+        location = get_locations(minidom.parseString(document), [])[0]
+        self.assertEqual(2, len(get_exits(location, [])))
 
     def test_can_create_header_for_location(self):
         document = """<adventure>
@@ -86,7 +103,7 @@ class AlangrapherUtilsTests(unittest.TestCase):
                             </instance>
                         </instances>
                     </adventure>"""
-        location = get_locations(minidom.parseString(document))[0]
+        location = get_locations(minidom.parseString(document), [])[0]
         self.assertEqual('loc1 [label="loc1"];', dot_for_location_header(location))
 
 if __name__ == 'main':
