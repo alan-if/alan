@@ -1,6 +1,11 @@
-from subprocess import Popen, PIPE
+import subprocess
 from xml.dom import minidom
 from os.path import split
+import sys
+import os
+
+import gtk
+
 
 __author__ = 'Thomas'
 
@@ -23,9 +28,14 @@ def get_locations(xmltree, ignore):
            ]
 
 def compile_game_to_xml(filename):
-    process = Popen(["alan", "-xml", filename], stdout=PIPE)
-    output = process.communicate(None)[0]
-    return minidom.parse(split(filename)[1]+".xml")
+    xmlfilename = split(filename)[1]+".xml"
+    if os.path.isfile(xmlfilename):
+        os.remove(xmlfilename)
+    try:
+        p = subprocess.call(["alan", "-xml", filename])
+    except Exception as e:
+        message_dialog("Exception", str(type(e)) + str(e.args) + str(e))
+    return minidom.parse(xmlfilename)
 
 
 def get_exits(location, ignore):
@@ -43,3 +53,11 @@ def dot_for_exit(location_name, x):
     target = x.attributes['TARGET'].value.lower()
     direction = x.attributes['DIRECTION'].value.lower()
     return "  {0} -> {1} [label={2}];".format(location_name.lower(), target, direction)
+
+def message_dialog(message, text, title="Error!", type=gtk.MESSAGE_ERROR):
+    dialog = gtk.MessageDialog(type=type, buttons=gtk.BUTTONS_OK,
+                               message_format=message)
+    dialog.set_title(title)
+    dialog.format_secondary_text(text)
+    dialog.run()
+    dialog.destroy()

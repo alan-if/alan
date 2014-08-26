@@ -1,9 +1,11 @@
 #!/usr/bin/env python
-from sys import argv, exit
-from os.path import basename, splitext, split
-from os import chdir
+import sys
+import os
+from os.path import split
+
 import argparse
 
+import glib
 import gtk
 import gtk.gdk
 import pygtk
@@ -11,12 +13,13 @@ import pygtk
 import xdot
 
 from alangrapher_utils import compile_game_to_xml, get_locations, get_exits, dot_for_location_header, dot_for_exit
+import alangrapher_utils
 
 IGNORE_LOCATIONS_TOOLTIP = "Locations listed here won't be include in the map. " \
                            "Separate location names with a space. " \
                            "This is handy for 'nowhere' and the like."
 
-VERSION = "v0.3"
+VERSION = "v0.4"
 
 
 def handle_args():
@@ -43,82 +46,96 @@ def init_output(gamename):
 def terminate_output():
     return '}'
 
+def choose_file():
+    chooser = gtk.FileChooserDialog(title="AlanGrapher {} - Select Alan source file to create a map from".format(VERSION),
+                                    action=gtk.FILE_CHOOSER_ACTION_OPEN,
+                                    buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+    filter = gtk.FileFilter()
+    filter.set_name("Alan source files")
+    filter.add_pattern("*.alan")
+
+    chooser.add_filter(filter)
+
+    ignore_box = gtk.HBox()
+
+    ignore_label = gtk.Label(" Ignore locations named: ")
+    ignore_label.set_tooltip_text(IGNORE_LOCATIONS_TOOLTIP)
+    ignore_box.pack_start(ignore_label, expand=False, fill=False)
+    ignore_label.show()
+
+    ignore_text = gtk.Entry()
+    ignore_text.set_tooltip_text(IGNORE_LOCATIONS_TOOLTIP)
+    ignore_box.add(ignore_text)
+    ignore_text.show()
+
+    chooser.set_extra_widget(ignore_box)
+
+    response = chooser.run()
+    if response == gtk.RESPONSE_CANCEL:
+        chooser.destroy()
+        sys.exit()
+
+    filename = chooser.get_filename()
+
+    filename = os.path.splitext(filename)[0]
+    ignore_list = ignore_text.get_text().split()
+
+    chooser.destroy()
+    return (filename, ignore_list)    
 
 
 def main():
-    ignore = []
     args = handle_args()
-    if (args.filename is None):
-        chooser = gtk.FileChooserDialog(title="AlanGrapher {} - Select Alan source file to create a map from".format(VERSION),
-                                        action=gtk.FILE_CHOOSER_ACTION_OPEN,
-                                        buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
-        filter = gtk.FileFilter()
-        filter.set_name("Alan source files")
-        filter.add_pattern("*.alan")
 
-        chooser.add_filter(filter)
+    if getattr(sys, 'frozen', False):
+        basedir = sys._MEIPASS
+    else:
+        basedir = os.getcwd()
 
-        ignore_box = gtk.HBox()
-
-        ignore_label = gtk.Label(" Ignore locations named: ")
-        ignore_label.set_tooltip_text(IGNORE_LOCATIONS_TOOLTIP)
-        ignore_box.pack_start(ignore_label, expand=False, fill=False)
-        ignore_label.show()
-
-        ignore_text = gtk.Entry()
-        ignore_text.set_tooltip_text(IGNORE_LOCATIONS_TOOLTIP)
-        ignore_box.add(ignore_text)
-        ignore_text.show()
-
-        chooser.set_extra_widget(ignore_box)
-
-        response = chooser.run()
-        if response == gtk.RESPONSE_CANCEL:
-            chooser.destroy()
-            exit()
-
-        filename = chooser.get_filename()
-
-        filename = splitext(filename)[0]
-        ignore_list = ignore_text.get_text().split()
-
-        chooser.destroy()
+    if args.filename is None:
+        filename, ignore_list = choose_file()
     else:
         filename = args.filename
         ignore_list = args.ignore_list
 
     path, filename = split(filename)
-    chdir(path)
-    xmltree = compile_game_to_xml(filename)
 
     if ignore_list is None:
         ignore_list = []
 
+    os.chdir(path)
+    try:
+        xmltree = compile_game_to_xml(filename)
+
+    except Exception as e:
+        alangrapher_utils.message_dialog("Could not compile to XML!", "Do you have an Alan compiler installed "
+                                        "and in the system PATH?\n" + str(e))
+        sys.exit(-1)
+
     location_list = get_locations(xmltree, ignore_list)
 
-    dotcode = init_output(basename(filename))
-
+    dotcode = init_output(os.path.basename(filename))
     for l in location_list:
         name = l.attributes['NAME'].value
         dotcode += "\n  {}".format(dot_for_location_header(l))
         xs = get_exits(l, ignore_list)
         for x in xs:
             dotcode += "    {}".format(dot_for_exit(name, x))
-
     dotcode += terminate_output()
 
-    window = xdot.DotWindow()
     try:
+        window = xdot.DotWindow()
+        
         window.set_dotcode(dotcode)
         window.connect('destroy', gtk.main_quit)
         gtk.main()
     except Exception as e:
-        dialog = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK,
-            message_format="Could not draw graph!")
-        dialog.set_title("Error!")
-        dialog.format_secondary_text('Do you have Graphviz (http://graphviz.org/)\ninstalled and in the system PATH?')
-        dialog.run()
+        alangrapher_utils.message_dialog("Could not draw graph!",
+                                         "Do you have Graphviz (http://graphviz.org/)\n"
+                                         "installed and in the system PATH?")
+        sys.exit(-1)
 
 
 if __name__ == '__main__':
     main()
+
