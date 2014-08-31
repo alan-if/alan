@@ -596,35 +596,6 @@ Bool symbolIsContainer(Symbol *symbol) {
 }
 
 
-/*======================================================================*/
-Symbol *contentOfSymbol(Symbol *symbol) {
-    Properties *props;
-    if (symbol != NULL) {
-        switch (symbol->kind) {
-        case INSTANCE_SYMBOL:
-        case CLASS_SYMBOL:
-            props = symbol->fields.entity.props;
-            if (props != NULL) {
-                if (props->container != NULL)
-                    return props->container->body->taking->symbol;
-                else
-                    return contentOfSymbol(symbol->fields.entity.parent);
-            }
-            break;
-        case PARAMETER_SYMBOL:
-            return contentOfSymbol(symbol->fields.parameter.class);
-            break;
-        case LOCAL_SYMBOL:
-            return contentOfSymbol(symbol->fields.local.class);
-            break;
-        case ERROR_SYMBOL:
-            break;
-        default:
-            SYSERR("Unexpected Symbol kind");	
-        }
-    }
-    return NULL;
-}
 
 
 /*----------------------------------------------------------------------*/
@@ -650,6 +621,38 @@ Symbol *recurse_for_contained_class(Symbol *symbol) {
 /*======================================================================*/
 Symbol *find_contained_class(void) {
     return recurse_for_contained_class(symbolTree);
+}
+
+
+/*======================================================================*/
+Symbol *contentOfSymbol(Symbol *symbol) {
+    Properties *props;
+    if (symbol != NULL) {
+        switch (symbol->kind) {
+        case INSTANCE_SYMBOL:
+        case CLASS_SYMBOL:
+            return find_contained_class();
+            props = symbol->fields.entity.props;
+            if (props != NULL) {
+                if (props->container != NULL)
+                    return props->container->body->taking->symbol;
+                else
+                    return contentOfSymbol(symbol->fields.entity.parent);
+            }
+            break;
+        case PARAMETER_SYMBOL:
+            return contentOfSymbol(symbol->fields.parameter.class);
+            break;
+        case LOCAL_SYMBOL:
+            return contentOfSymbol(symbol->fields.local.class);
+            break;
+        case ERROR_SYMBOL:
+            break;
+        default:
+            SYSERR("Unexpected Symbol kind");	
+        }
+    }
+    return NULL;
 }
 
 
