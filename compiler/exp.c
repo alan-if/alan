@@ -699,7 +699,8 @@ static void analyzeClassingFilter(char *message,
                 if (theFilter->fields.whr.whr->transitivity == DEFAULT 
                     && theFilter->fields.whr.whr->what->type != ERROR_TYPE)
                     lmLog(&theFilter->srcp, 451, sevWAR, "");
-                theFilter->class = entitySymbol;
+                theFilter->class = find_contained_class();
+                //                theFilter->class = entitySymbol;
             }
             theFilter->type = theFilter->fields.whr.whr->what->type;
             break;
