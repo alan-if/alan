@@ -30,17 +30,19 @@ def handle_args():
                         help="ignore the location with this name (handy for 'nowhere' etc.")
     parser.add_argument('--ignore-inherited', dest='inherited', action="store_false",
                         help="ignore any inherited exits")
+    parser.add_argument('--shape', default="octagon",
+                        help='shape to use for locations (see http://www.graphviz.org/doc/info/shapes.html for names)')
     parser.add_argument('--version', action='version', version='%(prog)s {}'.format(VERSION))
     return parser.parse_args()
 
 
-def init_output(gamename):
+def init_output(gamename, shape):
     return """
         digraph {} {{
                 concentrate=true;
                 rankdir=LR;
-                node [shape=octagon;style=filled;]
-        """.format("gamename")
+                node [shape={};style=filled;]
+        """.format(gamename, shape)
 
 
 def terminate_output():
@@ -114,7 +116,7 @@ def main():
 
     location_list = get_locations(xmltree, ignore_list)
 
-    dotcode = init_output(os.path.basename(filename))
+    dotcode = init_output(os.path.basename(filename), args.shape)
     for l in location_list:
         name = l.attributes['NAME'].value
         dotcode += "\n  {}".format(dot_for_location_header(l))
