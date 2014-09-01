@@ -398,6 +398,11 @@ void dumpAdventure(enum dmpKd dmp)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void xmlStart(FILE *xmlFile) {
+    fprintf(xmlFile, "    <start WHERE=\"%s\" />\n", adv.whr->what->fields.wht.wht->id->string);
+}
+
 /*======================================================================*/
 void xmlAdventure(void) {
     char *xmlFileName = strdup(adv.name);
@@ -412,6 +417,7 @@ void xmlAdventure(void) {
         fprintf(xmlFile, "<adventure>\n");
         xmlClasses(xmlFile);
         xmlInstances(xmlFile);
+        xmlStart(xmlFile);
         fprintf(xmlFile, "</adventure>\n");
         fclose(xmlFile);
     }

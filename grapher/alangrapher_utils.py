@@ -12,9 +12,9 @@ __author__ = 'Thomas'
 def is_location(instance, classes):
     try:
         parent_name = instance.attributes['PARENT'].value
-        while parent_name != 'location':
+        while parent_name.lower() != 'location':
             parent_class = [c for c in classes
-                            if c.attributes['NAME'].value == parent_name
+                            if c.attributes['NAME'].value.lower() == parent_name
                            ]
             parent_name = parent_class[0].attributes['PARENT'].value
         return True
@@ -24,7 +24,8 @@ def is_location(instance, classes):
 def get_locations(xmltree, ignore):
     classes = xmltree.getElementsByTagName("class")
     return [i for i in xmltree.getElementsByTagName("instance")
-            if is_location(i, classes) and not (i.attributes['NAME'].value.lower() in map(str.lower, ignore))
+            if is_location(i, classes) and
+            not (i.attributes['NAME'].value.lower() in map(str.lower, ignore))
            ]
 
 def compile_game_to_xml(filename):
@@ -44,15 +45,19 @@ def get_exits(location, ignore):
             ]
 
 
-def dot_for_location_header(l):
+def dot_for_location_header(l, start_location):
     name = l.attributes['NAME'].value.lower()
-    return '{0} [label="{0}"];'.format(name)
+    if name == start_location:
+        node_color = ", fillcolor=yellow"
+    else:
+        node_color = ""
+    return '{0} [label="{0}"{1}];'.format(name, node_color)
 
 
 def dot_for_exit(location_name, x):
     target = x.attributes['TARGET'].value.lower()
     direction = x.attributes['DIRECTION'].value.lower()
-    return "  {0} -> {1} [label={2}];".format(location_name.lower(), target, direction)
+    return "{0} -> {1} [label={2}];".format(location_name.lower(), target, direction)
 
 def message_dialog(message, text, title="Error!", type=gtk.MESSAGE_ERROR):
     dialog = gtk.MessageDialog(type=type, buttons=gtk.BUTTONS_OK,

@@ -38,11 +38,11 @@ def handle_args():
 
 def init_output(gamename, shape):
     return """
-        digraph {} {{
-                concentrate=true;
-                rankdir=LR;
-                node [shape={};style=filled;]
-        """.format(gamename, shape)
+digraph {{
+    concentrate=true;
+    rankdir=LR;
+    node [shape={};style=filled;]
+""".format(shape)
 
 
 def terminate_output():
@@ -115,19 +115,18 @@ def main():
         sys.exit(-1)
 
     location_list = get_locations(xmltree, ignore_list)
-
+    start_location = xmltree.getElementsByTagName("start")[0].attributes['WHERE'].value
     dotcode = init_output(os.path.basename(filename), args.shape)
     for l in location_list:
         name = l.attributes['NAME'].value
-        dotcode += "\n  {}".format(dot_for_location_header(l))
+        dotcode += "\n    {}    \n".format(dot_for_location_header(l, start_location))
         xs = get_exits(l, ignore_list)
         for x in xs:
-            dotcode += "    {}".format(dot_for_exit(name, x))
+            dotcode += "      {}\n".format(dot_for_exit(name, x))
     dotcode += terminate_output()
 
     try:
         window = xdot.DotWindow()
-        
         window.set_dotcode(dotcode)
         window.connect('destroy', gtk.main_quit)
         gtk.main()
