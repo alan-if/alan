@@ -14,6 +14,9 @@ CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUIL
 LINK = $(LINKER)
 LINKFLAGS = $(OSFLAGS) $(EXTRA_LINKER_FLAGS)
 
+gprof: EXTRA_COMPILER_FLAGS = -pg
+gprof: EXTRA_LINKER_FLAGS = -pg
+
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # Main target to do everything
@@ -23,7 +26,7 @@ all: unit build
 
 # Target to just build
 .PHONY: build
-build: alan
+build gprof: alan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

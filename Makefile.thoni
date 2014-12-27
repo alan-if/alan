@@ -46,18 +46,14 @@ release:
 
 .PHONY: snapshots
 snapshots: zip setup lib
-	-rm $(DISTDIR)/Snapshots/*win32.x86*
-	-rm $(DISTDIR)/Snapshots/library*.zip
-	-rm $(DISTDIR)/Snapshots/manual*.pdf
-	-rm $(DISTDIR)/Snapshots/conversion*.pdf
-	-rm $(DISTDIR)/Snapshots/writing*.pdf
-	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/Snapshots/alan$(VERSION)$(BUILD).win32.x86.zip
-	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots/alan$(VERSION)$(BUILD).win32.x86.setup.exe
-	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/Snapshots/winarun$(VERSION)$(BUILD).win32.x86.setup.exe
-	cp library/library*.zip $(DISTDIR)/Snapshots/library$(LIBRARYVERSION).zip
-	cp doc/manual/manual.pdf $(DISTDIR)/Snapshots/manual$(BUILD).pdf
-	cp doc/manual/conversion.pdf $(DISTDIR)/Snapshots/conversion$(BUILD).pdf
-	cp doc/manual/writing.pdf $(DISTDIR)/Snapshots/writing$(BUILD).pdf
+	-mkdir $(DISTDIR)/snapshots/Build$(BUILDNUMBER)
+	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/alan$(VERSION)$(BUILD).win32.x86.zip
+	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/alan$(VERSION)$(BUILD).win32.x86.setup.exe
+	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/winarun$(VERSION)$(BUILD).win32.x86.setup.exe
+	cp library/library*.zip $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/library$(LIBRARYVERSION).zip
+	cp doc/manual/manual.pdf $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/manual$(BUILD).pdf
+	cp doc/manual/conversion.pdf $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/conversion$(BUILD).pdf
+	cp doc/manual/writing.pdf $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/writing$(BUILD).pdf
 
 # Create pdf from odt
 .PHONY: documentation
@@ -153,12 +149,12 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 .PHONY: sync_all
 sync_all:
 	#cd /cygdrive/c/Program/FullSync; ./fullsync -r "AlanIF All Downloads"
-	/cygdrive/c/Program/Siber\ Systems/GoodSync/GoodSync.exe sync "AlanIF Downloads" /exit /unatt /forcetray
+	#/cygdrive/c/Program/Siber\ Systems/GoodSync/GoodSync.exe sync "AlanIF Downloads" /exit /unatt /forcetray
 
 .PHONY: sync_snapshots
 sync_snapshots:
 	#cd /cygdrive/c/Program/FullSync; ./fullsync -r "AlanIF Snapshots"
-	/cygdrive/c/Program/Siber\ Systems/GoodSync/GoodSync.exe sync "AlanIF Snapshots" /exit /unatt /forcetray
+	#/cygdrive/c/Program/Siber\ Systems/GoodSync/GoodSync.exe sync "AlanIF Snapshots" /exit /unatt /forcetray
 
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; ../../bin/alan adventv3

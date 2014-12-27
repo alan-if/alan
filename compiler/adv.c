@@ -234,6 +234,7 @@ void generateAdventure(char acodeFileName[],
         parameterNamesAddress = generateParameterNames(adv.stxs);
     acodeHeader.parameterMapAddress = generateParameterMappingTable();
     emit(parameterNamesAddress);
+
     acodeHeader.maxParameters = 10;	/* TODO calculate and move this to a better place */
 
     verbose("Verbs");

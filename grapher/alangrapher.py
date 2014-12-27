@@ -50,8 +50,8 @@ def terminate_output():
 
 def choose_file():
     chooser = gtk.FileChooserDialog(title="AlanGrapher {} - Select Alan source file to create a map from".format(VERSION),
-                                    action=gtk.FILE_CHOOSER_ACTION_OPEN,
-                                    buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+                                 action=gtk.FILE_CHOOSER_ACTION_OPEN,
+                                 buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
     filter = gtk.FileFilter()
     filter.set_name("Alan source files")
     filter.add_pattern("*.alan")
@@ -88,7 +88,6 @@ def choose_file():
 
 def main():
     args = handle_args()
-
     if getattr(sys, 'frozen', False):
         basedir = sys._MEIPASS
     else:

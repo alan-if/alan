@@ -21,6 +21,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	context \
 	atr \
 	sym \
+	id \
 
 # Sources which have unittests defined
 UNITTESTED = \
