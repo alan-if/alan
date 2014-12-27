@@ -1,19 +1,6 @@
 ########## restriction1 ##########
 
-
-restriction1.alan
-
-   14.      Does
-=====>      1
-
-  *1*   223 W : This Verb body might be executed for every matching parameter
-                in the syntax for 'give', depending on the parameter
-                restrictions. You might want to use a WHEN clause to specify
-                for which parameter this alternative is to be run.
-
-
-        No detected errors.
-        1 warning(s).
+        No warnings or errors detected.
 
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
@@ -67,12 +54,7 @@ O can't carry anything.
 <SYNTAX RESTRICTION WHERE parameter recip(#1) Isa Container, PASSED>
 
 <SYNTAX RESTRICTION WHERE parameter o(#2) Isa object[4], PASSED>
-
-<VERB 1, in parameter o(#2)=o[2], inherited from object[4], DOES:>
-GIVE says that (recip) is = c
-<ACTOR a[3] (at l[5]), Idle>
-
-<ACTOR c[4] (at l[5]), Idle>
+You can't do that.
 
 > give 3 4 
 
@@ -102,6 +84,11 @@ A can't carry anything.
 
 <SYNTAX RESTRICTION WHERE parameter o(#2) Isa object[4], FAILED:>
 You can't give hej to c.
+
+> give a to o
+
+<SYNTAX RESTRICTION WHERE parameter o(#1) Isa Container, FAILED:>
+O can't carry anything.
 
 > 
 
