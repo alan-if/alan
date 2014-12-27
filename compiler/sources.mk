@@ -34,7 +34,6 @@ UNITTESTED = \
 	emit.c \
 	exp.c \
 	ext.c \
-	id.c \
 	ifid.c \
 	ins.c \
 	lst.c \
@@ -59,6 +58,7 @@ OTHERSRCS = \
 	dump.c \
 	encode.c \
 	evt.c \
+	id.c \
 	initialize.c \
 	lim.c \
 	msg.c \
