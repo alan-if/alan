@@ -58,12 +58,14 @@ void instanceCheck(Id *id, char *what, char className[]) { mock(id, what, classN
 Bool isClass(Symbol *symbol) { return (Bool)mock(symbol); }
 Bool isInstance(Symbol *symbol) { return (Bool)mock(symbol); }
 Bool symbolIsContainer(Symbol *symbol) { return (Bool)mock(symbol); }
-Symbol *contentOfSymbol(Symbol *symbol) { return (Symbol *)mock(symbol); }
+Symbol *containerSymbolTakes(Symbol *symbol) { return (Symbol *)mock(symbol); }
 void newFrame(void) {}
 void deleteFrame(void) {}
 char *verbHasParametersMessage(Context *context) { return (char *)mock(context); }
 char *verbHasParametersOrNoneMessage(Context *context) { return (char *)mock(context); }
 Symbol *classOfSymbol(Symbol *symbol) { return (Symbol *)mock(symbol); }
+TypeKind basicTypeFromClassSymbol(Symbol *class) { return (TypeKind)mock(class); }
+TypeKind typeOfSymbol(Symbol *symbol) { return (TypeKind)mock(symbol); }
 
 /* Inheritance of a class */
 void setParent(Symbol *child, Symbol *parent) { mock(child, parent); }
@@ -78,6 +80,8 @@ Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id) { return (Symbol *)moc
 Attribute *findInheritedAttribute(Symbol *symbol, Id *id) { return (Attribute *)mock(symbol, id); }
 void numberAllAttributes(void) {}
 void replicateInherited(void) {}
+
+Symbol *find_contained_class(void) { return (Symbol *)mock(); }
 
 void generateSymbol(Symbol *symbol) { mock(symbol); }
 
