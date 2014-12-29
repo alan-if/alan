@@ -625,46 +625,31 @@ Symbol *find_contained_class(void) {
 
 
 /*======================================================================*/
-Symbol *contentOfSymbol(Symbol *symbol) {
+Symbol *containerSymbolTakes(Symbol *symbol) {
     Properties *props;
     if (symbol != NULL) {
         switch (symbol->kind) {
         case INSTANCE_SYMBOL:
         case CLASS_SYMBOL:
-            return find_contained_class();
             props = symbol->fields.entity.props;
             if (props != NULL) {
                 if (props->container != NULL)
                     return props->container->body->taking->symbol;
                 else
-                    return contentOfSymbol(symbol->fields.entity.parent);
+                    return containerSymbolTakes(symbol->fields.entity.parent);
             }
             break;
         case PARAMETER_SYMBOL:
-            return contentOfSymbol(symbol->fields.parameter.class);
+            return containerSymbolTakes(symbol->fields.parameter.class);
             break;
         case LOCAL_SYMBOL:
-            return contentOfSymbol(symbol->fields.local.class);
+            return containerSymbolTakes(symbol->fields.local.class);
             break;
         case ERROR_SYMBOL:
             break;
         default:
             SYSERR("Unexpected Symbol kind");	
         }
-    }
-    return NULL;
-}
-
-
-/*======================================================================*/
-Symbol *transitiveContentOfSymbol(Symbol *symbol) {
-    Symbol *class = contentOfSymbol(symbol);
-
-    if (class != NULL && class->fields.entity.props != NULL) {
-        if (class->fields.entity.props->container != NULL)
-            return class->fields.entity.props->container->body->taking->symbol;
-        else
-            return class;
     }
     return NULL;
 }

@@ -23,7 +23,6 @@ while [[ $1 ]] ; do
   esac
 done
 
-echo "commandoptiongiven = " $commandoptiongiven
 if [ $commandoptiongiven -ne 1 ] ; then
   echo "Error: no command given to execute (use -e as separator)"
   exit

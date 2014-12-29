@@ -146,15 +146,17 @@ static Properties *createContainerPropertiesTaking(Symbol *taken_class) {
 }
 
 
-static void createInstanceWithContainerTaking(char *name, Symbol *taken_class) {
+static Symbol *givenAnInstanceSymbolWithContainerTaking(char *name, Symbol *taken_class) {
     Properties *properties = createContainerPropertiesTaking(taken_class);
-    newInstanceSymbol(newId(nulsrcp, name), properties, NULL);
+    Symbol *symbol = newInstanceSymbol(newId(nulsrcp, name), properties, NULL);
+    return symbol;
 }
 
 
-static void createClassWithContainerTaking(char *name, Symbol *taken_class) {
+static Symbol *givenAClassSymbolWithContainerTaking(char *name, Symbol *taken_class) {
     Properties *properties = createContainerPropertiesTaking(taken_class);
-    newClassSymbol(newId(nulsrcp, name), properties, NULL);
+    Symbol *symbol = newClassSymbol(newId(nulsrcp, name), properties, NULL);
+    return symbol;
 }
 
 
@@ -164,12 +166,12 @@ Ensure(Symbol, can_figure_out_most_general_class_taken_by_any_container_instance
 
     /* If we add one instance that is a container it should return the class it takes */
     Symbol *taken_class = objectSymbol;
-	createInstanceWithContainerTaking("o", taken_class);
+	givenAnInstanceSymbolWithContainerTaking("o", taken_class);
     assert_that(find_contained_class(), is_equal_to(taken_class));
 
     /* If we add another taking a more abstract class it should return that */
     taken_class = thingSymbol;
-    createInstanceWithContainerTaking("t", taken_class);
+    givenAnInstanceSymbolWithContainerTaking("t", taken_class);
     assert_that(find_contained_class(), is_equal_to(taken_class));
 }
 
@@ -180,6 +182,84 @@ Ensure(Symbol, can_figure_out_most_general_class_taken_by_any_container_class) {
 
     /* If we add one instance that is a container it should return the class it takes */
     Symbol *taken_class = objectSymbol;
-	createClassWithContainerTaking("o", taken_class);
+	givenAClassSymbolWithContainerTaking("o", taken_class);
     assert_that(find_contained_class(), is_equal_to(taken_class));
+}
+
+
+static Id *givenAClass(char *name) {
+    Id *taken_class_id = newId(nulsrcp, name);
+    Symbol *taken_class_symbol = newClassSymbol(taken_class_id, NULL, NULL);
+    taken_class_id->symbol = taken_class_symbol;
+    return taken_class_id;
+}
+
+Ensure(Symbol, should_return_null_as_taken_class_for_class_with_no_properties) {
+    /* Given: some class that is not a container with no properties */
+    Id *theClass = givenAClass("non_container");
+    
+    /* Then: containerSymbolTakes() should return NULL for that class symbol */
+    assert_that(containerSymbolTakes(theClass->symbol), is_null);
+}
+
+
+Ensure(Symbol, should_return_taken_class_for_container_instance) {
+    /* Given: there is some class */
+	Id *taken_class_id = givenAClass("taken");
+
+    /* And: there is an instance taking that class */
+    Symbol *queryed_symbol = givenAnInstanceSymbolWithContainerTaking("queryed_instance_symbol", taken_class_id->symbol);
+    
+    /* When: containerSymbolTakes() is called on that instance */
+    /* Then: the taken class is returned */
+    assert_that(containerSymbolTakes(queryed_symbol), is_equal_to(taken_class_id->symbol));
+}
+
+
+Ensure(Symbol, should_return_taken_class_for_container_class) {
+    /* Given: there is some class */
+	Id *taken_class_id = givenAClass("taken");
+
+    /* And: there is an class taking that class */
+    Symbol *queryed_symbol = givenAClassSymbolWithContainerTaking("queryed_instance_symbol", taken_class_id->symbol);
+    
+    /* When: containerSymbolTakes() is called on that class */
+    /* Then: the taken class is returned */
+    assert_that(containerSymbolTakes(queryed_symbol), is_equal_to(taken_class_id->symbol));
+}
+
+
+Ensure(Symbol, should_return_taken_class_for_instance_inheriting_container) {
+    /* Given: there is some class */
+	Id *taken_class_id = givenAClass("taken");
+
+    /* And: there is n class taking that class */
+    Symbol *container_class_symbol = givenAClassSymbolWithContainerTaking("container_class", taken_class_id->symbol);
+
+    /* And: there is an instance of that class */
+    Symbol *queryed_symbol = newInstanceSymbol(newId(nulsrcp, "instance"), newEmptyProps(), container_class_symbol);
+    
+    /* When: containerSymbolTakes() is called on that instance */
+    /* Then: the taken class is returned */
+    assert_that(containerSymbolTakes(queryed_symbol), is_equal_to(taken_class_id->symbol));
+}
+
+
+Ensure(Symbol, should_return_taken_class_for_instance_of_class_inheriting_container) {
+    /* Given: there is some class */
+	Id *taken_class_id = givenAClass("taken");
+
+    /* And: there is n class taking that class */
+    Symbol *container_class_symbol = givenAClassSymbolWithContainerTaking("container_class", taken_class_id->symbol);
+
+    /* And: there is a class inheriting from that class */
+    Symbol *inherited_container_class_symbol = newInstanceSymbol(newId(nulsrcp, "inherited_container_class"),
+                                                                 newEmptyProps(), container_class_symbol);
+    
+    /* And: there is an instance of that class */
+    Symbol *queryed_symbol = newInstanceSymbol(newId(nulsrcp, "instance"), newEmptyProps(), inherited_container_class_symbol);
+    
+    /* When: containerSymbolTakes() is called on that instance */
+    /* Then: the taken class is returned */
+    assert_that(containerSymbolTakes(queryed_symbol), is_equal_to(taken_class_id->symbol));
 }
