@@ -71,6 +71,12 @@ typedef struct Frame {
 static Frame *currentFrame = NULL;
 
 
+typedef struct SymbolIteratorStruct {
+    Symbol *stack;
+} SymbolIteratorStruct;
+
+
+
 /*======================================================================*/
 void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition)
 {
@@ -596,10 +602,39 @@ Bool symbolIsContainer(Symbol *symbol) {
 }
 
 
+/*======================================================================*/
+SymbolIterator createSymbolIterator(void) {
+    return allocate(sizeof(SymbolIteratorStruct));
+}
+
+/*======================================================================*/
+Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent) {
+    return NULL;
+}
 
 
 /*----------------------------------------------------------------------*/
-Symbol *recurse_for_contained_class(Symbol *symbol) {
+static Bool recurseTreeForInstanceOf(Symbol *current, Symbol *theClass) {
+    if (current) {
+        if (current->kind == INSTANCE_SYMBOL && inheritsFrom(current, theClass))
+            return TRUE;
+        else
+            return recurseTreeForInstanceOf(current->higher, theClass)
+                || recurseTreeForInstanceOf(current->lower, theClass);
+    }
+    return FALSE;
+}
+
+
+
+/*======================================================================*/
+Bool instancesExist(Symbol *theClass) {
+    return recurseTreeForInstanceOf(symbolTree, theClass);
+}
+
+
+/*----------------------------------------------------------------------*/
+Symbol *recurse_symtree_for_contained_class(Symbol *symbol) {
     Symbol *taken = NULL;
     Symbol *taken2 = NULL;
     if (symbol == NULL)
@@ -607,20 +642,64 @@ Symbol *recurse_for_contained_class(Symbol *symbol) {
     if (symbol->fields.entity.props != NULL)
         if (symbol->fields.entity.props->container != NULL)
             taken = symbol->fields.entity.props->container->body->taking->symbol;
-    if ((taken2 = recurse_for_contained_class(symbol->higher)) != NULL) {
+    if ((taken2 = recurse_symtree_for_contained_class(symbol->higher)) != NULL) {
         if (taken == NULL || inheritsFrom(taken, taken2))
             taken = taken2;
     }
-    if ((taken2 = recurse_for_contained_class(symbol->lower)) != NULL) {
+    if ((taken2 = recurse_symtree_for_contained_class(symbol->lower)) != NULL) {
         if (taken == NULL || inheritsFrom(taken, taken2))
             taken = taken2;
     }
     return taken;
 }
 
+
 /*======================================================================*/
-Symbol *find_contained_class(void) {
-    return recurse_for_contained_class(symbolTree);
+Symbol *find_most_general_contained_class(void) {
+    return recurse_symtree_for_contained_class(symbolTree);
+}
+
+/*----------------------------------------------------------------------*/
+static Symbol *most_general_class(Symbol *s1, Symbol *s2) {
+    if (!s1) return s2;
+    if (!s2) return s1;
+    if (inheritsFrom(s1, s2))
+        return s2;
+    if (inheritsFrom(s2, s1))
+        return s1;
+    return commonParent(s1, s2);
+} 
+
+/*----------------------------------------------------------------------*/
+static Symbol *recurse_containers_for_most_general_content(Symbol *this, Symbol *previous) {
+    Properties *props = this->fields.entity.props;
+    Symbol *most_general = previous;
+    
+    if (props != NULL) {
+        if (props->container != NULL) {
+            Id *taken_id = props->container->body->taking;
+            Symbol *current;
+            if (taken_id != NULL)
+                current = taken_id->symbol;
+            else
+                current = objectSymbol;
+            most_general = recurse_containers_for_most_general_content(current,
+                                                                       most_general_class(previous, current));
+        }
+    }
+
+    /* if (this->kind == CLASS_SYMBOL) { */
+    /*     if (instancesExist(this)) */
+    /*         for (allInstancesOf(this)) */
+    /*             most_general = recurse_containers_for_most_general_content(most_general, theInstance); */
+    /* } */
+	return most_general;
+}
+
+
+/*======================================================================*/
+Symbol *containedBy(Symbol *symbol) {
+	return recurse_containers_for_most_general_content(symbol, NULL);
 }
 
 

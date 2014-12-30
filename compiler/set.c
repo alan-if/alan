@@ -66,7 +66,7 @@ static Symbol *commonAncestor(Symbol *inferedClass, Expression *exp) {
         /* They are not of the same class so we need to find a common ancestor */
         inferedClass = inferedClass->fields.entity.parent;
         if (inferedClass == NULL)
-		/* No common ancestor found for Set members, probably because one of the members is error type */
+            /* No common ancestor found for Set members, probably because one of the members is error type */
             return entitySymbol;	/* So use the entity class */
     }
     return inferedClass;

@@ -86,7 +86,12 @@ extern Symbol *commonParent(Symbol *sym1, Symbol *sym2);
 extern TypeKind classToType(Symbol *symbol);
 extern Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id);
 
-extern Symbol *find_contained_class(void);
+extern Bool instancesExist(Symbol *someClass);
+extern SymbolIterator createSymbolIterator(void);
+extern Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent);
+
+extern Symbol *find_most_general_contained_class(void);
+extern Symbol *containedBy(Symbol *symbol);
 
 extern void setParameters(Symbol *verb, List *parameters);
 

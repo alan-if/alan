@@ -81,7 +81,7 @@ Attribute *findInheritedAttribute(Symbol *symbol, Id *id) { return (Attribute *)
 void numberAllAttributes(void) {}
 void replicateInherited(void) {}
 
-Symbol *find_contained_class(void) { return (Symbol *)mock(); }
+Symbol *find_most_general_contained_class(void) { return (Symbol *)mock(); }
 
 void generateSymbol(Symbol *symbol) { mock(symbol); }
 

@@ -63,14 +63,14 @@ char *strlow(char str[])        /* INOUT - Native string to convert */
   Safely allocate new memory.
 
 */
-void *allocate(int len)		/* IN - Length to allocate */
+void *allocate(int lengthInBytes)		/* IN - Length to allocate */
 {
   void *p = calloc(1, (size_t)len);
 
   if (p == NULL)
     panic("Out of memory");
 
-  allocated += len;
+  allocated += lengthInBytes;
 
   return p;
 }

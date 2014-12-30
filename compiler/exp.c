@@ -696,7 +696,7 @@ static void analyzeClassingFilter(char *message,
             if (theFilter->fields.whr.whr->transitivity == DIRECTLY)
                 theFilter->class = containerTakes(theFilter->fields.whr.whr->what, context);
             else
-                theFilter->class = find_contained_class();
+                theFilter->class = find_most_general_contained_class();
             theFilter->type = theFilter->fields.whr.whr->what->type;
             break;
         case WHERE_HERE:
