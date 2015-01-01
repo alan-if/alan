@@ -71,10 +71,19 @@ typedef struct Frame {
 static Frame *currentFrame = NULL;
 
 
-typedef struct SymbolIteratorStruct {
-    Symbol *stack;
-} SymbolIteratorStruct;
+typedef struct SymbolIteratorState {
+    Symbol *symbol;
+    int done;                      /* 0 = nothing, so start with this node it self */
+                                   /* 1 = have done this node so go down lower branch */
+                                   /* 2 = have gone down the lower branch, so go down higher branch */
+                                   /* 3 = have gone down the higher branch, so pop */
+} SymbolIteratorState;
 
+typedef struct SymbolIteratorStruct {
+    size_t size;
+    size_t stackP;
+    SymbolIteratorState *stack;
+} SymbolIteratorStruct;
 
 
 /*======================================================================*/
@@ -604,14 +613,69 @@ Bool symbolIsContainer(Symbol *symbol) {
 
 /*======================================================================*/
 SymbolIterator createSymbolIterator(void) {
-    return allocate(sizeof(SymbolIteratorStruct));
+    SymbolIterator iterator = allocate(sizeof(SymbolIteratorStruct));
+    iterator->size = 1000;
+    iterator->stack = allocate(1000*sizeof(SymbolIteratorState));
+    SymbolIteratorState *state = &iterator->stack[iterator->stackP];
+    state->symbol = symbolTree;
+    state->done = 0;
+    return iterator;
 }
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *pushSymbolIterator(SymbolIterator iterator, Symbol *parent, Symbol *symbol) {
+    SymbolIteratorState *state = &iterator->stack[iterator->stackP];
+    state->done = 0;
+    state->symbol = symbol;
+    return getNextInstanceOf(iterator, parent);
+}
+
 
 /*======================================================================*/
 Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent) {
+    if (iterator == NULL || iterator->stack == NULL || iterator->stack[iterator->stackP].symbol == NULL)
+        SYSERR("Illegal SymbolIterator");
+
+ pop: {
+        SymbolIteratorState *state = &iterator->stack[iterator->stackP];
+        Symbol *symbol = state->symbol;
+        switch (state->done) {
+        case 0: {
+            state->done = 1;
+            if (symbol->kind == INSTANCE_SYMBOL && symbol->fields.entity.parent == parent) {
+                return symbol;
+            } else
+                /* Fallthrough! */;
+        }
+        case 1: {
+            state->done = 2;
+            iterator->stackP++;
+            if (symbol->lower)
+                return pushSymbolIterator(iterator, parent, symbol->lower);
+            else
+                /* Fallthrough! */;
+        }
+        case 2: {
+            state->done = 3;
+            if (symbol->higher)
+                return pushSymbolIterator(iterator, parent, symbol->higher);
+            else
+                /* Fallthrough! */;
+        }
+        case 3:
+            iterator->stackP--;
+            goto pop;
+        }
+    }
     return NULL;
 }
 
+/*======================================================================*/
+void destroyIterator(SymbolIterator iterator) {
+    deallocate(iterator->stack);
+    deallocate(iterator);
+}
 
 /*----------------------------------------------------------------------*/
 static Bool recurseTreeForInstanceOf(Symbol *current, Symbol *theClass) {

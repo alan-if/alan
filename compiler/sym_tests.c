@@ -308,6 +308,7 @@ Ensure(Symbol, returns_two_instances_if_there_are_two) {
         assert_that(s1, is_equal_to(i2));
         assert_that(s2, is_equal_to(i1));
     }
+    assert_that(getNextInstanceOf(iterator, objectSymbol), is_null);
 }
 
 
