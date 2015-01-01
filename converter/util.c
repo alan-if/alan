@@ -65,7 +65,7 @@ char *strlow(char str[])        /* INOUT - Native string to convert */
 */
 void *allocate(int lengthInBytes)		/* IN - Length to allocate */
 {
-  void *p = calloc(1, (size_t)len);
+  void *p = calloc(1, (size_t)lengthInBytes);
 
   if (p == NULL)
     panic("Out of memory");
