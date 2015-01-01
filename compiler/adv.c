@@ -147,12 +147,12 @@ void analyzeAdventure(void)
     analyzeAllAttributes();	/* Make sure attributes are analyzed
                                and typed before expressions */
     numberAllAttributes();	/* Then we can number and type check
-				   inherited attributes */
+                               inherited attributes */ 
     replicateInherited();
 
     prepareWords();			/* Prepare words in the dictionary */
-    prepareMessages();			/* Prepare standard and user messages */
-    prepareScores();			/* Prepare score handling */
+    prepareMessages();      /* Prepare standard and user messages */
+    prepareScores();        /* Prepare score handling */
 
     verbose("Syntax definitions");
     analyzeSyntaxes();

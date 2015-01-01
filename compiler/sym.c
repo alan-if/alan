@@ -168,7 +168,7 @@ static void anotherSymbolKindAsString(SymbolKind kind, Bool found, char *string)
     case FUNCTION_SYMBOL:
     case ERROR_SYMBOL:
     case MAX_SYMBOL:
-        SYSERR("Unimplemented case in '%s()'");
+        SYSERR("Unimplemented case");
     }
 }
 
@@ -596,8 +596,11 @@ Bool symbolIsContainer(Symbol *symbol) {
         switch (symbol->kind) {
         case CLASS_SYMBOL:
         case INSTANCE_SYMBOL:
-            return symbol->fields.entity.props->container != NULL
-                || symbolIsContainer(symbol->fields.entity.parent);
+            if (symbol->fields.entity.props != NULL)
+                return symbol->fields.entity.props->container != NULL
+                    || symbolIsContainer(symbol->fields.entity.parent);
+            else
+                return FALSE;
         case PARAMETER_SYMBOL:
             return symbol->fields.parameter.restrictedToContainer
                 || symbolIsContainer(symbol->fields.parameter.class);
@@ -643,7 +646,7 @@ Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent) {
         switch (state->done) {
         case 0: {
             state->done = 1;
-            if (symbol->kind == INSTANCE_SYMBOL && symbol->fields.entity.parent == parent) {
+            if (isInstance(symbol) && inheritsFrom(symbol, parent)) {
                 return symbol;
             } else
                 /* Fallthrough! */;
@@ -723,6 +726,7 @@ Symbol *find_most_general_contained_class(void) {
     return recurse_symtree_for_contained_class(symbolTree);
 }
 
+
 /*----------------------------------------------------------------------*/
 static Symbol *most_general_class(Symbol *s1, Symbol *s2) {
     if (!s1) return s2;
@@ -733,6 +737,7 @@ static Symbol *most_general_class(Symbol *s1, Symbol *s2) {
         return s1;
     return commonParent(s1, s2);
 } 
+
 
 /*----------------------------------------------------------------------*/
 static Symbol *recurse_containers_for_most_general_content(Symbol *this, Symbol *previous) {
@@ -748,26 +753,41 @@ static Symbol *recurse_containers_for_most_general_content(Symbol *this, Symbol 
             else
                 current = objectSymbol;
             most_general = recurse_containers_for_most_general_content(current,
-                                                                       most_general_class(previous, current));
+                                                                       most_general_class(most_general, current));
         }
     }
 
-    /* if (this->kind == CLASS_SYMBOL) { */
-    /*     if (instancesExist(this)) */
-    /*         for (allInstancesOf(this)) */
-    /*             most_general = recurse_containers_for_most_general_content(most_general, theInstance); */
-    /* } */
+    if (this->kind == CLASS_SYMBOL) {
+        if (instancesExist(this)) {
+            SymbolIterator iterator = createSymbolIterator();
+            Symbol *instance = getNextInstanceOf(iterator, this);
+            while (instance != NULL) {
+                if (symbolIsContainer(instance)) {
+                    Id *taken_id = props->container->body->taking;
+                    Symbol *current;
+                    if (taken_id != NULL)
+                        current = taken_id->symbol;
+                    else
+                        current = objectSymbol;
+                    most_general = recurse_containers_for_most_general_content(current,
+                                                                               most_general_class(most_general, current));
+                }
+            }
+        }
+    }
 	return most_general;
 }
 
 
 /*======================================================================*/
+/* TODO: Possibly not needed after calculateTransitiveContainerContents() works */
 Symbol *containedBy(Symbol *symbol) {
 	return recurse_containers_for_most_general_content(symbol, NULL);
 }
 
 
 /*======================================================================*/
+/* NOTE difference between "takes" and "may contain" (transitively)! */
 Symbol *containerSymbolTakes(Symbol *symbol) {
     Properties *props;
     if (symbol != NULL) {
@@ -795,6 +815,57 @@ Symbol *containerSymbolTakes(Symbol *symbol) {
         }
     }
     return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *recurseContainersForContent(Symbol *this) {
+    if (symbolIsContainer(this)) {
+        if (this->fields.entity.props->container->body->mayContain)
+            return this->fields.entity.props->container->body->mayContain;
+        Symbol *taken_class = containerSymbolTakes(this);
+        Symbol *most_general = taken_class;
+        if (instancesExist(taken_class)) {
+            SymbolIterator iterator = createSymbolIterator();
+            Symbol *instance = getNextInstanceOf(iterator, taken_class);
+            while (instance) {
+                most_general = most_general_class(most_general, recurseContainersForContent(instance));
+                instance = getNextInstanceOf(iterator, taken_class);
+            }
+        }
+        this->fields.entity.props->container->body->mayContain = most_general;
+        return most_general;
+    } else
+        return NULL;
+}
+
+
+
+/*----------------------------------------------------------------------*/
+static void traversSymbolsForContainerContents(Symbol *this) {
+    if (this) {
+        traversSymbolsForContainerContents(this->lower);
+        if (symbolIsContainer(this))
+            this->fields.entity.props->container->body->mayContain = recurseContainersForContent(this);
+;
+        traversSymbolsForContainerContents(this->higher);
+    }
+}
+
+
+/*======================================================================*/
+void calculateTransitiveContainerContents(void) {
+    traversSymbolsForContainerContents(symbolTree);
+}
+
+
+/*======================================================================*/
+Symbol *mayContain(Symbol *symbol) {
+    if (!isClass(symbol) && !isInstance(symbol)) SYSERR("Wrong type of symbol");
+    if (symbol->fields.entity.props && symbol->fields.entity.props->container && symbol->fields.entity.props->container->body->taking)
+        return symbol->fields.entity.props->container->body->mayContain;
+    else
+        return NULL;
 }
 
 
@@ -832,12 +903,12 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
     if (child->kind == PARAMETER_SYMBOL)
         child = child->fields.parameter.class;
 
-    if ((!isClass(child) && child->kind != INSTANCE_SYMBOL) || !isClass(ancestor))
+    if ((!isClass(child) && !isInstance(child)) || !isClass(ancestor))
         return FALSE;           /* Probably spurious */
 
     p = child;                  /* To be the class itself is OK */
     while (p && p != ancestor)
-        p = p->fields.entity.parent;
+        p = parentOf(p);
 
     return (p != NULL);
 }

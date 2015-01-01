@@ -287,6 +287,35 @@ Ensure(Symbol, should_not_return_class_taken_by_class_of_contained_if_it_is_not_
 /* } */
 
 
+/* STORY: Calculate what a container might contain */
+
+/* If there's only a single container instance it can only contain what it takes */
+Ensure(Symbol, calculates_what_a_single_container_might_contain_to_what_it_takes) {
+    Symbol *contained_class = givenAClassSymbol("c");
+    Symbol *container_instance_symbol = givenAnInstanceSymbolWithContainerTaking("instance", contained_class);
+
+    calculateTransitiveContainerContents();
+
+    assert_that(mayContain(container_instance_symbol), is_equal_to(contained_class));
+}
+
+
+Ensure(Symbol, calculates_what_a_container_taking_a_class_with_an_instance_taking_a_more_general_class_to_that_class) {
+    Symbol *parent_class = givenAClassSymbol("parent");
+    Symbol *child_class = givenAClassSymbol("child");
+    setParent(child_class, parent_class);
+
+    Symbol *taken_instance = givenAnInstanceSymbolWithContainerTaking("i2", parent_class);
+    setParent(taken_instance, child_class);
+
+    Symbol *container_instance_symbol = givenAnInstanceSymbolWithContainerTaking("instance", child_class);
+
+    calculateTransitiveContainerContents();
+
+    assert_that(mayContain(container_instance_symbol), is_equal_to(parent_class));
+}
+
+
 /* STORY: Iterate over all instances of a class */
 Ensure(Symbol, returns_no_instances_if_there_are_none) {
     SymbolIterator iterator = createSymbolIterator();
@@ -296,6 +325,27 @@ Ensure(Symbol, returns_no_instances_if_there_are_none) {
 Ensure(Symbol, returns_two_instances_if_there_are_two) {
     Symbol *i1 = givenAnInstanceSymbolInheritingFrom("i1", objectSymbol);
     Symbol *i2 = givenAnInstanceSymbolInheritingFrom("i2", objectSymbol);
+
+    SymbolIterator iterator = createSymbolIterator();
+
+    Symbol *s1 = getNextInstanceOf(iterator, objectSymbol);
+    Symbol *s2 = getNextInstanceOf(iterator, objectSymbol);
+
+    if (s1 == i1)
+        assert_that(s2, is_equal_to(i2));
+    else {
+        assert_that(s1, is_equal_to(i2));
+        assert_that(s2, is_equal_to(i1));
+    }
+    assert_that(getNextInstanceOf(iterator, objectSymbol), is_null);
+}
+
+
+Ensure(Symbol, returns_two_instances_if_one_is_a_subclass) {
+    Symbol *i1 = givenAnInstanceSymbolInheritingFrom("i1", objectSymbol);
+    Symbol *subclass = givenAClassSymbol("subclass");
+    setParent(subclass, objectSymbol);
+    Symbol *i2 = givenAnInstanceSymbolInheritingFrom("i2", subclass);
 
     SymbolIterator iterator = createSymbolIterator();
 

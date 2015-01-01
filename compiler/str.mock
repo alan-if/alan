@@ -6,4 +6,4 @@
 
 /* Create a new Dynamic String */
 char *newString(char string[]) { return (char*)mock(string); }
-void dumpString(char string[]) { mock(string); }
+void dumpString(char string[]) { printf(string); }
