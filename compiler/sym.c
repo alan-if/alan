@@ -821,19 +821,30 @@ Symbol *containerSymbolTakes(Symbol *symbol) {
 /*----------------------------------------------------------------------*/
 static Symbol *recurseContainersForContent(Symbol *this) {
     if (symbolIsContainer(this)) {
-        if (this->fields.entity.props->container->body->mayContain)
-            return this->fields.entity.props->container->body->mayContain;
+        ContainerBody *body = this->fields.entity.props->container->body;
+        if (body->mayContain)
+            return body->mayContain;
         Symbol *taken_class = containerSymbolTakes(this);
         Symbol *most_general = taken_class;
+        /* Now, remember that we've seen this if we revisit */
+        body->mayContain = most_general;
         if (instancesExist(taken_class)) {
             SymbolIterator iterator = createSymbolIterator();
             Symbol *instance = getNextInstanceOf(iterator, taken_class);
             while (instance) {
-                most_general = most_general_class(most_general, recurseContainersForContent(instance));
+                if (instance != this) {
+                    most_general = most_general_class(most_general,
+                                                      recurseContainersForContent(instance));
+                }
                 instance = getNextInstanceOf(iterator, taken_class);
             }
         }
-        this->fields.entity.props->container->body->mayContain = most_general;
+        if (symbolIsContainer(taken_class))
+                    most_general = most_general_class(most_general,
+                                                      recurseContainersForContent(taken_class));
+        most_general = most_general_class(most_general,
+                                          body->mayContain);
+        body->mayContain = most_general;
         return most_general;
     } else
         return NULL;

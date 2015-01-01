@@ -156,7 +156,7 @@ static Id *givenAClassId(char *name) {
 }
 
 
-static Symbol *givenAClassSymbol(char *name) {
+static Symbol *givenAClass(char *name) {
     Symbol *class_symbol = newClassSymbol(newId(nulsrcp, name), NULL, NULL);
     return class_symbol;
 }
@@ -168,14 +168,14 @@ static Symbol *givenAnInstanceSymbolInheritingFrom(char *name, Symbol *parent) {
 }
 
 
-static Symbol *givenAnInstanceSymbolWithContainerTaking(char *name, Symbol *taken_class) {
+static Symbol *givenAnInstanceTaking(char *name, Symbol *taken_class) {
     Properties *properties = createContainerPropertiesTaking(taken_class);
     Symbol *symbol = newInstanceSymbol(newId(nulsrcp, name), properties, NULL);
     return symbol;
 }
 
 
-static Symbol *givenAClassSymbolWithContainerTaking(char *name, Symbol *taken_class) {
+static Symbol *givenAClassTaking(char *name, Symbol *taken_class) {
     Properties *properties = createContainerPropertiesTaking(taken_class);
     Symbol *symbol = newClassSymbol(newId(nulsrcp, name), properties, NULL);
     return symbol;
@@ -192,21 +192,21 @@ Ensure(Symbol, can_figure_out_most_general_class_contained_by_any_container_clas
 Ensure(Symbol, can_figure_out_most_general_class_contained_by_any_container_class_if_there_is_a_single_instance) {
     /* If we add one instance that is a container it should return the class it takes */
     Symbol *contained_class = objectSymbol;
-	givenAnInstanceSymbolWithContainerTaking("o", contained_class);
+	givenAnInstanceTaking("o", contained_class);
     assert_that(find_most_general_contained_class(), is_equal_to(contained_class));
 }
 
 Ensure(Symbol, can_figure_out_most_general_class_contained_by_any_container_class_if_there_is_a_class) {
     /* If we add one instance that is a container it should return the class it takes */
     Symbol *contained_class = objectSymbol;
-	givenAClassSymbolWithContainerTaking("o", contained_class);
+	givenAClassTaking("o", contained_class);
     assert_that(find_most_general_contained_class(), is_equal_to(contained_class));
 }
 
 Ensure(Symbol, can_figure_out_most_general_class_contained_by_any_container_instance_if_multiple) {
     Symbol *contained_class = thingSymbol;
-	givenAnInstanceSymbolWithContainerTaking("o", objectSymbol);
-    givenAnInstanceSymbolWithContainerTaking("t", contained_class);
+	givenAnInstanceTaking("o", objectSymbol);
+    givenAnInstanceTaking("t", contained_class);
     assert_that(find_most_general_contained_class(), is_equal_to(contained_class));
 }
 
@@ -241,37 +241,37 @@ Ensure(Symbol, should_find_thing_as_common_ancestor_to_object_and_actor) {
 
 /* Single instance container */
 Ensure(Symbol, should_return_class_taken_by_single_instance_container) {
-    Symbol *contained_class = givenAClassSymbol("c");
-	Symbol *i = givenAnInstanceSymbolWithContainerTaking("i", contained_class);
+    Symbol *contained_class = givenAClass("c");
+	Symbol *i = givenAnInstanceTaking("i", contained_class);
     assert_that(containedBy(i), is_equal_to(contained_class));
 }
 
 /* Instance container taking class that takes a more general class */
 Ensure(Symbol, should_return_class_taken_by_class_of_contained) {
-    Symbol *parent_class = givenAClassSymbol("parent");
-    Symbol *child_class = givenAClassSymbolWithContainerTaking("child", parent_class);
+    Symbol *parent_class = givenAClass("parent");
+    Symbol *child_class = givenAClassTaking("child", parent_class);
     child_class->fields.entity.parent = parent_class;
-    Symbol *o = givenAnInstanceSymbolWithContainerTaking("o", child_class);
+    Symbol *o = givenAnInstanceTaking("o", child_class);
     assert_that(containedBy(o), is_equal_to(parent_class));
 }
 
 /* Instance container taking class that takes a class that takes a more general class */
 Ensure(Symbol, should_return_class_taken_by_class_taken_by_class_of_contained) {
-    Symbol *parent_class = givenAClassSymbol("parent");
-    Symbol *intermediate_class = givenAClassSymbolWithContainerTaking("intermediate", parent_class);
+    Symbol *parent_class = givenAClass("parent");
+    Symbol *intermediate_class = givenAClassTaking("intermediate", parent_class);
     intermediate_class->fields.entity.parent = parent_class;
-    Symbol *child_class = givenAClassSymbolWithContainerTaking("child", parent_class);
+    Symbol *child_class = givenAClassTaking("child", parent_class);
     child_class->fields.entity.parent = intermediate_class;
-    Symbol *o = givenAnInstanceSymbolWithContainerTaking("o", child_class);
+    Symbol *o = givenAnInstanceTaking("o", child_class);
     assert_that(containedBy(o), is_equal_to(parent_class));
 }
 
 /* Instance container taking class that takes a less general class */
 Ensure(Symbol, should_not_return_class_taken_by_class_of_contained_if_it_is_not_more_general) {
-    Symbol *child_class = givenAClassSymbol("child");
-    Symbol *parent_class = givenAClassSymbolWithContainerTaking("parent", child_class);
+    Symbol *child_class = givenAClass("child");
+    Symbol *parent_class = givenAClassTaking("parent", child_class);
     child_class->fields.entity.parent = parent_class;
-    Symbol *o = givenAnInstanceSymbolWithContainerTaking("o", parent_class);
+    Symbol *o = givenAnInstanceTaking("o", parent_class);
     assert_that(containedBy(o), is_equal_to(parent_class));
 }
 
@@ -289,31 +289,113 @@ Ensure(Symbol, should_not_return_class_taken_by_class_of_contained_if_it_is_not_
 
 /* STORY: Calculate what a container might contain */
 
+/* In the following rather complex structures need to be set up and
+   the name of the tests get *very* long, so this is the notation
+   used:
+
+   C<c>     : Class <c>, is parent to C<c+1>
+   C<c><n> : nth subclass to C<c-1>
+   I<c>     : Instance of class C<c>
+   I<c><n> : nth instance of class C<c>
+   Concatenation with '_' is "taking" and "__" exists instances of
+   I1_C3     : is an instance of C1 taking C3
+   I1_C3__I3 : is an instance of C1 taking C3 where there is an instance I3
+*/
+
 /* If there's only a single container instance it can only contain what it takes */
-Ensure(Symbol, calculates_what_a_single_container_might_contain_to_what_it_takes) {
-    Symbol *contained_class = givenAClassSymbol("c");
-    Symbol *container_instance_symbol = givenAnInstanceSymbolWithContainerTaking("instance", contained_class);
+Ensure(Symbol, calculates_content_of_I1_C2_to_C2) {
+    Symbol *c2 = givenAClass("c2");
+    Symbol *i1 = givenAnInstanceTaking("i1", c2);
 
     calculateTransitiveContainerContents();
 
-    assert_that(mayContain(container_instance_symbol), is_equal_to(contained_class));
+    assert_that(mayContain(i1), is_equal_to(c2));
 }
 
 
-Ensure(Symbol, calculates_what_a_container_taking_a_class_with_an_instance_taking_a_more_general_class_to_that_class) {
-    Symbol *parent_class = givenAClassSymbol("parent");
-    Symbol *child_class = givenAClassSymbol("child");
-    setParent(child_class, parent_class);
 
-    Symbol *taken_instance = givenAnInstanceSymbolWithContainerTaking("i2", parent_class);
-    setParent(taken_instance, child_class);
+Ensure(Symbol, calculates_content_of_I1_C2_I2_C3_to_C3) {
+    Symbol *c2 = givenAClass("c2");
+    Symbol *c3 = givenAClass("c3");
+    setParent(c3, c2);
 
-    Symbol *container_instance_symbol = givenAnInstanceSymbolWithContainerTaking("instance", child_class);
+    Symbol *i1 = givenAnInstanceTaking("i1", c2);
+
+    Symbol *i2 = givenAnInstanceTaking("i2", c3);
+    setParent(i2, c2);
 
     calculateTransitiveContainerContents();
 
-    assert_that(mayContain(container_instance_symbol), is_equal_to(parent_class));
+    assert_that(mayContain(i1), is_equal_to(c2));
 }
+
+
+Ensure(Symbol, calculates_content_of_I1_C3_I3_C2_to_C2) {
+    Symbol *c2 = givenAClass("c2");
+    Symbol *c3 = givenAClass("c3");
+    setParent(c3, c2);
+
+    Symbol *i1 = givenAnInstanceTaking("i1", c3);
+
+    Symbol *i3 = givenAnInstanceTaking("i3", c2);
+    setParent(i3, c3);
+
+    calculateTransitiveContainerContents();
+
+    assert_that(mayContain(i1), is_equal_to(c2));
+}
+
+
+Ensure(Symbol, calculates_content_of_I1_C3_I3_C2_I2_C3_to_C2) {
+    Symbol *c2 = givenAClass("c2");
+    Symbol *c3 = givenAClass("c3");
+    setParent(c3, c2);
+
+    Symbol *i1 = givenAnInstanceTaking("i1", c3);
+
+    Symbol *i3 = givenAnInstanceTaking("i3", c2);
+    setParent(i3, c3);
+
+    Symbol *i2 = givenAnInstanceTaking("i2", c3);
+    setParent(i2, c2);
+
+    calculateTransitiveContainerContents();
+
+    assert_that(mayContain(i1), is_equal_to(c2));
+}
+
+
+Ensure(Symbol, calculates_content_of_I1_C2_I2_C3_I3_C2_to_C2) {
+    Symbol *c2 = givenAClass("c2");
+    Symbol *c3 = givenAClass("c3");
+    setParent(c3, c2);
+
+    Symbol *i1 = givenAnInstanceTaking("i1", c2);
+
+    Symbol *i2 = givenAnInstanceTaking("i2", c3);
+    setParent(i2, c2);
+
+    Symbol *i3 = givenAnInstanceTaking("i3", c2);
+    setParent(i3, c3);
+
+    calculateTransitiveContainerContents();
+
+    assert_that(mayContain(i1), is_equal_to(c2));
+}
+
+
+Ensure(Symbol, calculates_content_of_I1_C2_C3_to_C2) {
+    Symbol *c3 = givenAClass("c3");
+    Symbol *c2 = givenAClassTaking("c2", c3);
+    setParent(c3, c2);
+
+    Symbol *i1 = givenAnInstanceTaking("i1", c2);
+
+    calculateTransitiveContainerContents();
+
+    assert_that(mayContain(i1), is_equal_to(c2));
+}
+
 
 
 /* STORY: Iterate over all instances of a class */
@@ -343,7 +425,7 @@ Ensure(Symbol, returns_two_instances_if_there_are_two) {
 
 Ensure(Symbol, returns_two_instances_if_one_is_a_subclass) {
     Symbol *i1 = givenAnInstanceSymbolInheritingFrom("i1", objectSymbol);
-    Symbol *subclass = givenAClassSymbol("subclass");
+    Symbol *subclass = givenAClass("subclass");
     setParent(subclass, objectSymbol);
     Symbol *i2 = givenAnInstanceSymbolInheritingFrom("i2", subclass);
 
@@ -378,7 +460,7 @@ Ensure(Symbol, should_return_taken_class_for_container_instance) {
 	Id *taken_class_id = givenAClassId("taken");
 
     /* And: there is an instance taking that class */
-    Symbol *queryed_symbol = givenAnInstanceSymbolWithContainerTaking("queryed_instance_symbol", taken_class_id->symbol);
+    Symbol *queryed_symbol = givenAnInstanceTaking("queryed_instance_symbol", taken_class_id->symbol);
     
     /* When: containerSymbolTakes() is called on that instance */
     /* Then: the taken class is returned */
@@ -391,7 +473,7 @@ Ensure(Symbol, should_return_taken_class_for_container_class) {
 	Id *taken_class_id = givenAClassId("taken");
 
     /* And: there is an class taking that class */
-    Symbol *queryed_symbol = givenAClassSymbolWithContainerTaking("queryed_instance_symbol", taken_class_id->symbol);
+    Symbol *queryed_symbol = givenAClassTaking("queryed_instance_symbol", taken_class_id->symbol);
     
     /* When: containerSymbolTakes() is called on that class */
     /* Then: the taken class is returned */
@@ -404,7 +486,7 @@ Ensure(Symbol, should_return_taken_class_for_instance_inheriting_container) {
 	Id *taken_class_id = givenAClassId("taken");
 
     /* And: there is n class taking that class */
-    Symbol *container_class_symbol = givenAClassSymbolWithContainerTaking("container_class", taken_class_id->symbol);
+    Symbol *container_class_symbol = givenAClassTaking("container_class", taken_class_id->symbol);
 
     /* And: there is an instance of that class */
     Symbol *queryed_symbol = newInstanceSymbol(newId(nulsrcp, "instance"), newEmptyProps(), container_class_symbol);
@@ -420,7 +502,7 @@ Ensure(Symbol, should_return_taken_class_for_instance_of_class_inheriting_contai
 	Id *taken_class_id = givenAClassId("taken");
 
     /* And: there is n class taking that class */
-    Symbol *container_class_symbol = givenAClassSymbolWithContainerTaking("container_class", taken_class_id->symbol);
+    Symbol *container_class_symbol = givenAClassTaking("container_class", taken_class_id->symbol);
 
     /* And: there is a class inheriting from that class */
     Symbol *inherited_container_class_symbol = newInstanceSymbol(newId(nulsrcp, "inherited_container_class"),
