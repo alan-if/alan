@@ -61,6 +61,7 @@ ContainerBody *newContainerBody(Srcp srcp,
         new->taking = newId(nulsrcp, "object");
         new->taking->symbol = objectSymbol;
     }
+    new->mayContain = NULL;     /* Will be analyzed later */
     new->limits = lims;
     new->hstms = hstms;
     new->estms = estms;

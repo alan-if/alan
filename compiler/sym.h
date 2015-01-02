@@ -70,4 +70,8 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
     } fields;
 } Symbol;
 
+
+/* Abstract type for SymbolIterators */
+typedef struct SymbolIteratorStruct *SymbolIterator;
+
 #endif

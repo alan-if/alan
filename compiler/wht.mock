@@ -10,7 +10,7 @@
 
 /* FUNCTIONS: */
 
-What *newWhatLocation(Srcp srcp) {return (What*)mock();}
+What *newWhatLocation(Srcp srcp) { What *what = NEW(What); what->kind = WHAT_LOCATION; return what; }
 What *newWhatActor(Srcp srcp) {return (What*)mock();}
 What *newWhatThis(Srcp srcp) {return (What*)mock();}
 What *newWhatId(Srcp srcp, Id *id) {What *wht = NEW(What); wht->kind = WHAT_ID; wht->id = id; return wht;}

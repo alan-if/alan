@@ -47,10 +47,10 @@ Ensure(Expression, testClassOfContent) {
   Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);
 
   (void)containerInstance;
-  assert_true(contentOf(whatLocation, NULL) == NULL);
+  assert_true(containerTakes(whatLocation, NULL) == NULL);
 
   symbolizeId(takesId);
-  assert_true(contentOf(whatId, NULL) == locationSymbol);
+  assert_true(containerTakes(whatId, NULL) == locationSymbol);
 }
 
 

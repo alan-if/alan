@@ -7,7 +7,7 @@ explicitIndirectly.alan
 =====>          1
 
   *1*   316 E : Attribute 'attr' is not defined for variable 'f' since the
-                class it is known to be in this context ('entity') does not
+                class it is known to be in this context ('object') does not
                 have it.
 
 

@@ -66,16 +66,23 @@ void verbose(char *msg) {
 
 
 /*======================================================================*/
-void *allocate(int len)		/* IN - Length to allocate */
+void *allocate(int length_in_bytes)		/* IN - Length to allocate */
 {
-  void *p = calloc(1, (size_t)len);
+  void *p = calloc(1, (size_t)length_in_bytes);
 
   if (p == NULL)
     panic("Out of memory");
 
-  allocated += len;
+  allocated += length_in_bytes;
 
   return p;
+}
+
+
+/*======================================================================*/
+void deallocate(void *memory)
+{
+    free(memory);
 }
 
 

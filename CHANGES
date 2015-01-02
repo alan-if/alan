@@ -1,3 +1,6 @@
+Changes in V3.0beta5:
+- FEATURE: compiler now figures out the most general class taken transitively by containers and uses that instead of entity where applicable
+
 Changes in V3.0beta4:
 - MAJOR FEATURE: 'Indirectly' keyword to complement 'Directly In', allowing explicit transitivity of containment
 - FEATURE: The hero is now a container by default

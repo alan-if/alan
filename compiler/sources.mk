@@ -18,8 +18,9 @@ TMCSRCS = \
 # Either using its runner which discovers test automatically...
 # With everything mocked so they run in complete isolation...
 MODULES_WITH_ISOLATED_UNITTESTS = \
-	context \
 	atr \
+	context \
+	exp \
 	sym \
 	id \
 

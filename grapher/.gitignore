@@ -1,0 +1,5 @@
+*.xml
+*.egg
+build
+.idea
+.ropeproject

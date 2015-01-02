@@ -66,8 +66,8 @@ extern void instanceCheck(Id *id, char *what, char className[]);
 extern Bool isClass(Symbol *symbol);
 extern Bool isInstance(Symbol *symbol);
 extern Bool symbolIsContainer(Symbol *symbol);
-extern Symbol *contentOfSymbol(Symbol *symbol);
-extern Symbol *transitiveContentOfSymbol(Symbol *symbol);
+extern Symbol *containerSymbolTakes(Symbol *symbol);
+
 extern void newFrame(void);
 extern void deleteFrame(void);
 extern char *verbHasParametersMessage(Context *context);
@@ -86,7 +86,15 @@ extern Symbol *commonParent(Symbol *sym1, Symbol *sym2);
 extern TypeKind classToType(Symbol *symbol);
 extern Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id);
 
-extern Symbol *find_contained_class(void);
+extern Bool instancesExist(Symbol *someClass);
+extern SymbolIterator createSymbolIterator(void);
+extern Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent);
+
+extern void calculateTransitiveContainerContents();
+extern Symbol *mayContain(Symbol *symbol);
+
+extern Symbol *find_most_general_contained_class(void);
+extern Symbol *containedBy(Symbol *symbol);
 
 extern void setParameters(Symbol *verb, List *parameters);
 

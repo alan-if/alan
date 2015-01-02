@@ -1,3 +1,5 @@
+
+
 #ifndef _alanCommon_H_
 #define _alanCommon_H_
 /* alanCommon.h
@@ -8,6 +10,7 @@
 
 */
 
+
 /* The import section (%%IMPORT) */
 
 
@@ -17,15 +20,26 @@
 
 
 
+
+
 /* The source position type (%%SRCP) */
 
+
       /* ... must be imported! */
+
 
 
 /* The token type (%%TOKEN) */
 
+
       /* ... must be imported! */
 
+
 #endif
+
+
+
+
+
 
 

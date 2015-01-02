@@ -13,5 +13,5 @@
 
 extern Symbol *classOfMembers(Expression *exp);
 extern void verifySetMember(Expression *theSet, Expression *theMember, char contextMessage[]);
-void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass, Context *context);
+void analyzeSetMembers(List *set, TypeKind *type, Symbol **class, Context *context);
 #endif

@@ -1,3 +1,5 @@
+
+
 #ifndef _lmList_H_
 #define _lmList_H_
 /*----------------------------------------------------------------------*\
@@ -10,6 +12,7 @@
 \*----------------------------------------------------------------------*/
 
 #include "alanCommon.h"
+
 
 
 /* Insert string separator */
@@ -41,15 +44,19 @@ typedef int lmTyp;
 #define liFULL (liTINY|liOK)
 
 typedef enum lmMessages {
+
     lm_ENGLISH_Messages
 } lmMessages;
+
 
 
 /* UNINITIALISED: */
 /* Initialise the lmLister System */
 extern void lmLiInit(char header[],
+
 				 char src[],
 				 lmMessages msect);
+
 
 /* COLLECTING: */
 /* Log a message at a source position */
@@ -58,17 +65,20 @@ extern void lmLog(Srcp *pos,
 				lmSev sev,
 				char *istrs);
 
+
 /* Log a message at a source position using va_arg handling */
 extern void lmLogv(Srcp *pos,
 				int ecode,
 				lmSev sev,
 				...);
 
+
 /* Turn listing completely off after a particular source position */
 extern void lmLiOff(Srcp *pos);
 
 /* Turn listing on again at a particular source position */
 extern void lmLiOn(Srcp *pos);
+
 
 /* Start reading an included file at a particular source position */
 extern void lmLiEnter(Srcp *pos,
@@ -77,6 +87,7 @@ extern void lmLiEnter(Srcp *pos,
 
 /* Stop reading from an included file prematurely */
 extern void lmLiExit(Srcp *pos);
+
 
 /* (Un)conditionally skip to a new page at a source position */
 extern void lmLiPage(Srcp *pos,
@@ -88,12 +99,16 @@ extern lmSev lmLocSeverity(void);
 extern void lmResLocSeverity(void);
 
 /* RETRIEVING: */
+
 /* Create a listing of a selected type in a file or the screen */
 extern void lmList(char ofnm[],
 				 int lins,
 				 int cols,
 				 lmTyp typ,
 				 lmSev sevs);
+
+
+
 
 /* Return the i'th formatted message, return 0 if not found */
 extern int lmMsg(int i,
@@ -110,5 +125,9 @@ extern void lmSkipLines(int lins);
 extern void lmLiTerminate(void);
 
 
+
+
 #endif
+
+
 
