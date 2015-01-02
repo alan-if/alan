@@ -25,3 +25,4 @@ emitTestAcode
 unittest.jpg
 coverage
 coverage*.info
+.cgreen-gdb-commands
