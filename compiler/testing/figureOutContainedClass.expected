@@ -1,0 +1,45 @@
+########## figureOutContainedClass ##########
+
+
+figureOutContainedClass.alan
+
+   44.      If i Has object_attribute Then "error" End If. 
+=====>               1
+
+  *1*   316 E : Attribute 'object_attribute' is not defined for variable 'i'
+                since the class it is known to be in this context ('thing')
+                does not have it.
+
+   45.      If i Has c1_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c1_attribute' is not defined for variable 'i' since
+                the class it is known to be in this context ('thing') does not
+                have it.
+
+   50.      If i Has c1_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c1_attribute' is not defined for variable 'i' since
+                the class it is known to be in this context ('thing') does not
+                have it.
+
+   54.      If i Has object_attribute Then "error" End If. 
+=====>               1
+
+  *1*   316 E : Attribute 'object_attribute' is not defined for variable 'i'
+                since the class it is known to be in this context ('thing')
+                does not have it.
+
+   55.      If i Has c1_attribute Then "error" End If.
+=====>               1
+
+  *1*   316 E : Attribute 'c1_attribute' is not defined for variable 'i' since
+                the class it is known to be in this context ('thing') does not
+                have it.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+

@@ -59,6 +59,7 @@ Bool isClass(Symbol *symbol) { return (Bool)mock(symbol); }
 Bool isInstance(Symbol *symbol) { return (Bool)mock(symbol); }
 Bool symbolIsContainer(Symbol *symbol) { return (Bool)mock(symbol); }
 Symbol *containerSymbolTakes(Symbol *symbol) { return (Symbol *)mock(symbol); }
+Symbol *containerMightContain(Symbol *symbol) { return (Symbol *)mock(symbol); }
 void newFrame(void) {}
 void deleteFrame(void) {}
 char *verbHasParametersMessage(Context *context) { return (char *)mock(context); }

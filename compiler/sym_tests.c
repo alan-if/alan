@@ -309,7 +309,7 @@ Ensure(Symbol, calculates_content_of_I1_C2_to_C2) {
 
     calculateTransitiveContainerContents();
 
-    assert_that(mayContain(i1), is_equal_to(c2));
+    assert_that(containerMightContain(i1), is_equal_to(c2));
 }
 
 
@@ -326,7 +326,7 @@ Ensure(Symbol, calculates_content_of_I1_C2_I2_C3_to_C3) {
 
     calculateTransitiveContainerContents();
 
-    assert_that(mayContain(i1), is_equal_to(c2));
+    assert_that(containerMightContain(i1), is_equal_to(c2));
 }
 
 
@@ -342,7 +342,7 @@ Ensure(Symbol, calculates_content_of_I1_C3_I3_C2_to_C2) {
 
     calculateTransitiveContainerContents();
 
-    assert_that(mayContain(i1), is_equal_to(c2));
+    assert_that(containerMightContain(i1), is_equal_to(c2));
 }
 
 
@@ -361,7 +361,7 @@ Ensure(Symbol, calculates_content_of_I1_C3_I3_C2_I2_C3_to_C2) {
 
     calculateTransitiveContainerContents();
 
-    assert_that(mayContain(i1), is_equal_to(c2));
+    assert_that(containerMightContain(i1), is_equal_to(c2));
 }
 
 
@@ -380,7 +380,7 @@ Ensure(Symbol, calculates_content_of_I1_C2_I2_C3_I3_C2_to_C2) {
 
     calculateTransitiveContainerContents();
 
-    assert_that(mayContain(i1), is_equal_to(c2));
+    assert_that(containerMightContain(i1), is_equal_to(c2));
 }
 
 
@@ -393,7 +393,7 @@ Ensure(Symbol, calculates_content_of_I1_C2_C3_to_C2) {
 
     calculateTransitiveContainerContents();
 
-    assert_that(mayContain(i1), is_equal_to(c2));
+    assert_that(containerMightContain(i1), is_equal_to(c2));
 }
 
 

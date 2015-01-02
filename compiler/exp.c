@@ -306,26 +306,32 @@ Symbol *symbolOfExpression(Expression *exp, Context *context) {
 
 
 /*======================================================================*/
-Symbol *containerTakes(Expression *what, Context *context) {
+Symbol *containerContent(Expression *what, Transitivity transitivity, Context *context) {
 
-    /* Find what classes a container takes */
+    /* Find what classes a container might contain */
 
     Symbol *symbol = NULL;
-    Symbol *taken = NULL;
+    Symbol *content = NULL;
 
     switch (what->kind) {
     case WHAT_EXPRESSION:
         symbol = symbolOfWhat(what->fields.wht.wht, context);
-        taken = containerSymbolTakes(symbol);
+        if (transitivity == DIRECTLY)
+            content = containerSymbolTakes(symbol);
+        else
+            content = find_most_general_contained_class();            
         break;
     case ATTRIBUTE_EXPRESSION:
         symbol = what->class;
-        taken = containerSymbolTakes(symbol);
+        if (transitivity == DIRECTLY)
+            content = containerSymbolTakes(symbol);
+        else
+            content = find_most_general_contained_class();            
         break;
     default:
         break;
     }
-    return taken;
+    return content;
 }
 
 
@@ -686,18 +692,16 @@ static void analyzeClassingFilter(char *message,
         break;
     case WHERE_EXPRESSION:
         analyzeWhereFilter(theFilter, context);
+        Where *where = theFilter->fields.whr.whr;
         switch (theFilter->fields.whr.whr->kind) {
         case WHERE_INSET:
             /* TODO Find the class and type of items in the set */
-            theFilter->class = theFilter->fields.whr.whr->what->class;
-            theFilter->type = theFilter->fields.whr.whr->what->type;
+            theFilter->class = where->what->class;
+            theFilter->type = where->what->type;
             break;
         case WHERE_IN:
-            if (theFilter->fields.whr.whr->transitivity == DIRECTLY)
-                theFilter->class = containerTakes(theFilter->fields.whr.whr->what, context);
-            else
-                theFilter->class = find_most_general_contained_class();
-            theFilter->type = theFilter->fields.whr.whr->what->type;
+            theFilter->class = containerContent(where->what, where->transitivity, context);
+            theFilter->type = where->what->type;
             break;
         case WHERE_HERE:
         case WHERE_AT:
@@ -917,7 +921,7 @@ static void analyzeRandomIn(Expression *exp, Context *context)
         if (verifyContainerExpression(exp->fields.rin.what, context,
                                       "'Random In' expression")) {
             exp->type = INSTANCE_TYPE;
-            exp->class = containerTakes(exp->fields.rin.what, context);
+            exp->class = containerContent(exp->fields.rin.what, DIRECTLY, context);
         } else
             exp->type = ERROR_TYPE;
     } else {

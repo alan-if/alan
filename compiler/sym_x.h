@@ -91,7 +91,7 @@ extern SymbolIterator createSymbolIterator(void);
 extern Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent);
 
 extern void calculateTransitiveContainerContents();
-extern Symbol *mayContain(Symbol *symbol);
+extern Symbol *containerMightContain(Symbol *symbol);
 
 extern Symbol *find_most_general_contained_class(void);
 extern Symbol *containedBy(Symbol *symbol);

@@ -47,7 +47,7 @@ extern Bool analyzeFilterExpressions(char *message, List *filters,
 				     Context *context, Symbol **foundClass);
 extern Bool isConstantIdentifier(Id *id);
 extern Bool isConstantExpression(Expression *exp);
-extern Symbol *containerTakes(Expression *what, Context *context);
+extern Symbol *containerContent(Expression *what, Transitivity transitivity, Context *context);
 extern Bool verifyContainerExpression(Expression *what, Context *context,
 				      char referer[]);
 extern Symbol *symbolOfExpression(Expression *exp, Context *context);

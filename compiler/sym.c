@@ -871,7 +871,7 @@ void calculateTransitiveContainerContents(void) {
 
 
 /*======================================================================*/
-Symbol *mayContain(Symbol *symbol) {
+Symbol *containerMightContain(Symbol *symbol) {
     if (!isClass(symbol) && !isInstance(symbol)) SYSERR("Wrong type of symbol");
     if (symbol->fields.entity.props && symbol->fields.entity.props->container && symbol->fields.entity.props->container->body->taking)
         return symbol->fields.entity.props->container->body->mayContain;

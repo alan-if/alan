@@ -35,5 +35,5 @@ Ensure(Expression, containerTakes_returns_null_for_non_containers) {
     Expression *whatExpression = newWhatExpression(nulsrcp, what);
     
     /* Then: containerTakes() should return NULL for the object class symbol */
-    assert_that(containerTakes(whatExpression, NULL), is_null);
+    assert_that(containerContent(whatExpression, DIRECTLY, NULL), is_null);
 }

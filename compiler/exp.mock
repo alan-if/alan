@@ -63,7 +63,7 @@ Bool analyzeFilterExpressions(char *message, List *filters,
                               Context *context, Symbol **foundClass) {return (Bool)mock();}
 Bool isConstantIdentifier(Id *id) {return (Bool)mock();}
 Bool isConstantExpression(Expression *exp) {return (Bool)mock();}
-Symbol *containerTakes(Expression *what, Context *context) {return (Symbol*)mock();}
+Symbol *containerContent(Expression *what, Transitivity transitivity, Context *context) {return (Symbol*)mock();}
 Bool verifyContainerExpression(Expression *what, Context *context,
                                char referer[]) {return (Bool)mock();}
 Symbol *symbolOfExpression(Expression *exp, Context *context) {return (Symbol*)mock();}

@@ -361,7 +361,7 @@ static void analyzeLocate(Statement *stm, Context *context)
 			lmLog(&what->srcp, 402, sevERR, "A Location");
 		else if (inheritsFrom(what->class, actorSymbol))
 			lmLog(&what->srcp, 402, sevERR, "An Actor");
-		taken_class = containerTakes(whr->what, context);
+		taken_class = containerContent(whr->what, DIRECTLY, context);
 		if (taken_class != NULL && whtSymbol != NULL)
 			if (!inheritsFrom(whtSymbol, taken_class))
 				lmLog(&whr->srcp, 404, sevERR, taken_class->string);
