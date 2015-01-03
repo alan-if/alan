@@ -849,27 +849,29 @@ static Bool symbolHasContainerProperties(Symbol *this) {
 static Symbol *recurseContainersForContent(Symbol *this) {
     if (symbolHasContainerProperties(this)) {
         ContainerBody *body = propertiesOf(this)->container->body;
-        if (body->mayContain)
-            return body->mayContain;
+        if (body->visited)
+            return NULL;        /* Unknown so far... */
+
         Symbol *taken_class = containerSymbolTakes(this);
         Symbol *most_general = taken_class;
-        /* Now, remember that we've seen this if we revisit */
-        body->mayContain = most_general;
-        printf("%s - setting: %s\n", this->string, most_general->string);
+
+        /* Now, remember that we've seen this to terminate loops */
+        body->visited = TRUE;
         if (instancesExist(taken_class)) {
             SymbolIterator iterator = createSymbolIterator();
             Symbol *instance = getNextInstanceOf(iterator, taken_class);
             while (instance) {
                 if (instance != this) {
-                    printf("inspecting: %s\n", instance->string);
+                    printf("%s - instance: %s\n", this->string, instance->string);
                     most_general = most_general_class(most_general,
                                                       recurseContainersForContent(instance));
+                    printf("%s - getting: %s\n", this->string, most_general->string);
                 }
                 instance = getNextInstanceOf(iterator, taken_class);
             }
         }
         if (symbolHasContainerProperties(taken_class)) {
-            printf("%s - investigating: %s\n", this->string, taken_class->string);
+            printf("%s - taking: %s\n", this->string, taken_class->string);
             most_general = most_general_class(most_general,
                                               recurseContainersForContent(taken_class));
             printf("%s - getting: %s\n", this->string, most_general->string);
