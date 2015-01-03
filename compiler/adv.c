@@ -147,7 +147,10 @@ void analyzeAdventure(void)
     analyzeAllAttributes();	/* Make sure attributes are analyzed
                                and typed before expressions */
     numberAllAttributes();	/* Then we can number and type check
-                               inherited attributes */ 
+                               inherited attributes */
+
+    calculateTransitiveContainerContents();
+
     replicateInherited();
 
     prepareWords();			/* Prepare words in the dictionary */

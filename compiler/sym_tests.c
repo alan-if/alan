@@ -157,8 +157,12 @@ static Id *givenAClassId(char *name) {
 
 
 static Symbol *givenAClass(char *name) {
-    Symbol *class_symbol = newClassSymbol(newId(nulsrcp, name), NULL, NULL);
-    return class_symbol;
+    return newClassSymbol(newId(nulsrcp, name), NULL, NULL);
+}
+
+
+static Symbol *givenAnInstance(char *name) {
+    return newInstanceSymbol(newId(nulsrcp, name), NULL, NULL);
 }
 
 
@@ -302,6 +306,12 @@ Ensure(Symbol, should_not_return_class_taken_by_class_of_contained_if_it_is_not_
    I1_C3__I3 : is an instance of C1 taking C3 where there is an instance I3
 */
 
+
+Ensure(Symbol, returns_null_as_possible_content_if_null) {
+    assert_that(containerMightContain(NULL), is_null);
+}
+
+
 /* If there's only a single container instance it can only contain what it takes */
 Ensure(Symbol, calculates_content_of_I1_C2_to_C2) {
     Symbol *c2 = givenAClass("c2");
@@ -311,7 +321,6 @@ Ensure(Symbol, calculates_content_of_I1_C2_to_C2) {
 
     assert_that(containerMightContain(i1), is_equal_to(c2));
 }
-
 
 
 Ensure(Symbol, calculates_content_of_I1_C2_I2_C3_to_C3) {
@@ -395,6 +404,47 @@ Ensure(Symbol, calculates_content_of_I1_C2_C3_to_C2) {
 
     assert_that(containerMightContain(i1), is_equal_to(c2));
 }
+
+
+Ensure(Symbol, can_calculate_content_even_when_there_are_non_entity_symbols) {
+    newSymbol(newId(nulsrcp, "v"), VERB_SYMBOL);
+    calculateTransitiveContainerContents();
+}
+
+
+Ensure(Symbol, can_calculate_content_when_parent_is_container) {
+    Symbol *c1 = givenAClassTaking("c1", objectSymbol);
+    Symbol *c2 = givenAClass("c2");
+    setParent(c2, c1);
+
+    calculateTransitiveContainerContents();
+    assert_that(containerMightContain(c2), is_equal_to(objectSymbol));
+}
+
+
+Ensure(Symbol, can_calculate_content_when_parent_is_container_and_create_before) {
+    Symbol *c2 = givenAClass("c2");
+    Symbol *c1 = givenAClassTaking("c1", objectSymbol);
+    setParent(c2, c1);
+
+    calculateTransitiveContainerContents();
+    assert_that(containerMightContain(c2), is_equal_to(objectSymbol));
+}
+
+
+Ensure(Symbol, can_calculate_content_when_parent_of_contained_class_is_container) {
+    Symbol *l = newInstanceSymbol(newId(nulsrcp, "l"), NULL, locationSymbol);
+    
+    Symbol *cont = givenAClassTaking("cont", objectSymbol);
+    setParent(cont, objectSymbol);
+
+    Symbol *c = givenAnInstance("c");
+    setParent(c, cont);
+
+    calculateTransitiveContainerContents();
+    assert_that(containerMightContain(c), is_equal_to(objectSymbol));
+}
+
 
 
 

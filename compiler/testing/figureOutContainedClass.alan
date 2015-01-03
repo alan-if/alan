@@ -19,6 +19,10 @@ Every c2 Isa object
   Container Taking c2.
 End Every.
 
+Every c3 Isa object
+  Has c3_attribute.
+  Container Taking c2.
+End Every.
 
 The cont1 Isa object
   Container Taking thing.
@@ -36,26 +40,45 @@ The cont4 Isa object
   Container Taking c2.
 End The cont4.
 
+The cont5 Isa object
+  Container Taking c3.
+End The cont5.
 
 
 Start At l.
-  For Each i In cont1 Do
+  For Each i In cont1 Do -- Will return things since cont1 takes things and there is no instance of thing
+    IF i Has thing_attribute Then "ok" End If.
+    If i Has object_attribute Then "error" End If. 
+    If i Has c1_attribute Then "error" End If.
+    If i Has c2_attribute Then "error" End If.
+    If i Has c3_attribute Then "error" End If.
+  End For.
+  For Each i In cont2 Do -- Will return things since cont2 takes objects but there is an instance of object taking things
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "error" End If. 
     If i Has c1_attribute Then "error" End If.
+    If i Has c2_attribute Then "error" End If.
+    If i Has c3_attribute Then "error" End If.
   End For.
-  For Each i In cont2 Do
-    If i Has thing_attribute Then "ok" End If.
-    If i Has object_attribute Then "ok" End If. 
-    If i Has c1_attribute Then "error" End If.
-  End For.
-  For Each i In cont3 Do
+  For Each i In cont3 Do -- Will return things since cont3 takes c1 but every c1 takes things
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "error" End If. 
     If i Has c1_attribute Then "error" End If.
+    If i Has c2_attribute Then "error" End If.
+    If i Has c3_attribute Then "error" End If.
   End For.
-  For Each i In cont4 Do
+  For Each i In cont4 Do -- Will return c2 sinces cont4 takes c2 and every c2 only takes c2
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "ok" End If. 
+    If i Has c1_attribute Then "error" End If.
     If i Has c2_attribute Then "ok" End If.
-  End For. 
+    If i Has c3_attribute Then "error" End If.
+  End For.
+  For Each i In cont5 Do -- Will return c3 sinces cont5 takes c3 and c3 takes c2 and every c2 only takes c2
+    If i Has thing_attribute Then "ok" End If.
+    If i Has object_attribute Then "ok" End If. 
+    If i Has c1_attribute Then "error" End If.
+    If i Has c2_attribute Then "ok" End If.
+    If i Has c3_attribute Then "error" End If.
+  End For.
+  

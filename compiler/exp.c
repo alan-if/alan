@@ -319,7 +319,7 @@ Symbol *containerContent(Expression *what, Transitivity transitivity, Context *c
         if (transitivity == DIRECTLY)
             content = containerSymbolTakes(symbol);
         else
-            content = find_most_general_contained_class();            
+            content = containerMightContain(symbol); //find_most_general_contained_class();            
         break;
     case ATTRIBUTE_EXPRESSION:
         symbol = what->class;
@@ -889,7 +889,7 @@ static void analyzeAggregate(Expression *exp, Context *context)
                 exp->fields.agr.attribute->code = atr->id->code;
         }
     } else if (class == NULL && exp->type != ERROR_TYPE)
-        /* Even for COUNT we want to warn for counting the universe, which
+        /* Also for COUNT we want to warn for counting the universe, which
            is probably not what he wanted */
         lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
 }

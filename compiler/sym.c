@@ -521,6 +521,24 @@ static Symbol *lookupInContext(char *idString, Context *context)
 }
 
 
+/*----------------------------------------------------------------------*/
+static Bool isEntity(Symbol *s){
+    return s->kind == CLASS_SYMBOL || s->kind == INSTANCE_SYMBOL;
+}
+
+/*----------------------------------------------------------------------*/
+static Bool hasParent(Symbol *s) {
+    if (!isEntity(s)) SYSERR("Wrong kind of symbol");
+    return s->fields.entity.parent != NULL;
+}
+
+/*----------------------------------------------------------------------*/
+static Properties *propertiesOf(Symbol *s) {
+    if (!isEntity(s)) SYSERR("Wrong kind of symbol");
+    return s->fields.entity.props;
+}
+
+
 /*======================================================================*/
 Script *lookupScript(Symbol *theSymbol, Id *scriptName)
 {
@@ -530,11 +548,11 @@ Script *lookupScript(Symbol *theSymbol, Id *scriptName)
         switch (theSymbol->kind) {
         case INSTANCE_SYMBOL:
         case CLASS_SYMBOL:
-            scripts = theSymbol->fields.entity.props->scripts;
+            scripts = propertiesOf(theSymbol)->scripts;
             break;
         case PARAMETER_SYMBOL:
             theSymbol = theSymbol->fields.parameter.class;
-            scripts = theSymbol->fields.entity.props->scripts;
+            scripts = propertiesOf(theSymbol)->scripts;
             break;
         case LOCAL_SYMBOL:
             theSymbol = theSymbol->fields.local.class;
@@ -706,9 +724,11 @@ Symbol *recurse_symtree_for_contained_class(Symbol *symbol) {
     Symbol *taken2 = NULL;
     if (symbol == NULL)
         return NULL;
-    if (symbol->fields.entity.props != NULL)
-        if (symbol->fields.entity.props->container != NULL)
-            taken = symbol->fields.entity.props->container->body->taking->symbol;
+    Properties *props = propertiesOf(symbol);
+    if (props != NULL) {
+        if (props->container != NULL)
+            taken = props->container->body->taking->symbol;
+    }
     if ((taken2 = recurse_symtree_for_contained_class(symbol->higher)) != NULL) {
         if (taken == NULL || inheritsFrom(taken, taken2))
             taken = taken2;
@@ -799,7 +819,7 @@ Symbol *containerSymbolTakes(Symbol *symbol) {
                 if (props->container != NULL)
                     return props->container->body->taking->symbol;
                 else
-                    return containerSymbolTakes(symbol->fields.entity.parent);
+                    return containerSymbolTakes(parentOf(symbol));
             }
             break;
         case PARAMETER_SYMBOL:
@@ -819,31 +839,45 @@ Symbol *containerSymbolTakes(Symbol *symbol) {
 
 
 /*----------------------------------------------------------------------*/
+static Bool symbolHasContainerProperties(Symbol *this) {
+    Properties *props = propertiesOf(this);
+    return props && props->container && props->container->body;
+}
+
+
+/*----------------------------------------------------------------------*/
 static Symbol *recurseContainersForContent(Symbol *this) {
-    if (symbolIsContainer(this)) {
-        ContainerBody *body = this->fields.entity.props->container->body;
+    if (symbolHasContainerProperties(this)) {
+        ContainerBody *body = propertiesOf(this)->container->body;
         if (body->mayContain)
             return body->mayContain;
         Symbol *taken_class = containerSymbolTakes(this);
         Symbol *most_general = taken_class;
         /* Now, remember that we've seen this if we revisit */
         body->mayContain = most_general;
+        printf("%s - setting: %s\n", this->string, most_general->string);
         if (instancesExist(taken_class)) {
             SymbolIterator iterator = createSymbolIterator();
             Symbol *instance = getNextInstanceOf(iterator, taken_class);
             while (instance) {
                 if (instance != this) {
+                    printf("inspecting: %s\n", instance->string);
                     most_general = most_general_class(most_general,
                                                       recurseContainersForContent(instance));
                 }
                 instance = getNextInstanceOf(iterator, taken_class);
             }
         }
-        if (symbolIsContainer(taken_class))
-                    most_general = most_general_class(most_general,
-                                                      recurseContainersForContent(taken_class));
+        if (symbolHasContainerProperties(taken_class)) {
+            printf("%s - investigating: %s\n", this->string, taken_class->string);
+            most_general = most_general_class(most_general,
+                                              recurseContainersForContent(taken_class));
+            printf("%s - getting: %s\n", this->string, most_general->string);
+        }
         most_general = most_general_class(most_general,
                                           body->mayContain);
+        
+        printf("%s - deciding: %s\n", this->string, most_general->string);
         body->mayContain = most_general;
         return most_general;
     } else
@@ -851,14 +885,14 @@ static Symbol *recurseContainersForContent(Symbol *this) {
 }
 
 
-
 /*----------------------------------------------------------------------*/
 static void traversSymbolsForContainerContents(Symbol *this) {
     if (this) {
         traversSymbolsForContainerContents(this->lower);
-        if (symbolIsContainer(this))
-            this->fields.entity.props->container->body->mayContain = recurseContainersForContent(this);
-;
+        if ((isClass(this) || isInstance(this)) && symbolIsContainer(this)) {
+            if (symbolHasContainerProperties(this))
+                propertiesOf(this)->container->body->mayContain = recurseContainersForContent(this);
+        }
         traversSymbolsForContainerContents(this->higher);
     }
 }
@@ -872,11 +906,14 @@ void calculateTransitiveContainerContents(void) {
 
 /*======================================================================*/
 Symbol *containerMightContain(Symbol *symbol) {
-    if (!isClass(symbol) && !isInstance(symbol)) SYSERR("Wrong type of symbol");
-    if (symbol->fields.entity.props && symbol->fields.entity.props->container && symbol->fields.entity.props->container->body->taking)
-        return symbol->fields.entity.props->container->body->mayContain;
-    else
-        return NULL;
+    if (symbol) {
+        if (!isClass(symbol) && !isInstance(symbol)) SYSERR("Wrong type of symbol");
+        if (symbolHasContainerProperties(symbol))
+            return propertiesOf(symbol)->container->body->mayContain;
+        else if (hasParent(symbol))
+            return containerMightContain(parentOf(symbol));
+    }
+    return NULL;
 }
 
 
@@ -938,7 +975,7 @@ Symbol *commonParent(Symbol *symbol1, Symbol *symbol2)
     else if (inheritsFrom(symbol2, symbol1))
         return symbol1;
     else
-        return commonParent(symbol1->fields.entity.parent, symbol2->fields.entity.parent);
+        return commonParent(parentOf(symbol1), parentOf(symbol2));
 }
 
 
@@ -1144,7 +1181,7 @@ Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id)
         return NULL;
 
     if ((foundAttribute = findAttribute(symbol->fields.entity.props->attributes, id)) == NULL)
-        return definingSymbolOfAttribute(symbol->fields.entity.parent, id);
+        return definingSymbolOfAttribute(parentOf(symbol), id);
     else
         return symbol;
 }
@@ -1156,7 +1193,7 @@ Attribute *findInheritedAttribute(Symbol *symbol, Id *id)
 {
     /* From a symbol traverse its inheritance tree to find a named attribute. */
     Symbol *definingSymbol =
-        definingSymbolOfAttribute(symbol->fields.entity.parent, id);
+        definingSymbolOfAttribute(parentOf(symbol), id);
 
     if (definingSymbol == NULL) return NULL;
 
@@ -1196,7 +1233,7 @@ static void numberParentAttributes(Symbol *symbol)
     /* Recurse the parental chain and number the attributes. */
     if (symbol == NULL || symbol->fields.entity.attributesNumbered) return;
 
-    numberParentAttributes(symbol->fields.entity.parent);
+    numberParentAttributes(parentOf(symbol));
     numberAttributes(symbol);
 }
 
@@ -1213,7 +1250,7 @@ static void numberAttributesRecursively(Symbol *symbol)
     if (isClass(symbol) || symbol->kind == INSTANCE_SYMBOL) {
         /* Only a class or instance have attributes */
 
-        numberParentAttributes(symbol->fields.entity.parent);
+        numberParentAttributes(parentOf(symbol));
         numberAttributes(symbol);
     }
 
@@ -1237,19 +1274,14 @@ void numberAllAttributes(void)
 }
 
 
-static Bool haveParent(Symbol *s) {return s->fields.entity.parent != NULL;}
-static Properties *propertiesOf(Symbol *s) {return s->fields.entity.props;}
-static Properties *propertiesOfParentOf(Symbol *s) {return s->fields.entity.parent->fields.entity.props;}
-
-
 /*----------------------------------------------------------------------*/
 static void replicateNames(Symbol *symbol)
 {
     if (propertiesOf(symbol)->names == NULL)
-        propertiesOf(symbol)->names = propertiesOfParentOf(symbol)->names;
-    else if (propertiesOfParentOf(symbol)->names != NULL)
+        propertiesOf(symbol)->names = propertiesOf(parentOf(symbol))->names;
+    else if (propertiesOf(parentOf(symbol))->names != NULL)
         propertiesOf(symbol)->names = combine(propertiesOf(symbol)->names,
-                                              propertiesOfParentOf(symbol)->names);
+                                              propertiesOf(parentOf(symbol))->names);
 }
 
 
@@ -1257,7 +1289,7 @@ static void replicateNames(Symbol *symbol)
 static void replicatePronouns(Symbol *symbol)
 {
     if (propertiesOf(symbol)->pronouns == NULL)
-        propertiesOf(symbol)->pronouns = propertiesOfParentOf(symbol)->pronouns;
+        propertiesOf(symbol)->pronouns = propertiesOf(parentOf(symbol))->pronouns;
 }
 
 
@@ -1268,7 +1300,7 @@ static void replicateAttributes(Symbol *symbol)
 
     propertiesOf(symbol)->attributes =
         combineAttributes(propertiesOf(symbol)->attributes,
-                          propertiesOfParentOf(symbol)->attributes);
+                          propertiesOf(parentOf(symbol))->attributes);
 
     /* Verify that there are no inherited, non-initialized, attributes */
     TRAVERSE(atr, propertiesOf(symbol)->attributes) {
@@ -1290,10 +1322,10 @@ static void replicateContainer(Symbol *symbol)
        container code and owner property pointer local so the global
        part can just be pointed to. */
 
-    if (propertiesOf(symbol)->container == NULL && propertiesOfParentOf(symbol)->container != NULL) {
+    if (propertiesOf(symbol)->container == NULL && propertiesOf(parentOf(symbol))->container != NULL) {
         Properties *props = propertiesOf(symbol);
         /* Create a new Container Instance and link parents Container Body */
-        props->container = newContainer(propertiesOfParentOf(symbol)->container->body);
+        props->container = newContainer(propertiesOf(parentOf(symbol))->container->body);
         props->container->ownerProperties = props;
 
         /* Add OPAQUE attribute */
@@ -1305,7 +1337,7 @@ static void replicateContainer(Symbol *symbol)
 static void replicateExits(Symbol *symbol)
 {
     propertiesOf(symbol)->exits = combineExits(propertiesOf(symbol)->exits,
-                                               propertiesOfParentOf(symbol)->exits);
+                                               propertiesOf(parentOf(symbol))->exits);
 }
 
 
@@ -1326,7 +1358,7 @@ static void replicateScripts(Symbol *symbol)
 static void replicateInitialLocation(Symbol *symbol)
 {
     if (symbol->fields.entity.props->whr == NULL)
-        symbol->fields.entity.props->whr = propertiesOfParentOf(symbol)->whr;
+        symbol->fields.entity.props->whr = propertiesOf(parentOf(symbol))->whr;
 }
 
 
@@ -1350,13 +1382,11 @@ static void replicate(Symbol *symbol)
 
 /*----------------------------------------------------------------------
 
-  replicateParent()
-
   Recurse the parental chain and replicate any inherited things that
   requires local replicated data.
 
 */
-static void replicateParent(Symbol *symbol)
+static void replicateSymbol(Symbol *symbol)
 {
     if (symbol == NULL) return;
 
@@ -1364,8 +1394,8 @@ static void replicateParent(Symbol *symbol)
         return;
     }
 
-    if (haveParent(symbol)) {
-        replicateParent(symbol->fields.entity.parent);
+    if (hasParent(symbol)) {
+        replicateSymbol(parentOf(symbol));
         replicate(symbol);
     }
     symbol->fields.entity.replicated = TRUE;
@@ -1378,7 +1408,7 @@ static void replicateSymbolTree(Symbol *symbol)
     if (symbol == NULL) return;
 
     if (isClass(symbol) || isInstance(symbol)) {
-        replicateParent(symbol);
+        replicateSymbol(symbol);
     }
 
     /* Recurse in the symbolTree */

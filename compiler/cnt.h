@@ -21,6 +21,7 @@ typedef struct ContainerBody {
     Bool generated;       /* And generated? */
     Bool opaque;          /* An opaque container? */
     Id *taking;           /* Which class does it take? */
+    Bool visited;         /* Recursing flag for containment calculation to terminate */
     Symbol *mayContain;   /* Which class may it contain transitively? */
     List *limits;         /* Limits */
     Aaddr limadr;         /* ACODE address to limit table */
