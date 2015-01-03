@@ -2,7 +2,7 @@
 *.a3r
 *.ifid
 TEST-*.xml
-*.output
+*.tmp
 *.vg
 *.leaks
 alan.linux.x86.tgz

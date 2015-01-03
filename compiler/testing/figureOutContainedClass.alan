@@ -54,14 +54,16 @@ The cont6 Isa object
 End The cont6.
 
 Start At l.
-  For Each i In cont1 Do -- Will return things since cont1 takes things and there is no instance of thing
+  For Each i In cont1 Do
+    -- Will generate "thing" since cont1 takes things and there is no instance of thing
     IF i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "error" End If. 
     If i Has c1_attribute Then "error" End If.
     If i Has c2_attribute Then "error" End If.
     If i Has c4_attribute Then "error" End If.
   End For.
-  For Each i In cont2 Do -- Will return things since cont2 takes objects but there is an instance of object taking things
+  For Each i In cont2 Do
+    -- Will generate "thing" since cont2 takes objects but there is an instance of object taking things
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "error" End If. 
     If i Has c1_attribute Then "error" End If.
@@ -69,7 +71,8 @@ Start At l.
     If i Has c3_attribute Then "error" End If.
     If i Has c4_attribute Then "error" End If.
   End For.
-  For Each i In cont3 Do -- Will return things since cont3 takes c1 but every c1 takes things
+  For Each i In cont3 Do
+    -- Will generate "thing" since cont3 takes c1 but every c1 takes things
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "error" End If. 
     If i Has c1_attribute Then "error" End If.
@@ -77,7 +80,8 @@ Start At l.
     If i Has c3_attribute Then "error" End If.
     If i Has c4_attribute Then "error" End If.
   End For.
-  For Each i In cont4 Do -- Will return c2 sinces cont4 takes c2 and every c2 only takes c2
+  For Each i In cont4 Do
+    -- Will generate "c2" sinces cont4 takes c2 and every c2 only takes c2
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "ok" End If. 
     If i Has c1_attribute Then "error" End If.
@@ -85,7 +89,9 @@ Start At l.
     If i Has c3_attribute Then "error" End If.
     If i Has c4_attribute Then "error" End If.
   End For.
-  For Each i In cont5 Do -- Will return object sinces cont5 takes c3 and c3 takes c2 and every c2 only takes c2, but common parent to c2 and c3 is object
+  For Each i In cont5 Do
+    -- Will generate ""object"" sinces cont5 takes c3 and c3 takes c2 and every c2 only takes c2
+    -- but common parent to c2 and c3 is object
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "ok" End If. 
     If i Has c1_attribute Then "error" End If.
@@ -93,11 +99,13 @@ Start At l.
     If i Has c3_attribute Then "error" End If.
     If i Has c4_attribute Then "error" End If.
   End For.
-  For Each i In cont6 Do -- Will return c2 sinces cont6 takes c4 takes c3 but is a c2 and every c2 only takes c2
+  For Each i In cont6 Do
+    -- Will generate ""object"" sinces cont6 takes c4 takes c3 but is a c2 and every c2 only takes c2
+    -- but common parent of c4 and c3 and c2 is object
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "ok" End If. 
     If i Has c1_attribute Then "error" End If.
-    If i Has c2_attribute Then "ok" End If.
+    If i Has c2_attribute Then "error" End If.
     If i Has c3_attribute Then "error" End If.
     If i Has c4_attribute Then "error" End If.
   End For.

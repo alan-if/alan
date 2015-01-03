@@ -326,7 +326,7 @@ Symbol *containerContent(Expression *what, Transitivity transitivity, Context *c
         if (transitivity == DIRECTLY)
             content = containerSymbolTakes(symbol);
         else
-            content = find_most_general_contained_class();            
+            content = containerMightContain(symbol); //find_most_general_contained_class();            
         break;
     default:
         break;

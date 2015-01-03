@@ -534,6 +534,7 @@ static Bool hasParent(Symbol *s) {
 
 /*----------------------------------------------------------------------*/
 static Properties *propertiesOf(Symbol *s) {
+    if (!s) return NULL;
     if (!isEntity(s)) SYSERR("Wrong kind of symbol");
     return s->fields.entity.props;
 }
@@ -724,6 +725,7 @@ Symbol *recurse_symtree_for_contained_class(Symbol *symbol) {
     Symbol *taken2 = NULL;
     if (symbol == NULL)
         return NULL;
+
     Properties *props = propertiesOf(symbol);
     if (props != NULL) {
         if (props->container != NULL)
@@ -845,41 +847,57 @@ static Bool symbolHasContainerProperties(Symbol *this) {
 }
 
 
+/* #define DEBUG_CONTAINER_CONTENT */
+#ifdef DEBUG_CONTAINER_CONTENT
+static char prefix[1000] = "";
+#endif
+
 /*----------------------------------------------------------------------*/
 static Symbol *recurseContainersForContent(Symbol *this) {
     if (symbolHasContainerProperties(this)) {
         ContainerBody *body = propertiesOf(this)->container->body;
         if (body->visited)
-            return NULL;        /* Unknown so far... */
+            return body->mayContain;
 
         Symbol *taken_class = containerSymbolTakes(this);
         Symbol *most_general = taken_class;
 
         /* Now, remember that we've seen this to terminate loops */
         body->visited = TRUE;
+        if (symbolHasContainerProperties(taken_class)) {
+#ifdef DEBUG_CONTAINER_CONTENT
+            printf("%s%s - container: %s (%s)\n", prefix, this->string, taken_class->string, most_general->string);
+            strcpy(&prefix[strlen(prefix)], " ");
+#endif
+            most_general = most_general_class(most_general,
+                                              recurseContainersForContent(taken_class));
+#ifdef DEBUG_CONTAINER_CONTENT
+            prefix[strlen(prefix)-1] = '\0';
+            printf("%s%s - getting: %s\n", prefix, this->string, most_general->string);
+#endif
+        }
         if (instancesExist(taken_class)) {
             SymbolIterator iterator = createSymbolIterator();
             Symbol *instance = getNextInstanceOf(iterator, taken_class);
             while (instance) {
                 if (instance != this) {
-                    printf("%s - instance: %s\n", this->string, instance->string);
+#ifdef DEBUG_CONTAINER_CONTENT
+                    printf("%s%s - instance: %s (%s)\n", prefix, this->string, instance->string, most_general->string);
+                    strcpy(&prefix[strlen(prefix)], " ");
+#endif
                     most_general = most_general_class(most_general,
                                                       recurseContainersForContent(instance));
-                    printf("%s - getting: %s\n", this->string, most_general->string);
+#ifdef DEBUG_CONTAINER_CONTENT
+                    prefix[strlen(prefix)-1] = '\0';
+                    printf("%s%s - getting: %s\n", prefix, this->string, most_general->string);
+#endif
                 }
                 instance = getNextInstanceOf(iterator, taken_class);
             }
         }
-        if (symbolHasContainerProperties(taken_class)) {
-            printf("%s - taking: %s\n", this->string, taken_class->string);
-            most_general = most_general_class(most_general,
-                                              recurseContainersForContent(taken_class));
-            printf("%s - getting: %s\n", this->string, most_general->string);
-        }
-        most_general = most_general_class(most_general,
-                                          body->mayContain);
-        
-        printf("%s - deciding: %s\n", this->string, most_general->string);
+#ifdef DEBUG_CONTAINER_CONTENT
+        printf("%s%s - deciding: %s\n", prefix, this->string, most_general->string);
+#endif
         body->mayContain = most_general;
         return most_general;
     } else

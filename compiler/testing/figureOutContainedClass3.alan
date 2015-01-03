@@ -16,12 +16,12 @@ End Every.
 
 Every c3 Isa object
   Has c3_attribute.
-  Container Taking c2.
+  Container Taking c3.
 End Every.
 
 Every c4 Isa c2
   Has c4_attribute.
-  Container Taking c3.
+  Container Taking c2.
 End Every.
 
 
@@ -32,11 +32,11 @@ End The cont6.
 
 Start At l.
   For Each i In cont6 Do
-    -- i is always an object, since cont6 contains c4:s, c3:s (through c4) and c2:s (through c3 and c2)
-    -- and the only common parent is object
+    -- i is always a c2 since cont6 might contain c4:s, and c2:s
+    -- and c2 is the common parent
     If i Has thing_attribute Then "ok" End If.
     If i Has object_attribute Then "ok" End If. 
-    If i Has c2_attribute Then "error" End If.
+    If i Has c2_attribute Then "ok" End If.
     If i Has c3_attribute Then "error" End If.
     If i Has c4_attribute Then "error" End If.
   End For.
