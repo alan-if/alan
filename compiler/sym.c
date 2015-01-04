@@ -927,11 +927,19 @@ void calculateTransitiveContainerContents(void) {
 /*======================================================================*/
 Symbol *containerMightContain(Symbol *symbol) {
     if (symbol) {
-        if (!isClass(symbol) && !isInstance(symbol)) SYSERR("Wrong type of symbol");
-        if (symbolHasContainerProperties(symbol))
-            return propertiesOf(symbol)->container->body->mayContain;
-        else if (hasParent(symbol))
-            return containerMightContain(parentOf(symbol));
+        switch (symbol->kind) {
+        case CLASS_SYMBOL:
+        case INSTANCE_SYMBOL:
+            if (symbolHasContainerProperties(symbol))
+                return propertiesOf(symbol)->container->body->mayContain;
+            else if (hasParent(symbol))
+                return containerMightContain(parentOf(symbol));
+            return NULL;
+        case PARAMETER_SYMBOL:
+            return containerMightContain(symbol->fields.parameter.class);
+        default:
+            SYSERR("Unexpected type of symbol");
+        }
     }
     return NULL;
 }

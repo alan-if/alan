@@ -445,6 +445,18 @@ Ensure(Symbol, can_calculate_content_when_parent_of_contained_class_is_container
     assert_that(containerMightContain(c), is_equal_to(objectSymbol));
 }
 
+Ensure(Symbol, can_calculate_contained_class_for_parameter) {
+    Symbol *c1 = givenAClassTaking("c1", objectSymbol);
+    Id *p = newId(nulsrcp, "p");
+    Element *element = NEW(Element);
+    element->id = p;
+    Symbol *parameter = newParameterSymbol(element);
+    parameter->fields.parameter.class = c1;
+
+    calculateTransitiveContainerContents();
+
+    assert_that(containerMightContain(parameter), is_equal_to(objectSymbol));
+}
 
 
 

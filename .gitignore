@@ -2,6 +2,8 @@
 *.a3r
 *.ifid
 TEST-*.xml
+*.output
+*.log
 *.tmp
 *.vg
 *.leaks
