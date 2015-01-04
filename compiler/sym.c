@@ -557,7 +557,7 @@ Script *lookupScript(Symbol *theSymbol, Id *scriptName)
             break;
         case LOCAL_SYMBOL:
             theSymbol = theSymbol->fields.local.class;
-            scripts = theSymbol->fields.entity.props->scripts;
+            scripts = propertiesOf(theSymbol)->scripts;
             break;
         default:
             SYSERR("Unexpected symbol kind");
@@ -615,8 +615,8 @@ Bool symbolIsContainer(Symbol *symbol) {
         switch (symbol->kind) {
         case CLASS_SYMBOL:
         case INSTANCE_SYMBOL:
-            if (symbol->fields.entity.props != NULL)
-                return symbol->fields.entity.props->container != NULL
+            if (propertiesOf(symbol) != NULL)
+                return propertiesOf(symbol)->container != NULL
                     || symbolIsContainer(symbol->fields.entity.parent);
             else
                 return FALSE;
@@ -693,16 +693,18 @@ Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent) {
     return NULL;
 }
 
+
 /*======================================================================*/
 void destroyIterator(SymbolIterator iterator) {
     deallocate(iterator->stack);
     deallocate(iterator);
 }
 
+
 /*----------------------------------------------------------------------*/
 static Bool recurseTreeForInstanceOf(Symbol *current, Symbol *theClass) {
     if (current) {
-        if (current->kind == INSTANCE_SYMBOL && inheritsFrom(current, theClass))
+        if (isInstance(current) && inheritsFrom(current, theClass))
             return TRUE;
         else
             return recurseTreeForInstanceOf(current->higher, theClass)
@@ -720,36 +722,6 @@ Bool instancesExist(Symbol *theClass) {
 
 
 /*----------------------------------------------------------------------*/
-Symbol *recurse_symtree_for_contained_class(Symbol *symbol) {
-    Symbol *taken = NULL;
-    Symbol *taken2 = NULL;
-    if (symbol == NULL)
-        return NULL;
-
-    Properties *props = propertiesOf(symbol);
-    if (props != NULL) {
-        if (props->container != NULL)
-            taken = props->container->body->taking->symbol;
-    }
-    if ((taken2 = recurse_symtree_for_contained_class(symbol->higher)) != NULL) {
-        if (taken == NULL || inheritsFrom(taken, taken2))
-            taken = taken2;
-    }
-    if ((taken2 = recurse_symtree_for_contained_class(symbol->lower)) != NULL) {
-        if (taken == NULL || inheritsFrom(taken, taken2))
-            taken = taken2;
-    }
-    return taken;
-}
-
-
-/*======================================================================*/
-Symbol *find_most_general_contained_class(void) {
-    return recurse_symtree_for_contained_class(symbolTree);
-}
-
-
-/*----------------------------------------------------------------------*/
 static Symbol *most_general_class(Symbol *s1, Symbol *s2) {
     if (!s1) return s2;
     if (!s2) return s1;
@@ -761,52 +733,6 @@ static Symbol *most_general_class(Symbol *s1, Symbol *s2) {
 } 
 
 
-/*----------------------------------------------------------------------*/
-static Symbol *recurse_containers_for_most_general_content(Symbol *this, Symbol *previous) {
-    Properties *props = this->fields.entity.props;
-    Symbol *most_general = previous;
-    
-    if (props != NULL) {
-        if (props->container != NULL) {
-            Id *taken_id = props->container->body->taking;
-            Symbol *current;
-            if (taken_id != NULL)
-                current = taken_id->symbol;
-            else
-                current = objectSymbol;
-            most_general = recurse_containers_for_most_general_content(current,
-                                                                       most_general_class(most_general, current));
-        }
-    }
-
-    if (this->kind == CLASS_SYMBOL) {
-        if (instancesExist(this)) {
-            SymbolIterator iterator = createSymbolIterator();
-            Symbol *instance = getNextInstanceOf(iterator, this);
-            while (instance != NULL) {
-                if (symbolIsContainer(instance)) {
-                    Id *taken_id = props->container->body->taking;
-                    Symbol *current;
-                    if (taken_id != NULL)
-                        current = taken_id->symbol;
-                    else
-                        current = objectSymbol;
-                    most_general = recurse_containers_for_most_general_content(current,
-                                                                               most_general_class(most_general, current));
-                }
-            }
-        }
-    }
-	return most_general;
-}
-
-
-/*======================================================================*/
-/* TODO: Possibly not needed after calculateTransitiveContainerContents() works */
-Symbol *containedBy(Symbol *symbol) {
-	return recurse_containers_for_most_general_content(symbol, NULL);
-}
-
 
 /*======================================================================*/
 /* NOTE difference between "takes" and "may contain" (transitively)! */
@@ -816,7 +742,7 @@ Symbol *containerSymbolTakes(Symbol *symbol) {
         switch (symbol->kind) {
         case INSTANCE_SYMBOL:
         case CLASS_SYMBOL:
-            props = symbol->fields.entity.props;
+            props = propertiesOf(symbol);
             if (props != NULL) {
                 if (props->container != NULL)
                     return props->container->body->taking->symbol;
@@ -948,7 +874,7 @@ Symbol *containerMightContain(Symbol *symbol) {
 /*======================================================================*/
 void setParent(Symbol *child, Symbol *parent)
 {
-    if (!isClass(child) && child->kind != INSTANCE_SYMBOL)
+    if (!isClass(child) && !isInstance(child))
         SYSERR("Not a CLASS or INSTANCE");
     child->fields.entity.parent = parent;
 }
@@ -957,7 +883,7 @@ void setParent(Symbol *child, Symbol *parent)
 /*======================================================================*/
 Symbol *parentOf(Symbol *child)
 {
-    if (!isClass(child) && child->kind != INSTANCE_SYMBOL)
+    if (!isClass(child) && !isInstance(child))
         SYSERR("Not a CLASS or INSTANCE");
     return child->fields.entity.parent;
 }
@@ -970,7 +896,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 
     if (child == NULL || ancestor == NULL) return FALSE;
 
-    if (ancestor->kind == INSTANCE_SYMBOL)
+    if (isInstance(ancestor))
         SYSERR("Can not inherit from an instance");
 
     if (child->kind == ERROR_SYMBOL || ancestor->kind == ERROR_SYMBOL)
@@ -1037,36 +963,36 @@ static Symbol *lookupClass(Id *id, Symbol *symbol) {
 /*----------------------------------------------------------------------*/
 static List *getParameterSymbols(Context *context)
 {
-        if (context->kind == VERB_CONTEXT)
-                return context->verb->fields.verb.parameterSymbols;
-        else
-                return NULL;
+    if (context->kind == VERB_CONTEXT)
+        return context->verb->fields.verb.parameterSymbols;
+    else
+        return NULL;
 }
 
 
 /*----------------------------------------------------------------------*/
 static char *identifierListForParameters(Context *context) {
-        List *parameters = getParameterSymbols(context);
-        char *identifiers = (char *)allocate(200);
-        List *list;
-        Bool first = TRUE;
+    List *parameters = getParameterSymbols(context);
+    char *identifiers = (char *)allocate(200);
+    List *list;
+    Bool first = TRUE;
 
-        if (parameters == NULL)
-                SYSERR("NULL parameters");
+    if (parameters == NULL)
+        SYSERR("NULL parameters");
 
-        TRAVERSE(list, parameters) {
-                if (!first) {
-                        if (list->next != NULL)
-                                strcat(identifiers, "', '");
-                        else
-                                strcat(identifiers, "' and '");
-                } else
-                        strcat(identifiers, "'");
-                strcat(identifiers, list->member.sym->string);
-                first = FALSE;
-        }
-        strcat(identifiers, "'");
-        return identifiers;
+    TRAVERSE(list, parameters) {
+        if (!first) {
+            if (list->next != NULL)
+                strcat(identifiers, "', '");
+            else
+                strcat(identifiers, "' and '");
+        } else
+            strcat(identifiers, "'");
+        strcat(identifiers, list->member.sym->string);
+        first = FALSE;
+    }
+    strcat(identifiers, "'");
+    return identifiers;
 }
 
 
@@ -1100,64 +1026,64 @@ void setParameters(Symbol *verb, List *parameters)
 
 /*======================================================================*/
 char *verbHasParametersMessage(Context *context) {
-        static char message[2000];
-        message[0] = '\0';
-        if (context && context->kind == VERB_CONTEXT) {
-                List *parameterSymbols = getParameterSymbols(context);
-                if (length(parameterSymbols) > 0)
-                        sprintf(message, " The verb '%s' has the parameter%s %s.",
-                                        context->verb->string, length(parameterSymbols)>1?"s":"",
-                                        identifierListForParameters(context));
-        }
-        return message;
+    static char message[2000];
+    message[0] = '\0';
+    if (context && context->kind == VERB_CONTEXT) {
+        List *parameterSymbols = getParameterSymbols(context);
+        if (length(parameterSymbols) > 0)
+            sprintf(message, " The verb '%s' has the parameter%s %s.",
+                    context->verb->string, length(parameterSymbols)>1?"s":"",
+                    identifierListForParameters(context));
+    }
+    return message;
 }
 
 
 /*======================================================================*/
 char *verbHasParametersOrNoneMessage(Context *context) {
-        char *message = verbHasParametersMessage(context);
-        if (strlen(message) > 0)
-                return message;
-        else {
-                static char noParametersMessage[2000];
-                sprintf(noParametersMessage, " The verb '%s' has no parameters.", context->verb->string);
-                return noParametersMessage;
-        }
+    char *message = verbHasParametersMessage(context);
+    if (strlen(message) > 0)
+        return message;
+    else {
+        static char noParametersMessage[2000];
+        sprintf(noParametersMessage, " The verb '%s' has no parameters.", context->verb->string);
+        return noParametersMessage;
+    }
 }
 
 
 /*======================================================================*/
 Symbol *symcheck(Id *id, SymbolKind requestedKinds, Context *context)
 {
-        Symbol *sym;
+    Symbol *sym;
 
-        sym = lookupInContext(id->string, context);
-        if (requestedKinds == CLASS_SYMBOL)
-                sym = lookupClass(id, sym);
+    sym = lookupInContext(id->string, context);
+    if (requestedKinds == CLASS_SYMBOL)
+        sym = lookupClass(id, sym);
 
-        if (!sym) {
-                if (!isGeneratedId(id)) {
-                        lmLogv(&id->srcp, 310, sevERR, id->string, verbHasParametersMessage(context), NULL);
-                }
-        } else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
-                if ((requestedKinds&INSTANCE_SYMBOL) == 0) {
-                        if (multipleSymbolKinds(requestedKinds))
-                                lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
-                        else
-                                lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
-                        return NULL;
-                }
-        } else
-                if (requestedKinds != 0)
-                        if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
-                                if (multipleSymbolKinds(requestedKinds))
-                                        lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
-                                else
-                                        lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
-                                return NULL;
-                        }
-        id->symbol = sym;
-        return sym;
+    if (!sym) {
+        if (!isGeneratedId(id)) {
+            lmLogv(&id->srcp, 310, sevERR, id->string, verbHasParametersMessage(context), NULL);
+        }
+    } else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
+        if ((requestedKinds&INSTANCE_SYMBOL) == 0) {
+            if (multipleSymbolKinds(requestedKinds))
+                lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+            else
+                lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+            return NULL;
+        }
+    } else
+        if (requestedKinds != 0)
+            if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
+                if (multipleSymbolKinds(requestedKinds))
+                    lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+                else
+                    lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+                return NULL;
+            }
+    id->symbol = sym;
+    return sym;
 }
 
 
@@ -1190,7 +1116,7 @@ void instanceCheck(Id *id, char reference[], char className[])
 
     if (id->symbol != NULL)
         if (id->symbol->kind != ERROR_SYMBOL)
-            if (id->symbol->kind != INSTANCE_SYMBOL || !inheritsFrom(id->symbol, theClassSymbol))
+            if (!isInstance(id->symbol) || !inheritsFrom(id->symbol, theClassSymbol))
                 lmLogv(&id->srcp, 351, sevERR, reference, "an instance", className, NULL);
 }
 
@@ -1205,10 +1131,10 @@ Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id)
     if (symbol == NULL)
         return NULL;
 
-    if (!isClass(symbol) && symbol->kind != INSTANCE_SYMBOL)
+    if (!isClass(symbol) && !isInstance(symbol))
         return NULL;
 
-    if ((foundAttribute = findAttribute(symbol->fields.entity.props->attributes, id)) == NULL)
+    if ((foundAttribute = findAttribute(propertiesOf(symbol)->attributes, id)) == NULL)
         return definingSymbolOfAttribute(parentOf(symbol), id);
     else
         return symbol;
@@ -1225,7 +1151,7 @@ Attribute *findInheritedAttribute(Symbol *symbol, Id *id)
 
     if (definingSymbol == NULL) return NULL;
 
-    return findAttribute(definingSymbol->fields.entity.props->attributes, id);
+    return findAttribute(propertiesOf(definingSymbol)->attributes, id);
 }
 
 
@@ -1237,7 +1163,7 @@ static void numberAttributes(Symbol *symbol)
 
     if (symbol->fields.entity.attributesNumbered) return;
 
-    for (theList = symbol->fields.entity.props->attributes; theList != NULL;
+    for (theList = propertiesOf(symbol)->attributes; theList != NULL;
          theList = theList->next){
         Attribute *thisAttribute = theList->member.atr;
         inheritedAttribute = findInheritedAttribute(symbol, thisAttribute->id);
@@ -1250,7 +1176,7 @@ static void numberAttributes(Symbol *symbol)
         } /* Else its a pre-defined attribute which is numbered already! */
     }
 
-    symbol->fields.entity.props->attributes = sortAttributes(symbol->fields.entity.props->attributes);
+    propertiesOf(symbol)->attributes = sortAttributes(propertiesOf(symbol)->attributes);
     symbol->fields.entity.attributesNumbered = TRUE;
 }
 
@@ -1275,7 +1201,7 @@ static void numberAttributesRecursively(Symbol *symbol)
 
     if (symbol == NULL) return;
 
-    if (isClass(symbol) || symbol->kind == INSTANCE_SYMBOL) {
+    if (isClass(symbol) || isInstance(symbol)) {
         /* Only a class or instance have attributes */
 
         numberParentAttributes(parentOf(symbol));
@@ -1335,7 +1261,7 @@ static void replicateAttributes(Symbol *symbol)
         Attribute *thisAttribute = atr->member.atr;
         if (thisAttribute->type == REFERENCE_TYPE)
             if (!thisAttribute->initialized && !isClass(symbol))
-                lmLogv(&symbol->fields.entity.props->id->srcp, 328, sevERR,
+                lmLogv(&propertiesOf(symbol)->id->srcp, 328, sevERR,
                        thisAttribute->id->string,
                        thisAttribute->definingSymbol->string,
                        NULL);
@@ -1385,8 +1311,8 @@ static void replicateScripts(Symbol *symbol)
 /*----------------------------------------------------------------------*/
 static void replicateInitialLocation(Symbol *symbol)
 {
-    if (symbol->fields.entity.props->whr == NULL)
-        symbol->fields.entity.props->whr = propertiesOf(parentOf(symbol))->whr;
+    if (propertiesOf(symbol)->whr == NULL)
+        propertiesOf(symbol)->whr = propertiesOf(parentOf(symbol))->whr;
 }
 
 

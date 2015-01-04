@@ -319,14 +319,14 @@ Symbol *containerContent(Expression *what, Transitivity transitivity, Context *c
         if (transitivity == DIRECTLY)
             content = containerSymbolTakes(symbol);
         else
-            content = containerMightContain(symbol); //find_most_general_contained_class();            
+            content = containerMightContain(symbol);
         break;
     case ATTRIBUTE_EXPRESSION:
         symbol = what->class;
         if (transitivity == DIRECTLY)
             content = containerSymbolTakes(symbol);
         else
-            content = containerMightContain(symbol); //find_most_general_contained_class();            
+            content = containerMightContain(symbol);
         break;
     default:
         break;

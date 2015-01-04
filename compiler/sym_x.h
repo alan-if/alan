@@ -93,9 +93,6 @@ extern Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent);
 extern void calculateTransitiveContainerContents(void);
 extern Symbol *containerMightContain(Symbol *symbol);
 
-extern Symbol *find_most_general_contained_class(void);
-extern Symbol *containedBy(Symbol *symbol);
-
 extern void setParameters(Symbol *verb, List *parameters);
 
 extern Attribute *findInheritedAttribute(Symbol *symbol, Id *id);
