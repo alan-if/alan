@@ -8,8 +8,8 @@ warnForInContainerInLoop.alan
 =====>          1
 
   *1*   316 E : Attribute 'attr' is not defined for variable 'i' since the
-                class it is known to be in this context ('thing') does not have
-                it.
+                class it is guaranteed to be in this context ('thing') does not
+                have it.
 
 
         1 error(s).

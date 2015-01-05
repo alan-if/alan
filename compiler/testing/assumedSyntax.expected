@@ -7,8 +7,8 @@ assumedSyntax.alan
 =====>                   1
 
   *1*   316 E : Attribute 'x' is not defined for parameter 'topic' since the
-                class it is known to be in this context ('topic') does not have
-                it.
+                class it is guaranteed to be in this context ('topic') does not
+                have it.
 
 
         1 error(s).

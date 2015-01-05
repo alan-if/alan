@@ -7,8 +7,8 @@ badRestrictionAttribute.alan
 =====>                     1
 
   *1*   316 E : Attribute 'named' is not defined for parameter 'obj2' since the
-                class it is known to be in this context ('entity') does not
-                have it.
+                class it is guaranteed to be in this context ('entity') does
+                not have it.
 
 
         1 error(s).

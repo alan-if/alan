@@ -39,7 +39,7 @@
 #define MAXINSTANCE (header->instanceMax)
 
 /* For transitivity in HERE, IN etc. */
-typedef enum {DIRECTLY = TRUE, TRANSITIVE = FALSE} transitivity;
+typedef enum {DEFAULT = 0, DIRECTLY = 1, TRANSITIVE = 2} transitivity;
 
 #define pointerTo(x) ((void *)&memory[x])
 #define addressOf(x) ((((long)x)-((long)memory))/sizeof(Aword))

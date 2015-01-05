@@ -7,15 +7,15 @@ figureOutContainedClass3.alan
 =====>               1
 
   *1*   316 E : Attribute 'c3_attribute' is not defined for variable 'i' since
-                the class it is known to be in this context ('c2') does not
-                have it.
+                the class it is guaranteed to be in this context ('c2') does
+                not have it.
 
    41.      If i Has c4_attribute Then "error" End If.
 =====>               1
 
   *1*   316 E : Attribute 'c4_attribute' is not defined for variable 'i' since
-                the class it is known to be in this context ('c2') does not
-                have it.
+                the class it is guaranteed to be in this context ('c2') does
+                not have it.
 
 
         2 error(s).

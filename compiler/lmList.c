@@ -259,9 +259,9 @@ static lmMsgs msg[] = {
 
     { "315   ", "Attribute not defined for \'%1\'." },
 
-    { "316   ", "Attribute \'%1\' is not defined for %2 \'%3\' since the class it is known to be in this context (\'%4\') does not have it." },
+    { "316   ", "Attribute \'%1\' is not defined for %2 \'%3\' since the class it is guaranteed to be in this context (\'%4\') does not have it." },
 
-    { "317   ", "Attribute \'%1\' is not defined for %2 since the class it is known to be in this context (\'%3\') does not have it." },
+    { "317   ", "Attribute \'%1\' is not defined for %2 since the class it is guaranteed to be in this context (\'%3\') does not have it." },
 
     { "318   ", "The \'%1\' does not have the container property, which is required in %2." },
 

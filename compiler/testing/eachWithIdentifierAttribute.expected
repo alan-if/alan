@@ -12,8 +12,8 @@ eachWithIdentifierAttribute.alan
 =====>          1
 
   *1*   316 E : Attribute 'a' is not defined for variable 'l' since the class
-                it is known to be in this context ('location') does not have
-                it.
+                it is guaranteed to be in this context ('location') does not
+                have it.
 
 
         2 error(s).

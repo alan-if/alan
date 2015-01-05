@@ -7,8 +7,8 @@ restrictionAttribute.alan
 =====>           1
 
   *1*   316 E : Attribute 'size' is not defined for parameter 'o' since the
-                class it is known to be in this context ('entity') does not
-                have it.
+                class it is guaranteed to be in this context ('entity') does
+                not have it.
 
 
         1 error(s).

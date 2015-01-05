@@ -7,7 +7,8 @@ localVariableAsDir.alan
 =====>          1
 
   *1*   316 E : Attribute 'a' is not defined for variable 'e' since the class
-                it is known to be in this context ('object') does not have it.
+                it is guaranteed to be in this context ('object') does not have
+                it.
 
 
         1 error(s).
