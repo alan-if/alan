@@ -835,7 +835,7 @@ static Symbol *recurseContainersForContent(Symbol *this) {
 static void traversSymbolsForContainerContents(Symbol *this) {
     if (this) {
         traversSymbolsForContainerContents(this->lower);
-        if ((isClass(this) || isInstance(this)) && symbolIsContainer(this)) {
+        if (isClass(this) || isInstance(this)) {
             if (symbolHasContainerProperties(this))
                 propertiesOf(this)->container->body->mayContain = recurseContainersForContent(this);
         }
