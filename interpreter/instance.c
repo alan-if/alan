@@ -193,7 +193,7 @@ static void verifyInstance(int instance, char *action) {
 
 
 /*======================================================================*/
-bool isHere(int id, transitivity trans)
+bool isHere(int id, Transitivity trans)
 {
     verifyInstance(id, "HERE");
 
@@ -205,7 +205,7 @@ bool isHere(int id, transitivity trans)
 
 
 /*======================================================================*/
-bool isNearby(int instance, transitivity trans)
+bool isNearby(int instance, Transitivity trans)
 {
     verifyInstance(instance, "NEARBY");
 
@@ -217,7 +217,7 @@ bool isNearby(int instance, transitivity trans)
 
 
 /*======================================================================*/
-bool isNear(int instance, int other, transitivity trans)
+bool isNear(int instance, int other, Transitivity trans)
 {
     Aint l1, l2;
 
@@ -237,7 +237,7 @@ bool isNear(int instance, int other, transitivity trans)
 
 /*======================================================================*/
 /* Look in a container to see if the instance is in it. */
-bool isIn(int instance, int container, transitivity trans)
+bool isIn(int instance, int container, Transitivity trans)
 {
     int loc;
 
@@ -261,7 +261,7 @@ bool isIn(int instance, int container, transitivity trans)
 
 /*======================================================================*/
 /* Look see if an instance is AT another. */
-bool isAt(int instance, int other, transitivity trans)
+bool isAt(int instance, int other, Transitivity trans)
 {
     if (instance == 0 || other == 0) return FALSE;
 
@@ -315,7 +315,7 @@ int locationOf(int instance)
 
 /*======================================================================*/
 /* Return the current position of an instance, directly or not */
-int where(int instance, transitivity trans)
+int where(int instance, Transitivity trans)
 {
     verifyInstance(instance, "WHERE");
 

@@ -26,6 +26,13 @@ typedef signed long CodeValue;   /* Definition for the packing process */
 #error "Can't find a 32-bit integer type"
 #endif
 
+#ifndef TRUE
+#define TRUE (0==0)
+#endif
+#ifndef FALSE
+#define FALSE (!TRUE)
+#endif
+
 /* Constants for the Acode file, words/block & bytes/block */
 #define BLOCKLEN 256L
 #define BLOCKSIZE (BLOCKLEN*sizeof(Aword))
@@ -269,6 +276,16 @@ typedef enum VarClass {
     V_CURRENT_INSTANCE,
     V_MAX_INSTANCE
 } VarClass;
+
+/* For transitivity in HERE, IN etc. */
+/* Default is transitive, but we also have to cater for legacy beta4 where DIRECTLY was TRUE */
+typedef enum {
+    DEFAULT = 0,
+    TRANSITIVE = 0,
+    DIRECTLY = 1,
+    INDIRECTLY = 2,
+    LEGACY_DIRECTLY = TRUE
+} Transitivity;
 
 /* Predefined attributes, one is for containers and the other for locations
    and since instances cannot be both, the attributes can have the same number */

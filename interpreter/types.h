@@ -21,13 +21,6 @@
 
 /* CONSTANTS */
 
-#ifndef TRUE
-#define TRUE (0==0)
-#endif
-#ifndef FALSE
-#define FALSE (!TRUE)
-#endif
-
 #define HERO (header->theHero)
 #define ENTITY (header->entityClassId)
 #define OBJECT (header->objectClassId)
@@ -37,9 +30,6 @@
 
 #define MAXPARAMS (header->maxParameters)
 #define MAXINSTANCE (header->instanceMax)
-
-/* For transitivity in HERE, IN etc. */
-typedef enum {DEFAULT = 0, DIRECTLY = 1, TRANSITIVE = 2} transitivity;
 
 #define pointerTo(x) ((void *)&memory[x])
 #define addressOf(x) ((((long)x)-((long)memory))/sizeof(Aword))

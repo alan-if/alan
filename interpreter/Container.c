@@ -95,7 +95,7 @@ bool passesContainerLimits(Aint theContainer, Aint theAddedInstance) {
 
 
 /*======================================================================*/
-int containerSize(int container, transitivity trans) {
+int containerSize(int container, Transitivity trans) {
     Aint i;
     Aint count = 0;
 
