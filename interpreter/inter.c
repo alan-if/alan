@@ -353,9 +353,17 @@ static void traceInstanceTopValue() {
 }
 
 /*----------------------------------------------------------------------*/
-static char *directlyFlag(Abool value) {
-    if (value) return "Direct";
-    else return " Trans";
+static char *transitivityFlag(Transitivity value) {
+    switch (value) {
+    case DEFAULT:
+        return "Default";
+    case DIRECTLY:
+        return "Direct";
+    case INDIRECTLY:
+        return "Indirect";
+    }
+    syserr("Unexpected transitivity");
+    return "ERROR";
 }
 
 /*----------------------------------------------------------------------*/
@@ -761,22 +769,22 @@ void interpret(Aaddr adr)
                 break;
             }
             case I_CONTSIZE: {
-                Abool directly = pop(stack);
+                Abool transitivity = pop(stack);
                 Aint container = pop(stack);
                 if (traceInstructionOption)
-                    printf("CONTSIZE\t%7ld, %7s\t", (long)container, directlyFlag(directly));
-                push(stack, containerSize(container, directly));
+                    printf("CONTSIZE\t%7ld, %7s\t", (long)container, transitivityFlag(transitivity));
+                push(stack, containerSize(container, transitivity));
                 if (traceInstructionOption)
                     traceIntegerTopValue();
                 break;
             }
             case I_CONTMEMB: {
-                Abool directly = pop(stack);
+                Abool transitivity = pop(stack);
                 Aint container = pop(stack);
                 Aint index = pop(stack);
                 if (traceInstructionOption)
-                    printf("CONTMEMB\t%7ld, %7ld, %7s", (long)container, (long)index, directlyFlag(directly));
-                push(stack, getContainerMember(container, index, directly));
+                    printf("CONTMEMB\t%7ld, %7ld, %7s", (long)container, (long)index, transitivityFlag(transitivity));
+                push(stack, getContainerMember(container, index, transitivity));
                 if (traceInstructionOption)
                     traceIntegerTopValue();
                 break;
@@ -832,11 +840,11 @@ void interpret(Aaddr adr)
                 break;
             }
             case I_WHERE: {
-                Abool directly = pop(stack);
+                Abool transitivity = pop(stack);
                 Aid id = pop(stack);
                 if (traceInstructionOption)
-                    printf("WHERE \t%7ld, %7s", (long)id, directlyFlag(directly));
-                push(stack, where(id, directly));
+                    printf("WHERE \t%7ld, %7s", (long)id, transitivityFlag(transitivity));
+                push(stack, where(id, transitivity));
                 traceInstanceTopValue();
                 break;
             }
@@ -849,50 +857,50 @@ void interpret(Aaddr adr)
                 break;
             }
             case I_HERE: {
-                Abool directly = pop(stack);
+                Abool transitivity = pop(stack);
                 Aid id = pop(stack);
                 if (traceInstructionOption)
-                    printf("HERE \t%7ld, %s\t\t\t", (long)id, directlyFlag(directly));
-                push(stack, isHere(id, directly));
+                    printf("HERE \t%7ld, %s\t\t\t", (long)id, transitivityFlag(transitivity));
+                push(stack, isHere(id, transitivity));
                 tracebooleanTopValue();
                 break;
             }
             case I_NEARBY: {
-                Abool directly = pop(stack);
+                Abool transitivity = pop(stack);
                 Aid id = pop(stack);
                 if (traceInstructionOption)
-                    printf("NEARBY \t%7ld, %s\t\t\t", (long)id, directlyFlag(directly));
-                push(stack, isNearby(id, directly));
+                    printf("NEARBY \t%7ld, %s\t\t\t", (long)id, transitivityFlag(transitivity));
+                push(stack, isNearby(id, transitivity));
                 tracebooleanTopValue();
                 break;
             }
             case I_NEAR: {
-                Abool directly = pop(stack);
+                Abool transitivity = pop(stack);
                 Aint other = pop(stack);
                 Aid id = pop(stack);
                 if (traceInstructionOption)
-                    printf("NEAR \t%7ld, %7ld, %s\t\t\t", (long)id, (long)other, directlyFlag(directly));
-                push(stack, isNear(id, other, directly));
+                    printf("NEAR \t%7ld, %7ld, %s\t\t\t", (long)id, (long)other, transitivityFlag(transitivity));
+                push(stack, isNear(id, other, transitivity));
                 tracebooleanTopValue();
                 break;
             }
             case I_AT: {
-                Abool directly = pop(stack);
+                Abool transitivity = pop(stack);
                 Aint other = pop(stack);
                 Aint instance = pop(stack);
                 if (traceInstructionOption)
-                    printf("AT \t%7ld, %7ld, %s", (long)instance, (long)other, directlyFlag(directly));
-                push(stack, isAt(instance, other, directly));
+                    printf("AT \t%7ld, %7ld, %s", (long)instance, (long)other, transitivityFlag(transitivity));
+                push(stack, isAt(instance, other, transitivity));
                 tracebooleanTopValue();
                 break;
             }
             case I_IN: {
-                Abool directly = pop(stack);
+                Abool transitivity = pop(stack);
                 Aint cnt = pop(stack);
                 Aint obj = pop(stack);
                 if (traceInstructionOption)
-                    printf("IN \t%7ld, %7ld, %s", (long)obj, (long)cnt, directlyFlag(directly));
-                push(stack, isIn(obj, cnt, directly));
+                    printf("IN \t%7ld, %7ld, %s", (long)obj, (long)cnt, transitivityFlag(transitivity));
+                push(stack, isIn(obj, cnt, transitivity));
                 tracebooleanTopValue();
                 break;
             }

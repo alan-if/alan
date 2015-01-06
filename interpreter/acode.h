@@ -280,7 +280,7 @@ typedef enum VarClass {
 /* For transitivity in HERE, IN etc. Default is transitive */
 typedef enum {
     DEFAULT = 0,
-    TRANSITIVE = 0,
+    TRANSITIVELY = 0,
     DIRECTLY = 1,
     INDIRECTLY = 2
 } Transitivity;

@@ -609,7 +609,7 @@
 314.           ! <optional_minus> Integer 
 315.           ! '{' <optional_members> '}' 
 316.           ! '(' <expression> ')' 
-317.           ! 'random' <optional_directly> 'in' <primary> 
+317.           ! 'random' <optional_transitivity> 'in' <primary> 
 318.           ! 'random' <primary> 'to' <primary> 
                ;
 
@@ -643,11 +643,11 @@
 334.                  ! <where> 
                       ;
 
-335. <where> = <optional_directly> 'here' 
-336.         ! <optional_directly> 'nearby' 
-337.         ! <optional_directly> 'at' <primary> 
-338.         ! <optional_directly> 'in' <primary> 
-339.         ! <optional_directly> 'near' <what> 
+335. <where> = <optional_transitivity> 'here' 
+336.         ! <optional_transitivity> 'nearby' 
+337.         ! <optional_transitivity> 'at' <primary> 
+338.         ! <optional_transitivity> 'in' <primary> 
+339.         ! <optional_transitivity> 'near' <what> 
              ;
 
 340. <binop> = '+' 
@@ -675,43 +675,44 @@
 356.                ! 'not' 
                     ;
 
-357. <optional_directly> = 
-358.                     ! 'directly' 
-359.                     ! 'indirectly' 
-                         ;
+357. <optional_transitivity> = 
+358.                         ! 'transitively' 
+359.                         ! 'directly' 
+360.                         ! 'indirectly' 
+                             ;
 
-360. <optional_id> = 
-361.               ! ID 
+361. <optional_id> = 
+362.               ! ID 
                    ;
 
-362. <ids> = ID 
-363.       ! <ids> ID 
+363. <ids> = ID 
+364.       ! <ids> ID 
            ;
 
-364. <id_list> = ID 
-365.           ! <id_list> ',' ID 
+365. <id_list> = ID 
+366.           ! <id_list> ',' ID 
                ;
 
-366. <optional_integer> = 
-367.                    ! Integer 
+367. <optional_integer> = 
+368.                    ! Integer 
                         ;
 
-368. <optional_minus> = 
-369.                  ! '-' 
+369. <optional_minus> = 
+370.                  ! '-' 
                       ;
 
-370. ID = Identifier 
-371.    ! 'location' 
-372.    ! 'actor' 
-373.    ! 'opaque' 
-374.    ! 'visits' 
-375.    ! 'contains' 
-376.    ! 'on' 
-377.    ! 'it' 
-378.    ! 'of' 
-379.    ! 'first' 
-380.    ! 'into' 
-381.    ! 'taking' 
-382.    ! 'off' 
+371. ID = Identifier 
+372.    ! 'location' 
+373.    ! 'actor' 
+374.    ! 'opaque' 
+375.    ! 'visits' 
+376.    ! 'contains' 
+377.    ! 'on' 
+378.    ! 'it' 
+379.    ! 'of' 
+380.    ! 'first' 
+381.    ! 'into' 
+382.    ! 'taking' 
+383.    ! 'off' 
         ;
 

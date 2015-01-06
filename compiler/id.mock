@@ -1,7 +1,9 @@
+#include <cgreen/mocks.h>
+
 #include "id_x.h"
 
-#include <cgreen/mocks.h>
 #include "util.h"
+
 
 char *generateIdName(void) {return (char *)mock();}
 Bool isGeneratedId(Id *id) {return (Bool)mock(id);}

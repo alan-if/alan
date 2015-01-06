@@ -34,7 +34,7 @@ extern void copyTextDataToAcodeFile(char dataFileName[]);
 extern Aint emitControlStructure(void);
 extern void writeHeader(ACodeHeader *acodeHeader);
 extern void emit(Aword word);
-extern Aword reversed(Aword w);
+extern Aword reversed(Aword word);
 extern void finalizeEmit(void);
 extern void terminateEmit(void);
 

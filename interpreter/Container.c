@@ -51,7 +51,7 @@ static bool containerIsEmpty(int container)
     int i;
 
     for (i = 1; i <= header->instanceMax; i++)
-        if (isDescribable(i) && isIn(i, container, TRANSITIVE))
+        if (isDescribable(i) && isIn(i, container, TRANSITIVELY))
             return FALSE;
     return TRUE;
 }

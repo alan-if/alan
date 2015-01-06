@@ -4,6 +4,7 @@
 
 #include "util.h"
 
+#include "smScSema.mock"
 #include "lmList.mock"
 #include "atr.mock"
 #include "str.mock"
@@ -13,8 +14,8 @@
 #include "cnt.mock"
 #include "srcp.mock"
 #include "elm.mock"
+#include "emit.mock"
 
-List *fileNames = NULL;
 
 Describe(Symbol);
 

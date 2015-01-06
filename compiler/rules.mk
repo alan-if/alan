@@ -118,7 +118,7 @@ endif
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
-ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep emit lst dump opt type alan.version
+ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep lst dump opt type alan.version
 ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, $(ISOLATED_UNITTESTS_EXTRA_MODULES)))
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)

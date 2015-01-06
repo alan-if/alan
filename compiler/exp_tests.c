@@ -1,5 +1,6 @@
 #include <cgreen/cgreen.h>
 
+#include "exp_x.h"
 
 #include "lmList.mock"
 #include "srcp.mock"
@@ -12,10 +13,9 @@
 #include "sym.mock"
 #include "set.mock"
 #include "prop.mock"
+#include "emit.mock"
+#include "smScSema.mock"
 
-#include "exp_x.h"
-
-List *fileNames = NULL;
 
 
 Describe(Expression);

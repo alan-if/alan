@@ -14,10 +14,9 @@
 #include "context.mock"
 #include "wht.mock"
 #include "lmList.mock"
+#include "smScSema.mock"
+#include "emit.mock"
 
-List *fileNames = NULL;
-
-Symbol *theVerbSymbol;
 
 Describe(Attribute);
 BeforeEach(Attribute) {entitySymbol = newSymbol(newId(nulsrcp, "entity"), CLASS_SYMBOL);}

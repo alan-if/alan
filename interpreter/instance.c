@@ -1005,7 +1005,7 @@ void locate(int instance, int whr)
     verifyInstance(whr, "LOCATE AT");
 
     /* Will this create a containment loop? */
-    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVE)))
+    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVELY)))
         containmentLoopError(instance, whr);
 
     /* First check if the instance is in a container, if so run extract checks */

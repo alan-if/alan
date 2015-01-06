@@ -5,14 +5,13 @@
 /* Mocks: */
 #include "srcp.mock"
 #include "lmList.mock"
+#include "smScSema.mock"
 #include "sym.mock"
 #include "adv.mock"
+#include "emit.mock"
 
 /* Use actual implementation: */
 #include "str.c"
-
-
-List *fileNames = NULL;
 
 
 Describe(Id);

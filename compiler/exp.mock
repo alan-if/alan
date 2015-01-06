@@ -2,16 +2,13 @@
 
 #include "exp.h"
 
-/* USE other definitions */
-#include "srcp.h"
-#include "context.h"
+#include "util.h"
 
 
+/* DATA: */
 
-/* Data: */
 
-
-/* Functions: */
+/* FUNCTIONS: */
 
 Expression *newAttributeExpression(Srcp srcp, Id *attributeId,
                                    Bool not, Expression *ofWhat) {

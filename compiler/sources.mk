@@ -23,6 +23,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	exp \
 	sym \
 	id \
+	whr \
 
 # Sources which have unittests defined
 UNITTESTED = \
