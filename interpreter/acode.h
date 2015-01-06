@@ -277,14 +277,12 @@ typedef enum VarClass {
     V_MAX_INSTANCE
 } VarClass;
 
-/* For transitivity in HERE, IN etc. */
-/* Default is transitive, but we also have to cater for legacy beta4 where DIRECTLY was TRUE */
+/* For transitivity in HERE, IN etc. Default is transitive */
 typedef enum {
     DEFAULT = 0,
     TRANSITIVE = 0,
     DIRECTLY = 1,
-    INDIRECTLY = 2,
-    LEGACY_DIRECTLY = TRUE
+    INDIRECTLY = 2
 } Transitivity;
 
 /* Predefined attributes, one is for containers and the other for locations

@@ -248,6 +248,8 @@ bool isIn(int instance, int container, Transitivity trans)
         return admin[instance].location == container;
     else {
         loc = admin[instance].location;
+        if (trans == INDIRECTLY && loc != 0 && !isA(loc, LOCATION))
+            loc = admin[loc].location;
         while (loc != 0 && !isA(loc, LOCATION))
             if (loc == container)
                 return TRUE;
