@@ -924,10 +924,10 @@ static void analyzeRandomIn(Expression *exp, Context *context)
             exp->class = containerContent(exp->fields.rin.what, DIRECTLY, context);
         } else
             exp->type = ERROR_TYPE;
-    } else {
+    } else {                    /* In a set */
         exp->class = exp->fields.rin.what->class;
         exp->type = classToType(exp->fields.rin.what->class);
-        /* TODO: Transitivity should be allowed and supported */
+        /* Transitivity is not supported in set membership of course */
         if (exp->fields.rin.transitivity != DEFAULT)
             lmLogv(&exp->srcp, 422, sevERR, transitivityToString(exp->fields.rin.transitivity),
                    "not allowed for", "Random In operating on a Set", NULL);

@@ -137,11 +137,6 @@ typedef struct Expression {
             struct Expression *upperLimit;
         } btw;
 
-        struct {			/* For CONTAINS */
-            struct Expression *str;	/* The string to investigate */
-            struct Expression *sub;	/* The substring to find */
-        } cnt;
-
         struct {			/* For ISA */
             struct Expression *what;	/* The entity/parameter/what */
             struct IdNode *class;	/* The class id */
