@@ -172,7 +172,6 @@ Expression *newRandomRangeExpression(Srcp srcp, Expression *from, Expression *to
 Expression *newRandomInExpression(Srcp srcp, Expression *what, Transitivity transitivity) {
     Expression *exp = newExpression(srcp, RANDOM_IN_EXPRESSION);
     exp->fields.rin.what = what;
-    exp->fields.rin.directly = (transitivity != INDIRECTLY);
     exp->fields.rin.transitivity = transitivity;
     return exp;
 }
@@ -921,7 +920,9 @@ static void analyzeRandomIn(Expression *exp, Context *context)
         if (verifyContainerExpression(exp->fields.rin.what, context,
                                       "'Random In' expression")) {
             exp->type = INSTANCE_TYPE;
-            exp->class = containerContent(exp->fields.rin.what, DIRECTLY, context);
+            if (exp->fields.rin.transitivity == DEFAULT)
+                exp->fields.rin.transitivity = TRANSITIVELY;
+            exp->class = containerContent(exp->fields.rin.what, exp->fields.rin.transitivity, context);
         } else
             exp->type = ERROR_TYPE;
     } else {                    /* In a set */
@@ -1455,7 +1456,7 @@ static void generateRandomInExpression(Expression *exp)
     if (exp->fields.rin.what->type == SET_TYPE)
         emit0(I_SETSIZE);
     else {
-        emitConstant(exp->fields.rin.directly);
+        emitConstant(exp->fields.rin.transitivity);
         emit0(I_CONTSIZE);
     }
     emitConstant(1);		/* Lower random value */
@@ -1464,7 +1465,7 @@ static void generateRandomInExpression(Expression *exp)
     if (exp->fields.rin.what->type == SET_TYPE)
         emit0(I_SETMEMB);
     else {
-        emitConstant(exp->fields.rin.directly);
+        emitConstant(exp->fields.rin.transitivity);
         emit0(I_CONTMEMB);
     }
 }
@@ -1753,7 +1754,7 @@ void dumpExpression(Expression *exp)
         break;
     case RANDOM_IN_EXPRESSION:
         put("what: "); dumpExpression(exp->fields.rin.what); nl();
-        put("directly: "); dumpBool(exp->fields.rin.directly);
+        put("transitivity: "); put(transitivityToString(exp->fields.rin.transitivity));
         break;
     case WHAT_EXPRESSION:
         put("wht: "); dumpWhat(exp->fields.wht.wht);

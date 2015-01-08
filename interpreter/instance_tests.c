@@ -71,7 +71,7 @@ Ensure(Instance, can_handle_direct_transitivity) {
 }
 
 
-Ensure(Instance, can_handle_default_transitivity) {
+Ensure(Instance, can_handle_transitive_transitivity) {
     Aint outer_container = 1;
     Aint containee = 2;
     Aint non_containee = 3;
@@ -84,8 +84,8 @@ Ensure(Instance, can_handle_default_transitivity) {
     instances[intermediate_container].container = 1;
     instances[outer_container].container = 2;
     
-    assert_that(isIn(containee, outer_container, DEFAULT));
-    assert_that(isIn(intermediate_container, outer_container, DEFAULT));
+    assert_that(isIn(containee, outer_container, TRANSITIVELY));
+    assert_that(isIn(intermediate_container, outer_container, TRANSITIVELY));
     assert_that(!isIn(non_containee, outer_container, DIRECTLY));
 }
 
@@ -105,4 +105,52 @@ Ensure(Instance, can_handle_indirect_transitivity) {
     assert_that(isIn(containee, outer_container, INDIRECTLY));
     assert_that(!isIn(intermediate_container, outer_container, INDIRECTLY));
     assert_that(!isIn(non_containee, outer_container, INDIRECTLY));
+}
+
+Ensure(Instance, IN_does_not_allow_default_transitivity) {
+    Aint container = 1;
+    Aint containee = 2;
+
+    admin[containee].location = container;
+    instances[container].container = 1;
+
+    expect(syserr);
+
+    isIn(containee, container, DEFAULT);
+}
+
+Ensure(Instance, IN_allows_default_transitivity_for_pre_beta5) {
+    Aint container = 1;
+    Aint containee = 2;
+
+    admin[containee].location = container;
+    instances[container].container = 1;
+
+    never_expect(syserr);
+
+    isIn(containee, container, DEFAULT);
+}
+
+Ensure(Instance, AT_does_not_allow_default_transitivity) {
+    Aint location = 1;
+    Aint object = 2;
+
+    admin[object].location = location;
+    instances[location].container = 1;
+
+    expect(syserr);
+
+    isAt(object, location, DEFAULT);
+}
+
+Ensure(Instance, AT_allows_default_transitivity_for_pre_beta5) {
+    Aint location = 1;
+    Aint object = 2;
+
+    admin[object].location = location;
+    instances[location].container = 1;
+
+    never_expect(syserr);
+
+    isAt(object, location, DEFAULT);
 }

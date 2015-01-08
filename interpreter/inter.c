@@ -361,6 +361,8 @@ static char *transitivityFlag(Transitivity value) {
         return "Direct";
     case INDIRECTLY:
         return "Indirect";
+    case TRANSITIVELY:
+        return "Transitive";
     }
     syserr("Unexpected transitivity");
     return "ERROR";

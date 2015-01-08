@@ -244,6 +244,11 @@ bool isIn(int instance, int container, Transitivity trans)
     if (!isAContainer(container))
         syserr("IN in a non-container.");
 
+    if (trans == DEFAULT) {
+        syserr("Default transitivity not allowed in ACODE");
+        return FALSE;
+    }
+
     if (trans == DIRECTLY)
         return admin[instance].location == container;
     else {
@@ -267,6 +272,12 @@ bool isAt(int instance, int other, Transitivity trans)
 {
     if (instance == 0 || other == 0) return FALSE;
 
+    if (trans == DEFAULT) {
+        syserr("Default transitivity not allowed in ACODE");
+        return FALSE;
+    }
+
+    /* TODO: Implement indirect transitivity */
     if (trans == DIRECTLY) {
         if (isALocation(other))
             return admin[instance].location == other;
