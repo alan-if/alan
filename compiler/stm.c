@@ -303,21 +303,26 @@ static void analyzeList(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeEmpty(Statement *stm, Context *context)
 {
-	analyzeExpression(stm->fields.empty.what, context);
-	verifyContainerExpression(stm->fields.empty.what, context, "EMPTY statement");
-	analyzeWhere(stm->fields.empty.where, context);
-	if (stm->fields.empty.where->kind == WHERE_NEARBY)
-		lmLog(&stm->fields.empty.where->srcp, 415, sevERR, "EMPTY");
-	if (stm->fields.empty.where->transitivity != DEFAULT) {
-        if (stm->fields.empty.where->transitivity == DIRECTLY)
-            lmLogv(&stm->fields.empty.where->srcp, 422, sevWAR,
-                   transitivityToString(stm->fields.empty.where->transitivity),
+    Expression *what = stm->fields.empty.what;
+    Where *where = stm->fields.empty.where;
+
+	analyzeExpression(what, context);
+	verifyContainerExpression(what, context, "EMPTY statement");
+
+	if (where->kind == WHERE_NEARBY)
+		lmLog(&where->srcp, 415, sevERR, "EMPTY");
+	if (where->transitivity != DEFAULT_TRANSITIVITY) {
+        if (where->transitivity == DIRECTLY)
+            lmLogv(&where->srcp, 422, sevWAR,
+                   transitivityToString(where->transitivity),
                    "ignored in", "EMPTY statement", NULL);
         else
-            lmLogv(&stm->fields.empty.where->srcp, 422, sevERR,
-                   transitivityToString(stm->fields.empty.where->transitivity),
+            lmLogv(&where->srcp, 422, sevERR,
+                   transitivityToString(where->transitivity),
                    "not allowed in", "EMPTY statement", NULL);
     }
+    
+	analyzeWhere(where, context);
 }
 
 
@@ -327,7 +332,7 @@ static void analyzeLocate(Statement *stm, Context *context)
 	Symbol *whtSymbol = NULL;
 	Symbol *taken_class = NULL;
 	Expression *what = stm->fields.locate.what;
-	Where *whr = stm->fields.locate.where;
+	Where *where = stm->fields.locate.where;
 
 	analyzeExpression(what, context);
 	if (what->type != ERROR_TYPE) {
@@ -339,20 +344,21 @@ static void analyzeLocate(Statement *stm, Context *context)
 			whtSymbol = what->class;
 		}
 	}
-	analyzeWhere(whr, context);
-	if (stm->fields.locate.where->transitivity != DEFAULT) {
-        if (stm->fields.locate.where->transitivity == DIRECTLY)
-            lmLogv(&stm->fields.locate.where->srcp, 422, sevWAR,
-                   transitivityToString(stm->fields.locate.where->transitivity), "ignored in", "LOCATE statement", NULL);
+	if (where->transitivity != DEFAULT_TRANSITIVITY) {
+        if (where->transitivity == DIRECTLY)
+            lmLogv(&where->srcp, 422, sevWAR,
+                   transitivityToString(where->transitivity), "ignored in", "LOCATE statement", NULL);
         else
-            lmLogv(&stm->fields.locate.where->srcp, 422, sevERR,
-                   transitivityToString(stm->fields.locate.where->transitivity), "not allowed in", "LOCATE statement", NULL);
+            lmLogv(&where->srcp, 422, sevERR,
+                   transitivityToString(where->transitivity), "not allowed in", "LOCATE statement", NULL);
     }
 
-	switch (whr->kind) {
+	analyzeWhere(where, context);
+    where->transitivity = DIRECTLY;
+    
+	switch (where->kind) {
 	case WHERE_HERE:
 	case WHERE_AT:
-		whr->transitivity = DIRECTLY;
 		break;
 	case WHERE_IN:
         /* Can the located be in a container? Not if its a location or actor. */
@@ -361,17 +367,17 @@ static void analyzeLocate(Statement *stm, Context *context)
 			lmLog(&what->srcp, 402, sevERR, "A Location");
 		else if (inheritsFrom(what->class, actorSymbol))
 			lmLog(&what->srcp, 402, sevERR, "An Actor");
-		taken_class = containerContent(whr->what, DIRECTLY, context);
+		taken_class = containerContent(where->what, DIRECTLY, context);
 		if (taken_class != NULL && whtSymbol != NULL)
 			if (!inheritsFrom(whtSymbol, taken_class))
-				lmLog(&whr->srcp, 404, sevERR, taken_class->string);
+				lmLog(&where->srcp, 404, sevERR, taken_class->string);
 		break;
 	case WHERE_NEAR:
 	case WHERE_NEARBY:
 		lmLog(&stm->srcp, 415, sevERR, "LOCATE");
 		break;
 	default:
-		SYSERR("Unexpected Where kind");
+		SYSERR("Unexpected Where kind", where->srcp);
 		break;
 	}
 }
@@ -495,29 +501,32 @@ static void analyzeIncludeAndExclude(Statement *stm, Context *context)
 static void analyzeSchedule(Statement *stm, Context *context)
 {
 	Expression *what = stm->fields.schedule.what;
-
+    Where *whr = stm->fields.schedule.whr;
+    
 	analyzeExpression(what, context);
 	if (what->type != ERROR_TYPE && what->type != EVENT_TYPE)
-		lmLog(&stm->fields.schedule.what->srcp, 331, sevERR, "SCHEDULE statement. Event type required");
+		lmLog(&what->srcp, 331, sevERR, "SCHEDULE statement. Event type required");
 
 	/* Now lookup where-clause */
-	analyzeWhere(stm->fields.schedule.whr, context);
-	switch (stm->fields.schedule.whr->kind) {
+	analyzeWhere(whr, context);
+    whr->transitivity = DIRECTLY;
+    
+	switch (whr->kind) {
 	case WHERE_DEFAULT:
         if (context->kind == RULE_CONTEXT)
             lmLog(&stm->srcp, 445, sevWAR, "");
-		stm->fields.schedule.whr->kind = WHERE_HERE;
-		break;
+		whr->kind = WHERE_HERE;
+        break;
 	case WHERE_HERE:
 	case WHERE_AT:
 		break;
 	case WHERE_IN:
 	case WHERE_NEAR:
 	case WHERE_NEARBY:
-		lmLog(&stm->fields.schedule.whr->srcp, 415, sevERR, "SCHEDULE");
+		lmLog(&whr->srcp, 415, sevERR, "SCHEDULE");
 		break;
 	default:
-		SYSERR("Unrecognized switch");
+		SYSERR("Unrecognized switch", whr->srcp);
 		break;
 	}
 
@@ -572,7 +581,7 @@ static void findScript(Symbol *symbol, Id *scriptId) {
         case LOCAL_SYMBOL:
         case INSTANCE_SYMBOL: str = "actor"; break;
         case PARAMETER_SYMBOL: str = "parameter"; break;
-        default: SYSERR("Unexpected symbol kind");
+        default: SYSERR("Unexpected symbol kind", scriptId->srcp);
         }
         lmLogv(&scriptId->srcp, 400, sevERR, scriptId->string, str, symbol->string, NULL);
     }
@@ -588,7 +597,7 @@ static Symbol *analyzeIdForActorStatement(Id *id, Context *context) {
             return classOfIdInContext(context, id);
         case INSTANCE_SYMBOL:
             return id->symbol;
-        default: SYSERR("Unexpected id->symbol->kind");
+        default: SYSERR("Unexpected id->symbol->kind", id->srcp);
         }
     return NULL;
 }
@@ -622,7 +631,7 @@ static Symbol *analyzeUseWithActor(Statement *stm, Context *context) {
         return analyzeWhatForActorStatement(exp->fields.wht.wht, context);
     case ATTRIBUTE_EXPRESSION:
         return symbolOfExpression(exp, context);
-    default: SYSERR("Unexpected exp->kind");
+    default: SYSERR("Unexpected exp->kind", exp->srcp);
     }
     return NULL;
 }
@@ -633,14 +642,14 @@ static Symbol *analyzeUseWithoutActor(Statement *stm, Context *context) {
     Symbol *sym = NULL;
     if (context->kind == INSTANCE_CONTEXT) {
         if (context->instance == NULL || context->instance->props == NULL)
-            SYSERR("Strange context");
+            SYSERR("Strange context", stm->srcp);
         if (!inheritsFrom(context->instance->props->id->symbol, actorSymbol))
             lmLog(&stm->srcp, 356, sevERR, "");
         else
             sym = context->instance->props->id->symbol;
     } else if (context->kind == CLASS_CONTEXT) {
         if (context->class == NULL || context->class->props == NULL)
-            SYSERR("Strange context");
+            SYSERR("Strange context", stm->srcp);
         if (!inheritsFrom(context->class->props->id->symbol, actorSymbol))
             lmLog(&stm->srcp, 356, sevERR, "");
         else
@@ -730,7 +739,7 @@ static void analyzeDepend(Statement *stm, Context *context)
 				exp->fields.isa.what = stm->fields.depend.exp;
 				break;
 			default:
-				SYSERR("Unrecognized switch case on Expression kind");
+				SYSERR("Unrecognized switch case on Expression kind", exp->srcp);
 			}
 		} else
 			/* If this is an ELSE-case there can not be any other afterwards */
@@ -972,7 +981,7 @@ static void generateSay(Statement *stm)
 		emit1(I_SAY, stm->fields.say.form);
 		break;
 	case UNINITIALIZED_TYPE:
-		SYSERR("Uninitialized type");
+		SYSERR("Uninitialized type", stm->srcp);
 		break;
 	default:
 		unimpl(stm->srcp, "Code Generator");
@@ -1294,7 +1303,7 @@ static void generateEach(Statement *statement)
 	} else if (statement->fields.each.type == INTEGER_TYPE) {
 		generateIntegerLoopLimit(statement);
 	} else
-		SYSERR("Unexpected type");
+		SYSERR("Unexpected type", statement->srcp);
 
 	/* Push start index */
 	if (statement->fields.each.type == INTEGER_TYPE)

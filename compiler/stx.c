@@ -105,7 +105,7 @@ static void setDefaultRestriction(List *parameters)
 	List *p;
 
 	if (parameters != NULL && parameters->kind != SYMBOL_LIST)
-		SYSERR("Not a symbol list");
+		SYSERR("Not a symbol list", nulsrcp);
 
 	TRAVERSE(p, parameters)
 		if (p->member.sym->fields.parameter.element->res == NULL
@@ -532,7 +532,7 @@ static void generateParameterMapping(Syntax *syntax)
 				break;
 			}
 		}
-		if (!found) SYSERR("Could not find parameter");
+		if (!found) SYSERR("Could not find parameter", nulsrcp);
 	}
 	emit(EOF);
 	syntax->parameterMappingAddress = parameterMappingTableAddress;

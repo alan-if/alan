@@ -25,6 +25,13 @@ typedef enum WhrKind {          /* WHERE kinds */
 } WhereKind;
 
 
+typedef enum Transitivity {
+    DEFAULT_TRANSITIVITY = 100,
+    TRANSITIVELY = 101,
+    DIRECTLY = 102,
+    INDIRECTLY = 103
+} Transitivity;
+
 typedef struct Where {          /* WHERE node */
     Srcp srcp;                  /* Source position */
     Transitivity transitivity;

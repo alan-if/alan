@@ -24,6 +24,7 @@
 
 #include "emit.h"
 
+#include "srcp_x.h"
 
 /* PUBLIC DATA */
 ACodeHeader acodeHeader;
@@ -91,9 +92,9 @@ void emitEntry(void *address, int noOfBytes)
 
     /* Should never start an entry with an EOF word since the reversal process
        depends on it for terminating. */
-    if (words[0] == EOF) SYSERR("First word of an entry should never be EOF");
+    if (words[0] == EOF) SYSERR("First word of an entry should never be EOF", nulsrcp);
 
-    if (noOfBytes%sizeof(Aword) != 0) SYSERR("Emitting unaligned data");
+    if (noOfBytes%sizeof(Aword) != 0) SYSERR("Emitting unaligned data", nulsrcp);
 
     for (i = 0; i < noOfBytes/sizeof(Aword); i++)
         if (littleEndian())
@@ -238,7 +239,7 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
     if (!acdfil) {
         char errorString[1000];
         sprintf(errorString, "Could not open output file '%s' for writing.", acdfnm);
-        SYSERR(errorString);
+        SYSERR(errorString, nulsrcp);
     }
 
     /* Make space for ACODE header */

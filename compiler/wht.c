@@ -88,7 +88,7 @@ Symbol *symbolOfWhat(What *what, Context *context) {
 	case WHAT_ID:
         return what->id->symbol;
 	default:
-		SYSERR("Unexpected What kind");
+		SYSERR("Unexpected What kind", what->srcp);
 	}
 	return NULL;
 }
@@ -129,7 +129,7 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
 		break;
 
 	default:
-		SYSERR("Unrecognized switch");
+		SYSERR("Unrecognized switch", wht->srcp);
 		break;
 	}
 }
@@ -145,7 +145,7 @@ Bool isConstantWhat(What *what) {
 	case WHAT_ID:
 		return isConstantIdentifier(what->id);
     default:
-        SYSERR("Unexpected what->kind");
+        SYSERR("Unexpected what->kind", what->srcp);
         return FALSE;
 	}
 }
@@ -173,7 +173,7 @@ Bool verifyWhatContext(What *what, Context *context) {
 		break;
 
 	default:
-		SYSERR("Unexpected What kind");
+		SYSERR("Unexpected What kind", what->srcp);
 		break;
 	}
 	return TRUE;
@@ -197,7 +197,7 @@ void generateWhat(What *wht, TypeKind type)
 		emitVariable(V_CURRENT_INSTANCE);
 		break;
 	default:
-		SYSERR("Unexpected case");
+		SYSERR("Unexpected case", wht->srcp);
 	}
 }
 

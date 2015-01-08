@@ -10,6 +10,8 @@ Mock some basic structures and functions for unittesting of the Alan compiler
 #include "acode.h"
 #include "util.h"
 
+#include "srcp_x.h"
+
 #include <stdio.h>
 #include <setjmp.h>
 
@@ -82,7 +84,7 @@ void loadACD(char fileName[])
 
     readSize = fread(&temporaryHeader, 1, sizeof(temporaryHeader), acdFile);
     if (readSize != sizeof(temporaryHeader))
-        SYSERR("Could not read header");
+        SYSERR("Could not read header", nulsrcp);
 
     if (littleEndian())
         reverseHdr(&temporaryHeader);

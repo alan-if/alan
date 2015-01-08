@@ -5,7 +5,8 @@ case $os in
   "Linux")
         diff=meld ;;
   "CYGWIN_NT-6.1")
-        diff=/cygdrive/c/Program/Winmerge/WinMergeU ;;
+        diff=meld ;;
+        #diff=/cygdrive/c/Program/Winmerge/WinMergeU ;;
   *)
         echo "No visual diff defined for" $os ;;
 esac

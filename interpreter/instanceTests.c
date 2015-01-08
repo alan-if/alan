@@ -68,5 +68,5 @@ Ensure(Instance, stopsLookingInsideContainersWhenEncounteringLocation) {
     /* Make intermediate into location */
     instances[2].parent = LOCATION;
 
-    assert_that(isIn(1, 3, TRANSITIVELY), is_false);
+    assert_that(isIn(1, 3, TRANSITIVE), is_false);
 }

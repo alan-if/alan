@@ -15,6 +15,8 @@
 #include "opt.h"		/* Options */
 #include "emit.h"
 
+#include "srcp_x.h"
+
 #include "encode.h"
 
 
@@ -177,7 +179,7 @@ void initEncoding(char *textFileName, char *dataFileName)
     if (!datfil) {
         char errorString[1000];
         sprintf(errorString, "Could not open output file '%s' for writing", dataFileName);
-        SYSERR(errorString);
+        SYSERR(errorString, nulsrcp);
     }
 
     /* Make sure there is at least one character of each in frequency table */

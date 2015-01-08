@@ -277,13 +277,12 @@ typedef enum VarClass {
     V_MAX_INSTANCE
 } VarClass;
 
-/* For transitivity in HERE, IN etc. Default is transitive */
+/* For transitivity in HERE, IN etc. */
 typedef enum {
-    DEFAULT = 0,                /* Not given in source, but also used in Acode pre-beta5 for transitive */
-    DIRECTLY = 1,               /* Backwards compatible */
-    INDIRECTLY = 2,             /* New since beta5, to mean TRANSITIVE - DIRECTLY */
-    TRANSITIVELY = 3            /* Since beta5: Really transitive */
-} Transitivity;
+    TRANSITIVE = 0,
+    DIRECT = 1,
+    INDIRECT = 2
+} ATrans;
 
 /* Predefined attributes, one is for containers and the other for locations
    and since instances cannot be both, the attributes can have the same number */

@@ -423,7 +423,7 @@ static void verifyAdd(AddNode *add, Symbol *originalSymbol)
         propsCount++;
 
         if (propsCount != NOOFPROPS)
-            SYSERR("Wrong number of property checks");
+            SYSERR("Wrong number of property checks", add->srcp);
     }
 }
 
@@ -451,7 +451,7 @@ static void addAddition(AddNode *add)
         addEntered(add, originalClass);  propCount++;
         addExits(add, originalClass); propCount++;
         if (propCount != NOOFPROPS)
-            SYSERR("Wrong property count");
+            SYSERR("Wrong property count", add->srcp);
     }
 }
 

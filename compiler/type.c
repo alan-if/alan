@@ -6,8 +6,10 @@
 \*----------------------------------------------------------------------*/
 
 #include "type_x.h"
+
 #include "dump_x.h"
 #include "util.h"
+#include "srcp_x.h"
 
 
 /*======================================================================*/
@@ -36,11 +38,11 @@ char *typeToString(TypeKind type)
 /*======================================================================*/
 Bool equalTypes(TypeKind typ1, TypeKind typ2)
 {
-  if (typ1 == UNINITIALIZED_TYPE || typ2 == UNINITIALIZED_TYPE)
-    SYSERR("Unintialised type");
-  if (typ1 == REFERENCE_TYPE) typ1 = INSTANCE_TYPE;
-  if (typ2 == REFERENCE_TYPE) typ2 = INSTANCE_TYPE;
-  return (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE || typ1 == typ2);
+    if (typ1 == UNINITIALIZED_TYPE || typ2 == UNINITIALIZED_TYPE)
+        SYSERR("Unintialised type", nulsrcp);
+    if (typ1 == REFERENCE_TYPE) typ1 = INSTANCE_TYPE;
+    if (typ2 == REFERENCE_TYPE) typ2 = INSTANCE_TYPE;
+    return (typ1 == ERROR_TYPE || typ2 == ERROR_TYPE || typ1 == typ2);
 }
 
 

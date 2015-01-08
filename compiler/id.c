@@ -45,59 +45,59 @@ Bool isGeneratedId(Id *id) {
 Id *newId(Srcp srcp,	/* IN - Source Position */
 	      char *str)	/* IN - The string */
 {
-  Id *new;			/* The newly allocated area */
+    Id *new;			/* The newly allocated area */
 
-  progressCounter();
+    progressCounter();
 
-  new = NEW(Id);
+    new = NEW(Id);
   
-  new->srcp = srcp;
-  new->string  = newString(str);
-  new->symbol = NULL;
+    new->srcp = srcp;
+    new->string  = newString(str);
+    new->symbol = NULL;
 
-  return(new);
+    return(new);
 }
 
 
 /*======================================================================*/
 List *newIdList(List *list, char *str) {
-  return concat(list, newId(nulsrcp, str), ID_LIST);
+    return concat(list, newId(nulsrcp, str), ID_LIST);
 }
 
 
 /*======================================================================*/
 Bool equalId(Id *id1, Id *id2)
 {
-  if (id1 && id2)
-    return (compareStrings(id1->string, id2->string) == 0);
-  else
-    SYSERR("ID == NULL");
-  return FALSE;
+    if (id1 && id2)
+        return (compareStrings(id1->string, id2->string) == 0);
+    else
+        SYSERR("ID == NULL", nulsrcp);
+    return FALSE;
 }
 
 
 /*======================================================================*/
 void symbolizeId(Id *id)
 {
-  id->symbol = lookup(id->string);
-  if (id->symbol == NULL) {
-    if (id->string[0] != '$')
-      /* Generated identifiers start with '$', don't report errors on those */
-		lmLogv(&id->srcp, 310, sevERR, id->string, "", NULL);
-    id->symbol = newSymbol(id, ERROR_SYMBOL);
-  } else
-    id->code = id->symbol->code;
+    id->symbol = lookup(id->string);
+    if (id->symbol == NULL) {
+        if (id->string[0] != '$')
+            /* Generated identifiers start with '$', don't report errors on those */
+            lmLogv(&id->srcp, 310, sevERR, id->string, "", NULL);
+        id->symbol = newSymbol(id, ERROR_SYMBOL);
+    } else
+        id->code = id->symbol->code;
 }
 
 
 /*======================================================================*/
 Id *findIdInList(Id *theId, List *theList) {
-  List *here;
-
-  for (here = theList; here != NULL; here = here->next)
-    if (equalId(here->member.id, theId))
-      return here->member.id;
-  return NULL;
+    List *here;
+  
+    for (here = theList; here != NULL; here = here->next)
+        if (equalId(here->member.id, theId))
+            return here->member.id;
+    return NULL;
 }
 
 
@@ -130,7 +130,7 @@ void generateId(Id *id, TypeKind special_type)
                 emitVariable(V_PARAM);
                 break;
             default:
-                SYSERR("Unexpected type");
+                SYSERR("Unexpected type", id->srcp);
             }
         } else if (id->symbol->kind == LOCAL_SYMBOL) {
             /* Calculate the variable number and frame depth */
@@ -139,7 +139,7 @@ void generateId(Id *id, TypeKind special_type)
         } else
             generateSymbol(id->symbol);
     } else if (id->code == 0)
-        SYSERR("Generating a symbol-less id with code == 0");
+        SYSERR("Generating a symbol-less id with code == 0", id->srcp);
     else
         emitConstant(id->code);
 }

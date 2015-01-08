@@ -9,6 +9,7 @@
 #include "string.h"
 #include "util.h"
 #include "sym_x.h"
+#include "srcp_x.h"
 #include "id_x.h"
 
 
@@ -30,7 +31,7 @@ static Context *newContext(ContextKind kind, void *item)
     case NULL_CONTEXT:
         break;
     default:
-        SYSERR("Unexpected Context kind");
+        SYSERR("Unexpected Context kind", nulsrcp);
     }
     return new;
 }
@@ -91,7 +92,7 @@ Symbol *symbolOfContext(Context *context) {
     case NULL_CONTEXT:
         return NULL;
     default:
-        SYSERR("Unexpected Context kind");
+        SYSERR("Unexpected Context kind", nulsrcp);
     }
     return NULL;
 }
@@ -164,7 +165,7 @@ Id *classIdInContext(Context *context)
         else if (context->class)
             classId = context->class->props->id;
         else
-            SYSERR("No instance or class in context");
+            SYSERR("No instance or class in context", nulsrcp);
         break;
     default:
         break;
@@ -180,7 +181,7 @@ Symbol *contextRestrictsIdTo(Context *initialContext, Id *id) {
     while (currentContext != NULL) {
         if (currentContext->classRestriction != NULL) {
             if (currentContext->classRestriction->kind != ISA_EXPRESSION)
-                SYSERR("Wrong kind of expression in context restriction");
+                SYSERR("Wrong kind of expression in context restriction", id->srcp);
             if (equalId(id, currentContext->classRestriction->fields.isa.what->fields.wht.wht->id))
                 return currentContext->classRestriction->fields.isa.class->symbol;
         }
@@ -192,6 +193,6 @@ Symbol *contextRestrictsIdTo(Context *initialContext, Id *id) {
 /*======================================================================*/
 void addRestrictionInContext(Context *context, Expression *exp) {
     if (exp->kind != ISA_EXPRESSION)
-        SYSERR("Wrong kind of expression in context restriction");
+        SYSERR("Wrong kind of expression in context restriction", exp->srcp);
     context->classRestriction = exp;
 }

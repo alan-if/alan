@@ -193,11 +193,11 @@ static void verifyInstance(int instance, char *action) {
 
 
 /*======================================================================*/
-bool isHere(int id, Transitivity trans)
+bool isHere(int id, ATrans trans)
 {
     verifyInstance(id, "HERE");
 
-    if (trans == DIRECTLY)
+    if (trans == DIRECT)
         return(admin[id].location == current.location);
     else
         return isAt(id, current.location, trans);
@@ -205,7 +205,7 @@ bool isHere(int id, Transitivity trans)
 
 
 /*======================================================================*/
-bool isNearby(int instance, Transitivity trans)
+bool isNearby(int instance, ATrans trans)
 {
     verifyInstance(instance, "NEARBY");
 
@@ -217,7 +217,7 @@ bool isNearby(int instance, Transitivity trans)
 
 
 /*======================================================================*/
-bool isNear(int instance, int other, Transitivity trans)
+bool isNear(int instance, int other, ATrans trans)
 {
     Aint l1, l2;
 
@@ -237,23 +237,18 @@ bool isNear(int instance, int other, Transitivity trans)
 
 /*======================================================================*/
 /* Look in a container to see if the instance is in it. */
-bool isIn(int instance, int container, Transitivity trans)
+bool isIn(int instance, int container, ATrans trans)
 {
     int loc;
 
     if (!isAContainer(container))
         syserr("IN in a non-container.");
 
-    if (trans == DEFAULT) {
-        syserr("Default transitivity not allowed in ACODE");
-        return FALSE;
-    }
-
-    if (trans == DIRECTLY)
+    if (trans == DIRECT)
         return admin[instance].location == container;
     else {
         loc = admin[instance].location;
-        if (trans == INDIRECTLY && loc != 0 && !isA(loc, LOCATION))
+        if (trans == INDIRECT && loc != 0 && !isA(loc, LOCATION))
             loc = admin[loc].location;
         while (loc != 0 && !isA(loc, LOCATION))
             if (loc == container)
@@ -268,17 +263,12 @@ bool isIn(int instance, int container, Transitivity trans)
 
 /*======================================================================*/
 /* Look see if an instance is AT another. */
-bool isAt(int instance, int other, Transitivity trans)
+bool isAt(int instance, int other, ATrans trans)
 {
     if (instance == 0 || other == 0) return FALSE;
 
-    if (trans == DEFAULT) {
-        syserr("Default transitivity not allowed in ACODE");
-        return FALSE;
-    }
-
     /* TODO: Implement indirect transitivity */
-    if (trans == DIRECTLY) {
+    if (trans == DIRECT) {
         if (isALocation(other))
             return admin[instance].location == other;
         else
@@ -328,13 +318,13 @@ int locationOf(int instance)
 
 /*======================================================================*/
 /* Return the current position of an instance, directly or not */
-int where(int instance, Transitivity trans)
+int where(int instance, ATrans trans)
 {
     verifyInstance(instance, "WHERE");
 
     if (isALocation(instance))
         return 0;
-    else if (trans == DIRECTLY)
+    else if (trans == DIRECT)
         return admin[instance].location;
     else
         return locationOf(instance);
@@ -707,7 +697,7 @@ void describeInstances(void)
             admin[i].alreadyDescribed = TRUE;
 
             // TODO : isOpaque()
-            if (instances[i].container && containerSize(i, DIRECTLY) > 0 && !getInstanceAttribute(i, OPAQUEATTRIBUTE)) {
+            if (instances[i].container && containerSize(i, DIRECT) > 0 && !getInstanceAttribute(i, OPAQUEATTRIBUTE)) {
                 if (found > 0)
                     printMessageWithInstanceParameter(M_SEE_AND, i);
                 printMessage(M_SEE_END);
@@ -884,7 +874,7 @@ static void incrementVisits(int location) {
 static void revisited(void) {
     if (anyOutput)
         para();
-    say(where(HERO, DIRECTLY));
+    say(where(HERO, DIRECT));
     printMessage(M_AGAIN);
     newline();
     describeInstances();
@@ -912,7 +902,7 @@ static void locateActor(Aint movingActor, Aint whr)
     /* Before leaving, remember that we visited the location */
     if (!isPreBeta5(header->version))
         if (movingActor == HERO)
-            incrementVisits(where(HERO, DIRECTLY));
+            incrementVisits(where(HERO, DIRECT));
 
     /* TODO Actors locating into containers is dubious, anyway as it
        is now it allows the hero to be located into a container. And what
@@ -940,7 +930,7 @@ static void locateActor(Aint movingActor, Aint whr)
             look();
         else
             revisited();
-        admin[where(HERO, DIRECTLY)].visitsCount++;
+        admin[where(HERO, DIRECT)].visitsCount++;
     } else
         /* Ensure that the location will be described to the hero next time */
         admin[whr].visitsCount = 0;
@@ -1016,7 +1006,7 @@ void locate(int instance, int whr)
     verifyInstance(whr, "LOCATE AT");
 
     /* Will this create a containment loop? */
-    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVELY)))
+    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVE)))
         containmentLoopError(instance, whr);
 
     /* First check if the instance is in a container, if so run extract checks */

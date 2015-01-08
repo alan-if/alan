@@ -1,6 +1,7 @@
 #include <cgreen/mocks.h>
 
 #include "id_x.h"
+#include "srcp_x.h"
 
 #include "util.h"
 
@@ -13,7 +14,7 @@ Bool equalId(Id *id1, Id *id2) {
     if (id1 && id2)
         return (compareStrings(id1->string, id2->string) == 0);
     else
-        SYSERR("ID == NULL");                  
+        SYSERR("ID == NULL", nulsrcp);
     return FALSE;   
 }
 void symbolizeId(Id *id) {mock(id);}

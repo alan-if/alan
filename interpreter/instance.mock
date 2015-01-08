@@ -38,14 +38,14 @@ void describeAnything(int instance) { mock(); }
 void describeInstances(void) { mock(); }
 bool describe(int instance) { return (bool)mock(); }
 
-int where(int instance, Transitivity trans) { return (int)mock(); }
+int where(int instance, ATrans trans) { return (int)mock(); }
 int locationOf(int instance) { return (int)mock(); }
 
-bool isAt(int instance, int other, Transitivity trans) { return (bool)mock(); }
-bool isIn(int instance, int theContainer, Transitivity trans) { return (bool)mock(); }
-bool isHere(int instance, Transitivity trans) { return (bool)mock(); }
-bool isNearby(int instance, Transitivity trans) { return (bool)mock(); }
-bool isNear(int instance, int other, Transitivity trans) { return (bool)mock(); }
+bool isAt(int instance, int other, ATrans trans) { return (bool)mock(); }
+bool isIn(int instance, int theContainer, ATrans trans) { return (bool)mock(); }
+bool isHere(int instance, ATrans trans) { return (bool)mock(); }
+bool isNearby(int instance, ATrans trans) { return (bool)mock(); }
+bool isNear(int instance, int other, ATrans trans) { return (bool)mock(); }
 
 bool isOpaque(int container) { return (bool)mock(); }
 

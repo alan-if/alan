@@ -285,7 +285,7 @@ static void parse() {
   if (!txtfil) {
     char errorString[1000];
     sprintf(errorString, "Could not open output file '%s' for writing", txtfnm);
-    SYSERR(errorString);
+    SYSERR(errorString, nulsrcp);
   }
 
   /* First initialise */

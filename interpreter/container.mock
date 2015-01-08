@@ -8,7 +8,7 @@ ContainerEntry *containers; /* Container table pointer */
 
 
 /* FUNCTIONS */
-int containerSize(int container, Transitivity trans) { return (int)mock(); }
+int containerSize(int container, ATrans trans) { return (int)mock(); }
 bool passesContainerLimits(Aint container, Aint addedInstance) { return (bool)mock(); }
 void describeContainer(int container) { mock(); }
 void list(int cnt) { mock(); }
