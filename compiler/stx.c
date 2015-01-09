@@ -463,6 +463,7 @@ Aaddr generateParameterNamesForOneSyntax(Syntax *syntax) {
         elm->idAddress = nextEmitAddress();
         emitString(elm->id->string);
     }
+    emit(EOF);
 
     adr = nextEmitAddress();
     /* Generate a list of addresses */

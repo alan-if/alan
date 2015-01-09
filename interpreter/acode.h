@@ -26,6 +26,13 @@ typedef signed long CodeValue;   /* Definition for the packing process */
 #error "Can't find a 32-bit integer type"
 #endif
 
+#ifndef TRUE
+#define TRUE (0==0)
+#endif
+#ifndef FALSE
+#define FALSE (!TRUE)
+#endif
+
 /* Constants for the Acode file, words/block & bytes/block */
 #define BLOCKLEN 256L
 #define BLOCKSIZE (BLOCKLEN*sizeof(Aword))
@@ -143,49 +150,49 @@ typedef enum TextStyle {
 #define CURVAR(op) ((((Aword)C_CURVAR)<<28)|((Aword)op))
 
 typedef enum InstClass {
-    I_LINE,			/* Source line debug info */
-    I_PRINT,			/* Print a string from the text file */
-    I_STYLE,			/* Set output text style */
+    I_LINE,                    /* Source line debug info */
+    I_PRINT,                   /* Print a string from the text file */
+    I_STYLE,                   /* Set output text style */
     I_QUIT,
     I_LOOK,
     I_SAVE,
     I_RESTORE,
-    I_LIST,			/* List contents of a container */
+    I_LIST,                     /* List contents of a container */
     I_EMPTY,
     I_SCORE,
     I_VISITS,
     I_SCHEDULE,
     I_CANCEL,
     I_LOCATE,
-    I_MAKE,			/* Set a boolean attribute to the */
-				/* value on top of stack */
-    I_SET,			/* Set a numeric attribute to the */
-				/* value on top of stack */
-    I_SETSTR,			/* Set a string valued attribute to */
-				/* the string on top of stack, */
-				/* deallocate current contents first */
-    I_SETSET,			/* Set a Set valued attribute to */
-				/* the Set on top of stack, */
-				/* deallocate current contents first */
-    I_NEWSET,			/* Push a new, empty set at the top of stack */
-    I_ATTRIBUTE,			/* Push the value of an attribute */
-    I_ATTRSTR,			/* Push a copy of a string attribute */
-    I_ATTRSET,			/* Push a copy of a set attribute */
-    I_UNION,			/* Add a set from the top of stack to a
-				   set valued attribute */
-    I_GETSTR,			/* Get a string contents from text */
-				/* file, create a copy and push it */
-				/* on top of stack */
-    I_INCR,			/* Increase an attribute */
-    I_DECR,			/* Decrease a numeric attribute */
-    I_INCLUDE,			/* Include a value in the set on stack top */
-    I_EXCLUDE,			/* Remove a value from the set on stack top */
-    I_SETSIZE,			/* Push number of members in a set */
-    I_SETMEMB,			/* Push the member with index <top>-1
-				   from set <top> */
-    I_CONTSIZE,			/* Push number of members in a container */
-    I_CONTMEMB,			/* Push the member with index <top>-1
-				   from container <top> */
+    I_MAKE,                     /* Set a boolean attribute to the */
+                                /* value on top of stack */
+    I_SET,                      /* Set a numeric attribute to the */
+                                /* value on top of stack */
+    I_SETSTR,                   /* Set a string valued attribute to */
+                                /* the string on top of stack, */
+                                /* deallocate current contents first */
+    I_SETSET,                   /* Set a Set valued attribute to */
+                                /* the Set on top of stack, */
+                                /* deallocate current contents first */
+    I_NEWSET,                   /* Push a new, empty set at the top of stack */
+    I_ATTRIBUTE,                /* Push the value of an attribute */
+    I_ATTRSTR,                  /* Push a copy of a string attribute */
+    I_ATTRSET,                  /* Push a copy of a set attribute */
+    I_UNION,                    /* Add a set from the top of stack to a */
+                                /* set valued attribute */ 
+    I_GETSTR,                   /* Get a string contents from text
+                                   file, create a copy and push it
+                                   on top of stack */
+    I_INCR,                     /* Increase an attribute */
+    I_DECR,                     /* Decrease a numeric attribute */
+    I_INCLUDE,			        /* Include a value in the set on stack top */
+    I_EXCLUDE,			        /* Remove a value from the set on stack top */
+    I_SETSIZE,                  /* Push number of members in a set */
+    I_SETMEMB,                  /* Push the member with index <top>-1
+                                   from set <top> */
+    I_CONTSIZE,                 /* Push number of members in a container */
+    I_CONTMEMB,                 /* Push the member with index <top>-1
+                                   from container <top> */
     I_USE,
     I_STOP,
     I_AT,
@@ -194,8 +201,8 @@ typedef enum InstClass {
     I_HERE,
     I_NEARBY,
     I_NEAR,
-    I_WHERE,			/* Current position of an instance */
-    I_LOCATION,			/* The *location* an instance is at */
+    I_WHERE,                    /* Current position of an instance */
+    I_LOCATION,                 /* The *location* an instance is at */
     I_DESCRIBE,
     I_SAY,
     I_SAYINT,
@@ -239,7 +246,7 @@ typedef enum InstClass {
     I_LOOP,
     I_LOOPNEXT,
     I_LOOPEND,
-    I_SUM,                /* Aggregates */
+    I_SUM,                /* Aggregates: */
     I_MAX,
     I_MIN,
     I_COUNT,              /* COUNT aggregate & limit meta-attribute */
@@ -270,12 +277,19 @@ typedef enum VarClass {
     V_MAX_INSTANCE
 } VarClass;
 
+/* For transitivity in HERE, IN etc. Default is transitive */
+typedef enum {
+    DEFAULT = 0,                /* Not given in source, but also used in Acode pre-beta5 for transitive */
+    DIRECTLY = 1,               /* Backwards compatible */
+    INDIRECTLY = 2,             /* New since beta5, to mean TRANSITIVE - DIRECTLY */
+    TRANSITIVELY = 3            /* Since beta5: Really transitive */
+} Transitivity;
+
 /* Predefined attributes, one is for containers and the other for locations
    and since instances cannot be both, the attributes can have the same number */
 #define OPAQUEATTRIBUTE 1
 #define VISITSATTRIBUTE 1
 #define PREDEFINEDATTRIBUTES OPAQUEATTRIBUTE
-
 
 #define I_CLASS(x) ((x)>>28)
 #define I_OP(x)    ((x&0x08000000)?(x)|0xf0000000:(x)&0x0fffffff)
@@ -291,20 +305,20 @@ typedef struct ArticleEntry {
 } ArticleEntry;
 
 typedef struct ClassEntry {	/* CLASS TABLE */
-    Aword code;			/* Own code */
-    Aaddr id;			/* Address to identifier string */
-    Aint parent;		/* Code for the parent class, 0 if none */
-    Aaddr name;			/* Address to name printing code */
-    Aint pronoun;		/* Code for the pronoun word */
+    Aword code;             /* Own code */
+    Aaddr id;               /* Address to identifier string */
+    Aint parent;            /* Code for the parent class, 0 if none */
+    Aaddr name;             /* Address to name printing code */
+    Aint pronoun;           /* Code for the pronoun word */
     Aaddr initialize;		/* Address to initialization statements */
-    Aaddr descriptionChecks;	/* Address of description checks */
-    Aaddr description;		/* Address of description code */
-    ArticleEntry definite;	/* Definite article entry */
-    ArticleEntry indefinite;	/* Indefinite article entry */
-    ArticleEntry negative;	/* Negative article entry */
+    Aaddr descriptionChecks;     /* Address of description checks */
+    Aaddr description;           /* Address of description code */
+    ArticleEntry definite;       /* Definite article entry */
+    ArticleEntry indefinite;     /* Indefinite article entry */
+    ArticleEntry negative;       /* Negative article entry */
     Aaddr mentioned;		/* Address of code for Mentioned clause */
-    Aaddr verbs;		/* Address of verb table */
-    Aaddr entered;		/* Address of code for Entered clause */
+    Aaddr verbs;            /* Address of verb table */
+    Aaddr entered;          /* Address of code for Entered clause */
 } ClassEntry;
 
 typedef struct InstanceEntry {	/* INSTANCE TABLE */
@@ -329,26 +343,26 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
 } InstanceEntry;
 
 typedef struct AttributeEntry {	/* ATTRIBUTE LIST */
-    Aint code;			/* Its code */
-    Aptr value;			/* Its value, a string has a dynamic
+    Aint code;                  /* Its code */
+    Aptr value;                 /* Its value, a string has a dynamic
                                    string pointer, a set has a pointer
                                    to a dynamically allocated set */
     Aaddr id;                   /* Address to the name */
 } AttributeEntry;
 
 typedef struct AttributeHeaderEntry {	/* ATTRIBUTE LIST in header */
-    Aint code;			/* Its code */
-    Aword value;		/* Its value, a string has a dynamic
+    Aint code;                          /* Its code */
+    Aword value;                /* Its value, a string has a dynamic
                                    string pointer, a set has a pointer
                                    to a dynamically allocated set */
     Aaddr id;                   /* Address to the name */
 } AttributeHeaderEntry;
 
 typedef struct ExitEntry {	/* EXIT TABLE structure */
-    Aword code;			/* Direction code */
-    Aaddr checks;		/* Address of check table */
-    Aaddr action;		/* Address of action code */
-    Aword target;		/* Id for the target location */
+    Aword code;             /* Direction code */
+    Aaddr checks;           /* Address of check table */
+    Aaddr action;           /* Address of action code */
+    Aword target;           /* Id for the target location */
 } ExitEntry;
 
 
@@ -364,38 +378,38 @@ typedef struct RuleEntry {      /* RULE TABLE */
 #define RESTRICTIONCLASS_STRING (-4)
 
 typedef struct RestrictionEntry { /* PARAMETER RESTRICTION TABLE */
-    Aint parameterNumber;	/* Parameter number */
-    Aint class;			/* Parameter class code */
-    Aaddr stms;			/* Exception statements */
+    Aint parameterNumber;         /* Parameter number */
+    Aint class;                   /* Parameter class code */
+    Aaddr stms;                   /* Exception statements */
 } RestrictionEntry;
 
 typedef struct ContainerEntry {	/* CONTAINER TABLE */
-    Aword owner;		/* Owner instance index */
-    Aint class;			/* Class to allow in container */
-    Aaddr limits;		/* Address to limit check code */
-    Aaddr header;		/* Address to header code */
-    Aaddr empty;		/* Address to code for header when empty */
-    Aaddr extractChecks;	/* Address to check before extracting */
-    Aaddr extractStatements;	/* Address to execute when extracting */
+    Aword owner;                /* Owner instance index */
+    Aint class;                 /* Class to allow in container */
+    Aaddr limits;               /* Address to limit check code */
+    Aaddr header;               /* Address to header code */
+    Aaddr empty;                /* Address to code for header when empty */
+    Aaddr extractChecks;        /* Address to check before extracting */
+    Aaddr extractStatements;    /* Address to execute when extracting */
 } ContainerEntry;
 
 
 typedef struct ElementEntry {	/* SYNTAX ELEMENT TABLES */
-    Aint code;             /* Code for this element, 0 -> parameter */
-    Aword flags;           /* Flags for multiple/omni (if parameter), syntax number/verb of EOS */
-    Aaddr next;            /* Address to next element table ... */
-                           /* ... or restrictions if code == EOS */
+    Aint code;                  /* Code for this element, 0 -> parameter */
+    Aword flags;                /* Flags for multiple/omni (if parameter), syntax number/verb of EOS */
+    Aaddr next;                 /* Address to next element table ... */
+                                /* ... or restrictions if code == EOS */
 } ElementEntry;
 
 typedef struct SyntaxEntryPreBeta2 {	/* SYNTAX TABLE */
-    Aint code;			/* Code for verb word */
-    Aaddr elms;			/* Address to element tables */
+    Aint code;                          /* Code for verb word */
+    Aaddr elms;                         /* Address to element tables */
 } SyntaxEntryPreBeta2;
 
-typedef struct SyntaxEntry {	/* SYNTAX TABLE */
-    Aint code;          /* Code for verb word, or 0 if starting with parameter */
-    Aaddr elms;			/* Address to element tables */
-    Aaddr parameterNameTable;	/* Address to a table of id-addresses giving the names of the parameters */
+typedef struct SyntaxEntry {     /* SYNTAX TABLE */
+    Aint code;                   /* Code for verb word, or 0 if starting with parameter */
+    Aaddr elms;                  /* Address to element tables */
+    Aaddr parameterNameTable;    /* Address to a table of id-addresses giving the names of the parameters */
 } SyntaxEntry;
 
 typedef struct ParameterMapEntry {	/* PARAMETER MAPPING TABLE */

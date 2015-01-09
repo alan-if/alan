@@ -611,7 +611,8 @@ static char *classNameAndId(int classId) {
 /*----------------------------------------------------------------------*/
 static char *parameterNumberAndName(int parameterNumber) {
     static char buffer[1000] = "";
-	char *parameterName = parameterNameInSyntax(current.verb, parameterNumber);
+    /* HERE SHOULD BE current.syntax */
+	char *parameterName = parameterNameInSyntax(current.syntax, parameterNumber);
 
     if (parameterName != NULL)
         sprintf(buffer, "%s(#%d)", parameterName, parameterNumber);
@@ -1024,7 +1025,8 @@ static ElementEntry *parseInput(ParameterPosition *parameterPositions) {
     stx = findSyntaxTreeForVerb(verbWordCode);
     element = parseInputAccordingToSyntax(stx, parameterPositions);
     handleFailedParse(element);
-    current.verb = remapParameterOrder(element->flags, parameterPositions);
+    current.syntax = element->flags;
+    current.verb = remapParameterOrder(current.syntax, parameterPositions);
     return element;
 }
 

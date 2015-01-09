@@ -24,7 +24,6 @@ typedef enum WhrKind {          /* WHERE kinds */
     WHERE_INSET                 /* IN <set> */
 } WhereKind;
 
-typedef enum {DEFAULT, DIRECTLY, INDIRECTLY} Transitivity;
 
 typedef struct Where {          /* WHERE node */
     Srcp srcp;                  /* Source position */

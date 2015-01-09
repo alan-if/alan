@@ -32,6 +32,7 @@ extern void createListingOnScreen(lmTyp listingType, lmSev severities);
 extern void progressCounter(void);
 extern void verbose(char *msg);
 extern void *allocate(int len);
+extern void deallocate(void *memory);
 extern void unimpl(Srcp srcp, char *phase);
 extern void panic(char *str);
 extern void terminate(int ecode);

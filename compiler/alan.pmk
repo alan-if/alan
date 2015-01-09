@@ -1625,7 +1625,7 @@ static int val(char str[])
 
 ----> Output Statements
 <output_statement>		-- RETURNS: stm
-    = STRING		%-('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'directly', 'indirectly')
+    = STRING		%-('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'transitively', 'directly', 'indirectly')
     %%
 	%<output_statement>.stm = newStatement(`&%STRING.srcp, PRINT_STATEMENT);
 	%<output_statement>.stm->fields.print.fpos = %STRING.fpos;
@@ -2288,7 +2288,7 @@ static int val(char str[])
 							val(%Integer.chars));
     %%
 
-    ! STRING		%+('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'directly', 'indirectly')
+    ! STRING		%+('is', 'are', 'has', 'can', 'at', 'here', 'in', 'nearby', 'near', 'transitively', 'directly', 'indirectly')
     %%
         %<primary>.exp = newStringExpression(%STRING.srcp,
                                              %STRING.fpos,
@@ -2305,9 +2305,9 @@ static int val(char str[])
         %<primary>.exp = newRandomRangeExpression(%'random'.srcp, %2<primary>.exp, %3<primary>.exp);
     %%
 
-    ! 'random' <optional_directly> 'in' <primary>
+    ! 'random' <optional_transitivity> 'in' <primary>
     %%
-        %1<primary>.exp = newRandomInExpression(%'random'.srcp, %2<primary>.exp, %<optional_directly>.transitivity);
+        %1<primary>.exp = newRandomInExpression(%'random'.srcp, %2<primary>.exp, %<optional_transitivity>.transitivity);
     %%
 
     ! 'score'
@@ -2431,33 +2431,33 @@ static int val(char str[])
     ;
 
 <where>			-- RETURNS: srcp, whr
-    = <optional_directly> 'here'
+    = <optional_transitivity> 'here'
     %%
-        %<where>.whr = newWhere(`&%'here'.srcp, %<optional_directly>.transitivity, WHERE_HERE, NULL);
+        %<where>.whr = newWhere(`&%'here'.srcp, %<optional_transitivity>.transitivity, WHERE_HERE, NULL);
         %<where>.srcp = %'here'.srcp;
     %%
 
-    ! <optional_directly> 'nearby'
+    ! <optional_transitivity> 'nearby'
     %%
-        %<where>.whr = newWhere(`&%'nearby'.srcp, %<optional_directly>.transitivity, WHERE_NEARBY, NULL);
+        %<where>.whr = newWhere(`&%'nearby'.srcp, %<optional_transitivity>.transitivity, WHERE_NEARBY, NULL);
         %<where>.srcp = %'nearby'.srcp;
     %%
 
-    ! <optional_directly> 'at' <primary>
+    ! <optional_transitivity> 'at' <primary>
     %%
-        %<where>.whr = newWhere(`&%'at'.srcp, %<optional_directly>.transitivity, WHERE_AT, %<primary>.exp);
+        %<where>.whr = newWhere(`&%'at'.srcp, %<optional_transitivity>.transitivity, WHERE_AT, %<primary>.exp);
         %<where>.srcp = %'at'.srcp;
     %%
 
-    ! <optional_directly> 'in' <primary>
+    ! <optional_transitivity> 'in' <primary>
     %%
-        %<where>.whr = newWhere(`&%'in'.srcp, %<optional_directly>.transitivity, WHERE_IN, %<primary>.exp);
+        %<where>.whr = newWhere(`&%'in'.srcp, %<optional_transitivity>.transitivity, WHERE_IN, %<primary>.exp);
         %<where>.srcp = %'in'.srcp;
     %%
 
-    ! <optional_directly> 'near' <what>
+    ! <optional_transitivity> 'near' <what>
     %%
-        %<where>.whr = newWhere(`&%'near'.srcp, %<optional_directly>.transitivity, WHERE_NEAR, %<what>.exp);
+        %<where>.whr = newWhere(`&%'near'.srcp, %<optional_transitivity>.transitivity, WHERE_NEAR, %<what>.exp);
         %<where>.srcp = %'near'.srcp;
     %%
     ;
@@ -2573,20 +2573,25 @@ static int val(char str[])
     %%
     ;
 
-<optional_directly>
+<optional_transitivity>
     =
     %%
-        %<optional_directly>.transitivity = DEFAULT;
+        %<optional_transitivity>.transitivity = DEFAULT;
+    %%
+
+    ! 'transitively'
+    %%
+        %<optional_transitivity>.transitivity = TRANSITIVELY;
     %%
 
     ! 'directly'
     %%
-        %<optional_directly>.transitivity = DIRECTLY;
+        %<optional_transitivity>.transitivity = DIRECTLY;
     %%
 
     ! 'indirectly'
     %%
-        %<optional_directly>.transitivity = INDIRECTLY;
+        %<optional_transitivity>.transitivity = INDIRECTLY;
     %%
     ;
 

@@ -193,7 +193,7 @@ static void verifyInstance(int instance, char *action) {
 
 
 /*======================================================================*/
-bool isHere(int id, transitivity trans)
+bool isHere(int id, Transitivity trans)
 {
     verifyInstance(id, "HERE");
 
@@ -205,7 +205,7 @@ bool isHere(int id, transitivity trans)
 
 
 /*======================================================================*/
-bool isNearby(int instance, transitivity trans)
+bool isNearby(int instance, Transitivity trans)
 {
     verifyInstance(instance, "NEARBY");
 
@@ -217,7 +217,7 @@ bool isNearby(int instance, transitivity trans)
 
 
 /*======================================================================*/
-bool isNear(int instance, int other, transitivity trans)
+bool isNear(int instance, int other, Transitivity trans)
 {
     Aint l1, l2;
 
@@ -237,17 +237,24 @@ bool isNear(int instance, int other, transitivity trans)
 
 /*======================================================================*/
 /* Look in a container to see if the instance is in it. */
-bool isIn(int instance, int container, transitivity trans)
+bool isIn(int instance, int container, Transitivity trans)
 {
     int loc;
 
     if (!isAContainer(container))
         syserr("IN in a non-container.");
 
+    if (trans == DEFAULT) {
+        syserr("Default transitivity not allowed in ACODE");
+        return FALSE;
+    }
+
     if (trans == DIRECTLY)
         return admin[instance].location == container;
     else {
         loc = admin[instance].location;
+        if (trans == INDIRECTLY && loc != 0 && !isA(loc, LOCATION))
+            loc = admin[loc].location;
         while (loc != 0 && !isA(loc, LOCATION))
             if (loc == container)
                 return TRUE;
@@ -261,10 +268,16 @@ bool isIn(int instance, int container, transitivity trans)
 
 /*======================================================================*/
 /* Look see if an instance is AT another. */
-bool isAt(int instance, int other, transitivity trans)
+bool isAt(int instance, int other, Transitivity trans)
 {
     if (instance == 0 || other == 0) return FALSE;
 
+    if (trans == DEFAULT) {
+        syserr("Default transitivity not allowed in ACODE");
+        return FALSE;
+    }
+
+    /* TODO: Implement indirect transitivity */
     if (trans == DIRECTLY) {
         if (isALocation(other))
             return admin[instance].location == other;
@@ -315,7 +328,7 @@ int locationOf(int instance)
 
 /*======================================================================*/
 /* Return the current position of an instance, directly or not */
-int where(int instance, transitivity trans)
+int where(int instance, Transitivity trans)
 {
     verifyInstance(instance, "WHERE");
 
@@ -1003,7 +1016,7 @@ void locate(int instance, int whr)
     verifyInstance(whr, "LOCATE AT");
 
     /* Will this create a containment loop? */
-    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVE)))
+    if (whr == instance || (isAContainer(instance) && isIn(whr, instance, TRANSITIVELY)))
         containmentLoopError(instance, whr);
 
     /* First check if the instance is in a container, if so run extract checks */

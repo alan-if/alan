@@ -348,7 +348,10 @@ void dumpClass(Class *cla)
 /*======================================================================*/
 void xmlClass(Class *cla, FILE* xmlFile)
 {
-    fprintf(xmlFile, "        <class NAME=\"%s\">\n", cla->props->id->string);
+    fprintf(xmlFile, "        <class NAME=\"%s\"", cla->props->id->string);
+    if (cla->props->parentId)
+        fprintf(xmlFile, " PARENT=\"%s\"", cla->props->parentId->string);
+    fprintf(xmlFile, ">\n");
     fprintf(xmlFile, "        </class>\n");
 }
 
@@ -360,4 +363,3 @@ void xmlClasses(FILE *xmlFile)
     xmlList(allClasses, CLASS_LIST, xmlFile);
     fprintf(xmlFile, "    </classes>\n");
 }
-

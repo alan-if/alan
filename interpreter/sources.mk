@@ -7,9 +7,11 @@
 # Either using its runner which discovers test automatically...
 # With everything mocked so they run in complete isolation...
 MODULES_WITH_ISOLATED_UNITTESTS = \
+	exe \
 	rules \
 	lists \
-	compatibility
+	compatibility \
+	instance
 
 # ... or with a common runner (much less clean... but better than ...)
 MODULES_WITH_UNITTESTS_USING_RUNNER = \

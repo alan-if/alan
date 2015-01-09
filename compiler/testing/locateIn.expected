@@ -3,26 +3,44 @@
 
 locateIn.alan
 
-   10.    Locate l In l.
+   13.    Locate l In l.
 =====>           1    2
 
   *1*   402 E : A Location cannot be inside a Container.
   *2*   318 E : The 'l' does not have the container property, which is required
                 in Expression after IN.
 
-   11.    Locate c In c.
+   14.    Locate l In c.
+=====>           1
+
+  *1*   402 E : A Location cannot be inside a Container.
+
+   15.    Locate c In c.
 =====>             1
 
   *1*   404 E : Container is restricted to only contain instances of 'location'
                 and its subclasses.
 
-   12.    Locate c In object.
+   16.    Locate c In l.
 =====>                1
 
-  *1*   319 E : Identifier 'object' is not of correct type for this context.
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in Expression after IN.
+
+   17.    Locate o In c.
+=====>             1
+
+  *1*   404 E : Container is restricted to only contain instances of 'location'
+                and its subclasses.
+
+   18.    Locate o In l.
+=====>                1
+
+  *1*   318 E : The 'l' does not have the container property, which is required
+                in Expression after IN.
 
 
-        4 error(s).
+        7 error(s).
         No detected warnings.
         1 informational message(s).
 

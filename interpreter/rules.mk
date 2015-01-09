@@ -140,7 +140,7 @@ endif
 # Here we try to build a runnable DLL for each module where it can be 
 # tested in total isolation (with everything else mocked away,
 # except lists.c and memory.c)
-ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists
+ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep
 
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))

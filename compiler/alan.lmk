@@ -92,8 +92,8 @@
 313	'Attribute \'%1\' is not defined for THIS instance.';
 314	'Attribute \'%1\' is not defined for the Current %2 since the class \'%3\' does not have it.';
 315	'Attribute not defined for \'%1\'.';
-316	'Attribute \'%1\' is not defined for %2 \'%3\' since the class it is known to be in this context (\'%4\') does not have it.';
-317	'Attribute \'%1\' is not defined for %2 since the class it is known to be in this context (\'%3\') does not have it.';
+316	'Attribute \'%1\' is not defined for %2 \'%3\' since the class it is guaranteed to be in this context (\'%4\') does not have it.';
+317	'Attribute \'%1\' is not defined for %2 since the class it is guaranteed to be in this context (\'%3\') does not have it.';
 318	'The \'%1\' does not have the container property, which is required in %2.';
 319	'Identifier \'%1\' is not %2.';
 320	'Word \'%1\' belongs to multiple word classes (%2 and %3).';
@@ -175,7 +175,6 @@
 444	'There is no location defined in %1, so output can never be seen by the player.';
 445 'The event will be executed at no location.';
 450	'Wrong type of resource file for %1 statement.';
-451 'Filter using IN transitively can possibly return instances of any type. If this is not what you want use \'Directly In\' instead. To silence this warning use an explict transitivity.';
 
 501	'Location \'%1\' has no EXITs.';
 502	'Instance \'%1\' does not inherit from any of the common base classes.';

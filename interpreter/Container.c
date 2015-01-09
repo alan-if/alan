@@ -51,7 +51,7 @@ static bool containerIsEmpty(int container)
     int i;
 
     for (i = 1; i <= header->instanceMax; i++)
-        if (isDescribable(i) && isIn(i, container, TRANSITIVE))
+        if (isDescribable(i) && isIn(i, container, TRANSITIVELY))
             return FALSE;
     return TRUE;
 }
@@ -95,7 +95,7 @@ bool passesContainerLimits(Aint theContainer, Aint theAddedInstance) {
 
 
 /*======================================================================*/
-int containerSize(int container, transitivity trans) {
+int containerSize(int container, Transitivity trans) {
     Aint i;
     Aint count = 0;
 

@@ -32,19 +32,21 @@ command="$*"
 
 lasttime=0
 while true ; do
-  while true ; do
-    d0=$lasttime
-    for file in ${files[@]} ; do
-      d1=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
-      if [ $d0 -lt $d1 ] ; then
-        d0=$d1
-      fi
+    while true ; do
+        d0=$lasttime
+        for file in ${files[@]} ; do
+            d1=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
+            if [ $d0 -lt $d1 ] ; then
+                f=$file
+                d0=$d1
+            fi
+        done
+        if [ $d0 -gt $lasttime ] ; then
+            echo -ne '\033c'
+            echo "Triggered by $f:"
+            $command
+            lasttime=$d0
+        fi
+        sleep 2
     done
-    if [ $d0 -gt $lasttime ] ; then
-      echo -ne '\033c'
-      $command
-      lasttime=$d0
-    fi
-    sleep 2
-  done
 done

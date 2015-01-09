@@ -123,7 +123,6 @@ typedef struct Expression {
 
         struct {                /* For RANDOM IN */
             struct Expression *what;
-            Bool directly;
             Transitivity transitivity;
         } rin;
 
@@ -136,11 +135,6 @@ typedef struct Expression {
             struct Expression *lowerLimit;	/* The boundries */
             struct Expression *upperLimit;
         } btw;
-
-        struct {			/* For CONTAINS */
-            struct Expression *str;	/* The string to investigate */
-            struct Expression *sub;	/* The substring to find */
-        } cnt;
 
         struct {			/* For ISA */
             struct Expression *what;	/* The entity/parameter/what */

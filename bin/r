@@ -6,7 +6,12 @@
 run ()
 {
     /bin/echo -n "$case : "
-    ./.regr $case
+    if [ -f ./.regr ] ; then
+        ./.regr $case
+    else
+        alan -debug $case
+        arun $case < $case.input
+    fi
     cases=`expr $cases + 1`
 }
 

@@ -14,16 +14,16 @@
 
 /* TYPES */
 typedef struct CurVars {
-  int
-    verb,
-    location,
-    actor,
-    instance,
-    tick,
-    score,
-    visits,
-    sourceLine,
-    sourceFile;
+    int syntax,
+        verb,
+        location,
+        actor,
+        instance,
+        tick,
+        score,
+        visits,
+        sourceLine,
+        sourceFile;
 } CurVars;
 
 

@@ -61,11 +61,10 @@ int lmMsg(int i,
           char *msg) {return (int)mock(i, pos);}
 
 /* Print a string on a line in the output file */
-void lmLiPrint(char str[]) {mock(str);}
+void lmLiPrint(char str[]) {puts(str);}
 
 /* (Un)conditionally skip to a new page in the output file */
 void lmSkipLines(int lins) {mock(lins);}
 
 /* Terminate the lmLister system */
 void lmLiTerminate(void) {}
-

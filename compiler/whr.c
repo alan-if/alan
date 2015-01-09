@@ -165,10 +165,7 @@ Aword generateInitialLocation(Properties *props)
 
 /*======================================================================*/
 void generateTransitivity(Transitivity transitivity) {
-    if (transitivity == DIRECTLY)
-        emitConstant(TRUE);
-    else                        /* Default is also INDIRECTLYu */
-        emitConstant(FALSE);
+    emitConstant(transitivity);
 }
 
 

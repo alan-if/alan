@@ -6,8 +6,14 @@ The c Isa object
     Taking location.
 End The c.
 
+The o Isa object
+End the o.
+
 Start At l.
   Locate l In l.
+  Locate l In c.
   Locate c In c.
-  Locate c In object.
-
+  Locate c In l.
+  Locate o In c.
+  Locate o In l.
+  

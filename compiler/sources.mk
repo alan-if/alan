@@ -18,9 +18,12 @@ TMCSRCS = \
 # Either using its runner which discovers test automatically...
 # With everything mocked so they run in complete isolation...
 MODULES_WITH_ISOLATED_UNITTESTS = \
-	context \
 	atr \
+	context \
+	exp \
 	sym \
+	id \
+	whr \
 
 # Sources which have unittests defined
 UNITTESTED = \
@@ -33,7 +36,6 @@ UNITTESTED = \
 	emit.c \
 	exp.c \
 	ext.c \
-	id.c \
 	ifid.c \
 	ins.c \
 	lst.c \
@@ -58,6 +60,7 @@ OTHERSRCS = \
 	dump.c \
 	encode.c \
 	evt.c \
+	id.c \
 	initialize.c \
 	lim.c \
 	msg.c \

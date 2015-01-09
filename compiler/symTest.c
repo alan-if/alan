@@ -52,31 +52,6 @@ static void initUnitTestSymbols() {
     sym3 = newSymbol(symbolId3, CLASS_SYMBOL);
 }
 
-Ensure(Symbol, testContentOfSymbol) {
-  Id *contentClassId = newId(nulsrcp, "contentClassId");
-  Symbol *contentSymbol = newClassSymbol(contentClassId, NULL, NULL);
-  Id *content = newId(nulsrcp, "content");
-  Container *container = newContainer(newContainerBody(nulsrcp, FALSE, content, NULL, NULL, NULL, NULL, NULL));
-
-  Id *id = newId(nulsrcp, "id");
-  Properties *props = newProps(NULL, NULL,
-			       nulsrcp, NULL,
-			       NULL, NULL, NULL,
-			       nulsrcp, NULL, NULL,
-			       NULL, NULL,
-			       container, NULL,
-			       nulsrcp, NULL,
-			       NULL, NULL);
-  Symbol *classTakingContent = newClassSymbol(id, props, NULL);
-  Id *instanceId = newId(nulsrcp, "instance");
-  Symbol *instance = newInstanceSymbol(instanceId, newEmptyProps(), classTakingContent);
-  content->symbol = contentSymbol;
-
-  assert_true(contentOfSymbol(classTakingContent) == contentSymbol);
-  assert_true(contentOfSymbol(instance) == contentSymbol);
-
-}
-
 
 Ensure(Symbol, testSymCheck)
 {
@@ -567,7 +542,6 @@ TestSuite *symTests()
     TestSuite *suite = create_test_suite(); 
 
     add_test_with_context(suite, Symbol, testMultipleSymbolKinds);
-    add_test_with_context(suite, Symbol, testContentOfSymbol);
     add_test_with_context(suite, Symbol, testSymCheck);
     add_test_with_context(suite, Symbol, testBuildSymbol1);
     add_test_with_context(suite, Symbol, testBuildSymbolHigher);

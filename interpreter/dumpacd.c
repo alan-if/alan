@@ -614,6 +614,7 @@ static void dumpStatements(Aword pc)
       case I_DESCRIBE: printf("DESCRIBE"); break;
       case I_DIV: printf("DIV"); break;
       case I_DUP: printf("DUP"); break;
+      case I_DUPSTR: printf("DUPSTR"); break;
       case I_LOOP: printf("LOOP"); break;
       case I_ELSE: printf("ELSE"); break;
       case I_EMPTY: printf("EMPTY"); break;

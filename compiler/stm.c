@@ -325,7 +325,7 @@ static void analyzeEmpty(Statement *stm, Context *context)
 static void analyzeLocate(Statement *stm, Context *context)
 {
 	Symbol *whtSymbol = NULL;
-	Symbol *contentClass = NULL;
+	Symbol *taken_class = NULL;
 	Expression *what = stm->fields.locate.what;
 	Where *whr = stm->fields.locate.where;
 
@@ -356,14 +356,15 @@ static void analyzeLocate(Statement *stm, Context *context)
 		break;
 	case WHERE_IN:
         /* Can the located be in a container? Not if its a location or actor. */
+        /* TODO: Refactor to use a list of illegal container classes */
 		if (inheritsFrom(what->class, locationSymbol))
 			lmLog(&what->srcp, 402, sevERR, "A Location");
 		else if (inheritsFrom(what->class, actorSymbol))
 			lmLog(&what->srcp, 402, sevERR, "An Actor");
-		contentClass = contentOf(whr->what, context);
-		if (contentClass != NULL && whtSymbol != NULL)
-			if (!inheritsFrom(whtSymbol, contentClass))
-				lmLog(&whr->srcp, 404, sevERR, contentClass->string);
+		taken_class = containerContent(whr->what, DIRECTLY, context);
+		if (taken_class != NULL && whtSymbol != NULL)
+			if (!inheritsFrom(whtSymbol, taken_class))
+				lmLog(&whr->srcp, 404, sevERR, taken_class->string);
 		break;
 	case WHERE_NEAR:
 	case WHERE_NEARBY:

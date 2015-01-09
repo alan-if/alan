@@ -642,7 +642,7 @@ PRODUCTIONS
          | optionalminus Integer 
          | "{" optionalmembers "}" 
          | "(" expression ")" 
-         | "random" optionaldirectly "in" primary 
+         | "random" optionaltransitivity "in" primary 
          | "random" primary "to" primary 
           .
 
@@ -676,11 +676,11 @@ PRODUCTIONS
                 | where 
                  .
 
- where = optionaldirectly "here" 
-       | optionaldirectly "nearby" 
-       | optionaldirectly "at" primary 
-       | optionaldirectly "in" primary 
-       | optionaldirectly "near" what 
+ where = optionaltransitivity "here" 
+       | optionaltransitivity "nearby" 
+       | optionaltransitivity "at" primary 
+       | optionaltransitivity "in" primary 
+       | optionaltransitivity "near" what 
         .
 
  binop = "+" 
@@ -708,10 +708,11 @@ PRODUCTIONS
               | "not" 
                .
 
- optionaldirectly = 
-                   | "directly" 
-                   | "indirectly" 
-                    .
+ optionaltransitivity = 
+                       | "transitively" 
+                       | "directly" 
+                       | "indirectly" 
+                        .
 
  optionalid = 
              | ID 

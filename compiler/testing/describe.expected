@@ -37,14 +37,15 @@ describe.alan
 =====>             1
 
   *1*   317 E : Attribute 'l' is not defined for the expression since the class
-                it is known to be in this context ('location') does not have
-                it.
+                it is guaranteed to be in this context ('location') does not
+                have it.
 
    33.    Describe l Of cref Of o.
 =====>             1
 
   *1*   317 E : Attribute 'l' is not defined for the expression since the class
-                it is known to be in this context ('cont') does not have it.
+                it is guaranteed to be in this context ('cont') does not have
+                it.
 
 
         8 error(s).

@@ -29,8 +29,8 @@ locationOf.alan
 =====>  	     1
 
   *1*   317 E : Attribute 'nonExistingAttribute' is not defined for the
-                expression since the class it is known to be in this context
-                ('location') does not have it.
+                expression since the class it is guaranteed to be in this
+                context ('location') does not have it.
 
 
         6 error(s).

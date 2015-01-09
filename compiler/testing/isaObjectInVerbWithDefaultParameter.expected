@@ -19,8 +19,8 @@ isaObjectInVerbWithDefaultParameter.alan
 =====>  	         1
 
   *1*   316 E : Attribute 'alph' is not defined for variable 'obj' since the
-                class it is known to be in this context ('object') does not
-                have it.
+                class it is guaranteed to be in this context ('object') does
+                not have it.
 
 
         3 error(s).

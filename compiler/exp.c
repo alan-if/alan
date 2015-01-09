@@ -172,7 +172,6 @@ Expression *newRandomRangeExpression(Srcp srcp, Expression *from, Expression *to
 Expression *newRandomInExpression(Srcp srcp, Expression *what, Transitivity transitivity) {
     Expression *exp = newExpression(srcp, RANDOM_IN_EXPRESSION);
     exp->fields.rin.what = what;
-    exp->fields.rin.directly = (transitivity != INDIRECTLY);
     exp->fields.rin.transitivity = transitivity;
     return exp;
 }
@@ -306,9 +305,9 @@ Symbol *symbolOfExpression(Expression *exp, Context *context) {
 
 
 /*======================================================================*/
-Symbol *contentOf(Expression *what, Context *context) {
+Symbol *containerContent(Expression *what, Transitivity transitivity, Context *context) {
 
-    /* Find what classes a container takes */
+    /* Find what classes a container might contain */
 
     Symbol *symbol = NULL;
     Symbol *content = NULL;
@@ -316,11 +315,17 @@ Symbol *contentOf(Expression *what, Context *context) {
     switch (what->kind) {
     case WHAT_EXPRESSION:
         symbol = symbolOfWhat(what->fields.wht.wht, context);
-        content = contentOfSymbol(symbol);
+        if (transitivity == DIRECTLY)
+            content = containerSymbolTakes(symbol);
+        else
+            content = containerMightContain(symbol);
         break;
     case ATTRIBUTE_EXPRESSION:
         symbol = what->class;
-        content = contentOfSymbol(symbol);
+        if (transitivity == DIRECTLY)
+            content = containerSymbolTakes(symbol);
+        else
+            content = containerMightContain(symbol);
         break;
     default:
         break;
@@ -686,22 +691,16 @@ static void analyzeClassingFilter(char *message,
         break;
     case WHERE_EXPRESSION:
         analyzeWhereFilter(theFilter, context);
+        Where *where = theFilter->fields.whr.whr;
         switch (theFilter->fields.whr.whr->kind) {
         case WHERE_INSET:
-            // TODO Find the class and type of items in the set
-            theFilter->class = theFilter->fields.whr.whr->what->class;
-            theFilter->type = theFilter->fields.whr.whr->what->type;
+            /* TODO Find the class and type of items in the set */
+            theFilter->class = where->what->class;
+            theFilter->type = where->what->type;
             break;
         case WHERE_IN:
-            if (theFilter->fields.whr.whr->transitivity == DIRECTLY)
-                theFilter->class = contentOf(theFilter->fields.whr.whr->what, context);
-            else {
-                if (theFilter->fields.whr.whr->transitivity == DEFAULT 
-                    && theFilter->fields.whr.whr->what->type != ERROR_TYPE)
-                    lmLog(&theFilter->srcp, 451, sevWAR, "");
-                theFilter->class = entitySymbol;
-            }
-            theFilter->type = theFilter->fields.whr.whr->what->type;
+            theFilter->class = containerContent(where->what, where->transitivity, context);
+            theFilter->type = where->what->type;
             break;
         case WHERE_HERE:
         case WHERE_AT:
@@ -889,7 +888,7 @@ static void analyzeAggregate(Expression *exp, Context *context)
                 exp->fields.agr.attribute->code = atr->id->code;
         }
     } else if (class == NULL && exp->type != ERROR_TYPE)
-        /* Even for COUNT we want to warn for counting the universe, which
+        /* Also for COUNT we want to warn for counting the universe, which
            is probably not what he wanted */
         lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
 }
@@ -921,12 +920,15 @@ static void analyzeRandomIn(Expression *exp, Context *context)
         if (verifyContainerExpression(exp->fields.rin.what, context,
                                       "'Random In' expression")) {
             exp->type = INSTANCE_TYPE;
-            exp->class = contentOf(exp->fields.rin.what, context);
+            if (exp->fields.rin.transitivity == DEFAULT)
+                exp->fields.rin.transitivity = TRANSITIVELY;
+            exp->class = containerContent(exp->fields.rin.what, exp->fields.rin.transitivity, context);
         } else
             exp->type = ERROR_TYPE;
-    } else {
+    } else {                    /* In a set */
         exp->class = exp->fields.rin.what->class;
         exp->type = classToType(exp->fields.rin.what->class);
+        /* Transitivity is not supported in set membership of course */
         if (exp->fields.rin.transitivity != DEFAULT)
             lmLogv(&exp->srcp, 422, sevERR, transitivityToString(exp->fields.rin.transitivity),
                    "not allowed for", "Random In operating on a Set", NULL);
@@ -1454,7 +1456,7 @@ static void generateRandomInExpression(Expression *exp)
     if (exp->fields.rin.what->type == SET_TYPE)
         emit0(I_SETSIZE);
     else {
-        emitConstant(exp->fields.rin.directly);
+        emitConstant(exp->fields.rin.transitivity);
         emit0(I_CONTSIZE);
     }
     emitConstant(1);		/* Lower random value */
@@ -1463,7 +1465,7 @@ static void generateRandomInExpression(Expression *exp)
     if (exp->fields.rin.what->type == SET_TYPE)
         emit0(I_SETMEMB);
     else {
-        emitConstant(exp->fields.rin.directly);
+        emitConstant(exp->fields.rin.transitivity);
         emit0(I_CONTMEMB);
     }
 }
@@ -1752,7 +1754,7 @@ void dumpExpression(Expression *exp)
         break;
     case RANDOM_IN_EXPRESSION:
         put("what: "); dumpExpression(exp->fields.rin.what); nl();
-        put("directly: "); dumpBool(exp->fields.rin.directly);
+        put("transitivity: "); put(transitivityToString(exp->fields.rin.transitivity));
         break;
     case WHAT_EXPRESSION:
         put("wht: "); dumpWhat(exp->fields.wht.wht);

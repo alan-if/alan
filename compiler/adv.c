@@ -147,12 +147,15 @@ void analyzeAdventure(void)
     analyzeAllAttributes();	/* Make sure attributes are analyzed
                                and typed before expressions */
     numberAllAttributes();	/* Then we can number and type check
-				   inherited attributes */
+                               inherited attributes */
+
+    calculateTransitiveContainerContents();
+
     replicateInherited();
 
     prepareWords();			/* Prepare words in the dictionary */
-    prepareMessages();			/* Prepare standard and user messages */
-    prepareScores();			/* Prepare score handling */
+    prepareMessages();      /* Prepare standard and user messages */
+    prepareScores();        /* Prepare score handling */
 
     verbose("Syntax definitions");
     analyzeSyntaxes();
@@ -234,6 +237,7 @@ void generateAdventure(char acodeFileName[],
         parameterNamesAddress = generateParameterNames(adv.stxs);
     acodeHeader.parameterMapAddress = generateParameterMappingTable();
     emit(parameterNamesAddress);
+
     acodeHeader.maxParameters = 10;	/* TODO calculate and move this to a better place */
 
     verbose("Verbs");
@@ -398,6 +402,11 @@ void dumpAdventure(enum dmpKd dmp)
 }
 
 
+/*----------------------------------------------------------------------*/
+static void xmlStart(FILE *xmlFile) {
+    fprintf(xmlFile, "    <start WHERE=\"%s\" />\n", adv.whr->what->fields.wht.wht->id->string);
+}
+
 /*======================================================================*/
 void xmlAdventure(void) {
     char *xmlFileName = strdup(adv.name);
@@ -412,6 +421,7 @@ void xmlAdventure(void) {
         fprintf(xmlFile, "<adventure>\n");
         xmlClasses(xmlFile);
         xmlInstances(xmlFile);
+        xmlStart(xmlFile);
         fprintf(xmlFile, "</adventure>\n");
         fclose(xmlFile);
     }

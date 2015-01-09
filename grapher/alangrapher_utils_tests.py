@@ -33,6 +33,20 @@ class AlangrapherUtilsTests(unittest.TestCase):
         instance = xmltree.getElementsByTagName("instance")[0]
         self.assertTrue(is_location(instance, xmltree.getElementsByTagName('class')))
 
+    def test_can_see_if_instance_inherits_directly_from_class_inheriting_from_location_uppercase(self):
+        document = """<adventure>
+                        <classes>
+                            <class NAME='location_class' PARENT='LOCATION'>
+                            </class>
+                        </classes>
+                        <instances>
+                            <instance NAME='loc1' PARENT='location_class'></instance>
+                        </instances>
+                    </adventure>"""
+        xmltree = minidom.parseString(document)
+        instance = xmltree.getElementsByTagName("instance")[0]
+        self.assertTrue(is_location(instance, xmltree.getElementsByTagName('class')))
+        
     def test_can_see_if_instance_inherits_indirectly_from_class_inheriting_from_location(self):
         document = """<adventure>
                         <classes>
@@ -104,7 +118,7 @@ class AlangrapherUtilsTests(unittest.TestCase):
                         </instances>
                     </adventure>"""
         location = get_locations(minidom.parseString(document), [])[0]
-        self.assertEqual('loc1 [label="loc1"];', dot_for_location_header(location))
+        self.assertEqual('loc1 [label="loc1"];', dot_for_location_header(location, start_location))
 
 if __name__ == 'main':
     unittest.main()

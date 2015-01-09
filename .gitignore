@@ -3,6 +3,8 @@
 *.ifid
 TEST-*.xml
 *.output
+*.log
+*.tmp
 *.vg
 *.leaks
 alan.linux.x86.tgz

@@ -625,7 +625,7 @@ primary : STRING
         | optional_minus INTEGER 
         | '{' optional_members '}' 
         | '(' expression ')' 
-        | 'random' optional_directly 'in' primary 
+        | 'random' optional_transitivity 'in' primary 
         | 'random' primary 'to' primary 
            ;
 
@@ -659,11 +659,11 @@ optional_where :
                | where 
                   ;
 
-where : optional_directly 'here' 
-      | optional_directly 'nearby' 
-      | optional_directly 'at' primary 
-      | optional_directly 'in' primary 
-      | optional_directly 'near' what 
+where : optional_transitivity 'here' 
+      | optional_transitivity 'nearby' 
+      | optional_transitivity 'at' primary 
+      | optional_transitivity 'in' primary 
+      | optional_transitivity 'near' what 
          ;
 
 binop : '+' 
@@ -691,10 +691,11 @@ optional_not :
              | 'not' 
                 ;
 
-optional_directly : 
-                  | 'directly' 
-                  | 'indirectly' 
-                     ;
+optional_transitivity : 
+                      | 'transitively' 
+                      | 'directly' 
+                      | 'indirectly' 
+                         ;
 
 optional_id : 
             | ID 
