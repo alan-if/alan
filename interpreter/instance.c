@@ -274,6 +274,7 @@ bool isAt(int instance, int other, ATrans trans)
         else
             return admin[instance].location == admin[other].location;
     } else {
+        /* Default transitivity = TRANSITIVE */
         if (!isALocation(other))
             /* If the other is not a location, compare their locations */
             return locationOf(instance) == locationOf(other);

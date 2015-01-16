@@ -44,11 +44,21 @@ Ensure(Where, generates_transitive_transitivity_for_transitively) {
 
 Ensure(Where, generates_transitive_for_default_transitivity) {
     expect(emitConstant, when(word, is_equal_to(TRANSITIVE)));
-    generateTransitivity(TRANSITIVELY);
+    generateTransitivity(DEFAULT_TRANSITIVITY);
 }
 
-Ensure(Where, generates_syserr_for_ATrans_values) {
+Ensure(Where, generates_syserr_for_ATrans_value_DIRECT) {
     generateTransitivity(DIRECT);
+    assert_that(syserr_called);
+}
+
+Ensure(Where, generates_syserr_for_ATrans_value_INDIRECT) {
+    generateTransitivity(INDIRECT);
+    assert_that(syserr_called);
+}
+
+Ensure(Where, generates_syserr_for_ATrans_value_TRANSITIVE) {
+    generateTransitivity(TRANSITIVE);
     assert_that(syserr_called);
 }
 
