@@ -820,6 +820,9 @@ void run(void)
         if (debugOption)
             debug(FALSE, 0, 0);
 
+        if (stackDepth(theStack) != 0)
+            syserr("Stack is not empty in main loop");
+        
         runPendingEvents();
         
         current.tick++;

@@ -1,5 +1,10 @@
 /* Mocking SYSERR.H */
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+
 #include "syserr.h"
+
 
 /* DATA: */
 

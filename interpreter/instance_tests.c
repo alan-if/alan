@@ -183,3 +183,51 @@ Ensure(Instance, can_see_if_an_instance_is_not_transitive_at_location) {
 
     assert_that(!isAt(instance, location2, TRANSITIVE));
 }
+
+
+/* Nested locations */
+Ensure(Instance, can_see_if_a_location_is_direct_at_another) {
+    Aint outer = given_an_instance_at("outer", LOCATION, 0);
+    Aint inner = given_an_instance_at("inner", LOCATION, outer);
+
+    assert_that(isAt(inner, outer, DIRECT));
+}
+
+Ensure(Instance, can_see_if_a_location_is_not_direct_at_another) {
+    Aint outer = given_an_instance_at("outer", LOCATION, 0);
+    Aint other = given_an_instance_at("other", LOCATION, 0);
+    Aint inner = given_an_instance_at("inner", LOCATION, other);
+
+    assert_that(!isAt(inner, outer, DIRECT));
+}
+
+Ensure(Instance, can_see_if_a_location_is_not_direct_at_another2) {
+    Aint outer = given_an_instance_at("outer", LOCATION, 0);
+    Aint other = given_an_instance_at("other", LOCATION, outer);
+    Aint inner = given_an_instance_at("inner", LOCATION, other);
+
+    assert_that(!isAt(inner, outer, DIRECT));
+}
+
+Ensure(Instance, can_see_if_a_location_is_transitive_at_another) {
+    Aint outer = given_an_instance_at("outer", LOCATION, 0);
+    Aint inner = given_an_instance_at("inner", LOCATION, outer);
+
+    assert_that(isAt(inner, outer, TRANSITIVE));
+}
+
+Ensure(Instance, can_see_if_a_location_is_not_transitive_at_another) {
+    Aint outer = given_an_instance_at("outer", LOCATION, 0);
+    Aint other = given_an_instance_at("other", LOCATION, 0);
+    Aint inner = given_an_instance_at("inner", LOCATION, other);
+
+    assert_that(!isAt(inner, outer, TRANSITIVE));
+}
+
+Ensure(Instance, can_see_if_a_location_is_transitive_at_another2) {
+    Aint outer = given_an_instance_at("outer", LOCATION, 0);
+    Aint intermediate = given_an_instance_at("intermediate", LOCATION, outer);
+    Aint inner = given_an_instance_at("inner", LOCATION, intermediate);
+
+    assert_that(isAt(inner, outer, TRANSITIVE));
+}

@@ -1226,7 +1226,9 @@ static void generateWhereRHS(Where *where) {
         emit0(I_INSET);
         break;
     case WHERE_AT:
+        //generateWhere(where);
         generateTransitivity(where->transitivity);
+        //emit0(I_AT);
         emit0(I_WHERE);
         generateWhere(where);
         emit0(I_EQ);

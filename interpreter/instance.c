@@ -268,22 +268,40 @@ bool isAt(int instance, int other, ATrans trans)
     if (instance == 0 || other == 0) return FALSE;
 
     /* TODO: Implement indirect transitivity */
-    if (trans == DIRECT) {
-        if (isALocation(other))
+    if (isALocation(instance)) {
+        /* Nested locations */
+        if (trans == DIRECT)
             return admin[instance].location == other;
-        else
-            return admin[instance].location == admin[other].location;
+        else {
+            int current = admin[instance].location;
+            while (current != 0) {
+                if (current == other)
+                    return TRUE;
+                else
+                    current = admin[current].location;
+            }
+            return FALSE;                
+        }
+            
     } else {
-        /* Default transitivity = TRANSITIVE */
-        if (!isALocation(other))
-            /* If the other is not a location, compare their locations */
-            return locationOf(instance) == locationOf(other);
-        else if (locationOf(instance) == other)
-            return TRUE;
-        else if (locationOf(other) != 0)
-            return isAt(instance, locationOf(other), FALSE);
-        else
-            return FALSE;
+        /* Other instances */
+        if (trans == DIRECT) {
+            if (isALocation(other))
+                return admin[instance].location == other;
+            else
+                return admin[instance].location == admin[other].location;
+        } else {
+            /* Default transitivity = TRANSITIVE */
+            if (!isALocation(other))
+                /* If the other is not a location, compare their locations */
+                return locationOf(instance) == locationOf(other);
+            else if (locationOf(instance) == other)
+                return TRUE;
+            else if (locationOf(other) != 0)
+                return isAt(instance, locationOf(other), FALSE);
+            else
+                return FALSE;
+        }
     }
 }
 
