@@ -133,7 +133,7 @@ void analyzeAdventure(void)
 {
     addHero(&adv);
     if (nowhere == NULL || nowhere->code != NOWHERE)
-        SYSERR("Nowhere != 1");
+        SYSERR("Nowhere != 1", nulsrcp);
 
     addLiteralInstance();
 

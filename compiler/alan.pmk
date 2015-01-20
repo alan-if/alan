@@ -2576,7 +2576,7 @@ static int val(char str[])
 <optional_transitivity>
     =
     %%
-        %<optional_transitivity>.transitivity = DEFAULT;
+        %<optional_transitivity>.transitivity = DEFAULT_TRANSITIVITY;
     %%
 
     ! 'transitively'

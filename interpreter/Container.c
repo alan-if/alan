@@ -20,7 +20,7 @@ static int countInContainer(int containerIndex)	/* IN - the container to count i
     int instanceIndex, j = 0;
 
     for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
-        if (isIn(instanceIndex, containerIndex, DIRECTLY))
+        if (isIn(instanceIndex, containerIndex, DIRECT))
             /* Then it's in this container also */
             j++;
     return(j);
@@ -36,7 +36,7 @@ static int sumAttributeInContainer(
     int sum = 0;
 
     for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
-        if (isIn(instanceIndex, containerIndex, DIRECTLY)) {	/* Then it's directly in this cont */
+        if (isIn(instanceIndex, containerIndex, DIRECT)) {	/* Then it's directly in this cont */
             if (instances[instanceIndex].container != 0)	/* This is also a container! */
                 sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
             sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
@@ -51,7 +51,7 @@ static bool containerIsEmpty(int container)
     int i;
 
     for (i = 1; i <= header->instanceMax; i++)
-        if (isDescribable(i) && isIn(i, container, TRANSITIVELY))
+        if (isDescribable(i) && isIn(i, container, TRANSITIVE))
             return FALSE;
     return TRUE;
 }
@@ -95,7 +95,7 @@ bool passesContainerLimits(Aint theContainer, Aint theAddedInstance) {
 
 
 /*======================================================================*/
-int containerSize(int container, Transitivity trans) {
+int containerSize(int container, ATrans trans) {
     Aint i;
     Aint count = 0;
 

@@ -2211,7 +2211,7 @@ int rule			/* IN production number */
     case 357: { /* <optional_transitivity> =; */
 #line 2578 "alan.pmk"
 
-        pmSeSt[pmStkP+1].transitivity = DEFAULT;
+        pmSeSt[pmStkP+1].transitivity = DEFAULT_TRANSITIVITY;
     	break;}
     case 358: { /* <optional_transitivity> = 'transitively'; */
 #line 2583 "alan.pmk"

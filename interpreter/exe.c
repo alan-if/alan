@@ -206,7 +206,7 @@ static void sayUndoneCommand(char *words) {
     static Parameter *messageParameters = NULL;
     messageParameters = ensureParameterArrayAllocated(messageParameters);
 
-    current.location = where(HERO, DIRECTLY);
+    current.location = where(HERO, DIRECT);
     clearParameterArray(messageParameters);
     addParameterForString(&messageParameters[0], words);
     setEndOfArray(&messageParameters[1]);
@@ -232,7 +232,7 @@ void quitGame(void)
 {
     char buf[80];
 
-    current.location = where(HERO, DIRECTLY);
+    current.location = where(HERO, DIRECT);
     para();
     while (TRUE) {
         col = 1;
@@ -275,7 +275,7 @@ void restartGame(void)
 {
     Aint previousLocation = current.location;
 
-    current.location = where(HERO, DIRECTLY);
+    current.location = where(HERO, DIRECT);
     para();
     if (confirm(M_REALLY)) {
         longjmp(restartLabel, TRUE);
@@ -526,7 +526,7 @@ int getContainerMember(int container, int index, bool directly) {
     Aint count = 0;
 
     for (i = 1; i <= header->instanceMax; i++) {
-        if (isIn(i, container, DIRECTLY)) {
+        if (isIn(i, container, DIRECT)) {
             count++;
             if (count == index)
                 return i;
@@ -590,7 +590,7 @@ void empty(int cnt, int whr)
     int i;
 
     for (i = 1; i <= header->instanceMax; i++)
-        if (isIn(i, cnt, DIRECTLY))
+        if (isIn(i, cnt, DIRECT))
             locate(i, whr);
 }
 

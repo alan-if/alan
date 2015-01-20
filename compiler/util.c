@@ -121,9 +121,30 @@ static int test_severity(char *err, lmSev sevs)
   case 'E': sev = sevERR; break;
   case 'F': sev = sevFAT; break;
   case 'S': sev = sevSYS; break;
-  default: SYSERR("Unexpected severity marker");
+  default: SYSERR("Unexpected severity marker", nulsrcp);
   }
   return sev & sevs;
+}
+
+
+/*======================================================================*/
+char *fileName(int fileNo) {
+    static List nofile;
+    List *fnm;
+    int j;
+    
+    nofile.member.str = "<no file>";
+
+    /* Advance to the correct file name */
+    if (fileNo == -1) 
+        fnm = &nofile;
+    else
+        for (fnm = fileNames, j = 0; fileNo; j++)
+            if (fnm != NULL)
+                fnm = fnm->next;
+    if (fnm == NULL)
+        fnm = &nofile;
+    return fnm->member.str;
 }
 
 
@@ -236,8 +257,22 @@ void setSyserrHandler(void (*f)(char *))
   handler = f;
 }
 
+
+/*----------------------------------------------------------------------*/
+static char *srcpToString(Srcp srcp) {
+    static char *buffer = NULL;
+    if (!buffer) buffer = allocate(1000);
+
+    if (srcp.line != 0 && srcp.col != 0)
+        sprintf(buffer, " originated from %s:%d(%d)", fileName(srcp.file), srcp.line, srcp.col);
+    else
+        buffer[0] = '\0';
+    return buffer;
+}
+
+
 /*======================================================================*/
-void syserr(char *errorMessage, const char *function, char *file, int line)
+void syserr(char *errorMessage, Srcp srcp, const char *function, char *file, int line)
 {
   int messageLength;
   char *messageString;
@@ -248,7 +283,7 @@ void syserr(char *errorMessage, const char *function, char *file, int line)
     messageLength = strlen(errorMessage) + strlen(function) + strlen(file) + strlen(" in '()', :00000");
 
     messageString = allocate(messageLength+1);
-    sprintf(messageString, "%s in '%s()', %s:%d", errorMessage, function, file, line);
+    sprintf(messageString, "%s in '%s()', %s:%d%s", errorMessage, function, file, line, srcpToString(srcp));
 
     lmLog(&nulsrcp, 997, sevSYS, messageString);
 

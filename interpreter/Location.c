@@ -53,7 +53,7 @@ void go(int location, int dir)
                         interpret(theExit->action);
                     }
                     /* Still at the same place? */
-                    if (where(HERO, TRANSITIVELY) == oldloc) {
+                    if (where(HERO, TRANSITIVE) == oldloc) {
                         if (traceSectionOption)
                             traceExit(location, dir, "Moving");
                         locate(HERO, theExit->target);

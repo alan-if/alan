@@ -101,7 +101,7 @@ static void analyzeElement(Element *elm)
     case END_OF_SYNTAX:
         break;
     default:
-        SYSERR("Unknown element node kind");
+        SYSERR("Unknown element node kind", elm->id->srcp);
         break;
     }
 }
@@ -178,7 +178,7 @@ static Bool equalElements(List *element1, List *element2)
 {
     if (element1 == NULL || element2 == NULL)
         return element2 == element1;
-    else if (element1->member.elm->kind == element2->member.elm->kind)
+    else if (element1->member.elm->kind == element2->member.elm->kind) {
         switch (element1->member.elm->kind) {
         case END_OF_SYNTAX:
         case PARAMETER_ELEMENT:
@@ -186,9 +186,9 @@ static Bool equalElements(List *element1, List *element2)
         case WORD_ELEMENT:
             return equalId(element1->member.elm->id, element2->member.elm->id);
         }
-    else
+        SYSERR("Unexpected element kind", element1->member.elm->srcp);
+    } else
         return FALSE;
-    SYSERR("Unexpected case");
     return FALSE;
 }
 

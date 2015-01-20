@@ -121,15 +121,15 @@ void analyzeAlternatives(List *alts,
 /*----------------------------------------------------------------------*/
 static Aint generateQualifier(QualKind qualifier)
 {
-  switch (qualifier) {
-  case QUAL_BEFORE: return Q_BEFORE;
-  case QUAL_AFTER: return Q_AFTER;
-  case QUAL_ONLY: return Q_ONLY;
-  case QUAL_DEFAULT: return Q_DEFAULT;
-  default:
-    SYSERR("Unrecognized switch");
-    return Q_DEFAULT;
-  }
+    switch (qualifier) {
+    case QUAL_BEFORE: return Q_BEFORE;
+    case QUAL_AFTER: return Q_AFTER;
+    case QUAL_ONLY: return Q_ONLY;
+    case QUAL_DEFAULT: return Q_DEFAULT;
+    default:
+        SYSERR("Unrecognized switch", nulsrcp);
+        return Q_DEFAULT;
+    }
 }
 
 

@@ -440,7 +440,7 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol, Context *context)
                 } else if (thisAttribute->type == INSTANCE_TYPE) {
                     analyzeInheritedReferenceAttribute(thisAttribute, inheritedAttribute, definingSymbol);
                 } else
-                    SYSERR("Unimplemented complex attribute type");
+                    SYSERR("Unimplemented complex attribute type", thisAttribute->srcp);
             }
         } else if (thisAttribute->type == SET_TYPE
                    && thisAttribute->set->fields.set.memberType == UNINITIALIZED_TYPE)
@@ -483,7 +483,7 @@ static Attribute *findAttributeOfSymbol(Symbol *symbol, Id *attribute, Id *id, c
         case ERROR_SYMBOL:
             break;
         default:
-            SYSERR("unexpected symbol->kind");
+            SYSERR("unexpected symbol->kind", attribute->srcp);
             break;
         }
     }
@@ -532,7 +532,7 @@ static Attribute *resolveAttributeOfId(Id *id, Id *attribute, Context *context)
         case PARAMETER_SYMBOL: atr = resolveAttributeOfParameter(id, attribute, context); break;
         case LOCAL_SYMBOL: atr = resolveAttributeOfLocal(id, attribute, context); break;
         case ERROR_SYMBOL: break;
-        default: SYSERR("Unexpected symbol kind");
+        default: SYSERR("Unexpected symbol kind", id->srcp);
         }
         return atr;
     } else /* no symbol found */
@@ -575,7 +575,7 @@ static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
         switch (thisContext->kind) {
         case CLASS_CONTEXT:
             if (thisContext->class == NULL)
-                SYSERR("Context->class == NULL");
+                SYSERR("Context->class == NULL", attribute->srcp);
 
             atr = findAttribute(thisContext->class->props->attributes, attribute);
             contextFound = TRUE;
@@ -583,7 +583,7 @@ static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
 
         case INSTANCE_CONTEXT:
             if (thisContext->instance == NULL)
-                SYSERR("context->instance == NULL");
+                SYSERR("context->instance == NULL", attribute->srcp);
 
             atr = findAttribute(thisContext->instance->props->attributes, attribute);
             contextFound = TRUE;
@@ -626,7 +626,7 @@ static Attribute *resolveAttributeToWhat(What *what, Id *attribute, Context *con
     case WHAT_ACTOR: return resolveAttributeOfCurrentActor(attribute, context); break;
     case WHAT_LOCATION: return resolveAttributeOfCurrentLocation(attribute, context); break;
     case WHAT_THIS: return resolveAttributeOfThis(attribute, context); break;
-    default: SYSERR("Unexpected what->kind in switch");
+    default: SYSERR("Unexpected what->kind in switch", what->srcp);
     }
     return NULL;
 }
@@ -752,7 +752,7 @@ void generateSet(Expression *exp) {
         switch (exp->fields.set.memberType) {
         case INSTANCE_TYPE: generateSymbol(symbolOfExpression(elements->member.exp, NULL)); break;
         case INTEGER_TYPE: emit(elements->member.exp->fields.val.val); break;
-        default: SYSERR("Generating unexpected type in Set attribute");
+        default: SYSERR("Generating unexpected type in Set attribute", elements->member.exp->srcp);
         }
     emit(EOF);
 }
@@ -767,7 +767,7 @@ static Aaddr generateSetAttribute(Attribute *atr)
     Aaddr adr = nextEmitAddress();
 
     if (atr->setType == STRING_TYPE)
-        SYSERR("Can't generate STRING sets yet");
+        SYSERR("Can't generate STRING sets yet", atr->srcp);
 
     generateSet(atr->set);
 

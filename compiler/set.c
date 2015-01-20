@@ -21,16 +21,16 @@
 /*======================================================================*/
 Symbol *classOfMembers(Expression *exp)
 {
-  /* Find what classes a Set contains */
-  switch (exp->kind) {
-  case ATTRIBUTE_EXPRESSION:
-    return exp->fields.atr.atr->setClass;
-    break;
-  default:
-    SYSERR("Unexpected Expression kind");
-    break;
-  }
-  return NULL;
+    /* Find what classes a Set contains */
+    switch (exp->kind) {
+    case ATTRIBUTE_EXPRESSION:
+        return exp->fields.atr.atr->setClass;
+        break;
+    default:
+        SYSERR("Unexpected Expression kind", exp->srcp);
+        break;
+    }
+    return NULL;
 }
 
 
@@ -43,7 +43,7 @@ void verifySetMember(Expression *theSet, Expression *theMember, char contextMess
     case INSTANCE_TYPE: break;
     case SET_TYPE: break;
     case ERROR_TYPE: break;
-    default: SYSERR("Unexpected member type");
+    default: SYSERR("Unexpected member type", theMember->srcp);
     }
     if (theMember->class != NULL)
         if (!inheritsFrom(theMember->class, theSet->class)) {
@@ -113,7 +113,7 @@ void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass
                     break;
                 case UNINITIALIZED_TYPE:
                 case REFERENCE_TYPE:
-                    SYSERR("Unexpected type kind");
+                    SYSERR("Unexpected type kind", exp->srcp);
                     break;
                 case ERROR_TYPE:
                     ;

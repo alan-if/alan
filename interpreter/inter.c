@@ -353,16 +353,14 @@ static void traceInstanceTopValue() {
 }
 
 /*----------------------------------------------------------------------*/
-static char *transitivityFlag(Transitivity value) {
+static char *transitivityFlag(ATrans value) {
     switch (value) {
-    case DEFAULT:
+    case TRANSITIVE:
         return "Default";
-    case DIRECTLY:
+    case DIRECT:
         return "Direct";
-    case INDIRECTLY:
+    case INDIRECT:
         return "Indirect";
-    case TRANSITIVELY:
-        return "Transitive";
     }
     syserr("Unexpected transitivity");
     return "ERROR";
@@ -1389,6 +1387,7 @@ void interpret(Aaddr adr)
     }
  exitInterpreter:
     recursionDepth--;
+
 }
 
 /*======================================================================*/

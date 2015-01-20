@@ -12,7 +12,7 @@ endif
 BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
 
 CC = $(COMPILER)
-CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS) $(ARCHFLAGS)
+CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS) $(ARCHFLAGS) -MMD
 
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
@@ -63,7 +63,7 @@ ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUNOBJDIR)/alan.v
 
 # Rule to compile objects to subdirectory
 $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
@@ -86,7 +86,7 @@ GLKARUNOBJDIR = .glkarun
 GLKARUNOBJECTS = $(addprefix $(GLKARUNOBJDIR)/,${GLKARUNSRCS:.c=.o}) $(GLKARUNOBJDIR)/alan.version.o
 -include $(GLKARUNOBJECTS:.o=.d)
 $(GLKARUNOBJECTS): $(GLKARUNOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(GLKARUNOBJDIR):
 	@mkdir $(GLKARUNOBJDIR)
@@ -114,9 +114,9 @@ UNITTESTS_ALL_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_ALL_SRCS:.c=
 
 # Rule to compile objects to subdirectory
 $(UNITTESTSOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 $(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 # Create directory if it doesn't exist
 $(UNITTESTSOBJDIR):

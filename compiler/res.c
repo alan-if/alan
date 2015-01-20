@@ -105,7 +105,7 @@ static void resolveParameterClass(Restriction *res, Symbol *parameter)
         break;
 
     default:
-        SYSERR("Unimplemented restriction kind");
+        SYSERR("Unimplemented restriction kind", res->srcp);
         break;
     }
 
@@ -186,7 +186,7 @@ static void generateRestrictionEntry(Restriction *res)
         restriction.class = RESTRICTIONCLASS_CONTAINER;
         break;
     default:
-        SYSERR("Unexpected RestrictionKind");
+        SYSERR("Unexpected RestrictionKind", res->srcp);
         break;
     }
     restriction.stms = res->stmadr;

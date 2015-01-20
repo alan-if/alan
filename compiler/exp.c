@@ -231,7 +231,7 @@ static Bool idIsContainer(Id *id, Context *context) {
         return symbolIsContainer(classOfIdInContext(context, id));
     case INSTANCE_SYMBOL:
         return symbolIsContainer(id->symbol);
-    default: SYSERR("Unexpected id->symbol->kind");
+    default: SYSERR("Unexpected id->symbol->kind", id->srcp);
     }
     return TRUE;                /* Assume the best to avoid spurious errors */
 }
@@ -246,13 +246,13 @@ static Bool expressionIsContainer(Expression *exp, Context *context) {
         case WHAT_LOCATION: return symbolIsContainer(locationSymbol);
         case WHAT_ACTOR: return symbolIsContainer(actorSymbol);
         case WHAT_ID: return idIsContainer(exp->fields.wht.wht->id, context);
-        default: SYSERR("Unexpected wht->kind");
+        default: SYSERR("Unexpected wht->kind", exp->fields.wht.wht->srcp);
         }
     case ATTRIBUTE_EXPRESSION:
         return symbolIsContainer(exp->class);
         break;
     default:
-        SYSERR("Unexpected Expression kind");
+        SYSERR("Unexpected Expression kind", exp->srcp);
     }
     return TRUE; /* If anything is wrong assume that it is a container to get fewer spurious errors */
 }
@@ -267,7 +267,7 @@ static void expressionIsNotContainer(Expression *exp, Context *context,
         lmLogv(&exp->srcp, 311, sevERR, "Expression", "a Container", "because the class of the attribute infered from its initial value does not have the Container property", NULL);
         break;
     default:
-        SYSERR("Unexpected Expression kind");
+        SYSERR("Unexpected Expression kind", exp->srcp);
     }
 }
 
@@ -298,7 +298,7 @@ Symbol *symbolOfExpression(Expression *exp, Context *context) {
     case ATTRIBUTE_EXPRESSION:
         return exp->class;
     default:
-        SYSERR("Unexpected expression kind");
+        SYSERR("Unexpected expression kind", exp->srcp);
     }
     return NULL;
 }
@@ -342,7 +342,7 @@ static char *aggregateToString(AggregateKind agr)
     case MAX_AGGREGATE: return("MAX"); break;
     case MIN_AGGREGATE: return("MIN"); break;
     case COUNT_AGGREGATE: return("COUNT"); break;
-    default: SYSERR("Unexpected aggregate kind");
+    default: SYSERR("Unexpected aggregate kind", nulsrcp);
     }
     return NULL;
 }
@@ -406,6 +406,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
         if (context->kind == RULE_CONTEXT)
             lmLogv(&exp->srcp, 443, sevERR, "Rule context", "Here or Nearby", NULL);
         break;
+        
     case WHERE_AT:
     case WHERE_NEAR:
         analyzeExpression(where->what, context);
@@ -413,15 +414,19 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
             if (where->what->type != INSTANCE_TYPE && where->what->type != REFERENCE_TYPE)
                 lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT or NEAR", "an instance", NULL);
         break;
+        
     case WHERE_IN:
         analyzeExpression(where->what, context);
-        if (where->what->type != SET_TYPE) /* Can be in a container and in a set */
+        if (where->what->type == SET_TYPE) {/* Can be in a container and in a set */
+            if (exp->fields.whr.whr->transitivity != DEFAULT_TRANSITIVITY)
+                lmLog(&where->srcp, 325, sevERR, transitivityToString(exp->fields.whr.whr->transitivity));
+        } else {
             verifyContainerExpression(where->what, context, "Expression after IN");
-        else if (exp->fields.whr.whr->transitivity != DEFAULT)
-            lmLog(&where->srcp, 325, sevERR, transitivityToString(exp->fields.whr.whr->transitivity));
+        }
         break;
+        
     default:
-        SYSERR("Unrecognized switch");
+        SYSERR("Unrecognized switch", where->srcp);
         break;
     }
 
@@ -439,14 +444,14 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
                 case WHAT_ACTOR:
                     break;
                 default:
-                    SYSERR("Unrecognized switch");
+                    SYSERR("Unrecognized switch", what->fields.wht.wht->srcp);
                     break;
                 }
                 break;
             case ATTRIBUTE_EXPRESSION:
                 break;
             default:
-                SYSERR("Unrecognized switch");
+                SYSERR("Unrecognized switch", what->srcp);
                 break;
             }
         } else if (where->what && where->what->type != SET_TYPE)
@@ -470,7 +475,7 @@ static TypeKind verifyExpressionAttribute(Expression *attributeExpression,
     TypeKind type = UNINITIALIZED_TYPE;
 
     if (attributeExpression->kind != ATTRIBUTE_EXPRESSION)
-        SYSERR("Not an Attribute Expression");
+        SYSERR("Not an Attribute Expression", attributeExpression->srcp);
 
     if (foundAttribute == NULL) {
         return ERROR_TYPE;
@@ -479,7 +484,7 @@ static TypeKind verifyExpressionAttribute(Expression *attributeExpression,
         attributeExpression->fields.atr.atr = foundAttribute;
         type = foundAttribute->type;
     } else
-        SYSERR("Attribute with symbol");
+        SYSERR("Attribute with symbol", attributeExpression->srcp);
     return type;
 }
 
@@ -618,7 +623,7 @@ static void analyzeBinary(Expression *exp) {
 		break;
 
 	default:
-		SYSERR("Unrecognized binary operator");
+		SYSERR("Unrecognized binary operator", exp->srcp);
 		break;
 	}
 }
@@ -641,7 +646,9 @@ static void analyzeBinaryExpression(Expression *exp, Context *context)
 static void analyzeWhereFilter(Expression *theFilterExpression,
                                Context *context)
 {
-    analyzeWhere(theFilterExpression->fields.whr.whr, context);
+    Where *where = theFilterExpression->fields.whr.whr;
+    
+    analyzeWhere(where, context);
 }
 
 /*----------------------------------------------------------------------*/
@@ -760,7 +767,7 @@ static void analyzeNonClassingFilter(char *message,
     case BETWEEN_EXPRESSION:
         break;
     default:
-        SYSERR("Unimplemented aggregate filter expression type");
+        SYSERR("Unimplemented aggregate filter expression type", theFilter->srcp);
     }
 }
 
@@ -776,7 +783,7 @@ static Bool expressionIsActualWhere(Expression *expression) {
         case WHERE_NEAR:
         case WHERE_AT:
         case WHERE_IN:
-            return expression->fields.whr.whr->transitivity != DIRECTLY;
+            return TRUE; /* expression->fields.whr.whr->transitivity != DIRECTLY; */
         case WHERE_INSET:
             return FALSE;
         }
@@ -920,8 +927,6 @@ static void analyzeRandomIn(Expression *exp, Context *context)
         if (verifyContainerExpression(exp->fields.rin.what, context,
                                       "'Random In' expression")) {
             exp->type = INSTANCE_TYPE;
-            if (exp->fields.rin.transitivity == DEFAULT)
-                exp->fields.rin.transitivity = TRANSITIVELY;
             exp->class = containerContent(exp->fields.rin.what, exp->fields.rin.transitivity, context);
         } else
             exp->type = ERROR_TYPE;
@@ -929,7 +934,7 @@ static void analyzeRandomIn(Expression *exp, Context *context)
         exp->class = exp->fields.rin.what->class;
         exp->type = classToType(exp->fields.rin.what->class);
         /* Transitivity is not supported in set membership of course */
-        if (exp->fields.rin.transitivity != DEFAULT)
+        if (exp->fields.rin.transitivity != DEFAULT_TRANSITIVITY)
             lmLogv(&exp->srcp, 422, sevERR, transitivityToString(exp->fields.rin.transitivity),
                    "not allowed for", "Random In operating on a Set", NULL);
     }
@@ -943,7 +948,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
     Id *classId;
 
     if (exp->kind != WHAT_EXPRESSION)
-        SYSERR("Not a WHAT-expression");
+        SYSERR("Not a WHAT-expression", exp->srcp);
     if (!verifyWhatContext(exp->fields.wht.wht, context)) {
         exp->type = ERROR_TYPE;
         return;
@@ -987,7 +992,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
                 exp->type = ERROR_TYPE;
                 break;
             default:
-                SYSERR("Unexpected symbolKind");
+                SYSERR("Unexpected symbolKind", exp->srcp);
                 break;
             }
         } else
@@ -1002,7 +1007,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
         break;
 
     default:
-        SYSERR("Unrecognized switch");
+        SYSERR("Unrecognized switch", exp->srcp);
         break;
     }
 }
@@ -1065,7 +1070,6 @@ void analyzeExpression(Expression *expression, Context *context)
 {
     if (expression == NULL)       /* Ignore empty expressions (syntax error probably) */
         return;
-
     switch (expression->kind) {
 
     case WHERE_EXPRESSION:
@@ -1167,7 +1171,7 @@ void generateBinaryOperator(Expression *exp)
         else if (exp->type == STRING_TYPE)
             emit0(I_CONCAT);
         else
-            SYSERR("Unexpected type");
+            SYSERR("Unexpected type", nulsrcp);
         break;
     case MINUS_OPERATOR:
         emit0(I_MINUS);
@@ -1222,13 +1226,15 @@ static void generateWhereRHS(Where *where) {
         emit0(I_INSET);
         break;
     case WHERE_AT:
+        //generateWhere(where);
         generateTransitivity(where->transitivity);
+        //emit0(I_AT);
         emit0(I_WHERE);
         generateWhere(where);
         emit0(I_EQ);
         break;
     case WHERE_DEFAULT:
-        SYSERR("Generating WHERE_DEFAULT");
+        SYSERR("Generating WHERE_DEFAULT", nulsrcp);
     }
 }
 
@@ -1276,7 +1282,7 @@ void generateLvalue(Expression *exp) {
     case ATTRIBUTE_EXPRESSION:
         generateAttributeReference(exp);
         break;
-    default: SYSERR("Unexpected expression kind");
+    default: SYSERR("Unexpected expression kind", exp->srcp);
     }
 }
 
@@ -1318,7 +1324,7 @@ void generateFilter(Expression *exp)
         generateBetweenCheck(exp);
         break;
     default:
-        SYSERR("Unimplemented aggregate filter expression");
+        SYSERR("Unimplemented aggregate filter expression", exp->srcp);
     }
     if (exp->not) emit0(I_NOT);
 }
@@ -1529,7 +1535,7 @@ static void generateSetExpression(Expression *exp) {
 void generateExpression(Expression *exp)
 {
     if (exp == NULL) {
-        SYSERR("Generating a NULL expression");
+        SYSERR("Generating a NULL expression", nulsrcp);
         emitConstant(0);
         return;
     }
@@ -1754,7 +1760,7 @@ void dumpExpression(Expression *exp)
         break;
     case RANDOM_IN_EXPRESSION:
         put("what: "); dumpExpression(exp->fields.rin.what); nl();
-        put("transitivity: "); put(transitivityToString(exp->fields.rin.transitivity));
+        put("transitivity: "); dumpTransitivity(exp->fields.rin.transitivity);
         break;
     case WHAT_EXPRESSION:
         put("wht: "); dumpWhat(exp->fields.wht.wht);

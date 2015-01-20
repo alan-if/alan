@@ -140,7 +140,7 @@ static void insertSymbol(Symbol *symbol)
 static void addLocal(Symbol *new)
 {
     if (currentFrame == NULL)
-        SYSERR("Adding local variable without an active frame");
+        SYSERR("Adding local variable without an active frame", nulsrcp);
 
     if (currentFrame->localSymbols == NULL)
         new->fields.local.number = 1;
@@ -168,7 +168,7 @@ static void anotherSymbolKindAsString(SymbolKind kind, Bool found, char *string)
     case FUNCTION_SYMBOL:
     case ERROR_SYMBOL:
     case MAX_SYMBOL:
-        SYSERR("Unimplemented case");
+        SYSERR("Unimplemented case", nulsrcp);
     }
 }
 
@@ -275,7 +275,7 @@ Symbol *newSymbol(Id *id, SymbolKind kind)
     case ERROR_SYMBOL:
         break;
     default:
-        SYSERR("Unexpected switch on SYMBOLKIND");
+        SYSERR("Unexpected switch on SYMBOLKIND", id->srcp);
     }
 
     return new;
@@ -321,7 +321,7 @@ TypeKind typeOfSymbol(Symbol *symbol) {
     switch (symbol->kind) {
     case LOCAL_SYMBOL: return symbol->fields.local.type;
     case PARAMETER_SYMBOL: return symbol->fields.parameter.type;
-    default: SYSERR("Unexpected symbol->kind"); return ERROR_TYPE;
+    default: SYSERR("Unexpected symbol->kind", nulsrcp); return ERROR_TYPE;
     }
 }
 
@@ -452,7 +452,7 @@ Symbol *lookup(char *idString)
     Symbol *s1;                   /* Traversal pointer */
     int comp;                     /* Result of comparison */
 
-    if (idString == NULL) SYSERR("NULL string");
+    if (idString == NULL) SYSERR("NULL string", nulsrcp);
 
     s1 = symbolTree;
 
@@ -510,7 +510,7 @@ static Symbol *lookupInContext(char *idString, Context *context)
             foundSymbol = lookup(idString);
             break;
         default:
-            SYSERR("Unexpected context kind");
+            SYSERR("Unexpected context kind", nulsrcp);
             break;
         }
         if (foundSymbol != NULL)
@@ -528,14 +528,14 @@ static Bool isEntity(Symbol *s){
 
 /*----------------------------------------------------------------------*/
 static Bool hasParent(Symbol *s) {
-    if (!isEntity(s)) SYSERR("Wrong kind of symbol");
+    if (!isEntity(s)) SYSERR("Wrong kind of symbol", nulsrcp);
     return s->fields.entity.parent != NULL;
 }
 
 /*----------------------------------------------------------------------*/
 static Properties *propertiesOf(Symbol *s) {
     if (!s) return NULL;
-    if (!isEntity(s)) SYSERR("Wrong kind of symbol");
+    if (!isEntity(s)) SYSERR("Wrong kind of symbol", nulsrcp);
     return s->fields.entity.props;
 }
 
@@ -560,7 +560,7 @@ Script *lookupScript(Symbol *theSymbol, Id *scriptName)
             scripts = propertiesOf(theSymbol)->scripts;
             break;
         default:
-            SYSERR("Unexpected symbol kind");
+            SYSERR("Unexpected symbol kind", nulsrcp);
             return NULL;
         }
         while (scripts != NULL) {
@@ -582,7 +582,7 @@ Symbol *classOfSymbol(Symbol *symbol) {
     case LOCAL_SYMBOL: return symbol->fields.local.class;
     case INSTANCE_SYMBOL: return symbol->fields.entity.parent;
     case CLASS_SYMBOL: return symbol;
-    default: SYSERR("Unexpected symbol kind"); return NULL;
+    default: SYSERR("Unexpected symbol kind", nulsrcp); return NULL;
     }
 }
 
@@ -602,7 +602,7 @@ Bool isInstance(Symbol *symbol) {
 /*======================================================================*/
 TypeKind classToType(Symbol* symbol) {
     if (!isClass(symbol))
-        SYSERR("Not a class");
+        SYSERR("Not a class", nulsrcp);
     if (symbol == integerSymbol) return INTEGER_TYPE;
     else if (symbol == stringSymbol) return STRING_TYPE;
     else return INSTANCE_TYPE;
@@ -626,7 +626,7 @@ Bool symbolIsContainer(Symbol *symbol) {
         case LOCAL_SYMBOL:
             return symbolIsContainer(symbol->fields.local.class);
         default:
-            SYSERR("Unexpected Symbol kind");
+            SYSERR("Unexpected Symbol kind", nulsrcp);
         }
     }
     return FALSE;
@@ -657,7 +657,7 @@ static Symbol *pushSymbolIterator(SymbolIterator iterator, Symbol *parent, Symbo
 /*======================================================================*/
 Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent) {
     if (iterator == NULL || iterator->stack == NULL || iterator->stack[iterator->stackP].symbol == NULL)
-        SYSERR("Illegal SymbolIterator");
+        SYSERR("Illegal SymbolIterator", nulsrcp);
 
  pop: {
         SymbolIteratorState *state = &iterator->stack[iterator->stackP];
@@ -759,7 +759,7 @@ Symbol *containerSymbolTakes(Symbol *symbol) {
         case ERROR_SYMBOL:
             break;
         default:
-            SYSERR("Unexpected Symbol kind");	
+            SYSERR("Unexpected Symbol kind", nulsrcp);
         }
     }
     return NULL;
@@ -864,7 +864,7 @@ Symbol *containerMightContain(Symbol *symbol) {
         case PARAMETER_SYMBOL:
             return containerMightContain(symbol->fields.parameter.class);
         default:
-            SYSERR("Unexpected type of symbol");
+            SYSERR("Unexpected type of symbol", nulsrcp);
         }
     }
     return NULL;
@@ -875,7 +875,7 @@ Symbol *containerMightContain(Symbol *symbol) {
 void setParent(Symbol *child, Symbol *parent)
 {
     if (!isClass(child) && !isInstance(child))
-        SYSERR("Not a CLASS or INSTANCE");
+        SYSERR("Not a CLASS or INSTANCE", nulsrcp);
     child->fields.entity.parent = parent;
 }
 
@@ -884,7 +884,7 @@ void setParent(Symbol *child, Symbol *parent)
 Symbol *parentOf(Symbol *child)
 {
     if (!isClass(child) && !isInstance(child))
-        SYSERR("Not a CLASS or INSTANCE");
+        SYSERR("Not a CLASS or INSTANCE", nulsrcp);
     return child->fields.entity.parent;
 }
 
@@ -897,7 +897,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
     if (child == NULL || ancestor == NULL) return FALSE;
 
     if (isInstance(ancestor))
-        SYSERR("Can not inherit from an instance");
+        SYSERR("Can not inherit from an instance", nulsrcp);
 
     if (child->kind == ERROR_SYMBOL || ancestor->kind == ERROR_SYMBOL)
         return TRUE;
@@ -978,7 +978,7 @@ static char *identifierListForParameters(Context *context) {
     Bool first = TRUE;
 
     if (parameters == NULL)
-        SYSERR("NULL parameters");
+        SYSERR("NULL parameters", nulsrcp);
 
     TRAVERSE(list, parameters) {
         if (!first) {
@@ -1013,7 +1013,7 @@ void setParameters(Symbol *verb, List *parameters)
     if (parameters == NULL) return;
 
     if (parameters->kind != ELEMENT_LIST)
-        SYSERR("Not a parameter list");
+        SYSERR("Not a parameter list", nulsrcp);
 
     TRAVERSE(param, parameters) {
         Symbol *parameterSymbol = newParameterSymbol(param->member.elm);
@@ -1096,7 +1096,7 @@ void inheritCheck(Id *id, char reference[], char toWhat[], char className[])
 
     Symbol *theClassSymbol = lookup(className);
 
-    if (theClassSymbol == NULL) SYSERR("There is no such class");
+    if (theClassSymbol == NULL) SYSERR("There is no such class", id->srcp);
 
     if (id->symbol != NULL && !inheritsFrom(id->symbol, theClassSymbol))
         lmLogv(&id->srcp, 351, sevERR, reference, toWhat, className, NULL);
@@ -1112,7 +1112,7 @@ void instanceCheck(Id *id, char reference[], char className[])
 
     Symbol *theClassSymbol = lookup(className);
 
-    if (theClassSymbol == NULL) SYSERR("There is no such class");
+    if (theClassSymbol == NULL) SYSERR("There is no such class", id->srcp);
 
     if (id->symbol != NULL)
         if (id->symbol->kind != ERROR_SYMBOL)

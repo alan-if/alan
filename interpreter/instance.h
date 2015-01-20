@@ -61,14 +61,14 @@ extern void describeAnything(int instance);
 extern void describeInstances(void);
 extern bool describe(int instance);
 
-extern int where(int instance, Transitivity trans);
+extern int where(int instance, ATrans trans);
 extern int locationOf(int instance);
 
-extern bool isAt(int instance, int other, Transitivity trans);
-extern bool isIn(int instance, int theContainer, Transitivity trans);
-extern bool isHere(int instance, Transitivity trans);
-extern bool isNearby(int instance, Transitivity trans);
-extern bool isNear(int instance, int other, Transitivity trans);
+extern bool isAt(int instance, int other, ATrans trans);
+extern bool isIn(int instance, int theContainer, ATrans trans);
+extern bool isHere(int instance, ATrans trans);
+extern bool isNearby(int instance, ATrans trans);
+extern bool isNear(int instance, int other, ATrans trans);
 
 extern bool isOpaque(int container);
 

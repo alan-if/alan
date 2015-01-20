@@ -121,7 +121,7 @@ static void runPendingEvents(void)
         if (isALocation(eventQueue[eventQueueTop].where))
             current.location = eventQueue[eventQueueTop].where;
         else
-            current.location = where(eventQueue[eventQueueTop].where, TRANSITIVELY);
+            current.location = where(eventQueue[eventQueueTop].where, TRANSITIVE);
         if (traceSectionOption) {
             printf("\n<EVENT %s[%d] (at ", eventName(eventQueue[eventQueueTop].event),
                    eventQueue[eventQueueTop].event);
@@ -606,7 +606,7 @@ static void start(void)
     int startloc;
 	
     current.tick = -1;
-    current.location = startloc = where(HERO, TRANSITIVELY);
+    current.location = startloc = where(HERO, TRANSITIVE);
     current.actor = HERO;
     current.score = 0;
 	
@@ -617,7 +617,7 @@ static void start(void)
     interpret(header->start);
     para();
 
-    if (where(HERO, TRANSITIVELY) == startloc) {
+    if (where(HERO, TRANSITIVE) == startloc) {
 	    if (traceSectionOption)
 		    printf("<CURRENT LOCATION:>");
 	    look();
@@ -728,7 +728,7 @@ static void moveActor(int theActor)
 	
     current.actor = theActor;
     current.instance = theActor;
-    current.location = where(theActor, TRANSITIVELY);
+    current.location = where(theActor, TRANSITIVE);
     if (theActor == HERO) {
         /* Ask him! */
         if (setjmp(forfeitLabel) == 0) {
@@ -820,6 +820,9 @@ void run(void)
         if (debugOption)
             debug(FALSE, 0, 0);
 
+        if (stackDepth(theStack) != 0)
+            syserr("Stack is not empty in main loop");
+        
         runPendingEvents();
         
         current.tick++;

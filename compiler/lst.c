@@ -10,7 +10,7 @@
 
 /* IMPORT */
 #include "dump_x.h"
-
+#include "srcp_x.h"
 #include "util.h"
 
 
@@ -89,7 +89,7 @@ static char *listKindToString(ListKind kind) {
     case SRCP_LIST: return "SRCP";
     case VERB_LIST: return "VERB";
     case IFID_LIST: return "IFID";
-    default: SYSERR("ListKind not implemented in 'listKindToString()'"); return NULL;
+    default: SYSERR("ListKind not implemented in 'listKindToString()'", nulsrcp); return NULL;
     }
 }
 
@@ -126,21 +126,21 @@ List *newList(void *member, ListKind kind)
   */
 void insert(List *thePoint, void *member, ListKind kind)
 {
-  List *newListNode;
+    List *newListNode;
 
-  if (thePoint == NULL)
-    SYSERR("Inserting an member in a NULL list");
-  if (kind != thePoint->kind)
-    SYSERR("Inserting wrong kind of member in list");
-  if (member == NULL)
-    SYSERR("Inserting a NULL member in a list");
+    if (thePoint == NULL)
+        SYSERR("Inserting an member in a NULL list", nulsrcp);
+    if (kind != thePoint->kind)
+        SYSERR("Inserting wrong kind of member in list", nulsrcp);
+    if (member == NULL)
+        SYSERR("Inserting a NULL member in a list", nulsrcp);
 
-  /* Move the first member to a new list node */
-  newListNode = newList(thePoint->member.atr, kind);
+    /* Move the first member to a new list node */
+    newListNode = newList(thePoint->member.atr, kind);
 
-  newListNode->next = thePoint->next;
-  thePoint->member.atr = member;
-  thePoint->next = newListNode;
+    newListNode->next = thePoint->next;
+    thePoint->member.atr = member;
+    thePoint->next = newListNode;
 }
 
 
@@ -165,7 +165,7 @@ extern void *getMember(List *theList, int number)
 {
   int i = 1;
 
-  if (number < 1) SYSERR("List member number must be > 0");
+  if (number < 1) SYSERR("List member number must be > 0", nulsrcp);
 
   while (theList) {
     if (i == number)
@@ -173,7 +173,7 @@ extern void *getMember(List *theList, int number)
     theList = theList->next;
     i++;
   }
-  SYSERR("Not enough list members");
+  SYSERR("Not enough list members", nulsrcp);
   return NULL;
 }
 
@@ -183,7 +183,7 @@ extern List *getListNode(List *theList, int number)
 {
   int i = 1;
 
-  if (number < 1) SYSERR("List member number must be > 0");
+  if (number < 1) SYSERR("List member number must be > 0", nulsrcp);
 
   while (theList) {
     if (i == number)
@@ -191,7 +191,7 @@ extern List *getListNode(List *theList, int number)
     theList = theList->next;
     i++;
   }
-  SYSERR("Not enough list members");
+  SYSERR("Not enough list members", nulsrcp);
   return NULL;
 }
 

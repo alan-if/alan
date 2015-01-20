@@ -11,7 +11,8 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	rules \
 	lists \
 	compatibility \
-	instance
+	instance \
+	stack
 
 # ... or with a common runner (much less clean... but better than ...)
 MODULES_WITH_UNITTESTS_USING_RUNNER = \

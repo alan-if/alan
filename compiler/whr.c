@@ -44,11 +44,12 @@ Where *newWhere(Srcp *srcp, Transitivity transitivity, WhereKind kind, Expressio
 /*======================================================================*/
 char *transitivityToString(Transitivity transitivity) {
     switch (transitivity) {
-    case DEFAULT: return "Default";
+    case DEFAULT_TRANSITIVITY: return "Default";
+    case TRANSITIVELY: return "Transitively";
     case DIRECTLY: return "Directly";
     case INDIRECTLY: return "Indirectly";
-    default: SYSERR("Unexpected transitivity"); return "ERROR";
     }
+    SYSERR("Unexpected transitivity", nulsrcp); return "ERROR";
 }
 
 
@@ -72,7 +73,7 @@ void symbolizeWhere(Where *whr)
 /*======================================================================*/
 Bool verifyInitialLocation(Where *whr, Context *context)
 {
-    if (whr->transitivity != DEFAULT) {
+    if (whr->transitivity != DEFAULT_TRANSITIVITY) {
         if (whr->transitivity == DIRECTLY)
             lmLogv(&whr->srcp, 422, sevWAR, transitivityToString(whr->transitivity),
                    "ignored for", "Initial location", NULL);
@@ -131,15 +132,13 @@ void analyzeWhere(Where *whr, Context *context) {
         }
         break;
     case WHERE_INSET:
-        SYSERR("Unrecognized switch");
+        SYSERR("Unrecognized switch", whr->srcp);
         break;
     }
 }
 
 
 /*======================================================================
-
-  generateInitialLocation()
 
   Generate a location reference according to the WHR for initial locations.
   This means that it can only be an identifier. Can only be AT location or
@@ -153,7 +152,7 @@ Aword generateInitialLocation(Properties *props)
         case WHERE_IN:
         case WHERE_AT:
             return props->whr->what->fields.wht.wht->id->symbol->code;
-        default: SYSERR("Unexpected Where kind as initial location");
+        default: SYSERR("Unexpected Where kind as initial location", props->whr->srcp);
         }
 
     if (inheritsFrom(props->id->symbol, locationSymbol))
@@ -165,7 +164,13 @@ Aword generateInitialLocation(Properties *props)
 
 /*======================================================================*/
 void generateTransitivity(Transitivity transitivity) {
-    emitConstant(transitivity);
+    switch (transitivity) {
+    case DEFAULT_TRANSITIVITY:
+    case TRANSITIVELY: emitConstant(TRANSITIVE); break;
+    case DIRECTLY: emitConstant(DIRECT); break;
+    case INDIRECTLY: emitConstant(INDIRECT); break;
+    default: SYSERR("Unexpected transitivity", nulsrcp);
+    }
 }
 
 
@@ -192,11 +197,18 @@ void generateWhere(Where *where)
         break;
 
     default:
-        SYSERR("Unrecognised switch");
+        SYSERR("Unrecognised switch", where->srcp);
         break;
     }
 }
 
+
+
+/*======================================================================*/
+void dumpTransitivity(Transitivity transitivity) {
+    put(transitivityToString(transitivity));
+    put(" ");
+}
 
 
 /*======================================================================*/
@@ -208,7 +220,7 @@ void dumpWhere(Where *whr)
     }
 
     put("WHR: "); dumpSrcp(whr->srcp); indent();
-    put("whr: "); if (whr->transitivity != DEFAULT) put(transitivityToString(whr->transitivity));
+    put("whr: "); dumpTransitivity(whr->transitivity);
     switch (whr->kind) {
     case WHERE_DEFAULT: put("DEFAULT"); break;
     case WHERE_HERE: put("HERE"); break;
