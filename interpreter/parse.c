@@ -285,7 +285,7 @@ static bool inOpaqueContainer(int originalInstance) {
 /*----------------------------------------------------------------------*/
 static bool reachable(int instance) {
     if (isA(instance, THING) || isA(instance, LOCATION))
-        return isHere(instance, FALSE) && !inOpaqueContainer(instance);
+        return isHere(instance, TRANSITIVE) && !inOpaqueContainer(instance);
     else
         return TRUE;
 }

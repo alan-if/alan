@@ -197,9 +197,9 @@ bool isHere(int id, ATrans trans)
 {
     verifyInstance(id, "HERE");
 
-    if (trans == DIRECT)
-        return(admin[id].location == current.location);
-    else
+    /* if (trans == DIRECT) */
+    /*     return(admin[id].location == current.location); */
+    /* else */
         return isAt(id, current.location, trans);
 }
 
@@ -297,16 +297,22 @@ bool isAt(int instance, int other, ATrans trans)
                 return admin[instance].location == other;
             else
                 return admin[instance].location == admin[other].location;
+        case INDIRECT:
+            return FALSE;
         case TRANSITIVE:
             if (!isALocation(other))
                 /* If the other is not a location, compare their locations */
                 return locationOf(instance) == locationOf(other);
-            else if (locationOf(instance) == other)
-                return TRUE;
-            else if (locationOf(other) != 0)
-                return isAt(instance, locationOf(other), FALSE);
-            else
-                return FALSE;
+            
+            int location = locationOf(instance);
+            int current = other;
+            while (current != 0) {
+                if (current == location)
+                    return TRUE;
+                else
+                    current = admin[current].location;
+            }
+            return FALSE;
         }
         syserr("Unexpected value in switch in isAt() for non-location");
         return FALSE;
