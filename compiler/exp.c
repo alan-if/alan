@@ -1226,12 +1226,9 @@ static void generateWhereRHS(Where *where) {
         emit0(I_INSET);
         break;
     case WHERE_AT:
-        //generateWhere(where);
+        generateExpression(where->what);
         generateTransitivity(where->transitivity);
-        //emit0(I_AT);
-        emit0(I_WHERE);
-        generateWhere(where);
-        emit0(I_EQ);
+        emit0(I_AT);
         break;
     case WHERE_DEFAULT:
         SYSERR("Generating WHERE_DEFAULT", nulsrcp);
