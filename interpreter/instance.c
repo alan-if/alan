@@ -270,19 +270,25 @@ bool isAt(int instance, int other, ATrans trans)
     /* TODO: Implement indirect transitivity */
     if (isALocation(instance)) {
         /* Nested locations */
-        if (trans == DIRECT)
+        int current = admin[instance].location;
+        switch (trans) {
+        case DIRECT:
             return admin[instance].location == other;
-        else {
-            int current = admin[instance].location;
+        case INDIRECT:
+            if (current == other)
+                return FALSE;
+            current = admin[current].location;
+        case TRANSITIVE:
             while (current != 0) {
                 if (current == other)
                     return TRUE;
                 else
                     current = admin[current].location;
             }
-            return FALSE;                
+            return FALSE;
         }
-            
+        syserr("Unexpected value in switch");
+        return FALSE;
     } else {
         /* Other instances */
         if (trans == DIRECT) {

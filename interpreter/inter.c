@@ -356,7 +356,7 @@ static void traceInstanceTopValue() {
 static char *transitivityFlag(ATrans value) {
     switch (value) {
     case TRANSITIVE:
-        return "Default";
+        return "Transitive";
     case DIRECT:
         return "Direct";
     case INDIRECT:
