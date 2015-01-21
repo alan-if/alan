@@ -287,17 +287,17 @@ bool isAt(int instance, int other, ATrans trans)
             }
             return FALSE;
         }
-        syserr("Unexpected value in switch");
+        syserr("Unexpected value in switch in isAt() for location");
         return FALSE;
     } else {
         /* Other instances */
-        if (trans == DIRECT) {
+        switch (trans) {
+        case DIRECT:
             if (isALocation(other))
                 return admin[instance].location == other;
             else
                 return admin[instance].location == admin[other].location;
-        } else {
-            /* Default transitivity = TRANSITIVE */
+        case TRANSITIVE:
             if (!isALocation(other))
                 /* If the other is not a location, compare their locations */
                 return locationOf(instance) == locationOf(other);
@@ -308,6 +308,8 @@ bool isAt(int instance, int other, ATrans trans)
             else
                 return FALSE;
         }
+        syserr("Unexpected value in switch in isAt() for non-location");
+        return FALSE;
     }
 }
 
