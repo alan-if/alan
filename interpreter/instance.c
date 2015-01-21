@@ -267,7 +267,6 @@ bool isAt(int instance, int other, ATrans trans)
 {
     if (instance == 0 || other == 0) return FALSE;
 
-    /* TODO: Implement indirect transitivity */
     if (isALocation(instance)) {
         /* Nested locations */
         int current = admin[instance].location;
@@ -297,8 +296,21 @@ bool isAt(int instance, int other, ATrans trans)
                 return admin[instance].location == other;
             else
                 return admin[instance].location == admin[other].location;
-        case INDIRECT:
+        case INDIRECT: {
+            int location = locationOf(instance);
+            int current = other;
+            if (location == current)
+                return FALSE;
+            else
+                current = admin[current].location;
+            while (current != 0) {
+                if (current == location)
+                    return TRUE;
+                else
+                    current = admin[current].location;
+            }
             return FALSE;
+        }
         case TRANSITIVE:
             if (!isALocation(other))
                 /* If the other is not a location, compare their locations */
