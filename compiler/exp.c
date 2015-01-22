@@ -711,7 +711,7 @@ static void analyzeClassingFilter(char *message,
             break;
         case WHERE_HERE:
         case WHERE_AT:
-            theFilter->class = thingSymbol;
+            theFilter->class = entitySymbol;
             theFilter->type = INSTANCE_TYPE;
             break;
         default:
