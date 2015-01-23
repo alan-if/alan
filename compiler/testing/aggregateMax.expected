@@ -8,7 +8,7 @@ aggregateMax.alan
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
                 using 'MAX' since the class it is guaranteed to be in this
-                context ('thing') does not have it.
+                context ('entity') does not have it.
   *2*   101 E : Syntax error. Inserting "here" before this token.
 
    10.    If Max Of y Here, At l = 9 Then "" End If.
@@ -16,7 +16,7 @@ aggregateMax.alan
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
                 using 'MAX' since the class it is guaranteed to be in this
-                context ('thing') does not have it.
+                context ('entity') does not have it.
   *2*   224 E : Multiple use of Where in filter list for MAX Aggregation.
 
    11.    If Max Of y At l =at 9 Then "" End If.
@@ -24,7 +24,7 @@ aggregateMax.alan
 
   *1*   316 E : Attribute 'y' is not defined for instances aggregated over
                 using 'MAX' since the class it is guaranteed to be in this
-                context ('thing') does not have it.
+                context ('entity') does not have it.
   *2*   428 E : The What clause of a Where expression must refer to an
                 instance.
   *3*   101 E : Syntax error. Inserting "<identifier>" before this token.
