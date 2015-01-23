@@ -269,6 +269,7 @@ bool isAt(int instance, int other, ATrans trans)
 
     if (isALocation(instance)) {
         /* Nested locations */
+        /* TODO - What if the other is not a location? */
         int current = admin[instance].location;
         switch (trans) {
         case DIRECT:
@@ -288,14 +289,46 @@ bool isAt(int instance, int other, ATrans trans)
         }
         syserr("Unexpected value in switch in isAt() for location");
         return FALSE;
-    } else {
-        /* Other instances */
+    } else if (isALocation(other)) {
+        /* Other is a location */
         switch (trans) {
         case DIRECT:
-            if (isALocation(other))
-                return admin[instance].location == other;
+            return admin[instance].location == other;
+        case INDIRECT: {
+            /* TODO - What to do here? */
+            int location = locationOf(instance);
+            int current = other;
+            if (location == current)
+                return FALSE;
             else
-                return admin[instance].location == admin[other].location;
+                current = admin[current].location;
+            while (current != 0) {
+                if (current == location)
+                    return TRUE;
+                else
+                    current = admin[current].location;
+            }
+            return FALSE;
+        }
+        case TRANSITIVE: {
+            int location = locationOf(instance);
+            int current = other;
+            while (current != 0) {
+                if (current == location)
+                    return TRUE;
+                else
+                    current = admin[current].location;
+            }
+            return FALSE;
+        }
+        }
+        syserr("Unexpected value in switch in isAt() for non-location");
+        return FALSE;
+    } else {
+        /* Other is not a location */
+        switch (trans) {
+        case DIRECT:
+            return admin[instance].location == admin[other].location;
         case INDIRECT: {
             int location = locationOf(instance);
             int current = other;
@@ -311,20 +344,16 @@ bool isAt(int instance, int other, ATrans trans)
             }
             return FALSE;
         }
-        case TRANSITIVE:
-            if (!isALocation(other))
-                /* If the other is not a location, compare their locations */
-                return locationOf(instance) == locationOf(other);
-            
-            int location = locationOf(instance);
-            int current = other;
+        case TRANSITIVE: {
+            int current = locationOf(instance);
             while (current != 0) {
-                if (current == location)
+                if (current == locationOf(other))
                     return TRUE;
                 else
                     current = admin[current].location;
             }
             return FALSE;
+        }
         }
         syserr("Unexpected value in switch in isAt() for non-location");
         return FALSE;
