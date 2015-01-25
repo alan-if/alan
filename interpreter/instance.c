@@ -346,13 +346,14 @@ bool isAt(int instance, int other, ATrans trans)
         }
         case TRANSITIVE: {
             int current = locationOf(instance);
-            while (current != 0) {
+            bool ok = FALSE;
+            while (current != 0 && !ok) {
                 if (current == locationOf(other))
-                    return TRUE;
+                    ok = TRUE;
                 else
                     current = admin[current].location;
             }
-            return FALSE;
+            return ok;
         }
         }
         syserr("Unexpected value in switch in isAt() for non-location");
