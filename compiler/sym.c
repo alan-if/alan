@@ -686,8 +686,11 @@ Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent) {
                 /* Fallthrough! */;
         }
         case 3:
-            iterator->stackP--;
-            goto pop;
+            if (iterator->stackP != 0) {
+                --iterator->stackP;
+                goto pop;
+            }
+            /* Fallthrough! Done! */
         }
     }
     return NULL;
@@ -820,6 +823,7 @@ static Symbol *recurseContainersForContent(Symbol *this) {
                 }
                 instance = getNextInstanceOf(iterator, taken_class);
             }
+            destroyIterator(iterator);
         }
 #ifdef DEBUG_CONTAINER_CONTENT
         printf("%s%s - deciding: %s\n", prefix, this->string, most_general->string);
