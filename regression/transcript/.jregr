@@ -1,4 +1,0 @@
-.alan : rm -f *.log
-.alan : alan $1
-.a3c : arun $1 < $1.input
-.a3c : sh -c 'for f in *.log ; do echo =============================================; cat *.log ; done'

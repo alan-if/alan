@@ -22,7 +22,6 @@ tests: test cygwintests
 .PHONY: cygwintests
 cygwintests:
 	@java -jar bin/jregr.jar -bin bin -dir regression/winalan $(JREGROUTPUT)
-	@java -jar bin/jregr.jar -bin bin -dir regression/transcript $(JREGROUTPUT)
 	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
 
 .PHONY: release
