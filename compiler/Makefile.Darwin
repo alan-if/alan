@@ -13,7 +13,7 @@ EXTRA_LINKER_FLAGS =
 
 CGREEN = yes
 CGREENROOT = /usr/local
-CGREENDIR = $(CGREENROOT)/include/cgreen
+CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = -lcgreen
 
 release: EXTRA_COMPILER_FLAGS = -O4
