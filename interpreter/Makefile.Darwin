@@ -22,7 +22,7 @@ LINKFLAGS =
 # -- CGreen unit test framework settings
 CGREEN = yes
 CGREENROOT = /usr/local
-CGREENDIR = $(CGREENROOT)/include/cgreen
+CGREENINCLUDE = -I$(CGREENROOT)/include/
 CGREENLIB = -lcgreen
 
 ###################################################################
