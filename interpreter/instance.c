@@ -197,10 +197,7 @@ bool isHere(int id, ATrans trans)
 {
     verifyInstance(id, "HERE");
 
-    /* if (trans == DIRECT) */
-    /*     return(admin[id].location == current.location); */
-    /* else */
-        return isAt(id, current.location, trans);
+    return isAt(id, current.location, trans);
 }
 
 
@@ -290,25 +287,14 @@ bool isAt(int instance, int other, ATrans trans)
         syserr("Unexpected value in switch in isAt() for location");
         return FALSE;
     } else if (isALocation(other)) {
-        /* Other is a location */
+        /* Instance is not a location but other is */
         switch (trans) {
         case DIRECT:
             return admin[instance].location == other;
         case INDIRECT: {
-            /* TODO - What to do here? */
-            int location = locationOf(instance);
-            int current = other;
-            if (location == current)
-                return FALSE;
-            else
-                current = admin[current].location;
-            while (current != 0) {
-                if (current == location)
-                    return TRUE;
-                else
-                    current = admin[current].location;
-            }
-            return FALSE;
+            if (admin[instance].location == other)
+                return FALSE;   /* Directly, so not Indirectly */
+            /* Fall through to transitive handling of the location */
         }
         case TRANSITIVE: {
             int location = locationOf(instance);
@@ -325,7 +311,7 @@ bool isAt(int instance, int other, ATrans trans)
         syserr("Unexpected value in switch in isAt() for non-location");
         return FALSE;
     } else {
-        /* Other is not a location */
+        /* Other is also not a location */
         switch (trans) {
         case DIRECT:
             return admin[instance].location == admin[other].location;
@@ -345,10 +331,11 @@ bool isAt(int instance, int other, ATrans trans)
             return FALSE;
         }
         case TRANSITIVE: {
+            int location = locationOf(other);
             int current = locationOf(instance);
             bool ok = FALSE;
             while (current != 0 && !ok) {
-                if (current == locationOf(other))
+                if (current == location)
                     ok = TRUE;
                 else
                     current = admin[current].location;
