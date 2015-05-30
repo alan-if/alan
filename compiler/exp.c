@@ -522,7 +522,8 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
                 exp->class = what->class;
                 if (atr) exp->readonly = atr->readonly;
             }
-        }
+        } else
+            exp->type = ERROR_TYPE;
         break;
 
     default:
