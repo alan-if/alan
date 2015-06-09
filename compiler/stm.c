@@ -553,9 +553,9 @@ static void analyzeCancel(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeIf(Statement *stm, Context *context)
 {
-	analyzeExpression(stm->fields.iff.exp, context);
-	if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
-		lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
+    analyzeExpression(stm->fields.iff.exp, context);
+    if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
+        lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
     if (stm->fields.iff.exp->kind == ISA_EXPRESSION) {
         Context *restricted_context = pushContext(context);
         addRestrictionInContext(restricted_context, stm->fields.iff.exp);

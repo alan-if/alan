@@ -29,3 +29,9 @@ BeforeEach(Statement) {}
 AfterEach(Statement) {}
 
 
+Ensure(Statement, analyzeIf_creates_restricting_context_for_Id_Isa_expression) {
+    What *what = newWhatId(nulsrcp, newId(nulsrcp, "id"));
+    Expression *what_expression = newWhatExpression(nulsrcp, what);
+    Expression *isa = newIsaExpression(nulsrcp, what_expression, FALSE, NULL);
+    expect(addRestrictionInContext);
+}
