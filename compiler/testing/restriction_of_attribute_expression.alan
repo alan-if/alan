@@ -57,6 +57,3 @@ Add To Every object
 END ADD TO.
 
 Start At l.
-  If source of item Isa garden Then
-    Set owner Of item To Nobody.
-  End If.

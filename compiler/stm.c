@@ -551,18 +551,30 @@ static void analyzeCancel(Statement *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
+static Bool is_restricting_expression(Expression *exp) {
+    return exp->kind == ISA_EXPRESSION
+        && exp->fields.isa.what->kind == WHAT_EXPRESSION
+        && exp->fields.isa.what->fields.wht.wht->kind == WHAT_ID;
+}
+
+
+/*----------------------------------------------------------------------*/
 static void analyzeIf(Statement *stm, Context *context)
 {
-    analyzeExpression(stm->fields.iff.exp, context);
-    if (!equalTypes(stm->fields.iff.exp->type, BOOLEAN_TYPE))
-        lmLogv(&stm->fields.iff.exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
-    if (stm->fields.iff.exp->kind == ISA_EXPRESSION) {
+    Expression *exp = stm->fields.iff.exp;
+    
+    analyzeExpression(exp, context);
+    if (!equalTypes(exp->type, BOOLEAN_TYPE))
+        lmLogv(&exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
+
+    if (is_restricting_expression(exp)) {
         Context *restricted_context = pushContext(context);
-        addRestrictionInContext(restricted_context, stm->fields.iff.exp);
+        addRestrictionInContext(restricted_context, exp);
         analyzeStatements(stm->fields.iff.thn, restricted_context);
         free(restricted_context);
     } else        
         analyzeStatements(stm->fields.iff.thn, context);
+
 	if (stm->fields.iff.els != NULL)
 		analyzeStatements(stm->fields.iff.els, context);
 }
