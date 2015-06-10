@@ -129,8 +129,15 @@ void verifyContainerForInitialLocation(What *wht, Context *context, char *constr
                 else {
                     Symbol *class;
                     switch (context->kind) {
-                    case CLASS_CONTEXT: class = context->class->props->id->symbol; break;
-                    case INSTANCE_CONTEXT: class = context->instance->props->parentId->symbol; break;
+                    case CLASS_CONTEXT:
+                        class = context->class->props->id->symbol;
+                        break;
+                    case INSTANCE_CONTEXT:
+                        if (context->instance->props->parentId != NULL)
+                            class = context->instance->props->parentId->symbol;
+                        else
+                            class = entitySymbol; /* Resonable default if errors caused the parent to be NULL */
+                        break;
                     default: SYSERR("Unexpected context->kind", wht->srcp); return;
                     }
                     if (!inheritsFrom(class, sym->fields.entity.props->container->body->taking->symbol))
