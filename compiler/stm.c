@@ -43,7 +43,7 @@
 /*======================================================================*/
 Statement *newStatement(Srcp *srcp, StmKind class)
 {
-	Statement *new;                  /* The newly allocated area */
+    Statement *new;                  /* The newly allocated area */
 
 	progressCounter();
 
