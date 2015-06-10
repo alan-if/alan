@@ -3,7 +3,8 @@
 
 initial_location_in_without_parent_should_not_crash.alan
 
-    1.  The error_trigger Is Entity In error_trigger
+    1.  The error_trigger Is Entity In error_trigger -- Note: 'is' instead of '
+        isa' causes instance to have no parent
 =====>      1                       2  3
 
   *1*   429 E : No inheritance defined, everything must inherit from some
