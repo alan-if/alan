@@ -73,21 +73,21 @@ typedef struct Expression {
     Bool not;				   /* Was there a NOT ? */
     union {
 
-        struct {			/* for WHERE */
+        struct {                    /* for WHERE */
             struct Expression *wht;	/* Must be a WHAT */
             Where *whr;
         } whr;
 
-        struct {			/* for ATTRIBUTE */
+        struct {                    /* for ATTRIBUTE */
             struct Expression *wht;	/* Attribute of what? */
-            struct IdNode *id;          /* Id of the attribute */
+            struct IdNode *id;      /* Id of the attribute */
             struct Attribute *atr;	/* The attribute node */
         } atr;
 
-        struct {			/* for BINARY */
-            OperatorKind op;		/* Operator */
-            struct Expression *right;	/* Right operand */
-            struct Expression *left;	/* Left operand */
+        struct {                      /* for BINARY */
+            OperatorKind op;          /* Operator */
+            struct Expression *right; /* Right operand */
+            struct Expression *left;  /* Left operand */
         } bin;
 
         struct {				/* For VALUE */
@@ -110,9 +110,9 @@ typedef struct Expression {
         struct {                      /* For AGGREGATE */
             AggregateKind kind;       /* Kind of aggregate */
             struct IdNode *attribute; /* Attribute id */
-            struct List *filters; /* Expressions to filter against */
-            TypeKind type;        /* Analyzed type */
-            struct Symbol *class; /* Analyzed class */
+            struct List *filters;     /* Expressions to filter against */
+            TypeKind type;            /* Analyzed type */
+            struct Symbol *class;     /* Analyzed class */
             struct Expression *setExpression; /* If an INSET aggregation, the set expression */
         } agr;
 
