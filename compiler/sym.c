@@ -52,6 +52,7 @@ Symbol *messageVerbSymbolFor2Instances;
 Symbol *messageVerbSymbolForString;
 Symbol *messageVerbSymbolFor2Strings;
 Symbol *messageVerbSymbolFor2Integers;
+Symbol *messageVerbSymbolFor3Integers;
 
 
 
@@ -372,6 +373,7 @@ void createMessageVerbs() {
     messageVerbSymbolForInstance = createMessageVerb(1, entitySymbol);
     messageVerbSymbolForString = createMessageVerb(1, stringSymbol);
     messageVerbSymbolFor2Integers = createMessageVerb(2, integerSymbol);
+    messageVerbSymbolFor3Integers = createMessageVerb(3, integerSymbol);
     messageVerbSymbolFor2Strings = createMessageVerb(2, stringSymbol);
     messageVerbSymbolFor2Instances = createMessageVerb(2, entitySymbol);
 }

@@ -136,9 +136,9 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
          "$+1 kan inte innehålla $+2.",
          "$+1 kan $+2 nicht trägen."},
         {M_SCORE, "have_scored",
-         "You have scored $1 points out of $2.",
-         "Du har samlat $1 poäng av $2.",
-         "Du hast $1 Punkte von $2."},
+         "You have scored $1 points out of $2 in $3 moves.",
+         "Du har samlat $1 poäng av $2 på $3 drag.",
+         "Du hast $1 Punkte von $2 in $3 bewegt erzielt."},
         {M_MORE, "more",
          "<More>",
          "<Mera>",
@@ -405,7 +405,7 @@ Context *contextFor(MsgKind messageNo) {
         return newVerbContext(messageVerbSymbolFor2Instances);
 
     case M_SCORE:
-        return newVerbContext(messageVerbSymbolFor2Integers);
+        return newVerbContext(messageVerbSymbolFor3Integers);
 
     case M_UNDONE:
         return newVerbContext(messageVerbSymbolForString);

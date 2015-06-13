@@ -588,7 +588,7 @@ static int val(char str[])
     ;
 
 <verb_header>		-- RETURNS: srcp, str, idList
-    = 'verb' <id_list>
+    = ['meta'] 'verb' <id_list>
     %%
         %<verb_header>.srcp   = %'verb'.srcp;
         %<verb_header>.str    = %<id_list>.str;

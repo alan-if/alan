@@ -43,6 +43,7 @@ extern Symbol *messageVerbSymbolFor2Instances;
 extern Symbol *messageVerbSymbolForString;
 extern Symbol *messageVerbSymbolFor2Strings;
 extern Symbol *messageVerbSymbolFor2Integers;
+extern Symbol *messageVerbSymbolFor3Integers;
 
 
 /* FUNCTIONS: */

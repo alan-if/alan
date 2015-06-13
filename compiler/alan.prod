@@ -129,590 +129,594 @@
  67. <verb> = <verb_header> <verb_body> <verb_tail> 
             ;
 
- 68. <verb_header> = 'verb' <id_list> 
+ 68. <verb_header> = __genSym#1 'verb' <id_list> 
                    ;
 
- 69. <verb_body> = <simple_verb_body> 
- 70.             ! <verb_alternatives> 
-                 ;
-
- 71. <verb_alternatives> = <verb_alternative> 
- 72.                     ! <verb_alternatives> <verb_alternative> 
-                         ;
-
- 73. <verb_alternative> = 'when' ID <simple_verb_body> 
-                        ;
-
- 74. <simple_verb_body> = <optional_checks> <optional_does> 
-                        ;
-
- 75. <verb_tail> = 'end' 'verb' <optional_id> '.' 
-                 ;
-
- 76. <optional_checks> = 
- 77.                   ! 'check' <statements> 
- 78.                   ! 'check' <check_list> 
-                       ;
-
- 79. <check_list> = <check> 
- 80.              ! <check_list> 'and' <check> 
-                  ;
-
- 81. <check> = <expression> 'else' <statements> 
-             ;
-
- 82. <optional_does> = 
- 83.                 ! <does> 
-                     ;
-
- 84. <does> = 'does' <optional_qual> <statements> 
-            ;
-
- 85. <class> = 'every' ID <optional_heritage> <properties> <class_tail> 
-             ;
-
- 86. <class_tail> = 'end' 'every' <optional_id> __genSym#1 
-                  ;
-
- 87. __genSym#1 = 
- 88.            ! '.' 
+ 69. __genSym#1 = 
+ 70.            ! 'meta' 
                 ;
 
- 89. <addition> = 'add' 'to' __genSym#2 ID <optional_heritage> <properties> 
+ 71. <verb_body> = <simple_verb_body> 
+ 72.             ! <verb_alternatives> 
+                 ;
+
+ 73. <verb_alternatives> = <verb_alternative> 
+ 74.                     ! <verb_alternatives> <verb_alternative> 
+                         ;
+
+ 75. <verb_alternative> = 'when' ID <simple_verb_body> 
+                        ;
+
+ 76. <simple_verb_body> = <optional_checks> <optional_does> 
+                        ;
+
+ 77. <verb_tail> = 'end' 'verb' <optional_id> '.' 
+                 ;
+
+ 78. <optional_checks> = 
+ 79.                   ! 'check' <statements> 
+ 80.                   ! 'check' <check_list> 
+                       ;
+
+ 81. <check_list> = <check> 
+ 82.              ! <check_list> 'and' <check> 
+                  ;
+
+ 83. <check> = <expression> 'else' <statements> 
+             ;
+
+ 84. <optional_does> = 
+ 85.                 ! <does> 
+                     ;
+
+ 86. <does> = 'does' <optional_qual> <statements> 
+            ;
+
+ 87. <class> = 'every' ID <optional_heritage> <properties> <class_tail> 
+             ;
+
+ 88. <class_tail> = 'end' 'every' <optional_id> __genSym#2 
+                  ;
+
+ 89. __genSym#2 = 
+ 90.            ! '.' 
+                ;
+
+ 91. <addition> = 'add' 'to' __genSym#3 ID <optional_heritage> <properties> 
                   <add_tail> 
                 ;
 
- 90. __genSym#2 = 
- 91.            ! 'every' 
+ 92. __genSym#3 = 
+ 93.            ! 'every' 
                 ;
 
- 92. <add_tail> = 'end' 'add' __genSym#3 <optional_id> __genSym#4 
-                ;
-
- 93. __genSym#3 = 
- 94.            ! 'to' 
+ 94. <add_tail> = 'end' 'add' __genSym#4 <optional_id> __genSym#5 
                 ;
 
  95. __genSym#4 = 
- 96.            ! '.' 
+ 96.            ! 'to' 
                 ;
 
- 97. <instance> = 'the' ID <optional_heritage> <properties> <instance_tail> 
+ 97. __genSym#5 = 
+ 98.            ! '.' 
                 ;
 
- 98. <instance_tail> = 'end' 'the' <optional_id> __genSym#5 
+ 99. <instance> = 'the' ID <optional_heritage> <properties> <instance_tail> 
+                ;
+
+100. <instance_tail> = 'end' 'the' <optional_id> __genSym#6 
                      ;
 
- 99. __genSym#5 = 
-100.            ! '.' 
+101. __genSym#6 = 
+102.            ! '.' 
                 ;
 
-101. <optional_heritage> = 
-102.                     ! <heritage> 
+103. <optional_heritage> = 
+104.                     ! <heritage> 
                          ;
 
-103. <heritage> = 'isa' ID __genSym#6 
+105. <heritage> = 'isa' ID __genSym#7 
                 ;
 
-104. __genSym#6 = 
-105.            ! '.' 
+106. __genSym#7 = 
+107.            ! '.' 
                 ;
 
-106. <properties> = 
-107.              ! <properties> <property> 
+108. <properties> = 
+109.              ! <properties> <property> 
                   ;
 
-108. <property> = <where> __genSym#7 
-109.            ! <container_properties> 
-110.            ! <description> 
-111.            ! __genSym#8 <article_or_form> 
-112.            ! <name> 
-113.            ! <pronoun> 
-114.            ! <initialize> 
-115.            ! <entered> 
-116.            ! <mentioned> 
-117.            ! 'definite' <article_or_form> 
-118.            ! 'negative' <article_or_form> 
-119.            ! <is> <attributes> 
-120.            ! <script> 
-121.            ! <exit> 
-122.            ! <verb> 
-                ;
-
-123. __genSym#7 = 
-124.            ! '.' 
+110. <property> = <where> __genSym#8 
+111.            ! <container_properties> 
+112.            ! <description> 
+113.            ! __genSym#9 <article_or_form> 
+114.            ! <name> 
+115.            ! <pronoun> 
+116.            ! <initialize> 
+117.            ! <entered> 
+118.            ! <mentioned> 
+119.            ! 'definite' <article_or_form> 
+120.            ! 'negative' <article_or_form> 
+121.            ! <is> <attributes> 
+122.            ! <script> 
+123.            ! <exit> 
+124.            ! <verb> 
                 ;
 
 125. __genSym#8 = 
-126.            ! 'indefinite' 
+126.            ! '.' 
                 ;
 
-127. <exit> = 'exit' <id_list> 'to' ID <optional_exit_body> '.' 
+127. __genSym#9 = 
+128.            ! 'indefinite' 
+                ;
+
+129. <exit> = 'exit' <id_list> 'to' ID <optional_exit_body> '.' 
             ;
 
-128. <optional_exit_body> = 
-129.                      ! <optional_checks> <optional_does> 'end' 'exit' 
+130. <optional_exit_body> = 
+131.                      ! <optional_checks> <optional_does> 'end' 'exit' 
                             <optional_id> 
                           ;
 
-130. <is> = 'is' 
-131.      ! 'are' 
-132.      ! 'has' 
-133.      ! 'can' 
+132. <is> = 'is' 
+133.      ! 'are' 
+134.      ! 'has' 
+135.      ! 'can' 
           ;
 
-134. <optional_description> = 
-135.                        ! <description> 
+136. <optional_description> = 
+137.                        ! <description> 
                             ;
 
-136. <description> = 'description' <optional_checks> <optional_does> 
-137.               ! 'description' <statements> 
+138. <description> = 'description' <optional_checks> <optional_does> 
+139.               ! 'description' <statements> 
                    ;
 
-138. <article_or_form> = <article> 
-139.                   ! <form> 
+140. <article_or_form> = <article> 
+141.                   ! <form> 
                        ;
 
-140. <article> = 'article' 
-141.           ! 'article' <statements> 
+142. <article> = 'article' 
+143.           ! 'article' <statements> 
                ;
 
-142. <form> = 'form' 
-143.        ! 'form' <statements> 
+144. <form> = 'form' 
+145.        ! 'form' <statements> 
             ;
 
-144. <entered> = 'entered' <statements> 
+146. <entered> = 'entered' <statements> 
                ;
 
-145. <initialize> = 'initialize' <statements> 
+147. <initialize> = 'initialize' <statements> 
                   ;
 
-146. <mentioned> = 'mentioned' <statements> 
+148. <mentioned> = 'mentioned' <statements> 
                  ;
 
-147. <name> = 'name' <ids> <optional_full_stop> 
+149. <name> = 'name' <ids> <optional_full_stop> 
             ;
 
-148. <pronoun> = 'pronoun' <id_list> <optional_full_stop> 
+150. <pronoun> = 'pronoun' <id_list> <optional_full_stop> 
                ;
 
-149. <optional_full_stop> = 
-150.                      ! '.' 
+151. <optional_full_stop> = 
+152.                      ! '.' 
                           ;
 
-151. <container_properties> = __genSym#9 <optionally_opaque> 'container' 
+153. <container_properties> = __genSym#10 <optionally_opaque> 'container' 
                               <container_body> 
                             ;
 
-152. __genSym#9 = 
-153.            ! 'with' 
-                ;
+154. __genSym#10 = 
+155.             ! 'with' 
+                 ;
 
-154. <optionally_opaque> = 
-155.                     ! 'opaque' 
+156. <optionally_opaque> = 
+157.                     ! 'opaque' 
                          ;
 
-156. <container_body> = <optional_taking> <optional_limits> <optional_header> 
+158. <container_body> = <optional_taking> <optional_limits> <optional_header> 
                         <optional_empty> <optional_extract> 
-157.                  ! '.' 
+159.                  ! '.' 
                       ;
 
-158. <optional_taking> = 
-159.                   ! 'taking' ID '.' 
+160. <optional_taking> = 
+161.                   ! 'taking' ID '.' 
                        ;
 
-160. <optional_limits> = 
-161.                   ! 'limits' <limits> 
+162. <optional_limits> = 
+163.                   ! 'limits' <limits> 
                        ;
 
-162. <limits> = <limit> 
-163.          ! <limits> <limit> 
+164. <limits> = <limit> 
+165.          ! <limits> <limit> 
               ;
 
-164. <limit> = <limit_attribute> <else_or_then> <statements> 
+166. <limit> = <limit_attribute> <else_or_then> <statements> 
              ;
 
-165. <else_or_then> = 'else' 
-166.                ! 'then' 
+167. <else_or_then> = 'else' 
+168.                ! 'then' 
                     ;
 
-167. <limit_attribute> = <attribute_definition> 
-168.                   ! 'count' Integer 
+169. <limit_attribute> = <attribute_definition> 
+170.                   ! 'count' Integer 
                        ;
 
-169. <optional_header> = 
-170.                   ! 'header' <statements> 
+171. <optional_header> = 
+172.                   ! 'header' <statements> 
                        ;
 
-171. <optional_empty> = 
-172.                  ! 'else' <statements> 
+173. <optional_empty> = 
+174.                  ! 'else' <statements> 
                       ;
 
-173. <optional_extract> = 
-174.                    ! 'extract' <optional_checks> <optional_does> 
-175.                    ! 'extract' <statements> 
+175. <optional_extract> = 
+176.                    ! 'extract' <optional_checks> <optional_does> 
+177.                    ! 'extract' <statements> 
                         ;
 
-176. <event> = <event_header> <statements> <event_tail> 
+178. <event> = <event_header> <statements> <event_tail> 
              ;
 
-177. <event_header> = 'event' ID 
+179. <event_header> = 'event' ID 
                     ;
 
-178. <event_tail> = 'end' 'event' <optional_id> '.' 
+180. <event_tail> = 'end' 'event' <optional_id> '.' 
                   ;
 
-179. <script> = 'script' ID __genSym#10 <optional_description> <step_list> 
+181. <script> = 'script' ID __genSym#11 <optional_description> <step_list> 
               ;
 
-180. __genSym#10 = 
-181.             ! '.' 
+182. __genSym#11 = 
+183.             ! '.' 
                  ;
 
-182. <step_list> = <step> 
-183.             ! <step_list> <step> 
+184. <step_list> = <step> 
+185.             ! <step_list> <step> 
                  ;
 
-184. <step> = 'step' <statements> 
-185.        ! 'step' 'after' <expression> __genSym#11 <statements> 
-186.        ! 'step' 'wait' 'until' <expression> __genSym#12 <statements> 
+186. <step> = 'step' <statements> 
+187.        ! 'step' 'after' <expression> __genSym#12 <statements> 
+188.        ! 'step' 'wait' 'until' <expression> __genSym#13 <statements> 
             ;
-
-187. __genSym#11 = 
-188.             ! '.' 
-                 ;
 
 189. __genSym#12 = 
 190.             ! '.' 
                  ;
 
-191. <rule> = 'when' <expression> <then> <statements> <optional_end_when> 
+191. __genSym#13 = 
+192.             ! '.' 
+                 ;
+
+193. <rule> = 'when' <expression> <then> <statements> <optional_end_when> 
             ;
 
-192. <then> = '=>' 
-193.        ! 'then' 
+194. <then> = '=>' 
+195.        ! 'then' 
             ;
 
-194. <optional_end_when> = 
-195.                     ! 'end' 'when' __genSym#13 
+196. <optional_end_when> = 
+197.                     ! 'end' 'when' __genSym#14 
                          ;
 
-196. __genSym#13 = 
-197.             ! '.' 
+198. __genSym#14 = 
+199.             ! '.' 
                  ;
 
-198. <start> = 'start' <where> '.' <optional_statements> 
+200. <start> = 'start' <where> '.' <optional_statements> 
              ;
 
-199. <optional_statements> = 
-200.                       ! <statements> 
+201. <optional_statements> = 
+202.                       ! <statements> 
                            ;
 
-201. <statements> = <statement> 
-202.              ! <statements> <statement> 
+203. <statements> = <statement> 
+204.              ! <statements> <statement> 
                   ;
 
-203. <statement> = <output_statement> 
-204.             ! <special_statement> 
-205.             ! <manipulation_statement> 
-206.             ! <actor_statement> 
-207.             ! <event_statement> 
-208.             ! <assignment_statement> 
-209.             ! <repetition_statement> 
-210.             ! <conditional_statement> 
+205. <statement> = <output_statement> 
+206.             ! <special_statement> 
+207.             ! <manipulation_statement> 
+208.             ! <actor_statement> 
+209.             ! <event_statement> 
+210.             ! <assignment_statement> 
+211.             ! <repetition_statement> 
+212.             ! <conditional_statement> 
                  ;
 
-211. <output_statement> = STRING 
-212.                    ! 'describe' <what> '.' 
-213.                    ! 'say' <say_form> <expression> '.' 
-214.                    ! 'list' <primary> '.' 
-215.                    ! 'show' ID '.' 
-216.                    ! 'play' ID '.' 
-217.                    ! 'style' ID '.' 
+213. <output_statement> = STRING 
+214.                    ! 'describe' <what> '.' 
+215.                    ! 'say' <say_form> <expression> '.' 
+216.                    ! 'list' <primary> '.' 
+217.                    ! 'show' ID '.' 
+218.                    ! 'play' ID '.' 
+219.                    ! 'style' ID '.' 
                         ;
 
-218. <say_form> = 
-219.            ! 'the' 
-220.            ! 'an' 
-221.            ! 'it' 
-222.            ! 'no' 
+220. <say_form> = 
+221.            ! 'the' 
+222.            ! 'an' 
+223.            ! 'it' 
+224.            ! 'no' 
                 ;
 
-223. <manipulation_statement> = 'empty' <primary> <optional_where> '.' 
-224.                          ! 'locate' <primary> <where> '.' 
-225.                          ! 'include' <primary> 'in' <what> '.' 
-226.                          ! 'exclude' <primary> 'from' <what> '.' 
+225. <manipulation_statement> = 'empty' <primary> <optional_where> '.' 
+226.                          ! 'locate' <primary> <where> '.' 
+227.                          ! 'include' <primary> 'in' <what> '.' 
+228.                          ! 'exclude' <primary> 'from' <what> '.' 
                               ;
 
-227. <event_statement> = 'cancel' <what> '.' 
-228.                   ! 'schedule' <what> <optional_where> 'after' 
+229. <event_statement> = 'cancel' <what> '.' 
+230.                   ! 'schedule' <what> <optional_where> 'after' 
                          <expression> '.' 
                        ;
 
-229. <assignment_statement> = 'make' <primary> <something> '.' 
-230.                        ! 'strip' <optional_first_or_last> 
+231. <assignment_statement> = 'make' <primary> <something> '.' 
+232.                        ! 'strip' <optional_first_or_last> 
                               <optional_expression> 
                               <optional_word_or_character> 'from' <expression> 
                               <optional_into> '.' 
-231.                        ! 'increase' <attribute_reference> 
+233.                        ! 'increase' <attribute_reference> 
                               <optional_by_clause> '.' 
-232.                        ! 'decrease' <attribute_reference> 
+234.                        ! 'decrease' <attribute_reference> 
                               <optional_by_clause> '.' 
-233.                        ! 'set' <attribute_reference> 'to' <expression> 
+235.                        ! 'set' <attribute_reference> 'to' <expression> 
                               '.' 
                             ;
 
-234. <optional_by_clause> = 
-235.                      ! 'by' <expression> 
+236. <optional_by_clause> = 
+237.                      ! 'by' <expression> 
                           ;
 
-236. <optional_first_or_last> = 
-237.                          ! 'first' 
-238.                          ! 'last' 
+238. <optional_first_or_last> = 
+239.                          ! 'first' 
+240.                          ! 'last' 
                               ;
 
-239. <optional_word_or_character> = 
-240.                              ! 'word' 
-241.                              ! 'words' 
-242.                              ! 'character' 
-243.                              ! 'characters' 
+241. <optional_word_or_character> = 
+242.                              ! 'word' 
+243.                              ! 'words' 
+244.                              ! 'character' 
+245.                              ! 'characters' 
                                   ;
 
-244. <optional_into> = 
-245.                 ! 'into' <expression> 
+246. <optional_into> = 
+247.                 ! 'into' <expression> 
                      ;
 
-246. <conditional_statement> = <if_statement> 
-247.                         ! <depending_statement> 
+248. <conditional_statement> = <if_statement> 
+249.                         ! <depending_statement> 
                              ;
 
-248. <if_statement> = 'if' <expression> 'then' <statements> 
+250. <if_statement> = 'if' <expression> 'then' <statements> 
                       <optional_elsif_list> <optional_else_part> 'end' 'if' 
                       '.' 
                     ;
 
-249. <optional_elsif_list> = 
-250.                       ! <elsif_list> 
+251. <optional_elsif_list> = 
+252.                       ! <elsif_list> 
                            ;
 
-251. <elsif_list> = 'elsif' <expression> 'then' <statements> 
-252.              ! <elsif_list> 'elsif' <expression> 'then' <statements> 
+253. <elsif_list> = 'elsif' <expression> 'then' <statements> 
+254.              ! <elsif_list> 'elsif' <expression> 'then' <statements> 
                   ;
 
-253. <optional_else_part> = 
-254.                      ! 'else' <statements> 
+255. <optional_else_part> = 
+256.                      ! 'else' <statements> 
                           ;
 
-255. <depending_statement> = 'depending' 'on' <primary> <depend_cases> 'end' 
-                             __genSym#14 '.' 
+257. <depending_statement> = 'depending' 'on' <primary> <depend_cases> 'end' 
+                             __genSym#15 '.' 
                            ;
 
-256. __genSym#14 = 'depend' 
-257.             ! 'depending' 
+258. __genSym#15 = 'depend' 
+259.             ! 'depending' 
                  ;
 
-258. <depend_cases> = <depend_case> 
-259.                ! <depend_cases> <depend_case> 
+260. <depend_cases> = <depend_case> 
+261.                ! <depend_cases> <depend_case> 
                     ;
 
-260. <depend_case> = 'else' <statements> 
-261.               ! <right_hand_side> 'then' <statements> 
+262. <depend_case> = 'else' <statements> 
+263.               ! <right_hand_side> 'then' <statements> 
                    ;
 
-262. <repetition_statement> = <for_each> ID <optional_loop_filters> 'do' 
-                              <statements> 'end' <for_each> __genSym#15 
+264. <repetition_statement> = <for_each> ID <optional_loop_filters> 'do' 
+                              <statements> 'end' <for_each> __genSym#16 
                             ;
 
-263. __genSym#15 = 
-264.             ! '.' 
+265. __genSym#16 = 
+266.             ! '.' 
                  ;
 
-265. <optional_loop_filters> = 
-266.                         ! <filters> 
-267.                         ! 'between' <arithmetic> 'and' <arithmetic> 
+267. <optional_loop_filters> = 
+268.                         ! <filters> 
+269.                         ! 'between' <arithmetic> 'and' <arithmetic> 
                              ;
 
-268. <for_each> = 'for' 
-269.            ! 'each' 
-270.            ! 'for' 'each' 
+270. <for_each> = 'for' 
+271.            ! 'each' 
+272.            ! 'for' 'each' 
                 ;
 
-271. <actor_statement> = 'stop' <what> '.' 
-272.                   ! 'use' 'script' ID <optional_for_actor> '.' 
+273. <actor_statement> = 'stop' <what> '.' 
+274.                   ! 'use' 'script' ID <optional_for_actor> '.' 
                        ;
 
-273. <optional_for_actor> = 
-274.                      ! 'for' <what> 
+275. <optional_for_actor> = 
+276.                      ! 'for' <what> 
                           ;
 
-275. <special_statement> = 'quit' '.' 
-276.                     ! 'look' '.' 
-277.                     ! 'save' '.' 
-278.                     ! 'restore' '.' 
-279.                     ! 'restart' '.' 
-280.                     ! 'score' <optional_integer> '.' 
-281.                     ! 'transcript' <on_or_off> '.' 
-282.                     ! 'system' STRING '.' 
-283.                     ! 'visits' Integer '.' 
+277. <special_statement> = 'quit' '.' 
+278.                     ! 'look' '.' 
+279.                     ! 'save' '.' 
+280.                     ! 'restore' '.' 
+281.                     ! 'restart' '.' 
+282.                     ! 'score' <optional_integer> '.' 
+283.                     ! 'transcript' <on_or_off> '.' 
+284.                     ! 'system' STRING '.' 
+285.                     ! 'visits' Integer '.' 
                          ;
 
-284. <on_or_off> = 'on' 
-285.             ! 'off' 
+286. <on_or_off> = 'on' 
+287.             ! 'off' 
                  ;
 
-286. <optional_expression> = 
-287.                       ! <expression> 
+288. <optional_expression> = 
+289.                       ! <expression> 
                            ;
 
-288. <expression> = <term> 
-289.              ! <expression> 'or' <term> 
+290. <expression> = <term> 
+291.              ! <expression> 'or' <term> 
                   ;
 
-290. <term> = <factor> 
-291.        ! <term> 'and' <factor> 
+292. <term> = <factor> 
+293.        ! <term> 'and' <factor> 
             ;
 
-292. <factor> = <arithmetic> 
-293.          ! <factor> <optional_not> <where> 
-294.          ! <factor> <optional_not> <relop> <arithmetic> 
-295.          ! <factor> <optional_not> 'contains' <arithmetic> 
-296.          ! <factor> <optional_not> 'between' <arithmetic> 'and' 
+294. <factor> = <arithmetic> 
+295.          ! <factor> <optional_not> <where> 
+296.          ! <factor> <optional_not> <relop> <arithmetic> 
+297.          ! <factor> <optional_not> 'contains' <arithmetic> 
+298.          ! <factor> <optional_not> 'between' <arithmetic> 'and' 
                 <arithmetic> 
               ;
 
-297. <arithmetic> = <primary> 
-298.              ! <aggregate> <filters> 
-299.              ! <primary> 'isa' ID 
-300.              ! <primary> <is> <something> 
-301.              ! <arithmetic> <binop> <primary> 
+299. <arithmetic> = <primary> 
+300.              ! <aggregate> <filters> 
+301.              ! <primary> 'isa' ID 
+302.              ! <primary> <is> <something> 
+303.              ! <arithmetic> <binop> <primary> 
                   ;
 
-302. <filters> = <filter> 
-303.           ! <filters> ',' <filter> 
+304. <filters> = <filter> 
+305.           ! <filters> ',' <filter> 
                ;
 
-304. <filter> = <optional_not> <where> 
-305.          ! <optional_not> 'isa' ID 
-306.          ! <is> <something> 
+306. <filter> = <optional_not> <where> 
+307.          ! <optional_not> 'isa' ID 
+308.          ! <is> <something> 
               ;
 
-307. <right_hand_side> = <filter> 
-308.                   ! <optional_not> <relop> <primary> 
-309.                   ! <optional_not> 'contains' <factor> 
-310.                   ! <optional_not> 'between' <arithmetic> 'and' 
+309. <right_hand_side> = <filter> 
+310.                   ! <optional_not> <relop> <primary> 
+311.                   ! <optional_not> 'contains' <factor> 
+312.                   ! <optional_not> 'between' <arithmetic> 'and' 
                          <arithmetic> 
                        ;
 
-311. <primary> = STRING 
-312.           ! <what> 
-313.           ! 'score' 
-314.           ! <optional_minus> Integer 
-315.           ! '{' <optional_members> '}' 
-316.           ! '(' <expression> ')' 
-317.           ! 'random' <optional_transitivity> 'in' <primary> 
-318.           ! 'random' <primary> 'to' <primary> 
+313. <primary> = STRING 
+314.           ! <what> 
+315.           ! 'score' 
+316.           ! <optional_minus> Integer 
+317.           ! '{' <optional_members> '}' 
+318.           ! '(' <expression> ')' 
+319.           ! 'random' <optional_transitivity> 'in' <primary> 
+320.           ! 'random' <primary> 'to' <primary> 
                ;
 
-319. <aggregate> = 'count' 
-320.             ! <aggregator> 'of' ID 
+321. <aggregate> = 'count' 
+322.             ! <aggregator> 'of' ID 
                  ;
 
-321. <aggregator> = 'max' 
-322.              ! 'min' 
-323.              ! 'sum' 
+323. <aggregator> = 'max' 
+324.              ! 'min' 
+325.              ! 'sum' 
                   ;
 
-324. <something> = <optional_not> ID 
+326. <something> = <optional_not> ID 
                  ;
 
-325. <what> = <simple_what> 
-326.        ! <attribute_reference> 
+327. <what> = <simple_what> 
+328.        ! <attribute_reference> 
             ;
 
-327. <simple_what> = ID 
-328.               ! 'this' 
-329.               ! 'current' 'actor' 
-330.               ! 'current' 'location' 
+329. <simple_what> = ID 
+330.               ! 'this' 
+331.               ! 'current' 'actor' 
+332.               ! 'current' 'location' 
                    ;
 
-331. <attribute_reference> = ID 'of' <what> 
-332.                       ! <what> ':' ID 
+333. <attribute_reference> = ID 'of' <what> 
+334.                       ! <what> ':' ID 
                            ;
 
-333. <optional_where> = 
-334.                  ! <where> 
+335. <optional_where> = 
+336.                  ! <where> 
                       ;
 
-335. <where> = <optional_transitivity> 'here' 
-336.         ! <optional_transitivity> 'nearby' 
-337.         ! <optional_transitivity> 'at' <primary> 
-338.         ! <optional_transitivity> 'in' <primary> 
-339.         ! <optional_transitivity> 'near' <what> 
+337. <where> = <optional_transitivity> 'here' 
+338.         ! <optional_transitivity> 'nearby' 
+339.         ! <optional_transitivity> 'at' <primary> 
+340.         ! <optional_transitivity> 'in' <primary> 
+341.         ! <optional_transitivity> 'near' <what> 
              ;
 
-340. <binop> = '+' 
-341.         ! '-' 
-342.         ! '*' 
-343.         ! '/' 
+342. <binop> = '+' 
+343.         ! '-' 
+344.         ! '*' 
+345.         ! '/' 
              ;
 
-344. <relop> = '<>' 
-345.         ! '=' 
-346.         ! '==' 
-347.         ! '>=' 
-348.         ! '<=' 
-349.         ! '>' 
-350.         ! '<' 
+346. <relop> = '<>' 
+347.         ! '=' 
+348.         ! '==' 
+349.         ! '>=' 
+350.         ! '<=' 
+351.         ! '>' 
+352.         ! '<' 
              ;
 
-351. <optional_qual> = 
-352.                 ! 'before' 
-353.                 ! 'after' 
-354.                 ! 'only' 
+353. <optional_qual> = 
+354.                 ! 'before' 
+355.                 ! 'after' 
+356.                 ! 'only' 
                      ;
 
-355. <optional_not> = 
-356.                ! 'not' 
+357. <optional_not> = 
+358.                ! 'not' 
                     ;
 
-357. <optional_transitivity> = 
-358.                         ! 'transitively' 
-359.                         ! 'directly' 
-360.                         ! 'indirectly' 
+359. <optional_transitivity> = 
+360.                         ! 'transitively' 
+361.                         ! 'directly' 
+362.                         ! 'indirectly' 
                              ;
 
-361. <optional_id> = 
-362.               ! ID 
+363. <optional_id> = 
+364.               ! ID 
                    ;
 
-363. <ids> = ID 
-364.       ! <ids> ID 
+365. <ids> = ID 
+366.       ! <ids> ID 
            ;
 
-365. <id_list> = ID 
-366.           ! <id_list> ',' ID 
+367. <id_list> = ID 
+368.           ! <id_list> ',' ID 
                ;
 
-367. <optional_integer> = 
-368.                    ! Integer 
+369. <optional_integer> = 
+370.                    ! Integer 
                         ;
 
-369. <optional_minus> = 
-370.                  ! '-' 
+371. <optional_minus> = 
+372.                  ! '-' 
                       ;
 
-371. ID = Identifier 
-372.    ! 'location' 
-373.    ! 'actor' 
-374.    ! 'opaque' 
-375.    ! 'visits' 
-376.    ! 'contains' 
-377.    ! 'on' 
-378.    ! 'it' 
-379.    ! 'of' 
-380.    ! 'first' 
-381.    ! 'into' 
-382.    ! 'taking' 
-383.    ! 'off' 
+373. ID = Identifier 
+374.    ! 'location' 
+375.    ! 'actor' 
+376.    ! 'opaque' 
+377.    ! 'visits' 
+378.    ! 'contains' 
+379.    ! 'on' 
+380.    ! 'it' 
+381.    ! 'of' 
+382.    ! 'first' 
+383.    ! 'into' 
+384.    ! 'taking' 
+385.    ! 'off' 
         ;
 

@@ -6,27 +6,27 @@
 
 
 P
-You have scored 0 points out of 5. There is a o here.
+You have scored 0 points out of 5 in -1 moves. There is a o here.
 
 > l
 P
-You have scored 0 points out of 5. There is a o here. You have scored 0
-points out of 5.
+You have scored 0 points out of 5 in 0 moves. There is a o here. You have
+scored 0 points out of 5 in 0 moves.
 
 > x o
 
 > l
 P
-You have scored 5 points out of 5. There is a o here. You have scored 5
-points out of 5.
+You have scored 5 points out of 5 in 2 moves. There is a o here. You have
+scored 5 points out of 5 in 2 moves.
 
 > undo
 'x o' undone.
 
 > l
 P
-You have scored 0 points out of 5. There is a o here. You have scored 0
-points out of 5.
+You have scored 0 points out of 5 in 3 moves. There is a o here. You have
+scored 0 points out of 5 in 3 moves.
 
 > 
 
