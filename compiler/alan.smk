@@ -222,7 +222,7 @@ void setCharacterSet(int set)
 
 %%DEFINITIONS
 
-  letter	= [a-z\xe0-\xf6\xf8-\xfe];
+  letter	= [a-z\xdf\xe0-\xf6\xf8-\xfe];
   digit		= [0-9];
 
 ------------------------------------------------------------------------------
