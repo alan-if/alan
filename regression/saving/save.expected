@@ -41,7 +41,7 @@ there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 0 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -62,13 +62,13 @@ and a sign with three oval objects are hanging lose from the wall.
 You are empty-handed.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 3 moves.
 
 > kick computer
 I can't see any computer here.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 4 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -89,13 +89,13 @@ and a sign with three oval objects are hanging lose from the wall.
 You are empty-handed.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 7 moves.
 
 > type "nilgu"
 There is nothing here to type on.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 9 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -116,13 +116,13 @@ and a sign with three oval objects are hanging lose from the wall.
 You are empty-handed.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 12 moves.
 
 > west
 You can't go that way.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 13 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -143,7 +143,7 @@ and a sign with three oval objects are hanging lose from the wall.
 You are empty-handed.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 16 moves.
 
 > north
 Hall
@@ -152,7 +152,7 @@ has fallen to the floor. At the west end is a staircase, and to the south
 is the exit. To the east is a folding door. It is closed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 18 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -173,7 +173,7 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 21 moves.
 
 > raise ladder
 I can't see any ladder here.
@@ -182,7 +182,7 @@ I can't see any ladder here.
 I don't know what you mean by 'it'.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 22 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -203,13 +203,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 25 moves.
 
 > examine nest
 I can't see any nest here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 26 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -230,13 +230,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 29 moves.
 
 > take keys
 I can't see any keys here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 30 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -257,13 +257,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 33 moves.
 
 > down
 You can't go that way.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 34 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -284,7 +284,7 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 37 moves.
 
 > south
 As you walk out through the door the large building collapses in a huge
@@ -311,13 +311,13 @@ and a sign with three oval objects are hanging lose from the wall.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 37 moves.
 
 > up
 You can't go that way.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 38 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -338,13 +338,13 @@ and a sign with three oval objects are hanging lose from the wall.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 41 moves.
 
 > south
 You can't go that way.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 42 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -365,13 +365,13 @@ and a sign with three oval objects are hanging lose from the wall.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 45 moves.
 
 > wind clock
 I can't see any clock here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 46 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -392,14 +392,14 @@ and a sign with three oval objects are hanging lose from the wall.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 49 moves.
 
 > north
 Hall (again)
 To the east is a folding door. It is closed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 51 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -420,13 +420,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 54 moves.
 
 > east
 You can not go in there, the door is closed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 55 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -447,13 +447,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 58 moves.
 
 > east
 You can not go in there, the door is closed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 59 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -474,13 +474,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 62 moves.
 
 > examine desk
 I can't see any desk here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 63 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -501,13 +501,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 66 moves.
 
 > examine desk
 I can't see any desk here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 67 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -528,13 +528,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 70 moves.
 
 > open drawer
 I can't see any drawer here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 71 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -555,13 +555,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 74 moves.
 
 > take manual
 I can't see any manual here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 75 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -582,13 +582,13 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 78 moves.
 
 > read it
 I don't know what you mean by 'it'.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 79 moves.
 
 > save
 Enter file name to save in (save.sav) : 
@@ -609,7 +609,7 @@ is the exit. To the east is a folding door. It is closed.
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 82 moves.
 
 > west
 Stairs

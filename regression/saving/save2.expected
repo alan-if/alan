@@ -51,13 +51,13 @@ I don't know the word 'x'.
 You are empty-handed.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 3 moves.
 
 > i
 You are empty-handed.
 
 > score
-You have scored 0 points out of 135.
+You have scored 0 points out of 135 in 5 moves.
 
 > north
 Hall
@@ -66,13 +66,13 @@ has fallen to the floor. At the west end is a staircase, and to the south
 is the exit. To the east is a folding door. It is closed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 7 moves.
 
 > i
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 9 moves.
 
 > west
 Stairs
@@ -82,13 +82,13 @@ up, and another leading down into a dark cellar. To the east is the
 hallway. A strange smell emerges from below.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 11 moves.
 
 > i
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 13 moves.
 
 > up
 First Floor
@@ -99,38 +99,38 @@ windows the barren field outside the building can be seen. Almost
 completely covered by dust, there is an old book laying on the floor here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 15 moves.
 
 > i
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 17 moves.
 
 > take all
 (old book) Taken.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 19 moves.
 
 > i
 You are carrying a old book.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 21 moves.
 
 > read the book
 As you carefully try to open the book it falls apart into dust and falls
 to the floor through your fingers.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 23 moves.
 
 > i
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 25 moves.
 
 > east
 Office
@@ -143,37 +143,37 @@ is still standing in a corner, full of dust. There is a ladder laying on
 the floor here.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 27 moves.
 
 > i
 You are empty-handed.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 29 moves.
 
 > take ladder
 Taken.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 31 moves.
 
 > i
 You are carrying a 3 metre long ladder.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 33 moves.
 
 > west
 First Floor (again)
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 35 moves.
 
 > i
 You are carrying a 3 metre long ladder.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 37 moves.
 
 > up
 Second Floor
@@ -184,13 +184,13 @@ the sunlight can barely be seen through them. There is a doorway to the
 east.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 39 moves.
 
 > i
 You are carrying a 3 metre long ladder.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 41 moves.
 
 > east
 Terminal Room
@@ -201,52 +201,52 @@ seen. A doorway to the west leads out to the stairs. One of the terminals
 seems in much better shape than the others.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 43 moves.
 
 > i
 You are carrying a 3 metre long ladder.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 45 moves.
 
 > take terminal
 Taken. OH! There was a coin under it!
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 47 moves.
 
 > i
 You are carrying a rather heavy computer terminal and a 3 metre long
 ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 49 moves.
 
 > take coin
 Taken.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 51 moves.
 
 > i
 You are carrying a small coin, a rather heavy computer terminal and a 3
 metre long ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 53 moves.
 
 > west
 Second Floor (again)
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 55 moves.
 
 > i
 You are carrying a small coin, a rather heavy computer terminal and a 3
 metre long ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 57 moves.
 
 > up
 Third Floor
@@ -258,14 +258,14 @@ that can be heared. Foremerly there was an entrance to the east which is
 now totally blocked.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 59 moves.
 
 > i
 You are carrying a small coin, a rather heavy computer terminal and a 3
 metre long ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 61 moves.
 
 > up
 Fourth Floor
@@ -275,14 +275,14 @@ up and down. Be careful where you put your feet! There are doors to the
 east and to the north.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 63 moves.
 
 > i
 You are carrying a small coin, a rather heavy computer terminal and a 3
 metre long ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 65 moves.
 
 > east
 Computer Room
@@ -291,40 +291,40 @@ disks are spread out all over the floor. The exit is to the west. An
 ancient computer is standing in the centre of the room.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 67 moves.
 
 > i
 You are carrying a small coin, a rather heavy computer terminal and a 3
 metre long ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 69 moves.
 
 > i
 You are carrying a small coin, a rather heavy computer terminal and a 3
 metre long ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 71 moves.
 
 > i
 You are carrying a small coin, a rather heavy computer terminal and a 3
 metre long ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 73 moves.
 
 > connect terminal
 The terminal is now connected to the nearby computer.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 75 moves.
 
 > i
 You are carrying a small coin and a 3 metre long ladder.
 
 > score
-You have scored 15 points out of 135.
+You have scored 15 points out of 135 in 77 moves.
 
 > kick computer
 Surprisingly, the old computer starts to whirr, the front panel lights
@@ -332,38 +332,38 @@ begins to twinkle frantically, and the computer starts up. The connected
 terminal displays the message 'Please login. Enter USERID:'
 
 > score
-You have scored 30 points out of 135.
+You have scored 30 points out of 135 in 79 moves.
 
 > i
 You are carrying a small coin and a 3 metre long ladder.
 
 > score
-You have scored 30 points out of 135.
+You have scored 30 points out of 135 in 81 moves.
 
 > type "nilgu"
 'ERROR: Wrong USERID.
 Please login. Enter USERID:'
 
 > score
-You have scored 30 points out of 135.
+You have scored 30 points out of 135 in 83 moves.
 
 > i
 You are carrying a small coin and a 3 metre long ladder.
 
 > score
-You have scored 30 points out of 135.
+You have scored 30 points out of 135 in 85 moves.
 
 > west
 Fourth Floor (again)
 
 > score
-You have scored 30 points out of 135.
+You have scored 30 points out of 135 in 87 moves.
 
 > i
 You are carrying a small coin and a 3 metre long ladder.
 
 > score
-You have scored 30 points out of 135.
+You have scored 30 points out of 135 in 89 moves.
 
 > north
 Windy Room
@@ -374,13 +374,13 @@ nests can be seen, but there are no birds anywhere. Perhaps your entrance
 scared them off.
 
 > score
-You have scored 30 points out of 135.
+You have scored 30 points out of 135 in 91 moves.
 
 > i
 You are carrying a small coin and a 3 metre long ladder.
 
 > score
-You have scored 30 points out of 135.
+You have scored 30 points out of 135 in 93 moves.
 
 > raise ladder
 The ladder is just long enough to reach up through the hole in the
@@ -398,38 +398,38 @@ the field surrounding the building can be seen. In one corner, near the
 remains of one of the walls, a crow has built it's nest.
 
 > score
-You have scored 45 points out of 135.
+You have scored 45 points out of 135 in 96 moves.
 
 > i
 You are carrying a small coin.
 
 > score
-You have scored 45 points out of 135.
+You have scored 45 points out of 135 in 98 moves.
 
 > examine nest
 As you turn the nest over for examination, a set of keys falls out.
 Otherwise there is nothing special about the nest.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 100 moves.
 
 > i
 You are carrying a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 102 moves.
 
 > take keys
 Taken.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 104 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 106 moves.
 
 > down
 Windy Room
@@ -441,25 +441,25 @@ scared them off. A ladder is raised in the middle of the room, extending
 through the hole in the ceiling.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 108 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 110 moves.
 
 > south
 Fourth Floor (again)
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 112 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 114 moves.
 
 > up
 Fifth Floor
@@ -468,13 +468,13 @@ heart and breath you look around and see two doorways. A small one to the
 south, and to the east a long corridor.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 116 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 118 moves.
 
 > south
 Clock Room
@@ -483,38 +483,38 @@ walls an elaborate clockwork is mounted. It is in very good shape it
 seems.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 120 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 122 moves.
 
 > wind clock
 With a deafening BING BANG the clock begins to chime. From the corridor
 in the south a loud flapping of wings is heard.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 124 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 126 moves.
 
 > north
 Fifth Floor (again)
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 128 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 130 moves.
 
 > east
 Corridor
@@ -523,13 +523,13 @@ both ends. In the ceiling there are markings from claws (BIG CLAWS!!) and
 the floor is covered with litter from bats.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 132 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 134 moves.
 
 > east
 Small Office
@@ -541,99 +541,99 @@ recommend using it now since the floor is gone. Anyway, it is not
 possible to get out there anymore.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 136 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 138 moves.
 
 > examine desk
 It is an old desk, made from oak. The top is completely covered by dust 
 where your fingers leave markings. The desk has one remaining drawer.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 140 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 142 moves.
 
 > examine desk
 It is an old desk, made from oak. The top is completely covered by dust 
 that shows markings from fingers. The desk has one remaining drawer.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 144 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 60 points out of 135.
+You have scored 60 points out of 135 in 146 moves.
 
 > open drawer
 Pulling out the drawer a manual falls to the floor.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 148 moves.
 
 > i
 You are carrying a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 150 moves.
 
 > take manual
 Taken.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 152 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 154 moves.
 
 > read it
 I don't know what you mean by 'it'.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 155 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 157 moves.
 
 > west
 Corridor (again)
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 159 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 161 moves.
 
 > west
 Fifth Floor (again)
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 163 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 165 moves.
 
 > down
 Fourth Floor
@@ -643,74 +643,74 @@ up and down. Be careful where you put your feet! There are doors to the
 east and to the north.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 167 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 169 moves.
 
 > down
 Third Floor (again)
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 171 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 173 moves.
 
 > down
 Second Floor (again)
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 175 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 177 moves.
 
 > down
 First Floor (again)
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 179 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 181 moves.
 
 > down
 Stairs (again)
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 183 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 185 moves.
 
 > east
 Hall (again)
 To the east is a folding door. It is closed.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 187 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 70 points out of 135.
+You have scored 70 points out of 135 in 189 moves.
 
 > unlock the door with the keys then open the door
 The key clicks in the lock as the door unlocks.
@@ -718,13 +718,13 @@ The key clicks in the lock as the door unlocks.
 The door opens, revealing the entrance to a dusty old cafeteria.
 
 > score
-You have scored 80 points out of 135.
+You have scored 80 points out of 135 in 192 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 80 points out of 135.
+You have scored 80 points out of 135 in 194 moves.
 
 > east
 Cafe
@@ -735,39 +735,39 @@ It seems to be working. At least the little light inside is on, showing
 some candy.
 
 > score
-You have scored 80 points out of 135.
+You have scored 80 points out of 135 in 196 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a small coin.
 
 > score
-You have scored 80 points out of 135.
+You have scored 80 points out of 135 in 198 moves.
 
 > insert coin into machine
 A clinking sound is heared from the machine and a candy bar falls out on
 the floor.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 200 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 202 moves.
 
 > take candy bar
 Taken.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 204 moves.
 
 > i
 You are carrying a old mouldy candy bar, a dirty manual and a set of
 rusty keys.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 206 moves.
 
 > west
 Hall (again)
@@ -775,27 +775,27 @@ To the east is a folding door. It is open revealing the entrance to a
 cafeteria.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 208 moves.
 
 > i
 You are carrying a old mouldy candy bar, a dirty manual and a set of
 rusty keys.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 210 moves.
 
 > west
 Stairs (again)
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 212 moves.
 
 > i
 You are carrying a old mouldy candy bar, a dirty manual and a set of
 rusty keys.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 214 moves.
 
 > down
 Cellar
@@ -804,14 +804,14 @@ room. The stairs lead up. A thin beam of light has found its way all the
 way down here. In the light from the sun some rats can be seen.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 216 moves.
 
 > i
 You are carrying a old mouldy candy bar, a dirty manual and a set of
 rusty keys.
 
 > score
-You have scored 95 points out of 135.
+You have scored 95 points out of 135 in 218 moves.
 
 > drop candy bar
 Dropped. The rats throw themselves at the candy devouring it furiously,
@@ -819,13 +819,13 @@ nearly killing each other. When every little bit is gone they all fall
 asleep in the sunshine.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 220 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 222 moves.
 
 > west
 Silently sneaking past the sleeping rats, you enter the dark room to the
@@ -840,26 +840,26 @@ program listings. One of the binders is marked with 'DCM V7 891012'. On
 another shelf there is a spool of computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 224 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 226 moves.
 
 > take tape
 Taken.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 228 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 230 moves.
 
 > east
 Cellar
@@ -869,14 +869,14 @@ way down here. In the light from the sun some rats can be seen. They are
 all sleeping.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 232 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 234 moves.
 
 > up
 Stairs
@@ -886,14 +886,14 @@ up, and another leading down into a dark cellar. To the east is the
 hallway. A strange smell emerges from below.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 236 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 238 moves.
 
 > up
 First Floor
@@ -903,14 +903,14 @@ The stairs leads up and down. They still seem alright. Through the dirty
 windows the barren field outside the building can be seen.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 240 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 242 moves.
 
 > up
 Second Floor
@@ -921,40 +921,40 @@ the sunlight can barely be seen through them. There is a doorway to the
 east.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 244 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 246 moves.
 
 > up
 Third Floor (again)
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 248 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 250 moves.
 
 > up
 Fourth Floor (again)
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 252 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 254 moves.
 
 > east
 Computer Room
@@ -964,26 +964,26 @@ old terminal is standing here. An ancient computer is standing in the
 centre of the room. It's powered up and running.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 256 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 258 moves.
 
 > mount tape
 The tape is now securely mounted on the tape drive.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 260 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 262 moves.
 
 > read manual
 The text inside the manual reads:
@@ -998,13 +998,13 @@ OOH! There is a hand written remark in the margin here, it says 'NilGu'.
 Funny, isn't that what you tried earlier...
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 264 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 266 moves.
 
 > type "nilgu"
 'Welcome NilGu!
@@ -1012,39 +1012,39 @@ You have scored 100 points out of 135.
 Enter command:'
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 268 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 270 moves.
 
 > type "oscsv"
 'ERROR: Unknown command.
 Enter command:'
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 272 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 274 moves.
 
 > type "svegr"
 'ERROR: Unknown command.
 Enter command:'
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 276 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 278 moves.
 
 > type "backup"
 The tape starts to spin and after a few moments it stops. Then it starts
@@ -1055,26 +1055,26 @@ displays:
 Enter command:'
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 280 moves.
 
 > i
 You are carrying a dirty manual and a set of rusty keys.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 282 moves.
 
 > take tape
 Taken.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 284 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 286 moves.
 
 > type "adventure"
 'Welcome to adventure!!
@@ -1086,27 +1086,27 @@ a gully.'
 With a loud POP! the computer stops suddenly and the terminal turns blank.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 288 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 290 moves.
 
 > west
 Fourth Floor (again)
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 292 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 294 moves.
 
 > down
 Third Floor
@@ -1118,46 +1118,46 @@ that can be heared. Foremerly there was an entrance to the east which is
 now totally blocked.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 296 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 298 moves.
 
 > down
 Second Floor (again)
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 300 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 302 moves.
 
 > down
 First Floor (again)
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 304 moves.
 
 > i
 You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 306 moves.
 
 > down
 Stairs (again)
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 308 moves.
 
 > save
 Enter file name to save in (save2.sav) : 
@@ -1327,7 +1327,7 @@ there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
 
 > score
-You have scored 5 points out of 135.
+You have scored 5 points out of 135 in 20 moves.
 
 > i
 You are empty-handed.
@@ -1453,7 +1453,7 @@ You are carrying a dirty manual, a set of rusty keys and a spool of
 computer tape.
 
 > score
-You have scored 100 points out of 135.
+You have scored 100 points out of 135 in 311 moves.
 
 > south
 You can't go that way.
