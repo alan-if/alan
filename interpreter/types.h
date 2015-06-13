@@ -43,7 +43,7 @@
 
 /* The various tables */
 typedef struct VerbEntry {	/* VERB TABLE */
-  Aword code;			/* Code for the verb */
+  Aint code;			/* Code for the verb */
   Aaddr alts;			/* Address to alternatives */
 } VerbEntry;
 

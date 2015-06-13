@@ -264,20 +264,28 @@ bool anythingToExecute(AltInfo altInfo[])
 
 
 /*----------------------------------------------------------------------*/
+static VerbEntry *findVerbEntry(int verbCode, VerbEntry *entries) {
+    VerbEntry *verbEntry;
+    for (verbEntry = entries; !isEndOfArray(verbEntry); verbEntry++)
+        if (verbEntry->code == verbCode)
+            return verbEntry;
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
 static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode, int parameterNumber)
 {
     AltEntry *alt;
     VerbEntry *verbEntry;
 	
     if (verbTableAddress == 0) return NULL;
-	
-    for (verbEntry = (VerbEntry *) pointerTo(verbTableAddress); !isEndOfArray(verbEntry); verbEntry++)
-        if (verbEntry->code == verbCode) {
-            for (alt = (AltEntry *) pointerTo(verbEntry->alts); !isEndOfArray(alt); alt++) {
-                if (alt->param == parameterNumber || alt->param == 0)
-                    return alt;
-            }
-            return NULL;
+
+    verbEntry = findVerbEntry(verbCode, (VerbEntry *) pointerTo(verbTableAddress));
+    if (verbEntry != NULL)
+        for (alt = (AltEntry *) pointerTo(verbEntry->alts); !isEndOfArray(alt); alt++) {
+            if (alt->param == parameterNumber || alt->param == 0)
+                return alt;
         }
     return NULL;
 }

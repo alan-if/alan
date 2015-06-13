@@ -104,6 +104,18 @@ Ensure(AltInfo, possibleIndicatesFalseOnEmptyAlternatives) {
     assert_false(possibleWithFinder(current.verb, globalParameters, mockedAlternativeFinder));
 }
 
+Ensure(AltInfo, canFindExistingVerbEntriesAndReturnsNullForOthers) {
+    VerbEntry entries[] = {{1,0}, {2,0}, {-1,0}};
+
+    assert_that(findVerbEntry(1, entries), is_equal_to(&entries[0]));
+    assert_that(findVerbEntry(2, entries), is_equal_to(&entries[1]));
+    assert_that(findVerbEntry(3, entries), is_null);
+}
+
+Ensure(AltInfo, returnsNullForNonexistingVerb) {
+}
+
+
 TestSuite *altInfoTests() {
   TestSuite *suite = create_test_suite();
 
@@ -113,6 +125,7 @@ TestSuite *altInfoTests() {
   add_test_with_context(suite, AltInfo, canFindNextFreeAltInfo);
   add_test_with_context(suite, AltInfo, canAddGlobalAlternatives);
   add_test_with_context(suite, AltInfo, possibleIndicatesFalseOnEmptyAlternatives);
+  add_test_with_context(suite, AltInfo, canFindExistingVerbEntriesAndReturnsNullForOthers);
 
   return suite;
 }
