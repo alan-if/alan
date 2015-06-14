@@ -28,11 +28,11 @@ Ensure(Verb, testMultipleVerbs) {
     List *verbIds1 = newList(v1, ID_LIST);
     List *verbIds2 = concat(newList(v2, ID_LIST), v3, ID_LIST);
     List *verbIds3 = concat(newList(v1, ID_LIST), v5, ID_LIST);
-    List *verbs = concat(concat(newList(newVerb(&nulsrcp, verbIds1, NULL),
+    List *verbs = concat(concat(newList(newVerb(&nulsrcp, verbIds1, NULL, FALSE),
                                         VERB_LIST),
-                                newVerb(&nulsrcp, verbIds2, NULL),
+                                newVerb(&nulsrcp, verbIds2, NULL, FALSE),
                                 VERB_LIST),
-                         newVerb(&nulsrcp, verbIds3, NULL),
+                         newVerb(&nulsrcp, verbIds3, NULL, FALSE),
                          VERB_LIST);
 
     checkMultipleVerbDeclarations(verbs);

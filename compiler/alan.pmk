@@ -141,6 +141,7 @@ static int val(char str[])
   lims %% List *%1%%,
   mentioned %% List *%1%%,              -- of Statement: mentioned-clause,
   mentionedSrcp %% Srcp %1%%,
+  isMeta %% Bool %1%%,
   minus %% Bool %1%%,
   msg %% Message *%1%%,
   msgs %% List *%1%%,
@@ -579,7 +580,8 @@ static int val(char str[])
     %%
         %<verb>.vrb = newVerb(`&%<verb_header>.srcp,
                               %<verb_header>.idList,
-                              %<verb_body>.alts);
+                              %<verb_body>.alts,
+                              %<verb_header>.isMeta);
         if (%<verb_tail>.id != NULL) { /* END-id given */
             if (compareStrings(%<verb_header>.str, %<verb_tail>.id->string) != 0)
                 lmLog(`&%<verb_tail>.id->srcp, 200, sevWAR, %<verb_header>.str);
@@ -588,14 +590,20 @@ static int val(char str[])
     ;
 
 <verb_header>		-- RETURNS: srcp, str, idList
-    = ['meta'] 'verb' <id_list>
+    = <optional_meta> 'verb' <id_list>
     %%
         %<verb_header>.srcp   = %'verb'.srcp;
         %<verb_header>.str    = %<id_list>.str;
-        %<verb_header>.idList   = %<id_list>.idList;
+        %<verb_header>.idList = %<id_list>.idList;
+        %<verb_header>.isMeta = %<optional_meta>.isMeta;
     %%
     ;
 
+<optional_meta>      -- RETURNS: meta
+    = 'meta' %% %<optional_meta>.isMeta = TRUE; %%
+    !        %% %<optional_meta>.isMeta = FALSE; %%
+    ;
+    
 <verb_body>
     = <simple_verb_body>
     %%

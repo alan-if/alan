@@ -112,7 +112,12 @@ Ensure(AltInfo, canFindExistingVerbEntriesAndReturnsNullForOthers) {
     assert_that(findVerbEntry(3, entries), is_null);
 }
 
-Ensure(AltInfo, returnsNullForNonexistingVerb) {
+Ensure(AltInfo, findVerbEntryCanMatchNegativeVerbCode) {
+    VerbEntry entries[] = {{1,0}, {-3,0}, {-1,0}};
+
+    /* Meta verbs have negative codes in the entry, but since EOF is -1
+     * a verb with code 1 has -2 in the entry */
+    assert_that(findVerbEntry(2, entries), is_equal_to(&entries[1]));
 }
 
 

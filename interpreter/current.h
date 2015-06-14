@@ -24,6 +24,7 @@ typedef struct CurVars {
         visits,
         sourceLine,
         sourceFile;
+    bool meta;
 } CurVars;
 
 

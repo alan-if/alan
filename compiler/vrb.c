@@ -31,7 +31,7 @@
 
 
 /*======================================================================*/
-Verb *newVerb(Srcp *srcp, List *ids, List *alts)
+Verb *newVerb(Srcp *srcp, List *ids, List *alts, Bool meta)
 {
   Verb *new;			/* The newly allocated area */
   Symbol *sym;
@@ -43,6 +43,7 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts)
 
   new->srcp = *srcp;
   new->ids = ids;
+  new->meta = meta;
   new->alternatives = alts;
 
   for (lst = ids; lst != NULL; lst = lst->next) {
@@ -194,6 +195,19 @@ static void generateVerb(Verb *vrb)
 }
 
 
+/*----------------------------------------------------------------------*/
+static int metaVerbCode(int code) {
+    return -code-1;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void emitVerbCode(Bool meta, int code) {
+    if (meta)
+        emit(metaVerbCode(code));
+    else
+        emit(code);
+}
 
 /*----------------------------------------------------------------------*/
 static void generateVerbEntry(Verb *vrb)
@@ -201,11 +215,10 @@ static void generateVerbEntry(Verb *vrb)
     List *ids;
 
     for (ids = vrb->ids; ids != NULL; ids = ids->next) {
-        generateId(ids->member.id, 0);
+        emitVerbCode(vrb->meta, ids->member.id->code);
         emit(vrb->altAddress);
     }
 }
-
 
 
 /*======================================================================*/
@@ -241,6 +254,7 @@ void dumpVerb (Verb *vrb)
   }
 
   put("VRB: "); dumpSrcp(vrb->srcp); indent();
+  put("meta: "); dumpBool(vrb->meta); nl();
   put("ids: "); dumpList(vrb->ids, ID_LIST); nl();
   put("altadr: "); dumpAddress(vrb->altAddress); nl();
   put("alts: "); dumpList(vrb->alternatives, ALTERNATIVE_LIST); out();

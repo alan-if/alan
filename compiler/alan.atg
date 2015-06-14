@@ -162,12 +162,12 @@ PRODUCTIONS
  verb = verbheader verbbody verbtail 
        .
 
- verbheader = genSym1 "verb" idlist 
+ verbheader = optionalmeta "verb" idlist 
               .
 
- genSym1 = 
-          | "meta" 
-           .
+ optionalmeta = 
+               | "meta" 
+                .
 
  verbbody = simpleverbbody 
            | verbalternatives 
@@ -208,39 +208,39 @@ PRODUCTIONS
  class = "every" ID optionalheritage properties classtail 
         .
 
- classtail = "end" "every" optionalid genSym2 
+ classtail = "end" "every" optionalid genSym1 
              .
 
- genSym2 = 
+ genSym1 = 
           | "." 
            .
 
- addition = "add" "to" genSym3 ID optionalheritage properties 
+ addition = "add" "to" genSym2 ID optionalheritage properties 
                addtail 
            .
 
- genSym3 = 
+ genSym2 = 
           | "every" 
            .
 
- addtail = "end" "add" genSym4 optionalid genSym5 
+ addtail = "end" "add" genSym3 optionalid genSym4 
            .
 
- genSym4 = 
+ genSym3 = 
           | "to" 
            .
 
- genSym5 = 
+ genSym4 = 
           | "." 
            .
 
  instance = "the" ID optionalheritage properties instancetail 
            .
 
- instancetail = "end" "the" optionalid genSym6 
+ instancetail = "end" "the" optionalid genSym5 
                 .
 
- genSym6 = 
+ genSym5 = 
           | "." 
            .
 
@@ -248,10 +248,10 @@ PRODUCTIONS
                    | heritage 
                     .
 
- heritage = "isa" ID genSym7 
+ heritage = "isa" ID genSym6 
            .
 
- genSym7 = 
+ genSym6 = 
           | "." 
            .
 
@@ -259,10 +259,10 @@ PRODUCTIONS
             | properties property 
              .
 
- property = where genSym8 
+ property = where genSym7 
           | containerproperties 
           | description 
-          | genSym9 articleorform 
+          | genSym8 articleorform 
           | name 
           | pronoun 
           | initialize 
@@ -276,11 +276,11 @@ PRODUCTIONS
           | verb 
            .
 
- genSym8 = 
+ genSym7 = 
           | "." 
            .
 
- genSym9 = 
+ genSym8 = 
           | "indefinite" 
            .
 
@@ -337,13 +337,13 @@ PRODUCTIONS
                     | "." 
                      .
 
- containerproperties = genSym10 optionallyopaque "container" 
+ containerproperties = genSym9 optionallyopaque "container" 
                            containerbody 
                        .
 
- genSym10 = 
-           | "with" 
-            .
+ genSym9 = 
+          | "with" 
+           .
 
  optionallyopaque = 
                    | "opaque" 
@@ -399,10 +399,10 @@ PRODUCTIONS
  eventtail = "end" "event" optionalid "." 
              .
 
- script = "script" ID genSym11 optionaldescription steplist 
+ script = "script" ID genSym10 optionaldescription steplist 
          .
 
- genSym11 = 
+ genSym10 = 
            | "." 
             .
 
@@ -411,15 +411,15 @@ PRODUCTIONS
             .
 
  step = "step" statements 
-      | "step" "after" expression genSym12 statements 
-      | "step" "wait" "until" expression genSym13 statements 
+      | "step" "after" expression genSym11 statements 
+      | "step" "wait" "until" expression genSym12 statements 
        .
 
- genSym12 = 
+ genSym11 = 
            | "." 
             .
 
- genSym13 = 
+ genSym12 = 
            | "." 
             .
 
@@ -431,10 +431,10 @@ PRODUCTIONS
        .
 
  optionalendwhen = 
-                   | "end" "when" genSym14 
+                   | "end" "when" genSym13 
                     .
 
- genSym14 = 
+ genSym13 = 
            | "." 
             .
 
@@ -541,10 +541,10 @@ PRODUCTIONS
                      .
 
  dependingstatement = "depending" "on" primary dependcases "end" 
-                          genSym15 "." 
+                          genSym14 "." 
                       .
 
- genSym15 = "depend" 
+ genSym14 = "depend" 
            | "depending" 
             .
 
@@ -557,10 +557,10 @@ PRODUCTIONS
               .
 
  repetitionstatement = foreach ID optionalloopfilters "do" 
-                           statements "end" foreach genSym16 
+                           statements "end" foreach genSym15 
                        .
 
- genSym16 = 
+ genSym15 = 
            | "." 
             .
 

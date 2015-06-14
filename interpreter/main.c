@@ -605,7 +605,7 @@ static void start(void)
 {
     int startloc;
 	
-    current.tick = -1;
+    current.tick = 0;
     current.location = startloc = where(HERO, TRANSITIVE);
     current.actor = HERO;
     current.score = 0;
@@ -824,9 +824,7 @@ void run(void)
             syserr("Stack is not empty in main loop");
         
         runPendingEvents();
-        
-        current.tick++;
-		
+
         /* Return here if error during execution */
         switch (setjmp(returnLabel)) {
         case NO_JUMP_RETURN:
@@ -846,8 +844,11 @@ void run(void)
 		
         /* Move all characters, hero first */
         rememberGameState();
-		
+
+        current.meta = FALSE;
         moveActor(header->theHero);
+        if (!current.meta)
+            current.tick++;
 		
         if (gameStateChanged)
             rememberCommands();

@@ -145,12 +145,12 @@ optional_syntax_restrictions : '.'
 verb : verb_header verb_body verb_tail 
         ;
 
-verb_header : genSym1 'verb' id_list 
+verb_header : optional_meta 'verb' id_list 
                ;
 
-genSym1 : 
-         | 'meta' 
-            ;
+optional_meta : 
+              | 'meta' 
+                 ;
 
 verb_body : simple_verb_body 
           | verb_alternatives 
@@ -191,39 +191,39 @@ does : 'does' optional_qual statements
 class : 'every' ID optional_heritage properties class_tail 
          ;
 
-class_tail : 'end' 'every' optional_id genSym2 
+class_tail : 'end' 'every' optional_id genSym1 
               ;
 
-genSym2 : 
+genSym1 : 
          | '.' 
             ;
 
-addition : 'add' 'to' genSym3 ID optional_heritage properties 
+addition : 'add' 'to' genSym2 ID optional_heritage properties 
               add_tail 
             ;
 
-genSym3 : 
+genSym2 : 
          | 'every' 
             ;
 
-add_tail : 'end' 'add' genSym4 optional_id genSym5 
+add_tail : 'end' 'add' genSym3 optional_id genSym4 
             ;
 
-genSym4 : 
+genSym3 : 
          | 'to' 
             ;
 
-genSym5 : 
+genSym4 : 
          | '.' 
             ;
 
 instance : 'the' ID optional_heritage properties instance_tail 
             ;
 
-instance_tail : 'end' 'the' optional_id genSym6 
+instance_tail : 'end' 'the' optional_id genSym5 
                  ;
 
-genSym6 : 
+genSym5 : 
          | '.' 
             ;
 
@@ -231,10 +231,10 @@ optional_heritage :
                   | heritage 
                      ;
 
-heritage : 'isa' ID genSym7 
+heritage : 'isa' ID genSym6 
             ;
 
-genSym7 : 
+genSym6 : 
          | '.' 
             ;
 
@@ -242,10 +242,10 @@ properties :
            | properties property 
               ;
 
-property : where genSym8 
+property : where genSym7 
          | container_properties 
          | description 
-         | genSym9 article_or_form 
+         | genSym8 article_or_form 
          | name 
          | pronoun 
          | initialize 
@@ -259,11 +259,11 @@ property : where genSym8
          | verb 
             ;
 
-genSym8 : 
+genSym7 : 
          | '.' 
             ;
 
-genSym9 : 
+genSym8 : 
          | 'indefinite' 
             ;
 
@@ -320,13 +320,13 @@ optional_full_stop :
                    | '.' 
                       ;
 
-container_properties : genSym10 optionally_opaque 'container' 
+container_properties : genSym9 optionally_opaque 'container' 
                           container_body 
                         ;
 
-genSym10 : 
-          | 'with' 
-             ;
+genSym9 : 
+         | 'with' 
+            ;
 
 optionally_opaque : 
                   | 'opaque' 
@@ -382,10 +382,10 @@ event_header : 'event' ID
 event_tail : 'end' 'event' optional_id '.' 
               ;
 
-script : 'script' ID genSym11 optional_description step_list 
+script : 'script' ID genSym10 optional_description step_list 
           ;
 
-genSym11 : 
+genSym10 : 
           | '.' 
              ;
 
@@ -394,15 +394,15 @@ step_list : step
              ;
 
 step : 'step' statements 
-     | 'step' 'after' expression genSym12 statements 
-     | 'step' 'wait' 'until' expression genSym13 statements 
+     | 'step' 'after' expression genSym11 statements 
+     | 'step' 'wait' 'until' expression genSym12 statements 
         ;
 
-genSym12 : 
+genSym11 : 
           | '.' 
              ;
 
-genSym13 : 
+genSym12 : 
           | '.' 
              ;
 
@@ -414,10 +414,10 @@ then : '=>'
         ;
 
 optional_end_when : 
-                  | 'end' 'when' genSym14 
+                  | 'end' 'when' genSym13 
                      ;
 
-genSym14 : 
+genSym13 : 
           | '.' 
              ;
 
@@ -524,10 +524,10 @@ optional_else_part :
                       ;
 
 depending_statement : 'depending' 'on' primary depend_cases 'end' 
-                         genSym15 '.' 
+                         genSym14 '.' 
                        ;
 
-genSym15 : 'depend' 
+genSym14 : 'depend' 
           | 'depending' 
              ;
 
@@ -540,10 +540,10 @@ depend_case : 'else' statements
                ;
 
 repetition_statement : for_each ID optional_loop_filters 'do' 
-                          statements 'end' for_each genSym16 
+                          statements 'end' for_each genSym15 
                         ;
 
-genSym16 : 
+genSym15 : 
           | '.' 
              ;
 

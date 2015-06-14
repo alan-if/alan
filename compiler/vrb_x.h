@@ -19,7 +19,7 @@
 
 /* FUNCTIONS: */
 
-extern Verb *newVerb(Srcp *srcp, List *ids, List *alts);
+extern Verb *newVerb(Srcp *srcp, List *ids, List *alts, Bool meta);
 extern void analyzeVerbs(List *vrbs, Context *context);
 extern Bool verbIdFound(Id *verbId, List *verbList);
 extern Aaddr generateVerbs(List *vrbs);

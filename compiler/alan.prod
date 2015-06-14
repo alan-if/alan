@@ -129,12 +129,12 @@
  67. <verb> = <verb_header> <verb_body> <verb_tail> 
             ;
 
- 68. <verb_header> = __genSym#1 'verb' <id_list> 
+ 68. <verb_header> = <optional_meta> 'verb' <id_list> 
                    ;
 
- 69. __genSym#1 = 
- 70.            ! 'meta' 
-                ;
+ 69. <optional_meta> = 
+ 70.                 ! 'meta' 
+                     ;
 
  71. <verb_body> = <simple_verb_body> 
  72.             ! <verb_alternatives> 
@@ -175,39 +175,39 @@
  87. <class> = 'every' ID <optional_heritage> <properties> <class_tail> 
              ;
 
- 88. <class_tail> = 'end' 'every' <optional_id> __genSym#2 
+ 88. <class_tail> = 'end' 'every' <optional_id> __genSym#1 
                   ;
 
- 89. __genSym#2 = 
+ 89. __genSym#1 = 
  90.            ! '.' 
                 ;
 
- 91. <addition> = 'add' 'to' __genSym#3 ID <optional_heritage> <properties> 
+ 91. <addition> = 'add' 'to' __genSym#2 ID <optional_heritage> <properties> 
                   <add_tail> 
                 ;
 
- 92. __genSym#3 = 
+ 92. __genSym#2 = 
  93.            ! 'every' 
                 ;
 
- 94. <add_tail> = 'end' 'add' __genSym#4 <optional_id> __genSym#5 
+ 94. <add_tail> = 'end' 'add' __genSym#3 <optional_id> __genSym#4 
                 ;
 
- 95. __genSym#4 = 
+ 95. __genSym#3 = 
  96.            ! 'to' 
                 ;
 
- 97. __genSym#5 = 
+ 97. __genSym#4 = 
  98.            ! '.' 
                 ;
 
  99. <instance> = 'the' ID <optional_heritage> <properties> <instance_tail> 
                 ;
 
-100. <instance_tail> = 'end' 'the' <optional_id> __genSym#6 
+100. <instance_tail> = 'end' 'the' <optional_id> __genSym#5 
                      ;
 
-101. __genSym#6 = 
+101. __genSym#5 = 
 102.            ! '.' 
                 ;
 
@@ -215,10 +215,10 @@
 104.                     ! <heritage> 
                          ;
 
-105. <heritage> = 'isa' ID __genSym#7 
+105. <heritage> = 'isa' ID __genSym#6 
                 ;
 
-106. __genSym#7 = 
+106. __genSym#6 = 
 107.            ! '.' 
                 ;
 
@@ -226,10 +226,10 @@
 109.              ! <properties> <property> 
                   ;
 
-110. <property> = <where> __genSym#8 
+110. <property> = <where> __genSym#7 
 111.            ! <container_properties> 
 112.            ! <description> 
-113.            ! __genSym#9 <article_or_form> 
+113.            ! __genSym#8 <article_or_form> 
 114.            ! <name> 
 115.            ! <pronoun> 
 116.            ! <initialize> 
@@ -243,11 +243,11 @@
 124.            ! <verb> 
                 ;
 
-125. __genSym#8 = 
+125. __genSym#7 = 
 126.            ! '.' 
                 ;
 
-127. __genSym#9 = 
+127. __genSym#8 = 
 128.            ! 'indefinite' 
                 ;
 
@@ -304,13 +304,13 @@
 152.                      ! '.' 
                           ;
 
-153. <container_properties> = __genSym#10 <optionally_opaque> 'container' 
+153. <container_properties> = __genSym#9 <optionally_opaque> 'container' 
                               <container_body> 
                             ;
 
-154. __genSym#10 = 
-155.             ! 'with' 
-                 ;
+154. __genSym#9 = 
+155.            ! 'with' 
+                ;
 
 156. <optionally_opaque> = 
 157.                     ! 'opaque' 
@@ -366,10 +366,10 @@
 180. <event_tail> = 'end' 'event' <optional_id> '.' 
                   ;
 
-181. <script> = 'script' ID __genSym#11 <optional_description> <step_list> 
+181. <script> = 'script' ID __genSym#10 <optional_description> <step_list> 
               ;
 
-182. __genSym#11 = 
+182. __genSym#10 = 
 183.             ! '.' 
                  ;
 
@@ -378,15 +378,15 @@
                  ;
 
 186. <step> = 'step' <statements> 
-187.        ! 'step' 'after' <expression> __genSym#12 <statements> 
-188.        ! 'step' 'wait' 'until' <expression> __genSym#13 <statements> 
+187.        ! 'step' 'after' <expression> __genSym#11 <statements> 
+188.        ! 'step' 'wait' 'until' <expression> __genSym#12 <statements> 
             ;
 
-189. __genSym#12 = 
+189. __genSym#11 = 
 190.             ! '.' 
                  ;
 
-191. __genSym#13 = 
+191. __genSym#12 = 
 192.             ! '.' 
                  ;
 
@@ -398,10 +398,10 @@
             ;
 
 196. <optional_end_when> = 
-197.                     ! 'end' 'when' __genSym#14 
+197.                     ! 'end' 'when' __genSym#13 
                          ;
 
-198. __genSym#14 = 
+198. __genSym#13 = 
 199.             ! '.' 
                  ;
 
@@ -508,10 +508,10 @@
                           ;
 
 257. <depending_statement> = 'depending' 'on' <primary> <depend_cases> 'end' 
-                             __genSym#15 '.' 
+                             __genSym#14 '.' 
                            ;
 
-258. __genSym#15 = 'depend' 
+258. __genSym#14 = 'depend' 
 259.             ! 'depending' 
                  ;
 
@@ -524,10 +524,10 @@
                    ;
 
 264. <repetition_statement> = <for_each> ID <optional_loop_filters> 'do' 
-                              <statements> 'end' <for_each> __genSym#16 
+                              <statements> 'end' <for_each> __genSym#15 
                             ;
 
-265. __genSym#16 = 
+265. __genSym#15 = 
 266.             ! '.' 
                  ;
 

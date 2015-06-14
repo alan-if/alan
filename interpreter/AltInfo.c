@@ -266,9 +266,16 @@ bool anythingToExecute(AltInfo altInfo[])
 /*----------------------------------------------------------------------*/
 static VerbEntry *findVerbEntry(int verbCode, VerbEntry *entries) {
     VerbEntry *verbEntry;
-    for (verbEntry = entries; !isEndOfArray(verbEntry); verbEntry++)
-        if (verbEntry->code == verbCode)
-            return verbEntry;
+    for (verbEntry = entries; !isEndOfArray(verbEntry); verbEntry++) {
+        if (verbEntry->code < 0) {
+            /* Verb codes are negative for Meta verbs, if so they are also 1 off to avoid EOF */
+            if (abs(verbEntry->code)-1 == verbCode)
+                return verbEntry;
+        } else {
+            if (verbEntry->code == verbCode)
+                return verbEntry;
+        }
+    }
     return NULL;
 }
 
@@ -284,8 +291,10 @@ static AltEntry *findAlternative(Aaddr verbTableAddress, int verbCode, int param
     verbEntry = findVerbEntry(verbCode, (VerbEntry *) pointerTo(verbTableAddress));
     if (verbEntry != NULL)
         for (alt = (AltEntry *) pointerTo(verbEntry->alts); !isEndOfArray(alt); alt++) {
-            if (alt->param == parameterNumber || alt->param == 0)
+            if (alt->param == parameterNumber || alt->param == 0) {
+                if (verbEntry->code < 0) current.meta = TRUE;
                 return alt;
+            }
         }
     return NULL;
 }
