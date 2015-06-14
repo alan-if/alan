@@ -33,35 +33,38 @@
 /*======================================================================*/
 Verb *newVerb(Srcp *srcp, List *ids, List *alts, Bool meta)
 {
-  Verb *new;			/* The newly allocated area */
-  Symbol *sym;
-  List *lst;			/* Traversal pointer */
+    Verb *new;			/* The newly allocated area */
+    Symbol *sym;
+    List *lst;			/* Traversal pointer */
 
-  progressCounter();
+    progressCounter();
 
-  new = NEW(Verb);
+    new = NEW(Verb);
 
-  new->srcp = *srcp;
-  new->ids = ids;
-  new->meta = meta;
-  new->alternatives = alts;
+    new->srcp = *srcp;
+    new->ids = ids;
+    new->meta = meta;
+    new->alternatives = alts;
 
-  for (lst = ids; lst != NULL; lst = lst->next) {
-    sym = lookup(lst->member.id->string); /* Find earlier definition */
-    if (sym == NULL) {
-      lst->member.id->symbol = newVerbSymbol(lst->member.id);
-      lst->member.id->code = lst->member.id->symbol->code;
-    } else if (sym->kind == VERB_SYMBOL) {
-      lst->member.id->symbol = sym;
-      lst->member.id->code = sym->code;
-    } else
-      idRedefined(lst->member.id, sym, sym->srcp);
-  }
-
-  /* Use first verb symbol as context symbol */
-  new->symbol = ids->member.id->symbol;
-
-  return(new);
+    for (lst = ids; lst != NULL; lst = lst->next) {
+        Id *id = lst->member.id;
+        sym = lookup(id->string); /* Find earlier definition */
+        if (sym == NULL) {
+            id->symbol = newVerbSymbol(id);
+            id->symbol->fields.verb.meta = meta;
+            id->code = id->symbol->code;
+        } else if (sym->kind == VERB_SYMBOL) {
+            id->symbol = sym;
+            id->code = sym->code;
+            id->symbol->fields.verb.meta |= new->meta;
+        } else
+            idRedefined(id, sym, sym->srcp);
+    }
+  
+    /* Use first verb symbol as context symbol */
+    new->symbol = ids->member.id->symbol;
+  
+    return(new);
 }
 
 
@@ -215,7 +218,7 @@ static void generateVerbEntry(Verb *vrb)
     List *ids;
 
     for (ids = vrb->ids; ids != NULL; ids = ids->next) {
-        emitVerbCode(vrb->meta, ids->member.id->code);
+        emitVerbCode(vrb->symbol->fields.verb.meta, ids->member.id->code);
         emit(vrb->altAddress);
     }
 }

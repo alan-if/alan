@@ -49,6 +49,7 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
         } entity;
 
         struct {
+            Bool meta;
             List *parameterSymbols;
             struct Syntax *firstSyntax;
         } verb;
