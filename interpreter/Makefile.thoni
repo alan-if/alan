@@ -94,7 +94,7 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 gararun: build-gararun package-gararun
 
 build-gararun:
-	-sh -c "cd ../../garglk-current-alan3/terps; jam alan3"
+	-cd ../../garglk-current-alan3 && jam alan3
 	@echo "NOTE: If the above failed: do the above command manually and then 'make package-gararun'"
 
 package-gararun:
