@@ -9,3 +9,4 @@ dumpacd
 arun.rc2
 .cgreen-gdb-commands
 *.d
+*.pkg
