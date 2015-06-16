@@ -3,11 +3,11 @@
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # rules.mk
 
+# We use last release until there is a new one, so always one behind Cygwin...
 VERSION := `cat ../LASTRELEASE`
-TARGET = arun
 
 # Define the program name
-PROGNAME=-DPROGNAME=\"$(TARGET)\"
+PROGNAME=-DPROGNAME=\"arun\"
 ARUNOPTS = $(PROGNAME) $(GLK)
 
 OSFLAGS = 
@@ -30,7 +30,7 @@ CGREENLIB = -lcgreen
 # Default target on Darwin
 # 
 .PHONY: default
-default all: unit arun
+default all: unit arun MacArun gararun
 
 
 ##################################################################
@@ -57,6 +57,9 @@ release: all
 # MacOSX have some fishy routines for finding libraries and since we built it against macports
 # we need to readjust the path to the libraries so that it looks in the Gargoyle.app frameworks
 # instead of the /opt/local where macports keeps its dylibs.
+#
+# We build both a .tgz and an installer package
+#
 GARGOYLE_DIR=../../garglk-current-alan3
 gararun: gararun-package
 	tar zcvf gargoyle-alan3-$(VERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
@@ -85,6 +88,17 @@ gargoyle-libs:
 	install_name_tool -change /opt/local/lib/libz.1.dylib @executable_path/../Frameworks/libz.1.dylib libpng16.16.dylib
 	mv libpng16.16.dylib Gargoyle.app/Contents/Frameworks
 
+
+# MacArun: a Platypus-based application that runs the command line interpreter in a Terminal
+#
+# Builds using platypus which needs to be installed, including the command line version
+
+MacArun: MacArun.app
+	zip -r MacArun.$(VERSION).zip MacArun.app
+	rm -r MacArun.app
+
+MacArun.app: MacArun.sh MacArun.platypus
+	platypus -P MacArun.platypus -a MacArun -V $(VERSION) MacArun.app
 
 ############################################################
 # glkarun
