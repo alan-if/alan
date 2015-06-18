@@ -1,13 +1,14 @@
-########## locateAtRandomIn ##########
+########## locate_at_attribute ##########
 
         No warnings or errors detected.
+        1 informational message(s).
 
 
-NPC should show up at l.
 
+Loc1
 
-L
-There is a npc here.
+> north
+Loc2
 
 > 
 

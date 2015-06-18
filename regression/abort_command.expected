@@ -1,4 +1,4 @@
-########## abortCommand ##########
+########## abort_command ##########
 
         No warnings or errors detected.
 
@@ -33,6 +33,10 @@ You can't take it from the act (extract check).
 > take chair, take chair, take chair
 You can't take the chair (verb check).
 
+You can't take the chair (verb check).
+
+You can't take the chair (verb check).
+
 > take chair, coin, act and key
 (act) You can only take objects (syntax restriction).
 
@@ -50,19 +54,7 @@ You can't take it from the act (extract check).
 
 (coin) You can't take it from the act (extract check).
 
-(key) Taken.
-
-(coin) You can't take it from the act (extract check).
-
-(key) Taken.
-
-(coin) You can't take it from the act (extract check).
-
 > steal all, steal all, steal all
-(coin) You can't take it from the act (extract check).
-
-(coin) You can't take it from the act (extract check).
-
 (coin) You can't take it from the act (extract check).
 
 > pat all, pat all, pat all

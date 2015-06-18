@@ -9,9 +9,10 @@ if [ $# -ne 2 ] ; then
 fi
 for f in *$1*
 do
-  if [ -f "$1".expected ]
+  if [[ $f == *.expected ]]
   then
-    sed -e _$f_${f//$1/$2}_s $f
+    echo sed -i.bak -e s%$1%$2%g $f
+    sed -i.bak -e s%$1%$2%g $f
   fi
   git mv $f ${f//$1/$2}
 done
