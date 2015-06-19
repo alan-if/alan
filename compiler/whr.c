@@ -203,6 +203,20 @@ void generateWhere(Where *where)
 }
 
 
+/*======================================================================*/
+char *whereKindToString(WhereKind kind) {
+    switch (kind) {
+    case WHERE_DEFAULT: return "Default"; break;
+    case WHERE_HERE: return "Here"; break;
+    case WHERE_NEARBY: return "Nearby"; break;
+    case WHERE_NEAR: return "Near"; break;
+    case WHERE_AT: return "At"; break;
+    case WHERE_IN: return "In"; break;
+    case WHERE_INSET: return "In Set"; break;
+    }
+
+}
+
 
 /*======================================================================*/
 void dumpTransitivity(Transitivity transitivity) {
@@ -221,15 +235,7 @@ void dumpWhere(Where *whr)
 
     put("WHR: "); dumpSrcp(whr->srcp); indent();
     put("whr: "); dumpTransitivity(whr->transitivity);
-    switch (whr->kind) {
-    case WHERE_DEFAULT: put("DEFAULT"); break;
-    case WHERE_HERE: put("HERE"); break;
-    case WHERE_NEARBY: put("NEARBY"); break;
-    case WHERE_NEAR: put("NEAR"); break;
-    case WHERE_AT: put("AT"); break;
-    case WHERE_IN: put("IN"); break;
-    case WHERE_INSET: put("INSET"); break;
-    }
+    put(whereKindToString(whr->kind));
     nl();
     switch (whr->kind) {
     case WHERE_HERE:

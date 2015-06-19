@@ -26,6 +26,7 @@ extern void analyzeWhere(Where *whr, Context *context);
 extern Aword generateInitialLocation(Properties *props);
 extern void generateTransitivity(Transitivity transitivity);
 extern void generateWhere(Where *whr);
+extern char *whereKindToString(WhereKind kind);
 extern char *transitivityToString(Transitivity transitivity);
 extern void dumpTransitivity(Transitivity transitivity);
 extern void dumpWhere(Where *whr);

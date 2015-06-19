@@ -19,6 +19,7 @@ void analyzeWhere(Where *whr, Context *context) { mock(whr, context); }
 Aword generateInitialLocation(Properties *props) { return mock(props); }
 void generateTransitivity(Transitivity transitivity) { mock(transitivity); }
 void generateWhere(Where *whr) { mock(whr); }
+char *whereKindToString(WhereKind kind) {return (char *)mock(kind); }
 char *transitivityToString(Transitivity transitivity) { return (char *)mock(transitivity); }
 void dumpTransitivity(Transitivity transitivity) { mock(transitivity); }
 void dumpWhere(Where *whr) { mock(whr); }

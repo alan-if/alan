@@ -1,0 +1,25 @@
+########## transitive_nearby_gives_error ##########
+
+
+transitive_nearby_gives_error.alan
+
+    5.    If l Directly Nearby Then "" End If.
+=====>                  1
+
+  *1*   325 E : Cannot use transitivity ('Directly') with Nearby.
+
+    6.    If l Indirectly Nearby Then "" End If.
+=====>                    1
+
+  *1*   325 E : Cannot use transitivity ('Indirectly') with Nearby.
+
+    7.    If l Transitively Nearby Then "" End If.
+=====>                      1
+
+  *1*   325 E : Cannot use transitivity ('Transitively') with Nearby.
+
+
+        3 error(s).
+        No detected warnings.
+        1 informational message(s).
+
