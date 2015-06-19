@@ -101,7 +101,7 @@
 322	'Word \'%1\' already defined as a synonym.';
 323	'Cannot restrict a parameter to something not a class.';
 324	'Cannot refer to %1 in %2.';
-325	'Cannot use transitivity (\'%1\') with %2.';
+325	'Cannot use explicit transitivity (\'%1\') with %2.';
 326	'Pronoun clause not allowed on entities inheriting from \'location\'.';
 328	'Attribute \'%1\' is inherited from \'%2\' as an abstract attribute which is not initilized, only defined. Instances are required to initialize all abstract attributes.';
 329	'Attribute is inherited from class \'%1\', but the class %2 in this declaration (\'%3\') is not a subclass of the class infered for the inherited (\'%4\'), which it must be.';

@@ -405,8 +405,6 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     case WHERE_NEARBY:
         if (context->kind == RULE_CONTEXT)
             lmLogv(&exp->srcp, 443, sevERR, "Rule context", "Here or Nearby", NULL);
-        if (where->transitivity != DEFAULT_TRANSITIVITY)
-            lmLogv(&where->srcp, 325, sevERR, transitivityToString(where->transitivity), whereKindToString(where->kind), NULL);
         break;
         
     case WHERE_AT:
