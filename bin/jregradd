@@ -1,11 +1,18 @@
 #!/bin/bash
 # Add the files of a new regression test case to the repository
 if [ $# -ne 1 ] ; then
-  echo "Usage: `basename $0` <case>"
-  echo "where"
-  echo "    <case> : the regresion case whose file should be added to the repository"
+    cat <<EOF
+Usage: `basename $0` <case>
+where
+    <case> : the regresion case whose file should be added to the repository
+
+Add all existing and relevant files for a Jregr testcase to the Git repo.
+At least the .alan file must exist.
+
+BUG: It should really look in the .jregr file to know which files to add.
+EOF
   exit
 fi
 git add "$1".alan
-git add "$1".expected
+if [ -f "$1".expected ] ; then git add "$1".expected ; fi
 if [ -f "$1".input ] ; then git add "$1".input ; fi
