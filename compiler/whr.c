@@ -214,7 +214,7 @@ char *whereKindToString(WhereKind kind) {
     case WHERE_IN: return "In"; break;
     case WHERE_INSET: return "In Set"; break;
     }
-
+    return "Unknown";
 }
 
 
