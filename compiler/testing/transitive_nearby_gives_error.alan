@@ -1,8 +1,0 @@
-The l Isa location
-End The l.
-
-Start At l.
-  If l Directly Nearby Then "" End If.
-  If l Indirectly Nearby Then "" End If.
-  If l Transitively Nearby Then "" End If.
-  If l Nearby Then "" End If.

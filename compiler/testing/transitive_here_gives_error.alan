@@ -1,8 +1,0 @@
-The l Isa location
-End The l.
-
-Start At l.
-  If l Directly Here Then "" End If.
-  If l Indirectly Here Then "" End If.
-  If l Transitively Here Then "" End If.
-  If l Here Then "" End If.
