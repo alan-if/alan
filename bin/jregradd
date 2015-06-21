@@ -13,7 +13,8 @@ BUG: It should really look in the .jregr file to know which files to add.
 EOF
   exit
 fi
-f=${1%%\.}
-git add "$f".alan
-if [ -f "$f".expected ] ; then git add "$f".expected ; fi
-if [ -f "$f".input ] ; then git add "$f".input ; fi
+c=${1%%\.}
+git add "$c".alan
+for x in expected input suspended; do
+    if [ -f "$c".$x ] ; then git add "$c".$x ; fi
+done

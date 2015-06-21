@@ -3,12 +3,13 @@
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # rules.mk
 
+# We use last release until there is a new one, so always one behind Cygwin...
 VERSION := `cat ../LASTRELEASE`
-TARGET = arun
+
 ARCH = `uname -m`
 
 # Define the program name
-PROGNAME=-DPROGNAME=\"$(TARGET)\"
+PROGNAME=-DPROGNAME=\"arun\"
 
 ARUNOPTS = $(PROGNAME) $(GLK)
 
