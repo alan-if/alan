@@ -10,7 +10,16 @@ script:
   - wget http://sourceforge.net/projects/cgreen/files/cgreen/beta4/cgreen-1.0.0-beta5-Linux32.deb/download -O cgreen-1.0.0-beta5-Linux32.deb
   - sudo dpkg -D1 -i cgreen-1.0.0-beta5-Linux32.deb
   - echo $BUILD_ID > BUILD_NUMBER
+  - java -version
   - make unit
   - make build
   - make JREGROUTPUT=-noansi test
   - make package
+notify:
+  slack:
+    webhook_url: 'https://hooks.slack.com/services/...'
+    username: 'drone'
+    channel: '#general'
+    on_started: false
+    on_success: true
+    on_failure: true
