@@ -1,16 +1,20 @@
-########## directly_here ##########
+########## object_here ##########
 
         No warnings or errors detected.
 
 
 N1 Here: Yes, ok. 
-N2 Here: No, ok 
-N3 Here: Yes, ok. 
-N4 Here: No, ok 
 N1 Directly Here: No, ok 
+N1 Indirectly Here: Yes, ok. 
+N2 Here: No, ok 
 N2 Directly Here: No, ok 
+N2 Indirectly Here: No, ok 
+N3 Here: Yes, ok. 
 N3 Directly Here: Yes, ok. 
+N3 Indirectly Here: No, ok 
+N4 Here: No, ok 
 N4 Directly Here: No, ok 
+N4 Indirectly Here: No, ok 
 
 
 L1
