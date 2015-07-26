@@ -419,7 +419,8 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
         analyzeExpression(where->what, context);
         if (where->what->type == SET_TYPE) {/* Can be in a container and in a set */
             if (exp->fields.whr.whr->transitivity != DEFAULT_TRANSITIVITY)
-                lmLog(&where->srcp, 325, sevERR, transitivityToString(exp->fields.whr.whr->transitivity));
+                lmLogv(&where->srcp, 325, sevERR, transitivityToString(exp->fields.whr.whr->transitivity),
+                       "IN operating on a SET", NULL);
         } else {
             verifyContainerExpression(where->what, context, "Expression after IN");
         }
