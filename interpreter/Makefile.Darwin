@@ -58,15 +58,18 @@ release: all
 # we need to readjust the path to the libraries so that it looks in the Gargoyle.app frameworks
 # instead of the /opt/local where macports keeps its dylibs.
 #
-# We build both a .tgz and an installer package
+# We build an installer package using Packages (http://s.sudre.free.fr/Software/Packages)
 #
 GARGOYLE_DIR=../../garglk-current-alan3
 gararun: gararun-package
-	tar zcvf gargoyle-alan3-$(VERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
 	rm -r Gargoyle.app
 
-gararun-package: alan3 gargoyle-libs
-	pkgbuild --root Gargoyle.app --identifier se.alanif.gargoyle.alan3 --version 0.0 --install-location /Applications/ gargoyle-alan3-$(VERSION).macosx.pkg
+gararun-package: alan3 gararun-installer
+
+gararun-installer: gargoyle-libs
+	packagesbuild gargoyle-alan3-installer.pkgproj
+	cp build/gargoyle-alan3.pkg gargoyle-alan3-$(VERSION).macosx.pkg
+	rm -r build
 
 alan3:
 	cd $(GARGOYLE_DIR); jam garglk alan3

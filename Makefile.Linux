@@ -2,9 +2,6 @@
 # Partial Makefile to be included from top level Makefile on Linux
 #
 
-# Create version and build numbers
-VERSION = `cat LASTRELEASE`
-
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 PACKAGE = alan$(VERSION)$(BUILD).linux.x86.tgz
 

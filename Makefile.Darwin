@@ -2,9 +2,6 @@
 # Partial Makefile to be included from top level Makefile on Darwin
 #
 
-# Create version and build numbers
-VERSION = `cat LASTRELEASE`
-
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 PACKAGE = alan$(VERSION)$(BUILD).macosx.x86.tgz
 
@@ -13,6 +10,10 @@ all : unit build
 
 v :
 	echo $(PACKAGE)
+	echo $(value BUILDNUMBER) =
+	echo $(BUILDNUMBER)
+	echo $(value BUILD) =
+	echo $(BUILD)
 
 .PHONY: package
 package: alan.readme.macosx $(PACKAGE)
@@ -24,19 +25,24 @@ $(PACKAGE): bin/alan bin/arun
 
 distribution:
 	@if [[ -f BUILD_NUMBER ]] ; then \
-	  echo Should not upload a version with BUILD_NUMBER, remove it first ; \
+	  echo Should not upload a distribution with BUILD_NUMBER, remove it first ; \
 	  exit 1 ; \
 	fi
 	$(MAKE) clean all package
-	alanftp "Complete Distributions/MacOSX/" $(PACKAGE)
+	alanftp sdks/macosx/ $(PACKAGE)
+	cd interpreter; alanftp interpreters/macosx MacArun.*.zip
+	cd interpreter; alanftp interpreters/macosx gargoyle-alan3*macosx.pkg
+
 
 snapshot:
-	wget 'alanif.dyndns.org:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath 'number/text()' > BUILD_NUMBER
+	wget 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath 'number/text()' > BUILD_NUMBER
 	@if [[ ! -f BUILD_NUMBER ]] ; then \
 	  echo Should not upload a snapshot without BUILD_NUMBER, create it first ; \
 	  exit 1 ; \
 	fi
 	$(MAKE) clean all package
-	alanftp Snapshots/ $(PACKAGE)
+	alanftp snapshots/Build$(BUILDNUMBER)/ $(PACKAGE)
+	cd interpreter; alanftp snapshots/Build$(BUILDNUMBER)/ MacArun.zip
+	cd interpreter; alanftp snapshots/Build$(BUILDNUMBER)/ gargoyle-alan3*macosx.pkg
 
 include top.mk

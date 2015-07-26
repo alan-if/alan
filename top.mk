@@ -9,13 +9,17 @@ endif
 
 
 BUILD_NUMBER_FILE = $(wildcard BUILD_NUMBER)
+BUILD_FILE_CONTENT := $(shell cat $(BUILD_NUMBER_FILE))
 ifeq ($(BUILD_NUMBER_FILE),)
-  BUILD=
-  BUILDNUMBER=
+  BUILD:=
+  BUILDNUMBER:=
 else
-  BUILD= -`cat $(BUILD_NUMBER_FILE)`
-  BUILDNUMBER= `cat $(BUILD_NUMBER_FILE)`
+  BUILD:= -$(BUILD_FILE_CONTENT)
+  BUILDNUMBER:= $(BUILD_FILE_CONTENT)
 endif
+
+# Create version and build numbers
+VERSION = `cat LASTRELEASE`
 
 .PHONY: clean
 clean:

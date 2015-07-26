@@ -18,9 +18,8 @@ just drop the file there.
 MacOSX
 ------
 
-You need to "show package content" and drop the alan3 file in the
-PlugIns folder, while the library file goes in the "Frameworks"
-folder.
+There is a package installer available which does everything. Unless
+you have moved Gargoyle to some other name...
 
 Linux
 -----
