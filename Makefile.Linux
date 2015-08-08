@@ -26,15 +26,16 @@ distribution:
 	  exit 1 ; \
 	fi
 	$(MAKE) clean all package
-	alanftp "Complete Distributions/Linux/" $(PACKAGE)
+	alanupload "sdks/linux/" $(PACKAGE)
 
-snapshot:
-	-wget -q 'alanif.dyndns.org:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath -q -e 'number/text()' > BUILD_NUMBER
-	@if [ ! -f BUILD_NUMBER ] ; then \
-	  echo Should not upload a snapshot without BUILD_NUMBER, create it first ; \
-	  exit 1 ; \
-	fi
+snapshot: snapshot-check buildnumber snapshot-build snapshot-upload
+
+snapshot-upload:
+	alanupload $(PACKAGE) snapshots/$(BUILDNAME)/
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION).linux.sh snapshots/$(BUILDNAME)/
+
+snapshot-build:
 	$(MAKE) clean all package
-	alanftp Snapshots/ $(PACKAGE)
+	cd interpreter; $(MAKE) gararun
 
 include top.mk
