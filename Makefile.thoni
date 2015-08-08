@@ -45,14 +45,14 @@ release:
 
 .PHONY: snapshots
 snapshots: zip setup lib
-	-mkdir $(DISTDIR)/snapshots/Build$(BUILDNUMBER)
-	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/alan$(VERSION)$(BUILD).win32.x86.zip
-	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/alan$(VERSION)$(BUILD).win32.x86.setup.exe
-	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/winarun$(VERSION)$(BUILD).win32.x86.setup.exe
-	cp library/library*.zip $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/library$(LIBRARYVERSION).zip
-	cp doc/manual/manual.pdf $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/manual$(BUILD).pdf
-	cp doc/manual/conversion.pdf $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/conversion$(BUILD).pdf
-	cp doc/manual/writing.pdf $(DISTDIR)/snapshots/Build$(BUILDNUMBER)/writing$(BUILD).pdf
+	-mkdir $(DISTDIR)/snapshots/$(BUILDNAME)
+	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/snapshots/$(BUILDNAME)/alan$(VERSION)$(BUILD).win32.x86.zip
+	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/$(BUILDNAME)/alan$(VERSION)$(BUILD).win32.x86.setup.exe
+	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/$(BUILDNAME)/winarun$(VERSION)$(BUILD).win32.x86.setup.exe
+	cp library/library*.zip $(DISTDIR)/snapshots/$(BUILDNAME)/library$(LIBRARYVERSION).zip
+	cp doc/manual/manual.pdf $(DISTDIR)/snapshots/$(BUILDNAME)/manual$(BUILD).pdf
+	cp doc/manual/conversion.pdf $(DISTDIR)/snapshots/$(BUILDNAME)/conversion$(BUILD).pdf
+	cp doc/manual/writing.pdf $(DISTDIR)/snapshots/$(BUILDNAME)/writing$(BUILD).pdf
 
 # Create pdf from odt
 .PHONY: documentation

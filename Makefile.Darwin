@@ -37,6 +37,6 @@ snapshot:
 	  exit 1 ; \
 	fi
 	$(MAKE) clean all package
-	alanftp Snapshots/ $(PACKAGE)
+	alanupload $(PACKAGE) snapshots/$(BUILDNAME)
 
 include top.mk

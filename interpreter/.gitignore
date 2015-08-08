@@ -3,6 +3,7 @@
 .winarun
 .glkarun
 arun
+alan3
 *.res
 glkarun
 dumpacd
@@ -10,3 +11,6 @@ arun.rc2
 .cgreen-gdb-commands
 *.d
 *.pkg
+gargoyle*.sh
+gargoyle*.tgz
+unittests.dll

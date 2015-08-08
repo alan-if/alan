@@ -8,13 +8,19 @@ UNITOUTPUT ?= -c
 endif
 
 
+# Build designations:
+#   BUILD includes a dash, if no-empty, so can be used with $(VERSION)$(BUILD)
+#   BUILDNUMBER is just the number
+#   BUILDNAME is "Build"$(BUILDNUMBER), e.g. "Build1667"
 BUILD_NUMBER_FILE = $(wildcard BUILD_NUMBER)
 ifeq ($(BUILD_NUMBER_FILE),)
   BUILD=
   BUILDNUMBER=
+  BUILDNAME=
 else
   BUILD= -`cat $(BUILD_NUMBER_FILE)`
   BUILDNUMBER= `cat $(BUILD_NUMBER_FILE)`
+  BUILDNAME= Build$(BUILDNUMBER)
 endif
 
 .PHONY: clean
@@ -50,3 +56,12 @@ endif
 	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd library; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd converter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+
+buildnumber:
+	-wget -q 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath -q -e 'number/text()' > BUILD_NUMBER
+
+snapshot-check:
+	@if [ ! -f BUILD_NUMBER ] ; then \
+	  echo Should not upload a snapshot without BUILD_NUMBER, create it first ; \
+	  exit 1 ; \
+	fi

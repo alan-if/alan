@@ -2,11 +2,12 @@
 #
 # This is a script to upload files to the Alan Home Pages download area
 # from the command line. You need to have set up your ~/.ssh/config so that
-# you can use "ssh alanif.se" to log in to alanif.se without using a password.
-# One way to do that is to ssh-copy-id to set up your remote ~/.ssh/authorized_keys
+# you can use "ssh alanif.se" to log in to alanif.se without using a user or
+# password. One way to do that is to ssh-copy-id to set up your remote
+# ~/.ssh/authorized_keys
 #
 if [ $# != 2 ] ; then
-  echo "Usage: `basename $0` <destinationsubdirectory> <file>"
+  echo "Usage: `basename $0` <file> <destinationsubdirectory>"
   exit 1
 fi
-scp `basename $2` "alanif.se@ssh.alanif.se/www/downloads/$1"
+scp $1 "alanif.se:/www/downloads/$2/`basename $1`"
