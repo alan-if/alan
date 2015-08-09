@@ -53,11 +53,23 @@ release: all
 # libgarglk.dylib need to be built to binary form before making it from here.
 # It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
 # will be available as $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3
+
 GARGOYLE_DIR=../../garglk-current-alan3
-gararun:
+gararun: gararun-zip gararun-sh
+
+gararun-zip: alan3
+	tar zcvf gargoyle-alan3-$(VERSION).linux.$(ARCH).tgz alan3 gargoyle.alan3-slot-in.readme
+
+gararun-sh: alan3 
+	mkdir -p gargoyle-alan3-updater
+	cp alan3 gargoyle-alan3-updater
+	makeself --base64 gargoyle-alan3-updater gargoyle-updater-alan3-$(VERSION).linux.sh "Alan v3 Gargoyle updater" sudo cp alan3 /usr/lib/gargoyle
+	rm -rf gargoyle-alan3-updater
+
+alan3:
 	cd $(GARGOYLE_DIR); jam STATIC=1 alan3
 	cp $(GARGOYLE_DIR)/build/linux.release/alan3/alan3 .
-	tar zcvf gargoyle-alan3-$(VERSION).linux.$(ARCH).tgz alan3 gargoyle.alan3-slot-in.readme
+
 
 #######################################################################
 #

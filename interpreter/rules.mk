@@ -9,13 +9,32 @@ ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
 
-BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
+# Build designations:
+#   BUILD includes a dash, if no-empty, so can be used with $(VERSION)$(BUILD)
+#   BUILDNUMBER is just the number
+#   BUILDNAME is "Build"$(BUILDNUMBER), e.g. "Build1667"
+BUILD_NUMBER_FILE = $(wildcard ../BUILD_NUMBER)
+ifeq ($(BUILD_NUMBER_FILE),)
+  BUILD:=
+  BUILDNUMBER:=
+  BUILDNAME:= 
+else
+  BUILD_FILE_CONTENT := $(shell cat $(BUILD_NUMBER_FILE))
+  BUILD:= -$(BUILD_FILE_CONTENT)
+  BUILDNUMBER:= $(BUILD_FILE_CONTENT)
+  BUILDNAME:=Build$(BUILDNUMBER)
+endif
 
 CC = $(COMPILER)
 CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS) $(ARCHFLAGS) -MMD
 
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
+
+v:
+	echo $(BUILD)
+	echo $(BUILDNUMBER)
+	echo $(BUILDNAME)
 
 # Default top rule if platform specific makefile doesn't add a default
 # that is found before this
