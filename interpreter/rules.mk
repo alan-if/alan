@@ -35,6 +35,8 @@ v:
 	echo $(BUILD)
 	echo $(BUILDNUMBER)
 	echo $(BUILDNAME)
+	echo $(VERSION)
+
 
 # Default top rule if platform specific makefile doesn't add a default
 # that is found before this

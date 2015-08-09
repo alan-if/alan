@@ -4,7 +4,7 @@
 # rules.mk
 
 # We use last release until there is a new one, so always one behind Cygwin...
-VERSION := `cat ../LASTRELEASE`
+VERSION := `cat ../NEXTRELEASE`
 
 # Define the program name
 PROGNAME=-DPROGNAME=\"arun\"
@@ -109,6 +109,7 @@ MacArun.app: MacArun.sh MacArun.platypus
 
 ############################################################
 # glkarun
+
 glkarun: TERMGLKROOT = ../../glkterm
 glkarun: ARCHFLAGS = -m32
 
@@ -117,7 +118,7 @@ CURSESLIB = -lcurses
 
 #######################################################################
 # dumpacd: Dump Acode file into text format
-#
+
 DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o
 dumpacd: $(DUMPACDOBJECTS)
 	$(LINK) $(LDFLAGS) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)

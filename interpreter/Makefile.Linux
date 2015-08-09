@@ -3,8 +3,8 @@
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # rules.mk
 
-# We use last release until there is a new one, so always one behind Cygwin...
-VERSION := `cat ../LASTRELEASE`
+# We are aiming for the same as on Cygwin
+VERSION := `cat ../NEXTRELEASE`
 
 ARCH = `uname -m`
 
@@ -23,7 +23,7 @@ LINKFLAGS = -g $(ARUNOPTS)
 
 LIBS = $(GLKLIB) $(LINKLIBS)
 
-# Enable Use of Cgreen unit test and mocking
+# Enable Cgreen for unit test and mocking
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
@@ -44,11 +44,11 @@ release: EXTRA_COMPILER_FLAGS = -O4
 release: DEPENDENCY = 
 release: all
 
-#--------------------------------------------------------------------
-# Extra targets on Darwin
 
+#############################################################
 # GARARUN: a Gargoyle drop-in alan interpreter
-# Gargoyle should be installed at GARGOYLE_DIR and have 
+#
+# Gargoyle sources should be installed at GARGOYLE_DIR and have 
 # terps/alan3 linked to alan/interpreter. All required libraries, including
 # libgarglk.dylib need to be built to binary form before making it from here.
 # It is built with jam, so "alan3", the resulting Alan interpreter drop-in,

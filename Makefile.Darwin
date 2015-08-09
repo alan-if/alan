@@ -5,12 +5,18 @@
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 PACKAGE = alan$(VERSION)$(BUILD).macosx.x86.tgz
 
+VERSION := `cat NEXTRELEASE`
+
 # There is no libxml-xpath-perl on Darwin so we need to use XML::XPath
 # which does not allow switches (-q -e)
 XPATH = xpath
 
 # Default target
 all : unit build
+
+v :
+	echo $(VERSION)
+
 
 .PHONY: package
 package: alan.readme.macosx $(PACKAGE)

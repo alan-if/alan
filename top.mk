@@ -24,8 +24,6 @@ else
   BUILDNAME:=Build$(BUILDNUMBER)
 endif
 
-# Create version and build numbers
-VERSION = `cat LASTRELEASE`
 
 .PHONY: clean
 clean:

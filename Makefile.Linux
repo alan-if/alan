@@ -5,10 +5,15 @@
 DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 PACKAGE = alan$(VERSION)$(BUILD).linux.x86.tgz
 
+VERSION := `cat NEXTRELEASE`
+
 XPATH := xpath -q -e
 
 # Default target
 all : unit build
+
+v :
+	echo $(VERSION)
 
 
 # We need to define how to package on Linux
