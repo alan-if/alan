@@ -2,18 +2,15 @@
 # Partial Makefile to be included from top level Makefile on Linux
 #
 
-DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
-PACKAGE = alan$(VERSION)$(BUILD).linux.x86.tgz
+VERSION := $(shell cat NEXTRELEASE)
 
-VERSION := `cat NEXTRELEASE`
+PACKAGE = alan$(VERSION)$(BUILD).linux.x86.tgz
 
 XPATH := xpath -q -e
 
+
 # Default target
 all : unit build
-
-v :
-	echo $(VERSION)
 
 
 # We need to define how to package on Linux
@@ -43,4 +40,4 @@ snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)/
 	alanupload interpreter/gargoyle-updater-alan3-$(VERSION).linux.sh snapshots/$(BUILDNAME)/
 
-include top.mk
+include Makefile.common

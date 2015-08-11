@@ -2,14 +2,15 @@
 # Partial Makefile to be included from top level Makefile on Darwin
 #
 
-DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
-PACKAGE = alan$(VERSION)$(BUILD).macosx.x86.tgz
+VERSION := $(shell cat NEXTRELEASE)
 
-VERSION := `cat NEXTRELEASE`
+PACKAGE = alan$(VERSION)$(BUILDVERSION).macosx.x86.tgz
+
 
 # There is no libxml-xpath-perl on Darwin so we need to use XML::XPath
 # which does not allow switches (-q -e)
 XPATH = xpath
+
 
 # Default target
 all : unit build
@@ -44,20 +45,20 @@ distribution-build:
 
 distribution-upload:
 	alanupload $(PACKAGE) sdks/macosx
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILD).macosx.pkg sdks/macosx
-	alanupload interpreter/MacArun.$(VERSION)$(BUILD).macosx.pkg sdks/macosx
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg sdks/macosx
+	alanupload interpreter/MacArun.$(VERSION)$(BUILDVERSION).macosx.pkg sdks/macosx
 
 
 ##########
 # Snapshot
 #
 snapshot-build:
-	$(MAKE) clean all package
-	cd interpreter; $(MAKE) gararun MacArun
+	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) clean all package
+	cd interpreter; $(MAKE) BUILDNUMBER=$(BUILDNUMBER) gararun MacArun
 
 snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILD).macosx.pkg snapshots/$(BUILDNAME)
-	alanupload interpreter/MacArun$(VERSION)$(BUILD).zip snapshots/$(BUILDNAME)
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg snapshots/$(BUILDNAME)
+	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip snapshots/$(BUILDNAME)
 
-include top.mk
+include Makefile.common

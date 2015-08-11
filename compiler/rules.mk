@@ -6,10 +6,12 @@
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
 
-BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
+ifneq ($(BUILDNUMBER),)
+BUILDVERSION = -$(BUILDNUMBER)
+endif
 
 CC = $(COMPILER)
-CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS)
+CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS)
 
 LINK = $(LINKER)
 LINKFLAGS = $(OSFLAGS) $(EXTRA_LINKER_FLAGS)

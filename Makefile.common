@@ -59,17 +59,19 @@ endif
 	-cd library; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 	-cd converter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
 
-##########
-# Snapshot
+
+###########################################################
+# Snapshot boiler plate - specifics in Makefile.<platform>
 #
-snapshot: snapshot-check buildnumber snapshot-build snapshot-upload
+snapshot: buildnumber snapshot-build snapshot-upload
 
-snapshot-check:
-	@if [ ! -f BUILD_NUMBER ] ; then \
-	  echo Should not upload a snapshot without BUILD_NUMBER, create it first ; \
-	  exit 1 ; \
-	fi
+x:
+	@echo BUILDNUMBER = $(BUILDNUMBER)
+	@echo BUILDVERSION = $(BUILDVERSION)
+	@echo BUILDNAME = $(BUILDNAME)
 
+.PHONY: buildnumber
 buildnumber:
-	wget -q 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | $(XPATH) 'number/text()' > BUILD_NUMBER
-
+	$(eval BUILDNUMBER := $(shell wget -q 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath 'number/text()'))
+	$(eval BUILDVERSION := -$(BUILDNUMBER))
+	$(eval BUILDNAME := Build$(BUILDNUMBER))

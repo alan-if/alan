@@ -9,33 +9,21 @@ ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
 
-# Build designations:
-#   BUILD includes a dash, if no-empty, so can be used with $(VERSION)$(BUILD)
-#   BUILDNUMBER is just the number
-#   BUILDNAME is "Build"$(BUILDNUMBER), e.g. "Build1667"
-BUILD_NUMBER_FILE = $(wildcard ../BUILD_NUMBER)
-ifeq ($(BUILD_NUMBER_FILE),)
-  BUILD:=
-  BUILDNUMBER:=
-  BUILDNAME:= 
-else
-  BUILD_FILE_CONTENT := $(shell cat $(BUILD_NUMBER_FILE))
-  BUILD:= -$(BUILD_FILE_CONTENT)
-  BUILDNUMBER:= $(BUILD_FILE_CONTENT)
-  BUILDNAME:=Build$(BUILDNUMBER)
+ifneq ($(BUILDNUMBER),)
+BUILDVERSION = -$(BUILDNUMBER)
 endif
 
 CC = $(COMPILER)
-CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS) $(ARCHFLAGS) -MMD
+CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS) $(ARCHFLAGS) -MMD
 
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
 
 v:
-	echo $(BUILD)
-	echo $(BUILDNUMBER)
-	echo $(BUILDNAME)
-	echo $(VERSION)
+	@echo BUILDNUMBER=$(BUILDNUMBER)
+	@echo BUILDVERSION=$(BUILDVERSION)
+	@echo BUILDNAME=$(BUILDNAME)
+	@echo VERSION=$(VERSION)
 
 
 # Default top rule if platform specific makefile doesn't add a default
@@ -57,7 +45,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d
+	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg
 
 
 ###################################################################

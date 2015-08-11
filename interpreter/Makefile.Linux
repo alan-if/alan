@@ -4,7 +4,7 @@
 # rules.mk
 
 # We are aiming for the same as on Cygwin
-VERSION := `cat ../NEXTRELEASE`
+VERSION := $(shell cat ../NEXTRELEASE)
 
 ARCH = `uname -m`
 
@@ -58,12 +58,12 @@ GARGOYLE_DIR=../../garglk-current-alan3
 gararun: gararun-zip gararun-sh
 
 gararun-zip: alan3
-	tar zcvf gargoyle-alan3-$(VERSION).linux.$(ARCH).tgz alan3 gargoyle.alan3-slot-in.readme
+	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.$(ARCH).tgz alan3 gargoyle.alan3-slot-in.readme
 
 gararun-sh: alan3 
 	mkdir -p gargoyle-alan3-updater
 	cp alan3 gargoyle-alan3-updater
-	makeself --base64 gargoyle-alan3-updater gargoyle-updater-alan3-$(VERSION).linux.sh "Alan v3 Gargoyle updater" sudo cp alan3 /usr/lib/gargoyle
+	makeself --base64 gargoyle-alan3-updater gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh "Alan v3 Gargoyle updater" sudo cp alan3 /usr/lib/gargoyle
 	rm -rf gargoyle-alan3-updater
 
 alan3:

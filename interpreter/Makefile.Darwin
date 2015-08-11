@@ -4,7 +4,7 @@
 # rules.mk
 
 # We use last release until there is a new one, so always one behind Cygwin...
-VERSION := `cat ../NEXTRELEASE`
+VERSION := $(shell cat ../NEXTRELEASE)
 
 # Define the program name
 PROGNAME=-DPROGNAME=\"arun\"
@@ -65,11 +65,11 @@ gararun: gargoyle-updater gararun-tar
 
 gargoyle-updater: alan3 gargoyle-libs
 	packagesbuild gargoyle-alan3-installer.pkgproj
-	cp build/gargoyle-alan3.pkg gargoyle-updater-alan3-$(VERSION)$(BUILD).macosx.pkg
+	cp build/gargoyle-alan3.pkg gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg
 	rm -r build
 
 gararun-tar: alan3 gargoyle-libs
-	tar zcvf gargoyle-alan3-$(VERSION)$(BUILD).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
+	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
 	rm -r Gargoyle.app
 
 alan3:
@@ -100,11 +100,11 @@ gargoyle-libs:
 # Builds using platypus which needs to be installed, including the command line version
 
 MacArun: MacArun.app
-	zip -r MacArun$(VERSION)$(BUILD).zip MacArun.app
+	zip -r MacArun$(VERSION)$(BUILDVERSION).zip MacArun.app
 	rm -r MacArun.app
 
 MacArun.app: MacArun.sh MacArun.platypus
-	platypus -P MacArun.platypus -a MacArun -V $(VERSION)$(BUILD) MacArun.app
+	platypus -P MacArun.platypus -a MacArun -V $(VERSION)$(BUILDVERSION) MacArun.app
 
 
 ############################################################
