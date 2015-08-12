@@ -9,13 +9,22 @@ ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
 
-BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
+ifneq ($(BUILDNUMBER),)
+BUILDVERSION = -$(BUILDNUMBER)
+endif
 
 CC = $(COMPILER)
-CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS) $(ARCHFLAGS) -MMD
+CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS) $(ARCHFLAGS) -MMD
 
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
+
+v:
+	@echo BUILDNUMBER=$(BUILDNUMBER)
+	@echo BUILDVERSION=$(BUILDVERSION)
+	@echo BUILDNAME=$(BUILDNAME)
+	@echo VERSION=$(VERSION)
+
 
 # Default top rule if platform specific makefile doesn't add a default
 # that is found before this
@@ -36,7 +45,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d
+	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg
 
 
 ###################################################################

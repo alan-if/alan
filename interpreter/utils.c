@@ -53,7 +53,11 @@ void printVersion(int buildNumber) {
 /*======================================================================*/
 void usage(char *programName)
 {
+#if (BUILD+0) != 0
     printVersion(BUILD);
+#else
+    printVersion(0);
+#endif
     printf("\n\nUsage:\n\n");
     printf("    %s [<switches>] <adventure>\n\n", programName);
     printf("where the possible optional switches are:\n");

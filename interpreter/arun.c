@@ -66,7 +66,11 @@ int main(int argc, char *argv[])
 
     if ((debugOption && !regressionTestOption) || verboseOption) {
         if (debugOption) printf("<");
+#if (BUILD+0) != 0
         printVersion(BUILD);
+#else
+        printVersion(0);
+#endif
         if (debugOption) printf(">");
         newline();
         newline();

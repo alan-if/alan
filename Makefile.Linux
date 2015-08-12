@@ -2,11 +2,12 @@
 # Partial Makefile to be included from top level Makefile on Linux
 #
 
-# Create version and build numbers
-VERSION = `cat LASTRELEASE`
+VERSION := $(shell cat NEXTRELEASE)
 
-DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
 PACKAGE = alan$(VERSION)$(BUILD).linux.x86.tgz
+
+XPATH := xpath -q -e
+
 
 # Default target
 all : unit build
@@ -28,14 +29,15 @@ distribution:
 	$(MAKE) clean all package
 	alanupload "sdks/linux/" $(PACKAGE)
 
-snapshot: snapshot-check buildnumber snapshot-build snapshot-upload
+##########
+# Snapshot
+#
+snapshot-build:
+	$(MAKE) clean all package
+	cd interpreter; $(MAKE) gararun
 
 snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)/
 	alanupload interpreter/gargoyle-updater-alan3-$(VERSION).linux.sh snapshots/$(BUILDNAME)/
 
-snapshot-build:
-	$(MAKE) clean all package
-	cd interpreter; $(MAKE) gararun
-
-include top.mk
+include Makefile.common

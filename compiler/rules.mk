@@ -6,10 +6,12 @@
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
 
-BUILD := $(shell if [ -f ../BUILD_NUMBER ] ; then cat ../BUILD_NUMBER; else echo 0; fi)
+ifneq ($(BUILDNUMBER),)
+BUILDVERSION = -$(BUILDNUMBER)
+endif
 
 CC = $(COMPILER)
-CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD) $(OSFLAGS)
+CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS)
 
 LINK = $(LINKER)
 LINKFLAGS = $(OSFLAGS) $(EXTRA_LINKER_FLAGS)
@@ -39,7 +41,7 @@ test:
 	@cd ..;bin/jregr -bin bin -dir compiler/testing $(JREGROUTPUT)
 	@cd ..;bin/jregr -bin bin -dir compiler/testing/positions $(JREGROUTPUT)
 	@cd ..;bin/jregr -bin bin -dir compiler/testing/dump $(JREGROUTPUT)
-	@cd ..;bin/jregr -dir compiler/testing/arguments $(JREGROUTPUT)
+	@cd ..;bin/jregr -bin bin -dir compiler/testing/arguments $(JREGROUTPUT)
 	@cd ..;bin/jregr -bin bin -dir regression/debug $(JREGROUTPUT)
 	@cd ../regression/platforms; ../../bin/alan $(OS)
 	@cd ..;bin/jregr -bin bin -dir regression/platforms $(JREGROUTPUT)

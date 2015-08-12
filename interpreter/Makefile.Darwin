@@ -4,7 +4,7 @@
 # rules.mk
 
 # We use last release until there is a new one, so always one behind Cygwin...
-VERSION := `cat ../LASTRELEASE`
+VERSION := $(shell cat ../NEXTRELEASE)
 
 # Define the program name
 PROGNAME=-DPROGNAME=\"arun\"
@@ -58,15 +58,19 @@ release: all
 # we need to readjust the path to the libraries so that it looks in the Gargoyle.app frameworks
 # instead of the /opt/local where macports keeps its dylibs.
 #
-# We build both a .tgz and an installer package
+# We build an installer package using Packages (http://s.sudre.free.fr/Software/Packages)
 #
 GARGOYLE_DIR=../../garglk-current-alan3
-gararun: gararun-updater
-	tar zcvf gargoyle-alan3-$(VERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
-	rm -r Gargoyle.app
+gararun: gargoyle-updater gararun-tar
 
-gararun-updater: alan3 gargoyle-libs
-	pkgbuild --root Gargoyle.app --identifier se.alanif.gargoyle.alan3 --version 0.0 --install-location /Applications/ gargoyle-updater-alan3-$(VERSION).macosx.pkg
+gargoyle-updater: alan3 gargoyle-libs
+	packagesbuild gargoyle-alan3-installer.pkgproj
+	cp build/gargoyle-alan3.pkg gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg
+	rm -r build
+
+gararun-tar: alan3 gargoyle-libs
+	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
+	rm -r Gargoyle.app
 
 alan3:
 	cd $(GARGOYLE_DIR); jam garglk alan3
@@ -89,31 +93,32 @@ gargoyle-libs:
 	mv libpng16.16.dylib Gargoyle.app/Contents/Frameworks
 
 
+##################################################################################
 # MacArun: a Platypus-based application that runs the command line interpreter in
 # a Terminal.
 #
 # Builds using platypus which needs to be installed, including the command line version
 
 MacArun: MacArun.app
-	zip -r MacArun.$(VERSION).zip MacArun.app
+	zip -r MacArun$(VERSION)$(BUILDVERSION).zip MacArun.app
 	rm -r MacArun.app
 
 MacArun.app: MacArun.sh MacArun.platypus
-	platypus -P MacArun.platypus -a MacArun -V $(VERSION) MacArun.app
+	platypus -P MacArun.platypus -a MacArun -V $(VERSION)$(BUILDVERSION) MacArun.app
+
 
 ############################################################
 # glkarun
+
 glkarun: TERMGLKROOT = ../../glkterm
 glkarun: ARCHFLAGS = -m32
 
 CURSESLIB = -lcurses
 
+
 #######################################################################
-#
-# Misc programs:
-#
-# Dump Acode file into text format
-#
+# dumpacd: Dump Acode file into text format
+
 DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o
 dumpacd: $(DUMPACDOBJECTS)
 	$(LINK) $(LDFLAGS) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)

@@ -2,17 +2,22 @@
 # Partial Makefile to be included from top level Makefile on Darwin
 #
 
-# Create version and build numbers
-VERSION = `cat LASTRELEASE`
+VERSION := $(shell cat NEXTRELEASE)
 
-DISTDIR	= ~/Utveckling/Alan/alanweb/downloads
-PACKAGE = alan$(VERSION)$(BUILD).macosx.x86.tgz
+PACKAGE = alan$(VERSION)$(BUILDVERSION).macosx.x86.tgz
+
+
+# There is no libxml-xpath-perl on Darwin so we need to use XML::XPath
+# which does not allow switches (-q -e)
+XPATH = xpath
+
 
 # Default target
 all : unit build
 
 v :
-	echo $(PACKAGE)
+	echo $(VERSION)
+
 
 .PHONY: package
 package: alan.readme.macosx $(PACKAGE)
@@ -22,21 +27,38 @@ $(PACKAGE): bin/alan bin/arun
 	tar zcvf $(PACKAGE) alan arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan
 	-rm alan arun
 
-distribution:
+
+###############
+# Distribution
+#
+distribution: distribution-check distribution-build distribution-upload
+
+distribution-check:
 	@if [[ -f BUILD_NUMBER ]] ; then \
-	  echo Should not upload a version with BUILD_NUMBER, remove it first ; \
+	  echo Should not upload a distribution with BUILD_NUMBER, remove it first ; \
 	  exit 1 ; \
 	fi
-	$(MAKE) clean all package
-	alanftp "Complete Distributions/MacOSX/" $(PACKAGE)
 
-snapshot:
-	wget 'alanif.dyndns.org:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath 'number/text()' > BUILD_NUMBER
-	@if [[ ! -f BUILD_NUMBER ]] ; then \
-	  echo Should not upload a snapshot without BUILD_NUMBER, create it first ; \
-	  exit 1 ; \
-	fi
+distribution-build:
 	$(MAKE) clean all package
+	cd interpreter; $(MAKE) gararun MacArun
+
+distribution-upload:
+	alanupload $(PACKAGE) sdks/macosx
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg sdks/macosx
+	alanupload interpreter/MacArun.$(VERSION)$(BUILDVERSION).macosx.pkg sdks/macosx
+
+
+##########
+# Snapshot
+#
+snapshot-build:
+	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) clean all package
+	cd interpreter; $(MAKE) BUILDNUMBER=$(BUILDNUMBER) gararun MacArun
+
+snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg snapshots/$(BUILDNAME)
+	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip snapshots/$(BUILDNAME)
 
-include top.mk
+include Makefile.common

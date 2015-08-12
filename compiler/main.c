@@ -261,7 +261,11 @@ int main(int argc,		/* IN - argument count */
 
     /* Say hello ! */
     if (verboseFlag) {
+#if (BUILD+0) != 0
         printVersion(BUILD);
+#else
+        printVersion(0);
+#endif
         printf("\n");
     }
 

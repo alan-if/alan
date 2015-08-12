@@ -4,6 +4,7 @@
 #
 alan.version.c: $(VERSIONSRCS)
 	cd ..; venum alan time
+	venum alan -print '$$v_$$r{s$$s|_}$$c' > NEXTRELEASE
 	cp ../alan.version.c .
 
 alan.version.h : ../alan.version.h

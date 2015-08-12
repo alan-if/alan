@@ -79,7 +79,7 @@ releasebuild:
 	cd converter ; make release
 	cd library ; make release
 
-include top.mk
+include Makefile.common
 
 .PHONY: tags
 tags: last-release
