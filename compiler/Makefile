@@ -33,4 +33,4 @@ include Makefile.$(shell uname)
 endif
 
 # then platform and machine independent rules
-include rules.mk
+include Makefile.common

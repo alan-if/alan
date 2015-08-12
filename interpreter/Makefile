@@ -28,5 +28,4 @@ endif
 endif
 
 # Include common build rules
-include rules.mk
-include ../depend.mk
+include Makefile.common

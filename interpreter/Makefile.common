@@ -45,7 +45,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg
+	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh
 
 
 ###################################################################

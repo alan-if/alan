@@ -8,23 +8,6 @@ UNITOUTPUT ?= -c
 endif
 
 
-# Build designations:
-#   BUILD includes a dash, if no-empty, so can be used with $(VERSION)$(BUILD)
-#   BUILDNUMBER is just the number
-#   BUILDNAME is "Build"$(BUILDNUMBER), e.g. "Build1667"
-BUILD_NUMBER_FILE = $(wildcard BUILD_NUMBER)
-ifeq ($(BUILD_NUMBER_FILE),)
-  BUILD:=
-  BUILDNUMBER:=
-  BUILDNAME:= 
-else
-  BUILD_FILE_CONTENT := $(shell cat $(BUILD_NUMBER_FILE))
-  BUILD:= -$(BUILD_FILE_CONTENT)
-  BUILDNUMBER:= $(BUILD_FILE_CONTENT)
-  BUILDNAME:=Build$(BUILDNUMBER)
-endif
-
-
 .PHONY: clean
 clean:
 	@echo "***************** Clean *****************"
@@ -32,6 +15,7 @@ clean:
 	-cd interpreter; $(MAKE) clean
 	-cd converter; $(MAKE) clean
 	-cd library; $(MAKE) clean
+	-rm alan3*.tgz
 
 .PHONY: build
 build:
@@ -63,15 +47,23 @@ endif
 ###########################################################
 # Snapshot boiler plate - specifics in Makefile.<platform>
 #
-snapshot: buildnumber snapshot-build snapshot-upload
+snapshot: buildnumber x snapshot-build snapshot-upload
+
+
+##################################################
+# Build designations:
+#   BUILDNUMBER is just the number
+#   BUILDVERSION includes a dash, if no-empty, so can be used with $(VERSION)$(BUILDVERSION)
+#   BUILDNAME is "Build"$(BUILDNUMBER), e.g. "Build1667"
+
+.PHONY: buildnumber
+buildnumber:
+	$(eval BUILDNUMBER := $(shell wget -q 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | $(XPATH) 'number/text()'))
+	$(eval BUILDVERSION := -$(BUILDNUMBER))
+	$(eval BUILDNAME := Build$(BUILDNUMBER))
 
 x:
 	@echo BUILDNUMBER = $(BUILDNUMBER)
 	@echo BUILDVERSION = $(BUILDVERSION)
 	@echo BUILDNAME = $(BUILDNAME)
-
-.PHONY: buildnumber
-buildnumber:
-	$(eval BUILDNUMBER := $(shell wget -q 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | xpath 'number/text()'))
-	$(eval BUILDVERSION := -$(BUILDNUMBER))
-	$(eval BUILDNAME := Build$(BUILDNUMBER))
+	@echo PACKAGE=$(PACKAGE)
