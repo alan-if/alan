@@ -1,7 +1,7 @@
 ####################################################################
 # This file is included from Makefile. It includes special settings
 # to build Alan Interpreter(s) on Darwin. Common rules are in
-# rules.mk
+# Makefile.common
 
 # We are aiming for the same as on Cygwin
 VERSION := $(shell cat ../NEXTRELEASE)
