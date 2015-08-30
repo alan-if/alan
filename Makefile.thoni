@@ -16,6 +16,7 @@ all: unit build documentation tests
 .PHONY: ci
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
+ci: BUILDNUMBER = $(shell cat BUILDNUMBER)
 ci: all
 
 .PHONY:tests
