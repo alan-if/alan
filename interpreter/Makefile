@@ -6,7 +6,7 @@
 #
 
 # Note that this must not have spaces in it lest the variable will include it
-OS := ${if ${findstring CYGWIN,${shell uname}},Cygwin,${shell uname}}
+OS := ${if ${findstring CYGWIN,${shell uname}},CYGWIN,${shell uname}}
 
 # Include list of all sources
 include sources.mk

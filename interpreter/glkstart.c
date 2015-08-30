@@ -118,7 +118,15 @@ int glkunix_startup_code(glkunix_startup_t *data)
     openGlkWindows();
 
 #ifdef HAVE_GARGLK
+#if (BUILD+0) != 0
+    {
+        char name[100];
+        sprintf(name, "%s-%d", alan.shortHeader, BUILD);
+        garglk_set_program_name(name);
+    }
+#else
 	garglk_set_program_name(alan.shortHeader);
+#endif
 	char info[80];
 	sprintf(info, "%s Interpreter by Thomas Nilsson\n", alan.shortHeader);
 	garglk_set_program_info(info);

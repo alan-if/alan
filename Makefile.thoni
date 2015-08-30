@@ -6,6 +6,8 @@
 VERSION	:= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
+XPATH = xpath
+
 default: unit build
 
 .PHONY: all
@@ -45,6 +47,7 @@ release:
 
 .PHONY: snapshots
 snapshots: zip setup lib
+	@echo "******** Target: $@ ***********"
 	-mkdir $(DISTDIR)/snapshots/$(BUILDNAME)
 	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/snapshots/$(BUILDNAME)/alan$(VERSION)$(BUILD).win32.x86.zip
 	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/$(BUILDNAME)/alan$(VERSION)$(BUILD).win32.x86.setup.exe
@@ -54,10 +57,27 @@ snapshots: zip setup lib
 	cp doc/manual/conversion.pdf $(DISTDIR)/snapshots/$(BUILDNAME)/conversion$(BUILD).pdf
 	cp doc/manual/writing.pdf $(DISTDIR)/snapshots/$(BUILDNAME)/writing$(BUILD).pdf
 
+.PHONY: snapshot-build
+snapshot-build:
+	@echo "ERROR: Don't build snapshots on thoni, that should be done using Jenkins"
+	exit 2
+
+
+.PHONY: snapshot-upload
+snapshot-upload: buildnumbers
+	alanupload alan$(VERSION)$(BUILDVERSION).win32.x86.zip snapshots/$(BUILDNAME)/
+	alanupload alan$(VERSION)$(BUILDVERSION).win32.x86.setup.exe snapshots/$(BUILDNAME)/
+	alanupload winarun$(VERSION)$(BUILDVERSION).win32.x86.setup.exe snapshots/$(BUILDNAME)/
+	alanupload library/library*.zip snapshots/$(BUILDNAME)/
+	alanupload doc/manual/manual.pdf snapshots/$(BUILDNAME)/
+	alanupload doc/manual/conversion.pdf snapshots/$(BUILDNAME)/
+	alanupload doc/manual/writing.pdf snapshots/$(BUILDNAME)/
+
+
 # Create pdf from odt
 .PHONY: documentation
 documentation:
-	@echo "***************** Documentation *****************"
+	@echo "******** Target: $@ ***********"
 	$(MAKE) documents
 
 .PHONY: documents
@@ -121,6 +141,7 @@ newVersion:
 
 .PHONY: packages
 packages: zip setup gargoyle doc/manual/manual.pdf 
+	@echo "******** Target: $@ ***********"
 	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/sdks/windows
 	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/sdks/windows
 	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/interpreters/windows
@@ -131,11 +152,13 @@ packages: zip setup gargoyle doc/manual/manual.pdf
 
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING 
+	@echo "******** Target: $@ ***********"
 	-rm alan*.zip
 	zip -j alan$(VERSION).win32.x86.zip $^
 
 .PHONY: setup
 setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
+	@echo "******** Target: $@ ***********"
 	-rm winarun*setup.exe
 	sed -e s/VERSION/$(VERSION)/ winarun.iss > winarun_tmp.iss
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
@@ -145,13 +168,6 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
 	-rm alan_tmp.iss
 	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
-
-.PHONY: gargoyle
-gargoyle: interpreter/alan3
-	-rm gargoyle-alan3*setup.exe
-	sed -e s/VERSION/$(VERSION)/ gargoyle-alan3.iss > gargoyle-alan3_tmp.iss
-	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc gargoyle-alan3_tmp.iss
-
 
 .PHONY: sync_all
 sync_all:

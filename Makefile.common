@@ -10,7 +10,7 @@ endif
 
 .PHONY: clean
 clean:
-	@echo "***************** Clean *****************"
+	@echo "******** Target: $@ ***********"
 	-cd compiler; $(MAKE) clean
 	-cd interpreter; $(MAKE) clean
 	-cd converter; $(MAKE) clean
@@ -19,7 +19,7 @@ clean:
 
 .PHONY: build
 build:
-	@echo "***************** Build *****************"
+	@echo "******** Target: $@ ***********"
 	cd compiler; $(MAKE) build
 	cd interpreter; $(MAKE) build
 	cd converter; $(MAKE) build
@@ -27,13 +27,14 @@ build:
 
 .PHONY: unit
 unit:
-	@echo "***************** Unit *****************"
+	@echo "******** Target: $@ ***********"
 	-cd compiler; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
 	-cd interpreter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
 	-cd converter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
 
 .PHONY: test
 test:
+	@echo "******** Target: $@ ***********"
 ifeq ($(OS), Linux)
 	@touch regression/isochars.suspended regression/unknownWordMessage.suspended
 endif
@@ -47,7 +48,8 @@ endif
 ###########################################################
 # Snapshot boiler plate - specifics in Makefile.<platform>
 #
-snapshot: buildnumber x snapshot-build snapshot-upload
+snapshot: buildnumbers snapshot-build snapshot-upload
+	@echo "******** Target: $@ ***********"
 
 
 ##################################################
@@ -55,13 +57,21 @@ snapshot: buildnumber x snapshot-build snapshot-upload
 #   BUILDNUMBER is just the number
 #   BUILDVERSION includes a dash, if no-empty, so can be used with $(VERSION)$(BUILDVERSION)
 #   BUILDNAME is "Build"$(BUILDNUMBER), e.g. "Build1667"
+#
+# You can call 'buildnumbers' to pick up the latest build from Jenkins, you can also
+# set a BUILDNUMBER and then call it which will set the other dependent values correctly
 
-.PHONY: buildnumber
-buildnumber:
-	$(eval BUILDNUMBER := $(shell wget -q 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | $(XPATH) 'number/text()'))
+.PHONY: buildnumbers
+buildnumbers: buildnumber
 	$(eval BUILDVERSION := -$(BUILDNUMBER))
 	$(eval BUILDNAME := Build$(BUILDNUMBER))
 
+buildnumber:
+    ifeq ($(BUILDNUMBER),)
+	$(eval BUILDNUMBER := $(shell wget -q 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | $(XPATH) 'number/text()'))
+    endif
+
+.PHONY: x
 x:
 	@echo BUILDNUMBER = $(BUILDNUMBER)
 	@echo BUILDVERSION = $(BUILDVERSION)
