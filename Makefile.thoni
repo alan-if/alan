@@ -17,7 +17,7 @@ all: unit build documentation tests
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
 ci: BUILDNUMBER = $(shell cat BUILDNUMBER)
-ci: all
+ci: all zip setup lib
 
 .PHONY:tests
 tests: test cygwintests
@@ -46,17 +46,6 @@ release:
 	$(MAKE) -f Makefile.thoni tags
 	$(MAKE) -f Makefile.thoni sync_all
 
-.PHONY: snapshots
-snapshots: zip setup lib
-	@echo "******** Target: $@ ***********"
-	-mkdir $(DISTDIR)/snapshots/$(BUILDNAME)
-	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/snapshots/$(BUILDNAME)/alan$(VERSION)$(BUILD).win32.x86.zip
-	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/$(BUILDNAME)/alan$(VERSION)$(BUILD).win32.x86.setup.exe
-	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/snapshots/$(BUILDNAME)/winarun$(VERSION)$(BUILD).win32.x86.setup.exe
-	cp library/library*.zip $(DISTDIR)/snapshots/$(BUILDNAME)/library$(LIBRARYVERSION).zip
-	cp doc/manual/manual.pdf $(DISTDIR)/snapshots/$(BUILDNAME)/manual$(BUILD).pdf
-	cp doc/manual/conversion.pdf $(DISTDIR)/snapshots/$(BUILDNAME)/conversion$(BUILD).pdf
-	cp doc/manual/writing.pdf $(DISTDIR)/snapshots/$(BUILDNAME)/writing$(BUILD).pdf
 
 .PHONY: snapshot-build
 snapshot-build:
