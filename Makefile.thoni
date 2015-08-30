@@ -55,6 +55,7 @@ snapshot-build:
 
 .PHONY: snapshot-upload
 snapshot-upload: buildnumbers
+	ssh alanif.se "mkdir /www/downloads/snapshots/$(BUILDNAME)"
 	alanupload alan$(VERSION)$(BUILDVERSION).win32.x86.zip snapshots/$(BUILDNAME)/
 	alanupload alan$(VERSION)$(BUILDVERSION).win32.x86.setup.exe snapshots/$(BUILDNAME)/
 	alanupload winarun$(VERSION)$(BUILDVERSION).win32.x86.setup.exe snapshots/$(BUILDNAME)/
