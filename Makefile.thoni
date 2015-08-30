@@ -16,7 +16,7 @@ all: unit build documentation tests
 .PHONY: ci
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
-ci: BUILDNUMBER = $(shell cat BUILDNUMBER)
+ci: BUILDNUMBER = $(shell cat BUILD_NUMBER)
 ci: buildnumbers all zip setup lib
 
 .PHONY:tests
