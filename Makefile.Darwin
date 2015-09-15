@@ -53,7 +53,7 @@ distribution-upload:
 # Snapshot
 #
 snapshot-build:
-	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) clean all package
+	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) BUILDVERSION=$(BUILDVERSION) clean all package
 	cd interpreter; $(MAKE) BUILDNUMBER=$(BUILDNUMBER) gararun MacArun
 
 snapshot-upload:
