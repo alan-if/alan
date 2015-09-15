@@ -9,12 +9,12 @@ AllowNoIcons=yes
 ChangesAssociations = yes
 OutputDir=.
 OutputBaseFilename=gargoyle-alan3-VERSION.win32.x86.setup
-WizardImageFile=setup_wizard.bmp
+WizardImageFile=../setup_wizard.bmp
 WizardImageStretch=no
 DefaultDirName={code:GargoyleDir}
 
 [Files]
-Source: "interpreter\alan3.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "alan3.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Code]
 var GargoyleDirectory : String;

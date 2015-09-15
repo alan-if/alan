@@ -66,40 +66,26 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 
 
 #######################################################################
-# Settings for Gargoyle GLK variant (native compilation is experimental!)
-#GARGLKROOT = $(GLKLIBROOT)/Gargoyle-2006-09-17/garglk
-#GARGLKDEFS = -DHAVE_GARGLK
-#GARGLKINCLUDE = -I$(GARGLKROOT)
-#GARGLKLIB = -L$(GARGLKROOT)/../build/cygwin.release/garglk -lgarglk -lgarglkmain -lpng12 `pkg-config --libs gtk+` -lgdk `pkg-config --libs freetype2` -ljpeg /home/thoni/fmodapi374win/api/lib/libfmod.a
-
-#gararun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(GARGLKINCLUDE) $(GARGLKDEFS)
-#gararun: LIBS = $(GARGLKLIB)
-
-#GARARUNOBJDIR = .gararun
-#GARARUNOBJECTS = $(addprefix $(GARARUNOBJDIR)/,${GARARUNSRCS:.c=.o}) $(GARARUNOBJDIR)/alan.version.o
-#-include $(GARARUNOBJECTS:.o=.d)
-#$(GARARUNOBJECTS): $(GARARUNOBJDIR)/%.o: %.c
-#	$(CC) $(CFLAGS) -MMD -o $@ -c $<
-
-#$(GARARUNOBJDIR):
-#	@mkdir $(GARARUNOBJDIR)
-
-#gararun: $(GARARUNOBJDIR) $(GARARUNOBJECTS) arun.res
-#	$(LINK) -o $@ $(LINKFLAGS) $(GARARUNOBJECTS) arun.res $(LIBS)
-#	cp $@ ../bin/
-
-
-#######################################################################
 # Gargoyle GLK variant (using garglk's jam build)
-gararun: build-gararun package-gararun
+# The jam sources are found at the Perforce Workshop:
+# https://swarm.workshop.perforce.com/projects/perforce_software-jam/
 
+gararun: build-gararun gararun-package gargoyle-updater
+
+.PHONY: build-gararun
 build-gararun:
-	-cd ../../garglk-current-alan3 && jam alan3
-	@echo "NOTE: If the above failed: do the above command manually and then 'make package-gararun'"
-
-package-gararun:
+	cd ../../garglk-current-alan3; BUILDNUMBER=$(BUILDNUMBER) jam alan3
 	cp ../../garglk-current-alan3/build/cygwin.release/alan3/alan3.exe .
-	zip -j gargoyle-alan3-$(VERSION).win32.x86.zip alan3.exe gargoyle.alan3-slot-in.readme
+
+.PHONY: package-gararun
+gararun-package: build-gararun gargoyle.alan3-slot-in.readme
+	zip -j gargoyle-alan3-$(VERSION)$(BUILDVERSION).win32.x86.zip alan3.exe gargoyle.alan3-slot-in.readme
+
+.PHONY: gargoyle-updater
+gargoyle-updater: build-gararun gargoyle-alan3.iss
+	-rm gargoyle-updater-alan3*setup.exe
+	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ gargoyle-alan3.iss > gargoyle-alan3_tmp.iss
+	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc gargoyle-alan3_tmp.iss
 
 
 #######################################################################
