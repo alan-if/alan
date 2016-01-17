@@ -1,0 +1,114 @@
+########## lists ##########
+
+        No warnings or errors detected.
+        9 informational message(s).
+
+<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
+
+adbg> classes
+Classes: 
+      1: entity 
+          2: location, Isa entity [1] 
+          3: thing, Isa entity [1] 
+              4: object, Isa thing [3] 
+              5: actor, Isa thing [3] 
+          6: literal, Isa entity [1] 
+              7: integer, Isa literal [6] 
+              8: string, Isa literal [6] Instances: 
+    [1] #nowhere ("#nowhere") 
+    [2] pseudowords ("pseudowords") (container), at [1] #nowhere ("
+#nowhere") 
+    [3] nowhere ("nowhere") 
+    [4] outside ("Outside The Tall Building") 
+    [5] Hall ("Hall") 
+    [6] door ("door"), at [5] Hall ("Hall") 
+    [7] stairs ("Stairs") 
+    [8] cellar ("cellar") 
+    [9] rats ("rats"), at [8] cellar ("cellar") 
+    [10] store ("store") 
+    [11] tape ("spool of computer tape"), at [10] store ("store") 
+    [12] first_floor ("First Floor") 
+    [13] book ("old book"), at [12] first_floor ("First Floor") 
+    [14] office ("office") 
+    [15] ladder ("3 metre long ladder"), at [14] office ("office") 
+    [16] second ("Second Floor") 
+    [17] terminal_room ("Terminal Room") 
+    [18] terminal ("rather heavy computer terminal"), at [17]
+terminal_room ("Terminal Room") 
+    [19] coin ("small coin"), at [1] #nowhere ("#nowhere") 
+    [20] third ("Third Floor") 
+    [21] fourth ("Fourth Floor") 
+    [22] holeroom ("Windy Room") 
+    [23] walless ("Walless Room") 
+    [24] nest ("birds nest"), at [23] walless ("Walless Room") 
+    [25] keys ("set of rusty keys"), at [1] #nowhere ("#nowhere") 
+    [26] fifth ("Fifth Floor") 
+    [27] clockroom ("Clock Room") 
+    [28] clock ("clock"), at [27] clockroom ("Clock Room") 
+    [29] corr ("Corridor") 
+    [30] deskroom ("Small Office") 
+    [31] drawer ("drawer"), at [30] deskroom ("Small Office") 
+    [32] desk ("desk"), at [30] deskroom ("Small Office") 
+    [33] manual ("dirty manual"), at [1] #nowhere ("#nowhere") 
+    [34] computer_room ("Computer Room") 
+    [35] computer ("computer"), at [34] computer_room ("Computer Room") 
+    [36] cafe ("cafe") 
+    [37] machine ("vending machine"), at [36] cafe ("cafe") 
+    [38] candy ("old mouldy candy bar"), at [1] #nowhere ("#nowhere") 
+    [39] hero ("hero") (container), at [4] outside ("Outside The Tall
+Building") 
+    [40] #literal ("#literal"), at [1] #nowhere ("#nowhere")
+adbg> instances
+Instances: 
+    [1] #nowhere ("#nowhere") 
+    [2] pseudowords ("pseudowords") (container), at [1] #nowhere ("
+#nowhere") 
+    [3] nowhere ("nowhere") 
+    [4] outside ("Outside The Tall Building") 
+    [5] Hall ("Hall") 
+    [6] door ("door"), at [5] Hall ("Hall") 
+    [7] stairs ("Stairs") 
+    [8] cellar ("cellar") 
+    [9] rats ("rats"), at [8] cellar ("cellar") 
+    [10] store ("store") 
+    [11] tape ("spool of computer tape"), at [10] store ("store") 
+    [12] first_floor ("First Floor") 
+    [13] book ("old book"), at [12] first_floor ("First Floor") 
+    [14] office ("office") 
+    [15] ladder ("3 metre long ladder"), at [14] office ("office") 
+    [16] second ("Second Floor") 
+    [17] terminal_room ("Terminal Room") 
+    [18] terminal ("rather heavy computer terminal"), at [17]
+terminal_room ("Terminal Room") 
+    [19] coin ("small coin"), at [1] #nowhere ("#nowhere") 
+    [20] third ("Third Floor") 
+    [21] fourth ("Fourth Floor") 
+    [22] holeroom ("Windy Room") 
+    [23] walless ("Walless Room") 
+    [24] nest ("birds nest"), at [23] walless ("Walless Room") 
+    [25] keys ("set of rusty keys"), at [1] #nowhere ("#nowhere") 
+    [26] fifth ("Fifth Floor") 
+    [27] clockroom ("Clock Room") 
+    [28] clock ("clock"), at [27] clockroom ("Clock Room") 
+    [29] corr ("Corridor") 
+    [30] deskroom ("Small Office") 
+    [31] drawer ("drawer"), at [30] deskroom ("Small Office") 
+    [32] desk ("desk"), at [30] deskroom ("Small Office") 
+    [33] manual ("dirty manual"), at [1] #nowhere ("#nowhere") 
+    [34] computer_room ("Computer Room") 
+    [35] computer ("computer"), at [34] computer_room ("Computer Room") 
+    [36] cafe ("cafe") 
+    [37] machine ("vending machine"), at [36] cafe ("cafe") 
+    [38] candy ("old mouldy candy bar"), at [1] #nowhere ("#nowhere") 
+    [39] hero ("hero") (container), at [4] outside ("Outside The Tall
+Building") 
+    [40] #literal ("#literal"), at [1] #nowhere ("#nowhere")
+adbg> containers
+Unknown ADBG command. ? for help.
+adbg> actors
+Actors: 
+    [39] hero ("hero") (container), at [4] outside ("Outside The Tall
+Building")
+adbg> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

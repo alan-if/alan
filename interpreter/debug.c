@@ -513,7 +513,7 @@ static void listFiles() {
 
 
 /*----------------------------------------------------------------------*/
-void listLines() {
+static void listLines() {
     SourceLineEntry *entry;
     for (entry = pointerTo(header->sourceLineTable); *((Aword*)entry) != EOF; entry++)
         printf("  %s:%d\n", sourceFileName(entry->file), entry->line);
@@ -1056,7 +1056,7 @@ void debug(bool calledFromBreakpoint, int line, int fileNumber)
         char commandCode = parseDebugCommand(command);
 
         switch (commandCode) {
-		case AMBIGUOUS_COMMAND: output("Ambiguous ADBG command abbreviation. ? for help."); break;
+        case AMBIGUOUS_COMMAND: output("Ambiguous ADBG command abbreviation. ? for help."); break;
         case ACTORS_COMMAND: handleActorsCommand(); break;
         case BREAK_COMMAND: handleBreakCommand(fileNumber); break;
         case CLASSES_COMMAND: handleClassesCommand(); break;

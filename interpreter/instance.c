@@ -314,7 +314,7 @@ bool isAt(int instance, int other, ATrans trans)
         /* Other is also not a location */
         switch (trans) {
         case DIRECT:
-            return admin[instance].location == admin[other].location;
+            return positionOf(instance) == admin[other].location;
         case INDIRECT: {
             int location = locationOf(instance);
             int current = other;
@@ -350,24 +350,31 @@ bool isAt(int instance, int other, ATrans trans)
 
 
 /*======================================================================*/
-/* Return the *location* of an instance, transitively, i.e. not directly */
+/* Return the *location* of an instance, transitively, i.e. the first
+   location instance found when traversing the containment/position
+   links. If that didn't turn up a location see if it was in a
+   container that is somewhere, or a THING that is nowhere. It might
+   also be an ENTITY which is always everywhere so take that to mean
+   where the hero is. */
 int locationOf(int instance)
 {
-    int location;
+    int position;
     int container = 0;
 
-    verifyInstance(instance, "LOCATION");
+    verifyInstance(instance, "get LOCATION of");
 
-    location = admin[instance].location;
-    while (location != 0 && !isALocation(location)) {
-        container = location;
-        location = admin[location].location;
+    position = admin[instance].location;
+    while (position != 0 && !isALocation(position)) {
+        container = position;   /* Remember innermost container */
+        position = admin[position].location;
     }
-    if (location > NOWHERE) /* Not at #nowhere so return the location */
-        return location;
+    if (position > NOWHERE) /* It was a location so return that */
+        return position;
     else {
+        /* If we did not find a location then it might be in a container */
         if (container != 0)
             instance = container;
+        /* If the instance or the container it was in is a THING then its nowhere. */
         if (isA(instance, THING))
             return NOWHERE;     /* #nowhere */
         else if (isALocation(instance))
@@ -375,6 +382,15 @@ int locationOf(int instance)
         else
             return locationOf(HERO);
     }
+}
+
+
+/*======================================================================*/
+/* Return the current position of an instance, directly or not */
+/* TODO: this will be a possible duplicate of where() */
+int positionOf(int instance)
+{
+    return admin[instance].location;
 }
 
 
