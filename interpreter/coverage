@@ -4,9 +4,9 @@ rm unittests.info
 lcov -d . --capture --output-file unittests.info
 lcov --remove unittests.info '*.mock' '*Tests.c' '*_tests.c' -o unittests.info
 # Create the html 
-genhtml unittests.info
+genhtml unittests.info -o coverage.unittests
 # open the coverage index in a browser 
-open index.html
+open coverage.unittests/index.html
 cd ..
 
 cd .arun
@@ -14,12 +14,12 @@ rm arun.info
 lcov -d . --capture --output-file arun.info
 lcov --remove arun.info '*.mock' '*Tests.c' '*_tests.c' -o arun.info
 # Create the html 
-genhtml arun.info
+genhtml arun.info -o coverage.arun
 # open the coverage index in a browser 
-open index.html
+open coverage.arun/index.html
 cd ..
 
 rm coverage.info
 lcov --add-tracefile .unittests/unittests.info --add-tracefile .arun/arun.info --output-file coverage.info
-genhtml coverage.info
-open index.html
+genhtml coverage.info -o coverage.all
+open coverage.all/index.html
