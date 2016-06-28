@@ -47,18 +47,20 @@ Ensure(Where, generates_transitive_for_default_transitivity) {
     generateTransitivity(DEFAULT_TRANSITIVITY);
 }
 
+/* Ensure that we can't generate wrong sort of transitivity codes by
+   mistake */
 Ensure(Where, generates_syserr_for_ATrans_value_DIRECT) {
-    generateTransitivity(DIRECT);
+    generateTransitivity((Transitivity)DIRECT);
     assert_that(syserr_called);
 }
 
 Ensure(Where, generates_syserr_for_ATrans_value_INDIRECT) {
-    generateTransitivity(INDIRECT);
+    generateTransitivity((Transitivity)INDIRECT);
     assert_that(syserr_called);
 }
 
 Ensure(Where, generates_syserr_for_ATrans_value_TRANSITIVE) {
-    generateTransitivity(TRANSITIVE);
+    generateTransitivity((Transitivity)TRANSITIVE);
     assert_that(syserr_called);
 }
 

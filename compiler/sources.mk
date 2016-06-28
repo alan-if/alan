@@ -21,6 +21,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	atr \
 	context \
 	exp \
+	ins \
 	stm \
 	sym \
 	id \
