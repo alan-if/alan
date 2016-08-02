@@ -6,6 +6,9 @@
 VERSION	:= `venum alan -print '$$v_$$r{s$$s|_}$$c'`
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
+# Location of Inno Setup Compiler
+INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
+
 XPATH = xpath
 
 default: unit build
@@ -152,11 +155,11 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 	@echo "******** Target: $@ ***********"
 	-rm winarun*setup.exe
 	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ winarun.iss > winarun_tmp.iss
-	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc winarun_tmp.iss
+	$(INNODIR)/iscc winarun_tmp.iss
 	-rm winarun_tmp.iss
 	-rm alan*setup.exe
 	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ alan.iss > alan_tmp.iss
-	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc alan_tmp.iss
+	$(INNODIR)/iscc alan_tmp.iss
 	-rm alan_tmp.iss
 	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
 
