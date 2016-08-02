@@ -1,4 +1,4 @@
-image: gcc4.8
+image: ubuntu-gcc48
 env:
   - LD_LIBRARY_PATH=/usr/local/lib
 script:
@@ -16,9 +16,11 @@ script:
   - make package
 notify:
   slack:
-    webhook_url: 'https://hooks.slack.com/services/...'
+    webhook_url: 'https://hooks.slack.com/services/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'
     username: 'drone'
     channel: '#general'
+    template: >
+              Alan build #{{ build.number }} finished with a {{ build.status }} status
     on_started: false
     on_success: true
     on_failure: true

@@ -731,7 +731,9 @@ static char *padding(DebugParseEntry *entry, int maxLength) {
 
 /*----------------------------------------------------------------------*/
 static void handleHelpCommand() {
-	output(alan.longHeader);
+    if (!regressionTestOption)
+        output(alan.longHeader);
+    
 	DebugParseEntry *entry = commandEntries;
 
 	int maxLength = 0;
