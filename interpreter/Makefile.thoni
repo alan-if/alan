@@ -23,7 +23,7 @@ INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
 ###############################################################
 .PHONY: all
-all : unit build
+all: unit build
 
 ###############################################################
 .PHONY: build
