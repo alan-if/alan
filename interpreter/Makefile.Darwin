@@ -23,7 +23,7 @@ LINKFLAGS =
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include/
-CGREENLIB = -lcgreen
+CGREENLIB = -lcgreen++
 
 ###################################################################
 #
@@ -32,6 +32,11 @@ CGREENLIB = -lcgreen
 .PHONY: default
 default all: unit arun MacArun gararun
 
+##################################################################
+# Add extra tests here that might not be working on all platforms
+tests: test
+
+
 
 ##################################################################
 .PHONY: release
@@ -39,6 +44,13 @@ release: ARCHFLAGS = -arch i386 -arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
 release: DEPENDENCY = 
 release: all
+
+##################################################################
+coverage: CFLAGS += --coverage
+coverage: LINKFLAGS += --coverage
+.PHONY: coverage
+coverage: clean arun unit
+
 
 
 #--------------------------------------------------------------------

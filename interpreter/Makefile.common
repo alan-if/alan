@@ -45,7 +45,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh
+	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh .*/*.gcda
 
 
 ###################################################################
@@ -60,6 +60,7 @@ test:
 	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
 	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/tracing $(JREGROUTPUT)
 	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/saving $(JREGROUTPUT)
+	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/debug $(JREGROUTPUT)
 	@cd ..;java -jar bin/jregr.jar -dir regression/restore $(JREGROUTPUT)		# Uses sh not the executables
 
 #######################################################################
@@ -134,7 +135,7 @@ $(UNITTESTSOBJDIR):
 # Build the DLL...
 unittests.dll: LIBS = $(CGREENLIB)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LDFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LDFLAGS) $(LIBS) --coverage
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)

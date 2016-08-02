@@ -62,6 +62,7 @@ extern void describeInstances(void);
 extern bool describe(int instance);
 
 extern int where(int instance, ATrans trans);
+extern int positionOf(int instance);
 extern int locationOf(int instance);
 
 extern bool isAt(int instance, int other, ATrans trans);

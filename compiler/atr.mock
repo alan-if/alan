@@ -25,7 +25,7 @@ Attribute *newSetAttribute(Srcp srcp, Id *id, Expression *set)  { Attribute *atr
 
 void symbolizeAttributes(List *attributeList, Bool inClassDeclaration) { mock(attributeList, inClassDeclaration); }
 List *sortAttributes(List *attributeList) { return (List*)mock(attributeList); }
-Attribute *findAttribute(List *attributeList, Id *id) { return (Attribute*)findAttribute(attributeList, id); }
+Attribute *findAttribute(List *attributeList, Id *id) { return (Attribute*)mock(attributeList, id); }
 List *combineAttributes(List *ownAttributes, List *inheritedAttributes) { return (List*)mock(ownAttributes, inheritedAttributes); }
 void analyzeAllAttributes(void) {}
 void analyzeAttributes(List *attributeList, Symbol *symbol, Context *context) { mock(attributeList, symbol, context); }

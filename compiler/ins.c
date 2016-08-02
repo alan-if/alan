@@ -45,7 +45,8 @@ static void ensureHeroInheritsFromActor(Symbol *hero) {
     Id *actorId = newId(nulsrcp, "actor");
 
     if (actorSymbol == NULL) SYSERR("ActorSymbol == NULL", nulsrcp);
-    if (hero->fields.entity.props->parentId == NULL) {
+    if (hero->kind == INSTANCE_SYMBOL && hero->fields.entity.props != NULL &&
+        hero->fields.entity.props->parentId == NULL) {
         hero->fields.entity.parent = actorSymbol;
         hero->fields.entity.props->parentId = actorId;
     }
