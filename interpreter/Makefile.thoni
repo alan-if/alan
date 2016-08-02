@@ -19,6 +19,8 @@ VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c"`
 
 GLKLIBROOT = /cygdrive/c/Users/Thomas/Utveckling/Alan
 
+INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
+
 ###############################################################
 .PHONY: all
 all : unit build
@@ -38,7 +40,7 @@ release: clean all
 
 #######################################################################
 # Settings for Windows GLK variant
-WINGLKROOT = /home/thomas/Utveckling/Alan/WindowsGLK-139
+WINGLKROOT = /home/thomas/Utveckling/Alan/WindowsGlk-145
 WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
@@ -85,7 +87,7 @@ gararun-package: build-gararun gargoyle.alan3-slot-in.readme
 gargoyle-updater: build-gararun gargoyle-alan3.iss
 	-rm gargoyle-updater-alan3*setup.exe
 	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ gargoyle-alan3.iss > gargoyle-alan3_tmp.iss
-	/cygdrive/c/Program\ Files/Inno\ Setup\ 5/iscc gargoyle-alan3_tmp.iss
+	$(INNODIR)/iscc gargoyle-alan3_tmp.iss
 
 
 #######################################################################
