@@ -12,9 +12,9 @@ Adventure adv;
 
 /* FUNCTIONS: */
 
-void initAdventure(void) {}
-void symbolizeAdventure(void) {}
-void analyzeAdventure(void) {}
-void generateAdventure(char acdfnm[], char txtfnm[], char datfnm[]) {mock(acdfnm, txtfnm, datfnm);}
-void dumpAdventure(enum dmpKd dmp) {mock(dmp);}
-void summary(void) {}
+void initAdventure(void) { (void)mock(); }
+void symbolizeAdventure(void) { (void)mock(); }
+void analyzeAdventure(void) { (void)mock(); }
+void generateAdventure(char acdfnm[], char txtfnm[], char datfnm[]) { (void)mock(acdfnm, txtfnm, datfnm); }
+void dumpAdventure(enum dmpKd dmp) { (void)mock(dmp); }
+void summary(void) { (void)mock(); }
