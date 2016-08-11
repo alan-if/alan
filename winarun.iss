@@ -31,8 +31,8 @@ Name: "quicklaunchicon"; Description: "Create a &Quick Launch icon"; GroupDescri
 
 [Files]
 Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "c:\Users\Thomas\Utveckling\Alan\WindowsGLK\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "c:\Users\Thomas\Utveckling\Alan\WindowsGLK\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "c:\Users\Thomas\Utveckling\Alan\WindowsGlk-145\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "c:\Users\Thomas\Utveckling\Alan\WindowsGlk-145\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\logo.png"; DestDir: "{app}"; Flags: ignoreversion

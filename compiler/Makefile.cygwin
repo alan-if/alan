@@ -5,12 +5,14 @@
 # All rules are in rules.mk and included by Makefile
 
 # Compiler and linker are both gcc for mingw32
-COMPILER = i686-w64-mingw32-gcc
-LINKER = i686-w64-mingw32-gcc
+#COMPILER = i686-w64-mingw32-gcc
+#LINKER = i686-w64-mingw32-gcc
+COMPILER = gcc
+LINKER = gcc
 
 # Except when compiling unit tests
-unit: COMPILER = gcc
-unit: LINKER = gcc
+#unit: COMPILER = gcc
+#unit: LINKER = gcc
 
 # Flags to send to both compiler & linker
 OS_FLAGS = 

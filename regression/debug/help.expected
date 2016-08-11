@@ -5,7 +5,7 @@
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 adbg> help
-Alan 3.0beta5 -- Adventure Language System (2015-08-25 07:38) 
+
 ADBG Commands (can be abbreviated): 
     help                                                   
         -- this help 
