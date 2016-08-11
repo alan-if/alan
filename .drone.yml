@@ -1,19 +1,20 @@
-image: gcc4.8
-env:
-  - LD_LIBRARY_PATH=/usr/local/lib
-script:
-  - sudo apt-get -q update
-  - sudo apt-get -q autoremove
-  - sudo DEBIAN_FRONTEND=noninteractive apt-get -q install libc6-dev-i386
-  - sudo DEBIAN_FRONTEND=noninteractive apt-get -q install zip
-  - sudo DEBIAN_FRONTEND=noninteractive apt-get -q install wget
-  - wget http://sourceforge.net/projects/cgreen/files/cgreen/beta4/cgreen-1.0.0-beta5-Linux32.deb/download -O cgreen-1.0.0-beta5-Linux32.deb
-  - sudo dpkg -D1 -i cgreen-1.0.0-beta5-Linux32.deb
-  - echo $BUILD_ID > BUILD_NUMBER
-  - make unit
-  - make build
-  - make JREGROUTPUT=-noansi test
-  - make package
+build:
+    image: xenial
+    env:
+        - LD_LIBRARY_PATH=/usr/local/lib
+    commands:
+        - sudo apt-get -q update
+        - sudo apt-get -q autoremove
+        - sudo DEBIAN_FRONTEND=noninteractive apt-get -q install libc6-dev-i386
+        - sudo DEBIAN_FRONTEND=noninteractive apt-get -q install zip
+        - sudo DEBIAN_FRONTEND=noninteractive apt-get -q install wget
+        - wget https://github.com/cgreen-devs/cgreen/releases/download/1.0.0/cgreen_1.0.0_amd64.deb
+        - sudo dpkg -D1 -i cgreen_1.0.0_amd64.deb
+        - echo $BUILD_ID > BUILD_NUMBER
+        - make unit
+        - make build
+        - make JREGROUTPUT=-noansi test
+        - make package
 notify:
   slack:
     webhook_url: 'https://hooks.slack.com/services/...'
