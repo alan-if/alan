@@ -35,7 +35,7 @@ long allocated;			/* Calculated memory usage */
 
 /*======================================================================*/
 void printVersion(int buildNumber) {
-    printf("Alan, Adventure Compiler version %s", alan.version.string);
+    printf("Alan - Adventure Language Compiler, version %s", alan.version.string);
     if (buildNumber != 0) printf(" - snapshot build %d", buildNumber);
     printf(" (%s %s)", alan.date, alan.time);
 }
