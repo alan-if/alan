@@ -11,6 +11,7 @@ COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 # So for all targets use the mingw compiler and linker
 COMPILER = i686-w64-mingw32-gcc
 LINKER = i686-w64-mingw32-gcc
+WINDRES = i686-w64-mingw32-windres
 
 #############################################################
 # ... except for unittests with cgreen which can not run under mingw

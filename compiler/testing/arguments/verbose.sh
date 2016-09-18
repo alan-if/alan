@@ -1,1 +1,1 @@
-alan -v ok.alan | grep -v "Adventure Compiler version" | sed 's/:.*$//g' 
+alan -v ok.alan | grep -v "Adventure Language Compiler" | sed 's/:.*$//g' 

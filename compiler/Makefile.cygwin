@@ -7,8 +7,11 @@
 # Compiler and linker are both gcc for mingw32
 #COMPILER = i686-w64-mingw32-gcc
 #LINKER = i686-w64-mingw32-gcc
+#WINDRES = i686-w64-mingw32-windres
 COMPILER = gcc
 LINKER = gcc
+WINDRES = windres
+
 
 # Except when compiling unit tests
 #unit: COMPILER = gcc
@@ -50,4 +53,4 @@ winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res
 	cp winalan ../bin
 
 alan.res: alan.rc alan.ico
-	windres $< -O coff -o $@
+	$(WINDRES) $< -O coff -o $@
