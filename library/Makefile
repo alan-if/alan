@@ -22,8 +22,8 @@ clean:
 # Release is only possible on Thoni's machines
 .PHONY: release
 release: test zip
-	cp library$(VERSION).zip $(DISTDIR)/Library
-	echo "Please update VERSION file to indicate next version number"
+	#cp library$(VERSION).zip $(DISTDIR)/Library
+	echo "Please update VERSION file to indicate next version number if appropriate"
 
 #####################################################################
 
