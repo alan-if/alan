@@ -27,7 +27,7 @@ all: unit build
 
 ###############################################################
 .PHONY: build
-build: arun winarun glkarun dumpacd # gararun
+build: arun winarun glkarun dumpacd gararun
 
 
 #######################################################################

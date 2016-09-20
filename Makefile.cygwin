@@ -48,7 +48,7 @@ release:
 	$(MAKE) -f Makefile.thoni releasebuild
 	$(MAKE) -f Makefile.thoni test
 	$(MAKE) -f Makefile.thoni documentation
-	$(MAKE) -f Makefile.thoni packages
+	$(MAKE) -f Makefile.thoni zip setup
 	$(MAKE) -f Makefile.thoni tags
 	$(MAKE) -f Makefile.thoni sync_all
 
@@ -75,6 +75,8 @@ release-upload:
 	alanupload alan$(VERSION).win32.x86.zip sdks/windows
 	alanupload alan$(VERSION).win32.x86.setup.exe sdks/windows
 	alanupload winarun$(VERSION).win32.x86.setup.exe interpreters/windows
+	alanupload interpreter/gargoyle-alan3-$(VERSION).win32.x86.setup.exe interpreters/windows
+	alanupload interpreter/gargoyle-alan3-$(VERSION).win32.x86.zip interpreters/windows
 	alanupload library/library*.zip library
 	alanupload doc/manual/manual.pdf documentation
 	alanupload doc/manual/conversion.pdf documentation
@@ -145,15 +147,6 @@ srcdist:
 newVersion:
 	venum alan
 	cvs commit -m 'New Version' alan.version
-
-.PHONY: packages
-packages: zip setup gargoyle doc/manual/manual.pdf 
-	@echo "******** Target: $@ ***********"
-	cp alan$(VERSION).win32.x86.zip $(DISTDIR)/sdks/windows
-	cp alan$(VERSION).win32.x86.setup.exe $(DISTDIR)/sdks/windows
-	cp winarun$(VERSION).win32.x86.setup.exe $(DISTDIR)/interpreters/windows
-	cp gargoyle-alan3-$(VERSION).win32.x86.setup.exe $(DISTDIR)/interpreters/windows
-	cp doc/manual/manual.pdf $(DISTDIR)/documentation
 
 #################################################################################
 
