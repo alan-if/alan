@@ -48,7 +48,7 @@ release:
 	$(MAKE) -f Makefile.thoni releasebuild
 	$(MAKE) -f Makefile.thoni test
 	$(MAKE) -f Makefile.thoni documentation
-	$(MAKE) -f Makefile.thoni zip setup
+	$(MAKE) -f Makefile.thoni zip setup gargoyle
 	$(MAKE) -f Makefile.thoni tags
 	$(MAKE) -f Makefile.thoni sync_all
 
@@ -82,6 +82,9 @@ release-upload:
 	alanupload doc/manual/conversion.pdf documentation
 	#alanupload doc/manual/writing.pdf documentation
 
+.PHONY: gargoyle
+gargoyle:
+	cd interpreter; $(MAKE) gararun
 
 # Create pdf from odt
 .PHONY: documentation
