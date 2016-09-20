@@ -67,6 +67,16 @@ snapshot-upload: buildnumbers
 	alanupload doc/manual/conversion.pdf snapshots/$(BUILDNAME)/
 	alanupload doc/manual/writing.pdf snapshots/$(BUILDNAME)/
 
+.PHONY: release-upload
+release-upload:
+	alanupload alan$(VERSION).win32.x86.zip sdks/windows
+	alanupload alan$(VERSION).win32.x86.setup.exe sdks/windows
+	alanupload winarun$(VERSION).win32.x86.setup.exe interpreters/windows
+	alanupload library/library*.zip library
+	alanupload doc/manual/manual.pdf documentation
+	alanupload doc/manual/conversion.pdf documentation
+	#alanupload doc/manual/writing.pdf documentation
+
 
 # Create pdf from odt
 .PHONY: documentation
@@ -162,16 +172,6 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 	$(INNODIR)/iscc alan_tmp.iss
 	-rm alan_tmp.iss
 	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
-
-.PHONY: sync_all
-sync_all:
-	#cd /cygdrive/c/Program/FullSync; ./fullsync -r "AlanIF All Downloads"
-	#/cygdrive/c/Program/Siber\ Systems/GoodSync/GoodSync.exe sync "AlanIF Downloads" /exit /unatt /forcetray
-
-.PHONY: sync_snapshots
-sync_snapshots:
-	#cd /cygdrive/c/Program/FullSync; ./fullsync -r "AlanIF Snapshots"
-	#/cygdrive/c/Program/Siber\ Systems/GoodSync/GoodSync.exe sync "AlanIF Snapshots" /exit /unatt /forcetray
 
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; ../../bin/alan adventv3
