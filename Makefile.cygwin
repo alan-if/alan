@@ -50,7 +50,7 @@ release:
 	$(MAKE) -f Makefile.thoni documentation
 	$(MAKE) -f Makefile.thoni zip setup gargoyle
 	$(MAKE) -f Makefile.thoni tags
-	$(MAKE) -f Makefile.thoni sync_all
+	$(MAKE) -f Makefile.thoni release-upload
 
 
 .PHONY: snapshot-build
