@@ -25,7 +25,7 @@ of an Adventure that never was.$n$n");
   newline();
   output(blurb);
 
-  terminate(0);
+  terminate(2);
 }
 
 
