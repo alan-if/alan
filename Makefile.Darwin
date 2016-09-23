@@ -46,7 +46,7 @@ distribution-build:
 distribution-upload:
 	alanupload $(PACKAGE) sdks/macosx
 	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg sdks/macosx
-	alanupload interpreter/MacArun.$(VERSION)$(BUILDVERSION).macosx.pkg sdks/macosx
+	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip sdks/macosx
 
 
 ##########
