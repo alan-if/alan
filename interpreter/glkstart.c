@@ -138,7 +138,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
     if (adventureFileName == NULL || strcmp(adventureFileName, "") == 0) {
         printf("You should supply a game file to play.\n");
         usage("arun"); // TODO Find real programname from arguments
-        terminate(0);
+        terminate(1);
     }
 
     /* Open any possible blorb resource file */
