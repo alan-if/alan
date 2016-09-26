@@ -13,6 +13,8 @@ else
 UNITOUTPUT ?= -c
 endif
 
+UNAME := $(shell uname -m)
+
 OPTIMIZE = -g
 
 PLATFORM = -m32
@@ -68,7 +70,16 @@ clean:
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = -L/usr/local/lib -lcgreen -lm
+
+# On a 64-bit we should use lib32 libraries
+ifeq ($(UNAME),x86_64)
+  CGREENDIR = /usr/local/lib32
+  RUNNER_PATH=/usr/local/bin32
+else
+  CGREENDIR = /usr/local/lib
+  RUNNER_PATH=/usr/local/bin
+endif
+CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)
@@ -100,7 +111,7 @@ ifeq ($(shell uname), Darwin)
 	done
 else
 	@for f in $(UNITTESTS_DLLS) ; do \
-		cgreen-runner ./$$f --suite Converter $(UNITOUTPUT) ; \
+		LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner ./$$f --suite Converter $(UNITOUTPUT) ; \
 	done
 endif
 

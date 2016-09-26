@@ -109,7 +109,7 @@ cgreenrunnertests: unittests.dll
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite compiler_unit_tests $(UNITOUTPUT)
 else
-	cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
+	LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 endif
 
 #####################################################################
@@ -136,7 +136,7 @@ isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLAT
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 else
-	cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif
 
 ############################################

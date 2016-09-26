@@ -144,7 +144,7 @@ cgreenrunnertests: unittests.dll
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite interpreter_unit_tests $(UNITOUTPUT)
 else
-	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
+	LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 endif
 
 # Here we try to build a runnable DLL for each module where it can be 
@@ -170,7 +170,7 @@ isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLAT
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 else
-	cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif
 
 

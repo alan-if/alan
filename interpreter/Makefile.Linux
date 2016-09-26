@@ -6,6 +6,7 @@
 # We are aiming for the same as on Cygwin
 VERSION := $(shell cat ../NEXTRELEASE)
 
+UNAME := $(shell uname -m)
 ARCH = `uname -m`
 
 # Define the program name
@@ -27,7 +28,16 @@ LIBS = $(GLKLIB) $(LINKLIBS)
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = -lcgreen -lm
+
+# On a 64-bit we should use lib32 libraries
+ifeq ($(UNAME),x86_64)
+  CGREENDIR=$(CGREENROOT)/lib32
+  RUNNER_PATH=$(CGREENROOT)/bin32
+else
+  CGREENDIR=$(CGREENROOT)/lib
+  RUNNER_PATH=$(CGREENROOT)/bin
+endif
+CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
 
 
 ###################################################################

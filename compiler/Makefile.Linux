@@ -1,7 +1,9 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# Makefile setings for compiling Alan compiler on Linux
+# Makefile settings for compiling Alan compiler on Linux
 #
+
+UNAME := $(shell uname -m)
 
 OSFLAGS = -m32
 
@@ -17,4 +19,13 @@ release: EXTRA_COMPILER_FLAGS = -O4
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = -lcgreen -lm
+
+# On a 64-bit we should use lib32 libraries
+ifeq ($(UNAME),x86_64)
+  CGREENDIR=$(CGREENROOT)/lib32
+  RUNNER_PATH=$(CGREENROOT)/bin32
+else
+  CGREENDIR=$(CGREENROOT)/lib
+  RUNNER_PATH=$(CGREENROOT)/bin
+endif
+CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
