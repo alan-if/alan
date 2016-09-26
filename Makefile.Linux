@@ -28,7 +28,7 @@ distribution:
 	  exit 1 ; \
 	fi
 	$(MAKE) clean all package
-	alanupload "sdks/linux/" $(PACKAGE)
+	alanupload $(PACKAGE) "sdks/linux/"
 
 ##########
 # Snapshot
