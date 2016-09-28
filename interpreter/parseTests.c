@@ -533,12 +533,17 @@ Ensure(Parse, parseReferenceToPreviousMultipleParameterSetsThemMarker) {
 Ensure(Parse, simpleParameterParserCanParseExplicitMultiple) {
     Parameter *parameters = newParameterArray();
 
+    printf("here1\n");
     givenADictionary();
+    printf("here2\n");
     givenPlayerWordsForTwoParameters(1);
+    printf("here3\n");
 
     simpleParameterParser(parameters);
+    printf("here4\n");
 
     assert_equal(lengthOfParameterArray(parameters), 2);
+    printf("here5\n");
 }
 
 

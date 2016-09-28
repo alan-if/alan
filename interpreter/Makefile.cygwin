@@ -22,7 +22,7 @@ unit: LINKER = gcc
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = $(CGREENROOT)/lib/libcgreen.dll.a
+CGREENLINK = $(CGREENROOT)/lib/libcgreen.dll.a
 
 ###############################################################
 # glkarun needs curses which are only available in cygwin

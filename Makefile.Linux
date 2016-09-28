@@ -22,13 +22,25 @@ $(PACKAGE): bin/alan bin/arun
 	tar zcvf $(PACKAGE) alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
 	-rm alan arun
 
+###############
+# Distribution
+#
 distribution:
 	@if [[ -f BUILD_NUMBER ]] ; then \
 	  echo Should not upload a version with BUILD_NUMBER, remove it first ; \
 	  exit 1 ; \
 	fi
+	$(MAKE) distribution-build distribution-upload
+
+distribution-build:
 	$(MAKE) clean all package
+	cd interpreter; $(MAKE) gararun
+
+distribution-upload:
 	alanupload $(PACKAGE) "sdks/linux/"
+	alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.tgz interpreters/linux
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh interpreters/linux
+
 
 ##########
 # Snapshot

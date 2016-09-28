@@ -113,7 +113,7 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 # Define
 #	CGREEN to something ("yes") to build with cgreen unit tests
 #	CGREENINCLUDE so that #include "cgreen/cgreen.h" works if needed
-#	CGREENLIB to something to link with (e.g. -lcgreen)
+#	CGREENLINK to something to link with (e.g. -lcgreen)
 UNITTESTSOBJDIR = .unittests
 UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_MAIN_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_RUNNER_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
@@ -133,18 +133,18 @@ $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
 # Build the DLL...
-unittests.dll: LIBS = $(CGREENLIB)
+unittests.dll: LIBS = $(CGREENLINK)
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LDFLAGS) $(LIBS) --coverage
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
-cgreenrunnertests: LIBS = $(CGREENLIB)
+cgreenrunnertests: LIBS = $(CGREENLINK)
 cgreenrunnertests: unittests.dll
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite interpreter_unit_tests $(UNITOUTPUT)
 else
-	LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
+	LD_LIBRARY_PATH=$(CGREENLIB) $(CGREENBIN)/cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 endif
 
 # Here we try to build a runnable DLL for each module where it can be 
@@ -165,12 +165,12 @@ ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d
 
 # Then run all _tests.dll's with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
-isolated_unittests: LIBS = $(CGREENLIB)
+isolated_unittests: LIBS = $(CGREENLINK)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 else
-	LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	LD_LIBRARY_PATH=$(CGREENLIB) $(CGREENBIN)/cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif
 
 

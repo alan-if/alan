@@ -31,13 +31,13 @@ CGREENINCLUDE = -I$(CGREENROOT)/include
 
 # On a 64-bit we should use lib32 libraries
 ifeq ($(UNAME),x86_64)
-  CGREENDIR=$(CGREENROOT)/lib32
-  RUNNER_PATH=$(CGREENROOT)/bin32
+  CGREENLIB=$(CGREENROOT)/lib32
+  CGREENBIN=$(CGREENROOT)/bin32
 else
-  CGREENDIR=$(CGREENROOT)/lib
-  RUNNER_PATH=$(CGREENROOT)/bin
+  CGREENLIB=$(CGREENROOT)/lib
+  CGREENBIN=$(CGREENROOT)/bin
 endif
-CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
+CGREENLINK = -L$(CGREENDIR) -lcgreen -lm
 
 
 ###################################################################
@@ -62,13 +62,13 @@ release: all
 # terps/alan3 linked to alan/interpreter. All required libraries, including
 # libgarglk.dylib need to be built to binary form before making it from here.
 # It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
-# will be available as $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3
+# will be available as $(GARGOYLE_DIR)/build/<arch>.release/alan3/alan3
 
 GARGOYLE_DIR=../../garglk-current-alan3
 gararun: gararun-zip gararun-sh
 
 gararun-zip: alan3
-	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.$(ARCH).tgz alan3 gargoyle.alan3-slot-in.readme
+	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.tgz alan3 gargoyle.alan3-slot-in.readme
 
 gararun-sh: alan3 
 	mkdir -p gargoyle-alan3-updater
