@@ -185,7 +185,7 @@ adbg> object 1
 Instance 1 is not an object
 adbg> object 6
 The [6] door ("door") Isa object[4] 
-    Location:at [5] Hall ("Hall") 
+    Location: at [5] Hall ("Hall") 
     Attributes: 
         takeable[2] = 0 
         readable[3] = 1 
@@ -230,7 +230,7 @@ adbg> actor 1
 Instance 1 is not an actor.
 adbg> actor 39
 The [39] hero ("hero") Isa actor[5] 
-    Location:at [12] first_floor ("First Floor") 
+    Location: at [12] first_floor ("First Floor") 
     Attributes: 
         opaque[1] = 0 
         opaque[1] = 0 
