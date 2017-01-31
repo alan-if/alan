@@ -1,5 +1,8 @@
 Changes in V3.0beta5:
 - FEATURE: compiler now figures out the most general class taken transitively by containers and uses that instead of entity where applicable
+- FEATURE: MacOS application to run text-only interpreter in a terminal
+- BUGFIX: if the hero was already defined as something other than an actor, declaring it the compiler crashed
+- CLEANUP: rebuilt Makefiles building on Windows10 and 64-bit, continuous integration with Jenkins etc. etc. after move to new machines and other infrastructure
 
 Changes in V3.0beta4:
 - MAJOR FEATURE: 'Indirectly' keyword to complement 'Directly In', allowing explicit transitivity of containment
