@@ -2,20 +2,32 @@
 #
 # This Makefile is included from the Makefile and
 # only sets some cygwin particular switches
-# All rules are in rules.mk and included by Makefile
+# All rules are in Makefile.common and included by Makefile
 
+# Compiling on Cygwin64 is not yet supported. If you want
+# to try that, the following should be used:
 # Compiler and linker are both gcc for mingw32
 #COMPILER = i686-w64-mingw32-gcc
 #LINKER = i686-w64-mingw32-gcc
 #WINDRES = i686-w64-mingw32-windres
-COMPILER = gcc
-LINKER = gcc
-WINDRES = windres
+
+# Cygwin native compiler (if on Cygwin32 these will work,
+# but create cygwin1.dll dependent .exe. Will not work at
+# all if you are on Cygwin 64)
+#COMPILER = gcc
+#LINKER = gcc
+#WINDRES = windres
+
+# Cross compile to native Windows binaries
+COMPILER = i686-w64-mingw32-gcc
+LINKER = i686-w64-mingw32-gcc
+WINDRES = i686-w64-mingw32-windres
 
 
-# Except when compiling unit tests
-#unit: COMPILER = gcc
-#unit: LINKER = gcc
+# Except when compiling unit tests, since Cgreen isn't
+# cross-compiled to Windows binaries
+unit: COMPILER = gcc
+unit: LINKER = gcc
 
 # Flags to send to both compiler & linker
 OS_FLAGS = 
@@ -29,6 +41,9 @@ CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLIB = $(CGREENROOT)/lib/libcgreen.dll.a
+
+CGREENDIR=$(CGREENROOT)/lib
+RUNNER_PATH=$(CGREENROOT)/bin
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
