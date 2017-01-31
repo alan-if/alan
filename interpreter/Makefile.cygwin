@@ -21,6 +21,7 @@ unit: LINKER = gcc
 # Cgreen unit testing settings
 CGREEN = yes
 CGREENROOT = /usr/local
+CGREENBIN = $(CGREENROOT)/bin
 CGREENINCLUDE = -I$(CGREENROOT)/include
 CGREENLINK = $(CGREENROOT)/lib/libcgreen.dll.a
 
