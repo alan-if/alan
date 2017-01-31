@@ -32,6 +32,14 @@ build : alan winalan
 release: OPTIMIZE = -O4
 .PHONY: release
 release: clean build
+	@if ldd alan | grep -q cygwin1.dll ; then \
+		echo Warning - alan is dependent on cygwin1.dll ; \
+		exit 1 ; \
+	fi
+	@if ldd winalan | grep -q cygwin1.dll ; then \
+		echo Warning - alan is dependent on cygwin1.dll ; \
+		exit 1 ; \
+	fi
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
