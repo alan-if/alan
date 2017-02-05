@@ -15,9 +15,11 @@ WINDRES = i686-w64-mingw32-windres
 
 #############################################################
 # Unittests with Cgreen cannot run under Mingw, but also
-# not in a 64-bit environment (see acode.h) 
-unit: COMPILER = gcc
-unit: LINKER = gcc
+# not in a 64-bit environment (see acode.h) so we need to cross-
+# compile to cygwin32 and ensure that cygwin1.dll is the one used
+unit: COMPILER = i686-pc-cygwin-gcc
+unit: LINKER = i686-pc-cygwin-gcc
+export PATH := /cygdrive/c/cygwin32/bin:$(PATH)
 
 # Cgreen unit testing settings
 CGREEN = yes

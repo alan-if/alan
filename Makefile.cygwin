@@ -9,9 +9,6 @@ DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 # Location of Inno Setup Compiler
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
-# Location of XXXOffice for conversion from .odt to .pdf
-OFFICEDIR = /cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 5
-
 XPATH = xpath
 
 default: unit build
@@ -91,19 +88,8 @@ gargoyle:
 .PHONY: documentation
 documentation:
 	@echo "******** Target: $@ ***********"
-	$(MAKE) documents
+	$(MAKE) -C doc/manual
 
-.PHONY: documents
-documents: doc/manual/manual.pdf doc/manual/conversion.pdf doc/manual/writing.pdf
-
-doc/manual/manual.pdf: doc/manual/manual.odt
-	$(OFFICEDIR)/program/swriter "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Utveckling\Alan\alan\doc\manual\manual.odt)"
-
-doc/manual/conversion.pdf: doc/manual/conversion.odt
-	$(OFFICEDIR)/program/swriter "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Utveckling\Alan\alan\doc\manual\conversion.odt)"
-
-doc/manual/writing.pdf: doc/manual/writing.odt
-	$(OFFICEDIR)/program/swriter "macro:///Standard.Module1.ConvertWordToPDF(C:\Users\Thomas\Utveckling\Alan\alan\doc\manual\writing.odt)"
 
 .PHONY: releasebuild
 releasebuild:
