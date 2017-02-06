@@ -5,7 +5,7 @@
 # Alan compiler is using, which are only available on ThoNi's
 # machines. To build using those use the Makefile.thoni.
 # This makefile instead assumes all sources are generated and
-# only builds from C source.
+# only builds from the C source.
 
 ifneq ($(EMACS),)
 JREGROUTPUT = -noansi

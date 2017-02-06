@@ -12,13 +12,13 @@
 #WINDRES = i686-w64-mingw32-windres
 
 # Cygwin native compiler (if on Cygwin32 these will work,
-# but create cygwin1.dll dependent .exe. Will not work at
+# but create a cygwin1.dll-dependent .exe. Will not work at
 # all if you are on Cygwin 64)
 #COMPILER = gcc
 #LINKER = gcc
 #WINDRES = windres
 
-# Cross compile to native Windows binaries
+# Cross compile from to native Windows binaries
 COMPILER = i686-w64-mingw32-gcc
 LINKER = i686-w64-mingw32-gcc
 WINDRES = i686-w64-mingw32-windres
