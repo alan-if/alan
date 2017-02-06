@@ -66,7 +66,7 @@ snapshot-upload: buildnumbers
 	alanupload doc/manual/manual.pdf snapshots/$(BUILDNAME)/
 	alanupload doc/manual/conversion.pdf snapshots/$(BUILDNAME)/
 	alanupload doc/manual/writing.pdf snapshots/$(BUILDNAME)/
-	ssh alanif.se ls -lt /www/downloads/snapshots/Build* | tail -1 | xargs ssh alanif.se rm -r
+	ssh alanif.se ls -ltd /www/downloads/snapshots/Build* | tail -1 | xargs ssh alanif.se rm -r
 
 .PHONY: release-upload
 release-upload:
