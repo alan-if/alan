@@ -466,7 +466,7 @@ static Attribute *resolveAttributeOfInstance(Id *id, Id *attribute) {
     atr = findAttribute(sym->fields.entity.props->attributes, attribute);
     if (atr == NULL)
         lmLog(&attribute->srcp, 315, sevERR, id->string);
-	return atr;
+    return atr;
 }
 
 
@@ -490,7 +490,7 @@ static Attribute *findAttributeOfSymbol(Symbol *symbol, Id *attribute, Id *id, c
     if (atr == NULL)
         lmLogv(&attribute->srcp, 316, sevERR, attribute->string, message,
                id->string, symbol->string, NULL);
-	return(atr);
+    return(atr);
 }
 
 
@@ -843,8 +843,9 @@ void dumpAttribute(Attribute *atr)
         break;
     case SET_TYPE:
         put("setType: "); dumpType(atr->setType); nl();
-        if (atr->setType == INSTANCE_TYPE)
+        if (atr->setType == INSTANCE_TYPE) {
             put("atr->setClass: "); dumpSymbol(atr->setClass); nl();
+        }
         put("set: "); dumpExpression(atr->set);
         break;
     default:
