@@ -25,8 +25,15 @@ export PATH := /cygdrive/c/cygwin32/bin:$(PATH)
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENBINDIR = $(CGREENROOT)/bin32
-CGREENLIBDIR = $(CGREENROOT)/lib32
+# On a 64-bit we should use lib32 libraries
+ifeq ($(UNAME),x86_64)
+  CGREENLIBDIR=$(CGREENROOT)/lib32
+  CGREENBINDIR=$(CGREENROOT)/bin32
+else
+  CGREENLIBDIR=$(CGREENROOT)/lib
+  CGREENBINDIR=$(CGREENROOT)/bin
+endif
+CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 
 
 ###############################################################
