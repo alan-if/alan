@@ -31,13 +31,13 @@ CGREENINCLUDE = -I$(CGREENROOT)/include
 
 # On a 64-bit we should use lib32 libraries
 ifeq ($(UNAME),x86_64)
-  CGREENLIB=$(CGREENROOT)/lib32
-  CGREENBIN=$(CGREENROOT)/bin32
+  CGREENLIBDIR=$(CGREENROOT)/lib32
+  CGREENBINDIR=$(CGREENROOT)/bin32
 else
-  CGREENLIB=$(CGREENROOT)/lib
-  CGREENBIN=$(CGREENROOT)/bin
+  CGREENLIBDIR=$(CGREENROOT)/lib
+  CGREENBINDIR=$(CGREENROOT)/bin
 endif
-CGREENLINK = -L$(CGREENDIR) -lcgreen -lm
+CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 
 
 ###################################################################

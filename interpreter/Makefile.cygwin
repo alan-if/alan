@@ -24,9 +24,10 @@ export PATH := /cygdrive/c/cygwin32/bin:$(PATH)
 # Cgreen unit testing settings
 CGREEN = yes
 CGREENROOT = /usr/local
-CGREENBIN = $(CGREENROOT)/bin
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLINK = $(CGREENROOT)/lib/libcgreen.dll.a
+CGREENBINDIR = $(CGREENROOT)/bin32
+CGREENLIBDIR = $(CGREENROOT)/lib32
+
 
 ###############################################################
 # glkarun needs curses which are only available in cygwin

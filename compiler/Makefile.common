@@ -87,7 +87,7 @@ UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o})
 # Dependencies, if they don't exist yet
 -include $(UNITTESTSOBJECTS:.o=.d)
 
-# Rule to compile objects to subdirectory
+# Rule to compile unittest objects to subdirectory
 $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 $(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
@@ -109,7 +109,7 @@ cgreenrunnertests: unittests.dll
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite compiler_unit_tests $(UNITOUTPUT)
 else
-	LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
+	LD_LIBRARY_PATH=$(CGREENLIBDIR) $(RUNNER_PATH)/cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 endif
 
 #####################################################################
@@ -136,7 +136,7 @@ isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLAT
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 else
-	LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	LD_LIBRARY_PATH=$(CGREENLIBDIR) $(RUNNER_PATH)/cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif
 
 ############################################

@@ -40,9 +40,9 @@ EXTRA_LINKER_FLAGS = -Wl,--no-undefined
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = $(CGREENROOT)/lib/libcgreen.dll.a
+CGREENLIB = $(CGREENLIBDIR)/libcgreen.dll.a
 
-CGREENDIR=$(CGREENROOT)/lib
+CGREENLIBDIR=$(CGREENROOT)/lib
 RUNNER_PATH=$(CGREENROOT)/bin
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

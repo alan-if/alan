@@ -19,6 +19,7 @@ release: EXTRA_COMPILER_FLAGS = -O4
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
+CGREENLIBDIR = $(CGREENROOT)/lib
 
 # On a 64-bit we should use lib32 libraries
 ifeq ($(UNAME),x86_64)
@@ -28,4 +29,5 @@ else
   CGREENDIR=$(CGREENROOT)/lib
   RUNNER_PATH=$(CGREENROOT)/bin
 endif
-CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
+CGREENLIBDIR=$(CGREENROOT)/lib/x86_64-linux-gnu
+CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
