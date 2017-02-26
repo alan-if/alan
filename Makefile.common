@@ -68,7 +68,7 @@ buildnumbers: buildnumber
 
 buildnumber:
     ifeq ($(BUILDNUMBER),)
-	$(eval BUILDNUMBER := $(shell wget -q 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' -O- | $(XPATH) 'number/text()'))
+	$(eval BUILDNUMBER := $(shell wget -q -O- 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
     endif
 
 .PHONY: x

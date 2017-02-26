@@ -9,7 +9,7 @@ DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 # Location of Inno Setup Compiler
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
-XPATH = xpath
+XPATH = xpath -q -e
 
 default: unit build
 

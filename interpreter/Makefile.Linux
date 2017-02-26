@@ -30,6 +30,7 @@ CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 
 # On a 64-bit we should use lib32 libraries
+# which needs to be available somehow
 ifeq ($(UNAME),x86_64)
   CGREENLIBDIR=$(CGREENROOT)/lib32
   CGREENBINDIR=$(CGREENROOT)/bin32

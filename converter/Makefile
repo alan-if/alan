@@ -17,7 +17,7 @@ UNAME := $(shell uname -m)
 
 OPTIMIZE = -g
 
-PLATFORM =
+PLATFORM = -m32
 win:	PLATFORM = -DWINGUI -mwindows -mno-cygwin
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
@@ -71,8 +71,14 @@ CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 
-CGREENDIR = /usr/local/lib
-RUNNER_PATH=/usr/local/bin
+# On a 64-bit we should use lib32 libraries
+ifeq ($(UNAME),x86_64)
+  CGREENDIR = /usr/local/lib32
+  RUNNER_PATH=/usr/local/bin32
+else
+  CGREENDIR = /usr/local/lib
+  RUNNER_PATH=/usr/local/bin
+endif
 CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
 
 .PHONY: unit
