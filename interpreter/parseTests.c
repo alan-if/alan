@@ -63,7 +63,7 @@ static void makeDictionaryEntry(int index, int code, int classBits) {
     dictionary[index].string = ((char *)&"all"-(char *)&memory[0])/sizeof(Aword);
 }
 
-static void givenADictionary() {
+static void given_AStandardDictionary() {
     dictionary = makeDictionary();
     makeDictionaryEntry(INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX, INSTANCE1_CODE, ADJECTIVE_BIT);
     makeDictionaryEntry(INSTANCE1_ADJECTIVE2_DICTIONARY_INDEX, INSTANCE1_CODE, ADJECTIVE_BIT);
@@ -72,31 +72,34 @@ static void givenADictionary() {
     makeDictionaryEntry(CONJUNCTION_DICTIONARY_INDEX, 1, CONJUNCTION_BIT);
 }
 
-static void givenPlayerWordsForANoun(int firstWordIndex) {
-    currentWordIndex = firstWordIndex;
-    ensureSpaceForPlayerWords(firstWordIndex);
-    playerWords[firstWordIndex].code = INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX;
+static void given_PlayerWordsForANoun(int startAtIndex) {
+    currentWordIndex = startAtIndex;
+    ensureSpaceForPlayerWords(startAtIndex);
+    playerWords[startAtIndex].code = INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX;
+    playerWords[startAtIndex+1].code = EOF;
 }
 
-static void givenPlayerWordsWithTwoAdjectivesAndANoun(int firstWordIndex) {
-    currentWordIndex = firstWordIndex;
-    ensureSpaceForPlayerWords(firstWordIndex+2);
-    playerWords[firstWordIndex].code = INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX;
-    playerWords[firstWordIndex+1].code = INSTANCE1_ADJECTIVE2_DICTIONARY_INDEX;
-    playerWords[firstWordIndex+2].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
+static void given_PlayerWordsWithTwoAdjectivesAndANoun(int startAtIndex) {
+    currentWordIndex = startAtIndex;
+    ensureSpaceForPlayerWords(startAtIndex+2);
+    playerWords[startAtIndex].code = INSTANCE1_ADJECTIVE1_DICTIONARY_INDEX;
+    playerWords[startAtIndex+1].code = INSTANCE1_ADJECTIVE2_DICTIONARY_INDEX;
+    playerWords[startAtIndex+2].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
+    playerWords[startAtIndex+3].code = EOF;
 }
 
-static void givenPlayerWordsForTwoParameters(int firstWordIndex) {
-    currentWordIndex = firstWordIndex;
-    ensureSpaceForPlayerWords(firstWordIndex+2);
-    playerWords[firstWordIndex].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
-    playerWords[firstWordIndex+1].code = CONJUNCTION_DICTIONARY_INDEX;
-    playerWords[firstWordIndex+2].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
+static void given_PlayerWordsForTwoNounOnlyParameters(int startAtIndex) {
+    currentWordIndex = startAtIndex;
+    ensureSpaceForPlayerWords(startAtIndex+2);
+    playerWords[startAtIndex].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
+    playerWords[startAtIndex+1].code = CONJUNCTION_DICTIONARY_INDEX;
+    playerWords[startAtIndex+2].code = INSTANCE1_NOUN1_DICTIONARY_INDEX;
+    playerWords[startAtIndex+3].code = EOF;
 }
 
 
 /*----------------------------------------------------------------------*/
-static void given_EndOfPlayerWords(void) {
+static void given_NoPlayerWords(void) {
     ensureSpaceForPlayerWords(0);
     playerWords[0].code = EOF;
     currentWordIndex = 0;
@@ -122,7 +125,7 @@ Ensure(Parse, canMatchEndOfSyntax) {
 
     elementTable = (ElementEntry *)&memory[20];
 
-    given_EndOfPlayerWords();
+    given_NoPlayerWords();
 
     given_AnEmptyParseTree(elementTable);
     element = elementForEndOfSyntax(elementTable);
@@ -209,7 +212,7 @@ Ensure(Parse, canParseInputAccordingToParseTree) {
     SyntaxEntry stx;
     stx.elms = ELEMENT_TABLE_ADDRESS;
 
-    given_EndOfPlayerWords();
+    given_NoPlayerWords();
 
     given_AnEmptyParseTree(elementTable);
     element = parseInputAccordingToSyntax(&stx, parameterPositions);
@@ -329,7 +332,7 @@ Ensure(Parse, canMatchSingleParameter) {
     expect(mockedInstanceMatcher,
            when(parameter->firstWord, is_equal_to(parameters[0].firstWord)),
            when(parameter->lastWord, is_equal_to(parameters[0].lastWord)));
-    
+
     findCandidates(parameters, mockedInstanceMatcher);
 
     assert_not_equal(parameters[0].candidates, NULL);
@@ -353,14 +356,14 @@ Ensure(Parse, matchNounPhraseCanMatchSingleNounWithSingleMatch) {
     parameter->firstWord = parameter->lastWord = 3;
     parameter->candidates = newParameterArray();
 
-    givenPlayerWordsForANoun(theExpectedWordIndex);
+    given_PlayerWordsForANoun(theExpectedWordIndex);
 
     expect(mockedReferenceFinder,
 	   when(wordIndex, is_equal_to(theExpectedWordIndex)),
 	   will_return(theExpectedInstance));
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
-    
+
     assert_not_equal(parameter->candidates, NULL);
     assert_equal(lengthOfParameterArray(parameter->candidates), 1);
     assert_equal(parameter->candidates[0].instance, theExpectedInstance[0]);
@@ -380,7 +383,7 @@ Ensure(Parse, canMatchNounAndAdjectiveWithSingleMatch) {
     parameter->lastWord = theExpectedNounWordIndex;
     parameter->candidates = newParameterArray();
 
-    givenADictionary();
+    given_AStandardDictionary();
 
     expect(mockedReferenceFinder,
 	   when(wordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
@@ -390,7 +393,7 @@ Ensure(Parse, canMatchNounAndAdjectiveWithSingleMatch) {
 	   will_return(theNounInstances));
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
-    
+
     assert_not_equal(parameter->candidates, NULL);
     assert_equal(lengthOfParameterArray(parameter->candidates), 1);
     assert_equal(parameter->candidates[0].instance, theExpectedInstance);
@@ -414,9 +417,9 @@ Ensure(Parse, canMatchMultipleAdjectivesAndNounWithSingleMatch) {
     parameter->candidates = newParameterArray();
     addParameterToParameterArray(parameters, parameter);
 
-    givenPlayerWordsWithTwoAdjectivesAndANoun(theExpectedFirstAdjectiveWordIndex);
+    given_PlayerWordsWithTwoAdjectivesAndANoun(theExpectedFirstAdjectiveWordIndex);
 
-    givenADictionary();
+    given_AStandardDictionary();
 
     expect(mockedReferenceFinder,
 	   when(wordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
@@ -429,7 +432,7 @@ Ensure(Parse, canMatchMultipleAdjectivesAndNounWithSingleMatch) {
 	   will_return(theNounInstances));
 
     matchNounPhrase(parameters, mockedReferenceFinder, mockedReferenceFinder);
-    
+
     assert_not_equal(parameters[0].candidates, NULL);
     assert_equal(lengthOfParameterArray(parameters[0].candidates), 1);
     assert_equal(parameters[0].candidates[0].instance, theExpectedInstance);
@@ -446,7 +449,7 @@ void mockedAllBuilder(Parameter candidates[])
 /*----------------------------------------------------------------------*/
 Ensure(Parse, anyAllFindsAnyAllIndication) {
     ParameterPosition *parameterPositions = allocate(5*sizeof(ParameterPosition));
-    
+
     parameterPositions[0].endOfList = FALSE;
     parameterPositions[1].endOfList = FALSE;
     parameterPositions[2].endOfList = FALSE;
@@ -469,7 +472,7 @@ Ensure(Parse, anyAllFindsAnyAllIndication) {
 /*----------------------------------------------------------------------*/
 Ensure(Parse, anyAllFindsExplicitMultipleIndication) {
     ParameterPosition *parameterPositions = allocate(5*sizeof(ParameterPosition));
-    
+
     parameterPositions[0].endOfList = FALSE;
     parameterPositions[1].endOfList = FALSE;
     parameterPositions[2].endOfList = FALSE;
@@ -533,8 +536,8 @@ Ensure(Parse, parseReferenceToPreviousMultipleParameterSetsThemMarker) {
 Ensure(Parse, simpleParameterParserCanParseExplicitMultiple) {
     Parameter *parameters = newParameterArray();
 
-    givenADictionary();
-    givenPlayerWordsForTwoParameters(1);
+    given_AStandardDictionary();
+    given_PlayerWordsForTwoNounOnlyParameters(0);
 
     simpleParameterParser(parameters);
 
@@ -558,8 +561,8 @@ Ensure(Parse, getPreviousMultipleParametersGetsACopy) {
 /*----------------------------------------------------------------------*/
 Ensure(Parse, parseAdjectivesAndNounsReturnsEmptyParametersOnEndOfInput) {
     Parameter parameters[2];
-    given_EndOfPlayerWords();
-    
+    given_NoPlayerWords();
+
     parseAdjectivesAndNoun(parameters);
     assert_equal(lengthOfParameterArray(parameters), 0);
 }
@@ -632,7 +635,7 @@ static Parameter *mockedM1YHandler(Parameter allCandidates[], Parameter presentC
 static Parameter *mockedMMYHandler(Parameter allCandidates[], Parameter presentCandidates[]) { handlerForMMYCalled = TRUE; return allCandidates; }
 
 static DisambiguationHandlerTable mockedHandlerTable =
-    {   
+    {
         {   // Present == 0
             {   // Distant == 0
                 mocked00NHandler, mocked00YHandler},
@@ -655,8 +658,8 @@ static DisambiguationHandlerTable mockedHandlerTable =
             {   // Distant == M
                 mockedMMNHandler, mockedMMYHandler}}
     };
-            
-    
+
+
 /*----------------------------------------------------------------------*/
 Ensure(Parse, disambiguateCandidatesCanCall00NHandler) {
     Parameter *candidates = newParameterArray();
