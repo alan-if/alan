@@ -4,13 +4,13 @@ The p Isa location
 End The p.
 
 The o Isa object At p
-  Verb x
-    Does Score 5.
+  Verb v
+    Does Score 5. Score.
   End Verb.
 End The o.
 
 Verb l
-  Does Look. Score.
+  Does Look.
 End Verb l.
 
 Start At p.

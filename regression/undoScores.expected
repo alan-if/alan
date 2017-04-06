@@ -10,23 +10,28 @@ You have scored 0 points out of 5 in 0 moves. There is a o here.
 
 > l
 P
-You have scored 0 points out of 5 in 0 moves. There is a o here. You have
-scored 0 points out of 5 in 0 moves.
+You have scored 0 points out of 5 in 0 moves. There is a o here.
 
-> x o
+> v o
+You have scored 5 points out of 5 in 1 moves.
 
 > l
 P
-You have scored 5 points out of 5 in 2 moves. There is a o here. You have
-scored 5 points out of 5 in 2 moves.
+You have scored 5 points out of 5 in 2 moves. There is a o here.
 
 > undo
-'x o' undone.
+'v o' undone.
 
 > l
 P
-You have scored 0 points out of 5 in 3 moves. There is a o here. You have
-scored 0 points out of 5 in 3 moves.
+You have scored 0 points out of 5 in 3 moves. There is a o here.
+
+> v o
+You have scored 5 points out of 5 in 4 moves.
+
+> l
+P
+You have scored 5 points out of 5 in 5 moves. There is a o here.
 
 > 
 
