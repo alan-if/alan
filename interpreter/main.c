@@ -822,8 +822,9 @@ void run(void)
 
         if (stackDepth(theStack) != 0)
             syserr("Stack is not empty in main loop");
-        
-        runPendingEvents();
+
+        if (!current.meta)
+            runPendingEvents();
 
         /* Return here if error during execution */
         switch (setjmp(returnLabel)) {
@@ -847,21 +848,24 @@ void run(void)
 
         current.meta = FALSE;
         moveActor(header->theHero);
-        if (!current.meta)
+
+        if (!current.meta) {
             current.tick++;
 		
-        if (gameStateChanged)
-            rememberCommands();
-        else
-            forgetGameState();
-	
-        resetAndEvaluateRules(rules, header->version);	/* Remove this call? Since Eval is done up there after each event... */
+            if (gameStateChanged)
+                rememberCommands();
+            else
+                forgetGameState();
+            
+            /* Remove this call? Since Eval is done up there after each event... */
+            resetAndEvaluateRules(rules, header->version);
 
-        /* Then all the other actors... */
-        for (i = 1; i <= header->instanceMax; i++)
-            if (i != header->theHero && isAActor(i)) {
-                moveActor(i);
-                resetAndEvaluateRules(rules, header->version);
-            }
+            /* Then all the other actors... */
+            for (i = 1; i <= header->instanceMax; i++)
+                if (i != header->theHero && isAActor(i)) {
+                    moveActor(i);
+                    resetAndEvaluateRules(rules, header->version);
+                }
+        }
     }
 }
