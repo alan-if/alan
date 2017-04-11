@@ -86,15 +86,15 @@ void print(Aword fpos, Aword len)
     int outlen = 0;               /* Current output length */
     int ch = 0;
     int i;
-    long savfp = 0;		/* Temporary saved text file position */
+    long savfp = 0;     /* Temporary saved text file position */
     static bool printFlag = FALSE; /* Printing already? */
     bool savedPrintFlag = printFlag;
-    void *info = NULL;		/* Saved decoding info */
+    void *info = NULL;      /* Saved decoding info */
 
 
     if (len == 0) return;
 
-    if (isHere(HERO, TRUE)) {	/* Check if the player will see it */
+    if (isHere(HERO, TRUE)) {   /* Check if the player will see it */
         if (printFlag) {            /* Already printing? */
             /* Save current text file position and/or decoding info */
             if (header->pack)
@@ -244,14 +244,14 @@ void quitGame(void)
 #else
         if (gets(buf) == NULL) terminate(0);
 #endif
-        if (strcmp(buf, "restart") == 0)
+        if (strcasecmp(buf, "restart") == 0)
             longjmp(restartLabel, TRUE);
-        else if (strcmp(buf, "restore") == 0) {
+        else if (strcasecmp(buf, "restore") == 0) {
             restore();
             return;
-        } else if (strcmp(buf, "quit") == 0) {
+        } else if (strcasecmp(buf, "quit") == 0) {
             terminate(0);
-        } else if (strcmp(buf, "undo") == 0) {
+        } else if (strcasecmp(buf, "undo") == 0) {
             if (gameStateChanged) {
                 rememberCommands();
                 rememberGameState();
@@ -317,9 +317,9 @@ static void increaseEventQueue(void)
 
 /*----------------------------------------------------------------------*/
 static void moveEvent(int to, int from) {
-	eventQueue[to].event = eventQueue[from].event;
-	eventQueue[to].after = eventQueue[from].after;
-	eventQueue[to].where = eventQueue[from].where;
+    eventQueue[to].event = eventQueue[from].event;
+    eventQueue[to].after = eventQueue[from].after;
+    eventQueue[to].where = eventQueue[from].where;
 }
 
 
@@ -337,7 +337,7 @@ void schedule(Aword event, Aword where, Aword after)
 
     /* Bubble this event down */
     for (i = eventQueueTop; i >= 1 && eventQueue[i-1].after <= after; i--) {
-		moveEvent(i, i-1);
+        moveEvent(i, i-1);
     }
 
     eventQueue[i].after = after;
@@ -719,9 +719,9 @@ void startTranscript(void) {
     tm = localtime(&tv.tv_sec);
 
     sprintf(logFileName, "%s%d%02d%02d%02d%02d%02d%04d.log",
-			adventureName, tm->tm_year+1900, tm->tm_mon+1,
-			tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec,
-			(int)tv.tv_usec);
+            adventureName, tm->tm_year+1900, tm->tm_mon+1,
+            tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec,
+            (int)tv.tv_usec);
 #ifdef HAVE_GLK
     glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
     frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logFileName, 0);
@@ -742,15 +742,15 @@ void stopTranscript(void) {
     if (logFile == NULL)
         return;
 
-	if (transcriptOption|| logOption)
+    if (transcriptOption|| logOption)
 #ifdef HAVE_GLK
-		glk_stream_close(logFile, NULL);
+        glk_stream_close(logFile, NULL);
 #else
     fclose(logFile);
 #endif
     logFile = NULL;
-	transcriptOption = FALSE;
-	logOption = FALSE;
+    transcriptOption = FALSE;
+    logOption = FALSE;
 }
 
 
