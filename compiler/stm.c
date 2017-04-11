@@ -145,7 +145,7 @@ Statement *newStyleStatement(Srcp srcp, Id *style)
 		style->code = QUOTE_STYLE;
 	else
 		lmLog(&style->srcp, 550, sevWAR, "'normal', 'emphasized', 'preformatted', 'alert' or 'quote'");
-  
+
 	new->fields.style.style = style->code;
 	return(new);
 }
@@ -293,7 +293,7 @@ static void analyzeSay(Statement *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeList(Statement *stm, Context *context)	
+static void analyzeList(Statement *stm, Context *context)
 {
 	analyzeExpression(stm->fields.list.wht, context);
 	verifyContainerExpression(stm->fields.list.wht, context, "LIST statement");
@@ -321,7 +321,7 @@ static void analyzeEmpty(Statement *stm, Context *context)
                    transitivityToString(where->transitivity),
                    "not allowed in", "EMPTY statement", NULL);
     }
-    
+
 	analyzeWhere(where, context);
 }
 
@@ -355,7 +355,7 @@ static void analyzeLocate(Statement *stm, Context *context)
 
 	analyzeWhere(where, context);
     where->transitivity = DIRECTLY;
-    
+
 	switch (where->kind) {
 	case WHERE_HERE:
 	case WHERE_AT:
@@ -426,36 +426,36 @@ static void verifySetAssignment(Expression *exp, Expression *wht) {
 /*----------------------------------------------------------------------*/
 static void analyzeSet(Statement *stm, Context *context)
 {
-	Expression *exp = stm->fields.set.exp;
-	Expression *wht = stm->fields.set.wht;
+    Expression *exp = stm->fields.set.exp;
+    Expression *wht = stm->fields.set.wht;
 
-	analyzeExpression(wht, context);
-	if (wht->type != ERROR_TYPE) {
-		if (wht->readonly)
-			lmLog(&wht->srcp, 436, sevERR, "");
-		if (wht->type == BOOLEAN_TYPE)
-			lmLog(&wht->srcp, 419, sevERR, "Target for");
-	}
+    analyzeExpression(wht, context);
+    if (wht->type != ERROR_TYPE) {
+        if (wht->readonly)
+            lmLog(&wht->srcp, 436, sevERR, "");
+        if (wht->type == BOOLEAN_TYPE)
+            lmLog(&wht->srcp, 419, sevERR, "Target for");
+    }
     if (inheritsFrom(wht->fields.atr.wht->class, literalSymbol))
         lmLog(&stm->srcp, 406, sevERR, "");
 
-	analyzeExpression(exp, context);
-	if (exp->type != ERROR_TYPE)
-		if (exp->type == BOOLEAN_TYPE)
-			lmLog(&exp->srcp, 419, sevERR, "Expression in");
+    analyzeExpression(exp, context);
+    if (exp->type != ERROR_TYPE)
+        if (exp->type == BOOLEAN_TYPE)
+            lmLog(&exp->srcp, 419, sevERR, "Expression in");
 
-	if (!equalTypes(exp->type, wht->type))
-		lmLog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
-	else {
-		if (exp->class != NULL && wht->class != NULL) {
-			if (exp->type == INSTANCE_TYPE) {
-				if (!inheritsFrom(exp->class, wht->class))
-					lmLog(&exp->srcp, 430, sevERR, wht->class->string);
-			} else if (exp->type == SET_TYPE) {
-				verifySetAssignment(exp, wht);
-			}
-		}
-	}
+    if (!equalTypes(exp->type, wht->type))
+        lmLog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
+    else {
+        if (exp->class != NULL && wht->class != NULL) {
+            if (exp->type == INSTANCE_TYPE) {
+                if (!inheritsFrom(exp->class, wht->class))
+                    lmLog(&exp->srcp, 430, sevERR, wht->class->string);
+            } else if (exp->type == SET_TYPE) {
+                verifySetAssignment(exp, wht);
+            }
+        }
+    }
 }
 
 
@@ -463,77 +463,77 @@ static void analyzeSet(Statement *stm, Context *context)
 static void analyzeIncrease(Statement *stm, Context *context)
 {
     Expression *wht = stm->fields.incr.wht;
-	analyzeExpression(wht, context);
+    analyzeExpression(wht, context);
     if (wht->readonly)
         lmLog(&wht->srcp, 436, sevERR, "");
 
 
-	if (stm->fields.incr.step != NULL) {
-		analyzeExpression(stm->fields.incr.step, context);
-		if (stm->fields.incr.step->type != INTEGER_TYPE
-			&& stm->fields.incr.step->type != ERROR_TYPE)
-			lmLogv(&stm->fields.incr.step->srcp, 408, sevERR, "Expression",
-				   stm->kind==INCREASE_STATEMENT?"INCREASE statement":"DECREASE statement",
-				   "integer", NULL);
-	}
+    if (stm->fields.incr.step != NULL) {
+        analyzeExpression(stm->fields.incr.step, context);
+        if (stm->fields.incr.step->type != INTEGER_TYPE
+            && stm->fields.incr.step->type != ERROR_TYPE)
+            lmLogv(&stm->fields.incr.step->srcp, 408, sevERR, "Expression",
+                   stm->kind==INCREASE_STATEMENT?"INCREASE statement":"DECREASE statement",
+                   "integer", NULL);
+    }
 }
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeIncludeAndExclude(Statement *stm, Context *context)
 {
-	Expression *what = stm->fields.include.what;
-	Expression *set = stm->fields.include.set;
-	char *message = stm->kind == INCLUDE_STATEMENT?"INCLUDE statement"
-		:"EXCLUDE statement";
+    Expression *what = stm->fields.include.what;
+    Expression *set = stm->fields.include.set;
+    char *message = stm->kind == INCLUDE_STATEMENT?"INCLUDE statement"
+        :"EXCLUDE statement";
 
-	analyzeExpression(what, context);
-	analyzeExpression(set, context);
-	if (set->type != ERROR_TYPE) {
-		if (set->type != SET_TYPE)
-			lmLogv(&set->srcp, 330, sevERR, "Set", message, NULL);
-		else
-			verifySetMember(set, what, message);
-	}
+    analyzeExpression(what, context);
+    analyzeExpression(set, context);
+    if (set->type != ERROR_TYPE) {
+        if (set->type != SET_TYPE)
+            lmLogv(&set->srcp, 330, sevERR, "Set", message, NULL);
+        else
+            verifySetMember(set, what, message);
+    }
 }
 
 /*----------------------------------------------------------------------*/
 static void analyzeSchedule(Statement *stm, Context *context)
 {
-	Expression *what = stm->fields.schedule.what;
+    Expression *what = stm->fields.schedule.what;
     Where *whr = stm->fields.schedule.whr;
-    
-	analyzeExpression(what, context);
-	if (what->type != ERROR_TYPE && what->type != EVENT_TYPE)
-		lmLog(&what->srcp, 331, sevERR, "SCHEDULE statement. Event type required");
 
-	/* Now lookup where-clause */
-	analyzeWhere(whr, context);
+    analyzeExpression(what, context);
+    if (what->type != ERROR_TYPE && what->type != EVENT_TYPE)
+        lmLog(&what->srcp, 331, sevERR, "SCHEDULE statement. Event type required");
+
+    /* Now lookup where-clause */
+    analyzeWhere(whr, context);
     whr->transitivity = DIRECTLY;
-    
-	switch (whr->kind) {
-	case WHERE_DEFAULT:
+
+    switch (whr->kind) {
+    case WHERE_DEFAULT:
         if (context->kind == RULE_CONTEXT)
             lmLog(&stm->srcp, 445, sevWAR, "");
-		whr->kind = WHERE_HERE;
+        whr->kind = WHERE_HERE;
         break;
-	case WHERE_HERE:
-	case WHERE_AT:
-		break;
-	case WHERE_IN:
-	case WHERE_NEAR:
-	case WHERE_NEARBY:
-		lmLog(&whr->srcp, 415, sevERR, "SCHEDULE");
-		break;
-	default:
-		SYSERR("Unrecognized switch", whr->srcp);
-		break;
-	}
+    case WHERE_HERE:
+    case WHERE_AT:
+        break;
+    case WHERE_IN:
+    case WHERE_NEAR:
+    case WHERE_NEARBY:
+        lmLog(&whr->srcp, 415, sevERR, "SCHEDULE");
+        break;
+    default:
+        SYSERR("Unrecognized switch", whr->srcp);
+        break;
+    }
 
-	/* Analyze the when (AFTER) expression */
-	analyzeExpression(stm->fields.schedule.when, context);
-	if (stm->fields.schedule.when->type != INTEGER_TYPE)
-		lmLog(&stm->fields.schedule.when->srcp, 331, sevERR, "When-clause of SCHEDULE statement");
+    /* Analyze the when (AFTER) expression */
+    analyzeExpression(stm->fields.schedule.when, context);
+    if (stm->fields.schedule.when->type != INTEGER_TYPE)
+        lmLog(&stm->fields.schedule.when->srcp, 331, sevERR, "When-clause of SCHEDULE statement");
 
 }
 
@@ -541,12 +541,12 @@ static void analyzeSchedule(Statement *stm, Context *context)
 /*----------------------------------------------------------------------*/
 static void analyzeCancel(Statement *stm, Context *context)
 {
-	Expression *what = stm->fields.cancel.what;
+    Expression *what = stm->fields.cancel.what;
 
-	analyzeExpression(what, context);
-	if (what->type != ERROR_TYPE && 
-		what->type != EVENT_TYPE)
-		lmLog(&stm->fields.cancel.what->srcp, 331, sevERR, "CANCEL statement. Event type required");
+    analyzeExpression(what, context);
+    if (what->type != ERROR_TYPE &&
+        what->type != EVENT_TYPE)
+        lmLog(&stm->fields.cancel.what->srcp, 331, sevERR, "CANCEL statement. Event type required");
 }
 
 
@@ -562,7 +562,7 @@ static Bool is_restricting_expression(Expression *exp) {
 static void analyzeIf(Statement *stm, Context *context)
 {
     Expression *exp = stm->fields.iff.exp;
-    
+
     analyzeExpression(exp, context);
     if (!equalTypes(exp->type, BOOLEAN_TYPE))
         lmLogv(&exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
@@ -572,17 +572,17 @@ static void analyzeIf(Statement *stm, Context *context)
         addRestrictionInContext(restricted_context, exp);
         analyzeStatements(stm->fields.iff.thn, restricted_context);
         free(restricted_context);
-    } else        
+    } else
         analyzeStatements(stm->fields.iff.thn, context);
 
-	if (stm->fields.iff.els != NULL)
-		analyzeStatements(stm->fields.iff.els, context);
+    if (stm->fields.iff.els != NULL)
+        analyzeStatements(stm->fields.iff.els, context);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void findScript(Symbol *symbol, Id *scriptId) {
-	Script *script;
+    Script *script;
     script = lookupScript(symbol, scriptId);
     if (script != NULL)
         scriptId->code = script->id->code;
@@ -704,7 +704,7 @@ static void analyzeStop(Statement *stm, Context *context)
 	analyzeExpression(exp, context);
 	if (exp->type != ERROR_TYPE) {
         if (exp->kind == WHAT_EXPRESSION && exp->fields.wht.wht->kind == WHAT_ID
-            && exp->fields.wht.wht->id->symbol != NULL 
+            && exp->fields.wht.wht->id->symbol != NULL
             && exp->fields.wht.wht->id->symbol->kind != INSTANCE_SYMBOL)
             sym = classOfIdInContext(context, exp->fields.wht.wht->id);
         else
@@ -756,8 +756,8 @@ static void analyzeDepend(Statement *stm, Context *context)
 		} else
 			/* If this is an ELSE-case there can not be any other afterwards */
 			if (cases->next != NULL)
-				lmLog(&cases->member.stm->srcp, 335, sevERR, "");	
-    
+				lmLog(&cases->member.stm->srcp, 335, sevERR, "");
+
 		/* Analyze the expression and the statements */
 		analyzeExpression(cases->member.stm->fields.depcase.exp, context);
 		analyzeStatements(cases->member.stm->fields.depcase.stms, context);
@@ -1119,7 +1119,7 @@ static void generateSchedule(Statement *stm)
 	case WHERE_HERE:
 		emitVariable(V_CURLOC);
 		break;
-    
+
 	case WHERE_AT:
 		generateWhat(stm->fields.schedule.whr->what->fields.wht.wht, INSTANCE_TYPE);
 		break;
@@ -1190,14 +1190,14 @@ static void generateDepend(Statement *stm)
 	   depend expression						   	d-exp
 
        <no DEPCASE for first case>
-	   DUP---------------+					d-exp	d-exp  
+	   DUP---------------+					d-exp	d-exp
 	   case1 expression  |			c-exp	d-exp	d-exp
 	   case1 operator    |					case1?	d-exp
 	   DEPEXEC           |							d-exp
 	   stms1 ------------+
 
 	   DEPCASE ----------+							d-exp
-	   DUP               |					d-exp	d-exp  
+	   DUP               |					d-exp	d-exp
 	   case2 expression  |			c-exp	d-exp	d-exp
 	   case2 operator    |					case2?	d-exp
 	   DEPEXEC           |							d-exp
@@ -1322,11 +1322,11 @@ static void generateEach(Statement *statement)
 		generateIntegerLoopIndex(statement->fields.each.filters->member.exp);
 	else				/* It's looping over instances */
 		emitConstant(2);		/* Ignore #nowhere */
-  
+
 	/* Start loop */
 	emit0(I_LOOP);
 	generateSrcp(statement->srcp);
-    
+
 	/* Generate loop value from loop index */
 	if (statement->fields.each.type == INTEGER_TYPE)
 		generateIntegerLoopValue(statement->fields.each.setExpression);

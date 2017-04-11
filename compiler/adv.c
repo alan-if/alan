@@ -193,7 +193,7 @@ void analyzeAdventure(void)
     if (debugFlag)
         analyzeSourceFilenames();
 
-	finalizeWords();
+    finalizeWords();
 }
 
 

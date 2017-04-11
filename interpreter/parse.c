@@ -1115,19 +1115,22 @@ static Parameter *disambiguate00N(Parameter allCandidates[], Parameter presentCa
     if (allCandidates[0].isPronoun)
         errorWhat(allCandidates[0].firstWord);
     else
-        errorNoSuch(allCandidates[0]); return NULL;
+        errorNoSuch(allCandidates[0]);
+    return NULL;
 }
 static Parameter *disambiguate01N(Parameter allCandidates[], Parameter presentCandidates[]) {
     if (allCandidates[0].isPronoun)
         errorWhat(allCandidates[0].firstWord);
     else
-        errorNoSuch(allCandidates[0]); return NULL;
+        errorNoSuch(allCandidates[0]);
+    return NULL;
 }
 static Parameter *disambiguate0MN(Parameter allCandidates[], Parameter presentCandidates[]) {
     if (allCandidates[0].isPronoun)
         errorWhat(allCandidates[0].firstWord);
     else
-        errorNoSuch(allCandidates[0]); return NULL;
+        errorNoSuch(allCandidates[0]);
+    return NULL;
 }
 static Parameter *disambiguate10N(Parameter allCandidates[], Parameter presentCandidates[]) {
     return presentCandidates;
@@ -1139,22 +1142,27 @@ static Parameter *disambiguate1MN(Parameter allCandidates[], Parameter presentCa
     return presentCandidates;
 }
 static Parameter *disambiguateM0N(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorWhichOne(presentCandidates); return NULL;
+    errorWhichOne(presentCandidates);
+    return NULL;
 }
 static Parameter *disambiguateM1N(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorWhichOne(presentCandidates); return NULL;
+    errorWhichOne(presentCandidates);
+    return NULL;
 }
 static Parameter *disambiguateMMN(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorWhichOne(presentCandidates); return NULL;
+    errorWhichOne(presentCandidates);
+    return NULL;
 }
 static Parameter *disambiguate00Y(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorNoSuch(allCandidates[0]); return NULL;
+    errorNoSuch(allCandidates[0]);
+    return NULL;
 }
 static Parameter *disambiguate01Y(Parameter allCandidates[], Parameter presentCandidates[]) {
     return allCandidates;
 }
 static Parameter *disambiguate0MY(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorWhichOne(allCandidates); return NULL;
+    errorWhichOne(allCandidates);
+    return NULL;
 }
 static Parameter *disambiguate10Y(Parameter allCandidates[], Parameter presentCandidates[]) {
     return presentCandidates;
@@ -1166,13 +1174,15 @@ static Parameter *disambiguate1MY(Parameter allCandidates[], Parameter presentCa
     return presentCandidates;
 }
 static Parameter *disambiguateM0Y(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorWhichOne(presentCandidates); return NULL;
+    errorWhichOne(presentCandidates);
+    return NULL;
 }
 static Parameter *disambiguateM1Y(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorWhichOne(presentCandidates); return NULL;
+    errorWhichOne(presentCandidates);
+    return NULL;
 }
 static Parameter *disambiguateMMY(Parameter allCandidates[], Parameter presentCandidates[]) {
-    errorWhichOne(presentCandidates); return NULL;
+    errorWhichOne(presentCandidates);return NULL;
 }
 
 static DisambiguationHandlerTable disambiguationHandlerTable =
@@ -1426,7 +1436,7 @@ void parse(void) {
     } else
         error(M_WHAT);
 
-	if (fail) error(NO_MSG);
+    if (fail) error(NO_MSG);
 
     lastWord = currentWordIndex - 1;
     if (isConjunctionWord(lastWord))

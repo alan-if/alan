@@ -734,20 +734,20 @@ static void handleHelpCommand() {
     if (!regressionTestOption)
         output(alan.longHeader);
     
-	DebugParseEntry *entry = commandEntries;
+    DebugParseEntry *entry = commandEntries;
+        
+    int maxLength = 0;
+    for (entry = commandEntries; entry->command != NULL; entry++) {
+        if (strlen(entry->command)+strlen(entry->parameter) > maxLength)
+            maxLength = strlen(entry->command)+strlen(entry->parameter);
+    }
 
-	int maxLength = 0;
-	for (entry = commandEntries; entry->command != NULL; entry++) {
-		if (strlen(entry->command)+strlen(entry->parameter) > maxLength)
-			maxLength = strlen(entry->command)+strlen(entry->parameter);
-	}
-
-	output("$nADBG Commands (can be abbreviated):");
-	for (entry = commandEntries; entry->command != NULL; entry++) {
-		char buf[200];
-		sprintf(buf, "$i%s %s %s$n$t$t-- %s", entry->command, entry->parameter, padding(entry, maxLength), entry->helpText);
-		output(buf);
-	}
+    output("$nADBG Commands (can be abbreviated):");
+    for (entry = commandEntries; entry->command != NULL; entry++) {
+        char buf[200];
+        sprintf(buf, "$i%s %s %s$n$t$t-- %s", entry->command, entry->parameter, padding(entry, maxLength), entry->helpText);
+        output(buf);
+    }
 }
 
 
