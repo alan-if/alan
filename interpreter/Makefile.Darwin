@@ -23,6 +23,7 @@ LINKFLAGS =
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include/
+CGREENLIBDIR= $(CGREENROOT)/lib 
 CGREENLINK = -lcgreen
 
 ###################################################################
