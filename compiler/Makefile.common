@@ -76,9 +76,11 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 #################################################################
 # Unit testing
 #
+# Two types:
 .PHONY: unit
 unit: cgreenrunnertests isolated_unittests
 
+CGREENLIB ?= -lcgreen
 
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
@@ -109,7 +111,7 @@ cgreenrunnertests: unittests.dll
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite compiler_unit_tests $(UNITOUTPUT)
 else
-	LD_LIBRARY_PATH=$(CGREENLIBDIR) $(RUNNER_PATH)/cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
+	$(CGREEN_LIBRARY_PATH) $(RUNNER_PATH)cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 endif
 
 #####################################################################
@@ -136,7 +138,7 @@ isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLAT
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 else
-	LD_LIBRARY_PATH=$(CGREENLIBDIR) $(RUNNER_PATH)/cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	$(CGREEN_LIBRARY_PATH) $(RUNNER_PATH)cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 endif
 
 ############################################

@@ -5,10 +5,10 @@
 
 UNAME := $(shell uname -m)
 
-OSFLAGS = -m32
+#OSFLAGS = -m32
 
 COMPILER = gcc
-EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char #-fPIC
+EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char -fPIC
 
 LINKER = gcc
 EXTRA_LINKER_FLAGS = -Wl,--no-undefined
@@ -17,17 +17,18 @@ release: EXTRA_COMPILER_FLAGS = -O4
 
 # Cgreen unit testing settings
 CGREEN = yes
-CGREENROOT = /usr/local
-CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIBDIR = $(CGREENROOT)/lib
 
-# On a 64-bit we should use lib32 libraries
-ifeq ($(UNAME),x86_64)
-  CGREENDIR=$(CGREENROOT)/lib32
-  RUNNER_PATH=$(CGREENROOT)/bin32
-else
-  CGREENDIR=$(CGREENROOT)/lib
-  RUNNER_PATH=$(CGREENROOT)/bin
-endif
-CGREENLIBDIR=$(CGREENROOT)/lib/x86_64-linux-gnu
-CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
+# If Cgreen is installed correctly and completely theses things should just work
+# Otherwise you can try to set them to something that does work
+#CGREENROOT = /usr/local
+#CGREENINCLUDE = -I$(CGREENROOT)/include
+
+# On a 64-bit we should use 64-bit libraries
+#ifeq ($(UNAME),x86_64)
+#  CGREENDIR=$(CGREENROOT)/lib/x86_64-linux-gnu
+#  RUNNER_PATH=$(CGREENROOT)/bin
+#else
+#  CGREENDIR=$(CGREENROOT)/lib
+#  RUNNER_PATH=$(CGREENROOT)/bin
+#endif
+#CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
