@@ -14,10 +14,8 @@ PROGNAME=-DPROGNAME=\"arun\"
 
 ARUNOPTS = $(PROGNAME) $(GLK)
 
-OSFLAGS = -m32
-
 COMPILER = gcc
-COMPILEFLAGS = -g -Wall -funsigned-char
+COMPILEFLAGS = -g -Wall -funsigned-char -fPIC
 
 LINKER = gcc
 LINKFLAGS = -g $(ARUNOPTS)
