@@ -28,14 +28,13 @@ isolated_unittests: LINKER = gcc #i686-pc-cygwin-gcc
 CGREEN = yes
 
 ###############################
-# If Cgreen is installed correctly these should not be needed
-#CGREENROOT = /usr/local
-#CGREENINCLUDE = -I$(CGREENROOT)/include
-#CGREENLIBDIR=$(CGREENROOT)/lib
-#CGREENBINDIR=$(CGREENROOT)/bin
-
-#CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
-
+# Cgreen settings
+CGREENROOT    = /usr/local
+CGREENINCLUDE =
+CGREENLIBDIR  = $(CGREENROOT)/lib/
+CGREENBINDIR  =
+CGREENLIBS    = -L$(CGREENLIBDIR) -lcgreen -lm
+CGREENLDPATH  = 
 
 ###############################################################
 # glkarun needs curses which are only available in cygwin

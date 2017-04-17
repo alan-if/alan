@@ -134,13 +134,11 @@ $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
 # Build the DLL...
-unittests.dll: LIBS = -L$(CGREENLIBDIR) -lcgreen
 unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LDFLAGS) $(LIBS) #--coverage
+	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LDFLAGS) $(CGREENLIBS) #--coverage
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
-cgreenrunnertests: LIBS = -L$(CGREENLIBDDIR) -lcgreen
 cgreenrunnertests: unittests.dll
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $^ --suite interpreter_unit_tests $(UNITOUTPUT)
@@ -164,13 +162,12 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDFLAGS) $(CGREENLIBS)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 # Then run all _tests.dll's with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
-isolated_unittests: LIBS = -L$(CGREENLIBDIR) -lcgreen
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 ifeq ($(OS), Darwin)
 	arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
