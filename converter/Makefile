@@ -17,7 +17,6 @@ UNAME := $(shell uname -m)
 
 OPTIMIZE = -g
 
-PLATFORM = -m32
 win:	PLATFORM = -DWINGUI -mwindows -mno-cygwin
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
@@ -67,19 +66,17 @@ release: a2a3
 clean:
 	-rm *.o
 
+################
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 
-# On a 64-bit we should use lib32 libraries
-ifeq ($(UNAME),x86_64)
-  CGREENDIR = /usr/local/lib32
-  RUNNER_PATH=/usr/local/bin32
-else
-  CGREENDIR = /usr/local/lib
-  RUNNER_PATH=/usr/local/bin
-endif
-CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
+
+CGREENLIBDIR = /usr/local/lib
+
+# Path to cgreen-runner if required, must include trailing slash
+CGREEN_RUNNER_PATH=/usr/local/bin/
+CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 
 .PHONY: unit
 ifneq ($(CGREEN),yes)
@@ -111,7 +108,7 @@ ifeq ($(shell uname), Darwin)
 	done
 else
 	@for f in $(UNITTESTS_DLLS) ; do \
-		LD_LIBRARY_PATH=$(CGREENDIR) $(RUNNER_PATH)/cgreen-runner ./$$f --suite Converter $(UNITOUTPUT) ; \
+		LD_LIBRARY_PATH=$(CGREENLIBDIR) $(CGREEN_RUNNER_PATH)cgreen-runner ./$$f --suite Converter $(UNITOUTPUT) ; \
 	done
 endif
 

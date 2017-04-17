@@ -18,13 +18,13 @@
 #LINKER = gcc
 #WINDRES = windres
 
-# Cross compile from to native Windows binaries
+# Cross compile from cygwin to native Windows binaries
 COMPILER = i686-w64-mingw32-gcc
 LINKER = i686-w64-mingw32-gcc
 WINDRES = i686-w64-mingw32-windres
 
 
-# Except when compiling unit tests, since Cgreen isn't
+# Except when compiling unit tests, since Cgreen can't be
 # cross-compiled to Windows binaries
 unit: COMPILER = gcc
 unit: LINKER = gcc
@@ -34,7 +34,7 @@ OS_FLAGS =
 OPTIMIZE = -g
 
 EXTRA_COMPILER_FLAGS = -Wall -funsigned-char $(OPTIMIZE)
-EXTRA_LINKER_FLAGS = -Wl,--no-undefined
+#EXTRA_LINKER_FLAGS = -Wl,--no-undefined
 
 # Cgreen unit testing settings
 CGREEN = yes
