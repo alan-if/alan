@@ -1,2 +1,0 @@
-.alan : alan -import .. $1
-.input : arun -n -r $1 < $2
