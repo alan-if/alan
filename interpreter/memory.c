@@ -45,3 +45,54 @@ void *duplicate(void *original, unsigned long len)
   memcpy(p, original, len);
   return p;
 }
+
+
+typedef struct {
+    Aptr aptr;
+    void *voidp;
+} PointerMapEntry;
+
+static PointerMapEntry *pointerMap = NULL;
+static int pointerMapSize = 0;
+
+/*======================================================================*/
+void resetPointerMap(void) {
+    if (pointerMap != NULL) free(pointerMap);
+    pointerMap = NULL;
+    pointerMapSize = 0;
+}
+
+/*======================================================================*/
+void *fromAptr(Aptr aptr) {
+    int index;
+
+    for (index=0; index < pointerMapSize && pointerMap[index].aptr != aptr; index++)
+        ;
+
+    if (index == pointerMapSize)
+        syserr("Could not find any Aptr");
+
+    return pointerMap[index].voidp;
+}
+
+
+/*======================================================================*/
+Aptr toAptr(void *ptr) {
+    int index;
+
+    if (pointerMap == NULL) {
+        pointerMap = (PointerMapEntry *)allocate(sizeof(PointerMapEntry));
+        pointerMapSize = 1;
+    }
+
+    for (index=0; pointerMap[index].voidp != NULL && index < pointerMapSize; index++)
+        ;
+    if (index == pointerMapSize) {
+        pointerMap = realloc(pointerMap, (index+1)*sizeof(PointerMapEntry));
+        pointerMapSize++;
+    }
+
+    pointerMap[index].voidp = ptr;
+    pointerMap[index].aptr = rand();
+    return pointerMap[index].aptr;
+}

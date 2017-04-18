@@ -349,12 +349,14 @@ void schedule(Aword event, Aword where, Aword after)
 
 // TODO Move to string.c?
 /*======================================================================*/
-Aptr concat(Aptr s1, Aptr s2)
+Aptr concat(Aptr as1, Aptr as2)
 {
+    char *s1 = fromAptr(as1);
+    char *s2 = fromAptr(as2);
     char *result = allocate(strlen((char*)s1)+strlen((char*)s2)+1);
-    strcpy(result, (char*)s1);
-    strcat(result, (char*)s2);
-    return (Aptr)result;
+    strcpy(result, s1);
+    strcat(result, s2);
+    return toAptr(result);
 }
 
 
@@ -501,7 +503,7 @@ static char *stripWordsFromStringBackwards(Aint count, char *initialString, char
 /*======================================================================*/
 Aptr strip(bool stripFromBeginningNotEnd, int count, bool stripWordsNotChars, int id, int atr)
 {
-    char *initialString = (char *)getInstanceAttribute(id, atr);
+    char *initialString = (char *)fromAptr(getInstanceAttribute(id, atr));
     char *theStripped;
     char *theRest;
 
@@ -517,7 +519,7 @@ Aptr strip(bool stripFromBeginningNotEnd, int count, bool stripWordsNotChars, in
             theStripped = stripCharsFromStringBackwards(count, initialString, &theRest);
     }
     setInstanceStringAttribute(id, atr, theRest);
-    return (Aptr)theStripped;
+    return toAptr(theStripped);
 }
 
 
@@ -679,10 +681,10 @@ bool contains(Aptr string, Aptr substring)
 {
     bool found;
 
-    strlow((char *)string);
-    strlow((char *)substring);
+    strlow((char *)fromAptr(string));
+    strlow((char *)fromAptr(substring));
 
-    found = (strstr((char *)string, (char *)substring) != 0);
+    found = (strstr((char *)fromAptr(string), (char *)fromAptr(substring)) != 0);
 
     return found;
 }

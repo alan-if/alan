@@ -32,4 +32,8 @@ extern void *allocate(unsigned long lengthInBytes);
 extern void *duplicate(void *original, unsigned long len);
 extern void deallocate(void *memory);
 
+extern void resetPointerMap(void);
+extern void *fromAptr(Aptr aptr);
+extern Aptr toAptr(void *ptr);
+
 #endif /* MEMORY_H_ */
