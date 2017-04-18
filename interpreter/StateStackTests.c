@@ -9,25 +9,22 @@
 
 /* Implementation of the abstract type typedef struct game_state GameState */
 struct game_state {
-  /* Event queue */
-  EventQueueEntry *eventQueue;
-  int eventQueueTop;		/* Event queue top pointer */
+    /* Event queue */
+    EventQueueEntry *eventQueue;
+    int eventQueueTop;		/* Event queue top pointer */
 
-  /* Scores */
-  int score;
-  Aword *scores;		/* Score table pointer */
+    /* Scores */
+    int score;
+    Aword *scores;		/* Score table pointer */
 
-  /* Instance data */
-  AdminEntry *admin;		/* Administrative data about instances */
-  AttributeEntry *attributes;	/* Attributes data area */
-  /* Sets and strings are dynamically allocated areas for which the
-     attribute is just a pointer to. So they are not catched by the
-     saving of attributes, instead they require special storage */
-  Aword *sets;			/* Array of set pointers */
-  Aword *strings;		/* Array of string pointers */
-
-  /* List of word indices the player said, EOF terminated */
-  char *playerCommand;
+    /* Instance data */
+    AdminEntry *admin;		/* Administrative data about instances */
+    AttributeEntry *attributes;	/* Attributes data area */
+    /* Sets and strings are dynamically allocated areas for which the
+       attribute is just a pointer to. So they are not catched by the
+       saving of attributes, instead they require special storage */
+    Set **sets;			/* Array of set pointers */
+    char **strings;		/* Array of string pointers */
 };
 
 
