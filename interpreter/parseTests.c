@@ -291,7 +291,7 @@ Ensure(Parse, canSetupStringParametersForMessages) {
     addParameterForString(parameters, "a string");
 
     assert_true(isLiteral(parameters[0].instance));
-    assert_string_equal((char *)literals[literalFromInstance(parameters[0].instance)].value, "a string");
+    assert_string_equal(fromAptr(literals[literalFromInstance(parameters[0].instance)].value), "a string");
     assert_true(isEndOfArray(&parameters[1]));
 
     free(parameters);

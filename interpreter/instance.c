@@ -111,8 +111,8 @@ void setInstanceAttribute(int instance, int attribute, Aptr value)
 /*======================================================================*/
 void setInstanceStringAttribute(int instance, int attribute, char *string)
 {
-    deallocate((char *)getInstanceAttribute(instance, attribute));
-    setInstanceAttribute(instance, attribute, (Aptr)string);
+    deallocate(fromAptr(getInstanceAttribute(instance, attribute)));
+    setInstanceAttribute(instance, attribute, toAptr(string));
 }
 
 
