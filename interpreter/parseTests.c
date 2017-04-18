@@ -305,7 +305,7 @@ Ensure(Parse, canSetupIntegerParametersForMessages) {
     addParameterForInteger(parameters, 14);
 
     assert_true(isLiteral(parameters[0].instance));
-    assert_equal((char *)literals[literalFromInstance(parameters[0].instance)].value, 14);
+    assert_equal(literals[literalFromInstance(parameters[0].instance)].value, 14);
     assert_true(isEndOfArray(&parameters[1]));
 
     free(parameters);
