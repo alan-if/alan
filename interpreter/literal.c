@@ -51,8 +51,8 @@ void freeLiterals() {
     int i;
 
     for (i = 0; i <= litCount; i++)
-        if (literals[i].type == STRING_LITERAL && (void *)literals[i].value != NULL) {
-            deallocate((void *) literals[i].value);
+        if (literals[i].type == STRING_LITERAL && literals[i].value != 0) {
+            deallocate((void *)fromAptr(literals[i].value));
         }
     litCount = 0;}
 

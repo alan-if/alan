@@ -200,7 +200,7 @@ static void syserrHandler(char *message) {
 // TODO this does not work as expected
 // setjmp can not be called in a function
 // that is not calling the code doing the
-// jumping. Copy syserr handling from 
+// jumping. Copy syserr handling from
 // compiler unit tests
 static int triedAndNoSyserrCaught() {
   setSyserrHandler(syserrHandler);
@@ -332,7 +332,7 @@ Ensure(Exe, canGetMembersOfASet) {
 
   memory = code;
   memTop = 100;
-  push(stack, (Aptr)set);
+  push(stack, toAptr(set));
   assert_equal(0, evaluate(1));
 }
 

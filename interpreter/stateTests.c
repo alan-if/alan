@@ -60,7 +60,7 @@ Ensure(State, pushAndPopCanHandleSetAttributes) {
 
   admin[1].attributes = attributes;
   attributes[0].code = 1;
-  attributes[0].value = (Aword)originalSet;
+  attributes[0].value = toAptr(originalSet);
   addToSet(originalSet, 7);
 
   eventQueueTop = 0;
@@ -76,21 +76,20 @@ Ensure(State, pushAndPopCanHandleSetAttributes) {
 
   rememberGameState();
 
-  assert_not_equal(gameState.sets[0], (Aword)originalSet);
+  assert_not_equal(gameState.sets[0], toAptr(originalSet));
   assert_true(equalSets((Set*)gameState.sets[0], originalSet));
-
   Set *modifiedSet = newSet(4);
-  attributes[0].value = (Aword)modifiedSet;
+  attributes[0].value = toAptr(modifiedSet);
   addToSet(modifiedSet, 11);
   addToSet(modifiedSet, 12);
-  assert_false(equalSets((Set*)gameState.sets[0], modifiedSet));
-  assert_true(equalSets((Set*)attributes[0].value, modifiedSet));
+  assert_false(equalSets(gameState.sets[0], modifiedSet));
+  assert_true(equalSets(fromAptr(attributes[0].value), modifiedSet));
 
   recallGameState();
 
-  assert_not_equal(attributes[0].value, (Aword)modifiedSet);
-  assert_not_equal(attributes[0].value, (Aword)originalSet);
-  assert_true(equalSets((Set*)attributes[0].value, originalSet));
+  assert_not_equal(attributes[0].value, toAptr(modifiedSet));
+  assert_not_equal(attributes[0].value, toAptr(originalSet));
+  assert_true(equalSets((Set*)fromAptr(attributes[0].value), originalSet));
 }
 
 

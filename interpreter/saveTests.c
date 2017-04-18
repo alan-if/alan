@@ -107,7 +107,7 @@ Ensure(Save, canSaveStrings) {
   /* Allocate an attribute area and initialize it */
   attributes = malloc(2*sizeof(AttributeEntry));
   attributes[0].code = 1;
-  attributes[0].value = (Aword)strdup(testString);
+  attributes[0].value = toAptr(strdup(testString));
   attributes[0].id = 0;
   attributes[1].code = EOF;
 
@@ -126,14 +126,14 @@ Ensure(Save, canSaveStrings) {
   /* Save the game data */
   saveGame(saveFile);
   fclose(saveFile);
-  admin[1].attributes[0].value = (Aword)strdup("i lingonskogen");
+  admin[1].attributes[0].value = toAptr(strdup("i lingonskogen"));
 
   saveFile = fopen(testFileName, "r");
   restoreGame(saveFile);
   fclose(saveFile);
   unlink(testFileName);
 
-  assert_equal(0, strcmp((char *)admin[1].attributes[0].value, testString));
+  assert_equal(0, strcmp((char *)fromAptr(admin[1].attributes[0].value), testString));
 }
 
 Ensure(Save, canSaveSets) {
@@ -172,7 +172,7 @@ Ensure(Save, canSaveSets) {
   attributes = malloc(5*sizeof(AttributeEntry));
   for (i = 0; i < 4; i++) {
     attributes[i].code = i+1;
-    attributes[i].value = (Aword)copySet(testSet[i]);
+    attributes[i].value = toAptr(copySet(testSet[i]));
     attributes[i].id = 0;
   }
   attributes[4].code = EOF;
@@ -201,7 +201,7 @@ Ensure(Save, canSaveSets) {
 
   /* Set new values */
   for (i = 0; i < 4; i++)
-    admin[1].attributes[i].value = (Aword)newSet(0);
+      admin[1].attributes[i].value = toAptr(newSet(0));
 
   saveFile = fopen(testFileName, "r");
   restoreGame(saveFile);
@@ -209,7 +209,7 @@ Ensure(Save, canSaveSets) {
   unlink(testFileName);
 
   for (i = 0; i < 4; i++)
-    assert_true(equalSets((Set *)admin[1].attributes[i].value, testSet[i]));
+      assert_true(equalSets((Set *)fromAptr(admin[1].attributes[i].value), testSet[i]));
 }
 
 Ensure(Save, canSaveRestoreScore) {

@@ -303,7 +303,7 @@ static char *booleanValue(Abool value) {
 static char *stringValue(Aptr address) {
     static char string[1000];
 
-    sprintf(string, "0x%lx (\"%s\")\t\t", (unsigned long) address, (char *)address);
+    sprintf(string, "0x%lx (\"%s\")\t\t", (unsigned long) address, (char *)fromAptr(address));
     return string;
 }
 
@@ -493,7 +493,7 @@ void interpret(Aaddr adr)
             case I_DUPSTR:
                 if (traceInstructionOption)
                     printf("DUPSTR\t\t\t\t\t\t");
-                push(stack, (Aword)strdup((char*)top(stack)));
+                push(stack, toAptr(strdup((char*)fromAptr(top(stack)))));
                 break;
 
             case I_POP: {
@@ -573,7 +573,7 @@ void interpret(Aaddr adr)
                 Aint len = pop(stack);
                 if (traceInstructionOption)
                     printf("GETSTR\t%7ld, %7ld", (long)fpos, (long)len);
-                push(stack, (Aptr)getStringFromFile(fpos, len));
+                push(stack, toAptr(getStringFromFile(fpos, len)));
                 traceStringTopValue();
                 break;
             }
@@ -681,7 +681,7 @@ void interpret(Aaddr adr)
                 if (traceInstructionOption) {
                     printf("SETSTR\t%7ld, %7ld, %s\t\t\t\t", (long)id, (long)atr, stringValue(str));
                 }
-                setInstanceStringAttribute(id, atr, (char *)str);
+                setInstanceStringAttribute(id, atr, fromAptr(str));
                 break;
             }
             case I_SETSET: {
@@ -699,7 +699,7 @@ void interpret(Aaddr adr)
                 if (traceInstructionOption) {
                     printf("NEWSET\t\t\t");
                 }
-                push(stack, (Aptr)set);
+                push(stack, toAptr(set));
                 tracePointerTopValue();
                 break;
             }
@@ -709,10 +709,10 @@ void interpret(Aaddr adr)
                 if (traceInstructionOption) {
                     printf("UNION\t%7ld, %7ld\t\t\t\t", (long)set1, (long)set2);
                 }
-                push(stack, (Aptr)setUnion((Set *)set1, (Set *)set2));
+                push(stack, toAptr(setUnion((Set *)fromAptr(set1), (Set *)fromAptr(set2))));
                 tracePointerTopValue();
-                freeSet((Set *)set1);
-                freeSet((Set *)set2);
+                freeSet((Set *)fromAptr(set1));
+                freeSet((Set *)fromAptr(set2));
                 break;
             }
             case I_INCR: {
@@ -738,7 +738,7 @@ void interpret(Aaddr adr)
                 if (traceInstructionOption) {
                     printf("INCLUDE\t%7ld\t\t\t\t\t", (long)member);
                 }
-                addToSet((Set *)top(stack), member);
+                addToSet((Set *)fromAptr(top(stack)), member);
                 break;
             }
             case I_EXCLUDE: {
@@ -746,11 +746,11 @@ void interpret(Aaddr adr)
                 if (traceInstructionOption) {
                     printf("EXCLUDE\t%7ld", (long)member);
                 }
-                removeFromSet((Set *)top(stack), member);
+                removeFromSet((Set *)fromAptr(top(stack)), member);
                 break;
             }
             case I_SETSIZE: {
-                Set *set = (Set *)pop(stack);
+                Set *set = (Set *)fromAptr(pop(stack));
                 if (traceInstructionOption)
                     printf("SETSIZE\t%7ld\t\t", (long)set);
                 push(stack, setSize(set));
@@ -759,7 +759,7 @@ void interpret(Aaddr adr)
                 break;
             }
             case I_SETMEMB: {
-                Set *set = (Set *)pop(stack);
+                Set *set = (Set *)fromAptr(pop(stack));
                 Aint index = pop(stack);
                 if (traceInstructionOption)
                     printf("SETMEMB\t%7ld, %7ld", (long)set, (long)index);
@@ -803,7 +803,7 @@ void interpret(Aaddr adr)
                 Aid id = pop(stack);
                 if (traceInstructionOption)
                     printf("ATTRSTR \t%7ld, %7ld", (long)id, (long)atr);
-                push(stack, (Aptr)getInstanceStringAttribute(id, atr));
+                push(stack, toAptr(getInstanceStringAttribute(id, atr)));
                 traceStringTopValue();
                 break;
             }
@@ -812,7 +812,7 @@ void interpret(Aaddr adr)
                 Aid id = pop(stack);
                 if (traceInstructionOption)
                     printf("ATTRSET \t%7ld, %7ld", (long)id, (long)atr);
-                push(stack, (Aptr)getInstanceSetAttribute(id, atr));
+                push(stack, toAptr(getInstanceSetAttribute(id, atr)));
                 tracePointerTopValue();
                 break;
             }
@@ -909,8 +909,8 @@ void interpret(Aaddr adr)
                 Aword element = pop(stack);
                 if (traceInstructionOption)
                     printf("INSET \t%7ld, %7ld", (long)element, (long)set);
-                push(stack, inSet((Set*)set, element));
-                freeSet((Set *)set);
+                push(stack, inSet((Set*)fromAptr(set), element));
+                freeSet((Set *)fromAptr(set));
                 tracebooleanTopValue();
                 break;
             }
@@ -966,7 +966,7 @@ void interpret(Aaddr adr)
                 Aptr adr = pop(stack);
                 if (traceInstructionOption)
                     printf("SAYSTR\t%7ld\t\ty\t", (long)adr);
-                sayString((char *)adr);
+                sayString((char *)fromAptr(adr));
                 if (traceInstructionOption)
                     printf("\n\t\t\t\t\t\t");
                 break;
@@ -1030,12 +1030,12 @@ void interpret(Aaddr adr)
                 Aptr lh = pop(stack);
                 if (traceInstructionOption)
                     printf("STREQ \t0x%lx, 0x%lx", (long)lh, (long)rh);
-                push(stack, streq((char *)lh, (char *)rh));
+                push(stack, streq((char *)fromAptr(lh), (char *)fromAptr(rh)));
                 tracebooleanTopValue();
                 if (traceInstructionOption)
 	                printf("\t");
-                deallocate((void*)lh);
-                deallocate((void*)rh);
+                deallocate(fromAptr(lh));
+                deallocate(fromAptr(rh));
                 break;
             }
             case I_STREXACT: {
@@ -1043,10 +1043,10 @@ void interpret(Aaddr adr)
                 Aptr lh = pop(stack);
                 if (traceInstructionOption)
                     printf("STREXACT \t0x%lx, 0x%lx", (long)lh, (long)rh);
-                push(stack, strcmp((char *)lh, (char *)rh) == 0);
+                push(stack, strcmp((char *)fromAptr(lh), (char *)fromAptr(rh)) == 0);
                 tracebooleanTopValue();
-                deallocate((void *)lh);
-                deallocate((void *)rh);
+                deallocate(fromAptr(lh));
+                deallocate(fromAptr(rh));
                 break;
             }
             case I_LE: {
@@ -1159,8 +1159,8 @@ void interpret(Aaddr adr)
                     printf("CONCAT \t%s, %s", pointerValue(s1), pointerValue(s2));
                 push(stack, concat(s1, s2));
                 traceStringTopValue();
-                deallocate((void*)s1);
-                deallocate((void*)s2);
+                deallocate(fromAptr(s1));
+                deallocate(fromAptr(s2));
                 break;
             }
 
@@ -1171,8 +1171,8 @@ void interpret(Aaddr adr)
                     printf("CONTAINS \t%s, %s", pointerValue(string), pointerValue(substring));
                 push(stack, contains(string, substring));
                 traceIntegerTopValue();
-                deallocate((void*)string);
-                deallocate((void*)substring);
+                deallocate(fromAptr(string));
+                deallocate(fromAptr(substring));
                 break;
             }
 

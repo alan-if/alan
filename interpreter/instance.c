@@ -119,8 +119,8 @@ void setInstanceStringAttribute(int instance, int attribute, char *string)
 /*======================================================================*/
 void setInstanceSetAttribute(int instance, int attribute, Aptr set)
 {
-    freeSet((Set *)getInstanceAttribute(instance, attribute));
-    setInstanceAttribute(instance, attribute, (Aptr)set);
+    freeSet((Set *)fromAptr(getInstanceAttribute(instance, attribute)));
+    setInstanceAttribute(instance, attribute, set);
 }
 
 
@@ -167,14 +167,14 @@ Aptr getInstanceAttribute(int instance, int attribute)
 /*======================================================================*/
 char *getInstanceStringAttribute(int instance, int attribute)
 {
-    return strdup((char *)getInstanceAttribute(instance, attribute));
+    return strdup((char *)fromAptr(getInstanceAttribute(instance, attribute)));
 }
 
 
 /*======================================================================*/
 Set *getInstanceSetAttribute(int instance, int attribute)
 {
-    return copySet((Set *)getInstanceAttribute(instance, attribute));
+    return copySet((Set *)fromAptr(getInstanceAttribute(instance, attribute)));
 }
 
 
@@ -495,7 +495,7 @@ static void sayLiteral(int literal)
     if (isANumeric(literal))
         sayInteger(literals[literal-header->instanceMax].value);
     else {
-        str = (char *)strdup((char *)literals[literal-header->instanceMax].value);
+        str = (char *)strdup((char *)fromAptr(literals[literal-header->instanceMax].value));
         sayString(str);
     }
 }
@@ -1115,4 +1115,3 @@ void locate(int instance, int whr)
 
     gameStateChanged = TRUE;
 }
-
