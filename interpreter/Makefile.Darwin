@@ -11,7 +11,7 @@ PROGNAME=-DPROGNAME=\"arun\"
 ARUNOPTS = $(PROGNAME) $(GLK)
 
 OSFLAGS = 
-ARCHFLAGS = -m32
+#ARCHFLAGS = -m32
 
 COMPILER = gcc -g
 COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
@@ -24,7 +24,7 @@ CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include/
 CGREENLIBDIR= $(CGREENROOT)/lib 
-CGREENLINK = -lcgreen
+CGREENLIBS = -lcgreen
 
 ###################################################################
 #

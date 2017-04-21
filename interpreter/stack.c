@@ -19,7 +19,7 @@
    generic auto-growing stack... */
 
 typedef struct StackStructure {
-    Aptr *stack; /* Array that can take largest type we need, which is 64-bit pointers */
+    Aword *stack;               /* Array that can take Awords */
     int stackSize;
     int stackp;
     int framePointer;

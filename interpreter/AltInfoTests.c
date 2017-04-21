@@ -79,17 +79,17 @@ AltEntry *finder(int verb, int parameterNumber, int theInstance, int theClass) {
 }
 
 Ensure(AltInfo, canAddGlobalAlternatives) {
-  AltInfo altInfos[10];
-  altInfos[0].end = TRUE;
+    AltInfo altInfos[10];
+    altInfos[0].end = TRUE;
 
-  addGlobalAlternatives(altInfos, current.verb, &finder);
+    addGlobalAlternatives(altInfos, current.verb, &finder);
 
-  assert_false(altInfos[0].end);
-  assert_equal(&altEntry, altInfos[0].alt);
-  assert_equal(NO_PARAMETER, altInfos[0].parameter);
-  assert_equal(NO_INSTANCE, altInfos[0].instance);
-  assert_equal(NO_CLASS, altInfos[0].class);
-  assert_true(altInfos[1].end);
+    assert_that(!altInfos[0].end);
+    assert_that(&altEntry, is_equal_to(altInfos[0].alt));
+    assert_that(altInfos[0].parameter, is_equal_to(NO_PARAMETER));
+    assert_that(altInfos[0].instance, is_equal_to(NO_INSTANCE));
+    assert_that(altInfos[0].class, is_equal_to(NO_CLASS));
+    assert_that(altInfos[1].end);
 }
 
 

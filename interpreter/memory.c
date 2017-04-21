@@ -54,6 +54,7 @@ typedef struct {
 
 static PointerMapEntry *pointerMap = NULL;
 static int pointerMapSize = 0;
+static int nextAptr = 1;
 
 /*======================================================================*/
 void resetPointerMap(void) {
@@ -70,7 +71,7 @@ void *fromAptr(Aptr aptr) {
         ;
 
     if (index == pointerMapSize)
-        syserr("Could not find any Aptr");
+        syserr("No pointerMap entry for Aptr");
 
     return pointerMap[index].voidp;
 }
@@ -93,14 +94,6 @@ Aptr toAptr(void *ptr) {
     }
 
     pointerMap[index].voidp = ptr;
-    pointerMap[index].aptr = rand();
-    for (int i=0; i < index; i++)
-        if (pointerMap[i].aptr == pointerMap[index].aptr) {
-            char message[100];
-            sprintf(message, "Same aptr allocated, aptr[%d]=%d, aptr[%d]=%d\n",
-                    i, pointerMap[i].aptr,
-                    index, pointerMap[index].aptr);
-            syserr(message);
-        }
+    pointerMap[index].aptr = nextAptr++;
     return pointerMap[index].aptr;
 }

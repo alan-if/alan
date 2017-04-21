@@ -27,19 +27,21 @@ Ensure(Stack, allocatesCorrectSpaceInNewFrame) {
 
 /*----------------------------------------------------------------------*/
 Ensure(Stack, testNewFrameInStack) {
-  /* Add a block with four local variables */
-  newFrame(theStack, 4);
-  assert_equal(1/*old fp*/ + 4/*Locals*/, stackDepth(theStack));
-  assert_equal(1, theStack->framePointer);
+    Aword previous_fp = theStack->framePointer;
+    
+    /* Add a block with four local variables */
+    newFrame(theStack, 4);
+    assert_that(stackDepth(theStack), is_equal_to(1/*old fp*/ + 4/*Locals*/));
+    assert_that(theStack->framePointer, is_equal_to(1));
+    assert_that( getLocal(theStack, 0,1), is_equal_to(0));
+  
+    setLocal(theStack, 0,1,14);
+    assert_that(getLocal(theStack, 0,1), is_equal_to(14));
+    assert_that(theStack->stack[theStack->stackp - 4], is_equal_to(14));
+    assert_that(theStack->stack[theStack->stackp - 5], is_equal_to(previous_fp));
 
-  assert_equal(0, getLocal(theStack, 0,1));
-  setLocal(theStack, 0,1,14);
-  assert_equal(14, getLocal(theStack, 0,1));
-  assert_equal(14, theStack->stack[theStack->stackp - 4]);
-  assert_equal(-1, theStack->stack[theStack->stackp - 5]);
-
-  endFrame(theStack);
-  assert_equal(0, stackDepth(theStack));
+    endFrame(theStack);
+    assert_that(stackDepth(theStack), is_equal_to(0));
 }
 
 

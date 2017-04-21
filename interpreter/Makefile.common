@@ -45,7 +45,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh .*/*.gcda ../bin/arun
+	-rm *.o .*/*.o .*/*.d .*/*.dll MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh .*/*.gcda ../bin/arun
 
 
 ###################################################################
@@ -140,11 +140,8 @@ unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: unittests.dll
-ifeq ($(OS), Darwin)
-	arch -i386 cgreen-runner $^ --suite interpreter_unit_tests $(UNITOUTPUT)
-else
 	$(CGREENLDPATH) $(CGREENBINDIR)cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
-endif
+
 
 # Here we try to build a runnable DLL for each module where it can be
 # tested in total isolation (with everything else mocked away,
@@ -169,11 +166,7 @@ ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d
 # Then run all _tests.dll's with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
-ifeq ($(OS), Darwin)
-	arch -i386 cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
-else
 	$(CGREENLDPATH) $(CGREENBINDIR)cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
-endif
 
 
 # Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?
