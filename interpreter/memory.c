@@ -94,5 +94,13 @@ Aptr toAptr(void *ptr) {
 
     pointerMap[index].voidp = ptr;
     pointerMap[index].aptr = rand();
+    for (int i=0; i < index; i++)
+        if (pointerMap[i].aptr == pointerMap[index].aptr) {
+            char message[100];
+            sprintf(message, "Same aptr allocated, aptr[%d]=%d, aptr[%d]=%d\n",
+                    i, pointerMap[i].aptr,
+                    index, pointerMap[index].aptr);
+            syserr(message);
+        }
     return pointerMap[index].aptr;
 }

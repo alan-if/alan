@@ -45,7 +45,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh .*/*.gcda
+	-rm *.o .*/*.o .*/*.d MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh .*/*.gcda ../bin/arun
 
 
 ###################################################################
@@ -146,7 +146,7 @@ else
 	$(CGREENLDPATH) $(CGREENBINDIR)cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 endif
 
-# Here we try to build a runnable DLL for each module where it can be 
+# Here we try to build a runnable DLL for each module where it can be
 # tested in total isolation (with everything else mocked away,
 # except memory.c, options.c and list.c)
 ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep

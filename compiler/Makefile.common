@@ -52,7 +52,7 @@ test:
 # Clean
 .PHONY: clean
 clean:
-	@-rm .*/*.o .*/*.d .*/*.dll .*/*.gcno .*/*.gcda alan.res
+	@-rm .*/*.o .*/*.d .*/*.dll .*/*.gcno .*/*.gcda alan.res ../bin/alan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -115,7 +115,7 @@ else
 endif
 
 #####################################################################
-# Here we try to build a runnable DLL for each module where it can be 
+# Here we try to build a runnable DLL for each module where it can be
 # tested in total isolation (with everything else mocked away,
 # except lists.c and memory.c)
 

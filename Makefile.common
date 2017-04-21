@@ -14,7 +14,6 @@ clean:
 	-cd compiler; $(MAKE) clean
 	-cd interpreter; $(MAKE) clean
 	-cd converter; $(MAKE) clean
-	-cd library; $(MAKE) clean
 	-rm alan3*.tgz
 
 .PHONY: build
