@@ -45,7 +45,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm *.o .*/*.o .*/*.d .*/*.dll MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh .*/*.gcda ../bin/arun
+	@-rm -f *.o .*/*.o .*/*.d .*/*.dll MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun
 
 
 ###################################################################
@@ -87,7 +87,8 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 TERMGLKROOT ?= $(GLKLIBROOT)/glkterm
 TERMGLKDEFS = -DHAVE_GLK
 TERMGLKINCLUDE ?= -I$(TERMGLKROOT)
-TERMGLKLIB = -L$(TERMGLKROOT) -lglkterm
+TERMGLKLIBDIR ?= $(TERMGLKROOT)
+TERMGLKLIB = -L$(TERMGLKLIBDIR) -lglkterm
 
 glkarun: EXTRA_COMPILER_FLAGS = $(TERMGLKINCLUDE) $(TERMGLKDEFS)
 glkarun: LIBS = $(TERMGLKLIB) $(CURSESLIB)

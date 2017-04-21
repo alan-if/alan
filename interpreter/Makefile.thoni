@@ -17,7 +17,10 @@ include Makefile.cygwin
 
 VERSION = `cd ..; venum alan -print "\\$$v_\\$$r\\$$s\\$$c"`
 
-GLKLIBROOT = /cygdrive/c/Users/Thomas/Utveckling/Alan
+
+# GLK for console I/O
+TERMGLKROOT = /cygdrive/c/Users/Thomas/Utveckling/Alan/glkterm
+TERMGLKLIBDIR = $(TERMGLKROOT)/$(ARCH)
 
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 

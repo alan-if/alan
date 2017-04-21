@@ -7,6 +7,7 @@
 
 # Note that this must not have spaces in it lest the variable will include it
 OS := ${if ${findstring CYGWIN,${shell uname}},CYGWIN,${shell uname}}
+ARCH := `uname -m`
 
 # Include list of all sources
 include sources.mk

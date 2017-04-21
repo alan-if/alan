@@ -6,8 +6,6 @@
 # We are aiming for the same as on Cygwin
 VERSION := $(shell cat ../NEXTRELEASE)
 
-UNAME := $(shell uname -m)
-ARCH = `uname -m`
 
 # Define the program name
 PROGNAME=-DPROGNAME=\"arun\"
@@ -29,7 +27,7 @@ CGREENINCLUDE = -I$(CGREENROOT)/include
 
 # On a 64-bit we should use lib32 libraries
 # which needs to be available somehow
-ifeq ($(UNAME),x86_64)
+ifeq ($(ARCH),x86_64)
   CGREENLIBDIR=$(CGREENROOT)/lib32
   CGREENBINDIR=$(CGREENROOT)/bin32
 else
@@ -42,7 +40,7 @@ CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 ###################################################################
 #
 # Default target on Linux
-# 
+#
 .PHONY: default
 default all: unit arun
 
@@ -50,14 +48,14 @@ default all: unit arun
 ##################################################################
 .PHONY: release
 release: EXTRA_COMPILER_FLAGS = -O4
-release: DEPENDENCY = 
+release: DEPENDENCY =
 release: all
 
 
 #############################################################
 # GARARUN: a Gargoyle drop-in alan interpreter
 #
-# Gargoyle sources should be installed at GARGOYLE_DIR and have 
+# Gargoyle sources should be installed at GARGOYLE_DIR and have
 # terps/alan3 linked to alan/interpreter. All required libraries, including
 # libgarglk.dylib need to be built to binary form before making it from here.
 # It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
@@ -69,7 +67,7 @@ gararun: gararun-zip gararun-sh
 gararun-zip: alan3
 	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.tgz alan3 gargoyle.alan3-slot-in.readme
 
-gararun-sh: alan3 
+gararun-sh: alan3
 	mkdir -p gargoyle-alan3-updater
 	cp alan3 gargoyle-alan3-updater
 	makeself --base64 gargoyle-alan3-updater gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh "Alan v3 Gargoyle updater" sudo cp alan3 /usr/lib/gargoyle
@@ -90,5 +88,3 @@ DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compile
 dumpacd: $(DUMPACDOBJECTS)
 	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) $(DUMPACDOBJECTS)
 	cp $@ ../bin/
-
-

@@ -52,7 +52,7 @@ test:
 # Clean
 .PHONY: clean
 clean:
-	@-rm *.dll .*/*.o .*/*.d .*/*.dll .*/*.gcno .*/*.gcda alan.res ../bin/alan
+	@-rm -f *.dll .*/*.o .*/*.d .*/*.dll .*/*.gcno .*/*.gcda alan.res ../bin/alan ../bin/winalan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

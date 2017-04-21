@@ -58,13 +58,13 @@ all : unit build Makefile
 build : a2a3
 
 a2a3: checkTarget $(MAINOBJECTS)
-	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS) 
+	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
 	cp a2a3 ../bin
 
 release: a2a3
 
 clean:
-	-rm *.o
+	@-rm -f *.o ../bin/a2a3
 
 ################
 CGREEN = yes
@@ -86,7 +86,7 @@ else
 unit: unittests
 endif
 
-# Here we try to build a runnable DLL for each module where it can be 
+# Here we try to build a runnable DLL for each module where it can be
 # tested in total isolation (with everything else mocked away,
 # except lists.c and memory.c)
 
@@ -137,7 +137,7 @@ sysdep.h : ../interpreter/sysdep.h
 #
 
 spa.o: spa.c spa.h
-	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o 
+	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o
 
 #
 # Version number generation
@@ -148,7 +148,7 @@ a2a3.version.h a2a3.version.c:
 version.h :
 	venum -write always -all a2a3
 
-a2a3.version: $(VERSIONSRCS) 
+a2a3.version: $(VERSIONSRCS)
 	venum alan time
 
 
