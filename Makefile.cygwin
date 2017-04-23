@@ -20,7 +20,7 @@ all: unit build documentation tests
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
 ci: BUILDNUMBER = $(shell cat BUILD_NUMBER)
-ci: buildnumbers all zip setup lib
+ci: buildnumbers all zip setup
 
 .PHONY:tests
 tests: test cygwintests
@@ -62,7 +62,6 @@ snapshot-upload: buildnumbers
 	alanupload alan$(VERSION)$(BUILDVERSION).win32.x86.zip snapshots/$(BUILDNAME)/
 	alanupload alan$(VERSION)$(BUILDVERSION).win32.x86.setup.exe snapshots/$(BUILDNAME)/
 	alanupload winarun$(VERSION)$(BUILDVERSION).win32.x86.setup.exe snapshots/$(BUILDNAME)/
-	alanupload library/library*.zip snapshots/$(BUILDNAME)/
 	alanupload doc/manual/manual.pdf snapshots/$(BUILDNAME)/
 	alanupload doc/manual/conversion.pdf snapshots/$(BUILDNAME)/
 	alanupload doc/manual/writing.pdf snapshots/$(BUILDNAME)/
@@ -75,7 +74,6 @@ release-upload:
 	alanupload winarun$(VERSION).win32.x86.setup.exe interpreters/windows
 	alanupload interpreter/gargoyle-alan3-$(VERSION).win32.x86.setup.exe interpreters/windows
 	alanupload interpreter/gargoyle-alan3-$(VERSION).win32.x86.zip interpreters/windows
-	alanupload library/library*.zip library
 	alanupload doc/manual/manual.pdf documentation
 	alanupload doc/manual/conversion.pdf documentation
 	#alanupload doc/manual/writing.pdf documentation
@@ -96,7 +94,6 @@ releasebuild:
 	cd compiler ; make release
 	cd interpreter ; make release
 	cd converter ; make release
-	cd library ; make release
 
 include Makefile.common
 
@@ -141,7 +138,7 @@ newVersion:
 #################################################################################
 
 .PHONY: zip
-zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING 
+zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING
 	@echo "******** Target: $@ ***********"
 	-rm alan*.zip
 	zip -j alan$(VERSION)$(BUILDVERSION).win32.x86.zip $^
