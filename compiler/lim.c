@@ -10,6 +10,7 @@
 
 #include "srcp_x.h"
 #include "atr_x.h"
+#include "context_x.h"
 #include "lst_x.h"
 #include "sym_x.h"
 #include "stm_x.h"
@@ -61,7 +62,7 @@ LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
 
 
 /*======================================================================*/
-void analyzeLimit(LimNod *lim, Symbol *classSymbol)
+void analyzeLimit(LimNod *lim, Symbol *classSymbol, Context *context)
 {
   /* Analyze one limit. The attributes that defines the limits must be
      attributes for all instances the container accepts because we
@@ -88,7 +89,7 @@ void analyzeLimit(LimNod *lim, Symbol *classSymbol)
   }
 
   /* Analyze statments */
-  analyzeStatements(lim->stms, NULL);
+  analyzeStatements(lim->stms, context);
 }
 
 

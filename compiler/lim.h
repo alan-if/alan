@@ -36,7 +36,7 @@ extern LimNod *newlim(Srcp *srcp,
 		      List *stms);
 
 /* Analyse a Limit node */
-extern void analyzeLimit(LimNod *lim, Symbol *classSymbol);
+extern void analyzeLimit(LimNod *lim, Symbol *classSymbol, Context *context);
 
 /* Generate code for the Limits of a container */
 extern Aword generateLimits(ContainerBody *info);

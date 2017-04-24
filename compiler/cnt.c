@@ -186,7 +186,7 @@ void analyzeContainer(Container *theContainer, Context *context)
 
         /* Analyze the limits */
         for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
-            analyzeLimit(lims->member.lim, id->symbol);
+            analyzeLimit(lims->member.lim, id->symbol, context);
 
         /* Analyze header and empty statments */
         analyzeStatements(theContainer->body->hstms, context);
