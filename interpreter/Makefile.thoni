@@ -15,7 +15,7 @@ include Makefile.cygwin
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
-VERSION = `cd ..; venum alan -print "\\$$v_\\$$r\\$$s\\$$c"`
+VERSION = `cd ..; venum alan -print "\\$$v_\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
 
 # GLK for console I/O
