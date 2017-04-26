@@ -86,7 +86,7 @@ Aptr toAptr(void *ptr) {
         pointerMapSize = 1;
     }
 
-    for (index=0; pointerMap[index].voidp != NULL && index < pointerMapSize; index++)
+    for (index=0; index < pointerMapSize && pointerMap[index].voidp != NULL; index++)
         ;
     if (index == pointerMapSize) {
         pointerMap = realloc(pointerMap, (index+1)*sizeof(PointerMapEntry));
