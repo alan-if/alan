@@ -1,10 +1,11 @@
 #!/bin/bash
-# Continuously monitor an Alan regression case file for changes
-# then run jregr on that case and display the output
 if [ $# -ne 1 ] ; then
-  echo "Usage: `basename $0` <file>"
+  echo "Usage: `basename $0` <case>"
   echo "where"
-  echo "    <case> : the case file to monitor"
+  echo "    <case> : name of the Jregr case to monitor"
+  echo
+  echo "Continuously monitor an Alan regression case file for changes"
+  echo "then run jregr on that case and display the output"
   exit
 fi
 case="$1"
