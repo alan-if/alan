@@ -25,15 +25,9 @@ CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 
-# On a 64-bit we should use lib32 libraries
-# which needs to be available somehow
-ifeq ($(ARCH),x86_64)
-  CGREENLIBDIR=$(CGREENROOT)/lib32
-  CGREENBINDIR=$(CGREENROOT)/bin32
-else
-  CGREENLIBDIR=$(CGREENROOT)/lib
-  CGREENBINDIR=$(CGREENROOT)/bin
-endif
+# -- Cgreen unit test framework settings
+CGREENLIBDIR=$(CGREENROOT)/lib64
+CGREENBINDIR=$(CGREENROOT)/bin/
 CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 
 

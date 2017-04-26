@@ -71,13 +71,13 @@ CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 
-
-CGREENLIBDIR = /usr/local/lib
+CGREENLIBDIR = /usr/local/lib64/
 
 # Path to cgreen-runner if required, must include trailing slash
 CGREEN_RUNNER_PATH=/usr/local/bin/
 CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 
+unit: CFLAGS += -fPIC
 .PHONY: unit
 ifneq ($(CGREEN),yes)
 unit:
@@ -94,7 +94,7 @@ MODULES_WITH_UNITTESTS = util
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 %_tests.dll: %.o %_tests.o
-	$(LD) -shared -o $@ $^ $(LDFLAGS) $(LIBS)
+	$(LD) -shared -o $@ $^ $(CFLAGS) $(LDFLAGS) $(LIBS)
 
 UNITTESTS_DLLS = $(patsubst %,%_tests.dll,$(MODULES_WITH_UNITTESTS))
 

@@ -156,7 +156,7 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # Here Make considers some .o-files intermediate and removes them at failed commands
 # We don't want that...
-.PRECIOUS: %.o
+.PRECIOUS: .unittests/%.o
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
