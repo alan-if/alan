@@ -30,7 +30,7 @@ BeforeEach(Symbol) {
     objectSymbol->fields.entity.parent = thingSymbol;
     actorSymbol = newSymbol(newId(nulsrcp, "actor"), CLASS_SYMBOL);
     actorSymbol->fields.entity.parent = thingSymbol;
-    
+
     literalSymbol = newSymbol(newId(nulsrcp, "literal"), CLASS_SYMBOL);
     thingSymbol->fields.entity.parent = entitySymbol;
     integerSymbol = newSymbol(newId(nulsrcp, "integer"), CLASS_SYMBOL);
@@ -432,7 +432,7 @@ Ensure(Symbol, returns_two_instances_if_one_is_a_subclass) {
 Ensure(Symbol, should_return_null_as_taken_class_for_class_with_no_properties) {
     /* Given: some class that is not a container with no properties */
     Id *theClass = givenAClassId("non_container");
-    
+
     /* Then: containerSymbolTakes() should return NULL for that class symbol */
     assert_that(containerSymbolTakes(theClass->symbol), is_null);
 }
@@ -444,7 +444,7 @@ Ensure(Symbol, should_return_taken_class_for_container_instance) {
 
     /* And: there is an instance taking that class */
     Symbol *queryed_symbol = givenAnInstanceTaking("queryed_instance_symbol", taken_class_id->symbol);
-    
+
     /* When: containerSymbolTakes() is called on that instance */
     /* Then: the taken class is returned */
     assert_that(containerSymbolTakes(queryed_symbol), is_equal_to(taken_class_id->symbol));
@@ -457,7 +457,7 @@ Ensure(Symbol, should_return_taken_class_for_container_class) {
 
     /* And: there is an class taking that class */
     Symbol *queryed_symbol = givenAClassTaking("queryed_instance_symbol", taken_class_id->symbol);
-    
+
     /* When: containerSymbolTakes() is called on that class */
     /* Then: the taken class is returned */
     assert_that(containerSymbolTakes(queryed_symbol), is_equal_to(taken_class_id->symbol));
@@ -473,7 +473,7 @@ Ensure(Symbol, should_return_taken_class_for_instance_inheriting_container) {
 
     /* And: there is an instance of that class */
     Symbol *queryed_symbol = newInstanceSymbol(newId(nulsrcp, "instance"), newEmptyProps(), container_class_symbol);
-    
+
     /* When: containerSymbolTakes() is called on that instance */
     /* Then: the taken class is returned */
     assert_that(containerSymbolTakes(queryed_symbol), is_equal_to(taken_class_id->symbol));
@@ -490,11 +490,55 @@ Ensure(Symbol, should_return_taken_class_for_instance_of_class_inheriting_contai
     /* And: there is a class inheriting from that class */
     Symbol *inherited_container_class_symbol = newInstanceSymbol(newId(nulsrcp, "inherited_container_class"),
                                                                  newEmptyProps(), container_class_symbol);
-    
+
     /* And: there is an instance of that class */
     Symbol *queryed_symbol = newInstanceSymbol(newId(nulsrcp, "instance"), newEmptyProps(), inherited_container_class_symbol);
-    
+
     /* When: containerSymbolTakes() is called on that instance */
     /* Then: the taken class is returned */
     assert_that(containerSymbolTakes(queryed_symbol), is_equal_to(taken_class_id->symbol));
+}
+
+Ensure(Symbol, can_say_a_null_pointer_is_not_an_actor) {
+    /* Given: a null pointer */
+
+    /* When: testing for actor */
+    assert_that(!symbolIsActor(NULL));
+}
+
+Ensure(Symbol, can_say_the_actorSymbol_is_an_actor) {
+    /* Given: a pointer to the symbol */
+
+    /* When: testing for actor */
+    assert_that(symbolIsActor(actorSymbol));
+}
+
+Ensure(Symbol, can_say_a_verb_symbol_is_not_an_actor) {
+    /* Given: a pointer to the symbol */
+    Symbol *symbol = newSymbol(newId(nulsrcp, "myVerb"), VERB_SYMBOL);
+
+    /* When: testing for actor */
+    assert_that(!symbolIsActor(symbol));
+}
+
+Ensure(Symbol, can_say_a_direct_descendant_of_actor_symbol_is_an_actor) {
+    /* Given: a pointer to an actor symbol */
+    Symbol *symbol = newSymbol(newId(nulsrcp, "myActor"), INSTANCE_SYMBOL);
+    symbol->fields.entity.parent = actorSymbol;
+
+    /* When: testing for actor */
+    assert_that(symbolIsActor(symbol));
+}
+
+Ensure(Symbol, can_say_a_indirect_descendant_of_actor_symbol_is_an_actor) {
+    /* Given: a pointer to a symbol inheriting from a symbol inheriting from actor */
+    Symbol *symbol1 = newSymbol(newId(nulsrcp, "myActor1"), INSTANCE_SYMBOL);
+    Symbol *symbol2 = newSymbol(newId(nulsrcp, "myActor2"), INSTANCE_SYMBOL);
+    Symbol *symbol3 = newSymbol(newId(nulsrcp, "myActor3"), INSTANCE_SYMBOL);
+    symbol1->fields.entity.parent = actorSymbol;
+    symbol2->fields.entity.parent = symbol1;
+    symbol3->fields.entity.parent = symbol2;
+
+    /* When: testing for actor */
+    assert_that(symbolIsActor(symbol3));
 }

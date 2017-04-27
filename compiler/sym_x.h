@@ -67,6 +67,7 @@ extern void instanceCheck(Id *id, char *what, char className[]);
 extern Bool isClass(Symbol *symbol);
 extern Bool isInstance(Symbol *symbol);
 extern Bool symbolIsContainer(Symbol *symbol);
+extern Bool symbolIsActor(Symbol *symbol);
 extern Symbol *containerSymbolTakes(Symbol *symbol);
 
 extern void newFrame(void);

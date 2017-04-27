@@ -118,7 +118,7 @@ static void insertSymbol(Symbol *symbol)
 
     s1 = symbolTree;
     s2 = NULL;
-  
+
     while (s1 != NULL) {
         s2 = s1;
         comp = compareStrings(symbol->string, s1->string);
@@ -127,7 +127,7 @@ static void insertSymbol(Symbol *symbol)
         else
             s1 = s1->higher;
     }
-  
+
     if (s2 == NULL)
         symbolTree = symbol;
     else if(comp < 0)
@@ -197,9 +197,9 @@ static char *symbolKindsAsString(SymbolKind kinds)
 Symbol *newParameterSymbol(Element *element)
 {
     Symbol *new;                  /* The newly created symnod */
-  
+
     new = NEW(Symbol);
- 
+
     new->kind = PARAMETER_SYMBOL;
     new->string = element->id->string;
     new->fields.parameter.element = element;
@@ -231,16 +231,16 @@ static Bool mayOverride(SymbolKind overridingKind, SymbolKind originalKind) {
 Symbol *newSymbol(Id *id, SymbolKind kind)
 {
     Symbol *new;                  /* The newly created symnod */
-  
+
     if (id == NULL)
         return NULL;
-  
+
     new = lookup(id->string);
     if (new != NULL && !mayOverride(kind, new->kind))
         idRedefined(id, new, new->srcp);
 
     new = NEW(Symbol);
-  
+
     new->kind = kind;
     new->string = id->string;
     new->srcp = id->srcp;
@@ -249,7 +249,7 @@ Symbol *newSymbol(Id *id, SymbolKind kind)
         addLocal(new);
     else
         insertSymbol(new);
-  
+
     switch (kind) {
     case CLASS_SYMBOL:
         new->code = ++classCount;
@@ -358,7 +358,7 @@ static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
                                ELEMENT_LIST);
         id->code = p;
     }
-  
+
     setParameters(symbol, parameterList);
 
     for (p = 1; p <= parameterCount; p++)
@@ -416,7 +416,7 @@ void deleteFrame(void)
         next = locals->next;
         free(locals);
     }
-  
+
     free(currentFrame);
     currentFrame = outerFrame;
 }
@@ -627,10 +627,27 @@ Bool symbolIsContainer(Symbol *symbol) {
                 || symbolIsContainer(symbol->fields.parameter.class);
         case LOCAL_SYMBOL:
             return symbolIsContainer(symbol->fields.local.class);
+        case VERB_SYMBOL:
+            /* Probably an error recovery or duplicate declaration error */
+            return FALSE;
         default:
             SYSERR("Unexpected Symbol kind", nulsrcp);
         }
     }
+    return FALSE;
+}
+
+
+/*======================================================================*/
+Bool symbolIsActor(Symbol *symbol) {
+    if (symbol != NULL)
+        switch(symbol->kind) {
+        case CLASS_SYMBOL:
+        case INSTANCE_SYMBOL:
+            return symbol == actorSymbol || symbolIsActor(symbol->fields.entity.parent);
+        default:
+            return FALSE;
+        }
     return FALSE;
 }
 
@@ -735,7 +752,7 @@ static Symbol *most_general_class(Symbol *s1, Symbol *s2) {
     if (inheritsFrom(s2, s1))
         return s1;
     return commonParent(s1, s2);
-} 
+}
 
 
 
@@ -1465,7 +1482,7 @@ void dumpSymbol(Symbol *symbol)
     }
 
     dumpPointer(symbol); dumpSymbolKind(symbol->kind); put(" ");
-    dumpString(symbol->string); 
+    dumpString(symbol->string);
     put(":"); dumpInt(symbol->code);
 }
 
