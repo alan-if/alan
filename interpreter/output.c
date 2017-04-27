@@ -286,6 +286,7 @@ static void sayParameter(int p, int form)
   A = current actor
   T = tabulation
   $ = no space needed after this, and don't capitalize
+  _ = interpret this as a single dollar, if in doubt or conflict with other symbols
 */
 static char *printSymbol(char str[]) /* IN - The string starting with '$' */
 {
@@ -371,6 +372,10 @@ static char *printSymbol(char str[]) /* IN - The string starting with '$' */
         case '$':
             skipSpace = TRUE;
             capitalize = FALSE;
+            break;
+        case '_':
+            advance = 2;
+            printAndLog("$");
             break;
         default:
             advance = 1;
@@ -481,5 +486,3 @@ bool confirm(MsgKind msgno)
 
     return (buf[0] == '\0');
 }
-
-
