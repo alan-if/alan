@@ -13,7 +13,8 @@ else
 UNITOUTPUT ?= -c
 endif
 
-UNAME := $(shell uname -m)
+# Note that this must not have spaces in it lest the variable will include it
+OS := ${if ${findstring CYGWIN,${shell uname}},Cygwin,${shell uname}}
 
 OPTIMIZE = -g
 
@@ -71,13 +72,16 @@ CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
 
-CGREENLIBDIR = /usr/local/lib64/
+CGREENLINKDIR = -L /usr/local/lib/
 
 # Path to cgreen-runner if required, must include trailing slash
-CGREEN_RUNNER_PATH=/usr/local/bin/
-CGREENLIB = -L$(CGREENLIBDIR) -lcgreen -lm
+#CGREEN_RUNNER_PATH=/usr/local/bin/
+CGREENLIB = $(CGREENLINKDIR) -lcgreen -lm
 
+ifneq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
 unit: CFLAGS += -fPIC
+endif
+
 .PHONY: unit
 ifneq ($(CGREEN),yes)
 unit:
