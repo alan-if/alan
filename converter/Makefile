@@ -71,8 +71,9 @@ clean:
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include
-
-CGREENLINKDIR = -L /usr/local/lib/
+CGREENLIBDIR = /usr/local/lib/
+#CGREENLDPATH = LD_LIBRARY_PATH=$(CGREENLIBDIR)
+CGREENLINKDIR = -L $(CGREENLIBDIR)
 
 # Path to cgreen-runner if required, must include trailing slash
 #CGREEN_RUNNER_PATH=/usr/local/bin/
@@ -107,7 +108,7 @@ unittests: CFLAGS += $(CGREENINCLUDE)
 unittests: LIBS = $(CGREENLIB)
 unittests: $(UNITTESTS_DLLS)
 	@for f in $(UNITTESTS_DLLS) ; do \
-		LD_LIBRARY_PATH=$(CGREENLIBDIR) $(CGREEN_RUNNER_PATH)cgreen-runner ./$$f --suite Converter $(UNITOUTPUT) ; \
+		$(CGREENLDPATH) $(CGREEN_RUNNER_PATH)cgreen-runner ./$$f --suite Converter $(UNITOUTPUT) ; \
 	done
 
 

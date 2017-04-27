@@ -32,11 +32,11 @@ Ensure(Memory, can_convert_three_pointers_to_and_from_aptr) {
 
 Ensure(Memory, will_not_return_same_aptr_for_different_pointers) {
     Aptr aptrs[1000];
-    int i;
+    int i, j;
 
     for (i=0; i<1000; i++) {
         aptrs[i] = toAptr(&aptrs[i]);
-        for (int j=0; j < i; j++) {
+        for (j=0; j < i; j++) {
             if (aptrs[i] == aptrs[j])
                 fail_test("Same aptr allocated twice");
         }
