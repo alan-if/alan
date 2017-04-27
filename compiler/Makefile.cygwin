@@ -4,21 +4,10 @@
 # only sets some cygwin particular switches
 # All rules are in Makefile.common and included by Makefile
 
-# Compiling on Cygwin64 is not yet supported. If you want
-# to try that, the following should be used:
-# Compiler and linker are both gcc for mingw32
-#COMPILER = i686-w64-mingw32-gcc
-#LINKER = i686-w64-mingw32-gcc
-#WINDRES = i686-w64-mingw32-windres
+# Override "all" target
+EXTRA_TARGETS = alan64
 
-# Cygwin native compiler (if on Cygwin32 these will work,
-# but create a cygwin1.dll-dependent .exe. Will not work at
-# all if you are on Cygwin 64)
-#COMPILER = gcc
-#LINKER = gcc
-#WINDRES = windres
-
-# Cross compile from cygwin to native Windows binaries
+# Normally cross compile from cygwin to native Windows binaries
 COMPILER = i686-w64-mingw32-gcc
 LINKER = i686-w64-mingw32-gcc
 WINDRES = i686-w64-mingw32-windres
@@ -69,3 +58,25 @@ winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res
 
 alan.res: alan.rc alan.ico
 	$(WINDRES) $< -O coff -o $@
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# alan64 - command line alan compiler for Cygwin64
+#
+# Build with flags and compilers:
+alan64: COMPILER = gcc
+alan64: LINKER = gcc
+
+ALAN64OBJDIR = .alan64
+ALAN64OBJECTS = $(addprefix $(ALAN64OBJDIR)/,${ALANSRCS:.c=.o}) $(ALAN64OBJDIR)/alan.version.o
+
+$(ALAN64OBJECTS): $(ALAN64OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(ALAN64OBJDIR):
+	@mkdir $(ALAN64OBJDIR)
+
+alan64: $(ALAN64OBJDIR) $(ALAN64OBJECTS)
+	$(LINK) $(LINKFLAGS) -o $@ $(ALAN64OBJECTS) $(ALAN64LIBS)
+	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
+	cp $@ ../bin
