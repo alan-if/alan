@@ -55,9 +55,15 @@ static void ensureHeroInheritsFromActor(Symbol *hero) {
 
 /*----------------------------------------------------------------------*/
 void addHeroContainer() {
-    if (!symbolIsContainer(theHero))
-        theHero->fields.entity.props->container = newContainer(NULL);
-    symbolizeProps(theHero->fields.entity.props, FALSE);
+    if (symbolIsActor(theHero)) {
+        if (!symbolIsContainer(theHero))
+            theHero->fields.entity.props->container = newContainer(NULL);
+        symbolizeProps(theHero->fields.entity.props, FALSE);
+    } else {
+        /* Else probably error recovery error... Ensure some things are available */
+        if (theHero->fields.entity.props == NULL)
+            theHero->fields.entity.props = newEmptyProps();
+    }
 }
 
 
@@ -88,7 +94,7 @@ void addLiteralInstance(void)
     // It should be generated as the last instance.
     Id *literalClassId = newId(nulsrcp, "literal");
     Symbol *literalClassSymbol = lookup("literal");
-    
+
     Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL);
     literalClassId->symbol = literalClassSymbol;
     (void) newInstance(&nulsrcp, newId(nulsrcp, "#literal"), literalClassId, props);
