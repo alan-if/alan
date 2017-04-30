@@ -1,9 +1,0 @@
-import '../library.i'.
-
-The cave Isa dark_location
-End The cave.
-
-The orb Isa object In hero
-End The orb.
-
-Start At cave.
