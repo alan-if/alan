@@ -9,7 +9,7 @@
 	<key>Authentication</key>
 	<false/>
 	<key>Author</key>
-	<string>Thomas Nilsson</string>
+	<string>Thomas Nilefalk</string>
 	<key>BundledFiles</key>
 	<array>
 		<string>/Users/thomas/Utveckling/Alan/alan/interpreter/arun</string>

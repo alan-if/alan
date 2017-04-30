@@ -1,6 +1,6 @@
 /* glkstart.c: Unix-specific startup code
    Adapted for Alan by Joe Mason <jcmason@uwaterloo.ca>
-   And tweaked by Thomas Nilsson <thomas@alanif.se>
+   And tweaked by Thomas Nilefalk <thomas@alanif.se>
 
    Based on the sample file designed by
    Andrew Plotkin <erkyrath@netcom.com>
@@ -128,7 +128,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
 	garglk_set_program_name(alan.shortHeader);
 #endif
 	char info[80];
-	sprintf(info, "%s Interpreter by Thomas Nilsson\n", alan.shortHeader);
+	sprintf(info, "%s Interpreter by Thomas Nilefalk\n", alan.shortHeader);
 	garglk_set_program_info(info);
 #endif
 
