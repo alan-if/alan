@@ -133,10 +133,10 @@ static void checkMultipleAttributes(List *atrs)
     List *al1;
     List *al2;
 
-    TRAVERSE(al1, atrs) {
+    ITERATE(al1, atrs) {
         Attribute *thisAttribute = al1->member.atr;
         /* Check multiple declaration */
-        TRAVERSE(al2, al1->next) {
+        ITERATE(al2, al1->next) {
             Attribute *nextAttribute = al2->member.atr;
             if (equalId(thisAttribute->id, nextAttribute->id))
                 lmLog(&nextAttribute->id->srcp, 218, sevERR, nextAttribute->id->string);
@@ -152,7 +152,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
 
     checkMultipleAttributes(atrs);
 
-    TRAVERSE(al, atrs) {
+    ITERATE(al, atrs) {
         Attribute *thisAttribute = al->member.atr;
         if (thisAttribute->type == REFERENCE_TYPE) {
             symbolizeId(thisAttribute->reference);
@@ -191,7 +191,7 @@ Attribute *findAttribute(List *attributes, Id *id)
         return &locationAttributeFake;
     }
 
-    TRAVERSE(this, attributes)
+    ITERATE(this, attributes)
         if (equalId(this->member.atr->id, id))
             return this->member.atr;
     return NULL;
@@ -410,7 +410,7 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol, Context *context)
 {
     List *theList;
 
-    TRAVERSE (theList, atrs) {
+    ITERATE (theList, atrs) {
         Attribute *thisAttribute = theList->member.atr;
         Attribute *inheritedAttribute = findInheritedAttribute(owningSymbol, thisAttribute->id);
 
@@ -748,7 +748,7 @@ Aaddr generateStringInit(void)
 void generateSet(Expression *exp) {
     List *elements;
 
-    TRAVERSE (elements, exp->fields.set.members)
+    ITERATE (elements, exp->fields.set.members)
         switch (exp->fields.set.memberType) {
         case INSTANCE_TYPE: generateSymbol(symbolOfExpression(elements->member.exp, NULL)); break;
         case INTEGER_TYPE: emit(elements->member.exp->fields.val.val); break;
@@ -784,11 +784,11 @@ Aaddr generateSetInit(void)
     SetInitEntry entry;
     Aaddr adr;
 
-    TRAVERSE (atrs, adv.setAttributes)
+    ITERATE (atrs, adv.setAttributes)
         atrs->member.atr->setAddress = generateSetAttribute(atrs->member.atr);
 
     adr = nextEmitAddress();
-    TRAVERSE (atrs, adv.setAttributes) {
+    ITERATE (atrs, adv.setAttributes) {
         entry.size = length(atrs->member.atr->set->fields.set.members);
         entry.setAddress = atrs->member.atr->setAddress;
         entry.instanceCode = atrs->member.atr->instanceCode;

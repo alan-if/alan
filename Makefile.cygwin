@@ -114,7 +114,7 @@ last-release:
 #
 .PHONY: srcdist
 srcdist:
-	@if test -d CVS; then \
+	@if test -d .git; then \
 		echo Do not do this in your working directory, export first ; \
 		exit 1 ; \
 	fi

@@ -163,7 +163,7 @@ void symbolizeInstances(void)
 /*======================================================================*/
 void analyzeAllInstanceAttributes() {
     List *l;
-    TRAVERSE(l, allInstances) {
+    ITERATE(l, allInstances) {
         Properties *props = l->member.ins->props;
         analyzeAttributes(props->attributes, props->id->symbol, newInstanceContext(l->member.ins));
     }
@@ -193,7 +193,7 @@ static void analyzePronouns(Instance *instance)
 {
     List *p;
 
-    TRAVERSE(p, instance->props->pronouns)
+    ITERATE(p, instance->props->pronouns)
         p->member.id->code = newPronounWord(p->member.id->string, instance);
 }
 

@@ -107,7 +107,7 @@ static void setDefaultRestriction(List *parameters)
 	if (parameters != NULL && parameters->kind != SYMBOL_LIST)
 		SYSERR("Not a symbol list", nulsrcp);
 
-	TRAVERSE(p, parameters)
+	ITERATE(p, parameters)
 		if (p->member.sym->fields.parameter.element->res == NULL
 			|| p->member.sym->fields.parameter.element->res->classId == NULL) {
 			p->member.sym->fields.parameter.class = objectSymbol;
@@ -147,7 +147,7 @@ static int countParameters(List *elms)
 	List *lst;
 	int count = 0;
 
-	TRAVERSE(lst, elms) {
+	ITERATE(lst, elms) {
 		if (lst->member.elm->kind == PARAMETER_ELEMENT)
 			count++;
 	}
@@ -167,10 +167,10 @@ static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
 	int foundInOther = 0;
 	Bool found;
 
-	TRAVERSE(elm1, stx1->elements) {
+	ITERATE(elm1, stx1->elements) {
 		if (elm1->member.elm->kind == PARAMETER_ELEMENT) {
 			found = FALSE;
-			TRAVERSE(elm2, stx2->elements) {
+			ITERATE(elm2, stx2->elements) {
 				if (elm2->member.elm->kind == PARAMETER_ELEMENT)
 					if (equalId(elm1->member.elm->id, elm2->member.elm->id)){
 						found = TRUE;
@@ -189,7 +189,7 @@ static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
 static void setInitialParameterClass(Symbol* verbSymbol, Syntax *syntax) {
 	List *parameters;
 
-	TRAVERSE(parameters, verbSymbol->fields.verb.parameterSymbols) {
+	ITERATE(parameters, verbSymbol->fields.verb.parameterSymbols) {
 		Symbol *parameterSymbol = parameters->member.sym;
 		parameterSymbol->fields.parameter.type = INSTANCE_TYPE;
 #ifdef RESTRICT_TO_OBJECT_BEFORE_RESTRICTION
@@ -257,7 +257,7 @@ static void connectSyntaxesForSameVerb(List *syntaxes) {
 	List *lst, *other;
 	Bool error;
 
-	TRAVERSE(lst, syntaxes) {
+	ITERATE(lst, syntaxes) {
 		error = FALSE;
 		for (other = lst->next; other != NULL; other = other->next) {
 			if (equalId(other->member.stx->id, lst->member.stx->id)) {
@@ -305,7 +305,7 @@ Syntax *defaultSyntax0(char *verbName)
     /*
       Returns the address a default syntax node which is used for verbs
       without any defined syntax (global verbs, without a parameter):
-      
+
       Syntax x = x.
     */
 
@@ -439,7 +439,7 @@ static void generateRestrictionTable(void) {
 	List *lst;
 
 	/* Generate all syntax parameter restriction checks */
-	TRAVERSE(lst, adv.stxs) {
+	ITERATE(lst, adv.stxs) {
 		Syntax *stx = lst->member.stx;
 		Syntax *nextSyntax;
 		if (stx->firstSyntax) {
@@ -458,7 +458,7 @@ Aaddr generateParameterNamesForOneSyntax(Syntax *syntax) {
     Aaddr adr;
 
     /* Generate all parameter names */
-    TRAVERSE(lst, syntax->parameters) {
+    ITERATE(lst, syntax->parameters) {
         Element *elm = lst->member.elm;
         elm->idAddress = nextEmitAddress();
         emitString(elm->id->string);
@@ -467,7 +467,7 @@ Aaddr generateParameterNamesForOneSyntax(Syntax *syntax) {
 
     adr = nextEmitAddress();
     /* Generate a list of addresses */
-    TRAVERSE(lst, syntax->parameters) {
+    ITERATE(lst, syntax->parameters) {
         Element *elm = lst->member.elm;
         emit(elm->idAddress);
     }
@@ -481,11 +481,11 @@ Aaddr generateParameterNames(List *stxs) {
     List *stx;
     Aaddr adr;
 
-    TRAVERSE(stx, stxs)
+    ITERATE(stx, stxs)
         stx->member.stx->parameterNameTable = generateParameterNamesForOneSyntax(stx->member.stx);
 
     adr = nextEmitAddress();
-    TRAVERSE(stx, stxs)
+    ITERATE(stx, stxs)
         emit(stx->member.stx->parameterNameTable);
     emit(EOF);
 
@@ -501,11 +501,11 @@ Aaddr generateParseTable(void) {
 
     generateRestrictionTable();
 
-    TRAVERSE(lst, adv.stxs)
+    ITERATE(lst, adv.stxs)
         generateParseTree(lst->member.stx);
 
     parseTableAddress = nextEmitAddress();
-    TRAVERSE(lst, adv.stxs)
+    ITERATE(lst, adv.stxs)
         generateParseEntry(lst->member.stx);
     emit(EOF);
 
@@ -522,9 +522,9 @@ static void generateParameterMapping(Syntax *syntax)
 	List *originalPosition;
 	Bool found = FALSE;
 
-	TRAVERSE(list, syntax->parameters) {
+	ITERATE(list, syntax->parameters) {
 		/* Generate a parameter mapping entry */
-		TRAVERSE(originalPosition, originalParameters) {
+		ITERATE(originalPosition, originalParameters) {
 			/* Find its original position */
 			if (strcmp(list->member.elm->id->string, originalPosition->member.sym->string) == 0) {
 				generateSymbol(originalPosition->member.sym);
@@ -546,11 +546,11 @@ Aaddr generateParameterMappingTable(void)
 	Aaddr parameterMappingTableAddress;
 	ParameterMapEntry entry;
 
-	TRAVERSE(list, adv.stxs)
+	ITERATE(list, adv.stxs)
 		generateParameterMapping(list->member.stx);
 
 	parameterMappingTableAddress = nextEmitAddress();
-	TRAVERSE(list, adv.stxs) {
+	ITERATE(list, adv.stxs) {
 		entry.syntaxNumber = list->member.stx->number;
 		entry.parameterMapping = list->member.stx->parameterMappingAddress;
 		entry.verbCode = list->member.stx->id->code;

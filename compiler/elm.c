@@ -299,10 +299,10 @@ static void entryForParameter(ElementEntry *entry, List *partition, Syntax *stx)
 	/* TODO: ORing flags here is a problem, might actually give some
 	   syntaxes different flags than intended which is not at all good
 	   (omnipotent!!!) */
-    TRAVERSE(element, partition->next) {
+    ITERATE(element, partition->next) {
         entry->flags |= element->member.lst->member.elm->flags;
     }
-	
+
     entry->next = generateElements(advance(partition), stx);
 }
 

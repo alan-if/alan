@@ -33,7 +33,7 @@ IfidNode *newIfid(Srcp srcp, char *name, char *value)
   progressCounter();
 
   new = NEW(IfidNode);
-  
+
   new->srcp = srcp;
   new->name  = newString(name);
   new->value = value;
@@ -67,7 +67,7 @@ static void fillRandomBytes(char buffer[], int nbytes)
     srand(time_now);
     initted = 1;
   }
-  
+
   for (i = 0; i < nbytes; i++) {
     *buffer++ = rand() & 0xFF;
   }
@@ -133,7 +133,7 @@ static char *readOrCreateIFID()
   if (adv.name)
     strcpy(ifidfnm, adv.name);
   strcat(ifidfnm, ".ifid");
-  
+
   if ((ifidFile = fopen(ifidfnm, "r")) != NULL)
     fread(buffer, 45, 1, ifidFile);
   else
@@ -143,7 +143,7 @@ static char *readOrCreateIFID()
     if ((ifidFile = fopen(ifidfnm, "w")) != NULL)
       fwrite(buffer, 45, 1, ifidFile);
   }
-    
+
   return buffer;
 }
 
@@ -171,10 +171,10 @@ Aaddr generateIfids(List *ifids)
   List *lst;
   Aaddr ifidAddress = nextEmitAddress();
 
-  TRAVERSE(lst, ifids)
+  ITERATE(lst, ifids)
     generateIfid(lst->member.ifid);
 
-  TRAVERSE(lst, ifids) {
+  ITERATE(lst, ifids) {
     emit(lst->member.ifid->nameAddress);
     emit(lst->member.ifid->valueAddress);
   }

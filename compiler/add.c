@@ -116,7 +116,7 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
     if (addedAttributes == NULL) return;
     symbolizeAttributes(addedAttributes, TRUE);
 
-    TRAVERSE(l, addedAttributes) {
+    ITERATE(l, addedAttributes) {
         Attribute *originalAttribute = findAttribute(originalAttributes, l->member.atr->id);
         if (originalAttribute != NULL) /* It was found in the original */
             lmLog(&l->member.atr->id->srcp, 336, sevERR, "an attribute which already exists");
@@ -198,7 +198,7 @@ static void addArticles(AddNode *add, Symbol *original)
         else
             original->fields.entity.props->definite = add->props->definite;
     }
-  
+
     if (add->props->indefinite != NULL) {
         if (original->fields.entity.props->indefinite != NULL)
             lmLog(&add->props->indefinite->srcp, 336, sevERR,
@@ -244,7 +244,7 @@ static void addContainer(AddNode *add, Symbol *original)
               "container properties when the class already have it");
     else
         original->fields.entity.props->container = props->container;
-  
+
 }
 
 
@@ -259,8 +259,8 @@ static void addVerbs(AddNode *add, Symbol *originalSymbol)
     if (add->props->verbs != NULL) {
         if (originalSymbol == entitySymbol)
             lmLog(&add->props->verbs->member.vrb->srcp, 426, sevWAR, "");
-        TRAVERSE(verbList, add->props->verbs) {
-            TRAVERSE(verbIdList, verbList->member.vrb->ids)
+        ITERATE(verbList, add->props->verbs) {
+            ITERATE(verbIdList, verbList->member.vrb->ids)
                 if (verbIdFound(verbIdList->member.id, originalProps->verbs)) {
                     inhibitAdd = TRUE;
                     lmLogv(&verbIdList->member.id->srcp, 240, sevERR, "Verb", verbIdList->member.id->string, originalSymbol->string, NULL);
@@ -288,10 +288,10 @@ static void addScripts(AddNode *add, Symbol *original)
         lmLog(&add->props->scripts->member.script->srcp, 336, sevERR, "scripts to a class which is not a subclass of the predefined class 'actor'");
         doNotAdd = TRUE;
     }
-    TRAVERSE(addedScripts, props->scripts) {
+    ITERATE(addedScripts, props->scripts) {
         Script *addedScript = addedScripts->member.script;
         Bool duplicate = FALSE;
-        TRAVERSE(originalScripts, originalProps->scripts) {
+        ITERATE(originalScripts, originalProps->scripts) {
             Script *originalScript = originalScripts->member.script;
             if (equalId(addedScript->id, originalScript->id)) {
                 lmLogv(&addedScript->srcp, 240, sevERR,
@@ -344,8 +344,8 @@ static void addExits(AddNode *add, Symbol *originalSymbol)
             inhibitAdd = TRUE;
         }
 
-        TRAVERSE(exitList, add->props->exits) {
-            TRAVERSE(exitIdList, exitList->member.ext->directions)
+        ITERATE(exitList, add->props->exits) {
+            ITERATE(exitIdList, exitList->member.ext->directions)
                 if (exitIdFound(exitIdList->member.id, originalProps->exits)) {
                     inhibitAdd = TRUE;
                     lmLogv(&exitIdList->member.id->srcp, 240, sevERR, "Exit", exitIdList->member.id->string, originalSymbol->string, NULL);

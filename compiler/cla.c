@@ -74,7 +74,7 @@ void initClasses()
   adv.clas = concat(adv.clas, entity, CLASS_LIST);
   entitySymbol = entity->props->id->symbol;
   entity->props->predefined = TRUE;
-  
+
 
   location = newClass(&nulsrcp, locationId, entityId, NULL);
   adv.clas = concat(adv.clas, location, CLASS_LIST);
@@ -190,7 +190,7 @@ static void analyzeClass(Class *class)
 /*======================================================================*/
 void analyzeAllClassAttributes() {
   List *l;
-  TRAVERSE(l, allClasses) {
+  ITERATE(l, allClasses) {
     Properties *props = l->member.cla->props;
     analyzeAttributes(props->attributes, props->id->symbol, newClassContext(l->member.cla));
   }

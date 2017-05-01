@@ -1003,7 +1003,7 @@ static char *identifierListForParameters(Context *context) {
     if (parameters == NULL)
         SYSERR("NULL parameters", nulsrcp);
 
-    TRAVERSE(list, parameters) {
+    ITERATE(list, parameters) {
         if (!first) {
             if (list->next != NULL)
                 strcat(identifiers, "', '");
@@ -1038,7 +1038,7 @@ void setParameters(Symbol *verb, List *parameters)
     if (parameters->kind != ELEMENT_LIST)
         SYSERR("Not a parameter list", nulsrcp);
 
-    TRAVERSE(param, parameters) {
+    ITERATE(param, parameters) {
         Symbol *parameterSymbol = newParameterSymbol(param->member.elm);
         parameterSymbols = concat(parameterSymbols, parameterSymbol, SYMBOL_LIST);
     }
@@ -1280,7 +1280,7 @@ static void replicateAttributes(Symbol *symbol)
                           propertiesOf(parentOf(symbol))->attributes);
 
     /* Verify that there are no inherited, non-initialized, attributes */
-    TRAVERSE(atr, propertiesOf(symbol)->attributes) {
+    ITERATE(atr, propertiesOf(symbol)->attributes) {
         Attribute *thisAttribute = atr->member.atr;
         if (thisAttribute->type == REFERENCE_TYPE)
             if (!thisAttribute->initialized && !isClass(symbol))

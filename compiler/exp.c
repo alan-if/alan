@@ -198,7 +198,7 @@ void symbolizeExpression(Expression *exp) {
             symbolizeExpression(exp->fields.bin.left);
             break;
         case SET_EXPRESSION:
-            TRAVERSE(member, exp->fields.set.members)
+            ITERATE(member, exp->fields.set.members)
                 symbolizeExpression(member->member.exp);
             break;
         case RANDOM_EXPRESSION:
@@ -369,7 +369,7 @@ Bool isConstantExpression(Expression *exp)
     case SET_EXPRESSION:
         {
             List *members;
-            TRAVERSE(members, exp->fields.set.members) {
+            ITERATE(members, exp->fields.set.members) {
                 if (!isConstantExpression(members->member.exp))
                     return FALSE;
             }
@@ -406,7 +406,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
         if (context->kind == RULE_CONTEXT)
             lmLogv(&exp->srcp, 443, sevERR, "Rule context", "Here or Nearby", NULL);
         break;
-        
+
     case WHERE_AT:
     case WHERE_NEAR:
         analyzeExpression(where->what, context);
@@ -414,7 +414,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
             if (where->what->type != INSTANCE_TYPE && where->what->type != REFERENCE_TYPE)
                 lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT or NEAR", "an instance", NULL);
         break;
-        
+
     case WHERE_IN:
         analyzeExpression(where->what, context);
         if (where->what->type == SET_TYPE) {/* Can be in a container and in a set */
@@ -425,7 +425,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
             verifyContainerExpression(where->what, context, "Expression after IN");
         }
         break;
-        
+
     default:
         SYSERR("Unrecognized switch", where->srcp);
         break;
@@ -650,7 +650,7 @@ static void analyzeWhereFilter(Expression *theFilterExpression,
                                Context *context)
 {
     Where *where = theFilterExpression->fields.whr.whr;
-    
+
     analyzeWhere(where, context);
 }
 
@@ -825,7 +825,7 @@ Bool analyzeFilterExpressions(char *message, List *filters,
     Symbol *class = NULL;
 
     /* Analyze the filters which may restrict to a class, return the class id */
-    TRAVERSE(lst, filters) {
+    ITERATE(lst, filters) {
         Expression *exp = lst->member.exp;
         analyzeClassingFilter(message, context, exp);
         class = combineFilterClasses(class, exp->class, exp->srcp);
@@ -844,7 +844,7 @@ Bool analyzeFilterExpressions(char *message, List *filters,
         }
     }
 
-    TRAVERSE(lst, filters) {
+    ITERATE(lst, filters) {
         analyzeNonClassingFilter(message,  context, lst->member.exp,
                                  class, &foundWhere);
     }
@@ -1336,7 +1336,7 @@ void generateFilter(Expression *exp)
 static void generateIntegerAggregateLimit(Expression *exp) {
     List *filter;
 
-    TRAVERSE(filter, exp->fields.agr.filters) {
+    ITERATE(filter, exp->fields.agr.filters) {
         if (filter->member.exp->kind == WHERE_EXPRESSION)
             if (filter->member.exp->fields.whr.whr->kind == WHERE_INSET) {
                 generateExpression(filter->member.exp->fields.whr.whr->what);
@@ -1405,7 +1405,7 @@ static void generateAggregationFilter(Expression *exp, List *lst) {
 
 static void generateAllFilters(Expression *exp) {
     List *lst;
-    TRAVERSE(lst,exp->fields.agr.filters) {
+    ITERATE(lst,exp->fields.agr.filters) {
         generateAggregationFilter(exp, lst);
     }
 }
@@ -1525,7 +1525,7 @@ static void generateSetExpression(Expression *exp) {
     List *members;
 
     emit0(I_NEWSET);
-    TRAVERSE(members, exp->fields.set.members) {
+    ITERATE(members, exp->fields.set.members) {
         generateExpression(members->member.exp);
         emit0(I_INCLUDE);		/* Add member to set on top of stack */
     }

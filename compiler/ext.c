@@ -153,8 +153,8 @@ static Bool haveExit(List *ownExits, Id *direction) {
     List *exits;
     List *directions;
 
-    TRAVERSE(exits, ownExits) {
-        TRAVERSE(directions, exits->member.ext->directions) {
+    ITERATE(exits, ownExits) {
+        ITERATE(directions, exits->member.ext->directions) {
             if (equalId(directions->member.id, direction))
                 return TRUE;
         }
@@ -167,7 +167,7 @@ static Exit *copyExitExcludingOwn(Exit *original, List *ownExits) {
     List *directionsToCopy = NULL;
     List *direction;
 
-    TRAVERSE (direction, original->directions)
+    ITERATE (direction, original->directions)
         if (!haveExit(ownExits, direction->member.id))
             directionsToCopy = concat(directionsToCopy, direction->member.id, ID_LIST);
     return newExit(&original->srcp, directionsToCopy, original->target,
@@ -185,11 +185,11 @@ List *combineExits(List *ownExits, List *exitsToAdd)
     List *direction;
     List *new = NULL;
 
-    TRAVERSE(toAdd, exitsToAdd) {
+    ITERATE(toAdd, exitsToAdd) {
         Bool foundOneToAdd = FALSE;
         /* Each exit may have multiple directions so we must traverse that
            list to see if we should copy this Exit node */
-        TRAVERSE(direction, toAdd->member.ext->directions) {
+        ITERATE(direction, toAdd->member.ext->directions) {
             if (!haveExit(ownExits, direction->member.id)) {
                 foundOneToAdd = TRUE;
                 break;
@@ -295,7 +295,7 @@ void dumpExit(Exit *ext)
 void xmlExit(Exit *exit, FILE* xmlFile)
 {
     List *direction;
-    TRAVERSE(direction, exit->directions) {
+    ITERATE(direction, exit->directions) {
         fprintf(xmlFile, "            <exit DIRECTION=\"%s\" TARGET=\"%s\" />\n",
                 direction->member.id->string, exit->target->string);
     }

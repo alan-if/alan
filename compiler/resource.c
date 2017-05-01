@@ -72,7 +72,7 @@ static void numberResources(List *resourceList)
 {
     List *currentResource;
 
-    TRAVERSE(currentResource, resourceList) {
+    ITERATE(currentResource, resourceList) {
         currentResource->member.resource->fileName->code = resourceNumber;
         while (currentResource->next != NULL
                && resourceNameComparer(currentResource, currentResource->next) == 0) {
@@ -201,7 +201,7 @@ static void generateBlcFile(FILE *blcFile, List *resourceList)
 {
   List *currentResource;
 
-  TRAVERSE(currentResource, resourceList) {
+  ITERATE(currentResource, resourceList) {
     Resource *resource = currentResource->member.resource;
     Id *fileName = resource->fileName;
     fprintf(blcFile, "%s %d %s %s\n", resourceKindAsString(resource->kind),

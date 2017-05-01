@@ -50,7 +50,7 @@ Bool inSrcps(Srcp srcp) {
   List *list;
 
   if (srcp.line != 0)
-    TRAVERSE(list, srcps) {
+    ITERATE(list, srcps) {
       if (list->member.srcp->file == srcp.file
 	  && list->member.srcp->line == srcp.line)
 	return TRUE;
@@ -95,7 +95,7 @@ Aaddr generateSrcps(void) {
 
   if (opts[OPTDEBUG].value) {
     srcps = sortList(srcps, &compareSrcps);
-    TRAVERSE(srcp, srcps) {
+    ITERATE(srcp, srcps) {
       entry.file = srcp->member.srcp->file;
       entry.line = srcp->member.srcp->line;
       emitEntry(&entry, sizeof(entry));
@@ -115,4 +115,3 @@ void dumpSrcp(Srcp srcp)
   sprintf(str, "(%d,%d,%d)", srcp.file, srcp.line, srcp.col);
   put(str);
 }
-

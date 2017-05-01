@@ -1263,7 +1263,7 @@ static void generateIntegerLoopLimit(Statement *statement) {
 	if (statement->fields.each.filters->member.exp->kind == BETWEEN_EXPRESSION)
 		generateExpression(statement->fields.each.filters->member.exp->fields.btw.upperLimit);
 	else
-		TRAVERSE(filter, statement->fields.each.filters) {
+		ITERATE(filter, statement->fields.each.filters) {
 			if (filter->member.exp->kind == WHERE_EXPRESSION)
 				if (filter->member.exp->fields.whr.whr->kind == WHERE_INSET) {
 					generateExpression(filter->member.exp->fields.whr.whr->what);
@@ -1337,7 +1337,7 @@ static void generateEach(Statement *statement)
 	emit2(I_SETLOCAL, 0, 1);	/* We already have the value on the stack */
 
 	/* Generate filters */
-	TRAVERSE(filter, statement->fields.each.filters) {
+	ITERATE(filter, statement->fields.each.filters) {
 		emit2(I_GETLOCAL, 0, 1);
 		generateFilter(filter->member.exp);
 		emit0(I_NOT);

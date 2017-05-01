@@ -84,7 +84,7 @@ void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass
         inferedType = INSTANCE_TYPE;
         inferedClass = entitySymbol;
     } else
-        TRAVERSE(elements, set) {
+        ITERATE(elements, set) {
             Expression *exp = elements->member.exp;
             analyzeExpression(exp, context);
             if (inferedType == UNINITIALIZED_TYPE)
