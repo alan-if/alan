@@ -204,7 +204,12 @@ static Aaddr generateSourceFileTable() {
 
     if (opts[OPTDEBUG].value)
         for (count = 0; count < length(fileNames); count++) {
-            encode((long *)&sourceFileEntries[count].fpos, (long *)&sourceFileEntries[count].len);
+            long fpos, len;
+            fpos = sourceFileEntries[count].fpos;
+            len = sourceFileEntries[count].len;
+            encode(&fpos, &len);
+            sourceFileEntries[count].fpos = fpos;
+            sourceFileEntries[count].len = len;
             emitEntry(&sourceFileEntries[count], sizeof(SourceFileEntry));
         }
     emit(EOF);
