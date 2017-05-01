@@ -183,7 +183,7 @@ typedef enum InstClass {
     I_ATTRSTR,                  /* Push a copy of a string attribute */
     I_ATTRSET,                  /* Push a copy of a set attribute */
     I_UNION,                    /* Add a set from the top of stack to a */
-                                /* set valued attribute */ 
+                                /* set valued attribute */
     I_GETSTR,                   /* Get a string contents from text
                                    file, create a copy and push it
                                    on top of stack */
@@ -457,26 +457,26 @@ typedef struct SourceLineEntry { /* SOURCE LINE TABLE */
 } SourceLineEntry;
 
 typedef struct StringInitEntry { /* STRING INITIALISATION TABLE */
-    Aword fpos;			/* File position */
-    Aword len;			/* Length */
-    Aint instanceCode;		/* Where to store it */
+    Aword fpos;                  /* File position */
+    Aword len;                   /* Length */
+    Aint instanceCode;           /* Where to store it */
     Aint attributeCode;
 } StringInitEntry;
 
 typedef struct SetInitEntry {	/* SET INITIALISATION TABLE */
-    Aint size;			/* Size of the initial set */
-    Aword setAddress;		/* Address to the initial set */
-    Aint instanceCode;		/* Where to store it */
+    Aint size;                  /* Size of the initial set */
+    Aword setAddress;           /* Address to the initial set */
+    Aint instanceCode;          /* Where to store it */
     Aint attributeCode;
 } SetInitEntry;
 
 typedef struct DictionaryEntry { /* Dictionary */
-    Aaddr string;		/* ACODE address to string */
-    Aword classBits;		/* Word class */
+    Aaddr string;                /* ACODE address to string */
+    Aword classBits;             /* Word class */
     Aword code;
-    Aaddr adjectiveRefs;	/* Address to reference list */
-    Aaddr nounRefs;		/* Address to reference list */
-    Aaddr pronounRefs;		/* Address to reference list */
+    Aaddr adjectiveRefs;        /* Address to reference list */
+    Aaddr nounRefs;             /* Address to reference list */
+    Aaddr pronounRefs;          /* Address to reference list */
 } DictionaryEntry;
 
 
@@ -485,19 +485,19 @@ typedef struct DictionaryEntry { /* Dictionary */
 
 typedef struct ACodeHeader {
     /* Important info */
-    char tag[4];		/* "ALAN" */
-    char version[4];		/* Version of compiler */
-    Aword uid;			/* Unique id of the compiled game */
-    Aword size;			/* Size of ACD-file in Awords */
+    char tag[4];              /* "ALAN" */
+    char version[4];          /* Version of compiler */
+    Aword uid;                /* Unique id of the compiled game */
+    Aword size;               /* Size of ACD-file in Awords */
     /* Options */
-    Abool pack;			/* Is the text packed ? */
-    Aword stringOffset;		/* Offset to string data in game file */
-    Aword pageLength;		/* Length of a page */
-    Aword pageWidth;		/* and width */
-    Aword debug;		/* Option: debug */
+    Abool pack;               /* Is the text packed and encoded ? */
+    Aword stringOffset;       /* Offset to string data in game file */
+    Aword pageLength;         /* Length of a displayed page */
+    Aword pageWidth;          /* and width */
+    Aword debug;              /* Option: debug */
     /* Data structures */
-    Aaddr classTableAddress;	/* Class table */
-    Aword classMax;		/* Number of classes */
+    Aaddr classTableAddress;
+    Aword classMax;
     Aword entityClassId;
     Aword thingClassId;
     Aword objectClassId;
@@ -507,8 +507,8 @@ typedef struct ACodeHeader {
     Aword integerClassId;
     Aword stringClassId;
     Aaddr instanceTableAddress;	/* Instance table */
-    Aword instanceMax;		/* Highest number of an instance */
-    Aword theHero;		/* The hero instance code (id) */
+    Aword instanceMax;          /* Highest number of an instance */
+    Aword theHero;              /* The hero instance code (id) */
     Aaddr containerTableAddress;
     Aword containerMax;
     Aaddr scriptTableAddress;
