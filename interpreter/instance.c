@@ -750,6 +750,34 @@ static void describeObject(int object)
 }
 
 
+/*----------------------------------------------------------------------*/
+static bool inheritedDescriptionCheck(int class)
+{
+    if (class == 0) return TRUE;
+    if (!inheritedDescriptionCheck(classes[class].parent)) return FALSE;
+    if (classes[class].descriptionChecks == 0) return TRUE;
+    return !checksFailed(classes[class].descriptionChecks, TRUE);
+}
+
+/*----------------------------------------------------------------------*/
+static bool descriptionCheck(int instance)
+{
+    int previousInstance = current.instance;
+    bool r;
+
+    current.instance = instance;
+    if (inheritedDescriptionCheck(instances[instance].parent)) {
+        if (instances[instance].checks == 0)
+            r = TRUE;
+        else
+            r = !checksFailed(instances[instance].checks, TRUE);
+    } else
+        r = FALSE;
+    current.instance = previousInstance;
+    return r;
+}
+
+
 /*======================================================================*/
 void describeInstances(void)
 {
@@ -767,7 +795,8 @@ void describeInstances(void)
     for (i = 1; i <= header->instanceMax; i++)
         if (admin[i].location == current.location
                 && !admin[i].alreadyDescribed
-                && isAObject(i)) {
+                && isAObject(i)
+                && descriptionCheck(i)) {
             if (found == 0)
                 printMessageWithInstanceParameter(M_SEE_START, i);
             else if (found > 1)
@@ -803,26 +832,6 @@ void describeInstances(void)
     /* Clear the describe flag for all instances */
     for (i = 1; i <= header->instanceMax; i++)
         admin[i].alreadyDescribed = FALSE;
-}
-
-
-/*----------------------------------------------------------------------*/
-static bool inheritedDescriptionCheck(int class)
-{
-    if (class == 0) return TRUE;
-    if (!inheritedDescriptionCheck(classes[class].parent)) return FALSE;
-    if (classes[class].descriptionChecks == 0) return TRUE;
-    return !checksFailed(classes[class].descriptionChecks, TRUE);
-}
-
-/*----------------------------------------------------------------------*/
-static bool descriptionCheck(int instance)
-{
-    if (inheritedDescriptionCheck(instances[instance].parent)) {
-        if (instances[instance].checks == 0) return TRUE;
-        return !checksFailed(instances[instance].checks, TRUE);
-    } else
-        return FALSE;
 }
 
 
