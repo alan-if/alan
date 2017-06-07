@@ -3,7 +3,7 @@
   debug.c
 
   Debugger unit in Alan interpreter ARUN
-  
+
 \*----------------------------------------------------------------------*/
 
 #include "debug.h"
@@ -733,9 +733,9 @@ static char *padding(DebugParseEntry *entry, int maxLength) {
 static void handleHelpCommand() {
     if (!regressionTestOption)
         output(alan.longHeader);
-    
+
     DebugParseEntry *entry = commandEntries;
-        
+
     int maxLength = 0;
     for (entry = commandEntries; entry->command != NULL; entry++) {
         if (strlen(entry->command)+strlen(entry->parameter) > maxLength)
@@ -889,11 +889,11 @@ static char *printTraceState(bool state) {
 
 /*----------------------------------------------------------------------*/
 static void printTrace(void) {
-    printf("Section trace     : %s entry to every section (check, description, event, actor, ...)\n", printTraceState(saved_traceSection));
-    printf("Source trace      : %s every source line executed\n", printTraceState(saved_traceSource));
-    printf("Instruction trace : %s every Amachine instruction executed\n", printTraceState(saved_traceInstruction));
-    printf("Push trace        : %s every push onto the Amachine stack\n", printTraceState(saved_tracePush));
-    printf("Stack trace       : %s the complete stack every time\n", printTraceState(saved_traceStack));
+    printf("Trace section     : %s entry to every section (check, description, event, actor, ...)\n", printTraceState(saved_traceSection));
+    printf("Trace source      : %s every source line executed\n", printTraceState(saved_traceSource));
+    printf("Trace instruction : %s every Amachine instruction executed\n", printTraceState(saved_traceInstruction));
+    printf("Trace push        : %s every push onto the Amachine stack\n", printTraceState(saved_tracePush));
+    printf("Trace stack       : %s the complete stack every time\n", printTraceState(saved_traceStack));
 }
 
 

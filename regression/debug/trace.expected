@@ -6,11 +6,11 @@
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 adbg> trace
-Section trace     : off - Doesn't trace entry to every section (check, description, event, actor, ...)
-Source trace      : off - Doesn't trace every source line executed
-Instruction trace : off - Doesn't trace every Amachine instruction executed
-Push trace        : off - Doesn't trace every push onto the Amachine stack
-Stack trace       : off - Doesn't trace the complete stack every time
+Trace section     : off - Doesn't trace entry to every section (check, description, event, actor, ...)
+Trace source      : off - Doesn't trace every source line executed
+Trace instruction : off - Doesn't trace every Amachine instruction executed
+Trace push        : off - Doesn't trace every push onto the Amachine stack
+Trace stack       : off - Doesn't trace the complete stack every time
 
 adbg> trace source
 Source code trace on.
@@ -50,11 +50,11 @@ To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
 and a sign with three oval objects are hanging lose from the wall.
 adbg> trace
-Section trace     : off - Doesn't trace entry to every section (check, description, event, actor, ...)
-Source trace      : on  - Traces every source line executed
-Instruction trace : off - Doesn't trace every Amachine instruction executed
-Push trace        : off - Doesn't trace every push onto the Amachine stack
-Stack trace       : off - Doesn't trace the complete stack every time
+Trace section     : off - Doesn't trace entry to every section (check, description, event, actor, ...)
+Trace source      : on  - Traces every source line executed
+Trace instruction : off - Doesn't trace every Amachine instruction executed
+Trace push        : off - Doesn't trace every push onto the Amachine stack
+Trace stack       : off - Doesn't trace the complete stack every time
 
 adbg> trace instruction
 Single instruction trace on.
@@ -312,11 +312,11 @@ Full stack trace off.
 adbg> trace section
 Section trace off.
 adbg> trace
-Section trace     : off - Doesn't trace entry to every section (check, description, event, actor, ...)
-Source trace      : off - Doesn't trace every source line executed
-Instruction trace : off - Doesn't trace every Amachine instruction executed
-Push trace        : off - Doesn't trace every push onto the Amachine stack
-Stack trace       : off - Doesn't trace the complete stack every time
+Trace section     : off - Doesn't trace entry to every section (check, description, event, actor, ...)
+Trace source      : off - Doesn't trace every source line executed
+Trace instruction : off - Doesn't trace every Amachine instruction executed
+Trace push        : off - Doesn't trace every push onto the Amachine stack
+Trace stack       : off - Doesn't trace the complete stack every time
 
 adbg> 
 
