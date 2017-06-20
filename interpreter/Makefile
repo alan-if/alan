@@ -20,12 +20,14 @@ include Makefile.thoni
 else
 include Makefile.cygwin
 endif
+SOEXT = dll
 else
 ifeq ($(findstring MINGW, $(shell uname)), MINGW)
 include Makefile.Mingw
 else
 include Makefile.$(shell uname)
 endif
+SOEXT = so
 endif
 
 # Include common build rules

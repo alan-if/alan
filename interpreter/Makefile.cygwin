@@ -34,7 +34,8 @@ CGREENINCLUDE =
 CGREENLIBDIR  = $(CGREENROOT)/lib/
 CGREENBINDIR  =
 CGREENLIBS    = -L$(CGREENLIBDIR) -lcgreen -lm
-CGREENLDPATH  = 
+CGREENLDPATH  =
+
 
 ###############################################################
 # glkarun needs curses which are only available in cygwin

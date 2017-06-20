@@ -10,26 +10,27 @@ VERSION := $(shell cat ../NEXTRELEASE)
 PROGNAME=-DPROGNAME=\"arun\"
 ARUNOPTS = $(PROGNAME) $(GLK)
 
-OSFLAGS = 
+OSFLAGS =
 #ARCHFLAGS = -m32
 
 COMPILER = gcc -g
 COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
 
 LINKER = gcc -g
-LINKFLAGS = 
+LINKFLAGS =
 
 # -- CGreen unit test framework settings
 CGREEN = yes
 CGREENROOT = /usr/local
 CGREENINCLUDE = -I$(CGREENROOT)/include/
-CGREENLIBDIR= $(CGREENROOT)/lib 
+CGREENLIBDIR= $(CGREENROOT)/lib
 CGREENLIBS = -lcgreen
+
 
 ###################################################################
 #
 # Default target on Darwin
-# 
+#
 .PHONY: default
 default all: unit arun MacArun gararun
 
@@ -43,7 +44,7 @@ tests: test
 .PHONY: release
 release: ARCHFLAGS = -arch i386 -arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
-release: DEPENDENCY = 
+release: DEPENDENCY =
 release: all
 
 ##################################################################
@@ -58,7 +59,7 @@ coverage: clean arun unit
 # Extra targets on Darwin
 
 # GARARUN: a Gargoyle drop-in alan interpreter
-# Gargoyle should be installed at GARGOYLE_DIR and have 
+# Gargoyle should be installed at GARGOYLE_DIR and have
 # terps/alan3 linked to alan/interpreter. All required libraries, including
 # libgarglk.dylib need to be built to binary form before making it from here.
 # It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
