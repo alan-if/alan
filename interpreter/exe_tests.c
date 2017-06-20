@@ -31,7 +31,7 @@
 
 
 
-#define MAX_NO_OF_INSTANCES
+#define MAX_NO_OF_INSTANCES 5
 
 static Aword *allocate_memory() {
     return (Aword *)allocate(sizeof(ACodeHeader)+(MAX_NO_OF_INSTANCES+1)*sizeof(InstanceEntry));
