@@ -98,14 +98,14 @@ Now we are ready to program our beginning `LOCATION` — what other IF languag
 
 The basic template for a `LOCATION` is:
 
------------------------
+----
  THE ? Isa LOCATION
  NAME '?'
  DESCRIPTION
  "? ? ?"
  EXIT ? TO ?.
  END THE ?.
------------------------
+----
 
 Following the format of the ALAN manual, we are using "?" as a stand-in or place-holder.
 
@@ -514,7 +514,7 @@ It is generally desirable to tell the player why he/she "can’t go that way", p
 [float]
 ==== CHECK Means STOP
 
-Here a new and important statement is introduced: the CHECK statement. 
+Here a new and important statement is introduced: the CHECK statement.
 
 Basically, _a CHECK stops the action that would otherwise take place._ In our example, when the player types
 
@@ -626,7 +626,7 @@ We might prefer to have a bit more descriptive move from one room to another. We
  -----------------------
  ...
 ----
- 
+
 [float]
 ==== DOES Means GO! …er,  DO!
 
@@ -718,7 +718,7 @@ Our first OBJECT in "TV Time!" will be the plasma TV.
 
 [subs="quotes"]
 ----
- THE tv Isa OBJECT AT tv_room
+ THE [red]tv Isa OBJECT AT tv_room
  END THE tv.
 ----
 
@@ -766,7 +766,7 @@ It is a good idea to code OBJECTS following their LOCATIONS.
  ...
 ----
 
-=== NAME the OBJECT
+=== NAME that OBJECT
 
 [float]
 ==== NAME the TV
@@ -961,640 +961,1408 @@ Again, the result could be more descriptive, but the point is that now the playe
 
 It begins with a file in the library called "turn.i", short for "turn on and turn off.i". The things to notice at this point are highlighted in yellow.
 
--- turn.i -- Library version 0.5.0
--- 0.4.1 - converted to ALANv3
- <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>Add To Every object
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  Is
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       Not 'on'.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       Not switchable.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>End Add To object.
-Syntax   turn_on1 = turn on (obj)        Where obj Isa object            Else "You can’t turn that on."
-   turn_on2 = turn (obj) 'on'
-       Where obj Isa object
-           Else "You can't turn that on."
-   switch_on1 = switch 'on' (obj)
-       Where obj Isa object
-           Else "You can't switch that on."
-   switch_on2 = switch (obj) 'on'
-       Where obj Isa object
-           Else "You can't switch that on."
- <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>Add To Every object
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  Verb turn_on1, turn_on2, switch_on1, switch_on2
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       Check obj Is switchable
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>           Else "You can't turn that on."
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       And obj Is Not 'on'
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>           Else "It's already on."
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       Does
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>           Make obj 'on'.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>           "You turn on" Say The obj. "."
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  End Verb.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>End Add To.
- Syntax
-  turn_off1 = turn off (obj)
-       Where obj Isa object
-           Else "You can't turn that off."
-   turn_off2 = turn (obj) off
-       Where obj Isa object
-           Else "You can't turn that off."
-   switch_off1 = switch off (obj)
-       Where obj Isa object
-           Else "You can't switch that off."
-   switch_off2 = switch (obj) off
-       Where obj Isa object
-           Else "You can't switch that off."
- <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>Add To Every object
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  Verb turn_off1, turn_off2, switch_off1, switch_off2
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       Check obj Is switchable
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>           Else "You can't turn that off."
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       And obj Is 'on'
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>           Else "It's already off."
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       Does
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>           Make obj Not 'on'.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>           "You turn off" Say The obj. "."
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  End Verb.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>End Add To.
-Let's look at the first section above:
-Add To Every object   Is        Not on.        Not switchable. End Add To object. …
-The words "Add To Every object" mean to Add certain properties (in this case, Attributes) to every instance of an OBJECT in the entire game.
-The word "<FONT FACE="Courier New" SIZE=2 COLOR="400000" BGCOLOR="#80FFFF"><span style="background-color:#80FFFF; color: 400000";>Is" declares an Attribute.
-The word "Is" declares an Attribute, a property that the OBJECT is or is not , like on or off or open or closed or switchable or upsidedown or anything we want at all. It only must be something that the OBJECT is, or is not . This is called a Boolean Attribute, and can be thought of in terms of a "yes/no, on/off" Attribute .
-As you can see in the example from the library, we are Adding To Every OBJECT in the game the Boolean Attributes of being "not on" (we will cover the reason for the single-quote marks later) and "not switchable".
-3.5. VERBS and CHECKS
-The second and third sections in yellow highlight also Add something To Every OBJECT, this time several VERBS.
-'' Add To Every object <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>  Verb turn_on1, turn_on2, switch_on1, switch_on2 <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>       Check obj Is switchable <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>           Else "You can’t turn that on."        And obj Is Not 'on            Else "It’s already on."        Does            Make obj on.            "You turn on" Say The obj. "."   End Verb. End Add To. … Add To Every object <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>  Verb turn_off1, turn_off2, switch_off1, switch_off2 <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>       Check obj Is switchable <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>           Else "You can’t turn that off."        And obj Is on            Else "It’s already off."        Does            Make obj Not on.            "You turn off" Say The obj. "."   End Verb. End Add To. '''
-These two sections tell the interpreter what to do if the player should try to turn on or turn off any OBJECT in the game.
-VERBS and CHECKS for Attributes Without going into detail right now about how VERBS work, the main thing I want you to see right now is their basic format:
-VERB do_this, do_that CHECK conditions are met   ELSE "You can’t do that!" DOES   "You do this and that." END VERB.
-Notice the first word following the VERB statements: CHECK. You have seen that word before, introduced in <a href="#525A3D9F5B4C0277FB1BD7BB48DF4480A9A5F2EB">the section on EXITS. </A>
-When we looked at CHECKS before, we said that "a CHECK stops the action that would otherwise take place." However, a CHECK need not only stop the action that would otherwise take place. In fact, we will most often use a CHECK conditionally , to see if it should stop the action or not.
-When we want to use a CHECK conditionally, we use the format:
-CHECK whether a certain condition is met ELSE stop the action and display an explanation
-If the condition is met, the CHECK will not stop the action.
-Very often the condition to be met will be whether an OBJECT’S certain Attribute is true or not. If the OBJECT’S Attribute is true (for example), the CHECK passes and the action takes place. If the Attribute is not true, the CHECK stops the action that would otherwise take place.
- Verb turn_on1, turn_on2, switch_on1, switch_on2
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> Check obj Is switchable
-   Else "You can't turn that on."
-That is why at first we could not turn on the TV. We typed "turn on the tv", the interpreter came to the CHECK, saw that the TV was not switchable — from the first section, remember --
- Add To Every OBJECT
-IS NOT switchable.
--- and the CHECK stopped the action: "You can't turn that on."
-When we added the line "IS switchable." to the tv, we gave the tv the required Attribute and it passed the CHECK. So we got the desired response (the "DOES" part of the VERB): "You turn on the TV."
-3.6. NOT takeable.
-GET IT? There are other things besides turning it on and off that the player might want to try with the TV. For example, the player might want to pick it up and take it with him. And the standard library is set up to let him do just that!
-Look in the library folder and find the file "take.i".
-...
-Synonyms
- get, carry, obtain, grab, steal, confiscate, hold = take.
-...
-These are the SYNONYMS in "take.i" for the word "take". So if the player types "get the tv" or "grab" or "steal" or "carry the tv", it is all the same to the interpreter as if they had typed "take the tv". The interpreter will respond with
-Taken. >
-The tv will be carried with the player everywhere he goes, until he decides to drop it somewhere. (Don’t be confused if you play the game and see the TV still listed in the LOCATION DESCRIPTION. It isn’t really there any more, you are carrying it. Type "i" for "inventory" to see what you are carrying.)
-Well, what if we don’t want the player to be able to pick up the tv? We have several options. The first and perhaps easiest option is to look at the "take" VERB in the library.
-...
-Add To Every object
- Is
-  takeable.
-End Add To object.
-...
- Add To Every object
-  Verb take, pick_up1, pick_up2
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  Check obj Is takeable
-     Else "You can't take that!"
- ...
-   Does
-     Locate obj In hero.
-     "Taken."
-  End Verb.
- End Add To.
- ...
-There is a CHECK looking for the Attribute "takeable". Also notice that every OBJECT in the game is made "takeable" by default. Our tv is an OBJECT, so it has the default Attribute of being takeable. We can change the Attribute of the tv from being takeable to being not takeable.
-...
- SYNONYMS
- television = tv.
-THE tv Isa OBJECT AT tv_room
-NAME TV NAME plasma
-NAME screen NAME giant
-NAME giant screen plasma tv
-IS SWITCHABLE.
-  NOT TAKEABLE.
-DESCRIPTION
-END THE tv.
-...
-Now the tv cannot be taken because it IS NOT takeable. The VERB "take" applies "To Every object". The interpreter will see that the tv is an OBJECT. The next thing the interpreter will do is "Check obj Is takeable" — ah ha! The tv is no longer takeable! So the VERB is CHECKED (stopped) and the message is displayed. Here’s what we will see in the game:
-> take the tv You can’t take that!
-<FONT FACE="Times New Roman" SIZE=3 COLOR="#0000FF"><FONT FACE="Times New Roman" SIZE=3 COLOR="#0000FF"></BODY></HTML>
-3.7. Non-Boolean Attributes
-There is another option, similar to the first, and gives more explanation than that the player "can’t take that." The TV is supposed to be big and heavy. It might be too heavy to lift.
-ALAN 3 has another sort of Attribute, that is not a Boolean Attribute (on/off, yes/no) but is an Attribute that is measurable , such as weight, color, height, or any measurable thing we can imagine .  These Attributes are rather like variables, assigning values that can change within the game.
-To give a measurable Attribute to an OBJECT, we use "HAS" (instead of "IS"), followed by the value, or quality, or how much or what sort of that Attribute the OBJECT has . In this case, we want to give the tv the Attribute of weight , and to make its weight more than the player is permitted to "take".
-<FONT FACE="Times New Roman" SIZE=2>NOTE: "<FONT FACE="Courier New" SIZE=2 BGCOLOR="80FFFF"><span style="background-color:#80FFFF; color: 000000";>HAS" can be used for all sorts of measures, of string values as well as numeric values. For example, we could make the tv purple with "<FONT FACE="Courier New" SIZE=2 BGCOLOR="80FFFF"><span style="background-color:#80FFFF; color: 000000";>HAS color purple"; we could make the tv into a musical instrument with "<FONT FACE="Courier New" SIZE=2 BGCOLOR="80FFFF"><span style="background-color:#80FFFF; color: 000000";>HAS sound <FONT FACE="Courier New" SIZE=2 BGCOLOR="80FFFF"><span style="background-color:#80FFFF; color: 000000";>music&quot
-or whatever we want.
-Looking at the VERB in "take.i" again, we see:
-...
-Add To Every object
- Verb take, pick_up1, pick_up2
-  Check obj Is takeable
-    Else "You can't take that!"
---- etc. ---
- <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  And weight Of obj &lt;=50
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>    Else "That is too heavy to lift."
-   Does
-     Locate obj In hero.
-     "Taken."
-  End Verb.
- End Add To.
- ...
-All we need to do is give the TV the Attribute of weight, and a value greater than 50.
-… SYNONYMS television = tv. THE tv Isa OBJECT AT tv_room NAME TV NAME plasma NAME screen NAME giant NAME giant screen plasma tv IS SWITCHABLE. — NOTE we removed the "NOT takeable." HAS weight 100. DESCRIPTION
-END THE tv. …
-We have made the tv takeable again (allowing the default), so the first CHECK will not stop the VERB action. Then the interpreter sees the weight of the tv is greater than 50. The second part of the CHECK (not to get bogged in details, but the "And" in the line "And weight Of obj <=50" is like another CHECK) sees a weight of 100 is too heavy.
-> take the tv That is too heavy to lift.
-4. PART THREE: Customizing Default VERBS
-4.1. Changing the Default Response
-Better Responses. We have created several OBJECTS and placed them in the TV Room: the TV, the chair, and the table. We have seen how the library provides responses to commands like "look at", "turn on", and "take" the OBJECTS.
-Now it is time to learn how to modify the responses for each OBJECT. We will start with the "look at" command, found in the library’s "examine.i" file ( not the "look.i" file, which "looks" at the LOCATION; we want to "look at", or "examine" the OBJECTS). Again, the relevant sections are <FONT FACE="Times New Roman" SIZE=3 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>highlighted in yellow.
--- examine.i
--- Library version 0.5.0
--- 0.4.1 - converted to ALANv3
- <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>ADD TO EVERY THING
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>IS
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> examinable.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> searchable.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>END ADD TO THING.
- ADD TO EVERY ACTOR
-IS
- NOT searchable.
-END ADD TO ACTOR.
+.Editors Comment
+****
+Again, the new format precludes the use of colours inside code, so we'll have to go with *bold*.
+****
+
+[subs="quotes"]
 ----
- <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>SYNONYMS
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> x, inspect, 'check' = examine.
- SYNTAX
- examine = examine (obj) *
+ -- turn.i -- Library version 0.5.0
+ -- 0.4.1 - converted to ALANv3
+ *Add To Every object*
+     *Is*
+         *Not 'on'.*
+         *Not switchable.*
+ *End Add To object.*
+
+ Syntax
+     turn_on1 = turn on (obj)
+         Where obj Isa object
+             Else "You can’t turn that on."
+     turn_on2 = turn (obj) 'on'
+         Where obj Isa object
+             Else "You can't turn that on."
+     switch_on1 = switch 'on' (obj)
+         Where obj Isa object
+             Else "You can't switch that on."
+     switch_on2 = switch (obj) 'on'
+         Where obj Isa object
+             Else "You can't switch that on."
+
+ *Add To Every object*
+     *Verb turn_on1, turn_on2, switch_on1, switch_on2*
+         *Check obj Is switchable**
+              *Else "You can't turn that on."*
+         *And obj Is Not 'on'*
+              *Else "It's already on."*
+              *Does*
+                  *Make obj 'on'.*
+                  *"You turn on" Say The obj. "."*
+     *End Verb.*
+ *End Add To.*
+
+ Syntax
+     turn_off1 = turn off (obj)
+         Where obj Isa object
+             Else "You can't turn that off."
+     turn_off2 = turn (obj) off
+         Where obj Isa object
+             Else "You can't turn that off."
+     switch_off1 = switch off (obj)
+         Where obj Isa object
+             Else "You can't switch that off."
+     switch_off2 = switch (obj) off
+         Where obj Isa object
+             Else "You can't switch that off."
+
+ *Add To Every object*
+     *Verb turn_off1, turn_off2, switch_off1, switch_off2*
+         *Check obj Is switchable*
+             *Else "You can't turn that off."*
+         *And obj Is 'on'*
+             *Else "It's already off."*
+     *Does*
+         *Make obj Not 'on'.*
+         *"You turn off" Say The obj. "."*
+     *End Verb.*
+ *End Add To.*
+----
+
+Let's look at the first section above:
+
+----
+ Add To Every object
+     Is
+         Not on.
+         Not switchable.
+ End Add To object.
+ ---
+----
+
+The words "Add To Every object" mean to Add certain properties (in this case, Attributes) to every instance of an OBJECT in the entire game.
+The word "Is" declares an Attribute.
+
+The word "Is" declares an Attribute, a property that the OBJECT is or is not , like on or off or open or closed or switchable or upsidedown or anything we want at all. It only must be something that the OBJECT is, or is not . This is called a Boolean Attribute, and can be thought of in terms of a "yes/no, on/off" Attribute .
+
+As you can see in the example from the library, we are Adding To Every OBJECT in the game the Boolean Attributes of being "not on" (we will cover the reason for the single-quote marks later) and "not switchable".
+
+=== VERBS and CHECKS
+
+The second and third sections in yellow highlight also Add something To Every OBJECT, this time several VERBS.
+
+[subs="quotes"]
+----
+ Add To Every object
+     Verb turn_on1, turn_on2, switch_on1, switch_on2
+         Check obj Is switchable
+              Else "You can't turn that on."
+         And obj Is Not 'on'
+              Else "It's already on."
+              Does
+                  Make obj 'on'.
+                  "You turn on" Say The obj. "."
+     End Verb.
+ End Add To.
+----
+
+and
+
+[subs="quotes"]
+----
+ Add To Every object
+     Verb turn_off1, turn_off2, switch_off1, switch_off2
+         Check obj Is switchable
+             Else "You can't turn that off."
+         And obj Is 'on'
+             Else "It's already off."
+     Does
+         Make obj Not 'on'.
+         "You turn off" Say The obj. "."
+     End Verb.
+ End Add To.
+----
+
+These two sections tell the interpreter what to do if the player should try to turn on or turn off any OBJECT in the game.
+
+VERBS and CHECKS for Attributes Without going into detail right now about how VERBS work, the main thing I want you to see right now is their basic format:
+
+[subs="quotes"]
+----
+ VERB do_this, do_that
+     CHECK conditions are met
+         ELSE "You can’t do that!"
+     DOES
+         "You do this and that."
+ END VERB.
+----
+
+Notice the first word following the VERB statements: CHECK. You have seen that word before, introduced in <a href="#525A3D9F5B4C0277FB1BD7BB48DF4480A9A5F2EB">the section on EXITS.</A>
+
+When we looked at CHECKS before, we said that "a CHECK stops the action that would otherwise take place." However, a CHECK need not only stop the action that would otherwise take place. In fact, we will most often use a CHECK conditionally , to see if it should stop the action or not.
+
+When we want to use a CHECK conditionally, we use the format:
+
+[subs="quotes"]
+----
+ CHECK whether a certain condition is met
+     ELSE stop the action and display an explanation
+----
+
+If the condition is met, the CHECK will not stop the action.
+
+Very often the condition to be met will be whether an OBJECT’S certain Attribute is true or not. If the OBJECT’S Attribute is true (for example), the CHECK passes and the action takes place. If the Attribute is not true, the CHECK stops the action that would otherwise take place.
+
+[subs="quotes"]
+----
+ Verb turn_on1, turn_on2, switch_on1, switch_on2
+     *Check obj Is switchable*
+          Else "You can't turn that on."
+----
+
+That is why at first we could not turn on the TV. We typed "turn on the tv", the interpreter came to the CHECK, saw that the TV was not switchable — from the first section, remember --
+
+[subs="quotes"]
+----
+ ...
+ Add To Every OBJECT
+     IS NOT switchable.
+ ...
+----
+
+-- and the CHECK stopped the action: "You can't turn that on."
+
+When we added the line "IS switchable." to the tv, we gave the tv the required Attribute and it passed the CHECK. So we got the desired response (the "DOES" part of the VERB): "You turn on the TV."
+
+=== NOT takeable.
+
+[float]
+==== GET IT?
+
+There are other things besides turning it on and off that the player might want to try with the TV. For example, the player might want to pick it up and take it with him. And the standard library is set up to let him do just that!
+
+Look in the library folder and find the file "take.i".
+
+[subs="quotes"]
+----
+ ...
+ Synonyms
+     get, carry, obtain, grab, steal, confiscate, hold = take.
+ ...
+----
+
+These are the SYNONYMS in "take.i" for the word "take". So if the player types "get the tv" or "grab" or "steal" or "carry the tv", it is all the same to the interpreter as if they had typed "take the tv". The interpreter will respond with
+
+[subs="quotes"]
+----
+Taken.
+
+>
+----
+
+The tv will be carried with the player everywhere he goes, until he decides to drop it somewhere. (Don’t be confused if you play the game and see the TV still listed in the LOCATION DESCRIPTION. It isn’t really there any more, you are carrying it. Type "i" for "inventory" to see what you are carrying.)
+
+Well, what if we don’t want the player to be able to pick up the tv? We have several options. The first and perhaps easiest option is to look at the "take" VERB in the library.
+
+[subs="quotes"]
+----
+ ...
+ Add To Every object
+     Is
+         takeable.
+ End Add To object.
+ ...
+ Add To Every object
+     Verb take, pick_up1, pick_up2
+         *Check obj Is takeable*
+             Else "You can't take that!"
+         ...
+         Does
+             Locate obj In hero.
+             "Taken."
+     End Verb.
+ End Add To.
+ ...
+----
+
+There is a CHECK looking for the Attribute "takeable". Also notice that every OBJECT in the game is made "takeable" by default. Our tv is an OBJECT, so it has the default Attribute of being takeable. We can change the Attribute of the tv from being takeable to being not takeable.
+
+[subs="quotes"]
+----
+ ...
+ SYNONYMS
+     television = tv.
+ THE tv Isa OBJECT AT tv_room
+     NAME TV NAME plasma
+     NAME screen NAME giant
+     NAME giant screen plasma tv
+     IS
+         SWITCHABLE.
+         *NOT* TAKEABLE.
+     DESCRIPTION
+ END THE tv.
+ ...
+----
+
+Now the tv cannot be taken because it IS NOT takeable. The VERB "take" applies "To Every object". The interpreter will see that the tv is an OBJECT. The next thing the interpreter will do is "Check obj Is takeable" — ah ha! The tv is no longer takeable! So the VERB is CHECKED (stopped) and the message is displayed. Here’s what we will see in the game:
+
+[subs="quotes"]
+----
+> take the tv
+You can’t take that!
+----
+
+==== Non-Boolean Attributes
+
+There is another option, similar to the first, and gives more explanation than that the player "can’t take that." The TV is supposed to be big and heavy. It might be too heavy to lift.
+
+ALAN 3 has another sort of Attribute, that is not a Boolean Attribute (on/off, yes/no) but is an Attribute that is measurable, such as weight, color, height, or any measurable thing we can imagine.
+
+These Attributes are rather like variables, assigning values that can change within the game.
+
+To give a measurable Attribute to an OBJECT, we use "HAS" (instead of "IS"), followed by the value, or quality, or how much or what sort of that Attribute the OBJECT has . In this case, we want to give the tv the Attribute of weight , and to make its weight more than the player is permitted to "take".
+
+"HAS" can be used for all sorts of measures, of string values as well as numeric values. For example, we could make the tv purple with "HAS color purple"; we could make the tv into a musical instrument with "HAS sound music" or whatever we want.
+
+Looking at the VERB in "take.i" again, we see:
+
+[subs="quotes"]
+----
+ ...
+ Add To Every object
+     Verb take, pick_up1, pick_up2
+         Check obj Is takeable
+             Else "You can't take that!"
+         --- etc. ---
+         *And weight Of obj <=50*
+             *Else "That is too heavy to lift."*
+         Does
+             Locate obj In hero.
+             "Taken."
+     End Verb.
+ End Add To.
+ ...
+----
+
+All we need to do is give the TV the Attribute of weight, and a value greater than 50.
+
+[subs="quotes"]
+----
+ ....
+ SYNONYMS
+     television = tv.
+ THE tv Isa OBJECT AT tv_room
+     NAME TV
+     NAME plasma
+     NAME screen
+     NAME giant
+     NAME giant screen plasma tv
+     IS SWITCHABLE.
+     *---- NOTE we removed the "NOT takeable."*
+     HAS weight 100.
+     DESCRIPTION
+ END THE tv.
+ ...
+----
+
+We have made the tv takeable again (allowing the default), so the first CHECK will not stop the VERB action. Then the interpreter sees the weight of the tv is greater than 50. The second part of the CHECK (not to get bogged in details, but the "And" in the line "And weight Of obj <=50" is like another CHECK) sees a weight of 100 is too heavy.
+
+[subs="quotes"]
+----
+> _take the tv_
+That is too heavy to lift.
+----
+
+== PART THREE: Customizing Default VERBS
+
+=== Changing the Default Response
+
+[float]
+==== Better Responses
+
+We have created several OBJECTS and placed them in the TV Room: the TV, the chair, and the table. We have seen how the library provides responses to commands like "look at", "turn on", and "take" the OBJECTS.
+
+Now it is time to learn how to modify the responses for each OBJECT. We will start with the "look at" command, found in the library’s "examine.i" file ( not the "look.i" file, which "looks" at the LOCATION; we want to "look at", or "examine" the OBJECTS). Again, the relevant sections are highlighted in yellow (*bold*).
+
+[subs="quotes"]
+----
+ -- examine.i
+ -- Library version 0.5.0
+ -- 0.4.1 - converted to ALANv3
+ *ADD TO EVERY THING*
+     *IS*
+         *examinable.*
+         *searchable.*
+ *END ADD TO THING.*
+ ADD TO EVERY ACTOR
+     IS
+         NOT searchable.
+ END ADD TO ACTOR.
+ ----
+ *SYNONYMS*
+     *x, inspect, 'check' = examine.*
+ *SYNTAX*
+     *examine = examine (obj) \**
   WHERE obj ISA THING
     ELSE "You can't examine that!"
- <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>SYNTAX
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> examine = 'look' 'at' (obj) *.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";><FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>Add To Every thing <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";> Verb examine <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>  Check obj Is examinable <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>    Else <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>       "You can’t examine" Say The obj. "." <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>  Does <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>    "There is nothing special about" Say The obj. "." <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";> End Verb. <FONT FACE="Courier New" SIZE=2 BGCOLOR="FFFF80"><span style="background-color:#FFFF80; color: 000000";>End Add To.
-...
- An OBJECT Is a THING
+ *SYNTAX*
+     *examine = 'look' 'at' (obj) **
+ Add To Every thing
+     Verb examine
+         Check obj Is examinable
+         Else
+             "You can’t examine" Say The obj. "."
+         Does
+             "There is nothing special about" Say The obj. "."
+     End Verb.
+ End Add To.
+ ...
+----
+
+[float]
+==== An OBJECT Is a THING
+
 Every OBJECT (and every ACTOR) in the game is in the sub-class, if you will, of the larger class, THING (which itself is a sub-class of ENTITY). It may help to understand this from the chart in the Alan manual (page 32), reproduced here:
-<div ALIGN="CENTER"><IMG BORDER="0" SRC="images/95B3DFBC3B200D37F2EB8BCA300B7D10C445A6B0.jpg" WIDTH="459" HEIGHT="221"/>
+
+image::images\95B3DFBC3B200D37F2EB8BCA300B7D10C445A6B0.jpg[]
+
 The "examine.i" file says:
-...
-ADD TO EVERY THING
-IS
- examinable.
- searchable.
-END ADD TO THING.
-...
+
+[subs="quotes"]
+----
+ ...
+ ADD TO EVERY THING
+     IS
+         examinable.
+         searchable.
+ END ADD TO THING.
+ ...
+----
+
 Every OBJECT, then, as a THING, is by default "examinable" and "searchable" (we will look at the "search" statement later). The SYNONYMS for "examine" include "x" (the common IF convention for "examine"), "inspect", and " 'check' " ( _see the information below on using Alan_ _reserved programming words)_ . Any of these words typed by the player will be the same to the interpreter as though the player had typed "examine".
+
 Now there is something new here:
-...
-SYNTAX
- examine = 'look' 'at' (obj) *.
-...
+
+[subs="quotes"]
+----
+ ...
+ SYNTAX
+     examine = 'look' 'at' (obj) *.
+ ...
+----
+
 We will look at the SYNTAX construction in detail later. What is important to see at this point is that this is not the same as a single-word SYNONYM for "examine". This SYNTAX construction allows for a multiple-word command, "look at", applied to the OBJECT (obj), meaning the same thing to the interpreter as "examine" .
-...
-Add To Every thing
- Verb examine
-  Check obj Is examinable
-    Else
-       "You can't examine" Say The obj. "."
-  Does
-    "There is nothing special about" Say The obj. "."
- End Verb.
-End Add To.
-...
+
+[subs="quotes"]
+----
+ ...
+ Add To Every thing
+     Verb examine
+         Check obj Is examinable
+         Else
+             "You can't examine" Say The obj. "."
+         Does
+             "There is nothing special about" Say The obj. "."
+     End Verb.
+ End Add To.
+ ...
+----
+
 Finally we come to the command itself. Every OBJECT, as a THING, will respond to the command, or VERB, "examine", according to this section of code in "examine.i". First the interpreter will CHECK if the OBJECT (obj) has the Attribute ("Is") "examinable". Then, passing that CHECK, the interpreter  DOES  the action of the VERB, which in this case is to respond, "There is nothing special about" and then Say The OBJECT. And so:
-TV Room This is your favorite room in the house, because you love to watch television. You recently purchased a giant screen plasma TV that is set up in this room, ideally located across from your comfy chair and table. The kitchen is south.
-> look at the tv There is nothing special about the TV.
-> look at the chair There is nothing special about the comfy chair.
-> look at the table There is nothing special about the table.
-Changing the Default Response We can change the "nothing special" response with one of our own for each of our OBJECTS. The simplest way to do that right now is to begin with the "copy-and-paste" method. Let’s copy and paste the VERB from "examine.i" into our OBJECTS. This is the section we want from "examine.i":
-  Verb examine
-  Check obj Is examinable
-    Else
-       "You can't examine" Say The obj. "."
-  Does
-    "There is nothing special about" Say The obj. "."
- End Verb.
+
+[subs="quotes"]
+----
+TV Room
+This is your favorite room in the house, because you love to watch television. You recently purchased a giant screen plasma TV that is set up in this room, ideally located across from your comfy chair and table. The kitchen is south.
+
+> _look at the tv_
+There is nothing special about the TV.
+
+> _look at the chair_
+There is nothing special about the comfy chair.
+
+> _look at the table_
+There is nothing special about the table.
+----
+
+[float]
+==== Changing the Default Response
+
+We can change the "nothing special" response with one of our own for each of our OBJECTS. The simplest way to do that right now is to begin with the "copy-and-paste" method. Let’s copy and paste the VERB from "examine.i" into our OBJECTS. This is the section we want from "examine.i":
+
+[subs="quotes"]
+----
+     Verb examine
+         Check obj Is examinable
+             Else
+                 "You can't examine" Say The obj. "."
+         Does
+             "There is nothing special about" Say The obj. "."
+     End Verb.
+----
+
 The only part we need is the VERB statement, and what it DOES. So before we paste it into our game file, let's remove the CHECK, etc.
+
 _Important: _  This doesn't mean the CHECKS will not apply to our OBJECTS. The CHECKS will still be applied by default.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="80FFFF"><span style="background-color:#80FFFF; color: 000000";>Verb examine Does   "There is nothing special about" Say The obj. "." End Verb.
-We can also remove the unwanted response, leaving us with:
-Verb examine
- Does
-  ""
-End Verb.
-Now let's paste this into the section for each of our OBJECTS:
-… SYNONYMS television = tv. THE tv Isa OBJECT AT tv_room NAME TV NAME plasma NAME screen NAME giant NAME giant screen plasma tv IS SWITCHABLE. HAS weight 100. DESCRIPTION
-Verb examine  Does   "" End Verb.
-<FONT FACE="Times New Roman" SIZE=3 COLOR="#FF0000">END THE tv. ----------------------- THE chair Isa OBJECT AT tv_room NAME comfy chair NAME comfy DESCRIPTION
-Verb examine  Does   "" End Verb.
-<FONT FACE="Times New Roman" SIZE=3 COLOR="#FF0000">END THE chair. ----------------------- THE table Isa OBJECT AT tv_room DESCRIPTION
-Verb examine  Does   "" End Verb.
-<FONT FACE="Times New Roman" SIZE=3 COLOR="#FF0000">END THE table. ----------------------- …
-Now let’s put in our custom responses:
-… SYNONYMS television = tv. THE tv Isa OBJECT AT tv_room NAME TV NAME plasma NAME screen NAME giant NAME giant screen plasma tv IS SWITCHABLE. HAS weight 100. DESCRIPTION
+
+[subs="quotes"]
+----
  Verb examine
-  Does
-  "It's your 52-inch plasma pride and joy."
+     Does
+         "There is nothing special about" Say The obj. "."
  End Verb.
-END THE tv.
------------------------
-THE chair Isa OBJECT AT tv_room
-NAME comfy chair NAME comfy
-DESCRIPTION
-Verb examine
- Does
-   "It's your favorite chair to sit in when you're watching the big game."
-End Verb.
-END THE chair.
------------------------
-THE table Isa OBJECT AT tv_room
-DESCRIPTION
-Verb examine
- Does
-   "It's an ordinary table, set conveniently by your chair."
-End Verb.
+----
+
+We can also remove the unwanted response, leaving us with:
+
+----
+ Verb examine
+     Does
+         ""
+ End Verb.
+----
+
+Now let's paste this into the section for each of our OBJECTS:
+
+[subs="quotes"]
+----
+ ...
+ SYNONYMS television = tv.
+ THE tv Isa OBJECT AT tv_room
+     NAME TV
+     NAME plasma
+     NAME screen
+     NAME giant
+     NAME giant screen plasma tv
+     IS SWITCHABLE.
+     HAS weight 100.
+     DESCRIPTION
+     *Verb examine*
+         *Does*
+             *""*
+     *End Verb.*
+ END THE tv.
+ -----------------------
+ THE chair Isa OBJECT AT tv_room
+     NAME comfy chair
+     NAME comfy
+     DESCRIPTION
+     *Verb examine*
+         *Does*
+             *""*
+     *End Verb.*
+ END THE chair.
+ -----------------------
+ THE table Isa OBJECT AT tv_room
+     DESCRIPTION
+     *Verb examine*
+         *Does*
+             *""*
+     *End Verb.*
  END THE table.
------------------------
-...
+ -----------------------
+ ...
+----
+
+Now let’s put in our custom responses:
+
+[subs="quotes"]
+----
+ ...
+ SYNONYMS
+     television = tv.
+ THE tv Isa OBJECT AT tv_room
+     NAME TV
+     NAME plasma
+     NAME screen
+     NAME giant
+     NAME giant screen plasma tv
+     IS SWITCHABLE.
+     HAS weight 100.
+     DESCRIPTION
+     Verb examine
+         Does
+             *"It's your 52-inch plasma pride and joy."*
+     End Verb.
+ END THE tv.
+ -----------------------
+ THE chair Isa OBJECT AT tv_room
+     NAME comfy chair NAME comfy
+     DESCRIPTION
+     Verb examine
+         Does
+             *"It's your favorite chair to sit in when you're watching*
+              *the big game."*
+     End Verb.
+ END THE chair.
+ -----------------------
+ THE table Isa OBJECT AT tv_room
+     DESCRIPTION
+     Verb examine
+         Does
+             *"It's an ordinary table, set conveniently by your chair."*
+     End Verb.
+ END THE table.
+ -----------------------
+ ...
+----
+
 Save, compile and run the game. "Look at" the TV.
-TV Room This is your favorite room in the house, because you love to watch television. You recently purchased a giant screen plasma TV that is set up in this room, ideally located across from your comfy chair and table. The kitchen is south.
-> look at the tv There is nothing special about the TV. It’s your 52-inch plasma pride and joy.
+
+[subs="quotes"]
+----
+TV Room
+This is your favorite room in the house, because you love to watch television. You recently purchased a giant screen plasma TV that is set up in this room, ideally located across from your comfy chair and table. The kitchen is south.
+
+> _look at the tv_
+There is nothing special about the TV. It’s your 52-inch plasma pride and joy.
+----
+
 We still got the default response and our custom response. What happened?
+
 Note what was said above about the CHECK. Even though we removed it from the VERB for each of our OBJECTS, the CHECK is still carried out by the default VERB in the "examine.i" file. The same holds true for the DOES. The default DOES in the library is carried out, and then the custom DOES for the OBJECT is carried out.
+
 If we want the interpreter to do only what the custom response calls for, we add the word  ONLY . Like this:
-...
-Verb examine
- Does ONLY
-  "It's your 52-inch plasma pride and joy."
-End Verb.
-...
-Include the word "ONLY" in each of the custom VERB responses for the tv, chair, and table. Compile and play the game, examining each. The game will display only the custom responses!
-4.2. Reserved words
-Reserved Words. Notice the single-quotes around the word "check", as well as the words "look" and "at", in "examine.i". This is very _ _important! We know that CHECK and AT are reserved Alan programming words, or keywords . When the Alan program sees a CHECK or any Alan keyword, it tries to understand it as a statement, which will most likely result in a compiler error. But that does not preclude us from using Alan keywords for our own purposes. The single-quotes around the keyword will protect it from being interpreted as a statement, and will allow its use as though it were not a keyword.
-4.3. Another Take on "take"
-Previously we worked with various default responses for the "take" command, using the tv as our test OBJECT. First we made the tv "NOT takeable", resulting in the default response:
-> take the tv You can’t take that!
-Then we gave the tv the Attribute of weight, and gave it a weight of 100.
-> take the tv That is too heavy to lift.
-There is still another way to override the default responses for "take", and that is to supply a custom response of our own, as we did in the last section with the "examine" VERB. Let’s copy and paste the relevant section from the "take" VERB in "take.i":
-  Verb take, pick_up1, pick_up2
-  Check obj Is takeable
-    Else "You can't take that!"
-  And obj Not In worn
-    Else "You've already got that - you're wearing that."
-  And obj Not In hero
-    Else "You've already got that."
-  And weight Of obj &lt;=50
-    Else "That is too heavy to lift."
-  Does
-    Locate obj In hero.
-    "Taken."
+
+[subs="quotes"]
+----
+ ...
+ Verb examine
+     Does *ONLY*
+         "It's your 52-inch plasma pride and joy."
  End Verb.
+ ...
+----
+
+Include the word "ONLY" in each of the custom VERB responses for the tv, chair, and table. Compile and play the game, examining each. The game will display only the custom responses!
+
+=== Reserved words
+
+Notice the single-quotes around the word "check", as well as the words "look" and "at", in "examine.i". This is very _ _important! We know that CHECK and AT are reserved Alan programming words, or keywords . When the Alan program sees a CHECK or any Alan keyword, it tries to understand it as a statement, which will most likely result in a compiler error. But that does not preclude us from using Alan keywords for our own purposes. The single-quotes around the keyword will protect it from being interpreted as a statement, and will allow its use as though it were not a keyword.
+
+=== Another Take on "take"
+
+Previously we worked with various default responses for the "take" command, using the tv as our test OBJECT. First we made the tv "NOT takeable", resulting in the default response:
+
+[subs="quotes"]
+----
+> _take the tv_
+You can’t take that!
+----
+
+Then we gave the tv the Attribute of weight, and gave it a weight of 100.
+
+[subs="quotes"]
+----
+> _take the tv_
+That is too heavy to lift.
+----
+
+There is still another way to override the default responses for "take", and that is to supply a custom response of our own, as we did in the last section with the "examine" VERB. Let’s copy and paste the relevant section from the "take" VERB in "take.i":
+
+[subs="quotes"]
+----
+ Verb take, pick_up1, pick_up2
+     Check obj Is takeable
+         Else "You can't take that!"
+     And obj Not In worn
+         Else "You've already got that - you're wearing that."
+     And obj Not In hero
+         Else "You've already got that."
+     And weight Of obj <=50
+         Else "That is too heavy to lift."
+     Does
+         Locate obj In hero.
+         "Taken."
+ End Verb.
+----
+
 Let's remove the CHECKS and paste the remaining code in the tv OBJECT.
-… SYNONYMS television = tv. THE tv Isa OBJECT AT tv_room NAME TV NAME plasma NAME screen NAME giant NAME giant screen plasma tv IS SWITCHABLE. -- We removed the "HAS weight 100" to keep the -- default CHECK from stopping the "take" action. DESCRIPTION
-<FONT FACE="Times New Roman" SIZE=2>Verb examine Does ONLY   "It’s your 52-inch plasma pride and joy." End Verb.
-<FONT FACE="Times New Roman" SIZE=2>Verb take, pick_up1, pick_up2  Does ONLY — We don’t want the default DOES to apply!   Locate obj In hero.   "Taken." End Verb.
-END THE tv. …
+
+[subs="quotes"]
+----
+ ...
+ SYNONYMS
+     television = tv.
+ THE tv Isa OBJECT AT tv_room
+     NAME TV
+     NAME plasma
+     NAME screen
+     NAME giant
+     NAME giant screen plasma tv
+     IS SWITCHABLE.
+     -- We removed the "HAS weight 100" to keep the
+     -- default CHECK from stopping the "take" action.
+     DESCRIPTION
+     Verb examine
+         Does ONLY
+             "It’s your 52-inch plasma pride and joy."
+     End Verb.
+     Verb take, pick_up1, pick_up2
+         Does ONLY — We don’t want the default DOES to apply!
+             Locate obj In hero.
+             "Taken."
+     End Verb.
+ END THE tv.
+ ...
+----
+
 Look at the line that says "Locate obj In hero." The LOCATE statement is new. Its purpose is to move or locate an OBJECT or ACTOR (including the player character, if we wish) from one place to another. The place can be a LOCATION, a CONTAINER, near another OBJECT, etc., depending on other factors.
+
 In this case the "take" action will LOCATE the tv (obj) "In hero." _ The Hero is the default player character, and is also_ the default player’s inventory CONTAINER.  That is, anything carried by the Hero (the player character) is said to be IN the Hero. So to LOCATE the tv IN the Hero means that the tv will no longer be in the TV Room, but be carried by the player character.
+
 To prevent the tv from being moved into the player inventory, we simply omit the LOCATE statement from the "take" VERB.
-...
-Verb take, pick_up1, pick_up2
- Does ONLY
-  "Taken."
-End Verb.
-...
+
+[subs="quotes"]
+----
+ ...
+ Verb take, pick_up1, pick_up2
+     Does ONLY
+         "Taken."
+ End Verb.
+ ...
+----
+
 The default LOCATE will not apply because it is in the DOES section of the default VERB. We are overriding _ _everything in the DOES section of the default VERB with DOES ONLY.
+
 Of course the "Taken" message makes no sense now. We can put a custom message in its place.
-… SYNONYMS television = tv. THE tv Isa OBJECT AT tv_room NAME TV NAME plasma NAME screen NAME giant NAME giant screen plasma tv IS SWITCHABLE. DESCRIPTION
-<FONT FACE="Times New Roman" SIZE=2>Verb examine Does ONLY   "It’s your 52-inch plasma pride and joy." End Verb.
-<FONT FACE="Times New Roman" SIZE=2>Verb take, pick_up1, pick_up2 Does ONLY "You try to wrap your arms around the giant screen but it is too wide. You can’t get a good grip on the heavy TV to lift it." End Verb.
-END THE tv. …
+
+[subs="quotes"]
+----
+ ...
+ SYNONYMS
+     television = tv.
+ THE tv Isa OBJECT AT tv_room
+     NAME TV
+     NAME plasma
+     NAME screen
+     NAME giant
+     NAME giant screen plasma tv
+     IS SWITCHABLE.
+     DESCRIPTION
+     Verb examine
+         Does ONLY
+             "It’s your 52-inch plasma pride and joy."
+     End Verb.
+     Verb take, pick_up1, pick_up2
+         Does ONLY
+             "You try to wrap your arms around the giant screen but it is
+             too wide. You can’t get a good grip on the heavy TV to lift
+             it."
+     End Verb.
+ END THE tv.
+ ...
+----
+
 In effect, we have stopped the action by overriding the default response. This same effect could be achieved with a CHECK in the place of the DOES ONLY, but I prefer this method as it allows greater flexibility as the program becomes more complex.
-4.4. Turn It On
+
+=== Turn It On
+
 Let’s do one more custom response to a default VERB in the library, turning the tv on and off. We’ll start by looking once again at "turn.i" and copying what we need for the tv and removing the CHECKS.
-Verb turn_on1, turn_on2, switch_on1, switch_on2
- Does
-  Make obj 'on'.
-  "You turn on" Say The obj. "."
-End Verb.
+
+[subs="quotes"]
+----
+ Verb turn_on1, turn_on2, switch_on1, switch_on2
+     Does
+         Make obj 'on'.
+         "You turn on" Say The obj. "."
+ End Verb.
+----
+
 Remember at this point in the "take" VERB (<a href="#7F95515A1A42757262928CBF9DC6F75319B7BD28">previous section</A>) we came to the LOCATE statement after the DOES. This time we have come to something else new in the line "Make obj on."
-__  _The MAKE statement changes a Boolean Attribute_ .
+_The MAKE statement changes a Boolean Attribute_.
+
 The MAKE statement does not Add an Attribute, but changes it. The OBJECT in question must already have the Attribute, either that it IS, or IS NOT. As noted before, a Boolean Attribute can be thought of in terms of on/off, yes/no. The MAKE statement is used to turn the on to off, the yes to no, the right_side_up to upside_down, etc. It does so by making the ON to NOT ON, the YES to NOT YES, the RIGHT_SIDE_UP to NOT RIGHT_SIDE_UP, and so on, and vice versa.
+
 We had to give the tv the Attribute "IS SWITCHABLE" so that the player can turn it on or off. But we did not have to give the tv the Attribute of " on " (an Alan reserved word), because it already has it. That is, the tv has the Attribute IS NOT ON. We did not have to assign that Attribute to the tv in our code, because the default library ("turn.i") has already assigned it to every OBJECT in the game:
-Add To Every object
- Is
-  Not 'on'.
-  Not switchable.
-End Add To object.
+
+[subs="quotes"]
+----
+ Add To Every object
+     Is
+         Not 'on'.
+         Not switchable.
+ End Add To object.
+----
+
 What an OBJECT IS NOT can be changed to IS, and what it IS can be changed to IS NOT, with the MAKE statement.
-Verb turn_on1, turn_on2, switch_on1, switch_on2
- Does
-  Make obj 'on'.
-  "You turn on" Say The obj. "."
-End Verb.
+
+[subs="quotes"]
+----
+ Verb turn_on1, turn_on2, switch_on1, switch_on2
+    Does
+        Make obj 'on'.
+        "You turn on" Say The obj. "."
+ End Verb.
+----
+
 So the line "Make obj on " will change the Attribute of the tv from NOT ON to ON. In fact, it will MAKE the tv ON two times: once in the default library and once in our VERB for the tv. Once we add the DOES ONLY , however, we override everything in the default DOES, and it will only be changed in the local VERB for the tv.
+
 A further bit of house cleaning comes into play here, however. The word "obj" is a stand-in for the OBJECT, in this case the tv. It will work fine as it is, making the tv ON. But to make the code easier to understand, especially as it may become more complex, we do well to let the tv stand in for itself.
-Verb turn_on1, turn_on2, switch_on1, switch_on2
- Does ONLY
-  Make tv 'on'.
-  "You turn on" Say The obj. "."
-End Verb.
+
+[subs="quotes"]
+----
+ Verb turn_on1, turn_on2, switch_on1, switch_on2
+    Does ONLY
+        Make tv 'on'.
+        "You turn on" Say The obj. "."
+ End Verb.
+----
+
 Finally we will write our custom message response. We could say "You turn on the tv," but that would be the very same message as the default library. If that is all we wanted, we would have done well enough to assign the IS SWITCHABLE Attribute to the tv and be done. The default library would take care of the rest.
+
 But we want to do more than say "You turn on the tv." We want this display:
-> turn on the tv
+
+[subs="quotes"]
+----
+> _turn on the tv_
 Wow! What a great picture!
 <IMG BORDER="0" SRC="images/73D17E1AB203F19550E0ED6670928EAA467080A2.jpg" WIDTH="180" HEIGHT="180"/>
 You watch the game and your favorite team wins!
 And so have you…
 * You have won! *
 Do you want to UNDO, RESTART, RESTORE or QUIT?
-<a href="#26EC295B00CAEAB77FA62CE2134E497F8BC1A7E1">Here’s how we do it</A>
-5. PART FOUR: Images and Text Formatting
-5.1. The SHOW and QUIT Statements
+----
+
+Next part will show how we do it.
+
+== PART FOUR: Images and Text Formatting
+
+=== The SHOW and QUIT Statements
+
 SHOW and QUIT. It is very easy to put images in your game with the SHOW statement. Here is how it is done for the tv:
-...
-SYNONYMS
- television = tv.
-THE tv Isa OBJECT AT tv_room
-NAME TV NAME plasma
-NAME screen NAME giant
-NAME giant screen plasma tv
-IS SWITCHABLE.
-DESCRIPTION
-<FONT FACE="Times New Roman" SIZE=2>Verb examine Does ONLY   "It’s your 52-inch plasma pride and joy." End Verb.
-<FONT FACE="Times New Roman" SIZE=2>Verb take, pick_up1, pick_up2 Does ONLY "You try to wrap your arms around the giant screen but it is too wide. You can’t get a good grip on the heavy TV to lift it." End Verb.
-  Verb turn_on1, turn_on2, switch_on1, switch_on2
-  Does ONLY
-   Make tv 'on'.
- "Wow! What a great picture!"
- SHOW 'plasma.jpg'.
- "You watch the game and your favorite team wins!"
- "$pAnd so have you..."
- "$p*** You have won! *** " -- The customary IF "win" message
- QUIT.
- End Verb.
-END THE tv. …
-The format for the SHOW statement is the same as that for <a href="#ECD2C83EC582E5FBE488BD6322B4B5A888CC184E">the IMPORT statement we did earlier</A>. The name of the .jpg file must be enclosed in single-quotes and the statement must end with a full-stop. It is also important to note that the image file must be in the same folder as the game source file when you compile it.
+
+[subs="quotes"]
+----
+ ...
+ SYNONYMS
+     television = tv.
+ THE tv Isa OBJECT AT tv_room
+     NAME TV
+     NAME plasma
+     NAME screen
+     NAME giant
+     NAME giant screen plasma tv
+     IS SWITCHABLE.
+     DESCRIPTION
+     Verb examine
+         Does ONLY
+             "It’s your 52-inch plasma pride and joy."
+     End Verb.
+     Verb take, pick_up1, pick_up2
+         Does ONLY
+             "You try to wrap your arms around the giant screen but it is
+             too wide. You can’t get a good grip on the heavy TV to lift 
+             it."
+     End Verb.
+     Verb turn_on1, turn_on2, switch_on1, switch_on2
+         Does ONLY
+             Make tv 'on'.
+             *"Wow! What a great picture!"*
+             *SHOW 'plasma.jpg'.*
+             *"You watch the game and your favorite team wins!"*
+             *"$pAnd so have you..."*
+             *"$p\**** You have won! *** *" -- The customary IF "win"*
+              *message*
+             *QUIT.*
+     End Verb.
+ END THE tv.
+ ...
+----
+
+The format for the SHOW statement is the same as that for the IMPORT statement we did earlier</A>. The name of the .jpg file must be enclosed in single-quotes and the statement must end with a full-stop. It is also important to note that the image file must be in the same folder as the game source file when you compile it.
+
 The "plasma.jpg" is included in the download of this tutorial. Save it in your game folder to use as you follow this beginner’s guide.
+
 You will not need to include the image file with the a3c game file (produced by the compiler) when you distribute your game, but you will need to include the a3r file (also produced by the compiler), which holds the media for your game.
-QUIT (with a full-stop) is all that we need for the "undo, restart, restore, or quit" message. QUIT is a built-in Alan statement (and <a href="#80C872AB68703E573888F60F48F155924E42E0B1">reserved word</A>) that does it all for us.
+
+QUIT (with a full-stop) is all that we need for the "undo, restart, restore, or quit" message. QUIT is a built-in Alan statement (and reserved word) that does it all for us.
+
 The "$p" characters are formatting characters and will be explained in the next section.
-5.2. A START AT Formatting
+
+
+=== A START AT Formatting
+
 When starting a game of Interactive Fiction, some sort of introductory information and title is usually displayed before the player is introduced to the first LOCATION. We might wish, for example, to start our game with this display:
-                     * TV TIME! *        An ALAN 3 Interactive Fiction Tutorial Game                 By Michael Arnaud © 2006
+
+[subs="quotes"]
+----
+
+                * TV TIME! *
+    An ALAN 3 Interactive Fiction Tutorial Game
+           By Michael Arnaud © 2006
+
 (Type "help" if you have not played this kind of game before.)
+
 Joy of joys, you have just purchased a brand new big screen plasma TV that was delivered earlier today!
+
 TV Room This is your favorite room in the house, because you love to watch television. You recently purchased a giant screen plasma TV that is set up in this room, ideally located across from your comfy chair and table. The kitchen is south.
+
 >
-Re-Introducing START AT We place our introductory information and title conveniently after the START AT statement.
-… START AT tv_room.  "$p$t$t$t$t$t$t$t$t$t* TV TIME! *  $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game  $n$t$t$t$t$t$t$tBy Michael Arnaud © 2006  $p(Type ""help"" if you have not played this kind of game before.)  $pJoy of joys, you have just purchased a brand new big screen plasma TV that was delivered earlier today!"
- We Love Those Dollar $igns!
+----
+
+[float]
+==== Re-Introducing START AT
+
+We place our introductory information and title conveniently after the START AT statement.
+
+[subs="quotes"]
+----
+ ...
+ START AT tv_room.
+ "$p$t$t$t$t$t$t$t$t$t* TV TIME! *
+  $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game  
+  $n$t$t$t$t$t$t$tBy Michael Arnaud © 2006
+  $p(Type ""help"" if you have not played this kind of game before.)
+  $pJoy of joys, you have just purchased a brand new big screen plasma TV 
+  that was delivered earlier today!"
+----
+
+[float]
+==== We Love Those Dollar $igns!
+
 There are some odd-looking figures here... $p, $n, $t. They have nothing to do with dollars (too bad). They are simple text-formatting symbols, that do the following:
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="80FFFF"><span style="background-color:#80FFFF; color: 000000";>$p — "paragraph"       Prints a blank line to the screen and then begins a new line of text. <FONT FACE="Courier New" SIZE=2 BGCOLOR="80FFFF"><span style="background-color:#80FFFF; color: 000000";>$n — "new"       Begins a new line of text without first printing a blank line. <FONT FACE="Courier New" SIZE=2 BGCOLOR="80FFFF"><span style="background-color:#80FFFF; color: 000000";>$t — "tab"       Inserts a tab.
-(There is more of this in the manual, ¶ 4.16.1). Formatting like this is important throughout our game. It helps in creating lists, conversation, and general appearance and readability of the text. Note that these formatting symbols are within the double-quotes , immediately and without spaces, with the text we want to display. These symbols can be placed at the beginning, end, middle, or anywhere we want the formatting to occur. The compiler does not care about full-stops or returns, sentences or paragraphs in our display statements within double-quotes. So to force a line-break ($n) or paragraph ($p), etc., we use these formatting symbols.
+
+----
+$p — "paragraph"  Prints a blank line to the screen and then begins a new
+                  line of text.
+$n — "new"        Begins a new line of text without first printing a blank line.
+$t — "tab"        Inserts a tab.
+----
+
+(There is more of this in the manual, ¶ 4.16.1). Formatting like this is important throughout our game. It helps in creating lists, conversation, and general appearance and readability of the text. Note that these formatting symbols are within the double-quotes , immediately and without spaces, with the text we want to display. These symbols can be placed at the beginning, end, middle, or anywhere we want the formatting to occur. 
+
+The compiler does not care about full-stops or returns, sentences or paragraphs in our display statements within double-quotes. So to force a line-break ($n) or paragraph ($p), etc., we use these formatting symbols.
+
 Note that we put double-quotes at the beginning ("$p$t$t$t$t$t$t$t$t$t* TV TIME! *) and did not close the double-quotes until the end ( …delivered earlier today!"). That is because the enitre section of code is one block of uninterrupted text to be displayed. But we could have just as well put double-quotes in a more logical and easy-to-read way. Like this:
+
+----
  "$p$t$t$t$t$t$t$t$t$t*** TV TIME! ***"
-"$n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game"
-"$n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006"
-"$p(Type ""help"" if you have not played this kind of game before.)"
-"$pJoy of joys, you have just purchased a brand new big screen plasma TV
-that was delivered earlier today!"
+ "$n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game"
+ "$n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006"
+ "$p(Type ""help"" if you have not played this kind of game before.)"
+ "$pJoy of joys, you have just purchased a brand new big screen plasma TV
+  that was delivered earlier today!"
+----
+
 Either of these layouts will print the same information to the screen. Just remember: _for every open double-quote there_ _must be a close!_  Compiler errors will surely result from failure to observe this rule, and not just one, but _dozens_ of inexplicable errors! -- from a misplacement, omission or otherwise bad use of double-quotes. For this reason, I prefer the single-block quote: the fewer double-quotes, the better.
-Note
-Anyime you compile a game and get a lot of errors seemingly out of nowhere, the first thing to look for is a problem with double-quotes. (The next thing is a misplaced or missing full-stop.)
-Using Double-Quotes and Double Double-Quotes Now notice the DOUBLE double-quotes around the word: ""help"". ALAN 3 already uses double-quotes to tell the compiler to "say" things to the player, that is, to print it to the screen. So if we were to just use double-quotes within the double-quotes like this "help" we would confuse the compiler (which is never a very nice thing to do). We will get a result we don’t like, and very likely a compiler error.
-We can still display double-quotes for conversation and such, by DOUBLE double-quotes. These are read by the compiler to print a single set of double-quotes to the screen, just the way we want.
+
+NOTE: Anyime you compile a game and get a lot of errors seemingly out of nowhere, the first thing to look for is a problem with double-quotes. (The next thing is a misplaced or missing full-stop.)
+
+[float]
+==== Using Double-Quotes and Double Double-Quotes
+
+Now notice the DOUBLE double-quotes around the word: ""help"". ALAN 3 already uses double-quotes to tell the compiler to "say" things to the player, that is, to print it to the screen. So if we were to just use double-quotes within the double-quotes like this "help" we would confuse the compiler (which is never a very nice thing to do). We will get a result we don’t like, and very likely a compiler error.
+
+We can still display double-quotes for conversation and such, by DOUBLE double-quotes. These are read by the compiler to print a single set of double-quotes to the screen, just the way we want
+
 The compiler has no problem with single-quotes and other figures within the double-quote marks. Notice for example the use of asterisks above.
 Formatting with Images The Alan interpreter displays images at the left margin. As of this writing, there is no method for displaying images, say, in the center or at the right margin. The formatting of text around the image is a little tricky, and trial-and-error is probably the best method to get the display you want.
+
 If you want to display text not only above and below, but to the right of the image, I have found this format effective:
+
+[subs="quotes"]
+----
  ...
  "Wow! What a great picture!"
  SHOW 'plasma.jpg'.
-"$n$nYou watch the game and your favorite team wins!"
-"$$n$nAnd so have you..."
+ "$n$nYou watch the game and your favorite team wins!"
+ "$$n$nAnd so have you..."
  "$p*** You have won! *** "
  ...
+----
+
 The $n or double $n will print the text to the right of the image, where using a $p would force the text to the line after the image, i.e., below it.
-Change the Starting LOCATION DESCRIPTION Now that we have given introductory information at the start that the player has "just purchased a brand new big screen plasma TV that was delivered earlier today," it is redundant to repeat that same information in the TV Room. It’s time to change the TV Room DESCRIPTION.
+
+[float]
+==== Change the Starting LOCATION DESCRIPTION
+
+Now that we have given introductory information at the start that the player has "just purchased a brand new big screen plasma TV that was delivered earlier today," it is redundant to repeat that same information in the TV Room. It’s time to change the TV Room DESCRIPTION.
+
+[subs="quotes"]
+----
  THE tv_room Isa LOCATION
  NAME 'TV Room'
  DESCRIPTION
- "This is your favorite room in the house, because you love to watch television. Your new plasma TV is set up in this room, ideally located across from your comfy chair and table.
-$pThe kitchen is south."
+ "This is your favorite room in the house, because you love to watch
+ television. Your new plasma TV is set up in this room, ideally located 
+ across from your comfy chair and table.
+ $pThe kitchen is south."
  ...
+----
+
 While we're at it, since we have added a few adjectives to the tv in our start-up information, let's go back to the tv and add them as well, just in cast the player wants to refer to the tv with them.
-… SYNONYMS television = tv. THE tv Isa OBJECT AT tv_room NAME TV NAME plasma NAME brand NAME new NAME screen NAME giant NAME brand new giant screen plasma tv …
-6. PART FIVE: A First Puzzle
-6.1. A Puzzling Problem
-A Too-Easy Win. There is not much challenge to our game. Turn on the tv and win the game. Challenges and obstacles often add fun to games; and overcoming obstacles — "puzzles," in IF vernacular — may even be the whole point of the game. Even so, it is well to make puzzle-solving part of a larger story, and not simply a matter of solving one puzzle after another.
+
+[subs="quotes"]
+----
+ ...
+ SYNONYMS
+    television = tv.
+ THE tv Isa OBJECT AT tv_room
+    NAME TV
+     NAME plasma
+     NAME brand
+     NAME new
+     NAME screen
+     NAME giant
+     NAME brand new giant screen plasma tv
+ ...
+----
+
+
+== PART FIVE: A First Puzzle
+
+=== A Puzzling Problem
+
+[float]
+==== A Too-Easy Win
+
+There is not much challenge to our game. Turn on the tv and win the game. Challenges and obstacles often add fun to games; and overcoming obstacles — "puzzles," in IF vernacular — may even be the whole point of the game. Even so, it is well to make puzzle-solving part of a larger story, and not simply a matter of solving one puzzle after another.
 Suppose we introduce a few puzzles for turning on the tv. Our first puzzle might be a simple matter of having to find the remote control by searching the chair, in order to turn on the tv.
+
 When we construct puzzles it is a good idea to work them in the reverse order of solving them. That is, whatever the player must do last, we should program first, and so on. The order of construction, then, should be first to disable turning on the tv without the remote; second, to create and enable the remote to turn on the tv; and third, searching the chair and finding the remote control.
-Disable the TV. … Verb turn_on1, turn_on2, switch_on1, switch_on2 Does ONLY -- We removed MAKE tv on.        "There are no knobs, switches or buttons for turning on the TV." End Verb. …
+
+[float]
+==== Disable the TV
+
+[subs="quotes"]
+----
+ ...
+ Verb turn_on1, turn_on2, switch_on1, switch_on2
+     Does ONLY
+         -- We removed MAKE tv on.
+         "There are no knobs, switches or buttons for turning on the TV." 
+ End Verb.
+ ...
+----
+
 This overrides the default response from the library with a message explaining why the TV cannot be turned on. There is also an implied hint that there must be some other way to turn it on, and it is likely to come to the mind of the player to look for a remote control. If we are concerned that the puzzle may be too difficult, we could add a line something like "Perhaps there is a remote control somewhere." But in this case I think the player will not need that much of a hint.
-Create the Remote
-THE remote Isa OBJECT AT Nowhere NAME remote control NAME controller NAME tv control remote
-VERB examine  DOES ONLY   "It’s a very simple push-button remote control." END VERB.
-END THE remote.
+
+[float]
+==== Create the Remote
+
+[subs="quotes"]
+----
+ ...
+ THE remote Isa OBJECT AT Nowhere
+     NAME remote control
+     NAME controller
+     NAME tv control remote
+     VERB examine
+         DOES ONLY
+             "It’s a very simple push-button remote control."
+     END VERB.
+ END THE remote.
+ ...
+----
 Notice that the remote is "AT Nowhere". That is because it will not be introduced into the game proper until it is found by searching the chair.
 Enable the Remote Looking once again to the library for the "turn on" VERB in "turn.i":
-Verb turn_on1, turn_on2, switch_on1, switch_on2
- Check obj Is switchable
-  Else "You can't turn that on."
- And obj Is Not 'on'
-  Else "It's already on."
- Does
-  Make obj 'on'.
-  "You turn on" Say The obj. "."
-End Verb.
-So first thing we will make the remote "switchable".
- THE remote Isa OBJECT AT Nowhere
- NAME remote control NAME controller
- NAME tv control remote
-IS SWITCHABLE.
+
+[subs="quotes"]
+----
  ...
+ Verb turn_on1, turn_on2, switch_on1, switch_on2
+     Check obj Is switchable
+         Else "You can't turn that on."
+     And obj Is Not 'on'
+         Else "It's already on."
+     Does
+         Make obj 'on'.
+         "You turn on" Say The obj. "."
+ End Verb.
+ ...
+----
+
+So first thing we will make the remote "switchable".
+
+[subs="quotes"]
+----
+ ...
+ THE remote Isa OBJECT AT Nowhere
+     NAME remote control
+     NAME controller
+     NAME tv control remote
+     *IS SWITCHABLE.*
+ ...
+----
+
 Remove the CHECKS from the VERB and add DOES ONLY:
+
+[subs="quotes"]
+----
+ ...
  Verb turn_on1, turn_on2, switch_on1, switch_on2
   Does ONLY
    Make obj 'on'.
    "You turn on" Say The obj. "."
  End Verb.
+ ...
+----
 
 Now notice this: "obj" is a stand-in for the remote. We don't really want to turn on the remote. We want the statement "turn on the remote" to turn on _the tv and win the game._ So:
-THE remote Isa OBJECT AT Nowhere
-NAME remote control NAME controller
-NAME tv control remote
-IS SWITCHABLE.
- VERB examine
- DOES ONLY
-  "It's a very simple push-button remote control."
-END VERB.
-Verb turn_on1, turn_on2, switch_on1, switch_on2 Does ONLY   Make tv on.  "Wow! What a great picture!"  SHOW plasma.jpg.  "$n$nYou watch the game and your favorite team wins!"  "$n$nAnd so have you…"  "$p* You have won! * "  QUIT. End Verb.
-END THE remote.
-Searching Is Not Examining This is still an occasional matter of debate on the Interactive Fiction newsgroups. Some say that if you are examining something, you are ipso facto searching it as well. Others maintain that "examine", or "x", has become a convention in IF meaning only to "look at", not to search in detail. This opinion appears to be that of the majority, and is mine as well. It is also the way the Alan standard library is set up.
-From "examine.i":
-ADD TO EVERY THING
-IS
- examinable.
- searchable.
-END ADD TO THING.
-...
-The chair is a THING, so it is "searchable".
+
+[subs="quotes"]
+----
+ ....
+ THE remote Isa OBJECT AT Nowhere
+     NAME remote control
+     NAME controller
+     NAME tv control remote
+     IS SWITCHABLE.
+     VERB examine
+         DOES ONLY
+             "It's a very simple push-button remote control."
+     END VERB.
+     Verb turn_on1, turn_on2, switch_on1, switch_on2
+         Does ONLY
+             Make tv on.
+             "Wow! What a great picture!"
+             SHOW plasma.jpg.
+             "$n$nYou watch the game and your favorite team wins!"  "$n$nAnd so have you…"  "$p* You have won! * "
+             QUIT.
+     End Verb.
+ END THE remote.
  ...
-VERB search
- CHECK obj IS searchable
-  ELSE
-    "You can't search" Say The obj. "."
- DOES
-  "You find nothing of interest."
-END VERB.
+----
+
+[float]
+==== Searching Is Not Examining
+
+This is still an occasional matter of debate on the Interactive Fiction newsgroups. Some say that if you are examining something, you are ipso facto searching it as well. Others maintain that "examine", or "x", has become a convention in IF meaning only to "look at", not to search in detail. This opinion appears to be that of the majority, and is mine as well. It is also the way the Alan standard library is set up.
+
+From "examine.i":
+
+[subs="quotes"]
+----
+ ...
+ ADD TO EVERY THING
+     IS
+         examinable.
+         searchable.
+ END ADD TO THING.
+ ...
+----
+
+The chair is a THING, so it is "searchable".
+
+[subs="quotes"]
+----
+ ...
+ VERB search
+     CHECK obj IS searchable
+         ELSE
+             "You can't search" Say The obj. "."
+     DOES
+         "You find nothing of interest."
+ END VERB.
+ ...
+----
+
 Remove the CHECKS and add DOES ONLY:
-VERB search
- DOES ONLY
-  "You find nothing of interest."
-END VERB.
+
+[subs="quotes"]
+----
+ ...
+ VERB search
+     DOES ONLY
+         "You find nothing of interest."
+ END VERB.
+ ...
+----
+
 Now let’s change the default message.
-VERB search
- DOES ONLY
-  "You find the lost remote control."
-END VERB.
+
+[subs="quotes"]
+----
+ ...
+ VERB search
+     DOES ONLY
+         "You find the lost remote control."
+ END VERB.
+----
+
 Now bring the remote into the game.
+
+[subs="quotes"]
+----
+ ...
  VERB search
-  DOES ONLY
-  LOCATE remote Here.
-   "You find the lost remote control."
+     DOES ONLY
+         LOCATE remote Here.
+         "You find the lost remote control."
  END VERB.
-We can use "Here" to represent the LOCATION where the Hero is . It is helpful especially in such cases if, for example, the player were to take the chair into the kitchen before searching it. If we were to code it this way it would give a rather confusing result:
+ ...
+----
+
+We can use "Here" to represent the LOCATION where the Hero is. It is helpful especially in such cases if, for example, the player were to take the chair into the kitchen before searching it. If we were to code it this way it would give a rather confusing result:
+
+[subs="quotes"]
+----
  VERB search
-  DOES ONLY
-  LOCATE remote AT tv_room. -- But we're in the kitchen!?
-   "You find the lost remote control."
+     DOES ONLY
+     LOCATE remote AT tv_room. -- But we're in the kitchen!?
+     "You find the lost remote control."
  END VERB.
-An even better solution than "LOCATE remote Here" whenever the Hero finds a small OBJECT, is to assume that the player would take it upon finding it, and LOCATE the OBJECT IN the Hero , with an explanatory message.
+ ...
+----
+
+An even better solution than "LOCATE remote Here" whenever the Hero finds a small OBJECT, is to assume that the player would take it upon finding it, and LOCATE the OBJECT IN the Hero, with an explanatory message.
+
+[subs="quotes"]
+----
+ ...
  VERB search
-  DOES ONLY
-  LOCATE remote in Hero.
-   "You find the lost remote control, which you take."
+     DOES ONLY
+         LOCATE remote in Hero.
+         "You find the lost remote control, which you take."
  END VERB.
-Hint, Hint It is probably a good idea to give the player a subtle hint to search the chair. A good place to do that is in the "examine" VERB for the chair.
+ ...
+----
+
+[float]
+==== Hint, Hint
+
+It is probably a good idea to give the player a subtle hint to search the chair. A good place to do that is in the "examine" VERB for the chair.
+
+[subs="quotes"]
+----
+ ...
  VERB examine
-  DOES ONLY
-   "It's your favorite chair to sit in when you're watching the big game.
-  It has big soft comfy cushions -- just the kind people lose change in all the time."
+     DOES ONLY
+         "It's your favorite chair to sit in when you're watching the big 
+          game. It has big soft comfy cushions -- just the kind people lose
+          change in all the time."
  END VERB.
+ ...
+----
+
 By suggesting that there may be some loose change under the cushions, it is likely that the astute player will search the chair. It might be a good idea to add the cushions to the NAME of the chair.
+
+[subs="quotes"]
+----
  ...
  THE chair Isa OBJECT AT tv_room
- NAME comfy chair NAME comfy
-NAME cushions
-NAME big soft chair cushion -- includes singular and plural
- DESCRIPTION
+     NAME comfy chair
+     NAME comfy
+     NAME cushions
+     NAME big soft chair cushion -- includes singular and plural
+     DESCRIPTION
  ...
+----
+
 Compile and play what we have so far. If you have typed everything correctly, you should have a basic working game that includes searching the chair and turning on the remote to win the game.
-6.2. Fine Tune and Finish
-Fine Tune. The game "works," that is, the mechanics work properly. Now it is time to fine tune it, so that the game plays easily and makes sense for the game world. Let’s start by tuning up the remote control.
-We have told the player via the VERB "examine" that the remote is a "push-button" remote. It would be reasonable for the player then to refer to the buttons, and to push or press the buttons to operate the remote. There are several ways we could accommodate these actions by the player. We could program the buttons separately, which might add to the realism. But we should also weigh how much realism and detail for such things as the buttons on the remote control is necessary.
+
+=== Fine Tune and Finish
+
+[float]
+==== Fine Tune
+
+The game "works," that is, the mechanics work properly. Now it is time to fine tune it, so that the game plays easily and makes sense for the game world. Let’s start by tuning up the remote control.
+
+We have told the player via the VERB "examine" that the remote is a "push-button" remote. It would be reasonable for the player then to refer to the buttons, and to push or press the buttons to operate the remote. 
+
+There are several ways we could accommodate these actions by the player. We could program the buttons separately, which might add to the realism. But we should also weigh how much realism and detail for such things as the buttons on the remote control is necessary.
+
 For our purposes, we will not program the buttons as a separate OBJECT, but simply include them as part of the remote with NAME statements.
-THE remote Isa OBJECT AT Nowhere
-NAME remote control NAME controller
-NAME remote NAME button NAME simple push buttons
-...
+
+[subs="quotes"]
+----
+ ...
+ THE remote Isa OBJECT AT Nowhere
+     NAME remote control
+     NAME controller
+     NAME remote
+     NAME button
+     NAME simple push buttons
+ ...
+----
+
 The next thing to do is accommodate the player’s likely attempt to "push the button". A look at "push.i" in the library tells us the remote needs to have the Attribute "IS PUSHABLE." Then we are ready to copy and paste the VERB, removing the CHECKS and adding DOES ONLY:
+
+[subs="quotes"]
+----
+ ...
  THE remote Isa OBJECT AT Nowhere
- NAME remote control NAME controller
- NAME remote NAME button NAME simple push buttons
- IS SWITCHABLE.
- PUSHABLE.
-Verb push  Does ONLY   "You push" Say The obj. "." End Verb. …
-Further fine tuning at this point means we should put ourself in the place of the player and ask, _What else might it be_ _reasonable for the player to try with the remote or the button?_  And the answer would surely include "press the button" and "click the remote".
-But we have no VERB in the library for "press"! Or "click"! What do we do now?
-Before we get to that, we ought to consider that there might well be other OBJECTS in the game that the player may try to "press" or "click" as well as "push". To accommodate the VERB to multiple OBJECTS in the game, we are going to make changes to the library , albeit a safe and simple one using SYNONYMS.
-And so we have come to the reason why I said at the beginning to copy the standard library for use in the game, and to keep the original library in a separate folder on the computer.
-Remember, the changes are done to your copy of the standard library in your "mylib" folder, not the "alanlib" folder.
-Some of the changes we will make in the future may be considerable; but for now it will be a very safe and simple one. The changes are indicated in <FONT FACE="Courier New" SIZE=3 COLOR="#FF0000">RED. Any time we make changes to the library, it is a good idea to add notes (indicated in this tutorial with <FONT FACE="Times New Roman" SIZE=3 COLOR="#FF0000">*** ) so the changes can be easily identified.
--- push.i
--- Library version 0.5.0
--- 0.4.1 - converted to ALANv3
- ADD TO EVERY THING
-IS
- pushable.
-END ADD TO THING.
- SYNONYMS
- press, click = push. -- *** ADDED ***
- SYNTAX
- push = push (obj)
-  WHERE obj ISA THING
-    ELSE "You can't push that."
- Add To Every object
+     NAME remote control
+     NAME controller
+     NAME remote
+     NAME button
+     NAME simple push buttons
+     IS SWITCHABLE.
+        PUSHABLE.
  Verb push
-  Check obj Is pushable
-    Else "You can't push that."
-  Does
-    "You push" Say The obj. "."
+     Does ONLY
+         "You push" Say The obj. "."
  End Verb.
-End Add To.
-...
+ ...
+----
+
+Further fine tuning at this point means we should put ourself in the place of the player and ask, _What else might it be_ _reasonable for the player to try with the remote or the button?_  And the answer would surely include "press the button" and "click the remote".
+
+But we have no VERB in the library for "press"! Or "click"! What do we do now?
+
+Before we get to that, we ought to consider that there might well be other OBJECTS in the game that the player may try to "press" or "click" as well as "push". To accommodate the VERB to multiple OBJECTS in the game, we are going to make changes to the library, albeit a safe and simple one using SYNONYMS.
+
+And so we have come to the reason why I said at the beginning to copy the standard library for use in the game, and to keep the original library in a separate folder on the computer.
+
+Remember, the changes are done to your copy of the standard library in your "mylib" folder, not the "alanlib" folder.
+
+Some of the changes we will make in the future may be considerable; but for now it will be a very safe and simple one. The changes are indicated in <FONT FACE="Courier New" SIZE=3 COLOR="#FF0000">RED. Any time we make changes to the library, it is a good idea to add notes (indicated in this tutorial with <FONT FACE="Times New Roman" SIZE=3 COLOR="#FF0000">*** ) so the changes can be easily identified.
+
+[subs="quotes"]
+----
+ -- push.i
+ -- Library version 0.5.0
+ -- 0.4.1 - converted to ALANv3
+ ADD TO EVERY THING
+     IS
+         pushable.
+ END ADD TO THING.
+ SYNONYMS
+     press, click = push. -- *** ADDED ***
+ SYNTAX
+     push = push (obj)
+         WHERE obj ISA THING
+             ELSE "You can't push that."
+ Add To Every object
+     Verb push
+         Check obj Is pushable
+             Else "You can't push that."
+     Does
+         "You push" Say The obj. "."
+     End Verb.
+ End Add To.
+ ...
+----
+
 Now "press the button" or "click the remote" will work the same as "push the button". All we need to do now is make the VERB do what we want (i.e., win!) and the fine-tuning for the remote is complete.
+
+[subs="quotes"]
+----
+ ...
  THE remote Isa OBJECT AT Nowhere
- NAME remote control NAME controller
- NAME control remote NAME remote
- NAME button NAME simple push buttons
- IS SWITCHABLE.
- PUSHABLE.
- VERB examine
- DOES ONLY
-  "It's a very simple push-button remote control."
-END VERB.
- VERB turn_on1, turn_on2, switch_on1, switch_on2
- DOES ONLY
-  MAKE tv 'on'.
-  "Wow! What a great picture!"
-  SHOW 'plasma.jpg'.
-  "$n$nYou watch the game and your favorite team wins!"
-  "$n$nAnd so have you..."
-  "$p*** You have won! *** "
-  QUIT.
-END VERB.
- VERB push
- DOES ONLY
-   MAKE tv 'on'.
-   "Wow! What a great picture!"
-   SHOW 'plasma.jpg'.
-   "$n$nYou watch the game and your favorite team wins!"
-   "$n$nAnd so have you..."
-   "$p*** You have won! *** "
-   QUIT.
+     NAME remote control
+     NAME controller
+     NAME control remote
+     NAME remote
+     NAME button
+     NAME simple push buttons
+     IS SWITCHABLE.
+        PUSHABLE.
+     VERB examine
+     DOES ONLY
+         "It's a very simple push-button remote control."
+     END VERB.
+     VERB turn_on1, turn_on2, switch_on1, switch_on2
+     DOES ONLY
+         MAKE tv 'on'.
+         "Wow! What a great picture!"
+         SHOW 'plasma.jpg'.
+         "$n$nYou watch the game and your favorite team wins!"
+         "$n$nAnd so have you..."
+         "$p*** You have won! *** "
+         QUIT.
+     END VERB.
+     VERB push
+         DOES ONLY
+             MAKE tv 'on'.
+             "Wow! What a great picture!"
+             SHOW 'plasma.jpg'.
+             "$n$nYou watch the game and your favorite team wins!"
+             "$n$nAnd so have you..."
+             "$p*** You have won! *** "
+             QUIT.
+     END VERB.
+ END THE remote.
+----
+
+[float]
+==== Search and Search Again
+
+Now let’s turn our fine-tuning attentions to the chair. Once the player searches the chair and discovers the remote, he/she might continue to search the cushions for the lost change we suggested they might find. What we don’t want them to find is this:
+
+[subs="quotes"]
+----
+> _x chair_
+It’s your favorite chair to sit in when you’re watching the big game. It has big soft comfy cushions — just the kind people lose change in all the time.
+
+> _search chair_
+You find the lost remote control, which you take.
+
+> _i_
+You are carrying a remote control.
+
+> _search chair_
+You find the lost remote control, which you take.
+----
+
+Here is one way we might prevent that from happening:
+
+[subs="quotes"]
+----
+ ...
+ VERB search
+     CHECK remote AT Nowhere
+         ELSE
+             "There is nothing else to find by searching the chair."
+     DOES ONLY
+         LOCATE remote in Hero.
+         "You find the lost remote control, which you take."
  END VERB.
-END THE remote.
-Search and Search Again Now let’s turn our fine-tuning attentions to the chair. Once the player searches the chair and discovers the remote, he/she might continue to search the cushions for the lost change we suggested they might find. What we don’t want them to find is this:
-> x chair It’s your favorite chair to sit in when you’re watching the big game. It has big soft comfy cushions — just the kind people lose change in all the time.
->search chair You find the lost remote control, which you take.
->i You are carrying a remote control.
->search chair You find the lost remote control, which you take.
-Here is one way we might prevent that from happening: … VERB search  CHECK remote AT Nowhere   ELSE     "There is nothing else to find by searching the chair." DOES ONLY   LOCATE remote in Hero.   "You find the lost remote control, which you take." END VERB. …
+ ...
+----
+
 If the player has not found the remote, it will still be "AT Nowhere". The CHECK will pass, and the DOES ONLY will LOCATE the remote IN the Hero. But once the remote has been found, it will no longer be "AT Nowhere" and the CHECK message will explain "there is nothing else to find".
-Televisions Need Fine-Tuning Our tv needs fine-tuning, in that even after the player has found the remote control, he/she cannot "turn on the tv"! We can easily fix that in the same way as we fine-tuned the "search" VERB for the chair. … VERB turn_on1, turn_on2, switch_on1, switch_on2  CHECK remote Here   ELSE     "There are no knobs, switches or buttons for turning on the TV." DOES ONLY   MAKE tv on.   "Wow! What a great picture!"   SHOW plasma.jpg.   "$n$nYou watch the game and your favorite team wins!"   "$n$nAnd so have you…"   "$p* You have won! * "   QUIT. END VERB. …
+
+[float]
+==== Televisions Need Fine-Tuning
+
+Our tv needs fine-tuning, in that even after the player has found the remote control, he/she cannot "turn on the tv"! We can easily fix that in the same way as we fine-tuned the "search" VERB for the chair.
+
+[subs="quotes"]
+----
+ ...
+ VERB turn_on1, turn_on2, switch_on1, switch_on2
+     CHECK remote Here
+         ELSE
+             "There are no knobs, switches or buttons for turning on
+              the TV."
+     DOES ONLY
+         MAKE tv on.
+         "Wow! What a great picture!"
+         SHOW plasma.jpg.
+         "$n$nYou watch the game and your favorite team wins!"
+         "$n$nAnd so have you…"
+         "$p* You have won! * "
+         QUIT.
+ END VERB.
+ ...
+----
+
 Notice that the preventive message we previously had in the DOES ONLY for the tv has been moved into the CHECK. If the CHECK passes, that is, if the remote control is "Here" (in the same LOCATION or in the player's Inventory), then the DOES ONLY executes, and the game is won.
+
 We could have made it so that the remote control has to be held by the player, in other words, "CHECK remote IN Hero". The player would then have to "get remote" before turning on the tv. But IF players prefer that if the required OBJECT is in the same LOCATION, the "get" action should be assumed and done for them. So we require only that the remote is "Here".
-NOTE that we do  _not_  write it, "CHECK remote  _IS _ Here" or "CHECK remote  _IS_  IN Hero". Being "Here" or "IN Hero" is not an Attribute!
+
+NOTE: We do  _not_  write it, "CHECK remote  _IS_ Here" or "CHECK remote  _IS_  IN Hero". Being "Here" or "IN Hero" is not an Attribute!
+
 This completes our first "simple" game.
-6.3. Compile and Play It!
------------------------------------------------
---                                  *** TV TIME! ***
---       An ALAN 3 Interactive Fiction Tutorial Game
---                         By Michael Arnaud &#169; 2006
------------------------------------------------
-IMPORT 'std.i'.
------------------------
-THE tv_room Isa LOCATION
-NAME 'TV Room'
-DESCRIPTION
-"This is your favorite room in the house, because you love to watch television.
-Your new plasma TV is set up in this room, ideally located across from your comfy chair and table.
+
+=== Compile and Play It!
+
+[subs="quotes"]
+----
+ -----------------------------------------------
+ --                                  *** TV TIME! ***
+ --       An ALAN 3 Interactive Fiction Tutorial Game
+ --                         By Michael Arnaud &#169; 2006
+ -----------------------------------------------
+ IMPORT 'std.i'.
+ -----------------------
+ THE tv_room Isa LOCATION
+ NAME 'TV Room'
+ DESCRIPTION
+ "This is your favorite room in the house, because you love to watch television.
+ Your new plasma TV is set up in this room, ideally located across from your comfy chair and table.
 $pThe kitchen is south."
  EXIT south TO kitchen
  DOES
@@ -1605,7 +2373,7 @@ END EXIT.
   "There is only a wall in that direction."
 END EXIT.
  END THE tv_room.
------------------------
+ -----------------------
 THE remote Isa OBJECT AT Nowhere
 NAME remote control NAME controller
 NAME control remote NAME remote
@@ -1637,7 +2405,7 @@ END VERB.
   QUIT.
 END VERB.
  END THE remote.
------------------------
+ -----------------------
 SYNONYMS
  television = tv.
 THE tv Isa OBJECT AT tv_room
@@ -1669,7 +2437,7 @@ END VERB.
   QUIT.
 END VERB.
  END THE tv.
------------------------
+ -----------------------
 THE chair Isa OBJECT AT tv_room
 NAME comfy chair NAME comfy
 NAME cushions NAME big soft chair cushion
@@ -1688,7 +2456,7 @@ END VERB.
   "You find the lost remote control, which you take."
 END VERB.
  END THE chair.
------------------------
+ -----------------------
 THE table Isa OBJECT AT tv_room
 DESCRIPTION
  VERB examine
@@ -1696,7 +2464,7 @@ DESCRIPTION
   "It's an ordinary table, set conveniently by your chair."
 END VERB.
  END THE table.
------------------------
+ -----------------------
 THE kitchen Isa LOCATION
 NAME 'Kitchen'
 DESCRIPTION
@@ -1710,16 +2478,23 @@ END EXIT.
   "There is only a wall in that direction."
 END EXIT.
  END THE kitchen.
------------------------
+ -----------------------
 START AT tv_room.
  "$p$t$t$t$t$t$t$t$t$t*** TV TIME! ***
  $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
  $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
  $p(Type ""help"" if you have not played this kind of game before.)
  $pJoy of joys, you have just purchased a brand new big screen plasma TV that was delivered earlier today!"
-7. PART SIX: CONTAINERS and Classes
-7.1. CONTAINERS
-Is That an Open Container, Son? There are all sorts of OBJECTS in Interactive Fiction that are CONTAINERS: boxes and baskets, bowls and cups and bottles; of course these are CONTAINERS, as well as cabinets, drawers, trash cans, and so on. Many CONTAINERS can be opened and/or closed, locked or unlocked, transparent (such as a wine glass) or not (such as a lead-lined box), empty or with contents inside.
+----
+
+== PART SIX: CONTAINERS and Classes
+
+=== CONTAINERS
+
+[float]
+==== Is That an Open Container, Son?
+
+There are all sorts of OBJECTS in Interactive Fiction that are CONTAINERS: boxes and baskets, bowls and cups and bottles; of course these are CONTAINERS, as well as cabinets, drawers, trash cans, and so on. Many CONTAINERS can be opened and/or closed, locked or unlocked, transparent (such as a wine glass) or not (such as a lead-lined box), empty or with contents inside.
 Our game "TV Time!" will have several CONTAINERS, one of which we have already created but not yet given the CONTAINER property. No, it’s not the chair. Even though we will later program the chair for sitting in , the chair is not a CONTAINER. In fact, neither the Hero nor any Actor (NPC, or "non-player character") can be inside a CONTAINER.  The proto-CONTAINER in our game is the table.
 ...
 THE table Isa OBJECT AT tv_room
@@ -2461,7 +3236,7 @@ END THE outlet.
 Some explanation is needed here. The default VERB is in reference to obj1, not to obj2 ("plug.i"):
  ...
   Verb plug_in
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  When obj1
+_yellow  When obj1
  -- CHECKS Removed
    Does
      Locate obj1 In obj2.
@@ -2471,7 +3246,7 @@ Some explanation is needed here. The default VERB is in reference to obj1, not t
  ...
 We are using the VERB for the outlet as obj2 , the CONTAINER.
   VERB plug_in, put_in
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  WHEN obj2 <span style="background-color:#FFFF80; color:# 000000";>
+_yellow  WHEN obj2 <span style="background-color:#FFFF80; color:# 000000";>
  ...
 There are no default CHECKS for the VERB WHEN obj2 (nor is there a default DOES). That is why the CHECKS for the VERB had to be coded here.
 Note that we did not code our DOES ONLY to "Locate obj1 In obj2." That is not necessary, since we are using the cord, not the outlet, to test whether the cord is plugged in the outlet (see <a href="#6AA113C1A3617837E1D7AB8EBE1ADA425BA484AA">here</A>). The test (CHECKED by the remote control/tv) is whether the cord IS or IS NOT PLUGGED_IN. So all we need to do in our DOES ONLY statement is to "MAKE cord PLUGGED_IN" and to tell the player it is done.
@@ -2728,13 +3503,13 @@ Syntax
   And obj2 Isa object
     Else "You can't open anything with that."
   Add To Every object
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> Verb open_with
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  When obj1
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>    Check obj2 Here -- *** CHANGED In hero, etc. ***
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       Else "You don't see" Say The obj2. "here."
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>    Does
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       "You can't open" Say The obj1. "with" Say The <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>obj2. "."
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>  End Verb.
+_yellow Verb open_with
+_yellow  When obj1
+_yellow    Check obj2 Here -- *** CHANGED In hero, etc. ***
+_yellow       Else "You don't see" Say The obj2. "here."
+_yellow    Does
+_yellow       "You can't open" Say The obj1. "with" Say The _yellowobj2. "."
+_yellow  End Verb.
  End Add To.
 It seems strange to me that this DOES in the default library fails. It should read:     …      Does        MAKE obj1 OPEN.        "You open" Say The obj1. "with" Say The obj2. "."   End Verb. End Add To.
 No matter. Our DOES ONLY will override the default anyway. Adapted for our box (obj1) and knife (obj2) we get this:
@@ -4326,7 +5101,7 @@ THE bomb Isa OBJECT AT enemy_fort
  VERB touch
        DOES ONLY
        &quot;Oh no! Your touch has started the bomb's timer ticking!&quot;
- <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> SCHEDULE bomb_explode AT bomb AFTER 50.
+ _yellow SCHEDULE bomb_explode AT bomb AFTER 50.
 END VERB.
 END THE bomb.
 That’s really all there is to it. After 50 turns the bomb will explode and give the "lose" message.
@@ -4334,7 +5109,7 @@ We can add to the atmosphere and increase the tension with a repeating EVENT. Th
  EVENT bomb_tick
         &quot;$t&lt;tick... tick...&gt;
         $pThe bomb is ticking. Time is getting short.&quot;
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>       SCHEDULE bomb_tick AFTER 3.
+_yellow       SCHEDULE bomb_tick AFTER 3.
  END EVENT.
 Every three turns the "tick" message will display until the bomb explodes and the game ends.
 But suppose the player is able to defuse the bomb in time. We don’t want the bomb to explode after being defused, so we CANCEL the EVENT.
@@ -4346,8 +5121,8 @@ THE bomb Isa OBJECT AT enemy_fort
 END VERB.
   VERB defuse
         &quot;You remove the timer and fuse from the bomb. Whew!&quot;
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> CANCEL bomb_explode.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>        CANCEL bomb_tick.
+_yellow CANCEL bomb_explode.
+_yellow        CANCEL bomb_tick.
  END VERB.
 END THE bomb.
 EVENTS are very easy to program, and add a great deal of color to the game.
@@ -4373,7 +5148,7 @@ Searching these resources, your humble author found a clock at the Alan website 
 Given below is that same clock, only removed from the train platform and schedule, stripped down and rewired. I have made it into a rather generic clock to include in this game as well as in others we might wish to write. If you like it, I suggest keeping it in a separate folder of library add-ons.
 Don’t be put off or overwhelmed by what may appear to be complex or advanced programming. It is that, but that is why we copied it from elsewhere. That is one of the two points I am trying to convey to you the reader: one: outside resources can help in a big way; and two: the clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
 -- clock
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>The clock Isa object
+_yellowThe clock Isa object
  Has hour 4.  -- set these three attributes
  Has minute 50. -- to specify the time of day
  Has ampm &quot;pm&quot;. -- you want when the game starts
@@ -4396,7 +5171,7 @@ Don’t be put off or overwhelmed by what may appear to be complex or advanced p
  Say ampm Of clock.
  End Verb.
 End The clock.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>Event ticktock
+_yellowEvent ticktock
 -- Increments The Time By Another Minute
    -- Convert Time From &quot;Minutes Past Midnight&quot; To Hh:Mm Am/Pm Format
   Set hour Of clock To timeinminutes Of clock /60.
@@ -4421,8 +5196,8 @@ End The clock.
   Else
    Set timeinminutes Of clock To 0.
   End If.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> -- schedule this event to happen again next turn
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> Schedule ticktock After 1.
+_yellow -- schedule this event to happen again next turn
+_yellow Schedule ticktock After 1.
  End Event ticktock.
 -- Information for the START AT section
 Start At starting_location.
@@ -4437,8 +5212,9 @@ Start At starting_location.
      Set timeinminutes Of clock To (timeinminutes Of clock +720).
    End If.
   End If.
-<FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";> Schedule ticktock After 0.       -- start the clock <FONT FACE="Courier New" SIZE=2 BGCOLOR="#FFFF80"><span style="background-color:#FFFF80; color:# 000000";>&quot;ticking&quot;
-11.3. Set the Clock
+_yellow Schedule ticktock After 0.       -- start the clock _yellow&quot;ticking&quot;
+
+=== Set the Clock
 Set the Clock in the Game. The clock as stripped down in the previous section is no longer an ".alan" (game source) file; neither is it an ".i" file to be imported. What it is, is a resource to copy, paste, and set to our particular use. Here is how we will use it in our game.
 Create the Clock OBJECT in the Kitchen ----------------------- The clock Isa object AT Kitchen  IS READABLE.        DESCRIPTION Has hour 3.  — set these three attributes Has minute 15. — to specify the time of day Has ampm "pm". — you want when the game starts Has timeinminutes 0. — (the time expressed as minutes past midnight. This is                      — calculated by the game - in the START section - and                      — updated each turn by the TickTock event so left                      — at the default initial value here) Verb read   Does Only  — Display the time on screen "$pThe clock reads" Say hour Of clock. ":" If minute Of clock >9 Then   Say minute Of clock. Else   "0$$"   Say minute Of clock. End If. Say ampm Of clock. End Verb.
  VERB examine
