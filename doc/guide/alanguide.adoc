@@ -109,7 +109,7 @@ The basic template for a `LOCATION` is:
 
 Following the format of the ALAN manual, we are using "?" as a stand-in or place-holder.
 
-The word `THE` is used to introduce specific instances (¶ 2.4.5) of `LOCATIONs`, `OBJECTs` ,`ACTORs`, etc. In other words, with "`THE`", we are creating a particular `LOCATION` or a particular `OBJECT`, etc.
+The word `THE` is used to introduce specific instances (¶ 2.4.5) of `LOCATIONs`, `OBJECTs`,`ACTORs`, etc. In other words, with "`THE`", we are creating a particular `LOCATION` or a particular `OBJECT`, etc.
 
 The word "`Isa`" is an ALAN 3 programming word to identify what class THE (instance) IS. In this case, THE (instance) Isa (particular member of the class) `LOCATION.
 
@@ -1043,7 +1043,7 @@ Let's look at the first section above:
 The words "Add To Every object" mean to Add certain properties (in this case, Attributes) to every instance of an OBJECT in the entire game.
 The word "Is" declares an Attribute.
 
-The word "Is" declares an Attribute, a property that the OBJECT is or is not , like on or off or open or closed or switchable or upsidedown or anything we want at all. It only must be something that the OBJECT is, or is not . This is called a Boolean Attribute, and can be thought of in terms of a "yes/no, on/off" Attribute .
+The word "Is" declares an Attribute, a property that the OBJECT is or is not, like on or off or open or closed or switchable or upsidedown or anything we want at all. It only must be something that the OBJECT is, or is not . This is called a Boolean Attribute, and can be thought of in terms of a "yes/no, on/off" Attribute .
 
 As you can see in the example from the library, we are Adding To Every OBJECT in the game the Boolean Attributes of being "not on" (we will cover the reason for the single-quote marks later) and "not switchable".
 
@@ -1099,7 +1099,7 @@ VERBS and CHECKS for Attributes Without going into detail right now about how VE
 
 Notice the first word following the VERB statements: CHECK. You have seen that word before, introduced in <a href="#525A3D9F5B4C0277FB1BD7BB48DF4480A9A5F2EB">the section on EXITS.</A>
 
-When we looked at CHECKS before, we said that "a CHECK stops the action that would otherwise take place." However, a CHECK need not only stop the action that would otherwise take place. In fact, we will most often use a CHECK conditionally , to see if it should stop the action or not.
+When we looked at CHECKS before, we said that "a CHECK stops the action that would otherwise take place." However, a CHECK need not only stop the action that would otherwise take place. In fact, we will most often use a CHECK conditionally, to see if it should stop the action or not.
 
 When we want to use a CHECK conditionally, we use the format:
 
@@ -1220,7 +1220,7 @@ ALAN 3 has another sort of Attribute, that is not a Boolean Attribute (on/off, y
 
 These Attributes are rather like variables, assigning values that can change within the game.
 
-To give a measurable Attribute to an OBJECT, we use "HAS" (instead of "IS"), followed by the value, or quality, or how much or what sort of that Attribute the OBJECT has . In this case, we want to give the tv the Attribute of weight , and to make its weight more than the player is permitted to "take".
+To give a measurable Attribute to an OBJECT, we use "HAS" (instead of "IS"), followed by the value, or quality, or how much or what sort of that Attribute the OBJECT has . In this case, we want to give the tv the Attribute of weight, and to make its weight more than the player is permitted to "take".
 
 "HAS" can be used for all sorts of measures, of string values as well as numeric values. For example, we could make the tv purple with "HAS color purple"; we could make the tv into a musical instrument with "HAS sound music" or whatever we want.
 
@@ -1696,7 +1696,7 @@ What an OBJECT IS NOT can be changed to IS, and what it IS can be changed to IS 
  End Verb.
 ----
 
-So the line "Make obj on " will change the Attribute of the tv from NOT ON to ON. In fact, it will MAKE the tv ON two times: once in the default library and once in our VERB for the tv. Once we add the DOES ONLY , however, we override everything in the default DOES, and it will only be changed in the local VERB for the tv.
+So the line "Make obj on " will change the Attribute of the tv from NOT ON to ON. In fact, it will MAKE the tv ON two times: once in the default library and once in our VERB for the tv. Once we add the DOES ONLY, however, we override everything in the default DOES, and it will only be changed in the local VERB for the tv.
 
 A further bit of house cleaning comes into play here, however. The word "obj" is a stand-in for the OBJECT, in this case the tv. It will work fine as it is, making the tv ON. But to make the code easier to understand, especially as it may become more complex, we do well to let the tv stand in for itself.
 
@@ -1752,7 +1752,7 @@ SHOW and QUIT. It is very easy to put images in your game with the SHOW stateme
      Verb take, pick_up1, pick_up2
          Does ONLY
              "You try to wrap your arms around the giant screen but it is
-             too wide. You can’t get a good grip on the heavy TV to lift 
+             too wide. You can’t get a good grip on the heavy TV to lift
              it."
      End Verb.
      Verb turn_on1, turn_on2, switch_on1, switch_on2
@@ -1811,10 +1811,10 @@ We place our introductory information and title conveniently after the START AT 
  ...
  START AT tv_room.
  "$p$t$t$t$t$t$t$t$t$t* TV TIME! *
-  $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game  
+  $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
   $n$t$t$t$t$t$t$tBy Michael Arnaud © 2006
   $p(Type ""help"" if you have not played this kind of game before.)
-  $pJoy of joys, you have just purchased a brand new big screen plasma TV 
+  $pJoy of joys, you have just purchased a brand new big screen plasma TV
   that was delivered earlier today!"
 ----
 
@@ -1830,7 +1830,7 @@ $n — "new"        Begins a new line of text without first printing a
 $t — "tab"        Inserts a tab.
 ----
 
-(There is more of this in the manual, ¶ 4.16.1). Formatting like this is important throughout our game. It helps in creating lists, conversation, and general appearance and readability of the text. Note that these formatting symbols are within the double-quotes , immediately and without spaces, with the text we want to display. These symbols can be placed at the beginning, end, middle, or anywhere we want the formatting to occur. 
+(There is more of this in the manual, ¶ 4.16.1). Formatting like this is important throughout our game. It helps in creating lists, conversation, and general appearance and readability of the text. Note that these formatting symbols are within the double-quotes, immediately and without spaces, with the text we want to display. These symbols can be placed at the beginning, end, middle, or anywhere we want the formatting to occur.
 
 The compiler does not care about full-stops or returns, sentences or paragraphs in our display statements within double-quotes. So to force a line-break ($n) or paragraph ($p), etc., we use these formatting symbols.
 
@@ -1885,7 +1885,7 @@ Now that we have given introductory information at the start that the player has
  NAME 'TV Room'
  DESCRIPTION
  "This is your favorite room in the house, because you love to watch
- television. Your new plasma TV is set up in this room, ideally located 
+ television. Your new plasma TV is set up in this room, ideally located
  across from your comfy chair and table.
  $pThe kitchen is south."
  ...
@@ -1931,7 +1931,7 @@ When we construct puzzles it is a good idea to work them in the reverse order of
  Verb turn_on1, turn_on2, switch_on1, switch_on2
      Does ONLY
          -- We removed MAKE tv on.
-         "There are no knobs, switches or buttons for turning on the TV." 
+         "There are no knobs, switches or buttons for turning on the TV."
  End Verb.
  ...
 ----
@@ -2129,7 +2129,7 @@ It is probably a good idea to give the player a subtle hint to search the chair.
  ...
  VERB examine
      DOES ONLY
-         "It's your favorite chair to sit in when you're watching the big 
+         "It's your favorite chair to sit in when you're watching the big
           game. It has big soft comfy cushions -- just the kind people lose
           change in all the time."
  END VERB.
@@ -2159,7 +2159,7 @@ Compile and play what we have so far. If you have typed everything correctly, yo
 
 The game "works," that is, the mechanics work properly. Now it is time to fine tune it, so that the game plays easily and makes sense for the game world. Let’s start by tuning up the remote control.
 
-We have told the player via the VERB "examine" that the remote is a "push-button" remote. It would be reasonable for the player then to refer to the buttons, and to push or press the buttons to operate the remote. 
+We have told the player via the VERB "examine" that the remote is a "push-button" remote. It would be reasonable for the player then to refer to the buttons, and to push or press the buttons to operate the remote.
 
 There are several ways we could accommodate these actions by the player. We could program the buttons separately, which might add to the realism. But we should also weigh how much realism and detail for such things as the buttons on the remote control is necessary.
 
@@ -2495,448 +2495,863 @@ START AT tv_room.
 ==== Is That an Open Container, Son?
 
 There are all sorts of OBJECTS in Interactive Fiction that are CONTAINERS: boxes and baskets, bowls and cups and bottles; of course these are CONTAINERS, as well as cabinets, drawers, trash cans, and so on. Many CONTAINERS can be opened and/or closed, locked or unlocked, transparent (such as a wine glass) or not (such as a lead-lined box), empty or with contents inside.
-Our game "TV Time!" will have several CONTAINERS, one of which we have already created but not yet given the CONTAINER property. No, it’s not the chair. Even though we will later program the chair for sitting in , the chair is not a CONTAINER. In fact, neither the Hero nor any Actor (NPC, or "non-player character") can be inside a CONTAINER.  The proto-CONTAINER in our game is the table.
-...
-THE table Isa OBJECT AT tv_room
-DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's an ordinary table, set conveniently by your chair."
-END VERB.
+
+Our game "TV Time!" will have several CONTAINERS, one of which we have already created but not yet given the CONTAINER property. No, it’s not the chair. Even though we will later program the chair for sitting in, the chair is not a CONTAINER. In fact, neither the Hero nor any Actor (NPC, or "non-player character") can be inside a CONTAINER. The proto-CONTAINER in our game is the table.
+
+
+[subs="quotes"]
+----
+ ...
+ THE table Isa OBJECT AT tv_room
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's an ordinary table, set conveniently by your chair."
+     END VERB.
  END THE table.
-...
-Oh yes, right now it is only "an ordinary table". But it is about to be transformed with a single word. … THE table Isa OBJECT AT tv_room CONTAINER DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's an ordinary table, set conveniently by your chair."
-END VERB.
+ ...
+----
+
+Oh yes, right now it is only "an ordinary table". But it is about to be transformed with a single word.
+
+[subs="quotes"]
+----
+ ...
+ THE table Isa OBJECT AT tv_room
+     *CONTAINER*
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's an ordinary table, set conveniently by your chair."
+     END VERB.
  END THE table.
-...
+ ...
+----
+
 And just like that ( snap! ) it is done. Note that being a CONTAINER is not an Attribute. (Though it can be one of the non-Boolean sort if we wish, with "HAS CONTAINER". That will not be covered in this guide.)
+
 Now the player can "put <something> in" the table or "take <something> from" it. Try it, if you like.
-Each of these VERBS requiring a CONTAINER is covered in the library. But our table does not have any drawers or anything to put something inside. Our table is a simple surface , and all we want is to be able to put something on the table (and take from it). Nevertheless, in order to understand what we are going to do with the "put on" VERB, we will first have to understand the "put in" VERB, from "put.i":
-SYNTAX
- put_in = put (obj1) 'in' (obj2)
-  WHERE obj1 ISA OBJECT
-    ELSE "You can't put that anywhere."
-  AND obj2 ISA CONTAINER
-    ELSE "You can't put anything in that."
- Sin Tax?
+
+Each of these VERBS requiring a CONTAINER is covered in the library. But our table does not have any drawers or anything to put something inside. Our table is a simple surface, and all we want is to be able to put something on the table (and take from it). Nevertheless, in order to understand what we are going to do with the "put on" VERB, we will first have to understand the "put in" VERB, from "put.i":
+
+[subs="quotes"]
+----
+ SYNTAX
+     put_in = put (obj1) 'in' (obj2)
+         WHERE obj1 ISA OBJECT
+             ELSE "You can't put that anywhere."
+         AND obj2 ISA CONTAINER
+             ELSE "You can't put anything in that."
+----
+
+[float]
+==== Sin Tax?
+
 As you can see, the construction of a VERB becomes more complex when it involves not just one, but two or more OBJECTS. In this case we have two OBJECTS, represented by obj1 and obj2. It is important to figure out which is the CONTAINER and which is being "put in" the CONTAINER.
+
 _The_  _SYNTAX_  _ statement_ defines which is which: obj1 ISA OBJECT and obj2 ISA CONTAINER. We can think of the SYNTAX statement as _that which defines the parameters of_ _the VERB_ . It tells us the exact wording of the VERB. The single word "put_in" that is used by the VERB equals the two player-input words "put" and "'in'" (another Alan reserved word) in regards to the OBJECT and the CONTAINER.
+
 The SYNTAX statement also often acts as a CHECK. It will not allow the VERB if the parameters defined by the SYNTAX statement are not met. If the obj1 is not an OBJECT or if the obj2 is not a CONTAINER, the SYNTAX will inform the player that "You can’t put…", etc.
-The put_in VERB
+
+[float]
+==== The put_in VERB
+
+----
+ ...
  Add To Every object
- Verb put_in
-  When obj1
-    Check obj1 In hero
-       Else
-         "You haven't got" Say The obj1. "."
-    And obj1 &lt;&gt; obj2
-       Else "You can't put something into itself!"
-    And obj2 &lt;&gt; hero
-       Else "You can't put" Say obj1. "into yourself!"
-    Does
-       Locate obj1 In obj2.
-       "Done."
- End Verb.
-End Add To.
-Notice that the VERB is in reference to obj1, the OBJECT to be put in the CONTAINER. There are two clues to this. First, the library is Adding To Every object , not To Every CONTAINER. Second, and the main indicator, the line after "Verb put_in" says "When obj1".
-_"_  _When_  _" can be translated to mean, "When you want to do_ _this to"_ , in this case, "when you want to put this obj1 in something." If the line were to read instead, "When obj2", it would mean, "when you want to put something in this obj2." We are going to use "When obj2" in just a moment, but for now let's look at the VERB as it is in the library.
-The next lines CHECK whether the Hero has the obj1 in his/her Inventory. Again, I prefer to accommodate the player if the obj1 is present in the same LOCATION. So let’s change the library VERB to allow that.
- Add To Every object
-  Verb put_in
-   When obj1
-     Check obj1 Here -- *** CHANGED FROM In Hero, etc. ***
-       Else
-         "You don't see" Say The obj1. "here."
-     And obj1 &lt;&gt; obj2
-        Else "You can't put something into itself!"
-     And obj2 &lt;&gt; hero
-        Else "You can't put" Say obj1. "into yourself!"
-     Does
-        Locate obj1 In obj2.
-        "Done."
-  End Verb.
+     Verb put_in
+         When obj1
+             Check obj1 In hero
+                 Else
+                     "You haven't got" Say The obj1. "."
+             And obj1 &lt;&gt; obj2
+                 Else "You can't put something into itself!"
+             And obj2 &lt;&gt; hero
+                 Else "You can't put" Say obj1. "into yourself!"
+             Does
+                 Locate obj1 In obj2.
+                 "Done."
+     End Verb.
  End Add To.
-The two "And" statements act as two more CHECKS to the VERB, preventing the player from putting something into itself or into their self. Finally there is the "Does", which LOCATES the obj1 IN the obj2.
-The put_ on  VERB The library ("put.i") has the "put on" VERB: … Syntax … put_on = put (obj1) on (obj2)   Where obj1 Isa object     Else "You can’t put that anywhere."   And obj2 Isa thing     Else "You can’t put anything on that." …
-The library SYNTAX has set the parameters for the "put on" VERB for obj1 as an OBJECT and obj2 as a THING. This works for us, because a CONTAINER is an OBJECT, and an OBJECT is a THING.
-The reason obj2 is a THING and not a CONTAINER is to allow the player to put <something> on himself/herself, i.e., to wear it. See "wear.i" in the library.
-...
-THE table Isa OBJECT AT tv_room
-CONTAINER
-DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's an ordinary table, set conveniently by your chair."
-END VERB.
- VERB put_on
- WHEN obj2
- DOES ONLY
-  LOCATE obj1 IN table.
-  "You set" Say The obj1. "on the table.""
-END VERB.
- END THE table.
-...
-Making the VERB  Not Work for the Table There is a VERB that we do not want to apply to the table, and that is the "put in" VERB. Our table has no drawers to put anything into. So: … THE table Isa OBJECT AT tv_room CONTAINER DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's an ordinary table, set conveniently by your chair."
-END VERB.
- VERB put_on
- WHEN obj2
- DOES ONLY
-  LOCATE obj1 IN table.
-  "You set" Say The obj1. "on the table.""
-END VERB.
- VERB put_in
- WHEN obj2
- CHECK
-  "There are no drawers in the table to put anything in."
-END VERB.
- END THE table.
-...
-_WHEN obj2_ equals "WHEN you want to put something in this table" (see note above). The VERB hits the CHECK and displays the explanation. There are no drawers in the table to put anything in.
-If on the other hand there were another CONTAINER in the game (perhaps a big box), it would be possible to "put the table in the box". The WHEN obj2 only CHECKS and stops the VERB when the table is being used as the CONTAINER. The player could not "put the box in the table". But he/she could "put the box on the table".
-What Does a Surface "Contain"? When "examined" or otherwise described, CONTAINERS will describe their contents as well (unless programmed not to do so) with the default message, "The <CONTAINER> contains <its contents>." So if the player were for example to "put the remote on the table", this would be the result:
-> x the table It’s an ordinary table, set conveniently by your chair.
-> put the remote on the table Done.
-> x the table It’s an ordinary table, set conveniently by your chair. The table contains a remote control.
-We can change the "contains" message to better fit the table, which after all is a surface.  To do this, we add a HEADER statement. … THE table Isa OBJECT AT tv_room CONTAINER  HEADER   "Resting on the table is" DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's an ordinary table, set conveniently by your chair."
-END VERB.
- VERB put_on
- WHEN obj2
- DOES ONLY
-  LOCATE obj1 IN table.
-  "You set" Say The obj1. "on the table.""
-END VERB.
- VERB put_in
- WHEN obj2
- CHECK
-  "There are no drawers in the table to put anything in."
-END VERB.
- END THE table.
-...
-Which gives the desired result:
-> x the table It’s an ordinary table, set conveniently by your chair. Resting on the table is a remote control.
-7.2. Classes
-SURFACES
-A Classy Surface. In the previous section we made the table into a CONTAINER, and further refined it to be a special kind of CONTAINER, a surface. Our game has several of these surface-type CONTAINERS. Instead of having to program the same Attributes and VERBS for each one, we can create a Sub-Class with the shared Attributes, etc. (¶ 2.4.5) , and call it SURFACE (or "Topside" or "Pimpernel" or whatever we want).
-Every SURFACE Isa OBJECT  CONTAINER   HEADER     "Resting on top is"
-VERB examine  DOES ONLY — override default "nothing special" message  LIST THIS. END VERB. …
-Two things to notice here. One, we don’t want the default "nothing special" message from the library VERB, so we use DOES ONLY. Second, we can use "THIS" to good effect in creating Classes. It represents the particular subject of the VERB — in this case the particular SURFACE in question.
-… VERB put_in  WHEN obj2  CHECK   "That isn’t something you can put anything ""in""." END VERB.
-END EVERY.
-Perhaps you wonder why we do not include the "put_on" VERB for the Surface Class, since that is the main thing we want the player to be able to do. The answer is that "put on" serves as well for clothing etc. that the player might want to "put on" or "wear". It would become complicated and tedious to make wearable items into Containers; it is easier simply to implement "put on" for the particular Instances of Surfaces.
-Now that we have created a specialized Class of OBJECT-CONTAINER, we can use it for the table and for every other similar OBJECT in the game.
-...
-THE table Isa SURFACE AT tv_room
-DESCRIPTION
- VERB examine DOES BEFORE
- "It's an ordinary table, set conveniently by your chair."
-END VERB.
-...
-Here is something else new: DOES _BEFORE._  We do not want to _override_ the DOES ONLY statement in the Class, but we do want to _amend something before_ the Class's "examine" DOES its action. The Class VERB will LIST the contents of the Container; the Instance (i.e. the table) will print the "ordinary table" message BEFORE the Class LISTS what is on top.
-There is also the <span style="background-color:#80FFFF; color:# 000000";><a href="#4A0DE034C6D44EBE555C09E3A3F51B9509DE8331"> DOES AFTER </A> statement, for when we want some action to occur _after _ the Class and/or default DOES of the library VERB.
- ...
-END THE table.
-...
-This is the power of "object oriented programming" : the ability to create Classes for whole ranges of specialized OBJECTS, ACTORS and LOCATIONS will make it much easier to program, for example, multiple Indoor LOCATIONS with walls, floor, etc., without having to program them for each one; Outdoor LOCATIONS with sky, birds, grass, etc.; <span style="background-color:#80FFFF; color:# 000000";><a href="#6AAC242A29E725F5CC02A8C278C782F0D351C078">Doors;</A> Teleporters; Lockables; Forests; all sorts of things that might occur to our imagination.
-CLOSEABLES
-An Open and Shut Case. There is another sort of specialized CONTAINER we might find useful (though there will be only one of these in our short game), one that can be opened and closed . This would be used for cabinets, treasure chests, drawers, knapsacks, secret compartments, etc. I like to call them CLOSEABLES, and here is how we create a Class for them:
-Every CLOSEABLE Isa OBJECT …
-Right off we have a conflict with the library file "open.i". In that file there are VERBS for "open" and "close", that CHECK for IS OPENABLE and IS CLOSEABLE respectively. With CLOSEABLE as a Class as well as an Attribute, we are using the same word to mean two different things to the computer, which could cause problems. One remedy of course would be to call our specialized CONTAINER Class something else, like OPEN_CLOSER.
-But I prefer to change the library ; to use the single Attribute IS OPENABLE for both the "open" and "close" VERBS. After all, I figure if something is closeable it is probably also openable; and if we should need to create an unusual OBJECT that is closeable but not openable (such as a latching lock box to which the player does not have the key), we can MAKE it NOT OPENABLE in its own "close" VERB.
-This frees CLOSEABLE for exclusive use as a Class. So in "open.i" we make these changes:
-  ...
+ ---
+----
+
+Notice that the VERB is in reference to obj1, the OBJECT to be put in the CONTAINER. There are two clues to this. First, the library is Adding To Every object, not To Every CONTAINER. Second, and the main indicator, the line after "Verb put_in" says "When obj1".
+
+"_When_" can be translated to mean, "When you want to do _"this to"_, in this case, "when you want to put this obj1 in something." If the line were to read instead, "When obj2", it would mean, "when you want to put something in this obj2." We are going to use "When obj2" in just a moment, but for now let's look at the VERB as it is in the library.
+
+The next lines CHECK whether the Hero has the obj1 in his/her Inventory. Again, I prefer to accommodate the player if the obj1 is present in the same LOCATION. So let’s change the library VERB to allow that.
+
+[subs="quotes"]
+----
  Add To Every object
- -- *** REMOVED Is Not closeable. ***
- Verb close
- Check obj Is OPENABLE -- *** CHANGED from closeable ***
-  Else "You can't close that."
- And obj Is open
-  Else "It is not open."
- Does
-  Make obj Not open.
-  Say The obj. "is now closed."
-End Verb.
-End Add To.
-With that resolved, let's return to creating our CLOSEABLE Class.
-Every CLOSEABLE Isa OBJECT  OPAQUE CONTAINER …
-An OPAQUE CONTAINER is one that the player cannot see into, that is, what it contains while it is closed. If we want a CLOSEABLE that the player can see into while closed, we can omit or change the OPAQUE Attribute to make it transparent.
- Every CLOSEABLE Isa OBJECT
-  OPAQUE CONTAINER
-  HEADER -- For when it is open
-    "It contains"
- IS OPENABLE. -- see "open.i"
- VERB open DOES AFTER
-...
-This is just like the DOES BEFORE statement. We don’t want to override the default DOES in the library, but we do want to add something after the default "open" DOES its action. The library VERB will MAKE the CLOSEABLE Attribute "Is open" and display the message that it is open.
-All we want to do is cause the CLOSEABLE to describe its contents after it has been opened. DOES AFTER accomplishes this for us.
-Every CLOSEABLE Isa OBJECT
- OPAQUE CONTAINER
-  HEADER
-    "It contains"
- IS OPENABLE.
-  VERB open DOES AFTER
-   MAKE THIS NOT OPAQUE.
-...
-MAKE THIS NOT OPAQUE so that it will reveal its contents and make them accessible to the player.
+     Verb put_in
+         When obj1
+             Check obj1 Here -- *** CHANGED FROM In Hero, etc. ***
+                 Else
+                     "You don't see" Say The obj1. "here."
+             And obj1 &lt;&gt; obj2
+                 Else "You can't put something into itself!"
+             And obj2 &lt;&gt; hero
+                 Else "You can't put" Say obj1. "into yourself!"
+             Does
+                 Locate obj1 In obj2.
+                 "Done."
+     End Verb.
+ End Add To.
+----
+
+The two "And" statements act as two more CHECKS to the VERB, preventing the player from putting something into itself or into their self. Finally there is the "Does", which LOCATES the obj1 IN the obj2.
+
+[float]
+==== The put_on VERB
+
+The library ("put.i") has the "put on" VERB:
+
+[subs="quotes"]
+----
  ...
- VERB open DOES AFTER
-  MAKE THIS NOT OPAQUE.
- LIST THIS.
-END VERB.
-...
-The LIST statement will cause THIS (particular CLOSEABLE) to describe its contents.
-Now it is a simple matter to do the same for the "close" VERB. … VERB close DOES AFTER — the default is in "open.i"  MAKE THIS OPAQUE. END VERB.
-END EVERY.
-Just in case you’re wondering where to put this code, it might be a good idea to put your custom Classes right after the " import std.i. ":
------------------------------------------------
---                                  *** TV TIME! ***
---       An ALAN 3 Interactive Fiction Tutorial Game
---                         By Michael Arnaud &#169; 2006
------------------------------------------------
-IMPORT 'std.i'.
------------------------
--- *** CUSTOM CLASSES: ***
+ Syntax put_on = put (obj1) on (obj2)
+     Where obj1 Isa object
+         Else "You can’t put that anywhere."
+     And obj2 Isa thing
+         Else "You can’t put anything on that."
+ ...
+----
+
+The library SYNTAX has set the parameters for the "put on" VERB for obj1 as an OBJECT and obj2 as a THING. This works for us, because a CONTAINER is an OBJECT, and an OBJECT is a THING.
+
+The reason obj2 is a THING and not a CONTAINER is to allow the player to put <something> on himself/herself, i.e., to wear it. See "wear.i" in the library.
+
+[subs="quotes"]
+----
+ ...
+ THE table Isa OBJECT AT tv_room
+     CONTAINER
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's an ordinary table, set conveniently by your chair."
+     END VERB.
+     VERB put_on
+         WHEN obj2
+             DOES ONLY
+                 LOCATE obj1 IN table.
+                 "You set" Say The obj1. "on the table.""
+     END VERB.
+ END THE table.
+ ...
+----
+
+Making the VERB  Not Work for the Table There is a VERB that we do not want to apply to the table, and that is the "put in" VERB. Our table has no drawers to put anything into. So:
+
+[subs="quotes"]
+----
+ ...
+ THE table Isa OBJECT AT tv_room
+     CONTAINER
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's an ordinary table, set conveniently by your chair."
+     END VERB.
+     VERB put_on
+         WHEN obj2
+             DOES ONLY
+                 LOCATE obj1 IN table.
+                 "You set" Say The obj1. "on the table.""
+     END VERB.
+     VERB put_in
+         WHEN obj2
+             CHECK
+                 "There are no drawers in the table to put anything in."
+     END VERB.
+ END THE table.
+ ...
+----
+
+_WHEN obj2_ equals "WHEN you want to put something in this table" (see note above). The VERB hits the CHECK and displays the explanation. There are no drawers in the table to put anything in.
+
+If on the other hand there were another CONTAINER in the game (perhaps a big box), it would be possible to "put the table in the box". The WHEN obj2 only CHECKS and stops the VERB when the table is being used as the CONTAINER. The player could not "put the box in the table". But he/she could "put the box on the table".
+
+[float]
+==== What Does a Surface "Contain"?
+
+When "examined" or otherwise described, CONTAINERS will describe their contents as well (unless programmed not to do so) with the default message, "The <CONTAINER> contains <its contents>." So if the player were for example to "put the remote on the table", this would be the result:
+
+[subs="quotes"]
+----
+> _x the table_
+It’s an ordinary table, set conveniently by your chair.
+
+> _put the remote on the table_
+Done.
+
+> _x the table_
+It’s an ordinary table, set conveniently by your chair. The table contains a remote control.
+----
+
+We can change the "contains" message to better fit the table, which after all is a surface. To do this, we add a HEADER statement.
+
+[subs="quotes"]
+----
+ ...
+ THE table Isa OBJECT AT tv_room
+     CONTAINER
+         HEADER
+             "Resting on the table is"
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's an ordinary table, set conveniently by your chair."
+     END VERB.
+     VERB put_on
+         WHEN obj2
+             DOES ONLY
+                 LOCATE obj1 IN table.
+                 "You set" Say The obj1. "on the table.""
+     END VERB.
+     VERB put_in
+         WHEN obj2
+             CHECK
+                 "There are no drawers in the table to put anything in."
+     END VERB.
+ END THE table.
+ ...
+----
+
+Which gives the desired result:
+
+[subs="quotes"]
+----
+> _x the table_
+It’s an ordinary table, set conveniently by your chair. Resting on the table is a remote control.
+----
+
+=== Classes
+
+
+==== SURFACES
+
+[float]
+==== A Classy Surface
+
+In the previous section we made the table into a CONTAINER, and further refined it to be a special kind of CONTAINER, a surface. Our game has several of these surface-type CONTAINERS. Instead of having to program the same Attributes and VERBS for each one, we can create a Sub-Class with the shared Attributes, etc. (¶ 2.4.5), and call it SURFACE (or "Topside" or "Pimpernel" or whatever we want).
+
+[subs="quotes"]
+----
+ ...
  Every SURFACE Isa OBJECT
- CONTAINER
-  HEADER
-    "Resting on top is"
- VERB examine
- DOES ONLY
- LIST THIS.
-END VERB.
- VERB put_in
- WHEN obj2
- CHECK
-  "That isn't something you can put anything ""in""."
-END VERB.
+     CONTAINER
+     HEADER
+         "Resting on top is"
+     VERB examine
+         DOES ONLY
+         — Override default "nothing special" message
+         LIST THIS.
+     END VERB.
+ ...
+----
+
+Two things to notice here. One, we don’t want the default "nothing special" message from the library VERB, so we use DOES ONLY. Second, we can use "THIS" to good effect in creating Classes. It represents the particular subject of the VERB — in this case the particular SURFACE in question.
+
+[subs="quotes"]
+----
+ ...
+     VERB put_in  WHEN obj2
+         CHECK
+             "That isn’t something you can put anything ""in""."
+     END VERB.
  END EVERY.
------------------------
-Every CLOSEABLE Isa OBJECT
- OPAQUE CONTAINER
-  HEADER
-    "It contains"
- IS OPENABLE.
-  VERB open DOES AFTER
-  MAKE THIS NOT OPAQUE.
-  LIST THIS.
- END VERB.
- VERB close DOES AFTER
-  MAKE THIS OPAQUE.
- END VERB.
+----
+
+Perhaps you wonder why we do not include the "put_on" VERB for the Surface Class, since that is the main thing we want the player to be able to do. The answer is that "put on" serves as well for clothing etc. that the player might want to "put on" or "wear". It would become complicated and tedious to make wearable items into Containers; it is easier simply to implement "put on" for the particular Instances of Surfaces.
+
+Now that we have created a specialized Class of OBJECT-CONTAINER, we can use it for the table and for every other similar OBJECT in the game.
+
+[subs="quotes"]
+----
+ ...
+ THE table Isa SURFACE AT tv_room
+     DESCRIPTION
+     VERB examine
+         DOES BEFORE
+             "It's an ordinary table, set conveniently by your chair."
+     END VERB.
+ END THE table.
+ ...
+----
+
+Here is something else new: DOES _BEFORE_.  We do not want to _override_ the DOES ONLY statement in the Class, but we do want to _amend something before_ the Class's "examine" DOES its action. The Class VERB will LIST the contents of the Container; the Instance (i.e. the table) will print the "ordinary table" message BEFORE the Class LISTS what is on top.
+
+There is also the DOES AFTER statement, for when we want some action to occur _after_ the Class and/or default DOES of the library VERB.
+
+This is the power of "object oriented programming" : the ability to create Classes for whole ranges of specialized OBJECTS, ACTORS and LOCATIONS will make it much easier to program, for example, multiple Indoor LOCATIONS with walls, floor, etc., without having to program them for each one; Outdoor LOCATIONS with sky, birds, grass, etc.; Doors; Teleporters; Lockables; Forests; all sorts of things that might occur to our imagination.
+
+==== CLOSEABLES
+
+[float]
+==== An Open and Shut Case
+
+There is another sort of specialized CONTAINER we might find useful (though there will be only one of these in our short game), one that can be opened and closed. This would be used for cabinets, treasure chests, drawers, knapsacks, secret compartments, etc. I like to call them CLOSEABLES, and here is how we create a Class for them:
+
+[subs="quotes"]
+----
+ Every CLOSEABLE Isa OBJECT
+ ...
+----
+
+Right off we have a conflict with the library file "open.i". In that file there are VERBS for "open" and "close", that CHECK for IS OPENABLE and IS CLOSEABLE respectively. With CLOSEABLE as a Class as well as an Attribute, we are using the same word to mean two different things to the computer, which could cause problems. One remedy of course would be to call our specialized CONTAINER Class something else, like OPEN_CLOSER.
+
+But I prefer to change the library ; to use the single Attribute IS OPENABLE for both the "open" and "close" VERBS. After all, I figure if something is closeable it is probably also openable; and if we should need to create an unusual OBJECT that is closeable but not openable (such as a latching lock box to which the player does not have the key), we can MAKE it NOT OPENABLE in its own "close" VERB.
+
+This frees CLOSEABLE for exclusive use as a Class. So in "open.i" we make these changes:
+
+[subs="quotes"]
+----
+ ...
+ Add To Every object
+     -- *** REMOVED Is Not closeable. ***
+     Verb close
+         Check obj Is OPENABLE -- *** CHANGED from closeable ***
+             Else "You can't close that."
+         And obj Is open
+             Else "It is not open."
+         Does
+             Make obj Not open.
+             Say The obj. "is now closed."
+     End Verb.
+ End Add To.
+ ...
+----
+
+With that resolved, let's return to creating our CLOSEABLE Class.
+
+[subs="quotes"]
+----
+ ...
+ Every CLOSEABLE Isa OBJECT
+     OPAQUE CONTAINER
+ ...
+----
+
+An OPAQUE CONTAINER is one that the player cannot see into, that is, what it contains while it is closed. If we want a CLOSEABLE that the player can see into while closed, we can omit or change the OPAQUE Attribute to make it transparent.
+
+[subs="quotes"]
+----
+ ...
+ Every CLOSEABLE Isa OBJECT
+     OPAQUE CONTAINER
+     HEADER -- For when it is open
+         "It contains"
+     IS OPENABLE. -- see "open.i"
+     VERB open
+         DOES AFTER
+ ...
+----
+
+This is just like the DOES BEFORE statement. We don’t want to override the default DOES in the library, but we do want to add something after the default "open" DOES its action. The library VERB will MAKE the CLOSEABLE Attribute "Is open" and display the message that it is open.
+
+All we want to do is cause the CLOSEABLE to describe its contents after it has been opened. DOES AFTER accomplishes this for us.
+
+[subs="quotes"]
+----
+ ...
+ Every CLOSEABLE Isa OBJECT
+     OPAQUE CONTAINER
+     HEADER
+         "It contains"
+     IS OPENABLE.
+     VERB open
+         DOES AFTER
+             MAKE THIS NOT OPAQUE.
+ ...
+----
+
+MAKE THIS NOT OPAQUE so that it will reveal its contents and make them accessible to the player.
+
+[subs="quotes"]
+----
+ ...
+     VERB open
+         DOES AFTER
+            MAKE THIS NOT OPAQUE.
+            LIST THIS.
+     END VERB.
+ ...
+----
+
+The LIST statement will cause THIS (particular CLOSEABLE) to describe its contents.
+
+Now it is a simple matter to do the same for the "close" VERB.
+
+[subs="quotes"]
+----
+ ...
+     VERB close
+         DOES AFTER — the default is in "open.i"
+             MAKE THIS OPAQUE.
+     END VERB.
+ END EVERY.
+ ...
+----
+
+Just in case you’re wondering where to put this code, it might be a good idea to put your custom Classes right after the " import std.i. ":
+
+[subs="quotes"]
+----
+ -----------------------------------------------
+ --                                  *** TV TIME! ***
+ --       An ALAN 3 Interactive Fiction Tutorial Game
+ --                         By Michael Arnaud &#169; 2006
+ -----------------------------------------------
+ IMPORT 'std.i'.
+ -----------------------
+ -- *** CUSTOM CLASSES: ***
+ Every SURFACE Isa OBJECT
+     CONTAINER
+     HEADER
+         "Resting on top is"
+     VERB examine
+         DOES ONLY
+             LIST THIS.
+     END VERB.
+     VERB put_in
+         WHEN obj2
+             CHECK
+                 "That isn't something you can put anything ""in""."
+     END VERB.
+ END EVERY.
+ -----------------------
+ Every CLOSEABLE Isa OBJECT
+     OPAQUE CONTAINER
+     HEADER
+         "It contains"
+     IS OPENABLE.
+     VERB open
+         DOES AFTER
+             MAKE THIS NOT OPAQUE.
+             LIST THIS.
+     END VERB.
+     VERB close
+         DOES AFTER
+             MAKE THIS OPAQUE.
+     END VERB.
  END Every.
------------------------
-...
+ -----------------------
+ ...
+----
+
 Some or all of the custom Classes you create might be useful for other games that you write as well. You can accumulate these in a file in your custom library instead of in your game file (as above). Call the file something like "custom.i" and put it in the library folder. Then open "std.i" and add "import 'custom.i'." to the list.
+
 Let's go ahead and put this Class and the SURFACE Class to use in the Kitchen:
+
+[subs="quotes"]
+----
  ...
  -----------------------
  THE kitchen Isa LOCATION
- NAME 'Kitchen'
- DESCRIPTION
- "This is the kitchen. There is a counter and a cupboard here.
-$pNorth returns to the TV Room."
- EXIT north TO tv_room
- DOES
-  "You return to the TV Room, north."
-END EXIT.
- EXIT south, east, west TO kitchen
- CHECK
-  "There is only a wall in that direction."
-END EXIT.
-  END THE kitchen.
+     NAME 'Kitchen'
+     DESCRIPTION
+         "This is the kitchen. There is a counter and a cupboard here.
+          $pNorth returns to the TV Room."
+     EXIT north TO tv_room
+         DOES
+             "You return to the TV Room, north."
+     END EXIT.
+     EXIT south, east, west TO kitchen
+         CHECK
+             "There is only a wall in that direction."
+     END EXIT.
+ END THE kitchen.
  -----------------------
-THE counter Isa SURFACE AT kitchen
- DESCRIPTION
-END THE counter. ----------------------- THE cupboard Isa CLOSEABLE AT kitchen  NAME cupboard NAME cabinet  DESCRIPTION
-END THE cupboard. -----------------------
+ THE counter Isa SURFACE AT kitchen
+     DESCRIPTION
+ END THE counter.
+ -----------------------
+ THE cupboard Isa CLOSEABLE AT kitchen
+     NAME cupboard
+     NAME cabinet
+     DESCRIPTION
+ END THE cupboard.
+ -----------------------
+----
+
 Try it and see how you can put OBJECTS like the remote control on the counter, you can open and close the cupboard, or put the remote in the cupboard and close it, etc. Everything works for the counter and cupboard because they "inherit" the Attributes and VERBS from their respective Classes (see ¶ 4.5.1).
-DOORS
-Though not as popular in Interactive Fiction as in times past, <FONT FACE="times new roman" SIZE=3>the Door is still a useful fixture between LOCATIONS. It is <FONT FACE="times new roman" SIZE=3>not much used in games anymore as a simple inconvenience <FONT FACE="times new roman" SIZE=3>between LOCATIONS (as it is in our tutorial game), but if <FONT FACE="times new roman" SIZE=3>there are Doors they are usually either integral to the story, <FONT FACE="times new roman" SIZE=3>and/or they are a puzzle (locked by key or password, etc.), <FONT FACE="times new roman" SIZE=3>often used to progress the game after certain conditions are <FONT FACE="times new roman" SIZE=3>met.
-<FONT FACE="times new roman" SIZE=3><FONT FACE="times new roman" SIZE=3>Most doors have two sides, in which case it is necessary to <FONT FACE="times new roman" SIZE=3>program two Doors, one in each LOCATION to represent <FONT FACE="times new roman" SIZE=3>the two sides of a single Door. Here is how we might <FONT FACE="times new roman" SIZE=3>construct a Door Class:
-<FONT FACE="times new roman" SIZE=3>EVERY Door Isa OBJECT  NAME door …
-<FONT FACE="times new roman" SIZE=3>Notice that the NAME statement can be inherited. Every <FONT FACE="times new roman" SIZE=3>particular Instance of a Door will be called a Door, inherited <FONT FACE="times new roman" SIZE=3>from the Class, as well as any other NAME(S) we might add <FONT FACE="times new roman" SIZE=3>in the Instance.
-<FONT FACE="times new roman" SIZE=3><FONT FACE="times new roman" SIZE=3>The following table from the manual (without the manual’s <FONT FACE="times new roman" SIZE=3>nice colors, see ¶ 4.7.1) shows how the NAME as well as <FONT FACE="times new roman" SIZE=3>other properties are inherited by the Instances. Some are <FONT FACE="times new roman" SIZE=3>completely <FONT FACE="times new roman" SIZE=3>overridden <FONT FACE="times new roman" SIZE=3>, that is, the property if included in the <FONT FACE="times new roman" SIZE=3>Instance will <FONT FACE="times new roman" SIZE=3>replace <FONT FACE="times new roman" SIZE=3> that of the Class. Others are <FONT FACE="times new roman" SIZE=3>accumulated <FONT FACE="times new roman" SIZE=3> (as the NAME statement for example), <FONT FACE="times new roman" SIZE=3>generally appending to the end of the same property in the <FONT FACE="times new roman" SIZE=3>Class. <p> </p> <div align="left"> <table BORDER="1" width = "74%"><tr><td VALIGN=top WIDTH=100% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Inherited Property </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Initial location </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Name </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Accumulated, the <FONT FACE="Centaur" SIZE=3>inherited names <FONT FACE="Centaur" SIZE=3>are appended at <FONT FACE="Centaur" SIZE=3>the end of the list <FONT FACE="Centaur" SIZE=3>of Name <FONT FACE="Centaur" SIZE=3>clauses </td> </tr> </table>
-<FONT FACE="Centaur" SIZE=3><div align="left"> <table BORDER="1" width = "74%"><tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Pronoun </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden, each <FONT FACE="Centaur" SIZE=3>pronoun clause <FONT FACE="Centaur" SIZE=3>inhibits inheriting <FONT FACE="Centaur" SIZE=3>pronouns from the <FONT FACE="Centaur" SIZE=3>parent class. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Attribute values </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden, <FONT FACE="Centaur" SIZE=3>attribute <FONT FACE="Centaur" SIZE=3>declarations <FONT FACE="Centaur" SIZE=3>using the same <FONT FACE="Centaur" SIZE=3>name as an <FONT FACE="Centaur" SIZE=3>inherited can give <FONT FACE="Centaur" SIZE=3>the attribute a <FONT FACE="Centaur" SIZE=3>different value but <FONT FACE="Centaur" SIZE=3>must match the <FONT FACE="Centaur" SIZE=3>type of the <FONT FACE="Centaur" SIZE=3>inherited. <br> <FONT FACE="Centaur" SIZE=3>Accumulated, you <FONT FACE="Centaur" SIZE=3>can add further <FONT FACE="Centaur" SIZE=3>attributes in a <FONT FACE="Centaur" SIZE=3>class or instance. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Initialize </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Accumulated. <FONT FACE="Centaur" SIZE=3>Inherited initialize <FONT FACE="Centaur" SIZE=3>clauses are <FONT FACE="Centaur" SIZE=3>executed first so <FONT FACE="Centaur" SIZE=3>that the base <FONT FACE="Centaur" SIZE=3>classes may do <FONT FACE="Centaur" SIZE=3>their initialization <FONT FACE="Centaur" SIZE=3>first. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Description check </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Accumulated. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Description </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Articles & Forms </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Mentioned </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden. Also <FONT FACE="Centaur" SIZE=3>overrides names. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Container </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden, all <FONT FACE="Centaur" SIZE=3>clauses are <FONT FACE="Centaur" SIZE=3>overridden. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Verb declarations </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Accumulated. <FONT FACE="Centaur" SIZE=3>Verb bodies are <FONT FACE="Centaur" SIZE=3>accumulated for <FONT FACE="Centaur" SIZE=3>verbs with the <FONT FACE="Centaur" SIZE=3>same name as <FONT FACE="Centaur" SIZE=3>the inherited. Use <FONT FACE="Centaur" SIZE=3>qualifiers (see <FONT FACE="Centaur" SIZE=3>Verb Qualification <FONT FACE="Centaur" SIZE=3>on page 99) if you <FONT FACE="Centaur" SIZE=3>don’t want them <FONT FACE="Centaur" SIZE=3>all to execute. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Scripts </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden, for <FONT FACE="Centaur" SIZE=3>same script name. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Entered </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Exits </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden, for <FONT FACE="Centaur" SIZE=3>same direction. </td> </tr> </table> <FONT FACE="Cataneo BT" SIZE=2> <FONT FACE="Cataneo BT" SIZE=2> EVERY Door Isa OBJECT NAME door  HAS otherside Door. …
-<FONT FACE="times new roman" SIZE=3>The point of this line is to indicate the other side of the Door, <FONT FACE="times new roman" SIZE=3>i.e, first that it <FONT FACE="times new roman" SIZE=3>HAS <FONT FACE="times new roman" SIZE=3> the non-Boolean Attribute of an <FONT FACE="times new roman" SIZE=3>"otherside", and then to assign the <FONT FACE="times new roman" SIZE=3>Class <FONT FACE="times new roman" SIZE=3>, "Door" to that other <FONT FACE="times new roman" SIZE=3>side. So every Door has an other side which is also a Door.
-EVERY Door Isa OBJECT NAME door HAS otherside Door  IS OPENABLE. — So we can open and close it.
-VERB open  DOES AFTER   MAKE otherside OF THIS open. END VERB.
-<FONT FACE="times new roman" SIZE=3>The execution of the "open" VERB, after the action of the <FONT FACE="times new roman" SIZE=3>default DOES to open the Door, will change the Attribute of <FONT FACE="times new roman" SIZE=3>the Door’s other side (which is also a Door) to OPEN. The <FONT FACE="times new roman" SIZE=3>result is similar for the "close" VERB:
-<FONT FACE="Courier New" SIZE=2 COLOR="#008000">VERB close  DOES AFTER   MAKE otherside OF THIS NOT open. END VERB.
-END EVERY.
-<FONT FACE="times new roman" SIZE=3>And here is how we implement "a door" between the TV <FONT FACE="times new roman" SIZE=3>Room and the Kitchen. Note that it is really two doors, the <FONT FACE="times new roman" SIZE=3>tv_door and the kitchen_door, each having the other as its <FONT FACE="times new roman" SIZE=3>"otherside". The EXITS have been modified to CHECK that <FONT FACE="times new roman" SIZE=3>the door is open.
-<FONT FACE="times new roman" SIZE=3>----------------------- THE tv_room Isa LOCATION NAME TV Room DESCRIPTION "This is your favorite room in the house, because you love to watch television. Your new plasma TV is set up in this room, ideally located across from your comfy chair and table. $pThe door to the kitchen is south."
-  EXIT south TO kitchen
- CHECK tv_door IS OPEN
-  ELSE
-    "$t$t&lt;BUMP&gt;$p$t$tOof!$pThe door is closed."
-  DOES
-   "You go south, into the kitchen."
- END EXIT.
- EXIT north, east, west TO tv_room
- CHECK
-  "There is only a wall in that direction."
-END EXIT.
-  END THE tv_room.
+
+==== DOORS
+
+Though not as popular in Interactive Fiction as in times past, the Door is still a useful fixture between LOCATIONS. It is not much used in games anymore as a simple inconvenience between LOCATIONS (as it is in our tutorial game), but if there are Doors they are usually either integral to the story, and/or they are a puzzle (locked by key or password, etc.), often used to progress the game after certain conditions are met.
+
+Most doors have two sides, in which case it is necessary to program two Doors, one in each LOCATION to represent the two sides of a single Door. Here is how we might construct a Door Class:
+
+[subs="quotes"]
+----
+ ...
+ EVERY Door Isa OBJECT
+     NAME door
+ ...
+----
+
+Notice that the NAME statement can be inherited. Every particular Instance of a Door will be called a Door, inherited from the Class, as well as any other NAME(S) we might add in the Instance.
+
+The following table from the manual (without the manual’s nice colors, see ¶ 4.7.1) shows how the NAME as well as other properties are inherited by the Instances. Some are completely overridden, that is, the property if included in the Instance will replace that of the Class. Others are accumulated  (as the NAME statement for example), generally appending to the end of the same property in the Class.
+
+<div align="left"> <table BORDER="1" width = "74%"><tr><td VALIGN=top WIDTH=100% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Inherited Property </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Initial location </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Name </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Accumulated, the <FONT FACE="Centaur" SIZE=3>inherited names <FONT FACE="Centaur" SIZE=3>are appended at <FONT FACE="Centaur" SIZE=3>the end of the list <FONT FACE="Centaur" SIZE=3>of Name <FONT FACE="Centaur" SIZE=3>clauses </td> </tr> </table>
+<FONT FACE="Centaur" SIZE=3><div align="left"> <table BORDER="1" width = "74%"><tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Pronoun </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden, each <FONT FACE="Centaur" SIZE=3>pronoun clause <FONT FACE="Centaur" SIZE=3>inhibits inheriting <FONT FACE="Centaur" SIZE=3>pronouns from the <FONT FACE="Centaur" SIZE=3>parent class. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Attribute values </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden, <FONT FACE="Centaur" SIZE=3>attribute <FONT FACE="Centaur" SIZE=3>declarations <FONT FACE="Centaur" SIZE=3>using the same <FONT FACE="Centaur" SIZE=3>name as an <FONT FACE="Centaur" SIZE=3>inherited can give <FONT FACE="Centaur" SIZE=3>the attribute a <FONT FACE="Centaur" SIZE=3>different value but <FONT FACE="Centaur" SIZE=3>must match the <FONT FACE="Centaur" SIZE=3>type of the <FONT FACE="Centaur" SIZE=3>inherited. <br> <FONT FACE="Centaur" SIZE=3>Accumulated, you <FONT FACE="Centaur" SIZE=3>can add further <FONT FACE="Centaur" SIZE=3>attributes in a <FONT FACE="Centaur" SIZE=3>class or instance. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Initialize </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Accumulated. <FONT FACE="Centaur" SIZE=3>Inherited initialize <FONT FACE="Centaur" SIZE=3>clauses are <FONT FACE="Centaur" SIZE=3>executed first so <FONT FACE="Centaur" SIZE=3>that the base <FONT FACE="Centaur" SIZE=3>classes may do <FONT FACE="Centaur" SIZE=3>their initialization <FONT FACE="Centaur" SIZE=3>first. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Description check </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Accumulated. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Description </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Articles & Forms </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Mentioned </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden. Also <FONT FACE="Centaur" SIZE=3>overrides names. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Container </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden, all <FONT FACE="Centaur" SIZE=3>clauses are <FONT FACE="Centaur" SIZE=3>overridden. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Verb declarations </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Accumulated. <FONT FACE="Centaur" SIZE=3>Verb bodies are <FONT FACE="Centaur" SIZE=3>accumulated for <FONT FACE="Centaur" SIZE=3>verbs with the <FONT FACE="Centaur" SIZE=3>same name as <FONT FACE="Centaur" SIZE=3>the inherited. Use <FONT FACE="Centaur" SIZE=3>qualifiers (see <FONT FACE="Centaur" SIZE=3>Verb Qualification <FONT FACE="Centaur" SIZE=3>on page 99) if you <FONT FACE="Centaur" SIZE=3>don’t want them <FONT FACE="Centaur" SIZE=3>all to execute. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Scripts </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden, for <FONT FACE="Centaur" SIZE=3>same script name. </td> </tr> <tr><td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Entered </td> <td VALIGN=top WIDTH=50% BGCOLOR=#FFFFFF><FONT FACE="Centaur" SIZE=3>Overridden. </td> </tr> <tr><td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Exits </td> <td VALIGN=top WIDTH=50%><FONT FACE="Centaur" SIZE=3>Overridden, for <FONT FACE="Centaur" SIZE=3>same direction. </td> </tr> </table>
+
+[subs="quotes"]
+----
+ ...
+ EVERY Door Isa OBJECT
+     NAME door
+     HAS otherside Door.
+ ...
+----
+
+The point of this line is to indicate the other side of the Door, i.e, first that it HAS  the non-Boolean Attribute of an "otherside", and then to assign the Class , "Door" to that other side. So every Door has an other side which is also a Door.
+
+[subs="quotes"]
+----
+ EVERY Door Isa OBJECT
+     NAME door 
+     HAS otherside Door
+     IS OPENABLE. — So we can open and close it.
+     VERB open
+         DOES AFTER
+             MAKE otherside OF THIS open.
+     END VERB.
+ ...
+----
+
+The execution of the "open" VERB, after the action of the default DOES to open the Door, will change the Attribute of the Door’s other side (which is also a Door) to OPEN. The result is similar for the "close" VERB:
+
+[subs="quotes"]
+----
+ ...
+     VERB close
+         DOES AFTER
+             MAKE otherside OF THIS NOT open.
+     END VERB.
+ END EVERY.
+----
+
+And here is how we implement "a door" between the TV Room and the Kitchen. Note that it is really two doors, the tv_door and the kitchen_door, each having the other as its "otherside". The EXITS have been modified to CHECK that the door is open.
+
+[subs="quotes"]
+----
  -----------------------
-THE tv_door Isa Door AT tv_room
- HAS otherside kitchen_door.
-END THE tv_door.
------------------------
-THE kitchen_door Isa Door AT kitchen
- HAS otherside tv_door.
-END THE kitchen_door.
+ THE tv_room Isa LOCATION
+     NAME TV Room
+     DESCRIPTION
+         "This is your favorite room in the house, because you love to 
+          watch television. Your new plasma TV is set up in this room, 
+          ideally located across from your comfy chair and table. $pThe 
+          door to the kitchen is south."
+     EXIT south TO kitchen
+         CHECK tv_door IS OPEN
+             ELSE
+                 "$t$t&lt;BUMP&gt;$p$t$tOof!$pThe door is closed."
+         DOES
+             "You go south, into the kitchen."
+     END EXIT.
+     EXIT north, east, west TO tv_room
+         CHECK
+             "There is only a wall in that direction."
+     END EXIT.
+ END THE tv_room.
+ -----------------------
+ THE tv_door Isa Door AT tv_room
+     HAS otherside kitchen_door.
+ END THE tv_door.
+ -----------------------
+ THE kitchen_door Isa Door AT kitchen
+     HAS otherside tv_door.
+ END THE kitchen_door.
  -----------------------
  THE kitchen Isa LOCATION
- NAME 'Kitchen'
- DESCRIPTION
- "This is the kitchen. There is a counter and a cupboard here.
- $pNorth returns to the TV Room."
-  EXIT north TO tv_room
- CHECK kitchen_door IS OPEN
-  ELSE
-    "$t$t&lt;BUMP&gt;$p$t$tOof!$pThe door is closed."
-  DOES
-   "You return to the TV Room, north."
- END EXIT.
- EXIT south, east, west TO kitchen
- CHECK
-  "There is only a wall in that direction."
-END EXIT.
+     NAME 'Kitchen'
+     DESCRIPTION
+         "This is the kitchen. There is a counter and a cupboard here.
+          $pNorth returns to the TV Room."
+     EXIT north TO tv_room
+         CHECK kitchen_door IS OPEN
+             ELSE
+                 "$t$t&lt;BUMP&gt;$p$t$tOof!$pThe door is closed."
+         DOES
+             "You return to the TV Room, north."
+     END EXIT.
+     EXIT south, east, west TO kitchen
+         CHECK
+             "There is only a wall in that direction."
+     END EXIT.
  END THE kitchen.
------------------------
-7.3. IF-THEN
+ -----------------------
+----
+
+=== IF-THEN
+
 (¶ 4.16.7) We have previously used the CHECK statement as a conditional statement. If certain conditions are met, then the CHECK passes and the action continues. If the conditions are not met, the CHECK stops the action that would otherwise take place and displays an explanatory message.
-VERB do_this, do_that CHECK conditions are met   ELSE "You can’t do that!" DOES   "You do this and that." END VERB.
-There is another conditional statement in the ALAN language. Actually it is a pair of statements, IF and THEN . There are basically two differences between CHECK and IF-THEN. One, unlike the CHECK statement that allows or stops the DOES statement, the IF-THEN statement follows the DOES statement. Two, CHECK only allows or stops the action, where IF-THEN does not stop the action, but can execute from among multiple actions according to the conditions.
+
+[subs="quotes"]
+----
+ VERB do_this, do_that
+     CHECK conditions are met
+         ELSE "You can’t do that!" 
+     DOES
+         "You do this and that."
+ END VERB.
+----
+
+There is another conditional statement in the ALAN language. Actually it is a pair of statements, IF and THEN. There are basically two differences between CHECK and IF-THEN.
+
+One, unlike the CHECK statement that allows or stops the DOES statement, the IF-THEN statement follows the DOES statement.
+
+Two, CHECK only allows or stops the action, where IF-THEN does not stop the action, but can execute from among multiple actions according to the conditions.
+
 One way to demonstrate the IF-THEN statement is in a VERB format.
-VERB do_this, do_that DOES   IF condition "A" is met     THEN "You do action A."   END IF. END VERB.
+
+[subs="quotes"]
+----
+ VERB do_this, do_that
+     DOES
+         IF condition "A" is met THEN
+             "You do action A."
+         END IF.
+ END VERB.
+----
+
 The power of the IF-THEN statement increases with the IF-THEN-ELSE combination.
-VERB do_this, do_that DOES   IF condition "A" is met     THEN "You do action A." ELSE     "You do action B."   END IF. END VERB.
-— and --
-VERB do_this, do_that DOES   IF condition "A" is met     THEN "You do action A."   ELSIF condition "B" is met     THEN "You do action B."   ELSE     "You do action C."   END IF. END VERB.
+
+[subs="quotes"]
+----
+ VERB do_this, do_that
+     DOES
+         IF condition "A" is met THEN
+             "You do action A."
+         ELSE
+             "You do action B."
+         END IF.
+ END VERB.
+----
+
+and
+
+[subs="quotes"]
+----
+ VERB do_this, do_that
+     DOES
+         IF condition "A" is met THEN
+             "You do action A."
+         ELSIF condition "B" is met THEN
+             "You do action B."
+         ELSE
+             "You do action C."
+         END IF.
+ END VERB.
+----
+
 For every "IF" statement there must be an "END IF."
-The IF-THEN statement will prove to be very useful in all sorts of ways. It can even be used in LOCATION DESCRIPTIONS to describe changing conditions. For example:
+
+The IF-THEN statement will prove to be very useful in all sorts of ways. It can even be used in LOCATION DESCRIPTIONS to describe changing conditions. 
+
+For example:
+
+[subs="quotes"]
+----
  THE field Isa LOCATION
-NAME 'Grassy Field'
-DESCRIPTION
-"You are standing in an open field. The sky is"
- IF weather IS RAINY
-  THEN
-    "heavy with thunder clouds."
- ELSIF weather IS FOGGY
-  THEN
-    "hidden in the fog. You can barely see three feet ahead of you."
- ELSE
-  "clear and blue."
+     NAME 'Grassy Field'
+     DESCRIPTION
+         "You are standing in an open field. The sky is"
+         IF weather IS RAINY THEN
+             "heavy with thunder clouds."
+         ELSIF weather IS FOGGY THEN
+             "hidden in the fog. You can barely see three feet ahead
+              of you."
+         ELSE
+             "clear and blue."
  END IF.
-...
-8. PART SEVEN: A Second Puzzle
-8.1. A PLUG for the GAME
-A Plug for Our Game. Let’s continue building on our game by making it necessary to plug the tv cord into an electrical outlet in the wall. Coding the game in reverse order of solving the puzzle, we need to disable the remote (and tv). Then we will create the cord, then the wall and outlet.
-Disable the Remote We need to keep in mind (or better yet write down somewhere ) what we will call the power cord and how we will signal to the remote that it is plugged in. In this case we will call the cord, the "cord", and we will have the remote CHECK if the cord "IS PLUGGED_IN".
------------------------
-THE remote Isa OBJECT AT Nowhere
-NAME remote control NAME controller
-NAME control remote NAME remote
-NAME button NAME simple push buttons
-IS SWITCHABLE.
- PUSHABLE.
- VERB examine DOES ONLY
- "It's a very simple push-button remote control."
-END VERB.
-  VERB turn_on1, turn_on2, switch_on1, switch_on2
- CHECK cord IS PLUGGED_IN
-  ELSE
-    "The TV won't turn on. It isn't getting any power."
-  DOES ONLY
-   MAKE tv 'on'.
-   "Wow! What a great picture!"
-   SHOW 'plasma.jpg'.
-   "$n$nYou watch the game and your favorite team wins!"
-   "$n$nAnd so have you..."
-   "$p*** You have won! *** "
-   QUIT.
- END VERB.
-  VERB push
- CHECK cord IS PLUGGED_IN
-  ELSE
-    "The TV won't turn on. It isn't getting any power."
-  DOES ONLY
-   MAKE tv 'on'.
-   "Wow! What a great picture!"
-   SHOW 'plasma.jpg'.
-   "$n$nYou watch the game and your favorite team wins!"
-   "$n$nAnd so have you..."
-   "$p*** You have won! *** "
-   QUIT.
- END VERB.
+ ...
+----
+
+
+== PART SEVEN: A Second Puzzle
+
+
+=== A PLUG for the GAME
+
+[float]
+==== A Plug for Our Game
+
+Let’s continue building on our game by making it necessary to plug the tv cord into an electrical outlet in the wall. Coding the game in reverse order of solving the puzzle, we need to disable the remote (and tv). Then we will create the cord, then the wall and outlet.
+
+[float]
+==== Disable the Remote
+
+We need to keep in mind (or better yet write down somewhere) what we will call the power cord and how we will signal to the remote that it is plugged in. In this case we will call the cord, the "cord", and we will have the remote CHECK if the cord "IS PLUGGED_IN".
+
+[subs="quotes"]
+----
+ -----------------------
+ THE remote Isa OBJECT AT Nowhere
+     NAME remote control
+     NAME controller
+     NAME control remote
+     NAME remote
+     NAME button
+     NAME simple push buttons
+     IS SWITCHABLE.
+        PUSHABLE.
+     VERB examine
+         DOES ONLY
+             "It's a very simple push-button remote control."
+     END VERB.
+     VERB turn_on1, turn_on2, switch_on1, switch_on2
+         CHECK cord IS PLUGGED_IN
+             ELSE
+                 "The TV won't turn on. It isn't getting any power."
+         DOES ONLY
+             MAKE tv 'on'.
+             "Wow! What a great picture!"
+             SHOW 'plasma.jpg'.
+             "$n$nYou watch the game and your favorite team wins!"
+             "$n$nAnd so have you..."
+             "$p*** You have won! *** "
+             QUIT.
+     END VERB.
+     VERB push
+         CHECK cord IS PLUGGED_IN
+             ELSE
+                 "The TV won't turn on. It isn't getting any power."
+         DOES ONLY
+             MAKE tv 'on'.
+             "Wow! What a great picture!"
+             SHOW 'plasma.jpg'.
+             "$n$nYou watch the game and your favorite team wins!"
+             "$n$nAnd so have you..."
+             "$p*** You have won! *** "
+             QUIT.
+     END VERB.
  END THE remote.
------------------------
+ -----------------------
+----
+
 Disable the tv in the same way:
-  SYNONYMS
-  television = tv.
+
+[subs="quotes"]
+----
+ SYNONYMS
+     television = tv.
  THE tv Isa OBJECT AT tv_room
  ...
  VERB turn_on1, turn_on2, switch_on1, switch_on2
-  CHECK remote Here
-   ELSE
-     "There are no knobs, switches or buttons for turning on the TV."
- AND cord IS PLUGGED_IN
-  ELSE
-    "The TV won't turn on. It isn't getting any power."
-  DOES ONLY
-   MAKE tv 'on'.
-   "Wow! What a great picture!"
-   SHOW 'plasma.jpg'.
-   "$n$nYou watch the game and your favorite team wins!"
-   "$n$nAnd so have you..."
-   "$p*** You have won! *** "
-   QUIT.
+     CHECK remote Here
+         ELSE
+             "There are no knobs, switches or buttons for turning on
+              the TV."
+     AND cord IS PLUGGED_IN
+         ELSE
+             "The TV won't turn on. It isn't getting any power."
+     DOES ONLY
+         MAKE tv 'on'.
+         "Wow! What a great picture!"
+         SHOW 'plasma.jpg'.
+         "$n$nYou watch the game and your favorite team wins!"
+         "$n$nAnd so have you..."
+         "$p*** You have won! *** "
+         QUIT.
  END VERB.
  ...
-The Power Cord
-THE cord Isa OBJECT AT tv_room
+----
+
+[float]
+==== The Power Cord
+
+[subs="quotes"]
+----
+ THE cord Isa OBJECT AT tv_room
+----
+
 In the game the cord will be made to appear as part of the tv. The easiest way to do that is in the "examine" and other VERBS, rather than trying to code the tv as a CONTAINER just to hold the cord, and then to prevent all other properties of the CONTAINER, and to prevent removing the cord, etc.
-  THE cord Isa OBJECT AT tv_room
- NAME cord NAME power electric electrical tv cord
- DESCRIPTION
- IS PLUGGABLE.
-    NOT PLUGGED_IN.
+
+[subs="quotes"]
+----
+ ...
+ THE cord Isa OBJECT AT tv_room
+     NAME cord
+     NAME power electric electrical tv cord
+     DESCRIPTION
+     IS PLUGGABLE.
+        NOT PLUGGED_IN.
+ ...
+----
+
 We are just making up these Attributes, trying to think of terms that will suit the "plug in" VERB we will create in a moment. Before we get to that, let’s customize the library VERBS "examine" and "take".
-THE cord Isa OBJECT AT tv_room NAME cord NAME power electric electrical tv cord DESCRIPTION IS PLUGGABLE.     NOT PLUGGED_IN.
- VERB examine
- DOES ONLY
-  "The power cord is of the common sort, and just three feet long."
-  IF cord IS PLUGGED_IN
-    THEN
-      "It is plugged into the electric outlet."
-  END IF.
-END VERB.
+
+[subs="quotes"]
+----
+ THE cord Isa OBJECT AT tv_room
+     NAME cord
+     NAME power electric electrical tv cord
+     DESCRIPTION
+     IS PLUGGABLE.
+        NOT PLUGGED_IN.
+     VERB examine
+         DOES ONLY
+             "The power cord is of the common sort, and just three feet 
+              long."
+             IF cord IS PLUGGED_IN THEN
+                 "It is plugged into the electric outlet."
+             END IF.
+     END VERB.
+ ...
+----
+
 Here you can see how the IF-THEN statement can be used to modify the response to the "examine" VERB. The cord is first described, then the IF looks to see whether the cord is plugged in. If so, the THEN displays that information to the player.
-VERB take, pick_up1, pick_up2  CHECK   "You can’t take it. The power cord is permanently attached to the television set." END VERB.
-END THE cord.
-8.2. Creating Custom VERBS
-Create the "plug in" VERB. This is the first VERB we have needed that is not already done for us in the library. We previously solved this for "press" and "click" (in <a href="#0920070A1506BF49E6082F87238D531614493CDD">this section</A>) by making them SYNONYMS for the library "push" VERB. It would be very easy and perhaps plausible to do the same thing here, to make "plug" a SYNONYM for "put". When the player would type ">plug cord in outlet" it would be the same to the computer as though they had typed ">put cord in outlet".
-But it would probably be best to create the "plug in" VERB on its own so that we can check for "pluggability&quot
-we don’t necessarily want other "puttable" OBJECTS to be "pluggable" as well. Besides, you are doubtless going to need to create a VERB sometime , you may as well learn how to do it now.
+
+[subs="quotes"]
+----
+ ...
+     VERB take, pick_up1, pick_up2
+         CHECK
+             "You can’t take it. The power cord is permanently attached to 
+              the television set."
+     END VERB.
+ END THE cord.
+----
+
+=== Creating Custom VERBS
+
+[float]
+==== Create the "plug in" VERB
+
+This is the first VERB we have needed that is not already done for us in the library. We previously solved this for "press" and "click" (in <a href="#0920070A1506BF49E6082F87238D531614493CDD">this section</A>) by making them SYNONYMS for the library "push" VERB. It would be very easy and perhaps plausible to do the same thing here, to make "plug" a SYNONYM for "put". When the player would type ">plug cord in outlet" it would be the same to the computer as though they had typed ">put cord in outlet".
+
+But it would probably be best to create the "plug in" VERB on its own so that we can check for "pluggability" we don’t necessarily want other "puttable" OBJECTS to be "pluggable" as well. Besides, you are doubtless going to need to create a VERB sometime, you may as well learn how to do it now.
+
 The Alan manual is the best place to learn all the technical ins and outs of SYNTAX and VERBS. It would be good to read and understand that material to better understand what we are doing here. But I will keep the technical ins and outs to a minimum here. Our method of creating VERBS will be to "steal" them from the library. Heh heh.
+
 We have already been doing that in order to create custom responses; now we are going to do it for the whole VERB. I have hinted that the "plug in" VERB we want to create will be very similar to the "put in" VERB in the library. That is the first thing to look for when creating a VERB.
+
 Somewhere in the library you will be able to find a VERB that is very similar to the one you have in mind. Find it, copy it, and adapt it.
+
 "One step at a time" is one of Thomas Nilsson’s favorite maxims, and we would do well to follow it here. The first step is to make a new file called "plug.i". Save the file in the library folder. The next step is to open "std.i" and to include this line in the list of ".i" files there (if you miss this step then "plug.i" will not be imported into your game):
-IMPORT 'plug.i'.
+
+[subs="quotes"]
+----
+ IMPORT 'plug.i'.
+----
+
 Now open the "plug.i" and the "put.i" files. Most text editors (such as <A HREF="http://www.crimsoneditor.com/">Crimson Editor</A>) will allow you to open multiple files and give you easy access and switching between them. Copy all of "put.i" and paste it into "plug.i". Now before you make any changes, close the "put.i" file. You don’t want to accidentally make changes to the wrong file!
+
 I have indicated below <FONT FACE="Courier New" SIZE=3 COLOR="#FF0000">in red the changes to adapt "plug.i" for our VERB.
--- put.i CHANGE TO -- plug.i (Try a Universal Replace of "plug" for "put"!)
--- Library version 0.5.2 OMIT
--- 0.4.1 - converted to ALANv3 OMIT
+
+[subs="quotes"]
+----
+ -- put.i CHANGE TO -- plug.i (Try a Universal Replace of "plug"
+ for "put"!)
+ -- Library version 0.5.2 OMIT
+ -- 0.4.1 - converted to ALANv3 OMIT
 SYNONYMS
 place = put. CHANGE TO insert = plug.
  SYNTAX OMIT this whole SYNTAX statement, we don't need "plug" by itself.
@@ -2980,14 +3395,18 @@ End Add To.
      "Done."
    End Verb.
  End Add To.
-OMIT all the rest. We won't need "plug near", "plug behind", "plug on" or "plug under".
-Here it is with the changes.
--- plug.i
-SYNONYMS
-insert = plug.
+----
+
+OMIT all the rest. We won't need "plug near", "plug behind", "plug on" or "plug under". Here it is with the changes:
+
+[subs="quotes"]
+----
+ -- plug.i
+ SYNONYMS
+     insert = plug.
  SYNTAX
- plug_in = plug (obj1) 'in' (obj2)
-  WHERE obj1 ISA OBJECT
+     plug_in = plug (obj1) 'in' (obj2)
+         WHERE obj1 ISA OBJECT
     ELSE "You can't plug that anywhere."
   AND obj2 ISA CONTAINER
     ELSE "You can't plug anything in that."
@@ -3013,7 +3432,12 @@ insert = plug.
     "Done."
   End Verb.
 End Add To.
+----
+
 The player may wish to "unplug" the cord as well. Let's include that in "plug.i".
+
+[subs="quotes"]
+----
 Syntax
  unplug = unplug (obj)
   Where obj Isa object
@@ -3052,15 +3476,31 @@ End Add To.
     "You unplug" Say The obj. "."
  End Verb.
 End Add.
- The Cord Is Finished
+----
+
+[float]
+==== The Cord Is Finished
+
 We have made the cord PLUGGABLE and NOT PLUGGED_IN. The new default "plug in" and "unplug" VERBS will take care of those statements should the player want to try them.
-8.3. Practice
+
+=== Practice
+
 Now would be a good time to practice creating your own VERBS, copying them from the library and adapting them to do what you want.
-Some VERBS do not require OBJECTS to act upon. The player could laugh , for example, without having to laugh at anything. See what you can do to create the "laugh" VERB. You can search the library for the SYNTAX and VERBS that you need. Here’s a hint: jump.
+Some VERBS do not require OBJECTS to act upon. The player could laugh, for example, without having to laugh at anything. See what you can do to create the "laugh" VERB. You can search the library for the SYNTAX and VERBS that you need. Here’s a hint: jump.
+
 Once you have done that, create the "laugh at" VERB (also from "jump.i"). The "obj" should probably be a THING, not only an OBJECT, just in case the player might want to laugh at an ACTOR (which is also a THING). Remember that "AT" is an Alan reserved word.
-Sit There is a nice comfy chair in the TV Room. Create a "sit in" VERB in the library and implement it for the chair. Don’t forget to make an Attribute to CHECK for "sittability" (I use IS SITABLE) and add it to the chair (as done in <a href="#C10E1B00158C200371DC640FF33EBA2F950C160D">Compile and Play It!</A>) .
-Pull Here is a VERB that is not in the standard library but might be useful in many games. Use "push.i" as your model. Create "pull.i" in the library, using the careful procedure described in <a href="#6AA113C1A3617837E1D7AB8EBE1ADA425BA484AA">this section</A>. Include SYNONYMS, SYNTAX, VERBS, CHECKED Attributes, etc.
+
+[float]
+==== Sit
+
+There is a nice comfy chair in the TV Room. Create a "sit in" VERB in the library and implement it for the chair. Don’t forget to make an Attribute to CHECK for "sittability" (I use IS SITABLE) and add it to the chair (as done in <a href="#C10E1B00158C200371DC640FF33EBA2F950C160D">Compile and Play It!</A>) .
+
+[float]
+==== Pull
+
+Here is a VERB that is not in the standard library but might be useful in many games. Use "push.i" as your model. Create "pull.i" in the library, using the careful procedure described in <a href="#6AA113C1A3617837E1D7AB8EBE1ADA425BA484AA">this section</A>. Include SYNONYMS, SYNTAX, VERBS, CHECKED Attributes, etc.
 <FONT FACE="Times New Roman" SIZE=3 COLOR="#FF0000">Solutions Don’t read this section further until you have completed the practice above.
+
 S
 O
 L
@@ -3070,170 +3510,284 @@ I
 O
 N
 S
--- laugh *** from "jump.i" ***
-SYNTAX
-laugh = laugh.
+
+[subs="quotes"]
+----
+ -- laugh *** from "jump.i" ***
+ SYNTAX
+     laugh = laugh.
  VERB laugh
- DOES
-  "Ha ha hah!"
-END VERB.
------------------------
--- laugh at *** also from jump.i ***
- SYNTAX
- laugh_at = laugh 'at' (obj)
-  WHERE obj ISA THING
-    ELSE "You can't laugh at that!"
- Add To Every thing
- VERB laugh_at
-  DOES
-    "You laugh at " Say The obj. ". Hah hah hah!"
+     DOES
+         "Ha ha hah!"
  END VERB.
-End Add To.
  -----------------------
--- pull.i *** from push.i ***
-SYNONYMS
-drag, yank = pull.
+ -- laugh at *** also from jump.i ***
  SYNTAX
- pull = pull (obj)
-  WHERE obj ISA THING
-    ELSE "You can't push that."
+     laugh_at = laugh 'at' (obj)
+         WHERE obj ISA THING
+             ELSE "You can't laugh at that!"
+ Add To Every thing
+     VERB laugh_at
+         DOES
+             "You laugh at " Say The obj. ". Hah hah hah!"
+     END VERB.
+ End Add To.
+ -----------------------
+ -- pull.i *** from push.i ***
+ SYNONYMS
+     drag, yank = pull.
+ SYNTAX
+     pull = pull (obj)
+         WHERE obj ISA THING
+             ELSE "You can't push that."
  Add To Every object
- Verb pull
-  Check obj Is MOVEABLE -- Already ADDED TO EVERY OBJECT in "push.i"
-    Else "You can't pull that."
-  Does
-    "You pull" Say The obj. "."
-  End Verb.
-End Add To.
+     Verb pull
+         Check obj Is MOVEABLE -- Already ADDED TO EVERY OBJECT in "push.i"
+             Else "You can't pull that."
+         Does
+             "You pull" Say The obj. "."
+     End Verb.
+ End Add To.
  Syntax
- pull_with = pull (obj1) 'with' (obj2)
-  Where obj1 Isa thing
-    Else "You can't pull that."
-  And obj2 Isa object
-    Else "You can use only objects to pull things with."
+     pull_with = pull (obj1) 'with' (obj2)
+         Where obj1 Isa thing
+             Else "You can't pull that."
+         And obj2 Isa object
+             Else "You can use only objects to pull things with."
  Add To Every object
- Verb pull_with
-  When obj1
-    Check obj1 IS MOVEABLE
-      Else "You can't pull that."
-  Does
-    "Using" Say The obj2. "you pull" Say The obj1. "."
- End Verb.
-End Add To.
------------------------
- Advanced Attribute Changes
+     Verb pull_with
+         When obj1
+             Check obj1 IS MOVEABLE
+                 Else "You can't pull that."
+             Does
+                 "Using" Say The obj2. "you pull" Say The obj1. "."
+     End Verb.
+ End Add To.
+ -----------------------
+----
+
+[float]
+==== Advanced Attribute Changes
+
 It seems to me that it isn't necessary to have separate Attributes for "push" and "pull", IS PUSHABLE and IS PULLABLE respectively. It makes two Attributes instead of one for every thing in the game that we might want to make moveable or not moveable by pushing and/or pulling. I prefer to _change the required library Attribute_ to IS MOVEABLE for both "push" and "pull". As always, be mindful of the changes you make to the library.
-8.4. Cardinal Rules
-Another New Global VERB. Many Interactive Fiction games generally allow the player to move northeast, northwest, southeast, southwest as well as in the four cardinal directions. We have limited travel in our game, however, to the four cardinal directions.
+
+=== Cardinal Rules
+
+[float]
+==== Another New Global VERB
+
+Many Interactive Fiction games generally allow the player to move northeast, northwest, southeast, southwest as well as in the four cardinal directions. We have limited travel in our game, however, to the four cardinal directions.
 We can create a global "nodirection" VERB that will take care of the off-cardinal directions without having to code for them in every LOCATION.
--- nowhere.i
--- Library version 0.5.0
--- 0.4.1 - converted to ALANv3
-  SYNONYMS
-  n = north.
-  s = south.
-  e = east.
-  w = west.
--- ne = northeast. -- *** COMMENTED OUT ***
---  se = southeast.
---  nw = northwest.
--- sw = southwest.
+
+[subs="quotes"]
+----
+ -- nowhere.i
+ -- Library version 0.5.0
+ -- 0.4.1 - converted to ALANv3
+ SYNONYMS
+     n = north.
+     s = south.
+     e = east.
+     w = west.
+     -- ne = northeast. -- *** COMMENTED OUT ***
+     --  se = southeast.
+     --  nw = northwest.
+     -- sw = southwest.
 
  -- Useful for placing disappearing things
  -- Also defines the default directions
  THE nowhere ISA LOCATION.
-  EXIT north TO nowhere.
-  EXIT south TO nowhere.
-  EXIT west TO nowhere.
-  EXIT east TO nowhere.
--- EXIT northeast TO nowhere. -- *** COMMENTED OUT ***
--- EXIT southeast TO nowhere.
--- EXIT northwest TO nowhere.
--- EXIT southwest TO nowhere.
- EXIT up TO nowhere.
- EXIT down TO nowhere.
+     EXIT north TO nowhere.
+     EXIT south TO nowhere.
+     EXIT west TO nowhere.
+     EXIT east TO nowhere.
+     -- EXIT northeast TO nowhere. -- *** COMMENTED OUT ***
+     -- EXIT southeast TO nowhere.
+     -- EXIT northwest TO nowhere.
+     -- EXIT southwest TO nowhere.
+     EXIT up TO nowhere.
+     EXIT down TO nowhere.
  END THE nowhere.
-SYNONYMS
-ne,northeast,se,southeast,nw,northwest,sw,southwest = nodirection.
-The player is exceedingly unlikely to type "nodirection", but this word stands in for all the others. So if the player types "northeast" or "sw", it will be the same to the computer as though they  _had _ typed "nodirection".
-SYNTAX
-nodirection = nodirection.
+ SYNONYMS
+     ne,northeast,se,southeast,nw,northwest,sw,southwest = nodirection.
+----
+
+The player is exceedingly unlikely to type "nodirection", but this word stands in for all the others. So if the player types "northeast" or "sw", it will be the same to the computer as though they  _had_ typed "nodirection".
+
+
+[subs="quotes"]
+----
+ SYNTAX
+     nodirection = nodirection.
  VERB nodirection
- DOES
- "The only directions you'll need in this game are
- north, south, east, west, up, down, in, and out. "
-END VERB.
+     DOES
+         "The only directions you'll need in this game are
+          north, south, east, west, up, down, in, and out. "
+ END VERB.
+----
+
 Notice that we did not just delete the unwanted directions, but "commented" them out. That is because in other games we may want to include some or all of those other directions. We will only need to "un-comment" the ones we want and rewrite the SYNONYMS statement for "nodirection" to reflect that change.
-8.5. The WALL Isa Scenery
-Hitting the Wall. We have already mentioned the walls in the TV Room and Kitchen. Should the player try to go in directions that don’t go from one LOCATION to the other, they will get the message:
+
+=== The WALL Isa Scenery
+
+[float]
+===== Hitting the Wall
+
+We have already mentioned the walls in the TV Room and Kitchen. Should the player try to go in directions that don’t go from one LOCATION to the other, they will get the message:
+
+----
 There is only a wall in that direction.
-Let’s create the wall, after which we will create the electrical outlet in the wall.
-THE tv_wall …
-We will differentiate between the wall(s) in the TV Room and in the Kitchen.
+----
+
+Let’s create the wall, after which we will create the electrical outlet in the wall. We will differentiate between the wall(s) in the TV Room and in the Kitchen.
+
+[subs="quotes"]
+----
  THE tv_wall Isa Scenery AT tv_room
-...
- What "Isa Scenery"?
+ ...
+----
+
+[float]
+==== What "Isa Scenery"?
+
 "Scenery" is the only default Class in the standard library. Let's take a look at it in "scenery.i":
--- scenery.i
--- Library version 0.5.0
+
+[subs="quotes"]
+----
+ -- scenery.i
+ -- Library version 0.5.0
  Every scenery Isa object
- Is
-  Not searchable.
-  Not takeable.
-  Not pushable.
-  Not touchable.
-   Verb examine, take
-    Does Only
-       "That's only scenery."
-  End Verb.
-End Every scenery.
+     Is
+         Not searchable.
+         Not takeable.
+         Not pushable.
+         Not touchable.
+     Verb examine, take
+         Does Only
+             "That's only scenery."
+     End Verb.
+ End Every scenery.
+ ...
+----
+
 Pretty basic stuff here. The Scenery Class prevents searching, taking, pushing or even touching certain OBJECTS in the game. This Class is often used for peripheral OBJECTS that promote the atmosphere and realism of the game, but are not meant for any further interaction. The only VERB implemented for Scenery is "examine" (the "take" is precluded by the IS NOT TAKEABLE Attribute!).
+
 I for one prefer to explain to the player why something cannot be searched, etc. Let’s change the Scenery Class to do that.
+
+[subs="quotes"]
+----
  Every scenery Isa object
- DESCRIPTION -- *** ADDED. It should be in the default! ***
--- *** REMOVED:
- -- Is
+     DESCRIPTION -- *** ADDED. It should be in the default! ***
+     -- *** REMOVED:
+     -- Is
        -- Not searchable.
        -- Not takeable.
        -- Not pushable.
        -- Not touchable.
-  Verb examine -- *** REMOVED take ***
-  Does -- *** REMOVED Only, to allow "examine" in Instances ***
-    "That's only scenery."
- End Verb.
--- *** ADDED VERBS: ***
-VERB search  CHECK — Prevent any default DOES responses!   "There is nothing to find by searching that." END VERB.
-VERB take, pick_up1, pick_up2  CHECK   "There is no need to take that. You won’t need it." END VERB.
-VERB push  CHECK   "There is no need to push that." END VERB.
-VERB touch  CHECK   "There’s no need to touch or to feel that." END VERB.
-End Every scenery.
-Other Classes of Scenery You might consider making other Classes of Scenery to include in "scenery.i". For example, a Far_Scene Class could be created for OBJECTS that are too far away to touch, get, etc.
-EVERY Far_Scene Isa OBJECT DESCRIPTION
-VERB take, pick_up1, pick_up2  CHECK   "That is too far away to reach from here." END VERB.
--- etc. --
-END Every.
+     Verb examine -- *** REMOVED take ***
+         Does -- *** REMOVED Only, to allow "examine" in Instances ***
+             "That's only scenery."
+     End Verb.
+     -- *** ADDED VERBS: ***
+     VERB search
+         CHECK — Prevent any default DOES responses!
+             "There is nothing to find by searching that."
+     END VERB.
+     VERB take, pick_up1, pick_up2
+         CHECK
+             "There is no need to take that. You won’t need it."
+     END VERB.
+     VERB push
+         CHECK
+             "There is no need to push that."
+     END VERB.
+     VERB touch
+         CHECK
+             "There’s no need to touch or to feel that."
+     END VERB.
+ End Every scenery.
+----
+
+[float]
+==== Other Classes of Scenery
+
+You might consider making other Classes of Scenery to include in "scenery.i". For example, a Far_Scene Class could be created for OBJECTS that are too far away to touch, get, etc.
+
+[subs="quotes"]
+----
+ EVERY Far_Scene Isa OBJECT DESCRIPTION
+     VERB take, pick_up1, pick_up2
+         CHECK "That is too far away to reach from here."
+     END VERB.
+     -- etc. --
+ END Every.
+----
+
 I will leave that to you and your imagination.
-8.6. The Outlet in the Wall
-Finish Building the Wall.
+
+=== The Outlet in the Wall
+
+
+==== Finish Building the Wall.
+
+[subs="quotes"]
+----
  THE tv_wall Isa SCENERY AT tv_room
- NAME wall NAME walls
+     NAME wall
+     NAME walls
 
- VERB examine   DOES ONLY     "One wall in particular has an electric outlet."  END VERB.                 END THE tv_wall.
-The Electrical Outlet The outlet is part of the wall. As explained for the power cord and the tv (<a href="#6AA113C1A3617837E1D7AB8EBE1ADA425BA484AA">here</A>), there is no need to make the wall into a CONTAINER for the sake of holding the outlet. We need only describe the outlet as being part of the wall and code the VERB responses accordingly. The outlet , however, will have to be a CONTAINER for the power cord to "plug in" to (refer to the "plug in" VERB <a href="#6AA113C1A3617837E1D7AB8EBE1ADA425BA484AA">here</A>).
+     VERB examine
+         DOES ONLY
+             "One wall in particular has an electric outlet."
+     END VERB
+ END THE tv_wall.
+----
+
+[float]
+==== The Electrical Outlet
+
+The outlet is part of the wall. As explained for the power cord and the tv (<a href="#6AA113C1A3617837E1D7AB8EBE1ADA425BA484AA">here</A>), there is no need to make the wall into a CONTAINER for the sake of holding the outlet. 
+
+We need only describe the outlet as being part of the wall and code the VERB responses accordingly. The outlet, however, will have to be a CONTAINER for the power cord to "plug in" to (refer to the "plug in" VERB <a href="#6AA113C1A3617837E1D7AB8EBE1ADA425BA484AA">here</A>).
+
 Everything here has been covered in this guide to this point:
-<FONT FACE="Times New Roman" SIZE=3 COLOR="#FF0000">THE outlet Isa SCENERY AT tv_room  NAME outlet NAME electrical electric power wall wallplug  CONTAINER   HEADER ""
- VERB examine   DOES ONLY     "It’s a three-prong electrical outlet."        IF cord IS PLUGGED_IN         THEN            "The TV cord is plugged into it."        END IF.         END VERB.
- VERB plug_in, put_in — The player might try "put plug in outlet"   WHEN obj2 — (see <a href="#A74464353D8268132F9A32A29D2BD07C8D75F0AA">this section</A>)   CHECK obj1 IS PLUGGABLE     ELSE        "Hey, be careful! That doesn’t go into an electrical outlet!"   AND cord IS NOT PLUGGED_IN     ELSE                "The cord is already plugged in!" …
-Not What Was Expected
- ...
-  DOES ONLY
-    MAKE cord PLUGGED_IN.
-    "You put the power cord snugly into the electrical outlet."
- END VERB.
 
-END THE outlet.
------------------------
+[subs="quotes"]
+----
+ THE outlet Isa SCENERY AT tv_room
+     NAME outlet
+     NAME electrical electric power wall wallplug
+     CONTAINER
+         HEADER ""
+     VERB examine
+         DOES ONLY
+             "It’s a three-prong electrical outlet."
+             IF cord IS PLUGGED_IN THEN
+                 "The TV cord is plugged into it."
+             END IF
+     END VERB.
+     VERB plug_in, put_in — The player might try "put plug in outlet"
+         WHEN obj2 — (see this section)
+             CHECK obj1 IS PLUGGABLE
+                 ELSE
+                     "Hey, be careful! That doesn’t go into an
+                     electrical outlet!"
+             AND cord IS NOT PLUGGED_IN
+                 ELSE
+                     "The cord is already plugged in!"
+             DOES ONLY
+                 MAKE cord PLUGGED_IN.
+                 "You put the power cord snugly into the electrical 
+                  outlet."
+     END VERB.
+ END THE outlet.
+ -----------------------
+----
+
 Some explanation is needed here. The default VERB is in reference to obj1, not to obj2 ("plug.i"):
+
+[subs="quotes"]
+----
  ...
   Verb plug_in
 _yellow  When obj1
@@ -3244,129 +3798,220 @@ _yellow  When obj1
      "Done."
    End Verb.
  ...
-We are using the VERB for the outlet as obj2 , the CONTAINER.
+----
+
+We are using the VERB for the outlet as obj2, the CONTAINER.
+
+[subs="quotes"]
+----
   VERB plug_in, put_in
 _yellow  WHEN obj2 <span style="background-color:#FFFF80; color:# 000000";>
  ...
+----
+
 There are no default CHECKS for the VERB WHEN obj2 (nor is there a default DOES). That is why the CHECKS for the VERB had to be coded here.
-Note that we did not code our DOES ONLY to "Locate obj1 In obj2." That is not necessary, since we are using the cord, not the outlet, to test whether the cord is plugged in the outlet (see <a href="#6AA113C1A3617837E1D7AB8EBE1ADA425BA484AA">here</A>). The test (CHECKED by the remote control/tv) is whether the cord IS or IS NOT PLUGGED_IN. So all we need to do in our DOES ONLY statement is to "MAKE cord PLUGGED_IN" and to tell the player it is done.
+Note that we did not code our DOES ONLY to "Locate obj1 In obj2." That is not necessary, since we are using the cord, not the outlet, to test whether the cord is plugged in the outlet (see here). The test (CHECKED by the remote control/tv) is whether the cord IS or IS NOT PLUGGED_IN. So all we need to do in our DOES ONLY statement is to "MAKE cord PLUGGED_IN" and to tell the player it is done.
+
 This makes it easier as well to program for:
-"Plug in the tv" We have allowed for the player to type ">plug in the cord", but what if the player types ">plug in the tv"? It is a simple matter to _ make the tv_ PLUGGABLE (implemented in <a href="#C10E1B00158C200371DC640FF33EBA2F950C160D">Compile and Play It!</A>). And that is all we have to do. Note again the "plug_in" VERB for the outlet. If obj2 (like the tv) IS PLUGGABLE, then it makes the cord PLUGGED IN.
-Back to the Wall Remember this important question to ask ourselves: "What else might the player try? " We want to avoid making the player "guess the verb." Put yourself in their place and you guess as the author what other reasonable things they might try to do. It seems to me that the player might reasonably be expected to try:
-> plug the cord in the wall
+
+[subs="quotes"]
+----
+> _plug in the tv_
+----
+
+We have allowed for the player to type "plug in the cord", but what if the player types "plug in the tv"? It is a simple matter to _make the tv_ PLUGGABLE (implemented in Compile and Play It!). And that is all we have to do. Note again the "plug_in" VERB for the outlet. If obj2 (like the tv) IS PLUGGABLE, then it makes the cord PLUGGED IN.
+
+[float]
+==== Back to the Wall
+
+Remember this important question to ask ourselves: "What else might the player try? " We want to avoid making the player "guess the verb." Put yourself in their place and you guess as the author what other reasonable things they might try to do. It seems to me that the player might reasonably be expected to try:
+
+[subs="quotes"]
+----
+> _plug the cord in the wall_
+----
+
 Not to worry. Let’s look at what we have for the wall so far.
-THE tv_wall Isa SCENERY AT tv_room
- NAME wall NAME walls
-  VERB examine
-  DOES ONLY
-    "One wall in particular has an electric outlet."
- END VERB.
 
-END THE tv_wall.
-Since we want the same VERB to apply for the wall in the very same way as for the outlet, all we have to do is copy the VERB for the wall and make sure the wall will pass the CHECKS.
+[subs="quotes"]
+----
  THE tv_wall Isa SCENERY AT tv_room
- CONTAINER -- Required for the wall to be obj2
-  HEADER ""
-  NAME wall NAME walls
-   VERB examine
-   DOES ONLY
-     "One wall in particular has an electric outlet."
-    IF cord IS PLUGGED_IN
-      THEN
-         "The TV cord is plugged into it."
-    END IF.
-  END VERB.
-  VERB plug_in, put_in
-  WHEN obj2
-  CHECK obj1 IS PLUGGABLE
-    ELSE
-       "Hey, be careful! That doesn't go into an electrical outlet!"
-  AND cord IS NOT PLUGGED_IN
-    ELSE
-               "The cord is already plugged in!"
-  DOES ONLY
-    MAKE cord PLUGGED_IN.
-    "You put the power cord snugly into the electrical outlet."
- END VERB.
+     NAME wall
+     NAME walls
+     VERB examine
+         DOES ONLY
+             "One wall in particular has an electric outlet."
+     END VERB.
+ END THE tv_wall.
+----
 
+Since we want the same VERB to apply for the wall in the very same way as for the outlet, all we have to do is copy the VERB for the wall and make sure the wall will pass the CHECKS.
+
+[subs="quotes"]
+----
+ ...
+ THE tv_wall Isa SCENERY AT tv_room
+     CONTAINER -- Required for the wall to be obj2
+         HEADER ""
+     NAME wall
+     NAME walls
+     VERB examine
+         DOES ONLY
+             "One wall in particular has an electric outlet."
+             IF cord IS PLUGGED_IN THEN
+                 "The TV cord is plugged into it."
+             END IF.
+     END VERB.
+     VERB plug_in, put_in
+         WHEN obj2
+             CHECK obj1 IS PLUGGABLE
+                 ELSE
+                     "Hey, be careful! That doesn't go into an electrical 
+                      outlet!"
+             AND cord IS NOT PLUGGED_IN
+                 ELSE
+                     "The cord is already plugged in!"
+             DOES ONLY
+                 MAKE cord PLUGGED_IN.
+                 "You put the power cord snugly into the electrical 
+                  outlet."
+     END VERB.
  END THE tv_wall.
  -----------------------
+----
+
 This completes the puzzle. The remote control will not work, the tv cannot be turned on, unless the cord is plugged in. The player can plug the cord into the outlet, even if they type it as "plug the cord in the wall."
-9. PART EIGHT: A Third Puzzle
-9.1. Setting a New Stage
-Setting a New Stage. Since we have said in the game that the tv was "just delivered today", let’s change the start of the game with the tv still inside its packing carton. The player will have to cut the carton open with a knife from the kitchen (in the cupboard we created in <a href="#7394415C9A179DCEFF2D8210B2BA49DF1E8C2CB6">a previous section</A>), plug in the cord and turn on the tv with the remote control.
+
+== PART EIGHT: A Third Puzzle
+
+=== Setting a New Stage
+
+
+[float]
+==== Setting a New Stage
+
+Since we have said in the game that the tv was "just delivered today", let’s change the start of the game with the tv still inside its packing carton. The player will have to cut the carton open with a knife from the kitchen (in the cupboard we created in a previous section), plug in the cord and turn on the tv with the remote control.
+
 It no longer makes sense to have the remote control lost in the chair cushions. Let’s start with the remote in the carton with the tv. But we will put a battery for the remote control in the chair.
-The Battery In the Cushion ----------------------- THE battery Isa OBJECT AT Nowhere — until found in the chair         VERB examine   DOES ONLY     "It’s a regular household AAA battery."  END VERB.        END THE battery. ----------------------- THE chair Isa OBJECT AT tv_room NAME comfy chair NAME comfy NAME cushions NAME big soft chair cushion DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's your favorite chair to sit in when you're watching the big game.
-  It has big soft comfy cushions -- just the kind people lose change in all the time."
-END VERB.
- VERB search
- CHECK battery AT Nowhere
-  ELSE
-    "There is nothing else to find by searching the chair."
- DOES ONLY
-  LOCATE battery in Hero.
-  "You find a small battery, which you take."
-END VERB.
+
+[float]
+==== The Battery In the Cushion
+
+[subs="quotes"]
+----
+ -----------------------
+ THE battery Isa OBJECT AT Nowhere — until found in the chair
+     VERB examine
+         DOES ONLY
+             "It’s a regular household AAA battery."
+     END VERB.
+ END THE battery.
+ -----------------------
+ THE chair Isa OBJECT AT tv_room
+     NAME comfy chair
+     NAME comfy
+     NAME cushions
+     NAME big soft chair cushion
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's your favorite chair to sit in when you're watching the 
+              big game. It has big soft comfy cushions -- just the kind 
+              people lose change in all the time."
+     END VERB.
+     VERB search
+         CHECK battery AT Nowhere
+             ELSE
+                 "There is nothing else to find by searching the chair."
+         DOES ONLY
+             LOCATE battery in Hero.
+             "You find a small battery, which you take."
+     END VERB.
  END THE chair.
------------------------
- CHECK the Remote for the Battery
+ -----------------------
+----
+
+[float]
+==== CHECK the Remote for the Battery
+
+[subs="quotes"]
+----
  -----------------------
  THE remote Isa OBJECT AT Nowhere
- NAME remote control NAME controller
- NAME control remote NAME remote
- NAME button NAME simple push buttons
-OPAQUE CONTAINER -- so you can put the battery in it
- IS SWITCHABLE.
-  PUSHABLE.
- VERB examine
- DOES ONLY
-  "It's a very simple push-button remote control."
-END VERB.
-VERB put_in  WHEN obj2   CHECK obj1 = battery     ELSE       "Don’t be silly. Only a battery goes in there!"   DOES AFTER     "You snap the battery into place in the remote." END VERB.                                                  …
-We want to allow only the battery to be put it in the remote control. It is a simple matter to CHECK that obj1 is the battery.
+     NAME remote control
+     NAME controller
+     NAME control remote
+     NAME remote
+     NAME button
+     NAME simple push buttons
+     OPAQUE CONTAINER -- so you can put the battery in it
+     IS SWITCHABLE.
+        PUSHABLE.
+     VERB examine
+         DOES ONLY
+             "It's a very simple push-button remote control."
+     END VERB.
+     VERB put_in
+         WHEN obj2
+             CHECK obj1 = battery
+                 ELSE
+                     "Don’t be silly. Only a battery goes in there!"
+             DOES AFTER
+                 "You snap the battery into place in the remote."
+     END VERB.
  ...
- VERB turn_on1, turn_on2, switch_on1, switch_on2
- CHECK battery IN remote
-  ELSE
-    "Pushing the button on the remote, nothing happens.
-    The remote won't do anything without a battery."
-    LOCATE remote IN Hero. -- Assumes remote is "Taken".
- AND cord IS PLUGGED_IN
-   ELSE
-     "The TV won't turn on. It isn't getting any power."
-  DOES ONLY
-   MAKE tv 'on'.
-   "Wow! What a great picture!"
-   SHOW 'plasma.jpg'.
-   "$n$nYou watch the game and your favorite team wins!"
-   "$n$nAnd so have you..."
-   "$p*** You have won! *** "
-   QUIT.
- END VERB.
-  VERB push
- CHECK battery IN remote
-  ELSE
-    "Pushing the button on the remote, nothing happens.
-    The remote won't do anything without a battery."
-    LOCATE remote IN Hero. -- Assumes remote is "Taken".
- AND cord IS PLUGGED_IN
-   ELSE
-     "The TV won't turn on. It isn't getting any power."
-  DOES ONLY
-   MAKE tv 'on'.
-   "Wow! What a great picture!"
-   SHOW 'plasma.jpg'.
-   "$n$nYou watch the game and your favorite team wins!"
-   "$n$nAnd so have you..."
-   "$p*** You have won! *** "
-   QUIT.
- END VERB.
+----
+
+We want to allow only the battery to be put it in the remote control. It is a simple matter to CHECK that obj1 is the battery.
+
+[subs="quotes"]
+----
+ ...
+     VERB turn_on1, turn_on2, switch_on1, switch_on2
+         CHECK battery IN remote
+             ELSE
+                 "Pushing the button on the remote, nothing happens.
+                  The remote won't do anything without a battery."
+                 LOCATE remote IN Hero. -- Assumes remote is "Taken".
+         AND cord IS PLUGGED_IN
+             ELSE
+                 "The TV won't turn on. It isn't getting any power."
+         DOES ONLY
+             MAKE tv 'on'.
+                 "Wow! What a great picture!"
+                 SHOW 'plasma.jpg'.
+                 "$n$nYou watch the game and your favorite team wins!"
+                 "$n$nAnd so have you..."
+                 "$p*** You have won! *** "
+                 QUIT.
+     END VERB.
+     VERB push
+         CHECK battery IN remote
+             ELSE
+                 "Pushing the button on the remote, nothing happens.
+                  The remote won't do anything without a battery."
+                 LOCATE remote IN Hero. -- Assumes remote is "Taken".
+         AND cord IS PLUGGED_IN
+             ELSE
+                 "The TV won't turn on. It isn't getting any power."
+         DOES ONLY
+             MAKE tv 'on'.
+             "Wow! What a great picture!"
+             SHOW 'plasma.jpg'.
+             "$n$nYou watch the game and your favorite team wins!"
+             "$n$nAnd so have you..."
+             "$p*** You have won! *** "
+             QUIT.
+     END VERB.
  END THE remote.
------------------------
- The TV In the Box
+ -----------------------
+----
+
+[float]
+==== The TV In the Box
+
+[subs="quotes"]
+----
  -----------------------
  SYNONYMS
   television = tv.
@@ -3413,9 +4058,15 @@ END VERB.
   "You can't take it. The power cord is permanently attached to the television set."
 END VERB.
  END THE cord.
-----------------------
- The Box Before Opening
------------------------
+ ----------------------
+----
+
+[float]
+==== The Box Before Opening
+
+[subs="quotes"]
+----
+ -----------------------
 SYNONYMS
  carton, crate = box.
 THE box Isa OBJECT AT tv_room
@@ -3456,7 +4107,9 @@ END EXIT.
   "There is only a wall in that direction."
 END EXIT.
  END THE tv_room.
------------------------
+ -----------------------
+----
+
 9.2. The Cutting Edge
 The Cutting Edge. All the parts are in place. The tv and remote control are in the box. The battery is hidden in the chair cushions. The knife is in the kitchen cupboard. Now we have to make the parts work together to solve the puzzle.
 We have already programmed most things to do what they are meant to do. But we have introduced the packing carton, which must be cut open with the knife.
