@@ -1325,7 +1325,6 @@ Let's look at the first section above:
          Not on.
          Not switchable.
  End Add To object.
- ---
 ----
 
 The words "Add To Every object" mean to Add certain properties (in
@@ -1429,7 +1428,7 @@ take place.
 [subs="quotes"]
 ----
  Verb turn_on1, turn_on2, switch_on1, switch_on2
-     [yellow-background]#Check obj Is switchable#
+     #Check obj Is switchable#
           Else "You can't turn that on."
 ----
 
@@ -1584,8 +1583,8 @@ Looking at the VERB in "take.i" again, we see:
          Check obj Is takeable
              Else "You can't take that!"
          --- etc. ---
-         *And weight Of obj <=50*
-             *Else "That is too heavy to lift."*
+         #And weight Of obj &lt;=50
+             Else "That is too heavy to lift."#
          Does
              Locate obj In hero.
              "Taken."
@@ -1620,7 +1619,7 @@ We have made the tv takeable again (allowing the default), so the
 first CHECK will not stop the VERB action. Then the interpreter sees
 the weight of the tv is greater than 50. The second part of the CHECK
 (not to get bogged in details, but the "And" in the line "And weight
-Of obj <=50" is like another CHECK) sees a weight of 100 is too heavy.
+Of obj &lt;=50" is like another CHECK) sees a weight of 100 is too heavy.
 
 [subs="quotes"]
 ----
@@ -1982,7 +1981,7 @@ relevant section from the "take" VERB in "take.i":
          Else "You've already got that - you're wearing that."
      And obj Not In hero
          Else "You've already got that."
-     And weight Of obj <=50
+     And weight Of obj &lt;=50
          Else "That is too heavy to lift."
      Does
          Locate obj In hero.
@@ -3179,6 +3178,7 @@ SYNTAX will inform the player that "You can’t put...", etc.
 [float]
 ==== The put_in VERB
 
+[subs="quotes"]
 ----
  ...
  Add To Every object
@@ -3187,9 +3187,9 @@ SYNTAX will inform the player that "You can’t put...", etc.
              Check obj1 In hero
                  Else
                      "You haven't got" Say The obj1. "."
-             And obj1 <> obj2
+             And obj1 &lt;&gt; obj2
                  Else "You can't put something into itself!"
-             And obj2 <> hero
+             And obj2 &lt;&gt; hero
                  Else "You can't put" Say obj1. "into yourself!"
              Does
                  Locate obj1 In obj2.
@@ -3224,9 +3224,9 @@ allow that.
              Check obj1 [red]#Here -- \*\** CHANGED FROM In Hero, etc. \***#
                  Else
                      [red]#"You don't see" Say The obj1. "here."#
-             And obj1 <> obj2
+             And obj1 &lt;&gt; obj2
                  Else "You can't put something into itself!"
-             And obj2 <> hero
+             And obj2 &lt;&gt; hero
                  Else "You can't put" Say obj1. "into yourself!"
              Does
                  Locate obj1 In obj2.
@@ -4181,9 +4181,9 @@ I have indicated below in [red]#red# the changes to adapt
                   ELSE "That isn't something that can be plugged in."
               AND obj1 IS NOT PLUGGED_IN
                   ELSE "That is already plugged in."
-              And obj1 <> obj2
+              And obj1 &lt;&gt; obj2
                   Else "You can't put something into itself!" [red]#...plug something ..."#
-              And obj2 <> hero
+              And obj2 &lt;&gt; hero
                   Else "You can't put" Say obj1. "into yourself!" [red]#...plug" Say obj1...#
               Does
                   Locate obj1 In obj2.
@@ -4219,9 +4219,9 @@ or "plug under". Here it is with the changes:
                  ELSE "That isn't something that can be plugged in."
              AND obj1 IS NOT PLUGGED_IN
                  ELSE "That is already plugged in."
-             And obj1 <> obj2
+             And obj1 &lt;&gt; obj2
                  Else "You can't plug something into itself!"
-             And obj2 <> hero
+             And obj2 &lt;&gt; hero
                  Else "You can't plug" Say obj1. "into yourself!"
              Does
                  Locate obj1 In obj2.
@@ -7355,7 +7355,7 @@ within the EVENT you want to repeat.
 [subs="quotes"]
 ----
  EVENT bomb_tick
-     "$t<tick... tick...>
+     "$t&lt;tick... tick...&gt;
       $pThe bomb is ticking. Time is getting short."
       _yellow       SCHEDULE bomb_tick AFTER 3.
  END EVENT.
@@ -7518,7 +7518,7 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
      Set minute Of clock To timeinminutes Of clock -((timeinminutes Of clock /60) *60).
      -- Increment time by one minute
      -- (If its 11:59pm set clock to zero ie:midnight instead)
-     If timeinminutes Of clock < 1439 Then
+     If timeinminutes Of clock &lt; 1439 Then
          Increase timeinminutes Of clock.
      Else
          Set timeinminutes Of clock To 0.
@@ -7534,7 +7534,7 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
      -- calculations easier
      Set timeinminutes Of clock To (hour Of clock *60) +minute Of clock.
      If ampm Of clock = "pm" Then
-         If hour Of clock < 12 Then
+         If hour Of clock &lt; 12 Then
              Set timeinminutes Of clock To (timeinminutes Of clock +720).
          End If.
      End If.
@@ -7604,7 +7604,7 @@ SCHEDULE the Clock to "Tick" in START AT
  START AT tv_room.
      [red]#Set timeinminutes Of clock To (hour Of clock * 60) +minute Of clock.
      If ampm Of clock = "pm" Then
-         If hour Of clock <12 Then
+         If hour Of clock &lt; 12 Then
              Set timeinminutes Of clock To (timeinminutes Of clock +720).
          End If.
      End If.
@@ -7646,7 +7646,7 @@ Nothing new to add to this, just copy and paste.
      Set minute Of clock To timeinminutes Of clock -((timeinminutes Of clock /60) *60).
      -- Increment time by one minute
      -- (If its 11:59pm set clock to zero ie:midnight instead)
-     If timeinminutes Of clock <1439 Then
+     If timeinminutes Of clock &lt; 1439 Then
          Increase timeinminutes Of clock.
      Else
          Set timeinminutes Of clock To 0.
