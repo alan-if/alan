@@ -4686,18 +4686,18 @@ Since we want the same VERB to apply for the wall in the very same way as for th
 ----
  ...
  THE tv_wall Isa SCENERY AT tv_room
-     CONTAINER -- Required for the wall to be obj2
-         HEADER ""
+     [red]#CONTAINER -- Required for the wall to be obj2
+         HEADER ""#
      NAME wall
      NAME walls
      VERB examine
          DOES ONLY
              "One wall in particular has an electric outlet."
-             IF cord IS PLUGGED_IN THEN
+             [red]#IF cord IS PLUGGED_IN THEN
                  "The TV cord is plugged into it."
-             END IF.
+             END IF.#
      END VERB.
-     VERB plug_in, put_in
+     [red]#VERB plug_in, put_in
          WHEN obj2
              CHECK obj1 IS PLUGGABLE
                  ELSE
@@ -4710,12 +4710,15 @@ Since we want the same VERB to apply for the wall in the very same way as for th
                  MAKE cord PLUGGED_IN.
                  "You put the power cord snugly into the electrical
                   outlet."
-     END VERB.
+     END VERB.#
  END THE tv_wall.
  -----------------------
 ----
 
-This completes the puzzle. The remote control will not work, the tv cannot be turned on, unless the cord is plugged in. The player can plug the cord into the outlet, even if they type it as "plug the cord in the wall."
+This completes the puzzle. The remote control will not work, the tv
+cannot be turned on, unless the cord is plugged in. The player can
+plug the cord into the outlet, even if they type it as "plug the cord
+in the wall."
 
 == PART EIGHT: A Third Puzzle
 
@@ -4725,22 +4728,28 @@ This completes the puzzle. The remote control will not work, the tv cannot be tu
 [float]
 ==== Setting a New Stage
 
-Since we have said in the game that the tv was "just delivered today", let’s change the start of the game with the tv still inside its packing carton. The player will have to cut the carton open with a knife from the kitchen (in the cupboard we created in a previous section), plug in the cord and turn on the tv with the remote control.
+Since we have said in the game that the tv was "just delivered today",
+let’s change the start of the game with the tv still inside its
+packing carton. The player will have to cut the carton open with a
+knife from the kitchen (in the cupboard we created in a previous
+section), plug in the cord and turn on the tv with the remote control.
 
-It no longer makes sense to have the remote control lost in the chair cushions. Let’s start with the remote in the carton with the tv. But we will put a battery for the remote control in the chair.
+It no longer makes sense to have the remote control lost in the chair
+cushions. Let’s start with the remote in the carton with the tv. But
+we will put a battery for the remote control in the chair.
 
 [float]
 ==== The Battery In the Cushion
 
 [subs="quotes"]
 ----
- -----------------------
+ [red]#-----------------------
  THE battery Isa OBJECT AT Nowhere — until found in the chair
      VERB examine
          DOES ONLY
              "It’s a regular household AAA battery."
      END VERB.
- END THE battery.
+ END THE battery.#
  -----------------------
  THE chair Isa OBJECT AT tv_room
      NAME comfy chair
@@ -4755,12 +4764,12 @@ It no longer makes sense to have the remote control lost in the chair cushions. 
               people lose change in all the time."
      END VERB.
      VERB search
-         CHECK battery AT Nowhere
+         CHECK [red]#battery AT Nowhere#
              ELSE
                  "There is nothing else to find by searching the chair."
          DOES ONLY
-             LOCATE battery in Hero.
-             "You find a small battery, which you take."
+             LOCATE [red]#battery# in Hero.
+             "You find [red]#a small battery#, which you take."
      END VERB.
  END THE chair.
  -----------------------
@@ -4779,36 +4788,37 @@ It no longer makes sense to have the remote control lost in the chair cushions. 
      NAME remote
      NAME button
      NAME simple push buttons
-     OPAQUE CONTAINER -- so you can put the battery in it
+     [red]#OPAQUE CONTAINER -- so you can put the battery in it#
      IS SWITCHABLE.
         PUSHABLE.
      VERB examine
          DOES ONLY
              "It's a very simple push-button remote control."
      END VERB.
-     VERB put_in
+     [red]#VERB put_in
          WHEN obj2
              CHECK obj1 = battery
                  ELSE
                      "Don’t be silly. Only a battery goes in there!"
              DOES AFTER
                  "You snap the battery into place in the remote."
-     END VERB.
+     END VERB.#
  ...
 ----
 
-We want to allow only the battery to be put it in the remote control. It is a simple matter to CHECK that obj1 is the battery.
+We want to allow only the battery to be put it in the remote
+control. It is a simple matter to CHECK that obj1 is the battery.
 
 [subs="quotes"]
 ----
  ...
      VERB turn_on1, turn_on2, switch_on1, switch_on2
-         CHECK battery IN remote
+         [red]#CHECK battery IN remote
              ELSE
                  "Pushing the button on the remote, nothing happens.
                   The remote won't do anything without a battery."
                  LOCATE remote IN Hero. -- Assumes remote is "Taken".
-         AND cord IS PLUGGED_IN
+         AND# cord IS PLUGGED_IN
              ELSE
                  "The TV won't turn on. It isn't getting any power."
          DOES ONLY
@@ -4821,12 +4831,12 @@ We want to allow only the battery to be put it in the remote control. It is a si
                  QUIT.
      END VERB.
      VERB push
-         CHECK battery IN remote
+         [red]#CHECK battery IN remote
              ELSE
                  "Pushing the button on the remote, nothing happens.
                   The remote won't do anything without a battery."
                  LOCATE remote IN Hero. -- Assumes remote is "Taken".
-         AND cord IS PLUGGED_IN
+         AND# cord IS PLUGGED_IN
              ELSE
                  "The TV won't turn on. It isn't getting any power."
          DOES ONLY
@@ -4850,17 +4860,17 @@ We want to allow only the battery to be put it in the remote control. It is a si
  -----------------------
  SYNONYMS
     television = tv.
- THE tv Isa OBJECT AT Nowhere -- until box is opened
+ THE tv Isa OBJECT AT [red]#Nowhere -- until box is opened#
  ...
  VERB turn_on1, turn_on2, switch_on1, switch_on2
      CHECK remote Here
          ELSE
              "There are no knobs, switches or buttons for turning on the TV."
-     AND battery IN remote
+     [red]#AND battery IN remote
          ELSE
             "Pushing the button on the remote, nothing happens.
              The remote won't do anything without a battery."
-            LOCATE remote IN Hero. -- Assumes remote is "Taken".
+            LOCATE remote IN Hero. -- Assumes remote is "Taken".#
      AND cord IS PLUGGED_IN
          ELSE
              "The TV won't turn on. It isn't getting any power."
@@ -4875,7 +4885,7 @@ We want to allow only the battery to be put it in the remote control. It is a si
  END VERB.
  ...
  -----------------------
- THE cord Isa OBJECT AT Nowhere -- it's part of the tv, remember
+ THE cord Isa OBJECT AT [red]#Nowhere -- it's part of the tv, remember#
      NAME cord
      NAME power electric electrical tv cord
      DESCRIPTION
@@ -4901,7 +4911,7 @@ We want to allow only the battery to be put it in the remote control. It is a si
 
 [subs="quotes"]
 ----
- -----------------------
+ [red]#-----------------------
  SYNONYMS
      carton, crate = box.
  THE box Isa OBJECT AT tv_room
@@ -4919,7 +4929,7 @@ We want to allow only the battery to be put it in the remote control. It is a si
               $nAn upward pointing arrow indicates ""THIS SIDE UP""."
               "$pThe box is sitting by a wall."
      END VERB.
- END THE box.
+ END THE box.#
  -----------------------
 ----
 
@@ -4928,8 +4938,8 @@ We want to allow only the battery to be put it in the remote control. It is a si
 
 [subs="quotes"]
 ----
- -----------------------
- THE knife Isa OBJECT IN cupboard
+ [red]#-----------------------
+ THE knife Isa OBJECT IN cupboard#
  ...
 ----
 
@@ -4938,11 +4948,11 @@ Notice the starting place for the knife is not "AT" but "IN" the cupboard CONTAI
 [subs="quotes"]
 ----
  THE knife Isa OBJECT IN cupboard
-     VERB examine
+     [red]#VERB examine
          DOES ONLY
              "It’s a sturdy, sharp knife."
      END VERB.
- END THE knife.
+ END THE knife.#
  -----------------------
 ----
 
@@ -4956,12 +4966,12 @@ Notice the starting place for the knife is not "AT" but "IN" the cupboard CONTAI
      NAME 'TV Room'
      DESCRIPTION
          "This is your favorite room in the house, because you love to watch television.
-          Besides your comfy chair and table,"
+          [red]#Besides your comfy chair and table,"
          IF tv Here THEN
              "your new plasma TV is here."
          ELSE
              "there is a large cardboard packing carton here."
-         END IF.
+         END IF.#
          "$pThe door to the kitchen is south."
      EXIT south TO kitchen
          CHECK tv_door IS OPEN
@@ -4983,21 +4993,40 @@ Notice the starting place for the knife is not "AT" but "IN" the cupboard CONTAI
 [float]
 ==== The Cutting Edge
 
-All the parts are in place. The tv and remote control are in the box. The battery is hidden in the chair cushions. The knife is in the kitchen cupboard. Now we have to make the parts work together to solve the puzzle.
-We have already programmed most things to do what they are meant to do. But we have introduced the packing carton, which must be cut open with the knife.
+All the parts are in place. The tv and remote control are in the
+box. The battery is hidden in the chair cushions. The knife is in the
+kitchen cupboard. Now we have to make the parts work together to solve
+the puzzle.
+
+We have already programmed most things to do what they are meant to
+do. But we have introduced the packing carton, which must be cut open
+with the knife.
 
 [IMPORTANT]
 ====
-For Which OBJECT? It may sometimes be confusing for which OBJECT to implement the VERB to complete a given task. For example, should we implement the "cut open" VERB for the knife or for the box?
+For Which OBJECT? It may sometimes be confusing for
+which OBJECT to implement the VERB to complete a given task. For
+example, should we implement the "cut open" VERB for the knife or for
+the box?
 
-1. Look for the OBJECT that is changed by the action . That is often the result you will want to CHECK for in the progress of the game. Here the box is changed, the knife is not.
+1. Look for the OBJECT that is changed by the action . That is often
+the result you will want to CHECK for in the progress of the
+game. Here the box is changed, the knife is not.
 
-2. Look for the OBJECT that needs the other to do the action, i.e., the "passive" OBJECT. For example, in our tutorial game the box cannot cut anything; it needs the knife for the "cut" VERB. The knife does not need the box; it can cut all sorts of things. So if you want to implement the VERB generally, as for the knife, implement it in the library (as we have done). If you want to implement the VERB for a specific OBJECT (such as the box), implement it there.
+2. Look for the OBJECT that needs the other to do the action, i.e.,
+the "passive" OBJECT. For example, in our tutorial game the box cannot
+cut anything; it needs the knife for the "cut" VERB. The knife does
+not need the box; it can cut all sorts of things. So if you want to
+implement the VERB generally, as for the knife, implement it in the
+library (as we have done). If you want to implement the VERB for a
+specific OBJECT (such as the box), implement it there.
 
-3. Look for the passive OBJECT in the library. This will most likely satisfy what you are looking for in 1 and 2 above as well.
+3. Look for the passive OBJECT in the library. This will most likely
+satisfy what you are looking for in 1 and 2 above as well.
 ====
 
-Implementing "cut open" VERBS for the Box There are VERBS in the library that will be useful. From "open.i":
+Implementing "cut open" VERBS for the Box There are VERBS in the
+library that will be useful. From "open.i":
 
 [subs="quotes"]
 ----
@@ -5021,7 +5050,8 @@ Implementing "cut open" VERBS for the Box There are VERBS in the library that wi
  End Add To.
 ----
 
-The box will have to be openable. We will add a CHECK to the VERB for the knife and bring the tv, etc. into the TV Room.
+The box will have to be openable. We will add a CHECK to the VERB for
+the knife and bring the tv, etc. into the TV Room.
 
 [subs="quotes"]
 ----
@@ -5035,20 +5065,30 @@ The box will have to be openable. We will add a CHECK to the VERB for the knife 
      NAME large black letters
      NAME upward pointing arrow
      HAS weight 500.
-     IS OPENABLE.
-     HAS NOT SCENERY.
+     [red]#IS OPENABLE.
+     HAS NOT SCENERY.#
      DESCRIPTION
  ...
 ----
 
-What we are doing here is a little tricky. Once the box has been cut open it may as well be <a href="#CB7FDB311ADDE01DF4313BBBC7C07513DB029478">Scenery</A>. However, the Attribute must be assigned to it here as HAS NOT SCENERY (We don’t want to make the box BE SCENERY, only to _have the same Attributes_ as SCENERY, a clear distinction for the Alan program but one perhaps without a difference to us). "IS NOT SCENERY" will compile, but does not give the desired result in game play.
+What we are doing here is a little tricky. Once the box has been cut
+open it may as well be <a
+href="#CB7FDB311ADDE01DF4313BBBC7C07513DB029478">Scenery</A>. However,
+the Attribute must be assigned to it here as HAS NOT SCENERY (We don’t
+want to make the box BE SCENERY, only to _have the same Attributes_ as
+SCENERY, a clear distinction for the Alan program but one perhaps
+without a difference to us). "IS NOT SCENERY" will compile, but does
+not give the desired result in game play.
 
-An alternate plan would be to create an "opened_box" OBJECT At Nowhere, with appropriate DESCRIPTION and VERBS for the box once cut open. When the player successfully cuts the box open, switch the opened_box for the box using LOCATE statements.
+An alternate plan would be to create an "opened_box" OBJECT At
+Nowhere, with appropriate DESCRIPTION and VERBS for the box once cut
+open. When the player successfully cuts the box open, switch the
+opened_box for the box using LOCATE statements.
 
 
 [subs="quotes"]
 ----
- Verb open
+ [red]#Verb open
      CHECK knife Here
          ELSE
              "You will need a knife to cut the box open."
@@ -5061,11 +5101,13 @@ An alternate plan would be to create an "opened_box" OBJECT At Nowhere, with app
          "Using the sharp blade of the knife, you cut the box open to
           reveal the plasma TV inside. You cut and tear off the remaining
           cardboard and cast it aside.
-          $pWow, the TV looks even better in your home than it did on the showroom floor!"
- End Verb.
+          $pWow, the TV looks even better in your home than it did on the
+          showroom floor!"
+ End Verb.#
 ----
 
-Returning to "open.i" there is another VERB we can (and should) include for the player:
+Returning to "open.i" there is another VERB we can (and should)
+include for the player:
 
 
 [subs="quotes"]
@@ -5087,25 +5129,27 @@ _yellow  End Verb.
  End Add To.
 ----
 
-It seems strange to me that this DOES in the default library fails. It should read:
+It seems strange to me that this DOES in the default library fails. It
+should read:
 
 [subs="quotes"]
 ----
  ...
           Does
-              MAKE obj1 OPEN.
-              "You open" Say The obj1. "with" Say The obj2. "."
+              [red]#MAKE obj1 OPEN.
+              "You open" Say The obj1. "with" Say The obj2. "."#
      End Verb.
  End Add To.
 ----
 
-No matter. Our DOES ONLY will override the default anyway. Adapted for our box (obj1) and knife (obj2) we get this:
+No matter. Our DOES ONLY will override the default anyway. Adapted for
+our box (obj1) and knife (obj2) we get this:
 
 [subs="quotes"]
 ----
  Verb open_with
      When obj1
-         CHECK obj2 = knife
+         [red]#CHECK obj2 = knife
              ELSE
                  "You will need something sharper than that to open the box with."
          Does ONLY
@@ -5118,24 +5162,39 @@ No matter. Our DOES ONLY will override the default anyway. Adapted for our box (
               reveal the plasma TV inside. You cut and tear off the
               remaining cardboard and cast it aside.
               $pWow, the TV looks even better in your home than it did on
-              the showroom floor!"
+              the showroom floor!"#
  End Verb.
 ----
 
 [float]
 ==== Practice Time
 
-It’s time for more practice customizing some VERBS. You will first need to create the library VERB (used by the knife as "obj1"), after which you should copy-and-paste it for implementation by the box (as "obj2").
+It’s time for more practice customizing some VERBS. You will first
+need to create the library VERB (used by the knife as "obj1"), after
+which you should copy-and-paste it for implementation by the box (as
+"obj2").
 
-Create a new file "cut.i" in your library folder. Be sure to import it in "std.i". Using the VERBS from "open.i", create some new custom VERBS (complete with SYNONYMS and SYNTAX statements!) to "cut", "cut (obj) open", "cut (obj2) with (obj1)", and "cut (obj2) open with (obj1)".
+Create a new file "cut.i" in your library folder. Be sure to import it
+in "std.i". Using the VERBS from "open.i", create some new custom
+VERBS (complete with SYNONYMS and SYNTAX statements!) to "cut", "cut
+(obj) open", "cut (obj2) with (obj1)", and "cut (obj2) open with
+(obj1)".
 
-"WITH" is an Alan reserved word. Use single quotes around it to protect its use in your VERB.
+"WITH" is an Alan reserved word. Use single quotes around it to
+protect its use in your VERB.
 
 TIP: Use an "IS CUTTER" Attribute to CHECK for in the VERB statements.
 
-Remember that the player may word the statement differently. Perhaps they will type "cut open the box" or "cut open the box with the knife". There is a hint on how to handle this in "wear.i" for the "put on" VERB, i.e., the player may "put the jacket on" or "put on the jacket".
+Remember that the player may word the statement differently. Perhaps
+they will type "cut open the box" or "cut open the box with the
+knife". There is a hint on how to handle this in "wear.i" for the "put
+on" VERB, i.e., the player may "put the jacket on" or "put on the
+jacket".
 
-See if you can complete these VERBS yourself before moving on. It will be good and necessary practice. You will need to create all the default library VERBS and then adapt them for use in the game, cutting the box open with the knife.
+See if you can complete these VERBS yourself before moving on. It will
+be good and necessary practice. You will need to create all the
+default library VERBS and then adapt them for use in the game, cutting
+the box open with the knife.
 
 === "cut.i"
 
@@ -5207,7 +5266,7 @@ See if you can complete these VERBS yourself before moving on. It will be good a
      DESCRIPTION
      VERB examine
          DOES ONLY
-             IF box IS NOT SCENERY THEN
+             [red]#IF box IS NOT SCENERY THEN
                  "It’s quite large, about five feet square. Besides the label
                   (""Ultimo Plasma TV""), there are large black letters that say,
                   ""PUSH WITH CARE"".
@@ -5216,13 +5275,13 @@ See if you can complete these VERBS yourself before moving on. It will be good a
              ELSE
                  "The carton is in pieces. No need to worry about it now, you can clean
                   it up later."
-             END IF.
+             END IF.#
      END VERB.
      Verb open
-         CHECK box IS NOT SCENERY -- only open the box once!
+         CHECK [red]#box IS NOT SCENERY -- only open the box once!
              ELSE
                  "You have done that already."
-         AND KNIFE Here
+         AND# KNIFE Here
              ELSE
                  "You will need a knife to cut the box open."
          Does ONLY
@@ -5235,8 +5294,7 @@ See if you can complete these VERBS yourself before moving on. It will be good a
               reveal the plasma TV inside. You cut and tear off the
               remaining cardboard and cast it aside.
               $pWow, the TV looks even better in your home than it did on
-              the showroom
-              floor!"
+              the showroom floor!"
      End Verb.
      Verb open_with
          When obj1
@@ -5256,10 +5314,9 @@ See if you can complete these VERBS yourself before moving on. It will be good a
                   to reveal the plasma TV inside. You cut and tear off the
                   remaining cardboard and cast it aside.
                   $pWow, the TV looks even better in your home than it did
-                  on the showroom
-                  floor!"
+                  on the showroom floor!"
      End Verb.
-     VERB cut
+     [red]#VERB cut
          CHECK box IS NOT SCENERY
              ELSE
                  "You have done that already."
@@ -5296,7 +5353,7 @@ See if you can complete these VERBS yourself before moving on. It will be good a
                   remaining cardboard and cast it aside.
                   $pWow, the TV looks even better in your home than it did
                   on the showroom floor!"
-     End Verb.
+     End Verb.#
  END THE box.
  -----------------------
 ----
@@ -5306,9 +5363,13 @@ See if you can complete these VERBS yourself before moving on. It will be good a
 [float]
 ==== Cut the Repetition.
 
-Notice the repetition in our code for the box. Four different VERBS do the same actions and give the same display of information. There are a couple of ways to cut down on the repetition.
+Notice the repetition in our code for the box. Four different VERBS do
+the same actions and give the same display of information. There are a
+couple of ways to cut down on the repetition.
 
-First, if the SYNTAX of the library VERBS are basically the same structure, then those statements can be put on the same line, like this:
+First, if the SYNTAX of the library VERBS are basically the same
+structure, then those statements can be put on the same line, like
+this:
 
 [subs="quotes"]
 ----
@@ -5320,14 +5381,21 @@ First, if the SYNTAX of the library VERBS are basically the same structure, then
  ...
 ----
 
-Our VERBS "cut" and "open" are similar. After all, the "cut" VERB was copied and adapted from the "open" VERB. _But_ _we changed the SYNTAX_ for "cut" from "WHERE the (obj) Isa OBJECT" to "WHERE the (obj) Isa THING", and so they cannot be put together on the same VERB statement. The same holds true for "cut with" and "open with".
+Our VERBS "cut" and "open" are similar. After all, the "cut" VERB was
+copied and adapted from the "open" VERB. _But we changed the SYNTAX_
+for "cut" from "WHERE the (obj) Isa OBJECT" to "WHERE the (obj) Isa
+THING", and so they cannot be put together on the same VERB
+statement. The same holds true for "cut with" and "open with".
 
-There is another method, useful not only for reducing repetition, but for many other purposes as well. Alan 3 provides for a pseudo "subroutine". We simply create an invisible OBJECT to perform the same actions as the VERB and DESCRIBE it when we need it. Like this:
+There is another method, useful not only for reducing repetition, but
+for many other purposes as well. Alan 3 provides for a pseudo
+"subroutine". We simply create an invisible OBJECT to perform the same
+actions as the VERB and DESCRIBE it when we need it. Like this:
 
 
 [subs="quotes"]
 ----
- THE open_box Isa OBJECT AT Nowhere — Hence, invisible and unreachable
+ [red]#THE open_box Isa OBJECT AT Nowhere — Hence, invisible and unreachable
      DESCRIPTION
          LOCATE tv Here.
          LOCATE cord Here.
@@ -5339,10 +5407,11 @@ There is another method, useful not only for reducing repetition, but for many o
           remaining cardboard and cast it aside.
           $pWow, the TV looks even better in your home than it did
           on the showroom floor!"
- END THE open_box.
+ END THE open_box.#
 ----
 
-Using this like a subroutine in our program for the box, it is now less cluttered:
+Using this like a subroutine in our program for the box, it is now
+less cluttered:
 
 [subs="quotes"]
 ----
@@ -5380,7 +5449,7 @@ Using this like a subroutine in our program for the box, it is now less cluttere
              ELSE
                  "You will need a knife to cut the box open."
          Does ONLY
-             DESCRIBE open_box.
+             [red]#DESCRIBE open_box.#
      End Verb.
      Verb open_with
          When obj1
@@ -5391,7 +5460,7 @@ Using this like a subroutine in our program for the box, it is now less cluttere
                  ELSE
                      "You will need something sharper than that to open the box with."
              Does ONLY
-                 DESCRIBE open_box.
+                 [red]#DESCRIBE open_box.#
      End Verb.
      VERB cut
          CHECK box IS NOT SCENERY
@@ -5401,7 +5470,7 @@ Using this like a subroutine in our program for the box, it is now less cluttere
              ELSE
                  "You will need a knife to cut the box open."
          Does ONLY
-             DESCRIBE open_box.
+             [red]#DESCRIBE open_box.#
      End Verb.
      VERB cut_with
          When obj1
@@ -5412,18 +5481,21 @@ Using this like a subroutine in our program for the box, it is now less cluttere
                  ELSE
                      "You will need something sharper than that to open the box with."
              Does ONLY
-                 DESCRIBE open_box.
+                 [red]#DESCRIBE open_box.#
      End Verb.
  END THE box.
  -----------------------
 ----
 
-The same can be done with the DOES ONLY "win" sequence with the remote and tv. (See this implemented in <a href="#C10E1B00158C200371DC640FF33EBA2F950C160D">Compile and Play It!</A>)
+The same can be done with the DOES ONLY "win" sequence with the remote
+and tv. (See this implemented in <a
+href="#C10E1B00158C200371DC640FF33EBA2F950C160D">Compile and Play
+It!</A>)
 
 [subs="quotes"]
 ----
  -----------------------
- THE win_tv Isa OBJECT AT Nowhere
+ [red]#THE win_tv Isa OBJECT AT Nowhere
      DESCRIPTION
          MAKE tv 'on'.
          "Wow! What a great picture!"
@@ -5432,7 +5504,7 @@ The same can be done with the DOES ONLY "win" sequence with the remote and tv. (
          "$n$nAnd so have you..."
          "$p\*\** You have won! \***"
          QUIT.
- END THE win_tv.
+ END THE win_tv.#
  -----------------------
 ----
 
@@ -5868,9 +5940,12 @@ The same can be done with the DOES ONLY "win" sequence with the remote and tv. (
 [float]
 ==== A Pushing Problem
 
-Some games of Interactive Fiction have much trickier puzzles than what we have constructed so far. Let’s make a real game out of it.
+Some games of Interactive Fiction have much trickier puzzles than what
+we have constructed so far. Let’s make a real game out of it.
 
-In the "examine" VERB for the box we have already hinted that it should be pushed ("PUSH WITH CARE"). Let’s keep a mental "map" of the TV Room, where the player might push the box.
+In the "examine" VERB for the box we have already hinted that it
+should be pushed ("PUSH WITH CARE"). Let’s keep a mental "map" of the
+TV Room, where the player might push the box.
 
 ----
                                                                                North                                                                          chair
@@ -5881,12 +5956,15 @@ West                                      
 [float]
 ==== A Bookcase and Books
 
-We need something to the East, so we will put a bookcase there. If we put another wall to the east, we will have an ambiguation problem (the program would not know which "wall" was referenced by the player). So another reasonable OBJECT to put there is a bookcase.
+We need something to the East, so we will put a bookcase there. If we
+put another wall to the east, we will have an ambiguation problem (the
+program would not know which "wall" was referenced by the player). So
+another reasonable OBJECT to put there is a bookcase.
 
 [subs="quotes"]
 ----
  -----------------------
- THE bkcase Isa SCENERY AT tv_room
+ [red]#THE bkcase Isa SCENERY AT tv_room
      NAME bookcase
      NAME case
      NAME shelves
@@ -5907,17 +5985,19 @@ We need something to the East, so we will put a bookcase there. If we put anothe
      NAME books
      NAME book
      IS READABLE.
-     INDEFINITE ARTICLE "some"
+     INDEFINITE ARTICLE "some"#
  ...
 ----
 
-We don’t want the game to display a singular message for plural OBJECTS such as
+We don’t want the game to display a singular message for plural
+OBJECTS such as
 
 ----
 There is a books here.
 ----
 
-We can _change the indefinite article_ to one more appropriate. With "some", we will now get the somewhat more acceptable
+We can _change the indefinite article_ to one more appropriate. With
+"some", we will now get the somewhat more acceptable
 
 ----
 There is some books here.
@@ -5926,9 +6006,12 @@ There is some books here.
 [float]
 ==== It’s De Fault of De Messenger
 
-It is possible to change the Alan default responses. For example we can change the default "There is…" to "You see…". This is done with the MESSAGE statement.
+It is possible to change the Alan default responses. For example we
+can change the default "There is..." to "You see...". This is done
+with the MESSAGE statement.
 
-The first thing to do is find the default message in the Alan manual Appendix (¶ D.1). There we find:
+The first thing to do is find the default message in the Alan manual
+Appendix (¶ D.1). There we find:
 
 image::images\2A2EB814DD1A96E8C7EA8E74B56266D0F832E86E.jpg[]
 
@@ -5938,7 +6021,10 @@ The message we want to change is "SEE_START".
  MESSAGE SEE_START : "You see $01"
 ----
 
-Adding this code will change the default response in the whole game. A convenient place for this code is just before the START section (see <a href="6569FA2F6548E65B39C4136842D3E6B375C6E500">Compile and Play It!</A>). Now the program will display to the player:
+Adding this code will change the default response in the whole game. A
+convenient place for this code is just before the START section (see
+<a href="6569FA2F6548E65B39C4136842D3E6B375C6E500">Compile and Play
+It!</A>). Now the program will display to the player:
 
 ----
 You see some books here.
@@ -5949,7 +6035,7 @@ Finish the books with a few appropriate VERBS.
 [subs="quotes"]
 ----
  ...
-     VERB examine
+     [red]#VERB examine
          DOES ONLY
              "The titles are:
               $p$t""Help""
@@ -5961,13 +6047,19 @@ Finish the books with a few appropriate VERBS.
          DOES ONLY
              "Just type in the title of the book you want to read."
      END VERB.
- END THE books.
+ END THE books.#
  -----------------------
 ----
 
-Another puzzle you could create (and it would be a nasty one, possibly making the game unwinnable) would be to make it necessary to push the box East (by the bookcase) and then for the player to stand on the box in order to reach and read the books. (That will be up to you, as well as creating the "hint" and "credits" books, er, VERBS.)
+Another puzzle you could create (and it would be a nasty one, possibly
+making the game unwinnable) would be to make it necessary to push the
+box East (by the bookcase) and then for the player to stand on the box
+in order to reach and read the books. (That will be up to you, as well
+as creating the "hint" and "credits" books, er, VERBS.)
 
-Update the tv_room DESCRIPTION with the map Since we will ask the player to push the box in one of the four cardinal directions, we should describe what those directions are in the LOCATION DESCRIPTION.
+Update the tv_room DESCRIPTION with the map Since we will ask the
+player to push the box in one of the four cardinal directions, we
+should describe what those directions are in the LOCATION DESCRIPTION.
 
 [subs="quotes"]
 ----
@@ -5976,12 +6068,12 @@ Update the tv_room DESCRIPTION with the map Since we will ask the player to push
      NAME 'TV Room'
      DESCRIPTION
          "This is your favorite room in the house, because you love to watch television.
-          Besides your comfy chair and table in the north end of the room, there is a
-          bookcase on the east side and a bare wall on the west."
+          Besides your comfy chair and table [red]#in the north end of the room, there is a
+          bookcase on the east side and a bare wall on the west.#"
          IF tv Here THEN
              "$pYour new plasma TV is here."
-         ELSE
-             "$pThere is a large cardboard packing carton here."
+         [red]#ELSE
+             "$pThere is a large cardboard packing carton here."#
          END IF.
          "$pThe door to the kitchen is south."
      EXIT south TO kitchen
@@ -5991,7 +6083,7 @@ Update the tv_room DESCRIPTION with the map Since we will ask the player to push
          DOES
              "You go south, into the kitchen."
      END EXIT.
-     EXIT north TO tv_room
+     [red]#EXIT north TO tv_room
          CHECK
              "Your chair and table are in the north end of the room."
      END EXIT.
@@ -6002,7 +6094,7 @@ Update the tv_room DESCRIPTION with the map Since we will ask the player to push
      EXIT east TO tv_room
          CHECK
              "The bookcase is on the east side of the room."
-     END EXIT.
+     END EXIT.#
  END THE tv_room.
  ----------------------
 ----
@@ -6012,7 +6104,8 @@ Update the tv_room DESCRIPTION with the map Since we will ask the player to push
 [float]
 ==== Push the Box
 
-Okay, time to program pushing the box. Let’s begin by making the box moveable.
+Okay, time to program pushing the box. Let’s begin by making the box
+moveable.
 
 [subs="quotes"]
 ----
@@ -6027,25 +6120,32 @@ Okay, time to program pushing the box. Let’s begin by making the box moveable.
      NAME upward pointing arrow
      HAS weight 500.
      IS OPENABLE.
-        MOVEABLE.
+        [red]#MOVEABLE.#
      HAS NOT SCENERY.
      DESCRIPTION
  ...
 ----
 
-The MOVEABLE Attribute is the one we have assigned for both the "push" and the "pull" VERBS (<a href="#976BF3320139AA31EE8FF4A0882357707BA6A107">here</A>). We don’t want the player to pull the box. Implement the VERB from "pull.i" to prevent it.
+The MOVEABLE Attribute is the one we have assigned for both the "push"
+and the "pull" VERBS (<a
+href="#976BF3320139AA31EE8FF4A0882357707BA6A107">here</A>). We don’t
+want the player to pull the box. Implement the VERB from "pull.i" to
+prevent it.
 
 [subs="quotes"]
 ----
  ...
-     VERB pull
+     [red]#VERB pull
          CHECK
              "You can’t get a good grip on the carton to pull it. You might have
                  better luck trying to push it."
-     End Verb.
+     End Verb.#
 ----
 
-Now we want to adapt the "push" VERB, to push the box in one of the four cardinal directions we have established in the game. So first we implement for the VERBS as they are in "push.i" to ask the player which direction they want to push it.
+Now we want to adapt the "push" VERB, to push the box in one of the
+four cardinal directions we have established in the game. So first we
+implement for the VERBS as they are in "push.i" to ask the player
+which direction they want to push it.
 
 [subs="quotes"]
 ----
@@ -6058,11 +6158,13 @@ Now we want to adapt the "push" VERB, to push the box in one of the four cardina
  ...
 ----
 
-Now let's add these "push" VERBS for each of the four cardinal directions to "push.i". They are adapted from VERBS that are already in the standard library (in "put.i").
+Now let's add these "push" VERBS for each of the four cardinal
+directions to "push.i". They are adapted from VERBS that are already
+in the standard library (in "put.i").
 
 [subs="quotes"]
 ----
- SYNTAX
+ [red]#SYNTAX
      push_north = push (obj) north
          WHERE obj Isa thing
              Else "You can’t push that."
@@ -6083,10 +6185,14 @@ Now let's add these "push" VERBS for each of the four cardinal directions to "pu
          DOES
              "You push it in that direction."
      END VERB.
- END ADD TO.
+ END ADD TO.#
 ----
 
-And finally let’s implement the directional "push" VERBS for the box. We will create a "SPOT" Attribute for the box to indicate where it is in the room, depending on which direction the player pushes it. A value of Zero (0) will equal the center of the room, 1 will be equal to north; 2 to south, 3 to east and 4 to west.
+And finally let’s implement the directional "push" VERBS for the
+box. We will create a "SPOT" Attribute for the box to indicate where
+it is in the room, depending on which direction the player pushes
+it. A value of Zero (0) will equal the center of the room, 1 will be
+equal to north; 2 to south, 3 to east and 4 to west.
 
 [subs="quotes"]
 ----
@@ -6103,21 +6209,24 @@ And finally let’s implement the directional "push" VERBS for the box. We will 
          IS OPENABLE.
             MOVEABLE.
          HAS NOT SCENERY.
-         HAS SPOT 0. -- O = centered in the room
+         [red]#HAS SPOT 0. -- O = centered in the room#
          DESCRIPTION
  ...
-         VERB push_north
+         [red]#VERB push_north
              DOES ONLY
                  SET SPOT OF box TO 1. — north
                  "You push the box north, next to the chair and table."
-         END VERB.
+         END VERB.#
 ----
 
-The SET statement (¶ 4.16.6) is like the MAKE statement, to change Attributes. MAKE is used for Boolean Attributes; SET is used for non-Boolean Attributes. Here we SET the SPOT Attribute (where in the room the box is) to 1, north by the chair and table.
+The SET statement (¶ 4.16.6) is like the MAKE statement, to change
+Attributes. MAKE is used for Boolean Attributes; SET is used for
+non-Boolean Attributes. Here we SET the SPOT Attribute (where in the
+room the box is) to 1, north by the chair and table.
 
 [subs="quotes"]
 ----
-         VERB push_south
+         [red]#VERB push_south
              DOES ONLY
                  SET SPOT OF box TO 2.
                  "You push the box south, in front of the door."
@@ -6131,7 +6240,7 @@ The SET statement (¶ 4.16.6) is like the MAKE statement, to change Attributes. 
              DOES ONLY
                  SET SPOT OF box TO 4.
                  "You push the box west, next to the wall."
-         END VERB.
+         END VERB.#
 ----
 
 Update the tv_room DESCRIPTION for the Box
@@ -6148,19 +6257,22 @@ Update the tv_room DESCRIPTION for the Box
          IF tv Here THEN
              "$pYour new plasma TV is here."
          ELSE
-             "$pThere is a large cardboard packing carton sitting"
+             "$pThere is a large cardboard packing carton [red]#sitting"
              IF spot OF box = 0 THEN "in the center of the room."
              ELSIF spot OF box = 1 THEN "next to the chair and table."
              ELSIF spot OF box = 2 THEN "against the door."
              ELSIF spot OF box = 3 THEN "by the bookcase."
              ELSIF spot OF box = 4 THEN "next to the wall."
-             END IF.
+             END IF.#
          END IF.
          "$pThe door to the kitchen is south."
  ...
 ----
 
-This is a good place to introduce the _DEPENDING ON_ statement. It is rather like a condensed IF-THEN statement; and like the IF-THEN,  _every DEPENDING ON requires a _END DEPEND_. Here is how it is used in the TV Room DESCRIPTION.
+This is a good place to introduce the _DEPENDING ON_ statement. It is
+rather like a condensed IF-THEN statement; and like the IF-THEN,
+_every DEPENDING ON requires a _END DEPEND_. Here is how it is used in
+the TV Room DESCRIPTION.
 
 [subs="quotes"]
 ----
@@ -6174,22 +6286,28 @@ This is a good place to introduce the _DEPENDING ON_ statement. It is rather lik
          IF tv Here THEN
              "$pYour new plasma TV is here."
          ELSE
-             "$pThere is a large cardboard packing carton sitting"
+             "$pThere is a large cardboard packing carton [red]#sitting"
              DEPENDING ON spot OF box
                  = 0 THEN "in the center of the room."
                  = 1 THEN "next to the chair and table."
                  = 2 THEN "against the door."
                  = 3 THEN "by the bookcase."
                  = 4 THEN "next to the wall."
-             END DEPEND.
+             END DEPEND.#
          END IF. "$pThe door to the kitchen is south."
  ...
 ----
 
-[float]
-==== or Not!
+=== or Not!
 
-Opening the Box and Placing the TV. When the player opens the box to remove the tv, the tv will of course be placed in the same "spot" where the box was. If the box is opened as it sits by the door, then the tv will be placed by the door. The first thing we need to do then is to give the SPOT Attribute to the tv, just like we did for the box..
+[float]
+==== Opening the Box and Placing the TV
+
+When the player opens the box to remove the tv, the tv will of course
+be placed in the same "spot" where the box was. If the box is opened
+as it sits by the door, then the tv will be placed by the door. The
+first thing we need to do then is to give the SPOT Attribute to the
+tv, just like we did for the box..
 
 [subs="quotes"]
 ----
@@ -6205,12 +6323,17 @@ Opening the Box and Placing the TV. When the player opens the box to remove the
       NAME giant
       NAME brand new giant screen plasma tv
       IS SWITCHABLE.
-      HAS SPOT 0.
+      [red]#HAS SPOT 0.#
       DESCRIPTION
  ...
 ----
 
-It will be easy to "spot" the tv where the box was, simply by setting the SPOT of the tv to that of the box when it is opened. We have several VERBS that open the box, but only one place in our code we have to change. We created an OBJECT at Nowhere to handle all the "open the box" VERBS (<a href="#0072A8B57E6EBE1D3C45D59392F1CB50DFF8EEE9">here</A>).
+It will be easy to "spot" the tv where the box was, simply by setting
+the SPOT of the tv to that of the box when it is opened. We have
+several VERBS that open the box, but only one place in our code we
+have to change. We created an OBJECT at Nowhere to handle all the
+"open the box" VERBS (<a
+href="#0072A8B57E6EBE1D3C45D59392F1CB50DFF8EEE9">here</A>).
 
 [subs="quotes"]
 ----
@@ -6222,7 +6345,7 @@ It will be easy to "spot" the tv where the box was, simply by setting the SPOT o
      LOCATE remote Here.
      LOCATE knife IN Hero.
      MAKE box SCENERY.
-     SET SPOT OF tv TO SPOT OF box.
+     [red]#SET SPOT OF tv TO SPOT OF box.#
      "Using the sharp blade of the knife, you cut the box open to reveal the plasma TV
       inside. You cut and tear off the remaining cardboard and cast it aside.
       $pWow, the TV looks even better in your home than it did on the showroom
@@ -6244,14 +6367,14 @@ Update the tv_room DESCRIPTION for the TV
          end of the room, there is a bookcase on the east side and a bare
          wall on the west."
          IF tv Here THEN
-             "Your new plasma TV is sitting";
+             "Your new plasma TV is [red]#sitting";
              DEPENDING ON spot OF tv
                  = 0 THEN "in the center of the room."
                  = 1 THEN "next to the chair and table."
                  = 2 THEN "against the door."
                  = 3 THEN "by the bookcase."
                  = 4 THEN "next to the wall."
-             END DEPEND.
+             END DEPEND.#
          ELSE
              "$pThere is a large cardboard packing carton sitting"
              DEPENDING ON spot OF box
@@ -6269,8 +6392,9 @@ Update the tv_room DESCRIPTION for the TV
 [float]
 ==== The Point of All That Pushing Things Around
 
-The point is that the power cord can only be plugged into the outlet if the tv is placed by the wall.
-Add a CHECK to the "plug" VERBS for both the outlet and tv_wall:
+The point is that the power cord can only be plugged into the outlet
+if the tv is placed by the wall.  Add a CHECK to the "plug" VERBS for
+both the outlet and tv_wall:
 
 [subs="quotes"]
 ----
@@ -6280,10 +6404,10 @@ Add a CHECK to the "plug" VERBS for both the outlet and tv_wall:
              CHECK obj1 IS PLUGGABLE
                  ELSE
                      "Hey, be careful! That doesn't go into an electrical outlet!"
-             AND SPOT OF tv = 4
+             [red]#AND SPOT OF tv = 4
                  ELSE
                      "The cord is only three feet long.
-                      It can't reach the outlet from here."
+                      It can't reach the outlet from here."#
              AND cord IS NOT PLUGGED_IN
                  ELSE
                      "The cord is already plugged in!"
@@ -6297,7 +6421,9 @@ Add a CHECK to the "plug" VERBS for both the outlet and tv_wall:
 [float]
 ==== No Pushing the TV!
 
-What if the tv is not next to the wall? Unlike the box, it cannot be pushed. If the player does try more than one time to push it, the tv will tip over and break, losing the game.
+What if the tv is not next to the wall? Unlike the box, it cannot be
+pushed. If the player does try more than one time to push it, the tv
+will tip over and break, losing the game.
 
 [subs="quotes"]
 ----
@@ -6313,18 +6439,18 @@ What if the tv is not next to the wall? Unlike the box, it cannot be pushed. If 
      NAME giant
      NAME brand new giant screen plasma tv
      IS SWITCHABLE.
-        MOVEABLE.
+        [red]#MOVEABLE.#
      HAS SPOT center.
-     HAS TIPPY 1. -- To check for tipping over (see push VERB below).
+     [red]#HAS TIPPY 1. -- To check for tipping over (see push VERB below).#
      DESCRIPTION
  ...
-     VERB pull — COPIED FROM THE box
+     [red]#VERB pull — COPIED FROM THE box
          CHECK
              "You can’t get a good grip on the wide screen to pull it.
               You might have better luck trying to push it."
-     End Verb.
+     End Verb.#
  ...
-     Verb push
+     [red]#Verb push
          Does ONLY
              IF TIPPY OF tv >1 THEN
                  "You push harder against the big plasma tv.
@@ -6337,19 +6463,23 @@ What if the tv is not next to the wall? Unlike the box, it cannot be pushed. If 
                   or find some other way to move it."
                  INCREASE TIPPY OF tv.
              END IF.
-     END VERB.
+     END VERB.#
  ...
 ----
 
-The "INCREASE" statement will increase the numeric value by 1, unless you specify differently with "BY&quot
-i.e., "INCREASE TIPPY OF tv BY 3."
+The "INCREASE" statement will increase the numeric value by 1, unless
+you specify differently with "BY" i.e., "INCREASE TIPPY OF tv BY 3."
 
-(It is up to you to add SYNTAX for "push_hard" and "push_harder" to the "push" VERB in "push.i"!)
+(It is up to you to add SYNTAX for "push_hard" and "push_harder" to
+the "push" VERB in "push.i"!)
 
 === Another Way to Win
 
-Book 'em! It is generally not a good idea to let the game become unwinnable. Let’s give the player an alternate way to push the tv, by placing the books from the bookcase under the tv.
+Book 'em! It is generally not a good idea to let the game become
+unwinnable. Let’s give the player an alternate way to push the tv, by
+placing the books from the bookcase under the tv.
 
+[subs="quotes"]
 ----
  -----------------------
  THE books Isa OBJECT IN bookcase
@@ -6366,13 +6496,13 @@ Book 'em! It is generally not a good idea to let the game become unwinnable. Le
               $n$t""Laugh"" "
      END VERB.
      VERB read
-         CHECK tv IS NOT BOOKED
+         [red]#CHECK tv IS NOT BOOKED
              ELSE
-                 "That isn't possible while they are under the tv!"
+                 "That isn't possible while they are under the tv!"#
          DOES ONLY
              "Just type in the title of the book you want to read."
      END VERB.
-     VERB take, pick_up1, pick_up2
+     [red]#VERB take, pick_up1, pick_up2
          CHECK tv IS NOT BOOKED
              ELSE
                  "That isn't possible while they are under the tv!"
@@ -6391,17 +6521,21 @@ Book 'em! It is generally not a good idea to let the game become unwinnable. Le
                  SET TIPPY of TV TO 0.
                  "You carefully lift each of the four corners of the plasma tv
                   and slip a book under it."
-     End Verb.
+     End Verb.#
  END THE books.
  -----------------------
 ----
 
-Now might be a good time to create a custom response to the "hint" VERB to give the player a hint about how to move the tv. That is of course left for to you to do!
+Now might be a good time to create a custom response to the "hint"
+VERB to give the player a hint about how to move the tv. That is of
+course left for to you to do!
 
 [float]
 ==== Push the TV
 
-Make the tv pushable if the books are under it. We will give it an Attribute for the books under it (BOOKED), and code the "push" VERB to CHECK for it.
+Make the tv pushable if the books are under it. We will give it an
+Attribute for the books under it (BOOKED), and code the "push" VERB to
+CHECK for it.
 
 [subs="quotes"]
 ----
@@ -6418,18 +6552,20 @@ Make the tv pushable if the books are under it. We will give it an Attribute for
      NAME brand new giant screen plasma tv
      IS SWITCHABLE.
         MOVEABLE.
-        NOT BOOKED.
+        [red]#NOT BOOKED.#
      HAS SPOT center.
      HAS TIPPY 1.
      DESCRIPTION
  ...
 ----
 
-Now to implement pushing the tv north, south, east or west, first copy-and-paste the VERBS from the box, of course changing the word "box" to "tv".
+Now to implement pushing the tv north, south, east or west, first
+copy-and-paste the VERBS from the box, of course changing the word
+"box" to "tv".
 
 [subs="quotes"]
 ----
-     VERB push_north
+     [red]#VERB push_north
          DOES ONLY
              SET SPOT OF tv TO 1.
              "You push the tv north, next to the chair and table."
@@ -6448,18 +6584,26 @@ Now to implement pushing the tv north, south, east or west, first copy-and-paste
          DOES ONLY
              SET SPOT OF tv TO 4.
              "You push the tv west, next to the wall."
-     END VERB.
+     END VERB.#
  ...
 ----
 
-Consolidate All these "push" VERBS will need to CHECK whether the tv IS BOOKED or not. If the tv IS NOT BOOKED then each "push" VERB will see if the TIPPY Attribute is greater than 1, and if so, QUIT the game with a "you lose" message.
+[float]
+==== Consolidate
 
-With five "push" VERBS, that means a lot of duplicated code. Again, however, it is a simple matter to avoid so much duplicated code for all these VERBS by creating an OBJECT at Nowhere to handle it.
+All these "push" VERBS will need to CHECK whether the tv IS BOOKED or
+not. If the tv IS NOT BOOKED then each "push" VERB will see if the
+TIPPY Attribute is greater than 1, and if so, QUIT the game with a
+"you lose" message.
+
+With five "push" VERBS, that means a lot of duplicated code. Again,
+however, it is a simple matter to avoid so much duplicated code for
+all these VERBS by creating an OBJECT at Nowhere to handle it.
 
 [subs="quotes"]
 ----
  -----------------------
- THE tip_tv Isa OBJECT AT Nowhere
+ [red]#THE tip_tv Isa OBJECT AT Nowhere
      DESCRIPTION
          IF TIPPY OF tv >1 THEN
              "You push harder against the big plasma tv.
@@ -6472,54 +6616,56 @@ With five "push" VERBS, that means a lot of duplicated code. Again, however, it 
               or find some other way to move it."
              INCREASE TIPPY OF tv.
          END IF.
- END THE push_tv.
+ END THE tip_tv.#
  -----------------------
 ----
 
- CHECK that the tv IS BOOKED, Add the tip_tv DESCRIPTION and the tv's "push" VERBS will be completed.
+CHECK that the tv IS BOOKED, add the tip_tv DESCRIPTION and the tv's
+"push" VERBS will be completed.
 
 [subs="quotes"]
 ----
-  Verb push
- CHECK tv IS BOOKED
-  ELSE
-    DESCRIBE tip_tv.
- DOES ONLY
-    "Please say which direction you want to push it:
-    $ppush the carton north, south, east or west."
- END VERB.
- VERB push_north
- CHECK tv IS BOOKED
-  ELSE
-    DESCRIBE tip_tv.
-  DOES ONLY
-   SET SPOT OF tv TO 1.
-   "You push the box north, next to the chair and table."
- END VERB.
-  VERB push_south
- CHECK tv IS BOOKED
-  ELSE
-    DESCRIBE tip_tv.
-  DOES ONLY
-   SET SPOT OF tv TO 2.
-   "You push the box south, in front of the door."
- END VERB.
-  VERB push_east
- CHECK tv IS BOOKED
-  ELSE
-    DESCRIBE tip_tv.
-  DOES ONLY
-   SET SPOT OF tv TO 3.
-   "You push the box east, next to the bookcase."
- END VERB.
-  VERB push_west
- CHECK tv IS BOOKED
-  ELSE
-    DESCRIBE tip_tv.
-  DOES ONLY
-   SET SPOT OF tv TO 4.
-   "You push the box west, next to the wall."
- END VERB.
+ ...
+     Verb push
+         [red]#CHECK tv IS BOOKED
+             ELSE
+                 DESCRIBE tip_tv.
+         DOES ONLY
+             "Please say which direction you want to push it:
+              $ppush the carton north, south, east or west."#
+     END VERB.
+     VERB push_north
+         [red]#CHECK tv IS BOOKED
+             ELSE
+                 DESCRIBE tip_tv.#
+         DOES ONLY
+             SET SPOT OF tv TO 1.
+             "You push the box north, next to the chair and table."
+     END VERB.
+     VERB push_south
+         [red]#CHECK tv IS BOOKED
+             ELSE
+                 DESCRIBE tip_tv.#
+         DOES ONLY
+             SET SPOT OF tv TO 2.
+             "You push the box south, in front of the door."
+     END VERB.
+     VERB push_east
+         [red]#CHECK tv IS BOOKED
+             ELSE
+                 DESCRIBE tip_tv.#
+         DOES ONLY
+             SET SPOT OF tv TO 3.
+             "You push the box east, next to the bookcase."
+     END VERB.
+     VERB push_west
+         [red]#CHECK tv IS BOOKED
+             ELSE
+                 DESCRIBE tip_tv.#
+         DOES ONLY
+             SET SPOT OF tv TO 4.
+             "You push the box west, next to the wall."
+    END VERB.
 ----
 
 Congratulations! This completes the main elements of our tutorial game.
@@ -7142,11 +7288,26 @@ START AT tv_room.
 [float]
 ==== Timed EVENTS
 
-EVENTS are used to perform an action according to time rather than space; or to put it simply, they act after a certain number of turns have passed. They can be set to happen immediately (after zero turns) or timed to happen after many turns; to happen at or to an OBJECT, or the player, or another ACTOR, or in a separate LOCATION.
+EVENTS are used to perform an action according to time rather than
+space; or to put it simply, they act after a certain number of turns
+have passed. They can be set to happen immediately (after zero turns)
+or timed to happen after many turns; to happen at or to an OBJECT, or
+the player, or another ACTOR, or in a separate LOCATION.
 
-EVENTS are often used for color and atmosphere and for "time bomb" effects. We will program an example of each for our game. A "time bomb" effect requires the player to complete a particular goal (i.e. reach a LOCATION or perform an action) before a certain number of turns have passed. Failure to complete the goal may result in death or an otherwise lost game.
+EVENTS are often used for color and atmosphere and for "time bomb"
+effects. We will program an example of each for our game. A "time
+bomb" effect requires the player to complete a particular goal
+(i.e. reach a LOCATION or perform an action) before a certain number
+of turns have passed. Failure to complete the goal may result in death
+or an otherwise lost game.
 
-A Simple EVENT Example An EVENT requires three basic parts: 1 - an OBJECT, ACTOR or LOCATION to act upon; 2 - an EVENT statement performing the actions and descriptions; and 3 - a SCHEDULE statement to tell the EVENT when to act, and optionally where .
+[float]
+==== A Simple EVENT Example
+
+An EVENT requires three basic parts: 1 - an OBJECT, ACTOR or LOCATION
+to act upon; 2 - an EVENT statement performing the actions and
+descriptions; and 3 - a SCHEDULE statement to tell the EVENT when to
+act, and optionally where .
 
 Here is a simple time bomb EVENT:
 
@@ -7166,7 +7327,12 @@ Here is a simple time bomb EVENT:
  SCHEDULE bomb_explode AT bomb AFTER 50.
 ----
 
-The SCHEDULE statement is rather like a fuse. If not "lit", it will not start counting turns, it will not trigger the EVENT, it will not do anything. It must be _told_ to trigger the EVENT. So simply setting the SCHEDULE EVENT statement somewhere in the program will not make anything happen. It needs to be triggered by something else, like a VERB or in the START AT section.
+The SCHEDULE statement is rather like a fuse. If not "lit", it will
+not start counting turns, it will not trigger the EVENT, it will not
+do anything. It must be _told_ to trigger the EVENT. So simply setting
+the SCHEDULE EVENT statement somewhere in the program will not make
+anything happen. It needs to be triggered by something else, like a
+VERB or in the START AT section.
 
 [subs="quotes"]
 ----
@@ -7179,9 +7345,12 @@ The SCHEDULE statement is rather like a fuse. If not "lit", it will not start co
  END THE bomb.
 ----
 
-That’s really all there is to it. After 50 turns the bomb will explode and give the "lose" message.
+That’s really all there is to it. After 50 turns the bomb will explode
+and give the "lose" message.
 
-We can add to the atmosphere and increase the tension with a repeating EVENT. This is done simply by embedding a (re-)SCHEDULE statement within the EVENT you want to repeat.
+We can add to the atmosphere and increase the tension with a repeating
+EVENT. This is done simply by embedding a (re-)SCHEDULE statement
+within the EVENT you want to repeat.
 
 [subs="quotes"]
 ----
@@ -7192,9 +7361,11 @@ We can add to the atmosphere and increase the tension with a repeating EVENT. Th
  END EVENT.
 ----
 
-Every three turns the "tick" message will display until the bomb explodes and the game ends.
+Every three turns the "tick" message will display until the bomb
+explodes and the game ends.
 
-But suppose the player is able to defuse the bomb in time. We don’t want the bomb to explode after being defused, so we CANCEL the EVENT.
+But suppose the player is able to defuse the bomb in time. We don’t
+want the bomb to explode after being defused, so we CANCEL the EVENT.
 
 [subs="quotes"]
 ----
@@ -7213,7 +7384,14 @@ But suppose the player is able to defuse the bomb in time. We don’t want the b
 ----
 
 EVENTS are very easy to program, and add a great deal of color to the game.
-A Sporting Goal The "time bomb" in our game will not explode. Rather, the player will only have to successfully turn on the tv in time to watch his (her) favorite sports team play for the championship; failure loses the game. Here is how we will tell the player what the goal is:
+
+[float]
+==== A Sporting Goal
+
+The "time bomb" in our game will not explode. Rather, the player will
+only have to successfully turn on the tv in time to watch his (her)
+favorite sports team play for the championship; failure loses the
+game. Here is how we will tell the player what the goal is:
 
 [subs="quotes"]
 ----
@@ -7223,9 +7401,9 @@ A Sporting Goal The "time bomb" in our game will not explode. Rather, the player
       $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
       $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
       $p(Type ""help"" if you have not played this kind of game before.)
-      $pThe greatest delight in your life is watching tv sports. And the
+      [red]#$pThe greatest delight in your life is watching tv sports. And the
       one thing that matters most to you right now is the championship game
-      that your favorite team will play this afternoon.
+      that your favorite team will play this afternoon.#
       $pJoy of joys, you have just purchased a brand new big screen plasma
       TV that was delivered earlier today!"
 ----
@@ -7235,7 +7413,7 @@ and...
 [subs="quotes"]
 ----
  -----------------------
- THE guide Isa OBJECT IN table
+ [red]#THE guide Isa OBJECT IN table
      NAME tv schedule
      NAME program guide
      IS READABLE.
@@ -7252,26 +7430,49 @@ and...
              END IF.
              "The championship game will be played at 4 o’clock this afternoon!"
      END VERB.
- END THE guide.
+ END THE guide.#
  -----------------------
 ----
 
-The next thing to do is to tell the player what time it is. That is for the next section.
+The next thing to do is to tell the player what time it is. That is
+for the next section.
 
 === Finding a Clock
 
 [float]
 ==== Searching Outside Resources
 
-Obviously if we want to tell the player what time it is, we need a clock. We could invent one to include in our game. But there are often another resources to turn to, especially for complex or difficult tasks such as programming an Interactive Fiction clock. Such resources are the <A HREF="http://groups.yahoo.com/group/alan-if/?yguid=20632878">ALAN Yahoo! Group</A> and <A HREF="http://www.alanif.se">the ALAN website</A> as well as the Google newsgroups <A HREF="http://groups.google.com/group/rec.arts.int-fiction?lnk=srg&hl=en">r.a.i.f.</A> and <A HREF="http://groups.google.com/group/rec.games.int-fiction?lnk=srg&hl=en">r.g.i.f.</A> mentioned in the Introduction to this guide.
+Obviously if we want to tell the player what time it is, we need a
+clock. We could invent one to include in our game. But there are often
+another resources to turn to, especially for complex or difficult
+tasks such as programming an Interactive Fiction clock. Such resources
+are the
+link:http://groups.yahoo.com/group/alan-if/?yguid=20632878[ALAN Yahoo!
+Group] and link:http://www.alanif.se[the ALAN website] as well as the
+Google newsgroups
+link:http://groups.google.com/group/rec.arts.int-fiction?lnk=srg&hl=en[r.a.i.f.]
+and
+link:http://groups.google.com/group/rec.games.int-fiction?lnk=srg&hl=en[r.g.i.f.]
+mentioned in the Introduction to this guide.
 
-An invaluable repository for all things Interactive is the <span style="background-color:#80FFFF; color:# 000000";><A HREF="http://www.ifarchive.org/">IF Archive</A>.
+An invaluable repository for all things Interactive is the
+link:http://www.ifarchive.org/[IF Archive].
 
-Searching these resources, your humble author found a clock at the Alan website (click here). The author of the clock is Steve Griffiths. Thank you, Steve, we are all grateful.
+Searching these resources, your humble author found a clock at the
+Alan website. The author of the clock is Steve Griffiths. Thank you,
+Steve, we are all grateful.
 
-Given below is that same clock, only removed from the train platform and schedule, stripped down and rewired. I have made it into a rather generic clock to include in this game as well as in others we might wish to write. If you like it, I suggest keeping it in a separate folder of library add-ons.
+Given below is that same clock, only removed from the train platform
+and schedule, stripped down and rewired. I have made it into a rather
+generic clock to include in this game as well as in others we might
+wish to write. If you like it, I suggest keeping it in a separate
+folder of library add-ons.
 
-Don’t be put off or overwhelmed by what may appear to be complex or advanced programming. It is that, but that is why we copied it from elsewhere. That is one of the two points I am trying to convey to you the reader: one: outside resources can help in a big way; and two: the clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
+Don’t be put off or overwhelmed by what may appear to be complex or
+advanced programming. It is that, but that is why we copied it from
+elsewhere. That is one of the two points I am trying to convey to you
+the reader: one: outside resources can help in a big way; and two: the
+clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
 
 [subs="quotes"]
 ----
@@ -7346,7 +7547,10 @@ Don’t be put off or overwhelmed by what may appear to be complex or advanced p
 [float]
 ==== Set the Clock in the Game
 
-The clock as stripped down in the previous section is no longer an ".alan" (game source) file; neither is it an ".i" file to be imported. What it is, is a resource to copy, paste, and set to our particular use. Here is how we will use it in our game.
+The clock as stripped down in the previous section is no longer an
+".alan" (game source) file; neither is it an ".i" file to be
+imported. What it is, is a resource to copy, paste, and set to our
+particular use. Here is how we will use it in our game.
 
 Create the Clock OBJECT in the Kitchen:
 
@@ -7354,7 +7558,7 @@ Create the Clock OBJECT in the Kitchen:
 ----
 
  -----------------------
- The clock Isa object AT Kitchen
+ [red]#The clock Isa object AT Kitchen
      IS READABLE.
      DESCRIPTION
      Has hour 3.           — set these three attributes
@@ -7388,7 +7592,7 @@ Create the Clock OBJECT in the Kitchen:
              End If.
              Say ampm Of clock.
          End Verb.
-  End The clock.
+  End The clock.#
  -----------------------
 ----
 
@@ -7398,13 +7602,13 @@ SCHEDULE the Clock to "Tick" in START AT
 ----
  -----------------------
  START AT tv_room.
-     Set timeinminutes Of clock To (hour Of clock * 60) +minute Of clock.
+     [red]#Set timeinminutes Of clock To (hour Of clock * 60) +minute Of clock.
      If ampm Of clock = "pm" Then
          If hour Of clock <12 Then
              Set timeinminutes Of clock To (timeinminutes Of clock +720).
          End If.
      End If.
-     Schedule ticktock After 0.       -- start the clock "ticking"
+     Schedule ticktock After 0.       -- start the clock "ticking"#
      "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
       $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
       $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
@@ -7416,14 +7620,15 @@ SCHEDULE the Clock to "Tick" in START AT
       that was delivered earlier today!"
 ----
 
-The "ticktock" EVENT
+[float]
+==== The "ticktock" EVENT
 
 Nothing new to add to this, just copy and paste.
 
 [subs="quotes"]
 ----
  -----------------------
- Event ticktock
+ [red]#Event ticktock
      -- Increments The Time By Another Minute
      -- Convert Time From "Minutes Past Midnight" To Hh:Mm Am/Pm Format
      Set hour Of clock To timeinminutes Of clock /60.
@@ -7448,7 +7653,7 @@ Nothing new to add to this, just copy and paste.
      End If.
      -- schedule this event to happen again next turn
      Schedule ticktock After 1.
- End Event ticktock.
+ End Event ticktock.#
 ----
 
 Update the Kitchen DESCRIPTION for the Clock
@@ -7459,7 +7664,7 @@ Update the Kitchen DESCRIPTION for the Clock
  THE kitchen Isa LOCATION
      NAME 'Kitchen'
      DESCRIPTION
-         "This is the kitchen. There is a counter and a cupboard here, as well as a clock.
+         "This is the kitchen. There is a counter and a cupboard here, [red]#as well as a clock#.
           $pNorth returns to the TV Room."
      EXIT north TO tv_room
          CHECK kitchen_door IS OPEN
@@ -7479,19 +7684,23 @@ Update the Kitchen DESCRIPTION for the Clock
 [float]
 ==== Check the Time
 
-When the player successfully turns on the tv, the last thing to check before winning the game is whether he/she turned the tv on in time for the big game. Since we created an OBJECT at Nowhere to act as a sub-routine for us when the player turns on the TV, we will check the time there.
+When the player successfully turns on the tv, the last thing to check
+before winning the game is whether he/she turned the tv on in time for
+the big game. Since we created an OBJECT at Nowhere to act as a
+sub-routine for us when the player turns on the TV, we will check the
+time there.
 
 [subs="quotes"]
 ----
  -----------------------
  THE win_tv Isa OBJECT AT Nowhere
      DESCRIPTION
-         IF timeinminutes OF clock > 960 THEN -- 4 pm in minutes
+         [red]#IF timeinminutes OF clock > 960 THEN -- 4 pm in minutes
              "Ohhh, it's too late!
               $nYou missed the big game...
-              $p*** You have lost. *** "
+              $p\*\** You have lost. \***"
              QUIT.
-         ELSE
+         ELSE#
              MAKE tv 'on'.
              "Wow! What a great picture!"
              SHOW 'plasma.jpg'.
@@ -7499,7 +7708,7 @@ When the player successfully turns on the tv, the last thing to check before win
              "$n$nAnd so have you..."
              "$p\*\** You have won! \***"
              QUIT.
-         END IF.
+         [red]#END IF.#
  END THE win_tv.
  -----------------------
 ----
@@ -7508,51 +7717,69 @@ The clock "time bomb" EVENT is completed. Try it!
 
 === A Colorful EVENT
 
-It often helps to add color and direction to the game to have a repeating EVENT, much like the "time bomb" example <a href="#B0048474C4E163C6FB8E3030ABF2ADBB29E4708C">here</A>. We will trigger a repeating EVENT reminding the player of time going by, once they read the tv schedule.
+It often helps to add color and direction to the game to have a
+repeating EVENT, much like the "time bomb" example <a
+href="#B0048474C4E163C6FB8E3030ABF2ADBB29E4708C">here</A>. We will
+trigger a repeating EVENT reminding the player of time going by, once
+they read the tv schedule.
 
 First, the EVENT:
 
 [subs="quotes"]
 ----
  -----------------------
- EVENT time_pass
+ [red]#EVENT time_pass
      "$pThe clock is ticking..."
      SCHEDULE time_pass AT Hero AFTER 4.
- END EVENT.
+ END EVENT.#
  -----------------------
 ----
 
-As we have seen, this will print the "clock is ticking" message to the screen every four turns. It would probably be better if this message were not to become obviously routine to the player, i.e., that it will appear every four turns. We can vary the interval to whatever we like, say, randomly every four to six turns. For this we use the RANDOM statement:
+As we have seen, this will print the "clock is ticking" message to the
+screen every four turns. It would probably be better if this message
+were not to become obviously routine to the player, i.e., that it will
+appear every four turns. We can vary the interval to whatever we like,
+say, randomly every four to six turns. For this we use the RANDOM
+statement:
 
 [subs="quotes"]
 ----
  -----------------------
  EVENT time_pass
      "$pThe clock is ticking..."
-     SCHEDULE time_pass AT Hero AFTER RANDOM 4 TO 6.
+     SCHEDULE time_pass AT Hero AFTER [red]#RANDOM 4 TO 6#.
  END EVENT.
  -----------------------
 ----
 
-We can vary the message as well, using the RANDOM statement along with DEPENDING ON.
+We can vary the message as well, using the RANDOM statement along with
+DEPENDING ON.
 
 [subs="quotes"]
 ----
  -----------------------
  EVENT time_pass
-     DEPENDING ON RANDOM 1 to 3
+     [red]#DEPENDING ON RANDOM 1 to 3
          = 1 THEN "$pThe time for the big game is getting nearer."
          = 2 THEN "$pDon't let time get away from you!"
          = 3 THEN "$pThe clock is ticking..."
-     END DEPEND.
+     END DEPEND.#
      SCHEDULE time_pass AT Hero AFTER RANDOM 4 to 6.
  END EVENT.
  -----------------------
 ----
 
-The program will generate a "random" number from 1 to 3, and DEPENDING ON what number it is, will print that message to the screen. Then it will generate another "random" number from 4 to 6, and SCHEDULE the EVENT to happen again at that interval.
+The program will generate a "random" number from 1 to 3, and DEPENDING
+ON what number it is, will print that message to the screen. Then it
+will generate another "random" number from 4 to 6, and SCHEDULE the
+EVENT to happen again at that interval.
 
-Trigger the SCHEDULE with a VERB</b> We will SCHEDULE the time_pass EVENT to begin after the player reads the tv guide. But we don’t want the EVENT to happen immediately upon their reading it, but a few turns after that.
+[float]
+==== Trigger the SCHEDULE with a VERB
+
+We will SCHEDULE the time_pass EVENT to begin after the player reads
+the tv guide. But we don’t want the EVENT to happen immediately upon
+their reading it, but a few turns after that.
 
 [subs="quotes"]
 ----
@@ -7571,16 +7798,19 @@ Trigger the SCHEDULE with a VERB</b> We will SCHEDULE the time_pass EVENT to beg
                  LOCATE guide IN Hero.
                  "(First picking it up)$p"
              END IF.
-             SCHEDULE time_pass AT Hero AFTER 4.
+             [red]#SCHEDULE time_pass AT Hero AFTER 4.#
              "The championship game will be played at 4 o'clock this afternoon!"
      END VERB.
  END THE guide.
  -----------------------
 ----
 
-That completes our game and the tutorial. I hope this proves to be a help to you in using the Alan 3 Adventure language.
+That completes our game and the tutorial. I hope this proves to be a
+help to you in using the Alan 3 Adventure language.
 
 === Compile and Play It!
+
+Here follows the complete source to the tutorial game.
 
 [subs="quotes"]
 ----
@@ -7591,7 +7821,7 @@ That completes our game and the tutorial. I hope this proves to be a help to you
  -----------------------------------------------
  IMPORT 'std.i'.
  -----------------------
- -- *** CUSTOM CLASSES: ***
+ -- \*\** CUSTOM CLASSES: \***
  Every SURFACE Isa OBJECT
  CONTAINER
  HEADER
@@ -7997,7 +8227,7 @@ That completes our game and the tutorial. I hope this proves to be a help to you
  "You push harder against the big plasma tv.
  $pOh no! It tips over and crashes to the floor.
  Your brand new plasma tv is broken.
- $p*** You have lost. *** "
+ $p\*\** You have lost. \***"
  QUIT.
  ELSE
  "You will have to push the tv harder than that
@@ -8012,7 +8242,7 @@ That completes our game and the tutorial. I hope this proves to be a help to you
  THEN
  "Ohhh, it's too late!
  $nYou missed the big game...
- $p*** You have lost. *** "
+ $p\*\** You have lost. \***"
  QUIT.
  ELSE
  MAKE tv 'on'.
