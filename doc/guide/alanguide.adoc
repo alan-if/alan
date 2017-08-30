@@ -1,12 +1,41 @@
 = ALAN 3 BEGINNER’S GUIDE
 
-Initial version by Michael Arnaud © 2006, Converted to AsciiDOC by Thomas Nilefalk © 2014-2017
+- Initial version by Michael Arnaud © 2006
+- Converted to AsciiDOC by Thomas Nilefalk © 2014-2017
 
 *The Alan Adventure Language* - created by Thomas Nilefalk
 
 *Beginner’s Guide* - by Michael Arnaud © 2006
 
 image::images\4EA5EB596A6EDB3CC92206A2D8BDF967E38BD9B6.jpg[]
+
+== Notes on the current version
+
+This excellent guide was written by Michael Arnaud back in 2006. It
+got published on the link:http://alanif.se[Alan website], where it
+still lives, but the original sources was lost. It was written in a
+format that made it possible to generate various output formats. Today
+the format of choice with those properties is
+link:http://asciidoc.org[AsciiDOC].
+
+In 2014 I started converting it from the only remaining format, the
+HTLM.  By cleaning that from crud I could make AsciiDOC out of
+it. Then it was mostly a matter of restoring the formatting that
+Michael intended. I think it is fairly true to the intention.
+
+The library that is used in this guide is no longer current. Anssi
+Räisanen have made huge efforts in creating a better library, which is
+available at the link:http://alanif.se[Alan website]. Perhaps someone
+is interested in converting this guide to use a moderna Alan library.
+
+Even so, it is a clear and concise guide on writing text adventures
+with Alan. I hope his efforts in writing this, and mine in converting
+it to a modern, and sustainable format, make this helpful to someone.
+
+As a last side note, in 2016 I changed my last name from Nilsson to
+Nilefalk.
+
+_Thomas Nilefalk, 2017_
 
 == Introduction
 === Introduction to Alan 3
