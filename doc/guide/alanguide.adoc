@@ -1258,11 +1258,11 @@ in [yellow-background]#yellow#.
 ----
  -- turn.i -- Library version 0.5.0
  -- 0.4.1 - converted to ALANv3
- #Add To Every object
-     Is
-         Not 'on'.
-         Not switchable.
- End Add To object.#
+ #Add To Every object#
+     #Is#
+         #Not 'on'.#
+         #Not switchable.#
+ #End Add To object.#
 
  Syntax
      turn_on1 = turn on (obj)
@@ -1278,17 +1278,17 @@ in [yellow-background]#yellow#.
          Where obj Isa object
              Else "You can't switch that on."
 
- #Add To Every object
-     Verb turn_on1, turn_on2, switch_on1, switch_on2
-         Check obj Is switchable
-              Else "You can't turn that on."
-         And obj Is Not 'on'
-              Else "It's already on."
-              Does
-                  Make obj 'on'.
-                  "You turn on" Say The obj. "."
-     End Verb.
- End Add To.#
+ #Add To Every object#
+     #Verb turn_on1, turn_on2, switch_on1, switch_on2#
+         #Check obj Is switchable#
+              #Else "You can't turn that on."#
+         #And obj Is Not 'on'#
+              #Else "It's already on."#
+              #Does#
+                  #Make obj 'on'.#
+                  #"You turn on" Say The obj. "."#
+     #End Verb.#
+ #End Add To.#
 
  Syntax
      turn_off1 = turn off (obj)
@@ -1304,17 +1304,17 @@ in [yellow-background]#yellow#.
          Where obj Isa object
              Else "You can't switch that off."
 
- #Add To Every object
-     Verb turn_off1, turn_off2, switch_off1, switch_off2
-         Check obj Is switchable
-             Else "You can't turn that off."
-         And obj Is 'on'
-             Else "It's already off."
-     Does
-         Make obj Not 'on'.
-         "You turn off" Say The obj. "."
-     End Verb.
- End Add To.#
+ #Add To Every object#
+     #Verb turn_off1, turn_off2, switch_off1, switch_off2#
+         #Check obj Is switchable#
+             #Else "You can't turn that off."#
+         #And obj Is 'on'#
+             #Else "It's already off."#
+     #Does#
+         #Make obj Not 'on'.#
+         #"You turn off" Say The obj. "."#
+     #End Verb.#
+ #End Add To.#
 ----
 
 Let's look at the first section above:
@@ -1350,9 +1350,9 @@ To Every OBJECT, this time several VERBS.
 [subs="quotes"]
 ----
  Add To Every object
-     Verb turn_on1, turn_on2, switch_on1, switch_on2
-         Check obj Is switchable
-              Else "You can't turn that on."
+     #Verb turn_on1, turn_on2, switch_on1, switch_on2#
+         #Check obj Is switchable#
+              #Else "You can't turn that on."#
          And obj Is Not 'on'
               Else "It's already on."
               Does
@@ -1367,9 +1367,9 @@ and
 [subs="quotes"]
 ----
  Add To Every object
-     Verb turn_off1, turn_off2, switch_off1, switch_off2
-         Check obj Is switchable
-             Else "You can't turn that off."
+     #Verb turn_off1, turn_off2, switch_off1, switch_off2#
+         #Check obj Is switchable#
+             #Else "You can't turn that off."#
          And obj Is 'on'
              Else "It's already off."
      Does
@@ -1502,7 +1502,7 @@ look at the "take" VERB in the library.
  ...
  Add To Every object
      Verb take, pick_up1, pick_up2
-         [yellow-background]#Check obj Is takeable#
+         #Check obj Is takeable#
              Else "You can't take that!"
          ...
          Does
@@ -1583,7 +1583,7 @@ Looking at the VERB in "take.i" again, we see:
          Check obj Is takeable
              Else "You can't take that!"
          --- etc. ---
-         #And weight Of obj &lt;=50
+         #And weight Of obj &lt;= 50
              Else "That is too heavy to lift."#
          Does
              Locate obj In hero.
@@ -1643,40 +1643,40 @@ Now it is time to learn how to modify the responses for each
 OBJECT. We will start with the "look at" command, found in the
 library’s "examine.i" file ( not the "look.i" file, which "looks" at
 the LOCATION; we want to "look at", or "examine" the OBJECTS). Again,
-the relevant sections are highlighted in yellow (*bold*).
+the relevant sections are highlighted in #yellow#.
 
 [subs="quotes"]
 ----
  -- examine.i
  -- Library version 0.5.0
  -- 0.4.1 - converted to ALANv3
- *ADD TO EVERY THING*
-     *IS*
-         *examinable.*
-         *searchable.*
- *END ADD TO THING.*
+ #ADD TO EVERY THING#
+     #IS#
+         #examinable.#
+         #searchable.#
+ #END ADD TO THING.#
  ADD TO EVERY ACTOR
      IS
          NOT searchable.
  END ADD TO ACTOR.
  ----
- *SYNONYMS*
-     *x, inspect, 'check' = examine.*
- *SYNTAX*
-     *examine = examine (obj) \**
+ #SYNONYMS#
+     #x, inspect, 'check' = examine.#
+ #SYNTAX#
+     #examine = examine (obj) *#
   WHERE obj ISA THING
     ELSE "You can't examine that!"
- *SYNTAX*
-     *examine = 'look' 'at' (obj) **
- Add To Every thing
-     Verb examine
-         Check obj Is examinable
-         Else
-             "You can’t examine" Say The obj. "."
-         Does
-             "There is nothing special about" Say The obj. "."
-     End Verb.
- End Add To.
+ #SYNTAX#
+     #examine = 'look' 'at' (obj) *#
+ #Add To Every thing#
+     #Verb examine#
+         #Check obj Is examinable#
+         #Else#
+             #"You can’t examine" Say The obj. "."#
+         #Does#
+             #"There is nothing special about" Say The obj. "."#
+     #End Verb.#
+ #End Add To.#
  ...
 ----
 
@@ -5119,13 +5119,13 @@ include for the player:
          And obj2 Isa object
              Else "You can't open anything with that."
  Add To Every object
-     *Verb open_with*
-          *When obj1*
-              *Check obj2 Here -- *** CHANGED In hero, etc. ***
-_yellow       Else "You don't see" Say The obj2. "here."
-_yellow    Does
-_yellow       "You can't open" Say The obj1. "with" Say The _yellowobj2. "."
-_yellow  End Verb.
+     #Verb open_with#
+          #When obj1#
+              #Check obj2 Here -- \*\** CHANGED In hero, etc. \***#
+                   #Else "You don't see" Say The obj2. "here."#
+              #Does#
+                  #"You can't open" Say The obj1. "with" Say The _yellowobj2. "."#
+     #End Verb.#
  End Add To.
 ----
 
@@ -7340,7 +7340,7 @@ VERB or in the START AT section.
      VERB touch
          DOES ONLY
              "Oh no! Your touch has started the bomb's timer ticking!"
-             _yellow SCHEDULE bomb_explode AT bomb AFTER 50.
+              #SCHEDULE bomb_explode AT bomb AFTER 50.#
      END VERB.
  END THE bomb.
 ----
@@ -7357,7 +7357,7 @@ within the EVENT you want to repeat.
  EVENT bomb_tick
      "$t&lt;tick... tick...&gt;
       $pThe bomb is ticking. Time is getting short."
-      _yellow       SCHEDULE bomb_tick AFTER 3.
+      #SCHEDULE bomb_tick AFTER 3.#
  END EVENT.
 ----
 
@@ -7377,8 +7377,8 @@ want the bomb to explode after being defused, so we CANCEL the EVENT.
      END VERB.
      VERB defuse
          "You remove the timer and fuse from the bomb. Whew!"
-         _yellow CANCEL bomb_explode.
-         _yellow        CANCEL bomb_tick.
+         #CANCEL bomb_explode.#
+         #CANCEL bomb_tick.#
      END VERB.
  END THE bomb.
 ----
@@ -7477,7 +7477,7 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
 [subs="quotes"]
 ----
  -- clock
- _yellowThe clock Isa object
+ #The clock Isa object#
      Has hour 4.  -- set these three attributes
      Has minute 50. -- to specify the time of day
      Has ampm "pm". -- you want when the game starts
@@ -7500,10 +7500,10 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
              Say ampm Of clock.
      End Verb.
  End The clock.
- _yellowEvent ticktock
+ #Event ticktock#
      -- Increments The Time By Another Minute
      -- Convert Time From "Minutes Past Midnight" To Hh:Mm Am/Pm Format
-     Set hour Of clock To timeinminutes Of clock /60.
+     Set hour Of clock To timeinminutes Of clock / 60.
      If hour Of clock &gt;=12 Then
          Set ampm Of clock To "pm".
          If hour Of clock >12 Then
@@ -7515,7 +7515,7 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
              Set hour Of clock To 12.
          End If.
      End If.
-     Set minute Of clock To timeinminutes Of clock -((timeinminutes Of clock /60) *60).
+     Set minute Of clock To timeinminutes Of clock -((timeinminutes Of clock / 60) * 60).
      -- Increment time by one minute
      -- (If its 11:59pm set clock to zero ie:midnight instead)
      If timeinminutes Of clock &lt; 1439 Then
@@ -7523,8 +7523,8 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
      Else
          Set timeinminutes Of clock To 0.
      End If.
-     _yellow -- schedule this event to happen again next turn
-     _yellow Schedule ticktock After 1.
+     #-- schedule this event to happen again next turn#
+     #Schedule ticktock After 1.#
  End Event ticktock.
  -- Information for the START AT section
  Start At starting_location.
@@ -7532,14 +7532,13 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
      -- from the hh:mm am/pm format
      -- used in source-code to "minutes past midnight" format to make
      -- calculations easier
-     Set timeinminutes Of clock To (hour Of clock *60) +minute Of clock.
+     Set timeinminutes Of clock To (hour Of clock * 60) + minute Of clock.
      If ampm Of clock = "pm" Then
          If hour Of clock &lt; 12 Then
-             Set timeinminutes Of clock To (timeinminutes Of clock +720).
+             Set timeinminutes Of clock To (timeinminutes Of clock + 720).
          End If.
      End If.
-     _yellow Schedule ticktock After 0.       -- start the clock
-     _yellow"ticking"
+     #Schedule ticktock After 0.       -- start the clock "ticking"#
 ----
 
 === Set the Clock
@@ -7602,10 +7601,10 @@ SCHEDULE the Clock to "Tick" in START AT
 ----
  -----------------------
  START AT tv_room.
-     [red]#Set timeinminutes Of clock To (hour Of clock * 60) +minute Of clock.
+     [red]#Set timeinminutes Of clock To (hour Of clock * 60) + minute Of clock.
      If ampm Of clock = "pm" Then
          If hour Of clock &lt; 12 Then
-             Set timeinminutes Of clock To (timeinminutes Of clock +720).
+             Set timeinminutes Of clock To (timeinminutes Of clock + 720).
          End If.
      End If.
      Schedule ticktock After 0.       -- start the clock "ticking"#
@@ -7631,7 +7630,7 @@ Nothing new to add to this, just copy and paste.
  [red]#Event ticktock
      -- Increments The Time By Another Minute
      -- Convert Time From "Minutes Past Midnight" To Hh:Mm Am/Pm Format
-     Set hour Of clock To timeinminutes Of clock /60.
+     Set hour Of clock To timeinminutes Of clock / 60.
      If hour Of clock &gt;=12 Then
          Set ampm Of clock To "pm".
          If hour Of clock &gt;12 Then
@@ -7643,7 +7642,7 @@ Nothing new to add to this, just copy and paste.
              Set hour Of clock To 12.
          End If.
      End If.
-     Set minute Of clock To timeinminutes Of clock -((timeinminutes Of clock /60) *60).
+     Set minute Of clock To timeinminutes Of clock -((timeinminutes Of clock / 60) * 60).
      -- Increment time by one minute
      -- (If its 11:59pm set clock to zero ie:midnight instead)
      If timeinminutes Of clock &lt; 1439 Then
@@ -8483,7 +8482,7 @@ Here follows the complete source to the tutorial game.
  Event ticktock
  -- Increments The Time By Another Minute
  -- Convert Time From "Minutes Past Midnight" To Hh:Mm Am/Pm Format
- Set hour Of clock To timeinminutes Of clock /60.
+ Set hour Of clock To timeinminutes Of clock / 60.
  If hour Of clock &gt;=12 Then
  Set ampm Of clock To
  "pm".
@@ -8497,7 +8496,7 @@ Here follows the complete source to the tutorial game.
  Set hour Of clock To 12.
  End If.
  End If.
- Set minute Of clock To timeinminutes Of clock  - ((timeinminutes Of clock /60) *60).
+ Set minute Of clock To timeinminutes Of clock  - ((timeinminutes Of clock / 60) * 60).
  -- Increment time by one minute
  -- (If its 11:59pm set clock to zero ie:midnight instead)
  If timeinminutes Of clock &lt;1439 Then
@@ -8512,11 +8511,11 @@ Here follows the complete source to the tutorial game.
  MESSAGE SEE_START: "You see $01"
  -----------------------
  START AT tv_room.
- Set timeinminutes Of clock To (hour Of clock *60) +minute Of clock.
+ Set timeinminutes Of clock To (hour Of clock * 60) + minute Of clock.
  If ampm Of clock =
  "pm" Then
  If hour Of clock &lt;12 Then
- Set timeinminutes Of clock To (timeinminutes Of clock +720).
+ Set timeinminutes Of clock To (timeinminutes Of clock + 720).
  End If.
  End If.
  Schedule ticktock After 0.       -- start the clock "ticking"
