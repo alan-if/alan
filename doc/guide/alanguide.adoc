@@ -302,9 +302,9 @@ information displayed to the player, are placed within double quotes.
      NAME 'TV Room'
      [red]#DESCRIPTION
          "This is your favorite room in the house, because you love to
-          watch television. You recently purchased a giant screen plasma TV
-          that is set up in this room, ideally located across from your
-          comfy chair and table."#
+           watch television. You recently purchased a giant screen
+           plasma TV that is set up in this room, ideally located
+           across from your comfy chair and table."#
  END THE tv_room.
  ...
 ----
@@ -348,10 +348,10 @@ back to the TV Room), we need to put an `EXIT` in the other
  THE tv_room Isa LOCATION
     NAME 'TV Room'
     DESCRIPTION
-        "This is your favorite room in the house, because you love to watch
-        television. You recently purchased a giant screen plasma TV that is
-        set up in this room, ideally located across from your comfy chair
-        and table."
+        "This is your favorite room in the house, because you love to
+         watch television. You recently purchased a giant screen plasma
+         TV that is set up in this room, ideally located across from
+         your comfy chair and table."
     [red]#EXIT south TO kitchen. -- Note the full-stop.#
  END THE tv_room.
  -----------------------
@@ -365,7 +365,8 @@ back to the TV Room), we need to put an `EXIT` in the other
  START AT tv_room.
 ----
 
-Compile and run the game. You can go back and forth from the TV Room to the Kitchen.
+Compile and run the game. You can go back and forth from the TV Room
+to the Kitchen.
 
 [[nowhere]]
 === DIRECTIONS TO Nowhere
@@ -375,7 +376,8 @@ and "north" from the Kitchen. But suppose the player would like to go
 east or west or up or down? The interpreter does not know what any of
 those words mean, and will tell the player so.
 
-TIP: In game transcripts we'll use _italics_ to indicate what the player types.
+TIP: In game transcripts we'll use _italics_ to indicate what the
+player types.
 
 [subs="quotes"]
 ----
@@ -655,9 +657,9 @@ importing into our source file.
  -- Scenery import scenery.i.
  -- Inventory verb and inventory limits (including clothing items)
  import 'invent.i'.
- -- The limbo location and directions
- -- Defines directions as full words, and short directions as synonyms to these.
- -- So remember to use the full words in your exits or you will have E 333's
+ -- The limbo location and directions Defines directions as full
+ -- words, and short directions as synonyms to these. So remember to
+ -- use the full words in your exits or you will have E 333's
  -- (e.g. 'e' defined both as a synonym and another word class)
  #import 'nowhere.i'.#
  -- Verbose and brief mode
@@ -719,9 +721,9 @@ would do that:
      NAME TV Room
      DESCRIPTION
          "This is your favorite room in the house, because you love to
-         watch television. You recently purchased a giant screen plasma TV
-         that is set up in this room, ideally located across from your
-         comfy chair and table."
+          watch television. You recently purchased a giant screen
+          plasma TV that is set up in this room, ideally located across
+          from your comfy chair and table."
      EXIT south TO kitchen.
      [red]#EXIT north, east, west TO tv_room
          CHECK
@@ -785,7 +787,8 @@ anywhere. Like this:
      EXIT south TO kitchen.
      EXIT north, east, west TO hall
          CHECK
-             "You move about in the great hall, examining various things."
+             "You move about in the great hall, examining various
+              things."
      END EXIT.
  END THE hall.
 ----
@@ -814,7 +817,10 @@ the response:
 [subs="quotes"]
 ----
 TV Room
-This is your favorite room in the house, because you love to watch television. You recently purchased a giant screen plasma TV that is set up in this room, ideally located across from your comfy chair and table.
+This is your favorite room in the house, because you love to watch
+television. You recently purchased a giant screen plasma TV that is
+set up in this room, ideally located across from your comfy chair and
+table.
 
 > _south_
 
@@ -832,9 +838,9 @@ another. We can do that within the EXIT statements.
      NAME 'TV Room'
      DESCRIPTION
          "This is your favorite room in the house, because you love to
-         watch television. You recently purchased a giant screen plasma TV
-         that is set up in this room, ideally located across from your
-         comfy chair and table."
+          watch television. You recently purchased a giant screen plasma
+          TV that is set up in this room, ideally located across from
+          your comfy chair and table."
      EXIT south TO kitchen
          [red]#DOES
              "You go south, into the kitchen."
@@ -901,10 +907,11 @@ DESCRIPTION.
  THE tv_room Isa LOCATION
     NAME TV Room
     DESCRIPTION
-        "This is your favorite room in the house, because you love to watch
-         television. You recently purchased a giant screen plasma TV that is
-         set up in this room, ideally located across from your comfy chair and
-         table. [red]#The kitchen is south.#"
+        "This is your favorite room in the house, because you love to
+         watch television. You recently purchased a giant screen
+         plasma TV that is set up in this room, ideally located
+         across from your comfy chair and table. [red]#The kitchen is
+         south.#"
  ...
  THE kitchen Isa LOCATION
      NAME Kitchen
@@ -1008,9 +1015,9 @@ It is a good idea to code OBJECTS following their LOCATIONS.
      NAME TV Room
      DESCRIPTION
          "This is your favorite room in the house, because you love to
-         watch television. You recently purchased a giant screen plasma TV
-         that is set up in this room, ideally located across from your
-         comfy chair and table. The kitchen is south."
+          watch television. You recently purchased a giant screen
+          plasma TV that is set up in this room, ideally located across
+          from your comfy chair and table. The kitchen is south."
      EXIT south TO kitchen
          DOES
              "You go south, into the kitchen."
@@ -2446,10 +2453,10 @@ DESCRIPTION.
  THE tv_room Isa LOCATION
      NAME 'TV Room'
          DESCRIPTION
-             "This is your favorite room in the house, because you love to watch
-              television. [red]#Your new plasma TV# is set up in this room, ideally located
-              across from your comfy chair and table.
-              $pThe kitchen is south."
+             "This is your favorite room in the house, because you
+              love to watch television. [red]#Your new plasma TV# is
+              set up in this room, ideally located across from your
+              comfy chair and table.  $pThe kitchen is south."
  ...
 ----
 
@@ -3016,57 +3023,58 @@ This completes our first "simple" game.
  IMPORT 'std.i'.
  -----------------------
  THE tv_room Isa LOCATION
- NAME 'TV Room'
- DESCRIPTION
- "This is your favorite room in the house, because you love to watch television.
- Your new plasma TV is set up in this room, ideally located across from your comfy chair and table.
-$pThe kitchen is south."
- EXIT south TO kitchen
- DOES
-  "You go south, into the kitchen."
-END EXIT.
- EXIT north, east, west TO tv_room
- CHECK
-  "There is only a wall in that direction."
-END EXIT.
+     NAME 'TV Room'
+         DESCRIPTION
+             "This is your favorite room in the house, because you
+              love to watch television.  Your new plasma TV is set up
+              in this room, ideally located across from your comfy
+              chair and table.  $pThe kitchen is south."
+     EXIT south TO kitchen
+         DOES
+             "You go south, into the kitchen."
+     END EXIT.
+     EXIT north, east, west TO tv_room
+         CHECK
+             "There is only a wall in that direction."
+     END EXIT.
  END THE tv_room.
  -----------------------
-THE remote Isa OBJECT AT Nowhere
-NAME remote control NAME controller
-NAME control remote NAME remote
-NAME button NAME simple push buttons
-IS SWITCHABLE.
- PUSHABLE.
- VERB examine
- DOES ONLY
-  "It's a very simple push-button remote control."
-END VERB.
- VERB turn_on1, turn_on2, switch_on1, switch_on2
- DOES ONLY
-  MAKE tv 'on'.
-  "Wow! What a great picture!"
-  SHOW 'plasma.jpg'.
-  "$n$nYou watch the game and your favorite team wins!"
-  "$n$nAnd so have you..."
-  "$p\*\** You have won! \***"
-  QUIT.
-END VERB.
- VERB push
- DOES ONLY
-  MAKE tv 'on'.
-  "Wow! What a great picture!"
-  SHOW 'plasma.jpg'.
-  "$n$nYou watch the game and your favorite team wins!"
-  "$n$nAnd so have you..."
-  "$p\*\** You have won! \***"
-  QUIT.
-END VERB.
+ THE remote Isa OBJECT AT Nowhere
+     NAME remote control NAME controller
+     NAME control remote NAME remote
+     NAME button NAME simple push buttons
+     IS SWITCHABLE.
+        PUSHABLE.
+     VERB examine
+         DOES ONLY
+             "It's a very simple push-button remote control."
+     END VERB.
+     VERB turn_on1, turn_on2, switch_on1, switch_on2
+         DOES ONLY
+             MAKE tv 'on'.
+             "Wow! What a great picture!"
+             SHOW 'plasma.jpg'.
+             "$n$nYou watch the game and your favorite team wins!"
+             "$n$nAnd so have you..."
+             "$p\*\** You have won! \***"
+             QUIT.
+     END VERB.
+     VERB push
+         DOES ONLY
+             MAKE tv 'on'.
+             "Wow! What a great picture!"
+             SHOW 'plasma.jpg'.
+             "$n$nYou watch the game and your favorite team wins!"
+             "$n$nAnd so have you..."
+             "$p\*\** You have won! \***"
+             QUIT.
+     END VERB.
  END THE remote.
  -----------------------
-SYNONYMS
- television = tv.
-THE tv Isa OBJECT AT tv_room
-NAME TV NAME plasma NAME brand NAME new
+ SYNONYMS
+     television = tv.
+ THE tv Isa OBJECT AT tv_room
+     NAME TV NAME plasma NAME brand NAME new
 NAME screen NAME giant
 NAME brand new giant screen plasma tv
 IS SWITCHABLE.
