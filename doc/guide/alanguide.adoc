@@ -1623,8 +1623,8 @@ Looking at the VERB in "take.i" again, we see:
          Check obj Is takeable
              Else "You can't take that!"
          --- etc. ---
-         #And weight Of obj &lt;= 50
-             Else "That is too heavy to lift."#
+         #And weight Of obj &lt;= 50#
+             #Else "That is too heavy to lift."#
          Does
              Locate obj In hero.
              "Taken."
@@ -2067,9 +2067,10 @@ the player character, if we wish) from one place to another. The place
 can be a LOCATION, a CONTAINER, near another OBJECT, etc., depending
 on other factors.
 
-In this case the "take" action will LOCATE the tv (obj) "In hero." _
-The Hero is the default player character, and is also_ the default
-player’s inventory CONTAINER.  That is, anything carried by the Hero
+In this case the "take" action will LOCATE the tv (obj) "In hero".
+
+_The Hero is the default player character,_ and is also _the default
+player’s inventory CONTAINER_. That is, anything carried by the Hero
 (the player character) is said to be IN the Hero. So to LOCATE the tv
 IN the Hero means that the tv will no longer be in the TV Room, but be
 carried by the player character.
@@ -2088,7 +2089,7 @@ simply omit the LOCATE statement from the "take" VERB.
 ----
 
 The default LOCATE will not apply because it is in the DOES section of
-the default VERB. We are overriding _ _everything in the DOES section
+the default VERB. We are overriding _everything_ in the DOES section
 of the default VERB with DOES ONLY.
 
 Of course the "Taken" message makes no sense now. We can put a custom
@@ -2113,9 +2114,9 @@ message in its place.
      End Verb.
      Verb take, pick_up1, pick_up2
          Does ONLY
-             [red]#"You try to wrap your arms around the giant screen but it is
-             too wide. You can’t get a good grip on the heavy TV to lift
-             it."#
+             [red]#"You try to wrap your arms around the giant screen
+              but it is too wide. You can’t get a good grip on the
+              heavy TV to lift it."#
      End Verb.
  END THE tv.
  ...
@@ -2257,9 +2258,9 @@ statement. Here is how it is done for the tv:
      End Verb.
      Verb take, pick_up1, pick_up2
          Does ONLY
-             "You try to wrap your arms around the giant screen but it is
-             too wide. You can’t get a good grip on the heavy TV to lift
-             it."
+             "You try to wrap your arms around the giant screen but it
+              is too wide. You can’t get a good grip on the heavy TV to
+              lift it."
      End Verb.
      Verb turn_on1, turn_on2, switch_on1, switch_on2
          Does ONLY
@@ -2339,8 +2340,8 @@ START AT statement.
       $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
       $n$t$t$t$t$t$t$tBy Michael Arnaud © 2006
       $p(Type ""help"" if you have not played this kind of game before.)
-      $pJoy of joys, you have just purchased a brand new big screen plasma TV
-      that was delivered earlier today!"#
+      $pJoy of joys, you have just purchased a brand new big screen
+      plasma TV that was delivered earlier today!"#
 ----
 
 [float]
@@ -2353,8 +2354,9 @@ symbols, that do the following:
 ----
 $p — "paragraph"  Prints a blank line to the screen and then begins a new
                   line of text.
-$n — "new"        Begins a new line of text without first printing a blank line.
-$t — "tab"        Inserts a tab.
+$n — "new"        Begins a new line of text without first printing a blank
+                  line.
+$t — "tab"        Inserts a tab.
 ----
 
 (There is more of this in the manual, ¶ 4.16.1). Formatting like this
@@ -2382,9 +2384,10 @@ more logical and easy-to-read way. Like this:
      [red]#"$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***"
      "$n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game"
      "$n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006"
-     "$p(Type ""help"" if you have not played this kind of game before.)"
-     "$pJoy of joys, you have just purchased a brand new big screen plasma
-      TV that was delivered earlier today!"#
+     "$p(Type ""help"" if you have not played this kind of game
+      before.)"
+     "$pJoy of joys, you have just purchased a brand new
+      big screen plasma TV that was delivered earlier today!"#
 ----
 
 Either of these layouts will print the same information to the
@@ -2513,7 +2516,8 @@ searching the chair and finding the remote control.
  Verb turn_on1, turn_on2, switch_on1, switch_on2
      Does ONLY
          [red]#-- We removed MAKE tv on.
-         "There are no knobs, switches or buttons for turning on the TV."#
+         "There are no knobs, switches or buttons for turning on the
+          TV."#
  End Verb.
  ...
 ----
@@ -2739,8 +2743,8 @@ chair.
  VERB examine
      DOES ONLY
          "It's your favorite chair to sit in when you're watching the big
-          game. [red]#It has big soft comfy cushions -- just the kind people lose
-          change in all the time.#"
+          game. [red]#It has big soft comfy cushions -- just the kind people
+          lose change in all the time.#"
  END VERB.
  ...
 ----
@@ -3075,81 +3079,85 @@ This completes our first "simple" game.
      television = tv.
  THE tv Isa OBJECT AT tv_room
      NAME TV NAME plasma NAME brand NAME new
-NAME screen NAME giant
-NAME brand new giant screen plasma tv
-IS SWITCHABLE.
-DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's your 52-inch plasma pride and joy."
-END VERB.
- VERB take, pick_up1, pick_up2
- DOES ONLY
-  "You try to wrap your arms around the giant screen but it is too wide.
-  You can't get a good grip on the heavy TV to lift it."
-END VERB.
- VERB turn_on1, turn_on2, switch_on1, switch_on2
- CHECK remote Here
-  ELSE
-    "There are no knobs, switches or buttons for turning on the TV."
- DOES ONLY
-  MAKE tv 'on'.
-  "Wow! What a great picture!"
-  SHOW 'plasma.jpg'.
-  "$n$nYou watch the game and your favorite team wins!"
-  "$n$nAnd so have you..."
-  "$p\*\** You have won! \***"
-  QUIT.
-END VERB.
+     NAME screen NAME giant
+     NAME brand new giant screen plasma tv
+     IS SWITCHABLE.
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's your 52-inch plasma pride and joy."
+     END VERB.
+     VERB take, pick_up1, pick_up2
+         DOES ONLY
+             "You try to wrap your arms around the giant screen but it
+              is too wide.  You can't get a good grip on the heavy
+              TV to lift it."
+     END VERB.
+     VERB turn_on1, turn_on2, switch_on1, switch_on2
+         CHECK remote Here
+             ELSE
+                 "There are no knobs, switches or buttons for turning on
+                  the TV."
+         DOES ONLY
+             MAKE tv 'on'.
+             "Wow! What a great picture!"
+             SHOW 'plasma.jpg'.
+             "$n$nYou watch the game and your favorite team wins!"
+             "$n$nAnd so have you..."
+             "$p\*\** You have won! \***"
+             QUIT.
+     END VERB.
  END THE tv.
  -----------------------
-THE chair Isa OBJECT AT tv_room
-NAME comfy chair NAME comfy
-NAME cushions NAME big soft chair cushion
-DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's your favorite chair to sit in when you're watching the big game.
-  It has big soft comfy cushions -- just the kind people lose change in all the time."
-END VERB.
- VERB search
- CHECK remote AT Nowhere
-  ELSE
-    "There is nothing else to find by searching the chair."
- DOES ONLY
-  LOCATE remote in Hero.
-  "You find the lost remote control, which you take."
-END VERB.
+ THE chair Isa OBJECT AT tv_room
+     NAME comfy chair NAME comfy
+     NAME cushions NAME big soft chair cushion
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's your favorite chair to sit in when you're watching
+              the big game.  It has big soft comfy cushions -- just
+              the kind people lose change in all the time."
+     END VERB.
+     VERB search
+         CHECK remote AT Nowhere
+             ELSE
+                 "There is nothing else to find by searching the chair."
+         DOES ONLY
+             LOCATE remote in Hero.
+             "You find the lost remote control, which you take."
+     END VERB.
  END THE chair.
  -----------------------
-THE table Isa OBJECT AT tv_room
-DESCRIPTION
- VERB examine
- DOES ONLY
-  "It's an ordinary table, set conveniently by your chair."
-END VERB.
+ THE table Isa OBJECT AT tv_room
+     DESCRIPTION
+     VERB examine
+         DOES ONLY
+             "It's an ordinary table, set conveniently by your chair."
+     END VERB.
  END THE table.
  -----------------------
-THE kitchen Isa LOCATION
-NAME 'Kitchen'
-DESCRIPTION
-"This is the kitchen. North returns to the TV Room."
- EXIT north TO tv_room
- DOES
-  "You return to the TV Room, north."
-END EXIT.
- EXIT south, east, west TO kitchen
- CHECK
-  "There is only a wall in that direction."
-END EXIT.
+ THE kitchen Isa LOCATION
+     NAME 'Kitchen'
+     DESCRIPTION
+         "This is the kitchen. North returns to the TV Room."
+     EXIT north TO tv_room
+         DOES
+             "You return to the TV Room, north."
+     END EXIT.
+     EXIT south, east, west TO kitchen
+         CHECK
+             "There is only a wall in that direction."
+     END EXIT.
  END THE kitchen.
  -----------------------
-START AT tv_room.
- "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
- $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
- $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
- $p(Type ""help"" if you have not played this kind of game before.)
- $pJoy of joys, you have just purchased a brand new big screen plasma TV that was delivered earlier today!"
+ START AT tv_room.
+     "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
+      $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
+      $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
+      $p(Type ""help"" if you have not played this kind of game before.)
+      $pJoy of joys, you have just purchased a brand new big screen
+      plasma TV that was delivered earlier today!"
 ----
 
 == PART SIX: CONTAINERS and Classes
@@ -3456,7 +3464,8 @@ Which gives the desired result:
 [subs="quotes"]
 ----
 > _x the table_
-It’s an ordinary table, set conveniently by your chair. Resting on the table is a remote control.
+It’s an ordinary table, set conveniently by your chair. Resting on the
+table is a remote control.
 ----
 
 === Classes
@@ -4190,8 +4199,8 @@ displays that information to the player.
  ...
      [red]#VERB take, pick_up1, pick_up2
          CHECK
-             "You can’t take it. The power cord is permanently attached to
-              the television set."
+             "You can’t take it. The power cord is permanently attached
+              to the television set."
      END VERB.
  END THE cord.#
 ----
@@ -4430,7 +4439,7 @@ WARNING: S O L U T I O N S!
 
 [subs="quotes"]
 ----
- -- laugh *** from "jump.i" ***
+ -- laugh \*\** from "jump.i" \***
  SYNTAX
      laugh = laugh.
  VERB laugh
@@ -4438,7 +4447,7 @@ WARNING: S O L U T I O N S!
          "Ha ha hah!"
  END VERB.
  -----------------------
- -- laugh at *** also from jump.i ***
+ -- laugh at \*\** also from jump.i \***
  SYNTAX
      laugh_at = laugh 'at' (obj)
          WHERE obj ISA THING
@@ -4450,7 +4459,7 @@ WARNING: S O L U T I O N S!
      END VERB.
  End Add To.
  -----------------------
- -- pull.i *** from push.i ***
+ -- pull.i \*\** from push.i \***
  SYNONYMS
      drag, yank = pull.
  SYNTAX
@@ -4459,7 +4468,8 @@ WARNING: S O L U T I O N S!
              ELSE "You can't push that."
  Add To Every object
      Verb pull
-         Check obj Is MOVEABLE -- Already ADDED TO EVERY OBJECT in "push.i"
+         Check obj Is MOVEABLE -- Already ADDED TO EVERY OBJECT in
+                               -- "push.i"
              Else "You can't pull that."
          Does
              "You pull" Say The obj. "."
@@ -4835,8 +4845,8 @@ Since we want the same VERB to apply for the wall in the very same way as for th
          WHEN obj2
              CHECK obj1 IS PLUGGABLE
                  ELSE
-                     "Hey, be careful! That doesn't go into an electrical
-                      outlet!"
+                     "Hey, be careful! That doesn't go into an
+                      electrical outlet!"
              AND cord IS NOT PLUGGED_IN
                  ELSE
                      "The cord is already plugged in!"
@@ -4893,9 +4903,9 @@ we will put a battery for the remote control in the chair.
      DESCRIPTION
      VERB examine
          DOES ONLY
-             "It's your favorite chair to sit in when you're watching the
-              big game. It has big soft comfy cushions -- just the kind
-              people lose change in all the time."
+             "It's your favorite chair to sit in when you're watching
+              the big game. It has big soft comfy cushions -- just the
+              kind people lose change in all the time."
      END VERB.
      VERB search
          CHECK [red]#battery AT Nowhere#
@@ -4999,7 +5009,8 @@ control. It is a simple matter to CHECK that obj1 is the battery.
  VERB turn_on1, turn_on2, switch_on1, switch_on2
      CHECK remote Here
          ELSE
-             "There are no knobs, switches or buttons for turning on the TV."
+             "There are no knobs, switches or buttons for turning on the
+              TV."
      [red]#AND battery IN remote
          ELSE
             "Pushing the button on the remote, nothing happens.
@@ -5027,14 +5038,16 @@ control. It is a simple matter to CHECK that obj1 is the battery.
         NOT PLUGGED_IN.
      VERB examine
          DOES ONLY
-             "The power cord is of the common sort, and just three feet long."
+             "The power cord is of the common sort, and just three feet
+              long."
              IF cord IS PLUGGED_IN THEN
                  "It is plugged into the electric outlet."
              END IF.
      END VERB.
      VERB take, pick_up1, pick_up2
          CHECK
-             "You can't take it. The power cord is permanently attached to the television set."
+             "You can't take it. The power cord is permanently attached
+              to the television set."
      END VERB.
  END THE cord.
  ----------------------
@@ -5058,9 +5071,10 @@ control. It is a simple matter to CHECK that obj1 is the battery.
      DESCRIPTION
      VERB examine
          DOES ONLY
-             "It’s quite large, about five feet square. Besides the label (""Ultimo
-              Plasma TV""), there are large black letters that say, ""PUSH WITH CARE"".
-              $nAn upward pointing arrow indicates ""THIS SIDE UP""."
+             "It’s quite large, about five feet square. Besides the
+              label (""Ultimo Plasma TV""), there are large black
+              letters that say, ""PUSH WITH CARE"".  $nAn upward
+              pointing arrow indicates ""THIS SIDE UP""."
               "$pThe box is sitting by a wall."
      END VERB.
  END THE box.#
@@ -5077,7 +5091,8 @@ control. It is a simple matter to CHECK that obj1 is the battery.
  ...
 ----
 
-Notice the starting place for the knife is not "AT" but "IN" the cupboard CONTAINER.
+Notice the starting place for the knife is not "AT" but "IN" the
+cupboard CONTAINER.
 
 [subs="quotes"]
 ----
@@ -5232,10 +5247,10 @@ opened_box for the box using LOCATE statements.
          LOCATE knife IN Hero.
          MAKE box SCENERY.
          "Using the sharp blade of the knife, you cut the box open to
-          reveal the plasma TV inside. You cut and tear off the remaining
-          cardboard and cast it aside.
-          $pWow, the TV looks even better in your home than it did on the
-          showroom floor!"
+          reveal the plasma TV inside. You cut and tear off the
+          remaining cardboard and cast it aside.
+          $pWow, the TV looks even better in your home than it did on
+          the showroom floor!"
  End Verb.#
 ----
 
@@ -5257,7 +5272,8 @@ include for the player:
               #Check obj2 Here -- \*\** CHANGED In hero, etc. \***#
                    #Else "You don't see" Say The obj2. "here."#
               #Does#
-                  #"You can't open" Say The obj1. "with" Say The _yellowobj2. "."#
+                  #"You can't open" Say The obj1. "with" Say The#
+                    #obj2. "."#
      #End Verb.#
  End Add To.
 ----
@@ -5291,11 +5307,11 @@ our box (obj1) and knife (obj2) we get this:
              LOCATE remote Here.
              LOCATE knife IN Hero.
              MAKE box SCENERY.
-             "Using the sharp blade of the knife, you cut the box open to
-              reveal the plasma TV inside. You cut and tear off the
+             "Using the sharp blade of the knife, you cut the box open
+              to reveal the plasma TV inside. You cut and tear off the
               remaining cardboard and cast it aside.
-              $pWow, the TV looks even better in your home than it did on
-              the showroom floor!"#
+              $pWow, the TV looks even better in your home than it did
+              on the showroom floor!"#
  End Verb.
 ----
 
@@ -5401,14 +5417,14 @@ the box open with the knife.
      VERB examine
          DOES ONLY
              [red]#IF box IS NOT SCENERY THEN
-                 "It’s quite large, about five feet square. Besides the label
-                  (""Ultimo Plasma TV""), there are large black letters that say,
-                  ""PUSH WITH CARE"".
+                 "It’s quite large, about five feet square. Besides
+                  the label (""Ultimo Plasma TV""), there are large
+                  black letters that say, ""PUSH WITH CARE"".
                   $nAn upward pointing arrow indicates ""THIS SIDE UP""."
                   "$pThe box is sitting by a wall."
              ELSE
-                 "The carton is in pieces. No need to worry about it now, you can clean
-                  it up later."
+                 "The carton is in pieces. No need to worry about it
+                  now, you can clean it up later."
              END IF.#
      END VERB.
      Verb open
@@ -5424,11 +5440,11 @@ the box open with the knife.
              LOCATE remote Here.
              LOCATE knife IN Hero.
              MAKE box SCENERY.
-             "Using the sharp blade of the knife, you cut the box open to
-              reveal the plasma TV inside. You cut and tear off the
+             "Using the sharp blade of the knife, you cut the box open
+              to reveal the plasma TV inside. You cut and tear off the
               remaining cardboard and cast it aside.
-              $pWow, the TV looks even better in your home than it did on
-              the showroom floor!"
+              $pWow, the TV looks even better in your home than it did
+              on the showroom floor!"
      End Verb.
      Verb open_with
          When obj1
@@ -5437,18 +5453,19 @@ the box open with the knife.
                      "You have done that already."
              AND obj2 = knife
                  ELSE
-                     "You will need something sharper than that to open the box with."
+                     "You will need something sharper than that to
+                      open the box with."
              Does ONLY
                  LOCATE tv Here.
                  LOCATE cord Here.
                  LOCATE remote Here.
                  LOCATE knife IN Hero.
                  MAKE box SCENERY.
-                 "Using the sharp blade of the knife, you cut the box open
-                  to reveal the plasma TV inside. You cut and tear off the
-                  remaining cardboard and cast it aside.
-                  $pWow, the TV looks even better in your home than it did
-                  on the showroom floor!"
+                 "Using the sharp blade of the knife, you cut the box
+                  open to reveal the plasma TV inside. You cut and
+                  tear off the remaining cardboard and cast it aside.
+                  $pWow, the TV looks even better in your home than it
+                  did on the showroom floor!"
      End Verb.
      [red]#VERB cut
          CHECK box IS NOT SCENERY
@@ -5463,10 +5480,11 @@ the box open with the knife.
              LOCATE remote Here.
              LOCATE knife IN Hero.
              MAKE box SCENERY.
-             "Using the sharp blade of the knife, you cut the box open to
-              reveal the plasma TV inside. You cut and tear off the
+             "Using the sharp blade of the knife, you cut the box open
+              to reveal the plasma TV inside. You cut and tear off the
               remaining cardboard and cast it aside.
-              $pWow, the TV looks even better in your home than it did on the showroom floor!"
+              $pWow, the TV looks even better in your home than it did
+              on the showroom floor!"
      End Verb.
      VERB cut_with
          When obj1
@@ -5475,18 +5493,19 @@ the box open with the knife.
                      "You have done that already."
              AND obj2 = knife
                  ELSE
-                     "You will need something sharper than that to open the box with."
+                     "You will need something sharper than that to
+                      open the box with."
              Does ONLY
                  LOCATE tv Here.
                  LOCATE cord Here.
                  LOCATE remote Here.
                  LOCATE knife IN Hero.
                  MAKE box SCENERY.
-                 "Using the sharp blade of the knife, you cut the box open
-                  to reveal the plasma TV inside. You cut and tear off the
-                  remaining cardboard and cast it aside.
-                  $pWow, the TV looks even better in your home than it did
-                  on the showroom floor!"
+                 "Using the sharp blade of the knife, you cut the box
+                  open to reveal the plasma TV inside. You cut and
+                  tear off the remaining cardboard and cast it aside.
+                  $pWow, the TV looks even better in your home than it
+                  did on the showroom floor!"
      End Verb.#
  END THE box.
  -----------------------
@@ -5565,14 +5584,14 @@ less cluttered:
      VERB examine
          DOES ONLY
              IF box IS NOT SCENERY THEN
-                 "It's quite large, about five feet square. Besides the label (""Ultimo
-                  Plasma TV""), there are large black letters that say, ""PUSH WITH
-                  CARE"".
+                 "It's quite large, about five feet square. Besides
+                  the label (""Ultimo Plasma TV""), there are large
+                  black letters that say, ""PUSH WITH CARE"".
                   $nAn upward pointing arrow indicates ""THIS SIDE UP""."
                  "$pThe box is sitting by a wall."
              ELSE
-                 "The carton is in pieces. No need to worry about it now, you can clean
-                  it up later."
+                 "The carton is in pieces. No need to worry about it
+                  now, you can clean it up later."
              END IF.
      END VERB.
      Verb open
@@ -5592,7 +5611,8 @@ less cluttered:
                      "You have done that already."
              AND obj2 = knife
                  ELSE
-                     "You will need something sharper than that to open the box with."
+                     "You will need something sharper than that to
+                      open the box with."
              Does ONLY
                  [red]#DESCRIBE open_box.#
      End Verb.
@@ -5613,7 +5633,8 @@ less cluttered:
                      "You have done that already."
              AND obj2 = knife
                  ELSE
-                     "You will need something sharper than that to open the box with."
+                     "You will need something sharper than that to
+                      open the box with."
              Does ONLY
                  [red]#DESCRIBE open_box.#
      End Verb.
@@ -5653,7 +5674,7 @@ It!])
  -----------------------------------------------
  IMPORT 'std.i'.
  -----------------------
- -- *** CUSTOM CLASSES: ***
+ -- \*\** CUSTOM CLASSES: \***
  Every SURFACE Isa OBJECT
      CONTAINER
          HEADER
@@ -5700,8 +5721,8 @@ It!])
  THE tv_room Isa LOCATION
      NAME 'TV Room'
      DESCRIPTION
-         "This is your favorite room in the house, because you love to watch television.
-          Besides your comfy chair and table,"
+         "This is your favorite room in the house, because you love to
+          watch television.  Besides your comfy chair and table,"
          IF tv Here THEN
              "your new plasma TV is here."
          ELSE
@@ -5736,14 +5757,14 @@ It!])
      VERB examine
          DOES ONLY
              IF box IS NOT SCENERY THEN
-                 "It's quite large, about five feet square. Besides the label (""Ultimo
-                  Plasma TV""), there are large black letters that say, ""PUSH WITH
-                  CARE"".
+                 "It's quite large, about five feet square. Besides
+                  the label (""Ultimo Plasma TV""), there are large
+                  black letters that say, ""PUSH WITH CARE"".
                   $nAn upward pointing arrow indicates ""THIS SIDE UP""."
                  "$pThe box is sitting by a wall."
              ELSE
-                 "The carton is in pieces. No need to worry about it now, you can clean
-                  it up later."
+                 "The carton is in pieces. No need to worry about it
+                  now, you can clean it up later."
              END IF.
      END VERB.
      Verb open
@@ -5763,7 +5784,8 @@ It!])
                      "You have done that already."
              AND obj2 = knife
                  ELSE
-                     "You will need something sharper than that to open the box with."
+                     "You will need something sharper than that to
+                      open the box with."
              Does ONLY
                  DESCRIBE open_box.
      End Verb.
@@ -5784,7 +5806,8 @@ It!])
                      "You have done that already."
              AND obj2 = knife
                  ELSE
-                     "You will need something sharper than that to open the box with."
+                     "You will need something sharper than that to
+                      open the box with."
              Does ONLY
                  DESCRIBE open_box.
      End Verb.
@@ -5797,10 +5820,11 @@ It!])
          LOCATE remote Here.
          LOCATE knife IN Hero.
          MAKE box SCENERY.
-         "Using the sharp blade of the knife, you cut the box open to reveal the plasma TV
-          inside. You cut and tear off the remaining cardboard and cast it aside.
-          $pWow, the TV looks even better in your home than it did on the showroom
-          floor!"
+         "Using the sharp blade of the knife, you cut the box open to
+          reveal the plasma TV inside. You cut and tear off the
+          remaining cardboard and cast it aside.
+          $pWow, the TV looks even better in your home than it did on
+          the showroom floor!"
  END THE open_box.
  -----------------------
  THE remote Isa OBJECT AT Nowhere
@@ -5870,13 +5894,15 @@ It!])
      END VERB.
      VERB take, pick_up1, pick_up2
          DOES ONLY
-             "You try to wrap your arms around the giant screen but it is too wide.
-                 You can't get a good grip on the heavy TV to lift it."
+             "You try to wrap your arms around the giant screen but it
+              is too wide.  You can't get a good grip on the heavy TV
+              to lift it."
      END VERB.
      VERB turn_on1, turn_on2, switch_on1, switch_on2
          CHECK remote Here
              ELSE
-                 "There are no knobs, switches or buttons for turning on the TV."
+                 "There are no knobs, switches or buttons for turning
+                  on the TV."
          AND battery IN remote
              ELSE
                  "Pushing the button on the remote, nothing happens.
@@ -5909,14 +5935,16 @@ It!])
         NOT PLUGGED_IN.
      VERB examine
          DOES ONLY
-             "The power cord is of the common sort, and just three feet long."
+             "The power cord is of the common sort, and just three
+              feet long."
              IF cord IS PLUGGED_IN THEN
                  "It is plugged into the electric outlet."
              END IF.
      END VERB.
      VERB take, pick_up1, pick_up2
          CHECK
-             "You can't take it. The power cord is permanently attached to the television set."
+             "You can't take it. The power cord is permanently
+              attached to the television set."
      END VERB.
  END THE cord.
  ----------------------
@@ -5936,8 +5964,9 @@ It!])
      DESCRIPTION
      VERB examine
          DOES ONLY
-             "It's your favorite chair to sit in when you're watching the big game.
-              It has big soft comfy cushions -- just the kind people lose change in all the time."
+             "It's your favorite chair to sit in when you're watching
+              the big game. It has big soft comfy cushions -- just
+              the kind people lose change in all the time."
      END VERB.
      VERB search
          CHECK battery AT Nowhere
@@ -5979,13 +6008,15 @@ It!])
          WHEN obj2
              CHECK obj1 IS PLUGGABLE
                  ELSE
-                     "Hey, be careful! That doesn't go into an electrical outlet!"
+                     "Hey, be careful! That doesn't go into an
+                      electrical outlet!"
              AND cord IS NOT PLUGGED_IN
                  ELSE
                      "The cord is already plugged in!"
              DOES ONLY
                  MAKE cord PLUGGED_IN.
-                     "You put the power cord snugly into the electrical outlet."
+                     "You put the power cord snugly into the
+                      electrical outlet."
      END VERB.
  END THE tv_wall.
  -----------------------
@@ -6001,17 +6032,20 @@ It!])
                  "The TV cord is plugged into it."
              END IF.
      END VERB.
-     VERB plug_in, put_in -- The player might try "put plug in outlet"
+     VERB plug_in, put_in -- The player might try
+                          -- "put plug in outlet"
          WHEN obj2
              CHECK obj1 IS PLUGGABLE
                  ELSE
-                     "Hey, be careful! That doesn't go into an electrical outlet!"
+                     "Hey, be careful! That doesn't go into an
+                     electrical outlet!"
              AND cord IS NOT PLUGGED_IN
                  ELSE
                      "The cord is already plugged in!"
              DOES ONLY
                  MAKE cord PLUGGED_IN.
-                 "You put the power cord snugly into the electrical outlet."
+                 "You put the power cord snugly into the electrical
+                  outlet."
      END VERB.
  END THE outlet.
  -----------------------
@@ -6062,9 +6096,10 @@ It!])
            "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
            $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
            $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
-           $p(Type ""help"" if you have not played this kind of game before.)
-           $pJoy of joys, you have just purchased a brand new big screen plasma TV
-           that was delivered earlier today!"
+           $p(Type ""help"" if you have not played this kind of game
+           before.)
+           $pJoy of joys, you have just purchased a brand new big
+           screen plasma TV that was delivered earlier today!"
 ----
 
 == PART NINE: Completing the Main Game Elements
@@ -6111,8 +6146,9 @@ another reasonable OBJECT to put there is a bookcase.
              "On the shelves of the bookcase you see"
      VERB examine
          DOES ONLY
-             "It is a large bookcase. There are only a few books on its shelves:
-              $p$t""Help"" — Note that these are just global statements! ;0)
+             "It is a large bookcase. There are only a few books on
+              its shelves:
+              $p$t""Help"" — Note that these also commands! ;0)
               $n$t""Hint""
               $n$t""Credits""
               $n$t""Laugh"" " — You created this VERB for practice, remember?
@@ -6205,9 +6241,10 @@ should describe what those directions are in the LOCATION DESCRIPTION.
  THE tv_room Isa LOCATION
      NAME 'TV Room'
      DESCRIPTION
-         "This is your favorite room in the house, because you love to watch television.
-          Besides your comfy chair and table [red]#in the north end of the room, there is a
-          bookcase on the east side and a bare wall on the west.#"
+         "This is your favorite room in the house, because you love to
+          watch television.  Besides your comfy chair and table
+          [red]#in the north end of the room, there is a bookcase on
+          the east side and a bare wall on the west.#"
          IF tv Here THEN
              "$pYour new plasma TV is here."
          [red]#ELSE
@@ -6273,8 +6310,8 @@ to pull the box. Implement the VERB from "pull.i" to prevent it.
  ...
      [red]#VERB pull
          CHECK
-             "You can’t get a good grip on the carton to pull it. You might have
-                 better luck trying to push it."
+             "You can’t get a good grip on the carton to pull it. You
+              might have better luck trying to push it."
      End Verb.#
 ----
 
@@ -6288,8 +6325,8 @@ which direction they want to push it.
  ...
      Verb push
          CHECK
-             "Please say which direction you want to push it:
-                 $ppush the carton north, south, east or west."
+             "Please say which direction you want to push it: $ppush
+              the carton north, south, east or west."
      End Verb.
  ...
 ----
@@ -6387,9 +6424,10 @@ Update the tv_room DESCRIPTION for the Box
  THE tv_room Isa LOCATION
      NAME 'TV Room'
      DESCRIPTION
-         "This is your favorite room in the house, because you love to watch television.
-          Besides your comfy chair and table in the north end of the room, there is a
-          bookcase on the east side and a bare wall on the west."
+         "This is your favorite room in the house, because you love to
+          watch television.  Besides your comfy chair and table in the
+          north end of the room, there is a bookcase on the east side
+          and a bare wall on the west."
          IF tv Here THEN
              "$pYour new plasma TV is here."
          ELSE
@@ -6416,9 +6454,10 @@ the TV Room DESCRIPTION.
  THE tv_room Isa LOCATION
      NAME TV Room
      DESCRIPTION
-         "This is your favorite room in the house, because you love to watch television.
-          Besides your comfy chair and table in the north end of the room, there is a
-          bookcase on the east side and a bare wall on the west."
+         "This is your favorite room in the house, because you love to
+          watch television.  Besides your comfy chair and table in the
+          north end of the room, there is a bookcase on the east side
+          and a bare wall on the west."
          IF tv Here THEN
              "$pYour new plasma TV is here."
          ELSE
@@ -6481,10 +6520,11 @@ have to change. We created an OBJECT at Nowhere to handle all the
      LOCATE knife IN Hero.
      MAKE box SCENERY.
      [red]#SET SPOT OF tv TO SPOT OF box.#
-     "Using the sharp blade of the knife, you cut the box open to reveal the plasma TV
-      inside. You cut and tear off the remaining cardboard and cast it aside.
-      $pWow, the TV looks even better in your home than it did on the showroom
-      floor!"
+     "Using the sharp blade of the knife, you cut the box open to
+      reveal the plasma TV inside. You cut and tear off the remaining
+      cardboard and cast it aside.
+      $pWow, the TV looks even better in your home than it did on the
+      showroom floor!"
  END THE open_box.
  -----------------------
 ----
@@ -6498,9 +6538,9 @@ Update the tv_room DESCRIPTION for the TV
      NAME 'TV Room'
      DESCRIPTION
          "This is your favorite room in the house, because you love to
-         watch television. Besides your comfy chair and table in the north
-         end of the room, there is a bookcase on the east side and a bare
-         wall on the west."
+          watch television. Besides your comfy chair and table in the
+          north end of the room, there is a bookcase on the east side
+          and a bare wall on the west."
          IF tv Here THEN
              "Your new plasma TV is [red]#sitting";
              DEPENDING ON spot OF tv
@@ -6538,7 +6578,8 @@ both the outlet and tv_wall:
          WHEN obj2
              CHECK obj1 IS PLUGGABLE
                  ELSE
-                     "Hey, be careful! That doesn't go into an electrical outlet!"
+                     "Hey, be careful! That doesn't go into an
+                      electrical outlet!"
              [red]#AND SPOT OF tv = 4
                  ELSE
                      "The cord is only three feet long.
@@ -6548,7 +6589,8 @@ both the outlet and tv_wall:
                      "The cord is already plugged in!"
              DOES ONLY
                  MAKE cord PLUGGED_IN.
-                 "You put the power cord snugly into the electrical outlet."
+                 "You put the power cord snugly into the electrical
+                  outlet."
      END VERB.
  ...
 ----
@@ -6654,8 +6696,8 @@ placing the books from the bookcase under the tv.
                  LOCATE books Here.
                  MAKE tv BOOKED.
                  SET TIPPY of TV TO 0.
-                 "You carefully lift each of the four corners of the plasma tv
-                  and slip a book under it."
+                 "You carefully lift each of the four corners of the
+                  plasma tv and slip a book under it."
      End Verb.#
  END THE books.
  -----------------------
@@ -6816,248 +6858,248 @@ Congratulations! This completes the main elements of our tutorial game.
  -----------------------------------------------
  IMPORT 'std.i'.
  -----------------------
- -- *** CUSTOM CLASSES: ***
+ -- \*\** CUSTOM CLASSES: \***
  Every SURFACE Isa OBJECT
- CONTAINER
-  HEADER
-    "Resting on top is"
- VERB examine
- DOES ONLY
- LIST THIS.
- END VERB.
- VERB put_in
- WHEN obj2
- CHECK
-  "That isn't something you can put anything ""in""."
-END VERB.
+     CONTAINER
+         HEADER
+             "Resting on top is"
+     VERB examine
+         DOES ONLY
+             LIST THIS.
+     END VERB.
+     VERB put_in
+         WHEN obj2
+             CHECK
+                 "That isn't something you can put anything ""in""."
+     END VERB.
  END EVERY.
  -----------------------
-Every CLOSEABLE Isa OBJECT
- OPAQUE CONTAINER
-  HEADER
-    "It contains"
- IS OPENABLE.
-        VERB open DOES AFTER
+ Every CLOSEABLE Isa OBJECT
+     OPAQUE CONTAINER
+         HEADER
+             "It contains"
+         IS OPENABLE.
+     VERB open DOES AFTER
          MAKE THIS NOT OPAQUE.
          LIST THIS.
-       END VERB.
-        VERB close DOES AFTER
+     END VERB.
+     VERB close DOES AFTER
          MAKE THIS OPAQUE.
-       END VERB.
+     END VERB.
  END EVERY.
  -----------------------
-EVERY Door Isa OBJECT
- NAME door
- HAS otherside Door.
- IS OPENABLE.
- DESCRIPTION
- VERB open
- DOES AFTER
-  MAKE otherside OF THIS open.
-END VERB.
- VERB close
- DOES AFTER
- MAKE otherside OF THIS closed.
-END VERB.
+ EVERY Door Isa OBJECT
+     NAME door
+     HAS otherside Door.
+     IS OPENABLE.
+     DESCRIPTION
+     VERB open
+         DOES AFTER
+             MAKE otherside OF THIS open.
+     END VERB.
+     VERB close
+         DOES AFTER
+             MAKE otherside OF THIS closed.
+     END VERB.
  END EVERY.
  -----------------------
-THE tv_room Isa LOCATION
- NAME 'TV Room'
- DESCRIPTION
-           "This is your favorite room in the house, because you love to watch
-       television. Besides your comfy chair and table in the north end of the
-       room, there is a bookcase on the east side and a bare wall on the west."
- IF tv Here
-  THEN
-    "$pYour new plasma TV is sitting"
-    DEPENDING ON spot OF tv
-                                           = 0 THEN "in the center of the room."
-    = 1 THEN "next to the chair and table."
-    = 2 THEN "against the door."
-    = 3 THEN "by the bookcase."
-    = 4 THEN "next to the wall."
-    END DEPEND.
-  ELSE
-    "$pThere is a large cardboard packing carton sitting"
-    DEPENDING ON spot OF box
-                                   = 0 THEN "in the center of the room."
-    = 1 THEN "next to the chair and table."
-    = 2 THEN "against the door."
-    = 3 THEN "by the bookcase."
-    = 4 THEN "next to the wall."
-    END DEPEND.
-  END IF.
- "$pThe door to the kitchen is south."
-        EXIT south TO kitchen
-         CHECK tv_door IS OPEN
-           ELSE
-             "$t$t&lt;BUMP&gt;$p$t$tOof!$pThe door is closed."
-         DOES
-           "You go south, into the kitchen."
-       END EXIT.
-        EXIT north TO tv_room
-         CHECK
-           "Your chair and table are in the north end of the room."
-       END EXIT.
-        EXIT west TO tv_room
-         CHECK
-           "There is only a wall in that direction."
-       END EXIT.
-        EXIT east TO tv_room
-         CHECK
-           "The bookcase is on the east side of the room."
-       END EXIT.
+ THE tv_room Isa LOCATION
+     NAME 'TV Room'
+         DESCRIPTION
+             "This is your favorite room in the house, because you
+              love to watch television. Besides your comfy chair and
+              table in the north end of the room, there is a bookcase
+              on the east side and a bare wall on the west."
+             IF tv Here THEN
+                 "$pYour new plasma TV is sitting"
+                 DEPENDING ON spot OF tv
+                     = 0 THEN "in the center of the room."
+                     = 1 THEN "next to the chair and table."
+                     = 2 THEN "against the door."
+                     = 3 THEN "by the bookcase."
+                     = 4 THEN "next to the wall."
+                 END DEPEND.
+             ELSE
+                 "$pThere is a large cardboard packing carton sitting"
+                 DEPENDING ON spot OF box
+                     = 0 THEN "in the center of the room."
+                     = 1 THEN "next to the chair and table."
+                     = 2 THEN "against the door."
+                     = 3 THEN "by the bookcase."
+                     = 4 THEN "next to the wall."
+                 END DEPEND.
+             END IF.
+             "$pThe door to the kitchen is south."
+         EXIT south TO kitchen
+             CHECK tv_door IS OPEN
+                 ELSE
+                     "$t$t&lt;BUMP&gt;$p$t$tOof!$pThe door is closed."
+             DOES
+                 "You go south, into the kitchen."
+         END EXIT.
+         EXIT north TO tv_room
+             CHECK
+                 "Your chair and table are in the north end of the room."
+         END EXIT.
+         EXIT west TO tv_room
+             CHECK
+                 "There is only a wall in that direction."
+         END EXIT.
+         EXIT east TO tv_room
+             CHECK
+                 "The bookcase is on the east side of the room."
+         END EXIT.
  END THE tv_room.
  -----------------------
-THE bkcase Isa SCENERY AT tv_room
-NAME bookcase NAME case
-NAME shelves
-CONTAINER
-HEADER
- "In the bookcase you see"
-        VERB examine
+ THE bkcase Isa SCENERY AT tv_room
+     NAME bookcase NAME case
+     NAME shelves
+     CONTAINER
+         HEADER
+             "In the bookcase you see"
+     VERB examine
          DOES ONLY
-           "It is a large bookcase. There are only a few books on its shelves:
-           $p""Help""
-           $n""Hint""
-           $n""Credits""
-           $n""Laugh"" "
-       END VERB.
+             "It is a large bookcase. There are only a few books on its shelves:
+              $p""Help""
+              $n""Hint""
+              $n""Credits""
+              $n""Laugh"" "
+     END VERB.
  END THE bkcase.
  -----------------------
-THE books Isa OBJECT IN bkcase
-NAME books NAME book
-IS READABLE.
-INDEFINITE ARTICLE "some"
-        VERB examine
+ THE books Isa OBJECT IN bkcase
+     NAME books NAME book
+     IS READABLE.
+     INDEFINITE ARTICLE "some"
+     VERB examine
          DOES ONLY
-           "The titles are:
-           $p""Help""
-           $n""Hint""
-           $n""Credits""
-           $n""Laugh"" "
-       END VERB.
-        VERB read
+             "The titles are:
+              $p""Help""
+              $n""Hint""
+              $n""Credits""
+              $n""Laugh"" "
+     END VERB.
+     VERB read
          CHECK tv IS NOT BOOKED
-           ELSE
-                    "That isn't possible while they are under the tv!"
-         DOES ONLY
-           "Just type in the title of the book you want to read."
-       END VERB.
-       VERB take, pick_up1, pick_up2
-         CHECK tv IS NOT BOOKED
-           ELSE
-                    "That isn't possible while they are under the tv!"
-         DOES ONLY
-           LOCATE books IN Hero.
-           "You take the books."
-       END VERB.
-       Verb put_under
-         When obj1
-           CHECK obj2 = tv
              ELSE
-               "It won't help anything to do that."
-           Does ONLY
-             LOCATE books Here.
-             MAKE tv BOOKED.
-             SET TIPPY of TV TO 0.
-            "You carefully lift each of the four corners of the plasma tv and slip a
-                book under it."
-       End Verb.
+                 "That isn't possible while they are under the tv!"
+         DOES ONLY
+             "Just type in the title of the book you want to read."
+     END VERB.
+     VERB take, pick_up1, pick_up2
+         CHECK tv IS NOT BOOKED
+             ELSE
+                 "That isn't possible while they are under the tv!"
+         DOES ONLY
+             LOCATE books IN Hero.
+             "You take the books."
+     END VERB.
+     Verb put_under
+         When obj1
+             CHECK obj2 = tv
+                 ELSE
+                     "It won't help anything to do that."
+             Does ONLY
+                 LOCATE books Here.
+                 MAKE tv BOOKED.
+                 SET TIPPY of TV TO 0.
+                 "You carefully lift each of the four corners of the
+                  plasma tv and slip a book under it."
+     End Verb.
  END THE books.
  -----------------------
-SYNONYMS
- crate = box.
-THE box Isa OBJECT AT tv_room
- NAME packing carton NAME heavy cardboard box
- NAME label NAME large black letters
- NAME upward pointing arrow
- HAS weight 500.
- HAS spot 0.
- IS OPENABLE.
-    NOT SCENERY.
-    MOVEABLE.
-  DESCRIPTION
-  VERB examine
-  DOES ONLY
-    IF box IS NOT SCENERY
-      THEN
-"It's quite large, about five feet square. Besides the label (""Ultimo
-Plasma TV""), there are large black letters that say, ""PUSH WITH
-CARE"".
-$nAn upward pointing arrow indicates ""THIS SIDE UP""."
-"$pThe box is sitting by a wall."
- ELSE
-"The carton is in pieces. No need to worry about it now, you can clean
-it up later."
-   END IF.
- END VERB.
-  Verb open
-  CHECK box IS NOT SCENERY
-    ELSE
-      "You have done that already."
-  AND knife Here
-    ELSE
-      "You will need a knife to cut the box open."
-  Does ONLY
-    DESCRIBE open_box.
- End Verb.
-  Verb open_with
-  When obj1
-    CHECK box IS NOT SCENERY
-      ELSE
-        "You have done that already."
-    AND obj2 = knife
-      ELSE
-        "You will need something sharper than that to open the box with."
-    Does ONLY
-      DESCRIBE open_box.
- End Verb.
-  VERB cut
-  CHECK box IS NOT SCENERY
-    ELSE
-      "You have done that already."
-  AND knife Here
-    ELSE
-      "You will need a knife to cut the box open."
-  Does ONLY
-    DESCRIBE open_box.
- End Verb.
-  VERB cut_with
-  When obj1
-    CHECK box IS NOT SCENERY
-      ELSE
-        "You have done that already."
-    AND obj2 = knife
-      ELSE
-        "You will need something sharper than that to open the box with."
-    Does ONLY
-      DESCRIBE open_box.
- End Verb.
-  VERB pull
-  CHECK
-"You can't get a good grip on the carton to pull it. You might have
-better luck trying to push it."
- End Verb.
-  Verb push
-  CHECK
-    "Please say which direction you want to push it:
-    $ppush the carton north, south, east or west."
- End Verb.
-  Verb push_with
-  When obj1
-    Check
-      "Just push the carton with your hands."
- End Verb.
-        VERB push_north
+ SYNONYMS
+     crate = box.
+ THE box Isa OBJECT AT tv_room
+     NAME packing carton NAME heavy cardboard box
+     NAME label NAME large black letters
+     NAME upward pointing arrow
+     HAS weight 500.
+     HAS spot 0.
+     IS OPENABLE.
+        NOT SCENERY.
+        MOVEABLE.
+     DESCRIPTION
+     VERB examine
          DOES ONLY
-           SET spot OF box TO 1.
-           "You push the box north, next to the chair and table."
-       END VERB.
-        VERB push_south
+             IF box IS NOT SCENERY THEN
+                 "It's quite large, about five feet square. Besides
+                  the label (""Ultimo Plasma TV""), there are large
+                  black letters that say, ""PUSH WITH CARE"".
+                  $nAn upward pointing arrow indicates ""THIS SIDE
+                  UP""."
+                  "$pThe box is sitting by a wall."
+             ELSE
+                 "The carton is in pieces. No need to worry about it
+                  now, you can clean it up later."
+             END IF.
+     END VERB.
+     Verb open
+         CHECK box IS NOT SCENERY
+             ELSE
+                 "You have done that already."
+         AND knife Here
+             ELSE
+                 "You will need a knife to cut the box open."
+         Does ONLY
+             DESCRIBE open_box.
+     End Verb.
+     Verb open_with
+         When obj1
+             CHECK box IS NOT SCENERY
+                 ELSE
+                     "You have done that already."
+             AND obj2 = knife
+                 ELSE
+                     "You will need something sharper than that to open the box with."
+             Does ONLY
+                 DESCRIBE open_box.
+     End Verb.
+     VERB cut
+         CHECK box IS NOT SCENERY
+             ELSE
+                 "You have done that already."
+         AND knife Here
+             ELSE
+                 "You will need a knife to cut the box open."
+         Does ONLY
+             DESCRIBE open_box.
+     End Verb.
+     VERB cut_with
+         When obj1
+             CHECK box IS NOT SCENERY
+                 ELSE
+                     "You have done that already."
+             AND obj2 = knife
+                 ELSE
+                     "You will need something sharper than that to open the box with."
+             Does ONLY
+                 DESCRIBE open_box.
+     End Verb.
+     VERB pull
+         CHECK
+             "You can't get a good grip on the carton to pull it. You
+              might have better luck trying to push it."
+     End Verb.
+     Verb push
+         CHECK
+             "Please say which direction you want to push it: $ppush
+              the carton north, south, east or west."
+     End Verb.
+     Verb push_with
+         When obj1
+             Check
+                 "Just push the carton with your hands."
+     End Verb.
+     VERB push_north
          DOES ONLY
-           SET spot OF box TO 2.
-           "You push the box south, in front of the door."
+             SET spot OF box TO 1.
+             "You push the box north, next to the chair and table."
+     END VERB.
+     VERB push_south
+         DOES ONLY
+             SET spot OF box TO 2.
+             "You push the box south, in front of the door."
        END VERB.
         VERB push_east
          DOES ONLY
@@ -7071,48 +7113,48 @@ better luck trying to push it."
        END VERB.
  END THE box.
  -----------------------
-THE open_box Isa OBJECT AT Nowhere
-DESCRIPTION
- LOCATE tv Here.
- LOCATE cord Here.
- LOCATE remote Here.
- LOCATE knife IN Hero.
- SET spot OF tv TO spot OF box.
-"Using the sharp blade of the knife, you cut the box open to reveal the
-plasma TV inside. You cut and tear off the remaining cardboard and cast
-it aside.
-$pWow, the TV looks even better in your home than it did on the showroom
-floor!"
-END THE open_box.
+ THE open_box Isa OBJECT AT Nowhere
+     DESCRIPTION
+         LOCATE tv Here.
+         LOCATE cord Here.
+         LOCATE remote Here.
+         LOCATE knife IN Hero.
+         SET spot OF tv TO spot OF box.
+         "Using the sharp blade of the knife, you cut the box open to
+          reveal the plasma TV inside. You cut and tear off the
+          remaining cardboard and cast it aside.  $pWow, the TV looks
+          even better in your home than it did on the showroom floor!"
+ END THE open_box.
  -----------------------
-THE remote Isa OBJECT AT Nowhere
-       NAME remote control NAME controller
-       NAME control remote NAME remote
-       NAME button NAME simple push buttons
-       OPAQUE CONTAINER -- so you can put the battery in it
-       IS SWITCHABLE.
-          PUSHABLE.
-        VERB examine
+ THE remote Isa OBJECT AT Nowhere
+     NAME remote control NAME controller
+     NAME control remote NAME remote
+     NAME button NAME simple push buttons
+     OPAQUE CONTAINER -- so you can put the battery in it
+     IS SWITCHABLE.
+        PUSHABLE.
+     VERB examine
          DOES ONLY
-           "It's a very simple push-button remote control."
-       END VERB.
-        VERB put_in
+             "It's a very simple push-button remote control."
+     END VERB.
+     VERB put_in
          WHEN obj2
-           CHECK obj1 = battery
-             ELSE
-               "Don't be silly. Only a battery goes in there!"
-           DOES AFTER
-             "You snap the battery into place in the remote."
-       END VERB.
-        VERB turn_on1, turn_on2, switch_on1, switch_on2
+             CHECK obj1 = battery
+                 ELSE
+                     "Don't be silly. Only a battery goes in there!"
+             DOES AFTER
+                 "You snap the battery into place in the remote."
+     END VERB.
+     VERB turn_on1, turn_on2, switch_on1, switch_on2
          CHECK battery IN remote
-           ELSE
-       "Pushing the button on the remote, nothing happens. The remote won't do
-       anything without a battery."
-             LOCATE remote IN Hero. -- Assumes remote is "Taken".
+             ELSE
+                 "Pushing the button on the remote, nothing
+                  happens. The remote won't do anything without a
+                  battery."
+                 LOCATE remote IN Hero. -- Assumes remote is "Taken".
          AND cord IS PLUGGED_IN
-           ELSE
-             "The TV won't turn on. It isn't getting any power."
+             ELSE
+                 "The TV won't turn on. It isn't getting any power."
          DOES ONLY
            DESCRIBE win_tv.
        END VERB.
@@ -7126,294 +7168,290 @@ THE remote Isa OBJECT AT Nowhere
            ELSE
              "The TV won't turn on. It isn't getting any power."
          DOES ONLY
-           DESCRIBE win_tv.
-       END VERB.
+             DESCRIBE win_tv.
+     END VERB.
  END THE remote.
  -----------------------
-SYNONYMS
- television = tv.
-THE tv Isa OBJECT AT Nowhere -- until box is opened
-       NAME TV NAME plasma NAME brand NAME new
-       NAME screen NAME giant
-       NAME brand new giant screen plasma tv
-       IS SWITCHABLE.
-   PLUGGABLE.
-           MOVEABLE.
-           NOT BOOKED.
-       HAS TIPPY 1.
-       HAS spot 0.
-       DESCRIPTION
-        VERB examine
+ SYNONYMS
+     television = tv.
+ THE tv Isa OBJECT AT Nowhere -- until box is opened
+     NAME TV NAME plasma NAME brand NAME new
+     NAME screen NAME giant
+     NAME brand new giant screen plasma tv
+     IS SWITCHABLE.
+        PLUGGABLE.
+        MOVEABLE.
+        NOT BOOKED.
+     HAS TIPPY 1.
+     HAS spot 0.
+     DESCRIPTION
+     VERB examine
          DOES ONLY
-           "It's your 52-inch plasma pride and joy."
-       END VERB.
-        VERB take, pick_up1, pick_up2
+             "It's your 52-inch plasma pride and joy."
+     END VERB.
+     VERB take, pick_up1, pick_up2
          DOES ONLY
-       "You try to wrap your arms around the giant screen but it is too wide.
-       You can't get a good grip on the heavy TV to lift it."
-       END VERB.
-        VERB turn_on1, turn_on2, switch_on1, switch_on2
+             "You try to wrap your arms around the giant screen but it
+              is too wide.  You can't get a good grip on the heavy TV
+              to lift it."
+     END VERB.
+     VERB turn_on1, turn_on2, switch_on1, switch_on2
          CHECK remote Here
-           ELSE
-             "There are no knobs, switches or buttons for turning on the TV."
+             ELSE
+                 "There are no knobs, switches or buttons for turning on the TV."
          AND battery IN remote
-           ELSE
-             "Pushing the button on the remote, nothing happens.
-             The remote won't do anything without a battery."
-             LOCATE remote IN Hero. -- Assumes remote is "Taken".
+             ELSE
+                 "Pushing the button on the remote, nothing happens.
+                  The remote won't do anything without a battery."
+                 LOCATE remote IN Hero. -- Assumes remote is "Taken".
          AND cord IS PLUGGED_IN
-           ELSE
-             "The TV won't turn on. It isn't getting any power."
+             ELSE
+                 "The TV won't turn on. It isn't getting any power."
          DOES ONLY
-           DESCRIBE win_tv.
-       END VERB.
-  VERB pull
-  CHECK
-    "You can't get a good grip on the wide screen to pull it.
-    You might have better luck trying to push it."
- End Verb.
-  Verb push
-  CHECK tv IS BOOKED
-    ELSE
-      DESCRIBE tip_tv.
-  DOES ONLY
-    "Please say which direction you want to push it:
-    $ppush the tv north, south, east or west."
- END VERB.
-        VERB push_north
+             DESCRIBE win_tv.
+     END VERB.
+     VERB pull
+         CHECK
+             "You can't get a good grip on the wide screen to pull it.
+              You might have better luck trying to push it."
+     End Verb.
+     Verb push
          CHECK tv IS BOOKED
-           ELSE
-             DESCRIBE tip_tv.
+             ELSE
+                 DESCRIBE tip_tv.
          DOES ONLY
-           SET spot OF tv TO 1.
-           "You push the box north, next to the chair and table."
-       END VERB.
-        VERB push_south
+             "Please say which direction you want to push it: $ppush
+              the tv north, south, east or west."
+     END VERB.
+     VERB push_north
          CHECK tv IS BOOKED
-           ELSE
-             DESCRIBE tip_tv.
+             ELSE
+                 DESCRIBE tip_tv.
          DOES ONLY
-           SET spot OF tv TO 2.
-           "You push the box south, in front of the door."
-       END VERB.
-        VERB push_east
+             SET spot OF tv TO 1.
+             "You push the box north, next to the chair and table."
+     END VERB.
+     VERB push_south
          CHECK tv IS BOOKED
-           ELSE
-             DESCRIBE tip_tv.
+             ELSE
+                 DESCRIBE tip_tv.
          DOES ONLY
-           SET spot OF tv TO 3.
-           "You push the box east, next to the bookcase."
-       END VERB.
-        VERB push_west
+             SET spot OF tv TO 2.
+             "You push the box south, in front of the door."
+     END VERB.
+     VERB push_east
          CHECK tv IS BOOKED
-           ELSE
-             DESCRIBE tip_tv.
+             ELSE
+                 DESCRIBE tip_tv.
          DOES ONLY
-           SET spot OF tv TO 4.
-           "You push the box west, next to the wall."
-       END VERB.
+             SET spot OF tv TO 3.
+             "You push the box east, next to the bookcase."
+     END VERB.
+     VERB push_west
+         CHECK tv IS BOOKED
+             ELSE
+                 DESCRIBE tip_tv.
+         DOES ONLY
+             SET spot OF tv TO 4.
+                 "You push the box west, next to the wall."
+     END VERB.
  END THE tv.
  -----------------------
-THE tip_tv Isa OBJECT AT Nowhere
-DESCRIPTION
- IF TIPPY OF tv &gt;1 THEN
-  "You push harder against the big plasma tv.
-  $pOh no! It tips over and crashes to the floor.
-  Your brand new plasma tv is broken.
-  $p*** You have lost. *** "
-  QUIT.
- ELSE
-  "You will have to push the tv harder than that
-  or find some other way to move it."
-  INCREASE TIPPY OF tv.
- END IF.
-END THE tip_tv.
+ THE tip_tv Isa OBJECT AT Nowhere
+     DESCRIPTION
+         IF TIPPY OF tv &gt;1 THEN
+             "You push harder against the big plasma tv.
+              $pOh no! It tips over and crashes to the floor.
+              Your brand new plasma tv is broken.
+              $p\*\** You have lost. \*** "
+             QUIT.
+         ELSE
+             "You will have to push the tv harder than that or find
+              some other way to move it."
+             INCREASE TIPPY OF tv.
+         END IF.
+ END THE tip_tv.
  -----------------------
-THE win_tv Isa OBJECT AT Nowhere
-DESCRIPTION
-  MAKE tv 'on'.
-  "Wow! What a great picture!"
-  SHOW 'plasma.jpg'.
-  "$n$nYou watch the game and your favorite team wins!"
-  "$n$nAnd so have you..."
-  "$p\*\** You have won! \***"
-  QUIT.
-END THE win_tv.
+ THE win_tv Isa OBJECT AT Nowhere
+     DESCRIPTION
+         MAKE tv 'on'.
+         "Wow! What a great picture!"
+         SHOW 'plasma.jpg'.
+         "$n$nYou watch the game and your favorite team wins!"
+         "$n$nAnd so have you..."
+         "$p\*\** You have won! \***"
+         QUIT.
+ END THE win_tv.
  -----------------------
-THE cord Isa OBJECT AT Nowhere
- NAME cord NAME power electric electrical tv cord
- DESCRIPTION
- IS PLUGGABLE.
-    NOT PLUGGED_IN.
-        VERB examine
+ THE cord Isa OBJECT AT Nowhere
+     NAME cord NAME power electric electrical tv cord
+     DESCRIPTION
+     IS PLUGGABLE.
+        NOT PLUGGED_IN.
+     VERB examine
          DOES ONLY
-       "The power cord is of the common sort, and just three feet long."
-           IF cord IS PLUGGED_IN
-             THEN
-               "It is plugged into the electric outlet."
-           END IF.
-       END VERB.
-        VERB take, pick_up1, pick_up2
+             "The power cord is of the common sort, and just three
+              feet long."
+             IF cord IS PLUGGED_IN THEN
+                 "It is plugged into the electric outlet."
+             END IF.
+     END VERB.
+     VERB take, pick_up1, pick_up2
          CHECK
-       "You can't take it. The power cord is permanently attached to the
-       television set."
-       END VERB.
+             "You can't take it. The power cord is permanently
+              attached to the television set."
+     END VERB.
  END THE cord.
  ----------------------
-THE battery Isa OBJECT AT Nowhere
-
- VERB examine
-  DOES ONLY
-    "It's a regular household AAA battery."
- END VERB.
-
-END THE battery.
+ THE battery Isa OBJECT AT Nowhere
+     VERB examine
+         DOES ONLY
+             "It's a regular household AAA battery."
+     END VERB.
+ END THE battery.
  -----------------------
-THE chair Isa OBJECT AT tv_room
-NAME comfy chair NAME comfy
-NAME cushions NAME big soft chair cushion
-DESCRIPTION
-        VERB examine
+ THE chair Isa OBJECT AT tv_room
+     NAME comfy chair NAME comfy
+     NAME cushions NAME big soft chair cushion
+     DESCRIPTION
+     VERB examine
          DOES ONLY
-       "It's your favorite chair to sit in when you're watching the big game.
-       It has big soft comfy cushions -- just the kind people lose change in
-       all the time."
-       END VERB.
-        VERB search
+             "It's your favorite chair to sit in when you're watching
+              the big game.  It has big soft comfy cushions -- just
+              the kind people lose change in all the time."
+     END VERB.
+     VERB search
          CHECK battery AT Nowhere
-           ELSE
-             "There is nothing else to find by searching the chair."
+             ELSE
+                 "There is nothing else to find by searching the chair."
          DOES ONLY
-           LOCATE battery in Hero.
-           "You find a small battery, which you take."
-       END VERB.
+             LOCATE battery in Hero.
+             "You find a small battery, which you take."
+     END VERB.
  END THE chair.
  -----------------------
-THE table Isa SURFACE AT tv_room
-DESCRIPTION
- VERB examine DOES BEFORE
- "It's an ordinary table, set conveniently by your chair."
-END VERB.
- VERB put_on
- WHEN obj2
- DOES ONLY
-  LOCATE obj1 IN table.
-  "You set" Say The obj1. "on the table.""
-END VERB.
+ THE table Isa SURFACE AT tv_room
+     DESCRIPTION
+     VERB examine DOES BEFORE
+         "It's an ordinary table, set conveniently by your chair."
+     END VERB.
+     VERB put_on
+         WHEN obj2
+             DOES ONLY
+                 LOCATE obj1 IN table.
+                 "You set" Say The obj1. "on the table.""
+     END VERB.
  END THE table.
  -----------------------
-THE tv_wall Isa SCENERY AT tv_room
- CONTAINER
-  HEADER ""
- NAME wall NAME walls
-  VERB examine
-  DOES ONLY
-    "The wall has an electric outlet."
-    IF cord IS PLUGGED_IN
-      THEN
-         "The TV cord is plugged into it."
-    END IF.
- END VERB.
-  VERB plug_in, put_in
-  WHEN obj2
-  CHECK obj1 IS PLUGGABLE
-    ELSE
-       "Hey, be careful! That doesn't go into an electrical outlet!"
-  AND spot OF tv = 4
-    ELSE
-       "The cord is only three feet long. It can't reach the outlet from here."
-  AND cord IS NOT PLUGGED_IN
-    ELSE
-               "The cord is already plugged in!"
-  DOES ONLY
-    MAKE cord PLUGGED_IN.
-    "You put the power cord snugly into the electrical outlet."
- END VERB.
-
-END THE tv_wall.
+ THE tv_wall Isa SCENERY AT tv_room
+     CONTAINER
+         HEADER ""
+     NAME wall NAME walls
+     VERB examine
+         DOES ONLY
+             "The wall has an electric outlet."
+             IF cord IS PLUGGED_IN THEN
+                 "The TV cord is plugged into it."
+             END IF.
+     END VERB.
+     VERB plug_in, put_in
+         WHEN obj2
+             CHECK obj1 IS PLUGGABLE
+                 ELSE
+                     "Hey, be careful! That doesn't go into an electrical outlet!"
+             AND spot OF tv = 4
+                 ELSE
+                     "The cord is only three feet long. It can't reach the outlet from here."
+             AND cord IS NOT PLUGGED_IN
+                 ELSE
+                     "The cord is already plugged in!"
+             DOES ONLY
+                 MAKE cord PLUGGED_IN.
+                 "You put the power cord snugly into the electrical outlet."
+     END VERB.
+ END THE tv_wall.
  -----------------------
-THE outlet Isa SCENERY AT tv_room
- NAME outlet NAME electrical electric power wall wallplug
- CONTAINER
-  HEADER ""
-  VERB examine
-  DOES ONLY
-    "It's a three-prong electrical outlet."
-       IF cord IS PLUGGED_IN
-        THEN
-           "The TV cord is plugged into it."
-       END IF.
-  END VERB.
-  VERB plug_in, put_in
-  WHEN obj2
-  CHECK obj1 IS PLUGGABLE
-    ELSE
-       "Hey, be careful! That doesn't go into an electrical outlet!"
-  AND spot OF tv = 4
-    ELSE
-      "The cord is only three feet long.
-      It can't reach the outlet from here."
-  AND cord IS NOT PLUGGED_IN
-    ELSE
-               "The cord is already plugged in!"
-  DOES ONLY
-    MAKE cord PLUGGED_IN.
-    "You put the power cord snugly into the electrical outlet."
- END VERB.
-
-END THE outlet.
+ THE outlet Isa SCENERY AT tv_room
+     NAME outlet NAME electrical electric power wall wallplug
+     CONTAINER
+         HEADER ""
+     VERB examine
+         DOES ONLY
+             "It's a three-prong electrical outlet."
+             IF cord IS PLUGGED_IN THEN
+                 "The TV cord is plugged into it."
+             END IF.
+     END VERB.
+     VERB plug_in, put_in
+         WHEN obj2
+             CHECK obj1 IS PLUGGABLE
+                 ELSE
+                     "Hey, be careful! That doesn't go into an electrical outlet!"
+             AND spot OF tv = 4
+                 ELSE
+                     "The cord is only three feet long.
+                      It can't reach the outlet from here."
+             AND cord IS NOT PLUGGED_IN
+                 ELSE
+                     "The cord is already plugged in!"
+             DOES ONLY
+                 MAKE cord PLUGGED_IN.
+                 "You put the power cord snugly into the electrical outlet."
+     END VERB.
+ END THE outlet.
  -----------------------
-THE tv_door Isa Door AT tv_room
- HAS otherside kitchen_door.
-END THE tv_door.
+ THE tv_door Isa Door AT tv_room
+     HAS otherside kitchen_door.
+ END THE tv_door.
  -----------------------
-THE kitchen_door Isa Door AT kitchen
- HAS otherside tv_door.
-END THE kitchen_door.
+ THE kitchen_door Isa Door AT kitchen
+     HAS otherside tv_door.
+ END THE kitchen_door.
  -----------------------
-THE kitchen Isa LOCATION
-NAME 'Kitchen'
-       DESCRIPTION
-       "This is the kitchen. There is a counter and a cupboard here.
-       $pNorth returns to the TV Room."
-        EXIT north TO tv_room
+ THE kitchen Isa LOCATION
+     NAME 'Kitchen'
+     DESCRIPTION
+         "This is the kitchen. There is a counter and a cupboard here.
+          $pNorth returns to the TV Room."
+     EXIT north TO tv_room
          CHECK kitchen_door IS OPEN
-           ELSE
-             "$t$t&lt;BUMP&gt;$p$t$tOof!$pThe door is closed."
+             ELSE
+                 "$t$t&lt;BUMP&gt;$p$t$tOof!$pThe door is closed."
          DOES
-           "You return to the TV Room, north."
-       END EXIT.
-        EXIT south, east, west TO kitchen
+             "You return to the TV Room, north."
+     END EXIT.
+     EXIT south, east, west TO kitchen
          CHECK
-           "There is only a wall in that direction."
-       END EXIT.
+             "There is only a wall in that direction."
+     END EXIT.
  END THE kitchen.
  -----------------------
-THE counter Isa SURFACE AT kitchen
- DESCRIPTION
-END THE counter.
+ THE counter Isa SURFACE AT kitchen
+     DESCRIPTION
+ END THE counter.
  -----------------------
-THE cupboard Isa CLOSEABLE AT kitchen
- NAME cupboard NAME cabinet
- DESCRIPTION
-END THE cupboard.
+ THE cupboard Isa CLOSEABLE AT kitchen
+     NAME cupboard NAME cabinet
+     DESCRIPTION
+ END THE cupboard.
  -----------------------
-THE knife Isa OBJECT IN cupboard
-  VERB examine
-  DOES ONLY
-    "It's a sturdy, sharp knife."
- END VERB.
+ THE knife Isa OBJECT IN cupboard
+     VERB examine
+         DOES ONLY
+             "It's a sturdy, sharp knife."
+     END VERB.
  END THE knife.
  -----------------------
-MESSAGE SEE_START: "You see $01"
+ MESSAGE SEE_START: "You see $01"
  -----------------------
-START AT tv_room.
- "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
- $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
- $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
- $p(Type ""help"" if you have not played this kind of game before.)
- $pJoy of joys, you have just purchased a brand new big screen plasma TV
- that was delivered earlier today!"
+ START AT tv_room.
+     "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
+      $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
+      $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
+      $p(Type ""help"" if you have not played this kind of game
+      before.)
+      $pJoy of joys, you have just purchased a brand new big screen
+      plasma TV that was delivered earlier today!"
 ----
 
 == PART TEN: Using EVENTS
@@ -7536,12 +7574,14 @@ game. Here is how we will tell the player what the goal is:
      "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
       $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
       $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
-      $p(Type ""help"" if you have not played this kind of game before.)
-      [red]#$pThe greatest delight in your life is watching tv sports. And the
-      one thing that matters most to you right now is the championship game
-      that your favorite team will play this afternoon.#
-      $pJoy of joys, you have just purchased a brand new big screen plasma
-      TV that was delivered earlier today!"
+      $p(Type ""help"" if you have not played this kind of game
+      before.)
+      [red]#$pThe greatest delight in your life is watching tv
+      sports. And the one thing that matters most to you right now is
+      the championship game that your favorite team will play this
+      afternoon.#
+      $pJoy of joys, you have just purchased a brand new big screen
+      plasma TV that was delivered earlier today!"
 ----
 
 and...
@@ -7564,7 +7604,8 @@ and...
                  LOCATE guide IN Hero.
                  "(First picking it up)$p"
              END IF.
-             "The championship game will be played at 4 o’clock this afternoon!"
+             "The championship game will be played at 4 o’clock this
+              afternoon!"
      END VERB.
  END THE guide.#
  -----------------------
@@ -7617,10 +7658,11 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
      Has hour 4.  -- set these three attributes
      Has minute 50. -- to specify the time of day
      Has ampm "pm". -- you want when the game starts
-     Has timeinminutes 0. -- (the time expressed as minutes past midnight. This is
-                          -- calculated by the game - in the START section - and
-                          -- updated each turn by the TickTock event so left
-                          -- at the default initial value here)
+     Has timeinminutes 0. -- (the time expressed as minutes past
+                          -- midnight. This is calculated by the game
+                          -- in the START section and updated each
+                          -- turn by the TickTock event so left at the
+                          -- default initial value here)
      Verb read
          Does Only
              -- Display the time on screen
@@ -7638,7 +7680,8 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
  End The clock.
  #Event ticktock#
      -- Increments The Time By Another Minute
-     -- Convert Time From "Minutes Past Midnight" To Hh:Mm Am/Pm Format
+     -- Convert Time From "Minutes Past Midnight" To
+     -- Hh:Mm Am/Pm Format
      Set hour Of clock To timeinminutes Of clock / 60.
      If hour Of clock &gt;=12 Then
          Set ampm Of clock To "pm".
@@ -7651,7 +7694,8 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
              Set hour Of clock To 12.
          End If.
      End If.
-     Set minute Of clock To timeinminutes Of clock -((timeinminutes Of clock / 60) * 60).
+     Set minute Of clock To timeinminutes Of clock -((timeinminutes Of
+          clock / 60) * 60).
      -- Increment time by one minute
      -- (If its 11:59pm set clock to zero ie:midnight instead)
      If timeinminutes Of clock &lt; 1439 Then
@@ -7668,7 +7712,8 @@ clock is still just a simple OBJECT, EVENT, and SCHEDULE statement.
      -- from the hh:mm am/pm format
      -- used in source-code to "minutes past midnight" format to make
      -- calculations easier
-     Set timeinminutes Of clock To (hour Of clock * 60) + minute Of clock.
+     Set timeinminutes Of clock To (hour Of clock * 60) + minute Of
+          clock.
      If ampm Of clock = "pm" Then
          If hour Of clock &lt; 12 Then
              Set timeinminutes Of clock To (timeinminutes Of clock + 720).
@@ -7696,13 +7741,15 @@ Create the Clock OBJECT in the Kitchen:
  [red]#The clock Isa object AT Kitchen
      IS READABLE.
      DESCRIPTION
-     Has hour 3.           — set these three attributes
-     Has minute 15.        — to specify the time of day
-     Has ampm "pm".        — you want when the game starts
-     Has timeinminutes 0.  — (the time expressed as minutes past midnight. This is
-                           — calculated by the game - in the START section - and
-                           — updated each turn by the TickTock event so left
-                           — at the default initial value here)
+     Has hour 3.           -- set these three attributes
+     Has minute 15.        -- to specify the time of day
+     Has ampm "pm".        -- you want when the game starts
+     Has timeinminutes 0.  -- (the time expressed as minutes past
+                           -- midnight. This is  calculated by the
+                           -- game  in the START section and
+                           -- updated each turn by the TickTock event
+                           -- so left  at the default initial value
+                           -- here)
      Verb read
          Does Only
              -- Display the time on screen
@@ -7737,7 +7784,8 @@ SCHEDULE the Clock to "Tick" in START AT
 ----
  -----------------------
  START AT tv_room.
-     [red]#Set timeinminutes Of clock To (hour Of clock * 60) + minute Of clock.
+     [red]#Set timeinminutes Of clock To (hour Of clock * 60) + minute
+          Of clock.
      If ampm Of clock = "pm" Then
          If hour Of clock &lt; 12 Then
              Set timeinminutes Of clock To (timeinminutes Of clock + 720).
@@ -7747,12 +7795,14 @@ SCHEDULE the Clock to "Tick" in START AT
      "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
       $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
       $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
-      $p(Type ""help"" if you have not played this kind of game before.)
-      $pThe greatest delight in your life is watching tv sports. And the
-      one thing that matters most to you right now is the championship game
-      that your favorite team will play this afternoon.
-      $pJoy of joys, you have just purchased a brand new big screen plasma TV
-      that was delivered earlier today!"
+      $p(Type ""help"" if you have not played this kind of game
+      before.)
+      $pThe greatest delight in your life is watching tv sports. And
+      the one thing that matters most to you right now is the
+      championship game that your favorite team will play this
+      afternoon.
+      $pJoy of joys, you have just purchased a brand new big screen
+      plasma TV that was delivered earlier today!"
 ----
 
 [float]
@@ -7778,7 +7828,8 @@ Nothing new to add to this, just copy and paste.
              Set hour Of clock To 12.
          End If.
      End If.
-     Set minute Of clock To timeinminutes Of clock -((timeinminutes Of clock / 60) * 60).
+     Set minute Of clock To timeinminutes Of clock -((timeinminutes Of
+          clock / 60) * 60).
      -- Increment time by one minute
      -- (If its 11:59pm set clock to zero ie:midnight instead)
      If timeinminutes Of clock &lt; 1439 Then
@@ -7799,7 +7850,8 @@ Update the Kitchen DESCRIPTION for the Clock
  THE kitchen Isa LOCATION
      NAME 'Kitchen'
      DESCRIPTION
-         "This is the kitchen. There is a counter and a cupboard here, [red]#as well as a clock#.
+         "This is the kitchen. There is a counter and a cupboard here,
+          [red]#as well as a clock#.
           $pNorth returns to the TV Room."
      EXIT north TO tv_room
          CHECK kitchen_door IS OPEN
@@ -7933,7 +7985,8 @@ their reading it, but a few turns after that.
                  "(First picking it up)$p"
              END IF.
              [red]#SCHEDULE time_pass AT Hero AFTER 4.#
-             "The championship game will be played at 4 o'clock this afternoon!"
+             "The championship game will be played at 4 o'clock this
+              afternoon!"
      END VERB.
  END THE guide.
  -----------------------
@@ -8003,9 +8056,10 @@ Here follows the complete source to the tutorial game.
  THE tv_room Isa LOCATION
      NAME 'TV Room'
      DESCRIPTION
-         "This is your favorite room in the house, because you love to watch
-          television. Besides your comfy chair and table in the north end of the
-          room, there is a bookcase on the east side and a bare wall on the west."
+         "This is your favorite room in the house, because you love to
+          watch television. Besides your comfy chair and table in the
+          north end of the room, there is a bookcase on the east side
+          and a bare wall on the west."
          IF tv Here THEN
              "$pYour new plasma TV is sitting"
              DEPENDING ON spot OF tv
@@ -8119,13 +8173,14 @@ Here follows the complete source to the tutorial game.
      VERB examine
          DOES ONLY
              IF box IS NOT SCENERY THEN
-                 "It's quite large, about five feet square. Besides the label (""Ultimo
-                  Plasma TV""), there are large black letters that say, ""PUSH WITH
-                  CARE"". $nAn upward pointing arrow indicates ""THIS SIDE UP""."
+                 "It's quite large, about five feet square. Besides
+                  the label (""Ultimo Plasma TV""), there are large
+                  black letters that say, ""PUSH WITH CARE"". $nAn
+                  upward pointing arrow indicates ""THIS SIDE UP""."
                  "$pThe box is sitting by a wall."
              ELSE
-                 "The carton is in pieces. No need to worry about it now, you can clean
-                  it up later."
+                 "The carton is in pieces. No need to worry about it
+                  now, you can clean it up later."
               END IF.
      END VERB.
      Verb open
@@ -8145,7 +8200,8 @@ Here follows the complete source to the tutorial game.
                      "You have done that already."
              AND obj2 = knife
                  ELSE
-                     "You will need something sharper than that to open the box with."
+                     "You will need something sharper than that to
+                      open the box with."
              Does ONLY
                  DESCRIBE open_box.
      End Verb.
@@ -8166,14 +8222,15 @@ Here follows the complete source to the tutorial game.
                      "You have done that already."
              AND obj2 = knife
                  ELSE
-                     "You will need something sharper than that to open the box with."
+                     "You will need something sharper than that to
+                      open the box with."
              Does ONLY
                  DESCRIBE open_box.
       End Verb.
       VERB pull
           CHECK
-              "You can't get a good grip on the carton to pull it. You might have
-               better luck trying to push it."
+              "You can't get a good grip on the carton to pull it. You
+               might have better luck trying to push it."
       End Verb.
       Verb push
           CHECK
@@ -8214,11 +8271,11 @@ Here follows the complete source to the tutorial game.
          LOCATE remote Here.
          LOCATE knife IN Hero.
          SET spot OF tv TO spot OF box.
-         "Using the sharp blade of the knife, you cut the box open to reveal the
-          plasma TV inside. You cut and tear off the remaining cardboard and cast
-          it aside.
-          $pWow, the TV looks even better in your home than it did on the showroom
-          floor!"
+         "Using the sharp blade of the knife, you cut the box open to
+          reveal the plasma TV inside. You cut and tear off the
+          remaining cardboard and cast it aside.
+          $pWow, the TV looks even better in your home than it did on
+          the showroom floor!"
  END THE open_box.
  -----------------------
  THE remote Isa OBJECT AT Nowhere
@@ -8243,8 +8300,9 @@ Here follows the complete source to the tutorial game.
      VERB turn_on1, turn_on2, switch_on1, switch_on2
          CHECK battery IN remote
              ELSE
-                 "Pushing the button on the remote, nothing happens. The remote won't do
-                  anything without a battery."
+                 "Pushing the button on the remote, nothing
+                  happens. The remote won't do anything without a
+                  battery."
                  LOCATE remote IN Hero. -- Assumes remote is "Taken".
          AND cord IS PLUGGED_IN
              ELSE
@@ -8255,8 +8313,9 @@ Here follows the complete source to the tutorial game.
      VERB push
          CHECK battery IN remote
              ELSE
-                 "Pushing the button on the remote, nothing happens. The remote won't do
-                  anything without a battery."
+                 "Pushing the button on the remote, nothing
+                  happens. The remote won't do anything without a
+                  battery."
                  LOCATE remote IN Hero.
          AND cord IS PLUGGED_IN
              ELSE
@@ -8285,13 +8344,15 @@ Here follows the complete source to the tutorial game.
      END VERB.
      VERB take, pick_up1, pick_up2
          DOES ONLY
-             "You try to wrap your arms around the giant screen but it is too wide.
-              You can't get a good grip on the heavy TV to lift it."
+             "You try to wrap your arms around the giant screen but it
+              is too wide.  You can't get a good grip on the heavy TV
+              to lift it."
      END VERB.
      VERB turn_on1, turn_on2, switch_on1, switch_on2
          CHECK remote Here
              ELSE
-                 "There are no knobs, switches or buttons for turning on the TV."
+                 "There are no knobs, switches or buttons for turning
+                 on the TV."
          AND battery IN remote
              ELSE
                  "Pushing the button on the remote, nothing happens.
@@ -8390,15 +8451,16 @@ Here follows the complete source to the tutorial game.
         NOT PLUGGED_IN.
      VERB examine
          DOES ONLY
-             "The power cord is of the common sort, and just three feet long."
+             "The power cord is of the common sort, and just three
+              feet long."
              IF cord IS PLUGGED_IN THEN
                  "It is plugged into the electric outlet."
              END IF.
      END VERB.
      VERB take, pick_up1, pick_up2
          CHECK
-             "You can't take it. The power cord is permanently attached to the
-              television set."
+             "You can't take it. The power cord is permanently
+              attached to the television set."
      END VERB.
  END THE cord.
  ----------------------
@@ -8415,9 +8477,9 @@ Here follows the complete source to the tutorial game.
      DESCRIPTION
      VERB examine
          DOES ONLY
-             "It's your favorite chair to sit in when you're watching the big game.
-              It has big soft comfy cushions -- just the kind people lose change in
-              all the time."
+             "It's your favorite chair to sit in when you're watching
+              the big game.  It has big soft comfy cushions -- just
+              the kind people lose change in all the time."
      END VERB.
      VERB search
          CHECK battery AT Nowhere
@@ -8447,7 +8509,8 @@ Here follows the complete source to the tutorial game.
      IS READABLE.
      VERB examine
          DOES ONLY
-             "It is a listing of tv programming for the week. It is opened to today's schedule."
+             "It is a listing of tv programming for the week. It is
+              opened to today's schedule."
      END VERB.
      VERB read
          DOES ONLY
@@ -8456,7 +8519,8 @@ Here follows the complete source to the tutorial game.
                  "(First picking it up)$p"
              END IF.
              SCHEDULE time_pass AT Hero AFTER 4.
-             "The championship game will be played at 4 o'clock this afternoon!"
+             "The championship game will be played at 4 o'clock this
+              afternoon!"
      END VERB.
  END THE guide.
  -----------------------
@@ -8475,10 +8539,12 @@ Here follows the complete source to the tutorial game.
          WHEN obj2
              CHECK obj1 IS PLUGGABLE
                  ELSE
-                     "Hey, be careful! That doesn't go into an electrical outlet!"
+                     "Hey, be careful! That doesn't go into an
+                      electrical outlet!"
              AND spot OF tv = 4
                  ELSE
-                     "The cord is only three feet long. It can't reach the outlet from here."
+                     "The cord is only three feet long. It can't reach
+                      the outlet from here."
              AND cord IS NOT PLUGGED_IN
                  ELSE
                      "The cord is already plugged in!"
@@ -8503,7 +8569,8 @@ Here follows the complete source to the tutorial game.
          WHEN obj2
              CHECK obj1 IS PLUGGABLE
                  ELSE
-                     "Hey, be careful! That doesn't go into an electrical outlet!"
+                     "Hey, be careful! That doesn't go into an
+                      electrical outlet!"
              AND spot OF tv = 4
                  ELSE
                      "The cord is only three feet long.
@@ -8513,7 +8580,8 @@ Here follows the complete source to the tutorial game.
                      "The cord is already plugged in!"
              DOES ONLY
                  MAKE cord PLUGGED_IN.
-                 "You put the power cord snugly into the electrical outlet."
+                 "You put the power cord snugly into the electrical
+                  outlet."
      END VERB.
  END THE outlet.
  -----------------------
@@ -8549,10 +8617,11 @@ Here follows the complete source to the tutorial game.
      Has hour 3.  -- set these three attributes
      Has minute 15. -- to specify the time of day
      Has ampm "pm". -- you want when the game starts
-     Has timeinminutes 0. -- (the time expressed as minutes past midnight. This is
-     -- calculated by the game - in the START section - and
-     -- updated each turn by the TickTock event so left
-     -- at the default initial value here)
+     Has timeinminutes 0. -- (the time expressed as minutes past
+                          -- midnight. This is calculated by the game
+                          -- in the START section and updated each
+                          -- turn by the TickTock event so left at the
+                          -- default initial value here)
      Verb read
          Does Only
              -- Display the time on screen
@@ -8601,7 +8670,8 @@ Here follows the complete source to the tutorial game.
  -----------------------
  Event ticktock
      -- Increments The Time By Another Minute
-     -- Convert Time From "Minutes Past Midnight" To Hh:Mm Am/Pm Format
+     -- Convert Time From "Minutes Past Midnight" To
+     -- Hh:Mm Am/Pm Format
      Set hour Of clock To timeinminutes Of clock / 60.
      If hour Of clock &gt;=12 Then
      Set ampm Of clock To
@@ -8616,7 +8686,8 @@ Here follows the complete source to the tutorial game.
              Set hour Of clock To 12.
          End If.
      End If.
-     Set minute Of clock To timeinminutes Of clock  - ((timeinminutes Of clock / 60) * 60).
+     Set minute Of clock To timeinminutes Of clock - ((timeinminutes
+          Of clock / 60) * 60).
      -- Increment time by one minute
      -- (If its 11:59pm set clock to zero ie:midnight instead)
      If timeinminutes Of clock &lt;1439 Then
@@ -8641,10 +8712,12 @@ Here follows the complete source to the tutorial game.
      "$p$t$t$t$t$t$t$t$t$t\*\** TV TIME! \***
       $n$t$t$t$t$t$tAn ALAN 3 Interactive Fiction Tutorial Game
       $n$t$t$t$t$t$t$tBy Michael Arnaud &#169; 2006
-      $p(Type ""help"" if you have not played this kind of game before.)
+      $p(Type ""help"" if you have not played this kind of game
+      before.)
       $pThe greatest delight in your life is watching tv sports. And
       the one thing that matters most to you right now is the
-      championship game that your favorite team will play this afternoon.
-      $pJoy of joys, you have just purchased a brand new big screen plasma TV
-      that was delivered earlier today!"
+      championship game that your favorite team will play this
+      afternoon.
+      $pJoy of joys, you have just purchased a brand new big screen
+      plasma TV that was delivered earlier today!"
 ----
