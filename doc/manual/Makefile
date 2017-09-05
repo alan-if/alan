@@ -1,5 +1,5 @@
 # Location of XXXOffice for conversion from .odt to .pdf
-OFFICEDIR = /cygdrive/c/Program\ Files\ \(x86\)/LibreOffice\ 5
+OFFICEDIR = C:/Program\ Files/LibreOffice\ 5
 
 all: manual.pdf conversion.pdf writing.pdf
 
