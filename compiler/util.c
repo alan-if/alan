@@ -36,7 +36,7 @@ long allocated;			/* Calculated memory usage */
 /*======================================================================*/
 void printVersion(int buildNumber) {
     printf("Alan - Adventure Language Compiler, version %s", alan.version.string);
-    if (buildNumber != 0) printf(" - snapshot build %d", buildNumber);
+    if (buildNumber != 0) printf("-%d", buildNumber);
     printf(" (%s %s)", alan.date, alan.time);
 }
 
@@ -94,7 +94,7 @@ void deallocate(void *memory)
 
  */
 void unimpl(Srcp srcp,		/* IN  - Where? */
-	    char *phase)	/* IN  - What phase? */
+        char *phase)	/* IN  - What phase? */
 {
   lmLog(&srcp, 998, sevWAR, phase);
 }
@@ -132,11 +132,11 @@ char *fileName(int fileNo) {
     static List nofile;
     List *fnm;
     int j;
-    
+
     nofile.member.str = "<no file>";
 
     /* Advance to the correct file name */
-    if (fileNo == -1) 
+    if (fileNo == -1)
         fnm = &nofile;
     else
         for (fnm = fileNames, j = 0; fileNo; j++)
@@ -161,7 +161,7 @@ static void specialListing(lmSev sevs)
     for (i = 1; lmMsg(i, &srcp, err); i++) {
         if (test_severity(err, sevs)) {
             /* Advance to the correct file name */
-            if (srcp.file == -1) 
+            if (srcp.file == -1)
                 fnm = &nofile;
             else
                 for (fnm = fileNames, j = 0; j < srcp.file; j++)
@@ -178,7 +178,7 @@ static void specialListing(lmSev sevs)
             else
                 sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
                         fnm->member.str, srcp.line, srcp.col, err, srcp.col);
-            
+
 #ifdef __mac__
             lmLiPrint(line);
 #else
@@ -321,7 +321,7 @@ void terminate(int ecode)
   if (guiMode) {
     char *message = "Finished with strange error status!";
     switch (lmSeverity()) {
-    case sevOK: 
+    case sevOK:
       message = "Finished OK!"; break;
     case sevINF:
       message = "Finished OK with some informational messages."; break;
