@@ -754,5 +754,3 @@ void stopTranscript(void) {
     transcriptOption = FALSE;
     logOption = FALSE;
 }
-
-

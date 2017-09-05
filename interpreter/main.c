@@ -618,9 +618,9 @@ static void start(void)
     para();
 
     if (where(HERO, TRANSITIVE) == startloc) {
-	    if (traceSectionOption)
-		    printf("<CURRENT LOCATION:>");
-	    look();
+        if (traceSectionOption)
+            printf("<CURRENT LOCATION:>");
+        look();
     }
     resetAndEvaluateRules(rules, header->version);
 }
