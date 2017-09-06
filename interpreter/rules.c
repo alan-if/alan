@@ -85,31 +85,31 @@ static void traceRuleStart(int rule, char *what) {
 }
 
 static bool detailedTraceOn() {
-	return traceInstructionOption || traceSourceOption || tracePushOption || traceStackOption;
+    return traceInstructionOption || traceSourceOption || tracePushOption || traceStackOption;
 }
 
 
 /*----------------------------------------------------------------------*/
 static void traceRuleEvaluation(int rule) {
     if (traceSectionOption) {
-	    if (detailedTraceOn()) {
-	        traceRuleStart(rule, "Evaluating:>");
+        if (detailedTraceOn()) {
+            traceRuleStart(rule, "Evaluating:>");
             if (!traceInstructionOption)
-	            printf("\n");
+                printf("\n");
         } else {
-	        traceRuleStart(rule, "Evaluating to ");
+            traceRuleStart(rule, "Evaluating to ");
         }
     }
 }
 
 /*----------------------------------------------------------------------*/
 static void traceRuleResult(int rule, bool result) {
-	if (traceSectionOption) {
-		if (detailedTraceOn())
-	        printf("<RULE %d %s%s", rule, "Evaluated to ", result?": true>\n":": false>\n");
+    if (traceSectionOption) {
+        if (detailedTraceOn())
+            printf("<RULE %d %s%s", rule, "Evaluated to ", result?": true>\n":": false>\n");
         else
-	        printf(result?"true":"false");
-	}
+            printf(result?"true":"false");
+    }
 }
 
 /*----------------------------------------------------------------------*/
@@ -120,7 +120,7 @@ static void traceRuleExecution(int rule) {
         else {
             traceRuleStart(rule, "Executing:>");
             if (!traceInstructionOption)
-	            printf("\n");
+                printf("\n");
         }
     }
 }
@@ -166,8 +166,8 @@ static void evaluateRulesBeta2New(void) {
     anyRuleRun = FALSE;
 
     for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
-	    bool evaluated_value = evaluate(rules[i-1].exp);
-	    traceRuleEvaluation(i);
+        bool evaluated_value = evaluate(rules[i-1].exp);
+        traceRuleEvaluation(i);
         rules[i-1].alreadyRun = evaluated_value;
     }
     for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
@@ -213,7 +213,7 @@ static void evaluateRulesBeta2(void)
                     if (traceSectionOption && !traceInstructionOption)
                         printf(":>\n");
                 }
-	    }
+        }
     }
 }
 
