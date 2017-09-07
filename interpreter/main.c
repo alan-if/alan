@@ -845,17 +845,16 @@ void run(void)
 
         /* Move all characters, hero first */
         rememberGameState();
-
         current.meta = FALSE;
         moveActor(header->theHero);
 
+        if (gameStateChanged)
+            rememberCommands();
+        else
+            forgetGameState();
+
         if (!current.meta) {
             current.tick++;
-
-            if (gameStateChanged)
-                rememberCommands();
-            else
-                forgetGameState();
 
             /* Remove this call? Since Eval is done up there after each event... */
             resetAndEvaluateRules(rules, header->version);
