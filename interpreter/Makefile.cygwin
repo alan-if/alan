@@ -42,3 +42,26 @@ CGREENLDPATH  =
 CURSESLIB = -lcurses
 glkarun: COMPILER = gcc
 glkarun: LINKER = gcc
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# arun64 - command line alan interpreter for Cygwin64
+#
+# Build with flags and compilers:
+arun64: COMPILER = gcc
+arun64: LINKER = gcc
+
+ARUN64OBJDIR = .arun64
+ARUN64OBJECTS = $(addprefix $(ARUN64OBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUN64OBJDIR)/alan.version.o
+
+$(ARUN64OBJECTS): $(ARUN64OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(ARUN64OBJDIR):
+	@mkdir $(ARUN64OBJDIR)
+
+arun64: $(ARUN64OBJDIR) $(ARUN64OBJECTS)
+	$(LINK) $(LINKFLAGS) -o $@ $(ARUN64OBJECTS) $(ARUN64LIBS)
+	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
+	cp $@ ../bin

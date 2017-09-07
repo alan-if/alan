@@ -7,11 +7,14 @@
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
 
 ifneq ($(BUILDNUMBER),)
-BUILDVERSION = -$(BUILDNUMBER)
+  # For snapshots we use buildnumber for version info and filenames
+  BUILDVERSION = -$(BUILDNUMBER)
+else
+
 endif
 
 CC = $(COMPILER)
-CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILD_NUMBER) $(OSFLAGS)
+CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS)
 
 LINK = $(LINKER)
 LINKFLAGS = $(OSFLAGS) $(EXTRA_LINKER_FLAGS)

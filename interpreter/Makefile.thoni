@@ -4,9 +4,6 @@
 # It is included from Makefile if run on ThoNi's machine
 #######################################################################
 
-# We know we are on cygwin
-include Makefile.cygwin
-
 #######################################################################
 #
 # Some optional settings
@@ -26,7 +23,7 @@ INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
 ###############################################################
 .PHONY: all
-all: unit build
+all: unit build arun64
 
 ###############################################################
 .PHONY: build
@@ -120,3 +117,6 @@ about: about.c arun.res
 headerGenerator: headerGenerator.c
 
 include ../venum.mk
+
+# We know we are on cygwin
+include Makefile.cygwin
