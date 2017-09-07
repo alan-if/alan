@@ -3,17 +3,17 @@
 #include "alan.version.h"
 
 Product alan = {
-  "Alan",
-  "Adventure Language System",
-  "Alan 3.0beta6",
-  "Alan 3.0beta6 -- Adventure Language System (2017-09-06 07:58)",
-  "2017-09-06",
-  "07:58:22",
-  "Thomas",
+  "alan",
   "",
-  "cygwin32",
-  {"3.0beta6", 3, 0, 6, 1504677502, "beta"}
+  "alan 1.0",
+  "alan 1.0 (117-09-07 12:58, Thomas@thoni64/cygwin64)",
+  "2017-09-07",
+  "12:58:22",
+  "Thomas",
+  "thoni64",
+  "cygwin64",
+  {"1.0", 1, 0, 0, 1504781902, ""}
 };
 
-static char *alanId =
-  "@(#)RELEASE ";
+char *alanId =
+  "@(#)RELEASE alan 1.0 2017-09-07 12:58:22 Thomas@thoni64/cygwin64";
