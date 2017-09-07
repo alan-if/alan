@@ -9,10 +9,10 @@ ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
 
-ifneq ($(BUILDNUMBER),)
+#ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info in app and in filenames
-  BUILDVERSION = -$(BUILDNUMBER)
-endif
+  #BUILDVERSION = -$(BUILDNUMBER)
+#endif
 
 CC = $(COMPILER)
 CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS) $(ARCHFLAGS) -MMD
