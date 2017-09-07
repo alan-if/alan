@@ -2,6 +2,8 @@
 #
 # Version number file generation
 #
+# We create next release to be able to generate version marking on
+# non-Windows platforms where 'venum' isn't available
 alan.version.c: $(VERSIONSRCS)
 	cd ..; venum alan time
 	cd ..; venum alan -print '$$v_$$r{s$$s|}$$c' > NEXTRELEASE
