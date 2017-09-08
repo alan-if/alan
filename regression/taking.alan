@@ -12,7 +12,7 @@ End Add.
 
 The o1 Isa object At l
   Container
-    Taking actor.
+    Taking literal.
 End The o1.
 
 The o2 Isa object At l.
@@ -29,5 +29,3 @@ Syntax
       Else "You can only put things in containers."
 
 Start At l.
-
-

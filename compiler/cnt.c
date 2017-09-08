@@ -183,6 +183,10 @@ void analyzeContainer(Container *theContainer, Context *context)
         /* Analyze which class it takes */
         Id *id = theContainer->body->taking;
         id->symbol = symcheck(id, CLASS_SYMBOL, context);
+        if (id->symbol == actorSymbol)
+            lmLogv(&id->srcp, 402, sevERR, "An Actor", NULL);
+        if (id->symbol == locationSymbol)
+            lmLogv(&id->srcp, 402, sevERR, "A Location", NULL);
 
         /* Analyze the limits */
         for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
@@ -323,5 +327,3 @@ void dumpContainer(Container *container)
     put("body.extractStatements: "); dumpList(container->body->extractStatements, STATEMENT_LIST); nl();
     put("body.extractStatementsAdr: "); dumpAddress(container->body->extractStatementsAddress); out();
 }
-
-
