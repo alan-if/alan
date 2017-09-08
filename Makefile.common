@@ -68,7 +68,7 @@ buildnumbers: buildnumber
 
 buildnumber:
 ifeq ($(BUILDNUMBER),)
-	@echo "Getting BUILDNUMBER from Jenkins (should only happen when not building on Jenkins@thoni64)
+	@echo "Getting BUILDNUMBER from Jenkins (should only happen when not building on Jenkins@thoni64)"
 	$(eval BUILDNUMBER := $(shell wget -q -O- 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
 endif
 
