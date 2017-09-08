@@ -11,24 +11,24 @@ endif
 .PHONY: clean
 clean:
 	@echo "******** Target: $@ ***********"
-	-cd compiler; $(MAKE) clean
-	-cd interpreter; $(MAKE) clean
-	-cd converter; $(MAKE) clean
+	-$(MAKE) -C compiler clean
+	-$(MAKE) -C interpreter clean
+	-$(MAKE) -C converter clean
 	@-rm -f alan3*.tgz
 
 .PHONY: build
 build:
 	@echo "******** Target: $@ ***********"
-	cd compiler; $(MAKE) build
-	cd interpreter; $(MAKE) build
-	cd converter; $(MAKE) build
+	$(MAKE) -C compiler BUILDNUMBER=$(BUILDNUMBER) build
+	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) build
+	$(MAKE) -C converter BUILDNUMBER=$(BUILDNUMBER) build
 
 .PHONY: unit
 unit:
 	@echo "******** Target: $@ ***********"
-	-cd compiler; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
-	-cd interpreter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
-	-cd converter; $(MAKE) UNITOUTPUT="$(UNITOUTPUT)" unit
+	-$(MAKE) -C compiler UNITOUTPUT="$(UNITOUTPUT)" unit
+	-$(MAKE) -C interpreter UNITOUTPUT="$(UNITOUTPUT)" unit
+	-$(MAKE) -C converter UNITOUTPUT="$(UNITOUTPUT)" unit
 
 .PHONY: test
 test:
@@ -37,9 +37,9 @@ ifeq ($(OS), Linux)
 	@touch regression/isochars.suspended regression/unknownWordMessage.suspended
 endif
 	@echo "***************** Test *****************"
-	-cd compiler; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
-	-cd interpreter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
-	-cd converter; $(MAKE) JREGROUTPUT=$(JREGROUTPUT) test
+	-$(MAKE) -C compiler JREGROUTPUT=$(JREGROUTPUT) test
+	-$(MAKE) -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
+	-$(MAKE) -C converter JREGROUTPUT=$(JREGROUTPUT) test
 
 
 ###########################################################

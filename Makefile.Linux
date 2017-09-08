@@ -34,7 +34,7 @@ distribution:
 
 distribution-build:
 	$(MAKE) clean all package
-	cd interpreter; $(MAKE) gararun
+	$(MAKE) -C interpreter gararun
 
 distribution-upload:
 	alanupload $(PACKAGE) "sdks/linux/"
@@ -47,7 +47,7 @@ distribution-upload:
 #
 snapshot-build:
 	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) BUILDVERSION=$(BUILDVERSION) clean all package
-	cd interpreter; $(MAKE) BUILDNUMBER=$(BUILDNUMBER) gararun
+	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) gararun
 
 snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)/

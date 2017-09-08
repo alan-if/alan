@@ -78,9 +78,6 @@ release-upload:
 	alanupload doc/manual/conversion.pdf documentation
 	#alanupload doc/manual/writing.pdf documentation
 
-.PHONY: gargoyle
-gargoyle:
-	cd interpreter; $(MAKE) gararun
 
 # Create pdf from odt
 .PHONY: documentation
@@ -91,9 +88,9 @@ documentation:
 
 .PHONY: releasebuild
 releasebuild:
-	cd compiler ; make release
-	cd interpreter ; make release
-	cd converter ; make release
+	$(MAKE) -C compiler release
+	$(MAKE) -C interpreter release
+	$(MAKE) -C converter release
 
 include Makefile.common
 
