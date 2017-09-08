@@ -68,7 +68,6 @@ buildnumbers: buildnumber
 
 buildnumber:
 	ifeq ($(BUILDNUMBER),)
-	  @echo "Getting buildnumber from remote (should only happen on non-thoni machines)"
 	  $(eval BUILDNUMBER := $(shell wget -q -O- 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
 	endif
 
