@@ -62,11 +62,15 @@ snapshot: buildnumbers snapshot-build snapshot-upload
 buildnumbers: buildnumber
 	$(eval BUILDVERSION := -$(BUILDNUMBER))
 	$(eval BUILDNAME := Build$(BUILDNUMBER))
+	@echo BUILDNUMBER = $(BUILDNUMBER)
+	@echo BUILDVERSION = $(BUILDVERSION)
+
 
 buildnumber:
-    ifeq ($(BUILDNUMBER),)
-	$(eval BUILDNUMBER := $(shell wget -q -O- 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
-    endif
+	ifeq ($(BUILDNUMBER),)
+	  @echo "Getting buildnumber from remote (should only happen on non-thoni machines)"
+	  $(eval BUILDNUMBER := $(shell wget -q -O- 'ci.alanif.se:8080/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
+	endif
 
 .PHONY: x
 x:
