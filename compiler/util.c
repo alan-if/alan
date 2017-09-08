@@ -139,9 +139,10 @@ char *fileName(int fileNo) {
     if (fileNo == -1)
         fnm = &nofile;
     else
-        for (fnm = fileNames, j = 0; fileNo; j++)
-            if (fnm != NULL)
+        for (fnm = fileNames, j = 0; j<fileNo-1; j++)
+            if (fnm != NULL) {
                 fnm = fnm->next;
+            }
     if (fnm == NULL)
         fnm = &nofile;
     return fnm->member.str;
@@ -264,7 +265,8 @@ static char *srcpToString(Srcp srcp) {
     if (!buffer) buffer = allocate(1000);
 
     if (srcp.line != 0 && srcp.col != 0)
-        sprintf(buffer, " originated from %s:%d(%d)", fileName(srcp.file), srcp.line, srcp.col);
+        sprintf(buffer, " originated from %s:%d(%d)", fileName(srcp.file),
+                srcp.line, srcp.col);
     else
         buffer[0] = '\0';
     return buffer;

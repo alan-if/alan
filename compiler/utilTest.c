@@ -36,3 +36,15 @@ Ensure(Utilities, strmov_can_move_string_of_many) {
     strmov(to, from);
     assert_that(to, is_equal_to_string("this is many characters"));
 }
+
+Ensure(Utilities, can_find_third_filename) {
+    List *fnm;
+    fnm = concat(NULL, "file1", STRING_LIST);
+    fnm = concat(fnm, "file2", STRING_LIST);
+    fnm = concat(fnm, "file3", STRING_LIST);
+    fnm = concat(fnm, "file4", STRING_LIST);
+
+    fileNames = fnm;
+
+    assert_that(fileName(3), is_equal_to_string("file3"));
+}
