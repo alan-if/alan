@@ -66,7 +66,7 @@ static int instance_count;
 Describe(Instance);
 
 BeforeEach(Instance) {
-	setup_memory(MAX_NO_OF_INSTANCES);
+    setup_memory(MAX_NO_OF_INSTANCES);
     instance_count = 0;
 }
 
@@ -93,7 +93,7 @@ Ensure(Instance, can_handle_direct_transitivity) {
     Aint non_containee = given_an_instance_at("non_containee", OBJECT, 5);
 
     instances[container].container = 1;
-    
+
     assert_that(isIn(containee, container, DIRECT));
     assert_that(!isIn(non_containee, container, DIRECT));
 }
@@ -105,7 +105,7 @@ Ensure(Instance, IN_can_handle_transitive_transitivity) {
     Aint intermediate_container = given_a_container_instance_at("intermediate_container", OBJECT, outer_container);
     Aint containee = given_an_instance_at("containee", OBJECT, intermediate_container);
     Aint non_containee = given_an_instance_at("non_containee", OBJECT, location);
-        
+
     assert_that(isIn(containee, outer_container, TRANSITIVE));
     assert_that(isIn(intermediate_container, outer_container, TRANSITIVE));
     assert_that(!isIn(non_containee, outer_container, DIRECT));
@@ -117,7 +117,7 @@ Ensure(Instance, IN_can_handle_indirect_transitivity) {
     Aint intermediate_container = given_a_container_instance_at("intermediate_container", OBJECT, outer_container);
     Aint containee = given_an_instance_at("containee", OBJECT, intermediate_container);
     Aint non_containee = given_an_instance_at("non_containee", OBJECT, location);
-        
+
     assert_that(isIn(containee, outer_container, INDIRECT));
     assert_that(!isIn(intermediate_container, outer_container, INDIRECT));
     assert_that(!isIn(non_containee, outer_container, INDIRECT));
@@ -129,7 +129,7 @@ Ensure(Instance, IN_can_handle_direct_transitivity) {
     Aint intermediate_container = given_a_container_instance_at("intermediate_container", OBJECT, outer_container);
     Aint containee = given_an_instance_at("containee", OBJECT, intermediate_container);
     Aint non_containee = given_an_instance_at("non_containee", OBJECT, location);
-    
+
     assert_that(!isIn(containee, outer_container, DIRECT));
     assert_that(isIn(intermediate_container, outer_container, DIRECT));
     assert_that(isIn(containee, intermediate_container, DIRECT));
@@ -153,7 +153,7 @@ Ensure(Instance, can_see_if_an_instance_is_direct_at_another_instance) {
     Aint location = given_an_instance_at("location", LOCATION, 0);
     Aint instance1 = given_an_instance_at("instance1", OBJECT, location);
     Aint instance2 = given_an_instance_at("instance1", OBJECT, location);
-    
+
     assert_that(isAt(instance1, instance2, DIRECT));
 }
 
@@ -166,11 +166,11 @@ Ensure(Instance, can_see_if_an_instance_is_not_direct_at_another_instance) {
     assert_that(!isAt(instance1, instance2, DIRECT));
 }
 
-Ensure(Instance, can_see_if_an_instance_is_transitive_at_location) {
+Ensure(Instance, can_see_if_an_instance_is_transitively_at_location) {
     Aint location = given_an_instance_at("location", LOCATION, 0);
     Aint container = given_an_instance_at("container", OBJECT, location);
     Aint instance = given_an_instance_at("instance", OBJECT, container);
-    
+
     assert_that(isAt(instance, location, TRANSITIVE));
 }
 

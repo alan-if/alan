@@ -193,23 +193,23 @@ static void verifyInstance(int instance, char *action) {
 
 
 /*======================================================================*/
-bool isHere(int id, ATrans trans)
+bool isHere(int id, ATrans transitivity)
 {
     verifyInstance(id, "HERE");
 
-    return isAt(id, current.location, trans);
+    return isAt(id, current.location, transitivity);
 }
 
 
 /*======================================================================*/
-bool isNearby(int instance, ATrans trans)
+bool isNearby(int instance, ATrans transitivity)
 {
     verifyInstance(instance, "NEARBY");
 
     if (isALocation(instance))
         return exitto(current.location, instance);
     else
-        return exitto(current.location, where(instance, trans));
+        return exitto(current.location, where(instance, transitivity));
 }
 
 

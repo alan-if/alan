@@ -20,14 +20,6 @@ CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAG
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
 
-v:
-	cd ..; venum alan -print '$$v_$$r{s$$s|}$$c'
-	@echo BUILDNUMBER=$(BUILDNUMBER)
-	@echo BUILDVERSION=$(BUILDVERSION)
-	@echo BUILDNAME=$(BUILDNAME)
-	@echo VERSION=$(VERSION)
-
-
 # Default top rule if platform specific makefile doesn't add a default
 # that is found before this
 all: unit arun
