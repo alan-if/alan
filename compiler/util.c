@@ -34,10 +34,12 @@ long allocated;			/* Calculated memory usage */
 /* FUNCTIONS */
 
 /*======================================================================*/
-void printVersion(int buildNumber) {
-    printf("Alan - Adventure Language Compiler, version %s", alan.version.string);
-    if (buildNumber != 0) printf("-%d", buildNumber);
-    printf(" (%s %s)", alan.date, alan.time);
+const char *version_string(int buildNumber) {
+    static char buf[100];
+    sprintf(buf, "Alan - Adventure Language Compiler, version %s", alan.version.string);
+    if (buildNumber != 0) sprintf(&buf[strlen(buf)], "-%d", buildNumber);
+    sprintf(&buf[strlen(buf)], " (%s %s)", alan.date, alan.time);
+    return buf;
 }
 
 

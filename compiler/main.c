@@ -21,7 +21,7 @@
 static SPA_FUN(usage)
 {
     printf("Usage: ALAN <adventure> [-help] [options]\n");
-    
+
 }
 
 static SPA_ERRFUN(paramError)
@@ -262,11 +262,10 @@ int main(int argc,		/* IN - argument count */
     /* Say hello ! */
     if (verboseFlag) {
 #if (BUILD+0) != 0
-        printVersion(BUILD);
+        printf("%s\n", version_string(BUILD));
 #else
-        printVersion(0);
+        printf("%s\n", version_string(0));
 #endif
-        printf("\n");
     }
 
     if (nArgs == 0) {
@@ -278,4 +277,3 @@ int main(int argc,		/* IN - argument count */
     compile();
     return 0;
 }
-

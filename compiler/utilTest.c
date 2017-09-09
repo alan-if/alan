@@ -48,3 +48,17 @@ Ensure(Utilities, can_find_third_filename) {
 
     assert_that(fileName(3), is_equal_to_string("file3"));
 }
+
+Ensure(Utilities, can_create_version_string_with_buildnumber) {
+    const char *the_version_string = version_string(666);
+    char *end_of_version = strstr(the_version_string, alan.version.string)
+        +strlen(alan.version.string);
+    assert_that(end_of_version, begins_with_string("-666"));
+}
+
+Ensure(Utilities, can_create_version_string_without_buildnumber) {
+    const char *the_version_string = version_string(0);
+    char *end_of_version = strstr(the_version_string, alan.version.string)
+        +strlen(alan.version.string);
+    assert_that(end_of_version, does_not_begin_with_string("-"));
+}
