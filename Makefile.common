@@ -42,6 +42,12 @@ endif
 	-$(MAKE) -C converter JREGROUTPUT=$(JREGROUTPUT) test
 
 
+.PHONY: ci
+ci: JREGROUTPUT = -xml
+ci: UNITOUTPUT = --xml TEST
+ci: BUILDNUMBER = $(shell cat BUILD_NUMBER)
+ci: buildnumbers all zip setup
+
 ###########################################################
 # Snapshot boiler plate - specifics in Makefile.<platform>
 #
