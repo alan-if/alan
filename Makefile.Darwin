@@ -4,7 +4,7 @@
 
 VERSION := $(shell cat NEXTRELEASE)
 
-PACKAGE = alan$(VERSION)$(BUILDVERSION).macosx.x86.tgz
+PACKAGE = alan$(VERSION)$(BUILDVERSION).macosx.x86_64.tgz
 
 
 # There is no libxml-xpath-perl on Darwin so we need to use XML::XPath
@@ -19,8 +19,8 @@ v :
 	echo $(VERSION)
 
 
-.PHONY: package
-package: alan.readme.macosx $(PACKAGE)
+.PHONY: packages
+packages: alan.readme.macosx $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
 	cp bin/alan bin/arun .
@@ -40,7 +40,7 @@ distribution-check:
 	fi
 
 distribution-build:
-	$(MAKE) clean all package
+	$(MAKE) clean all packages
 	$(MAKE) -C interpreter gararun MacArun
 
 distribution-upload:
@@ -53,7 +53,7 @@ distribution-upload:
 # Snapshot
 #
 snapshot-build:
-	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) clean all package
+	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) clean all packages
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) gararun MacArun
 
 snapshot-upload:

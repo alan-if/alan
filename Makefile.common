@@ -1,5 +1,5 @@
 # Main common targets: clean build unit test
-# package must be defined in platform dependent makefiles
+# "packages" must be defined in platform dependent makefiles
 
 ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
@@ -7,6 +7,7 @@ else
 UNITOUTPUT ?= -c
 endif
 
+PLATFORM = "Needs to be set by platform specific Makefile"
 
 .PHONY: clean
 clean:
@@ -45,8 +46,7 @@ endif
 .PHONY: ci
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
-ci: BUILDNUMBER = $(shell cat BUILD_NUMBER)
-ci: buildnumbers all zip setup
+ci: buildnumbers all packages
 
 ###########################################################
 # Snapshot boiler plate - specifics in Makefile.<platform>

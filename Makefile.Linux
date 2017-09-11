@@ -4,7 +4,10 @@
 
 VERSION := $(shell cat NEXTRELEASE)
 
-PACKAGE = alan$(VERSION)$(BUILDVERSION).linux.x86.tgz
+SYSTEM = $(shell uname -s | tr A-Z a-z)
+PLATFORM = $(PLATFORM).i386                         # Since we only distribute 32bit versions
+
+PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
 
 XPATH := xpath -q -e
 
@@ -14,11 +17,10 @@ all : unit build
 
 
 # We need to define how to package on Linux
-package: alan.readme.linux $(PACKAGE)
+packages: alan.readme.linux $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
 	cp bin/alan bin/arun .
-	echo $(PACKAGE)
 	tar zcvf $(PACKAGE) alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
 	-rm alan arun
 

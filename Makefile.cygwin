@@ -6,6 +6,8 @@
 VERSION	:= `venum alan -print '$$v_$$r{s$$s|_}$$c' | tr -d '\n\r'`
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
+PLATFORM = win32.i386               # Since we only distribute windows 32-bit exe's
+
 # Location of Inno Setup Compiler
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
@@ -15,12 +17,6 @@ default: unit build
 
 .PHONY: all
 all: unit build documentation tests
-
-.PHONY: ci
-ci: JREGROUTPUT = -xml
-ci: UNITOUTPUT = --xml TEST
-ci: BUILDNUMBER = $(shell cat BUILD_NUMBER)
-ci: buildnumbers all zip setup
 
 .PHONY:tests
 tests: test cygwintests
@@ -134,11 +130,14 @@ newVersion:
 
 #################################################################################
 
+.PHONY: packages
+packages: zip setup
+
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING
 	@echo "******** Target: $@ ***********"
 	-rm alan*.zip
-	zip -j alan$(VERSION)$(BUILDVERSION).win32.x86.zip $^
+	zip -j alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $^
 
 .PHONY: setup
 setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
