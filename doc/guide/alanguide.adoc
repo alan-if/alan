@@ -1,4 +1,5 @@
 = ALAN 3 BEGINNER’S GUIDE
+:toc:
 
 - Initial version by Michael Arnaud © 2006
 - Converted to AsciiDOC by Thomas Nilefalk © 2014-2017
@@ -9,6 +10,7 @@
 
 image::images\4EA5EB596A6EDB3CC92206A2D8BDF967E38BD9B6.jpg[]
 
+:numbered!:
 == Notes on the current version
 
 This excellent guide was written by Michael Arnaud back in 2006. It
@@ -36,6 +38,8 @@ As a last side note, in 2016 I changed my last name from Nilsson to
 Nilefalk.
 
 _Thomas Nilefalk, 2017_
+
+:numbered:
 
 == Introduction
 [[introduction]]
@@ -376,8 +380,8 @@ and "north" from the Kitchen. But suppose the player would like to go
 east or west or up or down? The interpreter does not know what any of
 those words mean, and will tell the player so.
 
-TIP: In game transcripts we'll use _italics_ to indicate what the
-player types.
+TIP: In game transcripts we'll use _this type face_ to indicate what
+the player types.
 
 [subs="quotes"]
 ----
@@ -965,7 +969,7 @@ be found, things the player can look at and in many cases manipulate
 in some way. In our game so far we have told the player that in the TV
 Room there is a TV, a chair, and a table.
 
-The basic template for `OBJECTS is:
+The basic template for an `OBJECT` is:
 
 ----
 THE ? Isa OBJECT AT ?
