@@ -39,9 +39,11 @@ while true ; do
             files=`find . -name \*$ext`
             for file in ${files[@]} ; do
                 d1=`perl -e '$mtime=(stat("'$file'"))[9]; print $mtime;'`
-                if [ $d0 -lt $d1 ] ; then
-                    f=$file
-                    d0=$d1
+                if [ ! -z "$d" ] ; then
+                    if [ $d0 -lt $d1 ] ; then
+                        f=$file
+                        d0=$d1
+                    fi
                 fi
             done
         done
