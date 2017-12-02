@@ -22,7 +22,11 @@ win:	PLATFORM = -DWINGUI -mwindows -mno-cygwin
 release:	OPTIMIZE = -O4
 gcov:	GCOV = -fprofile-arcs -ftest-coverage
 
-CFLAGS 	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
+CFLAGS	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
+ifneq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+CFLAGS += -fPIC
+endif
+
 LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
 
 CC = gcc

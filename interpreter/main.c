@@ -327,9 +327,9 @@ void checkVersion(ACodeHeader *header)
        2) Alpha, Beta and Release interpreters will not run development games
        3) Alpha interpreters must warn if they run beta or release games
        4) Beta interpreters may introduce changes which are not alpha compatible,
-       if the change is a strict addition (i.e. if not used will not affect
-       alpha interpreters, example is introduction of a new opcode if it is
-       done at the end of the list)
+          if the change is a strict addition (i.e. if not used will not affect
+          alpha interpreters, example is introduction of a new opcode if it is
+          done at the end of the list)
        5) Release interpreters should run alpha and beta games without problems
 
        NOTE that we are working with a non-reversed version string/word here.
