@@ -2,7 +2,7 @@
 #
 # Version number file generation
 #
-# We create next release to be able to generate version marking on
+# We create NEXTRELEASE to be able to generate version marking on
 # non-Windows platforms where 'venum' isn't available
 NEXTRELEASEFORMAT='$$v_$$r\{s$$s\|\}$$c'
 

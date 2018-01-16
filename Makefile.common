@@ -7,7 +7,7 @@ else
 UNITOUTPUT ?= -c
 endif
 
-PLATFORM = "Needs to be set by platform specific Makefile"
+PLATFORM ?= "Needs to be set by platform specific Makefile"
 
 .PHONY: clean
 clean:

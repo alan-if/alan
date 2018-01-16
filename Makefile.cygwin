@@ -3,10 +3,11 @@
 # It only works on ThoNi's machine.
 #######################################################################
 
-VERSION	:= `venum alan -print '$$v_$$r{s$$s|_}$$c' | tr -d '\n\r'`
+VERSION	:= `venum alan -print '$$v_$$r\{s$$s\|_\}$$c' | tr -d '\n\r'`
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
-PLATFORM = win32.i386               # Since we only distribute windows 32-bit exe's
+# Since we only distribute windows 32-bit exe's
+PLATFORM = win32.i386
 
 # Location of Inno Setup Compiler
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
@@ -169,3 +170,6 @@ alan.readme.windows.txt: alan.readme.windows
 
 converter/a2a3.readme.txt: converter/a2a3.readme
 	unix2dos >$@ <$<
+
+print-version:
+	echo $(VERSION)
