@@ -16,8 +16,8 @@
 
 /* DATA: */
 
-extern void (*(dumpNodeTable[]))();
-extern void (*(xmlNodeTable[]))();
+extern void (*(dumpNodeTable[]))(void *);
+extern void (*(xmlNodeTable[]))(void *);
 
 
 /* FUNCTIONS: */
@@ -26,7 +26,7 @@ extern void (*(xmlNodeTable[]))();
 
 #define ITERATE(loopVariable,initExpression) for (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
 
-extern void initDumpNodeList();
+extern void initDumpNodeList(void);
 extern List *newEmptyList(ListKind kind);
 extern List *newList(void *member, ListKind kind);
 extern List *concat(List *list, void *member, ListKind kind);

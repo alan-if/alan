@@ -50,7 +50,7 @@ extern Symbol *messageVerbSymbolFor3Integers;
 
 extern void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition);
 extern void initSymbols(void);
-extern void createMessageVerbs();
+extern void createMessageVerbs(void);
 
 extern Symbol *newSymbol(Id *id, SymbolKind kind);
 extern Symbol *newInstanceSymbol(Id *id, Properties *props, Symbol *parent);

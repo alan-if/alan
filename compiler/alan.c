@@ -394,32 +394,32 @@ static void listingOnScreen() {
 }
 
 /* Import of dump functions to be used in initDumpers */
-extern void dumpAdd();
-extern void dumpAlternative();
-extern void dumpAttribute();
-extern void dumpCheck();
-extern void dumpClass();
-extern void dumpElement();
-extern void dumpEvent();
-extern void dumpExit();
-extern void dumpExpression();
-extern void dumpId();
-extern void dumpIfid();
-extern void dumpInstance();
-extern void dumpLimit();
-extern void dumpPointer();
-extern void dumpRestriction();
-extern void dumpRule();
-extern void dumpScript();
-extern void dumpStatement();
-extern void dumpStep();
-extern void dumpSyntax();
-extern void dumpSynonym();
-extern void dumpVerb();
+extern void dumpAdd(void);
+extern void dumpAlternative(void);
+extern void dumpAttribute(void);
+extern void dumpCheck(void);
+extern void dumpClass(void);
+extern void dumpElement(void);
+extern void dumpEvent(void);
+extern void dumpExit(void);
+extern void dumpExpression(void);
+extern void dumpId(void);
+extern void dumpIfid(void);
+extern void dumpInstance(void);
+extern void dumpLimit(void);
+extern void dumpPointer(void *adr);
+extern void dumpRestriction(void);
+extern void dumpRule(void);
+extern void dumpScript(void);
+extern void dumpStatement(void);
+extern void dumpStep(void);
+extern void dumpSyntax(void);
+extern void dumpSynonym(void);
+extern void dumpVerb(void);
 
-extern void xmlClass();
-extern void xmlInstance();
-extern void xmlExit();
+extern void xmlClass(void);
+extern void xmlInstance(void);
+extern void xmlExit(void);
 
 /*----------------------------------------------------------------------*/
 static void initDumpers(void) {

@@ -30,7 +30,7 @@ extern Instance *newInstance(Srcp *srcp,
 			     Id *heritage,
 			     Properties *props);
 extern void symbolizeInstances(void);
-extern void analyzeAllInstanceAttributes();
+extern void analyzeAllInstanceAttributes(void);
 extern void analyzeInstances(void);
 extern void generateInstances(ACodeHeader *header);
 extern void dumpInstance(Instance *ins);

@@ -120,8 +120,8 @@ static void analyzeSourceFilenames() {
 
     sourceFileEntries = allocate(length(fileNames)*sizeof(SourceFileEntry));
     ITERATE(currentFile,fileNames) {
-        sourceFileEntries[count].fpos = ftell(txtfil);
-        sourceFileEntries[count].len = strlen(currentFile->member.str);
+        sourceFileEntries[count].fpos = (Aword)ftell(txtfil);
+        sourceFileEntries[count].len = (Aint)strlen(currentFile->member.str);
         fprintf(txtfil, "%s", currentFile->member.str);
         count++;
     }
@@ -208,8 +208,8 @@ static Aaddr generateSourceFileTable() {
             fpos = sourceFileEntries[count].fpos;
             len = sourceFileEntries[count].len;
             encode(&fpos, &len);
-            sourceFileEntries[count].fpos = fpos;
-            sourceFileEntries[count].len = len;
+            sourceFileEntries[count].fpos = (Aint)fpos;
+            sourceFileEntries[count].len = (Aint)len;
             emitEntry(&sourceFileEntries[count], sizeof(SourceFileEntry));
         }
     emit(EOF);

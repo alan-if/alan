@@ -38,7 +38,7 @@ smScContext lexContext = NULL;	/* Scanner context */
 /* TODO: Move this to somewhere outside of scanner, like utils or main */
 List *fileNames = NULL;
 
-int scannedLines();
+int scannedLines(void);
 
 
 /* PRIVATE */

@@ -16,29 +16,29 @@
 
 /* PUBLIC DATA */
 
-void (*(dumpNodeTable[LAST_LIST_KIND]))();
-void (*(xmlNodeTable[LAST_LIST_KIND]))();
+void (*(dumpNodeTable[LAST_LIST_KIND]))(void *);
+void (*(xmlNodeTable[LAST_LIST_KIND]))(void *);
 
 
 /* Import of dump functions to be used in dumpNodeTable */
-extern void dumpAlternative();
-extern void dumpCheck();
-extern void dumpElement();
-extern void dumpExit();
-extern void dumpAdd();
-extern void dumpAttribute();
-extern void dumpClass();
-extern void dumpId();
-extern void dumpInstance();
-extern void dumpRestriction();
-extern void dumpScript();
-extern void dumpStatement();
-extern void dumpSyntax();
-extern void dumpStep();
-extern void dumpVerb();
-extern void dumpExpression();
-extern void dumpLimit();
-extern void dumpIfid();
+extern void dumpAlternative(void *);
+extern void dumpCheck(void *);
+extern void dumpElement(void *);
+extern void dumpExit(void *);
+extern void dumpAdd(void *);
+extern void dumpAttribute(void *);
+extern void dumpClass(void *);
+extern void dumpId(void *);
+extern void dumpInstance(void *);
+extern void dumpRestriction(void *);
+extern void dumpScript(void *);
+extern void dumpStatement(void *);
+extern void dumpSyntax(void *);
+extern void dumpStep(void *);
+extern void dumpVerb(void *);
+extern void dumpExpression(void *);
+extern void dumpLimit(void *);
+extern void dumpIfid(void *);
 
 
 /*======================================================================*/
