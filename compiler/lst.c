@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				LST.C
-			Generic lists handling
+                LST.C
+            Generic lists handling
 
 \*----------------------------------------------------------------------*/
 
@@ -17,10 +17,11 @@
 /* PUBLIC DATA */
 
 void (*(dumpNodeTable[LAST_LIST_KIND]))(void *);
-void (*(xmlNodeTable[LAST_LIST_KIND]))(void *);
+void (*(xmlNodeTable[LAST_LIST_KIND]))(void *, FILE *);
 
 
 /* Import of dump functions to be used in dumpNodeTable */
+/* If somehow the real declarations are included we use that */
 extern void dumpAlternative(void *);
 extern void dumpCheck(void *);
 extern void dumpElement(void *);
@@ -28,7 +29,9 @@ extern void dumpExit(void *);
 extern void dumpAdd(void *);
 extern void dumpAttribute(void *);
 extern void dumpClass(void *);
+#ifndef _LST_X_H_
 extern void dumpId(void *);
+#endif
 extern void dumpInstance(void *);
 extern void dumpRestriction(void *);
 extern void dumpScript(void *);
@@ -48,7 +51,7 @@ void addListNodeDumper(ListKind kind, void (dumper)(void *)) {
 
 
 /*======================================================================*/
-void addXmlNodeDumper(ListKind kind, void (dumper)(FILE *)) {
+void addXmlNodeDumper(ListKind kind, void (dumper)(void *, FILE *)) {
     xmlNodeTable[kind] = dumper;
 }
 
@@ -105,7 +108,7 @@ List *newEmptyList(ListKind kind) {
 
 
 /*======================================================================*/
-List *newList(void *member, ListKind kind)	
+List *newList(void *member, ListKind kind)
 {
   List *new = NEW(List);	/* The newly created list node */
 
@@ -227,7 +230,7 @@ void *getLastMember(List *theList)
 
 // TODO: Probably should also disallow NULL as the list
 /*======================================================================*/
-List *concat(List *list, void *member, ListKind kind)	
+List *concat(List *list, void *member, ListKind kind)
 {
   List *new;			/* The newly created list node */
   List *tail;			/* Traversal pointer to find the tail */
@@ -236,7 +239,7 @@ List *concat(List *list, void *member, ListKind kind)
   if (list != NULL && list->member.cla == NULL) {
     list->member.ptr = member;
     return list;
-  }    
+  }
 
   new = NEW(List);
 
@@ -263,7 +266,7 @@ List *concat(List *list, void *member, ListKind kind)
 
   */
 List *combine(List *list1,	/* IN - Lists to combine */
-	      List *list2)
+          List *list2)
 {
   List *tail = getLastListNode(list1);
 
@@ -307,7 +310,7 @@ static List *removeFromList(List *theList, List *theMember)
     }
   }
   return theList;
-}    
+}
 
 
 /*======================================================================*/
@@ -324,7 +327,7 @@ List *sortList(List *theList, int compare(List *member1, List *member2))
     candidate = unsorted;
     while (current) {
       if (compare(current, candidate) < 0)
-	candidate = current;
+    candidate = current;
       current = current->next;
     }
     unsorted = removeFromList(unsorted, candidate);
@@ -360,7 +363,7 @@ void dumpList(List *theList, ListKind class)
     put("NULL");
     return;
   }
-  
+
   put("LST: "); dumpPointer(theList); indent();
   while (theList != NULL) {
     dumpNode((void *)theList->member.atr, class);
@@ -378,7 +381,7 @@ void dumpListOfLists(List *listOfList, ListKind listKind)
     put("NULL");
     return;
   }
-  
+
   put("LST: "); dumpPointer(listOfList); indent();
   while (listOfList != NULL) {
     dumpList((void *)listOfList->member.lst, listKind);

@@ -2,8 +2,8 @@
 #define _LST_X_H_
 /*----------------------------------------------------------------------*\
 
-				LST.H
-			      List Nodes
+                LST.H
+                  List Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -17,7 +17,7 @@
 /* DATA: */
 
 extern void (*(dumpNodeTable[]))(void *);
-extern void (*(xmlNodeTable[]))(void *);
+extern void (*(xmlNodeTable[]))(void *, FILE *);
 
 
 /* FUNCTIONS: */
@@ -41,7 +41,7 @@ extern void *getLastMember(List *theList);
 extern List *getListNode(List *aList, int number);
 
 extern void addListNodeDumper(ListKind kind, void (dumper)(void *));
-extern void addXmlNodeDumper(ListKind kind, void (dumper)(FILE *));
+extern void addXmlNodeDumper(ListKind kind, void (dumper)(void *, FILE *));
 extern void dumpList(List *lst, ListKind node);
 extern void dumpListOfLists(List *lstlst, ListKind node);
 
