@@ -81,7 +81,7 @@ build-gararun:
 
 .PHONY: package-gararun
 gararun-package: build-gararun gargoyle.alan3-slot-in.readme
-	zip -j gargoyle-alan3-$(VERSION)$(BUILDVERSION).win32.x86.zip alan3.exe gargoyle.alan3-slot-in.readme
+	zip -j gargoyle-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).zip alan3.exe gargoyle.alan3-slot-in.readme
 
 .PHONY: gargoyle-updater
 gargoyle-updater: build-gararun gargoyle-alan3.iss

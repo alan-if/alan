@@ -66,11 +66,11 @@ snapshot-upload: buildnumbers
 
 .PHONY: release-upload
 release-upload:
-	alanupload alan$(VERSION).win32.x86.zip sdks/windows
-	alanupload alan$(VERSION).win32.x86.setup.exe sdks/windows
-	alanupload winarun$(VERSION).win32.x86.setup.exe interpreters/windows
-	alanupload interpreter/gargoyle-alan3-$(VERSION).win32.x86.setup.exe interpreters/windows
-	alanupload interpreter/gargoyle-alan3-$(VERSION).win32.x86.zip interpreters/windows
+	alanupload alan$(VERSION).$(PLATFORM).zip sdks/windows
+	alanupload alan$(VERSION).$(PLATFORM).setup.exe sdks/windows
+	alanupload winarun$(VERSION).$(PLATFORM).setup.exe interpreters/windows
+	alanupload interpreter/gargoyle-alan3-$(VERSION).$(PLATFORM).setup.exe interpreters/windows
+	alanupload interpreter/gargoyle-alan3-$(VERSION).$(PLATFORM).zip interpreters/windows
 	alanupload doc/manual/manual.pdf documentation
 	alanupload doc/manual/conversion.pdf documentation
 	#alanupload doc/manual/writing.pdf documentation
