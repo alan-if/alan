@@ -132,7 +132,7 @@ static void endTotalTiming(void)
 static void printTimes(void)
 {
   char str[80];
-  
+
   lmSkipLines(8);
   lmLiPrint("");
   lmLiPrint(       "        Timing");
@@ -163,10 +163,10 @@ static void statistics(void)
 {
   int lins;
   char str[80];
-  
+
   lmSkipLines(7);
   lmLiPrint("");
-  
+
   lins = scannedLines();
   if (fileNo > 1)
     (void)sprintf(str, "        %d source lines read from %d files.", lins, fileNo);
@@ -174,26 +174,26 @@ static void statistics(void)
     (void)sprintf(str, "        %d source lines read.", lins);
   lmLiPrint(str);
   lmLiPrint("");
-  
+
   if (tim.tot != 0 && tim.comp != 0) {
     (void)sprintf(str, "        %d lines/CPUminute.",
-	    (int)(60L*1000L*(long)lins/tim.comp));
+        (int)(60L*1000L*(long)lins/tim.comp));
     lmLiPrint(str);
     lmLiPrint("");
   }
-  
+
   (void)sprintf(str,   "        Estimated dynamic memory usage = %ld bytes.",
-				(long int)((char *)malloc(10000)-(char *)heap));
+                (long int)((char *)malloc(10000)-(char *)heap));
   lmLiPrint(str);
   (void)sprintf(str,   "        Calculated       - \"\" -        = %ld bytes.",
-	  allocated);
+      allocated);
   lmLiPrint(str);
   lmLiPrint("");
 }
 
 
 /* -- local variables for main() -- */
-  
+
 static char srcfnm[255];	/* File name of source file */
 static char txtfnm[255];	/*   - " -   of collected text file */
 static char datfnm[255];	/*   - " -   of encoded data file */
@@ -242,13 +242,13 @@ static void prepareFileNames(void)
   /* -- create list file name -- */
   strcpy(lstfnm, adv.name);
   strcat(lstfnm, ".lis");
-  
+
   /* -- create string data file names -- */
   strcpy(txtfnm, adv.name);
   strcat(txtfnm, ".tmp");
   strcpy(datfnm, adv.name);
   strcat(datfnm, ".dat");
-  
+
   /* -- create ACODE file name -- */
   strcpy(acdfnm, adv.name);
   strcat(acdfnm, ".a3c");
@@ -359,7 +359,7 @@ static void listingOnFile() {
     }
     if (summaryFlag) {
       if (lmSeverity() < sevERR)
-	summary();
+    summary();
       statistics();
     }
   }
@@ -394,32 +394,32 @@ static void listingOnScreen() {
 }
 
 /* Import of dump functions to be used in initDumpers */
-extern void dumpAdd(void);
-extern void dumpAlternative(void);
-extern void dumpAttribute(void);
-extern void dumpCheck(void);
-extern void dumpClass(void);
-extern void dumpElement(void);
-extern void dumpEvent(void);
-extern void dumpExit(void);
-extern void dumpExpression(void);
-extern void dumpId(void);
-extern void dumpIfid(void);
-extern void dumpInstance(void);
-extern void dumpLimit(void);
+extern void dumpAdd(void *);
+extern void dumpAlternative(void *);
+extern void dumpAttribute(void *);
+extern void dumpCheck(void *);
+extern void dumpClass(void *);
+extern void dumpElement(void *);
+extern void dumpEvent(void *);
+extern void dumpExit(void *);
+extern void dumpExpression(void *);
+extern void dumpId(void *);
+extern void dumpIfid(void *);
+extern void dumpInstance(void *);
+extern void dumpLimit(void *);
 extern void dumpPointer(void *adr);
-extern void dumpRestriction(void);
-extern void dumpRule(void);
-extern void dumpScript(void);
-extern void dumpStatement(void);
-extern void dumpStep(void);
-extern void dumpSyntax(void);
-extern void dumpSynonym(void);
-extern void dumpVerb(void);
+extern void dumpRestriction(void *);
+extern void dumpRule(void *);
+extern void dumpScript(void *);
+extern void dumpStatement(void *);
+extern void dumpStep(void *);
+extern void dumpSyntax(void *);
+extern void dumpSynonym(void *);
+extern void dumpVerb(void *);
 
-extern void xmlClass(void);
-extern void xmlInstance(void);
-extern void xmlExit(void);
+extern void xmlClass(void *, FILE *);
+extern void xmlInstance(void *, FILE *);
+extern void xmlExit(void *, FILE *);
 
 /*----------------------------------------------------------------------*/
 static void initDumpers(void) {
@@ -432,7 +432,7 @@ static void initDumpers(void) {
     addListNodeDumper(ELEMENT_LIST, &dumpElement);
     addListNodeDumper(EVENT_LIST, &dumpEvent);
     addListNodeDumper(EXIT_LIST, &dumpExit);
-    addListNodeDumper(EXPRESSION_LIST, &dumpExpression); 
+    addListNodeDumper(EXPRESSION_LIST, &dumpExpression);
     addListNodeDumper(ID_LIST, &dumpId);
     addListNodeDumper(IFID_LIST, &dumpIfid);
     addListNodeDumper(INSTANCE_LIST, &dumpInstance);

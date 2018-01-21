@@ -16,8 +16,8 @@
 
 /* DATA: */
 
-extern void (*(dumpNodeTable[]))(void *);
-extern void (*(xmlNodeTable[]))(void *, FILE *);
+extern void (*dumpNodeTable[])(void *);
+extern void (*xmlNodeTable[])(void *, FILE *);
 
 
 /* FUNCTIONS: */
