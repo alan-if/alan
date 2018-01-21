@@ -2,9 +2,11 @@
 # Partial Makefile to be included from top level Makefile on Darwin
 #
 
+PLATFORM = macos.x86_64
+
 VERSION := $(shell cat NEXTRELEASE)
 
-PACKAGE = alan$(VERSION)$(BUILDVERSION).macosx.x86_64.tgz
+PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
 
 
 # There is no libxml-xpath-perl on Darwin so we need to use XML::XPath
@@ -45,7 +47,7 @@ distribution-build:
 
 distribution-upload:
 	alanupload $(PACKAGE) sdks/macosx
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg interpreters/macosx
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg interpreters/macosx
 	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip interpreters/macosx
 
 
@@ -58,7 +60,7 @@ snapshot-build:
 
 snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg snapshots/$(BUILDNAME)
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg snapshots/$(BUILDNAME)
 	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip snapshots/$(BUILDNAME)
 
 include Makefile.common
