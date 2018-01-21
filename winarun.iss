@@ -13,7 +13,7 @@ DefaultGroupName=Alan V3 Interpreter for Windows
 AllowNoIcons=yes
 ChangesAssociations = yes
 OutputDir=.
-OutputBaseFilename=winarunVERSION.win32.x86.setup
+OutputBaseFilename=winarunVERSION.PLATFORM.setup
 WizardImageFile=setup_wizard.bmp
 WizardImageStretch=no
 
@@ -59,4 +59,3 @@ Filename: "{app}\winarun.exe"; Description: "Launch Alan V3 Interpreter for Wind
 
 [UninstallDelete]
 Type: files; Name: "{app}\winarun.url"
-

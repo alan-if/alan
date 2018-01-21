@@ -13,7 +13,7 @@ DefaultGroupName=Alan V3 for Windows
 AllowNoIcons=yes
 ChangesAssociations = yes
 OutputDir=.
-OutputBaseFilename=alanVERSION.win32.x86.setup
+OutputBaseFilename=alanVERSION.PLATFORM.setup
 WizardImageFile=setup_wizard.bmp
 WizardImageStretch=no
 
@@ -71,4 +71,3 @@ Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.
 Name: "{userdesktop}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: quicklaunchicon
-
