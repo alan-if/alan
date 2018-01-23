@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				EVT.C
-			     Event Nodes
+                EVT.C
+                 Event Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -84,9 +84,9 @@ static void generateEventData(Event *evt)	/* IN - The event to generate */
 
 
 /*======================================================================*/
-static Aaddr generateEventTable(EventEntry entry2) {
-	List *lst;
-	Aaddr adr;
+static Aaddr generateEventTable(void) {
+    List *lst;
+    Aaddr adr;
     EventEntry entry;
 
     adr = nextEmitAddress();		/* Save address of event table */
@@ -96,7 +96,7 @@ static Aaddr generateEventTable(EventEntry entry2) {
         emitEntry(&entry, sizeof(entry));
     }
     emit(EOF);
-	return(adr);
+    return(adr);
 }
 
 
@@ -105,14 +105,13 @@ Aaddr generateEvents(ACodeHeader *header)
 {
     List *lst;	/* Traversal pointer */
     Aaddr adr;
-    EventEntry entry;
 
     /* First all the events */
     for (lst = adv.evts; lst != NULL; lst = lst->next)
         generateEventData(lst->member.evt);
 
-    adr = generateEventTable(entry);
-  
+    adr = generateEventTable();
+
     header->eventMax = eventCount;
 
     return(adr);
@@ -132,5 +131,3 @@ void dumpEvent(Event *evt)
     put("id: "); dumpId(evt->id); nl();
     put("stms: "); dumpList(evt->stms, STATEMENT_LIST); out();
 }
-
-
