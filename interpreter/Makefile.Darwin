@@ -79,11 +79,11 @@ gararun: gargoyle-updater gararun-tar
 
 gargoyle-updater: alan3 gargoyle-libs
 	packagesbuild gargoyle-alan3-installer.pkgproj
-	cp build/gargoyle-alan3.pkg gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macosx.pkg
+	cp build/gargoyle-alan3.pkg gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macos.pkg
 	rm -r build
 
 gararun-tar: alan3 gargoyle-libs
-	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).macosx.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
+	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).macos.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
 	rm -r Gargoyle.app
 
 LIBDIR = /usr/local/lib
@@ -91,7 +91,7 @@ LIBDIR = /usr/local/lib
 alan3:
 	cd $(GARGOYLE_DIR); jam garglk alan3
 	mkdir -p Gargoyle.app/Contents/PlugIns Gargoyle.app/Contents/Frameworks
-	cp $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3 .
+	cp $(GARGOYLE_DIR)/build/macos.release/alan3/alan3 .
 	install_name_tool -change @executable_path/libgarglk.dylib @executable_path/../Frameworks/libgarglk.dylib alan3
 	install_name_tool -change $(LIBDIR)/libfreetype.6.dylib @executable_path/../Frameworks/libfreetype.6.dylib alan3
 	install_name_tool -change $(LIBDIR)/libz.1.dylib /usr/lib/libgcc_s.1.dylib alan3

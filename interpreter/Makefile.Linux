@@ -23,7 +23,7 @@ LIBS = $(GLKLIB) $(LINKLIBS)
 
 # Enable Cgreen for unit test and mocking
 CGREEN = yes
-CGREENROOT = /usr/local
+CGREENROOT = /usr
 CGREENINCLUDE = -I$(CGREENROOT)/include
 
 # -- Cgreen unit test framework settings
