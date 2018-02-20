@@ -32,7 +32,7 @@ CGREENLIBS = -lcgreen
 # Default target on Darwin
 #
 .PHONY: default
-default all: unit arun MacArun gararun
+default all: unit arun macarun gararun
 
 ##################################################################
 # Add extra tests here that might not be working on all platforms
@@ -72,7 +72,8 @@ coverage: clean arun unit
 # we need to readjust the path to the libraries so that it looks in the Gargoyle.app frameworks
 # instead of the /opt/local where macports keeps its dylibs.
 #
-# We build an installer package using Packages (http://s.sudre.free.fr/Software/Packages)
+# We build an installer package using the packagesbuild command from
+# Packages (http://http://s.sudre.free.fr/Software/Packages/about.html)
 #
 GARGOYLE_DIR=../../garglk-current-alan3
 gararun: gargoyle-updater gararun-tar
@@ -91,7 +92,7 @@ LIBDIR = /usr/local/lib
 alan3:
 	cd $(GARGOYLE_DIR); jam garglk alan3
 	mkdir -p Gargoyle.app/Contents/PlugIns Gargoyle.app/Contents/Frameworks
-	cp $(GARGOYLE_DIR)/build/macos.release/alan3/alan3 .
+	cp $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3 .
 	install_name_tool -change @executable_path/libgarglk.dylib @executable_path/../Frameworks/libgarglk.dylib alan3
 	install_name_tool -change $(LIBDIR)/libfreetype.6.dylib @executable_path/../Frameworks/libfreetype.6.dylib alan3
 	install_name_tool -change $(LIBDIR)/libz.1.dylib /usr/lib/libgcc_s.1.dylib alan3
@@ -115,9 +116,8 @@ gargoyle-libs:
 #
 # Builds using platypus which needs to be installed, including the command line version
 
-MacArun: MacArun.app
+macarun: MacArun.app
 	zip -r MacArun$(VERSION)$(BUILDVERSION).zip MacArun.app
-	rm -r MacArun.app
 
 MacArun.app: MacArun.sh MacArun.platypus
 	platypus -P MacArun.platypus -a MacArun -V $(VERSION)$(BUILDVERSION) MacArun.app
