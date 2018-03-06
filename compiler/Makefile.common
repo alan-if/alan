@@ -5,6 +5,14 @@
 #	OSFLAGS : what flags must be passed to both compiler and linker
 #	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
 #	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
+#
+# You can:
+#     make
+#     make unit
+#     make unitbuild
+#     make linked_unittests_build
+#     make isolated_unittests_build
+#     make test
 
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
@@ -28,7 +36,7 @@ gprof: EXTRA_LINKER_FLAGS = -pg
 all: unit build $(EXTRA_TARGETS)
 
 # Target to just build
-.PHONY: build
+.PHONY: build gprof
 build gprof: alan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -53,7 +61,7 @@ test:
 # Clean
 .PHONY: clean
 clean:
-	@-rm -f *.dll .*/*.o .*/*.d .*/*.dll .*/*.gcno .*/*.gcda alan.res ../bin/alan ../bin/winalan
+	@-rm -rf *.dll .*/*.o .*/*.d .*/*.dll .*/*.gcno .*/*.gcda alan.res ../bin/alan ../bin/winalan .unittests .alan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -65,21 +73,24 @@ ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.v
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
-$(ALANOBJDIR):
-	@mkdir $(ALANOBJDIR)
-
-alan: $(ALANOBJDIR) $(ALANOBJECTS)
+alan: $(ALANOBJECTS)
 	$(LINK) -o alan $(ALANOBJECTS) $(LINKFLAGS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp alan ../bin/alan
 
+$(ALANOBJECTS): | $(ALANOBJDIR)
+$(ALANOBJDIR):
+	@mkdir $(ALANOBJDIR)
 
 #################################################################
 # Unit testing
 #
 # Two types:
 .PHONY: unit
-unit: cgreenrunnertests isolated_unittests
+unit: linked_unittests isolated_unittests
+
+.PHONY: unitbuild
+unitbuild: linked_unittests_build isolated_unittests_build
 
 CGREENLIB ?= -lcgreen
 
@@ -90,6 +101,8 @@ UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o})
 # Dependencies, if they don't exist yet
 -include $(UNITTESTSOBJECTS:.o=.d)
 
+$(UNITTESTSOBJDIR)/%.o: | $(UNITTESTSOBJDIR)
+
 # Rule to compile unittest objects to subdirectory
 $(UNITTESTSOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
@@ -97,25 +110,29 @@ $(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 # Create directory if it doesn't exist
+$(UNITTESTSOBJECTS): | $(UNITTESTSOBJDIR)
 $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
 ###################################################################
-# Build a DLL of all unittests...
+# Build a DLL of all unittests in a separate dir that should exist...
+linked_unittests_build: unittests.dll
+
 unittests.dll: CFLAGS += $(CGREENINCLUDE)
 unittests.dll: LIBS = $(CGREENLIB)
-unittests.dll: $(UNITTESTSOBJDIR) $(UNITTESTSOBJECTS)
+unittests.dll: $(UNITTESTSOBJECTS)
 	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 
 # ... that can be run with the cgreen runner
-cgreenrunnertests: unittests.dll
+linked_unittests: unittests.dll
 	$(CGREEN_LIBRARY_PATH) $(RUNNER_PATH)cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 
+.PRECIOUS: .unittests/%.o
 
 #####################################################################
-# Here we try to build a runnable DLL for each module where it can be
-# tested in total isolation (with everything else mocked away,
-# except lists.c and memory.c)
+# Build a runnable DLL for each module where it can be tested in total
+# isolation (with everything else mocked away, except lists.c and
+# memory.c)
 
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 -include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
@@ -129,10 +146,17 @@ $(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_test
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
+.PHONY: isolated_unittests_build
+isolated_unittests_build: | $(UNITTESTSOBJDIR)
+isolated_unittests_build: CFLAGS += $(CGREENINCLUDE)
+isolated_unittests_build: LIBS = $(CGREENLIB)
+isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS) $(ISOLATED_UNITTESTS_EXTRA_OBJS)
+
+.PHONY: isolated_unittests
 # Then run all _tests.dll's with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLIB)
-isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS) $(ISOLATED_UNITTESTS_EXTRA_OBJS)
+isolated_unittests: isolated_unittests_build
 	$(CGREEN_LIBRARY_PATH) $(RUNNER_PATH)cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 
 
@@ -140,8 +164,11 @@ isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLAT
 # Coverage
 coverage: EXTRA_COMPILER_FLAGS += --coverage
 coverage: EXTRA_LINKER_FLAGS += --coverage
-coverage: all test
-	cd ../regression; jregr
+coverage: all
+	@echo "***********************************"
+	@echo "Run your tests and then 'make lcov'"
+
+lcov:
 	lcov --capture --directory . -b . --output-file coverage_tmp.info
 	lcov --extract coverage_tmp.info '*.c' -o coverage.info
 	genhtml coverage.info --output coverage
