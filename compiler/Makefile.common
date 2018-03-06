@@ -127,7 +127,7 @@ unittests.dll: $(UNITTESTSOBJECTS)
 linked_unittests: unittests.dll
 	$(CGREEN_LIBRARY_PATH) $(RUNNER_PATH)cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 
-.PRECIOUS: .unittests/%.o
+.PRECIOUS: .unittests/%_tests.o .unittests/%.o
 
 #####################################################################
 # Build a runnable DLL for each module where it can be tested in total
@@ -150,7 +150,7 @@ ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d
 isolated_unittests_build: | $(UNITTESTSOBJDIR)
 isolated_unittests_build: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests_build: LIBS = $(CGREENLIB)
-isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS) $(ISOLATED_UNITTESTS_EXTRA_OBJS)
+isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 
 .PHONY: isolated_unittests
 # Then run all _tests.dll's with the cgreen-runner
