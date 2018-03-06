@@ -97,7 +97,7 @@ extern void setSyserrHandler(void (*f)(char *));
 
 #define CATCH() \
   setSyserrHandler(NULL);
-  
+
 
 Ensure(List, insertingIntoANullListFails) {
   Id *aMember = newId(nulsrcp, "aMember");
@@ -134,8 +134,8 @@ Ensure(List, insertingWrongTypeOfMemberFails) {
 Ensure(List, testTailOf) {
   List *listOfOne = newIdList(NULL, "anId");
   List *listOfTwo = newIdList(newIdList(NULL, "anId"),
-			      "anId");
-			   
+                              "anId");
+
   assert_true(getLastListNode(NULL) == NULL);
   assert_true(getLastListNode(listOfOne) == listOfOne);
   assert_true(getLastListNode(listOfTwo) == listOfTwo->next);
@@ -228,9 +228,9 @@ Ensure(List, testSortList) {
 Ensure(List, testCopyList) {
   List *l1 = newIdList(NULL, "id1");
   List *l4 = newIdList(newIdList(newIdList(newIdList(NULL, "id1"),
-					   "id2"),
-				 "id3"),
-		       "id4");
+                                           "id2"),
+                                 "id3"),
+                       "id4");
   List *copy;
   int i;
 
@@ -248,7 +248,7 @@ Ensure(List, testCopyList) {
 
 TestSuite *lstTests()
 {
-    TestSuite *suite = create_test_suite(); 
+    TestSuite *suite = create_test_suite();
     add_test_with_context(suite, List, canCreateNewEmptyListWithType);
     add_test_with_context(suite, List, canConcatToANewEmptyList);
     add_test_with_context(suite, List, canCreateNewListWithMember);
@@ -263,4 +263,3 @@ TestSuite *lstTests()
     add_test_with_context(suite, List, testCopyList);
     return suite;
 }
-
