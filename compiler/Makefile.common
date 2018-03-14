@@ -13,6 +13,9 @@
 #     make linked_unittests_build
 #     make isolated_unittests_build
 #     make test
+#     make coverage
+#     make coverage_build
+#     make coverage_report
 
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
@@ -162,13 +165,23 @@ isolated_unittests: isolated_unittests_build
 
 ############################################
 # Coverage
-coverage: EXTRA_COMPILER_FLAGS += --coverage
-coverage: EXTRA_LINKER_FLAGS += --coverage
-coverage: all
-	@echo "***********************************"
-	@echo "Run your tests and then 'make lcov'"
+#
+#   make coverage - rebuilds everything for coverage, runs all tests,
+#                   generates and opens report
+#   make coverage_build - builds what has changed for coverage
+#   make coverage_report - generates the report
 
-lcov:
+coverage coverage_build: EXTRA_COMPILER_FLAGS += --coverage
+coverage coverage_build: EXTRA_LINKER_FLAGS += --coverage
+
+coverage: clean coverage_build unit test coverage_report
+	open coverage/index.html
+
+coverage_build: build unitbuild
+	@echo "***********************************"
+	@echo "Run your tests and then 'make coverage_report'"
+
+coverage_report:
 	lcov --capture --directory . -b . --output-file coverage_tmp.info
 	lcov --extract coverage_tmp.info '*.c' -o coverage.info
 	genhtml coverage.info --output coverage
