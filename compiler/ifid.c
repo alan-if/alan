@@ -76,12 +76,12 @@ static void fillRandomBytes(char buffer[], int nbytes)
 
 
 /*======================================================================*/
-static char *randomUUID()
+static char *randomUUID(void)
 {
   char buffer[16];
   int b, s;
   static char string[46];	/* 32 hexdigits, 4 dashes, 9 "UUID:////"
-				   00112233-4455-6677-8899-aabbccddeeff */
+                   00112233-4455-6677-8899-aabbccddeeff */
   int i, j;
 
   fillRandomBytes(buffer, 16); b = 0;
@@ -123,7 +123,7 @@ static Bool isValidUUID(char *uuid)
 
 
 /*======================================================================*/
-static char *readOrCreateIFID()
+static char *readOrCreateIFID(void)
 {
   char ifidfnm[255] = "";
   FILE *ifidFile;
@@ -149,7 +149,7 @@ static char *readOrCreateIFID()
 
 
 /*======================================================================*/
-List *initIfids()
+List *initIfids(void)
 {
   return(newList(newIfid(nulsrcp, newString("IFID"), readOrCreateIFID()), IFID_LIST));
 }
