@@ -269,7 +269,7 @@ char *decodedGameVersion(char version[]) {
 
 /*----------------------------------------------------------------------*/
 static void incompatibleDevelopmentVersion(ACodeHeader *header) {
-    char str[80];
+    char str[500];
     sprintf(str, "Incompatible version of ACODE program. Development versions always require exact match. Game is %ld.%ld%s%ld, interpreter %ld.%ld%s%ld!",
             (long)(header->version[0]),
             (long)(header->version[1]),
@@ -285,7 +285,7 @@ static void incompatibleDevelopmentVersion(ACodeHeader *header) {
 
 /*----------------------------------------------------------------------*/
 static void incompatibleVersion(ACodeHeader *header) {
-    char str[80];
+    char str[500];
     sprintf(str, "Incompatible version of ACODE program. Game is %ld.%ld, interpreter %ld.%ld.",
             (long)(header->version[0]),
             (long)(header->version[1]),
