@@ -130,7 +130,7 @@ unittests.dll: $(UNITTESTSOBJECTS)
 linked_unittests: unittests.dll
 	$(CGREEN_LIBRARY_PATH) $(RUNNER_PATH)cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 
-.PRECIOUS: .unittests/%_tests.o .unittests/%.o
+.PRECIOUS: .unittests/%_tests.o .unittests/%.o .alan/%.o
 
 #####################################################################
 # Build a runnable DLL for each module where it can be tested in total
