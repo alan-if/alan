@@ -1,5 +1,5 @@
 = ALAN 3 BEGINNER’S GUIDE
-:toc:
+:toc: left
 
 - Initial version by Michael Arnaud © 2006
 - Converted to AsciiDOC by Thomas Nilefalk © 2014-2017
