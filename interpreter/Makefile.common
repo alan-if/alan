@@ -106,10 +106,9 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 # CGreen unit tests
 #
 # Define
-#	CGREEN to something ("yes") to build with cgreen unit tests
-#	CGREENINCLUDE so that #include "cgreen/cgreen.h" works if needed
-#	CGREENLIBDIR to the directory where libraries are
-#	CGREENLIB to something to link with (e.g. -lcgreen)
+#	CGREEN to something ("yes") to build with cgreen unit tests,
+# See Makefile.<platform>
+
 UNITTESTSOBJDIR = .unittests
 UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_MAIN_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_RUNNER_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
@@ -130,12 +129,12 @@ $(UNITTESTSOBJDIR):
 
 # Build the DLL...
 unittests.$(SOEXT): $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LDFLAGS) $(CGREENLIBS) #--coverage
+	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LDFLAGS) $(CGREENLINKLIB) #--coverage
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: unittests.$(SOEXT)
-	$(CGREENLDPATH) $(CGREENBINDIR)cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
+	$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
 
 # Here we try to build a runnable DLL for each module where it can be
@@ -154,14 +153,14 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # A test .$(SOEXT) for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.$(SOEXT): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDFLAGS) $(CGREENLIBS)
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDFLAGS) $(CGREENLINKLIB)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXT),$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 # Then run all _tests.$(SOEXT)'s with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
-	$(CGREENLDPATH) $(CGREENBINDIR)cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 
 
 # Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?

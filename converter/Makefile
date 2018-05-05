@@ -73,15 +73,17 @@ clean:
 
 ################
 CGREEN = yes
-CGREENROOT = /usr/local
-CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIBDIR = /usr/local/lib/
-#CGREENLDPATH = LD_LIBRARY_PATH=$(CGREENLIBDIR)
-CGREENLINKDIR = -L $(CGREENLIBDIR)
 
-# Path to cgreen-runner if required, must include trailing slash
-#CGREEN_RUNNER_PATH=/usr/local/bin/
-CGREENLIB = $(CGREENLINKDIR) -lcgreen -lm
+# If Cgreen is installed correctly and completely theses things should just work
+# Otherwise you can try to set them to something that does work
+#CGREENROOT = /usr/local
+#CGREENINCLUDE = -I$(CGREENROOT)/include
+#CGREENLIBDIR=$(CGREENROOT)/lib
+#CGREENBINDIR=$(CGREENROOT)/bin/
+#CGREENLIB = $(CGREENLIBDIR)/libcgreen.dll.a
+#CGREENLOADLIB = LD_LIBRARY_PATH=$(CGREENLIBDIR)
+#CGREENLINKDIR = -L $(CGREENLIBDIR)
+CGREENLINKLIB = $(CGREENLINKDIR) -lcgreen -lm
 
 ifneq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
 unit: CFLAGS += -fPIC
@@ -109,10 +111,10 @@ UNITTESTS_DLLS = $(patsubst %,%_tests.dll,$(MODULES_WITH_UNITTESTS))
 
 # Then run all _tests.dll's with the cgreen-runner
 unittests: CFLAGS += $(CGREENINCLUDE)
-unittests: LIBS = $(CGREENLIB)
+unittests: LIBS = $(CGREENLINKLIB)
 unittests: $(UNITTESTS_DLLS)
 	@for f in $(UNITTESTS_DLLS) ; do \
-		$(CGREENLDPATH) $(CGREEN_RUNNER_PATH)cgreen-runner ./$$f --suite Converter $(UNITOUTPUT) ; \
+		$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner ./$$f --suite Converter $(UNITOUTPUT) ; \
 	done
 
 

@@ -25,10 +25,11 @@ CGREEN = yes
 
 # On a 64-bit we should use 64-bit libraries
 #ifeq ($(UNAME),x86_64)
-#  CGREENDIR=$(CGREENROOT)/lib/x86_64-linux-gnu
-#  RUNNER_PATH=$(CGREENROOT)/bin
+#  CGREENLIBDIR=$(CGREENROOT)/lib/x86_64-linux-gnu
+#  CGREENBINDIR=$(CGREENROOT)/bin
 #else
-#  CGREENDIR=$(CGREENROOT)/lib
-#  RUNNER_PATH=$(CGREENROOT)/bin
+#  CGREENLIBDIR=$(CGREENROOT)/lib
+#  CGREENBINDIR=$(CGREENROOT)/bin
 #endif
-#CGREENLIB = -L$(CGREENDIR) -lcgreen -lm
+#CGREENLINKLIB = -L$(CGREENDIR) -lcgreen -lm
+#CGREENLOADLIB = LD_LIBRARY_PATH=$(CGREENLIBDIR)

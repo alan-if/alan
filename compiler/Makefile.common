@@ -95,7 +95,7 @@ unit: linked_unittests isolated_unittests
 .PHONY: unitbuild
 unitbuild: linked_unittests_build isolated_unittests_build
 
-CGREENLIB ?= -lcgreen
+CGREENLINKLIB ?= -lcgreen
 
 UNITTESTSOBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
@@ -122,13 +122,13 @@ $(UNITTESTSOBJDIR):
 linked_unittests_build: unittests.dll
 
 unittests.dll: CFLAGS += $(CGREENINCLUDE)
-unittests.dll: LIBS = $(CGREENLIB)
+unittests.dll: LIBS = $(CGREENLINKLIB)
 unittests.dll: $(UNITTESTSOBJECTS)
 	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.dll
-	$(CGREEN_LIBRARY_PATH) $(RUNNER_PATH)cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
+	$(CGREENLIBLOAD) $(CGREENBINDIR)cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 
 .PRECIOUS: .unittests/%_tests.o .unittests/%.o .alan/%.o
 
@@ -152,15 +152,15 @@ ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d
 .PHONY: isolated_unittests_build
 isolated_unittests_build: | $(UNITTESTSOBJDIR)
 isolated_unittests_build: CFLAGS += $(CGREENINCLUDE)
-isolated_unittests_build: LIBS = $(CGREENLIB)
+isolated_unittests_build: LIBS = $(CGREENLINKLIB)
 isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 
 .PHONY: isolated_unittests
 # Then run all _tests.dll's with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
-isolated_unittests: LIBS = $(CGREENLIB)
+isolated_unittests: LIBS = $(CGREENLINKLIB)
 isolated_unittests: isolated_unittests_build
-	$(CGREEN_LIBRARY_PATH) $(RUNNER_PATH)cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	$(CGREENLIBLOAD) $(CGREENBINDIR)cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 
 
 ############################################
