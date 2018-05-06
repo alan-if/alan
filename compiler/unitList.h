@@ -8,6 +8,7 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "lmList.h"
 
 extern int readEcode();
 extern lmSev readSev();
