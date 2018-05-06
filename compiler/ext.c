@@ -243,16 +243,14 @@ static void generateExitEntry(Exit *ext) /* IN - The exit to generate */
 /*======================================================================*/
 Aaddr generateExits(List *exits)
 {
-    List *lst;			/* Traversal pointer */
-    Aaddr extadr;			/* The adress where the exits start */
+    List *lst;                  /* Traversal pointer */
+    Aaddr extadr;               /* The adress where the exits start */
 
     if (exits == NULL)
         return(0);
 
     for (lst = exits; lst != NULL; lst = lst->next) {
-        lst->member.ext->chkadr = nextEmitAddress();
-        if (lst->member.ext->chks != NULL)
-            lst->member.ext->chkadr = generateChecks(lst->member.ext->chks);
+        lst->member.ext->chkadr = generateChecks(lst->member.ext->chks);
         lst->member.ext->stmadr = generateExitStatements(lst->member.ext);
         emit0(I_RETURN);
     }
