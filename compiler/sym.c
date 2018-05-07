@@ -274,6 +274,7 @@ Symbol *newSymbol(Id *id, SymbolKind kind)
         break;
     case LOCAL_SYMBOL:
     case ERROR_SYMBOL:
+    case PARAMETER_SYMBOL:
         break;
     default:
         SYSERR("Unexpected switch on SYMBOLKIND", id->srcp);
@@ -335,7 +336,7 @@ static void setParameterClass(Symbol *s, int parameter, Symbol *class) {
         pl = pl->next;
 
     pl->member.sym->fields.parameter.class = class;
-	pl->member.sym->fields.parameter.type = basicTypeFromClassSymbol(class);
+    pl->member.sym->fields.parameter.type = basicTypeFromClassSymbol(class);
 }
 
 
