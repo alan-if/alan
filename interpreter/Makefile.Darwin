@@ -21,11 +21,11 @@ LINKFLAGS =
 
 # -- CGreen unit test framework settings
 CGREEN = yes
-CGREENROOT = /usr/local
-CGREENINCLUDE = -I$(CGREENROOT)/include/
-CGREENLIBDIR= $(CGREENROOT)/lib
-CGREENLIBS = -lcgreen
-
+#CGREENROOT = /usr/local
+#CGREENINCLUDE = -I$(CGREENROOT)/include/
+#CGREENLIBDIR= $(CGREENROOT)/lib
+#CGREENLINKLIB = -lcgreen
+#CGREENLOADLIB = DYLD_LIBRARY_PATH=$(CGREENLIBDIR)
 
 ###################################################################
 #

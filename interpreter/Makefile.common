@@ -19,6 +19,7 @@ CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAG
 
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
+CGREENLINKLIB ?= -lcgreen
 
 # Default top rule if platform specific makefile doesn't add a default
 # that is found before this
