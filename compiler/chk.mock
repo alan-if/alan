@@ -1,0 +1,18 @@
+#include "chk_x.h"
+#include <cgreen/mocks.h>
+
+CheckNode *newCheck(Expression *exp, List *stms) {
+  return (CheckNode *) mock(exp, stms);
+}
+
+void analyzeChecks(List *chks, Context *context) {
+  mock(chks, context);
+}
+
+Aaddr generateChecks(List *chks) {
+  return (Aaddr) mock(chks);
+}
+
+void dumpCheck(CheckNode *chk) {
+  mock(chk);
+}

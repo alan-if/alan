@@ -1,0 +1,74 @@
+#include "stm_x.h"
+#include <cgreen/mocks.h>
+
+Statement *newStatement(Srcp *srcp, StmKind class) {
+  return (Statement *) mock(class);
+}
+
+Statement *newUseStatement(Srcp srcp, Id *script, Expression *actor) {
+  return (Statement *) mock(script, actor);
+}
+
+Statement *newDescribeStatement(Srcp srcp, Expression *what) {
+  return (Statement *) mock(what);
+}
+
+Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where) {
+  return (Statement *) mock(what, where);
+}
+
+Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where) {
+  return (Statement *) mock(what, where);
+}
+
+Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set) {
+  return (Statement *) mock(what, set);
+}
+
+Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set) {
+  return (Statement *) mock(what, set);
+}
+
+Statement *newEachStatement(Srcp srcp, Id *loopId, List *filters, List *statements) {
+  return (Statement *) mock(loopId, filters, statements);
+}
+
+Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expression *when) {
+  return (Statement *) mock(what, where, when);
+}
+
+Statement *newCancelStatement(Srcp srcp, Expression *what) {
+  return (Statement *) mock(what);
+}
+
+Statement *newListStatement(Srcp srcp, Expression *what) {
+  return (Statement *) mock(what);
+}
+
+Statement *newStyleStatement(Srcp srcp, Id *style) {
+  return (Statement *) mock(style);
+}
+
+Statement *newShowStatement(Srcp srcp, Resource *resource) {
+  return (Statement *) mock(resource);
+}
+
+Statement *newPlayStatement(Srcp srcp, Resource *resource) {
+  return (Statement *) mock(resource);
+}
+
+List *newPrintStatementListFromString(char *string) {
+  return (List *) mock(string);
+}
+
+void analyzeStatements(List *stms, Context *context) {
+  mock(stms, context);
+}
+
+void generateStatements(List *stms) {
+  mock(stms);
+}
+
+void dumpStatement(Statement *stm) {
+  mock(stm);
+}
