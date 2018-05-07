@@ -85,10 +85,10 @@ void emit(Aword c)		/* IN - Constant to emit */
 
 
 /*======================================================================*/
-void emitEntry(void *address, int noOfBytes)
+void emitEntry(void *entry, int noOfBytes)
 {
     int i;
-    Aword *words = address;
+    Aword *words = entry;
 
     /* Should never start an entry with an EOF word since the reversal process
        depends on it for terminating. */
@@ -336,7 +336,7 @@ void finalizeEmit()
     for (i = ASIZE(Pre3_0beta3Header); i < ASIZE(ACodeHeader); i++)
         emit(headerAsArray[i]);
 #endif
-    
+
     acodeHeader.acdcrc = crc;	/* Save checksum */
 }
 

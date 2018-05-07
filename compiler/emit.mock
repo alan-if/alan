@@ -18,7 +18,7 @@ void emitString(char str[]) { mock(str); }
 void emitVariable(Aword word) { mock(word); }
 void emitConstant(int word) { mock(word); }
 void emitN(void *words, int noOfWords) { mock(words, noOfWords); }
-void emitEntry(void *entryToEmit, int noOfBytes) { mock(entryToEmit, noOfBytes); }
+void emitEntry(void *entry, int noOfBytes) { mock(entry, noOfBytes); }
 void emit0(Aword op) { mock(op); }
 void emit1(Aword op, Aword arg1) { mock(op, arg1); }
 void emit2(Aword op, Aword arg1, Aword arg2) { mock(op, arg1, arg2); }
