@@ -20,6 +20,7 @@ int classCount;
 int instanceCount;
 int eventCount;
 int verbCount;
+int directionCount;
 
 Symbol *entitySymbol;
 Symbol *thingSymbol;
@@ -44,7 +45,42 @@ void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition) { mock(id, sym, &
 void initSymbols(void) {}
 void createMessageVerbs(void) {}
 
-Symbol *newSymbol(Id *id, SymbolKind kind) { Symbol *symbol = NEW(Symbol); symbol->string = id->string; symbol->kind = kind; return symbol; }
+Symbol *newSymbol(Id *id, SymbolKind kind) {
+    Symbol *new = NEW(Symbol);
+    new->string = id->string;
+    new->kind = kind;
+    switch (kind) {
+    case CLASS_SYMBOL:
+        new->code = ++classCount;
+        new->fields.entity.parent = NULL;
+        new->fields.entity.attributesNumbered = FALSE;
+        new->fields.entity.replicated = FALSE;
+        break;
+    case INSTANCE_SYMBOL:
+        new->code = ++instanceCount;
+        new->fields.entity.parent = NULL;
+        new->fields.entity.attributesNumbered = FALSE;
+        new->fields.entity.replicated = FALSE;
+        break;
+    case DIRECTION_SYMBOL:
+        new->code = ++directionCount;
+        break;
+    case VERB_SYMBOL:
+        new->code = ++verbCount;
+        break;
+    case EVENT_SYMBOL:
+        new->code = ++eventCount;
+        break;
+    case LOCAL_SYMBOL:
+    case ERROR_SYMBOL:
+    case PARAMETER_SYMBOL:
+        break;
+    default:
+        SYSERR("Unexpected switch on SYMBOLKIND", id->srcp);
+    }
+    return new;
+}
+
 Symbol *newInstanceSymbol(Id *id, Properties *props, Symbol *parent) { return (Symbol *)mock(id, props, parent); }
 Symbol *newClassSymbol(Id *id, Properties *props, Symbol *parent) { return (Symbol *)mock(id, props, parent); }
 Symbol *newVerbSymbol(Id *id) { return (Symbol *)mock(id); }
