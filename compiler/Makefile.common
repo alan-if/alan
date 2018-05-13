@@ -47,6 +47,7 @@ build gprof: alan
 # Run all tests!
 #
 UNITOUTPUT ?= -c
+SOEXTENSION ?= so
 
 .PHONY: test
 test:
@@ -64,7 +65,7 @@ test:
 # Clean
 .PHONY: clean
 clean:
-	@-rm -rf *.dll .*/*.o .*/*.d .*/*.dll .*/*.gcno .*/*.gcda alan.res ../bin/alan ../bin/winalan .unittests .alan
+	@-rm -rf *.$(SOEXTENSION) .*/*.o .*/*.d .*/*.$(SOEXTENSION) .*/*.gcno .*/*.gcda alan.res ../bin/alan ../bin/winalan .unittests .alan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -119,18 +120,18 @@ $(UNITTESTSOBJDIR):
 
 ###################################################################
 # Build a DLL of all unittests in a separate dir that should exist...
-linked_unittests_build: unittests.dll
+linked_unittests_build: unittests.$(SOEXTENSION)
 
-unittests.dll: CFLAGS += $(CGREENINCLUDE)
-unittests.dll: LIBS = $(CGREENLINKLIB)
-unittests.dll: $(UNITTESTSOBJECTS)
+unittests.$(SOEXTENSION): CFLAGS += $(CGREENINCLUDE)
+unittests.$(SOEXTENSION): LIBS = $(CGREENLINKLIB)
+unittests.$(SOEXTENSION): $(UNITTESTSOBJECTS)
 	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
 
 # ... that can be run with the cgreen runner
-linked_unittests: unittests.dll
+linked_unittests: unittests.$(SOEXTENSION)
 	$(CGREENLIBLOAD) $(CGREENBINDIR)cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 
-.PRECIOUS: .unittests/%_tests.o .unittests/%.o .unittests/%.dll .unittests/%_tests.dll .alan/%.o
+.PRECIOUS: .unittests/%_tests.o .unittests/%.o .unittests/%.$(SOEXTENSION) .unittests/%_tests.$(SOEXTENSION) .alan/%.o
 
 #####################################################################
 # Build a runnable DLL for each module where it can be tested in total
@@ -143,11 +144,11 @@ linked_unittests: unittests.dll
 ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep lst dump opt type alan.version
 ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, $(ISOLATED_UNITTESTS_EXTRA_MODULES)))
 
-# A test .dll for a module is built from its .o and the _test.o (and some extras)
-$(UNITTESTSOBJDIR)/%_tests.dll: $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
+# A test .$(SOEXTENSION) for a module is built from its .o and the _test.o (and some extras)
+$(UNITTESTSOBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
 	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LINKFLAGS) $(LIBS)
 
-ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.dll,$(MODULES_WITH_ISOLATED_UNITTESTS)))
+ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXTENSION),$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 .PHONY: isolated_unittests_build
 isolated_unittests_build: | $(UNITTESTSOBJDIR)
@@ -156,7 +157,7 @@ isolated_unittests_build: LIBS = $(CGREENLINKLIB)
 isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 
 .PHONY: isolated_unittests
-# Then run all _tests.dll's with the cgreen-runner
+# Then run all _tests.$(SOEXTENSION)'s with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LIBS = $(CGREENLINKLIB)
 isolated_unittests: isolated_unittests_build

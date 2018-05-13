@@ -12,6 +12,8 @@ COMPILER = i686-w64-mingw32-gcc
 LINKER = i686-w64-mingw32-gcc
 WINDRES = i686-w64-mingw32-windres
 
+# Sharable libraries have .dll extension
+SOEXTENSION = dll
 
 # Except when compiling unit tests, since Cgreen can't be
 # cross-compiled to Windows binaries

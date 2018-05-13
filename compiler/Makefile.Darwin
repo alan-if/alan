@@ -7,7 +7,10 @@ COMPILER = gcc
 EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char -Wno-invalid-source-encoding
 
 LINKER = gcc
-EXTRA_LINKER_FLAGS = 
+EXTRA_LINKER_FLAGS =
+
+# Sharable libraries have .dylib extension
+SOEXTENSION = dylib
 
 CGREEN = yes
 CGREENROOT = /usr/local
