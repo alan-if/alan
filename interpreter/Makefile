@@ -15,19 +15,17 @@ include sources.mk
 # Include correct main Makefile depending on OS and possibly system name
 #
 ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-ifeq ($(shell uname -n), thoni64)
-include Makefile.thoni
+  ifeq ($(shell uname -n), thoni64)
+	include Makefile.thoni
+  else
+	include Makefile.cygwin
+  endif
 else
-include Makefile.cygwin
-endif
-SOEXT = dll
-else
-ifeq ($(findstring MINGW, $(shell uname)), MINGW)
-include Makefile.Mingw
-else
-include Makefile.$(shell uname)
-endif
-SOEXT = so
+  ifeq ($(findstring MINGW, $(shell uname)), MINGW)
+	include Makefile.Mingw
+  else
+	include Makefile.$(shell uname)
+  endif
 endif
 
 # Include common build rules

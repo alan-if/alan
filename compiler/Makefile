@@ -9,9 +9,9 @@
 #
 
 ifneq ($(EMACS),)
-JREGROUTPUT = -noansi
+  JREGROUTPUT = -noansi
 else
-UNITOUTPUT ?= -c
+  UNITOUTPUT ?= -c
 endif
 
 # Note that this must not have spaces in it lest the variable will include it
@@ -23,13 +23,13 @@ include sources.mk
 # Include the correct main Makefile depending on the system name
 #
 ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-ifeq ($(shell uname -n), thoni64)
-include Makefile.thoni
+  ifeq ($(shell uname -n), thoni64)
+	include Makefile.thoni
+  else
+	include Makefile.cygwin
+  endif
 else
-include Makefile.cygwin
-endif
-else
-include Makefile.$(shell uname)
+  include Makefile.$(shell uname)
 endif
 
 # then platform and machine independent rules

@@ -8,6 +8,8 @@ UNAME := $(shell uname -m)
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 
+SOEXT = dll
+
 ###########################################################
 # On cygwin we try to build without cygwin1.dll if we can
 # So for all targets use the mingw compiler and linker

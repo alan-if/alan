@@ -3,14 +3,8 @@
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # Makefile.common
 
-# We are aiming for the same as on Cygwin
+# We are compiling for the same version as on Cygwin (version master)
 VERSION := $(shell cat ../NEXTRELEASE)
-
-
-# Define the program name
-PROGNAME=-DPROGNAME=\"arun\"
-
-ARUNOPTS = $(PROGNAME) $(GLK)
 
 COMPILER = gcc
 COMPILEFLAGS = -g -Wall -funsigned-char -fPIC
@@ -20,6 +14,12 @@ LINKFLAGS = -g $(ARUNOPTS)
 
 LIBS = $(GLKLIB) $(LINKLIBS)
 
+SOEXT = so
+
+# Define the program name
+PROGNAME=-DPROGNAME=\"arun\"
+
+ARUNOPTS = $(PROGNAME) $(GLK)
 
 # Enable Cgreen for unit test and mocking
 CGREEN = yes

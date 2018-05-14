@@ -13,6 +13,8 @@ ARUNOPTS = $(PROGNAME) $(GLK)
 OSFLAGS =
 #ARCHFLAGS = -m32
 
+SOEXT = dylib
+
 COMPILER = gcc -g
 COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
 
