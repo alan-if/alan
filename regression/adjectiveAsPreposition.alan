@@ -1,0 +1,25 @@
+The l Isa location
+End The l.
+
+Syntax
+    v = 'v' 'adjprep' (o).
+    x = 'x' (o).
+
+The noun Isa object At l
+  Name noun
+  Name adjprep noun
+
+  Verb v
+    Does
+      "You v" Say The o. "."
+  End Verb.
+
+  Verb x
+    Does
+      "You x" Say The o. "."
+  End Verb.
+
+End The noun.
+
+
+Start At l.

@@ -1,0 +1,30 @@
+########## adjectiveAsPreposition ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a noun here.
+
+> x adjprep noun
+You x the noun.
+
+> v adjprep noun
+You v the noun.
+
+> x adjprep
+You must supply a noun.
+
+> v adjprep
+I don't understand.
+
+> x noun
+You x the noun.
+
+> v noun
+I don't understand.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
