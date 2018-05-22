@@ -76,9 +76,9 @@ CGREEN = yes
 
 # If Cgreen is installed correctly and completely theses things should just work
 # Otherwise you can try to set them to something that does work
-#CGREENROOT = /usr/local
+CGREENROOT = /usr/local
 #CGREENINCLUDE = -I$(CGREENROOT)/include
-#CGREENLIBDIR=$(CGREENROOT)/lib
+CGREENLIBDIR=$(CGREENROOT)/lib
 #CGREENBINDIR=$(CGREENROOT)/bin/
 #CGREENLIB = $(CGREENLIBDIR)/libcgreen.dll.a
 #CGREENLOADLIB = LD_LIBRARY_PATH=$(CGREENLIBDIR)
