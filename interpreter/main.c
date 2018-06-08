@@ -858,7 +858,7 @@ void run(void)
         if (!current.meta) {
             current.tick++;
 
-            /* Remove this call? Since Eval is done up there after each event... */
+            /* If hero has performed a non-meta command rules need to be run after that */
             resetAndEvaluateRules(rules, header->version);
 
             /* Then all the other actors... */
