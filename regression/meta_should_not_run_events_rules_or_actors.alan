@@ -1,34 +1,37 @@
-The test_bed isa location
-    Name Test Bed
-    Description "Just your ordinary test bed. Do 'x box' three
-    times to end the game."
-End the.
+The test_bed Isa location
+End The.
 
-The box isa object at test_bed
-    Name Test Box
-    Description "$pA nice box is here."
-    Is describedAs "All wood and all good.".
-End the.
+The box Isa object At test_bed
+End The.
 --------------------------
 Syntax x = x (obj)
-    Where obj isa object
+    Where obj Isa object
         Else "Objects only."
 --------------------------
-Add to every object
-    Is describedAs "TXT".
-    meta Verb x
-            Does
-                Say describedAs of obj.
-                Score.
-        End verb.
-End add.
+Add To Every object
+    Meta Verb x
+        Does
+            Describe obj.
+            Score.
+    End Verb.
+    Verb y
+        Does
+            Describe object.
+            Score.
+    End Verb.
+End Add.
 
-Prompt ">"
+When box At test_bed =>
+    Schedule say_rule At hero After 0.
 
 Event end_game
     "$pThis is the end."
-    quit.
-End event.
+    Quit.
+End Event.
 
-Start at test_bed.
-    Schedule end_game at hero after 3.
+Event say_rule
+    "Rule triggered."
+End Event.
+
+Start At test_bed.
+    Schedule end_game At hero After 2.
