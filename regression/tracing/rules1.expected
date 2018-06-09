@@ -13,7 +13,7 @@ L
 
 <RULE 2 (at #nowhere[1]), Evaluating to false:>
 
-<RULE 1 (at #nowhere[1]), Evaluating to true:>
+<RULE 1 (at #nowhere[1]), Evaluating to true: Already run now: Already true at last run:>
 
 <RULE 2 (at #nowhere[1]), Evaluating to false:>
 
