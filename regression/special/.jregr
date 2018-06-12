@@ -1,0 +1,2 @@
+.test : sh $2 > $1.temp
+.temp : grep -v "little-endian" $2
