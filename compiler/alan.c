@@ -317,9 +317,6 @@ static void generate() {
     /* Yes, so generate an adventure */
     verbose("Generating");
 
-    opts[OPTDEBUG].value = debugFlag; /* Debugging enabled? */
-    if (packFlag)		/* Force packing */
-      opts[OPTPACK].value = TRUE;
     startTiming();
     generateAdventure(acdfnm, txtfnm, datfnm);
     endGenerationTiming();			/* End of generating pass */
@@ -465,6 +462,17 @@ void compile(void) {
     setupCompilation();
     parse();
     dumpAndExitAfterPhase(DUMP_AFTER_PARSE);
+
+    /* Some options are allowed on command line and in source, command
+     * line should take precedence. But we don't know if the command
+     * line switch has been used, do we? This only caters for the
+     * positive case, meaning the command line switch turned an option
+     * on. */
+    if (debugFlag)
+        opts[OPTDEBUG].value = debugFlag;
+    if (packFlag)
+        opts[OPTPACK].value = packFlag;
+
     analyze();
     dumpAndExitAfterPhase(DUMP_AFTER_ANALYSIS);
     generate();

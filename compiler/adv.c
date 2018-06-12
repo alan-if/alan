@@ -190,7 +190,7 @@ void analyzeAdventure(void)
     analyzeAllWords();
     adv.resources = analyzeResources(adv.resources);
 
-    if (debugFlag)
+    if (opts[OPTDEBUG].value == TRUE)
         analyzeSourceFilenames();
 
     finalizeWords();
@@ -219,8 +219,8 @@ static Aaddr generateSourceFileTable() {
 
 /*======================================================================*/
 void generateAdventure(char acodeFileName[],
-		       char textFileName[],
-		       char dataFileName[])
+               char textFileName[],
+               char dataFileName[])
 {
     Aaddr parameterNamesAddress = 0;
 
@@ -238,7 +238,7 @@ void generateAdventure(char acodeFileName[],
     acodeHeader.syntaxTableAddress = generateParseTable();
 
     verbose("Parameter Mapping");
-    if (debugFlag)
+    if (opts[OPTDEBUG].value == TRUE)
         parameterNamesAddress = generateParameterNames(adv.stxs);
     acodeHeader.parameterMapAddress = generateParameterMappingTable();
     emit(parameterNamesAddress);

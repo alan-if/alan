@@ -12,6 +12,7 @@
 #include "util.h"
 #include "emit.h"
 #include "adv.h"
+#include "opt.h"
 
 #include "description_x.h"
 #include "id_x.h"
@@ -275,7 +276,7 @@ void generateInstances(ACodeHeader *header)
 {
     List *l;
 
-    if (debugFlag) {
+    if (opts[OPTDEBUG].value == TRUE) {
         /* Generate all programmer ids for all instances */
         for (l = allInstances; l; l = l->next)
             generateInstanceId(l->member.ins);
@@ -286,7 +287,7 @@ void generateInstances(ACodeHeader *header)
 
     header->instanceTableAddress = generateInstanceTable(allInstances);
 
-    if (debugFlag)
+    if (opts[OPTDEBUG].value == TRUE)
         /* Generate table for all programmer names here, since here we
            can calculate it without having to have a pointer stored
            anywhere */

@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				CLA.C
-			     Class Nodes
+                CLA.C
+                 Class Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -122,9 +122,9 @@ void initClasses()
 
 /*======================================================================*/
 Class *newClass(Srcp *srcp,	/* IN - Source Position */
-		Id *id,
-		Id *parent,
-		Properties *props)
+        Id *id,
+        Id *parent,
+        Properties *props)
 {
   Class *new;                  /* The newly allocated area */
 
@@ -222,16 +222,16 @@ void setupDefaultProperties() {
 
   if (!entitySymbol->fields.entity.props->definite)
     entitySymbol->fields.entity.props->definite = newArticle(nulsrcp,
-							     newPrintStatementListFromString(the),
-							     FALSE);
+                                 newPrintStatementListFromString(the),
+                                 FALSE);
   if (!entitySymbol->fields.entity.props->indefinite)
     entitySymbol->fields.entity.props->indefinite = newArticle(nulsrcp,
-							       newPrintStatementListFromString(an),
-							       FALSE);
+                                   newPrintStatementListFromString(an),
+                                   FALSE);
   if (!entitySymbol->fields.entity.props->negative)
     entitySymbol->fields.entity.props->negative = newArticle(nulsrcp,
-							     newPrintStatementListFromString(any),
-							     FALSE);
+                                 newPrintStatementListFromString(any),
+                                 FALSE);
 
   /* Add pronouns */
   if (entity->props->pronouns == NULL)
@@ -241,14 +241,14 @@ void setupDefaultProperties() {
       break;
     case L_SWEDISH:
       entity->props->pronouns = newIdList(newIdList(NULL,
-						    "det"),
-					  "den");
+                            "det"),
+                      "den");
       break;
     case L_GERMAN:
       entity->props->pronouns = newIdList(newIdList(newIdList(NULL,
-							      "es"),
-						    "ihn"),
-					  "sie");
+                                  "es"),
+                            "ihn"),
+                      "sie");
       break;
     }
 }
@@ -258,7 +258,7 @@ void setupDefaultProperties() {
 static void generateClassData(Class *cla)
 {
   generateCommonPropertiesData(cla->props);
-  if (debugFlag) {
+  if (opts[OPTDEBUG].value == TRUE) {
     cla->props->idAddress = nextEmitAddress();
     emitString(cla->props->id->string);
   }
