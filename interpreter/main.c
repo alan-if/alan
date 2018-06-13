@@ -422,17 +422,16 @@ static void checkDebug(void)
             printf("<Sorry, '%s' is not compiled for debug! Exiting.>\n", adventureFileName);
             terminate(0);
         }
-        para();
         debugOption = FALSE;
         traceSectionOption = FALSE;
         traceInstructionOption = FALSE;
         tracePushOption = FALSE;
     }
 
-    if (debugOption || regressionTestOption) /* If debugging... */
-        srand(1);			/* ... use no randomization */
+    if (debugOption || regressionTestOption) /* If debugging or regression testing... */
+        srand(1);               /* ... use no randomization */
     else
-        srand(time(0));		/* Else seed random generator */
+        srand(time(0));         /* Else seed random generator */
 }
 
 
@@ -610,6 +609,7 @@ static void start(void)
     current.actor = HERO;
     current.score = 0;
 
+    para();
     initializeInstances();
 
     if (traceSectionOption)

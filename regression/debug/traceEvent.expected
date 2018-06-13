@@ -8,8 +8,9 @@ adbg> trace section
 Section trace on.
 adbg> g
 
-<START:>
 
+
+<START:>
 
 <CURRENT LOCATION:>
 L

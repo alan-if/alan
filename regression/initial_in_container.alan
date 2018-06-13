@@ -1,15 +1,12 @@
-Options
-    Debug.
-
 Syntax
     put_in = 'put' (o) 'in' (c)
-	Where c Isa Container
-	    Else "You can't put anything in the $2."
+    Where c Isa Container
+        Else "You can't put anything in the $2."
 
 Add To Every Thing
   Verb put_in
     Does
-	"put in"
+    "put in"
   End Verb.
 End Add.
 
