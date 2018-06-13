@@ -1,0 +1,6 @@
+langauge: c
+compiler:
+    - gcc
+build:
+    ci:
+        - make ci
