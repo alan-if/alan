@@ -610,6 +610,8 @@ static void start(void)
     current.score = 0;
 
     para();
+    if (traceSectionOption)
+        printf("\n<INITIALIZE:>\n");
     initializeInstances();
 
     if (traceSectionOption)
