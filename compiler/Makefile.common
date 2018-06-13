@@ -55,7 +55,6 @@ test:
 	@jregr -dir testing/positions $(JREGROUTPUT)
 	@jregr -dir testing/dump $(JREGROUTPUT)
 	@jregr -dir testing/arguments $(JREGROUTPUT)
-	@jregr -dir ../regression/debug $(JREGROUTPUT)
 	@cd ../regression/platforms; cp platforms.alan $(OS).alan; ../../bin/alan $(OS); rm $(OS).alan
 	@jregr -dir ../regression/platforms $(JREGROUTPUT)
 # TODO: Since older interpreters barf on the tests for backwards compatibility of the compiler
