@@ -198,6 +198,7 @@ void prepareWords(void)
         newWord("them", THEM_WORD, 0, NULL);
         newWord("except", EXCEPT_WORD, 0, NULL);
         newWord("but", EXCEPT_WORD, 0, NULL);
+        newWord("the", NOISE_WORD, 0, NULL);
         newWord("and", CONJUNCTION_WORD, 0, NULL);
         newWord("all", ALL_WORD, 0, NULL);
         newWord("everything", ALL_WORD, 0, NULL);
@@ -208,6 +209,9 @@ void prepareWords(void)
         newWord("dem", THEM_WORD, 0, NULL);
         newWord("utom", EXCEPT_WORD, 0, NULL);
         newWord("förutom", EXCEPT_WORD, 0, NULL);
+        newWord("den", NOISE_WORD, 0, NULL);
+        newWord("det", NOISE_WORD, 0, NULL);
+        newWord("de", NOISE_WORD, 0, NULL);
         newWord("och", CONJUNCTION_WORD, 0, NULL);
         newWord("allt", ALL_WORD, 0, NULL);
         newWord("alla", ALL_WORD, 0, NULL);
@@ -218,6 +222,9 @@ void prepareWords(void)
         newWord("ausser", EXCEPT_WORD, 0, NULL);
         newWord("und", CONJUNCTION_WORD, 0, NULL);
         newWord("alles", ALL_WORD, 0, NULL);
+        newWord("der", NOISE_WORD, 0, NULL);
+        newWord("die", NOISE_WORD, 0, NULL);
+        newWord("das", NOISE_WORD, 0, NULL);
         break;
     default:
         SYSERR("Unrecognized language", nulsrcp);
@@ -281,30 +288,6 @@ void analyzeAllWords(void)
 
     analyzeWords(wordTree);
 }
-
-
-/*======================================================================*/
-void finalizeWords(void)
-{
-	/* If some common noise words have not been added to the dictionary, then
-	   add them */
-	switch (opts[OPTLANG].value) {
-	case L_ENGLISH:
-		newWord("the", NOISE_WORD, 0, NULL);
-		break;
-	case L_SWEDISH:
-		newWord("den", NOISE_WORD, 0, NULL);
-		newWord("det", NOISE_WORD, 0, NULL);
-		newWord("de", NOISE_WORD, 0, NULL);
-		break;
-	case L_GERMAN:
-		newWord("der", NOISE_WORD, 0, NULL);
-		newWord("die", NOISE_WORD, 0, NULL);
-		newWord("das", NOISE_WORD, 0, NULL);
-		break;
-	}
-}
-
 
 
 /*----------------------------------------------------------------------*/

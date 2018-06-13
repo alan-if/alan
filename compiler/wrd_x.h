@@ -2,8 +2,8 @@
 #define _WRD_X_H_
 /*----------------------------------------------------------------------*\
 
-				WRD_X.H
-		     Dictionary Word Nodes Export
+                WRD_X.H
+             Dictionary Word Nodes Export
 
 \*----------------------------------------------------------------------*/
 
@@ -38,7 +38,6 @@ extern int newNounWord(char *theWord, int code, Instance *reference);
 
 extern void prepareWords(void);
 extern void analyzeAllWords(void);
-extern void finalizeWords(void);
 extern Aaddr generateAllWords(void);
 
 

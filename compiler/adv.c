@@ -192,8 +192,6 @@ void analyzeAdventure(void)
 
     if (opts[OPTDEBUG].value == TRUE)
         analyzeSourceFilenames();
-
-    finalizeWords();
 }
 
 
