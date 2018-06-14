@@ -33,5 +33,10 @@ Event say_rule
     "Rule triggered."
 End Event.
 
+Event recurring
+    "Recurring event ran."
+End Event.
+
 Start At test_bed.
     Schedule end_game At hero After 2.
+    Schedule recurring At hero After 1.

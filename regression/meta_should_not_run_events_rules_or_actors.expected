@@ -1,32 +1,29 @@
 ########## meta_should_not_run_events_rules_or_actors ##########
 
         No warnings or errors detected.
+        1 informational message(s).
 
 
 
-Test Bed
-Just your ordinary test bed. Do 'x box' three times to end the game. 
-
-A nice box is here.
-
-> x box
-All wood and all good. You have scored 0 points out of 0 in 0 moves.
+Test_bed
+There is a box here. Rule triggered.
 
 > x box
-All wood and all good. You have scored 0 points out of 0 in 0 moves.
+There is a box here. You have scored 0 points out of 0 in 0 moves.
 
 > x box
-All wood and all good. You have scored 0 points out of 0 in 0 moves.
+There is a box here. You have scored 0 points out of 0 in 0 moves.
 
 > x box
-All wood and all good. You have scored 0 points out of 0 in 0 moves.
+There is a box here. You have scored 0 points out of 0 in 0 moves.
 
-> x box
-All wood and all good. You have scored 0 points out of 0 in 0 moves.
+> y box
+There is a box here. You have scored 0 points out of 0 in 0 moves. 
+Recurring event ran.
 
-> x box
-All wood and all good. You have scored 0 points out of 0 in 0 moves.
+> y box
+There is a box here. You have scored 0 points out of 0 in 1 moves. 
 
-> 
+This is the end.
 
 Do you want to UNDO, RESTART, RESTORE or QUIT ? 
