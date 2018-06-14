@@ -4,9 +4,6 @@
 # only sets some cygwin particular switches
 # All rules are in Makefile.common and included by Makefile
 
-# Override "all" target
-EXTRA_TARGETS = alan64
-
 # Normally cross compile from cygwin to native Windows binaries
 COMPILER = i686-w64-mingw32-gcc
 LINKER = i686-w64-mingw32-gcc
@@ -66,14 +63,18 @@ alan.res: alan.rc alan.ico
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# alan64 - command line alan compiler for Cygwin64
+# Build 64-bit version on Cygwin
 #
 # Build with flags and compilers:
-alan64: COMPILER = gcc
-alan64: LINKER = gcc
+x64: COMPILER = gcc
+x64: LINKER = gcc
+x64: EXTRA_TARGETS :=
+
+x64: tm unit build
 
 ALAN64OBJDIR = .alan64
 ALAN64OBJECTS = $(addprefix $(ALAN64OBJDIR)/,${ALANSRCS:.c=.o}) $(ALAN64OBJDIR)/alan.version.o
+
 
 $(ALAN64OBJECTS): $(ALAN64OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<

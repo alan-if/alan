@@ -13,7 +13,7 @@
 #
 # Default target on thoni is :
 #
-all: tm unit build
+all: tm unit build winalan
 
 include Makefile.cygwin
 
@@ -23,7 +23,7 @@ include Makefile.cygwin
 #
 # 'build' is the target the continuous integration will use
 .PHONY: build
-build : alan winalan
+build : alan
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
