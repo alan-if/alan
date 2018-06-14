@@ -3,4 +3,4 @@ compiler:
     - gcc
 build:
     ci:
-        - make ci
+        - make CGREEN=no ci

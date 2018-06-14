@@ -90,10 +90,15 @@ $(ALANOBJDIR):
 #
 # Two types:
 .PHONY: unit
+ifneq ($(CGREEN),yes)
+unit:
+	echo "No unit tests run, cgreen not available"
+else
+.PHONY: unit
 unit: linked_unittests isolated_unittests
-
 .PHONY: unitbuild
 unitbuild: linked_unittests_build isolated_unittests_build
+endif
 
 CGREENLINKLIB ?= -lcgreen
 
