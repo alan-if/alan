@@ -36,11 +36,11 @@ gprof: EXTRA_LINKER_FLAGS = -pg
 # Main target to do everything
 #
 .PHONY: all
-all: unit build $(EXTRA_TARGETS)
+all: unit build
 
 # Target to just build
 .PHONY: build gprof
-build gprof: alan
+build gprof: alan $(EXTRA_TARGETS)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #

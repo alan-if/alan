@@ -21,14 +21,6 @@ TERMGLKLIBDIR = $(TERMGLKROOT)/$(ARCH)
 
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
-###############################################################
-.PHONY: all
-all: unit build arun64
-
-###############################################################
-.PHONY: build
-build: arun winarun glkarun dumpacd # gargoyle slot-in needs to be made specifically
-
 
 #######################################################################
 # Settings for Release
@@ -44,6 +36,8 @@ WINGLKROOT = /home/thomas/Utveckling/Alan/WindowsGlk-145
 WINGLKDEFS = -DHAVE_WINGLK
 WINGLKINCLUDE = -I$(WINGLKROOT)/Include
 WINGLKLIB = $(WINGLKROOT)/Glk.lib
+
+EXTRA_TARGETS += winarun
 
 winarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) $(WINGLKINCLUDE) $(WINGLKDEFS)
 winarun: LIBS = $(WINGLKLIB) -mwindows
@@ -96,6 +90,9 @@ gargoyle-updater: build-gararun gargoyle-alan3.iss
 #
 # Dump Acode file into text format
 #
+
+EXTRA_TARGETS += dumpacd
+
 DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o types.o ../compiler/spa.o
 dumpacd: $(DUMPACDOBJECTS)
 	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) $(DUMPACDOBJECTS)

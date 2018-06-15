@@ -26,10 +26,10 @@ CGREENLINKLIB ?= -lcgreen
 
 # Default top rule if platform specific makefile doesn't add a default
 # that is found before this
-all: unit arun
+all: unit build
 
 #######################################################################
-build: arun
+build: arun $(EXTRA_TARGETS)
 
 #######################################################################
 .PHONY: unit

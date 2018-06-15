@@ -40,6 +40,8 @@ CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen #$(CGREENLIBDIR)/libcgreen.dll.a
 #
 # WinAlan is only available on Windows (= MinGW = Cygwin without cygwin1.dll)
 #
+EXTRA_TARGETS += winalan
+
 # Build with flags:
 winalan: EXTRA_COMPILER_FLAGS = -std=c99 -Wall -funsigned-char $(OPTIMIZE) -DWINGUI #-DARGSDISPLAY
 WINALANLIBS = -lshlwapi
@@ -70,7 +72,7 @@ x64: COMPILER = gcc
 x64: LINKER = gcc
 x64: EXTRA_TARGETS :=
 
-x64: tm unit build
+x64: tm unit alan
 
 ALAN64OBJDIR = .alan64
 ALAN64OBJECTS = $(addprefix $(ALAN64OBJDIR)/,${ALANSRCS:.c=.o}) $(ALAN64OBJDIR)/alan.version.o
