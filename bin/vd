@@ -2,12 +2,13 @@
 f=${1%%\.}
 os=$(uname -s)
 case $os in
-  "Linux")
+    "Linux")
         diff=meld ;;
-  "CYGWIN_NT-6.1")
-        diff=meld ;;
-        #diff=/cygdrive/c/Program/Winmerge/WinMergeU ;;
-  *)
-        echo "No visual diff defined for" $os ;;
+    "CYGWIN_NT-10.0")
+        #diff=meld ;;
+        diff="/cygdrive/c/Program Files (x86)/Winmerge/WinMergeU" ;;
+    *)
+        echo "No visual diff defined for" $os
+        exit ;;
 esac
-$diff $f.expected $f.output
+"$diff" $f.expected $f.output
