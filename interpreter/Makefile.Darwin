@@ -78,6 +78,9 @@ coverage: clean arun unit
 # Packages (http://http://s.sudre.free.fr/Software/Packages/about.html)
 #
 GARGOYLE_DIR=../../garglk-current-alan3
+
+EXTRA_TARGETS += gararun
+
 gararun: gargoyle-updater gararun-tar
 
 gargoyle-updater: alan3 gargoyle-libs
@@ -118,6 +121,8 @@ gargoyle-libs:
 #
 # Builds using platypus which needs to be installed, including the command line version
 
+EXTRA_TARGETS += macarun
+
 macarun: MacArun.app
 	zip -r MacArun$(VERSION)$(BUILDVERSION).zip MacArun.app
 
@@ -127,6 +132,8 @@ MacArun.app: MacArun.sh MacArun.platypus
 
 ############################################################
 # glkarun
+
+EXTRA_TARGETS += glkarun
 
 glkarun: TERMGLKROOT = ../../glkterm
 glkarun: ARCHFLAGS = -m32
