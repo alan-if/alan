@@ -23,6 +23,7 @@ WINDRES = i686-w64-mingw32-windres
 # use native gcc for unittests and when explicitly compiling for x64
 unit isolated_unittests x64: COMPILER = gcc  #i686-pc-cygwin-gcc
 unit isolated_unittests x64: LINKER = gcc  #i686-pc-cygwin-gcc
+
 x64: EXTRA_TARGETS :=
 
 x64: unit arun
@@ -42,6 +43,8 @@ CGREENLDPATH  =
 
 ###############################################################
 # glkarun needs curses which are only available in cygwin
+EXTRA_TARGETS += glkarun
+
 CURSESLIB = -lcurses
 glkarun: COMPILER = gcc
 glkarun: LINKER = gcc
