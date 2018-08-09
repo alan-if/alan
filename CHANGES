@@ -1,3 +1,11 @@
+Changes in V3.0beta6:
+- FEATURE: There was no way to print $500, as that was interpreted as a symbol.
+- BUGFIX: There was no way to create synonym for 'the'.
+- BUGFIX: Compiler did not adhere to "Option Debug." in the source.
+- BUGFIX: You could say "Container Taking <x>" without warnings or errors even if the class <x> was not allowed in container (actors and locations).
+- BUGFIX: Description Checks was not respected when auto-listing instances at a location.
+- BUGFIX: Improved error handling for syntax errors in names, which previously could cause a System Error.
+
 Changes in V3.0beta5:
 - FEATURE: compiler now figures out the most general class taken transitively by containers and uses that instead of entity where applicable
 - FEATURE: MacOS application to run text-only interpreter in a terminal
@@ -137,7 +145,7 @@ Changes in V3.0alpha2:
   door class implementation. Now works as specified.
 - Fixed position calculation with -ide (for use with AlanIDE) to be
   platform independent.
- 
+
 Changes in V3.0alpha1:
 - Unified the automatic display of objects and actors so that they now
   both are listed in indefinite form. Actors are still listed separately
