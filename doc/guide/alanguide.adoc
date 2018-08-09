@@ -23,12 +23,12 @@ link:http://asciidoc.org[AsciiDOC].
 In 2014 I started converting it from the only remaining format, the
 HTLM.  By cleaning that from crud I could make AsciiDOC out of
 it. Then it was mostly a matter of restoring the formatting that
-Michael intended. I think it is fairly true to the intention.
+Michael intended. I think it is fairly true to that intention.
 
 The library that is used in this guide is no longer current. Anssi
 Räisanen have made huge efforts in creating a better library, which is
 available at the link:http://alanif.se[Alan website]. Perhaps someone
-is interested in converting this guide to use a moderna Alan library.
+is interested in converting this guide to use a modern Alan library.
 
 Even so, it is a clear and concise guide on writing text adventures
 with Alan. I hope his efforts in writing this, and mine in converting

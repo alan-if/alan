@@ -74,6 +74,7 @@ release-upload:
 	alanupload doc/manual/manual.pdf documentation
 	alanupload doc/manual/conversion.pdf documentation
 	#alanupload doc/manual/writing.pdf documentation
+	alanupload doc/guide/alanguide.pdf documentation
 
 
 # Create pdf from odt
@@ -81,6 +82,7 @@ release-upload:
 documentation:
 	@echo "******** Target: $@ ***********"
 	$(MAKE) -C doc/manual
+	$(MAKE) -C doc/guide
 
 
 .PHONY: releasebuild
