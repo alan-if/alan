@@ -1,5 +1,5 @@
 # Location of XXXOffice for conversion from .odt to .pdf
-OFFICEDIR = C:/Program\ Files/LibreOffice\ 5
+OFFICEDIR = C:/Program\ Files/LibreOffice
 
 all: manual.pdf conversion.pdf writing.pdf
 
