@@ -71,3 +71,18 @@ arun64: $(ARUN64OBJDIR) $(ARUN64OBJECTS)
 	$(LINK) $(LINKFLAGS) -o $@ $(ARUN64OBJECTS) $(ARUN64LIBS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin
+
+
+#######################################################################
+#
+# Misc programs:
+#
+# Dump Acode file into text format
+#
+
+EXTRA_TARGETS += dumpacd
+
+DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o types.o ../compiler/spa.o
+dumpacd: $(DUMPACDOBJECTS)
+	$(LINK) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)
+	cp $@ ../bin/
