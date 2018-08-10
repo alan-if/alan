@@ -8,7 +8,7 @@ AppUpdatesURL=http://www.alanif.se
 AllowNoIcons=yes
 ChangesAssociations = yes
 OutputDir=.
-OutputBaseFilename=gargoyle-alan3-VERSION.win32.x86.setup
+OutputBaseFilename=gargoyle-updater-alanVERSION.win32.x86.setup
 WizardImageFile=../setup_wizard.bmp
 WizardImageStretch=no
 DefaultDirName={code:GargoyleDir}
@@ -23,9 +23,9 @@ function InitializeSetup() : Boolean;
 begin
   Result := RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Tor Andersson\Gargoyle')
   if not Result then
-    MsgBox('Alan v3 slot-in for Gargoyle requires Gargoyle (http://code.google.com/p/garglk/downloads/list).'#13#13'Gargoyle does not seem to be installed. Installation will now terminate.', mbError, MB_OK);
+    MsgBox('Alan v3 slot-in for Gargoyle requires Gargoyle (http://code.google.com/p/garglk/downloads/list).'#13#13'Could not find Gargoyle in the registry, it seems to not be installed. Installation will now terminate.', mbError, MB_OK);
 end;
-  
+
 
 function GargoyleDir(Param: String): String;
 begin

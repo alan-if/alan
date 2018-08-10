@@ -70,8 +70,8 @@ release-upload:
 	alanupload alan$(VERSION).$(PLATFORM).zip sdks/windows
 	alanupload alan$(VERSION).$(PLATFORM).setup.exe sdks/windows
 	alanupload winarun$(VERSION).$(PLATFORM).setup.exe interpreters/windows
-	alanupload interpreter/gargoyle-alan3-$(VERSION).$(PLATFORM).setup.exe interpreters/windows
-	alanupload interpreter/gargoyle-alan3-$(VERSION).$(PLATFORM).zip interpreters/windows
+	alanupload interpreter/gargoyle-updater-alan$(VERSION).$(PLATFORM).setup.exe interpreters/windows
+	alanupload interpreter/gargoyle-updater-alan$(VERSION).$(PLATFORM).zip interpreters/windows
 	alanupload doc/manual/manual.pdf documentation
 	alanupload doc/manual/conversion.pdf documentation
 	#alanupload doc/manual/writing.pdf documentation
@@ -155,6 +155,10 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 	$(INNODIR)/iscc alan_tmp.iss
 	-rm alan_tmp.iss
 	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
+
+.PHONY: gargoyle
+gargoyle:
+	$(MAKE) -C interpreter gargoyle-updater
 
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; ../../bin/alan adventv3
