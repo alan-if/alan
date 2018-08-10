@@ -12,7 +12,7 @@
 # Define this to make interpreter log each crc calculation step
 #CRCLOG = -DCRCLOG
 
-VERSION = `cd ..; venum alan -print "\\$$v_\\$$r\\$$s\\$$c" | tr -d '\n\r'`
+VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
 
 # GLK for console I/O
@@ -81,7 +81,7 @@ gararun-package: build-gararun gargoyle-updater-alan3.readme
 
 .PHONY: gargoyle-updater
 gargoyle-updater: build-gararun gargoyle-updater-alan3.iss
-	-rm gargoyle-updater-alan3*-setup.exe
+	-rm gargoyle-updater-alan3*setup.exe
 	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ gargoyle-updater-alan3.iss > gargoyle-updater-alan3_tmp.iss
 	$(INNODIR)/iscc gargoyle-updater-alan3_tmp.iss
 	rm gargoyle-updater-alan3_tmp.iss
