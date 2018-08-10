@@ -163,7 +163,7 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 
 .PHONY: gargoyle
 gargoyle:
-	$(MAKE) -C interpreter gargoyle-updater
+	$(MAKE) -C interpreter gargoyle
 
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; ../../bin/alan adventv3

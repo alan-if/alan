@@ -14,6 +14,8 @@
 
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
+PLATFORM = win32.i386
+
 
 # GLK for console I/O
 TERMGLKROOT = /cygdrive/c/Users/Thomas/Utveckling/Alan/glkterm
@@ -66,7 +68,7 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 # The jam sources are found at the Perforce Workshop:
 # https://swarm.workshop.perforce.com/projects/perforce_software-jam/
 
-gararun: build-gararun gararun-package gargoyle-updater
+gargoyle: build-gararun gararun-package gargoyle-updater
 
 .PHONY: build-gararun
 build-gararun: alan3.exe
