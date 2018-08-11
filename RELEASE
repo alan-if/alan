@@ -1,0 +1,35 @@
+This file attempts to describe the procedure for creating releases and
+distributions of the Alan system.
+
+"make release" (main development machine)
+
+    This should always be done on the main development machine
+    (ThoNi's) before its done on secondary platforms. It will check
+    that the source files are checked in, and some other stuff. You
+    can't do a release otherwise.
+
+    It then goes on to build everything for release and run all tests.
+
+    If that is successful, a tag (vXYZ) is set at the current HEAD in
+    the main branch, and a branch for this OS is created at the same
+    commit.
+
+    Then all packages for the platform is uploaded to the Alan
+    website.
+
+    The file LASTRELEASE will contain the venum of the last
+    released version on the current branch.
+
+    Finally the venum should be upgraded (manually) and committed.
+
+        vX.Y.(Z+1)
+
+    On next compile that upcoming version is written to the file
+    NEXTRELEASE so that other platforms can use that as version
+    (versions should only be updated on the main delvelopment
+    machine).
+
+"make distribution" (secondary platforms)
+
+    This should build all binaries, run all tests, and if succesful
+    package them, and upload them to the web site.
