@@ -4,7 +4,7 @@
 #
 # We create NEXTRELEASE to be able to generate version marking on
 # non-Windows platforms where 'venum' isn't available
-NEXTRELEASEFORMAT='$$v_$$r\{s$$s\|\}$$c'
+NEXTRELEASEFORMAT='$$v.$$r{s$$s|}$$c'
 
 alan.version.c: $(VERSIONSRCS)
 	cd ..; venum alan time
