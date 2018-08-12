@@ -2,7 +2,7 @@
 # Partial Makefile to be included from top level Makefile on Darwin
 #
 
-PLATFORM = macos.x86_64
+PLATFORM = macos
 
 VERSION := $(shell cat NEXTRELEASE)
 
