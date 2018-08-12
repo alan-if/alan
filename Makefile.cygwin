@@ -101,7 +101,8 @@ include Makefile.common
 
 .PHONY: tags
 tags: last-release
-	git tag -f v$(VERSION)_$(OS)
+	git tag -f v$(VERSION)
+	git branch -f v$(VERSION)_$(OS)
 	@echo "If you are satisfied with the result, and on thoni's machine, do a 'venum alan correction', at least"
 
 .PHONY: last-release
