@@ -89,7 +89,7 @@ gargoyle-updater: alan3 gargoyle-libs
 	rm -r build
 
 gararun-tar: alan3 gargoyle-libs
-	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).macos.tgz Gargoyle.app gargoyle.alan3-slot-in.readme
+	tar zcvf gargoyle-alan3-$(VERSION)$(BUILDVERSION).macos.tgz Gargoyle.app gargoyle-updater-alan3.readme
 	rm -r Gargoyle.app
 
 LIBDIR = /usr/local/lib
