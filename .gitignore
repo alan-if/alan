@@ -8,9 +8,9 @@ TEST-*.xml
 *.tmp
 *.vg
 *.leaks
-alan*linux.x86.tgz
+alan*linux*.tgz
 BUILD_NUMBER
-gargoyle-alan3_tmp.iss
+gargoyle-*_tmp.iss
 *.o
 *.dll
 *.dat

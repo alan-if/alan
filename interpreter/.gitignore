@@ -11,7 +11,7 @@ arun.rc2
 .cgreen-gdb-commands
 *.d
 *.pkg
-gargoyle*.sh
+gargoyle*.linux.sh
 gargoyle*.tgz
 unittests.dll
 *.exe

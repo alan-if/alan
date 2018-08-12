@@ -43,7 +43,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	@-rm -f *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg gargoyle*.sh .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun
+	@-rm -f *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun
 
 
 ###################################################################

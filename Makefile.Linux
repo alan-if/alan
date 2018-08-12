@@ -4,7 +4,8 @@
 
 VERSION := $(shell cat NEXTRELEASE)
 
-PLATFORM = linux.i386                         # Since we only distribute 32bit versions
+# Since we only distribute 32bit versions
+PLATFORM = linux
 
 PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
 
@@ -26,6 +27,9 @@ $(PACKAGE): bin/alan bin/arun
 ###############
 # Distribution
 #
+# Make a distribution for this platform of the current (last) release
+distribution: VERSION := $(shell cat LASTRELEASE)
+
 distribution:
 	@if [[ -f BUILD_NUMBER ]] ; then \
 	  echo Should not upload a version with BUILD_NUMBER, remove it first ; \
@@ -34,7 +38,7 @@ distribution:
 	$(MAKE) distribution-build distribution-upload
 
 distribution-build:
-	$(MAKE) clean all package
+	$(MAKE) clean all $(PACKAGE)
 	$(MAKE) -C interpreter gararun
 
 distribution-upload:
