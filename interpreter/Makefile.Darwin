@@ -123,7 +123,9 @@ gargoyle-libs:
 
 EXTRA_TARGETS += macarun
 
-macarun: MacArun.app
+macarun: MacArun$(VERSION)$(BUILDVERSION).zip
+
+MacArun$(VERSION)$(BUILDVERSION).zip: MacArun.app
 	zip -r MacArun$(VERSION)$(BUILDVERSION).zip MacArun.app
 
 MacArun.app: MacArun.sh MacArun.platypus
