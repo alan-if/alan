@@ -1,0 +1,188 @@
+-- ted2.alan
+
+
+IMPORT 'library.i'.
+IMPORT 'mygame_import.i'.
+
+
+THE hero ISA ACTOR
+   NAME ted NAME paladin NAME hero
+
+   IS aware 0.    -- aware of missing verbs
+   IS NOT dressed.
+   CAN NOT open.
+   CAN NOT turn.
+
+END THE.
+
+
+
+THE bb ISA ROOM
+	NAME bedroom	
+	DESCRIPTION 
+		IF described OF bb = 1
+			THEN
+				"You like to keep your bedroom very simply furnished to avoid a long, boring
+				location description, should the bedroom be featured in a text adventure. You always like to be prepared. $p"
+		END IF.
+
+		"There is an antique writing desk in front of the window. A beautiful oaken wardrobe stands in one corner. 
+		 Beside your bed is a small nightstand. A door leads west."		 
+
+	EXIT west TO upstairs_landing
+		CHECK b_door IS open
+			ELSE "You can't, since the bedroom door is closed."
+	END EXIT.
+
+END THE.
+
+
+THE b_window ISA WINDOW AT bb
+	NAME window
+	IS open. 
+	IS NOT pushed.
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY  
+			IF b_window IS NOT pushed
+			  THEN
+				"You left the window slightly open last night to allow the
+				 cool, fresh night air seep in."
+			  ELSE
+				"The window is fully open. A tall elmtree grows right outside,
+				 but you can see glimpses of the garden through the branches."
+			END IF.
+	END VERB.
+
+	VERB open
+		CHECK hero CAN open
+			ELSE "You don't know the word 'open'."
+				IF aware OF hero = 0
+					THEN SCHEDULE aware0_message AT hero AFTER 0.
+						SET aware OF hero TO 1.
+				END IF.
+	END VERB.
+ 
+			
+END THE.
+
+
+THE b_door ISA DOOR AT bb
+	NAME door
+	DESCRIPTION ""
+
+	VERB examine
+		DOES ONLY "It's a white, wooden door with a simple round knob on it."
+	END VERB.
+
+END THE.
+
+
+
+THE knob ISA OBJECT AT bb
+	NAME knob NAME doorknob
+	DESCRIPTION ""
+END THE.
+
+
+
+THE table ISA SUPPORTER 
+	AT bb
+	NAME writing desk NAME table
+	DESCRIPTION ""
+	
+	VERB examine
+		DOES ONLY "It's an antique writing desk made of exquisite, light brown teak."
+				IF COUNT ISA OBJECT, IN table > 0 
+					THEN LIST table. 
+				END IF.				
+	END VERB.
+
+END THE.
+
+THE note ISA OBJECT IN table.
+	IS readable.
+	IS NOT perused.
+
+	VERB examine, read
+		DOES ONLY 
+		IF note IS NOT perused
+			THEN "Funny, you don't remember leaving any notes on the desk the day before.
+				 And there is nobody else in the house.
+				 Somewhat alarmed, you read:$p"
+		END IF.
+		""" 'Dear' Paladin,
+           $ndon't get worried about finding this note on your desk. I took the liberty of delivering
+		it to you personally. Seems like it was no trick to enter the private bedroom of an 'accomplished 
+		adventure hero', like they call you in the papers. Would it be a good idea to make your front door lock
+		a bit more difficult to pick? Beginning to lose your edge, eh?
+		$pAnyway, I heard you would start your holiday today - what a greater day to throw in a challenge, isn't it? 
+		You really don't deserve any rest, 'Paladin'. So, first of all, I stole a couple of verbs from your vocabulary.
+		I thought 'open' might be a good one, as you need to open your door to get out of the room. 
+		I stole 'turn' from you, as well, in case it would come to your mind to turn the knob. 
+		*If* you manage to get out of your room, I dare you to come to my
+		mansion and face the challenges I have prepared for you. It will give me great pleasure to finally squash you like
+		the bug that you are.
+		$pHave a nice morning,
+		$nYours,
+		$pRhazien Lynx.""
+		$pRhazien Lynx? He has been your adversary ever since you managed to beat him in three successive text adventure
+		tournaments. It seems the bitterness has accumulated over the years and finally taken expression in this sudden
+		outburst. Well, you decide that you might as well take the challenge; one more adventure for the morning of the first
+		day of your vacation just makes it easier to get accustomed to the sweet idleness that lies ahead. 
+		Moreover, you might successfully end this stupid hostility once and for all."
+	END VERB. 
+            
+		
+
+
+END THE.
+
+
+
+THE bed ISA OBJECT
+	AT bb
+	DESCRIPTION ""
+
+END THE.
+
+
+THE wardrobe ISA OBJECT
+	AT bb
+	DESCRIPTION ""
+
+END THE.
+
+
+
+THE nightstand ISA OBJECT
+	AT bb
+	DESCRIPTION ""
+
+END THE.
+
+
+THE upstairs_landing ISA ROOM
+	EXIT east TO bb.
+END THE.
+
+
+EVENT aware0_message
+"$pFlabbergasted, you stare at the above error message. You certainly do know that ordinary verb.
+What has happened?"
+END EVENT.
+
+
+-- bad guy: Rhazien Lynx
+
+START AT bb.
+"Ah, what a wonderful, sunny summer morning! Waking up in your bed, you take a deep breath and 
+let the sweet smells of your lovingly tended garden come in from the slightly open window and fill you with happiness. 
+Life couldn't be any better right now - after all, you're Ted Paladin, renowned text adventure hero, and it's the first day of your holiday.
+Having tackled countless locked doors, ciphered codes, mazes, word-plays and even fierce dragons all through the winter months 
+you feel you can leave all that behind for some weeks with a clear conscience. 
+
+$pYou sit up in your bed, thinking about how to start your first day of vacation."
+DESCRIBE banner.
+

@@ -67,7 +67,6 @@ snapshot-upload: buildnumbers
 	alanupload doc/manual/manual.pdf snapshots/$(BUILDNAME)/
 	alanupload doc/manual/conversion.pdf snapshots/$(BUILDNAME)/
 	alanupload doc/manual/writing.pdf snapshots/$(BUILDNAME)/
-	alanupload doc/guide/alanguide.pdf snapshots/$(BUILDNAME)/
 	ssh alanif.se ls -td /www/downloads/snapshots/Build* | tail -1 | xargs ssh alanif.se rm -r
 
 .PHONY: release-upload
@@ -80,7 +79,6 @@ release-upload:
 	alanupload doc/manual/manual.pdf documentation
 	alanupload doc/manual/conversion.pdf documentation
 	#alanupload doc/manual/writing.pdf documentation
-	alanupload doc/guide/alanguide.pdf documentation
 
 
 # Create pdf from odt
@@ -88,7 +86,6 @@ release-upload:
 documentation:
 	@echo "******** Target: $@ ***********"
 	$(MAKE) -C doc/manual
-	$(MAKE) -C doc/guide
 
 
 .PHONY: releasebuild

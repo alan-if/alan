@@ -1,0 +1,38 @@
+THE startroom ISA LOCATION
+END THE startroom.
+
+The hole isa OBJECT at startroom
+    Name hole Name shoulder Name right shoulder
+    Description ""
+
+    Has lizards 0.
+
+Container                   -- here are the five lines of code that produce the crash
+        Limits count 1
+            Else
+                "The hole currently contains" SAY COUNT ISA OBJECT, IN this.
+List this.
+
+                
+    Is describedAs "The right shoulder of the bronze man has a half inch hole in it that looks like a shaft of 
+    some kind could be inserted.".
+    Verb examine
+        Does only
+            Say describedAs of this.
+            List this.
+    End verb.
+End the.
+
+THE rc_spike ISA OBJECT AT startroom
+NAME spike
+END THE.
+
+THE a_bone_peg ISA OBJECT AT startroom
+NAME peg
+END THE.
+
+THE a_copper_rod ISA OBJECT AT startroom
+NAME rod
+END THE.
+
+START AT startroom.

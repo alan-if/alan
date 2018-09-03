@@ -1,0 +1,16 @@
+IMPORT 'library.i'.
+
+
+THE my_game ISA DEFINITION_BLOCK 
+   
+CAN NOT take.
+CAN NOT open.
+
+END THE.
+
+
+THE startroom ISA LOCATION
+END THE startroom.
+
+
+START AT startroom.
