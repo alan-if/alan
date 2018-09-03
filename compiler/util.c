@@ -155,7 +155,7 @@ char *fileName(int fileNo) {
 static void specialListing(lmSev sevs)
 {
     int i,j;
-    char err[1024], line[1024];
+    char err[1024], line[2000];
     Srcp srcp;
     List *fnm;
     List nofile;
