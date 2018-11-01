@@ -24,6 +24,16 @@ static SPA_FUN(usage)
 
 }
 
+static SPA_FUN(version)
+{
+#if (BUILD+0) != 0)
+    printf("%s build %d\n", alan.version.string, BUILD);
+#else
+    printf("%s\n", alan.version.string);
+#endif
+    terminate(EXIT_SUCCESS);
+}
+
 static SPA_ERRFUN(paramError)
 {
   char *sevstr;
@@ -69,6 +79,7 @@ SPA_END
 
 static SPA_DECLARE(options)
      SPA_HELP("help", "this help", usage, xit)
+     SPA_HELP("version", "print version and exit", version, xit)
      SPA_FLAG("verbose", "verbose messages", verboseFlag, FALSE, NULL)
      SPA_FLAG("warnings", "[don't] show warning messages", warningFlag, TRUE, NULL)
      SPA_FLAG("infos", "[don't] show informational messages", infoFlag, FALSE, NULL)

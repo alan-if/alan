@@ -64,14 +64,15 @@ void usage(char *programName)
 #ifdef HAVE_GLK
     glk_set_style(style_Preformatted);
 #endif
-    printf("    -v       verbose mode\n");
-    printf("    -l       log transcript to a file\n");
-    printf("    -c       log player commands to a file\n");
-    printf("    -n       no Status Line\n");
-    printf("    -d       enter debug mode\n");
-    printf("    -t[<n>]  trace game execution, higher <n> gives more trace\n");
-    printf("    -i       ignore version and checksum errors\n");
-    printf("    -r       make regression test easier (don't timestamp, page break, randomize...)\n");
+    printf("    -v        verbose mode\n");
+    printf("    -l        log transcript to a file\n");
+    printf("    -c        log player commands to a file\n");
+    printf("    -n        no Status Line\n");
+    printf("    -d        enter debug mode\n");
+    printf("    -t[<n>]   trace game execution, higher <n> gives more trace\n");
+    printf("    -i        ignore version and checksum errors\n");
+    printf("    -r        make regression test easier (don't timestamp, page break, randomize...)\n");
+    printf("    --version print version and exit\n");
 #ifdef HAVE_GLK
     glk_set_style(style_Normal);
 #endif

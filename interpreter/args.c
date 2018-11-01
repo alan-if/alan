@@ -16,6 +16,8 @@
 #include "memory.h"
 #include "utils.h"
 
+#include "alan.version.h"
+
 #ifdef HAVE_GLK
 #include "glk.h"
 #include "glkio.h"
@@ -125,8 +127,13 @@ static void switches(int argc, char *argv[])
                     regressionTestOption = TRUE;
                     break;
                 case '-':
-                    if (strcasecmp(&argument[1], "version") == 0) {
-                        printf("VERSION");
+                    if (strcasecmp(&argument[2], "version") == 0) {
+#if (BUILD+0) != 0
+                        printf("%s build %d", alan.version.string, BUILD);
+#else
+                        printf("%s", alan.version.string);
+#endif
+                        terminate(0);
                         break;
                     }
                     /* else fall-through */
