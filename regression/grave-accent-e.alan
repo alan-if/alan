@@ -1,0 +1,14 @@
+The loc_è Isa location
+    Name Location è.
+End The.
+
+Syntax grave = 'è'.
+
+Add To Every object
+    Verb grave
+         Does
+            "grave"
+    End Verb.
+End Add.
+
+Start at loc_è.
