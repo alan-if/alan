@@ -124,6 +124,12 @@ static void switches(int argc, char *argv[])
                 case 'r':
                     regressionTestOption = TRUE;
                     break;
+                case '-':
+                    if (strcasecmp(&argument[1], "version") == 0) {
+                        printf("VERSION");
+                        break;
+                    }
+                    /* else fall-through */
                 default:
                     printf("Unrecognized switch, -%c\n", argument[1]);
                     usage(argv[0]);
