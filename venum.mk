@@ -4,6 +4,7 @@
 #
 # We create NEXTRELEASE to be able to generate version marking on
 # non-Windows platforms where 'venum' isn't available
+
 NEXTRELEASEFORMAT='$$v.$$r{s$$s|}$$c'
 
 alan.version.c: $(VERSIONSRCS)
@@ -21,7 +22,13 @@ version.h : ../version.h
 	cd ..; venum alan time
 
 v:
-	cd ..; venum alan -print $(NEXTRELEASEFORMAT)
+	@echo NEXTRELEASEFORMAT=$(NEXTRELEASEFORMAT)
+	@which venum
+	if [ -f "alan.version" ] ; then \
+		venum alan -print $(NEXTRELEASEFORMAT) ; \
+	elif [ -f "../alan.version" ] ; then \
+		cd ..; venum alan -print $(NEXTRELEASEFORMAT) ; \
+	fi
 	@echo BUILDNUMBER=$(BUILDNUMBER)
 	@echo BUILDVERSION=$(BUILDVERSION)
 	@echo BUILDNAME=$(BUILDNAME)
