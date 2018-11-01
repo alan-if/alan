@@ -26,7 +26,7 @@ static SPA_FUN(usage)
 
 static SPA_FUN(version)
 {
-#if (BUILD+0) != 0)
+#if (BUILD+0) != 0
     printf("%s build %d\n", alan.version.string, BUILD);
 #else
     printf("%s\n", alan.version.string);
