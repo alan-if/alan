@@ -3,12 +3,18 @@ The loc_è Isa location
 End The.
 
 Syntax grave = 'è'.
+Syntax acute = 'é'.
 
-Add To Every object
+The rock Isa object
     Verb grave
          Does
             "grave"
     End Verb.
-End Add.
+    Verb acute
+         Does
+            "acute"
+    End Verb.
+End The.
 
 Start at loc_è.
+      "Do 'è rock' or 'é rock'."
