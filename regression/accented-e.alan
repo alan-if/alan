@@ -2,10 +2,10 @@ The loc_è Isa location
     Name Location è.
 End The.
 
-Syntax grave = 'è'.
-Syntax acute = 'é'.
+Syntax grave = 'è' (o).
+Syntax acute = 'é' (o).
 
-The rock Isa object
+The rock Isa object At loc_è
     Verb grave
          Does
             "grave"

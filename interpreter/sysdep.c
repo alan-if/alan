@@ -42,10 +42,10 @@ char *strdup(char str[])                /* IN - String to duplicate */
 
 /* Cheat implementation of strftime */
 size_t strftime (
-		 char *outbuf,
-		 size_t len,
-		 const char *format,
-		 const struct tm *t)
+         char *outbuf,
+         size_t len,
+         const char *format,
+         const struct tm *t)
 {
   char buf[100];
   time_t ticks;
@@ -249,7 +249,6 @@ char *strupp(char str[])        /* INOUT - Native string to convert */
 
 int isLowerCase(unsigned int c)          /* IN - ISO character to test */
 {
-  static char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyz\340\341\342\343\344\345\346\347\351\352\353\354\355\356\357\360\361\362\363\364\365\366\370\371\372\373\374\375\376\377";
   int i;
   for (i = 0; i < strlen(lowerCaseCharacters); i++)
     if (((unsigned int)lowerCaseCharacters[i]) == c) return 1;
@@ -259,7 +258,6 @@ int isLowerCase(unsigned int c)          /* IN - ISO character to test */
 
 int isUpperCase(unsigned int c)          /* IN - ISO character to test */
 {
-    //static char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337";
   int i;
   for (i = 0; i < strlen(upperCaseCharacters); i++)
     if (upperCaseCharacters[i] == c) return 1;
@@ -329,8 +327,8 @@ int compareStrings(char *str1, char *str2)
 
   */
 void toIso(char copy[], /* OUT - Mapped  string */
-	   char original[],	/* IN - string to convert */
-	   int charset)		/* IN - the current character set */
+       char original[],	/* IN - string to convert */
+       int charset)		/* IN - the current character set */
 {
 static unsigned char macMap[256]
 = {
@@ -399,7 +397,7 @@ static unsigned char dosMap[256]
 
   */
 void fromIso(char copy[],       /* OUT - Mapped string */
-	     char original[])   /* IN - string to convert */
+         char original[])   /* IN - string to convert */
 {
 #if ISO == 0
   static unsigned char map[256]
@@ -464,8 +462,8 @@ void fromIso(char copy[],       /* OUT - Mapped string */
 
   */
 void toNative(char copy[],	/* OUT - Mapped  string */
-	      char original[],	/* IN - string to convert */
-	      int charset)	/* IN - the current character set */
+          char original[],	/* IN - string to convert */
+          int charset)	/* IN - the current character set */
 {
   toIso(copy, original, charset);
   if (NATIVECHARSET != 0)
