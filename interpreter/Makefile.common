@@ -43,7 +43,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	@-rm -f *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun
+	@-rm -f *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun alan3
 
 
 ###################################################################
@@ -166,6 +166,18 @@ isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 	$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 
+
+#######################################################################
+#
+# Misc programs:
+#
+# Dump Acode file into text format
+#
+
+DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o types.o ../compiler/spa.o
+dumpacd: $(DUMPACDOBJECTS)
+	$(LINK) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)
+	cp $@ ../bin/
 
 # Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?
 readline.o : resources.h

@@ -80,15 +80,3 @@ gararun-sh: alan3
 alan3:
 	cd $(GARGOYLE_DIR); jam STATIC=1 alan3
 	cp $(GARGOYLE_DIR)/build/linux.release/alan3/alan3 .
-
-
-#######################################################################
-#
-# Misc programs:
-#
-# Dump Acode file into text format
-#
-DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o ../compiler/spa.o
-dumpacd: $(DUMPACDOBJECTS)
-	$(LINK) -Wall -o dumpacd -ggdb $(PLATFORM) $(DUMPACDOBJECTS)
-	cp $@ ../bin/
