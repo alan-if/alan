@@ -6,4 +6,4 @@ if [[ "$uname" == *[Cc]ygwin* ]]; then
 else
   d=$d/;
 fi
-java -jar "$d"jregr.jar $@
+java -jar -Dfile.encoding=iso-8859-1 "$d"jregr.jar $@
