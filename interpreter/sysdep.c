@@ -137,14 +137,14 @@ static char upperCaseCharacters[] =
 
 #else
 
-/* Theses work on native character sets */
+/* These work on native character sets */
 
 static unsigned char spaceCharacters[] = " \t\n";
 
 /* Use native characters */
-static const char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
+static const char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïğñòóôõöøùúûüışÿ";
 
-static const char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
+static const char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
 
 #endif
 
