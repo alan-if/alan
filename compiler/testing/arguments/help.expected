@@ -6,6 +6,7 @@ Arguments:
 
 Options:
   -help             -- this help
+  -version          -- print version and exit
   -[-]verbose       -- verbose messages (default: OFF)
   -[-]warnings      -- [don't] show warning messages (default: ON)
   -[-]infos         -- [don't] show informational messages (default: OFF)
