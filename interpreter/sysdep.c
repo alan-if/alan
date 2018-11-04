@@ -137,7 +137,8 @@ static char upperCaseCharacters[] =
 
 #else
 
-/* These work on native character sets */
+/* These work on native (ISO8859-1) character sets, so it is important
+ * that this file is stored with that encoding */
 
 static unsigned char spaceCharacters[] = " \t\n";
 
