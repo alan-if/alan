@@ -54,12 +54,12 @@ UNITOUTPUT ?= -c
 
 .PHONY: test
 test:
-	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression $(JREGROUTPUT)
-	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
-	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/tracing $(JREGROUTPUT)
-	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/saving $(JREGROUTPUT)
-	@cd ..;java -jar bin/jregr.jar -bin bin -dir regression/debug $(JREGROUTPUT)
-	@cd ..;java -jar bin/jregr.jar -dir regression/restore $(JREGROUTPUT)		# Uses sh not the executables
+	@cd ..; jregr -bin bin -dir regression $(JREGROUTPUT)
+	@cd ..; jregr -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
+	@cd ..; jregr -bin bin -dir regression/tracing $(JREGROUTPUT)
+	@cd ..; jregr -bin bin -dir regression/saving $(JREGROUTPUT)
+	@cd ..; jregr -bin bin -dir regression/debug $(JREGROUTPUT)
+	@cd ..; jregr -dir regression/restore $(JREGROUTPUT)		# Uses sh not the executables
 
 #######################################################################
 # Standard console Arun
