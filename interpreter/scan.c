@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------
 
   scan.c
- 
+
   Player command line scanne unit for Alan interpreter ARUN
- 
+
   ----------------------------------------------------------------------*/
 
 #include "scan.h"
@@ -54,13 +54,13 @@ void forceNewPlayerInput() {
 static void unknown(char token[]) {
     char *str = strdup(token);
     Parameter *messageParameters = newParameterArray();
-	
+
 #if ISO == 0
     fromIso(str, str);
 #endif
     addParameterForString(messageParameters, str);
     printMessageWithParameters(M_UNKNOWN_WORD, messageParameters);
-	deallocate(messageParameters);
+    deallocate(messageParameters);
     free(str);
     abortPlayerCommand();
 }
@@ -69,7 +69,7 @@ static void unknown(char token[]) {
 /*----------------------------------------------------------------------*/
 static int number(char token[]) {
     int i;
-	
+
     sscanf(token, "%d", &i);
     return i;
 }
@@ -78,14 +78,14 @@ static int number(char token[]) {
 /*----------------------------------------------------------------------*/
 static int lookup(char wrd[]) {
     int i;
-	
+
+    // TODO: Why do we start at 0, is there a word code == 0?
     for (i = 0; !isEndOfArray(&dictionary[i]); i++) {
         if (compareStrings(wrd, (char *) pointerTo(dictionary[i].string)) == 0) {
-            return (i);
+            return i;
         }
     }
-    unknown(wrd);
-    return (EOF);
+    return EOF;
 }
 
 
@@ -98,7 +98,7 @@ static bool isWordCharacter(int ch) {
 static char *gettoken(char *buf) {
     static char *marker;
     static char oldch;
-	
+
     if (buf == NULL)
         *marker = oldch;
     else
@@ -168,7 +168,7 @@ static void getLine(void) {
             clearWordList(playerWords);
             longjmp(forfeitLabel, 0);
         }
-		
+
 #if ISO == 0
         toIso(isobuf, buf, NATIVECHARSET);
 #else
@@ -197,7 +197,7 @@ static void getLine(void) {
 void scan(void) {
     int i;
     int w;
-	
+
     if (continued) {
         /* Player used '.' to separate commands. Read next */
         para();
@@ -207,7 +207,7 @@ void scan(void) {
         continued = FALSE;
     } else
         getLine();
-	
+
     freeLiterals();
     playerWords[0].code = 0; // TODO This means what?
     i = 0;
@@ -217,6 +217,8 @@ void scan(void) {
         playerWords[i].end = strchr(token, '\0');
         if (isISOLetter(token[0])) {
             w = lookup(token);
+            if (w == EOF)
+                unknown(token);
             if (!isNoise(w))
                 playerWords[i++].code = w;
         } else if (isdigit((int)token[0]) || token[0] == '\"') {
