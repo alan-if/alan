@@ -143,11 +143,12 @@ static void getLine(void) {
             printAndLog("> ");
 
 #ifdef USE_READLINE
-        if (!readline(buf)) {
+        if (!readline(buf))
 #else
         fflush(stdout);
-        if (fgets(buf, LISTLEN, stdin) == NULL) {
+        if (fgets(buf, LISTLEN, stdin) == NULL)
 #endif
+        {
             newline();
             quitGame();
         }
@@ -155,7 +156,7 @@ static void getLine(void) {
         getPageSize();
         anyOutput = FALSE;
         if (transcriptOption || logOption) {
-             // TODO Refactor out the logging to log.c?
+            // TODO Refactor out the logging to log.c?
 #ifdef HAVE_GLK
             glk_put_string_stream(logFile, buf);
             glk_put_char_stream(logFile, '\n');
@@ -192,17 +193,87 @@ static void getLine(void) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static int try_elision(char *apostrophe, int *_i) {
+    int i = *_i, w;
+    // Handle elisions (contractions) with apostrophe,
+    // e.g. Italian "l'acqua", and split that into two
+    // words
+
+    // First cut after the apostrophe
+    int previous_char = apostrophe[1];
+    apostrophe[1] = '\0';
+
+    // Now try that word
+    w = lookup(token);
+    apostrophe[1] = previous_char;
+    if (w == EOF) {
+        // No cigar, so give up
+        unknown(token);
+    }
+
+    // We found a word, save it
+    if (!isNoise(w))
+        playerWords[i++].code = w;
+    // Then restore and point to next part
+    token = &apostrophe[1];
+    w = lookup(token);
+    if (w == EOF) {
+        // No cigar, so give up
+        unknown(token);
+    }
+
+    // Prepare to store this word
+    ensureSpaceForPlayerWords(i+1);
+    playerWords[i].start = token;
+    playerWords[i].end = strchr(token, '\0');
+
+    *_i = i;
+    return w;
+}
+
+
+/*----------------------------------------------------------------------*/
+static int handle_literal(int i) {
+    if (isdigit((int)token[0])) {
+        createIntegerLiteral(number(token));
+    } else {
+        char *unquotedString = strdup(token);
+        unquotedString[strlen(token) - 1] = '\0';
+        createStringLiteral(&unquotedString[1]);
+        free(unquotedString);
+    }
+    playerWords[i++].code = dictionarySize + litCount; /* Word outside dictionary = literal */
+    return i;
+}
+
+
+/*----------------------------------------------------------------------*/
+static int handle_word(int i) {
+    int w = lookup(token);
+    if (w == EOF) {
+        char *apostrophe = strchr(token, '\'');
+        if (apostrophe == NULL) {
+            unknown(token);
+        } else {
+            w = try_elision(apostrophe, &i);
+        }
+    }
+    if (!isNoise(w))
+        playerWords[i++].code = w;
+    return(i);
+}
+
 
 /*======================================================================*/
 void scan(void) {
     int i;
-    int w;
 
     if (continued) {
         /* Player used '.' to separate commands. Read next */
         para();
-        token = gettoken(NULL); /* Or did he just finish the command with a full stop? */
-        if (token == NULL)
+        token = gettoken(NULL);
+        if (token == NULL) /* Or did he just finish the command with a full stop? */
             getLine();
         continued = FALSE;
     } else
@@ -215,22 +286,11 @@ void scan(void) {
         ensureSpaceForPlayerWords(i+1);
         playerWords[i].start = token;
         playerWords[i].end = strchr(token, '\0');
+
         if (isISOLetter(token[0])) {
-            w = lookup(token);
-            if (w == EOF)
-                unknown(token);
-            if (!isNoise(w))
-                playerWords[i++].code = w;
+            i = handle_word(i);
         } else if (isdigit((int)token[0]) || token[0] == '\"') {
-            if (isdigit((int)token[0])) {
-                createIntegerLiteral(number(token));
-            } else {
-                char *unquotedString = strdup(token);
-                unquotedString[strlen(token) - 1] = '\0';
-                createStringLiteral(&unquotedString[1]);
-                free(unquotedString);
-            }
-            playerWords[i++].code = dictionarySize + litCount; /* Word outside dictionary = literal */
+            i = handle_literal(i);
         } else if (token[0] == ',') {
             playerWords[i++].code = conjWord;
         } else if (token[0] == '.') {

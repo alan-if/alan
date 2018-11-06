@@ -1,0 +1,22 @@
+Syntax prendi = 'prendi' 'l''' (o).
+
+The acqua Isa object At loc
+
+    Verb prendi
+    Does
+        "Tu prendi l'acqua."
+    End Verb.
+
+End The acqua.
+
+Syntax 'a''b' = 'a''b'.
+Verb 'a''b'
+Does
+  "You can use still use full words with apostrophes in them..."
+End Verb.
+
+The loc Isa location
+End The loc.
+
+Start At loc.
+      "Enter ""prendi l'acqua""."

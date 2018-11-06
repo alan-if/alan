@@ -1,0 +1,26 @@
+########## elision_with_apostrophe ##########
+
+        No warnings or errors detected.
+
+
+Enter "prendi l'acqua".
+
+
+Loc
+There is a acqua here.
+
+> prendi l'acqua
+Tu prendi l'acqua.
+
+> prendi q'asdlfj
+I don't know the word 'q'asdlfj'.
+
+> prendi l'aslfj
+I don't know the word 'aslfj'.
+
+> a'b
+You can use still use full words with apostrophes in them...
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
