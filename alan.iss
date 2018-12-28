@@ -16,6 +16,8 @@ OutputDir=.
 OutputBaseFilename=alanVERSION.PLATFORM.setup
 WizardImageFile=setup_wizard.bmp
 WizardImageStretch=no
+SignTool=signtool /d $qAlan Installer$q $f
+PrivilegesRequired=poweruser
 
 [Registry]
 Root: HKCR; Subkey: ".a3c"; ValueType: string; ValueName: ""; ValueData: "AlanV3Game"; Flags: uninsdeletevalue
@@ -67,7 +69,7 @@ Name: "{group}\Saviour - a sample game (compile)"; Filename: "{app}\saviour.alan
 Name: "{group}\Saviour - a sample game (run)"; Filename: "{app}\saviour.a3c"
 Name: "{group}\Advent - a crude conversion of ADVENT"; Filename: "{app}\adventV3.a3c"
 Name: "{group}\Uninstall Alan V3"; Filename: "{uninstallexe}"
-Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
-Name: "{userdesktop}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: quicklaunchicon
+Name: "{commondesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
+Name: "{commondesktop}\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: desktopicon
+Name: "{commonappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon
+Name: "{commonappdata}\Microsoft\Internet Explorer\Quick Launch\Alan V3 Compiler for Windows"; Filename: "{app}\winalan.exe"; Tasks: quicklaunchicon

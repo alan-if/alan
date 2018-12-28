@@ -16,6 +16,7 @@ OutputDir=.
 OutputBaseFilename=winarunVERSION.PLATFORM.setup
 WizardImageFile=setup_wizard.bmp
 WizardImageStretch=no
+SignTool=signtool /d $qWinArun Installer$q $f
 
 [Registry]
 Root: HKCR; Subkey: ".a3c"; ValueType: string; ValueName: ""; ValueData: "AlanV3Game"; Flags: uninsdeletevalue
@@ -50,8 +51,8 @@ Name: "{group}\Advent - a crude conversion of ADVENT"; Filename: "{app}\adventV3
 Name: "{group}\COPYING"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall Alan V3 Interpreter for Windows"; Filename: "{uninstallexe}"
 Name: "{group}\Uninstall Alan V3 Interpreter for Windows"; Filename: "{uninstallexe}"
-Name: "{userdesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Alan Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon
+Name: "{commondesktop}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: desktopicon
+Name: "{commonappdata}\Microsoft\Internet Explorer\Quick Launch\Alan Interpreter for Windows"; Filename: "{app}\winarun.exe"; Tasks: quicklaunchicon
 
 [Run]
 ; NOTE: The following entry contains an English phrase ("Launch"). You are free to translate it into another language if required.
