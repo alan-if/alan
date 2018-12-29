@@ -1,0 +1,16 @@
+To setup builds and packaging of Alan under a Jenkins account might be
+a problem. Here's some tips:
+
+WINDOWS:
+
+- Install jenkins to run as a service under the system account
+- Ensure the system account has some SSH keys that allow checkout
+- The jenkins-build-job.xml and jenkins-upload-job.xml can be copied
+  to two separate $JENKINS_HOME/jobs/.../config.xml
+- Inno Setup is used to package into setup-files, but to sign you need
+       - certificate (duh!)
+       - signtool.exe from Microsoft, see this answer from Stackoverflow
+                      (https://stackoverflow.com/a/52963704/204658)
+       - the system account need to have configured the signtool
+             (under Tools) to be something like:
+                    <path_to_signtool> sign /f <path_to_certificate> /t http://timestamp.comodoca.com /p <password> $f
