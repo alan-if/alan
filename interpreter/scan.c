@@ -95,6 +95,27 @@ static bool isWordCharacter(int ch) {
 }
 
 /*----------------------------------------------------------------------*/
+static void readWord(char **markerp) {
+    while (**markerp && isWordCharacter(**markerp))
+        (*markerp)++;
+}
+
+/*----------------------------------------------------------------------*/
+static void readNumber(char **markerp) {
+    while (isdigit((int)**markerp))
+        (*markerp)++;
+}
+
+/*----------------------------------------------------------------------*/
+static void readString(char **markerp) {
+    (*markerp)++;
+    while (**markerp != '\"')
+        (*markerp)++;
+    (*markerp)++;
+}
+
+
+/*----------------------------------------------------------------------*/
 static char *gettoken(char *buf) {
     static char *marker;
     static char oldch;
@@ -107,17 +128,13 @@ static char *gettoken(char *buf) {
         marker++;
     buf = marker;
     if (isISOLetter(*marker))
-        while (*marker && isWordCharacter(*marker))
-            marker++;
+        readWord(&marker);
     else if (isdigit((int)*marker))
-        while (isdigit((int)*marker))
-            marker++;
+        readNumber(&marker);
     else if (*marker == '\"') {
-        marker++;
-        while (*marker != '\"')
-            marker++;
-        marker++;
+        readString(&marker);
     } else if (*marker == '\0' || *marker == '\n' || *marker == ';')
+        // End of input, either actually or by a comment start
         return NULL;
     else
         marker++;
