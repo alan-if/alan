@@ -7,3 +7,4 @@ else
   d=$d/;
 fi
 java -jar -Dfile.encoding=iso-8859-1 "$d"jregr.jar $@
+exit
