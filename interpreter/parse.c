@@ -529,9 +529,11 @@ static void simpleParameterParser(Parameter parameters[]) {
         if(!parseOneParameter(parameters, parameterIndex))
             return;
 
-        if (!endOfWords(currentWordIndex)
-            && (isConjunctionWord(currentWordIndex) && (isAdjectiveWord(currentWordIndex+1)
-                                                        || isNounWord(currentWordIndex+1)))) {
+        if (endOfWords(currentWordIndex))
+            return;
+
+        if (isConjunctionWord(currentWordIndex) && (isAdjectiveWord(currentWordIndex+1)
+                                                    || isNounWord(currentWordIndex+1))) {
             /* Since this is a conjunction and the next seems to be another instance reference,
                let's continue with that by eating the conjunction */
             currentWordIndex++;
@@ -612,7 +614,7 @@ static char *classNameAndId(int classId) {
 static char *parameterNumberAndName(int parameterNumber) {
     static char buffer[1000] = "";
     /* HERE SHOULD BE current.syntax */
-	char *parameterName = parameterNameInSyntax(current.syntax, parameterNumber);
+    char *parameterName = parameterNameInSyntax(current.syntax, parameterNumber);
 
     if (parameterName != NULL)
         sprintf(buffer, "%s(#%d)", parameterName, parameterNumber);
@@ -893,12 +895,12 @@ static void checkRestrictedParameters(ParameterPosition parameterPositions[], El
 
 /*----------------------------------------------------------------------*/
 static void impossibleWith(ParameterPosition parameterPositions[], int positionIndex) {
-	if (isPreBeta2(header->version)) {
-		error(M_CANT0);
-	} else {
-		printMessageWithInstanceParameter(M_IMPOSSIBLE_WITH, parameterPositions[positionIndex].parameters[0].instance);
-		error(NO_MSG);
-	}
+    if (isPreBeta2(header->version)) {
+        error(M_CANT0);
+    } else {
+        printMessageWithInstanceParameter(M_IMPOSSIBLE_WITH, parameterPositions[positionIndex].parameters[0].instance);
+        error(NO_MSG);
+    }
 }
 
 
@@ -916,7 +918,7 @@ static void checkNonRestrictedParameters(ParameterPosition parameterPositions[])
                         if (!isAObject(parameterPositions[positionIndex].parameters[i].instance))
                             parameterPositions[positionIndex].parameters[i].instance = 0;
             } else if (!isAObject(parameterPositions[positionIndex].parameters[0].instance))
-				impossibleWith(parameterPositions, positionIndex);
+                impossibleWith(parameterPositions, positionIndex);
         }
 }
 
@@ -983,7 +985,7 @@ static void instanceMatcher(Parameter *parameter) {
 
 
 /*----------------------------------------------------------------------*/
-static void findCandidates(Parameter parameters[], void (*instanceMatcher)(Parameter *parameter)) 
+static void findCandidates(Parameter parameters[], void (*instanceMatcher)(Parameter *parameter))
 {
     int i;
 
@@ -1040,7 +1042,7 @@ static void findCandidatesForPlayerWords(ParameterPosition *parameterPosition) {
             parameterPosition->them = TRUE;
             getPreviousMultipleParameters(parameters);
             if (lengthOfParameterArray(parameters) == 0)
-            	errorWhat(parameters[0].firstWord);
+                errorWhat(parameters[0].firstWord);
             if (lengthOfParameterArray(parameters) > 1)
                 parameterPosition->explicitMultiple = TRUE;
         } else if (parameterPosition->all) {
@@ -1186,7 +1188,7 @@ static Parameter *disambiguateMMY(Parameter allCandidates[], Parameter presentCa
 }
 
 static DisambiguationHandlerTable disambiguationHandlerTable =
-    {   
+    {
         {   // Present == 0
             {   // Distant == 0
                 disambiguate00N, disambiguate00Y},
@@ -1315,9 +1317,12 @@ static void parseOneCommand(Parameter parameters[], Parameter multipleParameters
 
     /* More on this line? */
     if (!endOfWords(currentWordIndex)) {
-        if (isConjunctionWord(currentWordIndex))
+        if (isConjunctionWord(currentWordIndex)) {
             currentWordIndex++; /* If so skip the conjunction */
-        else
+            if (isConjunctionWord(currentWordIndex)) {
+                currentWordIndex++; /* Could be another "and then", if so, skip that too */
+            }
+        } else
             error(M_WHAT);
     }
 }

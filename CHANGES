@@ -1,3 +1,7 @@
+Upcoming in V3.0beta7:
+- FEATURE: ellision/contraction marked by apostrophe (such as "l'aqua" in italian) is now handled so that it is first looked up as a complete word, but failing that fallback and look for the two parts separated by the apostrophe as single words.
+- FEATURE: allow double conjunctions between player sentences, such as "take the stone and then drop it".
+
 Changes in V3.0beta6:
 - FEATURE: There was no way to print $500, as that was interpreted as a symbol.
 - BUGFIX: There was no way to create synonym for 'the'.
