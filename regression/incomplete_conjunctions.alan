@@ -1,0 +1,19 @@
+The l Isa location
+End The l.
+
+The stone Isa object At l
+End The stone.
+
+Add To Every object
+  Verb take
+    Does
+      "Taken..."
+  End Verb.
+
+  Verb drop
+    Does
+      "Dropped..."
+  End Verb.
+End Add.
+
+Start At l.
