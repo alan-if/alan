@@ -532,14 +532,29 @@ static void simpleParameterParser(Parameter parameters[]) {
         if (endOfWords(currentWordIndex))
             return;
 
-        if (isConjunctionWord(currentWordIndex) && (isAdjectiveWord(currentWordIndex+1)
-                                                    || isNounWord(currentWordIndex+1))) {
-            /* Since this is a conjunction and the next seems to be another instance reference,
-               let's continue with that by eating the conjunction */
-            currentWordIndex++;
-        } else {
+        int index = currentWordIndex;
+        if (isConjunctionWord(index))
+            index ++;
+        else
             return;
-        }
+
+        if (endOfWords(index))
+            return;
+
+        if (isConjunctionWord(index))
+            index ++;
+
+        if (endOfWords(index))
+            return;
+
+        if (isAdjectiveWord(index) || isNounWord(index)) {
+            /* Since there was one or two conjunctions and the next
+               seems to be another instance reference, let's continue
+               with that by eating the conjunction(s) */
+            currentWordIndex = index;
+        } else
+            /* Otherwise it was not a conjuction of parameters... */
+            return;
     }
 }
 
@@ -1315,14 +1330,15 @@ static void parseOneCommand(Parameter parameters[], Parameter multipleParameters
 {
     try(parameters, multipleParameters); /* ... to understand what he said */
 
-    /* More on this line? */
+    /* More on this line? Must be conjunctions... */
     if (!endOfWords(currentWordIndex)) {
-        if (isConjunctionWord(currentWordIndex)) {
+        if (isConjunctionWord(currentWordIndex))
             currentWordIndex++; /* If so skip the conjunction */
-            if (isConjunctionWord(currentWordIndex)) {
-                currentWordIndex++; /* Could be another "and then", if so, skip that too */
-            }
-        } else
+        if (endOfWords(currentWordIndex))
+            error(M_WHAT);
+        if (isConjunctionWord(currentWordIndex))
+            currentWordIndex++; /* Could be another "and then", if so, skip that too */
+        if (endOfWords(currentWordIndex))
             error(M_WHAT);
     }
 }

@@ -4,6 +4,8 @@ End The l.
 The stone Isa object At l
 End The stone.
 
+Syntax take = 'take' (o)*.
+
 Add To Every object
   Verb take
     Does

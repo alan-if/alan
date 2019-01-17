@@ -1,7 +1,7 @@
 ########## multiple_conjunctions ##########
 
         No warnings or errors detected.
-        2 informational message(s).
+        1 informational message(s).
 
 
 
@@ -12,6 +12,11 @@ There is a stone here.
 Taken...
 
 Dropped...
+
+> take the stone and then the stone
+(stone) Taken...
+
+(stone) Taken...
 
 > 
 
