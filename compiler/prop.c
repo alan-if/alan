@@ -313,6 +313,7 @@ void generateInstancePropertiesData(Properties *props)
     emitString(props->id->string);
 
     props->attributeAddress = generateAttributes(props->attributes, props->id->symbol->code);
+    //props->pronounsAddress = generatePronouns(props->pronouns);
 
     /* Now generate all the things both instances and classes have */
     generateCommonPropertiesData(props);

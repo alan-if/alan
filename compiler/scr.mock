@@ -1,0 +1,43 @@
+#include "scr_x.h"
+#include "cgreen/cgreen.h"
+
+/* USE other definitions */
+#include "srcp.h"
+#include "lst.h"
+#include "ins.h"
+#include "description.h"
+#include "context.h"
+
+
+/* DATA: */
+
+
+/* FUNCTIONS: */
+
+Script *newScript(Srcp *srcp, Id *id, Description *description, List *steps) {
+    Script *script = NEW(Script);
+    script->srcp = *srcp;
+    script->id = id;
+    if (description)
+        script->description = description->does;
+    else
+        script->description = NULL;
+    script->steps = steps;
+    return script;
+}
+
+void prepareScripts(List *scripts, Id *id) {
+    mock(scripts, id);
+}
+
+void analyzeScripts(List *scripts, Context *context) {
+    mock(scripts, context);
+}
+
+Aword generateScripts(ACodeHeader *header) {
+    return (Aword) mock(header);
+}
+
+void dumpScript(Script *script) {
+    mock(script);
+}

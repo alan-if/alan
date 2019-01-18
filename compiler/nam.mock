@@ -1,0 +1,16 @@
+#include "nam_x.h"
+#include "cgreen/mocks.h"
+
+#include "prop.h"
+
+/* USE: */
+#include "id.h"
+
+
+/* DATA: */
+
+
+/* METHODS: */
+void analyzeNames(Properties *props) {
+    mock(props);
+}

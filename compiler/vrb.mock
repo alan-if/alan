@@ -1,0 +1,37 @@
+#include "vrb_x.h"
+#include "cgreen/mocks.h"
+
+/* USE: */
+#include "lst.h"
+#include "context.h"
+
+
+/* DATA: */
+
+
+/* FUNCTIONS: */
+
+Verb *newVerb(Srcp *srcp, List *ids, List *alts, Bool meta) {
+    Verb *verb = NEW(Verb);
+    verb->srcp = *srcp;
+    verb->ids = ids;
+    verb->alternatives = alts;
+    verb->meta = meta;
+    return verb;
+}
+
+void analyzeVerbs(List *vrbs, Context *context) {
+    mock(vrbs, context);
+}
+
+Bool verbIdFound(Id *verbId, List *verbList) {
+    return (Bool) mock(verbId, verbList);
+}
+
+Aaddr generateVerbs(List *vrbs) {
+    return (Aaddr) mock(vrbs);
+}
+
+void dumpVerb(Verb *vrb) {
+    mock(vrb);
+}

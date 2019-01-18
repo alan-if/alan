@@ -1,0 +1,48 @@
+#include "description.h"
+#include "cgreen/cgreen.h"
+
+/* USE other definitions */
+#include "context.h"
+
+
+/* Data: */
+
+
+/* FUNCTIONS: */
+
+Description *newDescription(Srcp checkSrcp, List *checks, Srcp doesSrcp, List *does) {
+    Description *description = NEW(Description);
+    description->checkSrcp = checkSrcp;
+    description->checks = checks;
+    description->doesSrcp = doesSrcp;
+    description->does = does;
+    return description;
+}
+
+List *checksOf(Description *description) {
+    return (List *)mock(description);
+}
+
+List *doesOf(Description *description) {
+    return (List *)mock(description);
+}
+
+void analyzeDescription(Description *description, Context *context) {
+    mock(description, context);
+}
+
+Aword checksAddressOf(Description *description) {
+    return (Aword) mock(description);
+}
+
+Aword doesAddressOf(Description *description) {
+    return (Aword) mock(description);
+}
+
+void generateDescription(Description *description) {
+    mock(description);
+}
+
+void dumpDescription(Description *description) {
+    mock(description);
+}

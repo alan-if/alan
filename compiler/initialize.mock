@@ -1,0 +1,28 @@
+#include "initialize_x.h"
+#include "cgreen/cgreen.h"
+
+/* USE: */
+#include "context.h"
+
+/* DATA: */
+
+
+/* FUNCTIONS: */
+Initialize *newInitialize(Srcp srcp, List *statements) {
+    Initialize *initialize = NEW(Initialize);
+    initialize->srcp = srcp;
+    initialize->stms = statements;
+    return initialize;
+}
+
+void analyzeInitialize(Initialize *init, Context *context) {
+    mock(init, context);
+}
+
+void generateInitialize(Initialize *init) {
+    mock(init);
+}
+
+void dumpInitialize(Initialize *init) {
+    mock(init);
+}

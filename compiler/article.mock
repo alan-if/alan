@@ -1,0 +1,28 @@
+#include "article_x.h"
+#include <cgreen/mocks.h>
+
+#include "context.h"
+
+Article *newArticle(Srcp srcp, List *statements, Bool isForm) {
+    Article *article = NEW(Article);
+    article->srcp = srcp;
+    article->statements = statements;
+    article->isForm = isForm;
+    return article;
+}
+
+void analyzeArticle(Article *article, Context *context) {
+    mock(article, context);
+}
+
+void generateArticle(Article *article) {
+    mock(article);
+}
+
+void generateArticleEntry(Article *article, ArticleEntry *entry) {
+    mock(article, entry);
+}
+
+void dumpArticle(Article *article) {
+    mock(article);
+}

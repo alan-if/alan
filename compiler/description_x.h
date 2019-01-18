@@ -13,7 +13,7 @@
 
 /* FUNCTIONS: */
 
-extern Description *newDescription(Srcp checkSrcp, List *checks, Srcp srcp, List *statements);
+extern Description *newDescription(Srcp checkSrcp, List *checks, Srcp doesSrcp, List *does);
 extern List *checksOf(Description *description);
 extern List *doesOf(Description *description);
 extern void analyzeDescription(Description *description, Context *context);

@@ -1,6 +1,6 @@
 #include <cgreen/mocks.h>
 
-#include "exp.h"
+#include "exp_x.h"
 
 #include "util.h"
 
@@ -52,7 +52,7 @@ Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
                                    Id *attribute, List *filters) {return (Expression*)mock();}
 Expression *newRandomRangeExpression(Srcp srcp, Expression *from,
                                      Expression *to) {return (Expression*)mock();}
-Expression *newRandomInExpression(Srcp srcp, Expression *what, Bool directly);
+Expression *newRandomInExpression(Srcp srcp, Expression *what, Transitivity transitivity);
 
 void symbolizeExpression(Expression *exp) {mock();}
 void analyzeExpression(Expression *exp, Context *context) {mock();}
