@@ -27,3 +27,4 @@ coverage
 coverage*.info
 .cgreen-gdb-commands
 .alan64
+unittests.so
