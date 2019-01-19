@@ -2,8 +2,8 @@
 #define _LST_X_H_
 /*----------------------------------------------------------------------*\
 
-                LST.H
-                  List Nodes
+                                LST.H
+                              List Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -24,7 +24,8 @@ extern void (*xmlNodeTable[])(void *, FILE *);
 
 // TODO Define iterator functions?
 
-#define ITERATE(loopVariable,initExpression) for (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
+#define ITERATE(loopVariable,initExpression) \
+    for (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
 
 extern void initDumpNodeList(void);
 extern List *newEmptyList(ListKind kind);
