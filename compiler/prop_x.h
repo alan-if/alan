@@ -47,5 +47,8 @@ extern void generateInstancePropertiesData(Properties *props);
 extern void generatePropertiesEntry(InstanceEntry *entry, Properties *props);
 extern void dumpProps(Properties *props);
 
+#ifdef UNITTESTING
+extern Aaddr generatePronouns(List *pronounIds);
+#endif
 
 #endif
