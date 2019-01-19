@@ -2,8 +2,8 @@
 #define _PROP_X_H_
 /*----------------------------------------------------------------------*\
 
-			       PROP_X.H
-			Property Nodes Export
+                   PROP_X.H
+            Property Nodes Export
 
 \*----------------------------------------------------------------------*/
 
@@ -25,19 +25,19 @@
 extern Properties *newEmptyProps(void);
 
 extern Properties *newProps(Where *whr,
-			    List *names,
-			    Srcp pronounsSrcp, List *pronouns,
-			    List *attributes,
-			    Initialize *init,
-			    Description *description,
-			    Srcp mentionedSrcp, List *mentioned,
-			    Article *definite,
-			    Article *indefinite, Article *negative,
-			    Container *cnt,
-			    List *vrbs,
-			    Srcp enteredSrcp, List *entered,
-			    List *exts,
-			    List *scrs);
+                List *names,
+                Srcp pronounsSrcp, List *pronouns,
+                List *attributes,
+                Initialize *init,
+                Description *description,
+                Srcp mentionedSrcp, List *mentioned,
+                Article *definite,
+                Article *indefinite, Article *negative,
+                Container *cnt,
+                List *vrbs,
+                Srcp enteredSrcp, List *entered,
+                List *exts,
+                List *scrs);
 
 extern void symbolizeProps(Properties *props, Bool inClassDeclaration);
 extern void analyzeProps(Properties *props, Context *context);
