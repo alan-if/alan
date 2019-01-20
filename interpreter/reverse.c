@@ -302,7 +302,6 @@ static void reverseInstances(Aword adr)
       reverseStms(e->definite.address);
       reverseStms(e->indefinite.address);
       reverseStms(e->negative.address);
-      reverseTable(e->pronouns, sizeof(Aint));
       reverseStms(e->mentioned);
       reverseChks(e->checks);
       reverseStms(e->description);

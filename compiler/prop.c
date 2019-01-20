@@ -306,20 +306,6 @@ void generateCommonPropertiesData(Properties *props)
 }
 
 
-/*----------------------------------------------------------------------*/
-Aaddr generatePronouns(List *pronouns){
-    Aaddr start = nextEmitAddress();
-    List *pronoun;
-
-    if (pronouns == NULL)
-        return EOF;
-
-    ITERATE(pronoun, pronouns)
-        emit(pronoun->member.id->code);
-    emit(EOF);
-    return start;
-}
-
 /*======================================================================*/
 void generateInstancePropertiesData(Properties *props)
 {
@@ -327,7 +313,6 @@ void generateInstancePropertiesData(Properties *props)
     emitString(props->id->string);
 
     props->attributeAddress = generateAttributes(props->attributes, props->id->symbol->code);
-    props->pronounsAddress = generatePronouns(props->pronouns);
 
     /* Now generate all the things both instances and classes have */
     generateCommonPropertiesData(props);
@@ -356,7 +341,6 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
         entry->pronoun = props->pronouns->member.id->code;
     else
         entry->pronoun = 0;
-    entry->pronouns = props->pronounsAddress;
 
     if (props->initialize)
         entry->initialize = props->initialize->stmsAddress;

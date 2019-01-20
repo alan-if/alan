@@ -325,7 +325,6 @@ typedef struct InstanceEntry {	/* INSTANCE TABLE */
     Aint parent;                /* Code for the parent class, 0 if none */
     Aaddr name;                 /* Address to name printing code */
     Aint pronoun;               /* Word code for the pronoun */
-    Aaddr pronouns;             /* List of word codes for pronouns */
     Aint initialLocation;       /* Code for current location */
     Aaddr initialize;           /* Address to initialization statements */
     Aint container;             /* Code for a possible container property */
