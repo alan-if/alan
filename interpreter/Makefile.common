@@ -173,10 +173,23 @@ isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLAT
 #
 # Dump Acode file into text format
 #
+-include .dumpacd/*.d
 
-DUMPACDOBJECTS = dumpacd.o reverse.o lists.o sysdep.o compatibility.o types.o ../compiler/spa.o
-dumpacd: $(DUMPACDOBJECTS)
-	$(LINK) -Wall -o dumpacd -ggdb $(DUMPACDOBJECTS)
+DUMPACDSRCS = dumpacd.c reverse.c lists.c sysdep.c compatibility.c types.c alan.version.o
+
+DUMPACDOBJDIR = .dumpacd
+$(DUMPACDOBJDIR):
+	@mkdir $(DUMPACDOBJDIR)
+
+DUMPACDOBJECTS = $(addprefix $(DUMPACDOBJDIR)/,${DUMPACDSRCS:.c=.o}) $(DUMPACDOBJDIR)/spa.o
+$(DUMPACDOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+$(DUMPACDOBJDIR)/spa.o: ../compiler/spa.c
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+dumpacd: $(DUMPACDOBJDIR) $(DUMPACDOBJECTS)
+	$(LINK) $(CFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
 
 # Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?
