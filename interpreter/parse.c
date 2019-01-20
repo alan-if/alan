@@ -43,10 +43,6 @@
 
 
 /* PRIVATE TYPES */
-typedef struct PronounEntry { /* To remember parameter/pronoun relations */
-    int pronoun;
-    int instance;
-} Pronoun;
 
 /*----------------------------------------------------------------------*/
 static void clearPronounList(Pronoun list[]) {
@@ -70,7 +66,7 @@ static Parameter *previousMultipleParameters; /* Previous multiple list */
 /* For parameters that are literals we need to trick message handling to
  * output the word and create a string literal instance if anyone wants to
  * refer to an attribute of it (literals inherit from entity so application
- * can have added an attribute) */
+ * may have added an attribute) */
 
 /*----------------------------------------------------------------------*/
 static void addParameterForWord(Parameter *parameters, int wordIndex) {
