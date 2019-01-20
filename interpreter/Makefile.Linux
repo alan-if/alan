@@ -6,8 +6,10 @@
 # We are compiling for the same version as on Cygwin (version master)
 VERSION := $(shell cat ../NEXTRELEASE)
 
+OPTIMIZE = -O0
+
 COMPILER = gcc
-COMPILEFLAGS = -g -Wall -funsigned-char -fPIC
+COMPILEFLAGS = -g -Wall -funsigned-char -fPIC $(OPTIMIZE)
 
 LINKER = gcc
 LINKFLAGS = -g $(ARUNOPTS)
@@ -42,12 +44,13 @@ CGREEN = yes
 
 ###################################################################
 #
-# Default target on Linux is same as common
+# Default target on Linux
 #
+all: unit build dumpacd
 
 ##################################################################
 .PHONY: release
-release: EXTRA_COMPILER_FLAGS = -O4
+release: OPTIMIZE = -O4
 release: DEPENDENCY =
 release: all
 
