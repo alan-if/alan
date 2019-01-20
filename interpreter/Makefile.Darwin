@@ -46,7 +46,6 @@ tests: test
 .PHONY: release
 release: ARCHFLAGS = -arch i386 -arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
-release: DEPENDENCY =
 release: all
 
 ##################################################################

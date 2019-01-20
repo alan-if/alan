@@ -51,7 +51,6 @@ all: unit build dumpacd
 ##################################################################
 .PHONY: release
 release: OPTIMIZE = -O4
-release: DEPENDENCY =
 release: all
 
 
