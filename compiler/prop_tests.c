@@ -39,3 +39,5 @@ BeforeEach(Properties) {}
 AfterEach(Properties) {}
 
 /* No tests yet */
+Ensure(Properties, no_tests_yet) {
+}
