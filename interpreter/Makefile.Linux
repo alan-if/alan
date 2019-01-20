@@ -42,11 +42,8 @@ CGREEN = yes
 
 ###################################################################
 #
-# Default target on Linux
+# Default target on Linux is same as common
 #
-.PHONY: default
-default all: unit arun
-
 
 ##################################################################
 .PHONY: release

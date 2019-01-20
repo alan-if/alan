@@ -26,7 +26,7 @@ CGREENLINKLIB ?= -lcgreen
 
 # Default top rule if platform specific makefile doesn't add a default
 # that is found before this
-all: unit build
+all: unit build dumpacd
 
 #######################################################################
 build: arun $(EXTRA_TARGETS)
