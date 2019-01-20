@@ -361,13 +361,8 @@ static void dumpInstance(int instanceCode, InstanceEntry *instances) {
     indent(level+1);
     printf("name: %s\n", dumpAddress(instance->name));
     indent(level+1);
-
-    // TODO: version incompatibility from beta7 has list, while earlier have a single id
     printf("pronoun: %ld\n", (unsigned long)instance->pronoun);
     indent(level+1);
-    printf("pronouns: %s\n", dumpAddress(instance->pronouns));
-    indent(level+1);
-
     printf("location: %ld\n", (unsigned long)instance->initialLocation);
     indent(level+1);
     printf("initialize: %ld\n", (unsigned long)instance->initialize);
