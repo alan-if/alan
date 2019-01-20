@@ -14,6 +14,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	memory \
 	rules \
 	stack \
+	dictionary \
 
 # ... or with a common runner (much less clean... but better than ...)
 MODULES_WITH_UNITTESTS_USING_RUNNER = \

@@ -7,7 +7,7 @@
 
 /* IMPORTS */
 #include "word.h"
-
+#include "lists.h"
 
 /* PUBLIC DATA */
 DictionaryEntry *dictionary;    /* Dictionary pointer */
@@ -112,4 +112,23 @@ bool isPronounWord(int wordIndex) {
 
 bool isLiteralWord(int wordIndex) {
   return playerWords[wordIndex].code >= dictionarySize;
+}
+
+void *generatePronounList(void) {
+    Pronoun *list = allocate(sizeof(Pronoun));
+    Pronoun *p = list;
+
+    DictionaryEntry *d = dictionary;
+
+    while (!isEndOfArray(d)) {
+        if (d->classBits&PRONOUN_BIT) {
+            p->pronoun = d->code;
+            p->instance = memory[d->pronounRefs];
+            p++;
+        }
+        d++;
+    }
+    setEndOfArray(p);
+
+    return list;
 }
