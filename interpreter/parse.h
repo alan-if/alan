@@ -17,6 +17,7 @@
 
 
 /* DATA */
+Pronoun *pronouns2;
 
 
 /* FUNCTIONS */

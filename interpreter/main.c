@@ -444,13 +444,14 @@ static void initStaticData(void)
     /* Find out number of entries in dictionary */
     for (dictionarySize = 0; !isEndOfArray(&dictionary[dictionarySize]); dictionarySize++);
 
-    /* Scores */
+    /* Pronouns */
+    pronouns2 = generatePronounList();
 
-
-    /* All addresses to tables indexed by ids are converted to pointers,
-       then adjusted to point to the (imaginary) element before the
-       actual table so that [0] does not exist. Instead indices goes
-       from 1 and we can use [1]. */
+    /* All addresses to tables indexed by ids are converted to
+       pointers, then adjusted to point to the (imaginary) element
+       before the actual table so that [0] does not exist. Instead
+       indices goes from 1 and we can directly use [id] instead of
+       [id-1] everywhere. */
 
     if (header->instanceTableAddress == 0)
         syserr("Instance table pointer == 0");
