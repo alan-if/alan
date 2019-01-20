@@ -1352,24 +1352,6 @@ void initParsing(void) {
 }
 
 /*----------------------------------------------------------------------*/
-static int pronounWordForInstance(int instance) {
-    /* Scan through the dictionary to find any pronouns that can be used
-       for this instance */
-    int w;
-
-    for (w = 0; w < dictionarySize; w++)
-        if (isPronoun(w)) {
-            Aword *reference = pointerTo(dictionary[w].pronounRefs);
-            while (*reference != EOF) {
-                if (*reference == instance)
-                    return dictionary[w].code;
-                reference++;
-            }
-        }
-    return 0;
-}
-
-/*----------------------------------------------------------------------*/
 static void addPronounForInstance(int thePronoun, int instanceCode) {
     int i;
 
@@ -1389,9 +1371,17 @@ static void notePronounsForParameters(Parameter parameters[]) {
 
     clearPronounList(pronouns);
     for (p = parameters; !isEndOfArray(p); p++) {
-        int pronoun = pronounWordForInstance(p->instance);
-        if (pronoun > 0)
-            addPronounForInstance(pronoun, p->instance);
+        int w;
+
+        for (w = 0; w < dictionarySize; w++)
+            if (isPronoun(w)) {
+                Aword *reference = pointerTo(dictionary[w].pronounRefs);
+                while (*reference != EOF) {
+                    if (*reference == p->instance)
+                        addPronounForInstance(dictionary[w].code, p->instance);
+                    reference++;
+                }
+            }
     }
 }
 
