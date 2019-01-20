@@ -444,9 +444,6 @@ static void initStaticData(void)
     /* Find out number of entries in dictionary */
     for (dictionarySize = 0; !isEndOfArray(&dictionary[dictionarySize]); dictionarySize++);
 
-    /* Pronouns */
-    pronouns2 = generatePronounList();
-
     /* All addresses to tables indexed by ids are converted to
        pointers, then adjusted to point to the (imaginary) element
        before the actual table so that [0] does not exist. Instead

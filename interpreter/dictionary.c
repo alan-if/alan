@@ -113,21 +113,3 @@ bool isPronounWord(int wordIndex) {
 bool isLiteralWord(int wordIndex) {
   return playerWords[wordIndex].code >= dictionarySize;
 }
-
-void *generatePronounList(void) {
-    Pronoun *list = allocate(sizeof(Pronoun)*dictionarySize); /* Assume all are pronouns with one ref each */
-    Pronoun *p = list;
-    DictionaryEntry *d = dictionary;
-
-    while (!isEndOfArray(d)) {
-        if ((d->classBits&PRONOUN_BIT) != 0) {
-            p->pronoun = d->code;
-            p->instance = memory[d->pronounRefs];
-            p++;
-        }
-        d++;
-    }
-    setEndOfArray(p);
-
-    return list;
-}
