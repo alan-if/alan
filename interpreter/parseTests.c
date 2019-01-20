@@ -359,8 +359,8 @@ Ensure(Parse, matchNounPhraseCanMatchSingleNounWithSingleMatch) {
     given_PlayerWordsForANoun(theExpectedWordIndex);
 
     expect(mockedReferenceFinder,
-	   when(wordIndex, is_equal_to(theExpectedWordIndex)),
-	   will_return(theExpectedInstance));
+       when(wordIndex, is_equal_to(theExpectedWordIndex)),
+       will_return(theExpectedInstance));
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
 
@@ -386,11 +386,11 @@ Ensure(Parse, canMatchNounAndAdjectiveWithSingleMatch) {
     given_AStandardDictionary();
 
     expect(mockedReferenceFinder,
-	   when(wordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
-	   will_return(firstAdjectiveInstances));
+       when(wordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
+       will_return(firstAdjectiveInstances));
     expect(mockedReferenceFinder,
-	   when(wordIndex, is_equal_to(theExpectedNounWordIndex)),
-	   will_return(theNounInstances));
+       when(wordIndex, is_equal_to(theExpectedNounWordIndex)),
+       will_return(theNounInstances));
 
     matchNounPhrase(parameter, mockedReferenceFinder, mockedReferenceFinder);
 
@@ -422,14 +422,14 @@ Ensure(Parse, canMatchMultipleAdjectivesAndNounWithSingleMatch) {
     given_AStandardDictionary();
 
     expect(mockedReferenceFinder,
-	   when(wordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
-	   will_return(firstAdjectiveInstances));
+       when(wordIndex, is_equal_to(theExpectedFirstAdjectiveWordIndex)),
+       will_return(firstAdjectiveInstances));
     expect(mockedReferenceFinder,
-	   when(wordIndex, is_equal_to(theExpectedSecondAdjectiveWordIndex)),
-	   will_return(secondAdjectiveInstances));
+       when(wordIndex, is_equal_to(theExpectedSecondAdjectiveWordIndex)),
+       will_return(secondAdjectiveInstances));
     expect(mockedReferenceFinder,
-	   when(wordIndex, is_equal_to(theExpectedNounWordIndex)),
-	   will_return(theNounInstances));
+       when(wordIndex, is_equal_to(theExpectedNounWordIndex)),
+       will_return(theNounInstances));
 
     matchNounPhrase(parameters, mockedReferenceFinder, mockedReferenceFinder);
 
@@ -590,6 +590,8 @@ Ensure(Parse, addPronounForInstanceDontAddSameTwice) {
     addPronounForInstance(10, 3);
     assert_equal(lengthOfPronounArray(pronouns, sizeof(Pronoun)), 2);
 }
+
+
 
 
 static bool mockedReachable(int instance) {
