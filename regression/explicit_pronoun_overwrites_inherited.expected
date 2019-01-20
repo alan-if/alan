@@ -1,0 +1,28 @@
+########## explicit_pronoun_overwrites_inherited ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+L
+There is a stone and a paper here.
+
+> take stone and take it
+Taking the stone.
+
+Taking the stone.
+
+> take paper and take it
+Taking the paper.
+
+I don't know what you mean by 'it'.
+
+> take paper and take it1
+Taking the paper.
+
+Taking the paper.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

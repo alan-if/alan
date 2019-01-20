@@ -1,0 +1,18 @@
+The l Isa location
+End The l.
+
+The stone Isa object At l
+End The stone.
+
+The paper Isa object At l
+  Pronoun it1.
+End The paper.
+
+Add To Every object
+  Verb take
+    Does
+      "Taking $+1."
+  End Verb.
+End Add.
+
+Start At l.
