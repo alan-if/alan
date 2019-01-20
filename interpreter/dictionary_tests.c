@@ -102,10 +102,10 @@ static void given_a_dictionary_with_a_noun_and_a_pronoun_with_one_reference(int 
     memory[address_of_pronounRefs] = instance; /* First instance */
     memory[address_of_pronounRefs+1] = EOF;
 
-    /* Build dictionary of one word/pronoun */
+    /* Build dictionary of two words, one being a pronoun */
     dictionary = mocked_dictionary;
     dictionary[0].classBits = NOUN_BIT;
-    dictionary[1].classBits = PRONOUN_BIT;
+    dictionary[1].classBits = PRONOUN_BIT|NOUN_BIT;
     dictionary[1].code = pronoun;
     dictionary[1].pronounRefs = address_of_pronounRefs;
     setEndOfArray(&dictionary[2]);

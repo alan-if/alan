@@ -115,13 +115,12 @@ bool isLiteralWord(int wordIndex) {
 }
 
 void *generatePronounList(void) {
-    Pronoun *list = allocate(sizeof(Pronoun));
+    Pronoun *list = allocate(sizeof(Pronoun)*dictionarySize); /* Assume all are pronouns with one ref each */
     Pronoun *p = list;
-
     DictionaryEntry *d = dictionary;
 
     while (!isEndOfArray(d)) {
-        if (d->classBits&PRONOUN_BIT) {
+        if ((d->classBits&PRONOUN_BIT) != 0) {
             p->pronoun = d->code;
             p->instance = memory[d->pronounRefs];
             p++;
