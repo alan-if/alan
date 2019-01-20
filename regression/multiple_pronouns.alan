@@ -1,0 +1,21 @@
+The l Isa location
+End The l.
+
+The stone Isa object
+  Pronoun it1, it2.
+End The stone.
+
+The paper Isa object
+  Pronoun it1, it2.
+End The paper.
+
+Syntax take = 'take' (o)*.
+
+Add To Every object At l
+  Verb take
+    Does
+      "Taking $+1"
+  End Verb.
+End Add.
+
+Start At l.

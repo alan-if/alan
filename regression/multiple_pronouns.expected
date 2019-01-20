@@ -1,0 +1,45 @@
+########## multiple_pronouns ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a stone and a paper here.
+
+> take stone and take it1
+Taking the stone
+
+Taking the stone
+
+> take stone and take it2
+Taking the stone
+
+Taking the stone
+
+> take stone and paper then take it1
+(stone) Taking the stone
+
+(paper) Taking the paper
+
+I don't know what you mean by 'it1'.
+
+> take stone and paper then take it2
+(stone) Taking the stone
+
+(paper) Taking the paper
+
+I don't know what you mean by 'it2'.
+
+> take stone and paper then take them
+(stone) Taking the stone
+
+(paper) Taking the paper
+
+(stone) Taking the stone
+
+(paper) Taking the paper
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
