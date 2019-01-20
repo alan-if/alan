@@ -154,33 +154,6 @@ static void evaluateRulesPreBeta2(void)
 
 
 /*----------------------------------------------------------------------*/
-static void evaluateRulesBeta2New(void) {
-    int i;
-
-    for (i = 1; !isEndOfArray(&rules[i-1]); i++)
-        rules[i-1].alreadyRun = FALSE;
-
-    current.location = NOWHERE;
-    current.actor = 0;
-
-    anyRuleRun = FALSE;
-
-    for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
-        bool evaluated_value = evaluate(rules[i-1].exp);
-        traceRuleEvaluation(i);
-        rules[i-1].alreadyRun = evaluated_value;
-    }
-    for (i = 1; !isEndOfArray(&rules[i-1]); i++) {
-        if (rules[i-1].alreadyRun) {
-            traceRuleExecution(i);
-            interpret(rules[i-1].stms);
-            anyRuleRun = TRUE;
-        }
-    }
-}
-
-
-/*----------------------------------------------------------------------*/
 /* This is how beta2 thought rules should be evaluated:
  */
 static void evaluateRulesBeta2(void)
