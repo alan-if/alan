@@ -91,18 +91,18 @@ void reverse(Aword *w)          /* IN - The ACODE word to reverse bytes in */
 }
 
 
-static void reverseTable(Aword adr, int elementSize)
+static void reverseTable(Aword adr, int elementSizeInBytes)
 {
   Aword *e = &memory[adr];
   int i;
 
-  if (elementSize < sizeof(Aword) || elementSize % sizeof(Aword) != 0)
+  if (elementSizeInBytes < sizeof(Aword) || elementSizeInBytes % sizeof(Aword) != 0)
       syserr("***Wrong size in 'reverseTable()' ***");
 
   if (adr == 0) return;
 
   while (!isEndOfArray(e)) {
-    for (i = 0; i < elementSize/sizeof(Aword); i++) {
+    for (i = 0; i < elementSizeInBytes/sizeof(Aword); i++) {
       reverse(e);
       e++;
     }
@@ -302,6 +302,7 @@ static void reverseInstances(Aword adr)
       reverseStms(e->definite.address);
       reverseStms(e->indefinite.address);
       reverseStms(e->negative.address);
+      reverseTable(e->pronouns, sizeof(Aint));
       reverseStms(e->mentioned);
       reverseChks(e->checks);
       reverseStms(e->description);
@@ -387,13 +388,13 @@ static void reverseSyntaxTable(Aword adr, char version[])
 static void reverseParameterNames(Aaddr parameterMapAddress) {
     Aaddr *e;
     Aaddr adr;
-    
+
     adr = addressAfterTable(parameterMapAddress, sizeof(ParameterMapEntry));
     reverse(&memory[adr]);
     adr = memory[adr];
-    
+
     reverseTable(adr, sizeof(Aaddr));
-    
+
     e = (Aaddr*) &memory[adr];
     while (!isEndOfArray(e)) {
         reverseTable(*e, sizeof(Aaddr));

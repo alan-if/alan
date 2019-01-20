@@ -356,6 +356,7 @@ void generatePropertiesEntry(InstanceEntry *entry, Properties *props)
         entry->pronoun = props->pronouns->member.id->code;
     else
         entry->pronoun = 0;
+    entry->pronouns = props->pronounsAddress;
 
     if (props->initialize)
         entry->initialize = props->initialize->stmsAddress;
