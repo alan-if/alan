@@ -171,7 +171,8 @@ static int crcStart(char version[4]) {
 /*----------------------------------------------------------------------*/
 static void readTemporaryHeader(ACodeHeader *tmphdr) {
     rewind(codfil);
-    fread(tmphdr, sizeof(*tmphdr), 1, codfil);
+    if (fread(tmphdr, sizeof(*tmphdr), 1, codfil) != 1)
+        /* Ignore error */;
     rewind(codfil);
     if (strncmp((char *)tmphdr, "ALAN", 4) != 0)
         playererr("Not an Alan game file, does not start with \"ALAN\"");
