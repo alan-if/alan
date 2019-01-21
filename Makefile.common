@@ -35,10 +35,7 @@ unit:
 .PHONY: test
 test:
 	@echo "******** Target: $@ ***********"
-ifeq ($(OS), Linux)
-	@touch regression/isochars.suspended regression/unknownWordMessage.suspended
-endif
-	@echo "***************** Test *****************"
+	-find . -name TEST-*.xml -exec rm {} \;
 	-$(MAKE) -C compiler JREGROUTPUT=$(JREGROUTPUT) test
 	-$(MAKE) -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
 	-$(MAKE) -C converter JREGROUTPUT=$(JREGROUTPUT) test
