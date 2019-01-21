@@ -43,6 +43,11 @@
 
 
 /* PRIVATE TYPES */
+typedef struct PronounEntry { /* To remember parameter/pronoun relations */
+    int pronoun;
+    int instance;
+} Pronoun;
+
 
 /*----------------------------------------------------------------------*/
 static void clearPronounList(Pronoun list[]) {

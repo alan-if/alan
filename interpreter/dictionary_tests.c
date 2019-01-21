@@ -37,7 +37,7 @@
 
 static Aword *allocate_memory() {
     int sizeOfPronounList = MAX_NO_OF_PRONOUN_REFERENCES*MAX_NO_OF_PRONOUNS;
-    return (Aword *)allocate((sizeOfPronounList+1)*sizeof(Pronoun));
+    return (Aword *)allocate(sizeOfPronounList);
 }
 
 

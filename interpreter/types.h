@@ -53,11 +53,6 @@ typedef struct LimEntry {	/* LIMIT Type */
   Aaddr stms;			/* Statements if fail */
 } LimitEntry;
 
-typedef struct PronounEntry { /* To remember parameter/pronoun relations */
-    int pronoun;
-    int instance;
-} Pronoun;
-
 /* Functions: */
 extern Aaddr addressAfterTable(Aaddr adr, int size);
 
