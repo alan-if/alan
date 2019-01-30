@@ -98,8 +98,8 @@ static void switches(int argc, char *argv[])
                     case '8':
                     case '7':
                     case '6':
-                    case '5' : traceStackOption = TRUE;
-                    case '4' : tracePushOption = TRUE;
+                    case '5' : tracePushOption = TRUE;
+                    case '4' : traceStackOption = TRUE;
                     case '3' : traceInstructionOption = TRUE;
                     case '2' : traceSourceOption = TRUE;
                     case '\0':
