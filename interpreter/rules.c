@@ -106,7 +106,7 @@ static void traceRuleEvaluation(int rule) {
 static void traceRuleResult(int rule, bool result) {
     if (traceSectionOption) {
         if (detailedTraceOn())
-            printf("<RULE %d %s%s", rule, "Evaluated to ", result?": true>\n":": false>\n");
+            printf("\n<RULE %d %s%s", rule, "Evaluated to ", result?": true>\n":": false>\n");
         else
             printf(result?"true":"false");
     }
@@ -237,7 +237,7 @@ void evaluateRules(RuleEntry rules[]) {
 
 
 /*=======================================================================*/
-void resetAndEvaluateRules(RuleEntry rules[], char *version) {
+void resetAndEvaluateRules(RuleEntry rules[], char *version, Stack theStack) {
     if (isPreBeta2(version))
         evaluateRulesPreBeta2();
     else if (isPreBeta3(version))

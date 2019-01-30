@@ -111,7 +111,7 @@ static char *eventName(int event) {
 
 
 /*----------------------------------------------------------------------*/
-static void runPendingEvents(void)
+static void runPendingEvents(Stack theStack)
 {
     int i;
 
@@ -129,6 +129,8 @@ static void runPendingEvents(void)
             printf(" [%d]):>\n", current.location);
         }
         interpret(events[eventQueue[eventQueueTop].event].code);
+        if (stackDepth(theStack) != 0)
+            syserr("Stack is not empty after event execution");
         evaluateRules(rules);
     }
 
@@ -599,7 +601,7 @@ static void initializeInstances() {
 
 
 /*----------------------------------------------------------------------*/
-static void start(void)
+static void start(Stack theStack)
 {
     int startloc;
 
@@ -623,7 +625,7 @@ static void start(void)
             printf("<CURRENT LOCATION:>");
         look();
     }
-    resetAndEvaluateRules(rules, header->version);
+    resetAndEvaluateRules(rules, header->version, theStack);
 }
 
 
@@ -658,7 +660,7 @@ static void openFiles(void)
 
 
 /*----------------------------------------------------------------------*/
-static void init(void)
+static void init(Stack theStack)
 {
     int i;
 
@@ -684,7 +686,7 @@ static void init(void)
     else
         clear();
 
-    start();
+    start(theStack);
 }
 
 
@@ -815,7 +817,7 @@ void run(void)
     initStateStack();
 
     if (!ERROR_RETURNED)      /* Can happen in start section too... */
-        init();               /* Initialise and start the adventure */
+        init(theStack);               /* Initialise and start the adventure */
 
     while (TRUE) {
         if (debugOption)
@@ -825,7 +827,7 @@ void run(void)
             syserr("Stack is not empty in main loop");
 
         if (!current.meta)
-            runPendingEvents();
+            runPendingEvents(theStack);
 
         /* Return here if error during execution */
         switch (setjmp(returnLabel)) {
@@ -858,13 +860,13 @@ void run(void)
             current.tick++;
 
             /* If hero has performed a non-meta command rules need to be run after that */
-            resetAndEvaluateRules(rules, header->version);
+            resetAndEvaluateRules(rules, header->version, theStack);
 
             /* Then all the other actors... */
             for (i = 1; i <= header->instanceMax; i++)
                 if (i != header->theHero && isAActor(i)) {
                     moveActor(i);
-                    resetAndEvaluateRules(rules, header->version);
+                    resetAndEvaluateRules(rules, header->version, theStack);
                 }
         }
     }
