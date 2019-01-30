@@ -31,5 +31,4 @@ int newNounWord(char *theWord, int code, Instance *reference) { return (int)mock
 
 void prepareWords(void) { (void)mock(); }
 void analyzeAllWords(void) { (void)mock(); }
-void finalizeWords(void) { (void)mock(); }
 Aaddr generateAllWords(void) { return (int)mock(); }

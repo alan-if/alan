@@ -236,7 +236,7 @@ void generateAdventure(char acodeFileName[],
     acodeHeader.syntaxTableAddress = generateParseTable();
 
     verbose("Parameter Mapping");
-    if (opts[OPTDEBUG].value == TRUE)
+    if (opts[OPTDEBUG].value)
         parameterNamesAddress = generateParameterNames(adv.stxs);
     acodeHeader.parameterMapAddress = generateParameterMappingTable();
     emit(parameterNamesAddress);
