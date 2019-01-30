@@ -232,7 +232,7 @@ static void traceStack(Stack theStack) {
 /*----------------------------------------------------------------------*/
 static void traceOutput(char *leading) {
     moveToStackTraceField();
-    printf(leading);
+    printf("%s", leading);
 }
 
 /*----------------------------------------------------------------------*/
