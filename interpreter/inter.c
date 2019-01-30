@@ -112,7 +112,7 @@ static void traceInstruction1R(char *name, Aword p1, Aword result) {
     sprintf(buf1, "%6d ", p1);
 
     printf(format, name, buf1, "", "", "");
-    printf("%7d ", result);
+    printf("=%-7d ", result);
     resultTraced = true;
 }
 
@@ -237,9 +237,9 @@ static void traceOutput(char *leading) {
 
 /*----------------------------------------------------------------------*/
 static void traceEndOfOutput(char *terminator) {
-    printf("%s%s", terminator, "\n");
+    printf("%s", terminator);
     if (traceStackOption) {
-        printf("      ");
+        printf("\n      ");
         printf(format, "", "", "", "", "");
         resultTraced = false;
         moveToStackTraceField();
@@ -1079,11 +1079,8 @@ void interpret(Aaddr adr)
                 if (traceInstructionOption) {
                     traceInstruction1("DESCRIBE", id);
                     col = 41;		/* To format output better! */
-                    traceOutput("\"");
                 }
                 describe(id);
-                if (traceInstructionOption)
-                    traceEndOfOutput("\"");
                 break;
             }
             case I_SAY: {
