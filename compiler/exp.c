@@ -548,87 +548,87 @@ static void analyzeSetExpression(Expression *exp, Context *context)
 
 /*----------------------------------------------------------------------*/
 static void analyzeBinary(Expression *exp) {
-	switch (exp->fields.bin.op) {
-	case AND_OPERATOR:
-	case OR_OPERATOR:
-		if (!equalTypes(exp->fields.bin.left->type, BOOLEAN_TYPE))
-			lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
-		if (!equalTypes(exp->fields.bin.right->type, BOOLEAN_TYPE))
-			lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
-		exp->type = BOOLEAN_TYPE;
-		break;
+    switch (exp->fields.bin.op) {
+    case AND_OPERATOR:
+    case OR_OPERATOR:
+        if (!equalTypes(exp->fields.bin.left->type, BOOLEAN_TYPE))
+            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
+        if (!equalTypes(exp->fields.bin.right->type, BOOLEAN_TYPE))
+            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
+        exp->type = BOOLEAN_TYPE;
+        break;
 
-	case NE_OPERATOR:
-	case EQ_OPERATOR:
-		if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type))
-			lmLog(&exp->srcp, 331, sevERR, "expression");
-		else if (exp->fields.bin.left->type != ERROR_TYPE && exp->fields.bin.right->type != ERROR_TYPE)
-			if (exp->fields.bin.left->type == INSTANCE_TYPE) {
-				What *leftWhat = exp->fields.bin.left->fields.wht.wht;
-				What *rightWhat = exp->fields.bin.right->fields.wht.wht;
-				if (leftWhat->kind == WHAT_ID && rightWhat->kind == WHAT_ID)
-					if (isConstantIdentifier(leftWhat->id)
-					    && isConstantIdentifier(rightWhat->id))
-						lmLog(&exp->srcp, 417, sevINF, NULL);
-			}
-		exp->type = BOOLEAN_TYPE;
-		break;
+    case NE_OPERATOR:
+    case EQ_OPERATOR:
+        if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type))
+            lmLog(&exp->srcp, 331, sevERR, "expression");
+        else if (exp->fields.bin.left->type != ERROR_TYPE && exp->fields.bin.right->type != ERROR_TYPE)
+            if (exp->fields.bin.left->type == INSTANCE_TYPE) {
+                What *leftWhat = exp->fields.bin.left->fields.wht.wht;
+                What *rightWhat = exp->fields.bin.right->fields.wht.wht;
+                if (leftWhat->kind == WHAT_ID && rightWhat->kind == WHAT_ID)
+                    if (isConstantIdentifier(leftWhat->id)
+                        && isConstantIdentifier(rightWhat->id))
+                        lmLog(&exp->srcp, 417, sevINF, NULL);
+            }
+        exp->type = BOOLEAN_TYPE;
+        break;
 
-	case EXACT_OPERATOR:
-		if (!equalTypes(exp->fields.bin.left->type, STRING_TYPE))
-			lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'=='", NULL);
-		if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
-			lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
-		exp->type = BOOLEAN_TYPE;
-		break;
+    case EXACT_OPERATOR:
+        if (!equalTypes(exp->fields.bin.left->type, STRING_TYPE))
+            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'=='", NULL);
+        if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
+            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
+        exp->type = BOOLEAN_TYPE;
+        break;
 
-	case LE_OPERATOR:
-	case GE_OPERATOR:
-	case LT_OPERATOR:
-	case GT_OPERATOR:
-		if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE))
-			lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "relational", NULL);
-		if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE))
-			lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "relational", NULL);
-		exp->type = BOOLEAN_TYPE;
-		break;
+    case LE_OPERATOR:
+    case GE_OPERATOR:
+    case LT_OPERATOR:
+    case GT_OPERATOR:
+        if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE))
+            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "relational", NULL);
+        if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE))
+            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "relational", NULL);
+        exp->type = BOOLEAN_TYPE;
+        break;
 
-	case PLUS_OPERATOR:
-		if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE)
-		    && !equalTypes(exp->fields.bin.left->type, STRING_TYPE))
-			lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
-		if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE)
-		    && !equalTypes(exp->fields.bin.right->type, STRING_TYPE))
-			lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
-		if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type)) {
-			lmLog(&exp->srcp, 331, sevERR, "expression");
-			exp->type = ERROR_TYPE;
-		} else
-			exp->type = exp->fields.bin.left->type;
-		break;
+    case PLUS_OPERATOR:
+        if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE)
+            && !equalTypes(exp->fields.bin.left->type, STRING_TYPE))
+            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
+        if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE)
+            && !equalTypes(exp->fields.bin.right->type, STRING_TYPE))
+            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
+        if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type)) {
+            lmLog(&exp->srcp, 331, sevERR, "expression");
+            exp->type = ERROR_TYPE;
+        } else
+            exp->type = exp->fields.bin.left->type;
+        break;
 
-	case MINUS_OPERATOR:
-	case MULT_OPERATOR:
-	case DIV_OPERATOR:
-		if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE))
-			lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "arithmetic", NULL);
-		if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE))
-			lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "arithmetic", NULL);
-		exp->type = INTEGER_TYPE;
-		break;
+    case MINUS_OPERATOR:
+    case MULT_OPERATOR:
+    case DIV_OPERATOR:
+        if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE))
+            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "arithmetic", NULL);
+        if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE))
+            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "arithmetic", NULL);
+        exp->type = INTEGER_TYPE;
+        break;
 
-	case CONTAINS_OPERATOR:
-		if (!equalTypes(exp->fields.bin.left->type, STRING_TYPE))
-			lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
-		if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
-			lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
-		exp->type = BOOLEAN_TYPE;
-		break;
+    case CONTAINS_OPERATOR:
+        if (!equalTypes(exp->fields.bin.left->type, STRING_TYPE))
+            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
+        if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
+            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
+        exp->type = BOOLEAN_TYPE;
+        break;
 
-	default:
-		SYSERR("Unrecognized binary operator", exp->srcp);
-		break;
-	}
+    default:
+        SYSERR("Unrecognized binary operator", exp->srcp);
+        break;
+    }
 }
 
 
@@ -636,10 +636,10 @@ static void analyzeBinary(Expression *exp) {
 /*----------------------------------------------------------------------*/
 static void analyzeBinaryExpression(Expression *exp, Context *context)
 {
-	if (exp->fields.bin.left->type == UNINITIALIZED_TYPE)
-	    analyzeExpression(exp->fields.bin.left, context);
-	if (exp->fields.bin.right->type == UNINITIALIZED_TYPE)
-		analyzeExpression(exp->fields.bin.right, context);
+    if (exp->fields.bin.left->type == UNINITIALIZED_TYPE)
+        analyzeExpression(exp->fields.bin.left, context);
+    if (exp->fields.bin.right->type == UNINITIALIZED_TYPE)
+        analyzeExpression(exp->fields.bin.right, context);
 
     analyzeBinary(exp);
 }
@@ -1462,7 +1462,7 @@ static void generateRandomInExpression(Expression *exp)
     if (exp->fields.rin.what->type == SET_TYPE)
         emit0(I_SETSIZE);
     else {
-        emitConstant(exp->fields.rin.transitivity);
+        generateTransitivity(exp->fields.rin.transitivity);
         emit0(I_CONTSIZE);
     }
     emitConstant(1);		/* Lower random value */
@@ -1471,7 +1471,7 @@ static void generateRandomInExpression(Expression *exp)
     if (exp->fields.rin.what->type == SET_TYPE)
         emit0(I_SETMEMB);
     else {
-        emitConstant(exp->fields.rin.transitivity);
+        generateTransitivity(exp->fields.rin.transitivity);
         emit0(I_CONTMEMB);
     }
 }
