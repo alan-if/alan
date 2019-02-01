@@ -300,13 +300,18 @@ static void parse() {
 
 /*----------------------------------------------------------------------*/
 static void analyze() {
-  verbose("Analyzing");
-  startTiming();
-  analyzeAdventure();			/* Analyze the adventure */
-  endSemanticsTiming();			/* End of semantic pass */
-  /* All text is now output so close text file */
-  fclose(txtfil);
+    verbose("Analyzing");
+    startTiming();
 
+    /* If options haven't been used in the source, use value from command line */
+    if (!opts[OPTDEBUG].used) opts[OPTDEBUG].value = debugFlag;
+    if (opts[OPTPACK].value) opts[OPTPACK].value = packFlag;
+
+    analyzeAdventure();			/* Analyze the adventure */
+    endSemanticsTiming();       /* End of semantic pass */
+
+    /* All text is now output so close text file */
+    fclose(txtfil);
 }
 
 
@@ -316,10 +321,6 @@ static void generate() {
   if (lmSeverity() < sevERR) {
     /* Yes, so generate an adventure */
     verbose("Generating");
-
-    /* If options haven't been used in the source, use value from command line */
-    if (!opts[OPTDEBUG].used) opts[OPTDEBUG].value = debugFlag;
-    if (opts[OPTPACK].value) opts[OPTPACK].value = packFlag;
 
     startTiming();
     generateAdventure(acdfnm, txtfnm, datfnm);
