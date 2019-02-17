@@ -1,0 +1,26 @@
+THE kitchen IsA LOCATION
+    DESCRIPTION "Your kitchen"
+END THE kitchen.
+
+EVERY clothing IsA object.
+    IS NOT donned.
+END EVERY clothing.
+
+THE hat IsA clothing AT kitchen.
+END THE hat.
+
+ADD TO EVERY actor
+    CONTAINER taking thing.
+END ADD TO actor.
+
+EVENT my_event
+    FOR ac BETWEEN 1 AND 10 DO
+        FOR EACH cl IsA clothing, INDIRECTLY IN ac, IS donned
+            DO "**" SAY THE cl. "in" SAY ac. "is donned **"
+        END FOR.
+    END FOR.
+    SCHEDULE my_event AFTER 0.
+END EVENT.
+
+START AT kitchen.
+    SCHEDULE my_event AFTER 0.

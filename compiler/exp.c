@@ -709,8 +709,10 @@ static void analyzeClassingFilter(char *message,
             theFilter->type = where->what->type;
             break;
         case WHERE_IN:
-            theFilter->class = containerContent(where->what, where->transitivity, context);
-            theFilter->type = where->what->type;
+            if (where->what->type != ERROR_TYPE && expressionIsContainer(where->what, context)) {
+                theFilter->class = containerContent(where->what, where->transitivity, context);
+                theFilter->type = where->what->type;
+            }
             break;
         case WHERE_HERE:
         case WHERE_AT:
