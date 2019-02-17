@@ -887,6 +887,8 @@ Symbol *containerMightContain(Symbol *symbol) {
             return NULL;
         case PARAMETER_SYMBOL:
             return containerMightContain(symbol->fields.parameter.class);
+        case LOCAL_SYMBOL:
+            return containerMightContain(symbol->fields.local.class);
         default:
             SYSERR("Unexpected type of symbol", nulsrcp);
         }

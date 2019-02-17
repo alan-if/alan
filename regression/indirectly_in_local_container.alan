@@ -1,0 +1,38 @@
+THE kitchen IsA LOCATION
+    DESCRIPTION "Your kitchen"
+END THE kitchen.
+
+EVERY clothing IsA object.
+    IS NOT donned.
+END EVERY clothing.
+
+THE hat IsA clothing AT kitchen.
+END THE hat.
+
+ADD TO EVERY actor
+    CONTAINER taking thing.
+END ADD TO actor.
+
+EVENT my_event
+    FOR EACH ac IsA ACTOR DO
+
+-- Alan 3.0beta6 build 1866
+--
+-- Only compiles with `DIRECTLY IN ac` (but output game won't run), but not with:
+-- * INDIRECTLY IN ac
+-- * TRANSITIVELY IN ac
+-- * IN ac
+-- which causes the following compiler error:
+-- ----------------------------------------------------------
+-- line 0(0): 997 S : SYSTEM ERROR:
+-- Unexpected type of symbol in 'containerMightContain()', sym.c:891
+-- ----------------------------------------------------------
+        FOR EACH cl IsA clothing, INDIRECTLY IN ac, IS donned
+            DO "**" SAY THE cl. "in" SAY THE ac. "is donned **"
+        END FOR.
+    END FOR.
+    SCHEDULE my_event HERE AFTER 1.
+END EVENT.
+
+START AT kitchen.
+    SCHEDULE my_event HERE AFTER 0.
