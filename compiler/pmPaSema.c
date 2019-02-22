@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------*\
 
-	pmPaSema.c
+    pmPaSema.c
 
-	ParserMaker generated semantic actions
+    ParserMaker generated semantic actions
 
 \*----------------------------------------------------------------------*/
 

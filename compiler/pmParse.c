@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------*\
 
-	pmParse.c
+    pmParse.c
 
-	ParserMaker generated parser
+    ParserMaker generated parser
 
 \*----------------------------------------------------------------------*/
 
@@ -201,7 +201,7 @@ typedef struct pmGrammar {
 #define SYN_ERR 2		/* Normal syntax error */
 #define OFLW_ERR 3		/* Parse stack overflow */
 #define TAB_ERR 4		/* Parse table error */
-	   
+
 /* Error severity *\
 \* -------------- */
 #define WAR_SEV 1		/* Warnings */
@@ -2463,7 +2463,7 @@ typedef struct {
     char *name;			/* Name string */
     char *psym;			/* Print name */
 } VocTab[150];
-			     
+
 static VocTab voc = {{1,255,255,"EndOfText",""}
 ,{2,1,1,"Identifier","<identifier>"}
 ,{3,2,1,"Integer",""}
@@ -2622,7 +2622,7 @@ static VocTab voc = {{1,255,255,"EndOfText",""}
 \* ------------------------------------- */
 short pmStkP;			/* Stack pointer */
 Token pmSySt[PmStkMax];	/* Symbol stack */
-pmGrammar pmSeSt[PmStkMax];	/* Semantic stack */ 
+pmGrammar pmSeSt[PmStkMax];	/* Semantic stack */
 static UByte2 currstat;		/* Current state number */
 static UByte2 arg;		/* Argument */
 static UByte1 action;		/* Action type */
@@ -2728,30 +2728,30 @@ static void paInit(void)
 
 /*----------------------------------------------------------------------------
  * pushStat[Tok] - Push the current state on the stack and possibly push current
- *	      token on the symbol stack.
+ *        token on the symbol stack.
  *----------------------------------------------------------------------------
  */
 #define MOVETOKEN pmSySt[pmStkP] = *token
 #define pushStatTok()\
 {\
     if (++pmStkP < PmStkMax) {\
-	parsStk[pmStkP] = currstat;\
-	MOVETOKEN;\
+    parsStk[pmStkP] = currstat;\
+    MOVETOKEN;\
     } else {\
-	token->code = voc[token->code-TermMin].scc;\
-	paAbort(token, OFLW_ERR, SYS_SEV);\
+    token->code = voc[token->code-TermMin].scc;\
+    paAbort(token, OFLW_ERR, SYS_SEV);\
     }\
-} 
+}
 
 #define pushStat()\
 {\
     if (++pmStkP < PmStkMax) {\
-	parsStk[pmStkP] = currstat;\
+    parsStk[pmStkP] = currstat;\
     } else {\
-	token->code = voc[token->code-TermMin].scc;\
-	paAbort(token, OFLW_ERR, SYS_SEV);\
+    token->code = voc[token->code-TermMin].scc;\
+    paAbort(token, OFLW_ERR, SYS_SEV);\
     }\
-} 
+}
 
 
 
@@ -2767,7 +2767,7 @@ static void paInit(void)
     actSt = st - StateMin;\
     actSy = sy - TermMin;\
     if (act.actCheck[act.actRix[actSt] + actSy] == actSt)\
-	actEnt = act.act[act.actRix[actSt] + actSy];\
+    actEnt = act.act[act.actRix[actSt] + actSy];\
     else actEnt = ERROR_ACT;\
     *action = actEnt & 0x7;\
     *arg = actEnt >> 3;\
@@ -2785,7 +2785,7 @@ static void paInit(void)
     register int gtoSy;\
     gtoSt = st - StateMin;\
     gtoSy = sy - Terms - 1;\
-	gtoEnt = gto.gto[gto.gtoRix[gtoSt] + gtoSy];\
+    gtoEnt = gto.gto[gto.gtoRix[gtoSt] + gtoSy];\
     *action = gtoEnt & 0x7;\
     *arg = gtoEnt >> 3;\
 }/*gtoTbl()*/
@@ -2800,8 +2800,8 @@ static void paInit(void)
  * characterized by:
  *
  * w = x t y, where  x = parsed input
- *		     t = current token
- *		     y = unprocessed input
+ *           t = current token
+ *           y = unprocessed input
  *----------------------------------------------------------------------------
  */
 
@@ -2813,7 +2813,7 @@ typedef struct {
     short severity;
 } ERR_REC;
 
-static ERR_REC errdescr; 
+static ERR_REC errdescr;
 
 
 /*----------------------------------------------------------------------------
@@ -2840,7 +2840,7 @@ UByte2 stack[],			/* IN current stack */
 short stack_p,			/* IN current stack pointer */
 UByte1 sym			/* IN symbol code */
 )				/* RET true if "symbol" is read (shifted) */
-				/*     in current state */
+                /*     in current state */
 {
     UByte2 state;		/* Current state */
     UByte1 action;		/* Current parser action */
@@ -2851,36 +2851,36 @@ UByte1 sym			/* IN symbol code */
 
     /* Copy stack
      */
-    for (i = 0; i <= stack_p; i++) t_stk[i] = stack[i]; 
+    for (i = 0; i <= stack_p; i++) t_stk[i] = stack[i];
 
     state = stack[stack_p];
 
     for (;;) {
-	actTbl(state, sym, &action, &arg);
-	switch (action) {
+    actTbl(state, sym, &action, &arg);
+    switch (action) {
 
-	case ERROR_ACT:
-	    return(PMFALSE);
+    case ERROR_ACT:
+        return(PMFALSE);
 
-	case SHIFT_ACT:
-	case SHIFTRED_ACT:	
-	case ACCEPT_ACT:
-	    return(PMTRUE);
+    case SHIFT_ACT:
+    case SHIFTRED_ACT:
+    case ACCEPT_ACT:
+        return(PMTRUE);
 
-	case REDUCE_ACT:
-	    do {
-		stack_p = stack_p - gto.rhsz[arg - ProdMin];
-		gtoTbl(t_stk[stack_p], gto.lhs[arg - ProdMin], &action, &arg);
-		ePush(state, t_stk, &stack_p);
-	    } while (action != SHIFT_ACT);
-	    state = arg; t_stk[stack_p] = state;
-	    break;
+    case REDUCE_ACT:
+        do {
+        stack_p = stack_p - gto.rhsz[arg - ProdMin];
+        gtoTbl(t_stk[stack_p], gto.lhs[arg - ProdMin], &action, &arg);
+        ePush(state, t_stk, &stack_p);
+        } while (action != SHIFT_ACT);
+        state = arg; t_stk[stack_p] = state;
+        break;
 
-	}/*switch*/
+    }/*switch*/
     }/*for*/
 }/*legalAct()*/
-			     
-	
+
+
 /*----------------------------------------------------------------------------
  * gLegSym - Get legal symbols
  *----------------------------------------------------------------------------
@@ -2895,14 +2895,14 @@ TermSet legals			/* OUT legal symbols in current state */
 
     SetClear(legals, Terms + 1);
     for (sym = 1; sym <= Terms; sym++) {
-	if (legalAct(stack, stack_p, sym)) SetIns(legals, sym);
+    if (legalAct(stack, stack_p, sym)) SetIns(legals, sym);
     }/*for*/
 }/*gLegSym()*/
 
 
 /*----------------------------------------------------------------------------
  * backup - Backup the parse stack until current symbol is accepted (shifted)
- *	    or the parse stack becomes empty
+ *      or the parse stack becomes empty
  *----------------------------------------------------------------------------
  */
 static short backup(
@@ -2910,7 +2910,7 @@ ParseStack stack,		/* IN current stack */
 short stack_p,			/* IN current stack pointer */
 UByte1 sym	/* IN recovery symbol */
 )				/* RET new stack pointer, 0 if symbol is */
-				/*     not accepted */
+                /*     not accepted */
 {
     while ((stack_p > 0) && (!legalAct(stack, stack_p, sym))) stack_p--;
     return(stack_p);
@@ -2932,23 +2932,23 @@ Token *token			/* INOUT symbol to delete, new symbol */
     pmDSym(token, voc[t].name, voc[t].psym);
 {
     if (la_ptr < la_end) {
-	la_ptr++;
-	*token = la_buff[la_ptr];
+    la_ptr++;
+    *token = la_buff[la_ptr];
     } else {
-	do {
-	    
+    do {
+        
 
     smScan(lexContext, token);
 
 
 
-	    if (token->code > SccMax || token->code < 0) {
-		token->code = ERR_SYM;
-	    } else token->code = scIndex[token->code];
-	    if (token->code == ERR_SYM) {
-		pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
-		}
-	} while (token->code == ERR_SYM);
+        if (token->code > SccMax || token->code < 0) {
+        token->code = ERR_SYM;
+        } else token->code = scIndex[token->code];
+        if (token->code == ERR_SYM) {
+        pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
+        }
+    } while (token->code == ERR_SYM);
     }
 }
     if (errdescr.method == IN_REC) errdescr.method = REP_REC;
@@ -2966,9 +2966,9 @@ Token *gen_symb		/* OUT created symbol */
 )
 {
     pmISym(voc[isym - TermMin].scc, voc[isym - TermMin].name,
-	   voc[isym - TermMin].psym, gen_symb);
+       voc[isym - TermMin].psym, gen_symb);
     if (errdescr.method == DEL_REC) errdescr.method = REP_REC;
-    else if (errdescr.method != REP_REC) errdescr.method = IN_REC; 
+    else if (errdescr.method != REP_REC) errdescr.method = IN_REC;
 
     gen_symb->code = isym;
 }/*inSym()*/
@@ -3004,7 +3004,7 @@ typedef struct {
 
 /*----------------------------------------------------------------------------
  * acceptbl - Check whether "symbol" is reachable from current state using
- *	      the continuation grammar.
+ *        the continuation grammar.
  *----------------------------------------------------------------------------
  */
 static void acceptbl(
@@ -3032,111 +3032,111 @@ REC_POI *point			/* OUT recovery point description */
     done = PMFALSE;
 
     while (!done) {
-	actTbl(state, sym, &action, &arg);
-	if (legalAct(t_stk, stack_p, sym)) {
-	    /* Symbol is directly accepted */
-	    done = PMTRUE;
-	    *found = PMTRUE;
-	    point->r_state = state;
-	} else {
-	    /* Use the continuation grammar */
-	    actTbl(state, act.recover.cont[state - StateMin].tsym, &action,
-		   &arg);
-	    actTbl(state, act.recover.cont[state - StateMin].ssym, &sep_act,
-		   &sep_arg);
-	    if ((action != sep_act) || (arg != sep_arg)) {
-		/* A separator is legal. Check if current symbol is accepted
-		 * behind the separator
-		 */
-	        ParseStack stk;	/* Temporary stack */
-	        short sp;	/* Temporary stack pointer */
+    actTbl(state, sym, &action, &arg);
+    if (legalAct(t_stk, stack_p, sym)) {
+        /* Symbol is directly accepted */
+        done = PMTRUE;
+        *found = PMTRUE;
+        point->r_state = state;
+    } else {
+        /* Use the continuation grammar */
+        actTbl(state, act.recover.cont[state - StateMin].tsym, &action,
+           &arg);
+        actTbl(state, act.recover.cont[state - StateMin].ssym, &sep_act,
+           &sep_arg);
+        if ((action != sep_act) || (arg != sep_arg)) {
+        /* A separator is legal. Check if current symbol is accepted
+         * behind the separator
+         */
+            ParseStack stk;	/* Temporary stack */
+            short sp;	/* Temporary stack pointer */
 
-		sp = stack_p; 
-		for (i = 0; i <= stack_p; i++) stk[i] = t_stk[i];
-		sepa_acc = PMFALSE;
+        sp = stack_p;
+        for (i = 0; i <= stack_p; i++) stk[i] = t_stk[i];
+        sepa_acc = PMFALSE;
 
-		while (!sepa_acc) {
-		  actTbl(stk[sp], act.recover.cont[state - StateMin].ssym,
-			 &sep_act, &sep_arg);
-		    switch (sep_act) {
+        while (!sepa_acc) {
+          actTbl(stk[sp], act.recover.cont[state - StateMin].ssym,
+             &sep_act, &sep_arg);
+            switch (sep_act) {
 
-		    case ERROR_ACT:
-		    case ACCEPT_ACT:
-			sepa_acc = PMTRUE;
-			break;
+            case ERROR_ACT:
+            case ACCEPT_ACT:
+            sepa_acc = PMTRUE;
+            break;
 
-		    case SHIFT_ACT: 
-			sepa_acc = PMTRUE;
-			ePush(sep_arg, stk, &sp);
-			break;
+            case SHIFT_ACT:
+            sepa_acc = PMTRUE;
+            ePush(sep_arg, stk, &sp);
+            break;
 
-		    case SHIFTRED_ACT:
-			ePush(1, stk, &sp);
-			sepa_acc = PMTRUE;
-			goto reduce;
+            case SHIFTRED_ACT:
+            ePush(1, stk, &sp);
+            sepa_acc = PMTRUE;
+            goto reduce;
 
-		    case REDUCE_ACT:
-		      reduce:
-			do {
-			    sp -= gto.rhsz[sep_arg-ProdMin];
-			    gtoTbl(stk[sp], gto.lhs[sep_arg-ProdMin], &sep_act,
-				   &sep_arg);
-			    ePush(1, stk, &sp);
-			} while (sep_act != SHIFT_ACT);
+            case REDUCE_ACT:
+              reduce:
+            do {
+                sp -= gto.rhsz[sep_arg-ProdMin];
+                gtoTbl(stk[sp], gto.lhs[sep_arg-ProdMin], &sep_act,
+                   &sep_arg);
+                ePush(1, stk, &sp);
+            } while (sep_act != SHIFT_ACT);
 
-			stk[sp] = sep_arg;
-			break;
-		    }/*switch*/
-		}/*while*/
+            stk[sp] = sep_arg;
+            break;
+            }/*switch*/
+        }/*while*/
 
-		if ((sep_act == SHIFT_ACT) || (sep_act == SHIFTRED_ACT)) {
-		    if (legalAct(stk, sp, sym)) {
-			/* Separator is to be inserted */
-			point->r_state = stk[sp];
-			point->r_sepa = PMTRUE;
-			point->r_sstat = state;
-			done = PMTRUE;
-			*found = PMTRUE;
-		    }/*if*/
-		}/*if*/
-	    }/*if*/
-		  
-	    if (!*found) {
-		switch (action) {
+        if ((sep_act == SHIFT_ACT) || (sep_act == SHIFTRED_ACT)) {
+            if (legalAct(stk, sp, sym)) {
+            /* Separator is to be inserted */
+            point->r_state = stk[sp];
+            point->r_sepa = PMTRUE;
+            point->r_sstat = state;
+            done = PMTRUE;
+            *found = PMTRUE;
+            }/*if*/
+        }/*if*/
+        }/*if*/
 
-		case ERROR_ACT: 
-		    paAbort(token, TAB_ERR, SYS_SEV);
-		    break;
+        if (!*found) {
+        switch (action) {
 
-		case ACCEPT_ACT:
-		    done = PMTRUE;
-		    break;
+        case ERROR_ACT:
+            paAbort(token, TAB_ERR, SYS_SEV);
+            break;
 
-		case SHIFT_ACT:
-		    state = arg;
-		    ePush(state, t_stk, &stack_p);
-		    break;
+        case ACCEPT_ACT:
+            done = PMTRUE;
+            break;
 
-		case SHIFTRED_ACT:
-		    ePush(state, t_stk, &stack_p);
-		    goto reduce2;
+        case SHIFT_ACT:
+            state = arg;
+            ePush(state, t_stk, &stack_p);
+            break;
 
-		case REDUCE_ACT:
-		  reduce2:
-		    do {
-			stack_p -= gto.rhsz[arg-ProdMin];
-			gtoTbl(t_stk[stack_p], gto.lhs[arg-ProdMin], &action,
-			       &arg);
-			ePush(state, t_stk, &stack_p);
-		    } while (action != SHIFT_ACT);
+        case SHIFTRED_ACT:
+            ePush(state, t_stk, &stack_p);
+            goto reduce2;
 
-		    state = arg;
-		    t_stk[stack_p] = state;
-		    break;
+        case REDUCE_ACT:
+          reduce2:
+            do {
+            stack_p -= gto.rhsz[arg-ProdMin];
+            gtoTbl(t_stk[stack_p], gto.lhs[arg-ProdMin], &action,
+                   &arg);
+            ePush(state, t_stk, &stack_p);
+            } while (action != SHIFT_ACT);
 
-		}/*switch*/
-	    }/*if*/
-	}/*if*/
+            state = arg;
+            t_stk[stack_p] = state;
+            break;
+
+        }/*switch*/
+        }/*if*/
+    }/*if*/
     }/*while*/
 }/*acceptbl()*/
 
@@ -3150,7 +3150,7 @@ ParseStack stack,		/* IN current stack */
 short *stack_p,			/* INOUT current stack pointer */
 Token *token,			/* INOUT current symbol */
 REC_POI *point			/* OUT descriptor of where to restart */
-				/*     the parser */
+                /*     the parser */
 )
 {
     UByte2 state;		/* Current state */
@@ -3164,23 +3164,23 @@ REC_POI *point			/* OUT descriptor of where to restart */
     rp_found = PMFALSE;
 
     do {
-	if (!SetMem(act.recover.skip, token->code)) {
-	    acceptbl(token->code, stack, *stack_p, token, &rp_found, point);
-	}/*if*/
+    if (!SetMem(act.recover.skip, token->code)) {
+        acceptbl(token->code, stack, *stack_p, token, &rp_found, point);
+    }/*if*/
 
-	if (!rp_found) {
-	    new_stkp = 0;
-	    if (SetMem(act.recover.fiduc, token->code)) {
-		new_stkp = backup(stack, *stack_p, token->code);
-	    }/*if*/
-	    if (new_stkp > 0) {
-		rp_found = PMTRUE;
-		*stack_p = new_stkp;
-		point->r_state = stack[*stack_p];
-		errdescr.method = BAK_REC;
-	    } else 
-	        delSym(token);
-	}/*if*/
+    if (!rp_found) {
+        new_stkp = 0;
+        if (SetMem(act.recover.fiduc, token->code)) {
+        new_stkp = backup(stack, *stack_p, token->code);
+        }/*if*/
+        if (new_stkp > 0) {
+        rp_found = PMTRUE;
+        *stack_p = new_stkp;
+        point->r_state = stack[*stack_p];
+        errdescr.method = BAK_REC;
+        } else
+            delSym(token);
+    }/*if*/
     } while (!rp_found);
 }/*search()*/
 
@@ -3191,7 +3191,7 @@ REC_POI *point			/* OUT descriptor of where to restart */
  */
 static void reach(
 ParseStack stack,		/* INOUT current stack */
-short *stack_p,			/* INOUT current stack pointer */	
+short *stack_p,			/* INOUT current stack pointer */
 Token *token,			/* INOUT current symbol */
 REC_POI *point			/* IN recovery point descriptor */
 )
@@ -3208,53 +3208,53 @@ REC_POI *point			/* IN recovery point descriptor */
     gen_symb = *token;
     useSepa = PMFALSE;
     while (state != point->r_state) {
-	if (point->r_sepa)
-	    if (state == point->r_sstat) {
-		/* Separator state reached, remember to use separator */
-		cont_sym = act.recover.cont[state-StateMin].ssym;
-		useSepa = PMTRUE;
-	    } else cont_sym = act.recover.cont[state-StateMin].tsym;
-	else cont_sym = act.recover.cont[state-StateMin].tsym;
-	sepaAccept = PMFALSE;
+    if (point->r_sepa)
+        if (state == point->r_sstat) {
+        /* Separator state reached, remember to use separator */
+        cont_sym = act.recover.cont[state-StateMin].ssym;
+        useSepa = PMTRUE;
+        } else cont_sym = act.recover.cont[state-StateMin].tsym;
+    else cont_sym = act.recover.cont[state-StateMin].tsym;
+    sepaAccept = PMFALSE;
 
-	do {
-	  actTbl(state, cont_sym, &action, &arg);
-	  switch (action) {
+    do {
+      actTbl(state, cont_sym, &action, &arg);
+      switch (action) {
 
-	  case ERROR_ACT:
-	    paAbort(token, TAB_ERR, SYS_SEV);
-	    break;
+      case ERROR_ACT:
+        paAbort(token, TAB_ERR, SYS_SEV);
+        break;
 
-	  case ACCEPT_ACT:
-	    break;
+      case ACCEPT_ACT:
+        break;
 
-	  case SHIFT_ACT:
-	    sepaAccept = PMTRUE;
-	    state = arg;
-	    inSym(cont_sym, &gen_symb);
-	    ePush(state, stack, stack_p);
-	    pmSySt[*stack_p] = gen_symb;
-	    break;
+      case SHIFT_ACT:
+        sepaAccept = PMTRUE;
+        state = arg;
+        inSym(cont_sym, &gen_symb);
+        ePush(state, stack, stack_p);
+        pmSySt[*stack_p] = gen_symb;
+        break;
 
-	  case SHIFTRED_ACT:
-	    sepaAccept = PMTRUE;
-	    inSym(cont_sym, &gen_symb);
-	    ePush(state, stack, stack_p);
-	    pmSySt[*stack_p] = gen_symb;
-	    goto reduce;
+      case SHIFTRED_ACT:
+        sepaAccept = PMTRUE;
+        inSym(cont_sym, &gen_symb);
+        ePush(state, stack, stack_p);
+        pmSySt[*stack_p] = gen_symb;
+        goto reduce;
 
-	  case REDUCE_ACT:
-	    reduce:
-	    do {
-		*stack_p = *stack_p - gto.rhsz[arg-ProdMin];
-		pmPaSema(arg);
-		gtoTbl(stack[*stack_p], gto.lhs[arg-ProdMin], &action, &arg);
-		ePush(state, stack, stack_p);
-	    } while (action != SHIFT_ACT);
-	    state = arg;
-	    stack[*stack_p] = state;
-	  }/*switch*/
-	} while (useSepa && !sepaAccept);
+      case REDUCE_ACT:
+        reduce:
+        do {
+        *stack_p = *stack_p - gto.rhsz[arg-ProdMin];
+        pmPaSema(arg);
+        gtoTbl(stack[*stack_p], gto.lhs[arg-ProdMin], &action, &arg);
+        ePush(state, stack, stack_p);
+        } while (action != SHIFT_ACT);
+        state = arg;
+        stack[*stack_p] = state;
+      }/*switch*/
+    } while (useSepa && !sepaAccept);
     }/*while*/
 }/*reach()*/
 
@@ -3267,7 +3267,7 @@ static void multiple(
 ParseStack err_stk,		/* INOUT current parse stack */
 short *err_stkp,		/* INOUT current stack pointer */
 Token *err_tok,		/* INOUT current token */
-UByte2 *newstat		/* OUT state after recovery */	
+UByte2 *newstat		/* OUT state after recovery */
 )
 {
     REC_POI  point;		/* Recovery point descriptor */
@@ -3315,31 +3315,31 @@ Token *curtok			/* IN current token */
     la_buff[0] = *curtok;
     *token = *curtok;
     for (i = la_ptr + 1; i <= la_end; i++) {
-	/* Move old look_ahead to the beginning of the buffer */
-	la_buff[i - la_ptr] = la_buff[i];
+    /* Move old look_ahead to the beginning of the buffer */
+    la_buff[i - la_ptr] = la_buff[i];
     }/*for*/
     la_end = la_end - la_ptr;
     la_ptr = -1;
 
     while ((la_buff[la_end].code != ENDMARK) && (la_end < PmLaMax)) {
-	la_end++;
-	do {
+    la_end++;
+    do {
             
 
     smScan(lexContext, token);
 
 
 
-	    if (token->code > SccMax || token->code < 0) {
-		token->code = ERR_SYM;
-	    } else {
-		token->code = scIndex[token->code];
-	    }/*if*/
-	    if (token->code == ERR_SYM) {
-		pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
-	    }/*if*/
-	} while (token->code == ERR_SYM);
-	la_buff[la_end] = *token;
+        if (token->code > SccMax || token->code < 0) {
+        token->code = ERR_SYM;
+        } else {
+        token->code = scIndex[token->code];
+        }/*if*/
+        if (token->code == ERR_SYM) {
+        pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
+        }/*if*/
+    } while (token->code == ERR_SYM);
+    la_buff[la_end] = *token;
     }/*while*/
 }/*readLa()*/
 
@@ -3359,10 +3359,10 @@ char index			/* IN i:th look-ahead symbol */
 
 /*----------------------------------------------------------------------------
  * laParse - Continue the parsing process by reading tokens from the
- *	     look-ahead set. The parse is terminated when:
- *	     - out of read ahead
- *	     - a new error is encountered
- *	     Note! No semantic actions are carried out
+ *       look-ahead set. The parse is terminated when:
+ *       - out of read ahead
+ *       - a new error is encountered
+ *       Note! No semantic actions are carried out
  *----------------------------------------------------------------------------
  */
 static void laParse(
@@ -3377,66 +3377,66 @@ short *cost			/* OUT adaption cost */
     char sh_cnt;		/* Number of shifted symbols */
     UByte2 state;		/* Current state number */
     UByte1 action;		/* Parser action */
-    UByte2 arg; 		/* Parser argument */
+    UByte2 arg;      /* Parser argument */
     short i;			/* Loop index */
     ParseStack t_stk;		/* Temporary stack */
 
     /* Copy stack
      */
-    for (i = 0; i <= stack_p; i++) t_stk[i] = stack[i];	
+    for (i = 0; i <= stack_p; i++) t_stk[i] = stack[i];
 
     done = PMFALSE;
     sh_cnt = 0;
     state = t_stk[stack_p];
 
     while (!done) {
-	actTbl(state, sym, &action, &arg);
-	
-	switch (action) {
+    actTbl(state, sym, &action, &arg);
 
-	case ERROR_ACT: 
-	    done = PMTRUE;
-	    break;
+    switch (action) {
 
-	case SHIFT_ACT:
-	    state = arg;
-	    ePush(state, t_stk, &stack_p);
-	    sh_cnt++;
-	    if (sh_cnt == PmLaMax) done = PMTRUE;
-	    else {
-		sym = rdLaSym(next_la);
-		next_la++;
-	    }/*if*/
-	    break;
+    case ERROR_ACT:
+        done = PMTRUE;
+        break;
 
-	case SHIFTRED_ACT:
-	    ePush(state, t_stk, &stack_p);
-	    sh_cnt++;
-	    if (sh_cnt == PmLaMax) done = PMTRUE;
-	    else {
-		sym = rdLaSym(next_la);
-		if (next_la < PmLaMax) next_la++;
-	    }/*if*/
-	    goto reduce;
+    case SHIFT_ACT:
+        state = arg;
+        ePush(state, t_stk, &stack_p);
+        sh_cnt++;
+        if (sh_cnt == PmLaMax) done = PMTRUE;
+        else {
+        sym = rdLaSym(next_la);
+        next_la++;
+        }/*if*/
+        break;
 
-	case REDUCE_ACT:
-	  reduce:
-	    do {
-		stack_p -= gto.rhsz[arg-ProdMin];
-		gtoTbl(t_stk[stack_p], gto.lhs[arg-ProdMin], &action, &arg);
-		ePush(state, t_stk, &stack_p);
-	    } while (action != SHIFT_ACT); 
+    case SHIFTRED_ACT:
+        ePush(state, t_stk, &stack_p);
+        sh_cnt++;
+        if (sh_cnt == PmLaMax) done = PMTRUE;
+        else {
+        sym = rdLaSym(next_la);
+        if (next_la < PmLaMax) next_la++;
+        }/*if*/
+        goto reduce;
 
-	    state = arg;
-	    t_stk[stack_p] = state;
-	    break;
+    case REDUCE_ACT:
+      reduce:
+        do {
+        stack_p -= gto.rhsz[arg-ProdMin];
+        gtoTbl(t_stk[stack_p], gto.lhs[arg-ProdMin], &action, &arg);
+        ePush(state, t_stk, &stack_p);
+        } while (action != SHIFT_ACT);
 
-	case ACCEPT_ACT:
-	    done = PMTRUE;
-	    sh_cnt = PmLaMax;
-	    break;
+        state = arg;
+        t_stk[stack_p] = state;
+        break;
 
-	}/*switch*/
+    case ACCEPT_ACT:
+        done = PMTRUE;
+        sh_cnt = PmLaMax;
+        break;
+
+    }/*switch*/
     }/*while*/
 
     *cost = InfCost - (sh_cnt*ShiftCost);
@@ -3463,27 +3463,27 @@ short *choice			/* OUT best choice so far */
     short tot_cost;		/* Total insertion cost */
 
     for (i = 1; i <= Terms; i++) {
-	/* For all legal symbols
-	 */
-	if (SetMem(legals, i)) {
-	    mod_cost = voc[i - TermMin].iCost;
-	    if (mod_cost < *cost) {
-		laParse(i, 0, stack, stack_p, &ad_cost);
-		tot_cost = ad_cost + mod_cost;
-		if (tot_cost < *cost) {
-		    *cost = tot_cost;
-		    *choice = IN_REC;
-		    *sym = (UByte1)i;
-		}/*if*/
-	    }/*if*/
-	}/*if*/
+    /* For all legal symbols
+     */
+    if (SetMem(legals, i)) {
+        mod_cost = voc[i - TermMin].iCost;
+        if (mod_cost < *cost) {
+        laParse(i, 0, stack, stack_p, &ad_cost);
+        tot_cost = ad_cost + mod_cost;
+        if (tot_cost < *cost) {
+            *cost = tot_cost;
+            *choice = IN_REC;
+            *sym = (UByte1)i;
+        }/*if*/
+        }/*if*/
+    }/*if*/
     }/*for*/
 }/*tryIn()*/
 
 
 /*----------------------------------------------------------------------------
  * tryRep - Tries to replace currrent symbol with a new terminal:
- *	    x t y  => x s y, where s becomes current symbol
+ *      x t y  => x s y, where s becomes current symbol
  *----------------------------------------------------------------------------
  */
 static void tryRep(
@@ -3501,21 +3501,21 @@ short *choice			/* OUT best choice so far */
     short tot_cost;		/* Total replacment cost */
 
     for (i = 1; i <= Terms; i++) {
-	/* For all legal symbols
-	 */
-	if (SetMem(legals, i)) {
-	    mod_cost = (short) (voc[i-TermMin].iCost +
-			voc[rdLaSym(0)-TermMin].dCost) / 2 + 1;
-	    if (mod_cost < *cost) {
-		laParse(i, 1, stack, stack_p, &ad_cost);
-		tot_cost = ad_cost + mod_cost;
-		if (tot_cost < *cost) {
-		    *cost = tot_cost;
-		    *choice = REP_REC;
-		    *sym = (UByte1)i;
-		}/*if*/
-	    }/*if*/
-	}/*if*/
+    /* For all legal symbols
+     */
+    if (SetMem(legals, i)) {
+        mod_cost = (short) (voc[i-TermMin].iCost +
+            voc[rdLaSym(0)-TermMin].dCost) / 2 + 1;
+        if (mod_cost < *cost) {
+        laParse(i, 1, stack, stack_p, &ad_cost);
+        tot_cost = ad_cost + mod_cost;
+        if (tot_cost < *cost) {
+            *cost = tot_cost;
+            *choice = REP_REC;
+            *sym = (UByte1)i;
+        }/*if*/
+        }/*if*/
+    }/*if*/
     }/*for*/
 }/*tryRep()*/
 
@@ -3532,17 +3532,17 @@ short *choice			/* INOUT best choice so far */
 )
 {
     short mod_cost;		/* Modification cost */
-    short ad_cost;  		/* Adaption cost */
+    short ad_cost;          /* Adaption cost */
     short tot_cost;		/* Total deletion cost */
 
     mod_cost = voc[rdLaSym(0) - TermMin].dCost;
     if (mod_cost < *cost) {
-	laParse(rdLaSym(1), 2, stack, stack_p, &ad_cost);
-	tot_cost = ad_cost + mod_cost;
-	if (tot_cost < *cost) {
-	    *cost = tot_cost;
-	    *choice = DEL_REC;
-	}/*if*/
+    laParse(rdLaSym(1), 2, stack, stack_p, &ad_cost);
+    tot_cost = ad_cost + mod_cost;
+    if (tot_cost < *cost) {
+        *cost = tot_cost;
+        *choice = DEL_REC;
+    }/*if*/
     }/*if*/
 }/*tryDel()*/
 
@@ -3585,23 +3585,23 @@ Token *token			/* OUT new token */
 {
 {
     if (la_ptr < la_end) {
-	la_ptr++;
-	*token = la_buff[la_ptr];
+    la_ptr++;
+    *token = la_buff[la_ptr];
     } else {
-	do {
-	    
+    do {
+        
 
     smScan(lexContext, token);
 
 
 
-	    if (token->code > SccMax || token->code < 0) {
-		token->code = ERR_SYM;
-	    } else token->code = scIndex[token->code];
-	    if (token->code == ERR_SYM) {
-		pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
-		}
-	} while (token->code == ERR_SYM);
+        if (token->code > SccMax || token->code < 0) {
+        token->code = ERR_SYM;
+        } else token->code = scIndex[token->code];
+        if (token->code == ERR_SYM) {
+        pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
+        }
+    } while (token->code == ERR_SYM);
     }
 }
     delSym(token);
@@ -3637,37 +3637,37 @@ UByte2 *newstat		/* OUT recovery state */
     switch (choice) {
 
     case IN_REC:
-	_pmInsert(sym, token);
-	break;
+    _pmInsert(sym, token);
+    break;
 
-    case DEL_REC:  
-	_pmDelete(token);
-	break;
+    case DEL_REC:
+    _pmDelete(token);
+    break;
 
-    case REP_REC: 
-	_pmReplace(sym, token);
-	break;
+    case REP_REC:
+    _pmReplace(sym, token);
+    break;
 
     default:
 {
     if (la_ptr < la_end) {
-	la_ptr++;
-	*token = la_buff[la_ptr];
+    la_ptr++;
+    *token = la_buff[la_ptr];
     } else {
-	do {
-	    
+    do {
+        
 
     smScan(lexContext, token);
 
 
 
-	    if (token->code > SccMax || token->code < 0) {
-		token->code = ERR_SYM;
-	    } else token->code = scIndex[token->code];
-	    if (token->code == ERR_SYM) {
-		pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
-		}
-	} while (token->code == ERR_SYM);
+        if (token->code > SccMax || token->code < 0) {
+        token->code = ERR_SYM;
+        } else token->code = scIndex[token->code];
+        if (token->code == ERR_SYM) {
+        pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
+        }
+    } while (token->code == ERR_SYM);
     }
 }
     }/*switch*/
@@ -3698,11 +3698,11 @@ UByte2 *rec_stat		/* OUT state after recovery */
     gLegSym(err_stk, *err_stkp, legal_sy);
     single(legal_sy, err_stk, err_stkp, err_symb, rec_stat);
     if (errdescr.method == NONE_REC) {
-	multiple(err_stk, err_stkp, err_symb, rec_stat);
-	pmMess(&errdescr.err_tok, errdescr.method, errdescr.eClass, 
-	       errdescr.severity); 
+    multiple(err_stk, err_stkp, err_symb, rec_stat);
+    pmMess(&errdescr.err_tok, errdescr.method, errdescr.eClass,
+           errdescr.severity);
     } else {
-	pmMess(&errdescr.err_tok, errdescr.method, SYN_ERR, errdescr.severity);
+    pmMess(&errdescr.err_tok, errdescr.method, SYN_ERR, errdescr.severity);
     }/*if*/
     errdescr.res_tok = *err_symb;
     errdescr.res_tok.code = voc[errdescr.res_tok.code - TermMin].scc;
@@ -3719,106 +3719,106 @@ void pmParse(void)
     paInit();
 {
     if (la_ptr < la_end) {
-	la_ptr++;
-	*token = la_buff[la_ptr];
+    la_ptr++;
+    *token = la_buff[la_ptr];
     } else {
-	do {
-	    
+    do {
+        
 
     smScan(lexContext, token);
 
 
 
-	    if (token->code > SccMax || token->code < 0) {
-		token->code = ERR_SYM;
-	    } else token->code = scIndex[token->code];
-	    if (token->code == ERR_SYM) {
-		pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
-		}
-	} while (token->code == ERR_SYM);
+        if (token->code > SccMax || token->code < 0) {
+        token->code = ERR_SYM;
+        } else token->code = scIndex[token->code];
+        if (token->code == ERR_SYM) {
+        pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
+        }
+    } while (token->code == ERR_SYM);
     }
 }
     pushStatTok()
     if (setjmp(pmJmpB)) return;
 
     while (!endparse) {
-	actTbl(currstat, token->code, &action, &arg);
+    actTbl(currstat, token->code, &action, &arg);
 
-	switch (action) {
+    switch (action) {
 
-	case ERROR_ACT:
-	    recover(parsStk, &pmStkP, token, &currstat);
-	    if (pmStkP == 0) endparse = PMTRUE;
-	    break;
+    case ERROR_ACT:
+        recover(parsStk, &pmStkP, token, &currstat);
+        if (pmStkP == 0) endparse = PMTRUE;
+        break;
 
-	case SHIFT_ACT:
-	    currstat = arg;
-	    pushStatTok();
+    case SHIFT_ACT:
+        currstat = arg;
+        pushStatTok();
 {
     if (la_ptr < la_end) {
-	la_ptr++;
-	*token = la_buff[la_ptr];
+    la_ptr++;
+    *token = la_buff[la_ptr];
     } else {
-	do {
-	    
+    do {
+        
 
     smScan(lexContext, token);
 
 
 
-	    if (token->code > SccMax || token->code < 0) {
-		token->code = ERR_SYM;
-	    } else token->code = scIndex[token->code];
-	    if (token->code == ERR_SYM) {
-		pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
-		}
-	} while (token->code == ERR_SYM);
+        if (token->code > SccMax || token->code < 0) {
+        token->code = ERR_SYM;
+        } else token->code = scIndex[token->code];
+        if (token->code == ERR_SYM) {
+        pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
+        }
+    } while (token->code == ERR_SYM);
     }
 }
-	    break;
+        break;
 
-	case SHIFTRED_ACT:
-	    pushStatTok();
+    case SHIFTRED_ACT:
+        pushStatTok();
 {
     if (la_ptr < la_end) {
-	la_ptr++;
-	*token = la_buff[la_ptr];
+    la_ptr++;
+    *token = la_buff[la_ptr];
     } else {
-	do {
-	    
+    do {
+        
 
     smScan(lexContext, token);
 
 
 
-	    if (token->code > SccMax || token->code < 0) {
-		token->code = ERR_SYM;
-	    } else token->code = scIndex[token->code];
-	    if (token->code == ERR_SYM) {
-		pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
-		}
-	} while (token->code == ERR_SYM);
+        if (token->code > SccMax || token->code < 0) {
+        token->code = ERR_SYM;
+        } else token->code = scIndex[token->code];
+        if (token->code == ERR_SYM) {
+        pmMess(token, DEL_REC, LEX_ERR, FAT_SEV);
+        }
+    } while (token->code == ERR_SYM);
     }
 }
-	    goto reduce;
+        goto reduce;
 
- 	case REDUCE_ACT:
-	  reduce:
-	    do {
-		pmStkP -= gto.rhsz[arg - ProdMin];	
-		pmPaSema(arg);
-		gtoTbl(parsStk[pmStkP], gto.lhs[arg - ProdMin], &action, &arg);
-		pushStat();
-	    } while (action != SHIFT_ACT);
+    case REDUCE_ACT:
+      reduce:
+        do {
+        pmStkP -= gto.rhsz[arg - ProdMin];
+        pmPaSema(arg);
+        gtoTbl(parsStk[pmStkP], gto.lhs[arg - ProdMin], &action, &arg);
+        pushStat();
+        } while (action != SHIFT_ACT);
 
-	    currstat = arg;
-	    parsStk[pmStkP] = currstat;
-	    break;
+        currstat = arg;
+        parsStk[pmStkP] = currstat;
+        break;
 
-	case ACCEPT_ACT:
-	    endparse = PMTRUE;
-	    break;
-	}/*switch*/
+    case ACCEPT_ACT:
+        endparse = PMTRUE;
+        break;
+    }/*switch*/
     }/*while*/
 }/*pmParse()*/
 

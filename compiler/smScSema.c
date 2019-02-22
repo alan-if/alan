@@ -38,7 +38,7 @@ smScContext lexContext = NULL;	/* Scanner context */
 /* TODO: Move this to somewhere outside of scanner, like utils or main */
 List *fileNames = NULL;
 
-int scannedLines(void);
+int scannedLines();
 
 
 /* PRIVATE */
@@ -205,14 +205,14 @@ int smScAction(
     smContinueToken	= -2
   };
   switch(smInternalCode) {
-  case 146:		/* INTEGER*/ 
+  case 147:		/* INTEGER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     
 }
     break;
 
-  case 147:		/* IDENTIFIER*/ 
+  case 148:		/* IDENTIFIER*/ 
     {
 	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
         if (currentCharSet != NATIVECHARSET)
@@ -221,7 +221,7 @@ int smScAction(
 }
     break;
 
-  case 148:		/* IDENTIFIER*/ 
+  case 149:		/* IDENTIFIER*/ 
     {{
 	char *c;
 
@@ -239,7 +239,7 @@ int smScAction(
 }
     break;
 
-  case 149:		/* STRING*/ 
+  case 150:		/* STRING*/ 
     {
       int len = 0;		/* The total length of the copied data */
       Bool space = FALSE;
@@ -396,7 +396,7 @@ int smScAction(
 }
     break;
 
-  case 154:		/* INCLUDE*/ 
+  case 155:		/* INCLUDE*/ 
     {
       Srcp srcp, start;
       Token token;
@@ -436,7 +436,7 @@ int smScAction(
 }
     break;
 
-  case 155:		/* IDENTIFIER*/ 
+  case 156:		/* IDENTIFIER*/ 
     {{
         smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }
