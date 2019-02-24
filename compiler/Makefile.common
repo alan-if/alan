@@ -76,14 +76,16 @@ ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.v
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
-alan: $(ALANOBJECTS)
-	$(LINK) -o alan $(ALANOBJECTS) $(LINKFLAGS)
-	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
-	cp alan ../bin/alan
+alan: ../bin $(ALANOBJECTS)
+	$(LINK) -o $@ $(ALANOBJECTS) $(LINKFLAGS)
+	cp $@ ../bin
 
 $(ALANOBJECTS): | $(ALANOBJDIR)
 $(ALANOBJDIR):
 	@mkdir $(ALANOBJDIR)
+
+../bin:
+	-mkdir ../bin
 
 #################################################################
 # Unit testing

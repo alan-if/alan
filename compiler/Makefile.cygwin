@@ -55,9 +55,8 @@ $(WINALANOBJECTS): $(WINALANOBJDIR)/%.o: %.c
 $(WINALANOBJDIR):
 	@mkdir $(WINALANOBJDIR)
 
-winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res
+winalan: ../bin $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res
 	$(LINK) $(LINKFLAGS) -o winalan -mwindows $(WINALANOBJECTS) alan.res $(WINALANLIBS)
-	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp winalan ../bin
 
 alan.res: alan.rc alan.ico
@@ -68,15 +67,12 @@ alan.res: alan.rc alan.ico
 # Build 64-bit version on Cygwin
 #
 # Build with flags and compilers:
-x64: COMPILER = gcc
-x64: LINKER = gcc
-x64: EXTRA_TARGETS :=
-
-x64: tm unit alan
+alan64: COMPILER = gcc
+alan64: LINKER = gcc
+alan64: EXTRA_TARGETS :=
 
 ALAN64OBJDIR = .alan64
 ALAN64OBJECTS = $(addprefix $(ALAN64OBJDIR)/,${ALANSRCS:.c=.o}) $(ALAN64OBJDIR)/alan.version.o
-
 
 $(ALAN64OBJECTS): $(ALAN64OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
@@ -84,7 +80,6 @@ $(ALAN64OBJECTS): $(ALAN64OBJDIR)/%.o: %.c
 $(ALAN64OBJDIR):
 	@mkdir $(ALAN64OBJDIR)
 
-alan64: $(ALAN64OBJDIR) $(ALAN64OBJECTS)
+alan64: ../bin tm unit $(ALAN64OBJDIR) $(ALAN64OBJECTS)
 	$(LINK) $(LINKFLAGS) -o $@ $(ALAN64OBJECTS) $(ALAN64LIBS)
-	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin

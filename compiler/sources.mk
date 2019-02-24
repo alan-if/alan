@@ -93,7 +93,7 @@ ALANSRCS = \
 	$(UNITTESTED) \
 	$(OTHERSRCS)
 
-# Sources for the test framework
+# Sources for the tests
 UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
 UNITSRCS = $(UNITTESTEDSRCS) \
 	unitList.c \
