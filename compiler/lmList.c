@@ -461,8 +461,7 @@ static void insert(
   int iptr;
 
   /* Allocate temporary buffer */
-  if ((rb = (char *) malloc((size_t)(istr? strlen(istr): 0) +
-      (mstr? strlen(mstr): 0) + 1)) == NULL) {
+  if (!(rb = (char *) malloc(1000))) { /* We can't calculate length since insert strings maybe used many times */
     error("Out of memory.");
     return;
   }
@@ -968,9 +967,7 @@ static void prerrm(
       msgIndex++;
 
     /* Get formatted message text */
-    msg = (char *) malloc((size_t)MSGWIDTH +
-              (mdarr[msarr[msgIndex].ref].insert?
-               strlen(mdarr[msarr[msgIndex].ref].insert): 0));
+    msg = (char *) malloc(1000); /* We can't calculate length since insert strings maybe used many times */
     if (!msg)
       error("Out of memory!");
     else {
