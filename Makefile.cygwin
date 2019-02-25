@@ -60,7 +60,7 @@ snapshot-build:
 
 .PHONY: snapshot-upload
 snapshot-upload: buildnumbers
-	ssh alanif.se "mkdir /www/downloads/snapshots/$(BUILDNAME)"
+	ssh alanif.se "mkdir -p /www/downloads/snapshots/$(BUILDNAME)"
 	alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip snapshots/$(BUILDNAME)/
 	alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)/
 	alanupload winarun$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)/
