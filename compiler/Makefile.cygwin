@@ -59,7 +59,7 @@ winalan: ../bin $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res
 	$(LINK) $(LINKFLAGS) -o winalan -mwindows $(WINALANOBJECTS) alan.res $(WINALANLIBS)
 	cp winalan ../bin
 
-alan.res: alan.rc alan.ico alan.version
+alan.res: alan.rc alan.ico alan.version.c
 	$(WINDRES) $< -O coff -o $@
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
