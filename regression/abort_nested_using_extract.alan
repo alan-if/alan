@@ -1,0 +1,54 @@
+The l Isa location
+  Has nSet {3}.
+  Has iSet {t}.
+End The l.
+
+The t Isa thing
+  Has size 44.
+End The t.
+
+Every Clothing Isa thing
+  Is donned.
+End Every.
+
+The hat isa clothing
+End The hat.
+
+The waiter Isa actor At l
+End The waiter.
+
+Add to every actor
+  Is wearing {hat}.
+  Container Taking clothing.
+    Extract Check "not"
+End Add.
+
+THE worn ISA ENTITY
+  CONTAINER TAKING CLOTHING.
+    HEADER "Worn"
+    ELSE "Naked."
+END THE.
+
+EVENT worn_clothing_check
+  FOR EACH ac ISA ACTOR
+    DO
+      FOR EACH cl ISA CLOTHING, IN wearing OF ac
+        DO
+          IF ac = hero
+            THEN
+              IF cl NOT IN worn
+                THEN LOCATE cl IN worn.
+                  MAKE cl donned.
+              END IF.
+            ELSE
+              IF cl NOT IN ac
+                THEN LOCATE cl IN ac.
+                  MAKE cl donned.
+              END IF.
+          END IF.
+      END FOR.
+   END FOR.
+END EVENT.
+
+Start At l.
+   SCHEDULE worn_clothing_check AFTER 1.
