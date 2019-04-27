@@ -29,7 +29,11 @@ ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
 	include Makefile.cygwin
   endif
 else
-  include Makefile.$(shell uname)
+  ifeq ($(findstring MINGW, $(shell uname)), MINGW)
+  include Makefile.Mingw
+  else
+	include Makefile.$(shell uname)
+  endif
 endif
 
 # then platform and machine independent rules

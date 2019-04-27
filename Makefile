@@ -13,11 +13,15 @@ OS=${if ${findstring CYGWIN, ${shell uname}},Cygwin,${strip ${shell uname}}}
 # Include the correct main Makefile depending on the system name
 #
 ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-  ifeq ($(shell uname -n), thoni64)
-	include Makefile.thoni
-  else
-	include Makefile.cygwin
-  endif
+	ifeq ($(shell uname -n), thoni64)
+		include Makefile.thoni
+	else
+		include Makefile.cygwin
+	endif
 else
-  include Makefile.$(shell uname)
+	ifeq ($(findstring MINGW, $(shell uname)), MINGW)
+		include Makefile.Mingw
+	else
+		include Makefile.$(shell uname)
+	endif
 endif
