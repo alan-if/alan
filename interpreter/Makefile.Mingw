@@ -1,0 +1,2 @@
+# On Mingw/Msys we can use the Cygwin Makefile
+include Makefile.cygwin
