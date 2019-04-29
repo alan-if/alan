@@ -1,9 +1,9 @@
 ####################################################################
 # This file is included from Makefile. It includes special settings
-# to build Alan Interpreter(s) on Darwin. Common rules are in
+# to build Alan Interpreter(s) on Linux. Common rules are in
 # Makefile.common
 
-# We are compiling for the same version as on Cygwin (version master)
+# We are compiling for the same version as on Master version system
 VERSION := $(shell cat ../NEXTRELEASE)
 
 OPTIMIZE = -O0
@@ -16,15 +16,13 @@ LINKFLAGS = -g $(ARUNOPTS)
 
 LIBS = $(GLKLIB) $(LINKLIBS)
 
+# Shareable libraries extension
 SOEXT = so
 
 # Define the program name
 PROGNAME=-DPROGNAME=\"arun\"
 
 ARUNOPTS = $(PROGNAME) $(GLK)
-
-# Enable Cgreen for unit test and mocking
-CGREEN = yes
 
 # If Cgreen is installed correctly and completely theses things should just work
 # Otherwise you can try to set them to something that does work

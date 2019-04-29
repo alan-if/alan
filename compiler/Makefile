@@ -8,11 +8,17 @@
 # target specific compile and link settings
 #
 
+all: alan $(EXTRA_TARGETS)
+
+# Running inside Emacs?
 ifneq ($(EMACS),)
   JREGROUTPUT = -noansi
 else
   UNITOUTPUT ?= -c
 endif
+
+# Do we have Cgreen available?
+CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
 
 # Note that this must not have spaces in it lest the variable will include it
 OS := ${if ${findstring CYGWIN,${shell uname}},Cygwin,${shell uname}}
@@ -30,7 +36,7 @@ ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
   endif
 else
   ifeq ($(findstring MINGW, $(shell uname)), MINGW)
-  include Makefile.Mingw
+	include Makefile.Mingw
   else
 	include Makefile.$(shell uname)
   endif

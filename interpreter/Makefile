@@ -5,6 +5,11 @@
 # compile and link commands
 #
 
+all: arun $(EXTRA_TARGETS)
+
+# Do we have Cgreen available?
+CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
+
 # Note that this must not have spaces in it lest the variable will include it
 OS := ${if ${findstring CYGWIN,${shell uname}},CYGWIN,${shell uname}}
 ARCH := `uname -m`
@@ -33,3 +38,4 @@ include Makefile.common
 
 def:
 	@echo OS=$(OS), ARCH=$(ARCH)
+	@echo CGREEN=$(CGREEN)

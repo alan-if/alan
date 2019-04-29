@@ -35,7 +35,7 @@ build: arun $(EXTRA_TARGETS)
 .PHONY: unit
 ifneq ($(CGREEN),yes)
 unit:
-	echo "No unit tests run, cgreen not available"
+	@echo "No unit tests run, Cgreen not available"
 else
 unit: cgreenrunnertests isolated_unittests
 endif

@@ -11,10 +11,10 @@ EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char -fPIC
 LINKER = gcc
 EXTRA_LINKER_FLAGS = -Wl,--no-undefined
 
-release: EXTRA_COMPILER_FLAGS = -O4
+# Sharable libraries extension
+SOEXTENSION = so
 
-# Cgreen unit testing settings
-CGREEN = yes
+release: EXTRA_COMPILER_FLAGS = -O4
 
 # If Cgreen is installed correctly and completely theses things should just work
 # Otherwise you can try to set them to something that does work

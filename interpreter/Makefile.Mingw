@@ -33,9 +33,6 @@ x64: EXTRA_TARGETS :=
 
 x64: unit arun
 
-# Cgreen unit testing settings
-CGREEN = yes
-
 ###############################
 # Cgreen settings
 CGREENROOT    = /usr/local

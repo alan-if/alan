@@ -21,8 +21,6 @@ COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
 LINKER = gcc -g
 LINKFLAGS =
 
-# -- CGreen unit test framework settings
-CGREEN = yes
 #CGREENROOT = /usr/local
 #CGREENINCLUDE = -I$(CGREENROOT)/include/
 #CGREENLIBDIR= $(CGREENROOT)/lib
@@ -41,12 +39,12 @@ default all: unit arun macarun gararun
 tests: test
 
 
-
 ##################################################################
 .PHONY: release
 release: ARCHFLAGS = -arch i386 -arch ppc
 release: EXTRA_COMPILER_FLAGS = -O4
 release: all
+
 
 ##################################################################
 coverage: CFLAGS += --coverage
