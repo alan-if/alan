@@ -52,6 +52,8 @@ MAINOBJECTS = ${MAINSRCS:.c=.o} a2a3.version.o
 
 VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
 
+# Do we have Cgreen available?
+CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -72,8 +74,6 @@ clean:
 	@-rm -f *.o ../bin/a2a3
 
 ################
-CGREEN = yes
-
 # If Cgreen is installed correctly and completely theses things should just work
 # Otherwise you can try to set them to something that does work
 CGREENROOT = /usr/local
