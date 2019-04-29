@@ -3,8 +3,6 @@
 # on cygwin. It is included from Makefile if run on a cygwin machine
 #######################################################################
 
-UNAME := $(shell uname -m)
-
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 

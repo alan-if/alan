@@ -30,3 +30,6 @@ endif
 
 # Include common build rules
 include Makefile.common
+
+def:
+	@echo OS=$(OS), ARCH=$(ARCH)

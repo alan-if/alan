@@ -15,8 +15,10 @@
 # All rules are in Makefile.common and included by Makefile
 
 # Normally cross compile from cygwin to native Windows binaries
-COMPILER = i686-w64-mingw32-gcc
-LINKER = i686-w64-mingw32-gcc
+#COMPILER = i686-w64-mingw32-gcc
+#LINKER = i686-w64-mingw32-gcc
+COMPILER = gcc
+LINKER = gcc
 WINDRES = windres
 
 # Sharable libraries have .dll extension
