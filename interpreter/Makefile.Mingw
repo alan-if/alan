@@ -3,12 +3,11 @@
 # on MSYS2. It is included from Makefile if run on a MSYS2 MinGW shell.
 #
 # NOTE: This file is an adaptation of "Makefile.cygwin", it hasn't been
-#       tested with CGreen yet. To build ARun without CGreen, use:
-#
-#       make CGREEN=no
+#       tested with CGreen yet.
 #######################################################################
 
-UNAME := $(shell uname -m)
+TERMGLKROOT = $(HOME)/Utveckling/glkterm
+TERMGLKLIBDIR = $(TERMGLKROOT)/$(ARCH)
 
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
@@ -16,10 +15,11 @@ COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 SOEXT = dll
 
 ###########################################################
-# On cygwin we try to build without cygwin1.dll if we can
-# So for all targets use the mingw compiler and linker
-COMPILER = i686-w64-mingw32-gcc
-LINKER = i686-w64-mingw32-gcc
+# Set relevant compilers
+#COMPILER = i686-w64-mingw32-gcc
+#LINKER = i686-w64-mingw32-gcc
+COMPILER=gcc
+LINKER=gcc
 WINDRES = i686-w64-mingw32-windres
 
 #############################################################
