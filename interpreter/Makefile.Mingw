@@ -7,7 +7,7 @@
 #######################################################################
 
 TERMGLKROOT = $(HOME)/Utveckling/glkterm
-TERMGLKLIBDIR = $(TERMGLKROOT)/$(ARCH)
+TERMGLKLIBDIR = $(TERMGLKROOT)
 
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
@@ -47,7 +47,7 @@ CGREENLDPATH  =
 # glkarun needs curses which are only available in cygwin
 EXTRA_TARGETS += glkarun
 
-CURSESLIB = -lcurses
+CURSESLIB = -lncurses
 glkarun: COMPILER = gcc
 glkarun: LINKER = gcc
 
