@@ -1,0 +1,15 @@
+######################################################################
+#
+# Local settings Makefile for building various versions of
+# Alan interpreter arun
+#
+# Copy this file to Makefile.local and enable stuff by defining:
+
+# For WinArun:
+#WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
+
+# For glkarun:
+#GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
+
+# For Gargoyle Arun:
+#GARGLK_ROOT = ../../garglk-current-alan3

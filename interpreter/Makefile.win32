@@ -1,0 +1,80 @@
+#######################################################################
+#
+# This makefile is included by all Makefile.<platform> where Windows
+# binaries can be made. You should change where any dependent libraries
+# are stored.
+#
+# You can also disable a particular build by commenting out the settings
+# of EXTRA_TARGETS.
+#
+ifndef INCLUDED
+$(error You should not run this file directly, it will be included automatically)
+else
+$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
+endif
+
+#######################################################################
+# WinArun - Windows GLK interpreter
+#
+# Define WINGLK_ROOT to enable building
+ifdef WINGLK_ROOT
+EXTRA_TARGETS += winarun
+else
+$(info NOT ENABLED: WinArun)
+endif
+
+WINGLK_DEFS = -DHAVE_WINGLK
+WINGLK_INCLUDE = -I$(WINGLK_ROOT)/Include
+WINGLK_LIB = $(WINGLK_ROOT)/Glk.lib
+
+winarun: COMPILEFLAGS = $(COMMONCOMPILEFLAGS) -m32 $(WINGLK_INCLUDE) $(WINGLK_DEFS)
+winarun: LIBS = $(WINGLKLIB) -m32 -mwindows
+
+WINARUNOBJDIR = .winarun
+WINARUNOBJECTS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.o}) $(WINARUNOBJDIR)/alan.version.o
+-include $(WINARUNOBJECTS:.o=.d)
+$(WINARUNOBJECTS): $(WINARUNOBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+
+$(WINARUNOBJDIR):
+	@mkdir $(WINARUNOBJDIR)
+
+winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
+	$(LINK) -o $@ $(LINKFLAGS) $(WINARUNOBJECTS) arun.res $(LIBS)
+	cp $@ ../bin/
+	cp $(WINGLK_ROOT)/*.dll ../bin/
+
+arun.res: arun.rc arun.ico resources.h alan.version.c
+	sed "s/WINARUNVERSION/$(VERSION)$(BUILDVERSION)/" arun.rc > arun.rc2
+	$(WINDRES) arun.rc2 -O coff -o $@
+
+
+#######################################################################
+# Gargoyle for Windows GLK variant (using garglk's jam build)
+# The jam sources are found at the Perforce Workshop:
+# https://swarm.workshop.perforce.com/projects/perforce_software-jam/
+ifdef GARGLK_ROOT
+EXTRA_TARGETS += gargoyle
+else
+$(info NOT ENABLED: Gargoyle Arun)
+endif
+
+gargoyle: build-gararun gararun-package gargoyle-updater
+
+.PHONY: build-gararun
+build-gararun: alan3.exe
+
+alan3.exe: $(GARARUNSRCS)
+	cd $(GARGLK_ROOT); BUILDNUMBER=$(BUILDNUMBER) jam alan3
+	cp ../../garglk-current-alan3/build/cygwin.release/alan3/alan3.exe .
+
+.PHONY: gararun-package
+gararun-package: build-gararun gargoyle-updater-alan3.readme
+	zip -j gargoyle-updater-alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip alan3.exe gargoyle-updater-alan3.readme
+
+.PHONY: gargoyle-updater
+gargoyle-updater: build-gararun gargoyle-updater-alan3.iss
+	-rm gargoyle-updater-alan3*setup.exe
+	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ gargoyle-updater-alan3.iss > gargoyle-updater-alan3_tmp.iss
+	$(INNODIR)/iscc gargoyle-updater-alan3_tmp.iss
+	rm gargoyle-updater-alan3_tmp.iss

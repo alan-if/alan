@@ -5,22 +5,25 @@
 # NOTE: This file is an adaptation of "Makefile.cygwin", it hasn't been
 #       tested with CGreen yet.
 #######################################################################
+ifndef INCLUDED
+$(error You should not run this file directly, it will be included automatically)
+else
+$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
+endif
 
-TERMGLKROOT = $(HOME)/Utveckling/glkterm
-TERMGLKLIBDIR = $(TERMGLKROOT)
+# It should be possible to build win32 binaries, so include those
+include Makefile.win32
+
+SOEXT = dll
 
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 
-SOEXT = dll
-
 ###########################################################
 # Set relevant compilers
-#COMPILER = i686-w64-mingw32-gcc
-#LINKER = i686-w64-mingw32-gcc
-COMPILER=gcc
-LINKER=gcc
-WINDRES = i686-w64-mingw32-windres
+COMPILER = gcc
+LINKER = gcc
+WINDRES = windres
 
 #############################################################
 # Unittests with Cgreen cannot run under Mingw, but not yet in a
@@ -44,17 +47,16 @@ CGREENLDPATH  =
 
 
 ###############################################################
-# glkarun needs curses which are only available in cygwin
-EXTRA_TARGETS += glkarun
-
-CURSESLIB = -lncurses
-glkarun: COMPILER = gcc
-glkarun: LINKER = gcc
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# arun64 - command line alan interpreter for Cygwin64
+# glkarun is based on glkterm to provide a curses enabled arun
+# interpreter, needs curses
+#
+CURSESLIB = -lncurses
+
+
+#######################################################################
+#
+# arun64 - 64-bit command line alan interpreter for Cygwin64
 #
 # Build with flags and compilers:
 arun64: COMPILER = gcc

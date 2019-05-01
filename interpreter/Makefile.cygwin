@@ -2,6 +2,14 @@
 # This Makefile is for building the Alan Interpreter from scratch
 # on cygwin. It is included from Makefile if run on a cygwin machine
 #######################################################################
+ifndef INCLUDED
+$(error You should not run this file directly, it will be included automatically)
+else
+$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
+endif
+
+# We can build win32 binaries so include those
+include Makefile.win32
 
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)

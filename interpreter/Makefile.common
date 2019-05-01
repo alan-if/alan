@@ -5,6 +5,12 @@
 # Makefile.thoni, Makefile.cygwin, Makefile.Darwin, also included from
 # Makefile
 # This file will build a standard command line arun and all unittests
+ifndef INCLUDED
+$(error You should not run this file directly, it will be included automatically)
+else
+$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
+endif
+
 ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
@@ -43,7 +49,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	@-rm -f *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun alan3
+	@-rm -f *.exe *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun alan3
 
 
 ###################################################################
@@ -81,15 +87,20 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	cp -f $@ ../bin/
 
 #######################################################################
-# Settings for TermGLK => glkarun
-TERMGLKROOT ?= $(GLKLIBROOT)/glkterm
-TERMGLKDEFS = -DHAVE_GLK
-TERMGLKINCLUDE ?= -I$(TERMGLKROOT)
-TERMGLKLIBDIR ?= $(TERMGLKROOT)
-TERMGLKLIB = -L$(TERMGLKLIBDIR) -lglkterm
+# Build glkterm based arun => glkarun
+ifdef GLKTERM_ROOT
+EXTRA_TARGETS += glkarun
+else
+$(info NOT ENABLED: glkarun)
+endif
 
-glkarun: EXTRA_COMPILER_FLAGS = $(TERMGLKINCLUDE) $(TERMGLKDEFS)
-glkarun: LIBS = $(TERMGLKLIB) $(CURSESLIB)
+GLKTERM_DEFS = -DHAVE_GLK
+GLKTERM_INCLUDE ?= -I$(GLKTERM_ROOT)
+GLKTERM_LIBDIR ?= $(GLKTERM_ROOT)
+GLKTERM_LIB = -L$(GLKTERM_LIBDIR) -lglkterm
+
+glkarun: EXTRA_COMPILER_FLAGS = $(GLKTERM_INCLUDE) $(GLKTERM_DEFS)
+glkarun: LIBS = $(GLKTERM_LIB) $(CURSESLIB)
 
 GLKARUNOBJDIR = .glkarun
 GLKARUNOBJECTS = $(addprefix $(GLKARUNOBJDIR)/,${GLKARUNSRCS:.c=.o}) $(GLKARUNOBJDIR)/alan.version.o

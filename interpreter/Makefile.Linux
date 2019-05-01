@@ -2,6 +2,11 @@
 # This file is included from Makefile. It includes special settings
 # to build Alan Interpreter(s) on Linux. Common rules are in
 # Makefile.common
+ifndef INCLUDED
+$(error You should not run this file directly, it will be included automatically)
+else
+$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
+endif
 
 # We are compiling for the same version as on Master version system
 VERSION := $(shell cat ../NEXTRELEASE)
