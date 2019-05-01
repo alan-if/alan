@@ -14,5 +14,4 @@ arun.rc2
 gargoyle*.linux.sh
 gargoyle*.tgz
 unittests.dll
-*.exe
 unittests.so
