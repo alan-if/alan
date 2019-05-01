@@ -8,23 +8,17 @@ Cygwin:
 
 All:
         - CGreen: To run unit tests you also need Cgreen. You can
-          install Cgreen from http://cgreen.sourceforge.net
+          install Cgreen from https://github.com/cgreen-devs/cgreen.
+          Most Makefiles will try to determine if it is installed
+          and build without it, but if you are modifying you really
+          should use it!
 
 
 Optional:
         - Emacs: I actually got GNU Emacs 24.x for Windows working with
-          cygwin as its shell and command layer *and* xref, so now I'm
+          cygwin as its shell and command layer *and* c-xref, so now I'm
           using that. I found some hints on the net to setup Emacs
 
-        - AnsiCon: I installed AnsiCon 1.24 which is a consol add on
-          to make the XP and later console show ansi coloring (nice
-          when running jregr), but I am unsure if it is required when
-          using mintty.
-
-        - Xref: to refactor C code in emacs I use the free C/Java
-          version from xref-tech. Download it, build and install it
-          according to the instructions there in. I compiled xref
-          using -mno-cygwin and a minor change of 'sleep' to 'Sleep'
-          (the Windows version). In this way it works on windows
-          (e.g. under GNU-Emacs).
-
+        - C-xref: to refactor C code in emacs I use the restored C/Java
+          version originaly from xref-tech. You can find that at
+          https://github.com/thoni56/c-xrefactory
