@@ -3,13 +3,22 @@
 # Local settings Makefile for building various versions of
 # Alan interpreter arun
 #
-# Copy this file to Makefile.local and enable stuff by defining:
+# Copy this file to Makefile.local and enable extra targets that depend
+# on third party libraries
 
-# For WinArun:
+# Enable WinArun:
+#WINARUN_ENABLED = true
+#
+# You can also set particluar compiler and linker for an extra target:
+#winarun: COMPILER = <my special compiler>
+#
+# And here's the dependency to Windows GLK:
 #WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
 
-# For glkarun:
+# Enable glkarun:
+#GLKARUN_ENABLED = true
 #GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
 
-# For Gargoyle Arun:
+# Enable Gargoyle Arun:
+#GARARUN_ENABLED = true
 #GARGLK_ROOT = ../../garglk-current-alan3

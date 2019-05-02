@@ -7,32 +7,37 @@
 # To handle local dependencies and enable some extra targets, copy
 # Makefile.local.template to Makefile.local and modify settings there
 
+# Defer resolution of EXTRA_TARGETS to end of this file
 all: everything
 
--include Makefile.local
+# Discover OS and ARCH
+UNAME_O_WORKS=$(shell uname -o 1>&2 2>/dev/null; echo $$?)
+ifeq ($(UNAME_O_WORKS),0)
+  OS=$(shell uname -o)
+else
+  OS=$(shell uname -s)
+endif
+ARCH = $(shell uname -m)
+$(info OS=$(OS), ARCH=$(ARCH))
 
-# Note that the following must not have spaces in it lest the variable will include it
-OS := ${if ${findstring CYGWIN,${shell uname}},CYGWIN,${shell uname}}
-ARCH := `uname -m`
-
-# Include list of all sources
+# Include list of all sources and symbols for various groups of them
 include sources.mk
 
-# Include correct main Makefile depending on OS and possibly system name
-#
+# Allow subordinate Makefiles to exectute
 INCLUDED = true
-ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-  ifeq ($(shell uname -n), thoni64)
-	include Makefile.thoni
-  else
-	include Makefile.cygwin
-  endif
+
+# Read possible local dependencies and EXTRA_TARGETS to enable
+-include Makefile.local
+
+# Include correct subordinate Makefile depending on OS and possibly system name
+ifeq ($(OS),cygwin)
+	ifeq ($(shell uname -n), thoni64)
+		include Makefile.thoni
+	else
+		include Makefile.cygwin
+	endif
 else
-  ifeq ($(findstring Msys, $(shell uname -o)), Msys)
-	include Makefile.Msys
-  else
-	include Makefile.$(shell uname)
-  endif
+	include Makefile.$(OS)
 endif
 
 # Do we have Cgreen available?

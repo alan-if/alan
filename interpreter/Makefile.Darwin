@@ -135,11 +135,5 @@ MacArun.app: MacArun.sh MacArun.platypus
 
 
 ############################################################
-# glkarun
-
-EXTRA_TARGETS += glkarun
-
-glkarun: GLKTERM_ROOT = ../../glkterm
-glkarun: ARCHFLAGS = #-m32
-
+# glkarun needs curses, set it in case it is enabled
 CURSESLIB = -lcurses

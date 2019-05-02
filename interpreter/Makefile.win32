@@ -17,7 +17,7 @@ endif
 # WinArun - Windows GLK interpreter
 #
 # Define WINGLK_ROOT to enable building
-ifdef WINGLK_ROOT
+ifdef WINARUN_ENABLED
 EXTRA_TARGETS += winarun
 else
 $(info NOT ENABLED: WinArun)
@@ -53,7 +53,7 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 # Gargoyle for Windows GLK variant (using garglk's jam build)
 # The jam sources are found at the Perforce Workshop:
 # https://swarm.workshop.perforce.com/projects/perforce_software-jam/
-ifdef GARGLK_ROOT
+ifdef GARGLK_ENABLED
 EXTRA_TARGETS += gargoyle
 else
 $(info NOT ENABLED: Gargoyle Arun)

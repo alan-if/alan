@@ -88,7 +88,7 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 
 #######################################################################
 # Build glkterm based arun => glkarun
-ifdef GLKTERM_ROOT
+ifdef GLKARUN_ENABLED
 EXTRA_TARGETS += glkarun
 else
 $(info NOT ENABLED: glkarun)
