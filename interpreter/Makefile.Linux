@@ -39,7 +39,7 @@ ARUNOPTS = $(PROGNAME) $(GLK)
 #  CGREENLIBDIR=$(CGREENROOT)/lib
 #  CGREENBINDIR=$(CGREENROOT)/bin
 #endif
-#CGREENLINKLIB = -L$(CGREENDIR) -lcgreen -lm
+#CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 #CGREENLOADLIB = LD_LIBRARY_PATH=$(CGREENLIBDIR)
 
 ###################################################################

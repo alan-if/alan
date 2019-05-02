@@ -25,11 +25,6 @@ SOEXT ?= so
 
 LINK = $(LINKER)
 LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
-CGREENLINKLIB ?= -lcgreen
-
-# Default top rule if platform specific makefile doesn't add a default
-# that is found before this
-all: unit build dumpacd
 
 #######################################################################
 build: arun $(EXTRA_TARGETS)
@@ -115,11 +110,12 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 
 #######################################################################
 #
-# CGreen unit tests
+# CGreen unit tests of two types:
+#	- using a main program
+#	- using cgreen-runner which finds and runs all tests in shared libraries
 #
-# Define
-#	CGREEN to something ("yes") to build with cgreen unit tests,
-# See Makefile.<platform>
+
+CGREENLINKLIB ?= -lcgreen
 
 UNITTESTSOBJDIR = .unittests
 UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_MAIN_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
@@ -177,7 +173,7 @@ isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLAT
 
 #######################################################################
 #
-# Misc programs:
+# dumpacd:
 #
 # Dump Acode file into text format
 #

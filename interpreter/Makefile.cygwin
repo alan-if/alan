@@ -4,7 +4,7 @@ include ../mk/include_guard.mk
 # This Makefile is for building the Alan Interpreter from scratch
 # on cygwin. It is included from Makefile if run on a cygwin machine
 
-# We can build win32 binaries so include those
+# It should be possible to build win32 binaries so include those targets
 include Makefile.win32
 
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall

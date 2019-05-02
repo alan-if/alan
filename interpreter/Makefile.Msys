@@ -8,7 +8,7 @@ include ../mk/include_guard.mk
 #       tested with CGreen yet.
 #######################################################################
 
-# It should be possible to build win32 binaries, so include those
+# It should be possible to build win32 binaries, so include those targets
 include Makefile.win32
 
 SOEXT = dll
