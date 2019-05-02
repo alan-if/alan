@@ -3,6 +3,11 @@
 # Local settings Makefile for building various versions of
 # Alan interpreter arun
 #
+ifndef INCLUDED
+$(error You should not run this file directly, it will be included automatically)
+else
+$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
+endif
 # Copy this file to Makefile.local and enable extra targets that depend
 # on third party libraries
 
