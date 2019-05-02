@@ -1,4 +1,5 @@
 #######################################################################
+include ../mk/include_guard.mk
 #
 # This makefile is included by all Makefile.<platform> where Windows
 # binaries can be made. You should change where any dependent libraries
@@ -7,11 +8,6 @@
 # You can also disable a particular build by commenting out the settings
 # of EXTRA_TARGETS.
 #
-ifndef INCLUDED
-$(error You should not run this file directly, it will be included automatically)
-else
-$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
-endif
 
 #######################################################################
 # WinArun - Windows GLK interpreter

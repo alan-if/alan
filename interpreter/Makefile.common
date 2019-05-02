@@ -1,15 +1,12 @@
 #######################################################################
+include ../mk/include_guard.mk
+#
 # This is a set of common rules for building Alan Interpreters
 # It is included from Makefile to complement rules and settings
 # specific to the host it is run on, set in such files as
 # Makefile.thoni, Makefile.cygwin, Makefile.Darwin, also included from
 # Makefile
 # This file will build a standard command line arun and all unittests
-ifndef INCLUDED
-$(error You should not run this file directly, it will be included automatically)
-else
-$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
-endif
 
 ifneq ($(EMACS),)
 JREGROUTPUT = -noansi

@@ -1,15 +1,12 @@
 #######################################################################
+include ../mk/include_guard.mk
+#
 # This Makefile is for building the Alan Interpreter from scratch
 # on MSYS2. It is included from Makefile if run on a MSYS2 MinGW shell.
 #
 # NOTE: This file is an adaptation of "Makefile.cygwin", it hasn't been
 #       tested with CGreen yet.
 #######################################################################
-ifndef INCLUDED
-$(error You should not run this file directly, it will be included automatically)
-else
-$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
-endif
 
 # It should be possible to build win32 binaries, so include those
 include Makefile.win32

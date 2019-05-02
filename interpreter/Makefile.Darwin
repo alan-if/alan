@@ -1,12 +1,9 @@
 ####################################################################
+include ../mk/include_guard.mk
+#
 # This file is included from Makefile. It includes special settings
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # Makefile.common
-ifndef INCLUDED
-$(error You should not run this file directly, it will be included automatically)
-else
-$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
-endif
 
 # We use last release until there is a new one, so always one behind Cygwin...
 VERSION := $(shell cat ../NEXTRELEASE)

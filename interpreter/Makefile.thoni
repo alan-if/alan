@@ -1,17 +1,9 @@
 #######################################################################
+include ../mk/include_guard.mk
+#
 # This Makefile is for building the Alan Interpreter from scratch
 # It only works on ThoNi's machines, which are Windows machines
-# It is included from Makefile if run on ThoNi's machine
-#######################################################################
-ifndef INCLUDED
-$(error You should not run this file directly, it will be included automatically)
-else
-$(info INCLUDED: $(lastword $(MAKEFILE_LIST)))
-endif
-
-#######################################################################
-#
-# Some optional settings
+# It is included from Makefile if run on ThoNi's machine under Cygwin
 #
 
 # Define this to make interpreter log each crc calculation step
