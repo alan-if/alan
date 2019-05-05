@@ -42,11 +42,9 @@ CGREENLDPATH  =
 
 ###############################################################
 # glkarun needs curses which are only available in cygwin
-EXTRA_TARGETS += glkarun
-
-CURSESLIB = -lcurses
-glkarun: COMPILER = gcc
-glkarun: LINKER = gcc
+CURSESLIB ?= -lcurses
+glkarun: COMPILER ?= gcc
+glkarun: LINKER ?= gcc
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
