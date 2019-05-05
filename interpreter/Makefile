@@ -17,6 +17,9 @@ ifeq ($(UNAME_O_WORKS),0)
 else
   OS=$(shell uname -s)
 endif
+ifeq ($(OS),GNU/Linux)
+  OS=Linux
+endif
 ARCH = $(shell uname -m)
 $(info OS=$(OS), ARCH=$(ARCH))
 
