@@ -11,7 +11,7 @@
 all: everything
 
 # Discover OS and ARCH
-UNAME_O_WORKS=$(shell uname -o 1>&2 2>/dev/null; echo $$?)
+UNAME_O_WORKS=$(shell uname -o &>/dev/null; echo $$?)
 ifeq ($(UNAME_O_WORKS),0)
   OS=$(shell uname -o)
 else
