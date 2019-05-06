@@ -21,7 +21,7 @@ COMPILER = gcc -g
 COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
 
 LINKER = gcc -g
-LINKFLAGS =
+LINKER_FLAGS =
 
 #CGREENROOT = /usr/local
 #CGREENINCLUDE = -I$(CGREENROOT)/include/
@@ -50,7 +50,7 @@ release: all
 
 ##################################################################
 coverage: CFLAGS += --coverage
-coverage: LINKFLAGS += --coverage
+coverage: LINKER_FLAGS += --coverage
 .PHONY: coverage
 coverage: clean arun unit
 

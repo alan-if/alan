@@ -69,6 +69,6 @@ $(ARUN64OBJDIR):
 	@mkdir $(ARUN64OBJDIR)
 
 arun64: $(ARUN64OBJDIR) $(ARUN64OBJECTS)
-	$(LINK) $(LINKFLAGS) -o $@ $(ARUN64OBJECTS) $(ARUN64LIBS)
+	$(LINK) $(LINKER_FLAGS) -o $@ $(ARUN64OBJECTS) $(ARUN64LIBS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin

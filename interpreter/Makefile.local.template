@@ -10,16 +10,23 @@ include ../mk/include_guard.mk
 # Enable WinArun:
 #WINARUN_ENABLED = true
 #
-# You can also set particluar compiler and linker for an extra target:
-#winarun: COMPILER = <my special compiler>
+# You can also set particular compiler and linker for an extra target:
+#winarun: COMPILER = i686-w64-mingw32-gcc
+#winarun: LINKER = i686-w64-mingw32-gcc
+# And extra switches and flags:
+#winarun: COMPILER_FLAGS = -m32
+#winarun: LINKER_FLAGS = -m32 -mwindows
 #
-# And here's the dependency to Windows GLK:
+# Requires Windows GLK
 #WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
 
 # Enable glkarun:
 #GLKARUN_ENABLED = true
+# Requires curses and a glkterm library
+#CURSESLIB = -lncurses
 #GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
 
 # Enable Gargoyle Arun:
 #GARARUN_ENABLED = true
+# Requires gargoyle library
 #GARGLK_ROOT = ../../garglk-current-alan3
