@@ -47,3 +47,4 @@ CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
 include Makefile.common
 
 everything: unit arun $(EXTRA_TARGETS)
+build: arun $(EXTRA_TARGETS)
