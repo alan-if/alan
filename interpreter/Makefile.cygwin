@@ -13,11 +13,14 @@ COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
 SOEXT = dll
 
 ###########################################################
-# On cygwin we try to build without cygwin1.dll if we can
-# So for all targets use the mingw compiler and linker
-COMPILER = i686-w64-mingw32-gcc
-LINKER = i686-w64-mingw32-gcc
-WINDRES = i686-w64-mingw32-windres
+# On cygwin you can try to build without cygwin1.dll using
+# the mingw compiler and linker
+#COMPILER = i686-w64-mingw32-gcc
+#LINKER = i686-w64-mingw32-gcc
+#WINDRES = i686-w64-mingw32-windres
+COMPILER = gcc
+LINKER = gcc
+WINDRES = windres
 
 #############################################################
 # Unittests with Cgreen cannot run under Mingw, but not yet in a
@@ -40,13 +43,6 @@ CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 CGREENLDPATH  =
 
 
-###############################################################
-# glkarun needs curses which are only available in cygwin
-CURSESLIB ?= -lcurses
-glkarun: COMPILER ?= gcc
-glkarun: LINKER ?= gcc
-
-
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # arun64 - command line alan interpreter for Cygwin64
@@ -65,6 +61,6 @@ $(ARUN64OBJDIR):
 	@mkdir $(ARUN64OBJDIR)
 
 arun64: $(ARUN64OBJDIR) $(ARUN64OBJECTS)
-	$(LINK) $(LINKFLAGS) -o $@ $(ARUN64OBJECTS) $(ARUN64LIBS)
+	$(LINK) $(LINKER_FLAGS) -o $@ $(ARUN64OBJECTS) $(ARUN64LIBS)
 	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp $@ ../bin

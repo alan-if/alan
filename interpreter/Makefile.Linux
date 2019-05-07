@@ -14,7 +14,7 @@ COMPILER = gcc
 COMPILEFLAGS = -g -Wall -funsigned-char -fPIC $(OPTIMIZE)
 
 LINKER = gcc
-LINKFLAGS = -g $(ARUNOPTS)
+LINKER_FLAGS = -g $(ARUNOPTS)
 
 LIBS = $(GLKLIB) $(LINKLIBS)
 

@@ -18,13 +18,15 @@ ifneq ($(BUILDNUMBER),)
 endif
 
 CC = $(COMPILER)
-CFLAGS	= $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS) $(ARCHFLAGS) -MMD
+CFLAGS	= $(COMPILER_FLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS) $(ARCHFLAGS) -MMD
 
 # Default extension for shared dynamic libraries
 SOEXT ?= so
 
+# TODO: this must be simplified and clarified, LINK should be the command, so should include flags
+# And what is EXTRA_LINKER_FLAGS?
 LINK = $(LINKER)
-LDFLAGS = $(LINKFLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
+LDFLAGS = $(LINKER_FLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
 
 #######################################################################
 build: arun $(EXTRA_TARGETS)
