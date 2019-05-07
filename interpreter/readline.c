@@ -248,6 +248,7 @@ static bool insert = TRUE;
 typedef struct {unsigned char min, max; void (*hook)(char ch);} KeyMap;
 
 /* Forward declaration of hooks */
+static void ignoreCh(char ch);
 static void escHook(char ch);
 static void insertCh(char ch);
 static void arrowHook(char ch);
@@ -272,6 +273,7 @@ static KeyMap keymap[] = {
     {0x08, 0x08, delBwd},
     {0x09, 0x09, NULL},
     {0x0a, 0x0a, newLine},
+    {0x0d, 0x0d, ignoreCh},
     {0x1b, 0x1b, escHook},
     {0x1c, 0x7e, insertCh},
 #ifdef __macos__
@@ -552,6 +554,9 @@ static void delFwd(char ch)
         write(1, " ", 1);
         for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
     }
+}
+
+static void ignoreCh(char ch) {
 }
 
 static void escHook(char ch) {
