@@ -1,4 +1,3 @@
-# TODO: Remove all COMPILER/LINKER stuff and keep with CC and CFLAGS
 #######################################################################
 # This is the general Makefile for building the Alan Interpreter
 # It will include specific Makefiles to build on the target
@@ -31,7 +30,7 @@ INCLUDED = true
 -include Makefile.local
 
 # Include correct subordinate Makefile depending on OS and possibly system name
-ifeq ($(OS),Cygwin)
+ifeq ($(OS),cygwin)
 	ifeq ($(shell uname -n), thoni64)
 		include Makefile.thoni
 	else
@@ -46,9 +45,5 @@ CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
 
 # Include common build rules
 include Makefile.common
-
-def:
-	@echo OS=$(OS), ARCH=$(ARCH)
-	@echo CGREEN=$(CGREEN)
 
 everything: unit arun $(EXTRA_TARGETS)

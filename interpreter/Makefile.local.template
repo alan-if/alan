@@ -10,14 +10,14 @@ include ../mk/include_guard.mk
 # Enable WinArun:
 #WINARUN_ENABLED = true
 #
-# You can also set particular compiler and linker for an extra target:
+# You can set particular compiler and linker for an extra target:
 #winarun: CC = i686-w64-mingw32-gcc
 #winarun: WINDRES = i686-w64-mingw32-windres
 # And/or extra switches and flags:
 #winarun: CFLAGS = -m32 -mwindows
 #winarun: LDFLAGS = -m32 -mwindows
 #
-# Requires Windows GLK
+# WinArun requires Windows GLK library
 #WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
 
 # Enable glkarun:
@@ -28,6 +28,8 @@ include ../mk/include_guard.mk
 
 # Enable Gargoyle Arun:
 #GARARUN_ENABLED = true
+# This requires Gargoyle sources and needs to be built in Gargoyle
+# source directory using Jam, which needs to be available to.
 #GARGOYLE_ROOT = ../../garglk-current-alan3
 
 # Enable MacArun

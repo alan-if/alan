@@ -17,18 +17,10 @@ ifneq ($(BUILDNUMBER),)
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
-CFLAGS += $(COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS) $(ARCHFLAGS) -MMD
+CFLAGS += -DBUILD=$(BUILDNUMBER) $(OSFLAGS) -MMD
 
 # Default extension for shared dynamic libraries
 SOEXT ?= so
-
-# TODO: this must be simplified and clarified, LINK should be the command, so should include flags
-# And what is EXTRA_LINKER_FLAGS?
-LINK = $(LINKER)
-LDFLAGS = $(LINKER_FLAGS) $(EXTRA_LINKER_FLAGS) $(OSFLAGS) $(ARCHFLAGS)
-
-#######################################################################
-build: arun $(EXTRA_TARGETS)
 
 #######################################################################
 .PHONY: unit
@@ -58,6 +50,7 @@ test:
 	@cd ..; jregr -bin bin -dir regression/tracing $(JREGROUTPUT)
 	@cd ..; jregr -bin bin -dir regression/saving $(JREGROUTPUT)
 	@cd ..; jregr -bin bin -dir regression/debug $(JREGROUTPUT)
+	@cd ..; jregr -bin bin -dir regression/platforms $(JREGROUTPUT)
 	@cd ..; jregr -dir regression/restore $(JREGROUTPUT)		# Uses sh not the executables
 
 #######################################################################
@@ -76,7 +69,7 @@ $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
 
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(CC) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LIBS)
+	$(CC) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LDLIBS)
 	cp -f $@ ../bin/
 
 #######################################################################
@@ -93,7 +86,7 @@ GLKTERM_LIBDIR ?= $(GLKTERM_ROOT)
 GLKTERM_LIB = -L$(GLKTERM_LIBDIR) -lglkterm
 
 glkarun: CFLAGS += $(GLKTERM_INCLUDE) $(GLKTERM_DEFS)
-glkarun: LIBS = $(GLKTERM_LIB) $(CURSESLIB)
+glkarun: LDLIBS = $(GLKTERM_LIB) $(CURSESLIB)
 
 GLKARUNOBJDIR = .glkarun
 GLKARUNOBJECTS = $(addprefix $(GLKARUNOBJDIR)/,${GLKARUNSRCS:.c=.o}) $(GLKARUNOBJDIR)/alan.version.o
@@ -105,7 +98,7 @@ $(GLKARUNOBJDIR):
 	@mkdir $(GLKARUNOBJDIR)
 
 glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
-	$(CC) -o $@ $(LDFLAGS) $(GLKARUNOBJECTS) $(LIBS)
+	$(CC) -o $@ $(LDFLAGS) $(GLKARUNOBJECTS) $(LDLIBS)
 	cp -f $@ ../bin/
 
 

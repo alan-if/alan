@@ -13,23 +13,12 @@ include Makefile.win32
 
 SOEXT = dll
 
-COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
-COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
+CFLAGS = -funsigned-char -g -Wall
 
 ###########################################################
 # Set relevant compilers
 #CC = gcc
 WINDRES = windres
-
-#############################################################
-# Unittests with Cgreen cannot run under Mingw, but not yet in a
-# 64-bit environment (see acode.h) which we are moving towards So lets
-# use native gcc for unittests and when explicitly compiling for x64
-unit isolated_unittests x64: CC = gcc  #i686-pc-cygwin-gcc
-
-x64: EXTRA_TARGETS :=
-
-x64: unit arun
 
 ###############################
 # Cgreen settings
@@ -39,26 +28,3 @@ CGREENLIBDIR  = $(CGREENROOT)/lib/
 CGREENBINDIR  =
 CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 CGREENLDPATH  =
-
-
-#######################################################################
-#
-# arun64 - 64-bit command line alan interpreter for Cygwin64
-#
-# Build with flags and compilers:
-arun64: COMPILER = gcc
-arun64: LINKER = gcc
-
-ARUN64OBJDIR = .arun64
-ARUN64OBJECTS = $(addprefix $(ARUN64OBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUN64OBJDIR)/alan.version.o
-
-$(ARUN64OBJECTS): $(ARUN64OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
-
-$(ARUN64OBJDIR):
-	@mkdir $(ARUN64OBJDIR)
-
-arun64: $(ARUN64OBJDIR) $(ARUN64OBJECTS)
-	$(LINK) $(LINKER_FLAGS) -o $@ $(ARUN64OBJECTS) $(ARUN64LIBS)
-	-@if ! test -d ../bin; then mkdir ../bin 2> /dev/null ; fi
-	cp $@ ../bin
