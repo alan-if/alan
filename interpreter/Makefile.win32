@@ -62,7 +62,7 @@ gargoyle: build-gararun gararun-package gargoyle-updater
 build-gararun: alan3.exe
 
 alan3.exe: $(GARARUNSRCS)
-	cd $(GARGOYLE_ROOT); BUILDNUMBER=$(BUILDNUMBER) jam alan3
+	cd $(GARGOYLE_ROOT); BUILDNUMBER=$(BUILDNUMBER) OS=CYGWIN jam alan3
 	cp ../../garglk-current-alan3/build/cygwin.release/alan3/alan3.exe .
 
 .PHONY: gararun-package
