@@ -17,8 +17,7 @@ ifneq ($(BUILDNUMBER),)
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
-CC = $(COMPILER)
-CFLAGS	= $(COMPILER_FLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS) $(ARCHFLAGS) -MMD
+CFLAGS += $(COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS) $(ARCHFLAGS) -MMD
 
 # Default extension for shared dynamic libraries
 SOEXT ?= so
@@ -43,7 +42,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	@-rm -f *.exe *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun alan3
+	@-rm -f *.exe *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun alan3 arun.res
 
 
 ###################################################################
@@ -77,7 +76,7 @@ $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
 
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(LINK) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LIBS)
+	$(CC) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LIBS)
 	cp -f $@ ../bin/
 
 #######################################################################
@@ -93,7 +92,7 @@ GLKTERM_INCLUDE ?= -I$(GLKTERM_ROOT)
 GLKTERM_LIBDIR ?= $(GLKTERM_ROOT)
 GLKTERM_LIB = -L$(GLKTERM_LIBDIR) -lglkterm
 
-glkarun: EXTRA_COMPILER_FLAGS = $(GLKTERM_INCLUDE) $(GLKTERM_DEFS)
+glkarun: CFLAGS += $(GLKTERM_INCLUDE) $(GLKTERM_DEFS)
 glkarun: LIBS = $(GLKTERM_LIB) $(CURSESLIB)
 
 GLKARUNOBJDIR = .glkarun
@@ -106,7 +105,7 @@ $(GLKARUNOBJDIR):
 	@mkdir $(GLKARUNOBJDIR)
 
 glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
-	$(LINK) -o $@ $(LDFLAGS) $(GLKARUNOBJECTS) $(LIBS)
+	$(CC) -o $@ $(LDFLAGS) $(GLKARUNOBJECTS) $(LIBS)
 	cp -f $@ ../bin/
 
 
@@ -139,7 +138,7 @@ $(UNITTESTSOBJDIR):
 
 # Build the DLL...
 unittests.$(SOEXT): $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(LDFLAGS) $(CGREENLINKLIB) #--coverage
+	$(CC) -shared $(LDFLAGS) -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB)
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
@@ -163,7 +162,7 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # A test .$(SOEXT) for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.$(SOEXT): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDFLAGS) $(CGREENLINKLIB)
+	$(CC) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDFLAGS) $(CGREENLINKLIB)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXT),$(MODULES_WITH_ISOLATED_UNITTESTS)))
 

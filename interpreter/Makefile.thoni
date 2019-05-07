@@ -6,20 +6,11 @@ include ../mk/include_guard.mk
 # It is included from Makefile if run on ThoNi's machine under Cygwin
 #
 
-# Define this to make interpreter log each crc calculation step
-#CRCLOG = -DCRCLOG
-
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
 PLATFORM = win32.i386
 
-
-# GLK for console I/O
-GLKTERM_ROOT = /cygdrive/c/Users/Thomas/Utveckling/Alan/glkterm
-GLKTERM_LIBDIR = $(GLKTERM_ROOT)/$(ARCH)
-
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
-
 
 #######################################################################
 # Settings for Release

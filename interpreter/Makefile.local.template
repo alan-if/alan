@@ -5,17 +5,17 @@ include ../mk/include_guard.mk
 # Alan interpreter arun
 #
 # Copy this file to Makefile.local and enable extra targets that depend
-# on third party libraries
+# on third party libraries by uncommenting and adjusting below
 
 # Enable WinArun:
 #WINARUN_ENABLED = true
 #
 # You can also set particular compiler and linker for an extra target:
-#winarun: COMPILER = i686-w64-mingw32-gcc
-#winarun: LINKER = i686-w64-mingw32-gcc
-# And extra switches and flags:
-#winarun: COMPILER_FLAGS = -m32
-#winarun: LINKER_FLAGS = -m32 -mwindows
+#winarun: CC = i686-w64-mingw32-gcc
+#winarun: WINDRES = i686-w64-mingw32-windres
+# And/or extra switches and flags:
+#winarun: CFLAGS = -m32 -mwindows
+#winarun: LDFLAGS = -m32 -mwindows
 #
 # Requires Windows GLK
 #WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148

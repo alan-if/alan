@@ -12,8 +12,6 @@ OSFLAGS = -Wno-invalid-source-encoding -funsigned-char
 
 SOEXT = dylib
 
-COMPILER = gcc -g
-
 LINKER = gcc -g
 LINKER_FLAGS =
 
@@ -26,15 +24,15 @@ tests: test
 ##################################################################
 .PHONY: release
 release: ARCHFLAGS = -arch i386 -arch ppc
-release: EXTRA_COMPILER_FLAGS = -O4
+release: CFLAGS += -O4
 release: all
 
 
 ##################################################################
 coverage: CFLAGS += --coverage
-coverage: LINKER_FLAGS += --coverage
+coverage: LDFLAGS += --coverage
 .PHONY: coverage
-coverage: clean arun unit
+coverage: clean unit arun
 
 
 

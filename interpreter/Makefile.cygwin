@@ -9,6 +9,7 @@ include Makefile.win32
 
 COMMONCOMPILEFLAGS = $(OPTIMIZE) $(CRCLOG) -funsigned-char -g -Wall
 COMPILEFLAGS = $(COMMONCOMPILEFLAGS)
+CFLAGS = -funsigned-char -g -Wall
 
 SOEXT = dll
 
@@ -19,8 +20,6 @@ SOEXT = dll
 #COMPILER = i686-w64-mingw32-gcc
 #LINKER = i686-w64-mingw32-gcc
 #WINDRES = i686-w64-mingw32-windres
-COMPILER = gcc
-LINKER = gcc
 WINDRES = windres
 
 #############################################################

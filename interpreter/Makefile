@@ -31,7 +31,7 @@ INCLUDED = true
 -include Makefile.local
 
 # Include correct subordinate Makefile depending on OS and possibly system name
-ifeq ($(OS),cygwin)
+ifeq ($(OS),Cygwin)
 	ifeq ($(shell uname -n), thoni64)
 		include Makefile.thoni
 	else
