@@ -57,14 +57,21 @@ coverage: clean arun unit
 
 
 #--------------------------------------------------------------------
-# Extra targets on Darwin
-
+#
 # GARARUN: a Gargoyle drop-in alan interpreter
-# Gargoyle should be installed at GARGOYLE_DIR and have
+#
+# Requires: GARGOYLE_ROOT
+#
+ifdef GARARUN_ENABLED
+EXTRA_TARGETS += gargoyle
+else
+$(info NOT ENABLED: Gargoyle Arun)
+endif
+# Gargoyle should be installed at GARGOYLE_ROOT and have
 # terps/alan3 linked to alan/interpreter. All required libraries, including
 # libgarglk.dylib need to be built to binary form before making it from here.
 # It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
-# will be available as $(GARGOYLE_DIR)/build/<platform>.<buildtype>.release/alan3/alan3
+# will be available as $(GARGOYLE_ROOT)/build/<platform>.<buildtype>.release/alan3/alan3
 #
 # To build it we need various libraries, make sure they are installed using (MacPorts)
 #     sudo port install libSDL libSDL_mixer jpeg freetype +universal
@@ -76,11 +83,8 @@ coverage: clean arun unit
 # We build an installer package using the packagesbuild command from
 # Packages (http://http://s.sudre.free.fr/Software/Packages/about.html)
 #
-GARGOYLE_DIR=../../garglk-current-alan3
 
-EXTRA_TARGETS += gararun
-
-gararun: gargoyle-updater gararun-tar
+gargoyle: gargoyle-updater gararun-tar
 
 gargoyle-updater: alan3 gargoyle-libs
 	packagesbuild gargoyle-alan3-installer.pkgproj
@@ -94,9 +98,9 @@ gararun-tar: alan3 gargoyle-libs
 LIBDIR = /usr/local/lib
 
 alan3:
-	cd $(GARGOYLE_DIR); jam garglk alan3
+	cd $(GARGOYLE_ROOT); jam garglk alan3
 	mkdir -p Gargoyle.app/Contents/PlugIns Gargoyle.app/Contents/Frameworks
-	cp $(GARGOYLE_DIR)/build/macosx.release/alan3/alan3 .
+	cp $(GARGOYLE_ROOT)/build/macosx.release/alan3/alan3 .
 	install_name_tool -change @executable_path/libgarglk.dylib @executable_path/../Frameworks/libgarglk.dylib alan3
 	install_name_tool -change $(LIBDIR)/libfreetype.6.dylib @executable_path/../Frameworks/libfreetype.6.dylib alan3
 	install_name_tool -change $(LIBDIR)/libz.1.dylib /usr/lib/libgcc_s.1.dylib alan3

@@ -47,8 +47,9 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 
 #######################################################################
 # Gargoyle for Windows GLK variant (using garglk's jam build)
-# The jam sources are found at the Perforce Workshop:
-# https://swarm.workshop.perforce.com/projects/perforce_software-jam/
+#
+# Requires: GARGOYLE_ROOT - root of directory for Gargoyle sources
+#
 ifdef GARGLK_ENABLED
 EXTRA_TARGETS += gargoyle
 else
@@ -61,7 +62,7 @@ gargoyle: build-gararun gararun-package gargoyle-updater
 build-gararun: alan3.exe
 
 alan3.exe: $(GARARUNSRCS)
-	cd $(GARGLK_ROOT); BUILDNUMBER=$(BUILDNUMBER) jam alan3
+	cd $(GARGOYLE_ROOT); BUILDNUMBER=$(BUILDNUMBER) jam alan3
 	cp ../../garglk-current-alan3/build/cygwin.release/alan3/alan3.exe .
 
 .PHONY: gararun-package
