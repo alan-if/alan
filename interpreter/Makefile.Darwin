@@ -13,7 +13,6 @@ OSFLAGS = -Wno-invalid-source-encoding -funsigned-char
 SOEXT = dylib
 
 COMPILER = gcc -g
-COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
 
 LINKER = gcc -g
 LINKER_FLAGS =
