@@ -50,7 +50,7 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 #
 # Requires: GARGOYLE_ROOT - root of directory for Gargoyle sources
 #
-ifdef GARGLK_ENABLED
+ifdef GARARUN_ENABLED
 EXTRA_TARGETS += gargoyle
 else
 $(info NOT ENABLED: Gargoyle Arun)
