@@ -8,12 +8,7 @@ include ../mk/include_guard.mk
 # We use last release until there is a new one, so always one behind Cygwin...
 VERSION := $(shell cat ../NEXTRELEASE)
 
-# Define the program name
-PROGNAME=-DPROGNAME=\"arun\"
-ARUNOPTS = $(PROGNAME) $(GLK)
-
 OSFLAGS =
-#ARCHFLAGS = -m32
 
 SOEXT = dylib
 
@@ -23,18 +18,6 @@ COMPILEFLAGS = -Wall -funsigned-char -Wno-invalid-source-encoding
 LINKER = gcc -g
 LINKFLAGS =
 
-#CGREENROOT = /usr/local
-#CGREENINCLUDE = -I$(CGREENROOT)/include/
-#CGREENLIBDIR= $(CGREENROOT)/lib
-#CGREENLINKLIB = -lcgreen
-#CGREENLOADLIB = DYLD_LIBRARY_PATH=$(CGREENLIBDIR)
-
-###################################################################
-#
-# Default target on Darwin
-#
-.PHONY: default
-default all: unit arun macarun gararun
 
 ##################################################################
 # Add extra tests here that might not be working on all platforms
