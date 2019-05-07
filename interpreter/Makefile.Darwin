@@ -8,7 +8,7 @@ include ../mk/include_guard.mk
 # We use last release until there is a new one, so always one behind Cygwin...
 VERSION := $(shell cat ../NEXTRELEASE)
 
-OSFLAGS =
+OSFLAGS = -Wno-invalid-source-encoding -funsigned-char
 
 SOEXT = dylib
 
