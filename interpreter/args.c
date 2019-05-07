@@ -125,6 +125,7 @@ static void switches(int argc, char *argv[])
                     break;
                 case 'r':
                     regressionTestOption = TRUE;
+                    statusLineOption = FALSE;
                     break;
                 case '-':
                     if (strcasecmp(&argument[2], "version") == 0) {
