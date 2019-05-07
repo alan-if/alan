@@ -1,3 +1,4 @@
+# TODO: Remove all COMPILER/LINKER stuff and keep with CC and CFLAGS
 #######################################################################
 # This is the general Makefile for building the Alan Interpreter
 # It will include specific Makefiles to build on the target
@@ -50,4 +51,4 @@ def:
 	@echo OS=$(OS), ARCH=$(ARCH)
 	@echo CGREEN=$(CGREEN)
 
-everything: arun $(EXTRA_TARGETS)
+everything: unit arun $(EXTRA_TARGETS)
