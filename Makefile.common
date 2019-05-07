@@ -18,19 +18,19 @@ clean:
 	-$(MAKE) -C converter clean
 	@-rm -f alan3*.tgz
 
-.PHONY: build
-build:
-	@echo "******** Target: $@ ***********"
-	$(MAKE) -C compiler BUILDNUMBER=$(BUILDNUMBER) build
-	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) build
-	$(MAKE) -C converter BUILDNUMBER=$(BUILDNUMBER) build
-
 .PHONY: unit
 unit:
 	@echo "******** Target: $@ ***********"
 	-$(MAKE) -C compiler UNITOUTPUT="$(UNITOUTPUT)" unit
 	-$(MAKE) -C interpreter UNITOUTPUT="$(UNITOUTPUT)" unit
 	-$(MAKE) -C converter UNITOUTPUT="$(UNITOUTPUT)" unit
+
+.PHONY: build
+build:
+	@echo "******** Target: $@ ***********"
+	$(MAKE) -C compiler BUILDNUMBER=$(BUILDNUMBER) build
+	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) build
+	$(MAKE) -C converter BUILDNUMBER=$(BUILDNUMBER) build
 
 .PHONY: test
 test:
