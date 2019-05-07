@@ -23,42 +23,6 @@
 #endif
 
 
-#ifdef __vms__
-
-char *strdup(char str[])                /* IN - String to duplicate */
-{
-  char *new = (char *) malloc(strlen(str)+1);
-
-  if (!new)
-    syserr("Out of memory");
-  strcpy(new, str);
-  return new;
-}
-
-#endif
-
-
-#ifdef __vms__
-
-/* Cheat implementation of strftime */
-size_t strftime (
-         char *outbuf,
-         size_t len,
-         const char *format,
-         const struct tm *t)
-{
-  char buf[100];
-  time_t ticks;
-
-  time(&ticks);
-  strcpy(buf, ctime(&ticks));
-  buf[strlen(buf)-1] = '\0';
-  strcpy(outbuf, &buf[4]);
-}
-
-#endif
-
-
 #ifdef HAVE_GLK
 
 /* Note to Glk maintainers: 'native' characters are used for output, in this
