@@ -105,9 +105,16 @@ gargoyle-libs:
 # MacArun: a Platypus-based application that runs the command line interpreter in
 # a Terminal.
 #
-# Builds using platypus which needs to be installed, including the command line version
-
+# Requires: Platypus installed
+#
+ifdef MACARUN_ENABLED
 EXTRA_TARGETS += macarun
+else
+$(info NOT ENABLED: MacArun)
+endif
+#
+# Builds using platypus which needs to be installed, including the command line version
+#
 
 macarun: MacArun$(VERSION)$(BUILDVERSION).zip
 

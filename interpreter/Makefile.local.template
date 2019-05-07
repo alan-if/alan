@@ -22,4 +22,7 @@ include ../mk/include_guard.mk
 
 # Enable Gargoyle Arun:
 #GARARUN_ENABLED = true
-#GARGLK_ROOT = ../../garglk-current-alan3
+#GARGOYLE_ROOT = ../../garglk-current-alan3
+
+# Enable MacArun
+#MACARUN_ENABLED = true
