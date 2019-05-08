@@ -1,3 +1,5 @@
+#######################################################################
+include ../mk/include_guard.mk
 #
 # Makefile to compile Alan Compiler on generic Unix
 #
@@ -9,5 +11,3 @@ OS_FLAGS =
 
 EXTRA_COMPILER_FLAGS = -Wall -funsigned-char
 EXTRA_LINKER_FLAGS =
-
-include Makefile.common

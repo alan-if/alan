@@ -1,4 +1,9 @@
-# Generic make rules for alan compiler
+#######################################################################
+include ../mk/include_guard.mk
+#
+# Common rules for alan compiler
+#
+# TODO: Remove these (as in ../interpreter)
 # Set:
 #	COMPILER : which command to run the C compiler
 #	LINKER : which command to run the linker

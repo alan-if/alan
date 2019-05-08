@@ -1,4 +1,5 @@
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#######################################################################
+include ../mk/include_guard.mk
 #
 # Makefile settings for compiling Alan compiler on MacOSX
 #
@@ -11,9 +12,5 @@ EXTRA_LINKER_FLAGS =
 
 # Sharable libraries extension
 SOEXTENSION = dylib
-
-CGREENROOT = /usr/local
-CGREENINCLUDE = -I$(CGREENROOT)/include
-CGREENLIB = -lcgreen
 
 release: EXTRA_COMPILER_FLAGS = -O4

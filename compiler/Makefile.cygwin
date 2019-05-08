@@ -1,4 +1,5 @@
-##################################################
+#######################################################################
+include ../mk/include_guard.mk
 #
 # This Makefile is included from the Makefile and
 # only sets some cygwin particular switches
