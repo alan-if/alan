@@ -10,15 +10,20 @@ include ../mk/include_guard.mk
 # Enable WinArun:
 #WINARUN_ENABLED = true
 #
-# You can set particular compiler and linker for an extra target:
+# You need a compiled and linkable version of the WindowsGLK library
+# which you can get at https://github.com/DavidKinder/Windows-Glk
+# or as a binary at http://www.ifarchive.org/indexes/if-archiveXprogrammingXglkXimplementations.html
+#
+# Point the linker to the Windows GLK library
+#WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
+#
+# If required you can set particular compiler and linker for an extra target:
 #winarun: CC = i686-w64-mingw32-gcc
 #winarun: WINDRES = i686-w64-mingw32-windres
 # And/or extra switches and flags:
 #winarun: CFLAGS = -m32 -mwindows
 #winarun: LDFLAGS = -m32 -mwindows
 #
-# WinArun requires Windows GLK library
-#WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
 
 # Enable glkarun:
 #GLKARUN_ENABLED = true
@@ -28,8 +33,13 @@ include ../mk/include_guard.mk
 
 # Enable Gargoyle Arun:
 #GARARUN_ENABLED = true
+#
 # This requires Gargoyle sources and needs to be built in Gargoyle
-# source directory using Jam, which needs to be available to.
+# source directory using the build system Jam, which needs to be
+# available too.  Gargoyle includes a version of Arun, built to a
+# binary called 'alan3' To make it use the sources here, remove the
+# subdirectory terps/alan3 and create a link from there to this
+# directory. Then a build here will attempt to build that too.
 #GARGOYLE_ROOT = ../../garglk-current-alan3
 
 # Enable MacArun
