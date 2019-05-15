@@ -2,9 +2,8 @@
 d=`dirname "$0"`
 uname=`uname -a`
 if [[ "$uname" == *[Cc]ygwin* ]]; then
-  d=`cygpath -d "$d"`\\;
+  d=`cygpath -w "$d"`\\;
 else
   d=$d/;
 fi
 java -jar -Dfile.encoding=iso-8859-1 "$d"jregr.jar $@
-exit
