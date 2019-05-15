@@ -16,7 +16,7 @@ SOEXT = dll
 CFLAGS = -funsigned-char -g -Wall
 
 ###########################################################
-# Set relevant compilers
+# Set relevant compilers and tools
 #CC = gcc
 WINDRES = windres
 

@@ -69,7 +69,7 @@ $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
 
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(CC) -o $@ $(LDFLAGS) $(ARUNOBJECTS) $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ $(ARUNOBJECTS) $(LDLIBS)
 	cp -f $@ ../bin/
 
 #######################################################################
@@ -98,7 +98,7 @@ $(GLKARUNOBJDIR):
 	@mkdir $(GLKARUNOBJDIR)
 
 glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
-	$(CC) -o $@ $(LDFLAGS) $(GLKARUNOBJECTS) $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ $(GLKARUNOBJECTS) $(LDLIBS)
 	cp -f $@ ../bin/
 
 
@@ -131,7 +131,7 @@ $(UNITTESTSOBJDIR):
 
 # Build the DLL...
 unittests.$(SOEXT): $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(CC) -shared $(LDFLAGS) -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB)
+	$(CC) $(LDFLAGS) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB)
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
@@ -155,7 +155,7 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # A test .$(SOEXT) for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.$(SOEXT): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(CC) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDFLAGS) $(CGREENLINKLIB)
+	$(CC) $(LDFLAGS) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(CGREENLINKLIB)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXT),$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
@@ -187,7 +187,7 @@ $(DUMPACDOBJDIR)/spa.o: ../compiler/spa.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 dumpacd: $(DUMPACDOBJDIR) $(DUMPACDOBJECTS)
-	$(LINK) $(CFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
+	$(CC) $(LDFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
 
 # Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?

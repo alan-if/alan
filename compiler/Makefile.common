@@ -3,56 +3,38 @@ include ../mk/include_guard.mk
 #
 # Common rules for alan compiler
 #
-# TODO: Remove these (as in ../interpreter)
-# Set:
-#	COMPILER : which command to run the C compiler
-#	LINKER : which command to run the linker
-#	OSFLAGS : what flags must be passed to both compiler and linker
-#	EXTRA_COMPILER_FLAGS : what extra flags to pass to the compiler
-#	EXTRA_LINKER_FLAGS : what extra flags to pass to the linker
-#
 # You can:
 #     make
 #     make unit
-#     make unitbuild
-#     make linked_unittests_build
-#     make isolated_unittests_build
+#     make build
 #     make test
 #     make coverage
-#     make coverage_build
-#     make coverage_report
 
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
-CC = $(COMPILER)
-CFLAGS = -I../interpreter $(COMPILEFLAGS) $(EXTRA_COMPILER_FLAGS) -DBUILD=$(BUILDNUMBER) $(OSFLAGS)
+CFLAGS = -g -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 
-LINK = $(LINKER)
-LINKFLAGS = $(OSFLAGS) $(EXTRA_LINKER_FLAGS)
+COMPILE = $(CC) $(CFLAGS)
+LINK = $(CC) $(LDFLAGS)
 
-gprof: EXTRA_COMPILER_FLAGS = -pg
-gprof: EXTRA_LINKER_FLAGS = -pg
+gprof: CFLAGS += -pg
+gprof: LDFLAGS += -pg
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Main target to do everything
-#
-.PHONY: all
-all: unit build
 
+######################################################################
 # Target to just build
 .PHONY: build gprof
 build gprof: alan $(EXTRA_TARGETS)
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#######################################################################
 #
 # Run all tests!
 #
 UNITOUTPUT ?= -c
-SOEXTENSION ?= so
 
 .PHONY: test
 test:
@@ -71,18 +53,18 @@ test:
 clean:
 	@-rm -rf *.$(SOEXTENSION) .*/*.o .*/*.d .*/*.$(SOEXTENSION) .*/*.gcno .*/*.gcda alan.res ../bin/alan ../bin/winalan .unittests .alan
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#######################################################################
 #
-# Alan command line compiler
+# Alan command line compiler - native
 #
 ALANOBJDIR = .alan
 ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
 -include $(ALANOBJECTS:.o=.d)
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(COMPILE) -o $@ -c $<
 
 alan: ../bin $(ALANOBJECTS)
-	$(LINK) -o $@ $(ALANOBJECTS) $(LINKFLAGS)
+	$(LINK) -o $@ $(ALANOBJECTS) $(LDLIBS)
 	cp $@ ../bin
 
 $(ALANOBJECTS): | $(ALANOBJDIR)
@@ -93,15 +75,17 @@ $(ALANOBJDIR):
 	-mkdir ../bin
 
 #################################################################
+#
 # Unit testing
 #
-# Two types:
 .PHONY: unit
 ifneq ($(CGREEN),yes)
 unit:
-	echo "No unit tests run, cgreen not available"
+	@echo "No unit tests run, cgreen not available"
+unitbuild:
 else
 .PHONY: unit
+# Two types:
 unit: linked_unittests isolated_unittests
 .PHONY: unitbuild
 unitbuild: linked_unittests_build isolated_unittests_build
@@ -120,9 +104,9 @@ $(UNITTESTSOBJDIR)/%.o: | $(UNITTESTSOBJDIR)
 
 # Rule to compile unittest objects to subdirectory
 $(UNITTESTSOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(COMPILE) -o $@ -c $<
 $(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(COMPILE) -o $@ -c $<
 
 # Create directory if it doesn't exist
 $(UNITTESTSOBJECTS): | $(UNITTESTSOBJDIR)
@@ -134,9 +118,9 @@ $(UNITTESTSOBJDIR):
 linked_unittests_build: unittests.$(SOEXTENSION)
 
 unittests.$(SOEXTENSION): CFLAGS += $(CGREENINCLUDE)
-unittests.$(SOEXTENSION): LIBS = $(CGREENLINKLIB)
+unittests.$(SOEXTENSION): LDLIBS += $(CGREENLINKLIB)
 unittests.$(SOEXTENSION): $(UNITTESTSOBJECTS)
-	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LDLIBS)
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.$(SOEXTENSION)
@@ -157,25 +141,26 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # A test .$(SOEXTENSION) for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LINKFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDLIBS)
 
 ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXTENSION),$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 .PHONY: isolated_unittests_build
 isolated_unittests_build: | $(UNITTESTSOBJDIR)
 isolated_unittests_build: CFLAGS += $(CGREENINCLUDE)
-isolated_unittests_build: LIBS = $(CGREENLINKLIB)
+isolated_unittests_build: LDLIBS += $(CGREENLINKLIB)
 isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 
 .PHONY: isolated_unittests
 # Then run all _tests.$(SOEXTENSION)'s with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
-isolated_unittests: LIBS = $(CGREENLINKLIB)
+isolated_unittests: LDLIBS += $(CGREENLINKLIB)
 isolated_unittests: isolated_unittests_build
 	$(CGREENLIBLOAD) $(CGREENBINDIR)cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 
 
-############################################
+######################################################################
+#
 # Coverage
 #
 #   make coverage - rebuilds everything for coverage, runs all tests,
@@ -183,8 +168,8 @@ isolated_unittests: isolated_unittests_build
 #   make coverage_build - builds what has changed for coverage
 #   make coverage_report - generates the report
 
-coverage coverage_build: EXTRA_COMPILER_FLAGS += --coverage
-coverage coverage_build: EXTRA_LINKER_FLAGS += --coverage
+coverage coverage_build: CFLAGS += --coverage
+coverage coverage_build: LDFLAGS += --coverage
 
 coverage: clean coverage_build unit test coverage_report
 	open coverage/index.html

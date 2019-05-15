@@ -1,0 +1,35 @@
+#######################################################################
+include ../mk/include_guard.mk
+#
+# This Makefile is for building the Alan Compiler for Windows, so it is
+# included by all Makefile.<platform> that potentially can build, or
+# cross-compiler for Windows.
+#
+
+# WinAlan is only available on Windows
+#
+ifdef WINALAN_ENABLED
+EXTRA_TARGETS += winalan
+else
+$(info NOT ENABLED: winalan)
+endif
+
+# Build with flags:
+winalan: CFLAGS += -DWINGUI #-DARGSDISPLAY
+WINALANLIBS = -lshlwapi
+
+WINALANOBJDIR = .winalan
+WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o}) $(WINALANOBJDIR)/alan.version.o
+-include $(WINALANOBJECTS:.o=.d)
+$(WINALANOBJECTS): $(WINALANOBJDIR)/%.o: %.c
+	$(COMPILE) -o $@ -c $<
+
+$(WINALANOBJDIR):
+	@mkdir $(WINALANOBJDIR)
+
+winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res ../bin
+	$(LINK) -o winalan -mwindows $(WINALANOBJECTS) alan.res $(WINALANLIBS)
+	cp winalan ../bin
+
+alan.res: alan.rc alan.ico alan.version.c
+	$(WINDRES) $< -O coff -o $@
