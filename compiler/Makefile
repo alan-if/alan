@@ -11,7 +11,8 @@
 # To handle local dependencies and enable some extra targets, copy
 # Makefile.local.template to Makefile.local and modify settings there
 
-all: alan $(EXTRA_TARGETS)
+# Defer to end of this Makefile
+all: everything
 
 # Running inside Emacs?
 ifneq ($(EMACS),)
