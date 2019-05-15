@@ -4,13 +4,7 @@ include ../mk/include_guard.mk
 # Makefile settings for compiling Alan compiler on MacOSX
 #
 
-COMPILER = gcc
-EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char -Wno-invalid-source-encoding
-
-LINKER = gcc
-EXTRA_LINKER_FLAGS =
+CFLAGS += -funsigned-char -Wno-invalid-source-encoding
 
 # Sharable libraries extension
 SOEXTENSION = dylib
-
-release: EXTRA_COMPILER_FLAGS = -O4

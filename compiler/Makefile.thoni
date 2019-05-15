@@ -46,7 +46,7 @@ release: clean build
 ## rndalan - Progam to generate a randomized Alan source
 #
 rndalan: rndalan.o
-	$(LINK) $(LINKFLAGS) -o rndalan rndalan.o
+	$(LINK) -o rndalan rndalan.o
 	-@if ! test -f ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp rndalan ../bin
 
