@@ -171,9 +171,10 @@ setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter
 	-rm alan_tmp.iss
 	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
 
-.PHONY: gargoyle
-gargoyle:
-	$(MAKE) -C interpreter gargoyle
+# Gargoyle Arun
+.PHONY: gararun
+gararun:
+	$(MAKE) -C interpreter gararun
 
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; ../../bin/alan adventv3

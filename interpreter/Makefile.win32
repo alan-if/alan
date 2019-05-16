@@ -16,7 +16,7 @@ include ../mk/include_guard.mk
 ifdef WINARUN_ENABLED
 EXTRA_TARGETS += winarun
 else
-$(info NOT ENABLED: WinArun)
+$(info NOT ENABLED: winarun - WindowsGLK-based Arun)
 endif
 
 WINGLK_DEFS = -DHAVE_WINGLK
@@ -53,10 +53,10 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 ifdef GARARUN_ENABLED
 EXTRA_TARGETS += gargoyle
 else
-$(info NOT ENABLED: Gargoyle Arun)
+$(info NOT ENABLED: gararun - Gargoyle Arun)
 endif
 
-gargoyle: build-gararun gararun-package gargoyle-updater
+gararun: build-gararun gararun-package gargoyle-updater
 
 .PHONY: build-gararun
 build-gararun: alan3.exe

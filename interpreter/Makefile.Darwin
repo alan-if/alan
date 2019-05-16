@@ -63,7 +63,7 @@ endif
 # Packages (http://http://s.sudre.free.fr/Software/Packages/about.html)
 #
 
-gargoyle: gargoyle-updater gararun-tar
+gararun: gargoyle-updater gararun-tar
 
 gargoyle-updater: alan3 gargoyle-libs
 	packagesbuild gargoyle-alan3-installer.pkgproj

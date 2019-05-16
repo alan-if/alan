@@ -11,7 +11,7 @@ include ../mk/include_guard.mk
 ifdef WINALAN_ENABLED
 EXTRA_TARGETS += winalan
 else
-$(info NOT ENABLED: winalan)
+$(info NOT ENABLED: winalan - Alan compiler with Windows GUI)
 endif
 
 # Build with flags:

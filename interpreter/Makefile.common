@@ -77,7 +77,7 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 ifdef GLKARUN_ENABLED
 EXTRA_TARGETS += glkarun
 else
-$(info NOT ENABLED: glkarun)
+$(info NOT ENABLED: glkarun - Arun with curses text Glk)
 endif
 
 GLKTERM_DEFS = -DHAVE_GLK
