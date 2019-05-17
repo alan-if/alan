@@ -10,6 +10,9 @@ endif
 
 CFLAGS += -g -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 
+COMPILE = $(CC) $(CFLAGS)
+LINK = $(CC) $(LDFLAGS)
+
 gprof: CFLAGS += -pg
 gprof: LDFLAGS += -pg
 
