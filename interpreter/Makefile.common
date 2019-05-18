@@ -17,7 +17,7 @@ ifneq ($(BUILDNUMBER),)
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
-CFLAGS += -DBUILD=$(BUILDNUMBER) $(OSFLAGS) -MMD
+CFLAGS += -g -Wall -MMD -DBUILD=$(BUILDNUMBER)
 
 # Default extension for shared dynamic libraries
 SOEXT ?= so
@@ -40,7 +40,7 @@ clean:
 ###################################################################
 #
 # Run all tests!
-# Interpreter is tested through the regressions tests
+# Interpreter is tested through the regression tests
 UNITOUTPUT ?= -c
 
 .PHONY: test
@@ -52,6 +52,7 @@ test:
 	@cd ..; jregr -bin bin -dir regression/debug $(JREGROUTPUT)
 	@cd ..; jregr -bin bin -dir regression/platforms $(JREGROUTPUT)
 	@cd ..; jregr -dir regression/restore $(JREGROUTPUT)		# Uses sh not the executables
+
 
 #######################################################################
 # Standard console Arun
@@ -71,6 +72,7 @@ $(ARUNOBJDIR):
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	$(CC) $(LDFLAGS) -o $@ $(ARUNOBJECTS) $(LDLIBS)
 	cp -f $@ ../bin/
+
 
 #######################################################################
 # Build glkterm based arun => glkarun

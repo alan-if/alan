@@ -6,8 +6,14 @@ include ../mk/include_guard.mk
 # It is included from Makefile if run on ThoNi's machine under Cygwin
 #
 
+include Makefile.cygwin
+
+include ../mk/venum.mk
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
+# Is this actually true? Doesn't it depend on how we are building?
+# TODO: Consider "make cross" and that we currently are only building
+# native versions
 PLATFORM = win32.i386
 
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
@@ -25,7 +31,7 @@ release: clean all
 # Test of about dialog
 #
 about: about.c arun.res
-	$(CC) -o $@ -ggdb -mwindows about.c arun.res
+	$(COMPILE) -o $@ -ggdb -mwindows about.c arun.res
 
 
 ###################################################################

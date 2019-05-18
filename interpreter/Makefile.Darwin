@@ -8,17 +8,9 @@ include ../mk/include_guard.mk
 # We use last release until there is a new one, so always one behind Cygwin...
 VERSION := $(shell cat ../NEXTRELEASE)
 
-OSFLAGS = -Wno-invalid-source-encoding -funsigned-char
+CFLAGS += -Wno-invalid-source-encoding -funsigned-char
 
 SOEXT = dylib
-
-LINKER = gcc -g
-LINKER_FLAGS =
-
-
-##################################################################
-# Add extra tests here that might not be working on all platforms
-tests: test
 
 
 ##################################################################

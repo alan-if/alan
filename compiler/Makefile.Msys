@@ -13,7 +13,7 @@ include Makefile.win32
 SOEXTENSION = dll
 
 # Flags to send to compiler
-CFLAGS = -Wall -funsigned-char -g
+CFLAGS += -funsigned-char
 
 ###########################################################
 # Set relevant compilers and tools

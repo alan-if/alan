@@ -1,4 +1,6 @@
 #######################################################################
+include ../mk/include_guard.mk
+#
 # This Makefile is for building the Alan Compiler from scratch
 # on ThoNi's machine. It is basically a Cygwin environment so it
 # includes Makefile.cygwin but adds all the rules to build using
@@ -9,21 +11,9 @@
 # ThoNi's machine too
 #######################################################################
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Default target on thoni is :
-#
-all: tm unit build
-
 include Makefile.cygwin
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Build all binaries
-#
-# 'build' is the target the continuous integration will use
-.PHONY: build
-build: alan $(EXTRA_TARGETS)
+include ../mk/venum.mk
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -37,7 +27,7 @@ release: clean build
 		exit 1 ; \
 	fi
 	@if ldd winalan | grep -q cygwin1.dll ; then \
-		echo Warning - alan is dependent on cygwin1.dll ; \
+		echo Warning - winalan is dependent on cygwin1.dll ; \
 		exit 1 ; \
 	fi
 
@@ -62,5 +52,3 @@ tm:
 	-@if test "`uname -n`" = "thoni"; then \
 		$(MAKE) -f Makefile.tm ; \
 	fi
-
-include ../venum.mk

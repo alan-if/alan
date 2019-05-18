@@ -15,10 +15,7 @@ ifneq ($(BUILDNUMBER),)
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
-CFLAGS = -g -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
-
-COMPILE = $(CC) $(CFLAGS)
-LINK = $(CC) $(LDFLAGS)
+CFLAGS += -g -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 
 gprof: CFLAGS += -pg
 gprof: LDFLAGS += -pg
