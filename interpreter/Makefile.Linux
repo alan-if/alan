@@ -47,8 +47,12 @@ release: all
 # making it from here.  It is built with jam, so "alan3", the
 # resulting Alan interpreter drop-in, will be available as
 # $(GARGOYLE_ROOT)/build/<arch>.release/alan3/alan3
+ifdef GARARUN_ENABLED
+EXTRA_TARGETS += gargoyle
+else
+$(info NOT ENABLED: gararun - Gargoyle Arun)
+endif
 
-GARGOYLE_ROOT=../../garglk-current-alan3
 gararun: gararun-zip gararun-sh
 
 gararun-zip: alan3

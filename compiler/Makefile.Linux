@@ -4,13 +4,7 @@ include ../mk/include_guard.mk
 # Makefile settings for compiling Alan compiler on Linux
 #
 
-UNAME := $(shell uname -m)
-
-COMPILER = gcc
-EXTRA_COMPILER_FLAGS = -g -Wall -funsigned-char -fPIC
-
-LINKER = gcc
-EXTRA_LINKER_FLAGS = -Wl,--no-undefined
+CFLAGS += -fPIC
 
 # Sharable libraries extension
 SOEXTENSION = so
@@ -21,14 +15,3 @@ release: EXTRA_COMPILER_FLAGS = -O4
 # Otherwise you can try to set them to something that does work
 #CGREENROOT = /usr/local
 #CGREENINCLUDE = -I$(CGREENROOT)/include
-
-# On a 64-bit we should use 64-bit libraries
-#ifeq ($(UNAME),x86_64)
-#  CGREENLIBDIR=$(CGREENROOT)/lib/x86_64-linux-gnu
-#  CGREENBINDIR=$(CGREENROOT)/bin
-#else
-#  CGREENLIBDIR=$(CGREENROOT)/lib
-#  CGREENBINDIR=$(CGREENROOT)/bin
-#endif
-#CGREENLINKLIB = -L$(CGREENDIR) -lcgreen -lm
-#CGREENLOADLIB = LD_LIBRARY_PATH=$(CGREENLIBDIR)
