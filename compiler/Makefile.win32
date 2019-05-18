@@ -10,6 +10,7 @@ include ../mk/include_guard.mk
 #
 ifdef WINALAN_ENABLED
 EXTRA_TARGETS += winalan
+EXTRA_TESTS += winalan_tests
 else
 $(info NOT ENABLED: winalan - Alan compiler with Windows GUI)
 endif
@@ -33,3 +34,6 @@ winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res ../bin
 
 alan.res: alan.rc alan.ico alan.version.c
 	$(WINDRES) $< -O coff -o $@
+
+winalan_tests:
+	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/winalan $(JREGROUTPUT)
