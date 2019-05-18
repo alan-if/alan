@@ -4,22 +4,14 @@
 # it is running and will include specific Makefiles to build on that
 # particular host
 #
-# In the included platform specific Makefiles you should handle all
-# target specific compile and link settings
 #
 include mk/common.mk
+
+all: unit build test
 
 # Include the correct main Makefile depending on the OS/environment
 INCLUDED = true
 #
-include Makefile.$(OS)
+-include Makefile.$(OS)
 
-#ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-#	include Makefile.cygwin
-#else
-#	ifeq ($(findstring MINGW, $(shell uname)), MINGW)
-#		include Makefile.Mingw
-#	else
-#		include Makefile.$(shell uname)
-#	endif
-#endif
+include Makefile.common
