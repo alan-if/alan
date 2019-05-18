@@ -12,7 +12,6 @@ PLATFORM ?= "Needs to be set by platform specific Makefile"
 
 .PHONY: clean
 clean:
-	@echo "******** Target: $@ ***********"
 	-$(MAKE) -C compiler clean
 	-$(MAKE) -C interpreter clean
 	-$(MAKE) -C converter clean
@@ -20,21 +19,18 @@ clean:
 
 .PHONY: unit
 unit:
-	@echo "******** Target: $@ ***********"
 	-$(MAKE) -C compiler UNITOUTPUT="$(UNITOUTPUT)" unit
 	-$(MAKE) -C interpreter UNITOUTPUT="$(UNITOUTPUT)" unit
 	-$(MAKE) -C converter UNITOUTPUT="$(UNITOUTPUT)" unit
 
 .PHONY: build
 build:
-	@echo "******** Target: $@ ***********"
 	$(MAKE) -C compiler BUILDNUMBER=$(BUILDNUMBER) build
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) build
 	$(MAKE) -C converter BUILDNUMBER=$(BUILDNUMBER) build
 
 .PHONY: test
 test:
-	@echo "******** Target: $@ ***********"
 	-$(MAKE) -C compiler JREGROUTPUT=$(JREGROUTPUT) test
 	-$(MAKE) -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
 	-$(MAKE) -C converter JREGROUTPUT=$(JREGROUTPUT) test
