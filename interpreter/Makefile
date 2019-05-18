@@ -6,27 +6,15 @@
 #
 # To handle local dependencies and enable some extra targets, copy
 # Makefile.local.template to Makefile.local and modify settings there
+include ../mk/common.mk
 
 # Defer resolution of EXTRA_TARGETS to end of this file
 all: everything
 
-# Discover OS and ARCH
-UNAME_O_WORKS=$(shell uname -o &>/dev/null; echo $$?)
-ifeq ($(UNAME_O_WORKS),0)
-  OS=$(shell uname -o)
-else
-  OS=$(shell uname -s)
-endif
-ifeq ($(OS),GNU/Linux)
-  OS=Linux
-endif
-ARCH = $(shell uname -m)
-$(info OS=$(OS), ARCH=$(ARCH))
-
 # Include list of all sources and symbols for various groups of them
 include sources.mk
 
-# Allow subordinate Makefiles to exectute
+# Allow subordinate Makefiles to execute
 INCLUDED = true
 
 # Read possible local dependencies and EXTRA_TARGETS to enable
@@ -51,5 +39,3 @@ include Makefile.common
 
 everything: unit arun $(EXTRA_TARGETS)
 build: arun $(EXTRA_TARGETS)
-
-include ../mk/common.mk

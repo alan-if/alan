@@ -2,6 +2,7 @@
 # This Makefile is the top level for building the Alan System.
 # It only works on ThoNi's machine.
 #######################################################################
+include mk/include_guard.mk
 
 VERSION	:= `venum alan -print '$$v.$$r{s$$s|_}$$c' | tr -d '\n\r'`
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
@@ -19,12 +20,11 @@ default: unit build
 .PHONY: all
 all: unit build documentation tests
 
-.PHONY:tests
-tests: test cygwintests
-
-.PHONY: cygwintests
-cygwintests:
-	@java -jar bin/jregr.jar -bin bin -dir regression/winalan $(JREGROUTPUT)
+# Add extra tests
+# TODO: Why not run these on all platforms?
+EXTRA_TESTS += cygwin_tests
+.PHONY: cygwin_tests
+cygwin_tests:
 	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
 
 CHANGES_HEADER = `head -1 CHANGES`
