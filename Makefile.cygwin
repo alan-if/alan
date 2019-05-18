@@ -13,6 +13,7 @@ PLATFORM = win32.i386
 # Location of Inno Setup Compiler
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
+# To get buildnumber remotely from Jenkins
 XPATH = xpath -q -e
 
 default: unit build
@@ -31,6 +32,8 @@ CHANGES_HEADER = `head -1 CHANGES`
 
 .PHONY: release
 release:
+	# Do some checking before building the release...
+	# TODO: should not be part of Makefile.cygwin, => Makefile.thoni?
 	@if ! printf -- '%s' "$(CHANGES_HEADER)" | egrep -q -- "$(VERSION)" ; then \
 		echo "CHANGES is not updated for $(VERSION)" ; \
 		exit 1 ; \
