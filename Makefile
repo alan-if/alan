@@ -9,15 +9,17 @@
 #
 include mk/common.mk
 
-# Include the correct main Makefile depending on the system name
+# Include the correct main Makefile depending on the OS/environment
 INCLUDED = true
 #
-ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-	include Makefile.cygwin
-else
-	ifeq ($(findstring MINGW, $(shell uname)), MINGW)
-		include Makefile.Mingw
-	else
-		include Makefile.$(shell uname)
-	endif
-endif
+include Makefile.$(OS)
+
+#ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+#	include Makefile.cygwin
+#else
+#	ifeq ($(findstring MINGW, $(shell uname)), MINGW)
+#		include Makefile.Mingw
+#	else
+#		include Makefile.$(shell uname)
+#	endif
+#endif

@@ -2,13 +2,6 @@
 include ../mk/include_guard.mk
 #
 # Common rules for alan compiler
-#
-# You can:
-#     make
-#     make unit
-#     make build
-#     make test
-#     make coverage
 
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
@@ -20,6 +13,9 @@ CFLAGS += -g -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 gprof: CFLAGS += -pg
 gprof: LDFLAGS += -pg
 
+
+# Include the common source lists and symbols for various groups of them
+include sources.mk
 
 ######################################################################
 # Target to just build

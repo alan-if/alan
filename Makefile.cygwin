@@ -19,7 +19,7 @@ XPATH = xpath -q -e
 default: unit build
 
 .PHONY: all
-all: unit build documentation tests
+all: unit build documentation test
 
 # Add extra tests
 # TODO: Why not run these on all platforms?

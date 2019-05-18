@@ -22,6 +22,9 @@ CFLAGS += -g -Wall -MMD -DBUILD=$(BUILDNUMBER)
 # Default extension for shared dynamic libraries
 SOEXT ?= so
 
+# Include list of all sources and symbols for various groups of them
+include sources.mk
+
 #######################################################################
 .PHONY: unit
 ifneq ($(CGREEN),yes)

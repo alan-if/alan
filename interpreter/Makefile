@@ -11,25 +11,13 @@ include ../mk/common.mk
 # Defer resolution of EXTRA_TARGETS to end of this file
 all: everything
 
-# Include list of all sources and symbols for various groups of them
-include sources.mk
-
 # Allow subordinate Makefiles to execute
 INCLUDED = true
 
 # Read possible local dependencies and EXTRA_TARGETS to enable
 -include Makefile.local
 
-# Include correct subordinate Makefile depending on OS and possibly system name
-ifeq ($(OS),Cygwin)
-	ifeq ($(shell uname -n), thoni64)
-		include Makefile.thoni
-	else
-		include Makefile.cygwin
-	endif
-else
-	include Makefile.$(OS)
-endif
+-include Makefile.$(OS)
 
 # Do we have Cgreen available?
 CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
