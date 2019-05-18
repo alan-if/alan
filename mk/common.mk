@@ -16,3 +16,10 @@ $(info OS=$(OS), ARCH=$(ARCH))
 # Shorthands
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
+
+# Running inside Emacs? Ensure pretty output
+ifneq ($(EMACS),)
+  JREGROUTPUT = -noansi
+else
+  UNITOUTPUT ?= -c
+endif
