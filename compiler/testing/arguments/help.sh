@@ -1,1 +1,1 @@
-alan -help
+../../alan -help

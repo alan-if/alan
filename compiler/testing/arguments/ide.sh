@@ -1,1 +1,1 @@
-alan -ide error.alan
+../../alan -ide error.alan

@@ -1,1 +1,1 @@
-alan -cc error.alan
+../../alan -cc error.alan
