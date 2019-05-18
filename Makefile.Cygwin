@@ -1,48 +1,38 @@
 #######################################################################
-# This general Makefile for building the Alan System on MSYS2.
-# It is included from Makefile if run on a MSYS2 MinGW shell.
-#
-# NOTE: This file is an adaptation of "Makefile.cygwin", by Tristano.
-#       It hasn't been tested with CGreen yet, but it successfully
-#       compiled the whole system via MSYS2 under Win 10 (without CGreen).
-#
-#       To build without CGreen, use:
-#          make CGREEN=no
-#######################################################################
-
-#######################################################################
 # This Makefile is the top level for building the Alan System.
 # It only works on ThoNi's machine.
 #######################################################################
+include mk/include_guard.mk
 
-VERSION := `venum alan -print '$$v.$$r{s$$s|_}$$c' | tr -d '\n\r'`
-DISTDIR := ~/Utveckling/Alan/alanweb/downloads
+VERSION	:= `venum alan -print '$$v.$$r{s$$s|_}$$c' | tr -d '\n\r'`
+DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
 # Since we only distribute windows 32-bit exe's
+# TODO: Do/will we?
 PLATFORM = win32.i386
 
 # Location of Inno Setup Compiler
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
+# To get buildnumber remotely from Jenkins
 XPATH = xpath -q -e
 
-default: unit build
+# Also build documentation
+EXTRA_TARGET += documentation
 
-.PHONY: all
-all: unit build documentation tests
-
-.PHONY:tests
-tests: test cygwintests
-
-.PHONY: cygwintests
-cygwintests:
-	@java -jar bin/jregr.jar -bin bin -dir regression/winalan $(JREGROUTPUT)
+# Add extra tests
+# TODO: Why not run these on all platforms?
+EXTRA_TESTS += cygwin_tests
+.PHONY: cygwin_tests
+cygwin_tests:
 	@java -jar bin/jregr.jar -bin bin -dir regression/versions/interpreter $(JREGROUTPUT)
 
 CHANGES_HEADER = `head -1 CHANGES`
 
 .PHONY: release
 release:
+	# Do some checking before building the release...
+	# TODO: should not be part of Makefile.cygwin, => Makefile.thoni?
 	@if ! printf -- '%s' "$(CHANGES_HEADER)" | egrep -q -- "$(VERSION)" ; then \
 		echo "CHANGES is not updated for $(VERSION)" ; \
 		exit 1 ; \
@@ -59,7 +49,7 @@ release:
 	$(MAKE) -f Makefile.thoni releasebuild
 	$(MAKE) -f Makefile.thoni test
 	$(MAKE) -f Makefile.thoni documentation
-	$(MAKE) -f Makefile.thoni zip setup gargoyle
+	$(MAKE) -f Makefile.thoni zip setup gararun
 	$(MAKE) -f Makefile.thoni tags
 	$(MAKE) -f Makefile.thoni release-upload
 
@@ -104,8 +94,6 @@ releasebuild:
 	$(MAKE) -C compiler release
 	$(MAKE) -C interpreter release
 	$(MAKE) -C converter release
-
-include Makefile.common
 
 .PHONY: tags
 tags: last-release
@@ -192,4 +180,5 @@ converter/a2a3.readme.txt: converter/a2a3.readme
 	unix2dos >$@ <$<
 
 print-version:
-	echo $(VERSION)
+	@echo VERSION=$(VERSION)
+	@echo BUILDNUMBER=$(BUILDNUMBER)

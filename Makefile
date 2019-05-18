@@ -7,7 +7,7 @@
 #
 include mk/common.mk
 
-all: unit build test
+all: everything
 
 # Include the correct main Makefile depending on the OS/environment
 INCLUDED = true
@@ -15,3 +15,5 @@ INCLUDED = true
 -include Makefile.$(OS)
 
 include Makefile.common
+
+everything: unit build test $(EXTRA_TARGETS)

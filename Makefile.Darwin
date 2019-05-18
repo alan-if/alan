@@ -62,5 +62,3 @@ snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)
 	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg snapshots/$(BUILDNAME)
 	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip snapshots/$(BUILDNAME)
-
-include Makefile.common

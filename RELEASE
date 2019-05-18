@@ -14,7 +14,7 @@ distributions of the Alan system.
     the main branch, and a branch for this OS is created at the same
     commit.
 
-    Then all packages for the platform is uploaded to the Alan
+    Then all packages for the primary platform is uploaded to the Alan
     website.
 
     The file LASTRELEASE will contain the venum of the last
@@ -26,7 +26,7 @@ distributions of the Alan system.
 
     On next compile that upcoming version is written to the file
     NEXTRELEASE so that other platforms can use that as version
-    (versions should only be updated on the main delvelopment
+    (versions should only be updated on the main development
     machine).
 
 "make distribution" (secondary platforms)
