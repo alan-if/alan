@@ -51,3 +51,5 @@ include Makefile.common
 
 everything: unit arun $(EXTRA_TARGETS)
 build: arun $(EXTRA_TARGETS)
+
+include ../mk/common.mk

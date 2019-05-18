@@ -59,3 +59,5 @@ include Makefile.common
 
 everything: unit alan $(EXTRA_TARGETS)
 build: alan $(EXTRA_TARGETS)
+
+include ../mk/common.mk
