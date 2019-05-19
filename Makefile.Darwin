@@ -14,13 +14,9 @@ PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
 XPATH = xpath
 
 
-# Default target
-all : unit build
-
-v :
-	echo $(VERSION)
-
-
+######################################################################
+# Packages
+#
 .PHONY: packages
 packages: alan.readme.macosx $(PACKAGE)
 
@@ -30,7 +26,7 @@ $(PACKAGE): bin/alan bin/arun
 	-rm alan arun
 
 
-###############
+######################################################################
 # Distribution
 #
 distribution: distribution-check distribution-build distribution-upload
@@ -51,7 +47,7 @@ distribution-upload:
 	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip interpreters/macosx
 
 
-##########
+######################################################################
 # Snapshot
 #
 snapshot-build:
