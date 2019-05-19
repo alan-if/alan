@@ -1,15 +1,12 @@
 #######################################################################
 include ../mk/include_guard.mk
 #
-# This Makefile is for building the Alan Interpreter from scratch
-# It only works on ThoNi's machines, which are Windows machines
-# It is included from Makefile if run on ThoNi's machine under Cygwin
+# This Makefile is included from Makefile.cygwin if runing on ThoNi's
+# machines, which are Windows machines. This primarily handles the
+# release process.
 #
 
-include Makefile.cygwin
-
 include ../mk/venum.mk
-VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
 # Is this actually true? Doesn't it depend on how we are building?
 # TODO: Consider "make cross" and that we currently are only building
@@ -20,10 +17,9 @@ INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
 #######################################################################
 # Settings for Release
-release: OPTIMIZE=-O4
-
 .PHONY: release
-release: clean all
+release: OPTIMIZE=-O4
+release: clean build
 
 
 ###################################################################

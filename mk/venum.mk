@@ -6,6 +6,7 @@
 # non-Windows platforms where 'venum' isn't available
 
 NEXTRELEASEFORMAT='$$v.$$r{s$$s|}$$c'
+VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
 alan.version.c: $(VERSIONSRCS)
 	cd ..; venum alan time
@@ -24,7 +25,7 @@ version.h : ../version.h
 v:
 	@echo NEXTRELEASEFORMAT=$(NEXTRELEASEFORMAT)
 	@which venum
-	if [ -f "alan.version" ] ; then \
+	@if [ -f "alan.version" ] ; then \
 		venum alan -print $(NEXTRELEASEFORMAT) ; \
 	elif [ -f "../alan.version" ] ; then \
 		cd ..; venum alan -print $(NEXTRELEASEFORMAT) ; \

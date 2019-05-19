@@ -27,7 +27,11 @@ $(PACKAGE): bin/alan bin/arun
 
 
 ######################################################################
+#
 # Distribution
+#
+# TODO: Should be able to refactor out this to Makefile.common using
+# EXTRA_PACKAGES strategy
 #
 distribution: distribution-check distribution-build distribution-upload
 

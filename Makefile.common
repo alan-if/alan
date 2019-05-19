@@ -45,7 +45,6 @@ ci: buildnumbers all packages
 # Snapshot boiler plate - specifics in Makefile.<platform>
 #
 snapshot: buildnumbers snapshot-build snapshot-upload
-	@echo "******** Target: $@ ***********"
 
 
 ##################################################
@@ -76,8 +75,9 @@ ifeq ($(BUILDNUMBER),)
 	$(eval BUILDNUMBER := $(shell wget -q -O- 'https://ci.alanif.se/jenkins/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
 endif
 
-.PHONY: x
-x:
+.PHONY: v
+v:
+	@echo VERSION = $(VERSION)
 	@echo BUILDNUMBER = $(BUILDNUMBER)
 	@echo BUILDVERSION = $(BUILDVERSION)
 	@echo BUILDNAME = $(BUILDNAME)

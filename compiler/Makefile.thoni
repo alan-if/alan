@@ -1,17 +1,14 @@
 #######################################################################
 include ../mk/include_guard.mk
 #
-# This Makefile is for building the Alan Compiler from scratch
-# on ThoNi's machine. It is basically a Cygwin environment so it
-# includes Makefile.cygwin but adds all the rules to build using
-# ToolMaker compiler tools, etc.
+# This Makefile is included from Makefile.cygwin when running on
+# ThoNi's machine. It adds all the rules to build using ToolMaker
+# compiler tools and making a relase.
 #
 # It is also the environment that will be used when running within
 # the Hudson Continuous Integration server, since that is running on
 # ThoNi's machine too
 #######################################################################
-
-include Makefile.cygwin
 
 include ../mk/venum.mk
 
@@ -23,11 +20,11 @@ release: OPTIMIZE = -O4
 .PHONY: release
 release: clean build
 	@if ldd alan | grep -q cygwin1.dll ; then \
-		echo Warning - alan is dependent on cygwin1.dll ; \
+		@echo ERROR - alan is dependent on cygwin1.dll ; \
 		exit 1 ; \
 	fi
 	@if ldd winalan | grep -q cygwin1.dll ; then \
-		echo Warning - winalan is dependent on cygwin1.dll ; \
+		@echo ERROR - winalan is dependent on cygwin1.dll ; \
 		exit 1 ; \
 	fi
 
@@ -51,4 +48,6 @@ rndalan: rndalan.o
 tm:
 	-@if test "`uname -n`" = "thoni"; then \
 		$(MAKE) -f Makefile.tm ; \
+	else \
+		echo "ERROR: You can only generate parsers etc. on ThoNi's machine" ; \
 	fi

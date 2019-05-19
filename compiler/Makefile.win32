@@ -37,3 +37,10 @@ alan.res: alan.rc alan.ico alan.version.c
 
 winalan_tests:
 	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/winalan $(JREGROUTPUT)
+
+######################################################################
+#
+# CROSS compilation for windows should work by doing
+#
+# make CC=<cross-compiler> build
+#
