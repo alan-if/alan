@@ -98,7 +98,7 @@ gargoyle-libs:
 ifdef MACARUN_ENABLED
 EXTRA_TARGETS += macarun
 else
-$(info NOT ENABLED: MacArun)
+$(info NOT ENABLED: macarun - MacOS Terminal Arun)
 endif
 #
 # Builds using platypus which needs to be installed, including the command line version
