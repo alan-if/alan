@@ -10,7 +10,7 @@ VERSION := $(shell cat ../NEXTRELEASE)
 
 CFLAGS += -Wno-invalid-source-encoding -funsigned-char
 
-SOEXT = dylib
+SOEXTENSION = dylib
 
 
 ##################################################################

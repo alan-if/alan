@@ -20,7 +20,7 @@ endif
 CFLAGS += -g -Wall -MMD -funsigned-char -DBUILD=$(BUILDNUMBER)
 
 # Default extension for shared dynamic libraries
-SOEXT ?= so
+SOEXTENSION ?= so
 
 # Include list of all sources and symbols for various groups of them
 include sources.mk
@@ -37,7 +37,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	@-rm -f *.exe *.o .*/*.o .*/*.d .*/*.$(SOEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun alan3 arun.res
+	@-rm -f *.exe *.o .*/*.o .*/*.d .*/*.$(SOEXTENSION) MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun alan3 arun.res
 
 
 ###################################################################
@@ -135,12 +135,12 @@ $(UNITTESTSOBJDIR):
 	@mkdir $(UNITTESTSOBJDIR)
 
 # Build the DLL...
-unittests.$(SOEXT): $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
+unittests.$(SOEXTENSION): $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 	$(CC) $(LDFLAGS) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB)
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
-cgreenrunnertests: unittests.$(SOEXT)
+cgreenrunnertests: unittests.$(SOEXTENSION)
 	$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
 
@@ -158,13 +158,13 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 # We don't want that...
 .PRECIOUS: .unittests/%.o
 
-# A test .$(SOEXT) for a module is built from its .o and the _test.o (and some extras)
-$(UNITTESTSOBJDIR)/%_tests.$(SOEXT): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
+# A test .$(SOEXTENSION) for a module is built from its .o and the _test.o (and some extras)
+$(UNITTESTSOBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
 	$(CC) $(LDFLAGS) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(CGREENLINKLIB)
 
-ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXT),$(MODULES_WITH_ISOLATED_UNITTESTS)))
+ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXTENSION),$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
-# Then run all _tests.$(SOEXT)'s with the cgreen-runner
+# Then run all _tests.$(SOEXTENSION)'s with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: $(UNITTESTSOBJDIR) $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
 	$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)

@@ -9,7 +9,7 @@ include Makefile.win32
 
 CFLAGS = -funsigned-char -g -Wall
 
-SOEXT = dll
+SOEXTENSION = dll
 
 ###########################################################
 # On cygwin you can try to build without cygwin1.dll using
