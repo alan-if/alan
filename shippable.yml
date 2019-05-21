@@ -1,6 +1,0 @@
-langauge: c
-compiler:
-    - gcc
-build:
-    ci:
-        - make CGREEN=no ci
