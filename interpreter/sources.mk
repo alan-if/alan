@@ -1,3 +1,4 @@
+include ../mk/include_guard.mk
 # Declaration of sources required for various types of builds
 #
 # Unittests are done using the excellent
