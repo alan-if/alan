@@ -4,6 +4,9 @@ include ../mk/include_guard.mk
 # Makefile settings for compiling Alan compiler on Linux
 #
 
+# We can potentially build for Windows
+include Makefile.win32
+
 CFLAGS += -fPIC
 
 # Sharable libraries extension

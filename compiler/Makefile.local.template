@@ -1,0 +1,13 @@
+######################################################################
+include ../mk/include_guard.mk
+#
+# Local settings Makefile for building various versions of
+# Alan compiler
+#
+# Copy this file to Makefile.local and enable extra targets that depend
+# on third party libraries by uncommenting and adjusting below
+
+# Enable WinAlan:
+#WINALAN_ENABLED = true
+winalan: CC=i686-w64-mingw32-gcc
+winalan: WINDRES=i686-w64-mingw32-windres
