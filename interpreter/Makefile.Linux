@@ -8,7 +8,8 @@ include ../mk/include_guard.mk
 # We are compiling for the same version as on Master version system
 VERSION := $(shell cat ../NEXTRELEASE)
 
-CFLAGS = -g -Wall -funsigned-char -fPIC $(OPTIMIZE)
+unit: CFLAGS += -fPIC
+unit: LDFLAGS += -fPIC
 
 LIBS = $(GLKLIB) $(LINKLIBS)
 

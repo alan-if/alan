@@ -17,7 +17,7 @@ ifneq ($(BUILDNUMBER),)
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
-CFLAGS += -g -Wall -MMD -DBUILD=$(BUILDNUMBER)
+CFLAGS += -g -Wall -MMD -funsigned-char -DBUILD=$(BUILDNUMBER)
 
 # Default extension for shared dynamic libraries
 SOEXT ?= so
