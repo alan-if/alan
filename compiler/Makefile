@@ -18,6 +18,9 @@ all: everything
 # Allow subordinate Makefiles to exectute
 INCLUDED = true
 
+# Include the common source lists and symbols for various groups of them
+include sources.mk
+
 # Read possible local dependencies and EXTRA_TARGETS to enable
 -include Makefile.local
 

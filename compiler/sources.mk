@@ -1,3 +1,4 @@
+include ../mk/include_guard.mk
 # This file is included in other Makefiles to ensure
 # that they all use the same sets
 

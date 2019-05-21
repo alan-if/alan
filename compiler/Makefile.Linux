@@ -7,7 +7,8 @@ include ../mk/include_guard.mk
 # We can potentially build for Windows
 include Makefile.win32
 
-CFLAGS += -fPIC
+unit: CFLAGS += -fPIC
+unit: LDFLAGS += -fPIC
 
 # Sharable libraries extension
 SOEXTENSION = so

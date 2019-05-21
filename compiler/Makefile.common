@@ -17,9 +17,6 @@ gprof: CFLAGS += -pg
 gprof: LDFLAGS += -pg
 
 
-# Include the common source lists and symbols for various groups of them
-include sources.mk
-
 ######################################################################
 # Target to just build
 .PHONY: build gprof
