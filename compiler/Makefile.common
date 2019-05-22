@@ -124,6 +124,7 @@ linked_unittests: unittests.$(SOEXTENSION)
 .PRECIOUS: .unittests/%_tests.o .unittests/%.o .unittests/%.$(SOEXTENSION) .unittests/%_tests.$(SOEXTENSION) .alan/%.o
 
 #####################################################################
+# TODO: Here's some duplication with ../interpreter/Makefile.common
 # Build a runnable DLL for each module where it can be tested in total
 # isolation (with everything else mocked away, except lists.c and
 # memory.c)

@@ -140,7 +140,6 @@ cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: unittests.$(SOEXTENSION)
 	$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
-
 # Here we try to build a runnable DLL for each module where it can be
 # tested in total isolation (with everything else mocked away,
 # except memory.c, options.c and list.c)
