@@ -15,21 +15,21 @@ include ../mk/include_guard.mk
 # or as a binary at http://www.ifarchive.org/indexes/if-archiveXprogrammingXglkXimplementations.html
 #
 # Point the linker to the Windows GLK library
-#WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
+WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
 #
 # If required you can set particular compiler and linker for an extra target:
-#winarun: CC = i686-w64-mingw32-gcc
-#winarun: WINDRES = i686-w64-mingw32-windres
+winarun: CC = i686-w64-mingw32-gcc
+winarun: WINDRES = i686-w64-mingw32-windres
 # And/or extra switches and flags:
-#winarun: CFLAGS = -m32 -mwindows
-#winarun: LDFLAGS = -m32 -mwindows
+winarun: CFLAGS = -m32 -mwindows
+winarun: LDFLAGS = -m32 -mwindows
 #
 
 # Enable glkarun:
 #GLKARUN_ENABLED = true
 # Requires curses and a glkterm library
-#CURSESLIB = -lncurses
-#GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
+CURSESLIB = -lncurses
+GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
 
 # Enable Gargoyle Arun:
 #GARARUN_ENABLED = true
@@ -40,7 +40,7 @@ include ../mk/include_guard.mk
 # binary called 'alan3' To make it use the sources here, remove the
 # subdirectory terps/alan3 and create a link from there to this
 # directory. Then a build here will attempt to build that too.
-#GARGOYLE_ROOT = ../../garglk-current-alan3
+GARGOYLE_ROOT = ../../garglk-current-alan3
 
 # Enable MacArun
 #MACARUN_ENABLED = true
