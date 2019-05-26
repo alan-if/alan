@@ -18,7 +18,8 @@ INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 #######################################################################
 # Settings for Release
 .PHONY: release
-release: OPTIMIZE=-O4
+release: CC=i686-w64-mingw32-gcc
+release: WINDRES=i686-w64-mingw32-windres
 release: clean build
 
 

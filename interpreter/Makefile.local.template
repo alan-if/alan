@@ -15,7 +15,7 @@ include ../mk/include_guard.mk
 # or as a binary at http://www.ifarchive.org/indexes/if-archiveXprogrammingXglkXimplementations.html
 #
 # Point the linker to the Windows GLK library
-WINGLK_ROOT = /home/thomas/Utveckling/WindowsGlk-148
+WINGLK_ROOT = /home/thomas/Utveckling/Alan/WindowsGlk-145
 #
 # If required you can set particular compiler and linker for an extra target:
 winarun: CC = i686-w64-mingw32-gcc

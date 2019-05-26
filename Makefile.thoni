@@ -11,7 +11,6 @@ CHANGES_HEADER = `head -1 CHANGES`
 .PHONY: release
 release:
 	# Do some checking before building the release...
-	# TODO: should not be part of Makefile.cygwin, => Makefile.thoni?
 	@if ! printf -- '%s' "$(CHANGES_HEADER)" | egrep -q -- "$(VERSION)" ; then \
 		echo "CHANGES is not updated for $(VERSION)" ; \
 		exit 1 ; \
@@ -62,7 +61,8 @@ release-upload:
 	#alanupload doc/manual/writing.pdf documentation
 
 
-# Create pdf from odt
+# OBSOLETE: Create pdf from odt
+# TODO: Use alan-doc project to create documentation instead
 .PHONY: documentation
 documentation:
 	$(MAKE) -C doc/manual
