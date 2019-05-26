@@ -1,0 +1,2 @@
+ide-dos.alan text eol=crlf
+ide-unix.alan test eol=lf
