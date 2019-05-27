@@ -305,7 +305,7 @@ static void analyze() {
 
     /* If options haven't been used in the source, use value from command line */
     if (!opts[OPTDEBUG].used) opts[OPTDEBUG].value = debugFlag;
-    if (opts[OPTPACK].value) opts[OPTPACK].value = packFlag;
+    if (!opts[OPTPACK].used) opts[OPTPACK].value = packFlag;
 
     analyzeAdventure();			/* Analyze the adventure */
     endSemanticsTiming();       /* End of semantic pass */
