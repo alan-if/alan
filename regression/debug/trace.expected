@@ -72,7 +72,7 @@ adbg> g
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++
  bce: LINE             0,      0                 
- bd1: PRINT         2132,      4                            "Hall"
+ bd1: PRINT         1330,      4                            "Hall"
  bd2: RETURN                                     
 --------------------------------------------------
 
@@ -80,7 +80,7 @@ adbg> g
 ++++++++++++++++++++++++++++++++++++++++++++++++++
  bd5: LINE             0,    332                 
 <00332>:         "Inside the entrance is a hallway full of dust and pieces of
- bd8: PRINT         2136,    158                            "Inside the entrance is a hallway
+ bd8: PRINT         1336,    158                            "Inside the entrance is a hallway
 full of dust and pieces of the ceiling has fallen to the floor. At the
 west end is a staircase, and to the south is the exit."
  bdb: LINE             0,    335                 
@@ -89,14 +89,14 @@ west end is a staircase, and to the south is the exit."
 ++++++++++++++++++++++++++++++++++++++++++++++++++
  c70: LINE             0,    371                 
 <00371>:         "To the east is a folding door."
- c73: PRINT         2694,     30                            " To the east is a folding door."
+ c73: PRINT         1673,     30                            " To the east is a folding door."
  c76: LINE             0,    372                 
 <00372>:         If door Is closed Then
  c79: ATTRIBUTE        6,      9                 =1         
  c7a: IF             TRUE                        
  c7d: LINE             0,    373                 
 <00373>:             "It is closed."
- c80: PRINT         2724,     13                            " It is closed."
+ c80: PRINT         1691,     13                            " It is closed."
  c81: ELSE                                       
     :
  c89: RETURN                                     
@@ -117,8 +117,8 @@ adbg> g
  da8: PUSH             0                         
  da9: LINE             0,      0                 
  daa: PUSH             6                         
- dab: PUSH          3444                         
- dac: PRINT         3444,      6                            "Stairs"
+ dab: PUSH          2139                         
+ dac: PRINT         2139,      6                            "Stairs"
  dad: RETURN                                     
 --------------------------------------------------
 
@@ -129,8 +129,8 @@ adbg> g
  db0: LINE             0,    447                 
 <00447>:         "You are at the landing of an old staircase. It seem steady
  db1: PUSH           260                         
- db2: PUSH          3450                         
- db3: PRINT         3450,    260                            "You are at the landing of an old
+ db2: PUSH          2145                         
+ db3: PRINT         2145,    260                            "You are at the landing of an old
 staircase. It seem steady enough to walk in, but be careful if you are
 going to use it. There is a passage leading up, and another leading down
 into a dark cellar. To the east is the hallway. A strange smell emerges 
@@ -159,15 +159,15 @@ adbg> g
  bcd: PUSH             0                         
  bce: LINE             0,      0                 
  bcf: PUSH             4                         
- bd0: PUSH          2132                         
- bd1: PRINT         2132,      4                            "Hall"
+ bd0: PUSH          1330                         
+ bd1: PRINT         1330,      4                            "Hall"
  bd2: RETURN                                     
 --------------------------------------------------
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++
 1fc3: PUSH             7                         
-1fc4: PUSH         16956                         
-1fc5: PRINT        16956,      7                            " (again)"
+1fc4: PUSH         10235                         
+1fc5: PRINT        10235,      7                            " (again)"
 1fc6: RETURN                                     
 --------------------------------------------------
 
@@ -178,8 +178,8 @@ adbg> g
  c70: LINE             0,    371                 
 <00371>:         "To the east is a folding door."
  c71: PUSH            30                         
- c72: PUSH          2694                         
- c73: PRINT         2694,     30                            "To the east is a folding door."
+ c72: PUSH          1673                         
+ c73: PRINT         1673,     30                            "To the east is a folding door."
  c74: PUSH             0                         
  c75: PUSH           372                         
  c76: LINE             0,    372                 
@@ -193,8 +193,8 @@ adbg> g
  c7d: LINE             0,    373                 
 <00373>:             "It is closed."
  c7e: PUSH            13                         
- c7f: PUSH          2724                         
- c80: PRINT         2724,     13                            " It is closed."
+ c7f: PUSH          1691                         
+ c80: PRINT         1691,     13                            " It is closed."
  c81: ELSE                                       
     :
  c89: RETURN                                     
@@ -221,16 +221,16 @@ adbg> g
  da8: PUSH             0                                    [0 0 ]
  da9: LINE             0,      0                            []
  daa: PUSH             6                                    [6 ]
- dab: PUSH          3444                                    [6 3444 ]
- dac: PRINT         3444,      6                            "Stairs"
+ dab: PUSH          2139                                    [6 2139 ]
+ dac: PRINT         2139,      6                            "Stairs"
                                                             []
  dad: RETURN                                     
 --------------------------------------------------
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++
 1fc3: PUSH             7                                    [7 ]
-1fc4: PUSH         16956                                    [7 16956 ]
-1fc5: PRINT        16956,      7                            " (again)"
+1fc4: PUSH         10235                                    [7 10235 ]
+1fc5: PRINT        10235,      7                            " (again)"
                                                             []
 1fc6: RETURN                                     
 --------------------------------------------------
@@ -255,8 +255,8 @@ adbg> g
  dce: PUSH             0                                    [0 0 ]
  dcf: LINE             0,      0                            []
  dd0: PUSH             6                                    [6 ]
- dd1: PUSH          3710                                    [6 3710 ]
- dd2: PRINT         3710,      6                            "Cellar"
+ dd1: PUSH          2287                                    [6 2287 ]
+ dd2: PRINT         2287,      6                            "Cellar"
                                                             []
  dd3: RETURN                                     
 --------------------------------------------------
@@ -268,8 +268,8 @@ adbg> g
  dd6: LINE             0,    461                            []
 <00461>:         "In front of you is a dark cellar. To the west is a doorway
  dd7: PUSH           158                                    [158 ]
- dd8: PUSH          3716                                    [158 3716 ]
- dd9: PRINT         3716,    158                            "In front of you is a dark cellar.
+ dd8: PUSH          2293                                    [158 2293 ]
+ dd9: PRINT         2293,    158                            "In front of you is a dark cellar.
 To the west is a doorway into a dark room. The stairs lead up. A thin
 beam of light has found its way all the way down here."
                                                             []
@@ -282,8 +282,8 @@ beam of light has found its way all the way down here."
  e2e: LINE             0,    483                            []
 <00483>:         "In the light from the sun some rats can be seen."
  e2f: PUSH            48                                    [48 ]
- e30: PUSH          4085                                    [48 4085 ]
- e31: PRINT         4085,     48                            " In the light from the sun some
+ e30: PUSH          2498                                    [48 2498 ]
+ e31: PRINT         2498,     48                            " In the light from the sun some
 rats can be seen."
                                                             []
  e32: PUSH             0                                    [0 ]
