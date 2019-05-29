@@ -119,7 +119,7 @@ unittests.$(SOEXTENSION): $(UNITTESTSOBJECTS)
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.$(SOEXTENSION)
-	$(CGREENLIBLOAD) $(CGREENBINDIR)cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
+	cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 
 .PRECIOUS: .unittests/%_tests.o .unittests/%.o .unittests/%.$(SOEXTENSION) .unittests/%_tests.$(SOEXTENSION) .alan/%.o
 
@@ -152,7 +152,7 @@ isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LDLIBS += $(CGREENLINKLIB)
 isolated_unittests: isolated_unittests_build
-	$(CGREENLIBLOAD) $(CGREENBINDIR)cgreen-runner $$f --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	cgreen-runner --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
 
 
 ######################################################################

@@ -1,4 +1,7 @@
+######################################################################
+#
 # Some common definitions for the Alan Makefiles
+#
 
 # Discover OS and ARCH
 UNAME_O_WORKS=$(shell uname -o &>/dev/null; echo $$?)

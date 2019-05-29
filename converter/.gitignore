@@ -6,3 +6,5 @@ a2a3
 *.pmt2
 *.lmt
 *.prod
+.unittests
+.a2a3

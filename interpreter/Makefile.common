@@ -110,10 +110,11 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 #	- using a main program
 #	- using cgreen-runner which finds and runs all tests in shared libraries
 #
+UNITTESTSOBJDIR = .unittests
+
 
 CGREENLINKLIB ?= -lcgreen
 
-UNITTESTSOBJDIR = .unittests
 UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_MAIN_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_USING_RUNNER_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
 UNITTESTS_ALL_OBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTS_ALL_SRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
@@ -138,7 +139,7 @@ unittests.$(SOEXTENSION): $(UNITTESTSOBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) s
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
 cgreenrunnertests: unittests.$(SOEXTENSION)
-	$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
+	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
 # Here we try to build a runnable DLL for each module where it can be
 # tested in total isolation (with everything else mocked away,
@@ -154,22 +155,22 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o,
 
 # A test .$(SOEXTENSION) for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTSOBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(CC) $(LDFLAGS) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(CGREENLINKLIB)
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(CGREENLINKLIB)
 
-ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXTENSION),$(MODULES_WITH_ISOLATED_UNITTESTS)))
+ISOLATED_UNITTESTS_LIBS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXTENSION),$(MODULES_WITH_ISOLATED_UNITTESTS)))
 
 .PHONY: isolated_unittests_build
 isolated_unittests_build: | $(UNITTESTSOBJDIR)
 isolated_unittests_build: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests_build: LDLIBS += $(CGREENLINKLIB)
-isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
+isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_LIBS)
 
 .PHONY: isolated_unittests
 # Then run all _tests.$(SOEXTENSION)'s with the cgreen-runner
 isolated_unittests: CFLAGS += $(CGREENINCLUDE)
 isolated_unittests: LDLIBS += $(CGREENLINKLIB)
 isolated_unittests: isolated_unittests_build
-	$(CGREENLOADLIB) $(CGREENBINDIR)cgreen-runner $$f --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
+	cgreen-runner --suite Interpreter $(UNITOUTPUT) $(ISOLATED_UNITTESTS_LIBS)
 
 
 #######################################################################
