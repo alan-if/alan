@@ -14,7 +14,9 @@ ifeq ($(OS),GNU/Linux)
   OS=Linux
 endif
 ARCH = $(shell uname -m)
-$(info OS=$(OS), ARCH=$(ARCH))
+ifdef TRACE
+  $(info OS=$(OS), ARCH=$(ARCH))
+endif
 
 # Shorthands
 COMPILE = $(CC) $(CFLAGS)
