@@ -7,6 +7,10 @@ include ../mk/include_guard.mk
 # Copy this file to Makefile.local and enable extra targets that depend
 # on third party libraries by uncommenting and adjusting below
 
+# Here's a way to cross-build command line alan for Windows
+cross: CC=i686-w64-mingw32-gcc
+cross: build
+
 # Enable WinAlan:
 #WINALAN_ENABLED = true
 winalan: CC=i686-w64-mingw32-gcc
