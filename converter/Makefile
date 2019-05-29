@@ -7,29 +7,10 @@
 # This makefile instead assumes all sources are generated and
 # only builds from the C source.
 
-ifneq ($(EMACS),)
-JREGROUTPUT = -noansi
-else
-UNITOUTPUT ?= -c
-endif
+include ../mk/common.mk
 
-# Note that this must not have spaces in it lest the variable will include it
-OS := ${if ${findstring CYGWIN,${shell uname}},Cygwin,${shell uname}}
+CFLAGS += -g -Wall -MMD -DBUILD=$(BUILDNUMBER)
 
-OPTIMIZE = -g
-
-win:	PLATFORM = -DWINGUI -mwindows -mno-cygwin
-release:	OPTIMIZE = -O4
-gcov:	GCOV = -fprofile-arcs -ftest-coverage
-
-CFLAGS	= $(OPTIMIZE) -Wall $(GCOV) -funsigned-char $(INCLUDE) $(PLATFORM)
-ifneq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-CFLAGS += -fPIC
-endif
-
-LDFLAGS	= $(OPTIMIZE) $(PLATFORM)
-
-CC = gcc
 CPP	= gcc -MM -ansi
 LD	= gcc
 
@@ -50,8 +31,6 @@ BUILDSRCS = \
 MAINSRCS = $(TMCSRCS) $(BUILDSRCS)
 MAINOBJECTS = ${MAINSRCS:.c=.o} a2a3.version.o
 
-VERSIONSRCS = $(ALANSRCS) $(BUILDSRCS) $(TMSRCS)
-
 # Do we have Cgreen available?
 CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
 
@@ -65,8 +44,8 @@ all : unit build Makefile
 build : a2a3
 
 a2a3: checkTarget $(MAINOBJECTS)
-	$(LD) -o a2a3 $(CFLAGS) $(MAINOBJECTS) $(LDFLAGS)
-	cp a2a3 ../bin
+	$(LINK) -o a2a3$(EXEEXT) $(MAINOBJECTS)
+	cp a2a3$(EXEEXT) ../bin
 
 release: a2a3
 
@@ -105,7 +84,7 @@ MODULES_WITH_UNITTESTS = util
 
 # A test .dll for a module is built from its .o and the _test.o (and some extras)
 %_tests.dll: %.o %_tests.o
-	$(LD) -shared -o $@ $^ $(CFLAGS) $(LDFLAGS) $(LIBS)
+	$(LINK) -shared -o $@ $^ $(LIBS)
 
 UNITTESTS_DLLS = $(patsubst %,%_tests.dll,$(MODULES_WITH_UNITTESTS))
 
@@ -148,7 +127,7 @@ sysdep.h : ../interpreter/sysdep.h
 #
 
 spa.o: spa.c spa.h
-	gcc $(CFLAGS) -DSTDIONONCONST -c spa.c -o spa.o
+	$(COMPILE) -DSTDIONONCONST -c spa.c -o spa.o
 
 #
 # Version number generation
@@ -159,9 +138,12 @@ a2a3.version.h a2a3.version.c:
 version.h :
 	venum -write always -all a2a3
 
-a2a3.version: $(VERSIONSRCS)
+a2a3.version: $(MAINSRCS)
 	venum alan time
 
+cross: CC=i686-w64-mingw32-gcc
+cross: EXEEXT=.exe
+cross: clean build
 
 #
 include dependencies.mk

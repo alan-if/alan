@@ -10,6 +10,7 @@
 #
 # To handle local dependencies and enable some extra targets, copy
 # Makefile.local.template to Makefile.local and modify settings there
+
 include ../mk/common.mk
 
 # Defer resolution of EXTRA_TARGETS to end of this Makefile

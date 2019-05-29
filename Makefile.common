@@ -35,6 +35,12 @@ test:
 	-$(MAKE) -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
 	-$(MAKE) -C converter JREGROUTPUT=$(JREGROUTPUT) test
 
+.PHONY: cross
+cross:
+	-$(MAKE) -C compiler cross
+	-$(MAKE) -C interpreter cross
+	-$(MAKE) -C converter cross
+
 
 .PHONY: ci
 ci: JREGROUTPUT = -xml
