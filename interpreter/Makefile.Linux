@@ -18,25 +18,14 @@ SOEXTENSION = so
 
 # If Cgreen is installed correctly and completely theses things should just work
 # Otherwise you can try to set them to something that does work
-#CGREENROOT = /usr/local
-#CGREENINCLUDE = -I$(CGREENROOT)/include
-
-# On a 64-bit we should use 64-bit libraries
-#ifeq ($(UNAME),x86_64)
-#  CGREENLIBDIR=$(CGREENROOT)/lib/x86_64-linux-gnu
-#  CGREENBINDIR=$(CGREENROOT)/bin
-#else
-#  CGREENLIBDIR=$(CGREENROOT)/lib
-#  CGREENBINDIR=$(CGREENROOT)/bin
-#endif
-#CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
-#CGREENLOADLIB = LD_LIBRARY_PATH=$(CGREENLIBDIR)
-
-
-##################################################################
-.PHONY: release
-release: OPTIMIZE = -O4
-release: all
+###############################
+# Cgreen settings
+CGREENROOT    = /usr/local
+CGREENINCLUDE =
+CGREENLIBDIR  = $(CGREENROOT)/lib/
+CGREENBINDIR  =
+CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
+CGREENLDPATH  =
 
 
 #############################################################
