@@ -17,4 +17,4 @@ winalan: CC=i686-w64-mingw32-gcc
 winalan: WINDRES=i686-w64-mingw32-windres
 
 # We might need to locate -lcgreen
-unittests.$(SOEXTENSION) isolated_unittests: LDLIBS = -L/usr/local/lib
+linked_unittests isolated_unittests: LDLIBS = -L/usr/local/lib
