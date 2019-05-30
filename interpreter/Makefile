@@ -17,8 +17,6 @@ INCLUDED = true
 # Include list of all sources and symbols for various groups of them
 include sources.mk
 
--include Makefile.$(OS)
-
 # Read possible local dependencies and EXTRA_TARGETS to enable
 ifneq ($(wildcard Makefile.local),)
 	include Makefile.local
@@ -26,6 +24,8 @@ else
 # Read the standard template for local settings
 	include Makefile.local.template
 endif
+
+-include Makefile.$(OS)
 
 # Do we have Cgreen available?
 CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
