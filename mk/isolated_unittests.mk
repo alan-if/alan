@@ -4,7 +4,7 @@ include ../mk/include_guard.mk
 # Common rules to build cgreen unittests as isolated shared libs
 #
 # Requrires:
-#   UNITTESTS_OBJDIR: directory in which to store .o and .d 
+#   UNITTESTS_OBJDIR: directory in which to store .o and .d
 #   MODULES_WITH_ISOLATED_UNITTESTS: basename of .c/_tests.c files for the module
 #   ISOLATED_UNITTESTS_EXTRA_MODULES: basename of extra modules to link with
 #   SUITE: name of suite
@@ -27,7 +27,7 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTS_OBJDIR)/, $(addsuffix .o
 
 # A test lib for a module is built from its .o and the _test.o (and some extras)
 $(UNITTESTS_OBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTS_OBJDIR)/%.o $(UNITTESTS_OBJDIR)/%_tests.o $(ISOLATED_UNITTESTS_EXTRA_OBJS)
-	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) -lcgreen $(LDLIBS)
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDLIBS) -lcgreen
 
 ISOLATED_UNITTESTS_LIBS = $(addprefix $(UNITTESTS_OBJDIR)/,$(patsubst %,%_tests.$(SOEXTENSION),$(MODULES_WITH_ISOLATED_UNITTESTS)))
 

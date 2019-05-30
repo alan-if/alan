@@ -79,6 +79,8 @@ SUITE = Converter
 
 include ../mk/isolated_unittests.mk
 
+# We might need to locate -lcgreen
+isolated_unittests: LDLIBS = -L/usr/local/lib
 unittests: isolated_unittests
 
 .PHONY: unit
