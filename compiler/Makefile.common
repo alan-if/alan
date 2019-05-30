@@ -46,7 +46,7 @@ standard_tests:
 # Clean
 .PHONY: clean
 clean:
-	@-rm -rf *.$(SOEXTENSION) .*/*.o .*/*.d .*/*.$(SOEXTENSION) .*/*.gcno .*/*.gcda alan.res ../bin/alan ../bin/winalan .unittests .alan
+	-rm -rf $(ALANOBJDIR) $(UNITTESTS_OBJDIR) *.$(SOEXTENSION) alan.res ../bin/alan ../bin/winalan
 
 #######################################################################
 #
@@ -86,74 +86,42 @@ unit: linked_unittests isolated_unittests
 unitbuild: linked_unittests_build isolated_unittests_build
 endif
 
-CGREENLINKLIB ?= -lcgreen
-
-UNITTESTSOBJDIR = .unittests
-UNITTESTSOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
-UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTSOBJDIR)/,${UNITTESTSDLLSRCS:.c=.o}) $(UNITTESTSOBJDIR)/alan.version.o
+UNITTESTS_OBJDIR = .unittests
+UNITTESTSOBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
+UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTSDLLSRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
 
 # Dependencies, if they don't exist yet
 -include $(UNITTESTSOBJECTS:.o=.d)
 
-$(UNITTESTSOBJDIR)/%.o: | $(UNITTESTSOBJDIR)
-
 # Rule to compile unittest objects to subdirectory
-$(UNITTESTSOBJDIR)/%.o: %.c
+$(UNITTESTS_OBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
-$(UNITTESTSOBJDIR)/%_tests.o: %_tests.c
+$(UNITTESTS_OBJDIR)/%_tests.o: %_tests.c
 	$(COMPILE) -o $@ -c $<
 
-# Create directory if it doesn't exist
-$(UNITTESTSOBJECTS): | $(UNITTESTSOBJDIR)
-$(UNITTESTSOBJDIR):
-	@mkdir $(UNITTESTSOBJDIR)
+$(UNITTESTSOBJECTS): | $(UNITTESTS_OBJDIR)
 
 ###################################################################
 # Build a DLL of all unittests in a separate dir that should exist...
 linked_unittests_build: unittests.$(SOEXTENSION)
 
-unittests.$(SOEXTENSION): CFLAGS += $(CGREENINCLUDE)
-unittests.$(SOEXTENSION): LDLIBS += $(CGREENLINKLIB)
 unittests.$(SOEXTENSION): $(UNITTESTSOBJECTS)
-	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LDLIBS)
+	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LDLIBS) -lcgreen
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.$(SOEXTENSION)
 	cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 
-.PRECIOUS: .unittests/%_tests.o .unittests/%.o .unittests/%.$(SOEXTENSION) .unittests/%_tests.$(SOEXTENSION) .alan/%.o
-
 #####################################################################
-# TODO: Here's some duplication with ../interpreter/Makefile.common
-# Build a runnable DLL for each module where it can be tested in total
-# isolation (with everything else mocked away, except lists.c and
-# memory.c)
-
--include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
--include $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
+# Build isolated unittests in shared libs for each module where it can
+# be tested in total isolation (with everything else mocked away,
+# except some extra objects)
 
 ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep lst dump opt type alan.version
-ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTSOBJDIR)/, $(addsuffix .o, $(ISOLATED_UNITTESTS_EXTRA_MODULES)))
 
-# A test .$(SOEXTENSION) for a module is built from its .o and the _test.o (and some extras)
-$(UNITTESTSOBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTSOBJDIR)/%.o $(UNITTESTSOBJDIR)/%_tests.o
-	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDLIBS)
+isolated_unittests: SUITE = Compiler
 
-ISOLATED_UNITTESTS_DLLS = $(addprefix $(UNITTESTSOBJDIR)/,$(patsubst %,%_tests.$(SOEXTENSION),$(MODULES_WITH_ISOLATED_UNITTESTS)))
-
-.PHONY: isolated_unittests_build
-isolated_unittests_build: | $(UNITTESTSOBJDIR)
-isolated_unittests_build: CFLAGS += $(CGREENINCLUDE)
-isolated_unittests_build: LDLIBS += $(CGREENLINKLIB)
-isolated_unittests_build: $(ISOLATED_UNITTESTS_EXTRA_OBJS) $(ISOLATED_UNITTESTS_DLLS)
-
-.PHONY: isolated_unittests
-# Then run all _tests.$(SOEXTENSION)'s with the cgreen-runner
-isolated_unittests: CFLAGS += $(CGREENINCLUDE)
-isolated_unittests: LDLIBS += $(CGREENLINKLIB)
-isolated_unittests: isolated_unittests_build
-	cgreen-runner --suite Compiler $(UNITOUTPUT) $(ISOLATED_UNITTESTS_DLLS)
-
+include ../mk/isolated_unittests.mk
 
 ######################################################################
 #
@@ -164,8 +132,8 @@ isolated_unittests: isolated_unittests_build
 #   make coverage_build - builds what has changed for coverage
 #   make coverage_report - generates the report
 
-coverage coverage_build: CFLAGS += --coverage
-coverage coverage_build: LDFLAGS += --coverage
+coverage_build: CFLAGS += --coverage -fPIC
+coverage_build: LDFLAGS += --coverage
 
 coverage: clean coverage_build unit test coverage_report
 	open coverage/index.html
