@@ -42,7 +42,7 @@ build : a2a3
 release: a2a3
 
 clean:
-	@-rm -f ./a2a3/*.o .unittests/*.o *.$(SOEXTENSION) ../bin/a2a3
+	-rm -rf $(A2A3_OBJDIR) $(UNITESTS_OBJDIR) ../bin/a2a3
 
 ######################################################################
 #
