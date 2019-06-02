@@ -45,10 +45,11 @@ cross:
 .PHONY: ci
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
-ci: buildnumbers all packages
+ci: buildnumbers all cross packages
 
 ###########################################################
-# Snapshot boiler plate - specifics in Makefile.<platform>
+# Snapshot boiler plate for non-major platforms
+# specifics in Makefile.<platform>
 #
 snapshot: buildnumbers snapshot-build snapshot-upload
 
