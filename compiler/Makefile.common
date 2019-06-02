@@ -46,7 +46,7 @@ standard_tests:
 # Clean
 .PHONY: clean
 clean:
-	-rm -rf $(ALANOBJDIR) $(UNITTESTS_OBJDIR) *.$(SOEXTENSION) alan.res ../bin/alan ../bin/winalan
+	-rm -rf $(ALANOBJDIR) $(UNITTESTS_OBJDIR) *.$(SOEXTENSION) alan alan.exe winalan winalan.exe alan.res ../bin/alan ../bin/alan.exe ../bin/winalan ../bin/winalan.exe
 
 #######################################################################
 #
@@ -59,8 +59,8 @@ $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
 alan: ../bin $(ALANOBJECTS)
-	$(LINK) -o $@ $(ALANOBJECTS) $(LDLIBS)
-	cp $@ ../bin
+	$(LINK) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
+	cp $@$(EXEEXT) ../bin
 
 $(ALANOBJECTS): | $(ALANOBJDIR)
 $(ALANOBJDIR):

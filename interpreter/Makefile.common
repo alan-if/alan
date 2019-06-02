@@ -34,7 +34,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) *.exe *.o MacArun*.zip gargoyle*.tgz gargoyle*.pkg .*/*.gcda ../bin/arun ../bin/winarun ../bin/dumpacd ../bin/glkarun alan3 arun.res
+	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) arun *.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun ../bin/winarun.exe ../bin/dumpacd ../bin/glkarun alan3* arun.res
 
 
 ###################################################################
@@ -70,8 +70,8 @@ $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
 
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $(ARUNOBJECTS) $(LDLIBS)
-	cp -f $@ ../bin/
+	$(CC) $(LDFLAGS) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
+	cp -f $@$(EXEEXT) ../bin/
 
 
 #######################################################################

@@ -17,6 +17,7 @@ endif
 
 # Build with flags:
 winalan: CFLAGS += -DWINGUI #-DARGSDISPLAY
+winalan: EXEEXT = .exe
 WINALANLIBS = -lshlwapi
 
 WINALANOBJDIR = .winalan
@@ -29,8 +30,8 @@ $(WINALANOBJDIR):
 	@mkdir $(WINALANOBJDIR)
 
 winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res ../bin
-	$(LINK) -o winalan -mwindows $(WINALANOBJECTS) alan.res $(WINALANLIBS)
-	cp winalan ../bin
+	$(LINK) -o $@$(EXEEXT) -mwindows $(WINALANOBJECTS) alan.res $(WINALANLIBS)
+	cp $@$(EXEEXT) ../bin
 
 alan.res: alan.rc alan.ico alan.version.c
 	$(WINDRES) $< -O coff -o $@
@@ -38,9 +39,4 @@ alan.res: alan.rc alan.ico alan.version.c
 winalan_tests:
 	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/winalan $(JREGROUTPUT)
 
-######################################################################
-#
-# CROSS compilation for windows should work by doing
-#
-# make CC=<cross-compiler> build
-#
+

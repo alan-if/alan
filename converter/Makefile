@@ -42,7 +42,7 @@ build : a2a3
 release: a2a3
 
 clean:
-	-rm -rf $(A2A3_OBJDIR) $(UNITTESTS_OBJDIR) ../bin/a2a3
+	-rm -rf $(A2A3_OBJDIR) $(UNITTESTS_OBJDIR) a2a3 a2a3.exe ../bin/a2a3 ../bin/a2a3.exe
 
 ######################################################################
 #
@@ -57,8 +57,8 @@ $(A2A3_OBJECTS): $(A2A3_OBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
 a2a3: ../bin $(A2A3_OBJECTS)
-	$(LINK) -o a2a3$(EXEEXT) $(A2A3_OBJECTS)
-	cp a2a3$(EXEEXT) ../bin
+	$(LINK) -o $@$(EXEEXT) $(A2A3_OBJECTS)
+	cp $@$(EXEEXT) ../bin
 
 $(A2A3_OBJECTS): | $(A2A3_OBJDIR)
 $(A2A3_OBJDIR):
@@ -133,7 +133,7 @@ a2a3.version: $(A2A3_SRCS)
 
 cross: CC=i686-w64-mingw32-gcc
 cross: EXEEXT=.exe
-cross: clean build
+cross: build
 
 #
 include dependencies.mk
