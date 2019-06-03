@@ -133,7 +133,10 @@ a2a3.version: $(A2A3_SRCS)
 
 cross: CC=i686-w64-mingw32-gcc
 cross: EXEEXT=.exe
-cross: build
+cross: cross_clean build
 
-#
-include dependencies.mk
+# We need to remove all *.o for the targets that may be cross built
+# but are not by default
+.PHONY: cross_clean
+cross_clean:
+	-rm -f $(A2A3_OBJDIR)/*.o

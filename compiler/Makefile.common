@@ -1,7 +1,7 @@
 #######################################################################
 include ../mk/include_guard.mk
 #
-# Common rules for alan compiler
+# Common rules for alan compiler and variants
 
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
@@ -46,7 +46,7 @@ standard_tests:
 # Clean
 .PHONY: clean
 clean:
-	-rm -rf $(ALANOBJDIR) $(UNITTESTS_OBJDIR) *.$(SOEXTENSION) alan alan.exe winalan winalan.exe alan.res ../bin/alan ../bin/alan.exe ../bin/winalan ../bin/winalan.exe
+	-rm -rf $(UNITTESTS_OBJDIR) $(ALANOBJDIR) $(WINALANOBJDIR) *.$(SOEXTENSION) alan alan.exe winalan winalan.exe alan.res ../bin/alan ../bin/alan.exe ../bin/winalan ../bin/winalan.exe
 
 #######################################################################
 #

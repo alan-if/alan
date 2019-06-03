@@ -10,19 +10,27 @@ include ../mk/include_guard.mk
 # Here's a way to cross-build command line arun for Windows
 cross: CC=i686-w64-mingw32-gcc
 cross: EXEEXT=.exe
-cross: build
+cross: cross_clean build
+
+# We need to remove all *.o for the targets that may be cross built
+# but are not by default
+.PHONY: cross_clean
+cross_clean:
+	-rm -f $(ARUNOBJDIR)/*.o
 
 # Enable WinArun:
 #WINARUN_ENABLED = true
 #
 # You need a compiled and linkable version of the WindowsGLK library
 # which you can get at https://github.com/DavidKinder/Windows-Glk
-# or as a binary at http://www.ifarchive.org/indexes/if-archiveXprogrammingXglkXimplementations.html
+# or as a binary at
+#     http://www.ifarchive.org/indexes/if-archiveXprogrammingXglkXimplementations.html
 #
 # Point the linker to the Windows GLK library
 WINGLK_ROOT = /home/thomas/Utveckling/Alan/WindowsGlk-145
 #
-# If required you can set particular compiler and linker for an extra target:
+# If required you can set particular compiler and linker for an extra target
+# like so:
 winarun: CC = i686-w64-mingw32-gcc
 winarun: WINDRES = i686-w64-mingw32-windres
 # And/or extra switches and flags:

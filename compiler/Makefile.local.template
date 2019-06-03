@@ -10,7 +10,12 @@ include ../mk/include_guard.mk
 # Here's a way to cross-build command line alan for Windows
 cross: CC=i686-w64-mingw32-gcc
 cross: EXEEXT=.exe
-cross: build
+cross: cross_clean build
+
+# We need to remove all .o files for the targets that cross-build
+.PHONY: cross_clean
+cross_clean:
+	-rm -f $(ALANOBJDIR)/*.o
 
 # Enable WinAlan:
 #WINALAN_ENABLED = true
