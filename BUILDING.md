@@ -106,3 +106,17 @@ versions of the compiler and the interpreter.
 
 Obviously you need to install the cross-compilation suite for your
 platform (usually something like `i686-w64-mingw32-gcc`).
+
+Release Process
+---------------
+
+When running on ThoNi's machine (thoni64) the Makefiles will also
+include Makefile.thoni which adds some targets for release. These rules
+have yet to be tried, tested and refactored into something more
+generally usable.
+
+The current strategy is to build the release (for Windows) on thoni64,
+create a tag/branch for it and then build the release for Darwin, Linux
+etc. from that on machines with that OS.
+
+This is still a bit flaky and a work in progress.
