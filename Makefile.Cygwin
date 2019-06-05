@@ -1,14 +1,9 @@
-#######################################################################
-# This Makefile is the top level for building the Alan System.
-# It only works on ThoNi's machine.
-#######################################################################
 include mk/include_guard.mk
 
 VERSION	:= `venum alan -print '$$v.$$r{s$$s|_}$$c' | tr -d '\n\r'`
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
 # Since we only distribute windows 32-bit exe's
-# TODO: Do/will we?
 PLATFORM = win32.i686
 
 # Location of Inno Setup Compiler
@@ -21,7 +16,7 @@ XPATH = xpath -q -e
 EXTRA_TARGET += documentation
 
 # Add extra tests
-# TODO: Why not run these on all platforms?
+# TODO: Why do we not run these on all platforms?
 EXTRA_TESTS += cygwin_tests
 .PHONY: cygwin_tests
 cygwin_tests:
