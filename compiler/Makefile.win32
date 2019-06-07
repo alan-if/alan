@@ -37,6 +37,4 @@ alan.res: alan.rc alan.ico alan.version.c
 	$(WINDRES) $< -O coff -o $@
 
 winalan_tests:
-	@java -jar ../bin/jregr.jar -bin ../bin -dir ../regression/winalan $(JREGROUTPUT)
-
-
+	@../bin/jregr -bin ../bin -dir ../regression/winalan $(JREGROUTPUT)
