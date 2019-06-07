@@ -36,7 +36,7 @@ coverage: clean unit arun
 ifdef GARARUN_ENABLED
 EXTRA_TARGETS += gargoyle
 else
-$(info NOT ENABLED: Gargoyle Arun)
+$(info NOT ENABLED: gararun - Gargoyle Arun)
 endif
 # Gargoyle should be installed at GARGOYLE_ROOT and have
 # terps/alan3 linked to alan/interpreter. All required libraries, including
