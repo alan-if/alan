@@ -1,8 +1,8 @@
 %%OPTIONS
 
-	Prefix 'sm';
-	Pack RDS, GCS, LES, ERROR;
-	OS 'WIN32';
+    Prefix 'sm';
+    Pack RDS, GCS, LES, ERROR;
+    OS 'WIN32';
 
 %%IMPORT
 
@@ -16,9 +16,6 @@
 #endif
 #ifdef __vms__
 #include <unixio.h>
-#endif
-#ifdef __dos__
-#include <io.h>
 #endif
 #ifdef __mac__
 #include <fcntl.h>
@@ -59,8 +56,8 @@ int scannedLines();
 static int lines = 0;		/* Updated at end of each file */
 
 Bool smScanEnter(
-		 char fnm[],	/* IN - Name of file to open */
-		 Bool search	/* IN - Search the include paths */
+         char fnm[],	/* IN - Name of file to open */
+         Bool search	/* IN - Search the include paths */
 ){
   smScContext this;
   char fnmbuf[300] = "";
@@ -78,22 +75,22 @@ Bool smScanEnter(
 #else
       if ((this->fd = open(fnmbuf, 0)) < 0) {
 #endif
-	for (ip = NULL /*includePaths*/; ip != NULL; ip = ip->next) {
-	  strcpy(fnmbuf, ip->element.str);
+    for (ip = NULL /*includePaths*/; ip != NULL; ip = ip->next) {
+      strcpy(fnmbuf, ip->element.str);
 #ifndef __mac__
-	  if (ip->element.str[strlen(ip->element.str)] != '/')
-	    strcat(fnmbuf, "/");
+      if (ip->element.str[strlen(ip->element.str)] != '/')
+        strcat(fnmbuf, "/");
 #endif
-	  strcat(fnmbuf, fnm);
+      strcat(fnmbuf, fnm);
 #ifdef THINK_C
-	  if ((this->fd = open(fnmbuf, O_TEXT)) > 0)
+      if ((this->fd = open(fnmbuf, O_TEXT)) > 0)
 #else
-	  if ((this->fd = open(fnmbuf, 0)) > 0)
+      if ((this->fd = open(fnmbuf, 0)) > 0)
 #endif
-	    break;
-	}
-	if (ip == NULL)
-	  return FALSE;
+        break;
+    }
+    if (ip == NULL)
+      return FALSE;
       }
     } else {
       strcat(fnmbuf, fnm);
@@ -102,7 +99,7 @@ Bool smScanEnter(
 #else
       if ((this->fd = open(fnmbuf, 0)) < 0)
 #endif
-	return FALSE;
+    return FALSE;
     }
   }
 
@@ -160,7 +157,7 @@ void setCharacterSet(int set)
     count = read(smThis->fd, (char *)smBuffer, smLength);
     for (pos = 0; pos < count; pos++)
       if (smBuffer[pos] == '\r')
-	smBuffer[pos] = '\n';
+    smBuffer[pos] = '\n';
 
     return count;
   }
@@ -201,29 +198,29 @@ void setCharacterSet(int set)
 
   Integer = digit+
     %%
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
+    smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     %%;
 
 
   IDENT = letter (letter ! digit ! '_')*			-- normal id
     %%
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
-	(void) strlow(smToken->chars);
+    smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
+    (void) strlow(smToken->chars);
     %%;
 
   IDENT = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
     %%{
-	/* If terminated by \n illegal! */
-	if (smThis->smText[smThis->smLength-1] == '\n')
-	  lmLog(&smToken->srcp, 152, sevERR, "");
+    /* If terminated by \n illegal! */
+    if (smThis->smText[smThis->smLength-1] == '\n')
+      lmLog(&smToken->srcp, 152, sevERR, "");
 
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
+    smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     }%%;
 
 
   STRING = '"' ([^"]!'"''"')* '"'
     %%
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
+    smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     %%;
 
   Unknown = _Unknown;
@@ -236,7 +233,7 @@ void setCharacterSet(int set)
 
   comment = '--' [^\n]*;
 
-  include = '$INCLUDE' 
+  include = '$INCLUDE'
     %%
       Srcp srcp, start;
       Token token;
@@ -247,26 +244,26 @@ void setCharacterSet(int set)
       smScan(smThis, `&token);		/* Get file name */
       smThis->smScanner = sm_MAIN_MAIN_Scanner;
       if (token.code == sm_MAIN_IDENT_Token) {
-	/* Found an ID which is a file name */
-	do {
-	  i = smScSkip(smThis, 1);
-	  c = smThis->smText[smThis->smLength-1];
-	} while (c != '\n' && i != 0); /* Skip to end of line or EOF */
+    /* Found an ID which is a file name */
+    do {
+      i = smScSkip(smThis, 1);
+      c = smThis->smText[smThis->smLength-1];
+    } while (c != '\n' && i != 0); /* Skip to end of line or EOF */
 
-	srcp = token.srcp;	/* Insert the file before next line */
-	srcp.line++;
-	srcp.col = 1;
+    srcp = token.srcp;	/* Insert the file before next line */
+    srcp.line++;
+    srcp.col = 1;
 
-	if (smScanEnter(token.chars, TRUE)) {
-	  start.file = fileNo-1;
-	  start.line = 0;	/* Start at beginning */
-	  lmLiEnter(`&srcp, `&start, lexContext->fileName);
-	  /* Use the new scanner to get next token and return it */
-	  return smScan(lexContext, smToken);
-	} else
-	  lmLog(`&token.srcp, 199, sevFAT, token.chars);
+    if (smScanEnter(token.chars, TRUE)) {
+      start.file = fileNo-1;
+      start.line = 0;	/* Start at beginning */
+      lmLiEnter(`&srcp, `&start, lexContext->fileName);
+      /* Use the new scanner to get next token and return it */
+      return smScan(lexContext, smToken);
+    } else
+      lmLog(`&token.srcp, 199, sevFAT, token.chars);
       } else
-	lmLog(`&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
+    lmLog(`&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
   %%;
 
 
@@ -276,7 +273,7 @@ void setCharacterSet(int set)
 
   IDENT = '\'' ([^\']!'\'''\'')* '\''	-- quoted id
     %%{
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
+    smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }%%;
 
   Unknown = _Unknown;
@@ -286,5 +283,3 @@ void setCharacterSet(int set)
 %%SKIP
 
   blanks = [ \n\t]+;
-
-

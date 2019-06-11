@@ -6,11 +6,11 @@
 
   N.B. The test for symbols used here should really be of three types
   - processor name (like PC, x86, ...)
-  - os name (DOS, WIN32, Solaris2, ...)
+  - os name (WIN32, Solaris2, ...)
   - compiler name and version (DJGPP, CYGWIN, GCC271, THINK-C, ...)
 
   The set symbols should indicate if a feature is on or off like the GNU
-  AUTOCONFIG package does. This is not completely done yet!
+  AUTOCONFIG package does. This is not anywhere near completion yet!
 
 \*----------------------------------------------------------------------*/
 #ifndef _SYSDEP_H_
@@ -38,10 +38,6 @@
 // At least GCC 3.x does define this for Darwin
 #define __macosx__
 #define __unix__
-#endif
-
-#ifdef DOS
-#define __dos__
 #endif
 
 #ifdef __BORLANDC__
@@ -188,19 +184,18 @@ extern int compareStrings(char str1[], char str2[]); /* Case-insensitive compare
 
 /* ISO string conversion functions */
 extern void toIso(char copy[],  /* OUT - Mapped string */
-		  char original[], /* IN - string to convert */
-		  int charset);	/* IN - The current character set */
+          char original[], /* IN - string to convert */
+          int charset);	/* IN - The current character set */
 
 extern void fromIso(char copy[], /* OUT - Mapped string */
-		    char original[]); /* IN - string to convert */
+            char original[]); /* IN - string to convert */
 
 extern void toNative(char copy[], /* OUT - Mapped string */
-		     char original[], /* IN - string to convert */
-		     int charset); /* IN - current character set */
+             char original[], /* IN - string to convert */
+             int charset); /* IN - current character set */
 
 extern int littleEndian(void);
 
 extern char *baseNameStart(char *fullPathName);
 
 #endif                          /* -- sysdep.h -- */
-

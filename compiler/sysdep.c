@@ -134,48 +134,12 @@ int isLetter(unsigned int c)             /* IN - Native character to test */
 
 int toLower(unsigned int c)              /* IN - Native character to convert */
 {
-#ifdef __dos__
-  char *cp;
-
-  if ((cp = strchr(uppChrs, c)) != 0)
-    return(lowChrs[cp-uppChrs]);
-  else
-    return c;
-#else
-#ifdef __mac__
-  char *cp;
-
-  if ((cp = strchr(uppChrs, c)) != 0)
-    return(lowChrs[cp-uppChrs]);
-  else
-    return c;
-#else
   return (isUpper(c)? c + ('a' - 'A'): c);
-#endif
-#endif
 }
 
 int toUpper(unsigned int c)              /* IN - Native character to convert */
 {
-#ifdef __dos__
-  char *cp;
-
-  if ((cp = strchr(lowChrs, c)) != 0)
-    return(uppChrs[cp-lowChrs]);
-  else
-    return c;
-#else
-#ifdef __mac__
-  char *cp;
-
-  if ((cp = strchr(lowChrs, c)) != 0)
-    return(uppChrs[cp-lowChrs]);
-  else
-    return c;
-#else
   return (isLower(c)? c - ('a' - 'A'): c);
-#endif
-#endif
 }
 
 char *strlow(char str[])        /* INOUT - Native string to convert */
@@ -282,8 +246,8 @@ int compareStrings(char *str1, char *str2)
 
   */
 void toIso(char copy[], /* OUT - Mapped  string */
-	   char original[],	/* IN - string to convert */
-	   int charset)		/* IN - the current character set */
+       char original[],	/* IN - string to convert */
+       int charset)		/* IN - the current character set */
 {
 static unsigned char macMap[256]
 = {
@@ -352,7 +316,7 @@ static unsigned char dosMap[256]
 
   */
 void fromIso(char copy[],       /* OUT - Mapped string */
-	     char original[])   /* IN - string to convert */
+         char original[])   /* IN - string to convert */
 {
 #if ISO == 0
   static unsigned char map[256]
@@ -417,8 +381,8 @@ void fromIso(char copy[],       /* OUT - Mapped string */
 
   */
 void toNative(char copy[],	/* OUT - Mapped  string */
-	      char original[],	/* IN - string to convert */
-	      int charset)	/* IN - the current character set */
+          char original[],	/* IN - string to convert */
+          int charset)	/* IN - the current character set */
 {
   toIso(copy, original, charset);
   if (NATIVECHARSET != 0)

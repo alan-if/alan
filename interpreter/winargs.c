@@ -1,8 +1,6 @@
 /*----------------------------------------------------------------------*\
 
-  winargs - Argument handling for arun on DOS, WINDOWS and CYGWIN
-
-  This file is included in args.c when compiling for DOS, WINDOWS or CYGWIN
+  winargs - Argument handling for arun on WINDOWS and CYGWIN
 
   Handles the various startup methods on all machines.
 

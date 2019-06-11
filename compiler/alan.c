@@ -227,13 +227,7 @@ static void prepareFileNames(void)
 
   /* -- check for .ALAN suffix and add one if missing -- */
   if(strrchr(srcptr, '.') == NULL) { /* Point to last '.' */
-#ifdef __dos__
-    strcat(srcptr, ".ala");	/* Was there none add */
-#else
-#ifndef __mac__
     strcat(srcptr, ".alan");	/* Was there none add */
-#endif
-#endif
   } else {
     char *p = strrchr(adv.name, '.');
     *p = '\0';

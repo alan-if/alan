@@ -69,11 +69,7 @@ static char *charsets[] = {"iso", "mac", "dos"};
 
 
 static SPA_DECLARE(arguments)
-#ifdef __dos__
-     SPA_STRING("adventure", "file name, default extension '.ala'", srcptr, NULL, NULL)
-#else
      SPA_STRING("adventure", "file name, default extension '.alan'", srcptr, NULL, NULL)
-#endif
      SPA_FUNCTION("", "extra argument", extraArg)
 SPA_END
 

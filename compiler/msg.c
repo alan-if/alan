@@ -312,21 +312,12 @@ void prepareMessages(void)
 #ifdef __mac__
         {
             char buf[256];
-
-            toIso(buf, msgp);
-            getxt(buf);
-        }
-#else
-#ifdef __dos__
-        {
-            char buf[256];
-
+x
             toIso(buf, msgp);
             getxt(buf);
         }
 #else
         generateText(msgp);
-#endif
 #endif
         /* Finally enter it in the list */
         msg->msgno = msgno;
@@ -491,4 +482,3 @@ Aaddr gemsgs(void)
     emit(EOF);
     return(adr);
 }
-
