@@ -42,7 +42,7 @@ build : a2a3
 release: a2a3
 
 clean:
-	-rm -rf $(A2A3_OBJDIR) $(UNITTESTS_OBJDIR) a2a3 a2a3.exe ../bin/a2a3 ../bin/a2a3.exe
+	-rm -rf $(A2A3_OBJDIR) $(UNITTESTS_OBJDIR) a2a3{,.exe} ../bin/a2a3{,.exe}
 
 ######################################################################
 #

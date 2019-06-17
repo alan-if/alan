@@ -29,7 +29,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun *.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun ../bin/winarun.exe ../bin/dumpacd ../bin/glkarun alan3* arun.res
+	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun{,.exe} MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun{,.exe} ../bin/winarun{,.exe} ../bin/dumpacd{,.exe} ../bin/glkarun{,.exe} arun.res
 
 
 ###################################################################
