@@ -1,0 +1,4 @@
+#! /bin/bash -i
+cd `git rev-parse --show-toplevel`
+git checkout regression/platforms/*.a3c
+git checkout alan.version alan.version.c interpreter/alan.version.c compiler/alan.version.c
