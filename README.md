@@ -1,11 +1,11 @@
-= Alan - the Adventure Language
+# Alan - the Adventure Language
 
 Alan is a language for developing and running interactive fiction,
 a.k.a adventure games, i.e. the games are text-based, in the best of
 worlds reads like interactive literature, and gives you "the best
 graphics device available - the human brain".
 
-== What is this?
+## What is this?
 
 This repository is part of the larger ALAN-IF set of repositories with
 tools, examples and documentation for the Alan system.
@@ -14,7 +14,7 @@ This particular repository contains the source code and build
 environment for the Alan compiler, interpreters and an Alan v2 to Alan
 v3 source converter.
 
-== How to build?
+## How to build?
 
 The build system is fairly self-configuring, you should be able to
 just clone and 'make' on the following platform:
@@ -26,7 +26,7 @@ just clone and 'make' on the following platform:
 
 To run unittests you need Cgreen, and to run all the regression tests you need a Java runtime.
 
-== What's in the box?
+## What's in the box?
 
 From the repo you can build
 
@@ -39,7 +39,7 @@ And if your environment allows cross-compilation to Windows (Cygwin, MSYS2 and m
 - WinArun, a WindowsGLK based GUI-interpreter
 - WinAlan, a Windows "GUI" compiler (but a better choice is probably the AlanIDE)
 
-== What's missing?
+## What's missing?
 
 A lot probably, but I wanted this Readme to exist as quickly as
 possible. Please, join, fork, pull request or file issues if there is
