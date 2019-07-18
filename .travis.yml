@@ -16,10 +16,11 @@ before_install:
 
 script:
   - java --version
-  - make ci
+  - make
+  - make unit
+  - make test
 
 after_success:
-  lcov -d tests -d src -d tools -base-directory .. -c -o coverage.info;
-  lcov --remove coverage.info '/usr/*' -o coverage.info;
-  cd ..;
-  coveralls-lcov build/coverage.info;
+  - lcov -d compiler -d interpreter -c -o coverage.info
+  - lcov --remove coverage.info '/usr/*' -o coverage.info
+  - coveralls-lcov build/coverage.info
