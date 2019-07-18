@@ -1,0 +1,25 @@
+sudo: false
+language: c
+
+# Build matrix
+compiler:
+  - gcc
+
+addons:
+  apt:
+    packages:
+    -
+    - lcov
+
+before_install:
+  - gem install coveralls-lcov
+
+script:
+  - java --version
+  - make ci
+
+after_success:
+  lcov -d tests -d src -d tools -base-directory .. -c -o coverage.info;
+  lcov --remove coverage.info '/usr/*' -o coverage.info;
+  cd ..;
+  coveralls-lcov build/coverage.info;
