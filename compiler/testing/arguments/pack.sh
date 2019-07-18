@@ -1,4 +1,4 @@
-alan -pack ok.alan
+../../../bin/alan -pack ok.alan
 strings ok.a3c | grep -q "refer to multiple objects with"
 if [ "$?" -eq 0 ]
 then
