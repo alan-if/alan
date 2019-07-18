@@ -19,6 +19,8 @@ script:
   - make JREGROUTPUT=-noansi
   - make unit
   - make test JREGROUTPUT=-noansi
+  - ls regression/*.alan
+  - ls regression/*.a3c
   - cat regression/*.output
 
 after_success:
