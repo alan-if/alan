@@ -16,7 +16,7 @@ before_install:
 
 script:
   - java --version
-  - make
+  - make JREGROUTPUT=-noansi
   - make unit
   - make test JREGROUTPUT=-noansi
 
