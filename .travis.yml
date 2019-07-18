@@ -22,6 +22,7 @@ script:
   - make unit
   - make COVERAGE=--coverage JREGROUTPUT=-noansi
   - make test JREGROUTPUT=-noansi
+  - cat regression/*.output
 
 after_success:
   - lcov -d compiler/.alan -d interpreter/.arun -c -o coverage.info
