@@ -18,7 +18,7 @@ script:
   - java --version
   - make
   - make unit
-  - make test
+  - make test JREGROUTPUT=-noansi
 
 after_success:
   - lcov -d compiler -d interpreter -c -o coverage.info
