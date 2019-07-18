@@ -14,6 +14,11 @@ before_install:
   - gem install coveralls-lcov
 
 script:
+<<<<<<< HEAD
+=======
+  - java --version
+  - make JREGROUTPUT=-noansi
+>>>>>>> Add -noansi to .travis.yml output
   - make unit
   - make COVERAGE=--coverage JREGROUTPUT=-noansi
   - make test JREGROUTPUT=-noansi
