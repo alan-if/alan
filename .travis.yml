@@ -8,20 +8,15 @@ compiler:
 addons:
   apt:
     packages:
-    -
     - lcov
 
 before_install:
   - gem install coveralls-lcov
 
 script:
-  - java --version
   - make JREGROUTPUT=-noansi
   - make unit
   - make test JREGROUTPUT=-noansi
-  - ls regression/*.alan
-  - ls regression/*.a3c
-  - cat regression/*.output
 
 after_success:
   - lcov -d compiler -d interpreter -c -o coverage.info
