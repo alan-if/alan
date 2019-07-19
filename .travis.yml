@@ -14,8 +14,8 @@ before_install:
   - gem install coveralls-lcov
 
 script:
-  - make JREGROUTPUT=-noansi
   - make unit
+  - make COVERAGE=--coverage JREGROUTPUT=-noansi
   - make test JREGROUTPUT=-noansi
 
 after_success:

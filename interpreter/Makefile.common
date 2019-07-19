@@ -29,7 +29,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun$(EXEEXT) winarun$(EXEEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun$(EXEEXT) ../bin/winarun$(EXEEXT) ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res
+	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun$(EXEEXT) winarun$(EXEEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun$(EXEEXT) ../bin/winarun$(EXEEXT) ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
 
 
 ###################################################################
@@ -64,8 +64,9 @@ $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
 $(ARUNOBJDIR):
 	@mkdir $(ARUNOBJDIR)
 
+arun: CFLAGS += $(COVERAGE)
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(CC) $(LDFLAGS) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
+	$(CC) $(LDFLAGS) $(COVERAGE) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
 	cp -f $@$(EXEEXT) ../bin/
 
 
