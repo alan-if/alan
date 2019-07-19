@@ -59,8 +59,9 @@ ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.v
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
+alan: CFLAGS += $(COVERAGE)
 alan: ../bin $(ALANOBJECTS)
-	$(LINK) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
+	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
 
 $(ALANOBJECTS): | $(ALANOBJDIR)
