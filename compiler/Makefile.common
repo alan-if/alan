@@ -47,7 +47,7 @@ standard_tests:
 # Clean
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ALANOBJDIR) $(WINALANOBJDIR) *.$(SOEXTENSION) alan{,.exe} winalan{,.exe} ../bin/alan{,.exe} ../bin/winalan{,.exe} alan.res
+	-rm -rf $(UNITTESTS_OBJDIR) $(ALANOBJDIR) $(WINALANOBJDIR) *.$(SOEXTENSION) alan$(EXEEXT) winalan$(EXEEXT) ../bin/alan$(EXEEXT) ../bin/winalan$(EXEEXT) alan.res
 
 #######################################################################
 #
