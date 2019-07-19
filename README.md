@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/alan-if/alan.svg?branch=master)](https://travis-ci.org/alan-if/alan)[![Coverage Status](https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master)](https://coveralls.io/github/alan-if/alan?branch=master)
+
 # Alan - the Adventure Language
 
 Alan is a language for developing and running interactive fiction,
@@ -9,6 +11,7 @@ graphics device available - the human brain".
 
 This repository is part of the larger ALAN-IF set of repositories with
 tools, examples and documentation for the Alan system.
+
 
 This particular repository contains the source code and build
 environment for the Alan compiler, interpreters and an Alan v2 to Alan
