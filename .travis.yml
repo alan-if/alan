@@ -19,6 +19,6 @@ script:
   - make test JREGROUTPUT=-noansi
 
 after_success:
-  - lcov -d compiler -d interpreter -c -o coverage.info
+  - lcov -d compiler/.alan -d interpreter/.arun -c -o coverage.info
   - lcov --remove coverage.info '/usr/*' -o coverage.info
   - coveralls-lcov coverage.info
