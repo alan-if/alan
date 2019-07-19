@@ -21,4 +21,4 @@ script:
 after_success:
   - lcov -d compiler -d interpreter -c -o coverage.info
   - lcov --remove coverage.info '/usr/*' -o coverage.info
-  - coveralls-lcov build/coverage.info
+  - coveralls-lcov coverage.info
