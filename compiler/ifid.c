@@ -127,7 +127,7 @@ static char *readOrCreateIFID(void)
 {
   char ifidfnm[255] = "";
   FILE *ifidFile;
-  static char buffer[46];	/* 32 hexdigits, 4 dashes, 9 "UUID:////" */
+  static char buffer[100];	/* 32 hexdigits, 4 dashes, 9 "UUID:////" */
 
   /* -- create IFID file name -- */
   if (adv.name)
