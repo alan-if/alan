@@ -101,15 +101,16 @@ static char upperCaseCharacters[] =
 
 #else
 
-/* These work on native (ISO8859-1) character sets, so it is important
- * that this file is stored with that encoding */
+/* These work on native (ISO8859-1) character sets */
 
 static unsigned char spaceCharacters[] = " \t\n";
 
 /* Use native characters */
-static const char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïğñòóôõöøùúûüışÿ";
+/*                                        "abcdefghijklmnopqrstuvwxyz  Ã    Ã¡   Ã¢   Ã£   Ã¤   Ã¥   Ã¦   Ã§   Ã¨   Ã©   Ãª   Ã«   Ã¬   Ã­   Ã®   Ã¯   Ã°   Ã±   Ã²   Ã³   Ã´   Ãµ   Ã¶   Ã¸   Ã¹   Ãº   Ã»   Ã¼   Ã½   Ã¾   Ã¿"; */
+static const char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyz\xE0\xE1\xE2\xE3\xE4\xE5\xE6\xE7\xE8\xE9\xEA\xEB\xEE\xED\xEE\xEF\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF8\xF9\xFA\xFB\xFC\xFF\xFE\xFF";
 
-static const char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
+/*                                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ  Ã€   Ã   Ã‚   Ãƒ   Ã„   Ã…   Ã†   Ã‡   Ãˆ   Ã‰   ÃŠ   Ã‹   ÃŒ   Ã   Ã   Ã   Ã   Ã‘   Ã’   Ã“   Ã”   Ã•   Ã–   Ã˜   Ã™   Ãš   Ã›   Ã›   Ã   Ã   ÃŸ"; */
+static const char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\xC0\xC1\xC2\xC3\xC4\xC5\xC6\xC7\xC8\xC9\xCA\xCB\xCC\xCD\xCE\xCF\xD0\xD1\xD2\xD3\xD4\xD5\xD6\xD8\xD9\xDA\xDB\xDC\xDD\xDE\xDF";
 
 #endif
 

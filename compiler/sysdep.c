@@ -100,30 +100,32 @@ static char uppChrs[] =
 
 /* Theses work on native character sets */
 
-static char spcChrs[] = " \t\n";
+static char spaceCharacters[] = " \t\n";
 
 /* Use native characters */
-static char lowChrs[] = "abcdefghijklmnopqrstuvwxyzàáâãäåæçéêëìíîïğñòóôõöøùúûüışÿ";
+/*                                        "abcdefghijklmnopqrstuvwxyz  Ã    Ã¡   Ã¢   Ã£   Ã¤   Ã¥   Ã¦   Ã§   Ã¨   Ã©   Ãª   Ã«   Ã¬   Ã­   Ã®   Ã¯   Ã°   Ã±   Ã²   Ã³   Ã´   Ãµ   Ã¶   Ã¸   Ã¹   Ãº   Ã»   Ã¼   Ã½   Ã¾   Ã¿"; */
+static const char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyz\xE0\xE1\xE2\xE3\xE4\xE5\xE6\xE7\xE8\xE9\xEA\xEB\xEE\xED\xEE\xEF\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF8\xF9\xFA\xFB\xFC\xFF\xFE\xFF";
 
-static char uppChrs[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÛİŞß";
+/*                                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ  Ã€   Ã   Ã‚   Ãƒ   Ã„   Ã…   Ã†   Ã‡   Ãˆ   Ã‰   ÃŠ   Ã‹   ÃŒ   Ã   Ã   Ã   Ã   Ã‘   Ã’   Ã“   Ã”   Ã•   Ã–   Ã˜   Ã™   Ãš   Ã›   Ã›   Ã   Ã   ÃŸ"; */
+static const char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\xC0\xC1\xC2\xC3\xC4\xC5\xC6\xC7\xC8\xC9\xCA\xCB\xCC\xCD\xCE\xCF\xD0\xD1\xD2\xD3\xD4\xD5\xD6\xD8\xD9\xDA\xDB\xDC\xDD\xDE\xDF";
 
 #endif
 
 int isSpace(unsigned int c)              /* IN - Native character to test */
 {
-  return (c != '\0' && strchr(spcChrs, c) != 0);
+  return (c != '\0' && strchr(spaceCharacters, c) != 0);
 }
 
 
 int isLower(unsigned int c)              /* IN - Native character to test */
 {
-  return (c != '\0' && strchr(lowChrs, c) != 0);
+  return (c != '\0' && strchr(lowerCaseCharacters, c) != 0);
 }
 
 
 int isUpper(unsigned int c)              /* IN - Native character to test */
 {
-  return (c != '\0' && strchr(uppChrs, c) != 0);
+  return (c != '\0' && strchr(upperCaseCharacters, c) != 0);
 }
 
 int isLetter(unsigned int c)             /* IN - Native character to test */
