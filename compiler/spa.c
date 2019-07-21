@@ -9,11 +9,11 @@
   Legal Notice: As in spa.h
 
   History:
-  4.2(1) - 1994-05-13/reibert@home -- Errors more severe 
-  4.2    - 1994-04-30/reibert@home -- SPA_COMMENT 
-  4.1(1) - 1994-01-08/reibert@home -- spaExit 
-  4.1    - 1993-11-01/reibert@home -- CMS/changed float interface 
-  4.0(1) - 1992-03-12/reibert@home -- bits: * 
+  4.2(1) - 1994-05-13/reibert@home -- Errors more severe
+  4.2    - 1994-04-30/reibert@home -- SPA_COMMENT
+  4.1(1) - 1994-01-08/reibert@home -- spaExit
+  4.1    - 1993-11-01/reibert@home -- CMS/changed float interface
+  4.0(1) - 1992-03-12/reibert@home -- bits: *
   4.0    - 1992-03-09/reibert@home -- SPA_ITEM outdated, "locale" messages,
                                       mac adaption, files, alert
   ----
@@ -79,33 +79,33 @@ typedef int boolean;
 
 #if SPA_LANG==46		/* Swedish */
 PRIVATE char *SpaFlagKeyWords[] = {
-    "AV",    "P≈",
+    "AV",    "P√Ö",
     "NEJ",   "JA",
     "FALSK", "SANN",
     "NIL",   "T",
     NULL
 };
-PRIVATE char *SpaDefaultFormat = " (standardv‰rde: %s)";
+PRIVATE char *SpaDefaultFormat = " (standardv√§rde: %s)";
 PRIVATE char *SpaStrArg = "Parametrar:";
 PRIVATE char *SpaStrOpt = "Tillval:";
-PRIVATE char *SpaStrUsg = "Anv‰ndning:";
+PRIVATE char *SpaStrUsg = "Anv√§ndning:";
 PRIVATE char *SpaStrNMK = "Nyckelord passar ej";
 PRIVATE char *SpaStrAMK = "Tvetydigt nyckelord";
 PRIVATE char *SpaStrNMO = "Tillval passar ej";
 PRIVATE char *SpaStrAMO = "Tvetydigt tillval";
-PRIVATE char *SpaStrILF = "Ok‰nd funktionstyp";
-PRIVATE char *SpaStrISC = "OtillÂtet m‰ngdtecken";
-PRIVATE char *SpaStrVE  = "Fˆrv‰ntat v‰rde saknas";
-PRIVATE char *SpaStrIVE = "Heltal fˆrv‰ntat";
-PRIVATE char *SpaStrRVE = "Flyttal fˆrv‰ntat";
-PRIVATE char *SpaStrFRE = "Filen kunde ej ˆppnas fˆr l‰sning";
-PRIVATE char *SpaStrFWE = "Filen kunde ej ˆppnas fˆr skrivning";
-PRIVATE char *SpaStrTMA = "÷verflˆdig parameter";
+PRIVATE char *SpaStrILF = "Ok√§nd funktionstyp";
+PRIVATE char *SpaStrISC = "Otill√•tet m√§ngdtecken";
+PRIVATE char *SpaStrVE  = "F√∂rv√§ntat v√§rde saknas";
+PRIVATE char *SpaStrIVE = "Heltal f√∂rv√§ntat";
+PRIVATE char *SpaStrRVE = "Flyttal f√∂rv√§ntat";
+PRIVATE char *SpaStrFRE = "Filen kunde ej √∂ppnas f√∂r l√§sning";
+PRIVATE char *SpaStrFWE = "Filen kunde ej √∂ppnas f√∂r skrivning";
+PRIVATE char *SpaStrTMA = "√ñverfl√∂dig parameter";
 PRIVATE char *SpaStrAE  = "Parameterfel";
 
 PRIVATE char *SpaAlertStr[] = {
     "Avlusning", "Information", "Varning", "Fel",
-    "Allvarligt fel", "Internt fel", "Ok‰nt fel",
+    "Allvarligt fel", "Internt fel", "Ok√§nt fel",
     "Exekveringen avbryts"
 };
 
@@ -148,7 +148,7 @@ PRIVATE char *SpaAlertStr[] = {
 
 /*----------------------------------------------------------------------
   These are to make the parameters to spaProcess accessible throughout
-  this file 
+  this file
 */
 PRIVATE char **pArgV;
 PRIVATE int pArgC;
@@ -178,7 +178,7 @@ PRIVATE _SPA_ITEM *pOptions;
 #define PROCEDURE(N,A) void N A
 #define IN(T,N) T N;
 #define OUT(T,N) T* N;
-#define X 
+#define X
 #define IS
 
 #endif
@@ -220,8 +220,8 @@ PRIVATE int FUNCTION(match, (p, s))
     IN(register char, *s)       /* SPA_ITEM string */
 IS {
     while (*p) {
-    	if (*s==' ' || lwr((int)*s)!=lwr((int)*p)) return FALSE;
-    	s++; p++;
+        if (*s==' ' || lwr((int)*s)!=lwr((int)*p)) return FALSE;
+        s++; p++;
     }
     return (*s!=' '? SPA_MATCH_PREFIX: _SPA_EXACT);
 }
@@ -268,9 +268,9 @@ IS {
     switch (find(thisWord, (char *)keyWords, sizeof(char *), 0, &found)) {
     case 0:
         spaErr(SpaStrURK, thisWord, 'F');
-    	break;
-    case 1: 
-    	break;
+        break;
+    case 1:
+        break;
     default:
         spaErr(SpaStrAMK, thisWord, 'F');
         break;
@@ -290,7 +290,7 @@ PRIVATE PROCEDURE(printItem, (name, help, def, set, kws))
     IN(char **,kws)             /* Points to keyword array (or is NULL) */
 IS {
     boolean nl = FALSE;
-    
+
     printf("  %-*s ", SPA_PRINT_ITEM_SZ, name);
     if (strlen(name)>SPA_PRINT_ITEM_SZ)
         printf("\n  %-*s ", SPA_PRINT_ITEM_SZ, "");
@@ -307,7 +307,7 @@ IS {
             if (kws && *kws) printf("%s -- ", *kws++);
         }
 #if SPA_PRINT_DEFAULT
-        if (*def) { 
+        if (*def) {
             if (nl) printf("\n  %-*s   ", SPA_PRINT_ITEM_SZ, "");
             printf(SpaDefaultFormat, def);
         }
@@ -357,7 +357,7 @@ IS {
         "-%s", "-[-]%s", "-[-]%s {%s}"
 #endif
     };
-    int i = 0;		 /* -> fmt[0] */
+    int i = 0;       /* -> fmt[0] */
 
     switch (item->type) {
     case _SPA_Bits: i++; /* -> fmt[2] */
@@ -384,12 +384,12 @@ IS {
     switch (item->type) {
     case _SPA_None: return;
     case _SPA_Comment:
-    	printf("%s\n", (item->help? item->help: ""));
-    	return;
+        printf("%s\n", (item->help? item->help: ""));
+        return;
     default:
         break;
     }
-    
+
     /* Set default values */
     *def = 0;
 #if SPA_PRINT_DEFAULT
@@ -415,7 +415,7 @@ IS {
     case _SPA_Bits: {
         register int i = 0, j = 1;
         def[0] = '{';
-        set = item->s;	
+        set = item->s;
         for (; set[i]; i++) {
             if ((1<<i)&item->i) def[j++] = set[i];
         }
@@ -517,7 +517,7 @@ IS {
             case _SPA_Flag:
             case _SPA_Function:
             case _SPA_Help:
-    	    case _SPA_Comment:
+            case _SPA_Comment:
             case _SPA_None:
                 break;
             default:
@@ -529,7 +529,7 @@ IS {
                     goto postFun;
                 }
             }
-	
+
         switch (item->type) {
         case _SPA_Flag:
             if (option) *item->ip = on;
@@ -583,12 +583,12 @@ IS {
 #ifdef CMS
             {	/* We do assemble CMS 3-part file names into one string */
                 char *file, *extension, *disk;
-	    
+
                 file = pArgV[pArg];
-                if (extension = spaArgument(1)) pArg++; else { extension = ""; } 
+                if (extension = spaArgument(1)) pArg++; else { extension = ""; }
                 if (disk = spaArgument(1)) pArg++; else { disk = ""; }
                 *item->sp = (char*)malloc( 40 ); /* What is the maximum? */
-	    		/* strlen(file) + strlen(extension) + strlen(disk) + 3 */
+                /* strlen(file) + strlen(extension) + strlen(disk) + 3 */
                 sprintf(*item->sp,"%s %s %s", file, extension, disk);
                 pArgV[pArg] = *item->sp; /* ! This could cause trouble if a hook reads previous items */
             }
@@ -608,7 +608,7 @@ IS {
             safeExecute(item->hFun, item, pArgV[pArg], on);
             report(pArguments, pOptions);
             break;
-    	case _SPA_Comment:
+        case _SPA_Comment:
         case _SPA_Function:
         case _SPA_None:
         case _SPA_Private:
@@ -633,28 +633,28 @@ IS {
     int found;
     register char *argvItem = pArgV[pArg];
     register int start;
-    
+
     if (argvItem[0]=='-') {
-    	start = (argvItem[1]=='-'? 2: 1);
-    	if (argvItem[start]) {
+        start = (argvItem[1]=='-'? 2: 1);
+        if (argvItem[start]) {
             switch (find(&argvItem[start],
                          (char *)options,
                          sizeof(_SPA_ITEM),
                          (int)((unsigned long)&options[0].name -
                                (unsigned long)&options[0]),
                          &found)) {
-    	    case 0:
+            case 0:
                 spaErr(SpaStrURO, argvItem, 'E');
                 break;
-    	    case 1:
+            case 1:
                 execute(&options[found], TRUE, start==1);
                 break;
-    	    default:
+            default:
                 spaErr(SpaStrAMO, argvItem, 'E');
                 break;
-    	    }
-    	    return TRUE;
-    	}
+            }
+            return TRUE;
+        }
     }
     return FALSE;
 }
@@ -689,7 +689,7 @@ PRIVATE SPA_DECLARE(biArguments)
 
      PRIVATE SPA_DECLARE(biOptions)
 #if SPA_LANG==46
-          SPA_HELP("hj‰lp", "ger denna utskrift", biUsage, biExit)
+          SPA_HELP("hj√§lp", "ger denna utskrift", biUsage, biExit)
 #else
           SPA_HELP("help", "this help", biUsage, biExit)
 #endif
@@ -720,7 +720,7 @@ PRIVATE SPA_DECLARE(biArguments)
          }
          if (pArguments!=biArguments) {
              for (i=0; pArguments[i].name; i++)
-                 if (pArguments[i].type && *pArguments[i].name) 
+                 if (pArguments[i].type && *pArguments[i].name)
                      printf(" %s", pAName(&pArguments[i]));
          }
          printf("\n");
@@ -755,7 +755,7 @@ PRIVATE int FUNCTION(level, (sev))
 IS {
     static char *sevstr = "DIWEFS";
     register char *s;
-	
+
     s = strchr(sevstr, sev);
     return s? s-sevstr: 6;
 }
@@ -886,7 +886,7 @@ IS {
   (Clean up and then) exit.
 */
 PUBLIC PROCEDURE(spaExit, (exitCode))
-    IN(int, exitCode) 
+    IN(int, exitCode)
 IS {
     exit(exitCode);
 }

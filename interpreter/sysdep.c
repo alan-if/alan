@@ -106,10 +106,10 @@ static char upperCaseCharacters[] =
 static unsigned char spaceCharacters[] = " \t\n";
 
 /* Use native characters */
-/*                                        "abcdefghijklmnopqrstuvwxyz  à   á   â   ã   ä   å   æ   ç   è   é   ê   ë   ì   í   î   ï   ð   ñ   ò   ó   ô   õ   ö   ø   ù   ú   û   ü   ý   þ   ÿ"; */
+/*                                        "abcdefghijklmnopqrstuvwxyz   à   á   â   ã   ä   å   æ   ç   è   é   ê   ë   ì   í   î   ï   ð   ñ   ò   ó   ô   õ   ö   ø   ù   ú   û   ü   ý   þ   ÿ"; */
 static const char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyz\xE0\xE1\xE2\xE3\xE4\xE5\xE6\xE7\xE8\xE9\xEA\xEB\xEE\xED\xEE\xEF\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF8\xF9\xFA\xFB\xFC\xFF\xFE\xFF";
 
-/*                                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ  À   Á   Â   Ã   Ä   Å   Æ   Ç   È   É   Ê   Ë   Ì   Í   Î   Ï   Ð   Ñ   Ò   Ó   Ô   Õ   Ö   Ø   Ù   Ú   Û   Û   Ý   Þ   ß"; */
+/*                                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ   À   Á   Â   Ã   Ä   Å   Æ   Ç   È   É   Ê   Ë   Ì   Í   Î   Ï   Ð   Ñ   Ò   Ó   Ô   Õ   Ö   Ø   Ù   Ú   Û   Û   Ý   Þ   ß"; */
 static const char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\xC0\xC1\xC2\xC3\xC4\xC5\xC6\xC7\xC8\xC9\xCA\xCB\xCC\xCD\xCE\xCF\xD0\xD1\xD2\xD3\xD4\xD5\xD6\xD8\xD9\xDA\xDB\xDC\xDD\xDE\xDF";
 
 #endif
