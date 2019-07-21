@@ -205,10 +205,10 @@ void prepareWords(void)
         newWord("then", CONJUNCTION_WORD, 0, NULL);
         break;
     case L_SWEDISH:
-        newWord("gå", NOISE_WORD, 0, NULL);
+        newWord("g\xE5", NOISE_WORD, 0, NULL);
         newWord("dem", THEM_WORD, 0, NULL);
         newWord("utom", EXCEPT_WORD, 0, NULL);
-        newWord("förutom", EXCEPT_WORD, 0, NULL);
+        newWord("f\xF5rutom", EXCEPT_WORD, 0, NULL);
         newWord("den", NOISE_WORD, 0, NULL);
         newWord("det", NOISE_WORD, 0, NULL);
         newWord("de", NOISE_WORD, 0, NULL);
