@@ -45,7 +45,7 @@ test:
 	@../bin/jregr -bin ../bin -dir ../regression/tracing $(JREGROUTPUT)
 	@../bin/jregr -bin ../bin -dir ../regression/saving $(JREGROUTPUT)
 	@../bin/jregr -bin ../bin -dir ../regression/debug $(JREGROUTPUT)
-	@../bin/jregr -bin ../bin -dir ../regression/platforms $(JREGROUTPUT)
+	@../bin/jregr -dir ../regression/platforms $(JREGROUTPUT)
 	@../bin/jregr -dir ../regression/restore $(JREGROUTPUT)		# Uses sh not the executables
 
 
