@@ -216,7 +216,7 @@ void setupDefaultProperties() {
   /* Add articles */
   switch (opts[OPTLANG].value) {
   case L_ENGLISH: any = "any"; the = "the"; an = "a"; break;
-  case L_SWEDISH: any = "någon"; the = ""; an = "en"; break;
+  case L_SWEDISH: any = "nÃ¥gon"; the = ""; an = "en"; break;
   case L_GERMAN: any = "kein"; the = "der"; an = "einer"; break;
   }
 
