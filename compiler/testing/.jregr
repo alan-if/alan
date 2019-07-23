@@ -1,1 +1,1 @@
-.alan : ../../bin/alan $1
+.alan : alan $1

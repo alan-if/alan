@@ -1,1 +1,1 @@
-.a3c : ../../bin/arun -n -r $1 < platforms.input
+.a3c : arun -n -r $1 < platforms.input
