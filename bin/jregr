@@ -1,9 +1,17 @@
 #! /bin/bash
+#
+# A wrapper to call the Java regression testing tool with correct
+# arguments depending on platform. It assumes that the jar is in the
+# same directory as this file
+#
+# Also this version explicitly set encoding to iso-8859-1, YMVV
+#
 d=`dirname "$0"`
 uname=`uname -a`
 if [[ "$uname" == *[Cc]ygwin* ]]; then
-  d=`cygpath -w "$d"`\\;
+  d=`cygpath -d "$d"`\\;
 else
   d=$d/;
 fi
 java -jar -Dfile.encoding=iso-8859-1 "$d"jregr.jar $@
+exit
