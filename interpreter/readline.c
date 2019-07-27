@@ -248,7 +248,6 @@ static bool insert = TRUE;
 typedef struct {unsigned char min, max; void (*hook)(char ch);} KeyMap;
 
 /* Forward declaration of hooks */
-static void ignoreCh(char ch);
 static void escHook(char ch);
 static void insertCh(char ch);
 static void arrowHook(char ch);
@@ -265,6 +264,7 @@ static void execute(KeyMap map[], unsigned char ch);
 #ifdef __unix__
 /* Only used on unix */
 static void escapeBracket3Hook(char ch);
+static void ignoreCh(char ch) {}
 
 static KeyMap keymap[] = {
     {0x00, 0x03, NULL},
@@ -277,11 +277,11 @@ static KeyMap keymap[] = {
     {0x1b, 0x1b, escHook},
     {0x1c, 0x7e, insertCh},
 #ifdef __macos__
-    {0x7f, 0x7f, delBwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
+    {0x7f, 0x7f, delBwd},
 #elif __linux__
-    {0x7f, 0x7f, delBwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
+    {0x7f, 0x7f, delBwd},
 #else
-    {0x7f, 0x7f, delFwd},		/* Standard UNIX : delFwd, MACOSX : delBwd */
+    {0x7f, 0x7f, delFwd},
 #endif
     {0x80, 0xff, insertCh},
     {0x00, 0x00, NULL}
@@ -554,9 +554,6 @@ static void delFwd(char ch)
         write(1, " ", 1);
         for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
     }
-}
-
-static void ignoreCh(char ch) {
 }
 
 static void escHook(char ch) {
