@@ -1,5 +1,5 @@
-sudo: false
 language: c
+dist: bionic
 
 # Build matrix
 compiler:
@@ -12,6 +12,8 @@ addons:
 
 before_install:
   - gem install coveralls-lcov
+  - wget https://github.com/cgreen-devs/cgreen/releases/latest/cgreen_1.2.0_amd64.deb
+  - sudo apt install ./cgreen_1.2.0_amd64.deb
 
 script:
   - make unit
