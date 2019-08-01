@@ -6,9 +6,11 @@ jobs:
 
     steps:
       - checkout
-
       - run:
-          name: ci
-          command: make ci
+          name: Installing GCC
+          command: 'apt-get update && apt-get install -y gcc'
+      - run:
+          name: Run CI build
+          command: 'make ci'
       - store_test_results:
           path: ~/test-results
