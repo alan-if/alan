@@ -14,11 +14,11 @@ before_install:
   - gem install coveralls-lcov
   - wget https://github.com/cgreen-devs/cgreen/releases/latest/download/cgreen_1.2.0_amd64.deb
   - sudo apt install ./cgreen_1.2.0_amd64.deb
+  - npm i -g xunit-viewer
 
 script:
-  - make unit
-  - make COVERAGE=--coverage JREGROUTPUT=-noansi
-  - make test JREGROUTPUT=-noansi
+  - make COVERAGE=--coverage ci
+  - xunit-viewer --output=alan-tests.html
 
 after_success:
   - lcov -d compiler/.alan -d interpreter/.arun -c -o coverage.info
