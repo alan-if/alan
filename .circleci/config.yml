@@ -13,7 +13,13 @@ jobs:
           name: Installing buildessentials
           command: 'apt-get install -y build-essential'
       - run:
-          name: Run CI build
-          command: 'make ci'
+          name: Unittests
+          command: 'make UNITOUTPUT="--xml TEST"'
+      - run:
+          name: Build
+          command: 'make'
+      - run:
+          name: Test
+          command: 'make JREGROUTPUT=-xml test'
       - store_test_results:
-          path: ~/test-results
+          path: ~
