@@ -23,6 +23,6 @@ jobs:
           command: make JREGROUTPUT=-xml test
       - run:
           name: Copy test results
-          command: mkdir ./test_results && find . -iname 'TEST*.xml' -exec cp --parents {} ./test_results
+          command: mkdir ./test_results && find . -iname 'TEST*.xml' -exec cp --parents {} ./test_results \;
       - store_test_results:
           path: ~/test_results
