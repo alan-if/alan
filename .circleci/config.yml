@@ -13,6 +13,12 @@ jobs:
           name: Installing buildessentials
           command: apt-get install -y build-essential
       - run:
+          name: Install cgreen
+          command: wget https://github.com/cgreen-devs/cgreen/releases/latest/download/cgreen_1.2.0_amd64.deb && apt install -y ./cgreen_1.2.0_amd64.deb
+      - run:
+          name: Install JRE
+          command: apt install -y default-jre
+      - run:
           name: Unittests
           command: make UNITOUTPUT="--xml TEST"
       - run:
