@@ -10,6 +10,9 @@ jobs:
           name: Installing GCC
           command: 'apt-get update && apt-get install -y gcc'
       - run:
+          name: Installing buildessentials
+          command: 'apt-get install build-essential'
+      - run:
           name: Run CI build
           command: 'make ci'
       - store_test_results:
