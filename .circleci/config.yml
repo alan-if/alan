@@ -7,11 +7,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Installing GCC
-          command: apt-get update && apt-get install -y gcc
-      - run:
-          name: Installing buildessentials
-          command: apt-get install -y build-essential
+          name: Installing GCC, buildessentials and wget
+          command: apt-get update && apt-get install -y gcc build-essential wget
       - run:
           name: Install cgreen
           command: wget https://github.com/cgreen-devs/cgreen/releases/latest/download/cgreen_1.2.0_amd64.deb && apt install -y ./cgreen_1.2.0_amd64.deb
