@@ -22,4 +22,4 @@ jobs:
           name: Test
           command: 'make JREGROUTPUT=-xml test'
       - store_test_results:
-          path: ~
+          path: ~/.
