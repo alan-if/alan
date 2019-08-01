@@ -1,11 +1,14 @@
-[![Build Status](https://ci.alanif.se/jenkins/job/Alan/badge/icon)](https://ci.alanif.se/jenkins/job/Alan/)[![Build Status](https://travis-ci.com/alan-if/alan.svg?branch=master)](https://travis-ci.com/alan-if/alan)[![Coverage Status](https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master)](https://coveralls.io/github/alan-if/alan?branch=master)
+[![Jenkins Status][jenkins badge]][jenkins link]&nbsp;
+[![Travis CI Status][travis badge]][travis link]&nbsp;
+[![Coverage Status][coveralls badge]][coveralls link]&nbsp;
+[![License][license badge]][license link]
 
-# Alan - the Adventure Language
+# Alan — the Adventure Language
 
 Alan is a language for developing and running interactive fiction,
 a.k.a adventure games, i.e. the games are text-based, in the best of
 worlds reads like interactive literature, and gives you "the best
-graphics device available - the human brain".
+graphics device available — the human brain".
 
 ## What is this?
 
@@ -34,7 +37,7 @@ you need a Java runtime.
 
 From the repo you can build
 
-- command line compiler and interpreter for you OS
+- command line compiler and interpreter for your OS
 - GLK-based interpreter, you need a GLK-library
 - Gargoyle plug-in, which can be used instead of the plug-in that comes with Gargoyle
 
@@ -50,3 +53,41 @@ the cross-compilation tools)
 A lot probably, but I wanted this Readme to exist as quickly as
 possible. Please, join, fork, pull request or file issues if there is
 something you want included here.
+
+# Useful Links
+
+- [Alan website]
+- [Alan Wiki]
+- [Alan Google Group] — for community help, announcements and discussions.
+- [Alan IF Development team] — GitHub profile and public projects.
+
+<!-----------------------------------------------------------------------------
+                               REFERENCE LINKS
+------------------------------------------------------------------------------>
+
+[Artistic License 2.0]: https://opensource.org/licenses/Artistic-2.0
+
+<!-- Useful Links -->
+
+[Alan website]: https://www.alanif.se/ "Visit the Alan website"
+[Alan Google Group]: https://groups.google.com/g/alan-if/ "Visit the Alan-IF discussions group at Google"
+[Alan Wiki]: https://github.com/alan-if/alan/wiki "Visit Alan Wiki"
+
+<!-- badges -->
+
+[jenkins badge]: https://ci.alanif.se/jenkins/job/Alan/badge/icon "Jenkins CI build status"
+[jenkins link]: https://ci.alanif.se/jenkins/job/Alan/
+[travis badge]: https://travis-ci.com/alan-if/alan.svg?branch=master "Travis CI build status"
+[travis link]: https://travis-ci.com/alan-if/alan
+[coveralls badge]: https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master "Coveralls status"
+[coveralls link]: https://coveralls.io/github/alan-if/alan?branch=master
+[license badge]: https://img.shields.io/badge/license-Artistic%20License%202.0-blue
+[license link]: ./COPYING
+
+<!-- people and organizations -->
+
+[Alan IF Development team]: https://github.com/alan-if "Visit the Alan Interactive Fiction Development team organization on GitHub"
+
+[Thomas Nilefalk]: https://github.com/thoni56 "View Thomas Nilefalk's GitHub profile"
+
+<!-- EOF -->
