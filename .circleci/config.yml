@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+
+    steps:
+      - checkout
+
+      - run:
+          name: ci
+          command: make ci
+      - store_test_results:
+          path: ~/test-results
