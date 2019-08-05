@@ -11,10 +11,10 @@ addons:
     - lcov
 
 before_install:
-  - apt install lcov
+  - sudo apt install lcov
   - gem install coveralls-lcov
   - wget https://github.com/cgreen-devs/cgreen/releases/latest/download/cgreen_1.2.0_amd64.deb
-  - apt install ./cgreen_1.2.0_amd64.deb
+  - sudo apt install ./cgreen_1.2.0_amd64.deb
   - npm i -g xunit-viewer
 
 script:
