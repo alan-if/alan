@@ -10,7 +10,7 @@ addons:
     packages:
     - lcov
 
-before_install:
+install:
   - gem install coveralls-lcov
   - wget https://github.com/cgreen-devs/cgreen/releases/latest/download/cgreen_1.2.0_amd64.deb
   - sudo apt install ./cgreen_1.2.0_amd64.deb
@@ -23,4 +23,5 @@ script:
 after_success:
   - lcov -d compiler/.alan -d interpreter/.arun -c -o coverage.info
   - lcov --remove coverage.info '/usr/*' -o coverage.info
+  - lcov --list coverage.info
   - coveralls-lcov coverage.info
