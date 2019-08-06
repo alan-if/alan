@@ -466,7 +466,6 @@ void compile(void) {
     generate();
     endCompilationTiming();
     removeTemporaryFiles();
-    xmlAdventure();
     listingOnFile();
     listingOnScreen();
     lmLiTerminate();

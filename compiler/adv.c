@@ -404,33 +404,6 @@ void dumpAdventure(enum dmpKd dmp)
     nl();
 }
 
-
-/*----------------------------------------------------------------------*/
-static void xmlStart(FILE *xmlFile) {
-    fprintf(xmlFile, "    <start WHERE=\"%s\" />\n", adv.whr->what->fields.wht.wht->id->string);
-}
-
-/*======================================================================*/
-void xmlAdventure(void) {
-    char *xmlFileName = strdup(adv.name);
-    FILE *xmlFile;
-
-    if (xmlFlag) {
-        xmlFileName = realloc(xmlFileName, strlen(xmlFileName)+4+1);
-        strcat(xmlFileName, ".xml");
-
-        xmlFile = fopen(xmlFileName, "w");
-        fprintf(xmlFile, "<?xml version=\"1.0\"?>\n");
-        fprintf(xmlFile, "<adventure>\n");
-        xmlClasses(xmlFile);
-        xmlInstances(xmlFile);
-        xmlStart(xmlFile);
-        fprintf(xmlFile, "</adventure>\n");
-        fclose(xmlFile);
-    }
-}
-
-
 /*======================================================================
 
   summary()

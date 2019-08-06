@@ -19,7 +19,6 @@ extern void symbolizeAdventure(void);
 extern void analyzeAdventure(void);
 extern void generateAdventure(char acdfnm[], char txtfnm[], char datfnm[]);
 extern void dumpAdventure(enum dmpKd dmp);
-extern void xmlAdventure(void);
 extern void summary(void);
 
 
