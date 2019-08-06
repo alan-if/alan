@@ -19,7 +19,7 @@ before_install:
   - npm i -g xunit-viewer
 
 script:
-  - make COVERAGE=--coverage ci
+  - make COVERAGE=--coverage
   - xunit-viewer --output=alan-tests.html
 
 after_success:
