@@ -1,1 +1,1 @@
-../../alan -summary ok.alan | grep -v "Adventure Language Compiler" | sed 's/:.*$//g' | grep -v "Estimated dynamic memory usage"
+../../alan -summary ok.alan | sed -e 's/[:=][[:space:]]*[0-9]*/ <number>/g'
