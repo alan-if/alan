@@ -166,20 +166,16 @@ bool differentInterpreterName(char *string) {
 
 
 /*======================================================================*/
-#if defined(__windows__) || defined(__cygwin__)
+#if defined(__windows__) || defined(__cygwin__) || defined(__unix__)
 #include "winargs.c"
 #else
-#if defined(__unix__) || defined(__macos__)
+#if defined(__macos__)
 #include "unixargs.c"
-#else
-#ifdef __mac__
-#include "macargs.c"
 #else
 /***********************************************************************\
 
    UNIMPLEMENTED OS
 
 \***********************************************************************/
-#endif
 #endif
 #endif

@@ -63,9 +63,9 @@ void args(int argc, char * argv[])
         if (differentInterpreterName(programName)) {
             // TODO break out as a function
             FILE *adventureFile;
-            adventureFileName = duplicate(programName,
-                                          strlen(programName)
-                                          +strlen(ACODEEXTENSION)+1);
+            adventureFileName = allocate(strlen(programName)
+                                         +strlen(ACODEEXTENSION)+1);
+            strcpy(adventureFileName, programName);
             strcat(adventureFileName, ACODEEXTENSION);
             // TODO break out as utils::fileExists()
             if ((adventureFile = fopen(adventureFileName, "r")) == NULL) {
