@@ -1,24 +1,27 @@
 Here are some quick reminders on how to set up for Alan development.
 
-Cygwin:
+Compilation:
+    - you can build on most unix-like environments, cygwin, Linux,
+      Msys2, MacOS/Darwin. To build the Windows binaries you need
+      to need to have the cross-compilation tools.
 
-        - install cygwin, ensure you have selected xemacs/emacs, cvs,
-          gcc, mingw-runtime, gdb, make. I also use mintty as a
-          replacement for the Windows Command window.
+Unittesting:
+    - To run unit tests you also need Cgreen. You can
+      install Cgreen from https://github.com/cgreen-devs/cgreen.
+      Most Makefiles will try to determine if it is installed
+      and build without it, but if you are modifying you really
+      should use it!
 
-All:
-        - CGreen: To run unit tests you also need Cgreen. You can
-          install Cgreen from https://github.com/cgreen-devs/cgreen.
-          Most Makefiles will try to determine if it is installed
-          and build without it, but if you are modifying you really
-          should use it!
-
+Integration testing:
+    - There is a special regression tool in ./bin, jregr. It is Java-based
+      so you need a Java JRE. Then you can go to any of the test directories
+      in the regression tree or compiler/testing and do `jregr`.
 
 Optional:
-        - Emacs: I actually got GNU Emacs 24.x for Windows working with
-          cygwin as its shell and command layer *and* c-xref, so now I'm
-          using that. I found some hints on the net to setup Emacs
+    - Emacs: I actually got GNU Emacs 24.x for Windows working with
+      cygwin as its shell and command layer *and* c-xref, so now I'm
+      using that.
 
-        - C-xref: to refactor C code in emacs I use the restored C/Java
-          version originaly from xref-tech. You can find that at
-          https://github.com/thoni56/c-xrefactory
+    - C-xref: to refactor C code in emacs I use the restored C/Java
+      version originally from xref-tech. You can find that at
+      https://github.com/thoni56/c-xrefactory.
