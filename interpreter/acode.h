@@ -474,6 +474,11 @@ typedef struct DictionaryEntry { /* Dictionary */
     Aaddr pronounRefs;          /* Address to reference list */
 } DictionaryEntry;
 
+typedef struct IfidEntry {      /* IFIDs are (name, value) pairs */
+    Aaddr nameAddress;
+    Aaddr valueAddress;
+} IfidEntry;
+
 
 
 /* AMACHINE Header */

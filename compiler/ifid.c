@@ -169,14 +169,17 @@ static void generateIfid(IfidNode *ifid)
 Aaddr generateIfids(List *ifids)
 {
   List *lst;
-  Aaddr ifidAddress = nextEmitAddress();
+  Aaddr ifidAddress;
+  IfidEntry entry;
 
   ITERATE(lst, ifids)
     generateIfid(lst->member.ifid);
 
+  ifidAddress = nextEmitAddress();
   ITERATE(lst, ifids) {
-    emit(lst->member.ifid->nameAddress);
-    emit(lst->member.ifid->valueAddress);
+    entry.nameAddress = lst->member.ifid->nameAddress;
+    entry.valueAddress = lst->member.ifid->valueAddress;
+    emitEntry(&entry, sizeof(entry));
   }
   emit(EOF);
   return ifidAddress;
