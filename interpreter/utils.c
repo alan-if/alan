@@ -49,7 +49,6 @@ void printVersion(int buildNumber) {
     printf(" (%s %s)", alan.date, alan.time);
 }
 
-
 /*======================================================================*/
 void printIFIDs(char *adventureName) {
     IfidEntry *ifidEntry;

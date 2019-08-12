@@ -73,7 +73,6 @@ int main(int argc, char *argv[])
 #endif
         if (debugOption) printf(">");
         newline();
-        newline();
     }
 
 #ifdef HAVE_GARGLK

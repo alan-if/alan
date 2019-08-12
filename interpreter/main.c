@@ -351,13 +351,15 @@ void checkVersion(ACodeHeader *header)
     interpreterVersion[3] = alan.version.state[0];
 
     /* Check version of .ACD file */
-    if (debugOption && !regressionTestOption) {
-        printf("<Version of '%s' is %d.%d%s%d!>\n",
+    if ((debugOption && !regressionTestOption) || verboseOption) {
+        if (debugOption) printf("<");
+        printf("Version of '%s' is %d.%d%s%d!",
                adventureFileName,
                (int)header->version[0],
                (int)header->version[1],
                decodeState(header->version[3]),
                (int)header->version[2]);
+        if (debugOption) printf(">");
         newline();
     }
 
