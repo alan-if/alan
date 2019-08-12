@@ -51,6 +51,17 @@ void printVersion(int buildNumber) {
 
 
 /*======================================================================*/
+void printIFIDs(char *adventureName) {
+    Aaddr *ifidEntry;
+
+    printf("%s contains the following IFIDs:\n", adventureName);
+    for (ifidEntry = pointerTo(header->ifids); !isEndOfArray(ifidEntry); ifidEntry++) {
+        printf("%s\n", (unsigned char *)pointerTo(*ifidEntry));
+    }
+}
+
+
+/*======================================================================*/
 void usage(char *programName)
 {
 #if (BUILD+0) != 0

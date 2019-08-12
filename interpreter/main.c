@@ -807,6 +807,13 @@ void run(void)
     openFiles();
     load();			/* Load program */
 
+    if ((debugOption && !regressionTestOption) || verboseOption) {
+        if (debugOption) printf("<");
+        printIFIDs(adventureName);
+        if (debugOption) printf(">");
+        newline();
+    }
+
     if (RESTARTED) {
         deleteStack(theStack);
     }
