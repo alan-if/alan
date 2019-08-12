@@ -855,6 +855,7 @@ static void dumpACD(void)
         printf("Ok.\n");
     printf("TXTCRC: 0x%lx\n", (unsigned long)header->txtcrc);
     if (statementsFlag != 0)
+        /* Dump the statements at the address contained in the flag */
         dumpStatements(statementsFlag);
 }
 

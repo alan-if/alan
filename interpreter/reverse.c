@@ -503,6 +503,10 @@ static void reverseSetInitTable(Aaddr adr)
 }
 
 
+static void reverseIfids(Aaddr adr) {
+    reverseTable(adr, sizeof(IfidEntry));
+}
+
 
 /*----------------------------------------------------------------------*/
 static void reversePreAlpha5Header(Pre3_0alpha5Header *hdr)
@@ -604,7 +608,7 @@ static void reverseInstanceIdTable(ACodeHeader *header) {
 
 
 /*----------------------------------------------------------------------*/
-static void reverseNative() {
+static void reverseNative(char version[]) {
     /* NOTE that the reversePreXXX() have different header definitions */
     ACodeHeader *header = (ACodeHeader *)memory;
 
@@ -632,6 +636,9 @@ static void reverseNative() {
     reverseStms(header->prompt);
     reverseStms(header->start);
     reverseMsgs(header->messageTableAddress);
+    if (!isPreBeta7(version))
+        /* We can't find the IFID:s in pre-beta7 because of a bug in compiler */
+        reverseIfids(header->ifids);
 
     reverseTable(header->scores, sizeof(Aword));
     reverseTable(header->freq, sizeof(Aword));
@@ -663,7 +670,7 @@ void reverseACD(void)
   else if (isPreBeta2(version))
       reversePreBeta2();
   else
-      reverseNative();
+      reverseNative(version);
 
   free(addressesDone);
 }

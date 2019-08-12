@@ -52,11 +52,12 @@ void printVersion(int buildNumber) {
 
 /*======================================================================*/
 void printIFIDs(char *adventureName) {
-    Aaddr *ifidEntry;
+    IfidEntry *ifidEntry;
 
-    printf("%s contains the following IFIDs:\n", adventureName);
+    printf("'%s' contains the following IFIDs:\n", adventureName);
     for (ifidEntry = pointerTo(header->ifids); !isEndOfArray(ifidEntry); ifidEntry++) {
-        printf("%s\n", (unsigned char *)pointerTo(*ifidEntry));
+        printf("  %s:\t%s\n", (unsigned char *)pointerTo(ifidEntry->nameAddress),
+               (unsigned char *)pointerTo(ifidEntry->valueAddress));
     }
 }
 

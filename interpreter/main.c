@@ -808,10 +808,12 @@ void run(void)
     load();			/* Load program */
 
     if ((debugOption && !regressionTestOption) || verboseOption) {
-        if (debugOption) printf("<");
-        printIFIDs(adventureName);
-        if (debugOption) printf(">");
-        newline();
+        if (!isPreBeta7(header->version)) {
+            if (debugOption) printf("<");
+            printIFIDs(adventureName);
+            if (debugOption) printf(">");
+            newline();
+        }
     }
 
     if (RESTARTED) {
