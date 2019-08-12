@@ -19,7 +19,7 @@ before_install:
   - npm i -g xunit-viewer
 
 script:
-  - make COVERAGE=--coverage
+  - make COVERAGE=--coverage JREGROUTPUT="-xml" UNITOUTPUT="--xml TEST"
   - xunit-viewer --output=alan-tests.html
 
 after_success:
