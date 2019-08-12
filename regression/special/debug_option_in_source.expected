@@ -2,10 +2,6 @@
 
         No warnings or errors detected.
 
-<Arun - Adventure Language Interpreter version 3.0beta6 (2018-05-22 07:31:03)>
-
-<Version of 'debug_option_in_source.a3c' is 3.0beta6!>
-
 <Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
 
 adbg> quit

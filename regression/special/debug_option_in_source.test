@@ -1,2 +1,2 @@
 alan debug_option_in_source.alan
-arun -d debug_option_in_source < debug_option_in_source.input
+arun -d -r debug_option_in_source < debug_option_in_source.input
