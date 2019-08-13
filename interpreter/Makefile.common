@@ -49,6 +49,7 @@ test:
 	@# Uses sh not the executables
 	@../bin/jregr -dir ../regression/restore $(JREGROUTPUT)
 	@../bin/jregr -dir ../regression/executing $(JREGROUTPUT)
+	@../bin/jregr -dir ../regression/special $(JREGROUTPUT)
 
 
 #######################################################################
