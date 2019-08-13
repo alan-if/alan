@@ -1238,6 +1238,8 @@ void interpret(Aaddr adr)
                 Aint rh = pop(stack);
                 Aint lh = pop(stack);
                 traceInstruction2("DIV", lh, rh);
+                if (rh == 0)
+                    apperr("Division by zero");
                 push(stack, lh / rh);
                 traceIntegerTopValue();
                 break;

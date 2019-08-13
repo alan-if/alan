@@ -1,0 +1,18 @@
+THE kitchen IsA LOCATION
+END THE kitchen.
+
+SYNTAX 'divide' = 'divide' (num1) 'by' (num2)
+  WHERE num1 IsA integer
+    ELSE "You can only use numbers with this verb!"
+  AND num2 IsA integer
+    ELSE "You can only use numbers with this verb!"
+
+ADD TO EVERY integer
+  VERB 'divide'
+    When num1
+      DOES
+        "Sure, $1 divided by $2 equals" SAY num1 / num2. "."
+  END VERB 'divide'.
+END ADD TO integer.
+
+Start at kitchen.
