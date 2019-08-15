@@ -74,6 +74,15 @@ static char *addAcodeExtension(char *adventureFileName) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static void version(void) {
+#if (BUILD+0) != 0
+    printf("%s build %d", alan.version.string, BUILD);
+#else
+    printf("%s", alan.version.string);
+#endif
+}
+
 
 /*----------------------------------------------------------------------*/
 static void switches(int argc, char *argv[])
@@ -86,6 +95,10 @@ static void switches(int argc, char *argv[])
         if (argument[0] == '-') {
             switch (toLower(argument[1]))
                 {
+                case 'h':
+                    usage(argv[0]);
+                    terminate(0);
+                    break;
                 case 'i':
                     ignoreErrorOption = TRUE;
                     break;
@@ -112,7 +125,11 @@ static void switches(int argc, char *argv[])
                     logOption = FALSE;
                     break;
                 case 'v':
-                    verboseOption = TRUE;
+                    if (strcmp(argument, "-version") == 0) {
+                        version();
+                        terminate(0);
+                    } else
+                        verboseOption = TRUE;
                     break;
                 case 'n':
                     statusLineOption = FALSE;
@@ -127,11 +144,7 @@ static void switches(int argc, char *argv[])
                     break;
                 case '-':
                     if (strcasecmp(&argument[2], "version") == 0) {
-#if (BUILD+0) != 0
-                        printf("%s build %d", alan.version.string, BUILD);
-#else
-                        printf("%s", alan.version.string);
-#endif
+                        version();
                         terminate(0);
                         break;
                     }

@@ -75,6 +75,7 @@ void usage(char *programName)
 #ifdef HAVE_GLK
     glk_set_style(style_Preformatted);
 #endif
+    printf("    -h        this help\n");
     printf("    -v        verbose mode\n");
     printf("    -l        log transcript to a file\n");
     printf("    -c        log player commands to a file\n");
