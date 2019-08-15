@@ -137,7 +137,7 @@ static void switches(int argc, char *argv[])
                     }
                     /* else fall-through */
                 default:
-                    printf("Unrecognized switch, -%c\n", argument[1]);
+                    printf("Unrecognized switch, -%s\n", &argument[1]);
                     usage(argv[0]);
                     terminate(0);
                 }
