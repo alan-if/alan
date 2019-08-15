@@ -81,7 +81,7 @@ void usage(char *programName)
     printf("    -n        no Status Line\n");
     printf("    -d        enter debug mode\n");
     printf("    -t[<n>]   trace game execution, higher <n> gives more trace\n");
-    printf("    -i        ignore version and checksum errors\n");
+    printf("    -i        ignore version and checksum errors (dangerous)\n");
     printf("    -r        make regression test easier (don't timestamp, page break, randomize...)\n");
     printf("    --version print version and exit\n");
 #ifdef HAVE_GLK
