@@ -1,0 +1,8 @@
+read
+write "Hello world."
+read
+write "Hello.$pWorld"
+read
+write "Hello.$1"
+read
+write "$1"

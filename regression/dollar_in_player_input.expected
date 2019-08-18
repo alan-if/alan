@@ -1,0 +1,34 @@
+########## dollar_in_player_input ##########
+
+        No warnings or errors detected.
+
+
+
+Room
+
+> read
+
+> write "Hello world."
+You write "Hello world.".
+
+> read
+Hello world.
+
+> write "Hello.$pWorld"
+You write "Hello.$pWorld".
+
+> read
+Hello.$pWorld
+
+> write "Hello.$1"
+You write "Hello.$1".
+
+> read
+Hello.$1
+
+> write "$1"
+You write "$1".
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

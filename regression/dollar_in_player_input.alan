@@ -1,0 +1,29 @@
+--==============================================================================
+-- BUG: String parameters may contain Alan special $ symbols, which can lead to
+--      infinite recursion when the player types "$1".
+--==============================================================================
+
+THE room IsA LOCATION
+  Has text "".
+  VERB write
+    DOES
+      "You write ""$1""."
+      Set text of room to str.
+  END VERB write.
+END THE room.
+
+-- Verb Write
+SYNTAX write = write (str)
+  WHERE str IsA string
+    ELSE "You can only use strings with this verb."
+
+
+-- Verb Read
+SYNTAX read = read.
+
+VERB read
+  DOES
+    Say text of room.
+END VERB read.
+
+Start at room.
