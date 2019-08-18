@@ -481,8 +481,9 @@ void sayInteger(int value)
 /*======================================================================*/
 void sayString(char *string)
 {
-    if (isHere(HERO, FALSE))
-        output(string);
+    if (isHere(HERO, FALSE)) {
+        justify(string);        /* No expansion! */
+    }
     deallocate(string);
 }
 

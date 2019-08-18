@@ -35,6 +35,7 @@ extern void newline(void);
 extern void para(void);
 extern void clear(void);
 extern void printAndLog(char string[]);
-extern void output(char string[]);
+extern void justify(char string[]); /* No expansion */
+extern void output(char string[]);  /* Expand symbols */
 
 #endif /* OUTPUT_H_ */

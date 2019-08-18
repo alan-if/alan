@@ -177,8 +177,8 @@ void printAndLog(char string[])
 }
 
 
-/*----------------------------------------------------------------------*/
-static void justify(char str[])
+/*======================================================================*/
+void justify(char str[])
 {
     if (capitalize)
         capitalizeFirst(str);
