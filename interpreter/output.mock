@@ -37,3 +37,4 @@ void clear(void) { mock(); }
 void printAndLog(char string[]) { mock(string); }
 void justify(char string[]) { mock(string); }
 void output(char string[]) { mock(string); }
+void space(void) {}

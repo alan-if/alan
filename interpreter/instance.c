@@ -482,7 +482,10 @@ void sayInteger(int value)
 void sayString(char *string)
 {
     if (isHere(HERO, FALSE)) {
+        space();
         justify(string);        /* No expansion! */
+        if (!isspace(string[strlen(string)-1]))
+            needSpace = TRUE;
     }
     deallocate(string);
 }
