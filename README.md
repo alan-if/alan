@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/alan-if/alan.svg?branch=master)](https://travis-ci.org/alan-if/alan)[![Coverage Status](https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master)](https://coveralls.io/github/alan-if/alan?branch=master)
+[![Build Status](https://ci.alanif.se/jenkins/job/Alan/badge/icon)](https://ci.alanif.se/jenkins/job/Alan/)[![Build Status](https://travis-ci.org/alan-if/alan.svg?branch=master)](https://travis-ci.org/alan-if/alan)[![Coverage Status](https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master)](https://coveralls.io/github/alan-if/alan?branch=master)
 
 # Alan - the Adventure Language
 
@@ -27,7 +27,8 @@ just clone and 'make' on the following platform:
 - Linux, most flavours including WSL (Windows Subsystem for Linux)
 - MacOS/Darwin, both native and with Homebrew GCC
 
-To run unittests you need Cgreen, and to run all the regression tests you need a Java runtime.
+To run unittests you need Cgreen, and to run all the regression tests
+you need a Java runtime.
 
 ## What's in the box?
 
@@ -37,7 +38,9 @@ From the repo you can build
 - GLK-based interpreter, you need a GLK-library
 - Gargoyle plug-in, which can be used instead of the plug-in that comes with Gargoyle
 
-And if your environment allows cross-compilation to Windows (Cygwin, MSYS2 and most Linuxen can be made to do this, but you have to install the cross-compilation tools)
+And if your environment allows cross-compilation to Windows (Cygwin,
+MSYS2 and most Linuxen can be made to do this, but you have to install
+the cross-compilation tools)
 
 - WinArun, a WindowsGLK based GUI-interpreter
 - WinAlan, a Windows "GUI" compiler (but a better choice is probably the AlanIDE)
@@ -47,4 +50,3 @@ And if your environment allows cross-compilation to Windows (Cygwin, MSYS2 and m
 A lot probably, but I wanted this Readme to exist as quickly as
 possible. Please, join, fork, pull request or file issues if there is
 something you want included here.
-
