@@ -1,0 +1,20 @@
+The loc_ì Isa location
+    Name Location ì.
+End The.
+
+Syntax grave = 'ì' (o).
+Syntax acute = 'í' (o).
+
+The rock Isa object At loc_ì
+    Verb grave
+         Does
+            "grave"
+    End Verb.
+    Verb acute
+         Does
+            "acute"
+    End Verb.
+End The.
+
+Start at loc_ì.
+      "Do 'ì rock' or 'í rock'."
