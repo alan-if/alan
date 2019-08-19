@@ -12,6 +12,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	exe \
 	instance \
 	lists \
+	literal \
 	memory \
 	rules \
 	stack \
