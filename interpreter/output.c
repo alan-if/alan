@@ -177,8 +177,8 @@ void printAndLog(char string[])
 }
 
 
-/*======================================================================*/
-void justify(char str[])
+/*----------------------------------------------------------------------*/
+static void justify(char str[])
 {
     if (capitalize)
         capitalizeFirst(str);
@@ -218,8 +218,8 @@ void justify(char str[])
 }
 
 
-/*======================================================================*/
-void space(void)
+/*----------------------------------------------------------------------*/
+static void space(void)
 {
     if (skipSpace)
         skipSpace = FALSE;
