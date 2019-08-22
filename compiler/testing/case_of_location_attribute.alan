@@ -1,0 +1,14 @@
+THE room IsA LOCATION
+  Has visits 0.
+  Has contains 1.
+END THE room.
+
+The box Isa object
+  Container
+End The box.
+
+Start at room.
+  Say LOCATION of room.
+  Make box OPAQUE.
+  Say VISITS of room.
+  Say Contains of room.

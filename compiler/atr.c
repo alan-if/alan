@@ -179,14 +179,14 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
 }
 
 
-static Id id = {{0,0,0}, "location", NULL, -1};
-static Attribute locationAttributeFake = {{0,0,0}, INSTANCE_TYPE, &id, TRUE};
+static Id locationIdFake = {{0,0,0}, "location", NULL, -1};
+static Attribute locationAttributeFake = {{0,0,0}, INSTANCE_TYPE, &locationIdFake, TRUE};
 /*======================================================================*/
 Attribute *findAttribute(List *attributes, Id *id)
 {
     List *this;
 
-    if (strcmp(id->string, "location") == 0) {
+    if (equalId(id, &locationIdFake)) {
         locationAttributeFake.referenceClass = locationSymbol;
         return &locationAttributeFake;
     }
@@ -472,7 +472,7 @@ static Attribute *resolveAttributeOfInstance(Id *id, Id *attribute) {
 
 /*----------------------------------------------------------------------*/
 static Attribute *findAttributeOfSymbol(Symbol *symbol, Id *attribute, Id *id, char *message) {
-	Attribute *atr = NULL;
+    Attribute *atr = NULL;
 
     if (symbol) {
         switch (symbol->kind) {
@@ -503,7 +503,7 @@ static Attribute *resolveAttributeOfParameter(Id *id, Id *attributeId, Context *
         Symbol *classOfId = classOfIdInContext(context, id);
         atr = findAttributeOfSymbol(classOfId, attributeId, id, "parameter");
     }
-	return atr;
+    return atr;
 }
 
 
@@ -516,7 +516,7 @@ static Attribute *resolveAttributeOfLocal(Id *id, Id *attribute, Context *contex
         Symbol *classOfLocal = classOfIdInContext(context, id);
         atr = findAttributeOfSymbol(classOfLocal, attribute, id, "variable");
     }
-	return atr;
+    return atr;
 }
 
 
@@ -649,41 +649,41 @@ Attribute *resolveAttributeToExpression(Expression *exp, Id *attributeId, Contex
 /*----------------------------------------------------------------------*/
 static void generateAttribute(Attribute *attribute, int instanceCode)
 {
-	AttributeEntry entry;
-	Attribute *new;
+    AttributeEntry entry;
+    Attribute *new;
 
-	if (attribute->type == STRING_TYPE || attribute->type == SET_TYPE) {
-		/* Now make a copy to use for initialisation if attribute is
-		   inherited, else the address will be overwritten by generation
-		   of other instances of the same attribute */
-		if (attribute->type == STRING_TYPE) {
-			/* We need to ensure that it is encode it first */
-			if (!attribute->encoded) {
-				encode(&attribute->fpos, &attribute->len);
-				attribute->encoded = TRUE;
-			}
-			new = newStringAttribute(attribute->srcp, attribute->id, attribute->fpos, attribute->len);
-			adv.stringAttributes = concat(adv.stringAttributes, new, ATTRIBUTE_LIST);
-		} else {			/* SET ATTRIBUTE */
-			/* Make a copy to keep the address in */
-			new = newSetAttribute(attribute->srcp, attribute->id, attribute->set);
-			new->setType = attribute->setType;
-			adv.setAttributes = concat(adv.setAttributes, new, ATTRIBUTE_LIST);
-		}
-		new->address = nextEmitAddress(); /* Record on which Aadress to put it */
-		new->instanceCode = instanceCode; /* Which instance owns it? */
-	}
+    if (attribute->type == STRING_TYPE || attribute->type == SET_TYPE) {
+        /* Now make a copy to use for initialisation if attribute is
+           inherited, else the address will be overwritten by generation
+           of other instances of the same attribute */
+        if (attribute->type == STRING_TYPE) {
+            /* We need to ensure that it is encode it first */
+            if (!attribute->encoded) {
+                encode(&attribute->fpos, &attribute->len);
+                attribute->encoded = TRUE;
+            }
+            new = newStringAttribute(attribute->srcp, attribute->id, attribute->fpos, attribute->len);
+            adv.stringAttributes = concat(adv.stringAttributes, new, ATTRIBUTE_LIST);
+        } else {			/* SET ATTRIBUTE */
+            /* Make a copy to keep the address in */
+            new = newSetAttribute(attribute->srcp, attribute->id, attribute->set);
+            new->setType = attribute->setType;
+            adv.setAttributes = concat(adv.setAttributes, new, ATTRIBUTE_LIST);
+        }
+        new->address = nextEmitAddress(); /* Record on which Aadress to put it */
+        new->instanceCode = instanceCode; /* Which instance owns it? */
+    }
 
-	entry.code = attribute->id->code;
-	entry.value = attribute->value;
-	entry.id = attribute->stringAddress;
-	emitEntry(&entry, sizeof(entry));
+    entry.code = attribute->id->code;
+    entry.value = attribute->value;
+    entry.id = attribute->stringAddress;
+    emitEntry(&entry, sizeof(entry));
 }
 
 
 /*======================================================================*/
 static void generateAttributeNames(List *atrs) {
-	List *lst;
+    List *lst;
     if (opts[OPTDEBUG].value) {
         for (lst = atrs; lst != NULL; lst = lst->next) {
             lst->member.atr->stringAddress = nextEmitAddress();
@@ -695,7 +695,7 @@ static void generateAttributeNames(List *atrs) {
 
 /*======================================================================*/
 static void generateAttributeEntries(List *atrs, int instanceCode) {
-	List *lst;
+    List *lst;
     for (lst = atrs; lst != NULL; lst = lst->next) {
         if (instanceCode == 0) printf("instance == 0\n");
         generateAttribute(lst->member.atr, instanceCode);
@@ -710,11 +710,11 @@ Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute
 {
     Aaddr adr;
 
-	generateAttributeNames(atrs);
+    generateAttributeNames(atrs);
 
     adr = nextEmitAddress();
 
-	generateAttributeEntries(atrs, instanceCode);
+    generateAttributeEntries(atrs, instanceCode);
 
     attributeAreaSize += 1;
 
