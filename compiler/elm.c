@@ -34,9 +34,9 @@ static int level = 0;
 
 /*----------------------------------------------------------------------*/
 static Element *newElement(Srcp *srcp,
-			   ElementKind kind,
-			   Id *id,
-			   int flags)
+               ElementKind kind,
+               Id *id,
+               int flags)
 {
     Element *new;                                  /* The newly created node */
 
@@ -130,18 +130,10 @@ List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
     int parameterCount = 1;
     Bool multiple = FALSE;
 
-#ifdef REQUIRE_VERB_FIRST
-    if (firstElement->kind != WORD_ELEMENT)
-        /* First element must be a player word */
-        lmLog(&firstElement->srcp, 209, sevERR, "");
-    else
-        firstElement->id->code = newVerbWord(firstElement->id->string, syntax);
-#else
     if (firstElement->kind == WORD_ELEMENT) {
         firstElement->id->code = newVerbWord(firstElement->id->string, syntax);
-		elements = elements->next; /* Done with the first element */
-	}
-#endif
+        elements = elements->next; /* Done with the first element */
+    }
 
     /* Analyze the elements, number parameters and find the restriction */
     for (list = elements; list != NULL; list = list->next) {
@@ -199,12 +191,12 @@ static Bool equalElements(List *element1, List *element2)
 static List *advance(List *elmsList) /* IN - The list to advance */
 {
     List *list;
-	List *copy = copyList(elmsList);
+    List *copy = copyList(elmsList);
 
     for (list = copy; list != NULL; list = list->next) {
         list->member.lst = list->member.lst->next;
     }
-	return copy;
+    return copy;
 }
 
 
@@ -271,7 +263,7 @@ static ElementEntry *newEntryForPartition(List **entries) {
 
 /*----------------------------------------------------------------------*/
 static Aaddr restrictionTableAddress(List *partition) {
-	return partition->member.lst->member.elm->stx->restrictionsAddress;
+    return partition->member.lst->member.elm->stx->restrictionsAddress;
 }
 
 
@@ -296,9 +288,9 @@ static void entryForParameter(ElementEntry *entry, List *partition, Syntax *stx)
 
     entry->code = 0;
     entry->flags = partition->member.lst->member.elm->flags;
-	/* TODO: ORing flags here is a problem, might actually give some
-	   syntaxes different flags than intended which is not at all good
-	   (omnipotent!!!) */
+    /* TODO: ORing flags here is a problem, might actually give some
+       syntaxes different flags than intended which is not at all good
+       (omnipotent!!!) */
     ITERATE(element, partition->next) {
         entry->flags |= element->member.lst->member.elm->flags;
     }

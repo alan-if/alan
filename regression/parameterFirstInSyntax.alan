@@ -1,0 +1,13 @@
+The l Isa location
+End The l.
+
+The bob Isa actor At l
+  Verb jump
+  Does
+    "Jump"
+  End Verb.
+End The bob.
+
+Syntax jump = (a) jump Where a Isa actor Else "You can only order people about."
+
+Start At l.
