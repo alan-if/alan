@@ -70,6 +70,7 @@ documentation:
 
 .PHONY: releasebuild
 releasebuild:
+	touch alan.version.h */alan.version.c
 	$(MAKE) -C compiler release
 	$(MAKE) -C interpreter release
 	$(MAKE) -C converter release
