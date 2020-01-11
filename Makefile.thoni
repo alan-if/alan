@@ -26,10 +26,10 @@ release:
 	fi fi fi fi
 	$(MAKE) releasebuild
 	$(MAKE) test
-	$(MAKE) documentation
+	#$(MAKE) documentation
 	$(MAKE) zip setup gararun
-	$(MAKE) tags
-	$(MAKE) release-upload
+	#$(MAKE) tags
+	#$(MAKE) release-upload
 
 
 .PHONY: snapshot-build
