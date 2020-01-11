@@ -24,6 +24,11 @@ release:
 	#	echo "Push all local changes before making a release" ; \
 	#	exit 1 ; \
 	#fi fi fi fi
+	# Enable WinAlan & WinArun
+	cp compiler/Makefile.local.template compiler/Makefile.local
+	echo "WINALAN_ENABLED=true" >> compiler/Makefile.local
+	cp interpreter/Makefile.local.template interpreter/Makefile.local
+	echo "WINARUN_ENABLED=true" >> interpreter/Makefile.local
 	$(MAKE) releasebuild
 	$(MAKE) test
 	#$(MAKE) documentation
