@@ -20,7 +20,7 @@ before_install:
 
 script:
   - make COVERAGE=--coverage JREGROUTPUT="-xml" UNITOUTPUT="--xml TEST"
-  - xunit-viewer --output=alan-tests.html
+  - xunit-viewer -r . --output=alan-tests.html
 
 after_success:
   - lcov -d compiler/.alan -d interpreter/.arun -c -o coverage.info
