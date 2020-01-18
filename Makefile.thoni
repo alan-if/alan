@@ -32,7 +32,7 @@ release:
 	$(MAKE) releasebuild
 	$(MAKE) test
 	#$(MAKE) documentation
-	$(MAKE) zip setup gararun
+	$(MAKE) zip setup
 	#$(MAKE) tags
 	#$(MAKE) release-upload
 
