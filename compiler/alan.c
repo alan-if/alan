@@ -139,14 +139,10 @@ static void printTimes(void)
   lmLiPrint(       "        ------");
   (void)sprintf(str,   "        Parse Time:             %6ld", tim.pars);
   lmLiPrint(str);
-  if (tim.sem != 0) {
-    (void)sprintf(str, "        Analysis Time:          %6ld", tim.sem);
-    lmLiPrint(str);
-  }
-  if (tim.gen != 0) {
-    (void)sprintf(str, "        Code Generation Time:   %6ld", tim.gen);
-    lmLiPrint(str);
-  }
+  (void)sprintf(str, "        Analysis Time:          %6ld", tim.sem);
+  lmLiPrint(str);
+  (void)sprintf(str, "        Code Generation Time:   %6ld", tim.gen);
+  lmLiPrint(str);
   (void)sprintf(str,   "        ------------------------------");
   lmLiPrint(str);
   (void)sprintf(str,   "        Compilation Time:       %6ld", tim.comp);
@@ -175,12 +171,13 @@ static void statistics(void)
   lmLiPrint(str);
   lmLiPrint("");
 
-  if (tim.tot != 0 && tim.comp != 0) {
-    (void)sprintf(str, "        %d lines/CPUminute.",
-        (int)(60L*1000L*(long)lins/tim.comp));
-    lmLiPrint(str);
-    lmLiPrint("");
-  }
+  if (tim.comp == 0)
+      (void)sprintf(str, "        0 lines/CPUminute.");
+  else
+      (void)sprintf(str, "        %d lines/CPUminute.",
+                    (int)(60L*1000L*(long)lins/tim.comp));
+  lmLiPrint(str);
+  lmLiPrint("");
 
   (void)sprintf(str,   "        Estimated dynamic memory usage = %ld bytes.",
                 (long int)((char *)malloc(10000)-(char *)heap));

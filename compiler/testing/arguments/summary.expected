@@ -5,23 +5,27 @@
 
         Summary
         -------
-        Verbs <number>
-        Classes <number>
-        Instances <number>
-        Words <number>
-        Acode <number> words (2968 bytes)
-        Text data <number> bytes
+        Verbs: <number>
+        Classes: <number>
+        Instances: <number>
+        Words: <number>
+        Acode: <number> words ( <number> bytes)
+        Text data: <number> bytes
 
         Timing
         ------
-        Parse Time <number>
+        Parse Time: <number>
+        Analysis Time: <number>
+        Code Generation Time: <number>
         ------------------------------
-        Compilation Time <number>
+        Compilation Time: <number>
 
-        Total Time <number>
+        Total Time: <number>
 
-        4 source lines read.
+ <number> source lines read.
 
-        Estimated dynamic memory usage  <number> bytes.
-        Calculated       - "" -         <number> bytes.
+ <number> lines/CPUminute.
+
+        Estimated dynamic memory usage = <number> bytes.
+        Calculated       - "" -        = <number> bytes.
 

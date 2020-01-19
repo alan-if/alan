@@ -1,28 +1,28 @@
 ########## verbose ##########
 
-	Parsing
-	Analyzing
-	Syntax definitions
-	Verbs
-	Classes
-	Instances
-	Events
-	Rules
-	Synonyms
-	Message
-	Generating
-	Dictionary
-	SyntaxTable
-	Parameter Mapping
-	Verbs
-	Classes
-	Instances
-	Containers
-	Scripts
-	Events
-	Rules
-	Messages
-	Character Encoding
+	Parsing: <number>
+	Analyzing: <number>
+	Syntax definitions: <number>
+	Verbs: <number>
+	Classes: <number>
+	Instances: <number>
+	Events: <number>
+	Rules: <number>
+	Synonyms: <number>
+	Message: <number>
+	Generating: <number>
+	Dictionary: <number>
+	SyntaxTable: <number>
+	Parameter Mapping: <number>
+	Verbs: <number>
+	Classes: <number>
+	Instances: <number>
+	Containers: <number>
+	Scripts: <number>
+	Events: <number>
+	Rules: <number>
+	Messages: <number>
+	Character Encoding: <number>
 
         No warnings or errors detected.
 
