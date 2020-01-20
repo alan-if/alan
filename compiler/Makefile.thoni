@@ -28,6 +28,12 @@ release: clean build
 		echo ERROR - winalan is dependent on cygwin1.dll ; \
 		exit 1 ; \
 	fi
+	@# Hack some possibly binary test outputs to ensure they are readable by Jenkins
+	if [ -f testing/arguments/summary.output ] ; then \
+		cp testing/arguments/summary.output summary.output ; \
+		sed 's/\0x08/^H/g' summary.output > testing/arguments/summary.output ; \
+	fi
+
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
