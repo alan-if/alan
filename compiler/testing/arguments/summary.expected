@@ -9,7 +9,7 @@
         Classes: <number>
         Instances: <number>
         Words: <number>
-        Acode: <number> words (2968 bytes)
+        Acode: <number> words ( <number> bytes)
         Text data: <number> bytes
 
         Timing
@@ -22,10 +22,10 @@
 
         Total Time: <number>
 
-        4 source lines read.
+ <number> source lines read.
 
-        0 lines/CPUminute.
+ <number> lines/CPUminute.
 
-        Estimated dynamic memory usage : <number> bytes.
-        Calculated       - "" -        : <number> bytes.
+        Estimated dynamic memory usage = <number> bytes.
+        Calculated       - "" -        = <number> bytes.
 
