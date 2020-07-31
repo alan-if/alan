@@ -1,4 +1,4 @@
-[![Build Status](https://ci.alanif.se/jenkins/job/Alan/badge/icon)](https://ci.alanif.se/jenkins/job/Alan/)[![Build Status](https://travis-ci.org/alan-if/alan.svg?branch=master)](https://travis-ci.org/alan-if/alan)[![Coverage Status](https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master)](https://coveralls.io/github/alan-if/alan?branch=master)
+[![Build Status](https://ci.alanif.se/jenkins/job/Alan/badge/icon)](https://ci.alanif.se/jenkins/job/Alan/)[![Build Status](https://travis-ci.com/alan-if/alan.svg?branch=master)](https://travis-ci.com/alan-if/alan)[![Coverage Status](https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master)](https://coveralls.io/github/alan-if/alan?branch=master)
 
 # Alan - the Adventure Language
 
