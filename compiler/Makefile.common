@@ -34,15 +34,15 @@ test: alan
 	$(MAKE) standard_tests $(EXTRA_TESTS)
 
 standard_tests:
-	@../bin/jregr -bin . -dir testing $(JREGROUTPUT)
-	@../bin/jregr -bin . -dir testing/positions $(JREGROUTPUT)
-	@../bin/jregr -bin . -dir testing/dump $(JREGROUTPUT)
-	@../bin/jregr -dir testing/arguments $(JREGROUTPUT)
-	@# Generate a new .a3c file for this platform that can be committed
-	@# so that it can be tested on other platforms
-	@cd ../regression/platforms; cp platforms.alan $(OS).alan; ../../bin/alan $(OS); rm $(OS).alan
+	../bin/jregr -bin . -dir testing $(JREGROUTPUT)
+	../bin/jregr -bin . -dir testing/positions $(JREGROUTPUT)
+	../bin/jregr -bin . -dir testing/dump $(JREGROUTPUT)
+	../bin/jregr -dir testing/arguments $(JREGROUTPUT)
+	# Generate a new .a3c file for this platform that can be committed
+	# so that it can be tested on other platforms
+	cd ../regression/platforms; cp platforms.alan $(OS).alan; ../../bin/alan $(OS); rm $(OS).alan
 # TODO: Backwards compatibility tests for the compiler (for new or changed language constructs) are not working
-#	@../bin/jregr -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
+#	../bin/jregr -bin bin -dir regression/versions/compiler $(JREGROUTPUT)
 
 # Clean
 .PHONY: clean
@@ -60,16 +60,16 @@ $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
 alan: CFLAGS += $(COVERAGE)
-alan: ../bin $(ALANOBJECTS)
+alan: $(ALANOBJECTS) | ../bin
 	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
 
 $(ALANOBJECTS): | $(ALANOBJDIR)
 $(ALANOBJDIR):
-	@mkdir $(ALANOBJDIR)
+	mkdir $(ALANOBJDIR)
 
 ../bin:
-	-mkdir ../bin
+	mkdir -p ../bin
 
 #################################################################
 #

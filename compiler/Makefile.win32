@@ -27,7 +27,7 @@ $(WINALANOBJECTS): $(WINALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
 $(WINALANOBJDIR):
-	@mkdir $(WINALANOBJDIR)
+	mkdir $(WINALANOBJDIR)
 
 winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res ../bin
 	$(LINK) -o $@$(EXEEXT) -mwindows $(WINALANOBJECTS) alan.res $(WINALANLIBS)
@@ -37,4 +37,4 @@ alan.res: alan.rc alan.ico alan.version.c
 	$(WINDRES) $< -O coff -o $@
 
 winalan_tests:
-	@../bin/jregr -bin ../bin -dir ../regression/winalan $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/winalan $(JREGROUTPUT)

@@ -40,16 +40,16 @@ UNITOUTPUT ?= -c
 
 .PHONY: test
 test:
-	@../bin/jregr -bin ../bin -dir ../regression $(JREGROUTPUT)
-	@../bin/jregr -bin ../bin -dir ../regression/versions/interpreter $(JREGROUTPUT)
-	@../bin/jregr -bin ../bin -dir ../regression/tracing $(JREGROUTPUT)
-	@../bin/jregr -bin ../bin -dir ../regression/saving $(JREGROUTPUT)
-	@../bin/jregr -bin ../bin -dir ../regression/debug $(JREGROUTPUT)
-	@../bin/jregr -bin ../bin -dir ../regression/platforms $(JREGROUTPUT)
-	@# Uses sh not the executables
-	@../bin/jregr -dir ../regression/restore $(JREGROUTPUT)
-	@../bin/jregr -dir ../regression/executing $(JREGROUTPUT)
-	#@../bin/jregr -dir ../regression/special $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/versions/interpreter $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/tracing $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/saving $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/debug $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/platforms $(JREGROUTPUT)
+	# These Uses sh not the executables
+	../bin/jregr -dir ../regression/restore $(JREGROUTPUT)
+	../bin/jregr -dir ../regression/executing $(JREGROUTPUT)
+	#../bin/jregr -dir ../regression/special $(JREGROUTPUT)
 
 
 #######################################################################
@@ -65,7 +65,7 @@ $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(ARUNOBJDIR):
-	@mkdir $(ARUNOBJDIR)
+	mkdir $(ARUNOBJDIR)
 
 arun: CFLAGS += $(COVERAGE)
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
@@ -96,7 +96,7 @@ $(GLKARUNOBJECTS): $(GLKARUNOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(GLKARUNOBJDIR):
-	@mkdir $(GLKARUNOBJDIR)
+	mkdir $(GLKARUNOBJDIR)
 
 glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 	$(CC) $(LDFLAGS) -o $@ $(GLKARUNOBJECTS) $(LDLIBS)
@@ -162,7 +162,7 @@ DUMPACDSRCS = dumpacd.c reverse.c lists.c sysdep.c compatibility.c types.c alan.
 
 DUMPACDOBJDIR = .dumpacd
 $(DUMPACDOBJDIR):
-	@mkdir $(DUMPACDOBJDIR)
+	mkdir $(DUMPACDOBJDIR)
 
 DUMPACDOBJECTS = $(addprefix $(DUMPACDOBJDIR)/,${DUMPACDSRCS:.c=.o}) $(DUMPACDOBJDIR)/spa.o
 $(DUMPACDOBJDIR)/%.o: %.c

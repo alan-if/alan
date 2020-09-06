@@ -34,7 +34,7 @@ $(WINARUNOBJECTS): $(WINARUNOBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -MMD -o $@ -c $<
 
 $(WINARUNOBJDIR):
-	@mkdir $(WINARUNOBJDIR)
+	mkdir $(WINARUNOBJDIR)
 
 winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
 	$(CC) -o $@$(EXEEXT) $(LDFLAGS) $(WINARUNOBJECTS) arun.res $(WINGLK_LIB)

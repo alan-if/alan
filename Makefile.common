@@ -15,13 +15,13 @@ clean:
 	-$(MAKE) -C compiler clean
 	-$(MAKE) -C interpreter clean
 	-$(MAKE) -C converter clean
-	@-rm -f alan3*.tgz
+	-rm -f alan3*.tgz
 
 .PHONY: unit
 unit:
-	-$(MAKE) -C compiler UNITOUTPUT="$(UNITOUTPUT)" unit
-	-$(MAKE) -C interpreter UNITOUTPUT="$(UNITOUTPUT)" unit
-	-$(MAKE) -C converter UNITOUTPUT="$(UNITOUTPUT)" unit
+	$(MAKE) -C compiler UNITOUTPUT="$(UNITOUTPUT)" unit
+	$(MAKE) -C interpreter UNITOUTPUT="$(UNITOUTPUT)" unit
+	$(MAKE) -C converter UNITOUTPUT="$(UNITOUTPUT)" unit
 
 .PHONY: build
 build:
@@ -31,15 +31,15 @@ build:
 
 .PHONY: test
 test:
-	-$(MAKE) -C compiler JREGROUTPUT=$(JREGROUTPUT) test
-	-$(MAKE) -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
-	-$(MAKE) -C converter JREGROUTPUT=$(JREGROUTPUT) test
+	$(MAKE) -C compiler JREGROUTPUT=$(JREGROUTPUT) test
+	$(MAKE) -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
+	$(MAKE) -C converter JREGROUTPUT=$(JREGROUTPUT) test
 
 .PHONY: cross
 cross:
-	-$(MAKE) -C compiler cross
-	-$(MAKE) -C interpreter cross
-	-$(MAKE) -C converter cross
+	$(MAKE) -C compiler cross
+	$(MAKE) -C interpreter cross
+	$(MAKE) -C converter cross
 
 
 .PHONY: ci

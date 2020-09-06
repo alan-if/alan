@@ -41,7 +41,7 @@ release: clean build
 #
 rndalan: rndalan.o
 	$(LINK) -o rndalan rndalan.o
-	-@if ! test -f ../bin; then mkdir ../bin 2> /dev/null ; fi
+	-if ! test -f ../bin; then mkdir ../bin 2> /dev/null ; fi
 	cp rndalan ../bin
 
 
@@ -53,7 +53,7 @@ rndalan: rndalan.o
 
 .PHONY: tm
 tm:
-	-@if test "`uname -n`" = "thoni"; then \
+	-if test "`uname -n`" = "thoni"; then \
 		$(MAKE) -f Makefile.tm ; \
 	else \
 		echo "ERROR: You can only generate parsers etc. on ThoNi's machine" ; \

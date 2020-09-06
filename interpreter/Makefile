@@ -11,6 +11,9 @@ include ../mk/common.mk
 # Defer resolution of EXTRA_TARGETS to end of this file
 all: everything
 
+# Silent running if not VERBOSE set to something
+$(VERBOSE).SILENT:
+
 # Allow subordinate Makefiles to execute
 INCLUDED = true
 
