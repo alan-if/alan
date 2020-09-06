@@ -1,6 +1,13 @@
 Upcoming in V3.0beta7:
 - FEATURE: ellision/contraction marked by apostrophe (such as "l'aqua" in italian) is now handled so that it is first looked up as a complete word, but failing that fallback and look for the two parts separated by the apostrophe as single words.
-- FEATURE: allow double conjunctions between player sentences, such as "take the stone and then drop it".
+- FEATURE: allow double conjunctions between player sentences, to allow such as "take the stone and then drop it". ("and" and "then" are both conjunctions).
+- BUGFIX: pack option did not work
+- BUGFIX: Random In Container sometimes crashed
+- BUGFIX: Grave accented 'E' ('è') was lost in syntaxes and synonyms
+- BUGFIX: It was possible to declare multiple pronouns but only the first one worked.
+- BUGIFX: System Error was thrown when using IN-filters and the container was a local variable.
+- BUGFIX: Division by zero crashed the interpreter, now it throws an Application Error instead.
+- BUGFIX: If the player input in a string parameter contained a dollar sign, it was expanded on output (or crashed).
 
 Changes in V3.0beta6:
 - FEATURE: There was no way to print $500, as that was interpreted as a symbol.
