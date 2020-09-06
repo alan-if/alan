@@ -1,4 +1,4 @@
-Upcoming in V3.0beta7:
+Changes in V3.0beta7:
 - FEATURE: ellision/contraction marked by apostrophe (such as "l'aqua" in italian) is now handled so that it is first looked up as a complete word, but failing that will fallback and look for the two parts separated by the apostrophe as single words.
 - FEATURE: allow double conjunctions between player sentences, to allow such as "take the stone and then drop it". ("and" and "then" are both conjunctions).
 - BUGFIX: pack option did not work
