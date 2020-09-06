@@ -31,10 +31,11 @@ release:
 	echo "WINARUN_ENABLED=true" >> interpreter/Makefile.local
 	$(MAKE) releasebuild
 	$(MAKE) test
+	# We won't make documentation since that is in the Alan Documentation project now
 	#$(MAKE) documentation
 	$(MAKE) zip setup
-	#$(MAKE) tags
-	#$(MAKE) release-upload
+	$(MAKE) tags
+	$(MAKE) release-upload
 
 
 .PHONY: snapshot-build
