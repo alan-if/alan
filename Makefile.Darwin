@@ -4,7 +4,7 @@
 
 PLATFORM = macos
 
-VERSION := $(shell cat NEXTRELEASE)
+VERSION := $(shell cat LASTRELEASE)
 
 PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
 

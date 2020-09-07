@@ -22,9 +22,9 @@ version.h : ../version.h
 ../alan.version.c ../alan.version.h ../version.h:
 	cd ..; venum alan time
 
-v:
+venum:
 	@echo NEXTRELEASEFORMAT=$(NEXTRELEASEFORMAT)
-	@which venum
+	@echo venum=`which venum`
 	@if [ -f "alan.version" ] ; then \
 		venum alan -print $(NEXTRELEASEFORMAT) ; \
 	elif [ -f "../alan.version" ] ; then \

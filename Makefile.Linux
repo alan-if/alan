@@ -2,7 +2,7 @@
 # Partial Makefile to be included from top level Makefile on Linux
 #
 
-VERSION := $(shell cat NEXTRELEASE)
+VERSION := $(shell cat LASTRELEASE)
 
 # Since we only distribute 32bit versions
 PLATFORM = linux
@@ -24,8 +24,6 @@ $(PACKAGE): bin/alan bin/arun
 # Distribution
 #
 # Make a distribution for this platform of the current (last) release
-distribution: VERSION := $(shell cat LASTRELEASE)
-
 distribution:
 	@if [[ -f BUILD_NUMBER ]] ; then \
 	  echo Should not upload a version with BUILD_NUMBER, remove it first ; \
