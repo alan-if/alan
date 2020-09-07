@@ -6,7 +6,7 @@ include ../mk/include_guard.mk
 # compiler tools and making a relase.
 #
 # It is also the environment that will be used when running within
-# the Hudson Continuous Integration server, since that is running on
+# the Jenkins Continuous Integration server, since that is running on
 # ThoNi's machine too
 #######################################################################
 
@@ -53,7 +53,7 @@ rndalan: rndalan.o
 
 .PHONY: tm
 tm:
-	-if test "`uname -n`" = "thoni"; then \
+	@-if test "`uname -n`" = "thoni64"; then \
 		$(MAKE) -f Makefile.tm ; \
 	else \
 		echo "ERROR: You can only generate parsers etc. on ThoNi's machine" ; \
