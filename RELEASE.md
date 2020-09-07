@@ -7,6 +7,12 @@ The strategy requires a main development machine. Currently that is
 ThoNi's machine, where also https://ci.alanif.se is running a release
 job, "Alan Release".
 
+In essence a release will have a semver version marking. Any
+development build before the release will have the same version
+marking but with a build number (added in the Jenkins jobs). Once the
+release is created all subsequent builds will have the next release
+version as its marking.
+
 ## The Alan Release job
 
 The release job will do
@@ -47,7 +53,11 @@ On seconday platforms (Linux, MacOS) you should be able to do
     make distribution
 
 This should build all binaries, run all tests, and if succesful
-package them, and upload them to the web site.
+package them, and upload them to the web site. The distribution build
+should use LASTRELEASE as the version marking.
+
+Normal builds on secondary platforms should use NEXTBUILD (since the
+primary platform will).
 
 ## Non-standard binaries
 

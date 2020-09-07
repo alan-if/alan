@@ -4,7 +4,7 @@
 
 PLATFORM = macos
 
-VERSION := $(shell cat LASTRELEASE)
+VERSION := $(shell cat NEXTRELEASE)
 
 PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
 
@@ -30,9 +30,10 @@ $(PACKAGE): bin/alan bin/arun
 #
 # Distribution
 #
-# TODO: Should be able to refactor out this to Makefile.common using
-# EXTRA_PACKAGES strategy
+# TODO: Refactor out this to Makefile.common using EXTRA_PACKAGES
+# strategy rewamped into EXTRA_TESTS?
 #
+distribution: VERSION := $(shell cat LASTRELEASE)
 distribution: distribution-check distribution-build distribution-upload
 
 distribution-check:
