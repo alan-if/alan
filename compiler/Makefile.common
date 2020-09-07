@@ -55,6 +55,7 @@ clean:
 #
 ALANOBJDIR = .alan
 ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
+$(ALANOBJDIR)/alan.version.o: alan.version.c
 -include $(ALANOBJECTS:.o=.d)
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<

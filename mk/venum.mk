@@ -2,13 +2,16 @@
 #
 # Version number file generation
 #
+# This should only be included in subdirectories for machines having
+# venum.
+#
 # We create NEXTRELEASE to be able to generate version marking on
 # non-Windows platforms where 'venum' isn't available
 
 NEXTRELEASEFORMAT='$$v.$$r{s$$s|}$$c'
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
-alan.version.c: $(VERSIONSRCS)
+alan.version.c: $(VERSIONSRCS) ../alan.version.c
 	cd ..; venum alan time
 	cd ..; venum alan -print $(NEXTRELEASEFORMAT) > NEXTRELEASE
 	cp ../alan.version.c .
