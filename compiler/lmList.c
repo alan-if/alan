@@ -107,7 +107,6 @@ static lmMsgs msg[] = {
     { "206   ", "Incompatible parameters lists for multiple syntax definitions for verb \'%1\'. Multiple syntaxes for the same verb must contain the same number of parameters with the same name, but the order of the parameters can be changed." },
     { "207   ", "VERB \'%1\' is not defined." },
     { "208   ", "\'%1\' is not a VERB." },
-    { "209   ", "First element in a SYNTAX must be a player word." },
     { "210   ", "Action qualification not allowed here." },
     { "211   ", "Adventure must start at an instance inheriting from \'location\'." },
     { "212   ", "Syntax parameter \'%1\' overrides symbol." },
@@ -250,7 +249,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 170}
+    {0, 169}
 };
 static lmMessages currMsect = (lmMessages)0;
 
