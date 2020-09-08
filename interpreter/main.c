@@ -45,7 +45,7 @@
 #include "glk.h"
 #include "glkio.h"
 #ifdef HAVE_WINGLK
-#include "winglk.h"
+#include "WinGlk.h"
 #endif
 #endif
 

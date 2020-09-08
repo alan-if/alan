@@ -4,7 +4,7 @@
  */
 
 #include <windows.h>
-#include "Glk.h"
+#include "glk.h"
 #ifdef HAVE_WINGLK
 #include "WinGlk.h"
 #endif
@@ -36,5 +36,3 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
   return 0;
 }
-
-
