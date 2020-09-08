@@ -149,3 +149,11 @@ coverage_report:
 	lcov --capture --directory . -b . --output-file coverage_tmp.info
 	lcov --extract coverage_tmp.info '*.c' -o coverage.info
 	genhtml coverage.info --output coverage
+
+#######################################################################
+#
+# Check to see if we are running on ThoNi's machine, if so include
+# special rules
+ifeq ($(shell uname -n), thoni64)
+	include Makefile.thoni
+endif
