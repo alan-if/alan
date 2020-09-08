@@ -16,7 +16,10 @@ include ../mk/common.mk
 # Defer resolution of EXTRA_TARGETS to end of this Makefile
 all: everything
 
-# Allow subordinate Makefiles to exectute
+# Silent running if not VERBOSE set to something
+#$(VERBOSE).SILENT:
+
+# Allow subordinate Makefiles to execute
 INCLUDED = true
 
 # Include the common source lists and symbols for various groups of them

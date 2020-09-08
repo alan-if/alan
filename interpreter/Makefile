@@ -12,7 +12,7 @@ include ../mk/common.mk
 all: everything
 
 # Silent running if not VERBOSE set to something
-$(VERBOSE).SILENT:
+#$(VERBOSE).SILENT:
 
 # Allow subordinate Makefiles to execute
 INCLUDED = true
