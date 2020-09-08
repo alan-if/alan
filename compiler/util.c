@@ -23,9 +23,8 @@
 
 /* PUBLIC DATA */
 
-Bool verboseFlag;		/* Verbose output */
-long counter;			/* And counter for verbose mode */
-long allocated;			/* Calculated memory usage */
+long counter = 0;               /* And counter for verbose mode */
+long allocated = 0;             /* Calculated memory usage */
 
 
 /* PRIVATE DATA */

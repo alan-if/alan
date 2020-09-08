@@ -11,6 +11,7 @@
 #include "dump.h"
 
 extern char *srcptr;		/* Pointer to adventure name */
+extern Bool verboseFlag;    /* Verbose mode */
 extern int charset;			/* Which charset to read source in */
 extern Bool warningFlag;	/* Show warnings */
 extern Bool infoFlag;		/* Show informational messages */

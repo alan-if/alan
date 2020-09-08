@@ -2,8 +2,8 @@
 #define _EMIT_H_
 /*----------------------------------------------------------------------*\
 
-				EMIT.H
-			ACODE Emit Header File
+                EMIT.H
+            ACODE Emit Header File
 
 \*----------------------------------------------------------------------*/
 
@@ -13,7 +13,7 @@
 
 /* DATA */
 
-ACodeHeader acodeHeader;
+extern ACodeHeader acodeHeader;
 
 
 /* FUNCTIONS */

@@ -18,8 +18,7 @@
 /* PUBLIC DATA */
 
 extern long allocated;          /* Calculated memory usage */
-extern Bool verboseFlag;		/* Verbose output */
-extern long counter;            /* yAnd counter for verbose mode */
+extern long counter;            /* And counter for verbose mode */
 
 
 /* FUNCTIONS */
