@@ -34,7 +34,7 @@ coverage: clean unit arun
 # Requires: GARGOYLE_ROOT
 #
 ifdef GARARUN_ENABLED
-EXTRA_TARGETS += gargoyle
+EXTRA_TARGETS += gararun
 else
 $(info NOT ENABLED: gararun - Gargoyle Arun)
 endif
