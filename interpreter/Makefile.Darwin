@@ -104,6 +104,7 @@ endif
 # Builds using platypus which needs to be installed, including the command line version
 #
 
+.PHONY: macarun
 macarun: MacArun$(VERSION)$(BUILDVERSION).zip
 
 MacArun$(VERSION)$(BUILDVERSION).zip: MacArun.app
