@@ -1,8 +1,8 @@
 #######################################################################
 include ../mk/include_guard.mk
 #
-# This Makefile is for building the Alan Interpreter from scratch
-# on MSYS2. It is included from Makefile if run on a MSYS2 MinGW shell.
+# This Makefile is for building the Alan Interpreter on MSYS2. It is
+# included from Makefile if run on a MSYS2 MinGW shell.
 #
 # NOTE: This file is an adaptation of "Makefile.cygwin", it hasn't been
 #       tested with CGreen yet.
@@ -28,3 +28,11 @@ CGREENLIBDIR  = $(CGREENROOT)/lib/
 CGREENBINDIR  =
 CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
 CGREENLDPATH  =
+
+#######################################################################
+#
+# Check to see if we are running on ThoNi's machine, if so include
+# special rules
+ifeq ($(shell uname -n), thoni64)
+	include Makefile.thoni
+endif

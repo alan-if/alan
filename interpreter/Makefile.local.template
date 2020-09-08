@@ -27,15 +27,15 @@ cross_clean:
 #     http://www.ifarchive.org/indexes/if-archiveXprogrammingXglkXimplementations.html
 #
 # Point the linker to the Windows GLK library
-WINGLK_ROOT = /home/thomas/Utveckling/Alan/WindowsGlk-145
+WINGLK_ROOT = ../../WindowsGlk-148
 #
 # If required you can set particular compiler and linker for an extra target
 # like so:
-winarun: CC = i686-w64-mingw32-gcc
-winarun: WINDRES = i686-w64-mingw32-windres
+winarun: CC = gcc # or e.g. i686-w64-mingw32-gcc
+winarun: WINDRES = windres # or e.g. i686-w64-mingw32-windres
 # And/or extra switches and flags:
-winarun: CFLAGS = -m32 -mwindows
-winarun: LDFLAGS = -m32 -mwindows
+winarun: CFLAGS = -mwindows
+winarun: LDFLAGS = -mwindows
 #
 
 # Enable glkarun:
@@ -47,12 +47,13 @@ GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
 # Enable Gargoyle Arun:
 #GARARUN_ENABLED = true
 #
-# This requires Gargoyle sources and needs to be built in Gargoyle
+# This requires Gargoyle sources and needs to be built in the Gargoyle
 # source directory using the build system Jam, which needs to be
 # available too.  Gargoyle includes a version of Arun, built to a
-# binary called 'alan3' To make it use the sources here, remove the
+# binary called 'alan3'. To make it use the sources there, remove the
 # subdirectory terps/alan3 and create a link from there to this
-# directory. Then a build here will attempt to build that too.
+# directory. Then a build here will attempt to build that too, if
+# enabled.
 GARGOYLE_ROOT = ../../garglk-current-alan3
 
 # Enable MacArun

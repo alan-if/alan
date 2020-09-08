@@ -19,8 +19,8 @@ cross_clean:
 
 # Enable WinAlan:
 #WINALAN_ENABLED = true
-winalan: CC=i686-w64-mingw32-gcc
-winalan: WINDRES=i686-w64-mingw32-windres
+winalan: CC=gcc # or i686-w64-mingw32-gcc
+winalan: WINDRES=windres # or i686-w64-mingw32-windres
 
 # We might need to locate -lcgreen
 linked_unittests isolated_unittests: LDLIBS = -L/usr/local/lib

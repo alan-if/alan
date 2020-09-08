@@ -4,6 +4,9 @@ include ../mk/include_guard.mk
 # This Makefile is for building the Alan System on MSYS2.
 # It is included from Makefile if run on a MSYS2 MinGW shell.
 #
+# On Msys2 $MSYSTEM will indicate the target environment (MSYS,
+# MINGW32 or MINGW64)
+#
 #######################################################################
 
 # We can potentially build for Windows so include that
@@ -27,3 +30,11 @@ CGREENINCLUDE =
 CGREENLIBDIR=$(CGREENROOT)/lib
 CGREENBINDIR=
 CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen
+
+#######################################################################
+#
+# Check to see if we are running on ThoNi's machine, if so include
+# special rules
+ifeq ($(shell uname -n), thoni64)
+	include Makefile.thoni
+endif
