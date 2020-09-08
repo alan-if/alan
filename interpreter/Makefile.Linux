@@ -8,6 +8,9 @@ include ../mk/include_guard.mk
 # We are compiling for the same version as on Master version system
 VERSION := $(shell cat ../NEXTRELEASE)
 
+# It should be possible to build win32 binaries so include those targets
+include Makefile.win32
+
 unit: CFLAGS += -fPIC
 unit: LDFLAGS += -fPIC
 

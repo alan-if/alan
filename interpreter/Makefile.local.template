@@ -30,9 +30,9 @@ cross_clean:
 WINGLK_ROOT = ../../WindowsGlk-148
 #
 # If required you can set particular compiler and linker for an extra target
-# like so:
-winarun: CC = gcc # or e.g. i686-w64-mingw32-gcc
-winarun: WINDRES = windres # or e.g. i686-w64-mingw32-windres
+# like so (most likely we need to cross compile...):
+winarun: CC = i686-w64-mingw32-gcc # or possibly just "gcc"
+winarun: WINDRES = i686-w64-mingw32-windres # or possibly just "windres"
 # And/or extra switches and flags:
 winarun: CFLAGS = -mwindows
 winarun: LDFLAGS = -mwindows
