@@ -1,2 +1,2 @@
-.alan : winalan --gui $1
+.alan : winalan.exe --gui $1
 .input : arun -r -n $1 < $1.input
