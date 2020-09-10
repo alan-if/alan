@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------*\
 
-	smScSema.c
+    smScSema.c
 
-	ScannerMaker generated semantic actions
+    ScannerMaker generated semantic actions
 
 \*----------------------------------------------------------------------*/
 
@@ -192,7 +192,7 @@ int smScReader(
   return read(smThis->fd, (char *)smBuffer, smLength);
 
 
-}    
+}
 
 
 int smScAction(

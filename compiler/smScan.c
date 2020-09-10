@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------*\
 
-	smScan.c
+    smScan.c
 
-	ScannerMaker generated scanner
+    ScannerMaker generated scanner
 
 \*----------------------------------------------------------------------*/
 
@@ -62,12 +62,12 @@ static UByte1 smMap[256]={
 ,112,113,114,115,116,117,118,119,120,121,122,91,92,93,94,95
 ,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111
 ,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127
-,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143
+,138,140,141,142,150,154,159,135,136,137,138,139,140,141,142,143
 ,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159
-,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175
-,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191
-,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239
-,240,241,242,243,244,245,246,215,248,249,250,251,252,253,254,223
+,160,161,162,163,164,165,166,167,168,169,170,171,172,173,190,191
+,176,177,146,147,180,181,182,144,185,185,186,187,188,153,190,191
+,192,193,194,148,149,143,182,199,200,145,202,136,139,155,207,207
+,208,209,156,157,212,213,214,137,216,217,218,219,135,152,151,158
 ,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239
 ,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255
 }
@@ -264,14 +264,14 @@ static UByte1 smDFAcolVal[256]={
 ,16,17,18,19,20,21,22,23,24,25,26,0,0,0,0,0
 ,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
 ,16,17,18,19,20,21,22,23,24,25,26,33,0,34,0,0
-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
-,10,10,10,10,10,10,10,0,10,10,10,10,10,10,10,10
 ,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
-,10,10,10,10,10,10,10,0,10,10,10,10,10,10,10,0
+,0,0,0,0,0,0,0,10,0,0,0,0,0,0,10,10
+,0,0,10,10,0,0,10,10,10,10,0,0,0,10,10,10
+,0,0,0,10,10,10,10,0,0,10,0,10,10,10,10,10
+,0,0,10,10,0,0,0,10,0,0,0,0,10,10,10,10
+,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 }
 ;
 static UByte1 smDFAerr[(21*20+7)/8]={
@@ -324,14 +324,14 @@ static UByte1 smDFAerrCol[256]={
 ,11,11,11,11,11,18,11,11,11,11,11,0,0,0,0,19
 ,0,11,11,12,13,14,11,11,11,15,11,11,16,11,17,11
 ,11,11,11,11,11,18,11,11,11,11,11,4,0,4,0,0
-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11
-,11,11,11,11,11,11,11,0,11,11,11,11,11,11,11,11
 ,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11
-,11,11,11,11,11,11,11,0,11,11,11,11,11,11,11,0
+,0,0,0,0,0,0,0,11,0,0,0,0,0,0,11,11
+,0,0,11,11,0,0,11,11,11,11,0,0,0,11,11,11
+,0,0,0,11,11,11,11,0,0,11,0,11,11,11,11,11
+,0,0,11,11,0,0,0,11,0,0,0,0,11,11,11,11
+,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 }
 ;
   
@@ -932,7 +932,7 @@ static UByte2 smDFAval[9321]={
 
 
 /*
- * Source position calculation 
+ * Source position calculation
  */
 
 static void smSourcePosition(
@@ -943,10 +943,10 @@ static void smSourcePosition(
   if(smThis->smPosContinue<smEnd) {
     if(smThis->smPosContinue>smAt) smAt=smThis->smPosContinue;
     smThis->smNextPosition+=smEnd-smAt;
-    for(;smAt<smEnd;smAt++) 
+    for(;smAt<smEnd;smAt++)
       if(*smAt==10) {
-	smThis->smPosLine=smAt;
-	smThis->smNextLine++;
+    smThis->smPosLine=smAt;
+    smThis->smNextLine++;
       }
 
     smThis->smNextColumn=smEnd-smThis->smPosLine;
@@ -962,10 +962,10 @@ static void smRewindSourcePosition(
   if(smThis->smPosContinue>smEnd) return;
   smThis->smNextPosition-=smEnd-smAt;
   while(smAt<smEnd--) if(*smEnd==10) smThis->smNextLine--;
-  while(smThis->smBegining<smEnd) 
+  while(smThis->smBegining<smEnd)
     if(*smEnd==10) {
       smThis->smPosLine=smEnd;
-      break; 
+      break;
     }
     else smEnd--;
   if(smAt<smThis->smPosLine) smThis->smPosLine=smThis->smPosPrevLine;
@@ -1023,20 +1023,20 @@ static int smReadBuffer(smScContext smThis)
       /* Enlarge buffer */
       smThis->smBegining=(unsigned char *)realloc(smThis->smBegining,(size_t)size+1);
       if(smThis->smBegining==NULL) {
-	/* Cut Buffer */
-	smThis->smBegining = begining;	/* Restore to original buffer */
-	smSourcePosition(smThis,smThis->smText,smThis->smEnd-1024);
-	memcpy((void *)smThis->smBegining, (void *)(smThis->smEnd-1024), (size_t)1024);
-	mod=smThis->smEnd-smThis->smBegining-1024;
-	smThis->smContinue-=mod;
-	smThis->smEnd-=mod;
-	smThis->smPosPrevLine-=mod;
-	smThis->smPosLine-=mod;
-	smThis->smPosContinue-=mod;
+    /* Cut Buffer */
+    smThis->smBegining = begining;	/* Restore to original buffer */
+    smSourcePosition(smThis,smThis->smText,smThis->smEnd-1024);
+    memcpy((void *)smThis->smBegining, (void *)(smThis->smEnd-1024), (size_t)1024);
+    mod=smThis->smEnd-smThis->smBegining-1024;
+    smThis->smContinue-=mod;
+    smThis->smEnd-=mod;
+    smThis->smPosPrevLine-=mod;
+    smThis->smPosLine-=mod;
+    smThis->smPosContinue-=mod;
         smThis->smBufferOverflow+=mod;
       }
       else
-	smThis->smSize=size;
+    smThis->smSize=size;
     }
   }
   if(smThis->smBegining!=smThis->smText) {
@@ -1082,7 +1082,7 @@ smScContext smScNew(smScScanner smScanner)
   smThis->smPosLine=smThis->smBegining-1;
   smThis->smPosContinue=smThis->smBegining;
   smThis->smText=smThis->smBegining;
-  
+
   smThis->smLength=0;
   smThis->smNextLine=1;
   smThis->smNextColumn=1;
@@ -1163,7 +1163,7 @@ int smScModify(
   else if(smLength>0) {
     int length1;
     int length2;
-    
+
     for(length2=smLength;(length1=smScSkip(smThis,length2));length2-=length1) {
       if(length1<0) return length1;
       memcpy((void *)(smThis->smContinue-length1),(void *)smBuffer,(size_t)length1);
@@ -1255,20 +1255,20 @@ int smScan(
       at=(smThis->smContinue);
       state=smScanner[smThis->smScanner];
       for (;;) {
-	if(at==end) {
-	  int mod;
-	  
-	  if(state>=490) state-=490+1;
-	  smThis->smContinue=end;
-	  mod=smReadBuffer(smThis);
-	  if(mod<0) return mod;
-	  rew_at-=end-smThis->smContinue;
-	  at=smThis->smContinue;
-	  end=smThis->smEnd;
-          if(at==end) 
-	    break;
+    if(at==end) {
+      int mod;
+
+      if(state>=490) state-=490+1;
+      smThis->smContinue=end;
+      mod=smReadBuffer(smThis);
+      if(mod<0) return mod;
+      rew_at-=end-smThis->smContinue;
+      at=smThis->smContinue;
+      end=smThis->smEnd;
+          if(at==end)
+        break;
         }
-	  ch = *at++;
+      ch = *at++;
 {
   int smERRindex;
 
@@ -1277,7 +1277,7 @@ int smScan(
   
   smERRindex=smDFAerrRow[state]*20+smDFAerrCol[ch];
   
-  if(smDFAerr[smERRindex>>3] & (0x80>>(smERRindex&0x7))) 
+  if(smDFAerr[smERRindex>>3] & (0x80>>(smERRindex&0x7)))
     state=490;
   else {
   
@@ -1292,22 +1292,22 @@ int smScan(
   
   }
 }
-	  if(state>=490) break;
-	  if(smAccept[state]>0) {
-	    rew_state=state;
-	    rew_at=at;
-	  }
+      if(state>=490) break;
+      if(smAccept[state]>0) {
+        rew_state=state;
+        rew_at=at;
+      }
       }
       if(rew_state==490) {
         if(rew_at>end) {
-  	  code=smEOTCode[smThis->smScanner];
-	  rew_at=end;
+      code=smEOTCode[smThis->smScanner];
+      rew_at=end;
         }
         else
-	  code=smUnknownCode[smThis->smScanner];
-      }	
+      code=smUnknownCode[smThis->smScanner];
+      }
       else
-	code=smAccept[rew_state]-1;	
+    code=smAccept[rew_state]-1;
       smThis->smContinue=rew_at;
       smThis->smLength=smThis->smContinue-smThis->smText;
       smSourcePosition(smThis,smThis->smText,smThis->smContinue);

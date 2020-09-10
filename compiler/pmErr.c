@@ -2,7 +2,7 @@
 
   pmErr.c
 
-  Parser error handler 
+  Parser error handler
 
 \*----------------------------------------------------------------------*/
 
@@ -96,7 +96,7 @@ void pmRPoi(
 
 /*-----------------------------------------------------------------------------
  * pmISym - A symbol is to be inserted, collect it for later output, and
- *	    construct the requested token for use by the parser.
+ *      construct the requested token for use by the parser.
  *-----------------------------------------------------------------------------
  */
 void pmISym(
@@ -109,11 +109,11 @@ void pmISym(
     char *selectedString;
 
     if (insToks < MaxTokens) {
-	/* Concatenate the token string
-	 */
-	if (insToks > 0) strcat(insStr, " ");
-	if (code == 0) strcat(insStr, "<unknown token>");
-	else if (code == 1) strcat(insStr, "<end of file>");
+    /* Concatenate the token string
+     */
+    if (insToks > 0) strcat(insStr, " ");
+    if (code == 0) strcat(insStr, "<unknown token>");
+    else if (code == 1) strcat(insStr, "<end of file>");
         else {
             if (*printString != '\0') selectedString = printString;
             else selectedString = symString;
@@ -124,7 +124,7 @@ void pmISym(
                 strcat(insStr, selectedString);
         }
     } else if (insToks == MaxTokens) {
-	strcat(insStr, " ...");
+    strcat(insStr, " ...");
     }/*if*/
     insToks++;
 #define sym token
@@ -157,7 +157,7 @@ void pmISym(
 
 /*-----------------------------------------------------------------------------
  * pmDSym - The indicated symbol is deleted by the parser, collect its string
- *	    for later output.
+ *      for later output.
  *-----------------------------------------------------------------------------
  */
 void pmDSym(
@@ -169,11 +169,11 @@ void pmDSym(
     char *selectedString;
 
     if (delToks < MaxTokens) {
-	/* Concatenate the symbol strings */
-	if (delToks > 0) strcat(delStr, " ");
-	if (token->code == 0) strcat(delStr, "<unknown token>");
-	else if (token->code == 1) strcat(delStr, "<end of file>");
-	else {
+    /* Concatenate the symbol strings */
+    if (delToks > 0) strcat(delStr, " ");
+    if (token->code == 0) strcat(delStr, "<unknown token>");
+    else if (token->code == 1) strcat(delStr, "<end of file>");
+    else {
 #ifdef DELETEIDENTIFIERASINPUTTED
             if (token->code == 2) selectedString = token->chars;
             else
@@ -187,7 +187,7 @@ void pmDSym(
                 strcat(delStr, selectedString);
         }
     } else if (delToks == MaxTokens) {
-	strcat(delStr, " ...");
+    strcat(delStr, " ...");
     }/*if*/
     delToks++;
 }/*pmDSym()*/
@@ -196,10 +196,10 @@ void pmDSym(
 /*-----------------------------------------------------------------------------
  * pmMess - An error message should be output, symbol indicates point of error.
  *-----------------------------------------------------------------------------
- * Method:	1 = Symbol(s) insertion	       Message:	% inserted
+ * Method:	1 = Symbol(s) insertion        Message:	% inserted
  *		2 = Symbol(s) deletion			% deleted
  *		3 = Symbol(s) replacement		% replaced by %
- *	        4 = Stack backup			Malformed phrase
+ *          4 = Stack backup			Malformed phrase
  *		5 = Halted				%. System halted
  *
  * Code:	1 = Unknown token (error token from scanner)
@@ -233,57 +233,57 @@ void pmMess(
     switch (code) {
 
     case 1:
-	/* Unknown symbol, deleted */
-	lmLog(&(sym->srcp), 102, sev, "Unknown Token");
-	break;
+    /* Unknown symbol, deleted */
+    lmLog(&(sym->srcp), 102, sev, "Unknown Token");
+    break;
 
     case 2:
-	/* Syntax Error */
-	switch (method) {
+    /* Syntax Error */
+    switch (method) {
 
-	case 1:
-	    /* Insert */
-	    lmLog(&(sym->srcp), 101, sev, insStr);
-	    break;
+    case 1:
+        /* Insert */
+        lmLog(&(sym->srcp), 101, sev, insStr);
+        break;
 
-	case 2:
-	    /* Delete */
-	    lmLog(&(sym->srcp), 102, sev, delStr);
-	    break;
-
-	case 3:
-	    /* Replace */
-	    delStr[strlen(delStr)+1] = '\0';
-	    delStr[strlen(delStr)] = lmSEPARATOR; /* Separator */
-	    strcat(delStr, insStr);
-	    lmLog(&(sym->srcp), 103, sev, delStr);
-	    break;
-
-	case 4:
-	    /* Stack backed up */
-	    lmLog(&(sym->srcp), 104, sev, "");
-	    break;
-
-	case 5:
-	    /* Syntax error, system halted */
-	    lmLog(&(sym->srcp), 105, sev, "");
-	    break;
-	}
-	break;
+    case 2:
+        /* Delete */
+        lmLog(&(sym->srcp), 102, sev, delStr);
+        break;
 
     case 3:
-	/* Parse stack overflow */
-	lmLog(&(sym->srcp), 106, sev, "");
-	break;
+        /* Replace */
+        delStr[strlen(delStr)+1] = '\0';
+        delStr[strlen(delStr)] = lmSEPARATOR; /* Separator */
+        strcat(delStr, insStr);
+        lmLog(&(sym->srcp), 103, sev, delStr);
+        break;
 
     case 4:
-	/* Parse table error */
-	lmLog(&(sym->srcp), 107, sev, "");
-	break;
+        /* Stack backed up */
+        lmLog(&(sym->srcp), 104, sev, "");
+        break;
+
+    case 5:
+        /* Syntax error, system halted */
+        lmLog(&(sym->srcp), 105, sev, "");
+        break;
+    }
+    break;
+
+    case 3:
+    /* Parse stack overflow */
+    lmLog(&(sym->srcp), 106, sev, "");
+    break;
+
+    case 4:
+    /* Parse table error */
+    lmLog(&(sym->srcp), 107, sev, "");
+    break;
     }
 
     if (method == 5) {
-	/* System halted, output informational message */
-	lmLog(&(sym->srcp), 108, sevINF, "");
+    /* System halted, output informational message */
+    lmLog(&(sym->srcp), 108, sevINF, "");
     }
 }/*pmMess()*/

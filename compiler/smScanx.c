@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------*\
 
-	smScan.c
+    smScan.c
 
-	ScannerMaker generated scanner
+    ScannerMaker generated scanner
 
 \*----------------------------------------------------------------------*/
 
@@ -1062,7 +1062,7 @@ static UByte2 smDFAval[9321]={
 
 
 /*
- * Source position calculation 
+ * Source position calculation
  */
 
 static void smSourcePosition(
@@ -1073,10 +1073,10 @@ static void smSourcePosition(
   if(smThis->smPosContinue<smEnd) {
     if(smThis->smPosContinue>smAt) smAt=smThis->smPosContinue;
     smThis->smNextPosition+=smEnd-smAt;
-    for(;smAt<smEnd;smAt++) 
+    for(;smAt<smEnd;smAt++)
       if(*smAt==10) {
-	smThis->smPosLine=smAt;
-	smThis->smNextLine++;
+    smThis->smPosLine=smAt;
+    smThis->smNextLine++;
       }
 
     smThis->smNextColumn=smEnd-smThis->smPosLine;
@@ -1092,10 +1092,10 @@ static void smRewindSourcePosition(
   if(smThis->smPosContinue>smEnd) return;
   smThis->smNextPosition-=smEnd-smAt;
   while(smAt<smEnd--) if(*smEnd==10) smThis->smNextLine--;
-  while(smThis->smBegining<smEnd) 
+  while(smThis->smBegining<smEnd)
     if(*smEnd==10) {
       smThis->smPosLine=smEnd;
-      break; 
+      break;
     }
     else smEnd--;
   if(smAt<smThis->smPosLine) smThis->smPosLine=smThis->smPosPrevLine;
@@ -1153,20 +1153,20 @@ static int smReadBuffer(smScContext smThis)
       /* Enlarge buffer */
       smThis->smBegining=(unsigned char *)realloc(smThis->smBegining,(size_t)size+1);
       if(smThis->smBegining==NULL) {
-	/* Cut Buffer */
-	smThis->smBegining = begining;	/* Restore to original buffer */
-	smSourcePosition(smThis,smThis->smText,smThis->smEnd-1024);
-	memcpy((void *)smThis->smBegining, (void *)(smThis->smEnd-1024), (size_t)1024);
-	mod=smThis->smEnd-smThis->smBegining-1024;
-	smThis->smContinue-=mod;
-	smThis->smEnd-=mod;
-	smThis->smPosPrevLine-=mod;
-	smThis->smPosLine-=mod;
-	smThis->smPosContinue-=mod;
+    /* Cut Buffer */
+    smThis->smBegining = begining;	/* Restore to original buffer */
+    smSourcePosition(smThis,smThis->smText,smThis->smEnd-1024);
+    memcpy((void *)smThis->smBegining, (void *)(smThis->smEnd-1024), (size_t)1024);
+    mod=smThis->smEnd-smThis->smBegining-1024;
+    smThis->smContinue-=mod;
+    smThis->smEnd-=mod;
+    smThis->smPosPrevLine-=mod;
+    smThis->smPosLine-=mod;
+    smThis->smPosContinue-=mod;
         smThis->smBufferOverflow+=mod;
       }
       else
-	smThis->smSize=size;
+    smThis->smSize=size;
     }
   }
   if(smThis->smBegining!=smThis->smText) {
@@ -1212,7 +1212,7 @@ smScContext smScNew(smScScanner smScanner)
   smThis->smPosLine=smThis->smBegining-1;
   smThis->smPosContinue=smThis->smBegining;
   smThis->smText=smThis->smBegining;
-  
+
   smThis->smLength=0;
   smThis->smNextLine=1;
   smThis->smNextColumn=1;
@@ -1293,7 +1293,7 @@ int smScModify(
   else if(smLength>0) {
     int length1;
     int length2;
-    
+
     for(length2=smLength;(length1=smScSkip(smThis,length2));length2-=length1) {
       if(length1<0) return length1;
       memcpy((void *)(smThis->smContinue-length1),(void *)smBuffer,(size_t)length1);
@@ -1385,20 +1385,20 @@ int smScan(
       at=(smThis->smContinue);
       state=smScanner[smThis->smScanner];
       for (;;) {
-	if(at==end) {
-	  int mod;
-	  
-	  if(state>=490) state-=490+1;
-	  smThis->smContinue=end;
-	  mod=smReadBuffer(smThis);
-	  if(mod<0) return mod;
-	  rew_at-=end-smThis->smContinue;
-	  at=smThis->smContinue;
-	  end=smThis->smEnd;
-          if(at==end) 
-	    break;
+    if(at==end) {
+      int mod;
+
+      if(state>=490) state-=490+1;
+      smThis->smContinue=end;
+      mod=smReadBuffer(smThis);
+      if(mod<0) return mod;
+      rew_at-=end-smThis->smContinue;
+      at=smThis->smContinue;
+      end=smThis->smEnd;
+          if(at==end)
+        break;
         }
-	  ch = *at++;
+      ch = *at++;
 {
   int smERRindex;
 
@@ -1407,7 +1407,7 @@ int smScan(
   
   smERRindex=smDFAerrRow[state]*20+smDFAerrCol[ch];
   
-  if(smDFAerr[smERRindex>>3] & (0x80>>(smERRindex&0x7))) 
+  if(smDFAerr[smERRindex>>3] & (0x80>>(smERRindex&0x7)))
     state=490;
   else {
   
@@ -1422,22 +1422,22 @@ int smScan(
   
   }
 }
-	  if(state>=490) break;
-	  if(smAccept[state]>0) {
-	    rew_state=state;
-	    rew_at=at;
-	  }
+      if(state>=490) break;
+      if(smAccept[state]>0) {
+        rew_state=state;
+        rew_at=at;
+      }
       }
       if(rew_state==490) {
         if(rew_at>end) {
-  	  code=smEOTCode[smThis->smScanner];
-	  rew_at=end;
+      code=smEOTCode[smThis->smScanner];
+      rew_at=end;
         }
         else
-	  code=smUnknownCode[smThis->smScanner];
-      }	
+      code=smUnknownCode[smThis->smScanner];
+      }
       else
-	code=smAccept[rew_state]-1;	
+    code=smAccept[rew_state]-1;
       smThis->smContinue=rew_at;
       smThis->smLength=smThis->smContinue-smThis->smText;
       smSourcePosition(smThis,smThis->smText,smThis->smContinue);
