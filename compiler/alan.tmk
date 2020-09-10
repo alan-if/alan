@@ -1,8 +1,8 @@
 %%OPTIONS
 
-	Os 'cygwin';
 	Target 'ansi-c';
 	Prefix 'alan';
+    Library '../../ToolMaker/lib/ansi-c';
 
 %%IMPORT
 
