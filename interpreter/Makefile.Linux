@@ -9,7 +9,7 @@ include ../mk/include_guard.mk
 VERSION := $(shell cat ../NEXTRELEASE)
 
 # It should be possible to build win32 binaries so include those targets
-include Makefile.win32
+#include Makefile.win32
 
 unit: CFLAGS += -fPIC
 unit: LDFLAGS += -fPIC
@@ -34,10 +34,10 @@ CGREENLDPATH  =
 #############################################################
 # GARARUN: a Gargoyle drop-in alan interpreter
 #
-# Gargoyle sources should be installed at GARGOYLE_ROOT and have
-# terps/alan3 linked to alan/interpreter. All required libraries,
-# including libgarglk.dylib need to be built to binary form before
-# making it from here.  It is built with jam, so "alan3", the
+# To build the Gargoyle sources should be installed at GARGOYLE_ROOT
+# and have terps/alan3 linked to alan/interpreter. All required
+# libraries, including libgarglk.so need to be built to binary form
+# before making it from here.  It is built with jam, so "alan3", the
 # resulting Alan interpreter drop-in, will be available as
 # $(GARGOYLE_ROOT)/build/<arch>.release/alan3/alan3
 ifdef GARARUN_ENABLED
