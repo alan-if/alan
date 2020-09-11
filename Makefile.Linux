@@ -7,7 +7,8 @@ VERSION := $(shell cat NEXTRELEASE)
 # Since we only distribute 32bit versions
 PLATFORM = linux
 
-PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
+PACKAGENAME = alan$(VERSION)$(BUILDVERSION).$(PLATFORM)
+PACKAGE = $(PACKAGENAME).tgz
 
 XPATH := xpath -q -e
 
@@ -16,9 +17,11 @@ XPATH := xpath -q -e
 packages: alan.readme.linux $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
+	mkdir -p $(PACKAGENAME)
+	cp bin/alan bin/arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan $(PACKAGENAME)
 	cp bin/alan bin/arun .
-	tar zcvf $(PACKAGE) alan arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
-	-rm alan arun
+	tar zcvf $(PACKAGE) $(PACKAGENAME)
+	-rm -r $(PACKAGENAME)
 
 ###############
 # Distribution
@@ -37,7 +40,7 @@ distribution-build:
 	$(MAKE) -C interpreter gararun
 
 distribution-upload:
-	alanupload $(PACKAGE) "sdks/linux/"
+	alanupload $(PACKAGE) sdks/linux
 	alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.tgz interpreters/linux
 	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh interpreters/linux
 
