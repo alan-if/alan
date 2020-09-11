@@ -8,7 +8,7 @@ UNITOUTPUT ?= -c
 endif
 
 # PLATFORM will be part of package names
-PLATFORM ?= "Needs to be set by platform specific Makefile"
+PLATFORM ?= "Make variable PLATFORM needs to be set by platform specific Makefile"
 
 .PHONY: clean
 clean:
