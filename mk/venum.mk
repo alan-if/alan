@@ -2,18 +2,18 @@
 #
 # Version number file generation
 #
-# This should only be included in subdirectories for machines having
-# venum.
+# This should only be included in subdirectories with VERSIONSRCS set
+# to a list of files that should trigger a new timestamp.
 #
-# We create NEXTRELEASE to be able to generate version marking on
-# non-Windows platforms where 'venum' isn't available
+# If venum is not available will try to do something reasonable.
+#
+# It also creates NEXTRELEASE to be able to generate version marking
+# on platforms where 'venum' isn't available
 
 NEXTRELEASEFORMAT='$$v.$$r{s$$s|}$$c'
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
 alan.version.c: $(VERSIONSRCS) ../alan.version.c
-	cd ..; venum alan time
-	cd ..; venum alan -print $(NEXTRELEASEFORMAT) > NEXTRELEASE
 	cp ../alan.version.c .
 
 alan.version.h : ../alan.version.h
@@ -22,18 +22,33 @@ alan.version.h : ../alan.version.h
 version.h : ../version.h
 	cp ../version.h .
 
-../alan.version.c ../alan.version.h ../version.h:
-	cd ..; venum alan time
 
+# Disable implicit rule for files without known extensions from .c file
+# Make considers alan.version to be one of those obviously
+%.version :
+
+../alan.version.c ../alan.version.h ../version.h: ../alan.version
+ifneq ($(shell command -v venum > /dev/null 2>&1),)
+	@echo \"$(shell command -v venum > /dev/null 2>&1)\"
+	# If venum exists on this platform we can use it to generate timestamps
+	cd ..; venum alan time
+	cd ..; venum alan -print $(NEXTRELEASEFORMAT) > NEXTRELEASE
+	cp ../alan.version.c .
+else
+	@echo WARNING! Venum is not available, using current timestamps
+	cp ../alan.version.c .
+endif
+
+# For testing:
 venum:
 	@echo NEXTRELEASEFORMAT=$(NEXTRELEASEFORMAT)
+	@echo BUILDNUMBER=$(BUILDNUMBER)
+	@echo BUILDVERSION=$(BUILDVERSION)
+	@echo BUILDNAME=$(BUILDNAME)
+	@echo VERSION=$(VERSION)
 	@echo venum=`which venum`
 	@if [ -f "alan.version" ] ; then \
 		venum alan -print $(NEXTRELEASEFORMAT) ; \
 	elif [ -f "../alan.version" ] ; then \
 		cd ..; venum alan -print $(NEXTRELEASEFORMAT) ; \
 	fi
-	@echo BUILDNUMBER=$(BUILDNUMBER)
-	@echo BUILDVERSION=$(BUILDVERSION)
-	@echo BUILDNAME=$(BUILDNAME)
-	@echo VERSION=$(VERSION)

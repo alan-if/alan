@@ -141,7 +141,7 @@ coverage_build: LDFLAGS += --coverage
 coverage: clean coverage_build unit test coverage_report
 	open coverage/index.html
 
-coverage_build: build unitbuild
+coverage_build: alan unitbuild
 	@echo "***********************************"
 	@echo "Run your tests and then 'make coverage_report'"
 
@@ -155,5 +155,5 @@ coverage_report:
 # Check to see if we are running on ThoNi's machine, if so include
 # special rules
 ifeq ($(shell uname -n), thoni64)
-	include Makefile.thoni
+  include Makefile.thoni
 endif

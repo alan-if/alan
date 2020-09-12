@@ -87,7 +87,7 @@ OTHERSRCS = \
 	wht.c \
 
 
-# Sources required for Alan program build
+# Sources required for Alan program build, except the version files
 ALANSRCS = \
 	main.c \
 	$(TMCSRCS) \
