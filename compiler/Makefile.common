@@ -32,10 +32,10 @@ build gprof: alan $(EXTRA_TARGETS)
 UNITOUTPUT ?= -c
 
 .PHONY: test
-test: alan
+test:
 	$(MAKE) standard_tests $(EXTRA_TESTS)
 
-standard_tests:
+standard_tests: alan
 	../bin/jregr -bin . -dir testing $(JREGROUTPUT)
 	../bin/jregr -bin . -dir testing/positions $(JREGROUTPUT)
 	../bin/jregr -bin . -dir testing/dump $(JREGROUTPUT)

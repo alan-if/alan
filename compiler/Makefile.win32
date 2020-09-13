@@ -36,5 +36,6 @@ winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res ../bin
 alan.res: alan.rc alan.ico alan.version.c
 	$(WINDRES) $< -O coff -o $@
 
-winalan_tests:
+# Compile with winalan and try to run it with native arun
+winalan_tests: winalan ../bin/arun
 	../bin/jregr -bin ../bin -dir ../regression/winalan $(JREGROUTPUT)
