@@ -6,7 +6,8 @@ PLATFORM = macos
 
 VERSION := $(shell cat NEXTRELEASE)
 
-PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz
+PACKAGENAME = alan$(VERSION)$(BUILDVERSION).$(PLATFORM)
+PACKAGE = $(PACKAGENAME).tgz
 
 
 # There is no libxml-xpath-perl on Darwin so we need to use XML::XPath
@@ -21,9 +22,10 @@ XPATH = xpath
 packages: alan.readme.macosx $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
-	cp bin/alan bin/arun .
-	tar zcvf $(PACKAGE) alan arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan
-	-rm alan arun
+	mkdir -p $(PACKAGENAME)
+	cp bin/alan bin/arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan $(PACKAGENAME)
+	tar zcvf $(PACKAGE) $(PACKAGENAME)
+	-rm -r $(PACKAGENAME)
 
 
 ######################################################################
