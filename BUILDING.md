@@ -7,11 +7,11 @@ Intro
 It is always difficult to create build scripts that work on a multitude
 of operating systems and with different tools.
 
-Some parts of Alan is also build using some proprietary compiler
+Some parts of Alan is also built using some proprietary compiler
 generation tools and uses some non-standard libraries for unit testing,
 Windows GUI etc.
 
-You could go for the autotools that are available on *ix platforms but I
+You could go for the autotools that are available on Unix platforms but I
 have always felt that they are too powerful and complex for my projects.
 I might be wrong. But also they are not available on non-*ix platforms,
 so historically it has not been an option for the Alan build suite.
@@ -59,8 +59,10 @@ Enabling Specific Targets
 -------------------------
 
 On some platforms/OSes you can enable extra targets. Extra targets are
-versions of the interpreter and compiler that are not the native command
-line compiler and interpreter.
+versions of the interpreter and compiler that are not the native
+command line compiler and interpreter. One example is
+cross-compilation of the Windows GUI version, WinAlam and primarily
+WinArun.
 
 The Makefiles will present the possible extra targets during builds with
 something like
@@ -101,8 +103,9 @@ Linux) you can do
 
     make cross
 
-This will create Windows 32-bit compatible versions of the command line
-versions of the compiler and the interpreter.
+This will create Windows 32-bit compatible versions of the command
+line versions of the compiler and the interpreter. And, if enabled,
+also WinAlan and WinArun.
 
 Obviously you need to install the cross-compilation suite for your
 platform (usually something like `i686-w64-mingw32-gcc`).
