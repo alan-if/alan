@@ -13,21 +13,52 @@ CFLAGS += -g -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
 
-gprof: CFLAGS += -pg
-gprof: LDFLAGS += -pg
-
-
-######################################################################
-#
-# build: Target to just build
-#
-.PHONY: build gprof
-build gprof: alan $(EXTRA_TARGETS)
-
 
 #######################################################################
 #
-# test : Run all tests!
+# alan: Alan command line compiler - native or cross
+#
+ALANOBJDIR = .alan
+ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
+$(ALANOBJDIR)/alan.version.o: alan.version.c
+-include $(ALANOBJECTS:.o=.d)
+$(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
+	$(COMPILE) -o $@ -c $<
+
+alan: CFLAGS += $(COVERAGE)
+alan: $(ALANOBJECTS) | ../bin
+	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
+	cp $@$(EXEEXT) ../bin
+
+$(ALANOBJECTS): | $(ALANOBJDIR)
+$(ALANOBJDIR):
+	mkdir $(ALANOBJDIR)
+
+../bin:
+	mkdir -p ../bin
+
+#######################################################################
+#
+# cross: a way to cross-build for Windows
+#
+# Add any other Windows-targets to EXTRA_CROSS_TARGETS and they will
+# be built too.
+#
+cross: cross_clean
+	$(MAKE) cross-build
+cross-build: CC=i686-w64-mingw32-gcc
+cross-build: EXEEXT=.exe
+cross-build: build $(EXTRA_CROSS_TARGETS)
+
+# We need to remove all *.o for the targets that may be cross built
+# but are not by default
+.PHONY: cross_clean
+cross_clean:
+	-rm -f $(ARUNOBJDIR)/*.o
+
+#######################################################################
+#
+# test: Run all tests!
 #
 UNITOUTPUT ?= -c
 
@@ -51,32 +82,9 @@ standard_tests: alan
 clean:
 	-rm -rf $(UNITTESTS_OBJDIR) $(ALANOBJDIR) $(WINALANOBJDIR) *.$(SOEXTENSION) alan alan.exe winalan.exe ../bin/alan ../bin/alan.exe ../bin/winalan.exe alan.res
 
-#######################################################################
-#
-# alan : Alan command line compiler - native
-#
-ALANOBJDIR = .alan
-ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
-$(ALANOBJDIR)/alan.version.o: alan.version.c
--include $(ALANOBJECTS:.o=.d)
-$(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
-	$(COMPILE) -o $@ -c $<
-
-alan: CFLAGS += $(COVERAGE)
-alan: $(ALANOBJECTS) | ../bin
-	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
-	cp $@$(EXEEXT) ../bin
-
-$(ALANOBJECTS): | $(ALANOBJDIR)
-$(ALANOBJDIR):
-	mkdir $(ALANOBJDIR)
-
-../bin:
-	mkdir -p ../bin
-
 #################################################################
 #
-# unit : Unit testing
+# unit: Unit testing
 #
 .PHONY: unit
 ifneq ($(CGREEN),yes)
@@ -130,7 +138,7 @@ include ../mk/isolated_unittests.mk
 
 ######################################################################
 #
-# coverage : Coverage
+# coverage: Coverage
 #
 #   make coverage - rebuilds everything for coverage, runs all tests,
 #                   generates and opens report

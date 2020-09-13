@@ -18,42 +18,9 @@ CFLAGS += -g -Wall -MMD -funsigned-char -DBUILD=$(BUILDNUMBER)
 SOEXTENSION ?= so
 
 #######################################################################
-.PHONY: unit
-ifneq ($(CGREEN),yes)
-unit:
-	@echo "No unit tests run, Cgreen not available"
-else
-unit: cgreenrunnertests isolated_unittests
-endif
-
-#######################################################################
-.PHONY: clean
-clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun arun.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
-
-
-###################################################################
 #
-# Run all tests!
-# Interpreter is tested through the regression tests
-UNITOUTPUT ?= -c
-
-.PHONY: test
-test:
-	../bin/jregr -bin ../bin -dir ../regression $(JREGROUTPUT)
-	../bin/jregr -bin ../bin -dir ../regression/versions/interpreter $(JREGROUTPUT)
-	../bin/jregr -bin ../bin -dir ../regression/tracing $(JREGROUTPUT)
-	../bin/jregr -bin ../bin -dir ../regression/saving $(JREGROUTPUT)
-	../bin/jregr -bin ../bin -dir ../regression/debug $(JREGROUTPUT)
-	../bin/jregr -bin ../bin -dir ../regression/platforms $(JREGROUTPUT)
-	# These uses sh not executables
-	../bin/jregr -dir ../regression/restore $(JREGROUTPUT)
-	../bin/jregr -dir ../regression/executing $(JREGROUTPUT)
-	#../bin/jregr -dir ../regression/special $(JREGROUTPUT)
-
-
-#######################################################################
-# Standard console Arun
+# arun: Arun command line interpreter - native or cross
+#
 ARUNOBJDIR = .arun
 ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUNOBJDIR)/alan.version.o
 
@@ -74,7 +41,9 @@ arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 
 
 #######################################################################
-# Build glkterm based arun => glkarun
+#
+# glkarun: Build glkterm based arun => glkarun
+#
 ifdef GLKARUN_ENABLED
 EXTRA_TARGETS += glkarun
 else
@@ -105,12 +74,41 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 
 #######################################################################
 #
+# cross: a way to cross-build for Windows
+#
+# Add any other Windows-targets to EXTRA_CROSS_TARGETS and they will
+# be built too.
+#
+cross: cross_clean
+	$(MAKE) cross-build
+cross-build: CC=i686-w64-mingw32-gcc
+cross-build: EXEEXT=.exe
+cross-build: build $(EXTRA_CROSS_TARGETS)
+
+# We need to remove all *.o for the targets that may be cross built
+# but are not by default
+.PHONY: cross_clean
+cross_clean:
+	-rm -f $(ARUNOBJDIR)/*.o
+
+
+#######################################################################
+#
+# unit: Unit testing
+#
 # CGreen unit tests of two types:
 #	- using a main program
 #	- using cgreen-runner which finds and runs all tests in shared libraries
 #
-UNITTESTS_OBJDIR = .unittests
+.PHONY: unit
+ifneq ($(CGREEN),yes)
+unit:
+	@echo "No unit tests run, Cgreen not available"
+else
+unit: cgreenrunnertests isolated_unittests
+endif
 
+UNITTESTS_OBJDIR = .unittests
 
 CGREENLINKLIB ?= -lcgreen
 
@@ -148,6 +146,33 @@ ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep
 isolated_unittests: SUITE = Interpreter
 
 include ../mk/isolated_unittests.mk
+
+#######################################################################
+.PHONY: clean
+clean:
+	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun arun.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
+
+
+###################################################################
+#
+# teest: Run all tests!
+#
+# The interpreter is tested through the regression tests
+#
+UNITOUTPUT ?= -c
+
+.PHONY: test
+test:
+	../bin/jregr -bin ../bin -dir ../regression $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/versions/interpreter $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/tracing $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/saving $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/debug $(JREGROUTPUT)
+	../bin/jregr -bin ../bin -dir ../regression/platforms $(JREGROUTPUT)
+	# These tests uses sh not executables
+	../bin/jregr -dir ../regression/restore $(JREGROUTPUT)
+	../bin/jregr -dir ../regression/executing $(JREGROUTPUT)
+	#../bin/jregr -dir ../regression/special $(JREGROUTPUT)
 
 
 #######################################################################

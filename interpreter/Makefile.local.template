@@ -7,18 +7,6 @@ include ../mk/include_guard.mk
 # Copy this file to Makefile.local and enable extra targets that depend
 # on third party libraries by uncommenting and adjusting below
 
-# Here's a way to cross-build for Windows. Add any other Windows-targets
-# to EXTRA_CROSS_TARGETS and they will be build too
-cross: CC=i686-w64-mingw32-gcc
-cross: EXEEXT=.exe
-cross: build $(EXTRA_CROSS_TARGETS) | cross_clean
-
-# We need to remove all *.o for the targets that may be cross built
-# but are not by default
-.PHONY: cross_clean
-cross_clean:
-	-rm -f $(ARUNOBJDIR)/*.o
-
 # Enable WinArun:
 #WINARUN_ENABLED = true
 #

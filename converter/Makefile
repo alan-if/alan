@@ -131,9 +131,12 @@ version.h:
 a2a3.version: $(A2A3_SRCS)
 	venum alan time
 
-cross: CC=i686-w64-mingw32-gcc
-cross: EXEEXT=.exe
-cross: build | cross_clean
+cross: cross_clean
+	$(MAKE) cross-build
+
+cross-build: CC=i686-w64-mingw32-gcc
+cross-build: EXEEXT=.exe
+cross-build: build
 
 # We need to remove all *.o for the targets that may be cross built
 # but are not by default
