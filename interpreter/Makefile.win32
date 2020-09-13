@@ -2,8 +2,9 @@
 include ../mk/include_guard.mk
 #
 # This makefile is included by all Makefile.<platform> where Windows
-# binaries can be made. You should change where any dependent libraries
-# are stored.
+# binaries can be made. You can configure where any dependent
+# libraries are stored, compiler switches in Makefile.local (which
+# should be copied from Makefile.local.template
 #
 # You can also disable a particular build by commenting out the settings
 # of EXTRA_TARGETS.

@@ -29,7 +29,7 @@ endif
 #######################################################################
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun$(EXEEXT) winarun$(EXEEXT) MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun$(EXEEXT) ../bin/winarun$(EXEEXT) ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
+	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun arun.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
 
 
 ###################################################################
@@ -46,7 +46,7 @@ test:
 	../bin/jregr -bin ../bin -dir ../regression/saving $(JREGROUTPUT)
 	../bin/jregr -bin ../bin -dir ../regression/debug $(JREGROUTPUT)
 	../bin/jregr -bin ../bin -dir ../regression/platforms $(JREGROUTPUT)
-	# These Uses sh not the executables
+	# These uses sh not executables
 	../bin/jregr -dir ../regression/restore $(JREGROUTPUT)
 	../bin/jregr -dir ../regression/executing $(JREGROUTPUT)
 	#../bin/jregr -dir ../regression/special $(JREGROUTPUT)

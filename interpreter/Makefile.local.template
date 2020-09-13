@@ -7,10 +7,11 @@ include ../mk/include_guard.mk
 # Copy this file to Makefile.local and enable extra targets that depend
 # on third party libraries by uncommenting and adjusting below
 
-# Here's a way to cross-build command line arun for Windows
+# Here's a way to cross-build for Windows. Add any other Windows-targets
+# to EXTRA_CROSS_TARGETS and they will be build too
 cross: CC=i686-w64-mingw32-gcc
 cross: EXEEXT=.exe
-cross: cross_clean build
+cross: build $(EXTRA_CROSS_TARGETS) | cross_clean
 
 # We need to remove all *.o for the targets that may be cross built
 # but are not by default
@@ -27,7 +28,7 @@ cross_clean:
 #     http://www.ifarchive.org/indexes/if-archiveXprogrammingXglkXimplementations.html
 #
 # Point the linker to the Windows GLK library
-WINGLK_ROOT = ../../WindowsGlk-148
+WINGLK_ROOT = ../../WindowsGlk-150
 #
 # If required you can set particular compiler and linker for an extra target
 # like so (most likely we need to cross compile...):
@@ -50,9 +51,9 @@ GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
 # This requires Gargoyle sources and needs to be built in the Gargoyle
 # source directory using the build system Jam, which needs to be
 # available too.  Gargoyle includes a version of Arun, built to a
-# binary called 'alan3'. To make it use the sources there, remove the
-# subdirectory terps/alan3 and create a link from there to this
-# directory. Then a build here will attempt to build that too, if
+# binary called 'alan3'. To build that using the current sources,
+# remove the subdirectory terps/alan3 and create a link from there to
+# this directory. Then a build here will attempt to build that too, if
 # enabled.
 GARGOYLE_ROOT = ../../garglk-current-alan3
 

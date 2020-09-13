@@ -24,11 +24,21 @@ release:
 		echo "Push all local changes before making a release" ; \
 		exit 1 ; \
 	fi fi fi fi
-	# Enable WinAlan & WinArun
+	# Enable WinAlan & WinArun if not enabled already
+ifeq ($(WINALAN_ENABLED),)
+	@echo Enable WinAlan
 	cp compiler/Makefile.local.template compiler/Makefile.local
 	echo "WINALAN_ENABLED=true" >> compiler/Makefile.local
+else
+	@echo WinAlan already enabled! Good!
+endif
+ifeq ($(WINALAN_ENABLED),)
+	@echo Enable WinArun
 	cp interpreter/Makefile.local.template interpreter/Makefile.local
 	echo "WINARUN_ENABLED=true" >> interpreter/Makefile.local
+else
+	@echo WinArun already enabled! Good!
+endif
 	$(MAKE) releasebuild
 	$(MAKE) test
 	# We won't make documentation since that is in the Alan Documentation project now

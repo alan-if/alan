@@ -18,14 +18,16 @@ gprof: LDFLAGS += -pg
 
 
 ######################################################################
-# Target to just build
+#
+# build: Target to just build
+#
 .PHONY: build gprof
 build gprof: alan $(EXTRA_TARGETS)
 
 
 #######################################################################
 #
-# Run all tests!
+# test : Run all tests!
 #
 UNITOUTPUT ?= -c
 
@@ -47,11 +49,11 @@ standard_tests:
 # Clean
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ALANOBJDIR) $(WINALANOBJDIR) *.$(SOEXTENSION) alan$(EXEEXT) winalan$(EXEEXT) ../bin/alan$(EXEEXT) ../bin/winalan$(EXEEXT) alan.res
+	-rm -rf $(UNITTESTS_OBJDIR) $(ALANOBJDIR) $(WINALANOBJDIR) *.$(SOEXTENSION) alan alan.exe winalan.exe ../bin/alan ../bin/alan.exe ../bin/winalan.exe alan.res
 
 #######################################################################
 #
-# Alan command line compiler - native
+# alan : Alan command line compiler - native
 #
 ALANOBJDIR = .alan
 ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
@@ -74,7 +76,7 @@ $(ALANOBJDIR):
 
 #################################################################
 #
-# Unit testing
+# unit : Unit testing
 #
 .PHONY: unit
 ifneq ($(CGREEN),yes)
@@ -128,18 +130,18 @@ include ../mk/isolated_unittests.mk
 
 ######################################################################
 #
-# Coverage
+# coverage : Coverage
 #
 #   make coverage - rebuilds everything for coverage, runs all tests,
 #                   generates and opens report
 #   make coverage_build - builds what has changed for coverage
 #   make coverage_report - generates the report
 
-coverage_build: CFLAGS += --coverage -fPIC
-coverage_build: LDFLAGS += --coverage
-
 coverage: clean coverage_build unit test coverage_report
 	open coverage/index.html
+
+coverage_build: CFLAGS += --coverage -fPIC
+coverage_build: LDFLAGS += --coverage
 
 coverage_build: alan unitbuild
 	@echo "***********************************"

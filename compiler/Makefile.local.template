@@ -7,10 +7,11 @@ include ../mk/include_guard.mk
 # Copy this file to Makefile.local and enable extra targets that depend
 # on third party libraries by uncommenting and adjusting below
 
-# Here's a way to cross-build command line alan for Windows
+# Here's a way to cross-build for Windows. Add any other Windows-targets
+# to EXTRA_CROSS_TARGETS and they will be build too
 cross: CC=i686-w64-mingw32-gcc
 cross: EXEEXT=.exe
-cross: cross_clean build
+cross: build $(EXTRA_CROSS_TARGETS) | cross_clean
 
 # We need to remove all .o files for the targets that cross-build
 .PHONY: cross_clean
@@ -19,7 +20,8 @@ cross_clean:
 
 # Enable WinAlan:
 #WINALAN_ENABLED = true
-#
+#EXTRA_CROSS_TARGETS += winalan
+
 # Assume cross compilation, if not you can simplify...
 winalan: CC=i686-w64-mingw32-gcc # or possibly just "gcc"
 winalan: WINDRES=i686-w64-mingw32-windres # or possibly just "windres"

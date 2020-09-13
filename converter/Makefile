@@ -35,9 +35,9 @@ BUILDSRCS = \
 # Main targets
 #
 
-all : unit build Makefile
+all: unit build Makefile
 
-build : a2a3
+build: a2a3$(EXEEXT)
 
 release: a2a3
 
@@ -105,11 +105,11 @@ test :
 #
 # Common sysdep
 #
-sysdep.c : ../interpreter/sysdep.c
+sysdep.c: ../interpreter/sysdep.c
 	cp -f ../interpreter/sysdep.c .
 	chmod a-w sysdep.c
 
-sysdep.h : ../interpreter/sysdep.h
+sysdep.h: ../interpreter/sysdep.h
 	cp -f ../interpreter/sysdep.h .
 	chmod a-w sysdep.h
 #
@@ -125,7 +125,7 @@ spa.o: spa.c spa.h
 a2a3.version.h a2a3.version.c:
 	venum -write always -all a2a3
 
-version.h :
+version.h:
 	venum -write always -all a2a3
 
 a2a3.version: $(A2A3_SRCS)
@@ -133,10 +133,10 @@ a2a3.version: $(A2A3_SRCS)
 
 cross: CC=i686-w64-mingw32-gcc
 cross: EXEEXT=.exe
-cross: cross_clean build
+cross: build | cross_clean
 
 # We need to remove all *.o for the targets that may be cross built
 # but are not by default
 .PHONY: cross_clean
 cross_clean:
-	-rm -f $(A2A3_OBJDIR)/*.o
+	-rm -f $(A2A3_OBJDIR)/*.o a2a3$(EXEEXT)
