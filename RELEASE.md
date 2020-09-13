@@ -7,6 +7,10 @@ The strategy requires a main development machine. Currently that is
 ThoNi's machine, where also https://ci.alanif.se is running a release
 job, "Alan Release".
 
+Main development environment have for a long time been Cygwin (for its
+Unix capabilities and easy cross-compilation to Windows), but that is
+changing now that WSL (Windows Subsystem for Linux) exists.
+
 In essence a release will have a semver version marking. Any
 development build before the release will have the same version
 marking but with a build number (added in the Jenkins jobs). Once the
@@ -20,13 +24,13 @@ The release job will do
     make release
 
 This should always be done on the main development machine (ThoNi's)
-before any attempt to build release distributions on on secondary
-platforms. It will check that the source files are checked in, and
+before any attempt to build release distributions on any secondary
+platform. It will check that the source files are checked in, and
 some other stuff. You can't do a release otherwise.
 
 It then goes on to build the primary binaries for Windows (alan, arun,
-WinAlan and WinArun), currently using cross-compile from Cygwin, for
-release and run all tests.
+WinAlan and WinArun), currently using cross-compile from Cygwin (or
+WSL/Linux), for release and run all tests.
 
 If that is successful, a tag (vXYZ) is set at the current HEAD in the
 main branch, and a branch for this OS is created at the same commit.
@@ -48,7 +52,8 @@ should only be updated on the main development machine).
 
 ## Secondary platforms
 
-On seconday platforms (Linux, MacOS) you should be able to do
+On seconday platforms (Linux, MacOS) you should checkout the release
+branch and then be able to do
 
     make distribution
 
