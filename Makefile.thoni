@@ -116,15 +116,16 @@ zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt
 	-rm alan*.zip
 	zip -j alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $^
 
+setup: PLATFORM=win32.i686
 .PHONY: setup
 setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
 	-rm winarun*setup.exe
 	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ -e s/PLATFORM/$(PLATFORM)/ winarun.iss > winarun_tmp.iss
-	$(INNODIR)/iscc winarun_tmp.iss
+	$(INNODIR)/ISCC.exe winarun_tmp.iss
 	-rm winarun_tmp.iss
 	-rm alan*setup.exe
 	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ -e s/PLATFORM/$(PLATFORM)/ alan.iss > alan_tmp.iss
-	$(INNODIR)/iscc alan_tmp.iss
+	$(INNODIR)/ISCC.exe alan_tmp.iss
 	-rm alan_tmp.iss
 	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
 
