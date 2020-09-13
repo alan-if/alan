@@ -4,8 +4,7 @@
 
 VERSION := $(shell cat NEXTRELEASE)
 
-# Since we only distribute 32bit versions
-PLATFORM = linux
+PLATFORM = linux.$(shell uname -m)
 
 PACKAGENAME = alan$(VERSION)$(BUILDVERSION).$(PLATFORM)
 PACKAGE = $(PACKAGENAME).tgz
@@ -45,17 +44,17 @@ distribution-build:
 
 distribution-upload:
 	alanupload $(PACKAGE) sdks/linux
-	alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.tgz interpreters/linux
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh interpreters/linux
+	alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz interpreters/linux
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh interpreters/linux
 
 
 ##########
 # Snapshot
 #
 snapshot-build:
-	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) BUILDVERSION=$(BUILDVERSION) clean all package
+	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) BUILDVERSION=$(BUILDVERSION) clean build $(PACKAGE)
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) gararun
 
 snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)/
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh snapshots/$(BUILDNAME)/
+	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh snapshots/$(BUILDNAME)/
