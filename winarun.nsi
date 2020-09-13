@@ -1,6 +1,5 @@
 # WinArun installed script using NSIS
 #
-# -DWINGLKDIR=<dir for WinGlk.dll>
 
 OutFile "winarun.setup.exe"
 
@@ -13,9 +12,9 @@ OutFile "winarun.setup.exe"
 
 ;-------------------------------------------------------------------------------
 ; Constants
-!define PRODUCT_NAME "WinArun VERSION"
+!define PRODUCT_NAME "WinArun VERSION" ; should be <VERSION> and replaced automatically
 !define PRODUCT_DESCRIPTION "Alan V3 Interactive Fiction Interpreter for Windows"
-!define PRODUCT_VERSION 3.0.7.0
+!define PRODUCT_VERSION 3.0.7.0 ; should be <WINVER> and replaced automatically
 !define COMPANY "AlanIF Adventure Factories"
 
 ;-------------------------------------------------------------------------------
@@ -77,15 +76,20 @@ Section "install"
     File games\adventv3\adventv3.a3c
     
     writeUninstaller "$INSTDIR\uninstall.exe"
-
-    CreateShortcut "$SMPROGRAMS\Uninstall WinArun" "$INSTDIR\uninstall.exe"
     
 SectionEnd
 
 Section "uninstall"
 
-   Delete "$INSTDIR\uninstall.exe"
-   Delete "$SMPROGRAMS\Uninstall WinArun"
-   RMDir /r $(INSTDIR)
+    Delete "$INSTDIR\uninstall.exe"
+    Delete $INSTDIR\winarun.exe
+    Delete $INSTDIR\Glk.dll
+    Delete $INSTDIR\ScaleGfx.dll
+    Delete $INSTDIR\COPYING.txt
+    Delete $INSTDIR\saviour.a3c
+    Delete $INSTDIR\saviour.a3r
+    Delete $INSTDIR\logo.png
+    Delete $INSTDIR\adventv3.a3c
+    RMDir "$INSTDIR"
 
 SectionEnd
