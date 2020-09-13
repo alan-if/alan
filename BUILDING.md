@@ -1,8 +1,6 @@
-Building Alan
-=============
+# Building Alan
 
-Intro
------
+## Intro
 
 It is always difficult to create build scripts that work on a multitude
 of operating systems and with different tools.
@@ -20,8 +18,7 @@ The goal with the current Makefile approach is that it should be
 possible to build the command line versions without any changes to the
 Makefiles, particularly not the ones in the repository.
 
-File Strategy
--------------
+## File Strategy
 
 The Alan sources are divided into one directory for the compiler, one
 for the interpreter(s) and one for the Alan2-to-Alan3 converter.
@@ -55,14 +52,12 @@ will normally detect this and first build and run all unittests.
 As a last step a large number of tests are run, which requires a working
 Java RTE.
 
-Enabling Specific Targets
--------------------------
+## Enabling Extra Targets
 
 On some platforms/OSes you can enable extra targets. Extra targets are
 versions of the interpreter and compiler that are not the native
-command line compiler and interpreter. One example is
-cross-compilation of the Windows GUI version, WinAlam and primarily
-WinArun.
+command line compiler and interpreter. One example is the
+Gargoyle slot-in interpreter, gararun.
 
 The Makefiles will present the possible extra targets during builds with
 something like
@@ -70,12 +65,13 @@ something like
     NOT ENABLED: glkarun - Arun with curses text Glk
 
 This means that on this platform/OS it might be possible to build a
-Curses GLK version of the interpreter.You can try to build it by
+Curses GLK version of the interpreter. You can try to build it by
 explicitly doing
 
     make glkarun
 
-in the relevant directory (`interpreter` in this case).
+in the relevant directory (`interpreter` in this case). This might
+work but most likely you will need to set some paths etc.
 
 The file `Makefile.local.template` includes command and settings to
 build these extra targets. This file is included by default. If you find
@@ -95,8 +91,7 @@ like
     # Enable glkarun:
     #GLKARUN_ENABLED = true
 
-Cross Compilation
------------------
+## Cross Compilation
 
 For platforms that are Windows cross compilation capable (Cygwin, Msys,
 Linux) you can do
@@ -110,8 +105,7 @@ also WinAlan and WinArun.
 Obviously you need to install the cross-compilation suite for your
 platform (usually something like `i686-w64-mingw32-gcc`).
 
-Release Process
----------------
+## Release Process
 
 When running on ThoNi's machine (thoni64) the Makefiles will also
 include Makefile.thoni which adds some targets for release. These rules
@@ -123,3 +117,19 @@ create a tag/branch for it and then build the release for Darwin, Linux
 etc. from that on machines with that OS.
 
 This is still a bit flaky and a work in progress.
+
+### Creating Packages
+
+Once you have built the native binaries for your platform, you can
+(probably) create distributable packages for them using
+
+    make packages
+    
+The intent is that it will understand what is enabled and can be
+packaged into ZIP or tar files.
+
+Packaging cross-compiled binaries should work using
+
+    make cross-packages
+    
+but this is a bit complicated and still work in progress.
