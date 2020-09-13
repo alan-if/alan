@@ -101,30 +101,6 @@ tags: last-release
 last-release:
 	echo -n $(VERSION) > LASTRELEASE
 
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# Create all source for porting, should be done in an exported directory
-#
-.PHONY: srcdist
-srcdist:
-	@if test -d .git; then \
-		echo Do not do this in your working directory, export first ; \
-		exit 1 ; \
-	fi
-	venum -write always -all alan
-	cp version.h alan.version.[ch] compiler
-	cp version.h alan.version.[ch] interpreter
-	cp compiler/spa.* interpreter
-	-rm -r regression/pre3 regression/special
-	/usr/bin/find . -name \* -exec chmod u+w \{\} \;
-	/usr/bin/find . -name Makefile\* -exec dos2unix \{\} \;
-	/usr/bin/find . -name \*.\[ch\] -exec dos2unix \{\} \;
-	tar zcvf alansrc$(VERSION).tgz compiler interpreter converter regression COPYING bin/regr bin/jregr bin/jregr.jar
-	-rm $(DISTDIR)/Source/alansrc*.*
-	cp alansrc$(VERSION).tgz $(DISTDIR)/Source
-
 .PHONY: newVersion
 newVersion:
 	venum alan
