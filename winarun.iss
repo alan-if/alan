@@ -5,9 +5,9 @@
 AppName=Alan V3 Interactive Fiction Interpreter for Windows
 AppVerName=WinArun VERSION
 AppPublisher=ThoNi Adventure Factories
-AppPublisherURL=http://www.alanif.se
-AppSupportURL=http://www.alanif.se
-AppUpdatesURL=http://www.alanif.se
+AppPublisherURL=https://www.alanif.se
+AppSupportURL=https://www.alanif.se
+AppUpdatesURL=https://www.alanif.se
 DefaultDirName={pf}\Alan Interpreter for Windows
 DefaultGroupName=Alan V3 Interpreter for Windows
 AllowNoIcons=yes
@@ -41,7 +41,7 @@ Source: "regression\saviour.a3r"; DestDir: "{app}"; Flags: ignoreversion
 Source: "games\adventv3\adventV3.a3c"; DestDir: "{app}"; Flags: ignoreversion
 
 [INI]
-Filename: "{app}\winarun.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://www.alanif.se"
+Filename: "{app}\winarun.url"; Section: "InternetShortcut"; Key: "URL"; String: "https://www.alanif.se"
 
 [Icons]
 Name: "{group}\Alan V3 Interpreter for Windows"; Filename: "{app}\winarun.exe"
