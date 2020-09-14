@@ -48,12 +48,6 @@ endif
 	$(MAKE) release-upload
 
 
-.PHONY: snapshot-build
-snapshot-build:
-	@echo "ERROR: Don't build snapshots on thoni, that should be done using Jenkins"
-	exit 2
-
-
 .PHONY: snapshot-upload
 snapshot-upload: buildnumbers
 	ssh alanif.se "mkdir -p /www/downloads/snapshots/$(BUILDNAME)"
@@ -95,7 +89,7 @@ releasebuild:
 tags: last-release
 	git tag -f v$(VERSION)
 	git branch -f v$(VERSION)_$(OS)
-	@echo "If you are satisfied with the result, and on thoni's machine, do a 'venum alan correction', at least"
+	@echo "If you are satisfied, do a 'venum alan correction' (at least), and commit"
 
 .PHONY: last-release
 last-release:

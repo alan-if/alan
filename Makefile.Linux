@@ -48,8 +48,11 @@ distribution-upload:
 	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh interpreters/linux
 
 
+ifneq ($(shell uname -n), thoni64)
 ##########
-# Snapshot
+#
+# Snapshot build and upload, not used on ThoNi's machine where we run
+# WSL and can create Linux and Windows snapshots. This is for pure Linux.
 #
 snapshot-build:
 	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) BUILDVERSION=$(BUILDVERSION) clean build $(PACKAGE)
@@ -58,3 +61,4 @@ snapshot-build:
 snapshot-upload:
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)/
 	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh snapshots/$(BUILDNAME)/
+endif
