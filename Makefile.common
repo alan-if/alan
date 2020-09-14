@@ -82,6 +82,15 @@ ifeq ($(BUILDNUMBER),)
 	$(eval BUILDNUMBER := $(shell wget -q -O- 'https://ci.alanif.se/jenkins/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
 endif
 
+#######################################################################
+# Check to see if we are running on ThoNi's machine, if so include
+# special rules
+ifeq ($(shell uname -n), thoni64)
+-include Makefile.thoni
+endif
+
+
+# For debugging
 .PHONY: v
 v:
 	@echo VERSION = $(VERSION)
