@@ -18,8 +18,8 @@ XPATH = xpath
 ######################################################################
 # Packages
 #
-.PHONY: packages
-packages: alan.readme.macosx $(PACKAGE)
+.PHONY: package
+package: alan.readme.macosx $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
 	mkdir -p $(PACKAGENAME)
@@ -45,7 +45,7 @@ distribution-check:
 	fi
 
 distribution-build:
-	$(MAKE) clean all packages
+	$(MAKE) clean all package
 	$(MAKE) -C interpreter gararun MacArun
 
 distribution-upload:
@@ -58,7 +58,7 @@ distribution-upload:
 # Snapshot
 #
 snapshot-build:
-	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) clean all packages
+	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) clean all package
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) gararun MacArun
 
 snapshot-upload:

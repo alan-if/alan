@@ -1,5 +1,5 @@
 # Main common targets: clean build unit test
-# "packages" must be defined in platform dependent makefiles
+# "package" must be defined in platform dependent makefiles
 
 ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
@@ -45,7 +45,7 @@ cross:
 .PHONY: ci
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
-ci: buildnumbers all cross packages
+ci: buildnumbers all cross package
 
 ###########################################################
 # Snapshot boiler plate for non-major platforms

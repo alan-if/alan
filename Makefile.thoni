@@ -108,8 +108,8 @@ newVersion:
 
 #################################################################################
 
-.PHONY: packages
-packages: zip setup
+.PHONY: package
+package: zip setup
 
 .PHONY: zip
 zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING

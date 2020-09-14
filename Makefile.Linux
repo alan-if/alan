@@ -13,7 +13,8 @@ XPATH := xpath -q -e
 
 
 # We need to define how to package on Linux
-packages: alan.readme.linux $(PACKAGE)
+.PHONY: package
+package: alan.readme.linux $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
 	mkdir -p $(PACKAGENAME)
