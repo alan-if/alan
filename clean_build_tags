@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+# Remove oldest build tag, keep at most 10
+# First remove all tags not available on remote
+git fetch --prune origin "+refs/tags/*:refs/tags/*"
+# Then read all tags matching pattern to a file
+# git ls-remote --tags | findstr Build > BUILDTAGS
+git tag -l --format="%%(tag)" Build* > BUILDTAGS
+# If more tags than we want to save
+if [[ $(wc -l <BUILDTAGS) -ge 10 ]] ; then
+   # Pick oldest from that file
+   OLDESTTAG=`tail -1 BUILDTAGS`
+   #git tag --delete $OLDESTTAG
+   #git push origin --delete $OLDESTTAG
+fi
