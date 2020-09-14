@@ -32,8 +32,9 @@ It then goes on to build the primary binaries for Windows (alan, arun,
 WinAlan and WinArun), currently using cross-compile from Cygwin (or
 WSL/Linux), for release and run all tests.
 
-If that is successful, a tag (vXYZ) is set at the current HEAD in the
-main branch, and a branch for this OS is created at the same commit.
+If that is successful, a tag (vX.Y.Z) is set at the current HEAD in
+the main branch. Later a branch for this OS, and a bugfix branch, can
+be created at the same commit.
 
 Then all packages for the primary platform is uploaded to the Alan
 website.
@@ -41,19 +42,25 @@ website.
 The file LASTRELEASE will be updated to contain the venum of the last
 released version on the current branch.
 
-Once this job has been run successfully the venum should be upgraded
-(manually) and committed.
+Once this job has been run successfully the venum should be upgraded,
+using `venum` if available, at least to:
 
     vX.Y.(Z+1)
+    
+Using `venum` that is
 
-On next compile that upcoming version is written to the file
+    venum alan correction
+    
+The files `alan.version*` should then be comitted.
+
+On the next compile that upcoming version is written to the file
 NEXTRELEASE so that other platforms can use that as version (versions
 should only be updated on the main development machine).
 
 ## Secondary platforms
 
 On seconday platforms (Linux, MacOS) you should checkout the release
-branch and then be able to do
+tag and then do
 
     make distribution
 
