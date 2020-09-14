@@ -44,7 +44,7 @@ $(ALANOBJDIR):
 # Add any other Windows-targets to EXTRA_CROSS_TARGETS and they will
 # be built too.
 #
-cross: cross_clean
+cross: cross-clean
 	$(MAKE) cross-build
 cross-build: CC=i686-w64-mingw32-gcc
 cross-build: EXEEXT=.exe
@@ -52,8 +52,8 @@ cross-build: build $(EXTRA_CROSS_TARGETS)
 
 # We need to remove all *.o for the targets that may be cross built
 # but are not by default
-.PHONY: cross_clean
-cross_clean:
+.PHONY: cross-clean
+cross-clean:
 	-rm -f $(ALANOBJDIR)/*.o
 
 #######################################################################
