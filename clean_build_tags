@@ -4,6 +4,7 @@
 git fetch --prune origin "+refs/tags/*:refs/tags/*"
 # Then read all tags matching pattern to a file
 # git ls-remote --tags | findstr Build > BUILDTAGS
+<<<<<<< HEAD
 git tag -l --format="%(tag)" Build* > BUILDTAGS
 # If more tags than we want to save
 if [[ $(wc -l <BUILDTAGS) -ge 10 ]] ; then
@@ -12,4 +13,14 @@ if [[ $(wc -l <BUILDTAGS) -ge 10 ]] ; then
     echo $OLDESTTAG
     #git tag --delete $OLDESTTAG
     #git push origin --delete $OLDESTTAG
+=======
+git tag -l --format="%%(tag)" Build* | sort > BUILDTAGS
+# If more tags than we want to save
+if [[ $(wc -l <BUILDTAGS) -ge 10 ]] ; then
+    # Pick oldest from that file
+    OLDESTTAG=`head -1 BUILDTAGS`
+    echo OLDESTTAG=$OLDESTTAG
+    #git tag --delete $OLDESTTAG
+    #git push origin --delete $OLDESTTAG
+>>>>>>> Pick the first  snapshot build tag to remove since it is the oldest
 fi
