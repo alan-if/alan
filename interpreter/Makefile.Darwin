@@ -5,18 +5,13 @@ include ../mk/include_guard.mk
 # to build Alan Interpreter(s) on Darwin. Common rules are in
 # Makefile.common
 
-# We use last release until there is a new one, so always one behind Cygwin...
+# We use last release until there is a new one, so always one behind
+# primary platform...
 VERSION := $(shell cat ../NEXTRELEASE)
 
 CFLAGS += -Wno-invalid-source-encoding -funsigned-char
 
 SOEXTENSION = dylib
-
-
-##################################################################
-.PHONY: release
-release: CFLAGS += -O4
-release: all
 
 
 ##################################################################
@@ -38,18 +33,22 @@ EXTRA_TARGETS += gararun
 else
 $(info NOT ENABLED: gararun - Gargoyle Arun)
 endif
-# Gargoyle should be installed at GARGOYLE_ROOT and have
-# terps/alan3 linked to alan/interpreter. All required libraries, including
-# libgarglk.dylib need to be built to binary form before making it from here.
-# It is built with jam, so "alan3", the resulting Alan interpreter drop-in,
-# will be available as $(GARGOYLE_ROOT)/build/<platform>.<buildtype>.release/alan3/alan3
+# Gargoyle should be installed at GARGOYLE_ROOT and have terps/alan3
+# linked to alan/interpreter. All required libraries, including
+# libgarglk.dylib need to be built to binary form before making it
+# from here.  It is built with jam, so "alan3", the resulting Alan
+# interpreter drop-in, will be available as
+# $(GARGOYLE_ROOT)/build/<platform>.<buildtype>.release/alan3/alan3
 #
-# To build it we need various libraries, make sure they are installed using (MacPorts)
+# To build it we need various libraries, make sure they are installed
+# using (MacPorts):
+#
 #     sudo port install libSDL libSDL_mixer jpeg freetype +universal
 #
-# MacOSX have some fishy routines for finding libraries and since we built it against macports
-# we need to readjust the path to the libraries so that it looks in the Gargoyle.app frameworks
-# instead of the /opt/local where macports keeps its dylibs.
+# MacOSX have some fishy routines for finding libraries and since we
+# built it against macports we need to readjust the path to the
+# libraries so that it looks in the Gargoyle.app frameworks instead of
+# the /opt/local where macports keeps its dylibs.
 #
 # We build an installer package using the packagesbuild command from
 # Packages (http://http://s.sudre.free.fr/Software/Packages/about.html)
