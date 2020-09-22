@@ -17,7 +17,7 @@ jobs:
           command: apt install -y default-jre
       - run:
           name: Unittests
-          command: make UNITOUTPUT="--xml TEST"
+          command: make UNITOUTPUT=--xml\ TEST unit
       - run:
           name: Build
           command: make JREGROUTPUT=-xml
