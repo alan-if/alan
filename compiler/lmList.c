@@ -91,10 +91,11 @@ static lmMsgs msg[] = {
     { "108   ", "Parsing terminated." },
     { "109   ", "Syntax error in import statement, %1." },
     { "150   ", "Unterminated STRING." },
-    { "151   ", "File name missing for $INCLUDE directive." },
+    { "151   ", "File name missing for import or $INCLUDE directive." },
     { "152   ", "Unterminated quoted identifier." },
     { "153   ", "Resource file missing." },
     { "154   ", "$INCLUDE directive is deprecated. Use \'import\' statement instead." },
+    { "155   ", "Unterminated block comment. Must end with a line consisting of at least four slashes and nothing but slashes." },
     { "197   ", "File \'%1\' already imported. Ignored." },
     { "198   ", "Could not open output file \'%1\' for writing." },
     { "199   ", "Adventure source file (%1) not found." },
@@ -249,7 +250,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 169}
+    {0, 170}
 };
 static lmMessages currMsect = (lmMessages)0;
 

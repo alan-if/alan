@@ -405,23 +405,44 @@ void setCharacterSet(int set)
     %%
        int i;
        int c;
+       Srcp srcp = smToken->srcp;
+
+       srcp.line=smThis->smNextLine;
+       srcp.col=1;              // Always starts in first column
+
        do {
+          // Skip rest of line
           do {
               i = smScSkip(smThis, 1);
               c = smThis->smText[smThis->smLength-1];
-          } while (c != '\n' && i != 0);
+          } while (c != '\n' && i != 0); // not newline and not end-of-file (actually read a character = 1)
+          if (i == 0) {
+              // end-of-file!
+              lmLog(&srcp, 155, sevERR, "");
+              break;
+          }
+
+          // Did next line start with four forward slashes
           for (int n=0; n<4; n++) {
               i = smScSkip(smThis, 1);
               c = smThis->smText[smThis->smLength-1];
               if (c != '/')
                  break;
           }
+
+          // Was the last from the previous loop a slash then we had four
           if (c == '/') {
+              // if the rest of the line was only slashes, this was the last line
               do {
                   i = smScSkip(smThis, 1);
                   c = smThis->smText[smThis->smLength-1];
               } while (c == '/' && i != 0);
-              break;
+              if (c != '\n')
+                  // we found something else on this line, so ...
+                  continue;
+              else
+                  // end-of-line and only slashes. Done!
+                  break;
           } else
               continue;
        } while (1);
@@ -430,7 +451,7 @@ void setCharacterSet(int set)
   include = '$include'
     %%
       Srcp srcp, start;
-      oken token;
+      Token token;
       int i;
       int c;
 
