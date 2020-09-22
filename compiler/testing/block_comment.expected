@@ -1,0 +1,16 @@
+########## block_comment ##########
+
+
+block_comment.alan
+
+    7.  sadf -- error here
+=====>  1
+
+  *1*   101 E : Syntax error. Inserting "at" before this token.
+  *1*   310 E : Identifier 'sadf' not defined.
+
+
+        2 error(s).
+        No detected warnings.
+        1 informational message(s).
+

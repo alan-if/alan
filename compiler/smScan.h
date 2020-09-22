@@ -162,6 +162,7 @@ typedef enum sm_MAIN_ScToken {
 	sm_MAIN_150_Token = 150,
 	sm_MAIN_BLANKS_Token = -1,
 	sm_MAIN_COMMENT_Token = -1,
+	sm_MAIN_BLOCK_COMMENT_Token = -1,
 	sm_MAIN_INCLUDE_Token = -1
 } sm_MAIN_ScToken;
 

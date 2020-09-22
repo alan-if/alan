@@ -1,4 +1,5 @@
-# Makefile for alan compiler
+# Makefile for alan compiler parse, scanner and lister
+#
 # This makefile is to ensure that all sources are up-to-date
 # It will generate parser, scanner, lister and version files
 # using tools only available on ThoNi's machines
@@ -20,12 +21,19 @@ EXTRAS = \
 TMSRCS = \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
-	smScanx.c smScSema.c\
+	smScanx.c smScSema.c \
 	lmList.c alanCommon.h
 
-IMPQ    = -sTMHOME\(\"$(TMHOME)\"\)
+IMPQ = -sTMHOME\(\"$(TMHOME)\"\)
 
-all : tm smScanx.c sysdep.h sysdep.c version.h alan.atg alan.g
+all : platform-check tmk smScanx.c sysdep.h sysdep.c version.h alan.atg alan.g
+
+.PHONY: platform-check
+platform-check:
+	@if [ "`uname -m`" != "i686" ] ; then \
+		echo "ERROR: ToolMaker only works on i686" ; \
+		exit 2 ; \
+	fi
 
 .PHONY: x
 x :
@@ -33,7 +41,7 @@ x :
 	@echo TMHOME=$(TMHOME)
 
 
-tm: .pmkstamp .smkstamp .lmkstamp alan.prod
+tmk: .pmkstamp .smkstamp .lmkstamp alan.prod
 	touch .tmstamp
 
 .lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
@@ -161,4 +169,3 @@ smScan.h smScSema.c:
 lmList.h lmList.c alanCommon.h:
 	-rm .lmkstamp
 	make -f Makefile.tm .lmkstamp
-

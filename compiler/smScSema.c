@@ -75,7 +75,7 @@ static char *open_import(smScContext this, char fnm[], Bool search) {
             else
                 return NULL;
         }
-        
+
     } else {
         if (!find_and_open_in_path_element(this, NULL, fnm))
             return NULL;              /* Return not found */
@@ -90,7 +90,7 @@ static void register_filename(smScContext this, char *prefix, char filename[]) {
         if (strlen(prefix) > 0 && prefix[strlen(prefix)-1] != '/')
             strcat(full_name, "/");
     }
-    strcat(full_name, filename);   
+    strcat(full_name, filename);
     this->fileName = newString(full_name);
     fileNames = concat(fileNames, this->fileName, STRING_LIST);
     free(full_name);
@@ -207,14 +207,14 @@ int smScAction(
   switch(smInternalCode) {
   case 146:		/* INTEGER*/ 
     {
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
+    smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
     
 }
     break;
 
   case 147:		/* IDENTIFIER*/ 
     {
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
+    smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
         if (currentCharSet != NATIVECHARSET)
           toNative(smToken->chars, smToken->chars, currentCharSet);
     
@@ -223,18 +223,18 @@ int smScAction(
 
   case 148:		/* IDENTIFIER*/ 
     {{
-	char *c;
+    char *c;
 
-	/* If terminated by \n illegal! */
-	if (smThis->smText[smThis->smLength-1] == '\n')
-	  lmLog(&smToken->srcp, 152, sevERR, "");
+    /* If terminated by \n illegal! */
+    if (smThis->smText[smThis->smLength-1] == '\n')
+      lmLog(&smToken->srcp, 152, sevERR, "");
 
-	smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
-	/* Replace any doubled quotes by single */
-	for (c = strchr(smToken->chars, '\''); c; c = strchr(c, '\'')) {
-	    strmov(c, &c[1]);
-	    c++;
-	}
+    smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
+    /* Replace any doubled quotes by single */
+    for (c = strchr(smToken->chars, '\''); c; c = strchr(c, '\'')) {
+        strmov(c, &c[1]);
+        c++;
+    }
     }
 }
     break;
@@ -251,22 +251,22 @@ int smScAction(
         toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1], currentCharSet);
 
       for (i = 1; i < smThis->smLength-1; i++) {
-	/* Write the character */
-	if (isspace(c = smThis->smText[i])) {
-	  if (!space) {		/* Are we looking at spaces? */
-	    /* No, so output a space and remember */
-	    putc(' ', txtfil);
-	    incFreq(' ');
-	    space = TRUE;
-	    len++;
-	  }
+    /* Write the character */
+    if (isspace(c = smThis->smText[i])) {
+      if (!space) {		/* Are we looking at spaces? */
+        /* No, so output a space and remember */
+        putc(' ', txtfil);
+        incFreq(' ');
+        space = TRUE;
+        len++;
+      }
         } else {
-	  putc(c, txtfil);
-	  incFreq(c);
-	  space = FALSE;
-	  len++;
-	  if (c == '"') i++;	/* skip second '"' */
-	}
+      putc(c, txtfil);
+      incFreq(c);
+      space = FALSE;
+      len++;
+      if (c == '"') i++;	/* skip second '"' */
+    }
       }
       smToken->len = len;
     
@@ -284,7 +284,7 @@ int smScAction(
         smScan(smThis, &token);		/* Get file name */
         smThis->smScanner = sm_MAIN_MAIN_Scanner;
         if (token.code == sm_MAIN_IDENTIFIER_Token) {
-	        /* Found an ID which is a file name */
+            /* Found an ID which is a file name */
 
             /* Skip all whitespace */
             do {
@@ -396,12 +396,40 @@ int smScAction(
 }
     break;
 
-  case 154:		/* INCLUDE*/ 
+  case 154:		/* BLOCK_COMMENT*/ 
+    {
+       int i;
+       int c;
+       do {
+          do {
+              i = smScSkip(smThis, 1);
+              c = smThis->smText[smThis->smLength-1];
+          } while (c != '\n' && i != 0);
+          for (int n=0; n<4; n++) {
+              i = smScSkip(smThis, 1);
+              c = smThis->smText[smThis->smLength-1];
+              if (c != '/')
+                 break;
+          }
+          if (c == '/') {
+              do {
+                  i = smScSkip(smThis, 1);
+                  c = smThis->smText[smThis->smLength-1];
+              } while (c == '/' && i != 0);
+              break;
+          } else
+              continue;
+       } while (1);
+    
+}
+    break;
+
+  case 155:		/* INCLUDE*/ 
     {
       Srcp srcp, start;
       Token token;
       int i;
-      char c;
+      int c;
 
       smThis->smScanner = sm_MAIN_FILENAME_Scanner;
       smToken->srcp.startpos = smThis->smPosition;
@@ -436,7 +464,7 @@ int smScAction(
 }
     break;
 
-  case 155:		/* IDENTIFIER*/ 
+  case 156:		/* IDENTIFIER*/ 
     {{
         smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     }
