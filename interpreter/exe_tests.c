@@ -7,7 +7,6 @@
 
 
 /* Mocked modules */
-#include "options.mock"
 #include "inter.mock"
 #include "output.mock"
 #include "compatibility.mock"

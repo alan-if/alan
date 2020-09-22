@@ -6,7 +6,6 @@
 #include "lists.h"
 
 /* Mocked modules */
-#include "options.mock"
 #include "inter.mock"
 #include "output.mock"
 #include "compatibility.mock"
@@ -29,7 +28,7 @@ static RuleEntry *setup_rules(int count) {
 
     initArray(rules);
     for (rule_no = 0; rule_no < count; rule_no++) {
-	    RuleEntry entry;
+        RuleEntry entry;
         entry.exp = 10*rule_no+1;
         entry.stms = 10*rule_no+2;
         addElement(rules, entry);
