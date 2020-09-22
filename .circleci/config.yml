@@ -19,6 +19,9 @@ jobs:
           name: Unittests
           command: make UNITOUTPUT="--xml TEST"
       - run:
+          name: Re-try cgreen run
+          command: cd interpreter; cgreen-runner --suite Interpreter --xml TEST .unittests/compatibility_tests.so .unittests/exe_tests.so .unittests/instance_tests.so .unittests/lists_tests.so .unittests/literal_tests.so .unittests/memory_tests.so .unittests/rules_tests.so .unittests/stack_tests.so .unittests/dictionary_tests.so
+      - run:
           name: Build
           command: make JREGROUTPUT=-xml
       - run:
