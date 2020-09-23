@@ -6,8 +6,6 @@ include ../mk/include_guard.mk
 # release process.
 #
 
-include ../mk/venum.mk
-
 # Is this actually true? Doesn't it depend on how we are building?
 # TODO: Consider "make cross" and that we currently are only building
 # native versions

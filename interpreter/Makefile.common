@@ -3,6 +3,8 @@ include ../mk/include_guard.mk
 #
 # Common rules for building Alan Interpreters
 
+include ../mk/venum.mk
+
 ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif

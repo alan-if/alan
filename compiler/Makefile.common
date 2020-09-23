@@ -3,6 +3,8 @@ include ../mk/include_guard.mk
 #
 # Common rules for alan compiler and variants
 
+include ../mk/venum.mk
+
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
   BUILDVERSION = -$(BUILDNUMBER)
