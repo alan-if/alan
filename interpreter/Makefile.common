@@ -143,7 +143,7 @@ cgreenrunnertests: unittests.$(SOEXTENSION)
 # be tested in total isolation (with everything else mocked away,
 # except some extra objects) using Cgreen
 
-ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep
+ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep set
 
 isolated_unittests: SUITE = Interpreter
 
