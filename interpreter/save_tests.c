@@ -1,6 +1,29 @@
 #include "cgreen/cgreen.h"
+#include "cgreen/mocks.h"
 
-#include "save.c"
+#include "save.h"
+
+#include "acode.h"
+
+#include "event.mock"
+#include "score.mock"
+#include "args.mock"
+#include "instance.mock"
+#include "output.mock"
+#include "current.mock"
+#include "syserr.mock"
+#include "readline.mock"
+#include "msg.mock"
+
+
+
+// Private types and functions visible just for testing
+typedef FILE *AFILE;
+extern void saveGame(AFILE saveFile);
+extern void restoreGame(AFILE saveFile);
+extern void saveScores(AFILE saveFile);
+extern void restoreScores(AFILE saveFile);
+
 
 
 Describe(Save);
@@ -111,7 +134,7 @@ Ensure(Save, canSaveStrings) {
   attributes[0].id = 0;
   attributes[1].code = EOF;
 
-  /* Fake admin areas for one instances */
+  /* Fake admin areas for one instance */
   admin = allocate(2*sizeof(AdminEntry));
   admin[1].attributes = &attributes[0];
 
@@ -122,6 +145,14 @@ Ensure(Save, canSaveStrings) {
   initEntry->instanceCode = 1;
   initEntry->attributeCode = 1;
   *((Aword *)&initEntry[1]) = EOF;
+
+  /* Expect some calls for saving... */
+  expect(getInstanceStringAttribute, will_return(testString));
+
+  /* Expect some calls for restoring... */
+  expect(setInstanceAttribute,
+         when(instance, is_equal_to(1)),
+         when(attribute, is_equal_to(1)));
 
   /* Save the game data */
   saveGame(saveFile);
@@ -195,6 +226,19 @@ Ensure(Save, canSaveSets) {
   initEntry[3].attributeCode = 4;
   *((Aword *)&initEntry[4]) = EOF;
 
+  /* Expect some get calls when saving... */
+  expect(getInstanceSetAttribute, will_return(testSet[0]));
+  expect(getInstanceSetAttribute, will_return(testSet[1]));
+  expect(getInstanceSetAttribute, will_return(testSet[2]));
+  expect(getInstanceSetAttribute, will_return(testSet[3]));
+
+  /* Expect some set calls when restoring... */
+  expect(setInstanceAttribute, when(instance, is_equal_to(1)), when(attribute, is_equal_to(1)));
+  expect(setInstanceAttribute, when(instance, is_equal_to(1)), when(attribute, is_equal_to(2)));
+  expect(setInstanceAttribute, when(instance, is_equal_to(1)), when(attribute, is_equal_to(3)));
+  expect(setInstanceAttribute, when(instance, is_equal_to(1)), when(attribute, is_equal_to(4)));
+
+
   /* Save the game data */
   saveGame(saveFile);
   fclose(saveFile);
@@ -208,6 +252,7 @@ Ensure(Save, canSaveSets) {
   fclose(saveFile);
   unlink(testFileName);
 
+  /* Don't need these because of the expect() */
   for (i = 0; i < 4; i++)
       assert_true(equalSets((Set *)fromAptr(admin[1].attributes[i].value), testSet[i]));
 }

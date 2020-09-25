@@ -97,13 +97,13 @@ static void saveCurrentValues(AFILE saveFile) {
 
 
 /*----------------------------------------------------------------------*/
-static void saveScores(AFILE saveFile) {
+protected void saveScores(AFILE saveFile) {
   fwrite((void *)scores, sizeof(Aword), header->scoreCount, saveFile);
 }
 
 
 /*----------------------------------------------------------------------*/
-static void saveGame(AFILE saveFile) {
+protected void saveGame(AFILE saveFile) {
   /* Save tag, version of interpreter, name and uid of game */
   saveGameInfo(saveFile);
 
@@ -213,7 +213,7 @@ static void restoreSets(AFILE saveFile) {
 
 
 /*----------------------------------------------------------------------*/
-static void restoreScores(AFILE saveFile) {
+protected void restoreScores(AFILE saveFile) {
   fread((void *)scores, sizeof(Aword), header->scoreCount, saveFile);
 }
 
@@ -296,7 +296,7 @@ static void verifySaveFile(AFILE saveFile) {
 
 
 /*----------------------------------------------------------------------*/
-static void restoreGame(AFILE saveFile)
+protected void restoreGame(AFILE saveFile)
 {
   if (saveFile == NULL) syserr("'restoreGame()' from a null fileref");
 

@@ -14,6 +14,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	lists \
 	literal \
 	memory \
+	save \
 	rules \
 	stack \
 	dictionary \
@@ -33,7 +34,6 @@ MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	params.c \
 	parse.c \
 	reverse.c \
-	save.c \
 	set.c \
 	stack.c \
 	state.c \
@@ -43,7 +43,7 @@ MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	word.c \
 
 # ... using a main program which requires remembering adding every test
-# manually in a collector function
+# manually in a collector function, good we don't have any
 MODULES_WITH_UNITTESTS_USING_MAIN = \
 
 MODULES_WITHOUT_UNITTESTS = \
@@ -65,6 +65,7 @@ MODULES_WITHOUT_UNITTESTS = \
 	options.c \
 	readline.c \
 	rules.c \
+	save.c \
 	scan.c \
 	score.c \
 	syntax.c \
