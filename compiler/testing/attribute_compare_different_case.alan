@@ -1,0 +1,6 @@
+The l Isa location
+  Has lowerattribute 1.
+End The l.
+
+Start At l.
+  Say lowerATTRIBUTE of l.
