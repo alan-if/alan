@@ -11,7 +11,6 @@
 #include "class.mock"
 #include "attribute.mock"
 #include "syserr.mock"
-#include "set.mock"
 #include "compatibility.mock"
 #include "current.mock"
 #include "location.mock"

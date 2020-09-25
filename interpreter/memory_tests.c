@@ -2,7 +2,10 @@
 
 #include "memory.h"
 
+/* Mocks */
 #include "syserr.mock"
+#include "instance.mock"
+
 
 Describe(Memory);
 BeforeEach(Memory) {}

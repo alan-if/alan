@@ -4,6 +4,8 @@
 #include "compatibility.h"
 
 #include "syserr.mock"
+#include "instance.mock"
+
 
 Describe(Compatibility);
 BeforeEach(Compatibility) {}

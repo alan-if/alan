@@ -16,6 +16,7 @@
 
 /* PREPROCESSOR */
 #define FORWARD
+#define protected
 #define NEW(type) ((type *)allocate(sizeof(type)))
 
 

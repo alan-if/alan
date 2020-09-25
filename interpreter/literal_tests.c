@@ -8,6 +8,8 @@
 
 /* Mocks */
 #include "syserr.mock"
+#include "instance.mock"
+
 
 Describe(Literal);
 

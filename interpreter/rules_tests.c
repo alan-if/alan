@@ -13,6 +13,8 @@
 #include "utils.mock"
 #include "current.mock"
 #include "syserr.mock"
+#include "instance.mock"
+
 
 static Aaddr address_to_rules;
 

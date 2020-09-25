@@ -4,6 +4,7 @@
 
 
 #include "syserr.mock"
+#include "instance.mock"
 
 
 Describe(Stack);

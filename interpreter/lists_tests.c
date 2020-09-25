@@ -5,6 +5,8 @@
 
 /* Required mocked modules */
 #include "syserr.mock"
+#include "instance.mock"
+
 
 Describe(Lists);
 
@@ -61,4 +63,3 @@ Ensure(Lists, can_add_one_element_of_size_five_to_empty_array) {
     assert_that(array[0].d, is_equal_to(77));
     assert_that(array[0].e, is_equal_to(78));
 }
-
