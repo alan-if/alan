@@ -36,3 +36,4 @@ void para(void) { mock(); }
 void clear(void) { mock(); }
 void printAndLog(char string[]) { mock(string); }
 void output(char string[]) { mock(string); }
+bool confirm(MsgKind msgno) { return (bool)mock(msgno); }

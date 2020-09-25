@@ -12,41 +12,41 @@ AttributeEntry *attributes; /* Dynamic attribute values */
 
 /* Functions: */
 bool isA(int instance, int class) { return (bool)mock(instance, class); }
-bool isAObject(int instance) { return (bool)mock(); }
-bool isAContainer(int instance) { return(bool)mock(); }
-bool isAActor(int instance) { return(bool)mock(); }
-bool isALocation(int instance) { return(bool)mock(); }
-bool isLiteral(int instance) { return(bool)mock(); }
-bool isANumeric(int instance) { return(bool)mock(); }
-bool isAString(int instance) { return(bool)mock(); }
+bool isAObject(int instance) { return (bool)mock(instance); }
+bool isAContainer(int instance) { return(bool)mock(instance); }
+bool isAActor(int instance) { return(bool)mock(instance); }
+bool isALocation(int instance) { return(bool)mock(instance); }
+bool isLiteral(int instance) { return(bool)mock(instance); }
+bool isANumeric(int instance) { return(bool)mock(instance); }
+bool isAString(int instance) { return(bool)mock(instance); }
 
-Aptr getInstanceAttribute(int instance, int attribute) { return (Aptr)mock(); }
-char *getInstanceStringAttribute(int instane, int attribute) { return (char *)mock(); }
-Set *getInstanceSetAttribute(int instance, int attribute) { return (Set *)mock(); }
+Aptr getInstanceAttribute(int instance, int attribute) { return (Aptr)mock(instance, attribute); }
+char *getInstanceStringAttribute(int instance, int attribute) { return (char *)mock(instance, attribute); }
+Set *getInstanceSetAttribute(int instance, int attribute) { return (Set *)mock(instance, attribute); }
 
-void setInstanceAttribute(int instance, int atr, Aptr value) { mock(); }
-void setInstanceStringAttribute(int instance, int attribute, char *string) { mock(); }
-void setInstanceSetAttribute(int instance, int atr, Aptr set) { mock(); }
+void setInstanceAttribute(int instance, int attribute, Aptr value) { mock(instance, attribute, value); }
+void setInstanceStringAttribute(int instance, int attribute, char *string) { mock(instance, attribute, string); }
+void setInstanceSetAttribute(int instance, int attribute, Aptr set) { mock(instance, attribute, set); }
 
-void say(int instance) { mock(); }
-void sayForm(int instance, SayForm form) { mock(); }
-void sayInstance(int instance) { mock(); }
+void say(int instance) { mock(instance); }
+void sayForm(int instance, SayForm form) { mock(instance, form); }
+void sayInstance(int instance) { mock(instance); }
 
-bool hasDescription(int instance) { return (bool)mock(); }
-bool isDescribable(int instance) { return (bool)mock(); }
-void describeAnything(int instance) { mock(); }
+bool hasDescription(int instance) { return (bool)mock(instance); }
+bool isDescribable(int instance) { return (bool)mock(instance); }
+void describeAnything(int instance) { mock(instance); }
 void describeInstances(void) { mock(); }
-bool describe(int instance) { return (bool)mock(); }
+bool describe(int instance) { return (bool)mock(instance); }
 
-int where(int instance, ATrans trans) { return (int)mock(); }
-int locationOf(int instance) { return (int)mock(); }
+int where(int instance, ATrans trans) { return (int)mock(instance, trans); }
+int locationOf(int instance) { return (int)mock(instance); }
 
-bool isAt(int instance, int other, ATrans trans) { return (bool)mock(); }
-bool isIn(int instance, int theContainer, ATrans trans) { return (bool)mock(); }
-bool isHere(int instance, ATrans trans) { return (bool)mock(); }
-bool isNearby(int instance, ATrans trans) { return (bool)mock(); }
-bool isNear(int instance, int other, ATrans trans) { return (bool)mock(); }
+bool isAt(int instance, int other, ATrans trans) { return (bool)mock(instance, other, trans); }
+bool isIn(int instance, int theContainer, ATrans trans) { return (bool)mock(instance, theContainer, trans); }
+bool isHere(int instance, ATrans trans) { return (bool)mock(instance, trans); }
+bool isNearby(int instance, ATrans trans) { return (bool)mock(instance, trans); }
+bool isNear(int instance, int other, ATrans trans) { return (bool)mock(instance, other, trans); }
 
-bool isOpaque(int container) { return (bool)mock(); }
+bool isOpaque(int container) { return (bool)mock(container); }
 
-void locate(int instance, int whr) { mock(); }
+void locate(int instance, int whr) { mock(instance, whr); }
