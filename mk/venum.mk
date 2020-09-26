@@ -13,7 +13,7 @@
 NEXTRELEASEFORMAT='$$v.$$r{s$$s|}$$c'
 VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
 
-alan.version.c: $(VERSIONSRCS) ../alan.version.c
+alan.version.c: ../alan.version.c
 	cp ../alan.version.c .
 
 alan.version.h : ../alan.version.h
@@ -27,10 +27,9 @@ version.h : ../version.h
 # Make considers alan.version to be one of those obviously
 %.version :
 
-../alan.version.c ../alan.version.h ../version.h: ../alan.version
-ifneq ($(shell command -v venum > /dev/null 2>&1),)
-	@echo \"$(shell command -v venum > /dev/null 2>&1)\"
-	# If venum exists on this platform we can use it to generate timestamps
+../alan.version.c ../alan.version.h ../version.h ../alan.version : $(VERSIONSRCS)
+ifneq ($(shell which venum), )
+	# Use venum to generate timestamps
 	cd ..; venum alan time
 	cd ..; venum alan -print $(NEXTRELEASEFORMAT) > NEXTRELEASE
 	cp ../alan.version.c .
