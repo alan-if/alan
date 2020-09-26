@@ -1,63 +1,41 @@
-# Makefile for alan compiler parse, scanner and lister
+# Makefile for alan compiler parser, scanner and lister
 #
 # This makefile is to ensure that all sources are up-to-date
 # It will generate parser, scanner, lister and version files
-# using tools only available on ThoNi's machines
+# only if ToolMaker (tmk, pmk, smk and lmk) are available.
 # Any source distribution should be complete with respect to these
-# files and this Makefile can be ignored.
+# files and this Makefile should then not be needed.
 #
-# REMEMBER: You have to set both the Path to include the ToolMaker
-# directory and the TMHOME environment variable to point there!
+# REMEMBER: You have to set both the path to include the ToolMaker
+# bin directory and the TMHOME environment variable to point there!
 
 TMHOME	= $(HOME)/Utveckling/ToolMaker
 TMLIB	= $(TMHOME)/lib/ansi-c
 
-EXTRAS = \
-	alan.tmk \
-	alan.lmk \
-	alan.smk \
-	alan.pmk
-
-TMSRCS = \
-	pmParse.c pmPaSema.c \
-	pmErr.c \
-	smScanx.c smScSema.c \
-	lmList.c alanCommon.h
-
-IMPQ = -sTMHOME\(\"$(TMHOME)\"\)
-
-all : platform-check tmk smScanx.c sysdep.h sysdep.c version.h alan.atg alan.g
-
-.PHONY: platform-check
-platform-check:
-	@if [ "`uname -m`" != "i686" ] ; then \
-		echo "ERROR: ToolMaker only works on i686" ; \
-		exit 2 ; \
-	fi
-
-.PHONY: x
-x :
-	@echo TMLIB=$(TMLIB)
-	@echo TMHOME=$(TMHOME)
-
-
-tmk: .pmkstamp .smkstamp .lmkstamp alan.prod
+tmk: .pmkstamp .smkstamp .lmkstamp alan.atg alan.g
 	touch .tmstamp
 
 .lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
-	lmk $(LMKQ) -generate tables alan
-	imp $(IMPQ) alan.lmt
+ifneq ($(shell which lmk), )
+	lmk -generate tables alan
+	imp alan.lmt
+else
+	@echo WARNING! ToolMaker (lmk) not available, not re-generating, using current lmList.c
+endif
 	touch .lmkstamp
 
 .pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
-	pmk $(PMKQ) -generate tables alan
-	sed -e "s/%%SET currentOs(\"WIN32\")/%%SET currentOs(\"cygwin\")/" alan.pmt > alan.pmt2
-	imp $(IMPQ) alan.pmt2
+ifneq ($(shell which pmk), )
+	pmk -generate tables alan
+	sed -f prod.sed alan.pml > alan.prod
+else
+	@echo WARNING! ToolMaker (pmk) not available, not re-generating, using current pmParse.c, pmPaSema.c pmErr.c
+endif
 	touch .pmkstamp
 
-alan.prod : prod.sed alan.pml
-	sed -f prod.sed alan.pml > alan.prod
-
+# Here we try to create CoCo and ANTLR grammars from the ToolMaker output
+# in case we need to port or there is a editor that might need it for
+# syntax highlighting or something...
 alan.atg : coco.sed coco.header alan.prod
 	cp coco.header alan.atg
 	sed -f coco.sed alan.prod >> alan.atg
@@ -66,10 +44,15 @@ alan.g : antlr.sed antlr.header alan.prod
 	cp antlr.header alan.g
 	sed -f antlr.sed alan.prod >> alan.g
 
+######################################################################
+#
+# Scanner - complex scripting to create a scanner that can use different
+#           character sets
+#
 .smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
+ifneq ($(shell which smk), )
 	smk alan -generate tables
-	sed -e "s/%%SET currentOs(\"WIN32\")/%%SET currentOs(\"cygwin\")/" alan.smt > alan.smt2
-	imp $(IMPQ) alan.smt2
+	imp $(IMPQ) alan.smt
 	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
 	echo "/* ISO scanner tables */" > smScan.iso.new
 	echo "UByte1 smIsoMap[256]={" >> smScan.iso.new
@@ -154,18 +137,32 @@ alan.g : antlr.sed antlr.header alan.prod
 	cat smScan.tail >> smScanx.c
 	dos2unix smScanx.c
 	dos2unix smScSema.c
+else
+	@echo WARNING! ToolMaker (smk) not available, not re-generating, using current smScan.c and smScSema.c
+endif
 	touch .smkstamp
 
-smScanx.c : .smkstamp
+######################################################################
+#
+# Create initial files if missing for scanner, parser and lister
+#
+smScan.h smScSema.c:
+	-rm .smkstamp
+	make -f Makefile.tm .smkstamp
 
 pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
 	-rm .pmkstamp
 	make -f Makefile.tm .pmkstamp
 
-smScan.h smScSema.c:
-	-rm .smkstamp
-	make -f Makefile.tm .smkstamp
-
 lmList.h lmList.c alanCommon.h:
 	-rm .lmkstamp
 	make -f Makefile.tm .lmkstamp
+
+######################################################################
+#
+# Debugging
+#
+.PHONY: x
+x :
+	@echo TMLIB=$(TMLIB)
+	@echo TMHOME=$(TMHOME)

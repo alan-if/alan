@@ -1386,18 +1386,18 @@ int smScan(
       at=(smThis->smContinue);
       state=smScanner[smThis->smScanner];
       for (;;) {
-	if(at==end) {
-	  int mod;
-	  
-	  if(state>=495) state-=495+1;
-	  smThis->smContinue=end;
-	  mod=smReadBuffer(smThis);
-	  if(mod<0) return mod;
-	  rew_at-=end-smThis->smContinue;
-	  at=smThis->smContinue;
-	  end=smThis->smEnd;
-          if(at==end) 
-	    break;
+    if(at==end) {
+      int mod;
+
+      if(state>=495) state-=495+1;
+      smThis->smContinue=end;
+      mod=smReadBuffer(smThis);
+      if(mod<0) return mod;
+      rew_at-=end-smThis->smContinue;
+      at=smThis->smContinue;
+      end=smThis->smEnd;
+          if(at==end)
+        break;
         }
       ch = *at++;
 {
@@ -1408,7 +1408,7 @@ int smScan(
   
   smERRindex=smDFAerrRow[state]*21+smDFAerrCol[ch];
   
-  if(smDFAerr[smERRindex>>3] & (0x80>>(smERRindex&0x7))) 
+  if(smDFAerr[smERRindex>>3] & (0x80>>(smERRindex&0x7)))
     state=495;
   else {
   
@@ -1423,11 +1423,11 @@ int smScan(
   
   }
 }
-	  if(state>=495) break;
-	  if(smAccept[state]>0) {
-	    rew_state=state;
-	    rew_at=at;
-	  }
+      if(state>=495) break;
+      if(smAccept[state]>0) {
+        rew_state=state;
+        rew_at=at;
+      }
       }
       if(rew_state==495) {
         if(rew_at>end) {

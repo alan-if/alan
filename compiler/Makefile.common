@@ -4,6 +4,7 @@ include ../mk/include_guard.mk
 # Common rules for alan compiler and variants
 
 include ../mk/venum.mk
+include Makefile.tm
 
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
@@ -28,7 +29,7 @@ $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
 alan: CFLAGS += $(COVERAGE)
-alan: $(ALANOBJECTS) | ../bin
+alan: $(ALANOBJECTS) | tmk ../bin
 	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
 
