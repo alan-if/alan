@@ -27,7 +27,7 @@ version.h : ../version.h
 # Make considers alan.version to be one of those obviously
 %.version :
 
-../alan.version.c ../alan.version.h ../version.h ../alan.version : $(VERSIONSRCS)
+../alan.version.c ../alan.version : $(VERSIONSRCS)
 ifneq ($(shell which venum 2>/dev/null), )
 	# Use venum to generate timestamps
 	cd ..; venum alan time
