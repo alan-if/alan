@@ -28,13 +28,13 @@ version.h : ../version.h
 %.version :
 
 ../alan.version.c ../alan.version.h ../version.h ../alan.version : $(VERSIONSRCS)
-ifneq ($(shell which venum), )
+ifneq ($(shell which venum 2>/dev/null), )
 	# Use venum to generate timestamps
 	cd ..; venum alan time
 	cd ..; venum alan -print $(NEXTRELEASEFORMAT) > NEXTRELEASE
 	cp ../alan.version.c .
 else
-	@echo WARNING! Venum is not available, using current timestamps
+	@echo "WARNING! Venum is not available, using current timestamps"
 	cp ../alan.version.c .
 endif
 
