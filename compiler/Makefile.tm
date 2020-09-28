@@ -15,20 +15,22 @@ TMLIB	= $(TMHOME)/lib/ansi-c
 tmk: .pmkstamp .smkstamp .lmkstamp alan.atg alan.g
 	touch .tmstamp
 
-.lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 ifneq ($(shell which lmk 2>/dev/null), )
+.lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk -generate tables alan
 	imp alan.lmt
 else
+.lmkstamp:
 	@echo "WARNING! ToolMaker (lmk) not available, not re-generating, using current lmList.c"
 endif
 	touch .lmkstamp
 
-.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 ifneq ($(shell which pmk 2>/dev/null), )
+.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	pmk -generate tables alan
 	sed -f prod.sed alan.pml > alan.prod
 else
+.pmkstamp:
 	@echo "WARNING! ToolMaker (pmk) not available, not re-generating, using current pmParse.c, pmPaSema.c pmErr.c"
 endif
 	touch .pmkstamp
@@ -49,8 +51,8 @@ alan.g : antlr.sed antlr.header alan.prod
 # Scanner - complex scripting to create a scanner that can use different
 #           character sets
 #
-.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 ifneq ($(shell which smk 2>/dev/null), )
+.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan -generate tables
 	imp $(IMPQ) alan.smt
 	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
@@ -138,6 +140,7 @@ ifneq ($(shell which smk 2>/dev/null), )
 	dos2unix smScanx.c
 	dos2unix smScSema.c
 else
+.smkstamp:
 	@echo "WARNING! ToolMaker (smk) not available, not re-generating, using current smScan.c and smScSema.c"
 endif
 	touch .smkstamp
