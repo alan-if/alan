@@ -28,6 +28,7 @@ endif
 ifneq ($(shell which pmk 2>/dev/null), )
 .pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	pmk -generate tables alan
+	imp alan.pmt
 	sed -f prod.sed alan.pml > alan.prod
 else
 .pmkstamp:
