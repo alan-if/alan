@@ -1,0 +1,12 @@
+root = true
+
+# Common settings for all Alan files
+[*.{alan,i,a3sol,a3log}]
+indent_style = space
+indent_size = 2
+charset = latin1
+
+# Additional settings for non-generated Alan files
+[*.{alan,i,a3sol}]
+trim_trailing_whitespace = true
+insert_final_newline = true
