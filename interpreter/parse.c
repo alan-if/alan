@@ -102,6 +102,7 @@ static bool endOfWords(int wordIndex) {
 
 /*----------------------------------------------------------------------*/
 static void handleDirectionalCommand() {
+    verbWord = playerWords[currentWordIndex].code;
     currentWordIndex++;
     if (!endOfWords(currentWordIndex) && !isConjunctionWord(currentWordIndex))
         error(M_WHAT);

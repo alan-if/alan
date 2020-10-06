@@ -1,0 +1,7 @@
+The l Isa location
+    Exit v to l Does
+      "Direction you walked was $v."
+    End Exit.
+End The l.
+
+Start At l.
