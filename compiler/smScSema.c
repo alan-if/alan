@@ -347,7 +347,7 @@ int smScAction(
 }
     break;
 
-  case  20:		/* 'it'*/ 
+  case  21:		/* 'it'*/ 
     {
         smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, smThis->smLength)] = '\0';
     

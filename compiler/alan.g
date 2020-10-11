@@ -31,6 +31,7 @@ options : option
            ;
 
 option : ID '.' 
+       | 'no' ID '.' 
        | ID ID '.' 
        | ID INTEGER '.' 
           ;

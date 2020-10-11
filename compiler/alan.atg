@@ -48,6 +48,7 @@ PRODUCTIONS
           .
 
  option = ID "." 
+        | "no" ID "." 
         | ID ID "." 
         | ID Integer "." 
          .

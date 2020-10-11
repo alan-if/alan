@@ -225,6 +225,11 @@ static int val(char str[])
         optBool(%ID.id->string, `&%ID.id->srcp, TRUE);
     %%
 
+    ! 'no' ID '.'
+    %%
+        optBool(%ID.id->string, `&%ID.id->srcp, FALSE);
+    %%
+
     ! ID ID '.'
     %%
         optenum(%ID.id->string, `&%ID.id->srcp, %2ID.id->string);
