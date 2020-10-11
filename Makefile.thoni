@@ -54,6 +54,7 @@ snapshot-upload: buildnumbers
 	alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)
 	alanupload winarun$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)
 	#ssh alanif.se ls -td /www/downloads/snapshots/Build* | tail -1 | xargs ssh alanif.se rm -r
+	# Use lftp scripting instead? - lftp sftp:alanif.se
 
 .PHONY: release-upload
 release-upload:
