@@ -7,6 +7,8 @@ else
 UNITOUTPUT ?= -c
 endif
 
+VERSION = `venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
+
 # PLATFORM will be part of package names
 PLATFORM ?= "Make variable PLATFORM needs to be set by platform specific Makefile"
 
@@ -88,7 +90,6 @@ endif
 ifeq ($(shell uname -n), thoni64)
 -include Makefile.thoni
 endif
-
 
 # For debugging
 .PHONY: v
