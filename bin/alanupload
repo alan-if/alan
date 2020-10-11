@@ -14,5 +14,5 @@ EOF
 fi
 sftp alanif.se <<EOF
 mkdir /www/downloads/$2
-put $1 "alanif.se:/www/downloads/$2/`basename $1`"
+put $1 "/www/downloads/$2/`basename $1`"
 EOF
