@@ -50,9 +50,6 @@ endif
 
 .PHONY: snapshot-upload
 snapshot-upload: buildnumbers
-	sftp alanif.se <<EOF \
-	mkdir /www/downloads/snapshots/$(BUILDNAME) \
-	EOF
 	alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip snapshots/$(BUILDNAME)/
 	alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)/
 	alanupload winarun$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)/
