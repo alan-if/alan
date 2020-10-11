@@ -9,6 +9,7 @@ if [ $# != 2 ] ; then
     you can use "ssh alanif.se" to log in to alanif.se without using a user or
     password. One way to do that is to ssh-copy-id to set up your remote
     ~/.ssh/authorized_keys
+EOF
   exit 1
 fi
 sftp alanif.se <<EOF
