@@ -251,7 +251,8 @@ static void analyzePrint(Statement *stm, Context *context)
                     i++;
                     if (isdigit((int)buffer[i]))
                         parameter = buffer[i] - '0';
-                }
+                } else if (buffer[i] == 'o')
+                    parameter = 1;
             } else
                 parameter = buffer[i] - '0';
             if (parameter != 0)

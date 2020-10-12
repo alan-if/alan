@@ -1,7 +1,7 @@
 The l Isa location
     Exit w To l Does
       "We can'print a parameter like $1."
-      "But should also not allow $0."
+      "But should also not allow $o."
     End Exit.
 End The l.
 
