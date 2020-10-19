@@ -11,7 +11,7 @@ ifneq ($(BUILDNUMBER),)
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
-CFLAGS += -g -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
+CFLAGS += -g -Og -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
