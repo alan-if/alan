@@ -80,7 +80,7 @@ static char *randomUUID(void)
 {
   char buffer[16];
   int b, s;
-  static char string[46];	/* 32 hexdigits, 4 dashes, 9 "UUID:////"
+  static char string[100];	/* 32 hexdigits, 4 dashes, 9 "UUID:////"
                    00112233-4455-6677-8899-aabbccddeeff */
   int i, j;
 
