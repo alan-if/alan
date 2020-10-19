@@ -140,7 +140,7 @@ char *fileName(int fileNo) {
     if (fileNo == -1)
         fnm = &nofile;
     else
-        for (fnm = fileNames, j = 0; j<fileNo-1; j++)
+        for (fnm = fileNames, j = 0; j<fileNo; j++)
             if (fnm != NULL) {
                 fnm = fnm->next;
             }

@@ -39,10 +39,10 @@ Ensure(Utilities, strmov_can_move_string_of_many) {
 
 Ensure(Utilities, can_find_third_filename) {
     List *fnm;
-    fnm = concat(NULL, "file1", STRING_LIST);
+    fnm = concat(NULL, "file0", STRING_LIST);
+    fnm = concat(fnm, "file1", STRING_LIST);
     fnm = concat(fnm, "file2", STRING_LIST);
     fnm = concat(fnm, "file3", STRING_LIST);
-    fnm = concat(fnm, "file4", STRING_LIST);
 
     fileNames = fnm;
 
