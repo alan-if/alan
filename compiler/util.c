@@ -285,7 +285,7 @@ void syserr(char *errorMessage, Srcp srcp, const char *function, char *file, int
   } else {
     messageLength = strlen(errorMessage) + strlen(function) + strlen(file) + strlen(" in '()', :00000");
 
-    messageString = allocate(messageLength+1);
+    messageString = allocate(messageLength+100); /* We also add srcp-string... */
     sprintf(messageString, "%s in '%s()', %s:%d%s", errorMessage, function, file, line, srcpToString(srcp));
 
     lmLog(&nulsrcp, 997, sevSYS, messageString);
