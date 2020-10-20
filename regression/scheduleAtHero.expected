@@ -1,0 +1,21 @@
+########## scheduleAtHero ##########
+
+        No warnings or errors detected.
+
+
+
+L1
+L1 is not evented. Event atLocation does not seem to have executed (yet).
+
+> w
+L2
+Event atHero executed.
+
+> w
+L1
+L1 is evented, which means that event atLocation executed at the location
+the hero was at the scheduling.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

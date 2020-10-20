@@ -1,0 +1,30 @@
+The l1 Isa location
+  Is not evented.
+  Description
+    If l1 Is evented Then
+      "l1 is evented, which means that event atLocation executed
+       at the location the hero was at the scheduling."
+    Else
+      "l1 is not evented. Event atLocation does not seem to have
+       executed (yet)."
+    End If.
+  Exit w To l2.
+End The l1.
+
+The l2 Isa location
+  Exit w To l1.
+End The l2.
+
+Event atHero
+  "Event atHero executed."
+End Event.
+
+Event atLocation
+  "Event atLocation executed."
+  Make l1 evented.
+End Event.
+
+Start At l1.
+  Schedule atHero At hero After 1.
+  Schedule atLocation At location Of hero After 1.
+  

@@ -519,7 +519,9 @@ static void analyzeSchedule(Statement *stm, Context *context)
         whr->kind = WHERE_HERE;
         break;
     case WHERE_HERE:
+        break;
     case WHERE_AT:
+        analyzeWhere(whr, context);
         break;
     case WHERE_IN:
     case WHERE_NEAR:
@@ -1122,7 +1124,7 @@ static void generateSchedule(Statement *stm)
         break;
 
     case WHERE_AT:
-        generateWhat(stm->fields.schedule.whr->what->fields.wht.wht, INSTANCE_TYPE);
+        generateExpression(stm->fields.schedule.whr->what);
         break;
 
     default:
