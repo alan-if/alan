@@ -1,0 +1,10 @@
+The l Isa location
+End The l.
+
+Event e
+  ""
+End Event.
+
+Start At l.
+  Schedule e At location Of hero After 0.
+  
