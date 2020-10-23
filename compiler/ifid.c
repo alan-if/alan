@@ -135,7 +135,7 @@ static char *readOrCreateIFID(void)
   strcat(ifidfnm, ".ifid");
 
   if ((ifidFile = fopen(ifidfnm, "r")) != NULL)
-    fread(buffer, 45, 1, ifidFile);
+      (void)!fread(buffer, 45, 1, ifidFile);
   else
     buffer[0] = '\0';
   if (!isValidUUID(buffer)) {

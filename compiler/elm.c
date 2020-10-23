@@ -346,13 +346,13 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
 
     */
     List *elms = elementLists;
-    List *partition;                   /* The current partion */
+    List *partition;            /* The current partion */
     Aaddr elmadr;
-    List *entries = NULL;         /* List of next level entries */
-    ElementEntry *entry;		/* One entry in the list */
+    List *entries = NULL;       /* List of next level entries */
+    ElementEntry *entry = NULL; /* One entry in the list */
 
     if (elms == NULL)
-        return 0;			/* End of chain */
+        return 0;               /* End of chain */
 
     progressCounter();
 

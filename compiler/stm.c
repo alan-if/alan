@@ -239,7 +239,7 @@ static void analyzePrint(Statement *stm, Context *context)
         lmLog(&stm->srcp, 444, sevERR, "Rules");
 
     fseek(txtfil, stm->fields.print.fpos, SEEK_SET);
-    fread(buffer, 1, stm->fields.print.len, txtfil);
+    (void)!fread(buffer, 1, stm->fields.print.len, txtfil);
     fseek(txtfil, 0, SEEK_END);
 
     for (i = 0; i < stm->fields.print.len-1; i++) {

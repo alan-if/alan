@@ -38,7 +38,7 @@ Aword convertFromACD(Aword w)
     else
         for (i = 0; i < sizeof(Aword); i++)
             sp[i] = wp[i];
-  
+
     return s;
 }
 
@@ -92,6 +92,6 @@ void loadACD(char fileName[])
     memory = calloc(4*temporaryHeader.size, 1);
 
     rewind(acdFile);
-    fread(memory, sizeof(Aword), temporaryHeader.size, acdFile);
+    (void)!fread(memory, sizeof(Aword), temporaryHeader.size, acdFile);
 
 }

@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-			       resource.c
-			   Resource Handling
+                   resource.c
+               Resource Handling
 
 \*----------------------------------------------------------------------*/
 
@@ -63,7 +63,7 @@ Resource *newResource(Srcp srcp, Id *fileName) {
 int resourceNameComparer(List *element1, List *element2)
 {
   return strcmp(element1->member.resource->fileName->string,
-		element2->member.resource->fileName->string);
+        element2->member.resource->fileName->string);
 }
 
 
@@ -91,7 +91,7 @@ void analyzeResource(Resource *resource) {
 
   if (extension != NULL)
     if (strcasecmp(extension, ".jpg") == 0 ||
-	strcasecmp(extension, ".jpeg") == 0) {
+    strcasecmp(extension, ".jpeg") == 0) {
       resource->kind = PICT_RESOURCE;
       resource->chunk = JPEG_CHUNK;
     } else if (strcasecmp(extension, ".png") == 0) {
@@ -101,7 +101,7 @@ void analyzeResource(Resource *resource) {
       resource->kind = SND_RESOURCE;
       resource->chunk = MOD_CHUNK;
     } else if (strcasecmp(extension, ".aif") == 0 ||
-	       strcasecmp(extension, ".aiff") == 0) {
+           strcasecmp(extension, ".aiff") == 0) {
       resource->kind = SND_RESOURCE;
       resource->chunk = FORM_CHUNK;
     } else
@@ -179,7 +179,7 @@ static void copyResources(List *resourceList)
     copyResourceFile(prefix, fileName->string, fileName->code);
     currentResourceName = currentResource->element.resource->fileName->string;
     while (currentResource->next != NULL
-	   && resourceNameComparer(currentResource, currentResource->next) == 0)
+       && resourceNameComparer(currentResource, currentResource->next) == 0)
       currentResource = currentResource->next;
   }
 }
@@ -205,9 +205,9 @@ static void generateBlcFile(FILE *blcFile, List *resourceList)
     Resource *resource = currentResource->member.resource;
     Id *fileName = resource->fileName;
     fprintf(blcFile, "%s %d %s %s\n", resourceKindAsString(resource->kind),
-	    fileName->code, chunkTypeAsString(resource->chunk), fileName->string);
+        fileName->code, chunkTypeAsString(resource->chunk), fileName->string);
     while (currentResource->next != NULL
-	   && resourceNameComparer(currentResource, currentResource->next) == 0)
+       && resourceNameComparer(currentResource, currentResource->next) == 0)
       /* Ignore copies */
       currentResource = currentResource->next;
   }
@@ -390,10 +390,16 @@ struct Chunk *readChunk(FILE *f)
   /* Malloc ourselves a new chunk */
   struct Chunk *chunk=(struct Chunk *)my_malloc(sizeof(struct Chunk));
   char *buffer=NULL; int buflen=0; int current=0; int c;
+
   /* Read in the BLC line */
-  fscanf(f,"%s %d %s ",chunk->use,&(chunk->resourceNumber),chunk->type);
+  int items_read = fscanf(f,"%s %d %s ",chunk->use,&(chunk->resourceNumber),chunk->type);
+
   // Abort if anything went wrong
-  if (feof(f)){ free (chunk); return NULL; }
+  if (items_read != 3 || feof(f)) {
+      free (chunk);
+      return NULL;
+  }
+
   // Read in the rest of the line to the buffer
   while(1){
     c=fgetc(f);

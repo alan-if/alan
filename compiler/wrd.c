@@ -53,16 +53,17 @@ Word *findWord(char *str)	/* IN - The string */
 
 /*----------------------------------------------------------------------*/
 static void insertWord(Word *new) {
-    Word *wrd;			/* Traversal pointer */
-    int comparison;		/* Comparison result */
+    Word *wrd;                  /* Traversal pointer */
+    int comparison = 0;         /* Comparison result */
     Word *lastWordFound;		/* The last word found */
 
     if (wordTree == NULL)
         wordTree = new;
     else {
         wrd = wordTree;
+        lastWordFound = wrd;    /* Set last word found */
         while (wrd != NULL) {
-            lastWordFound = wrd;			/* Set last word found */
+            lastWordFound = wrd; /* Set last word found */
             comparison = compareStrings(new->string, lastWordFound->string);
             if (comparison < 0)
                 wrd = lastWordFound->low;

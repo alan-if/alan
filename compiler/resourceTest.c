@@ -25,10 +25,10 @@ Ensure(Resource, testNumberImages) {
   List e[5];
   int j;
   Id *i[5] = {NULL,
-		  newId(nulsrcp, "a"),
-		  newId(nulsrcp, "b"),
-		  newId(nulsrcp, "b"),
-		  newId(nulsrcp, "c")
+          newId(nulsrcp, "a"),
+          newId(nulsrcp, "b"),
+          newId(nulsrcp, "b"),
+          newId(nulsrcp, "c")
   };
   List *resources;
 
@@ -103,7 +103,7 @@ Ensure(Resource, testGenerateBlcFile) {
     char fileName[100];
     char chunk[10];
     blcFile = fopen(blcFileName, "r");
-    fscanf(blcFile, "%s%d%s%s", type, &number, chunk, fileName);
+    (void)!fscanf(blcFile, "%s%d%s%s", type, &number, chunk, fileName);
     assert_true(strcmp(type, "Pict") == 0);
     assert_true(strcmp(chunk, "JPEG") == 0);
     assert_true(number == 1);
@@ -146,7 +146,7 @@ Ensure(Resource, testAnalyzeResource) {
 
 TestSuite *resourceTests()
 {
-    TestSuite *suite = create_test_suite(); 
+    TestSuite *suite = create_test_suite();
 
     add_test_with_context(suite, Resource, testNumberImages);
     add_test_with_context(suite, Resource, testAnalyzeResource);
