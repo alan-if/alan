@@ -32,7 +32,7 @@ static Aword *allocate_memory(size_t instance_count) {
         (class_count+1)*sizeof(ClassEntry) +
         (instance_count+1)*sizeof(InstanceEntry) +
         (instance_count+1)*sizeof(AdminEntry);
-    return (Aword *)allocate(total_size);
+    return (Aword *)allocate(total_size*sizeof(Aword));
 }
 
 static void setup_memory(size_t instance_count) {
@@ -45,7 +45,9 @@ static void setup_memory(size_t instance_count) {
     header->objectClassId = 3;
     header->locationClassId = 4;
     header->actorClassId = 5;
-    classes = (ClassEntry*)memory + sizeof(ACodeHeader)/sizeof(Aword);
+
+    int classes_start = sizeof(ACodeHeader)/sizeof(Aword);
+    classes = (ClassEntry*)&memory[classes_start];
     classes[header->entityClassId].parent = 0;
     classes[header->thingClassId].parent = header->entityClassId;
     classes[header->objectClassId].parent = header->thingClassId;
@@ -53,8 +55,12 @@ static void setup_memory(size_t instance_count) {
     classes[header->actorClassId].parent = header->entityClassId;
 
     header->instanceMax = instance_count;
-    admin = (AdminEntry*)classes + (class_count+1)*sizeof(ClassEntry);
-    instances = (InstanceEntry*)admin + (instance_count+1)*sizeof(AdminEntry);
+
+    int admin_start = classes_start + (class_count+1)*sizeof(ClassEntry)/sizeof(Aword);
+    admin = (AdminEntry*)&memory[admin_start];
+
+    int instances_start = admin_start + (instance_count+1)*sizeof(AdminEntry)/sizeof(Aword);
+    instances = (InstanceEntry*)&memory[instances_start];
 }
 
 
