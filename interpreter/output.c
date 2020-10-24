@@ -428,6 +428,9 @@ void output(char original[])
     char *str, *copy;
     char *symptr;
 
+    if (strlen(original) == 0)
+        return;
+
     copy = strdup(original);
     str = copy;
 
