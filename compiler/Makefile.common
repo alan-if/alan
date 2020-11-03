@@ -29,7 +29,7 @@ $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
 alan: CFLAGS += $(COVERAGE)
-alan: $(ALANOBJECTS) | tmk ../bin
+alan: $(ALANOBJECTS) | ../bin
 	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
 

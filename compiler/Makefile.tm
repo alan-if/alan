@@ -1,10 +1,10 @@
 # Makefile for alan compiler parser, scanner and lister
 #
-# This makefile is to ensure that all sources are up-to-date
-# It will generate parser, scanner, lister and version files
-# only if ToolMaker (tmk, pmk, smk and lmk) are available.
-# Any source distribution should be complete with respect to these
-# files and this Makefile should then not be needed.
+# This makefile is to ensure that all generated sources are
+# up-to-date. It will generate parser, scanner and lister files only
+# if ToolMaker (tmk, pmk, smk and lmk) are available.  Any source
+# distribution should include the resulting files and this Makefile
+# will then print warnings but it should build anyway.
 #
 # REMEMBER: You have to set both the path to include the ToolMaker
 # bin directory and the TMHOME environment variable to point there!
@@ -12,29 +12,30 @@
 TMHOME	= $(HOME)/Utveckling/ToolMaker
 TMLIB	= $(TMHOME)/lib/ansi-c
 
-tmk: .pmkstamp .smkstamp .lmkstamp alan.atg alan.g
-	touch .tmstamp
+
+# Make all LMK output files dependent on lmList.c
+lmList.h: lmList.c
 
 ifneq ($(shell which lmk 2>/dev/null), )
-.lmkstamp: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
-	lmk -generate tables alan
-	imp alan.lmt
+lmList.c: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
+	lmk alan
 else
-.lmkstamp:
+lmList.c: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	@echo "WARNING! ToolMaker (lmk) not available, not re-generating, using current lmList.c"
 endif
-	touch .lmkstamp
+
+
+# Make all PMK output files dependent on pmParse.c
+pmParse.h pmPaSema.c pmErr.c pmErr.h alan.voc alan.pml: pmParse.c
 
 ifneq ($(shell which pmk 2>/dev/null), )
-.pmkstamp: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
-	pmk -generate tables alan
-	imp alan.pmt
+pmParse.c: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
+	pmk alan
 	sed -f prod.sed alan.pml > alan.prod
 else
-.pmkstamp:
+pmParse.c: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	@echo "WARNING! ToolMaker (pmk) not available, not re-generating, using current pmParse.c, pmPaSema.c pmErr.c"
 endif
-	touch .pmkstamp
 
 # Here we try to create CoCo and ANTLR grammars from the ToolMaker output
 # in case we need to port or there is a editor that might need it for
@@ -52,8 +53,12 @@ alan.g : antlr.sed antlr.header alan.prod
 # Scanner - complex scripting to create a scanner that can use different
 #           character sets
 #
+
+# Make all SMK output files dependent on smScanx.c
+smScSema.c smScan.h: smScanx.c
+
 ifneq ($(shell which smk 2>/dev/null), )
-.smkstamp : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
+smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan -generate tables
 	imp $(IMPQ) alan.smt
 	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
@@ -141,26 +146,10 @@ ifneq ($(shell which smk 2>/dev/null), )
 	dos2unix smScanx.c
 	dos2unix smScSema.c
 else
-.smkstamp:
+smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	@echo "WARNING! ToolMaker (smk) not available, not re-generating, using current smScan.c and smScSema.c"
 endif
-	touch .smkstamp
 
-######################################################################
-#
-# Create initial files if missing for scanner, parser and lister
-#
-smScan.h smScSema.c:
-	-rm .smkstamp
-	make -f Makefile.tm .smkstamp
-
-pmParse.h pmParse.c pmPaSema.c pmErr.c alan.voc alan.pml:
-	-rm .pmkstamp
-	make -f Makefile.tm .pmkstamp
-
-lmList.h lmList.c alanCommon.h:
-	-rm .lmkstamp
-	make -f Makefile.tm .lmkstamp
 
 ######################################################################
 #
