@@ -9,6 +9,6 @@ bool traceStackOption = FALSE;
 bool traceSourceOption = FALSE;
 bool traceInstructionOption = FALSE;
 bool transcriptOption = FALSE;
-bool logOption = FALSE;
+bool commandLogOption = FALSE;
 bool statusLineOption = TRUE;
 bool regressionTestOption = FALSE;

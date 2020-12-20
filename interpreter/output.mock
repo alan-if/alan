@@ -19,12 +19,14 @@ bool anyOutput;
 bool needSpace;
 bool capitalize;
 
-/* Log file */
+/* Log files */
 #ifdef HAVE_GLK
 #include "glk.h"
-strid_t logFile;
+strid_t transcriptFile;
+strid_t commandLogFile;
 #else
-FILE *logFile;
+FILE *transcriptFile;
+FILE *commandLogFile;
 #endif
 
 

@@ -1,0 +1,530 @@
+########## only_transcript ##########
+
+        No warnings or errors detected.
+
+
+Welcome to this Alan V3 version of ADVENT. I came across the Alan v2
+source for a conversion of ADVENT that Göran attempted many years ago. It
+was performed from the original FORTRAN code but never completed. I ran
+the code through the converter and with only two lines of manually
+entered code, it ran. It is not winnable, but most of the things in the
+original game works. Perhaps you can take a crawl and reminisce...
+
+
+
+End of road
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and down
+a gully.
+
+> E
+Inside building
+You are inside a building, a well house for a large spring. There are
+some keys on the ground here. There is a shiny brass lamp nearby. There
+is tasty food here. There is a bottle of water here.
+
+> GET KEYS
+OK.
+
+> GET LAMP
+OK.
+
+> W
+End of road
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and down
+a gully.
+
+> S
+Valley
+You are in a valley in the forest beside a stream tumbling along a rocky
+bed.
+
+> S
+Slit in streambead
+At your feet all the water of the stream splashes into a 2-inch slit in
+the rock. Downstream the streambed is bare rock.
+
+> S
+Outside grate
+You are in a 20-foot depression floored with bare dirt. Set into the dirt
+is a strong steel grate mounted in concrete. A dry streambed leads into
+the depression. The grate is locked.
+
+> UNLOCK GRATE
+OK. The grate is now unlocked.
+
+> D
+Below the grate
+You are in a small chamber beneath a 3x3 steel grate to the surface. A
+low crawl over cobbles leads inward to the West. The grate is open.
+
+> W
+Cobble crawl
+You are crawling over cobbles in a low passage. There is a dim light at
+the east end of the passage. There is a small wicker cage discarded
+nearby.
+
+> ON
+Your lamp is now on.
+
+> GET CAGE
+OK.
+
+> W
+Debris room
+You are in a debris room filled with stuff washed in from the surface. A
+low wide passage with cobbles becomes plugged with mud and debris here,
+but an awkward canyon leads upward and west. A note on the wall says:
+     Magic Word "XYZZY"
+A three foot black rod with a rusty star on an end lies nearby.
+
+> W
+Sloping E/W canyon
+You are in an awkward sloping east/west canyon.
+
+> W
+Bird chamber
+You are in a splendid chamber thirty feet high. The walls are frozen
+rivers of orange stone. An awkward canyon and a good passage exit from
+east and west sides of the chamber. A cheerful little bird is sitting
+here singing.
+
+> GET BIRD
+OK.
+
+> W
+Top of small pit
+At your feet is a small pit breathing traces of white mist. An east
+passage ends here except for a small crack leading on. Rough stone steps
+lead down the pit.
+
+> D
+Hall of mists
+You are at one end of a vast hall stretching forward out of sight to the
+west. There are openings to either side. Nearby, a wide stone staircase
+leads downward. The hall is filled with wisps of white mist swaying to
+and fro almost as if alive. A cold wind blows up the staircase. There is
+a passage at the top of a dome behind you. Rough stone steps lead up the
+dome.
+
+> S
+Nugget of gold room
+This is a low room with a crude note on the wall. The note says:
+     You won't get it up the steps.
+There is a large sparkling nugget of gold here!
+
+> GET GOLD
+OK.
+
+> N
+Hall of mists (again)
+There are faint rustling noises from the darkness behind you.
+
+> N
+Hall of Mt. King
+You are in the hall of the mountain king, with passages off in all
+directions. A huge green fierce snake bars the way! Out from the shadows
+behind you pounces a bearded pirate!
+     "Har, har" he chortles, "I'll just take all this booty and hide it
+away with me chest deep in the maze!".
+ He snatches your treasure and vanishes into the gloom.
+
+> DROP BIRD
+OK. The little bird attacks the green snake, and in an astounding flurry
+drives the snake away. There are faint rustling noises from the darkness
+behind you.
+
+> DROP CAGE
+OK.
+
+> DROP KEYS
+OK.
+
+> S
+South side chamber
+You are in the south side chamber. There is precious jewelry here!
+
+> GET JEWELRY
+OK.
+
+> N
+Hall of Mt. King
+You are in the hall of the mountain king, with passages off in all
+directions. There are some keys on the ground here. There is a small
+wicker cage discarded nearby. A cheerful little bird is sitting here
+singing.
+
+> SW
+Secret E/W canyon
+You are in a secret canyon which here runs E/W. It crosses over a very
+tight canyon 15 feet below. If you go down you may not be able to get
+back up.
+
+> W
+Secret canyon
+You are in a secret canyon which exits to the north and east. A huge
+green fierce dragon bars the way! The dragon is sprawled out on a persian
+rug!!
+
+> KILL DRAGON
+With what? Your bare hands?
+
+> YES
+Congratulations! You have just vanquished a dragon with your bare hands!
+(Unbelievable, Isn't it?)
+
+Secret canyon
+You are in a secret canyon which exits to the north and east.
+
+> GET RUG
+OK.
+
+> 
+
+> E
+Secret E/W canyon (again)
+
+> E
+Hall of Mt. King
+You are in the hall of the mountain king, with passages off in all
+directions. There are some keys on the ground here. There is a small
+wicker cage discarded nearby. A cheerful little bird is sitting here
+singing.
+
+> W
+West side chamber
+You are in the west side chamber of the hall of the mountain king. A
+passage continues west and up here. There are many coins here! There are
+faint rustling noises from the darkness behind you.
+
+> 
+
+> 
+
+> GET COINS
+OK.
+
+> E
+Hall of Mt. King
+You are in the hall of the mountain king, with passages off in all
+directions. There are some keys on the ground here. There is a small
+wicker cage discarded nearby. A cheerful little bird is sitting here
+singing.
+
+> N
+Hole in N/S passage
+You are in a low N/S passage at a hole in the floor. The hole goes down
+to an E/W passage. There are bars of silver here!
+
+> GET SILVER
+OK.
+
+> N
+Y2
+You are in a large room, with a passage to the south, a passage to the
+west, and a wall of broken rock to the east. There is a large "Y2" on a
+rock in the room's center.
+
+> OFF
+Your lamp is now off.
+
+In the dark
+It is now pitch dark. If you proceed you will likely fall into a pit.
+
+> PLUGH
+Inside building (again)
+There is tasty food here. There is a bottle of water here.
+
+> DROP GOLD
+I can't see any gold here.
+
+> DROP JEWELRY
+OK.
+
+> DROP COINS
+OK.
+
+> DROP SILVER
+OK.
+
+> DROP RUG
+OK.
+
+> GET BOTTLE
+OK.
+
+> SAVE
+Enter file name to save in (only_transcript.sav) : 
+OK.
+
+> SCORE
+You have scored 113 points out of 350 in 51 moves.
+
+> ;; http://advent.jenandcal.familyds.org/Universal350.html
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
+
+Welcome to this Alan V3 version of ADVENT. I came across the Alan v2
+source for a conversion of ADVENT that Göran attempted many years ago. It
+was performed from the original FORTRAN code but never completed. I ran
+the code through the converter and with only two lines of manually
+entered code, it ran. It is not winnable, but most of the things in the
+original game works. Perhaps you can take a crawl and reminisce...
+
+
+
+End of road
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and down
+a gully.
+
+> E
+Inside building
+You are inside a building, a well house for a large spring. There are
+some keys on the ground here. There is a shiny brass lamp nearby. There
+is tasty food here. There is a bottle of water here.
+
+> GET KEYS
+OK.
+
+> GET LAMP
+OK.
+
+> W
+End of road
+You are standing at the end of a road before a small brick building.
+Around you is a forest. A small stream flows out of the building and down
+a gully.
+
+> S
+Valley
+You are in a valley in the forest beside a stream tumbling along a rocky
+bed.
+
+> S
+Slit in streambead
+At your feet all the water of the stream splashes into a 2-inch slit in
+the rock. Downstream the streambed is bare rock.
+
+> S
+Outside grate
+You are in a 20-foot depression floored with bare dirt. Set into the dirt
+is a strong steel grate mounted in concrete. A dry streambed leads into
+the depression. The grate is locked.
+
+> UNLOCK GRATE
+OK. The grate is now unlocked.
+
+> D
+Below the grate
+You are in a small chamber beneath a 3x3 steel grate to the surface. A
+low crawl over cobbles leads inward to the West. The grate is open.
+
+> W
+Cobble crawl
+You are crawling over cobbles in a low passage. There is a dim light at
+the east end of the passage. There is a small wicker cage discarded
+nearby.
+
+> ON
+Your lamp is now on.
+
+> GET CAGE
+OK.
+
+> W
+Debris room
+You are in a debris room filled with stuff washed in from the surface. A
+low wide passage with cobbles becomes plugged with mud and debris here,
+but an awkward canyon leads upward and west. A note on the wall says:
+     Magic Word "XYZZY"
+A three foot black rod with a rusty star on an end lies nearby.
+
+> W
+Sloping E/W canyon
+You are in an awkward sloping east/west canyon.
+
+> W
+Bird chamber
+You are in a splendid chamber thirty feet high. The walls are frozen
+rivers of orange stone. An awkward canyon and a good passage exit from
+east and west sides of the chamber. A cheerful little bird is sitting
+here singing.
+
+> GET BIRD
+OK.
+
+> W
+Top of small pit
+At your feet is a small pit breathing traces of white mist. An east
+passage ends here except for a small crack leading on. Rough stone steps
+lead down the pit.
+
+> D
+Hall of mists
+You are at one end of a vast hall stretching forward out of sight to the
+west. There are openings to either side. Nearby, a wide stone staircase
+leads downward. The hall is filled with wisps of white mist swaying to
+and fro almost as if alive. A cold wind blows up the staircase. There is
+a passage at the top of a dome behind you. Rough stone steps lead up the
+dome.
+
+> S
+Nugget of gold room
+This is a low room with a crude note on the wall. The note says:
+     You won't get it up the steps.
+There is a large sparkling nugget of gold here!
+
+> GET GOLD
+OK.
+
+> N
+Hall of mists (again)
+There are faint rustling noises from the darkness behind you.
+
+> N
+Hall of Mt. King
+You are in the hall of the mountain king, with passages off in all
+directions. A huge green fierce snake bars the way! Out from the shadows
+behind you pounces a bearded pirate!
+     "Har, har" he chortles, "I'll just take all this booty and hide it
+away with me chest deep in the maze!".
+ He snatches your treasure and vanishes into the gloom.
+
+> DROP BIRD
+OK. The little bird attacks the green snake, and in an astounding flurry
+drives the snake away. There are faint rustling noises from the darkness
+behind you.
+
+> DROP CAGE
+OK.
+
+> DROP KEYS
+OK.
+
+> S
+South side chamber
+You are in the south side chamber. There is precious jewelry here!
+
+> GET JEWELRY
+OK.
+
+> N
+Hall of Mt. King
+You are in the hall of the mountain king, with passages off in all
+directions. There are some keys on the ground here. There is a small
+wicker cage discarded nearby. A cheerful little bird is sitting here
+singing.
+
+> SW
+Secret E/W canyon
+You are in a secret canyon which here runs E/W. It crosses over a very
+tight canyon 15 feet below. If you go down you may not be able to get
+back up.
+
+> W
+Secret canyon
+You are in a secret canyon which exits to the north and east. A huge
+green fierce dragon bars the way! The dragon is sprawled out on a persian
+rug!!
+
+> KILL DRAGON
+With what? Your bare hands?
+
+> YES
+Congratulations! You have just vanquished a dragon with your bare hands!
+(Unbelievable, Isn't it?)
+
+Secret canyon
+You are in a secret canyon which exits to the north and east.
+
+> GET RUG
+OK.
+
+> 
+
+> E
+Secret E/W canyon (again)
+
+> E
+Hall of Mt. King
+You are in the hall of the mountain king, with passages off in all
+directions. There are some keys on the ground here. There is a small
+wicker cage discarded nearby. A cheerful little bird is sitting here
+singing.
+
+> W
+West side chamber
+You are in the west side chamber of the hall of the mountain king. A
+passage continues west and up here. There are many coins here! There are
+faint rustling noises from the darkness behind you.
+
+> 
+
+> 
+
+> GET COINS
+OK.
+
+> E
+Hall of Mt. King
+You are in the hall of the mountain king, with passages off in all
+directions. There are some keys on the ground here. There is a small
+wicker cage discarded nearby. A cheerful little bird is sitting here
+singing.
+
+> N
+Hole in N/S passage
+You are in a low N/S passage at a hole in the floor. The hole goes down
+to an E/W passage. There are bars of silver here!
+
+> GET SILVER
+OK.
+
+> N
+Y2
+You are in a large room, with a passage to the south, a passage to the
+west, and a wall of broken rock to the east. There is a large "Y2" on a
+rock in the room's center.
+
+> OFF
+Your lamp is now off.
+
+In the dark
+It is now pitch dark. If you proceed you will likely fall into a pit.
+
+> PLUGH
+Inside building (again)
+There is tasty food here. There is a bottle of water here.
+
+> DROP GOLD
+I can't see any gold here.
+
+> DROP JEWELRY
+OK.
+
+> DROP COINS
+OK.
+
+> DROP SILVER
+OK.
+
+> DROP RUG
+OK.
+
+> GET BOTTLE
+OK.
+
+> SAVE
+Enter file name to save in (only_transcript.sav) : OK.
+
+> SCORE
+You have scored 113 points out of 350 in 51 moves.
+
+> ;; http://advent.jenandcal.familyds.org/Universal350.html
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 
+ls: only_transcript.a3i: No such file or directory

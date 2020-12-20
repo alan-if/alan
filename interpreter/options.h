@@ -12,7 +12,7 @@ extern bool traceStackOption;
 extern bool traceSourceOption;
 extern bool traceInstructionOption;
 extern bool transcriptOption;
-extern bool logOption;
+extern bool commandLogOption;
 extern bool statusLineOption;
 extern bool regressionTestOption;
 

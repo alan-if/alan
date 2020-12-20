@@ -63,7 +63,8 @@ jmp_buf forfeitLabel;       /* Player forfeit by an empty command */
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-static char logFileName[256] = "";
+static char transcriptFileName[256] = "";
+static char commandLogFileName[256] = "";
 
 /*======================================================================*/
 void setStyle(int style)
@@ -706,13 +707,11 @@ bool streq(char a[], char b[])
 
 
 
-/*======================================================================*/
 #include <sys/time.h>
-void startTranscript(void) {
-    time_t tick;
 
-    if (logFile != NULL)
-        return;
+
+static void createLogfileName(char *createdFileName, const char extension[]) {
+    time_t tick;
 
     time(&tick);
 
@@ -721,36 +720,68 @@ void startTranscript(void) {
     gettimeofday(&tv, NULL);
     tm = localtime(&tv.tv_sec);
 
-    sprintf(logFileName, "%s%d%02d%02d%02d%02d%02d%04d.log",
-            adventureName, tm->tm_year+1900, tm->tm_mon+1,
-            tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec,
-            (int)tv.tv_usec);
+    if (!regressionTestOption)
+        sprintf(createdFileName, "%s%d%02d%02d%02d%02d%02d%04d%s",
+                adventureName, tm->tm_year+1900, tm->tm_mon+1,
+                tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec,
+                (int)tv.tv_usec,
+                extension);
+    else
+        sprintf(createdFileName, "%s%s", adventureName, extension);
+}
+
+
+/*======================================================================*/
+void startTranscript(void) {
+    if (transcriptFile != NULL)
+        return;
+
+    createLogfileName(transcriptFileName, ".a3t");
 #ifdef HAVE_GLK
-    glui32 fileUsage = transcriptOption?fileusage_Transcript:fileusage_InputRecord;
-    frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, logFileName, 0);
-    logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
+    glui32 fileUsage = fileusage_Transcript;
+    frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, transcriptFileName, 0);
+    transcriptFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
 #else
-    logFile = fopen(logFileName, "w");
+    transcriptFile = fopen(transcriptFileName, "w");
 #endif
-    if (logFile == NULL) {
+    /* If we couldn't open file, don't do transcript */
+    if (transcriptFile == NULL) {
         transcriptOption = FALSE;
-        logOption = FALSE;
+    }
+}
+
+
+/*======================================================================*/
+void startCommandLog(void) {
+    if (commandLogFile != NULL)
+        return;
+
+    createLogfileName(commandLogFileName, ".a3i");
+#ifdef HAVE_GLK
+    glui32 fileUsage = fileusage_InputRecord;
+    frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, commandLogFileName, 0);
+    commandLogFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
+#else
+    commandLogFile = fopen(commandLogFileName, "w");
+#endif
+    /* If we couldn't open file, don't do command logging */
+    if (commandLogFile == NULL) {
+        commandLogOption = FALSE;
     }
 }
 
 
 /*======================================================================*/
 void stopTranscript(void) {
-    if (logFile == NULL)
+    if (transcriptFile == NULL)
         return;
 
-    if (transcriptOption|| logOption)
+    if (transcriptOption)
 #ifdef HAVE_GLK
-        glk_stream_close(logFile, NULL);
+        glk_stream_close(transcriptFile, NULL);
 #else
-    fclose(logFile);
+        fclose(transcriptFile);
 #endif
-    logFile = NULL;
+    transcriptFile = NULL;
     transcriptOption = FALSE;
-    logOption = FALSE;
 }

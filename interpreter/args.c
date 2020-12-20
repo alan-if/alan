@@ -122,7 +122,6 @@ static void switches(int argc, char *argv[])
                     break;
                 case 'l':
                     transcriptOption = TRUE;
-                    logOption = FALSE;
                     break;
                 case 'v':
                     if (strcmp(argument, "-version") == 0) {
@@ -135,8 +134,7 @@ static void switches(int argc, char *argv[])
                     statusLineOption = FALSE;
                     break;
                 case 'c':
-                    logOption = TRUE;
-                    transcriptOption = FALSE;
+                    commandLogOption = TRUE;
                     break;
                 case 'r':
                     regressionTestOption = TRUE;

@@ -172,15 +172,23 @@ static void getLine(void) {
 
         getPageSize();
         anyOutput = FALSE;
-        if (transcriptOption || logOption) {
-            // TODO Refactor out the logging to log.c?
+        if (commandLogOption) {
 #ifdef HAVE_GLK
-            glk_put_string_stream(logFile, buf);
-            glk_put_char_stream(logFile, '\n');
+            glk_put_string_stream(commandLogFile, buf);
+            glk_put_char_stream(commandLogFile, '\n');
 #else
-            fprintf(logFile, "%s\n", buf);
+            fprintf(commandLogFile, "%s\n", buf);
 #endif
         }
+        if (transcriptOption) {
+#ifdef HAVE_GLK
+            glk_put_string_stream(transcriptFile, buf);
+            glk_put_char_stream(transcriptFile, '\n');
+#else
+            fprintf(transcriptFile, "%s\n", buf);
+#endif
+        }
+
         /* If the player input an empty command he forfeited his command */
         if (strlen(buf) == 0) {
             clearWordList(playerWords);

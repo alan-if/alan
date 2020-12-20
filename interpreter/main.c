@@ -654,9 +654,12 @@ static void openFiles(void)
         apperr(str);
     }
 
-    /* If logging open log file */
-    if (transcriptOption || logOption) {
+    /* If logging open transcript and/or log file */
+    if (transcriptOption) {
         startTranscript();
+    }
+    if (commandLogOption) {
+        startCommandLog();
     }
 }
 

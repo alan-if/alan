@@ -27,11 +27,13 @@ bool skipSpace = FALSE;
 int col, lin;
 int pageLength, pageWidth;
 
-/* Logfile */
+/* Logfiles */
 #ifdef HAVE_GLK
-strid_t logFile;
+strid_t commandLogFile;
+strid_t transcriptFile;
 #else
-FILE *logFile;
+FILE *commandLogFile;
+FILE *transcriptFile;
 #endif
 
 
@@ -150,28 +152,29 @@ void printAndLog(char string[])
     printf("%s", string);
     if (!onStatusLine && transcriptOption) {
 #ifdef HAVE_GLK
-        // TODO Is this assuming only 70-char wide windows for GLK?
+        // Formatting has to be done here, GLK formats normal output for us
+        // Using 70-char wide transcript lines
         if (strlen(string) > 70-column) {
-            stringCopy = strdup(string);  /* Make sure we can write NULLs */
+            stringCopy = strdup(string);  /* Make sure string is modifiable */
             stringPart = stringCopy;
             while (strlen(stringPart) > 70-column) {
                 int p;
                 for (p = 70-column; p>0 && !isspace((int)stringPart[p]); p--);
                 stringPart[p] = '\0';
-                glk_put_string_stream(logFile, stringPart);
-                glk_put_char_stream(logFile, '\n');
+                glk_put_string_stream(transcriptFile, stringPart);
+                glk_put_char_stream(transcriptFile, '\n');
                 column = 0;
                 stringPart = &stringPart[p+1];
             }
-            glk_put_string_stream(logFile, stringPart);
+            glk_put_string_stream(transcriptFile, stringPart);
             column = updateColumn(column, stringPart);
             free(stringCopy);
         } else {
-            glk_put_string_stream(logFile, string);
+            glk_put_string_stream(transcriptFile, string);
             column = updateColumn(column, string);
         }
 #else
-        fprintf(logFile, "%s", string);
+        fprintf(transcriptFile, "%s", string);
 #endif
     }
 }
