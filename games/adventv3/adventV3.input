@@ -52,6 +52,7 @@ DROP RUG
 GET BOTTLE
 SAVE
 
+
 SCORE
 PLUGH
 ON
@@ -151,5 +152,148 @@ SAVE
 
 
 SCORE
+
+PLUGH
+ON
+S
+S
+GET KEYS
+SW
+W
+N
+D
+S
+D
+CLIMB
+W
+;;If the eggs are not here, FEE, FIE, FOE, FOO recalls them.
+
+GET EGGS
+N
+N
+W
+D
+SW
+U
+;;If the pirate managed to relieve you of the eggs, return to the Giant Room and do FEE, FIE, FOE, FOO.
+
+;;In some variants, say GIVE EGGS TO TROLL.
+
+;;In NELS0350 and descendants, the troll is not waiting at the bridge. NE draws him out.
+
+THROW EGGS
+NE
+NE
+E
+NE
+E
+GET SPICES
+W
+N
+S
+    S
+SE
+S
+E
+THROW FOOD
+UNLOCK CHAIN
+DROP KEYS
+GET CHAIN
+GET BEAR
+W
+W
+N
+W
+W
+SW
+DROP BEAR
+SW
+SW
+D
+SE
+SE
+W
+W
+D
+CLIMB
+W
+FEE
+FIE
+FOE
+FOO
+GET EGGS
+S
+D
+U
+W
+U
+S
+E
+E
+W
+W
+W
+E
+E
+GET DIAMONDS
+W
+;; If the pirate hasn't yet shown up to relieve you of your treasures, just WAIT repeatedly until he does. Now we can go get our treasures back.
+S
+E
+S
+S
+S
+N
+E
+E
+NW
+;; Repeat GET <TREASURE> and DROP <TREASURE>once for each treasure (in some variants you can simply say GET ALL). If there are too many treasures to carry, get what you can now. You can return later for the rest.
+
+GET GOLD
+GET CHEST
+GET SPICES
+GET CHAIN
+LOOK
+SE
+N
+D
+E
+E
+OFF
+XYZZY
+INVENTORY
+DROP DIAMONDS
+DROP CHEST
+DROP EGGS
+DROP SPICES
+DROP CHAIN
+DROP NUGGET
+
+SAVE
+
+
+SCORE
+
+
+PLUGH
+ON
+S
+D
+W
+D
+E
+GET MAGAZINES
+E
+DROP MAGAZINES
+;; The End Game is just totally, unforgivably unfair. There's nae hint nae clue about what should be done. How anyone is supposed to figure out BLAST without peaking at the source code is inexplicable. But there it is.
+
+;; Wander around until the cave closes. You will be transported to the Repository.
+SW...
+
+GET ROD
+NE
+DROP ROD
+SW
+BLAST
 
 ;; http://advent.jenandcal.familyds.org/Universal350.html
