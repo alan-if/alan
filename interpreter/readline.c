@@ -63,7 +63,8 @@ bool readline(char buffer[])
     static frefid_t commandFileRef;
     static strid_t commandFile;
 #ifdef HAVE_WINGLK
-    static frefid_t logFileRef;
+    static frefid_t commandLogFileRef;
+    static frefid_t transcriptFileRef;
     INT_PTR e;
 #endif
 
@@ -112,16 +113,15 @@ bool readline(char buffer[])
                         printf("> ");
                         break;
                     case ID_MENU_RECORD:
-                        if (transcriptOption || logOption) {
-                            glk_stream_close(logFile, NULL);
-                            transcriptOption = FALSE;
-                            logOption = FALSE;
+                        if (commandLogOption) {
+                            glk_stream_close(commandLogFile, NULL);
+                            commandLogOption = FALSE;
                         }
-                        logFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Write, 0);
-                        if (logFileRef == NULL) break;
-                        logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
-                        if (logFile != NULL)
-                            logOption = TRUE;
+                        commandLogFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Write, 0);
+                        if (commandLogFileRef == NULL) break;
+                        commandLogFile = glk_stream_open_file(commandLogFileRef, filemode_Write, 0);
+                        if (commandLogFile != NULL)
+                            commandLogOption = TRUE;
                         break;
                     case ID_MENU_PLAYBACK:
                         commandFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Read, 0);
@@ -135,17 +135,16 @@ bool readline(char buffer[])
                             }
                         break;
                     case ID_MENU_TRANSCRIPT:
-                        if (transcriptOption || logOption) {
-                            glk_stream_close(logFile, NULL);
+                        if (transcriptOption) {
+                            glk_stream_close(transcriptFile, NULL);
                             transcriptOption = FALSE;
-                            logOption = FALSE;
                         }
-                        logFileRef = glk_fileref_create_by_prompt(fileusage_Transcript+fileusage_TextMode, filemode_Write, 0);
-                        if (logFileRef == NULL) break;
-                        logFile = glk_stream_open_file(logFileRef, filemode_Write, 0);
-                        if (logFile != NULL) {
+                        transcriptFileRef = glk_fileref_create_by_prompt(fileusage_Transcript+fileusage_TextMode, filemode_Write, 0);
+                        if (transcriptFileRef == NULL) break;
+                        transcriptFile = glk_stream_open_file(transcriptFileRef, filemode_Write, 0);
+                        if (transcriptFile != NULL) {
                             transcriptOption = TRUE;
-                            glk_put_string_stream(logFile, "> ");
+                            glk_put_string_stream(transcriptFile, "> ");
                         }
                         break;
                     case ID_MENU_ABOUT:
