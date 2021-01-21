@@ -71,9 +71,6 @@ test:
 
 standard_tests: alan
 	../bin/jregr -bin . -dir testing $(JREGROUTPUT)
-	../bin/jregr -bin . -dir testing/positions $(JREGROUTPUT)
-	../bin/jregr -bin . -dir testing/dump $(JREGROUTPUT)
-	../bin/jregr -dir testing/arguments $(JREGROUTPUT)
 	# Generate a new .a3c file for this platform that can be committed
 	# so that it can be tested on other platforms
 	cd ../regression/platforms; cp platforms.alan $(OS).alan; ../../bin/alan $(OS); rm $(OS).alan
