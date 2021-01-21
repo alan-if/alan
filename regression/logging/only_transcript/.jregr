@@ -1,5 +1,5 @@
-.alan : rm $1.a3t > /dev/null
+.alan : rm -f $1.a3t
 .alan : alan $1
 .a3c : arun -l -r $1 < $1.input
 .a3c : cat $1.a3t
-.a3c : ls $1.a3i
+.a3c : cat $1.a3i
