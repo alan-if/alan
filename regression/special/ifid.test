@@ -1,2 +1,2 @@
 alan ifid
-arun -v ifid < ifid.input
+arun -r -n -v ifid < ifid.input
