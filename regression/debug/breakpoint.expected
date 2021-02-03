@@ -3,8 +3,6 @@
         No warnings or errors detected.
         9 informational message(s).
 
-<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
-
 adbg> break 1346
 Breakpoint set at breakpoint.alan:1346
 <01346>:     "$pWelcome to the game of SAVIOUR!$pIn this game your mission

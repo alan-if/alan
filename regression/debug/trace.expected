@@ -3,8 +3,6 @@
         No warnings or errors detected.
         9 informational message(s).
 
-<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
-
 adbg> trace
 Trace section     : off - Doesn't trace entry to every section (check, description, event, actor, ...)
 Trace source      : off - Doesn't trace every source line executed

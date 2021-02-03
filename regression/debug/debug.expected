@@ -3,8 +3,6 @@
         No warnings or errors detected.
         9 informational message(s).
 
-<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
-
 adbg> o
 Objects: 
     [6] door ("door"), at [5] Hall ("Hall") 

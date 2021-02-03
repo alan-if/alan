@@ -1091,15 +1091,15 @@ void debug(bool calledFromBreakpoint, int line, int fileNumber)
 }
 
 
+/*
+  Say something, but make sure we don't disturb anything and that it is
+  shown to the player. Needed for tracing. During debugging things are
+  set up to avoid this problem.
+*/
+
 /*======================================================================*/
 void traceSay(int item)
 {
-    /*
-      Say something, but make sure we don't disturb anything and that it is
-      shown to the player. Needed for tracing. During debugging things are
-      set up to avoid this problem.
-    */
-
     saveInfo();
     needSpace = FALSE;
     col = 1;

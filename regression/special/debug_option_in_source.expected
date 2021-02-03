@@ -2,7 +2,5 @@
 
         No warnings or errors detected.
 
-<Hmm, this is a little-endian machine, fixing byte ordering.... OK.>
-
 adbg> quit
 
