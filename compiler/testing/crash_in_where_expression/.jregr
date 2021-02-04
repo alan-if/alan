@@ -1,2 +1,1 @@
 .alan : alan $1 > /dev/null
-.a3c : echo "Did not crash"
