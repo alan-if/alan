@@ -621,8 +621,10 @@ static void start(Stack theStack)
     para();
 
     if (where(HERO, TRANSITIVE) == startloc) {
-        if (traceSectionOption)
+        if (traceSectionOption) {
             printf("<CURRENT LOCATION:>\n");
+            anyOutput = false;
+        }
         look();
     }
     resetAndEvaluateRules(rules, header->version, theStack);
