@@ -3,25 +3,20 @@ text follows. The intent of this licensing is that the Copyright Holder retain
 some control over the development of the Alan System, while still keeping it
 available as open source and free software.
 
-In practical terms this means that the licensing is choosen so that it should be
+In practical terms this means that the licensing is chosen so that it should be
 possible to
 
 - freely distribute games produced with the Alan system, including for profit
-
 - re-distribute compiled versions of the Alan system, including together with a
   game which is not open source or free, provided there is no charge for the
   Alan system
-
 - redistribute compiled and/or source versions of the original Alan system (the
   Standard Version)
-
-- aquire the source code for the Standard Version
-
+- acquire the source code for the Standard Version
 - modify the source code for private use
-
 - re-distribute compiled and/or source of a Modified Version provided they are
   done so under a compatible license with appropriate attribution *and* that the
-  modification is discribed and made available, preferably by returning it to
+  modification is described and made available, preferably by returning it to
   the Copyright Holder so that it can be merged into the Standard Version
 
 
@@ -136,8 +131,9 @@ Version, and of any works derived from it, be made freely available in that
 license fees are prohibited but Distributor Fees are allowed.
 
 
-Distribution of Compiled Forms of the Standard or Modified Versions without Source
-----------------------------------------------------------------------------------
+Distribution of Compiled Forms of the Standard Version
+or Modified Versions without the Source
+---------------------------------------
 
 (5) You may Distribute Compiled forms of the Standard Version without the
 Source, provided that you include complete instructions on how to get the Source
@@ -206,8 +202,8 @@ such litigation is filed.
 (14) Disclaimer of Warranty: THE PACKAGE IS PROVIDED BY THE COPYRIGHT HOLDER AND
 CONTRIBUTORS "AS IS' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES. THE IMPLIED
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR
-NON-INFRINGEMENT ARE DISCLAIMED TO THE EXTENT PERMITTED BY YOUR LOCAL
-LAW. UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER OR CONTRIBUTOR WILL BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING IN ANY
-WAY OUT OF THE USE OF THE PACKAGE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+NON-INFRINGEMENT ARE DISCLAIMED TO THE EXTENT PERMITTED BY YOUR LOCAL LAW.
+UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER OR CONTRIBUTOR WILL BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING IN ANY WAY
+OUT OF THE USE OF THE PACKAGE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGE.
