@@ -80,6 +80,7 @@ void usage(char *programName)
     printf("    -l        log game transcript to a file ('.a3t')\n");
     printf("    -c        log player command input to a file ('.a3i')\n");
     printf("    -n        don't show the Status Line\n");
+    printf("    -p        don't page output\n");
     printf("    -d        enter debug mode immediately\n");
     printf("    -t[<n>]   trace game execution, higher <n> gives more trace\n");
     printf("    -i        ignore version and checksum errors (dangerous)\n");

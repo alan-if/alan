@@ -136,6 +136,9 @@ static void switches(int argc, char *argv[])
                 case 'c':
                     commandLogOption = TRUE;
                     break;
+                case 'p':
+                    nopagingOption = TRUE;
+                    break;
                 case 'r':
                     regressionTestOption = TRUE;
                     statusLineOption = FALSE;

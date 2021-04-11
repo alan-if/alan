@@ -696,7 +696,7 @@ static DebugParseEntry commandEntries[] = {
     {"actors", "[n]", ACTORS_COMMAND, "list instance(s) that are actors"},
     {"locations", "[n]", LOCATIONS_COMMAND, "list instances that are locations"},
     {"trace", "('source'|'section'|'instruction'|'push'|'stack')", TRACE_COMMAND, "toggle various traces"},
-    {"next", "", NEXT_COMMAND, "run game and stop at next source line"},
+    {"next", "", NEXT_COMMAND, "continue game and stop at next source line"},
     {"go", "", GO_COMMAND, "go another player turn"},
     {"exit", "", EXIT_COMMAND, "exit to game, enter 'debug' to get back"},
     {"x", "", EXIT_COMMAND, "d:o"},
@@ -829,9 +829,9 @@ static void toggleSectionTrace() {
 /*----------------------------------------------------------------------*/
 static void toggleInstructionTrace() {
     if ((saved_traceInstruction = !saved_traceInstruction))
-        printf("Single instruction trace on.");
+        printf("Instruction trace on.");
     else
-        printf("Single instruction trace off.");
+        printf("Instruction trace off.");
 }
 
 /*----------------------------------------------------------------------*/

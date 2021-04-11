@@ -73,7 +73,7 @@ void newline(void)
 #ifndef HAVE_GLK
     char buf[256];
 
-    if (!regressionTestOption && lin == pageLength - 1) {
+    if ((!nopagingOption && !regressionTestOption) && lin == pageLength - 1) {
         printAndLog("\n");
         needSpace = FALSE;
         col = 0;

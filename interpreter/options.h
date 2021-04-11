@@ -15,5 +15,6 @@ extern bool transcriptOption;
 extern bool commandLogOption;
 extern bool statusLineOption;
 extern bool regressionTestOption;
+extern bool nopagingOption;
 
 #endif

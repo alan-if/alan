@@ -55,7 +55,7 @@ Trace push        : off - Doesn't trace every push onto the Amachine stack
 Trace stack       : off - Doesn't trace the complete stack every time
 
 adbg> trace instruction
-Single instruction trace on.
+Instruction trace on.
 adbg> g
 
 
@@ -301,7 +301,7 @@ rats can be seen."
 adbg> trace source
 Source code trace off.
 adbg> trace instruction
-Single instruction trace off.
+Instruction trace off.
 adbg> trace push
 Stack Push trace off.
 adbg> trace stack

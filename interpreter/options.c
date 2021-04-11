@@ -12,3 +12,4 @@ bool transcriptOption = FALSE;
 bool commandLogOption = FALSE;
 bool statusLineOption = TRUE;
 bool regressionTestOption = FALSE;
+bool nopagingOption = FALSE;

@@ -30,7 +30,7 @@ ADBG Commands (can be abbreviated):
     trace ('source'|'section'|'instruction'|'push'|'stack')
         -- toggle various traces 
     next                                                   
-        -- run game and stop at next source line 
+        -- continue game and stop at next source line 
     go                                                     
         -- go another player turn 
     exit                                                   
