@@ -1,4 +1,3 @@
 restore.sav
-*.suspended
 *.memcheck
 *.leaks
