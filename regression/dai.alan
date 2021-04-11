@@ -1,0 +1,52 @@
+Synonyms
+  dal, dallo, dalla, 'dall''', dall, dagli, dalle, dai  = da.
+  la = 'the'.
+  al = a.
+
+Syntax dai_a = dai (ogg) a (png).
+Syntax guarda_fuori_da = guarda fuori da (ogg).
+
+
+Add To Every object
+  Verb dai_a
+    When ogg
+      Does
+        "Dai" Say The ogg. "a" Say png. "."
+  End Verb.
+  Verb guarda_fuori_da
+    Does
+      "Guarda fuori della" Say ogg. "."
+  End Verb.
+End Add.
+
+Syntax scendi_da = scendi da (ogg).
+       scendi_da = scendi dai (ogg).
+
+Add To Every object
+  -- 'scendi da' -> 'climb down from'
+  Verb scendi_da
+    Does
+      "Scendi dai" Say ogg. "."
+  End Verb.
+End Add.
+
+-- 'tubi' -> 'pipes' [masc. plur. -> "i tubi", "dei tubi" (some pipes)]
+The tubi Isa object At l
+  Definite Article "i"
+End The tubi.
+
+The l Isa location
+End The l.
+
+The pietra Isa object At l
+  Definite Article "la"
+End The pietra.
+
+The gigante Isa object At l
+  Definite Article "il"
+End The gigante.
+
+The finestra Isa object At l
+End The finestra.
+
+Start At l.
