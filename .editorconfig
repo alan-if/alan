@@ -1,5 +1,9 @@
 root = true
 
+[*.{c,h}]
+indent_style = space
+indent_size = 4
+
 # Common settings for all Alan files
 [*.{alan,i,a3sol,a3log}]
 indent_style = space
