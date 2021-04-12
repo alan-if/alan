@@ -1,8 +1,8 @@
 Synonyms
   syn = dir.
   -- syn = adj.
-  -- syn = vrb.
-  syn = prep.
+  syn = vrb.
+  -- syn = prep.
 
 The l Isa location
   Exit dir To l
