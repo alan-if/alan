@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------*\
 
-				SYN.C
-			    Synonym Nodes
+  SYN.C
+  Synonym Nodes
 
-\*----------------------------------------------------------------------*/
+  \*----------------------------------------------------------------------*/
 
 #include "syn.h"
 
@@ -29,17 +29,17 @@
 /*======================================================================*/
 Synonym *newSynonym(Srcp *srcp, List *synonymIdList, Id *targetId)
 {
-  Synonym *new;
+    Synonym *new;
 
-  progressCounter();
+    progressCounter();
 
-  new = NEW(Synonym);
+    new = NEW(Synonym);
 
-  new->srcp = *srcp;
-  new->ids = synonymIdList;
-  new->id = targetId;
+    new->srcp = *srcp;
+    new->ids = synonymIdList;
+    new->id = targetId;
 
-  return(new);
+    return(new);
 }
 
 
@@ -49,38 +49,40 @@ void analyzeSynonyms(void)
 /*  Analyze all synonyms by finding the target words in the dictionary,
     and inserting the synonyms. */
 {
-  List *lst;		/* Traversal pointer for target list */
-  List *slst;		/* Traversal pointer for synonyms lists */
-  Word *wrd;		/* Target word */
-  Word *swrd;		/* Synonym word */
+    List *lst;		/* Traversal pointer for target list */
+    List *slst;		/* Traversal pointer for synonyms lists */
+    Word *wrd;		/* Target word */
+    Word *swrd;		/* Synonym word */
 
-  for (lst = adv.syns; lst != NULL; lst = lst->next) {
-    progressCounter();
-    wrd = findWord(lst->member.syn->id->string);
-    if (wrd == NULL)		/* Couldn't find target word */
-      lmLog(&lst->member.syn->id->srcp, 321, sevWAR, lst->member.syn->id->string);
-    else
-      for (slst = lst->member.syn->ids; slst != NULL; slst = slst->next) {
-	/* Look up the synonym */
-	swrd = findWord(slst->member.id->string);
-	if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
-	  lmLog(&slst->member.id->srcp, 322, sevWAR, slst->member.id->string);
-	else
-	  newSynonymWord(slst->member.id->string, wrd);
-      }
-  }
+    for (lst = adv.syns; lst != NULL; lst = lst->next) {
+        progressCounter();
+        wrd = findWord(lst->member.syn->id->string);
+        if (wrd == NULL)		/* Couldn't find target word */
+            lmLog(&lst->member.syn->id->srcp, 321, sevWAR, lst->member.syn->id->string);
+        else
+            for (slst = lst->member.syn->ids; slst != NULL; slst = slst->next) {
+                /* Look up the synonym */
+                swrd = findWord(slst->member.id->string);
+#ifdef DONT_ALLOW_MULTILPE_SYNONYMS
+                if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
+                    lmLog(&slst->member.id->srcp, 322, sevWAR, slst->member.id->string);
+                else
+#endif
+                    newSynonymWord(slst->member.id->string, wrd);
+            }
+    }
 }
 
 
 /*======================================================================*/
 void dumpSynonym(Synonym *syn)
 {
-  if (syn == NULL) {
-    put("NULL");
-    return;
-  }
+    if (syn == NULL) {
+        put("NULL");
+        return;
+    }
 
-  put("SYN: "); dumpSrcp(syn->srcp); indent();
-  put("id: "); dumpId(syn->id); nl();
-  put("ids: "); dumpList(syn->ids, ID_LIST); out();
+    put("SYN: "); dumpSrcp(syn->srcp); indent();
+    put("id: "); dumpId(syn->id); nl();
+    put("ids: "); dumpList(syn->ids, ID_LIST); out();
 }
