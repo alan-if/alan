@@ -1,0 +1,20 @@
+The l Isa location
+  Exit dir To l.
+End The l.
+
+The obj Isa object At l
+  Name adj obj
+End The obj.
+
+Syntax
+  vrb = 'vrb' (o1) 'prep' (o2).
+
+Add To Every object
+  Verb vrb
+    When o1
+      Does
+        "Vrb" Say The o1. "prep" Say The o2. "."
+  End Verb.
+End Add.
+
+Start At l.
