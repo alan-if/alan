@@ -99,12 +99,16 @@ static bool endOfWords(int wordIndex) {
     return isEndOfArray(&playerWords[wordIndex]);
 }
 
+/*----------------------------------------------------------------------*/
+static bool endOfSentence(int wordIndex) {
+    return endOfWords(wordIndex) || isConjunctionWord(wordIndex);
+}
 
 /*----------------------------------------------------------------------*/
 static void handleDirectionalCommand() {
     verbWord = playerWords[currentWordIndex].code;
     currentWordIndex++;
-    if (!endOfWords(currentWordIndex) && !isConjunctionWord(currentWordIndex))
+    if (!endOfSentence(currentWordIndex))
         error(M_WHAT);
     else
         go(current.location, dictionary[playerWords[currentWordIndex-1].code].code);
@@ -779,12 +783,6 @@ static bool isInstanceReferenceWord(int wordIndex) {
 }
 
 
-/*----------------------------------------------------------------------*/
-static bool endOfPlayerCommand(int wordIndex) {
-    return endOfWords(wordIndex) || isConjunctionWord(wordIndex);
-}
-
-
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 static ElementEntry *parseInputAccordingToSyntax(SyntaxEntry *syntax, ParameterPosition parameterPositions[]) {
     ElementEntry *currentElement = elementTreeOf(syntax);
@@ -795,7 +793,7 @@ static ElementEntry *parseInputAccordingToSyntax(SyntaxEntry *syntax, ParameterP
         /* Traverse the possible branches of currentElement to find a match, let the actual input control what we look for */
         parameterPositions[parameterCount].endOfList = TRUE;
 
-        if (endOfPlayerCommand(currentWordIndex)) {
+        if (endOfSentence(currentWordIndex)) {
             // TODO If a conjunction word is also some other type of word, like noun? What happens?
             return elementForEndOfSyntax(currentElement);
         }
@@ -1436,13 +1434,13 @@ void parse(void) {
     capitalize = TRUE;
 
     firstWord = currentWordIndex;
-    if (isVerbWord(currentWordIndex)) {
-        parseVerbCommand(parameters, multipleParameters);
-        action(current.verb, parameters, multipleParameters);
-    } else if (isDirectionWord(currentWordIndex)) {
+    if (isDirectionWord(currentWordIndex)) {
         clearParameterArray(previousMultipleParameters);
         clearPronounList(pronouns);
         handleDirectionalCommand();
+    } else if (isVerbWord(currentWordIndex)) {
+        parseVerbCommand(parameters, multipleParameters);
+        action(current.verb, parameters, multipleParameters);
     } else if (isInstanceReferenceWord(currentWordIndex)) {
         parseInstanceCommand(parameters, multipleParameters);
         action(current.verb, parameters, multipleParameters);
