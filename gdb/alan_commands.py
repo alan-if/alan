@@ -237,3 +237,25 @@ class ArunStringCommand(gdb.Command):
         gdb.execute("x/s &memory["+arg+"]")
 
 ArunStringCommand()
+
+class ArunWordsCommand(gdb.Command):
+    "Print player input as Words, optionally use index for a single Word"
+
+    def __init__(self):
+        super(ArunWordsCommand, self).__init__("arun words",
+                                                gdb.COMMAND_SUPPORT,
+                                                gdb.COMPLETE_NONE)
+
+    def invoke(self, arg, from_tty):
+        if arg != '':
+            gdb.execute(f"p playerWords[{arg}]")
+        else:
+            i = 0
+            e = gdb.execute(f"print playerWords[0].code", to_string=True)
+            while ("-1" not in e):
+                gdb.execute(f"print playerWords[{i}]")
+                i = i+1
+                e = gdb.execute(f"print playerWords[{i}].code", to_string=True)
+
+
+ArunWordsCommand()
