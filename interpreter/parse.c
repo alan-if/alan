@@ -100,7 +100,7 @@ static bool endOfWords(int wordIndex) {
 }
 
 /*----------------------------------------------------------------------*/
-static bool endOfSentence(int wordIndex) {
+static bool endOfPlayerCommand(int wordIndex) {
     return endOfWords(wordIndex) || isConjunctionWord(wordIndex);
 }
 
@@ -108,7 +108,7 @@ static bool endOfSentence(int wordIndex) {
 static void handleDirectionalCommand() {
     verbWord = playerWords[currentWordIndex].code;
     currentWordIndex++;
-    if (!endOfSentence(currentWordIndex))
+    if (!endOfPlayerCommand(currentWordIndex))
         error(M_WHAT);
     else
         go(current.location, dictionary[playerWords[currentWordIndex-1].code].code);
@@ -793,7 +793,7 @@ static ElementEntry *parseInputAccordingToSyntax(SyntaxEntry *syntax, ParameterP
         /* Traverse the possible branches of currentElement to find a match, let the actual input control what we look for */
         parameterPositions[parameterCount].endOfList = TRUE;
 
-        if (endOfSentence(currentWordIndex)) {
+        if (endOfPlayerCommand(currentWordIndex)) {
             // TODO If a conjunction word is also some other type of word, like noun? What happens?
             return elementForEndOfSyntax(currentElement);
         }
