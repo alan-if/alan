@@ -48,8 +48,8 @@ def select_fields(self, field_name, fields):
     for field in self.val.type.fields():
         kids.append(select_field(self, field_name, field, fields))
     return kids
-    
-    
+
+
 class SymbolPrinter(object):
     "Print an Alan Compiler Symbol Node"
 
@@ -67,10 +67,10 @@ class SymbolPrinter(object):
             'PARAMETER_SYMBOL':'parameter',
             'LOCAL_SYMBOL':'local'
         }
-        
+
         return select_fields(self, 'fields', symbol_fields)
 
-    
+
 class ExpressionPrinter(object):
     "Print an Alan Compiler Expression Node"
 
@@ -95,10 +95,10 @@ class ExpressionPrinter(object):
             'BETWEEN_EXRESSION':'btw',
             'ISA_EXRESSION':'isa'
         }
-        
+
         return select_fields(self, 'fields', expression_fields)
 
-    
+
 class StatementPrinter(object):
     "Print an Alan Compiler Statement Node"
 
@@ -141,7 +141,7 @@ class StatementPrinter(object):
         }
 
         return select_fields(self, 'fields', statement_fields)
-        
+
 
 class ListPrinter(object):
     "Print an Alan Compiler List Node"
@@ -190,7 +190,7 @@ class ListPrinter(object):
         }
 
         return select_fields(self, 'member', list_fields)
-        
+
 class SrcpPrinter(object):
     "Print an Alan Compiler Srcp struct"
 
@@ -200,7 +200,7 @@ class SrcpPrinter(object):
     def to_string(self):
         return "{%d:%d:%d %d-%d}" % (self.val['file'], self.val['line'], self.val['col'], self.val['startpos'], self.val['endpos'])
 
-    
+
 import gdb.printing
 
 def build_pretty_printers():
@@ -213,3 +213,27 @@ def build_pretty_printers():
     return pp
 
 gdb.printing.register_pretty_printer(gdb.current_objfile(), build_pretty_printers(), replace=True)
+
+class ArunPrefixCommand(gdb.Command):
+    "Prefix to do clever arun gdb commands"
+
+    def __init__(self):
+        super(ArunPrefixCommand, self).__init__("arun",
+                                                gdb.COMMAND_SUPPORT,
+                                                gdb.COMPLETE_NONE,
+                                                True)
+
+ArunPrefixCommand()
+
+class ArunStringCommand(gdb.Command):
+    "Print a string at Arun memory address"
+
+    def __init__(self):
+        super(ArunStringCommand, self).__init__("arun string",
+                                                 gdb.COMMAND_SUPPORT,
+                                                 gdb.COMPLETE_NONE)
+
+    def invoke(self, arg, from_tty):
+        gdb.execute("x/s &memory["+arg+"]")
+
+ArunStringCommand()
