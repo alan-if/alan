@@ -1,3 +1,11 @@
+# Some extra commands for debugging Alan and Arun with gdb
+#
+# Load in gdb using: source <this file>
+#
+# help alan
+# help arun
+#
+
 from __future__ import with_statement
 import gdb
 
@@ -239,7 +247,7 @@ class ArunStringCommand(gdb.Command):
 ArunStringCommand()
 
 class ArunWordsCommand(gdb.Command):
-    "Print player input as Words, optionally use index for a single Word"
+    "Print player input word or all"
 
     def __init__(self):
         super(ArunWordsCommand, self).__init__("arun words",
@@ -259,3 +267,25 @@ class ArunWordsCommand(gdb.Command):
 
 
 ArunWordsCommand()
+
+class ArunDictCommand(gdb.Command):
+    "Print dictionary entry or all"
+
+    def __init__(self):
+        super(ArunDictCommand, self).__init__("arun dictionary",
+                                                gdb.COMMAND_SUPPORT,
+                                                gdb.COMPLETE_NONE)
+
+    def invoke(self, arg, from_tty):
+        if arg != '':
+            gdb.execute(f"p dictionary[{arg}]")
+        else:
+            i = 0
+            d = gdb.execute("p dictionarySize", to_string=True)
+            d = int(d.strip().split()[-1])
+            while (i < d):
+                gdb.execute(f"print dictionary[{i}]")
+                i = i+1
+
+
+ArunDictCommand()
