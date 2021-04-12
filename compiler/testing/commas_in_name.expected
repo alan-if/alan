@@ -19,15 +19,7 @@ commas_in_name.alan
   *1*   101 E : Syntax error. Inserting "verb . end" before this token.
 
 
-
-
-        333 E : The word 'me' is defined to be both a synonym and another word
-                class.
-        333 E : The word 'myself' is defined to be both a synonym and another
-                word class.
-
-
-        5 error(s).
+        3 error(s).
         No detected warnings.
         4 informational message(s).
 
