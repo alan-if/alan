@@ -52,7 +52,6 @@ void analyzeSynonyms(void)
     List *lst;		/* Traversal pointer for target list */
     List *slst;		/* Traversal pointer for synonyms lists */
     Word *wrd;		/* Target word */
-    Word *swrd;		/* Synonym word */
 
     for (lst = adv.syns; lst != NULL; lst = lst->next) {
         progressCounter();
@@ -61,9 +60,9 @@ void analyzeSynonyms(void)
             lmLog(&lst->member.syn->id->srcp, 321, sevWAR, lst->member.syn->id->string);
         else
             for (slst = lst->member.syn->ids; slst != NULL; slst = slst->next) {
+#ifdef PREVENT_MULTIPLE_DECLARATIONS_OF_SAME_SYNONYM_WORD
                 /* Look up the synonym */
-                swrd = findWord(slst->member.id->string);
-#ifdef DONT_ALLOW_MULTILPE_SYNONYMS
+                Word *swrd = findWord(slst->member.id->string);
                 if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
                     lmLog(&slst->member.id->srcp, 322, sevWAR, slst->member.id->string);
                 else

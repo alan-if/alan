@@ -242,13 +242,15 @@ void prepareWords(void)
 
 /*----------------------------------------------------------------------*/
 static void analyzeWord(Word *wrd) {
-    if (ISASYNONYM(wrd->classbits) && (~(1L<<SYNONYM_WORD))&wrd->classbits)
-        /* Synonyms can not be of any other class */
-        lmLog(NULL, 333, sevERR, wrd->string);
-
-    else if (ISADIRECTION(wrd->classbits) && ISAVERB(wrd->classbits))
+    if (ISADIRECTION(wrd->classbits) && ISAVERB(wrd->classbits))
         /* Directions and verbs won't work */
         lmLogv(NULL, 320, sevERR, wrd->string, "direction", "verb", NULL);
+
+#ifdef SYNONYMS_CANNOT_BE_OTHER_CLASS
+    else if (ISASYNONYM(wrd->classbits) && (~(1L<<SYNONYM_WORD))&wrd->classbits)
+        /* Synonyms can not be of any other class */
+        lmLog(NULL, 333, sevERR, wrd->string);
+#endif
 
 #ifdef ADJVERB_PROBLEM
     else if (ISAADJECTIVE(wrd->classbits) && ISAVERB(wrd->classbits))
