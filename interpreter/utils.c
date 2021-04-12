@@ -99,3 +99,9 @@ void usage(char *programName)
 bool match(char *pattern, char *input) {
     return fnmatch(pattern, input, FNM_CASEFOLD) == 0;
 }
+
+/*======================================================================*/
+void debug_print(char *message) {
+    if (debugOption)
+        printf("<DEBUG: %s>\n", message);
+}

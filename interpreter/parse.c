@@ -108,9 +108,10 @@ static bool endOfPlayerCommand(int wordIndex) {
 static void handleDirectionalCommand() {
     verbWord = playerWords[currentWordIndex].code;
     currentWordIndex++;
-    if (!endOfPlayerCommand(currentWordIndex))
+    if (!endOfPlayerCommand(currentWordIndex)) {
+        debug_print("Expected end of sentence");
         error(M_WHAT);
-    else
+    } else
         go(current.location, dictionary[playerWords[currentWordIndex-1].code].code);
     if (!endOfWords(currentWordIndex))
         currentWordIndex++;
@@ -740,8 +741,10 @@ static void parseParameterPosition(ParameterPosition *parameterPosition, Aword f
     parameterPosition->parameters = ensureParameterArrayAllocated(parameterPosition->parameters);
 
     complexReferencesParser(parameterPosition);
-    if (lengthOfParameterArray(parameterPosition->parameters) == 0) /* No object!? */
+    if (lengthOfParameterArray(parameterPosition->parameters) == 0) { /* No object!? */
+        debug_print("Expected a parameter");
         error(M_WHAT);
+    }
 
     if (parameterPosition->explicitMultiple && !multipleAllowed(flags))
         error(M_MULTIPLE);
@@ -1014,8 +1017,10 @@ static void findCandidates(Parameter parameters[], void (*instanceMatcher)(Param
 
 /*----------------------------------------------------------------------*/
 static void handleFailedParse(ElementEntry *elms) {
-    if (elms == NULL)
+    if (elms == NULL) {
+        debug_print("Could not find an alternative syntax that matches");
         error(M_WHAT);
+    }
     if (elms->next == 0) { /* No verb code, verb not declared! */
         /* TODO Does this ever happen? */
         error(M_CANT0);
@@ -1444,8 +1449,10 @@ void parse(void) {
     } else if (isInstanceReferenceWord(currentWordIndex)) {
         parseInstanceCommand(parameters, multipleParameters);
         action(current.verb, parameters, multipleParameters);
-    } else
+    } else {
+        debug_print("First word is neither direction, verb or instance");
         error(M_WHAT);
+    }
 
     if (fail) error(NO_MSG);
 
