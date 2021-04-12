@@ -1439,7 +1439,7 @@ void parse(void) {
     capitalize = TRUE;
 
     firstWord = currentWordIndex;
-    if (isDirectionWord(currentWordIndex) && endOfSentence(currentWordIndex+1)) {
+    if (isDirectionWord(currentWordIndex) && endOfPlayerCommand(currentWordIndex+1)) {
         clearParameterArray(previousMultipleParameters);
         clearPronounList(pronouns);
         handleDirectionalCommand();
