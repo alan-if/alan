@@ -26,7 +26,7 @@ Vrb the adj obj prep the adj obj.
 > vrb adj obj prep obj
 Vrb the adj obj prep the adj obj.
 
-> vrb prep
+> vrb prep ;; End marker - should always fail
 I don't understand.
 
 > dir
@@ -47,7 +47,7 @@ Vrb the adj obj prep the adj obj.
 > syn syn obj prep obj
 Vrb the adj obj prep the adj obj.
 
-> syn prep
+> syn prep ;; End marker - should always fail
 I don't understand.
 
 >
