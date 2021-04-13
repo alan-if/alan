@@ -1,0 +1,2 @@
+.alan : alan $1
+.a3c : arun -r -n $1 < $1.input
