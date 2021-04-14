@@ -1,0 +1,34 @@
+Synonyms
+  syn = adj.
+  -- syn = dir.
+  syn = vrb.
+  -- syn = prep.
+
+The l Isa location
+  Exit dir To l
+    Does
+      "Going dir to l."
+  End Exit.
+End The l.
+
+The obj Isa object At l
+  Name adj obj
+End The obj.
+
+Syntax
+  vrb = 'vrb' (o1).
+  vrb_prep = 'vrb' (o1) 'prep' (o2).
+
+Add To Every object
+  Verb vrb
+    Does
+      "Vrb" Say The o1. "."
+  End Verb.
+  Verb vrb_prep
+    When o1
+      Does
+        "Vrb" Say The o1. "prep" Say The o2. "."
+  End Verb.
+End Add.
+
+Start At l.

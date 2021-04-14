@@ -1,0 +1,55 @@
+########## synonyms_galore_verb_adj ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a adj obj here.
+
+> ; syn = vrb & syn = adj
+> dir
+Going dir to l.
+
+L
+There is a adj obj here.
+
+> vrb obj
+Vrb the adj obj.
+
+> vrb adj obj
+Vrb the adj obj.
+
+> vrb obj prep obj
+Vrb the adj obj prep the adj obj.
+
+> vrb adj obj prep obj
+Vrb the adj obj prep the adj obj.
+
+> vrb prep ;; End marker - should always fail
+I don't understand.
+
+> dir
+Going dir to l.
+
+L
+There is a adj obj here.
+
+> syn obj
+Vrb the adj obj.
+
+> syn syn obj
+Vrb the adj obj.
+
+> syn obj prep obj
+Vrb the adj obj prep the adj obj.
+
+> syn syn obj prep obj
+Vrb the adj obj prep the adj obj.
+
+> syn prep ;; End marker - should always fail
+I don't understand.
+
+>
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ?

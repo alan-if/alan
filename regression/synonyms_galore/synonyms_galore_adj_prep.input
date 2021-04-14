@@ -1,0 +1,13 @@
+; syn = vrb & syn = adj
+dir
+vrb obj
+vrb adj obj
+vrb obj prep obj
+vrb adj obj prep obj
+vrb prep ;; End marker - should always fail
+dir
+syn obj
+syn syn obj
+syn obj prep obj
+syn syn obj prep obj
+syn prep ;; End marker - should always fail
