@@ -9,6 +9,10 @@
 from __future__ import with_statement
 import gdb
 
+#
+# Alan commands
+#
+
 class AlanPrefixCommand(gdb.Command):
     "Prefix to do clever alan gdb commands"
 
@@ -208,6 +212,108 @@ class SrcpPrinter(object):
     def to_string(self):
         return "{%d:%d:%d %d-%d}" % (self.val['file'], self.val['line'], self.val['col'], self.val['startpos'], self.val['endpos'])
 
+WORD_CLASS_NAME = [
+    "Synonym",
+    "Adjective",
+    "All",
+    "Except",
+    "Conjunction",
+    "Preposition",
+    "Direction",
+    "It",
+    "Noise",
+    "Noun",
+    "Them",
+    "Verb",
+    "Pronoun"
+    ]
+
+# Bit 0 = 1
+SYNONYM_WORD = 0
+SYNONYM_BIT = (1<<SYNONYM_WORD)
+
+# Bit 1 = 2
+ADJECTIVE_WORD = (SYNONYM_WORD+1)
+ADJECTIVE_BIT = (1<<ADJECTIVE_WORD)
+
+# Bit 2 = 4
+ALL_WORD = (ADJECTIVE_WORD+1)
+ALL_BIT = (1<<ALL_WORD)
+
+# Bit 3 = 8
+EXCEPT_WORD = (ALL_WORD+1)
+EXCEPT_BIT = (1<<EXCEPT_WORD)
+
+# Bit 4 = 16
+CONJUNCTION_WORD = (EXCEPT_WORD+1)
+CONJUNCTION_BIT = (1<<CONJUNCTION_WORD)
+
+# Bit 5 = 32
+PREPOSITION_WORD = (CONJUNCTION_WORD+1)
+PREPOSITION_BIT = (1<<PREPOSITION_WORD)
+
+# Bit 6 = 64
+DIRECTION_WORD = (PREPOSITION_WORD+1)
+DIRECTION_BIT = (1<<DIRECTION_WORD)
+
+# Bit 7 = 128
+IT_WORD = (DIRECTION_WORD+1)
+IT_BIT = (1<<IT_WORD)
+
+# Bit 8 = 256
+NOISE_WORD = (IT_WORD+1)
+NOISE_BIT = (1<<NOISE_WORD)
+
+# Bit 9 = 512
+NOUN_WORD = (NOISE_WORD+1)
+NOUN_BIT = (1<<NOUN_WORD)
+
+# Bit 10 = 1024
+THEM_WORD = (NOUN_WORD+1)
+THEM_BIT = (1<<THEM_WORD)
+
+# Bit 11 = 2048
+VERB_WORD = (THEM_WORD+1)
+VERB_BIT = (1<<VERB_WORD)
+
+# Bit 12 = 4096
+PRONOUN_WORD = (VERB_WORD+1)
+PRONOUN_BIT = ((1)<<PRONOUN_WORD)
+
+WORD_CLASS_COUNT = (PRONOUN_WORD+1)
+
+
+
+def decodeWordBits(bits):
+    # Need to be synchronized with interpreter/acode.h
+    classes = "{"
+    if bits&SYNONYM_BIT: classes += "Synonym "
+    if bits&ADJECTIVE_BIT: classes += "Adjective "
+    if bits&ALL_BIT: classes += "All "
+    if bits&EXCEPT_BIT: classes += "Except "
+    if bits&CONJUNCTION_BIT: classes += "Conjunction "
+    if bits&PREPOSITION_BIT: classes += "Preposition "
+    if bits&DIRECTION_BIT: classes += "Direction "
+    if bits&IT_BIT: classes += "It "
+    if bits&NOISE_BIT: classes += "Noise "
+    if bits&NOUN_BIT: classes += "Noun "
+    if bits&THEM_BIT: classes += "Them "
+    if bits&VERB_BIT: classes += "Verb "
+    if bits&PRONOUN_BIT: classes += "Pronoun "
+    return classes+"}"
+
+class WordPrinter(object):
+    "Print an Alan Compiler Word struct"
+
+    def __init__(self, val):
+        self.val = val
+
+    def to_string(self):
+        r = "classbits = %s, code = %d, string = %s\n" % (decodeWordBits(self.val['classbits']), self.val['code'], self.val['string'])
+        for i in range(WORD_CLASS_COUNT):
+            r += "[%s] = %s\n" % (WORD_CLASS_NAME[i], self.val['ref'][i])
+        return r
+
 
 import gdb.printing
 
@@ -218,9 +324,14 @@ def build_pretty_printers():
     pp.add_printer('Statement', '^Statement$', StatementPrinter)
     pp.add_printer('List', '^List$', ListPrinter)
     pp.add_printer('Srcp', '^Srcp$', SrcpPrinter)
+    pp.add_printer('Word', '^Word$', WordPrinter)
     return pp
 
 gdb.printing.register_pretty_printer(gdb.current_objfile(), build_pretty_printers(), replace=True)
+
+#
+# Arun commands
+#
 
 class ArunPrefixCommand(gdb.Command):
     "Prefix to do clever arun gdb commands"
