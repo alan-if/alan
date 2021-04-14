@@ -51,46 +51,59 @@ typedef int32_t CodeValue;   /* Definition for the packing process */
 
 /* AMACHINE Word Classes, bit positions */
 typedef int WordKind;
+/* 1 */
 #define  SYNONYM_WORD 0
 #define  SYNONYM_BIT (((Aword)1)<<SYNONYM_WORD)
 
+/* 2 */
 #define  ADJECTIVE_WORD (SYNONYM_WORD+1)
 #define  ADJECTIVE_BIT (((Aword)1)<<ADJECTIVE_WORD)
 
+/* 4 */
 #define  ALL_WORD (ADJECTIVE_WORD+1)
 #define  ALL_BIT (((Aword)1)<<ALL_WORD)
 
+/* 8 */
 #define  EXCEPT_WORD (ALL_WORD+1)
 #define  EXCEPT_BIT (((Aword)1)<<EXCEPT_WORD)
 
+/* 16 */
 #define  CONJUNCTION_WORD (EXCEPT_WORD+1)
 #define  CONJUNCTION_BIT (((Aword)1)<<CONJUNCTION_WORD)
 
+/* 32 */
 #define  PREPOSITION_WORD (CONJUNCTION_WORD+1)
 #define  PREPOSITION_BIT (((Aword)1)<<PREPOSITION_WORD)
 
+/* 64 */
 #define  DIRECTION_WORD (PREPOSITION_WORD+1)
 #define  DIRECTION_BIT (((Aword)1)<<DIRECTION_WORD)
 
+/* 128 */
 #define  IT_WORD (DIRECTION_WORD+1)
 #define  IT_BIT (((Aword)1)<<IT_WORD)
 
+/* 256 */
 #define  NOISE_WORD (IT_WORD+1)
 #define  NOISE_BIT (((Aword)1)<<NOISE_WORD)
 
+/* 512 */
 #define  NOUN_WORD (NOISE_WORD+1)
 #define  NOUN_BIT (((Aword)1)<<NOUN_WORD)
 
+/* 1024 */
 #define  THEM_WORD (NOUN_WORD+1)
 #define  THEM_BIT (((Aword)1)<<THEM_WORD)
 
+/* 2048 */
 #define  VERB_WORD (THEM_WORD+1)
 #define  VERB_BIT (((Aword)1)<<VERB_WORD)
 
+/* 4096 */
 #define  PRONOUN_WORD (VERB_WORD+1)
 #define  PRONOUN_BIT (((Aword)1)<<PRONOUN_WORD)
 
-#define  WRD_CLASSES (PRONOUN_WORD+1)
+#define  WORD_CLASS_COUNT (PRONOUN_WORD+1)
 
 
 /* The #nowhere and NO_LOCATION constants */

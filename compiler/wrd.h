@@ -2,8 +2,8 @@
 #define _WRD_H_
 /*----------------------------------------------------------------------*\
 
-				WRD.H
-			Dictionary Word Nodes
+                WRD.H
+            Dictionary Word Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -19,7 +19,7 @@ typedef struct Word {		/* DICTIONARY ENTRY */
   int classbits;		/* Class of this entry as a bit in the set */
   int code;			/* Code for the word */
   char *string;			/* Name of this entry */
-  List *ref[WRD_CLASSES];	/* Lists of references (objects etc) */
+  List *ref[WORD_CLASS_COUNT];	/* Lists of references (objects etc) */
   Aaddr stradr;			/* ACODE address to string */
   Aaddr nounRefAddress;		/* ACODE address to reference table */
   Aaddr adjectiveRefAddress;	/* ACODE address to reference table */

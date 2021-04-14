@@ -432,7 +432,7 @@ void summary(void)
         (void)sprintf(str, "        Instances:              %6d", instanceCount);
         lmLiPrint(str);
     }
-    (void)sprintf(str  , "        Words:                  %6d", words[WRD_CLASSES]);
+    (void)sprintf(str  , "        Words:                  %6d", words[WORD_CLASS_COUNT]);
     lmLiPrint(str);
     (void)sprintf(str,   "        Acode:                  %6d words (%d bytes)",
                   (int)acodeHeader.size, (int)(acodeHeader.size*sizeof(Aword)));

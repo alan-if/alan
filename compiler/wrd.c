@@ -22,7 +22,7 @@
 
 /* PUBLIC: */
 
-int words[WRD_CLASSES+1];
+int words[WORD_CLASS_COUNT+1];
 
 
 /* Private: */
@@ -132,13 +132,13 @@ static int newWord(char *theWord, WordKind class, int code, void *references)
     insertWord(new);
 
     words[class]++;
-    words[WRD_CLASSES]++;
+    words[WORD_CLASS_COUNT]++;
 
     /* Number the new word if so indicated */
     if (new->code == -1)
         new->code = words[class];
     if (new->code == 0)
-        new->code = words[WRD_CLASSES];
+        new->code = words[WORD_CLASS_COUNT];
     return new->code;
 }
 
