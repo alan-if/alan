@@ -189,7 +189,7 @@ static void getLine(void) {
 #endif
         }
 
-        /* If the player input an empty command he forfeited his command */
+        /* If the player inputs an empty command he forfeited his command */
         if (strlen(buf) == 0) {
             clearWordList(playerWords);
             longjmp(forfeitLabel, 0);

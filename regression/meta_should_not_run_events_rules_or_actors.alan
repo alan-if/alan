@@ -2,6 +2,7 @@ Option
     debug.
 
 The test_bed Isa location
+  Is to_be_run.
 End The.
 
 The box Isa object At test_bed
@@ -24,7 +25,7 @@ Add To Every object
     End Verb.
 End Add.
 
-When box At test_bed =>
+When box At test_bed And test_bed Is to_be_run =>
     Schedule say_rule At hero After 0.
 
 Event end_game
@@ -34,6 +35,12 @@ End Event.
 
 Event say_rule
     "Rule triggered."
+    Make test_bed Not to_be_run.
+    Schedule set_to_be_run After 0.
+End Event.
+
+Event set_to_be_run
+    Make test_bed to_be_run.
 End Event.
 
 Event recurring
