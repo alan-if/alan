@@ -1,10 +1,11 @@
 #include <cgreen/cgreen.h>
 #include <cgreen/mocks.h>
 
+/* CONSTANTS, TYPES and PROTOTYPES */
 #include "checkentry.h"
 
+
 /* DATA */
-typedef CheckEntry CheckEntryArray[];
 
 
 /* FUNCTIONS */

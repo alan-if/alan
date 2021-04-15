@@ -6,7 +6,7 @@
 
 /* DATA */
 struct game_state;
-typedef struct game_state GameState;
+
 
 /* FUNCTIONS */
 bool anySavedState(void) {return (bool)mock();}
