@@ -23,6 +23,8 @@
 #include "types.h"
 
 #include "lst_x.h"
+#include "options.h"
+
 
 extern smScContext lexContext;
 
@@ -31,7 +33,7 @@ extern List *fileNames;
 
 extern Bool smScanEnter(Srcp srcp, char fnm[], Bool search);
 extern int scannedLines(void);
-extern void setCharacterSet(int charset);
+extern void setCharacterSet(CharSet charset);
 
 %%DECLARATIONS
 
@@ -161,16 +163,16 @@ extern unsigned char smDosDFAerrCol[256];
 
 static int currentCharSet;
 
-void setCharacterSet(int set)
+void setCharacterSet(CharSet set)
 {
   currentCharSet = set;
   switch (set) {
-  case 0:
+  case CHARSET_ISO:
     smMap = &smIsoMap[0];
     smDFAcolVal = &smIsoDFAcolVal[0];
     smDFAerrCol = &smIsoDFAerrCol[0];
     break;
-  case 1:
+  case CHARSET_DOS:
     smMap = &smDosMap[0];
     smDFAcolVal = &smDosDFAcolVal[0];
     smDFAerrCol = &smDosDFAerrCol[0];
