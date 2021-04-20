@@ -167,7 +167,6 @@ UNITOUTPUT ?= -c
 test:
 	../bin/jregr -bin ../bin -dir ../regression $(JREGROUTPUT)
 	../bin/jregr -bin ../bin -dir ../regression/versions/interpreter $(JREGROUTPUT)
-	#../bin/jregr -dir ../regression/special $(JREGROUTPUT)
 
 
 #######################################################################
