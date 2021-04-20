@@ -65,7 +65,7 @@ static SPA_FUN(addInclude)
   spaSkip(1);
 }
 
-static char *charsets[] = {"iso", "mac", "dos"};
+static char *charsets[] = {"iso", "dos"};
 
 
 static SPA_DECLARE(arguments)
@@ -81,7 +81,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("infos", "[don't] show informational messages", infoFlag, FALSE, NULL)
      SPA_FUNCTION("include <path>", "additional directory to search after current when\nlooking for imported files (may be repeated)", addInclude)
      SPA_FUNCTION("import <path>", "additional directory to search after current when\nlooking for imported files (may be repeated)", addInclude)
-     SPA_KEYWORD("charset <set>", "which character set source is in (iso|mac|dos)", charset, charsets, 0, NULL)
+     SPA_KEYWORD("charset <set>", "which character set source is in (iso|dos)", charset, charsets, 0, NULL)
      SPA_FLAG("ide", "list messages in a format appropriate for AlanIDE\n", ideFlag, FALSE, NULL)
      SPA_FLAG("cc", "show messages on the screen in old 'cc' format\n", ccFlag, FALSE, NULL)
      SPA_FLAG("full", "full source in the list file (or on screen)", fullFlag, FALSE, NULL)

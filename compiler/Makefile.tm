@@ -84,30 +84,6 @@ smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	else \
 		mv smScan.iso.new smScan.iso ; \
 	fi ;
-	smk -set MAC alan -generate tables
-	imp $(IMPQ) alan.smt
-	echo "/* MAC scanner tables */" > smScan.mac.new
-	echo "UByte1 smMacMap[256]={" >> smScan.mac.new
-	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
-	echo ";" >> smScan.mac.new
-	echo "" >> smScan.mac.new
-	echo "UByte1 smMacDFAcolVal[256]={" >> smScan.mac.new
-	sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
-	echo ";" >> smScan.mac.new
-	echo "" >> smScan.mac.new
-	echo "UByte1 smMacDFAerrCol[256]={" >> smScan.mac.new
-	sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.mac.new
-	echo ";" >> smScan.mac.new
-	echo "" >> smScan.mac.new
-	if test -f smScan.mac ; then \
-		if cmp smScan.mac smScan.mac.new ; then \
-			rm smScan.mac.new ; \
-		else \
-			mv smScan.mac.new smScan.mac ; \
-		fi ; \
-	else \
-		mv smScan.mac.new smScan.mac ; \
-	fi ;
 	smk -set PC alan -generate tables
 	imp $(IMPQ) alan.smt
 	echo "/* DOS scanner tables */" > smScan.dos.new
@@ -139,7 +115,6 @@ smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	echo "UByte1 *smDFAerrCol;" >> smScanx.c
 	echo "" >> smScanx.c
 	cat smScan.iso >> smScanx.c
-	cat smScan.mac >> smScanx.c
 	cat smScan.dos >> smScanx.c
 	cat smScan.tbl >> smScanx.c
 	cat smScan.tail >> smScanx.c

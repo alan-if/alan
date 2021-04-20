@@ -155,9 +155,6 @@ extern unsigned char *smDFAerrCol;
 extern unsigned char smIsoMap[256];
 extern unsigned char smIsoDFAcolVal[256];
 extern unsigned char smIsoDFAerrCol[256];
-extern unsigned char smMacMap[256];
-extern unsigned char smMacDFAcolVal[256];
-extern unsigned char smMacDFAerrCol[256];
 extern unsigned char smDosMap[256];
 extern unsigned char smDosDFAcolVal[256];
 extern unsigned char smDosDFAerrCol[256];
@@ -174,11 +171,6 @@ void setCharacterSet(int set)
     smDFAerrCol = &smIsoDFAerrCol[0];
     break;
   case 1:
-    smMap = &smMacMap[0];
-    smDFAcolVal = &smMacDFAcolVal[0];
-    smDFAerrCol = &smMacDFAerrCol[0];
-    break;
-  case 2:
     smMap = &smDosMap[0];
     smDFAcolVal = &smDosDFAcolVal[0];
     smDFAerrCol = &smDosDFAerrCol[0];
