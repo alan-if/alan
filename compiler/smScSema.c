@@ -153,16 +153,16 @@ extern unsigned char smDosDFAerrCol[256];
 
 static int currentCharSet;
 
-void setCharacterSet(int set)
+void setCharacterSet(CharSet set)
 {
   currentCharSet = set;
   switch (set) {
-  case 0:
+  case CHARSET_ISO:
     smMap = &smIsoMap[0];
     smDFAcolVal = &smIsoDFAcolVal[0];
     smDFAerrCol = &smIsoDFAerrCol[0];
     break;
-  case 1:
+  case CHARSET_DOS:
     smMap = &smDosMap[0];
     smDFAcolVal = &smDosDFAcolVal[0];
     smDFAerrCol = &smDosDFAerrCol[0];

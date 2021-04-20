@@ -5,7 +5,11 @@ Adventure Language System
 0
 8
 beta
+<<<<<<< HEAD
 1618255335 2021-04-12 21:22:15
+=======
+1618959568 2021-04-21 00:59:28
+>>>>>>> a3b1d51d (Replace integer charset value with enum)
 
 thoni64
 $v.$r{s$s|.}$c

@@ -187,6 +187,8 @@ extern int smScan( smScContext smThis, Token *smToken );
 #include "types.h"
 
 #include "lst_x.h"
+#include "options.h"
+
 
 extern smScContext lexContext;
 
@@ -195,7 +197,7 @@ extern List *fileNames;
 
 extern Bool smScanEnter(Srcp srcp, char fnm[], Bool search);
 extern int scannedLines(void);
-extern void setCharacterSet(int charset);
+extern void setCharacterSet(CharSet charset);
 
 
 /* END %%EXPORT */
