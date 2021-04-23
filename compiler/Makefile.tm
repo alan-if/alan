@@ -20,7 +20,7 @@ ifneq ($(shell which lmk 2>/dev/null), )
 lmList.c: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk alan
 else
-lmList.c: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
+lmList.c: alan.lmk alan.tmk
 	@echo "WARNING! ToolMaker (lmk) not available, not re-generating, using current lmList.c"
 endif
 
@@ -33,7 +33,7 @@ pmParse.c: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common
 	pmk alan
 	sed -f prod.sed alan.pml > alan.prod
 else
-pmParse.c: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
+pmParse.c: alan.pmk alan.tmk
 	@echo "WARNING! ToolMaker (pmk) not available, not re-generating, using current pmParse.c, pmPaSema.c pmErr.c"
 endif
 
@@ -121,7 +121,7 @@ smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	dos2unix smScanx.c
 	dos2unix smScSema.c
 else
-smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
+smScanx.c : alan.smk alan.tmk alan.voc
 	@echo "WARNING! ToolMaker (smk) not available, not re-generating, using current smScan.c and smScSema.c"
 endif
 
