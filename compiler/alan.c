@@ -10,10 +10,6 @@
 #include "types.h"
 #include "util.h"
 
-#ifdef __sun__
-#include <unistd.h>
-#endif
-
 #include "alan.h"
 
 /* IMPORTS */
