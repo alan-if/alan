@@ -216,8 +216,8 @@ PRIVATE struct {                /* Code reduction data structure */
   (i.e blank and following).
 */
 PRIVATE int FUNCTION(match, (p, s))
-    IN(register char, *p) X     /* User supplied argv-item */
-    IN(register char, *s)       /* SPA_ITEM string */
+    IN(char, *p) X     /* User supplied argv-item */
+    IN(char, *s)       /* SPA_ITEM string */
 IS {
     while (*p) {
         if (*s==' ' || lwr((int)*s)!=lwr((int)*p)) return FALSE;
@@ -233,12 +233,12 @@ IS {
 */
 PRIVATE int FUNCTION(find, (ai, kws, kwSz, kwO, found))
     IN(char, *ai) X             /* User supplied argv-item */
-    IN(register char, kws[]) X	/* The matching words */
+    IN(char, kws[]) X           /* The matching words */
     IN(int, kwSz) X             /* Size of kws */
     IN(int, kwO) X              /* Offset to kws.name */
     OUT(int, found)             /* The found items index */
 IS {
-    register int i, o;
+    int i, o;
     int c, hits = 0;
 
     *found = -1;
@@ -284,9 +284,9 @@ IS {
 */
 PRIVATE PROCEDURE(printItem, (name, help, def, set, kws))
     IN(char *, name) X          /* Name of item */
-    IN(register char *, help) X	/* Help string */
+    IN(char *, help) X          /* Help string */
     IN(char *, def) X           /* Default value string */
-    IN(register char *, set) X  /* Points to set string (or is NULL) */
+    IN(char *, set) X           /* Points to set string (or is NULL) */
     IN(char **,kws)             /* Points to keyword array (or is NULL) */
 IS {
     boolean nl = FALSE;
@@ -374,7 +374,7 @@ IS {
   Report one SPA_ITEM.
 */
 PRIVATE PROCEDURE(reportItem, (item, name))
-    IN(register _SPA_ITEM *, item) X
+    IN(_SPA_ITEM *, item) X
     IN(char *, name)
 IS {
     char def[128];	/* Is this enough? Too much? No test ahead! */
@@ -413,7 +413,7 @@ IS {
         strcpy(def, kws[item->i]);
         break;
     case _SPA_Bits: {
-        register int i = 0, j = 1;
+        int i = 0, j = 1;
         def[0] = '{';
         set = item->s;
         for (; set[i]; i++) {
@@ -433,10 +433,10 @@ IS {
   Make a report list out of the arguments and options.
 */
 PRIVATE PROCEDURE(report, (args, opts))
-    IN(register _SPA_ITEM, args[]) X
-    IN(register _SPA_ITEM, opts[])
+    IN(_SPA_ITEM, args[]) X
+    IN(_SPA_ITEM, opts[])
 IS {
-    register int i;
+    int i;
 
     if (args[0].name && *args[0].name) printf("\n%s\n", SpaStrArg);
     for (i= 0; args[i].name && *args[i].name; i++)
@@ -453,7 +453,7 @@ IS {
   Assert that the file was opened.
 */
 PRIVATE PROCEDURE(assertFile, (item))
-    IN(register _SPA_ITEM, *item)
+    IN(_SPA_ITEM, *item)
 IS {
     if (!*item->FP) { /* open failure */
         spaErr((item->type==_SPA_InFile? SpaStrFRE: SpaStrFWE), pArgV[pArg], 'F');
@@ -466,7 +466,7 @@ IS {
   Set default values for one SPA_ITEM.
 */
 PRIVATE PROCEDURE(setDefault, (item))
-    IN(register _SPA_ITEM, *item)
+    IN(_SPA_ITEM, *item)
 IS {
     switch (item->type) {
     case _SPA_Flag:
@@ -506,9 +506,9 @@ IS {
   Execute an SPA_ITEM.
 */
 PRIVATE PROCEDURE(execute, (item, option, on))
-    IN(register _SPA_ITEM, *item) X
+    IN(_SPA_ITEM, *item) X
     IN(boolean, option) X       /* True if argv was an option */
-    IN(register boolean, on)	/* True if argv was an on-option */
+    IN(boolean, on)             /* True if argv was an on-option */
 IS {
     if (item) {
 
@@ -538,7 +538,7 @@ IS {
             }
             break;
         case _SPA_Bits: {
-            register char *arg, *bp;
+            char *arg, *bp;
             boolean bon = on;
 
             for (arg= pArgV[pArg]; *arg; arg++) { /* Go thru argument */
@@ -631,8 +631,8 @@ PRIVATE boolean FUNCTION(option, (options))
     IN(_SPA_ITEM, options[])		/* Possible options */
 IS {
     int found;
-    register char *argvItem = pArgV[pArg];
-    register int start;
+    char *argvItem = pArgV[pArg];
+    int start;
 
     if (argvItem[0]=='-') {
         start = (argvItem[1]=='-'? 2: 1);
@@ -706,7 +706,7 @@ PRIVATE SPA_DECLARE(biArguments)
 #endif
 
          PRIVATE SPA_FUN(biUsage) {
-         register int i, j;
+         int i, j;
 
          printf("%s %s", SpaStrUsg, SpaAlertName);
          if (pOptions!=biOptions) {
@@ -754,7 +754,7 @@ PRIVATE int FUNCTION(level, (sev))
     IN(char, sev)		/* Index in SpaAlertStr */
 IS {
     static char *sevstr = "DIWEFS";
-    register char *s;
+    char *s;
 
     s = strchr(sevstr, sev);
     return s? s-sevstr: 6;
@@ -778,7 +778,7 @@ PUBLIC void spaAlert(va_alist)
         char *fmt;
 #endif
         va_list ap;
-        register int lev;
+        int lev;
 
 #ifdef __NEWC__
         va_start(ap, fmt);
@@ -804,7 +804,7 @@ PUBLIC void spaAlert(va_alist)
   Return Nth argument in argv, NULL if outside argv.
 */
 PUBLIC char * FUNCTION(spaArgumentNo, (n))
-    IN(register int, n)
+    IN(int, n)
 IS {
     return ( (n>=pArgC || n<0)? NULL: pArgV[n] );
 }
@@ -826,7 +826,7 @@ IS {
 PUBLIC PROCEDURE(spaSkip, (n))
     IN(int, n)
 IS {
-    register int t= pArg+n;
+    int t= pArg+n;
 
     pArg= ( (t>=pArgC)? pArgC: (t<0? 0: t) );
 }
@@ -843,8 +843,8 @@ PUBLIC int FUNCTION(_spaProcess, (argc, argv, arguments, options, errfun))
     IN(_SPA_ITEM, options[]) X
     IN(SpaErrFun, *errfun)
 IS {
-    register int a, n;
-    register char *s;
+    int a, n;
+    char *s;
 
     /* Set input and output channels */
     fileDefault[0].deffile = stdin;
