@@ -70,21 +70,21 @@
 /**************************/
 
 /* Common case first */
-#define ISO 0
-#define NATIVECHARSET CHARSET_UTF
+#define ISO 1
+#define NATIVECHARSET 0         /* ISO */
 
 #ifdef __dos__
 #undef ISO
 #define ISO 0
 #undef NATIVECHARSET
-#define NATIVECHARSET CHARSET_DOS
+#define NATIVECHARSET 1         /* DOS */
 #endif
 
 #ifdef __win__
 #undef ISO
 #define ISO 1
 #undef NATIVECHARSET
-#define NATIVECHARSET
+#define NATIVECHARSET 0         /* ISO */
 #endif
 
 
