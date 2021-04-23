@@ -25,13 +25,8 @@
 #endif
 
 #ifdef __APPLE__
-// At least GCC 3.x does define this for Darwin
 #define __macosx__
 #define __unix__
-#endif
-
-#ifdef __BORLANDC__
-#define __dos__
 #endif
 
 #ifdef __MINGW32__
@@ -40,11 +35,6 @@
 
 #ifdef __CYGWIN32__
 #define __cygwin__
-#endif
-
-#ifdef __PACIFIC__
-#define  __dos__
-#define HAVE_SHORT_FILENAMES
 #endif
 
 
