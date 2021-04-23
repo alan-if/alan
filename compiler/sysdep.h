@@ -87,14 +87,6 @@
 #define NATIVECHARSET
 #endif
 
-/* Old Macs uses other CHARSET, Mac OS X uses ISO */
-#ifdef __old_mac__
-#undef ISO
-#define ISO 0
-#undef NATIVECHARSET
-#define NATIVECHARSET 1
-#endif
-
 
 /**************/
 /* File modes */
