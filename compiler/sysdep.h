@@ -18,10 +18,6 @@
 
 
 /* Place definitions of OS and compiler here if necessary */
-#ifdef _INCLUDE_HPUX_SOURCE
-#define __hp__
-#endif
-
 #ifndef __unix__
 #ifdef unix
 #define __unix__
