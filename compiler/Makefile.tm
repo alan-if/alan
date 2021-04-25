@@ -2,21 +2,28 @@
 #
 # This makefile is to ensure that all generated sources are
 # up-to-date. It will generate parser, scanner and lister files only
-# if ToolMaker (tmk, pmk, smk and lmk) are available.  Any source
-# distribution should include the resulting files and this Makefile
-# will then print warnings but it should build anyway.
+# if ToolMaker (tmk, pmk, smk and lmk) are available. Which is tested
+# by checking the variable TMHOME. If it's not available files are not
+# generated. Instead the existing generated file will be used.
+#
+# NOTE that if the TMHOME variable is set, the executables are assumed
+# to be available in the PATH.
+#
+# So any source distribution should include the resulting files and
+# this Makefile will then print warnings but it should build anyway.
 #
 # REMEMBER: You have to set both the path to include the ToolMaker
 # bin directory and the TMHOME environment variable to point there!
 
-TMHOME	= $(HOME)/Utveckling/ToolMaker
+# TMHOME	= $(HOME)/Utveckling/ToolMaker
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 
 # Make all LMK output files dependent on lmList.c
 lmList.h: lmList.c
 
-ifneq ($(shell which lmk 2>/dev/null), )
+# Is TMHOME set?
+ifneq ($(TMHOME),)
 lmList.c: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk alan
 else
@@ -28,7 +35,8 @@ endif
 # Make all PMK output files dependent on pmParse.c
 pmParse.h pmPaSema.c pmErr.c pmErr.h alan.voc alan.pml: pmParse.c
 
-ifneq ($(shell which pmk 2>/dev/null), )
+# Is TMHOME set?
+ifneq ($(TMHOME),)
 pmParse.c: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	pmk alan
 	sed -f prod.sed alan.pml > alan.prod
@@ -57,7 +65,8 @@ alan.g : antlr.sed antlr.header alan.prod
 # Make all SMK output files dependent on smScanx.c
 smScSema.c smScan.h: smScanx.c
 
-ifneq ($(shell which smk 2>/dev/null), )
+# Is TMHOME set?
+ifneq ($(TMHOME),)
 smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan -generate tables
 	imp $(IMPQ) alan.smt
