@@ -41,8 +41,7 @@ GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
 # available too.  Gargoyle includes a version of Arun, built to a
 # binary called 'alan3'. To build that using the current sources,
 # remove the subdirectory terps/alan3 and create a link from there to
-# this directory. Then a build here will attempt to build that too, if
-# enabled.
+# this directory. Then 'make gararun' here will build it, if enabled.
 GARGOYLE_ROOT = ../../garglk-current-alan3
 
 # Enable MacArun
