@@ -7,7 +7,9 @@ else
 UNITOUTPUT ?= -c
 endif
 
-VERSION = `venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
+# VERSION = `venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
+#VERSION = `awk 'NR > 3; NR == 7 {exit}' alan.version | awk '{v[NR] = $$0}; END { printf "%s.%s%s%s", v[1], v[2], v[4], v[3]}'`
+VERSION := $(shell cat NEXTRELEASE)
 
 # PLATFORM will be part of package names
 PLATFORM ?= "Make variable PLATFORM needs to be set by platform specific Makefile"

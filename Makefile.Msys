@@ -1,6 +1,6 @@
 include mk/include_guard.mk
 
-VERSION	:= `venum alan -print '$$v.$$r{s$$s|_}$$c' | tr -d '\n\r'`
+VERSION := $(shell cat NEXTRELEASE)
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
 # Since we only distribute windows 32-bit exe's
