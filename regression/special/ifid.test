@@ -1,2 +1,2 @@
-alan ifid
-arun -r -n -v ifid < ifid.input
+../../bin/alan ifid
+../../bin/arun -r -n -v ifid < ifid.input
