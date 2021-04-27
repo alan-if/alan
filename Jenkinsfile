@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Unittests') {
             steps {
-                  sh 'echo $BUILD_NUMBER > BUILD_NUMBER'
                   sh 'make UNITOUTPUT="--xml TEST" unit'
             }
         }
@@ -15,13 +14,13 @@ pipeline {
         }
         stage('Test') {
             steps {
-                  sh 'make JREGROUTPUT=-xml test'
+                  sh 'make BUILDNUMBER=$BUILD_NUMBER JREGROUTPUT=-xml test'
                   junit '**/target/*.xml'
             }
         }
         stage('Deploy') {
             steps {
-                  sh 'make package'
+                  sh 'make BUILDNUMBER=$BUILD_NUMBER package'
                   archiveArtifacts artifacts: '*.zip'
             }
         }
