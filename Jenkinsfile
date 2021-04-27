@@ -23,7 +23,7 @@ pipeline {
         stage('Deploy') {
             steps {
                   sh 'make BUILDNUMBER=$BUILD_NUMBER package'
-                  archiveArtifacts artifacts: '*.zip'
+                  archiveArtifacts artifacts: '*.tgz'
             }
         }
     }
