@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Unittests') {
             steps {
-                  sh 'make unit'
+                  sh 'make UNITOUTPUT="--xml TEST" unit'
             }
         }
         stage('Build') {
@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                  sh 'make test'
+                  sh 'make JREGROUTPUT=-xml test'
                   junit '**/target/*.xml'
             }
         }
