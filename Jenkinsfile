@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    triggers {
+        githubPush()
+    }
     stages {
         stage('Unittests') {
             steps {
@@ -9,7 +11,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                  sh 'make'
+                  sh 'make JREGROUTPUT=-xml UNITOUTPUT="--xml TEST" build'
             }
         }
         stage('Test') {
