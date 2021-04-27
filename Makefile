@@ -4,8 +4,12 @@
 # it is running and will include specific Makefiles to build on that
 # particular host
 #
+# If you are running this in a CI environment that should create
+# distributions, set BUILDNUMBER to the build number as in
 #
-include mk/common.mk
+#   make BUILDNUMBER=$BUILD_NUMBER <target>
+#
+	include mk/common.mk
 
 all: everything
 

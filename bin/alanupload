@@ -6,7 +6,7 @@ if [ $# != 2 ] ; then
     cat << EOF
     This script allow you to upload files to the Alan Home Pages download area
     from the command line. You need to have set up your ~/.ssh/config so that
-    you can use "ssh alanif.se" to log in to alanif.se without using a user or
+    you can use "ssh/sftp alanif.se" to connect to alanif.se without using a user or
     password. One way to do that is to ssh-copy-id to set up your remote
     ~/.ssh/authorized_keys
 EOF
