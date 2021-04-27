@@ -17,7 +17,7 @@ pipeline {
         stage('Test') {
             steps {
                   sh 'make BUILDNUMBER=$BUILD_NUMBER JREGROUTPUT=-xml test'
-                  junit '**/target/*.xml'
+                  junit '**/*.xml'
             }
         }
         stage('Deploy') {
