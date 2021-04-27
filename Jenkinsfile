@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Unittests') {
             steps {
+                  sh 'echo $BUILD_NUMBER > BUILD_NUMBER'
                   sh 'make UNITOUTPUT="--xml TEST" unit'
             }
         }
