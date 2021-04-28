@@ -52,7 +52,6 @@ cross: cross-clean
 cross-build: CC=i686-w64-mingw32-gcc
 cross-build: EXEEXT=.exe
 cross-build: build $(EXTRA_CROSS_TARGETS)
-	echo After cross-build: BUILD_NUMBER=$(BUILD_NUMBER)
 
 
 # We need to remove all *.o for the targets that may be cross built
