@@ -82,6 +82,9 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 # Add any other Windows-targets to EXTRA_CROSS_TARGETS and they will
 # be built too.
 #
+# TODO: we should remember that we just built cross so remove all
+# objects on next non-cross build...
+#
 cross: cross-clean
 	$(MAKE) cross-build
 # Need to have them on a separate target to override current ones
