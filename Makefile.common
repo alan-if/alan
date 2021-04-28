@@ -71,6 +71,11 @@ ifneq ($(wildcard ./BUILD_NUMBER),)
 BUILDNUMBER=`cat BUILD_NUMBER`
 endif
 
+ifneq ($(BUILDNUMBER),)
+  # For snapshots we use buildnumber for version info and filenames
+  BUILDVERSION = -$(BUILDNUMBER)
+endif
+
 .PHONY: buildnumbers
 buildnumbers: buildnumber
 	$(eval BUILDVERSION := -$(BUILDNUMBER))
@@ -84,6 +89,8 @@ buildnumber:
 ifeq ($(BUILDNUMBER),)
 	@echo "Getting BUILDNUMBER from Jenkins (should only happen when not building on Jenkins@thoni64)"
 	$(eval BUILDNUMBER := $(shell wget -q -O- 'https://ci.alanif.se/jenkins/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
+else
+	@echo BUILDNUMBER=$BUILDNUMBER
 endif
 
 # Need for packaging
