@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                  sh 'make make BUILDNUMBER=$BUILD_NUMBER build'
+                  sh 'make BUILDNUMBER=$BUILD_NUMBER build'
             }
         }
         stage('Test') {
