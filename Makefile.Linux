@@ -22,6 +22,10 @@ $(PACKAGE): bin/alan bin/arun
 	tar zcvf $(PACKAGE) $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
 
+# Create package of cross-compiled Windows binaries
+# Only the zip for now
+cross-package: zip # setup
+
 # How to package cross-compiled Windows binaries
 # Location of Inno Setup Compiler, this is for WSL
 INNODIR = /mnt/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5

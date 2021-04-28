@@ -19,7 +19,6 @@ CFLAGS += -g -Og -Wall -MMD -funsigned-char -DBUILD=$(BUILDNUMBER)
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
 
-
 #######################################################################
 #
 # arun: Arun command line interpreter - native or cross
@@ -87,6 +86,8 @@ glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
 #
 cross: cross-clean
 	$(MAKE) cross-build
+# Need to have them on a separate target to override current ones
+cross-build: EXEEXT=.exe
 cross-build: CC=i686-w64-mingw32-gcc
 cross-build: EXEEXT=.exe
 cross-build: build $(EXTRA_CROSS_TARGETS)

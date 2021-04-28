@@ -55,7 +55,7 @@ arun.res: arun.rc arun.ico resources.h alan.version.c
 ifdef GARARUN_ENABLED
 EXTRA_TARGETS += gargoyle
 else
-$(info NOT ENABLED: gararun - Gargoyle Arun)
+$(info NOT ENABLED: gararun - Gargoyle Arun for Windows)
 endif
 
 gararun: build-gararun gararun-package gargoyle-updater

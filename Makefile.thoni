@@ -6,6 +6,9 @@ include mk/include_guard.mk
 # process.
 #
 
+# We might build Windows stuff
+include Makefile.win32
+
 CHANGES_HEADER = `head -1 CHANGES`
 
 .PHONY: release
@@ -65,13 +68,6 @@ release-upload:
 	alanupload interpreter/gargoyle-updater-alan$(VERSION).$(PLATFORM).zip interpreters/windows
 
 
-# OBSOLETE: Create pdf from odt
-# TODO: Use alan-doc project to create documentation instead
-.PHONY: documentation
-documentation:
-	$(MAKE) -C doc/manual
-
-
 .PHONY: releasebuild
 releasebuild:
 	touch alan.version.h */alan.version.c
@@ -98,41 +94,7 @@ newVersion:
 
 .PHONY: package
 package: zip setup
-
-.PHONY: zip
-zip: doc/manual/manual.pdf bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING
-	@if ldd bin/alan.exe | grep -q cygwin1.dll ; then \
-		echo ERROR packaging - alan.exe is dependent on cygwin1.dll ; \
-		exit 1 ; \
-	fi
-	@if ldd bin/arun.exe | grep -q cygwin1.dll ; then \
-		echo ERROR packaging - arun.exe is dependent on cygwin1.dll ; \
-		exit 1 ; \
-	fi
-	-rm alan*.zip
-	zip -j alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $^
-
-# Create setup installers for SDK and WinArun using Inno Installer Compiler
-setup: PLATFORM=win32.i686
-.PHONY: setup
-setup: COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
-	@if ldd bin/winalan.exe | grep -q cygwin1.dll ; then \
-		echo ERROR packaging - winalan.exe is dependent on cygwin1.dll ; \
-		exit 1 ; \
-	fi
-	@if ldd bin/winarun.exe | grep -q cygwin1.dll ; then \
-		echo ERROR packaging - winarun.exe is dependent on cygwin1.dll ; \
-		exit 1 ; \
-	fi
-	-rm winarun*setup.exe
-	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ -e s/PLATFORM/$(PLATFORM)/ winarun.iss > winarun_tmp.iss
-	$(INNODIR)/ISCC.exe winarun_tmp.iss
-	-rm winarun_tmp.iss
-	-rm alan*setup.exe
-	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ -e s/PLATFORM/$(PLATFORM)/ alan.iss > alan_tmp.iss
-	$(INNODIR)/ISCC.exe alan_tmp.iss
-	-rm alan_tmp.iss
-	-rm COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt converter/a2a3.readme.txt
+# From Makefile.win32
 
 # Gargoyle Arun
 .PHONY: gararun
@@ -141,18 +103,3 @@ gararun:
 
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; ../../bin/alan adventv3
-
-COPYING.txt: COPYING
-	unix2dos >$@ <$<
-
-CHANGES.txt: CHANGES
-	unix2dos >$@ <$<
-
-alan.readme.txt: alan.readme
-	unix2dos >$@ <$<
-
-alan.readme.windows.txt: alan.readme.windows
-	unix2dos >$@ <$<
-
-converter/a2a3.readme.txt: converter/a2a3.readme
-	unix2dos >$@ <$<
