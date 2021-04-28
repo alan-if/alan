@@ -268,11 +268,8 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
 /*----------------------------------------------------------------------*/
 static void prepareHeader(ACodeHeader *acodeHeader) {
 
-#ifdef __POSIX__
     struct timeval times;
-#else
-    struct timeb times;
-#endif
+
     /* Generate header tag "ALAN" */
     if (littleEndian()) {
         /* Since we reverse these when emitting */
@@ -306,13 +303,8 @@ static void prepareHeader(ACodeHeader *acodeHeader) {
        not be done if it was not created with exactly the same compiled
        game. You can remove it or replace it by something else. It does
        not affect game compatibility. */
-#ifdef __POSIX__
     gettimeofday(&times, NULL);
     acodeHeader->uid = times.tv_usec;
-#else
-    ftime(&times);
-    acodeHeader->uid = times.millitm;
-#endif
 }
 
 
