@@ -48,6 +48,9 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 # Add any other Windows-targets to EXTRA_CROSS_TARGETS and they will
 # be built too.
 #
+# TODO: we should remember that we just built cross so remove all
+# objects on next non-cross build...
+#
 cross: cross-clean
 	$(MAKE) cross-build
 cross-build: CC=i686-w64-mingw32-gcc
