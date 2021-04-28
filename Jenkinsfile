@@ -20,9 +20,15 @@ pipeline {
                   junit '**/*.xml'
             }
         }
+        stage('Cross') {
+            steps {
+                  sh 'make BUILDNUMBER=$BUILD_NUMBER cross'
+            }
+        }
         stage('Deploy') {
             steps {
                   sh 'make BUILDNUMBER=$BUILD_NUMBER package'
+                  sh 'make BUILDNUMBER=$BUILD_NUMBER cross-package'
                   archiveArtifacts artifacts: '*.tgz'
             }
         }
