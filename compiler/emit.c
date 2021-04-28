@@ -9,12 +9,7 @@
 #include "types.h"
 #include "util.h"
 
-// TODO Find out if this is necessary
-#ifdef __POSIX__
-#	include <sys/time.h>
-#else
-#	include <sys/timeb.h>
-#endif
+#include <sys/time.h>
 
 #include "alan.h"
 

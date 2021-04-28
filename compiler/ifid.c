@@ -8,11 +8,7 @@
 #include "ifid_x.h"
 
 #include <stdio.h>
-#ifdef __POSIX__
 #include <sys/time.h>
-#else
-#include <sys/timeb.h>
-#endif
 
 #include "srcp_x.h"
 #include "str.h"
