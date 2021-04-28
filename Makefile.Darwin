@@ -2,6 +2,9 @@
 # Partial Makefile to be included from top level Makefile on Darwin
 #
 
+# Possible cross-compilation to Windows
+include Makefile.win32
+
 PLATFORM = macos
 
 VERSION := $(shell cat NEXTRELEASE)

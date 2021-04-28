@@ -2,6 +2,9 @@
 # Partial Makefile to be included from top level Makefile on Linux
 #
 
+# Possible cross-compilation to Windows
+include Makefile.win32
+
 VERSION := $(shell cat NEXTRELEASE)
 
 PLATFORM = linux.$(shell uname -m)
