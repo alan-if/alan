@@ -23,19 +23,22 @@ LINK = $(CC) $(LDFLAGS)
 #
 ALANOBJDIR = .alan
 ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
-$(ALANOBJDIR)/alan.version.o: alan.version.c
+
+# Dependencies
 -include $(ALANOBJECTS:.o=.d)
+
+# Rule to compile objects to subdirectory
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
-
-alan: CFLAGS += $(COVERAGE)
-alan: $(ALANOBJECTS) | ../bin
-	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
-	cp $@$(EXEEXT) ../bin
 
 $(ALANOBJECTS): | $(ALANOBJDIR)
 $(ALANOBJDIR):
 	mkdir $(ALANOBJDIR)
+
+alan: CFLAGS += $(COVERAGE)
+alan: $(ALANOBJDIR) $(ALANOBJECTS)
+	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
+	cp -f $@$(EXEEXT) ../bin
 
 ../bin:
 	mkdir -p ../bin

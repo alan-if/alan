@@ -16,8 +16,9 @@ endif
 
 CFLAGS += -g -Og -Wall -MMD -funsigned-char -DBUILD=$(BUILDNUMBER)
 
-# Default extension for shared dynamic libraries
-SOEXTENSION ?= so
+COMPILE = $(CC) $(CFLAGS)
+LINK = $(CC) $(LDFLAGS)
+
 
 #######################################################################
 #
@@ -31,16 +32,19 @@ ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUNOBJDIR)/alan.v
 
 # Rule to compile objects to subdirectory
 $(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(COMPILE) -o $@ -c $<
 
+$(ARUNOBJECTS): | $(ARUNOBJDIR)
 $(ARUNOBJDIR):
 	mkdir $(ARUNOBJDIR)
 
 arun: CFLAGS += $(COVERAGE)
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(CC) $(LDFLAGS) $(COVERAGE) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
+	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
 	cp -f $@$(EXEEXT) ../bin/
 
+../bin:
+	mkdir -p ../bin
 
 #######################################################################
 #
