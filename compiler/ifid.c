@@ -48,22 +48,13 @@ IfidNode *newIfid(Srcp srcp, char *name, char *value)
 static void fillRandomBytes(char buffer[], int nbytes)
 {
   static int initted = 0;
-#ifdef __POSIX__
   struct timeval times;
-#else
-  struct timeb times;
-#endif
   long time_now;
   int i;
 
   if (!initted) {
-#ifdef __POSIX__
     gettimeofday(&times, NULL);
     time_now = times.tv_usec;
-#else
-    ftime(&times);
-    time_now = times.millitm;
-#endif
     srand(time_now);
     initted = 1;
   }
