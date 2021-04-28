@@ -44,7 +44,7 @@ CGREENLDPATH  =
 ifdef GARARUN_ENABLED
 EXTRA_TARGETS += gargoyle
 else
-$(info NOT ENABLED: gararun - Gargoyle Arun)
+$(info NOT ENABLED: gararun - Gargoyle Arun for Linux)
 endif
 
 gararun: gararun-zip gararun-sh

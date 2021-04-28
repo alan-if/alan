@@ -6,10 +6,6 @@ include ../mk/include_guard.mk
 include ../mk/venum.mk
 include Makefile.tm
 
-ifneq ($(EMACS),)
-JREGROUTPUT = -noansi
-endif
-
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
   BUILDVERSION = -$(BUILDNUMBER)
@@ -30,19 +26,17 @@ ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.v
 
 # Dependencies
 -include $(ALANOBJECTS:.o=.d)
-
-# Rule to compile objects to subdirectory
 $(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
+
+alan: CFLAGS += $(COVERAGE)
+alan: $(ALANOBJECTS) | ../bin
+	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
+	cp $@$(EXEEXT) ../bin
 
 $(ALANOBJECTS): | $(ALANOBJDIR)
 $(ALANOBJDIR):
 	mkdir $(ALANOBJDIR)
-
-alan: CFLAGS += $(COVERAGE)
-alan: $(ALANOBJDIR) $(ALANOBJECTS)
-	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
-	cp -f $@$(EXEEXT) ../bin
 
 ../bin:
 	mkdir -p ../bin
@@ -59,6 +53,7 @@ cross: cross-clean
 cross-build: CC=i686-w64-mingw32-gcc
 cross-build: EXEEXT=.exe
 cross-build: build $(EXTRA_CROSS_TARGETS)
+
 
 
 # We need to remove all *.o for the targets that may be cross built

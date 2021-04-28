@@ -9,7 +9,7 @@ Some parts of Alan is also built using some proprietary compiler
 generation tools and uses some non-standard libraries for unit testing,
 Windows GUI etc.
 
-You could go for the autotools that are available on Unix platforms but I
+One could go for the autotools that are available on Unix platforms but I
 have always felt that they are too powerful and complex for my projects.
 I might be wrong. But also they are not available on non-*ix platforms,
 so historically it has not been an option for the Alan build suite.
@@ -123,13 +123,13 @@ This is still a bit flaky and a work in progress.
 Once you have built the native binaries for your platform, you can
 (probably) create distributable packages for them using
 
-    make packages
+    make package
     
 The intent is that it will understand what is enabled and can be
 packaged into ZIP or tar files.
 
 Packaging cross-compiled binaries should work using
 
-    make cross-packages
+    make cross-package
     
 but this is a bit complicated and still work in progress.
