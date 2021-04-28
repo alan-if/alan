@@ -19,9 +19,9 @@ XPATH := xpath -q -e
 .PHONY: package
 package: alan.readme.linux $(PACKAGE)
 
-$(PACKAGE): bin/alan bin/arun
+$(PACKAGE): bin/alan bin/arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
 	mkdir -p $(PACKAGENAME)
-	cp bin/alan bin/arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan $(PACKAGENAME)
+	cp @^
 	tar zcvf $(PACKAGE) $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
 
