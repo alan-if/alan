@@ -19,7 +19,7 @@ zip: bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.t
 	mkdir -p $(PACKAGENAME)
 	cp $^ $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
-	zip -j alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $(PACKAGENAME)
+	zip -r alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $(PACKAGENAME)
 
 # Create setup installers for SDK and WinArun using Inno Installer Compiler
 setup: PLATFORM=win32.i686
