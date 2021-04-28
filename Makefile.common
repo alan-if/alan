@@ -88,7 +88,7 @@ endif
 
 # Need for packaging
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
-	cd games/adventv3; ../../bin/alan adventv3
+	cd games/adventv3; ../../bin/alan adventV3
 
 #######################################################################
 # Check to see if we are running on ThoNi's machine, if so include
