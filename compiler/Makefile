@@ -41,7 +41,7 @@ CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
 # Include common build rules
 include Makefile.common
 
-.PHONY:everything
+.PHONY: everything
 everything: unit alan $(EXTRA_TARGETS)
 
 .PHONY: build
