@@ -1,13 +1,10 @@
 #######################################################################
 include mk/include_guard.mk
 #
-# This Makefile is included from Makefile.cygwin if running on ThoNi's
+# This Makefile is included from Makefile.common if running on ThoNi's
 # machines, which are Windows machines. This primarily handles the release
 # process.
 #
-
-# We might build Windows stuff
-include Makefile.win32
 
 CHANGES_HEADER = `head -1 CHANGES`
 
