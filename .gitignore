@@ -17,3 +17,5 @@ gargoyle-*_tmp.iss
 *.exe
 *~
 .vscode
+*.txt
+*.orig
