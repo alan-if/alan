@@ -30,6 +30,7 @@ pipeline {
                   sh 'make BUILDNUMBER=$BUILD_NUMBER package'
                   sh 'make BUILDNUMBER=$BUILD_NUMBER cross-package'
                   archiveArtifacts artifacts: '*.tgz'
+                  archiveArtifacts artifacts: '*.zip'
             }
         }
     }
