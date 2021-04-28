@@ -11,12 +11,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                  sh 'make JREGROUTPUT=-xml UNITOUTPUT="--xml TEST" build'
+                  sh 'make make BUILDNUMBER=$BUILD_NUMBER build'
             }
         }
         stage('Test') {
             steps {
-                  sh 'make BUILDNUMBER=$BUILD_NUMBER JREGROUTPUT=-xml test'
+                  sh 'make JREGROUTPUT=-xml test'
                   junit '**/*.xml'
             }
         }
@@ -25,7 +25,7 @@ pipeline {
                   sh 'make BUILDNUMBER=$BUILD_NUMBER cross'
             }
         }
-        stage('Deploy') {
+        stage('Package') {
             steps {
                   sh 'make BUILDNUMBER=$BUILD_NUMBER package'
                   sh 'make BUILDNUMBER=$BUILD_NUMBER cross-package'
