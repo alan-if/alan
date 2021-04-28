@@ -6,6 +6,7 @@ pipeline {
     stages {
        stage('Unittests') {
             steps {
+                  sh 'make clean'
                   sh 'make UNITOUTPUT="--xml TEST" unit'
             }
         }
