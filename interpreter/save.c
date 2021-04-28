@@ -179,11 +179,13 @@ static void restoreStrings(AFILE saveFile) {
     if (header->stringInitTable != 0)
         for (initEntry = (StringInitEntry *)pointerTo(header->stringInitTable);
              !isEndOfArray(initEntry); initEntry++) {
+            int rc;
+            (void)rc;                   /* UNUSED */
             Aint length;
             char *string;
-            fread((void *)&length, sizeof(Aint), 1, saveFile);
+            rc = fread((void *)&length, sizeof(Aint), 1, saveFile);
             string = allocate(length+1);
-            fread((void *)string, 1, length, saveFile);
+            rc = fread((void *)string, 1, length, saveFile);
             setInstanceAttribute(initEntry->instanceCode, initEntry->attributeCode, toAptr(string));
         }
 }
@@ -198,13 +200,14 @@ static void restoreSets(AFILE saveFile) {
              !isEndOfArray(initEntry); initEntry++) {
             Aint setSize;
             Set *set;
-            int i;
+            int rc;
+            (void)rc;                   /* UNUSED */
 
-            fread((void *)&setSize, sizeof(setSize), 1, saveFile);
+            rc = fread((void *)&setSize, sizeof(setSize), 1, saveFile);
             set = newSet(setSize);
-            for (i = 0; i < setSize; i++) {
+            for (int i = 0; i < setSize; i++) {
                 Aword member;
-                fread((void *)&member, sizeof(member), 1, saveFile);
+                rc = fread((void *)&member, sizeof(member), 1, saveFile);
                 addToSet(set, member);
             }
             setInstanceAttribute(initEntry->instanceCode, initEntry->attributeCode, toAptr(set));
@@ -214,28 +217,35 @@ static void restoreSets(AFILE saveFile) {
 
 /*----------------------------------------------------------------------*/
 protected void restoreScores(AFILE saveFile) {
-    fread((void *)scores, sizeof(Aword), header->scoreCount, saveFile);
+    int rc;
+    (void)rc;                   /* UNUSED */
+    rc = fread((void *)scores, sizeof(Aword), header->scoreCount, saveFile);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void restoreEventQueue(AFILE saveFile) {
-    fread((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
+    int rc;
+    (void)rc;                   /* UNUSED */
+
+    rc = fread((void *)&eventQueueTop, sizeof(eventQueueTop), 1, saveFile);
     if (eventQueueTop > eventQueueSize) {
         deallocate(eventQueue);
         eventQueue = allocate(eventQueueTop*sizeof(eventQueue[0]));
     }
-    fread((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop, saveFile);
+    rc = fread((void *)&eventQueue[0], sizeof(eventQueue[0]), eventQueueTop, saveFile);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void restoreAdmin(AFILE saveFile) {
     /* Restore admin for instances, remember to reset attribute area pointer */
-    int i;
-    for (i = 1; i <= header->instanceMax; i++) {
+    int rc;
+    (void)rc;                   /* UNUSED */
+
+    for (int i = 1; i <= header->instanceMax; i++) {
         AttributeEntry *currentAttributesArea = admin[i].attributes;
-        fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
+        rc = fread((void *)&admin[i], sizeof(AdminEntry), 1, saveFile);
         admin[i].attributes = currentAttributesArea;
     }
 }
@@ -243,21 +253,29 @@ static void restoreAdmin(AFILE saveFile) {
 
 /*----------------------------------------------------------------------*/
 static void restoreAttributeArea(AFILE saveFile) {
-    fread((void *)attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
+    int rc;
+    (void)rc;                   /* UNUSED */
+
+    rc = fread((void *)attributes, header->attributesAreaSize, sizeof(Aword), saveFile);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void restoreCurrentValues(AFILE saveFile) {
-    fread((void *)&current, sizeof(current), 1, saveFile);
+    int rc;
+    (void)rc;                   /* UNUSED */
+
+    rc = fread((void *)&current, sizeof(current), 1, saveFile);
 }
 
 
 /*----------------------------------------------------------------------*/
 static void verifyGameId(AFILE saveFile) {
     Aword savedUid;
+    int rc;
+    (void)rc;                   /* UNUSED */
 
-    fread((void *)&savedUid, sizeof(Aword), 1, saveFile);
+    rc = fread((void *)&savedUid, sizeof(Aword), 1, saveFile);
     if (!ignoreErrorOption && savedUid != header->uid)
         error(M_SAVEVERS);
 }
@@ -277,8 +295,10 @@ static void verifyGameName(AFILE saveFile) {
 /*----------------------------------------------------------------------*/
 static void verifyCompilerVersion(AFILE saveFile) {
     char savedVersion[4];
+    int rc;
+    (void)rc;                   /* UNUSED */
 
-    fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
+    rc = fread((void *)&savedVersion, sizeof(Aword), 1, saveFile);
     if (!ignoreErrorOption && strncmp(savedVersion, header->version, 4))
         error(M_SAVEVERS);
 }
@@ -287,8 +307,10 @@ static void verifyCompilerVersion(AFILE saveFile) {
 /*----------------------------------------------------------------------*/
 static void verifySaveFile(AFILE saveFile) {
     char string[256];
+    int rc;
+    (void)rc;                   /* UNUSED */
 
-    fread((void *)&string, 1, 4, saveFile);
+    rc = fread((void *)&string, 1, 4, saveFile);
     string[4] = '\0';
     if (strcmp(string, "ASAV") != 0)
         error(M_NOTASAVEFILE);

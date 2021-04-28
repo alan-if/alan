@@ -307,7 +307,9 @@ static KeyMap escapeBracket3map[] = {
 
 
 static void escapeBracket3Hook(char ch) {
-    read(0, &ch, 1);
+    int rc;
+    (void)rc;                   /* UNUSED */
+    rc = read(0, &ch, 1);
     execute(escapeBracket3map, ch);
 }
 
@@ -392,13 +394,17 @@ static KeyMap arrowmap[] = {
 
 static void doBeep(void)
 {
-    write(1, "\7", 1);
+    int rc;
+    (void)rc;                   /* UNUSED */
+    rc = write(1, "\7", 1);
 }
 
 
 static void backspace(void)
 {
-    write(1, "\b", 1);
+    int rc;
+    (void)rc;                   /* UNUSED */
+    rc = write(1, "\b", 1);
 }
 
 
@@ -407,7 +413,11 @@ static void erase()
     int i;
 
     for (i = 0; i < bufidx; i++) backspace(); /* Backup to beginning of text */
-    for (i = 0; i < strlen((char *)buffer); i++) write(1, " ", 1); /* Erase all text */
+    for (i = 0; i < strlen((char *)buffer); i++) {
+        int rc;
+        (void)rc;               /* UNUSED */
+        rc = write(1, " ", 1); /* Erase all text */
+    }
     for (i = 0; i < strlen((char *)buffer); i++) backspace(); /* Backup to beginning of text */
 }
 
@@ -439,10 +449,12 @@ static void execute(KeyMap map[], unsigned char ch)
 
 static void upArrow(char ch)
 {
+    int rc;
+    (void)rc;                   /* UNUSED */
     /* Is there more history ? */
     if (history[(histp+HISTORYLENGTH-1)%HISTORYLENGTH] == NULL ||
         (histp+HISTORYLENGTH-1)%HISTORYLENGTH == histidx) {
-        write(1, "\7", 1);
+        rc = write(1, "\7", 1);
         return;
     }
 
@@ -454,8 +466,7 @@ static void upArrow(char ch)
     /* Copy the history and write it */
     strcpy((char *)buffer, (char *)history[histp]);
     bufidx = strlen((char *)buffer);
-    write(1, (void *)buffer, strlen((char *)buffer));
-
+    rc = write(1, (void *)buffer, strlen((char *)buffer));
 }
 
 
@@ -463,7 +474,9 @@ static void downArrow(char ch)
 {
     /* Is there more history ? */
     if (histp == histidx) {
-        write(1, "\7", 1);
+        int rc;
+        (void)rc;                   /* UNUSED */
+        rc = write(1, "\7", 1);
         return;
     }
 
@@ -474,9 +487,11 @@ static void downArrow(char ch)
 
     /* If we are not at the most recent history entry, copy history and write it */
     if (histp != histidx) {
+        int rc;
+        (void)rc;                   /* UNUSED */
         strcpy((char *)buffer, (char *)history[histp]);
         bufidx = strlen((char *)buffer);
-        write(1, (void *)buffer, strlen((char *)buffer));
+        rc = write(1, (void *)buffer, strlen((char *)buffer));
     } else {
         bufidx = 0;
         buffer[0] = '\0';
@@ -489,7 +504,9 @@ static void rightArrow(char ch)
     if (bufidx > LINELENGTH || buffer[bufidx] == '\0')
         doBeep();
     else {
-        write(1, (void *)&buffer[bufidx], 1);
+        int rc;
+        (void)rc;                   /* UNUSED */
+        rc = write(1, (void *)&buffer[bufidx], 1);
         bufidx++;
     }
 }
@@ -508,7 +525,9 @@ static void leftArrow(char ch)
 
 static void insertToggle(char ch)
 {
-    read(0, &ch, 1);
+    int rc;
+    (void)rc;                   /* UNUSED */
+    rc = read(0, &ch, 1);
     if (ch != 'z')
         doBeep();
     else
@@ -522,15 +541,18 @@ static void delBwd(char ch)
         doBeep();
     else {
         int i;
+        int rc;
+        (void)rc;                   /* UNUSED */
 
         change = TRUE;
         backspace();
         bufidx--;
         for (i = 0; i <= strlen((char *)&buffer[bufidx+1]); i++)
             buffer[bufidx+i] = buffer[bufidx+1+i];
-        write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-        write(1, " ", 1);
-        for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
+        rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
+        rc = write(1, " ", 1);
+        for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
+            backspace();
     }
 }
 
@@ -540,29 +562,39 @@ static void delFwd(char ch)
         doBeep();
     else {
         int i;
+        int rc;
+        (void)rc;                   /* UNUSED */
 
         change = TRUE;
         strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
-        write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-        write(1, " ", 1);
-        for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++) backspace();
+        rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
+        rc = write(1, " ", 1);
+        for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
+            backspace();
     }
 }
 
 static void escHook(char ch) {
-    read(0, &ch, 1);
+    int rc;
+    (void)rc;                   /* UNUSED */
+    rc = read(0, &ch, 1);
     execute(escmap, ch);
 }
 
 static void arrowHook(char ch) {
-    read(0, &ch, 1);
+    int rc;
+    (void)rc;                   /* UNUSED */
+    rc = read(0, &ch, 1);
     execute(arrowmap, ch);
 }
 
 static void newLine(char ch)
 {
+    int rc;
+    (void)rc;                   /* UNUSED */
+
     endOfInput = 1;
-    write(1, "\n", 1);
+    rc = write(1, "\n", 1);
 
     /* If the input is not the same as the previous, save it in the history */
     if (change && strlen((char *)buffer) > 0) {
@@ -578,6 +610,8 @@ static void insertCh(char ch) {
     if (bufidx > LINELENGTH)
         doBeep();
     else {
+        int rc;
+        (void)rc;               /* UNUSED */
         /* If at end advance the NULL */
         if (buffer[bufidx] == '\0')
             buffer[bufidx+1] = '\0';
@@ -587,12 +621,12 @@ static void insertCh(char ch) {
             /* If insert mode is on, move the characters ahead */
             for (i = strlen((char *)buffer); i >= bufidx; i--)
                 buffer[i+1] = buffer[i];
-            write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
+            rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
             for (i = strlen((char *)&buffer[bufidx]); i > 0; i--) backspace();
         }
         change = TRUE;
         buffer[bufidx] = ch;
-        write(1, &ch, 1);
+        rc = write(1, &ch, 1);
         bufidx++;
     }
 }
