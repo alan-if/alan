@@ -5,7 +5,6 @@ include ../mk/include_guard.mk
 #
 
 CFLAGS += -funsigned-char -Wno-invalid-source-encoding
-LDLIBS += -liconv
 
 # Sharable libraries extension
 SOEXTENSION = dylib
