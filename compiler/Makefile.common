@@ -16,7 +16,6 @@ CFLAGS += -g -O0 -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
 
-LDLIBS += -liconv
 
 #######################################################################
 #
@@ -55,6 +54,7 @@ alan: $(ALANOBJDIR) $(ALANOBJECTS)
 cross: cross-clean
 	$(MAKE) cross-build
 cross-build: CC=i686-w64-mingw32-gcc
+cross-build: LDLIBS += -liconv
 cross-build: EXEEXT=.exe
 cross-build: build $(EXTRA_CROSS_TARGETS)
 
