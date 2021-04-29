@@ -75,8 +75,8 @@ something you want included here.
 
 <!-- badges -->
 
-[jenkins badge]: https://ci.alanif.se/jenkins/job/Alan/badge/icon "Jenkins CI build status"
-[jenkins link]: https://ci.alanif.se/jenkins/job/Alan/
+[jenkins badge]: https://ci.alanif.se/job/Alan/badge/icon "Jenkins CI build status"
+[jenkins link]: https://ci.alanif.se/job/Alan/
 [travis badge]: https://travis-ci.com/alan-if/alan.svg?branch=master "Travis CI build status"
 [travis link]: https://travis-ci.com/alan-if/alan
 [coveralls badge]: https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master "Coveralls status"
