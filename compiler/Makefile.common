@@ -16,6 +16,7 @@ CFLAGS += -g -O0 -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
 
+LDLIBS += -liconv
 
 #######################################################################
 #
