@@ -69,22 +69,24 @@
 /* Native character sets? */
 /**************************/
 
+#include "charset.h"
+
 /* Common case first */
 #define ISO 1
-#define NATIVECHARSET 0         /* ISO */
+#define NATIVECHARSET CHARSET_ISO
 
 #ifdef __dos__
 #undef ISO
 #define ISO 0
 #undef NATIVECHARSET
-#define NATIVECHARSET 1         /* DOS */
+#define NATIVECHARSET CHARSET_DOS
 #endif
 
 #ifdef __win__
 #undef ISO
 #define ISO 1
 #undef NATIVECHARSET
-#define NATIVECHARSET 0         /* ISO */
+#define NATIVECHARSET CHARSET_ISO
 #endif
 
 
