@@ -8,8 +8,10 @@
 #ifndef _TYPES_
 #define _TYPES_
 
+/* TODO: use stdbool instead of Bool */
 typedef int Bool;
 typedef unsigned int uint;
+typedef unsigned char uchar;
 
 #ifndef TRUE
 #define TRUE (0==0)

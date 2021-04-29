@@ -1,6 +1,8 @@
 The l Isa location
 End The l.
 
+import 'utf8-import.i'.
+
 Start At l.
   "...0123456789ABCDEF$n"
   "2x: !""#$%&'()*+,-./$n"
@@ -16,4 +18,3 @@ Start At l.
   "Ex:אבגדהוזחטיךכלםמן$n"
   "Fx:נסעףפץצקרשתûü‎‏ÿ$n"
   "Thatםs not something you can ignore!"
-  

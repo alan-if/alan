@@ -59,7 +59,7 @@ Ensure(Attribute, finds_restriction_for_parameter_from_context) {
     Attribute *atr = given_an_attribute(attributeId);
     Id *classId = given_a_class("someClass");
     Expression *exp = given_a_what_expression_of_class(parameterId, classId->symbol);
-    Context *context = NULL;    /* Any will do since we have mocked it away */
+    Context *context = NULL;    /* Anything will do since the mock doesn't use it */
 
     given_that_the_class_has_the_attribute(classId, atr);
 

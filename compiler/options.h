@@ -12,13 +12,6 @@
 #include "lst.h"
 #include "dump.h"
 
-/* The enum values here must match the index of option values for charset in main.c */
-typedef enum {
-    CHARSET_ISO = 0,
-    CHARSET_DOS = 1
-} CharSet;
-
-extern CharSet charset;			/* Which charset to read source in */
 extern char *srcptr;            /* Pointer to adventure name */
 extern Bool verboseFlag;        /* Verbose mode */
 extern Bool warningFlag;        /* Show warnings */

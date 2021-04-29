@@ -5,8 +5,12 @@
 
 %%IMPORT
 
-/* For open, read & close */
+  /* For open, read & close */
 #include <fcntl.h>
+
+  /* For iconv conversion */
+#include <errno.h>
+#include "converter.h"
 
 #include "sysdep.h"
 
@@ -18,6 +22,8 @@
 #include "util.h"
 
 %%EXPORT
+
+#include <iconv.h>
 
 #include "sysdep.h"
 #include "types.h"
@@ -106,12 +112,63 @@ static void register_filename(smScContext this, char *prefix, char filename[]) {
     free(full_name);
 }
 
+static int currentCharSet;
+
 static void switch_scanner(smScContext this) {
+    /* Remember encoding for the current file */
+    this->previousCharSet = currentCharSet;
+
     this->fileNo = fileNo++;
     this->previous = lexContext;
     lexContext = this;
+
+    /* Pre-read to see if there is UTF BOM... */
+    uchar BOM[3] = {0xEF,0xBB,0xBF};
+    uchar leading[3];
+    int len = read(this->fd, leading, 3);
+    if (len == 3 && memcmp(leading, BOM, 3) == 0)
+       /* Enforce UTF-8 */
+       currentCharSet = CHARSET_UTF8;
+    else
+       /* Not a BOM, restart reading from beginning */
+       lseek(this->fd, 0, SEEK_SET);
 }
 
+
+extern unsigned char *smMap;
+extern unsigned char *smDFAcolVal;
+extern unsigned char *smDFAerrCol;
+extern unsigned char smIsoMap[256];
+extern unsigned char smIsoDFAcolVal[256];
+extern unsigned char smIsoDFAerrCol[256];
+extern unsigned char smDosMap[256];
+extern unsigned char smDosDFAcolVal[256];
+extern unsigned char smDosDFAerrCol[256];
+
+
+void setCharacterSet(CharSet set)
+{
+  currentCharSet = set;
+
+  /* Here we set the correct scanner tables, depending on character
+     set. For UTF-8 we actually convert the UTF-8 input to ISO8859-1
+     before the scanner reads it and must use ISO scanner tables.
+     See also the READER section. */
+
+  switch (set) {
+  case CHARSET_ISO:
+  case CHARSET_UTF8:
+    smMap = &smIsoMap[0];
+    smDFAcolVal = &smIsoDFAcolVal[0];
+    smDFAerrCol = &smIsoDFAerrCol[0];
+    break;
+  case CHARSET_DOS:
+    smMap = &smDosMap[0];
+    smDFAcolVal = &smDosDFAcolVal[0];
+    smDFAerrCol = &smDosDFAerrCol[0];
+    break;
+  }
+}
 
 
 Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statement */
@@ -141,6 +198,9 @@ Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statem
 
     register_filename(this, prefix, fnm);
     switch_scanner(this);
+    if (currentCharSet == CHARSET_UTF8) {
+        this->conversionDescriptor = initUtf8Conversion();
+    }
 
     return TRUE;
 }
@@ -151,47 +211,53 @@ int scannedLines(void)
 }
 
 
-extern unsigned char *smMap;
-extern unsigned char *smDFAcolVal;
-extern unsigned char *smDFAerrCol;
-extern unsigned char smIsoMap[256];
-extern unsigned char smIsoDFAcolVal[256];
-extern unsigned char smIsoDFAerrCol[256];
-extern unsigned char smDosMap[256];
-extern unsigned char smDosDFAcolVal[256];
-extern unsigned char smDosDFAerrCol[256];
-
-static int currentCharSet;
-
-void setCharacterSet(CharSet set)
-{
-  currentCharSet = set;
-  switch (set) {
-  case CHARSET_ISO:
-    smMap = &smIsoMap[0];
-    smDFAcolVal = &smIsoDFAcolVal[0];
-    smDFAerrCol = &smIsoDFAerrCol[0];
-    break;
-  case CHARSET_DOS:
-    smMap = &smDosMap[0];
-    smDFAcolVal = &smDosDFAcolVal[0];
-    smDFAerrCol = &smDosDFAerrCol[0];
-    break;
-  }
-}
-
-
 %%CONTEXT
 
   smScContext previous;
   int fd;
   char *fileName;
   int fileNo;
+  int previousCharSet;
+  iconv_t conversionDescriptor;
 
 
 %%READER
 
-  return read(smThis->fd, (char *)smBuffer, smLength);
+  static uchar utfBuffer[1000];
+  static int residueCount = 0;       /* How much residue in utfBuffer from last conversion */
+  static uchar isoBuffer[1000];
+  int toRead = smLength<sizeof(utfBuffer)?smLength:sizeof(utfBuffer);
+  int actuallyRead;
+
+  if (currentCharSet == CHARSET_UTF8) {
+      /* The residue from last round might now be at the beginning of utfBuffer */
+      actuallyRead = read(smThis->fd, (char *)&utfBuffer[residueCount], toRead-residueCount);
+      if (actuallyRead == 0)
+          return 0;             /* End of File */
+      uchar *input_p = &utfBuffer[0];
+      uchar *output_p = &isoBuffer[0];
+      int convertedCount = convertUtf8ToInternal(smThis->conversionDescriptor,
+                                                 &input_p, &output_p, actuallyRead);
+      if (convertedCount == -1) {
+          if (errno == EINVAL) { /* Invalid! */
+              /* Cut off in the middle of multi-byte, input_p points
+                 after successfully converted input and output_p points
+                 after successful output */
+              convertedCount = output_p - &isoBuffer[0]; /* How many did we actually convert? */
+              residueCount = toRead - (input_p - &utfBuffer[0]); /* How much residue? */
+              memcpy(utfBuffer, input_p, residueCount); /* Copy residue to start of utfBuffer */
+          } else {
+              /* Real error */
+              SYSERR("error converting from UTF-8", ((Srcp){0,0,0}));
+          }
+      }
+
+      /* "convertedCount" bytes of ISO encoded input is now in isoBuffer */
+      memcpy(smBuffer, isoBuffer, convertedCount);
+      return convertedCount;
+  } else
+      return read(smThis->fd, (char *)smBuffer, toRead);
+
 
 %%POSTHOOK
 
@@ -201,6 +267,9 @@ void setCharacterSet(CharSet set)
   if (smToken->code == sm_MAIN_ENDOFTEXT_Token) {
     lines += smThis->smLine;
     close(smThis->fd);
+    if (currentCharSet == CHARSET_UTF8)
+        finishUtf8Conversion(smThis->conversionDescriptor);
+    currentCharSet = smThis->previousCharSet;
     if (smThis->previous) {
       lexContext = smThis->previous;
       smScDelete(smThis);
@@ -235,8 +304,6 @@ void setCharacterSet(CharSet set)
   IDENTIFIER = letter (letter ! digit ! '_')*			-- normal id
     %%
     smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 0, COPYMAX)] = '\0';
-        if (currentCharSet != NATIVECHARSET)
-          toNative(smToken->chars, smToken->chars, currentCharSet);
     %%;
 
   IDENTIFIER = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
@@ -258,34 +325,35 @@ void setCharacterSet(CharSet set)
 
   STRING = '"' ([^"]!'"''"')* '"'
     %%
-      int len = 0;		/* The total length of the copied data */
-      Bool space = FALSE;
-      int i, c;
+        int len = 0;		/* The total length of the copied data */
+        Bool space = FALSE;
+        int i, c;
 
-      smToken->fpos = ftell(txtfil); /* Remember where it starts */
-      smThis->smText[smThis->smLength-1] = '\0';
-      if (currentCharSet != 0) /* Convert string from non ISO characters if needed */
-        toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1], currentCharSet);
+        smToken->fpos = ftell(txtfil); /* Remember where it starts */
+        smThis->smText[smThis->smLength-1] = '\0';
 
-      for (i = 1; i < smThis->smLength-1; i++) {
-    /* Write the character */
-    if (isspace(c = smThis->smText[i])) {
-      if (!space) {		/* Are we looking at spaces? */
-        /* No, so output a space and remember */
-        putc(' ', txtfil);
-        incFreq(' ');
-        space = TRUE;
-        len++;
-      }
-        } else {
-      putc(c, txtfil);
-      incFreq(c);
-      space = FALSE;
-      len++;
-      if (c == '"') i++;	/* skip second '"' */
-    }
-      }
-      smToken->len = len;
+        if (currentCharSet != CHARSET_ISO && currentCharSet != CHARSET_UTF8)
+            /* Convert string from non ISO characters if needed, unless UTF-8 because then it is done in pre-read */
+            toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1], currentCharSet);
+        for (i = 1; i < smThis->smLength-1; i++) {
+            /* Write the character */
+            if (isspace(c = smThis->smText[i])) {
+                if (!space) {		/* Are we looking at spaces? */
+                    /* No, so output a space and remember */
+                    putc(' ', txtfil);
+                    incFreq(' ');
+                    space = TRUE;
+                    len++;
+                }
+            } else {
+                putc(c, txtfil);
+                incFreq(c);
+                space = FALSE;
+                len++;
+                if (c == '"') i++;	/* skip second '"' */
+            }
+        }
+        smToken->len = len;
     %%;
 
   'import' = 'import'

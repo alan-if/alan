@@ -13,7 +13,6 @@
 
 char *srcptr;                   /* Pointer to adventure name */
 Bool verboseFlag;               /* Verbose mode */
-CharSet charset;                /* Which charset to read source in */
 Bool warningFlag;               /* Show warnings */
 Bool infoFlag;                  /* Show informational messages */
 Bool fullFlag;                  /* Full source listing */

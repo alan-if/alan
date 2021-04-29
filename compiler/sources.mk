@@ -3,25 +3,29 @@ include ../mk/include_guard.mk
 # This file is included in other Makefiles to ensure
 # that they all use the same sets
 
-# Sources for the compiler generator ToolMaker
+# Sources for the compiler generator ToolMaker:
 TMSRCS = \
 	alan.tmk \
 	alan.lmk \
 	alan.smk \
 	alan.pmk
 
-# C sources generated from ToolMaker
+# C sources generated from ToolMaker:
 TMCSRCS = \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
 	smScanx.c smScSema.c\
 	lmList.c
 
+# Sources for unittests:
 # Either using its runner which discovers test automatically...
 # With everything mocked so they run in complete isolation...
+# Sources here also needs to be in OTHERSRCS in order for the
+# module itself to be compiled and linked with
 MODULES_WITH_ISOLATED_UNITTESTS = \
 	atr \
 	context \
+	converter \
 	exp \
 	ext \
 	ins \
@@ -60,9 +64,11 @@ OTHERSRCS = \
 	alan.c \
 	alt.c \
 	article.c \
+	charset.c \
 	chk.c \
 	cnt.c \
 	context.c \
+	converter.c \
 	dump.c \
 	encode.c \
 	evt.c \

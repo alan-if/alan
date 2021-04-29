@@ -11,8 +11,9 @@ include Makefile.win32
 # Sharable libraries have .dll extension
 SOEXTENSION = dll
 
-# Flags to send to compiler
+# Flags to send to compiler and linker
 CFLAGS += -funsigned-char
+LDLIBS += -liconv
 
 # If Cgreen is installed correctly and completely theses things should just work
 # Otherwise you can try to set them to something that does work

@@ -183,6 +183,8 @@ extern int smScan( smScContext smThis, Token *smToken );
 /* %%EXPORT */
 
 
+#include <iconv.h>
+
 #include "sysdep.h"
 #include "types.h"
 
@@ -236,6 +238,8 @@ typedef struct smScContextItem {
   int fd;
   char *fileName;
   int fileNo;
+  int previousCharSet;
+  iconv_t conversionDescriptor;
 
 
 

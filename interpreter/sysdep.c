@@ -9,7 +9,22 @@
   strlow()
   strupp()
 
-  Native and ISO string handling.
+  Notes on string handling:
+
+  - Native - means the "natural" character set/encoding for the
+    platform, nowadays often UTF-8, but that was not the case in the
+    beginning.
+
+  - Internal - is always ISO8859-1 in which encoding everything
+    internal should use (even dictionary entries, which is not certain
+    it does currently. TODO!
+
+  - Current - the compiler (currently) has options for different
+    charsets, if that is used all input files are considered to be in
+    that encoding, which might be different from the native encoding.
+    It (will) also auto-detect an UTF BOM and enforce UTF-8 for that
+    single file, which again might be different from native or the one
+    given using the -charset option.
 
 \*----------------------------------------------------------------------*/
 
@@ -371,9 +386,9 @@ void fromIso(char copy[],       /* OUT - Mapped string */
   the case of the compiler might be other than the native.
 
   */
-void toNative(char copy[],	/* OUT - Mapped  string */
-          char original[],	/* IN - string to convert */
-          int charset)	/* IN - the current character set */
+void toNative(char copy[],      /* OUT - Mapped  string */
+              char original[],	/* IN - string to convert */
+              int charset)      /* IN - the current character set */
 {
   toIso(copy, original, charset);
   if (NATIVECHARSET != 0)

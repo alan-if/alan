@@ -9,13 +9,29 @@
   strlow()
   strupp()
 
-  Native and ISO string handling.
+  Notes on string handling:
+
+  - Native - means the "natural" character set/encoding for the
+    platform, nowadays often UTF-8, but that was not the case in the
+    beginning.
+
+  - Internal - is always ISO8859-1 in which encoding everything
+    internal should use (even dictionary entries, which is not certain
+    it does currently. TODO!
+
+  - Current - the compiler (currently) has options for different
+    charsets, if that is used all input files are considered to be in
+    that encoding, which might be different from the native encoding.
+    It (will) also auto-detect an UTF BOM and enforce UTF-8 for that
+    single file, which again might be different from native or the one
+    given using the -charset option.
 
 \*----------------------------------------------------------------------*/
 
 #include "sysdep.h"
 
 #include <time.h>
+
 
 extern void syserr(char str[]);
 
@@ -24,7 +40,7 @@ extern void syserr(char str[]);
 
 /* Note to Glk maintainers: 'native' characters are used for output, in this
    case, Glk's Latin-1.  ISO characters are Alan's internal representation,
-   stored in the .DAT file, and must be converted to native before printing.
+   stored in the .A3C file, and must be converted to native before printing.
    Glk could just use the ISO routines directly, but its safer to maintain
    its own tables to guard against future changes in either Alan or Glk (ie. a
    move to Unicode).
@@ -379,15 +395,16 @@ void fromIso(char copy[],       /* OUT - Mapped string */
 
   Converts the incoming string to the native character set from any of
   the others. The original is in the current character set which in
-  the case of the compiler might be other than the native.
+  the case of the compiler might be other than the native because of
+  command line options or auto-detection.
 
   */
-void toNative(char copy[],	/* OUT - Mapped  string */
-          char original[],	/* IN - string to convert */
-          int charset)	/* IN - the current character set */
+void toNative(char copy[],      /* OUT - Mapped  string */
+              char original[],	/* IN - string to convert */
+              int charset)      /* IN - the current character set */
 {
   toIso(copy, original, charset);
-  if (NATIVECHARSET != 0)
+  if (NATIVECHARSET != CHARSET_ISO)
     fromIso(copy, copy);
 }
 
