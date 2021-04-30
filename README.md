@@ -41,12 +41,15 @@ From the repo you can build
 - GLK-based interpreter, you need a GLK-library
 - Gargoyle plug-in, which can be used instead of the plug-in that comes with Gargoyle
 
-And if your environment allows cross-compilation to Windows (Cygwin,
-MSYS2 and most Linuxen can be made to do this, but you have to install
-the cross-compilation tools and a matching iconv) you can build
+And if your environment allows cross-compilation to Windows you can build
 
 - WinArun, a WindowsGLK based GUI-interpreter
 - WinAlan, a Windows "GUI" compiler (but a better choice is probably the AlanIDE)
+
+To cross-compile (Cygwin, MSYS2 and most Linuxen can be made to do
+this) you have to install the cross-compilation tools (`sudo apt
+install mingw-w64` or equivalent) and a matching iconv (sometimes a
+separate package like `win-iconv-mingw-w64-dev`).
 
 ## What's missing?
 
