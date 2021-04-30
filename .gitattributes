@@ -3,3 +3,6 @@ alan.version merge=ours
 alan.version.c merge=ours
 compiler/alan.version.c merge=ours
 interpreter/alan.version.c merge=ours
+
+# Ditto for the platform generated .a3c
+regression/platforms/*.a3c
