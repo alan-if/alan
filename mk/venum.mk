@@ -11,7 +11,7 @@
 # on platforms where 'venum' isn't available
 
 NEXTRELEASEFORMAT='$$v.$$r{s$$s|}$$c'
-VERSION = `cd ..; venum alan -print "\\$$v.\\$$r\\$$s\\$$c" | tr -d '\n\r'`
+VERSION = `cat ../NEXTRELEASE`
 
 alan.version.c: ../alan.version.c
 	cp ../alan.version.c .
