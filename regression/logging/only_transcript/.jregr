@@ -2,5 +2,5 @@
 .a3i ? rm $1.a3i
 .a3t ? rm $1.a3t
 .a3c : arun -c -r $1 < $1.input
-.a3i : 
-.a3t : 
+.a3s :
+.a3t :
