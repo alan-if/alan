@@ -78,7 +78,7 @@ void usage(char *programName)
     printf("    -h        this help\n");
     printf("    -v        verbose mode\n");
     printf("    -l        log game transcript to a file ('.a3t')\n");
-    printf("    -c        log player command input to a file ('.a3i')\n");
+    printf("    -c        log player command input (the solution) to a file ('.a3s')\n");
     printf("    -n        don't show the Status Line\n");
     printf("    -p        don't page output\n");
     printf("    -d        enter debug mode immediately\n");

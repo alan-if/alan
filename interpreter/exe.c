@@ -756,7 +756,7 @@ void startCommandLog(void) {
     if (commandLogFile != NULL)
         return;
 
-    createLogfileName(commandLogFileName, ".a3i");
+    createLogfileName(commandLogFileName, ".a3s");
 #ifdef HAVE_GLK
     glui32 fileUsage = fileusage_InputRecord;
     frefid_t logFileRef = glk_fileref_create_by_name(fileUsage, commandLogFileName, 0);
