@@ -136,7 +136,7 @@ $(UNITTESTSOBJECTS): | $(UNITTESTS_OBJDIR)
 
 # Build the DLL...
 unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(CC) $(LDFLAGS) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB)
+	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
 
 # ... that can be run with the cgreen runner
 cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)

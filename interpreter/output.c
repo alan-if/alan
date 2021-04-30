@@ -140,16 +140,41 @@ static void capitalizeFirst(char *str) {
 }
 
 
+#include <iconv.h>
 /*======================================================================*/
 void printAndLog(char string[])
 {
+    char converted[1000];
 #ifdef HAVE_GLK
     static int column = 0;
     char *stringCopy;
     char *stringPart;
 #endif
+    {
+        iconv_t cd = iconv_open("UTF-8", "ISO_8859-1");
+        if (cd == (iconv_t) -1) {
+            perror("iconv_open failed!");
+            exit(-1);
+        }
 
-    printf("%s", string);
+        char *in_buf = &string[0];
+        size_t in_left = strlen(string);
+
+        char *out_buf = &converted[0];
+        size_t out_left = sizeof(converted) - 1;
+
+        do {
+            if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1) {
+                perror("iconv failed!");
+                exit(-1);
+            }
+        } while (in_left > 0 && out_left > 0);
+        *out_buf = 0;
+
+        iconv_close(cd);
+    }
+    printf("%s", converted);
+    //printf("%s", string);
     if (!onStatusLine && transcriptOption) {
 #ifdef HAVE_GLK
         // Formatting has to be done here, GLK formats normal output for us
