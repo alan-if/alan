@@ -1,0 +1,5 @@
+# For the timestamp files always use our version
+alan.version merge=ours
+alan.version.c merge=ours
+compiler/alan.version.c merge=ours
+interpreter/alan.version.c merge=ours
