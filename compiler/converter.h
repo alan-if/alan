@@ -3,6 +3,9 @@
 
 /* Converts a string in one encoding to internal ISO8859-1 encoding */
 
+/* Cross-building sets iconv args to const using WINICONV_CONST, so
+ * nullify that to remove warnings... */
+#define WINICONV_CONST
 #include <iconv.h>
 
 #include "types.h"
