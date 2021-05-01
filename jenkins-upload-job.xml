@@ -1,9 +1,11 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.1' encoding='UTF-8'?>
 <project>
   <actions/>
   <description>Alan packaging and upload of development snapshots visible at https://alanif.se/download-alan-v3/development-snapshots/development-snapshots</description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.0.7"/>
+  </properties>
   <scm class="hudson.scm.NullSCM"/>
   <quietPeriod>60</quietPeriod>
   <canRoam>true</canRoam>
@@ -23,15 +25,20 @@
     </jenkins.triggers.ReverseBuildTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
-  <customWorkspace>workspace/Alan</customWorkspace>
+  <customWorkspace>jobs/Alan/workspace</customWorkspace>
   <builders>
     <hudson.tasks.Shell>
-      <command>#!c:\cygwin32\bin\bash --login
+      <command>#!c:\msys64\usr\bin\bash --login
+#
+# Doing this with Msys instead of Cygwin since I can&apos;t get ssh to work in Cygwin for SYSTEM user
+# Then we need venum (/usr/local/bin) and alanupload (alan/bin) commands available
+uname -a
+
 cd &quot;$WORKSPACE&quot;
-pwd
-export PATH=~thomas/bin:$PWD/bin:$PATH
-set +x
-make snapshot-upload</command>
+
+export PATH=$(PWD)/bin:$PATH
+
+make TRACE=1 snapshot-upload</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

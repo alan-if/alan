@@ -4,6 +4,7 @@
   <description>Main Alan build, unit and regression tests</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.1.1"/>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
         <daysToKeep>-1</daysToKeep>
@@ -12,14 +13,17 @@
         <artifactNumToKeep>10</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.31.0">
+      <projectUrl>https://github.com/alan-if/alan/</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.8.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.4.2">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <name>origin</name>
-        <url>git@bitbucket.org:alanif/alan.git</url>
-        <credentialsId>f7e94370-e21f-4e61-ade1-8fbf2eaad53d</credentialsId>
+        <url>https://github.com/alan-if/alan/</url>
+        <credentialsId>a81cff12-04f0-405a-9851-3cb144274710</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -37,80 +41,99 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
-    <com.cloudbees.jenkins.plugins.BitBucketTrigger plugin="bitbucket@1.1.8">
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.31.0">
       <spec></spec>
-    </com.cloudbees.jenkins.plugins.BitBucketTrigger>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>#!c:\cygwin32\bin\bash --login
+      <command>#!c:\cygwin64\bin\bash --login
 uname -a
-whoami
-cd &quot;$WORKSPACE&quot;
+cd &quot;$(cygpath -u &quot;${WORKSPACE}&quot;)&quot;
 pwd
 export LC_ALL=C
 export PATH=~thomas/bin:$PWD/bin:&quot;$PATH&quot;
 echo -n $BUILD_NUMBER &gt; BUILD_NUMBER
-make BUILDNUMBER=$BUILD_NUMBER clean ci</command>
+# Enable WinAlan &amp; WinArun
+cp compiler/Makefile.local.template compiler/Makefile.local
+echo &quot;WINALAN_ENABLED=true&quot; &gt;&gt; compiler/Makefile.local
+grep -v WINGLK_ROOT interpreter/Makefile.local.template &gt; interpreter/Makefile.local
+echo &quot;WINGLK_ROOT=/home/Thomas/Utveckling/Alan/WindowsGlk-150&quot; &gt;&gt; interpreter/Makefile.local
+echo &quot;WINARUN_ENABLED=true&quot; &gt;&gt; interpreter/Makefile.local
+make TRACE=1 BUILDNUMBER=$BUILD_NUMBER clean ci
+
+</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!c:\cygwin64\bin\bash --login
+cd &quot;$(cygpath -u &quot;${WORKSPACE}&quot;)&quot;
+#bash -x clean_build_tags
+cat BUILDTAGS
+</command>
+      <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.65">
-      <healthy></healthy>
-      <unHealthy></unHealthy>
-      <thresholdLimit>low</thresholdLimit>
-      <pluginName>[WARNINGS] </pluginName>
-      <defaultEncoding></defaultEncoding>
-      <canRunOnFailed>false</canRunOnFailed>
-      <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
-      <useStableBuildAsReference>false</useStableBuildAsReference>
-      <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.95">
-        <unstableTotalAll></unstableTotalAll>
-        <unstableTotalHigh></unstableTotalHigh>
-        <unstableTotalNormal></unstableTotalNormal>
-        <unstableTotalLow></unstableTotalLow>
-        <unstableNewAll></unstableNewAll>
-        <unstableNewHigh></unstableNewHigh>
-        <unstableNewNormal></unstableNewNormal>
-        <unstableNewLow></unstableNewLow>
-        <failedTotalAll></failedTotalAll>
-        <failedTotalHigh></failedTotalHigh>
-        <failedTotalNormal></failedTotalNormal>
-        <failedTotalLow></failedTotalLow>
-        <failedNewAll></failedNewAll>
-        <failedNewHigh></failedNewHigh>
-        <failedNewNormal></failedNewNormal>
-        <failedNewLow></failedNewLow>
-      </thresholds>
-      <shouldDetectModules>false</shouldDetectModules>
-      <dontComputeNew>true</dontComputeNew>
-      <doNotResolveRelativePaths>true</doNotResolveRelativePaths>
-      <includePattern></includePattern>
-      <excludePattern></excludePattern>
-      <messagesPattern></messagesPattern>
-      <categoriesPattern></categoriesPattern>
-      <parserConfigurations/>
-      <consoleParsers>
-        <hudson.plugins.warnings.ConsoleParser>
-          <parserName>GNU Make + GNU C Compiler (gcc)</parserName>
-        </hudson.plugins.warnings.ConsoleParser>
-      </consoleParsers>
-    </hudson.plugins.warnings.WarningsPublisher>
-    <hudson.plugins.logparser.LogParserPublisher plugin="log-parser@2.0">
+    <hudson.plugins.logparser.LogParserPublisher plugin="log-parser@2.1">
       <unstableOnWarning>false</unstableOnWarning>
-      <failBuildOnError>false</failBuildOnError>
+      <failBuildOnError>true</failBuildOnError>
       <showGraphs>false</showGraphs>
       <parsingRulesPath>C:\Program Files (x86)\Jenkins\parsing_rules.properties</parsingRulesPath>
       <useProjectRule>false</useProjectRule>
     </hudson.plugins.logparser.LogParserPublisher>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.34">
       <testResults>**/TEST*.xml</testResults>
       <keepLongStdio>true</keepLongStdio>
       <healthScaleFactor>1.0</healthScaleFactor>
       <allowEmptyResults>false</allowEmptyResults>
     </hudson.tasks.junit.JUnitResultArchiver>
+    <io.jenkins.plugins.analysis.core.steps.IssuesRecorder plugin="warnings-ng@8.4.2">
+      <analysisTools>
+        <io.jenkins.plugins.analysis.warnings.Gcc4>
+          <id></id>
+          <name></name>
+          <pattern></pattern>
+          <reportEncoding></reportEncoding>
+          <skipSymbolicLinks>false</skipSymbolicLinks>
+        </io.jenkins.plugins.analysis.warnings.Gcc4>
+      </analysisTools>
+      <sourceCodeEncoding></sourceCodeEncoding>
+      <sourceDirectory></sourceDirectory>
+      <ignoreQualityGate>false</ignoreQualityGate>
+      <ignoreFailedBuilds>true</ignoreFailedBuilds>
+      <referenceJobName>-</referenceJobName>
+      <failOnError>false</failOnError>
+      <healthy>0</healthy>
+      <unhealthy>0</unhealthy>
+      <minimumSeverity plugin="analysis-model-api@9.0.0">
+        <name>LOW</name>
+      </minimumSeverity>
+      <filters/>
+      <isEnabledForFailure>false</isEnabledForFailure>
+      <isAggregatingResults>false</isAggregatingResults>
+      <isBlameDisabled>false</isBlameDisabled>
+      <isForensicsDisabled>false</isForensicsDisabled>
+      <skipPublishingChecks>false</skipPublishingChecks>
+      <qualityGates/>
+      <trendChartType>AGGREGATION_TOOLS</trendChartType>
+    </io.jenkins.plugins.analysis.core.steps.IssuesRecorder>
+    <hudson.plugins.git.GitPublisher plugin="git@4.4.2">
+      <configVersion>2</configVersion>
+      <pushMerge>false</pushMerge>
+      <pushOnlyIfSuccess>true</pushOnlyIfSuccess>
+      <forcePush>false</forcePush>
+      <tagsToPush>
+        <hudson.plugins.git.GitPublisher_-TagToPush>
+          <targetRepoName>origin</targetRepoName>
+          <tagName>Build$BUILD_NUMBER</tagName>
+          <tagMessage></tagMessage>
+          <createTag>true</createTag>
+          <updateTag>false</updateTag>
+        </hudson.plugins.git.GitPublisher_-TagToPush>
+      </tagsToPush>
+    </hudson.plugins.git.GitPublisher>
   </publishers>
   <buildWrappers/>
 </project>
