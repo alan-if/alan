@@ -74,6 +74,9 @@ void usage(char *programName)
     printf("where the possible optional switches are:\n");
 #ifdef HAVE_GLK
     glk_set_style(style_Preformatted);
+#else
+    printf("    -u        use UTF-8 encoding for input and output\n");
+    printf("    -i        use ISO8859-1 encoding for input and output\n");
 #endif
     printf("    -h        this help\n");
     printf("    -v        verbose mode\n");
@@ -83,8 +86,8 @@ void usage(char *programName)
     printf("    -p        don't page output\n");
     printf("    -d        enter debug mode immediately\n");
     printf("    -t[<n>]   trace game execution, higher <n> gives more trace\n");
-    printf("    -i        ignore version and checksum errors (dangerous)\n");
     printf("    -r        make regression testing easier (don't timestamp, page break, randomize...)\n");
+    printf("    -e        ignore version and checksum errors (dangerous)\n");
     printf("    --version print version and exit\n");
 #ifdef HAVE_GLK
     glk_set_style(style_Normal);

@@ -100,6 +100,12 @@ static void switches(int argc, char *argv[])
                     terminate(0);
                     break;
                 case 'i':
+                    encodingOption = ENCODING_ISO;
+                    break;
+                case 'u':
+                    encodingOption = ENCODING_UTF;
+                    break;
+                case 'e':
                     ignoreErrorOption = TRUE;
                     break;
                 case 't':
