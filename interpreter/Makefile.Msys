@@ -14,6 +14,7 @@ include Makefile.win32
 SOEXT = dll
 
 CFLAGS = -funsigned-char -g -Wall
+LDLIBS += -liconv
 
 ###########################################################
 # Set relevant default compilers and tools

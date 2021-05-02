@@ -9,7 +9,7 @@
 #
 #   make BUILDNUMBER=$BUILD_NUMBER <target>
 #
-	include mk/common.mk
+include mk/common.mk
 
 all: everything
 
