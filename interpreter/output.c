@@ -139,23 +139,24 @@ static void capitalizeFirst(char *str) {
     }
 }
 
-
+#ifndef HAVE_GLK
 #include <iconv.h>
+#endif
 /*======================================================================*/
 void printAndLog(char string[])
 {
-    char converted[1000];
+    char *outputString = string;
 #ifdef HAVE_GLK
     static int column = 0;
     char *stringCopy;
     char *stringPart;
-#endif
-    {
+#else
+    if (encodingOption == ENCODING_UTF) {
+        char converted[1000];
+
         iconv_t cd = iconv_open("UTF-8", "ISO_8859-1");
-        if (cd == (iconv_t) -1) {
-            perror("iconv_open failed!");
-            exit(-1);
-        }
+        if (cd == (iconv_t) -1)
+            syserr("iconv_open() failed!");
 
         char *in_buf = &string[0];
         size_t in_left = strlen(string);
@@ -164,17 +165,16 @@ void printAndLog(char string[])
         size_t out_left = sizeof(converted) - 1;
 
         do {
-            if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1) {
-                perror("iconv failed!");
-                exit(-1);
-            }
+            if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1)
+                syserr("Conversion of game output to UTF-8 encoding failed!");
         } while (in_left > 0 && out_left > 0);
         *out_buf = 0;
 
         iconv_close(cd);
+        outputString = converted;
     }
-    printf("%s", converted);
-    //printf("%s", string);
+#endif
+    printf("%s", outputString);
     if (!onStatusLine && transcriptOption) {
 #ifdef HAVE_GLK
         // Formatting has to be done here, GLK formats normal output for us
