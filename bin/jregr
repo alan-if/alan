@@ -6,6 +6,11 @@
 #
 # Also this version explicitly set encoding to iso-8859-1, YMVV
 #
+if ! command -v java &> /dev/null
+then
+    echo "WARNING! No java found. Cannot run regression tests."
+    exit
+fi
 
 # Get path to the script since that is where the jar should also be
 SOURCE="${BASH_SOURCE[0]}"

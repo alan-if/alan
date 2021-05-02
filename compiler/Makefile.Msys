@@ -17,6 +17,7 @@ SOEXTENSION = dll
 
 # Flags to send to compiler
 CFLAGS += -funsigned-char
+LDLIBS += -liconv
 
 ###########################################################
 # Set relevant compilers and tools
