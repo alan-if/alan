@@ -89,6 +89,7 @@ cross: cross-clean
 	$(MAKE) cross-build
 # Need to have them on a separate target to override current ones
 cross-build: CC=i686-w64-mingw32-gcc
+cross-build: LDLIBS += -liconv
 cross-build: EXEEXT=.exe
 cross-build: build $(EXTRA_CROSS_TARGETS)
 
