@@ -3,6 +3,9 @@
 # Some common definitions for the Alan Makefiles
 #
 
+# TODO: Msys have three variants - MSYS, MINGW64, MINGW64
+# And we need both -o and -s to figure out which...
+
 # Discover OS and ARCH
 UNAME_O_WORKS=$(shell uname -o &>/dev/null; echo $$?)
 ifeq ($(UNAME_O_WORKS),0)
