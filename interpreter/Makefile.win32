@@ -25,7 +25,7 @@ WINGLK_INCLUDE = -I$(WINGLK_ROOT)/Include
 WINGLK_LIB = $(WINGLK_ROOT)/Glk.lib
 
 winarun: CFLAGS += $(WINGLK_INCLUDE) $(WINGLK_DEFS)
-winarun: LDLIBS = $(WINGLKLIB)
+winarun: LDLIBS += $(WINGLKLIB)
 winarun: EXEEXT = .exe
 
 WINARUNOBJDIR = .winarun
