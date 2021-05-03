@@ -677,7 +677,9 @@ static void stripNewline(char *buffer) {
         buffer[strlen(buffer)-1] = '\0';
 }
 
+#include <errno.h>
 #include <iconv.h>
+
 static void copyToUserBuffer(char *out_buf, char *in_buf) {
     if (encodingOption == ENCODING_UTF) {
         iconv_t cd = iconv_open("ISO_8859-1", "UTF-8");
@@ -688,10 +690,10 @@ static void copyToUserBuffer(char *out_buf, char *in_buf) {
         size_t out_left, in_left = strlen(in_buf);
 
         do {
-	    if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1) {
-                char message[1000]; 
+            if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1) {
+                char message[1000];
                 sprintf(message, "Conversion of command input from UTF-8 failed, are you sure about the input encoding? ('%s')", strerror(errno));
-               syserr(message);
+                syserr(message);
             }
         } while (in_left > 0 && out_left > 0);
         *out_buf = 0;
