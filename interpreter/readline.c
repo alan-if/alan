@@ -688,8 +688,10 @@ static void copyToUserBuffer(char *out_buf, char *in_buf) {
         size_t out_left, in_left = strlen(in_buf);
 
         do {
-            if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1) {
-                syserr("Conversion of command input from UTF-8 failed, are you sure about the input encoding?");
+	    if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1) {
+                char message[1000]; 
+                sprintf(message, "Conversion of command input from UTF-8 failed, are you sure about the input encoding? ('%s')", strerror(errno));
+               syserr(message);
             }
         } while (in_left > 0 && out_left > 0);
         *out_buf = 0;
