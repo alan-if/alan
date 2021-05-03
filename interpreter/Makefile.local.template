@@ -48,4 +48,4 @@ GARGOYLE_ROOT = ../../garglk-current-alan3
 #MACARUN_ENABLED = true
 
 # We might need to locate -lcgreen
-cgreenrunnertests isolated_unittests: LDLIBS = -L/usr/local/lib
+cgreenrunnertests isolated_unittests: LDLIBS += -L/usr/local/lib
