@@ -8,6 +8,7 @@ include ../mk/include_guard.mk
 include Makefile.win32
 
 CFLAGS = -funsigned-char -g -Wall
+LDLIBS += -liconv
 
 SOEXTENSION = dll
 
