@@ -30,8 +30,8 @@ winarun: LDFLAGS = -mwindows
 # Enable glkarun:
 #GLKARUN_ENABLED = true
 # Requires curses and a glkterm library
-CURSESLIB = -lncurses
-GLKTERM_ROOT = /home/thomas/Utveckling/glkterm
+CURSESLIB = -lncursesw
+GLKTERM_LIB = -L../../glktermw/ -lglktermw
 
 # Enable Gargoyle Arun:
 #GARARUN_ENABLED = true

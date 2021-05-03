@@ -53,10 +53,13 @@ else
 $(info NOT ENABLED: glkarun - Arun with curses text Glk)
 endif
 
+# You can use standard glkterm which uses normal ncurses
+# or glktermw which uses ncursesw which supports UTF-8
 GLKTERM_DEFS = -DHAVE_GLK
 GLKTERM_INCLUDE ?= -I$(GLKTERM_ROOT)
 GLKTERM_LIBDIR ?= $(GLKTERM_ROOT)
-GLKTERM_LIB = -L$(GLKTERM_LIBDIR) -lglkterm
+#GLKTERM_LIB ?= -L$(GLKTERM_LIBDIR) -lglkterm
+GLKTERM_LIB ?= -L$(GLKTERM_LIBDIR) -lglktermw
 
 glkarun: CFLAGS += $(GLKTERM_INCLUDE) $(GLKTERM_DEFS)
 glkarun: LDLIBS = $(GLKTERM_LIB) $(CURSESLIB)
