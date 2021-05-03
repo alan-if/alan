@@ -74,10 +74,9 @@ void usage(char *programName)
     printf("where the possible optional switches are:\n");
 #ifdef HAVE_GLK
     glk_set_style(style_Preformatted);
-#else
+#endif
     printf("    -u        use UTF-8 encoding for input and output\n");
     printf("    -i        use ISO8859-1 encoding for input and output\n");
-#endif
     printf("    -h        this help\n");
     printf("    -v        verbose mode\n");
     printf("    -l        log game transcript to a file ('.a3t')\n");
