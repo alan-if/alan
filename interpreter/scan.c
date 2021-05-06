@@ -144,20 +144,25 @@ static char *gettoken(char *buf) {
 }
 
 
+static void printPrompt() {
+    if (header->prompt) {
+        anyOutput = FALSE;
+        interpret(header->prompt);
+        if (anyOutput)
+            printAndLog(" ");
+        needSpace = FALSE;
+    } else
+        printAndLog("> ");
+}
+
+
 /*----------------------------------------------------------------------*/
 // TODO replace dependency to exe.c with injection of quitGame() and undo()
 static void getLine(void) {
     para();
     do {
         statusline();
-        if (header->prompt) {
-            anyOutput = FALSE;
-            interpret(header->prompt);
-            if (anyOutput)
-                printAndLog(" ");
-            needSpace = FALSE;
-        } else
-            printAndLog("> ");
+        printPrompt();
 
 #ifdef USE_READLINE
         if (!readline(buf))
