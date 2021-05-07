@@ -1,8 +1,8 @@
-/*----------------------------------------------------------------------*\
+/*----------------------------------------------------------------------
 
   Read line from user, with editing and history
 
-  \*----------------------------------------------------------------------*/
+  ----------------------------------------------------------------------*/
 
 #include "readline.h"
 
@@ -12,11 +12,11 @@
 #include "exe.h"
 #include "save.h"
 #include "Location.h"
-#include "syserr.h"
-#include "options.h"
+#include "converter.h"
 
 
 #define LINELENGTH 1000
+
 
 // TODO Try to split this into more obvious GLK and non-GLK modules
 #ifdef HAVE_GLK
@@ -27,6 +27,7 @@
 #include "glkio.h"
 
 #include "resources.h"
+
 
 #ifdef HAVE_WINGLK
 #include "WinGlk.h"
@@ -50,9 +51,10 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
 #endif
 
 
+
 /*======================================================================
 
-  readline()
+  readline() - GLK case
 
   Read a line from the user, with history and editing
 
@@ -75,12 +77,16 @@ bool readline(char buffer[])
         if (glk_get_line_stream(commandFile, buffer, 255) == 0) {
             glk_stream_close(commandFile, NULL);
             readingCommands = FALSE;
+            goto endOfCommandFile;
         } else {
+            char *converted = ensureInternalEncoding(buffer);
             glk_set_style(style_Input);
-            printf(buffer);
+            printf(converted);
             glk_set_style(style_Normal);
+            free(converted);
         }
     } else {
+    endOfCommandFile:
         glk_request_line_event(glkMainWin, buffer, 255, 0);
         /* FIXME: buffer size should be infallible: all existing calls use 256 or
            80 character buffers, except parse which uses LISTLEN (currently 100)
@@ -165,10 +171,12 @@ bool readline(char buffer[])
             commandFile = glk_stream_open_file(commandFileRef, filemode_Read, 0);
             if (commandFile != NULL)
                 if (glk_get_line_stream(commandFile, buffer, 255) != 0) {
-                    readingCommands = TRUE;
+                    char *converted = ensureInternalEncoding(buffer);
                     glk_set_style(style_Input);
-                    printf(buffer);
+                    printf(converted);
                     glk_set_style(style_Normal);
+                    free(converted);
+                    readingCommands = TRUE;
                 }
         } else
             buffer[event.val1] = 0;
@@ -673,39 +681,17 @@ static void echoOn()
 }
 
 static void stripNewline(char *buffer) {
-    if (buffer[strlen(buffer)-1] == '\n')
-        buffer[strlen(buffer)-1] = '\0';
+    int len = strlen(buffer);
+    if (len > 0 && buffer[len-1] == '\n')
+        buffer[len-1] = '\0';
 }
 
-#include <errno.h>
-#include <iconv.h>
 
-static void copyToUserBuffer(char *out_buf, char *in_buf) {
-    if (encodingOption == ENCODING_UTF) {
-        iconv_t cd = iconv_open("ISO_8859-1", "UTF-8");
-        if (cd == (iconv_t) -1)
-            syserr("iconv_open() failed!");
 
-        /* ISO8859-1 encoding is always shorter than UTF-8, so this is enough */
-        size_t out_left, in_left = strlen(in_buf);
-
-        do {
-            if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1) {
-                char message[1000];
-                sprintf(message, "Conversion of command input from UTF-8 failed, are you sure about the input encoding? ('%s')", strerror(errno));
-                syserr(message);
-            }
-        } while (in_left > 0 && out_left > 0);
-        *out_buf = 0;
-
-        iconv_close(cd);
-    } else
-        strcpy(out_buf, in_buf);
-}
 
 /*======================================================================
 
-  readline()
+  readline() - non-GLK case
 
   Read a line from the user, with history, editing and command
   reading from file
@@ -720,12 +706,17 @@ bool readline(char usrbuf[])
 
     if (readingCommands) {
         fflush(stdout);
+        /* TODO: Arbitrarily using 255 for buffer sife */
         if (!fgets(buffer, 255, commandFile)) {
             fclose(commandFile);
             readingCommands = FALSE;
-        } else
+            buffer[0] = '\0';
+            goto endOfCommandFile;
+        } else {
             printf("%s", buffer);
+        }
     } else {
+    endOfCommandFile:
         fflush(stdout);
         bufidx = 0;
         histp = histidx;
@@ -752,7 +743,9 @@ bool readline(char usrbuf[])
         lin = 1;
     }
     stripNewline(buffer);
-    copyToUserBuffer(usrbuf, buffer);
+    char *converted = ensureInternalEncoding(buffer);
+    strcpy(usrbuf, converted);
+    free(converted);
     return TRUE;
 }
 

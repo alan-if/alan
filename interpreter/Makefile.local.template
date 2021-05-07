@@ -29,6 +29,7 @@ winarun: LDFLAGS = -mwindows
 
 # Enable glkarun:
 #GLKARUN_ENABLED = true
+#GLKTERM_ROOT = ../../glktermw
 # Requires curses and a glkterm library
 CURSESLIB = -lncursesw
 GLKTERM_LIB = -L../../glktermw/ -lglktermw

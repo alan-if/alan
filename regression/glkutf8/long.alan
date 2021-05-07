@@ -1,0 +1,22 @@
+The loc Isa location
+  Description
+    "Regeringen får nu kritik från näringsliv och politiker för att inte ha lämnat besked om pengar till nya isbrytare.
+- Beslut nu! Fram med pengarna, säger Nils-Olov Lindfors (C), regionråd i Norrbotten.
+Regionrådet anser att det inte finns någon tid att spilla - inte minst med tanke på de stora industrisatsningarna som görs i länet.
+
+- Norrbotten bidrar med så oerhört mycket till Sverige som nation. Det kommer att byggas ett stålverk i Svartbyn i Boden som är dubbelt så stort som nuvarande stålverk i Luleå, säger Nils-Olov Lindfors och fortsätter:
+
+- Det är dessutom mycket mer som är på väg till Norrbotten och som kräver bra och kostnadseffektiva transporter.
+
+'Glömmer ofta bort sjöfarten'
+Samtidigt har han förståelse att regeringen i sin infrastrukturproposition inte pekar ut enskilda objekt men framhåller samtidigt den stora vikten av nya isbrytare.
+
+- Det är viktigt att finansieringen klargörs i närtid. De stora investeringarna i länet innebär kraftigt ökade godsvolymer och ofta glömmer vi bort sjöfarten. Men den är oerhört viktig för stora godsvolymer. Och det påverkar våra hamnar i Kalix, Luleå och Piteå."
+End The loc.
+
+Verb q
+ Does
+  Quit.
+End Verb.
+
+Start At loc.

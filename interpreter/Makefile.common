@@ -53,8 +53,14 @@ else
 $(info NOT ENABLED: glkarun - Arun with curses text Glk)
 endif
 
-# You can use standard glkterm which uses normal ncurses
-# or glktermw which uses ncursesw which supports UTF-8
+# From https://eblong.com/zarf/glk/ download GlkTerm with "wide"
+# (=UTF-8) support.  Build it as instructed in the package to ensure
+# UTF-8 support to get `glktermw` which uses ncursesw which supports
+# UTF-8. (You *can* also use the non-wide glkterm...)
+#
+# Set GLKTERM_ROOT to point to the root of glkterm directory as a MAKE
+# command option `make glkarun GLKTERM_ROOT=...` or in the
+# Makefile.local (copy it from Makefile.local.template)
 GLKTERM_DEFS = -DHAVE_GLK
 GLKTERM_INCLUDE ?= -I$(GLKTERM_ROOT)
 GLKTERM_LIBDIR ?= $(GLKTERM_ROOT)
@@ -62,7 +68,7 @@ GLKTERM_LIBDIR ?= $(GLKTERM_ROOT)
 GLKTERM_LIB ?= -L$(GLKTERM_LIBDIR) -lglktermw
 
 glkarun: CFLAGS += $(GLKTERM_INCLUDE) $(GLKTERM_DEFS)
-glkarun: LDLIBS = $(GLKTERM_LIB) $(CURSESLIB)
+glkarun: LDLIBS += $(GLKTERM_LIB) $(CURSESLIB)
 
 GLKARUNOBJDIR = .glkarun
 GLKARUNOBJECTS = $(addprefix $(GLKARUNOBJDIR)/,${GLKARUNSRCS:.c=.o}) $(GLKARUNOBJDIR)/alan.version.o
@@ -161,7 +167,7 @@ include ../mk/isolated_unittests.mk
 #######################################################################
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) arun arun.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
+	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) $(GLKARUNOBJDIR) arun arun.exe glkarun winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
 
 
 ###################################################################

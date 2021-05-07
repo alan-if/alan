@@ -72,7 +72,8 @@ MODULES_WITHOUT_UNITTESTS = \
 	syserr.c \
 	term.c \
 	types.c \
-	fnmatch.c
+	fnmatch.c \
+	converter.c
 
 # All sources common for the main build
 MAINSRCS = \

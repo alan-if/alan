@@ -12,6 +12,8 @@
 #include "msg.h"
 #include "readline.h"
 #include "instance.h"
+#include "converter.h"
+
 
 #ifdef HAVE_GLK
 #include "glkio.h"
@@ -139,69 +141,61 @@ static void capitalizeFirst(char *str) {
     }
 }
 
-#ifndef HAVE_GLK
-#include <iconv.h>
-#endif
+
+
 /*======================================================================*/
 void printAndLog(char string[])
 {
-    char *outputString = string;
+    /* TODO: clean up the GLK code to use same converted string */
 #ifdef HAVE_GLK
-    static int column = 0;
-    char *stringCopy;
-    char *stringPart;
+    printf("%s", string);
 #else
-    if (encodingOption == ENCODING_UTF) {
-        char converted[1000];
-
-        iconv_t cd = iconv_open("UTF-8", "ISO_8859-1");
-        if (cd == (iconv_t) -1)
-            syserr("iconv_open() failed!");
-
-        char *in_buf = &string[0];
-        size_t in_left = strlen(string);
-
-        char *out_buf = &converted[0];
-        size_t out_left = sizeof(converted) - 1;
-
-        do {
-            if (iconv(cd, &in_buf, &in_left, &out_buf, &out_left) == (size_t) -1)
-                syserr("Conversion of game output to UTF-8 encoding failed!");
-        } while (in_left > 0 && out_left > 0);
-        *out_buf = 0;
-
-        iconv_close(cd);
-        outputString = converted;
-    }
-#endif
+    char *outputString = ensureExternalEncoding(string);
     printf("%s", outputString);
-    if (!onStatusLine && transcriptOption) {
-#ifdef HAVE_GLK
-        // Formatting has to be done here, GLK formats normal output for us
-        // Using 70-char wide transcript lines
-        if (strlen(string) > 70-column) {
-            stringCopy = strdup(string);  /* Make sure string is modifiable */
-            stringPart = stringCopy;
-            while (strlen(stringPart) > 70-column) {
-                int p;
-                for (p = 70-column; p>0 && !isspace((int)stringPart[p]); p--);
-                stringPart[p] = '\0';
-                glk_put_string_stream(transcriptFile, stringPart);
-                glk_put_char_stream(transcriptFile, '\n');
-                column = 0;
-                stringPart = &stringPart[p+1];
-            }
-            glk_put_string_stream(transcriptFile, stringPart);
-            column = updateColumn(column, stringPart);
-            free(stringCopy);
-        } else {
-            glk_put_string_stream(transcriptFile, string);
-            column = updateColumn(column, string);
-        }
-#else
-        fprintf(transcriptFile, "%s", string);
 #endif
+
+#ifdef HAVE_GLK
+    if (!onStatusLine && transcriptOption) {
+        static int column = 0;
+        char *stringCopy;
+        char *stringPart;
+
+        // For GLK terps we need to do the formatting of transcript
+        // output here as GLK formats output for the terminal. Non-GLK
+        // terps will format all output in justify().  Using 70-char
+        // wide transcript lines.
+        stringCopy = strdup(string);  /* Make sure string is modifiable */
+        stringPart = stringCopy;
+        while (strlen(stringPart) > 70-column) {
+            int p;
+            for (p = 70-column; p>0 && !isspace((int)stringPart[p]); p--);
+            stringPart[p] = '\0';
+            if (encodingOption == ENCODING_UTF) {
+                char *converted = ensureExternalEncoding(stringPart);
+                glk_put_string_stream(transcriptFile, converted);
+                free(converted);
+            } else
+                glk_put_string_stream(transcriptFile, stringPart);
+            glk_put_string_stream(transcriptFile, "\n");
+            column = 0;
+            stringPart = &stringPart[p+1];
+        }
+        if (encodingOption == ENCODING_UTF) {
+            char *converted = ensureExternalEncoding(stringPart);
+            glk_put_string_stream(transcriptFile, converted);
+            free(converted);
+        } else
+            glk_put_string_stream(transcriptFile, stringPart);
+        column = updateColumn(column, stringPart);
+        free(stringCopy);
     }
+#else
+    if (!onStatusLine && transcriptOption) {
+        fprintf(transcriptFile, "%s", outputString);
+        fflush(transcriptFile);
+    }
+    free(outputString);
+#endif
 }
 
 

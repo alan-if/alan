@@ -23,6 +23,8 @@
 #include "debug.h"
 #include "msg.h"
 #include "inter.h"
+#include "converter.h"
+
 
 #ifdef USE_READLINE
 #include "readline.h"
@@ -177,21 +179,27 @@ static void getLine(void) {
 
         getPageSize();
         anyOutput = FALSE;
-        if (commandLogOption) {
+        if (commandLogOption || transcriptOption) {
+            char *converted = ensureExternalEncoding(buf);
+            if (commandLogOption) {
 #ifdef HAVE_GLK
-            glk_put_string_stream(commandLogFile, buf);
-            glk_put_char_stream(commandLogFile, '\n');
+                glk_put_string_stream(commandLogFile, converted);
+                glk_put_char_stream(commandLogFile, '\n');
 #else
-            fprintf(commandLogFile, "%s\n", buf);
+                fprintf(commandLogFile, "%s\n", converted);
+                fflush(commandLogFile);
 #endif
-        }
-        if (transcriptOption) {
+            }
+            if (transcriptOption) {
 #ifdef HAVE_GLK
-            glk_put_string_stream(transcriptFile, buf);
-            glk_put_char_stream(transcriptFile, '\n');
+                glk_put_string_stream(transcriptFile, converted);
+                glk_put_char_stream(transcriptFile, '\n');
 #else
-            fprintf(transcriptFile, "%s\n", buf);
+                fprintf(transcriptFile, "%s\n", converted);
+                fflush(commandLogFile);
 #endif
+            }
+            free(converted);
         }
 
         /* If the player inputs an empty command he forfeited his command */

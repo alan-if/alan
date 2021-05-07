@@ -26,6 +26,7 @@ WINGLK_LIB = $(WINGLK_ROOT)/Glk.lib
 
 winarun: CFLAGS += $(WINGLK_INCLUDE) $(WINGLK_DEFS)
 winarun: EXEEXT = .exe
+winarun: LDLIBS += -liconv
 
 WINARUNOBJDIR = .winarun
 WINARUNOBJECTS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.o}) $(WINARUNOBJDIR)/alan.version.o
@@ -37,7 +38,7 @@ $(WINARUNOBJDIR):
 	mkdir $(WINARUNOBJDIR)
 
 winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
-	$(CC) -o $@$(EXEEXT) $(LDFLAGS) $(WINARUNOBJECTS) arun.res $(WINGLK_LIB)
+	$(CC) -o $@$(EXEEXT) $(LDFLAGS) $(WINARUNOBJECTS) arun.res $(WINGLK_LIB) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin/
 	cp $(WINGLK_ROOT)/*.dll ../bin/
 
