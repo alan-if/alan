@@ -22,7 +22,7 @@
 #include "context_x.h"
 #include "dump_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "adv.h"
 #include "elm.h"
@@ -264,7 +264,7 @@ static void expressionIsNotContainer(Expression *exp, Context *context,
     case WHAT_EXPRESSION:
         whatIsNotContainer(exp->fields.wht.wht, context, constructDescription); break;
     case ATTRIBUTE_EXPRESSION:
-        lmLogv(&exp->srcp, 311, sevERR, "Expression", "a Container", "because the class of the attribute infered from its initial value does not have the Container property", NULL);
+        lmlogv(&exp->srcp, 311, sevERR, "Expression", "a Container", "because the class of the attribute infered from its initial value does not have the Container property", NULL);
         break;
     default:
         SYSERR("Unexpected Expression kind", exp->srcp);
@@ -277,7 +277,7 @@ Bool verifyContainerExpression(Expression *what, Context *context,
 
     if (what->type != ERROR_TYPE) {
         if (what->type != INSTANCE_TYPE) {
-            lmLogv(&what->srcp, 428, sevERR, constructDescription, "an instance", NULL);
+            lmlogv(&what->srcp, 428, sevERR, constructDescription, "an instance", NULL);
             return FALSE;
         } else if (!expressionIsContainer(what, context)) {
             expressionIsNotContainer(what, context, constructDescription);
@@ -404,7 +404,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
     case WHERE_HERE:
     case WHERE_NEARBY:
         if (context->kind == RULE_CONTEXT)
-            lmLogv(&exp->srcp, 443, sevERR, "Rule context", "Here or Nearby", NULL);
+            lmlogv(&exp->srcp, 443, sevERR, "Rule context", "Here or Nearby", NULL);
         break;
 
     case WHERE_AT:
@@ -412,14 +412,14 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
         analyzeExpression(where->what, context);
         if (where->what->type != ERROR_TYPE)
             if (where->what->type != INSTANCE_TYPE && where->what->type != REFERENCE_TYPE)
-                lmLogv(&where->what->srcp, 428, sevERR, "Expression after AT or NEAR", "an instance", NULL);
+                lmlogv(&where->what->srcp, 428, sevERR, "Expression after AT or NEAR", "an instance", NULL);
         break;
 
     case WHERE_IN:
         analyzeExpression(where->what, context);
         if (where->what->type == SET_TYPE) {/* Can be in a container and in a set */
             if (exp->fields.whr.whr->transitivity != DEFAULT_TRANSITIVITY)
-                lmLogv(&where->srcp, 325, sevERR, transitivityToString(exp->fields.whr.whr->transitivity),
+                lmlogv(&where->srcp, 325, sevERR, transitivityToString(exp->fields.whr.whr->transitivity),
                        "IN operating on a SET", NULL);
         } else {
             verifyContainerExpression(where->what, context, "Expression after IN");
@@ -438,7 +438,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
             case WHAT_EXPRESSION:
                 switch (what->fields.wht.wht->kind) {
                 case WHAT_LOCATION:
-                    lmLogv(&what->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
+                    lmlogv(&what->srcp, 324, sevERR, "Current Location", "the What-clause of a Where expression", NULL);
                     break;
                 case WHAT_ID:
                 case WHAT_THIS:
@@ -456,7 +456,7 @@ static void analyzeWhereExpression(Expression *exp, Context *context)
                 break;
             }
         } else if (where->what && where->what->type != SET_TYPE)
-            lmLogv(&what->srcp, 428, sevERR, "The What clause of a Where expression", "an instance", NULL);
+            lmlogv(&what->srcp, 428, sevERR, "The What clause of a Where expression", "an instance", NULL);
     }
 
     if (where->kind == WHERE_IN && where->what->type == SET_TYPE) {
@@ -516,7 +516,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
         if (what->type != ERROR_TYPE) {
             if (what->type != INSTANCE_TYPE) {
                 exp->type = ERROR_TYPE;
-                lmLogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
+                lmlogv(&what->srcp, 428, sevERR, "Expression", "an instance", NULL);
             } else {
                 atr = resolveAttributeToExpression(what, exp->fields.atr.id, context);
                 exp->type = verifyExpressionAttribute(exp, atr);
@@ -530,7 +530,7 @@ static void analyzeAttributeExpression(Expression *exp, Context *context)
 
     default:
         exp->type = ERROR_TYPE;
-        lmLog(&exp->srcp, 420, sevERR, "attribute reference");
+        lmlog(&exp->srcp, 420, sevERR, "attribute reference");
     }
 }
 
@@ -552,16 +552,16 @@ static void analyzeBinary(Expression *exp) {
     case AND_OPERATOR:
     case OR_OPERATOR:
         if (!equalTypes(exp->fields.bin.left->type, BOOLEAN_TYPE))
-            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
+            lmlogv(&exp->fields.bin.left->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
         if (!equalTypes(exp->fields.bin.right->type, BOOLEAN_TYPE))
-            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
+            lmlogv(&exp->fields.bin.right->srcp, 330, sevERR, "boolean", "AND/OR", NULL);
         exp->type = BOOLEAN_TYPE;
         break;
 
     case NE_OPERATOR:
     case EQ_OPERATOR:
         if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type))
-            lmLog(&exp->srcp, 331, sevERR, "expression");
+            lmlog(&exp->srcp, 331, sevERR, "expression");
         else if (exp->fields.bin.left->type != ERROR_TYPE && exp->fields.bin.right->type != ERROR_TYPE)
             if (exp->fields.bin.left->type == INSTANCE_TYPE) {
                 What *leftWhat = exp->fields.bin.left->fields.wht.wht;
@@ -569,16 +569,16 @@ static void analyzeBinary(Expression *exp) {
                 if (leftWhat->kind == WHAT_ID && rightWhat->kind == WHAT_ID)
                     if (isConstantIdentifier(leftWhat->id)
                         && isConstantIdentifier(rightWhat->id))
-                        lmLog(&exp->srcp, 417, sevINF, NULL);
+                        lmlog(&exp->srcp, 417, sevINF, NULL);
             }
         exp->type = BOOLEAN_TYPE;
         break;
 
     case EXACT_OPERATOR:
         if (!equalTypes(exp->fields.bin.left->type, STRING_TYPE))
-            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'=='", NULL);
+            lmlogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'=='", NULL);
         if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
-            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
+            lmlogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'=='", NULL);
         exp->type = BOOLEAN_TYPE;
         break;
 
@@ -587,21 +587,21 @@ static void analyzeBinary(Expression *exp) {
     case LT_OPERATOR:
     case GT_OPERATOR:
         if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE))
-            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "relational", NULL);
+            lmlogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "relational", NULL);
         if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE))
-            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "relational", NULL);
+            lmlogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "relational", NULL);
         exp->type = BOOLEAN_TYPE;
         break;
 
     case PLUS_OPERATOR:
         if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE)
             && !equalTypes(exp->fields.bin.left->type, STRING_TYPE))
-            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
+            lmlogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
         if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE)
             && !equalTypes(exp->fields.bin.right->type, STRING_TYPE))
-            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
+            lmlogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer or string", "arithmetic", NULL);
         if (!equalTypes(exp->fields.bin.left->type, exp->fields.bin.right->type)) {
-            lmLog(&exp->srcp, 331, sevERR, "expression");
+            lmlog(&exp->srcp, 331, sevERR, "expression");
             exp->type = ERROR_TYPE;
         } else
             exp->type = exp->fields.bin.left->type;
@@ -611,17 +611,17 @@ static void analyzeBinary(Expression *exp) {
     case MULT_OPERATOR:
     case DIV_OPERATOR:
         if (!equalTypes(exp->fields.bin.left->type, INTEGER_TYPE))
-            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "arithmetic", NULL);
+            lmlogv(&exp->fields.bin.left->srcp, 330, sevERR, "integer", "arithmetic", NULL);
         if (!equalTypes(exp->fields.bin.right->type, INTEGER_TYPE))
-            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "arithmetic", NULL);
+            lmlogv(&exp->fields.bin.right->srcp, 330, sevERR, "integer", "arithmetic", NULL);
         exp->type = INTEGER_TYPE;
         break;
 
     case CONTAINS_OPERATOR:
         if (!equalTypes(exp->fields.bin.left->type, STRING_TYPE))
-            lmLogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
+            lmlogv(&exp->fields.bin.left->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
         if (!equalTypes(exp->fields.bin.right->type, STRING_TYPE))
-            lmLogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
+            lmlogv(&exp->fields.bin.right->srcp, 330, sevERR, "string", "'CONTAINS'", NULL);
         exp->type = BOOLEAN_TYPE;
         break;
 
@@ -694,10 +694,10 @@ static void analyzeClassingFilter(char *message,
         theFilter->class = integerSymbol;
         analyzeExpression(theFilter->fields.btw.lowerLimit, context);
         if (!equalTypes(theFilter->fields.btw.lowerLimit->type, INTEGER_TYPE))
-            lmLogv(&theFilter->fields.btw.lowerLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+            lmlogv(&theFilter->fields.btw.lowerLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
         analyzeExpression(theFilter->fields.btw.upperLimit, context);
         if (!equalTypes(theFilter->fields.btw.upperLimit->type, INTEGER_TYPE))
-            lmLogv(&theFilter->fields.btw.upperLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+            lmlogv(&theFilter->fields.btw.upperLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
         break;
     case WHERE_EXPRESSION:
         analyzeWhereFilter(theFilter, context);
@@ -743,16 +743,16 @@ static void analyzeAttributeFilter(Expression *theFilterExpression,
         attribute = findAttribute(classSymbol->fields.entity.props->attributes,
                                   attributeId);
         if (attribute == NULL) {
-            lmLogv(&attributeId->srcp, 316, sevERR, attributeId->string,
+            lmlogv(&attributeId->srcp, 316, sevERR, attributeId->string,
                    "instances iterated over using",
                    aggregateString,
                    classSymbol->string, NULL);
         } else if (!equalTypes(BOOLEAN_TYPE, attribute->type)) {
-            lmLog(&attributeId->srcp, 440, sevERR, "Aggregate");
+            lmlog(&attributeId->srcp, 440, sevERR, "Aggregate");
         } else
             attributeId->code = attribute->id->code;
     } else
-        lmLog(&theFilterExpression->srcp, 226, sevERR, "");
+        lmlog(&theFilterExpression->srcp, 226, sevERR, "");
 }
 
 
@@ -811,7 +811,7 @@ static Symbol *combineFilterClasses(Symbol *original, Symbol *addition, Srcp src
     else if (inheritsFrom(addition, original))
         return addition;
     else {
-        lmLog(&srcp, 441, sevERR, "");
+        lmlog(&srcp, 441, sevERR, "");
         return original;
     }
 }
@@ -835,13 +835,13 @@ Bool analyzeFilterExpressions(char *message, List *filters,
             error = TRUE;
         if (exp->kind == ISA_EXPRESSION) {
             if (foundIsa)
-                lmLogv(&exp->srcp, 224, sevWAR, "Isa (class)",
+                lmlogv(&exp->srcp, 224, sevWAR, "Isa (class)",
                        message, NULL);
             foundIsa = TRUE;
         }
         if (expressionIsActualWhere(exp)) {
             if (foundWhere)
-                lmLogv(&exp->srcp, 224, sevERR, "Where", message, NULL);
+                lmlogv(&exp->srcp, 224, sevERR, "Where", message, NULL);
             foundWhere = TRUE;
         }
     }
@@ -883,26 +883,26 @@ static void analyzeAggregate(Expression *exp, Context *context)
                impossible since attributes can never be guaranteed to be
                defined in all instances. */
             // TODO: well, actually that means that only attributes from 'entity' can be used...
-            lmLog(&exp->fields.agr.attribute->srcp, 226, sevERR, "");
+            lmlog(&exp->fields.agr.attribute->srcp, 226, sevERR, "");
         } else if (class) {
             /* Only do this if there was a classing filter found */
             atr = findAttribute(class->fields.entity.props->attributes,
                                 exp->fields.agr.attribute);
             if (atr == NULL) {
-                lmLogv(&exp->fields.agr.attribute->srcp, 316, sevERR,
+                lmlogv(&exp->fields.agr.attribute->srcp, 316, sevERR,
                        exp->fields.agr.attribute->string,
                        "instances aggregated over using",
                        aggregateToString(exp->fields.agr.kind),
                        class->string, NULL);
             } else if (!equalTypes(INTEGER_TYPE, atr->type)) {
-                lmLog(&exp->fields.agr.attribute->srcp, 418, sevERR, "");
+                lmlog(&exp->fields.agr.attribute->srcp, 418, sevERR, "");
             } else
                 exp->fields.agr.attribute->code = atr->id->code;
         }
     } else if (class == NULL && exp->type != ERROR_TYPE)
         /* Also for COUNT we want to warn for counting the universe, which
            is probably not what he wanted */
-        lmLog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
+        lmlog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
 }
 
 
@@ -912,13 +912,13 @@ static void analyzeRandom(Expression *exp, Context *context)
     exp->type = INTEGER_TYPE;
     analyzeExpression(exp->fields.rnd.from, context);
     if (!equalTypes(INTEGER_TYPE, exp->fields.rnd.from->type)) {
-        lmLogv(&exp->fields.rnd.from->srcp, 408, sevERR, "Expression", "RANDOM expression", "integer", NULL);
+        lmlogv(&exp->fields.rnd.from->srcp, 408, sevERR, "Expression", "RANDOM expression", "integer", NULL);
         exp->type = ERROR_TYPE;
     }
 
     analyzeExpression(exp->fields.rnd.to, context);
     if (!equalTypes(INTEGER_TYPE, exp->fields.rnd.to->type)) {
-        lmLogv(&exp->fields.rnd.to->srcp, 408, sevERR, "Expression", "RANDOM expression", "integer", NULL);
+        lmlogv(&exp->fields.rnd.to->srcp, 408, sevERR, "Expression", "RANDOM expression", "integer", NULL);
         exp->type = ERROR_TYPE;
     }
 }
@@ -940,7 +940,7 @@ static void analyzeRandomIn(Expression *exp, Context *context)
         exp->type = classToType(exp->fields.rin.what->class);
         /* Transitivity is not supported in set membership of course */
         if (exp->fields.rin.transitivity != DEFAULT_TRANSITIVITY)
-            lmLogv(&exp->srcp, 422, sevERR, transitivityToString(exp->fields.rin.transitivity),
+            lmlogv(&exp->srcp, 422, sevERR, transitivityToString(exp->fields.rin.transitivity),
                    "not allowed for", "Random In operating on a Set", NULL);
     }
 }
@@ -963,14 +963,14 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
 
     case WHAT_LOCATION:
         if (context->kind == RULE_CONTEXT)
-            lmLogv(&exp->fields.wht.wht->srcp, 412, sevERR, "Location", "Rules", NULL);
+            lmlogv(&exp->fields.wht.wht->srcp, 412, sevERR, "Location", "Rules", NULL);
         exp->type = INSTANCE_TYPE;
         exp->class = locationSymbol;
         break;
 
     case WHAT_ACTOR:
         if (context->kind == EVENT_CONTEXT || context->kind == RULE_CONTEXT)
-            lmLogv(&exp->fields.wht.wht->srcp, 412, sevERR, "Actor", "Events and Rules", NULL);
+            lmlogv(&exp->fields.wht.wht->srcp, 412, sevERR, "Actor", "Events and Rules", NULL);
         exp->type = INSTANCE_TYPE;
         exp->class = actorSymbol;
         break;
@@ -1023,15 +1023,15 @@ static void analyzeBetweenExpression(Expression *exp, Context *context)
 {
     analyzeExpression(exp->fields.btw.exp, context);
     if (!equalTypes(exp->fields.btw.exp->type, INTEGER_TYPE))
-        lmLogv(&exp->fields.btw.exp->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+        lmlogv(&exp->fields.btw.exp->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
     analyzeExpression(exp->fields.btw.lowerLimit, context);
     if (!equalTypes(exp->fields.btw.lowerLimit->type, INTEGER_TYPE))
-        lmLogv(&exp->fields.btw.lowerLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+        lmlogv(&exp->fields.btw.lowerLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
     analyzeExpression(exp->fields.btw.upperLimit, context);
     if (!equalTypes(exp->fields.btw.upperLimit->type, INTEGER_TYPE))
-        lmLogv(&exp->fields.btw.upperLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
+        lmlogv(&exp->fields.btw.upperLimit->srcp, 330, sevERR, "integer", "'BETWEEN'", NULL);
 
     exp->type = BOOLEAN_TYPE;
 }
@@ -1058,10 +1058,10 @@ static void analyzeIsaExpression(Expression *expression, Context *context)
     case ATTRIBUTE_EXPRESSION:
         analyzeExpression(what, context);
         if (!equalTypes(what->type, INSTANCE_TYPE))
-            lmLog(&expression->srcp, 434, sevERR, "'ISA'");
+            lmlog(&expression->srcp, 434, sevERR, "'ISA'");
         break;
     default:
-        lmLog(&expression->srcp, 434, sevERR, "'ISA'");
+        lmlog(&expression->srcp, 434, sevERR, "'ISA'");
         break;
     }
 

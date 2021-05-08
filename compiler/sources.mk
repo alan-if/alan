@@ -28,12 +28,13 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	converter \
 	exp \
 	ext \
+	id \
 	ins \
+	lmlog \
+	prop \
 	stm \
 	sym \
-	id \
 	whr \
-	prop \
 
 # Sources which have unittests defined
 UNITTESTED = \
@@ -75,6 +76,7 @@ OTHERSRCS = \
 	id.c \
 	initialize.c \
 	lim.c \
+	lmlog.c \
 	msg.c \
 	nam.c \
 	opt.c \

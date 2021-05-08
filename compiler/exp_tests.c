@@ -3,6 +3,7 @@
 #include "exp_x.h"
 
 #include "lmList.mock"
+#include "lmlog.mock"
 #include "srcp.mock"
 #include "whr.mock"
 #include "id.mock"

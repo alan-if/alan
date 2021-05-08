@@ -1,0 +1,20 @@
+#include "types.h"
+
+#include "converter.h"
+
+
+iconv_t initUtf8Conversion(void) {
+    return (iconv_t)mock();
+}
+
+int convertUtf8ToInternal(iconv_t cd, uchar **in_buf, uchar **out_buf, int available) {
+    return (int)mock(cd, in_buf, out_buf, available);
+}
+
+void finishUtf8Conversion(iconv_t cd) {
+    mock(cd);
+}
+
+char *ensureExternalEncoding(char input[]) {
+    return (char *)mock(input);
+}

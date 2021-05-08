@@ -135,7 +135,7 @@ linked_unittests: unittests.$(SOEXTENSION)
 # be tested in total isolation (with everything else mocked away,
 # except some extra objects)
 
-ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep lst dump opt type alan.version
+ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep lst dump opt charset type alan.version
 
 isolated_unittests: SUITE = Compiler
 

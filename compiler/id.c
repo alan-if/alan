@@ -18,7 +18,7 @@
 #include "elm.h"
 #include "str.h"
 #include "util.h"
-#include "lmList.h"
+#include "lmlog.h"
 
 
 
@@ -43,14 +43,14 @@ Bool isGeneratedId(Id *id) {
 
 /*======================================================================*/
 Id *newId(Srcp srcp,	/* IN - Source Position */
-	      char *str)	/* IN - The string */
+          char *str)	/* IN - The string */
 {
     Id *new;			/* The newly allocated area */
 
     progressCounter();
 
     new = NEW(Id);
-  
+
     new->srcp = srcp;
     new->string  = newString(str);
     new->symbol = NULL;
@@ -83,7 +83,7 @@ void symbolizeId(Id *id)
     if (id->symbol == NULL) {
         if (id->string[0] != '$')
             /* Generated identifiers start with '$', don't report errors on those */
-            lmLogv(&id->srcp, 310, sevERR, id->string, "", NULL);
+            lmlogv(&id->srcp, 310, sevERR, id->string, "", NULL);
         id->symbol = newSymbol(id, ERROR_SYMBOL);
     } else
         id->code = id->symbol->code;
@@ -93,7 +93,7 @@ void symbolizeId(Id *id)
 /*======================================================================*/
 Id *findIdInList(Id *theId, List *theList) {
     List *here;
-  
+
     for (here = theList; here != NULL; here = here->next)
         if (equalId(here->member.id, theId))
             return here->member.id;

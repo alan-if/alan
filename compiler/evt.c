@@ -18,8 +18,6 @@
 #include "context_x.h"
 #include "dump_x.h"
 
-#include "lmList.h"
-
 #include "opt.h"                /* Options */
 
 #include "emit.h"

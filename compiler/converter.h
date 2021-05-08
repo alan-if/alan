@@ -19,5 +19,6 @@
 extern iconv_t initUtf8Conversion(void);
 extern int convertUtf8ToInternal(iconv_t cd, uchar **in_buf, uchar **out_buf, int available);
 extern void finishUtf8Conversion(iconv_t cd);
+extern char *ensureExternalEncoding(char input[]);
 
 #endif

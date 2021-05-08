@@ -8,6 +8,7 @@
 #include "exp.mock"
 #include "wht.mock"
 #include "lmList.mock"
+#include "lmlog.mock"
 
 
 Symbol *theVerbSymbol;

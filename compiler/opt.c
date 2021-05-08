@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				OPT.C
-			   Option Handling
+                OPT.C
+               Option Handling
 
 \*----------------------------------------------------------------------*/
 
@@ -10,6 +10,7 @@
 
 #include "srcp_x.h"
 #include "lmList.h"
+#include "lmlog.h"
 
 #include "acode.h"
 
@@ -115,19 +116,19 @@ void optint(char *id, Srcp *srcp, int val)
   int opt;
 
   if ((opt = optcode(id)) == EOF) {
-    lmLog(srcp, 601, sevWAR, id);
+    lmlog(srcp, 601, sevWAR, id);
     return;
   }
 
   if (opts[opt].type != INTOPT
       ||  val < optbounds[opt].min
       ||  val > optbounds[opt].max) {
-        lmLog(srcp, 602, sevWAR, id);
+        lmlog(srcp, 602, sevWAR, id);
         return;
       }
 
   if (opts[opt].used) {
-    lmLog(srcp, 600, sevWAR, id);
+    lmlog(srcp, 600, sevWAR, id);
     return;
   }
 
@@ -153,18 +154,18 @@ void optenum(char *id, Srcp *srcp, char *val)
       optBool(val, srcp, FALSE);
     } else
       /* Unrecognized option */
-      lmLog(srcp, 601, sevWAR, id);
+      lmlog(srcp, 601, sevWAR, id);
     return;
   }
 
   if (opts[opt].type != ENUMOPT
       || (code = enumcode(opt, val)) == EOF) {
-    lmLog(srcp, 602, sevWAR, id);
+    lmlog(srcp, 602, sevWAR, id);
     return;
     }
 
   if (opts[opt].used) {
-    lmLog(srcp, 600, sevWAR, id);
+    lmlog(srcp, 600, sevWAR, id);
     return;
   }
 
@@ -185,17 +186,17 @@ void optBool(char *id, Srcp *srcp, int val)
   int opt;
 
   if ((opt = optcode(id)) == EOF) {
-    lmLog(srcp, 601, sevWAR, id);
+    lmlog(srcp, 601, sevWAR, id);
     return;
   }
 
   if (opts[opt].type != BOOLOPT) {
-    lmLog(srcp, 602, sevWAR, id);
+    lmlog(srcp, 602, sevWAR, id);
     return;
   }
 
   if (opts[opt].used) {
-    lmLog(srcp, 600, sevWAR, id);
+    lmlog(srcp, 600, sevWAR, id);
     return;
   }
 

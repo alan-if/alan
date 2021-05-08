@@ -1,0 +1,11 @@
+#include "lmlog.h"
+
+/* Log a message at a source position */
+void lmlog(Srcp *pos, int ecode, lmSev sev, char *istrs) {
+    mock(pos, ecode, sev, istrs);
+}
+
+/* Log a message at a source position using va_arg handling */
+void lmlogv(Srcp *pos, int ecode, lmSev sev, ...) {
+    mock(pos, ecode, sev);
+}

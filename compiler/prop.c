@@ -12,8 +12,7 @@
 #include "alan.h"
 #include "util.h"
 #include "emit.h"
-#include "lmList.h"
-
+#include "lmlog.h"
 
 #include "srcp_x.h"
 #include "atr_x.h"
@@ -96,9 +95,9 @@ static void symbolizeParent(Properties *props)
     if (props->parentId != NULL) {
         parent = lookup(props->parentId->string);
         if (parent == NULL)
-            lmLogv(&props->parentId->srcp, 310, sevERR, props->parentId->string, "", NULL);
+            lmlogv(&props->parentId->srcp, 310, sevERR, props->parentId->string, "", NULL);
         else if (!isClass(parent))
-            lmLog(&props->parentId->srcp, 350, sevERR, "");
+            lmlog(&props->parentId->srcp, 350, sevERR, "");
         else {
             props->parentId->symbol = parent;
             setParent(props->id->symbol, props->parentId->symbol);
@@ -153,7 +152,7 @@ static void analyzeMentioned(Properties *props, Context *context)
 {
     if (props->mentioned != NULL) {
         if ((props->names != NULL) && inheritsFrom(props->id->symbol, locationSymbol))
-            lmLog(&props->mentionedSrcp, 425, sevWAR, "");
+            lmlog(&props->mentionedSrcp, 425, sevWAR, "");
         analyzeStatements(props->mentioned, context);
     }
 }
@@ -165,13 +164,13 @@ static void checkSubclassing(Properties *props)
     if (props->parentId) {
         if (props->id->symbol == theHero) {
             if (!inheritsFrom(props->parentId->symbol, actorSymbol))
-                lmLog(&props->parentId->srcp, 411, sevERR, "Inheritance from anything but 'actor' and its subclasses");
+                lmlog(&props->parentId->srcp, 411, sevERR, "Inheritance from anything but 'actor' and its subclasses");
         } else if (props->parentId->symbol)
             if (props->parentId->symbol->fields.entity.prohibitedSubclassing &&
                 !props->predefined)
-                lmLog(&props->parentId->srcp, 423, sevERR, props->parentId->string);
+                lmlog(&props->parentId->srcp, 423, sevERR, props->parentId->string);
     } else if (props->id->symbol != entitySymbol && props->id->symbol != theHero)
-        lmLog(&props->id->srcp, 429, sevERR, "");
+        lmlog(&props->id->srcp, 429, sevERR, "");
 }
 
 
@@ -179,7 +178,7 @@ static void checkSubclassing(Properties *props)
 static void analyzeCircularLocations(Properties *props)
 {
     if (props->circularInspection == VISITED) {
-        lmLog(&props->whr->srcp, 802, sevERR, props->id->string);
+        lmlog(&props->whr->srcp, 802, sevERR, props->id->string);
     } else {
         props->circularInspection = VISITED;
         if (props->whr
@@ -208,12 +207,12 @@ void analyzeProps(Properties *props, Context *context)
     if (props->whr != NULL &&
         !(inheritsFrom(props->id->symbol, thingSymbol)
           || inheritsFrom(props->id->symbol, locationSymbol)))
-        lmLog(&props->whr->srcp, 405, sevERR, "have initial locations");
+        lmlog(&props->whr->srcp, 405, sevERR, "have initial locations");
     if (props->whr != NULL && props->whr->kind == WHERE_IN) {
         if (inheritsFrom(props->id->symbol, actorSymbol))
-            lmLog(&props->whr->srcp, 402, sevERR, "An Actor");
+            lmlog(&props->whr->srcp, 402, sevERR, "An Actor");
         else if (inheritsFrom(props->id->symbol, locationSymbol))
-            lmLog(&props->whr->srcp, 402, sevERR, "A Location");
+            lmlog(&props->whr->srcp, 402, sevERR, "A Location");
     }
 
     /* Don't analyze attributes since those are analyzed already */
@@ -233,7 +232,7 @@ void analyzeProps(Properties *props, Context *context)
     if (props->container) {
         /* But is a location? */
         if (inheritsFrom(props->id->symbol, locationSymbol))
-            lmLogv(&props->id->srcp, 354, sevERR,
+            lmlogv(&props->id->srcp, 354, sevERR,
                    isClass(props->id->symbol)?"Class":"Instance",
                    props->id->string,
                    "location",
@@ -244,14 +243,14 @@ void analyzeProps(Properties *props, Context *context)
 
     /* Have ENTERED or EXITs but not a location? */
     if (props->enteredStatements && !inheritsFrom(props->id->symbol, locationSymbol))
-        lmLogv(&props->id->srcp, 352, sevERR,
+        lmlogv(&props->id->srcp, 352, sevERR,
                isClass(props->id->symbol)?"Class":"Instance",
                props->id->string,
                "location",
                "ENTERED statements which is not allowed",
                NULL);
     if (props->exits && !inheritsFrom(props->id->symbol, locationSymbol))
-        lmLogv(&props->id->srcp, 352, sevERR,
+        lmlogv(&props->id->srcp, 352, sevERR,
                isClass(props->id->symbol)?"Class":"Instance",
                props->id->string,
                "location",
@@ -261,7 +260,7 @@ void analyzeProps(Properties *props, Context *context)
 
     /* Have scripts but not an actor? */
     if (props->scripts && !inheritsFrom(props->id->symbol, actorSymbol))
-        lmLogv(&props->id->srcp, 352, sevERR,
+        lmlogv(&props->id->srcp, 352, sevERR,
                isClass(props->id->symbol)?"Class":"Instance",
                props->id->string,
                "actor",

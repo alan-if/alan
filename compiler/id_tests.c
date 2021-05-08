@@ -5,6 +5,7 @@
 /* Mocks: */
 #include "srcp.mock"
 #include "lmList.mock"
+#include "lmlog.mock"
 #include "sym.mock"
 #include "adv.mock"
 #include "emit.mock"

@@ -29,7 +29,7 @@
 #include "emit.h"
 #include "util.h"
 #include "options.h"
-#include "lmList.h"
+#include "lmlog.h"
 
 
 /* PUBLIC DATA */
@@ -146,7 +146,7 @@ Class *newClass(Srcp *srcp,	/* IN - Source Position */
   allClasses = concat(allClasses, new, CLASS_LIST);
 
   if (compareStrings(id->string, "container") == 0)
-    lmLogv(&id->srcp, 260, sevERR, "class", "'container'", "the built-in container property", NULL);
+    lmlogv(&id->srcp, 260, sevERR, "class", "'container'", "the built-in container property", NULL);
 
   return(new);
 }
@@ -160,7 +160,7 @@ static void symbolizeClass(Class *cla)
     if (cla->props->parentId != NULL) {
         if (cla->props->parentId->symbol != NULL) {
             if (!isClass(cla->props->parentId->symbol))
-                lmLog(&cla->props->parentId->srcp, 350, sevERR, "");
+                lmlog(&cla->props->parentId->srcp, 350, sevERR, "");
             else
                 setParent(cla->props->id->symbol, cla->props->parentId->symbol);
         }

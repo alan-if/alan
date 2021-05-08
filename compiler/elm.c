@@ -14,7 +14,7 @@
 #include "lst_x.h"
 #include "wrd_x.h"
 #include "dump_x.h"
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "stx.h"
 #include "sym.h"		/* SYM-nodes */
@@ -115,7 +115,7 @@ static void checkForDuplicatedParameterNames(List *parameters) {
         for (elements = list->next; elements != NULL; elements = elements->next) {
             Element *innerElement = elements->member.elm;
             if (equalId(outerElement->id, innerElement->id))
-                lmLog(&innerElement->id->srcp, 216, sevERR, innerElement->id->string);
+                lmlog(&innerElement->id->srcp, 216, sevERR, innerElement->id->string);
         }
     }
 }
@@ -142,7 +142,7 @@ List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
             element->id->code = parameterCount++;
             if ((element->flags & MULTIPLEBIT) != 0) {
                 if (multiple)
-                    lmLog(&element->srcp, 217, sevWAR, "");
+                    lmlog(&element->srcp, 217, sevWAR, "");
                 else
                     multiple = TRUE;
             }
@@ -273,7 +273,7 @@ static void entryForEOS(ElementEntry *entry, List *partition) {
     if (partition->next != NULL) { /* More than one element in this partition? */
         /* That means that two syntax's are the same */
         for (lst = partition; lst != NULL; lst = lst->next)
-            lmLog(&lst->member.lst->member.elm->stx->srcp, 334, sevWAR, "");
+            lmlog(&lst->member.lst->member.elm->stx->srcp, 334, sevWAR, "");
     }
     entry->code = EOS;        /* End Of Syntax */
     entry->flags = partition->member.lst->member.elm->stx->number; /* Syntax number */

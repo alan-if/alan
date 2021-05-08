@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				SYN.C
-			    Synonym Nodes
+                SYN.C
+                Synonym Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -18,7 +18,7 @@
 #include "id_x.h"
 #include "dump_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 #include "acode.h"
 
 
@@ -58,15 +58,15 @@ void analyzeSynonyms(void)
     progressCounter();
     wrd = findWord(lst->member.syn->id->string);
     if (wrd == NULL)		/* Couldn't find target word */
-      lmLog(&lst->member.syn->id->srcp, 321, sevWAR, lst->member.syn->id->string);
+      lmlog(&lst->member.syn->id->srcp, 321, sevWAR, lst->member.syn->id->string);
     else
       for (slst = lst->member.syn->ids; slst != NULL; slst = slst->next) {
-	/* Look up the synonym */
-	swrd = findWord(slst->member.id->string);
-	if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
-	  lmLog(&slst->member.id->srcp, 322, sevWAR, slst->member.id->string);
-	else
-	  newSynonymWord(slst->member.id->string, wrd);
+    /* Look up the synonym */
+    swrd = findWord(slst->member.id->string);
+    if (swrd != NULL && (swrd->classbits&SYNONYM_BIT)!=0)
+      lmlog(&slst->member.id->srcp, 322, sevWAR, slst->member.id->string);
+    else
+      newSynonymWord(slst->member.id->string, wrd);
       }
   }
 }

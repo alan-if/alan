@@ -10,7 +10,7 @@
 /* IMPORTS */
 #include "sysdep.h"
 #include "util.h"
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "srcp_x.h"
 #include "cla_x.h"
@@ -101,8 +101,8 @@ void idRedefined(Id *id, Symbol *sym, Srcp previousDefinition)
     default: error_code = 308; break;
     }
 
-    lmLog(&id->srcp, error_code, sevERR, id->string);
-    lmLog(&previousDefinition, 399, sevINF, id->string);
+    lmlog(&id->srcp, error_code, sevERR, id->string);
+    lmlog(&previousDefinition, 399, sevINF, id->string);
 }
 
 
@@ -1089,23 +1089,23 @@ Symbol *symcheck(Id *id, SymbolKind requestedKinds, Context *context)
 
     if (!sym) {
         if (!isGeneratedId(id)) {
-            lmLogv(&id->srcp, 310, sevERR, id->string, verbHasParametersMessage(context), NULL);
+            lmlogv(&id->srcp, 310, sevERR, id->string, verbHasParametersMessage(context), NULL);
         }
     } else if (sym->kind == PARAMETER_SYMBOL || sym->kind == LOCAL_SYMBOL) {
         if ((requestedKinds&INSTANCE_SYMBOL) == 0) {
             if (multipleSymbolKinds(requestedKinds))
-                lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+                lmlogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
             else
-                lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+                lmlogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
             return NULL;
         }
     } else
         if (requestedKinds != 0)
             if (sym->kind != ERROR_SYMBOL && (sym->kind&requestedKinds) == 0) {
                 if (multipleSymbolKinds(requestedKinds))
-                    lmLogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
+                    lmlogv(&id->srcp, 319, sevERR, id->string, "of correct type for this context", NULL);
                 else
-                    lmLogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
+                    lmlogv(&id->srcp, 319, sevERR, id->string, symbolKindsAsString(requestedKinds), NULL);
                 return NULL;
             }
     id->symbol = sym;
@@ -1125,7 +1125,7 @@ void inheritCheck(Id *id, char reference[], char toWhat[], char className[])
     if (theClassSymbol == NULL) SYSERR("There is no such class", id->srcp);
 
     if (id->symbol != NULL && !inheritsFrom(id->symbol, theClassSymbol))
-        lmLogv(&id->srcp, 351, sevERR, reference, toWhat, className, NULL);
+        lmlogv(&id->srcp, 351, sevERR, reference, toWhat, className, NULL);
 }
 
 
@@ -1143,7 +1143,7 @@ void instanceCheck(Id *id, char reference[], char className[])
     if (id->symbol != NULL)
         if (id->symbol->kind != ERROR_SYMBOL)
             if (!isInstance(id->symbol) || !inheritsFrom(id->symbol, theClassSymbol))
-                lmLogv(&id->srcp, 351, sevERR, reference, "an instance", className, NULL);
+                lmlogv(&id->srcp, 351, sevERR, reference, "an instance", className, NULL);
 }
 
 
@@ -1287,7 +1287,7 @@ static void replicateAttributes(Symbol *symbol)
         Attribute *thisAttribute = atr->member.atr;
         if (thisAttribute->type == REFERENCE_TYPE)
             if (!thisAttribute->initialized && !isClass(symbol))
-                lmLogv(&propertiesOf(symbol)->id->srcp, 328, sevERR,
+                lmlogv(&propertiesOf(symbol)->id->srcp, 328, sevERR,
                        thisAttribute->id->string,
                        thisAttribute->definingSymbol->string,
                        NULL);

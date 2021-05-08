@@ -7,6 +7,9 @@
 
 #include "resource_x.h"
 
+#include <errno.h>
+#include <unistd.h>
+
 #include "lst_x.h"
 #include "srcp_x.h"
 #include "adv_x.h"
@@ -14,8 +17,8 @@
 #include "id_x.h"
 #include "sysdep.h"
 #include "util.h"
-#include <errno.h>
-#include <unistd.h>
+
+#include "lmlog.h"
 
 
 /* Private data */
@@ -105,13 +108,13 @@ void analyzeResource(Resource *resource) {
       resource->kind = SND_RESOURCE;
       resource->chunk = FORM_CHUNK;
     } else
-      lmLog(&resource->srcp, 801, sevWAR, "");
+      lmlog(&resource->srcp, 801, sevWAR, "");
   else
-    lmLog(&resource->srcp, 801, sevWAR, "");
+    lmlog(&resource->srcp, 801, sevWAR, "");
 
   resourceFile = fopen(resource->fileName->string, READ_MODE);
   if (!resourceFile)
-    lmLog(&resource->srcp, 153, sevERR, "");
+    lmlog(&resource->srcp, 153, sevERR, "");
   else
     fclose(resourceFile);
 }

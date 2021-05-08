@@ -7,9 +7,10 @@
 
 \*======================================================================*/
 
-#include "lmList.h"
 #include <stdio.h>
 #include <setjmp.h>
+
+#include "lmList.h"
 
 
 /* Public for checking */
@@ -33,9 +34,9 @@ int readSev()
 }
 
 extern void lmLog(Srcp *pos,
-		  int ecode,
-		  lmSev sev,
-		  char *istrs)
+          int ecode,
+          lmSev sev,
+          char *istrs)
 {
   lastEcode = ecode;
   lastSev = sev;
@@ -45,9 +46,9 @@ extern void lmLog(Srcp *pos,
 }
 
 extern void lmLogv(Srcp *pos,
-		   int ecode,
-		   lmSev sev,
-		   ...)
+           int ecode,
+           lmSev sev,
+           ...)
 {
   lmLog(pos, ecode, sev, (void *)0);
 }
@@ -64,23 +65,23 @@ extern void lmLiPrint(char str[])
 {}
 
 extern void lmLiInit(char header[],
-		     char src[],
-		     lmMessages msect)
+             char src[],
+             lmMessages msect)
 {}
 
 extern void lmList(char ofnm[],
-		   int lins,
-		   int cols,
-		   lmTyp typ,
-		   lmSev sevs)
+           int lins,
+           int cols,
+           lmTyp typ,
+           lmSev sevs)
 {}
 
 extern void lmLiTerminate(void)
 {}
 
 extern void lmLiEnter(Srcp *pos,
-		      Srcp *start,
-		      char fnm[])
+              Srcp *start,
+              char fnm[])
 {}
 
 extern int lmMsg(int i, Srcp *pos, char *msg)

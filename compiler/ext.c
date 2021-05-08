@@ -22,7 +22,7 @@
 #include "elm.h"                /* ELM-nodes */
 
 #include "emit.h"
-#include "lmList.h"
+#include "lmlog.h"
 #include "acode.h"
 
 
@@ -130,7 +130,7 @@ void analyzeExits(List *exts, Context *context)
         for (other = dir->next; other != NULL; other = other->next) {
             if (other->member.id->symbol != NULL && dir->member.id->symbol != NULL)
                 if (other->member.id->symbol->code == dir->member.id->symbol->code) {
-                    lmLog(&other->member.id->srcp, 202, sevWAR,
+                    lmlog(&other->member.id->srcp, 202, sevWAR,
                           other->member.id->string);
                     break;
                 }
@@ -139,7 +139,7 @@ void analyzeExits(List *exts, Context *context)
         for (lst = ext->next; lst != NULL; lst = lst->next) {
             for (other = lst->member.ext->directions; other != NULL; other = other->next)
                 if (other->member.id->symbol->code == dir->member.id->symbol->code) {
-                    lmLog(&other->member.id->srcp, 203, sevWAR,
+                    lmlog(&other->member.id->srcp, 203, sevWAR,
                           other->member.id->string);
                     break;
                 }

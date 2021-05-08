@@ -15,7 +15,7 @@
 #include "stm_x.h"
 #include "sym_x.h"
 #include "context_x.h"
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "msg.h"
 #include "opt.h"
@@ -332,7 +332,7 @@ x
             if (compareStrings(defmsg[msgno].id, umsgs->member.msg->id->string) == 0)
                 break;
         if (defmsg[msgno].id == NULL)
-            lmLog(&umsgs->member.msg->id->srcp, 700, sevERR, NULL);
+            lmlog(&umsgs->member.msg->id->srcp, 700, sevERR, NULL);
         else {
             /* Find that message in the system messages list */
             for (lst = smsgs; lst != NULL && lst->member.msg->msgno != msgno; lst = lst->next);

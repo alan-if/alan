@@ -4,6 +4,7 @@
 
 #include "smScan.h"
 #include "lmList.mock"
+#include "lmlog.mock"
 #include "srcp.mock"
 #include "sym.mock"
 #include "prop.mock"
