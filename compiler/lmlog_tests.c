@@ -8,15 +8,25 @@
 #include "srcp.mock"
 
 
-/* Ensure also private functions are available in the SUT */
-
 Describe(Lmlog);
 BeforeEach(Lmlog) {}
 AfterEach(Lmlog) {}
 
-/* No tests yet */
-Ensure(Lmlog, should_convert_no_varargs_to_empty_insert_string) {
+
+Ensure(Lmlog, converts_no_varargs_to_empty_insert_string) {
     expect(lmLog, when(istrs, is_equal_to_string("")));
 
-    lmlogv(&nulsrcp, 0, 0, "", NULL);
+    lmlogv(&nulsrcp, 0, 0, NULL);
+}
+
+Ensure(Lmlog, converts_one_vararg_string_to_single_insert_string) {
+    expect(lmLog, when(istrs, is_equal_to_string("string")));
+
+    lmlogv(&nulsrcp, 0, 0, "string", NULL);
+}
+
+Ensure(Lmlog, converts_two_vararg_string_to_insert_string) {
+    expect(lmLog, when(istrs, is_equal_to_string("string1" "\xff" "string2")));
+
+    lmlogv(&nulsrcp, 0, 0, "string1", "string2", NULL);
 }
