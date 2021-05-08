@@ -14,7 +14,6 @@
 #include "context.mock"
 #include "wht.mock"
 #include "lmList.mock"
-#include "smScSema.mock"
 #include "emit.mock"
 
 

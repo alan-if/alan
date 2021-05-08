@@ -4,7 +4,6 @@
 #include "whr_x.h"
 
 #include "lmList.mock"
-#include "smScSema.mock"
 #include "srcp.mock"
 #include "exp.mock"
 #include "sym.mock"
@@ -63,4 +62,3 @@ Ensure(Where, generates_syserr_for_ATrans_value_TRANSITIVE) {
     generateTransitivity((Transitivity)TRANSITIVE);
     assert_that(syserr_called);
 }
-

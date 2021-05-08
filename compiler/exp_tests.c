@@ -14,7 +14,6 @@
 #include "set.mock"
 #include "prop.mock"
 #include "emit.mock"
-#include "smScSema.mock"
 
 
 
@@ -33,7 +32,7 @@ Ensure(Expression, containerTakes_returns_null_for_non_containers) {
     expect(symbolOfWhat, will_return(aSymbol));
     expect(containerSymbolTakes, will_return(NULL));
     Expression *whatExpression = newWhatExpression(nulsrcp, what);
-    
+
     /* Then: containerTakes() should return NULL for the object class symbol */
     assert_that(containerContent(whatExpression, DIRECTLY, NULL), is_null);
 }

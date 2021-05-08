@@ -26,6 +26,8 @@
 long counter = 0;               /* And counter for verbose mode */
 long allocated = 0;             /* Calculated memory usage */
 
+List *fileNames = NULL;
+
 
 /* PRIVATE DATA */
 

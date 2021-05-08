@@ -13,7 +13,6 @@
 #include "srcp.mock"
 #include "id.mock"
 #include "encode.mock"
-#include "smScSema.mock"
 #include "set.mock"
 #include "atr.mock"
 #include "resource.mock"
@@ -45,7 +44,7 @@ Ensure(Statement, analyzeIf_creates_restricting_context_for_Id_Isa_expression) {
     expect(analyzeExpression);
     expect(pushContext);
     expect(addRestrictionInContext);
-    
+
     analyzeStatements(newList(statement, STATEMENT_LIST), NULL);
 
 }
@@ -63,10 +62,10 @@ Ensure(Statement, analyzeIf_does_not_create_restricting_context_for_Isa_expressi
     statement->fields.iff.els = NULL;
 
     expect(analyzeExpression);
-    
+
     never_expect(pushContext);
     never_expect(addRestrictionInContext);
-    
+
     analyzeStatements(newList(statement, STATEMENT_LIST), NULL);
 
 }

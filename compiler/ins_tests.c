@@ -13,7 +13,6 @@
 #include "cnt.mock"
 #include "id.mock"
 #include "context.mock"
-#include "smScSema.mock"
 
 
 Describe(Instance);

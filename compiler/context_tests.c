@@ -9,7 +9,6 @@
 #include "wht.mock"
 #include "lmList.mock"
 
-List *fileNames = NULL;
 
 Symbol *theVerbSymbol;
 

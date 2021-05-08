@@ -7,7 +7,6 @@
 #include "lst_x.h"
 
 #include "lmList.mock"
-#include "smScSema.mock"
 #include "srcp.mock"
 
 

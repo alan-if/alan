@@ -4,7 +4,6 @@
 
 #include "util.h"
 
-#include "smScSema.mock"
 #include "lmList.mock"
 #include "atr.mock"
 #include "str.mock"
@@ -440,7 +439,7 @@ Ensure(Symbol, should_return_null_as_taken_class_for_class_with_no_properties) {
 
 Ensure(Symbol, should_return_taken_class_for_container_instance) {
     /* Given: there is some class */
-	Id *taken_class_id = givenAClassId("taken");
+    Id *taken_class_id = givenAClassId("taken");
 
     /* And: there is an instance taking that class */
     Symbol *queryed_symbol = givenAnInstanceTaking("queryed_instance_symbol", taken_class_id->symbol);
@@ -453,7 +452,7 @@ Ensure(Symbol, should_return_taken_class_for_container_instance) {
 
 Ensure(Symbol, should_return_taken_class_for_container_class) {
     /* Given: there is some class */
-	Id *taken_class_id = givenAClassId("taken");
+    Id *taken_class_id = givenAClassId("taken");
 
     /* And: there is an class taking that class */
     Symbol *queryed_symbol = givenAClassTaking("queryed_instance_symbol", taken_class_id->symbol);
@@ -466,7 +465,7 @@ Ensure(Symbol, should_return_taken_class_for_container_class) {
 
 Ensure(Symbol, should_return_taken_class_for_instance_inheriting_container) {
     /* Given: there is some class */
-	Id *taken_class_id = givenAClassId("taken");
+    Id *taken_class_id = givenAClassId("taken");
 
     /* And: there is n class taking that class */
     Symbol *container_class_symbol = givenAClassTaking("container_class", taken_class_id->symbol);
@@ -482,7 +481,7 @@ Ensure(Symbol, should_return_taken_class_for_instance_inheriting_container) {
 
 Ensure(Symbol, should_return_taken_class_for_instance_of_class_inheriting_container) {
     /* Given: there is some class */
-	Id *taken_class_id = givenAClassId("taken");
+    Id *taken_class_id = givenAClassId("taken");
 
     /* And: there is n class taking that class */
     Symbol *container_class_symbol = givenAClassTaking("container_class", taken_class_id->symbol);

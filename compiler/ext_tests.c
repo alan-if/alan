@@ -14,7 +14,6 @@
 
 #include "ext_x.h"
 
-List *fileNames = NULL;
 
 Describe(Exit);
 BeforeEach(Exit) {}
