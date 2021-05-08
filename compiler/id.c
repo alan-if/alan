@@ -43,14 +43,14 @@ Bool isGeneratedId(Id *id) {
 
 /*======================================================================*/
 Id *newId(Srcp srcp,	/* IN - Source Position */
-	      char *str)	/* IN - The string */
+          char *str)	/* IN - The string */
 {
     Id *new;			/* The newly allocated area */
 
     progressCounter();
 
     new = NEW(Id);
-  
+
     new->srcp = srcp;
     new->string  = newString(str);
     new->symbol = NULL;
@@ -93,7 +93,7 @@ void symbolizeId(Id *id)
 /*======================================================================*/
 Id *findIdInList(Id *theId, List *theList) {
     List *here;
-  
+
     for (here = theList; here != NULL; here = here->next)
         if (equalId(here->member.id, theId))
             return here->member.id;

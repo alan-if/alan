@@ -3,16 +3,19 @@
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
+#include <malloc.h>
 
 #include "types.h"
 #include "util.h"
+#include "charset.h"
+#include "srcp_x.h"
 
 
 iconv_t initUtf8Conversion() {
     // This should be called when a new file is opened for reading
     iconv_t cd = iconv_open("ISO_8859-1", "UTF-8");
     if (cd == (iconv_t) -1) {
-        SYSERR("iconv_open failed!", ((Srcp){0,0,0}));
+        SYSERR("iconv_open failed!", nulsrcp);
         return (iconv_t)-1;
     } else
         return cd;
@@ -48,4 +51,32 @@ int convertUtf8ToInternal(iconv_t cd, uchar **in_buf, uchar **out_buf, int in_av
 /* This should be called when a file is processed and no more conversion will take place */
 void finishUtf8Conversion(iconv_t cd) {
     iconv_close(cd);
+}
+
+/* Outgoing - will always return an alloc'd string that needs to be freed */
+char *ensureExternalEncoding(char input[]) {
+    if (charset == CHARSET_UTF8) {
+        iconv_t cd = iconv_open("UTF-8", "ISO_8859-1");
+        if (cd == (iconv_t) -1)
+            SYSERR("iconv_open() failed!", nulsrcp);
+
+        /* UTF-8 might be longer than ISO8859-1 encoding so double */
+        char *in_p = input;
+        size_t in_left = strlen(input);
+        size_t out_left = strlen(input)*2;
+        char *converted = (char *)malloc(out_left+1);
+        char *out_p = converted;
+
+        do {
+            if (iconv(cd, &in_p, &in_left, &out_p, &out_left) == (size_t) -1) {
+                /* Internal code (ISO8859-1) to UTF should never fail */
+                SYSERR("Conversion of output to UTF-8 failed", nulsrcp);
+            }
+        } while (in_left > 0 && out_left > 0);
+        *out_p = '\0';
+
+        iconv_close(cd);
+        return converted;
+    } else
+        return strdup(input);
 }
