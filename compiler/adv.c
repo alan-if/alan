@@ -12,7 +12,7 @@
 #include "alan.h"
 #include "util.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 #include "smScan.h"
 
 #include "add_x.h"
@@ -92,11 +92,11 @@ static void analyzeStartAt(void)
             if (what->kind == WHAT_ID) {
                 instanceCheck(what->id, "START statement", "location");
             } else
-                lmLog(&adv.whr->srcp, 211, sevERR, "");
+                lmlog(&adv.whr->srcp, 211, sevERR, "");
             break;
         }
         default:
-            lmLog(&adv.whr->srcp, 211, sevERR, "");
+            lmlog(&adv.whr->srcp, 211, sevERR, "");
             break;
         }
 

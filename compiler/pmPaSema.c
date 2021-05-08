@@ -16,7 +16,7 @@
 #include "smScan.h"
 #include "token.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "alt.h"
 #include "evt.h"
@@ -254,7 +254,7 @@ int rule			/* IN production number */
 #line 279 "alan.pmk"
 
       if (adv.prompt != NULL)
-        lmLog(&pmSeSt[pmStkP+1].srcp, 308, sevWAR, "PROMPT");
+        lmlog(&pmSeSt[pmStkP+1].srcp, 308, sevWAR, "PROMPT");
       adv.prompt = pmSeSt[pmStkP+1].prompt;
     	break;}
     case 25: { /* <prompt> = 'prompt' <statements>; */
@@ -502,7 +502,7 @@ int rule			/* IN production number */
                               pmSeSt[pmStkP+1].isMeta);
         if (pmSeSt[pmStkP+3].id != NULL) { /* END-id given */
             if (compareStrings(pmSeSt[pmStkP+1].str, pmSeSt[pmStkP+3].id->string) != 0)
-                lmLog(&pmSeSt[pmStkP+3].id->srcp, 200, sevWAR, pmSeSt[pmStkP+1].str);
+                lmlog(&pmSeSt[pmStkP+3].id->srcp, 200, sevWAR, pmSeSt[pmStkP+1].str);
         }
     	break;}
     case 69: { /* <verb_header> = <optional_meta> 'verb' <id_list>; */
@@ -651,7 +651,7 @@ int rule			/* IN production number */
                                          pmSeSt[pmStkP+4].scrs));
         if (pmSeSt[pmStkP+5].id != NULL)  /* END-id given */
             if (!equalId(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))
-                lmLog(&pmSeSt[pmStkP+5].id->srcp, 200, sevWAR, pmSeSt[pmStkP+2].id->string);
+                lmlog(&pmSeSt[pmStkP+5].id->srcp, 200, sevWAR, pmSeSt[pmStkP+2].id->string);
     	break;}
     case 89: { /* <class_tail> = 'end' 'every' <optional_id> __genSym#1; */
 #line 774 "alan.pmk"
@@ -682,7 +682,7 @@ int rule			/* IN production number */
 					pmSeSt[pmStkP+6].scrs));
 	if (pmSeSt[pmStkP+7].id != NULL)  /* END-id given */
 	    if (!equalId(pmSeSt[pmStkP+4].id, pmSeSt[pmStkP+7].id))
-		lmLog(&pmSeSt[pmStkP+7].id->srcp, 200, sevWAR, pmSeSt[pmStkP+4].id->string);
+		lmlog(&pmSeSt[pmStkP+7].id->srcp, 200, sevWAR, pmSeSt[pmStkP+4].id->string);
     	break;}
     case 95: { /* <add_tail> = 'end' 'add' __genSym#3 <optional_id> __genSym#4; */
 #line 811 "alan.pmk"
@@ -713,7 +713,7 @@ int rule			/* IN production number */
 					pmSeSt[pmStkP+4].scrs));
 	if (pmSeSt[pmStkP+5].id != NULL)  /* END-id given */
 	    if (!equalId(pmSeSt[pmStkP+2].id, pmSeSt[pmStkP+5].id))
-		lmLog(&pmSeSt[pmStkP+5].id->srcp, 200, sevWAR, pmSeSt[pmStkP+2].id->string);
+		lmlog(&pmSeSt[pmStkP+5].id->srcp, 200, sevWAR, pmSeSt[pmStkP+2].id->string);
     	break;}
     case 101: { /* <instance_tail> = 'end' 'the' <optional_id> __genSym#5; */
 #line 848 "alan.pmk"
@@ -744,7 +744,7 @@ int rule			/* IN production number */
         if (pmSeSt[pmStkP+2].pronouns != NULL) {
             if (pmSeSt[pmStkP+1].pronouns != NULL) 
                 /* WHERE clause already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "PRONOUN", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "PRONOUN", "class/instance", NULL);
 	    else {
 		pmSeSt[pmStkP+1].pronouns = combine(pmSeSt[pmStkP+1].pronouns, pmSeSt[pmStkP+2].pronouns);
 		pmSeSt[pmStkP+1].pronounsSrcp = pmSeSt[pmStkP+2].pronounsSrcp;
@@ -754,7 +754,7 @@ int rule			/* IN production number */
         if (pmSeSt[pmStkP+2].whr != NULL) {
             if (pmSeSt[pmStkP+1].whr != NULL) 
                 /* WHERE clause already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "WHERE", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "WHERE", "class/instance", NULL);
 	    else
 	        pmSeSt[pmStkP+1].whr = pmSeSt[pmStkP+2].whr;
         }
@@ -764,7 +764,7 @@ int rule			/* IN production number */
 	if (pmSeSt[pmStkP+2].initialize != NULL) {
             if (pmSeSt[pmStkP+1].initialize != NULL)
                 /* INITIALIZE properties already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].initialize->srcp, 204, sevERR, "INITIALIZE property", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].initialize->srcp, 204, sevERR, "INITIALIZE property", "class/instance", NULL);
 	    else 
 	        pmSeSt[pmStkP+1].initialize = pmSeSt[pmStkP+2].initialize;
         }
@@ -772,7 +772,7 @@ int rule			/* IN production number */
 	if (pmSeSt[pmStkP+2].cnt != NULL) {
             if (pmSeSt[pmStkP+1].cnt != NULL)
                 /* CONTAINER properties already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
 	    else 
 	        pmSeSt[pmStkP+1].cnt = pmSeSt[pmStkP+2].cnt;
         }
@@ -781,7 +781,7 @@ int rule			/* IN production number */
 	  if (pmSeSt[pmStkP+2].description->checks != NULL) {
             if(pmSeSt[pmStkP+1].description != NULL && pmSeSt[pmStkP+1].description->checks != NULL)
                 /* DESCRIPTION CHECK already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].description->checkSrcp, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].description->checkSrcp, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
 	    else {
 		if (pmSeSt[pmStkP+1].description != NULL)
 		  pmSeSt[pmStkP+1].description->checks = pmSeSt[pmStkP+2].description->checks;
@@ -791,7 +791,7 @@ int rule			/* IN production number */
 	  if (pmSeSt[pmStkP+2].description->does != NULL) {
             if (pmSeSt[pmStkP+1].description != NULL && pmSeSt[pmStkP+1].description->does != NULL)
 	        /* DESCRIPTION DOES already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].description->doesSrcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].description->doesSrcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
 	    else 
 		if (pmSeSt[pmStkP+1].description != NULL)
 		  pmSeSt[pmStkP+1].description->does = pmSeSt[pmStkP+2].description->does;
@@ -805,7 +805,7 @@ int rule			/* IN production number */
 	if (pmSeSt[pmStkP+2].entered != NULL) {
             if (pmSeSt[pmStkP+1].entered != NULL)
                 /* ENTERED already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "ENTERED", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "ENTERED", "class/instance", NULL);
 	    else {
                 pmSeSt[pmStkP+1].entered = pmSeSt[pmStkP+2].entered;
 		pmSeSt[pmStkP+1].enteredSrcp = pmSeSt[pmStkP+2].srcp;
@@ -815,7 +815,7 @@ int rule			/* IN production number */
 	if (pmSeSt[pmStkP+2].mentioned != NULL) {
             if (pmSeSt[pmStkP+1].mentioned != NULL)
                 /* MENTIONED already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
 	    else {
                 pmSeSt[pmStkP+1].mentioned = pmSeSt[pmStkP+2].mentioned;
 		pmSeSt[pmStkP+1].mentionedSrcp = pmSeSt[pmStkP+2].srcp;
@@ -825,7 +825,7 @@ int rule			/* IN production number */
 	if (pmSeSt[pmStkP+2].indefinite != NULL) {
             if (pmSeSt[pmStkP+1].indefinite != NULL)
                 /* Indefinite Article/Form already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].indefinite->srcp, 204, sevERR, "[Indefinite] Article/Form", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].indefinite->srcp, 204, sevERR, "[Indefinite] Article/Form", "class/instance", NULL);
             else
 	        pmSeSt[pmStkP+1].indefinite = pmSeSt[pmStkP+2].indefinite;
         }
@@ -833,7 +833,7 @@ int rule			/* IN production number */
 	if (pmSeSt[pmStkP+2].definite != NULL) {
             if (pmSeSt[pmStkP+1].definite != NULL)
                 /* Definite Article/Form already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].definite->srcp, 204, sevERR, "Definite Article/Form", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].definite->srcp, 204, sevERR, "Definite Article/Form", "class/instance", NULL);
             else
 	        pmSeSt[pmStkP+1].definite = pmSeSt[pmStkP+2].definite;
         }
@@ -841,7 +841,7 @@ int rule			/* IN production number */
 	if (pmSeSt[pmStkP+2].negative != NULL) {
             if (pmSeSt[pmStkP+1].negative != NULL)
                 /* Negative Article/Form already declared */
-	        lmLogv(&pmSeSt[pmStkP+2].negative->srcp, 204, sevERR, "Negative Article/Form", "class/instance", NULL);
+	        lmlogv(&pmSeSt[pmStkP+2].negative->srcp, 204, sevERR, "Negative Article/Form", "class/instance", NULL);
             else
 	        pmSeSt[pmStkP+1].negative = pmSeSt[pmStkP+2].negative;
         }
@@ -976,7 +976,7 @@ int rule			/* IN production number */
 				pmSeSt[pmStkP+5].stms);
 	if (pmSeSt[pmStkP+5].id != NULL) { /* END-id given */
 	    if (compareStrings(pmSeSt[pmStkP+2].str, pmSeSt[pmStkP+5].id->string) != 0)
-		lmLog(&pmSeSt[pmStkP+5].id->srcp, 200, sevWAR, pmSeSt[pmStkP+2].str);
+		lmlog(&pmSeSt[pmStkP+5].id->srcp, 200, sevWAR, pmSeSt[pmStkP+2].str);
 	}
     	break;}
     case 131: { /* <optional_exit_body> =; */
@@ -992,7 +992,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].chks = pmSeSt[pmStkP+1].chks;
 	pmSeSt[pmStkP+1].stms = pmSeSt[pmStkP+2].stms;
 	if (pmSeSt[pmStkP+2].qual != QUAL_DEFAULT)
-	     lmLog(&pmSeSt[pmStkP+2].srcp, 210, sevERR, "");
+	     lmlog(&pmSeSt[pmStkP+2].srcp, 210, sevERR, "");
 	pmSeSt[pmStkP+1].id = pmSeSt[pmStkP+5].id;
     	break;}
     case 133: { /* <is> = 'is'; */
@@ -1047,7 +1047,7 @@ int rule			/* IN production number */
 	  pmSeSt[pmStkP+1].description = newDescription(checkSrcp, pmSeSt[pmStkP+2].chks, stmSrcp, pmSeSt[pmStkP+3].stms);
 
 	  if (pmSeSt[pmStkP+3].qual != QUAL_DEFAULT)
-	    lmLog(&pmSeSt[pmStkP+3].srcp, 210, sevERR, "");
+	    lmlog(&pmSeSt[pmStkP+3].srcp, 210, sevERR, "");
 	}
     	break;}
     case 140: { /* <description> = 'description' <statements>; */
@@ -1239,7 +1239,7 @@ int rule			/* IN production number */
 	pmSeSt[pmStkP+1].chks = pmSeSt[pmStkP+2].chks;
 	pmSeSt[pmStkP+1].stms = pmSeSt[pmStkP+3].stms;
 	if (pmSeSt[pmStkP+3].qual != QUAL_DEFAULT)
-	  lmLog(&pmSeSt[pmStkP+3].srcp, 210, sevERR, "");
+	  lmlog(&pmSeSt[pmStkP+3].srcp, 210, sevERR, "");
     	break;}
     case 178: { /* <optional_extract> = 'extract' <statements>; */
 #line 1454 "alan.pmk"
@@ -1255,7 +1255,7 @@ int rule			/* IN production number */
 				pmSeSt[pmStkP+2].stms);
 	if (pmSeSt[pmStkP+3].id != NULL) { /* END-id given */
 	    if (!equalId(pmSeSt[pmStkP+1].id, pmSeSt[pmStkP+3].id))
-		lmLog(&pmSeSt[pmStkP+3].id->srcp, 200, sevWAR, pmSeSt[pmStkP+1].id->string);
+		lmlog(&pmSeSt[pmStkP+3].id->srcp, 200, sevWAR, pmSeSt[pmStkP+1].id->string);
 	}
     	break;}
     case 180: { /* <event_header> = 'event' ID; */
@@ -1274,7 +1274,7 @@ int rule			/* IN production number */
 
 	if (pmSeSt[pmStkP+4].description != NULL &&
         pmSeSt[pmStkP+4].description->checks != NULL)
-	  lmLog(&pmSeSt[pmStkP+4].description->checkSrcp,
+	  lmlog(&pmSeSt[pmStkP+4].description->checkSrcp,
       		228, sevERR, "");
 	pmSeSt[pmStkP+1].scr = newScript(&pmSySt[pmStkP+1].srcp,
                               pmSeSt[pmStkP+2].id,

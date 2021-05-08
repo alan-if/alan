@@ -21,7 +21,7 @@
 #include "types.h"
 
 #include "alan.h"
-#include "lmList.h"
+#include "lmlog.h"
 #include "encode.h"
 #include "util.h"
 

@@ -1,13 +1,13 @@
 /*----------------------------------------------------------------------*\
 
                                ALT.C
-		       Verb Alternatives Nodes
+               Verb Alternatives Nodes
 
 \*----------------------------------------------------------------------*/
 
 #include "util.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "srcp_x.h"
 #include "id_x.h"
@@ -30,10 +30,10 @@
 
 /*======================================================================*/
 Alternative *newAlternative(Srcp srcp,	/* IN - Source Position */
-		       Id *id,	/* IN - The name */
-		       List *chks,	/* IN - Checks */
-		       QualKind qual,	/* IN - Action qualifier */
-		       List *stms)	/* IN - Statements (does-part) */
+               Id *id,	/* IN - The name */
+               List *chks,	/* IN - Checks */
+               QualKind qual,	/* IN - Action qualifier */
+               List *stms)	/* IN - Statements (does-part) */
 {
   Alternative *new;			/* The newly created node */
 
@@ -54,7 +54,7 @@ Alternative *newAlternative(Srcp srcp,	/* IN - Source Position */
 
 /*----------------------------------------------------------------------*/
 static void analyzeAlternative(Alternative *alt,
-			       Context *context)
+                   Context *context)
 {
   Symbol *parameter;
   int matchedParameters = 0;
@@ -64,7 +64,7 @@ static void analyzeAlternative(Alternative *alt,
     /* Alternatives given, find out for which parameter this one is */
     parameter = lookupParameter(alt->id, context->verb->fields.verb.parameterSymbols);
     if (parameter == NULL)
-		lmLogv(&alt->id->srcp, 214, sevERR, alt->id->string, context->verb->string, verbHasParametersOrNoneMessage(context), NULL);
+        lmlogv(&alt->id->srcp, 214, sevERR, alt->id->string, context->verb->string, verbHasParametersOrNoneMessage(context), NULL);
     else {
       alt->id->symbol = parameter;
       alt->parameterNumber = parameter->code;
@@ -74,31 +74,31 @@ static void analyzeAlternative(Alternative *alt,
       alt->parameterNumber = -1;
     else if (context->verb != NULL) {
       if (context->verb->fields.verb.parameterSymbols != NULL)
-	alt->parameterNumber = 0;
+    alt->parameterNumber = 0;
       for (parameters = context->verb->fields.verb.parameterSymbols;
-	   parameters != NULL;
-	   parameters = parameters->next) {
-	if (alt->stms != NULL) {
-	  /* Ignore alts without statements, checks doesn't matter */
-	  if (context->instance != NULL) {
-	    if (context->instance->props->parentId != NULL)
-	      if (inheritsFrom(context->instance->props->parentId->symbol,
-			       parameters->member.sym->fields.parameter.class))
-		matchedParameters++;
-	  } else if (context->class != NULL) {
-	    if (inheritsFrom(context->class->props->id->symbol,
-			     parameters->member.sym->fields.parameter.class))
-	      matchedParameters++;
-	  }
-	}
+       parameters != NULL;
+       parameters = parameters->next) {
+    if (alt->stms != NULL) {
+      /* Ignore alts without statements, checks doesn't matter */
+      if (context->instance != NULL) {
+        if (context->instance->props->parentId != NULL)
+          if (inheritsFrom(context->instance->props->parentId->symbol,
+                   parameters->member.sym->fields.parameter.class))
+        matchedParameters++;
+      } else if (context->class != NULL) {
+        if (inheritsFrom(context->class->props->id->symbol,
+                 parameters->member.sym->fields.parameter.class))
+          matchedParameters++;
+      }
+    }
       }
       if (matchedParameters > 1)
-	lmLog(&alt->srcp, 223, sevWAR, context->verb->string);
+    lmlog(&alt->srcp, 223, sevWAR, context->verb->string);
     }
   }
 
   if (alt->chks != NULL && alt->chks->member.chk->exp == NULL && alt->stms != NULL)
-    lmLog(&alt->srcp, 227, sevWAR, "");
+    lmlog(&alt->srcp, 227, sevWAR, "");
 
   analyzeChecks(alt->chks, context);
   analyzeStatements(alt->stms, context);
@@ -108,7 +108,7 @@ static void analyzeAlternative(Alternative *alt,
 
 /*======================================================================*/
 void analyzeAlternatives(List *alts,
-			 Context *context)
+             Context *context)
 {
   List *lst;
 

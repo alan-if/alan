@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				RUL.C
-			     Rules Nodes
+                RUL.C
+                 Rules Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -18,8 +18,7 @@
 #include "context_x.h"
 #include "dump_x.h"
 
-
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "acode.h"
 #include "emit.h"
@@ -67,7 +66,7 @@ static void analyzeRule(RulNod *rul)
 
   analyzeExpression(rul->exp, context);
   if (rul->exp->type != BOOLEAN_TYPE && rul->exp->type != ERROR_TYPE)
-      lmLogv(&rul->exp->srcp, 330, sevERR, "boolean", "Rule", NULL);
+      lmlogv(&rul->exp->srcp, 330, sevERR, "boolean", "Rule", NULL);
   analyzeStatements(rul->stms, context);
 }
 
@@ -131,6 +130,3 @@ void dumpRule(RulNod *rul)
   put("stms: "); dumpList(rul->stms, STATEMENT_LIST); nl();
   put("stmadr: "); dumpAddress(rul->stmadr); out();
 }
-
-
-

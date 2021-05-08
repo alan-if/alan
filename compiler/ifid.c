@@ -12,7 +12,6 @@
 
 #include "srcp_x.h"
 #include "str.h"
-#include "lmList.h"
 #include "dump_x.h"
 #include "util.h"
 #include "emit.h"

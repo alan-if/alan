@@ -3,6 +3,7 @@
 #include "stm_x.h"
 
 #include "lmList.mock"
+#include "lmlog.mock"
 #include "context.mock"
 #include "exp.mock"
 #include "emit.mock"

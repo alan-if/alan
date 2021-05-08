@@ -2,6 +2,7 @@
 
 #include "unitList.h"
 #include "lmList.mock"
+#include "lmlog.mock"
 
 #include "srcp.mock"
 #include "id.mock"

@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
                                 SET.C
-			     Set Handling
+                 Set Handling
 
 \*----------------------------------------------------------------------*/
 
@@ -15,7 +15,7 @@
 #include "sym_x.h"
 #include "type_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 
 
 /*======================================================================*/
@@ -54,7 +54,7 @@ void verifySetMember(Expression *theSet, Expression *theMember, char contextMess
                 else
                     sprintf(memberMessage, "instances of '%s' and its subclasses", theSet->class->string);
             }
-            lmLogv(&theMember->srcp, 410, sevERR, contextMessage, "This", memberMessage, NULL);
+            lmlogv(&theMember->srcp, 410, sevERR, contextMessage, "This", memberMessage, NULL);
         }
 }
 
@@ -90,7 +90,7 @@ void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass
             if (inferedType == UNINITIALIZED_TYPE)
                 inferedType = exp->type;
             if (!equalTypes(inferedType, exp->type)) {
-                lmLogv(&exp->srcp, 408, sevERR, "Expressions", "a Set", "the same", NULL);
+                lmlogv(&exp->srcp, 408, sevERR, "Expressions", "a Set", "the same", NULL);
                 inferedType = ERROR_TYPE;
             } else if (exp->type == ERROR_TYPE)
                 inferedType = ERROR_TYPE;
@@ -109,7 +109,7 @@ void analyzeSetMembers(List *set, TypeKind *_inferedType, Symbol **_inferedClass
                 case SET_TYPE:
                 case BOOLEAN_TYPE:
                 case EVENT_TYPE:
-                    lmLogv(&exp->srcp, 410, sevERR, "Set literal expression", "A", "integers or instance references", NULL);
+                    lmlogv(&exp->srcp, 410, sevERR, "Set literal expression", "A", "integers or instance references", NULL);
                     break;
                 case UNINITIALIZED_TYPE:
                 case REFERENCE_TYPE:

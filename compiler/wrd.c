@@ -12,7 +12,7 @@
 #include "id_x.h"
 #include "lst_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 #include "acode.h"
 #include "util.h"
 #include "opt.h"
@@ -244,16 +244,16 @@ void prepareWords(void)
 static void analyzeWord(Word *wrd) {
     if (ISASYNONYM(wrd->classbits) && (~(1L<<SYNONYM_WORD))&wrd->classbits)
         /* Synonyms can not be of any other class */
-        lmLog(NULL, 333, sevERR, wrd->string);
+        lmlog(NULL, 333, sevERR, wrd->string);
 
     else if (ISADIRECTION(wrd->classbits) && ISAVERB(wrd->classbits))
         /* Directions and verbs won't work */
-        lmLogv(NULL, 320, sevERR, wrd->string, "direction", "verb", NULL);
+        lmlogv(NULL, 320, sevERR, wrd->string, "direction", "verb", NULL);
 
 #ifdef ADJVERB_PROBLEM
     else if (ISAADJECTIVE(wrd->classbits) && ISAVERB(wrd->classbits))
         /* Adjectives and verbs don't work as expected */
-        lmLogv(NULL, 320, sevWAR, wrd->string, "adjective", "verb", NULL);
+        lmlogv(NULL, 320, sevWAR, wrd->string, "adjective", "verb", NULL);
 #endif
 }
 

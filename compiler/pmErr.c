@@ -16,7 +16,7 @@
 #include "smScan.h"
 #include "token.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "alt.h"
 #include "evt.h"

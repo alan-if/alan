@@ -17,7 +17,7 @@
 
 #include "acode.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 #include "encode.h"
 
 /* USE: */
@@ -139,7 +139,7 @@ static void checkMultipleAttributes(List *atrs)
         ITERATE(al2, al1->next) {
             Attribute *nextAttribute = al2->member.atr;
             if (equalId(thisAttribute->id, nextAttribute->id))
-                lmLog(&nextAttribute->id->srcp, 218, sevERR, nextAttribute->id->string);
+                lmlog(&nextAttribute->id->srcp, 218, sevERR, nextAttribute->id->string);
         }
     }
 }
@@ -167,7 +167,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
                     thisAttribute->initialized = FALSE;
                 else {
                     if (thisAttribute->reference->symbol->kind != ERROR_SYMBOL)
-                        lmLogv(&thisAttribute->reference->srcp, 428, sevERR,
+                        lmlogv(&thisAttribute->reference->srcp, 428, sevERR,
                                "Attribute value in reference attribute declaration",
                                "an instance or event", NULL);
                     thisAttribute->type = ERROR_TYPE;
@@ -337,7 +337,7 @@ static void analyzeSetAttribute(Attribute *thisAttribute, Context *context)
     if (length(members) > 0) {
         analyzeExpression(thisAttribute->set, context);
         if (!isConstantExpression(thisAttribute->set))
-            lmLog(&thisAttribute->set->srcp, 433, sevERR, "");
+            lmlog(&thisAttribute->set->srcp, 433, sevERR, "");
         thisAttribute->setType = thisAttribute->set->fields.set.memberType;
         if (thisAttribute->setType == ERROR_TYPE)
             thisAttribute->type = ERROR_TYPE;
@@ -354,7 +354,7 @@ static void analyzeInheritedSetAttribute(Attribute *thisAttribute,
 
     if (thisAttribute->setClass != NULL &&
         !inheritsFrom(thisAttribute->setClass, inheritedAttribute->setClass)) {
-        lmLogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
+        lmlogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
                "of its members",
                thisAttribute->setClass->string,
                inheritedAttribute->setClass->string, NULL);
@@ -394,7 +394,7 @@ static void analyzeInheritedReferenceAttribute(Attribute *thisAttribute,
 
     if (!inheritsFrom(thisAttribute->reference->symbol, inheritedAttribute->referenceClass)) {
         if (thisAttribute->referenceClass != NULL)
-            lmLogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
+            lmlogv(&thisAttribute->srcp, 329, sevERR, definingSymbol->string,
                    "of the instance that it refers to",
                    thisAttribute->referenceClass->string,
                    inheritedAttribute->reference->symbol->string, NULL);
@@ -431,7 +431,7 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol, Context *context)
         if (inheritedAttribute != NULL) {
             Symbol *definingSymbol = definingSymbolOfAttribute(owningSymbol->fields.entity.parent, thisAttribute->id);
             if (!equalTypes(inheritedAttribute->type, thisAttribute->type)) {
-                lmLogv(&thisAttribute->srcp, 332, sevERR, definingSymbol->string, typeToString(inheritedAttribute->type), NULL);
+                lmlogv(&thisAttribute->srcp, 332, sevERR, definingSymbol->string, typeToString(inheritedAttribute->type), NULL);
             } else if (isComplexType(thisAttribute->type)) {
                 /* Verify that the inherited member class is a superclass
                    to the one in this attribute */
@@ -445,7 +445,7 @@ void analyzeAttributes(List *atrs, Symbol *owningSymbol, Context *context)
         } else if (thisAttribute->type == SET_TYPE
                    && thisAttribute->set->fields.set.memberType == UNINITIALIZED_TYPE)
             /* Empty set initializations are not allowed unless inherited */
-            lmLog(&thisAttribute->srcp, 413, sevERR, "");
+            lmlog(&thisAttribute->srcp, 413, sevERR, "");
     }
 }
 
@@ -465,7 +465,7 @@ static Attribute *resolveAttributeOfInstance(Id *id, Id *attribute) {
     id->code = sym->code;
     atr = findAttribute(sym->fields.entity.props->attributes, attribute);
     if (atr == NULL)
-        lmLog(&attribute->srcp, 315, sevERR, id->string);
+        lmlog(&attribute->srcp, 315, sevERR, id->string);
     return atr;
 }
 
@@ -488,7 +488,7 @@ static Attribute *findAttributeOfSymbol(Symbol *symbol, Id *attribute, Id *id, c
         }
     }
     if (atr == NULL)
-        lmLogv(&attribute->srcp, 316, sevERR, attribute->string, message,
+        lmlogv(&attribute->srcp, 316, sevERR, attribute->string, message,
                id->string, symbol->string, NULL);
     return(atr);
 }
@@ -547,7 +547,7 @@ static Attribute *resolveAttributeOfCurrentActor(Id *attribute, Context *context
 
     atr = findAttribute(actorSymbol->fields.entity.props->attributes, attribute);
     if (atr == NULL)
-        lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "Actor", "actor", NULL);
+        lmlogv(&attribute->srcp, 314, sevERR, attribute->string, "Actor", "actor", NULL);
     return atr;
 }
 
@@ -559,7 +559,7 @@ static Attribute *resolveAttributeOfCurrentLocation(Id *attribute, Context *cont
 
     atr = findAttribute(locationSymbol->fields.entity.props->attributes, attribute);
     if (atr == NULL)
-        lmLogv(&attribute->srcp, 314, sevERR, attribute->string, "Location", "location", NULL);
+        lmlogv(&attribute->srcp, 314, sevERR, attribute->string, "Location", "location", NULL);
     return atr;
 }
 
@@ -596,7 +596,7 @@ static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
     /* If no context found then THIS is not defined here which we should
        already have reported. Report that the attribute was not found. */
     if (contextFound && atr == NULL)
-        lmLog(&attribute->srcp, 313, sevERR, attribute->string);
+        lmlog(&attribute->srcp, 313, sevERR, attribute->string);
     return atr;
 }
 
@@ -608,7 +608,7 @@ static Attribute *resolveAttributeToClass(Symbol *class, Id *attribute, Context 
     if (class != NULL) {
         atr = findAttribute(class->fields.entity.props->attributes, attribute);
         if (!atr)
-            lmLogv(&attribute->srcp, 317, sevERR, attribute->string, "the expression",
+            lmlogv(&attribute->srcp, 317, sevERR, attribute->string, "the expression",
                    class->string, NULL);
     }
     return atr;
@@ -640,7 +640,7 @@ Attribute *resolveAttributeToExpression(Expression *exp, Id *attributeId, Contex
     case ATTRIBUTE_EXPRESSION:
         return resolveAttributeToClass(exp->class, attributeId, context);
     default:
-        lmLog(&exp->srcp, 442, sevERR, "");
+        lmlog(&exp->srcp, 442, sevERR, "");
     }
     return NULL;
 }

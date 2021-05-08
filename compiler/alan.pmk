@@ -19,7 +19,7 @@
 #include "smScan.h"
 #include "token.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "alt.h"
 #include "evt.h"
@@ -278,7 +278,7 @@ static int val(char str[])
     ! <prompt>
     %%
       if (adv.prompt != NULL)
-        lmLog(`&%<prompt>.srcp, 308, sevWAR, "PROMPT");
+        lmlog(`&%<prompt>.srcp, 308, sevWAR, "PROMPT");
       adv.prompt = %<prompt>.prompt;
     %%
 
@@ -589,7 +589,7 @@ static int val(char str[])
                               %<verb_header>.isMeta);
         if (%<verb_tail>.id != NULL) { /* END-id given */
             if (compareStrings(%<verb_header>.str, %<verb_tail>.id->string) != 0)
-                lmLog(`&%<verb_tail>.id->srcp, 200, sevWAR, %<verb_header>.str);
+                lmlog(`&%<verb_tail>.id->srcp, 200, sevWAR, %<verb_header>.str);
         }
     %%
     ;
@@ -765,7 +765,7 @@ static int val(char str[])
                                          %<properties>.scrs));
         if (%<class_tail>.id != NULL)  /* END-id given */
             if (!equalId(%ID.id, %<class_tail>.id))
-                lmLog(`&%<class_tail>.id->srcp, 200, sevWAR, %ID.id->string);
+                lmlog(`&%<class_tail>.id->srcp, 200, sevWAR, %ID.id->string);
     %%
     ;
 
@@ -802,7 +802,7 @@ static int val(char str[])
 					%<properties>.scrs));
 	if (%<add_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<add_tail>.id))
-		lmLog(`&%<add_tail>.id->srcp, 200, sevWAR, %ID.id->string);
+		lmlog(`&%<add_tail>.id->srcp, 200, sevWAR, %ID.id->string);
     %%
     ;
 
@@ -839,7 +839,7 @@ static int val(char str[])
 					%<properties>.scrs));
 	if (%<instance_tail>.id != NULL)  /* END-id given */
 	    if (!equalId(%ID.id, %<instance_tail>.id))
-		lmLog(`&%<instance_tail>.id->srcp, 200, sevWAR, %ID.id->string);
+		lmlog(`&%<instance_tail>.id->srcp, 200, sevWAR, %ID.id->string);
     %%
     ;
 
@@ -878,7 +878,7 @@ static int val(char str[])
         if (%<property>.pronouns != NULL) {
             if (%<properties>.pronouns != NULL) 
                 /* WHERE clause already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "PRONOUN", "class/instance", NULL);
+	        lmlogv(`&%<property>.srcp, 204, sevERR, "PRONOUN", "class/instance", NULL);
 	    else {
 		%<properties>.pronouns = combine(%<properties>.pronouns, %<property>.pronouns);
 		%<properties>.pronounsSrcp = %<property>.pronounsSrcp;
@@ -888,7 +888,7 @@ static int val(char str[])
         if (%<property>.whr != NULL) {
             if (%<properties>.whr != NULL) 
                 /* WHERE clause already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "WHERE", "class/instance", NULL);
+	        lmlogv(`&%<property>.srcp, 204, sevERR, "WHERE", "class/instance", NULL);
 	    else
 	        %<properties>.whr = %<property>.whr;
         }
@@ -898,7 +898,7 @@ static int val(char str[])
 	if (%<property>.initialize != NULL) {
             if (%<properties>.initialize != NULL)
                 /* INITIALIZE properties already declared */
-	        lmLogv(`&%<property>.initialize->srcp, 204, sevERR, "INITIALIZE property", "class/instance", NULL);
+	        lmlogv(`&%<property>.initialize->srcp, 204, sevERR, "INITIALIZE property", "class/instance", NULL);
 	    else 
 	        %<properties>.initialize = %<property>.initialize;
         }
@@ -906,7 +906,7 @@ static int val(char str[])
 	if (%<property>.cnt != NULL) {
             if (%<properties>.cnt != NULL)
                 /* CONTAINER properties already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
+	        lmlogv(`&%<property>.srcp, 204, sevERR, "CONTAINER properties", "class/instance", NULL);
 	    else 
 	        %<properties>.cnt = %<property>.cnt;
         }
@@ -915,7 +915,7 @@ static int val(char str[])
 	  if (%<property>.description->checks != NULL) {
             if(%<properties>.description != NULL && %<properties>.description->checks != NULL)
                 /* DESCRIPTION CHECK already declared */
-	        lmLogv(`&%<property>.description->checkSrcp, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
+	        lmlogv(`&%<property>.description->checkSrcp, 204, sevERR, "DESCRIPTION CHECK", "class/instance", NULL);
 	    else {
 		if (%<properties>.description != NULL)
 		  %<properties>.description->checks = %<property>.description->checks;
@@ -925,7 +925,7 @@ static int val(char str[])
 	  if (%<property>.description->does != NULL) {
             if (%<properties>.description != NULL && %<properties>.description->does != NULL)
 	        /* DESCRIPTION DOES already declared */
-	        lmLogv(`&%<property>.description->doesSrcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
+	        lmlogv(`&%<property>.description->doesSrcp, 204, sevERR, "DESCRIPTION", "class/instance", NULL);
 	    else 
 		if (%<properties>.description != NULL)
 		  %<properties>.description->does = %<property>.description->does;
@@ -939,7 +939,7 @@ static int val(char str[])
 	if (%<property>.entered != NULL) {
             if (%<properties>.entered != NULL)
                 /* ENTERED already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "ENTERED", "class/instance", NULL);
+	        lmlogv(`&%<property>.srcp, 204, sevERR, "ENTERED", "class/instance", NULL);
 	    else {
                 %<properties>.entered = %<property>.entered;
 		%<properties>.enteredSrcp = %<property>.srcp;
@@ -949,7 +949,7 @@ static int val(char str[])
 	if (%<property>.mentioned != NULL) {
             if (%<properties>.mentioned != NULL)
                 /* MENTIONED already declared */
-	        lmLogv(`&%<property>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
+	        lmlogv(`&%<property>.srcp, 204, sevERR, "MENTIONED", "class/instance", NULL);
 	    else {
                 %<properties>.mentioned = %<property>.mentioned;
 		%<properties>.mentionedSrcp = %<property>.srcp;
@@ -959,7 +959,7 @@ static int val(char str[])
 	if (%<property>.indefinite != NULL) {
             if (%<properties>.indefinite != NULL)
                 /* Indefinite Article/Form already declared */
-	        lmLogv(`&%<property>.indefinite->srcp, 204, sevERR, "[Indefinite] Article/Form", "class/instance", NULL);
+	        lmlogv(`&%<property>.indefinite->srcp, 204, sevERR, "[Indefinite] Article/Form", "class/instance", NULL);
             else
 	        %<properties>.indefinite = %<property>.indefinite;
         }
@@ -967,7 +967,7 @@ static int val(char str[])
 	if (%<property>.definite != NULL) {
             if (%<properties>.definite != NULL)
                 /* Definite Article/Form already declared */
-	        lmLogv(`&%<property>.definite->srcp, 204, sevERR, "Definite Article/Form", "class/instance", NULL);
+	        lmlogv(`&%<property>.definite->srcp, 204, sevERR, "Definite Article/Form", "class/instance", NULL);
             else
 	        %<properties>.definite = %<property>.definite;
         }
@@ -975,7 +975,7 @@ static int val(char str[])
 	if (%<property>.negative != NULL) {
             if (%<properties>.negative != NULL)
                 /* Negative Article/Form already declared */
-	        lmLogv(`&%<property>.negative->srcp, 204, sevERR, "Negative Article/Form", "class/instance", NULL);
+	        lmlogv(`&%<property>.negative->srcp, 204, sevERR, "Negative Article/Form", "class/instance", NULL);
             else
 	        %<properties>.negative = %<property>.negative;
         }
@@ -1120,7 +1120,7 @@ static int val(char str[])
 				%<optional_exit_body>.stms);
 	if (%<optional_exit_body>.id != NULL) { /* END-id given */
 	    if (compareStrings(%<id_list>.str, %<optional_exit_body>.id->string) != 0)
-		lmLog(`&%<optional_exit_body>.id->srcp, 200, sevWAR, %<id_list>.str);
+		lmlog(`&%<optional_exit_body>.id->srcp, 200, sevWAR, %<id_list>.str);
 	}
     %%
     ;
@@ -1138,7 +1138,7 @@ static int val(char str[])
 	%<optional_exit_body>.chks = %<optional_checks>.chks;
 	%<optional_exit_body>.stms = %<optional_does>.stms;
 	if (%<optional_does>.qual != QUAL_DEFAULT)
-	     lmLog(`&%<optional_does>.srcp, 210, sevERR, "");
+	     lmlog(`&%<optional_does>.srcp, 210, sevERR, "");
 	%<optional_exit_body>.id = %<optional_id>.id;
     %%
     ;
@@ -1203,7 +1203,7 @@ static int val(char str[])
 	  %<description>.description = newDescription(checkSrcp, %<optional_checks>.chks, stmSrcp, %<optional_does>.stms);
 
 	  if (%<optional_does>.qual != QUAL_DEFAULT)
-	    lmLog(`&%<optional_does>.srcp, 210, sevERR, "");
+	    lmlog(`&%<optional_does>.srcp, 210, sevERR, "");
 	}
     %%
 
@@ -1447,7 +1447,7 @@ static int val(char str[])
 	%<optional_extract>.chks = %<optional_checks>.chks;
 	%<optional_extract>.stms = %<optional_does>.stms;
 	if (%<optional_does>.qual != QUAL_DEFAULT)
-	  lmLog(`&%<optional_does>.srcp, 210, sevERR, "");
+	  lmlog(`&%<optional_does>.srcp, 210, sevERR, "");
     %%
 
     ! 'extract' <statements>
@@ -1467,7 +1467,7 @@ static int val(char str[])
 				%<statements>.stms);
 	if (%<event_tail>.id != NULL) { /* END-id given */
 	    if (!equalId(%<event_header>.id, %<event_tail>.id))
-		lmLog(`&%<event_tail>.id->srcp, 200, sevWAR, %<event_header>.id->string);
+		lmlog(`&%<event_tail>.id->srcp, 200, sevWAR, %<event_header>.id->string);
 	}
     %%
     ;
@@ -1493,7 +1493,7 @@ static int val(char str[])
     %%
 	if (%<optional_description>.description != NULL &&
         %<optional_description>.description->checks != NULL)
-	  lmLog(`&%<optional_description>.description->checkSrcp,
+	  lmlog(`&%<optional_description>.description->checkSrcp,
       		228, sevERR, "");
 	%<script>.scr = newScript(`&%'script'.srcp,
                               %ID.id,

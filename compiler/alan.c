@@ -17,6 +17,7 @@
 #include "opt.h"
 #include "dump_x.h"
 #include "lmList.h"
+#include "lmlog.h"
 #include "pmParse.h"
 #include "smScan.h"
 #include "options.h"
@@ -312,7 +313,7 @@ static void generate() {
     generateAdventure(acdfnm, txtfnm, datfnm);
     endGenerationTiming();			/* End of generating pass */
   } else {
-    lmLog(NULL, 999, sevINF, "");
+    lmlog(NULL, 999, sevINF, "");
   }
 }
 

@@ -21,7 +21,7 @@
 #include "types.h"
 
 #include "alan.h"
-#include "lmList.h"
+#include "lmlog.h"
 #include "encode.h"
 #include "util.h"
 
@@ -166,7 +166,7 @@ Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statem
 
     for (p = fileNames; p != NULL; p = p->next) {
         if (strcmp(fnm, p->member.str) == 0) {
-            lmLog(&srcp, 197, sevWAR, fnm);
+            lmlog(&srcp, 197, sevWAR, fnm);
             return FALSE;
         }
     }
@@ -176,7 +176,7 @@ Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statem
         this->fd = 0;
     else {
         if (!(prefix = open_import(this, fnm, search))) {
-            lmLog(&srcp, 199, sevFAT, fnm);
+            lmlog(&srcp, 199, sevFAT, fnm);
             return FALSE;
         }
     }
@@ -276,7 +276,7 @@ int smScAction(
 
     /* If terminated by \n illegal! */
     if (smThis->smText[smThis->smLength-1] == '\n')
-      lmLog(&smToken->srcp, 152, sevERR, "");
+      lmlog(&smToken->srcp, 152, sevERR, "");
 
     smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     /* Replace any doubled quotes by single */
@@ -343,7 +343,7 @@ int smScAction(
             } while (isspace((int)c) && i > 0);
 
             if (c != '.') {
-                lmLog(&token.srcp, 109, sevERR, "expected terminating '.'");
+                lmlog(&token.srcp, 109, sevERR, "expected terminating '.'");
                 i = smScSkip(smThis, -1);
             }
 
@@ -357,7 +357,7 @@ int smScAction(
                 lmLiEnter(&srcp, &start, lexContext->fileName);
             }
         } else
-            lmLog(&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
+            lmlog(&token.srcp, 151, sevFAT, token.chars); /* Not a file name */
   
 }
     break;
@@ -463,7 +463,7 @@ int smScAction(
           } while (c != '\n' && i != 0); // not newline and not end-of-file (actually read a character = 1)
           if (i == 0) {
               // end-of-file!
-              lmLog(&srcp, 155, sevERR, "");
+              lmlog(&srcp, 155, sevERR, "");
               break;
           }
 
@@ -519,7 +519,7 @@ int smScAction(
               c = smThis->smText[smThis->smLength-1];
           } while (c != '\n' && i != 0);
 
-          lmLog(&smToken->srcp, 154, sevERR, token.chars); /* INCLUDE is deprecated */
+          lmlog(&smToken->srcp, 154, sevERR, token.chars); /* INCLUDE is deprecated */
 
           if (smScanEnter(token.srcp, token.chars, TRUE)) {
               smToken->srcp.file = fileNo-1;
@@ -530,7 +530,7 @@ int smScAction(
               return smScan(lexContext, smToken);
           }
       } else  /* Did not scan any file name */
-          lmLog(&token.srcp, 151, sevFAT, token.chars);
+          lmlog(&token.srcp, 151, sevFAT, token.chars);
   
 }
     break;

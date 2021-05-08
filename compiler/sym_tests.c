@@ -5,6 +5,7 @@
 #include "util.h"
 
 #include "lmList.mock"
+#include "lmlog.mock"
 #include "atr.mock"
 #include "str.mock"
 #include "prop.mock"

@@ -25,7 +25,7 @@
 #include "elm.h"
 #include "lim.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 #include "acode.h"
 #include "emit.h"
 
@@ -117,7 +117,7 @@ void verifyContainerForInitialLocation(What *wht, Context *context, char *constr
 
     switch (wht->kind) {
     case WHAT_THIS:
-        lmLogv(&wht->srcp, 412, sevERR, "instance (This)", "declarations", NULL);
+        lmlogv(&wht->srcp, 412, sevERR, "instance (This)", "declarations", NULL);
         break;
     case WHAT_ID:
         sym = symcheck(wht->id, INSTANCE_SYMBOL, context);
@@ -125,7 +125,7 @@ void verifyContainerForInitialLocation(What *wht, Context *context, char *constr
             switch (sym->kind) {
             case INSTANCE_SYMBOL:
                 if (sym->fields.entity.props->container == NULL)
-                    lmLogv(&wht->srcp, 318, sevERR, wht->id->string, constructMessage, NULL);
+                    lmlogv(&wht->srcp, 318, sevERR, wht->id->string, constructMessage, NULL);
                 else {
                     Symbol *class;
                     switch (context->kind) {
@@ -141,7 +141,7 @@ void verifyContainerForInitialLocation(What *wht, Context *context, char *constr
                     default: SYSERR("Unexpected context->kind", wht->srcp); return;
                     }
                     if (!inheritsFrom(class, sym->fields.entity.props->container->body->taking->symbol))
-                        lmLog(&wht->srcp, 404, sevERR, sym->fields.entity.props->container->body->taking->string);
+                        lmlog(&wht->srcp, 404, sevERR, sym->fields.entity.props->container->body->taking->string);
                 }
                 break;
             case ERROR_SYMBOL:
@@ -153,11 +153,11 @@ void verifyContainerForInitialLocation(What *wht, Context *context, char *constr
         break;
 
     case WHAT_LOCATION:
-        lmLogv(&wht->srcp, 412, sevERR, "Location", "declarations", NULL);
+        lmlogv(&wht->srcp, 412, sevERR, "Location", "declarations", NULL);
         break;
 
     case WHAT_ACTOR:
-        lmLogv(&wht->srcp, 412, sevERR, "Actor", "declarations", NULL);
+        lmlogv(&wht->srcp, 412, sevERR, "Actor", "declarations", NULL);
         break;
 
     default:
@@ -184,9 +184,9 @@ void analyzeContainer(Container *theContainer, Context *context)
         Id *id = theContainer->body->taking;
         id->symbol = symcheck(id, CLASS_SYMBOL, context);
         if (id->symbol == actorSymbol)
-            lmLogv(&id->srcp, 402, sevERR, "An Actor", NULL);
+            lmlogv(&id->srcp, 402, sevERR, "An Actor", NULL);
         if (id->symbol == locationSymbol)
-            lmLogv(&id->srcp, 402, sevERR, "A Location", NULL);
+            lmlogv(&id->srcp, 402, sevERR, "A Location", NULL);
 
         /* Analyze the limits */
         for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)

@@ -13,7 +13,7 @@
 #include "alan.h"
 #include "alan.version.h"
 #include "sysdep.h"
-#include "lmList.h"
+#include "lmlog.h"
 #include "smScan.h"
 #include "options.h"
 #include "srcp_x.h"
@@ -96,10 +96,10 @@ void deallocate(void *memory)
   An unimplemented constrution was encountered.
 
  */
-void unimpl(Srcp srcp,		/* IN  - Where? */
-        char *phase)	/* IN  - What phase? */
+void unimpl(Srcp srcp,          /* IN  - Where? */
+            char *phase)        /* IN  - What phase? */
 {
-  lmLog(&srcp, 998, sevWAR, phase);
+  lmlog(&srcp, 998, sevWAR, phase);
 }
 
 
@@ -290,7 +290,7 @@ void syserr(char *errorMessage, Srcp srcp, const char *function, char *file, int
     messageString = allocate(messageLength+100); /* We also add srcp-string... */
     sprintf(messageString, "%s in '%s()', %s:%d%s", errorMessage, function, file, line, srcpToString(srcp));
 
-    lmLog(&nulsrcp, 997, sevSYS, messageString);
+    lmlog(&nulsrcp, 997, sevSYS, messageString);
 
     createListingOnScreen(liTINY, sevALL);
     terminate(EXIT_FAILURE);

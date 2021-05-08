@@ -19,7 +19,7 @@
 #include "sym_x.h"
 #include "dump_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 #include "acode.h"
 #include "emit.h"
 
@@ -73,7 +73,7 @@ void prepareScripts(List *scrs, Id *id)
     /* Any multiple of this name ? */
     for (scrlst = lst->next; scrlst != NULL; scrlst = scrlst->next) {
       if (equalId(lst->member.script->id, scrlst->member.script->id))
-	lmLog(&scrlst->member.script->srcp, 403, sevERR, id->string);
+    lmlog(&scrlst->member.script->srcp, 403, sevERR, id->string);
     }
   }
 }
@@ -95,7 +95,7 @@ void analyzeScripts(List *scripts, Context *context)
   /* Error if defined for HERO */
   if (context->instance != 0) {
     if (scripts != NULL && context->instance->props->id->symbol == theHero)
-      lmLog(&scripts->member.script->srcp, 411, sevWAR, "Script");
+      lmlog(&scripts->member.script->srcp, 411, sevWAR, "Script");
   }
 
   for (lst = scripts; lst != NULL; lst = lst->next) {
@@ -160,6 +160,3 @@ void dumpScript(Script *scr)
   put("steps: "); dumpList(scr->steps, STEP_LIST); nl();
   put("stepAddress: "); dumpAddress(scr->stepAddress); out();
 }
-
-
-

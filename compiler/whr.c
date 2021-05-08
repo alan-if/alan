@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				WHR.C
-			     Where Nodes
+                WHR.C
+                 Where Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -18,7 +18,7 @@
 #include "exp_x.h"
 #include "dump_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 #include "acode.h"
 #include "emit.h"
 
@@ -75,22 +75,22 @@ Bool verifyInitialLocation(Where *whr, Context *context)
 {
     if (whr->transitivity != DEFAULT_TRANSITIVITY) {
         if (whr->transitivity == DIRECTLY)
-            lmLogv(&whr->srcp, 422, sevWAR, transitivityToString(whr->transitivity),
+            lmlogv(&whr->srcp, 422, sevWAR, transitivityToString(whr->transitivity),
                    "ignored for", "Initial location", NULL);
         else
-            lmLogv(&whr->srcp, 422, sevERR, transitivityToString(whr->transitivity),
+            lmlogv(&whr->srcp, 422, sevERR, transitivityToString(whr->transitivity),
                    "not allowed for", "Initial location", NULL);
     }
 
     if (whr->what == NULL || whr->what->kind != WHAT_EXPRESSION)
-        lmLogv(&whr->srcp, 355, sevERR, "", NULL);
+        lmlogv(&whr->srcp, 355, sevERR, "", NULL);
     else
         switch (whr->kind) {
         case WHERE_AT:
             if (whr->what->fields.wht.wht->kind == WHAT_ID) {
                 instanceCheck(whr->what->fields.wht.wht->id, "Initial location using AT", "location");
             } else {
-                lmLog(&whr->srcp, 355, sevERR, "");
+                lmlog(&whr->srcp, 355, sevERR, "");
                 return FALSE;
             }
             break;
@@ -98,7 +98,7 @@ Bool verifyInitialLocation(Where *whr, Context *context)
             verifyContainerForInitialLocation(whr->what->fields.wht.wht, context, "Expression after IN");
             break;
         default:
-            lmLogv(&whr->srcp, 355, sevERR, "", NULL);
+            lmlogv(&whr->srcp, 355, sevERR, "", NULL);
             return FALSE;
             break;
         }
@@ -114,13 +114,13 @@ void analyzeWhere(Where *whr, Context *context) {
     case WHERE_HERE:
     case WHERE_NEARBY:
         if (context->kind == RULE_CONTEXT)
-            lmLogv(&whr->srcp, 443, sevERR, "Rule context", "Here or Nearby", NULL);
+            lmlogv(&whr->srcp, 443, sevERR, "Rule context", "Here or Nearby", NULL);
         break;
     case WHERE_AT:
     case WHERE_NEAR:
         analyzeExpression(whr->what, context);
         if (whr->what->type != ERROR_TYPE && whr->what->type != INSTANCE_TYPE && whr->what->type != REFERENCE_TYPE)
-            lmLogv(&whr->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
+            lmlogv(&whr->what->srcp, 428, sevERR, "Expression after AT", "an instance", NULL);
         break;
     case WHERE_IN:
         analyzeExpression(whr->what, context);

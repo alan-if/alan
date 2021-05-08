@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				STP.C
-			      Step Nodes
+                STP.C
+                  Step Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -17,7 +17,7 @@
 #include "stm_x.h"
 #include "dump_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 #include "emit.h"
 #include "acode.h"
 
@@ -26,9 +26,9 @@
 
 /*======================================================================*/
 Step *newStep(Srcp *srcp,	/* IN - Source Position */
-	      Expression *after, /* IN - Ticks to wait */
-	      Expression *exp,	/* IN - Condition to wait for */
-	      List *stms)	/* IN - List of statements */
+          Expression *after, /* IN - Ticks to wait */
+          Expression *exp,	/* IN - Condition to wait for */
+          List *stms)	/* IN - List of statements */
 {
   Step *new;		/* The newly allocated node */
 
@@ -55,12 +55,12 @@ void analyzeSteps(List *stps, Context *context)
     if (step->after != NULL) {
       analyzeExpression(step->after, context);
       if (step->after->type != INTEGER_TYPE)
-	lmLogv(&step->after->srcp, 330, sevERR, "Integer", "Step After", NULL);
+    lmlogv(&step->after->srcp, 330, sevERR, "Integer", "Step After", NULL);
     }
     if (step->exp != NULL) {
       analyzeExpression(step->exp, context);
       if (step->exp->type != BOOLEAN_TYPE)
-	lmLogv(&step->exp->srcp, 330, sevERR, "Boolean", "Step Wait Until", NULL);
+    lmlogv(&step->exp->srcp, 330, sevERR, "Boolean", "Step Wait Until", NULL);
     }
     analyzeStatements(step->stms, context);
   }
@@ -118,6 +118,3 @@ void dumpStep(Step *stp)
   put("stms: "); dumpList(stp->stms, STATEMENT_LIST); nl();
   put("stmadr: "); dumpAddress(stp->stmadr); out();
 }
-
-
-

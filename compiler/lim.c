@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				LIM.C
-			     Limit Nodes
+                LIM.C
+                 Limit Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -16,7 +16,7 @@
 #include "stm_x.h"
 #include "dump_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "adv.h"
 #include "exp.h"
@@ -43,8 +43,8 @@
 
   */
 LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
-	       Attribute *atr,	/* IN - The attribute */
-	       List *stms)	/* IN - Statments */
+           Attribute *atr,	/* IN - The attribute */
+           List *stms)	/* IN - Statments */
 {
   LimNod *new;			/* The newly allocated area */
 
@@ -81,7 +81,7 @@ void analyzeLimit(LimNod *lim, Symbol *classSymbol, Context *context)
   else if (classSymbol != NULL) {
     foundAttribute = findAttribute(classSymbol->fields.entity.props->attributes, attribute->id);
     if (foundAttribute == NULL)
-      lmLog(&attribute->srcp, 407, sevERR, classSymbol->string);
+      lmlog(&attribute->srcp, 407, sevERR, classSymbol->string);
     else if (attribute->type != INTEGER_TYPE)
       unimpl(attribute->srcp, "Analyzer");
     else
@@ -145,5 +145,3 @@ void dumpLimit(LimNod *lim)
   put("atr: "); dumpAttribute(lim->atr); nl();
   put("stms: "); dumpList(lim->stms, STATEMENT_LIST); out();
 }
-
-

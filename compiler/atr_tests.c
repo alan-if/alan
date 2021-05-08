@@ -14,6 +14,7 @@
 #include "context.mock"
 #include "wht.mock"
 #include "lmList.mock"
+#include "lmlog.mock"
 #include "emit.mock"
 
 

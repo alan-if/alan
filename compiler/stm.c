@@ -27,7 +27,7 @@
 #include "resource_x.h"
 #include "dump_x.h"
 
-#include "lmList.h"
+#include "lmlog.h"
 
 #include "scr.h"
 #include "sco.h"
@@ -144,7 +144,7 @@ Statement *newStyleStatement(Srcp srcp, Id *style)
     else if (strcasecmp(style->string, "quote") == 0)
         style->code = QUOTE_STYLE;
     else
-        lmLog(&style->srcp, 550, sevWAR, "'normal', 'emphasized', 'preformatted', 'alert' or 'quote'");
+        lmlog(&style->srcp, 550, sevWAR, "'normal', 'emphasized', 'preformatted', 'alert' or 'quote'");
 
     new->fields.style.style = style->code;
     return(new);
@@ -236,7 +236,7 @@ static void analyzePrint(Statement *stm, Context *context)
     char *buffer = allocate(stm->fields.print.len+1);
 
     if (context && context->kind == RULE_CONTEXT)
-        lmLog(&stm->srcp, 444, sevERR, "Rules");
+        lmlog(&stm->srcp, 444, sevERR, "Rules");
 
     fseek(txtfil, stm->fields.print.fpos, SEEK_SET);
     (void)!fread(buffer, 1, stm->fields.print.len, txtfil);
@@ -258,7 +258,7 @@ static void analyzePrint(Statement *stm, Context *context)
             if (parameter != 0)
                 if (context == NULL || context->kind != VERB_CONTEXT
                     || parameter > length(context->verb->fields.verb.parameterSymbols))
-                    lmLog(&stm->srcp, 551, sevERR, "");
+                    lmlog(&stm->srcp, 551, sevERR, "");
         }
     }
 }
@@ -269,7 +269,7 @@ static void analyzePrint(Statement *stm, Context *context)
 static void analyzeSay(Statement *stm, Context *context)
 {
     if (context && context->kind == RULE_CONTEXT)
-        lmLog(&stm->srcp, 444, sevERR, "Rules");
+        lmlog(&stm->srcp, 444, sevERR, "Rules");
 
     analyzeExpression(stm->fields.say.exp, context);
 
@@ -278,7 +278,7 @@ static void analyzeSay(Statement *stm, Context *context)
     case BOOLEAN_TYPE:
     case SET_TYPE:
     case EVENT_TYPE:
-        lmLog(&stm->srcp, 337, sevERR, typeToString(stm->fields.say.exp->type));
+        lmlog(&stm->srcp, 337, sevERR, typeToString(stm->fields.say.exp->type));
         break;
     default:
         break;
@@ -289,7 +289,7 @@ static void analyzeSay(Statement *stm, Context *context)
         && (stm->fields.say.exp->type != INSTANCE_TYPE
             && stm->fields.say.exp->type != REFERENCE_TYPE
             && stm->fields.say.exp->type != UNINITIALIZED_TYPE))
-        lmLog(&stm->srcp, 339, sevERR, "");
+        lmlog(&stm->srcp, 339, sevERR, "");
 }
 
 
@@ -311,14 +311,14 @@ static void analyzeEmpty(Statement *stm, Context *context)
     verifyContainerExpression(what, context, "EMPTY statement");
 
     if (where->kind == WHERE_NEARBY)
-        lmLog(&where->srcp, 415, sevERR, "EMPTY");
+        lmlog(&where->srcp, 415, sevERR, "EMPTY");
     if (where->transitivity != DEFAULT_TRANSITIVITY) {
         if (where->transitivity == DIRECTLY)
-            lmLogv(&where->srcp, 422, sevWAR,
+            lmlogv(&where->srcp, 422, sevWAR,
                    transitivityToString(where->transitivity),
                    "ignored in", "EMPTY statement", NULL);
         else
-            lmLogv(&where->srcp, 422, sevERR,
+            lmlogv(&where->srcp, 422, sevERR,
                    transitivityToString(where->transitivity),
                    "not allowed in", "EMPTY statement", NULL);
     }
@@ -338,19 +338,19 @@ static void analyzeLocate(Statement *stm, Context *context)
     analyzeExpression(what, context);
     if (what->type != ERROR_TYPE) {
         if (what->type != INSTANCE_TYPE)
-            lmLogv(&what->srcp, 428, sevERR, "What-clause in Locate statement", "an instance", NULL);
+            lmlogv(&what->srcp, 428, sevERR, "What-clause in Locate statement", "an instance", NULL);
         else if (what->class) {
             if (!inheritsFrom(what->class, thingSymbol) && !inheritsFrom(what->class, locationSymbol))
-                lmLog(&what->srcp, 405, sevERR, "be used in Locate statement");
+                lmlog(&what->srcp, 405, sevERR, "be used in Locate statement");
             whtSymbol = what->class;
         }
     }
     if (where->transitivity != DEFAULT_TRANSITIVITY) {
         if (where->transitivity == DIRECTLY)
-            lmLogv(&where->srcp, 422, sevWAR,
+            lmlogv(&where->srcp, 422, sevWAR,
                    transitivityToString(where->transitivity), "ignored in", "LOCATE statement", NULL);
         else
-            lmLogv(&where->srcp, 422, sevERR,
+            lmlogv(&where->srcp, 422, sevERR,
                    transitivityToString(where->transitivity), "not allowed in", "LOCATE statement", NULL);
     }
 
@@ -365,17 +365,17 @@ static void analyzeLocate(Statement *stm, Context *context)
         /* Can the located be in a container? Not if its a location or actor. */
         /* TODO: Refactor to use a list of illegal container classes */
         if (inheritsFrom(what->class, locationSymbol))
-            lmLog(&what->srcp, 402, sevERR, "A Location");
+            lmlog(&what->srcp, 402, sevERR, "A Location");
         else if (inheritsFrom(what->class, actorSymbol))
-            lmLog(&what->srcp, 402, sevERR, "An Actor");
+            lmlog(&what->srcp, 402, sevERR, "An Actor");
         taken_class = containerContent(where->what, DIRECTLY, context);
         if (taken_class != NULL && whtSymbol != NULL)
             if (!inheritsFrom(whtSymbol, taken_class))
-                lmLog(&where->srcp, 404, sevERR, taken_class->string);
+                lmlog(&where->srcp, 404, sevERR, taken_class->string);
         break;
     case WHERE_NEAR:
     case WHERE_NEARBY:
-        lmLog(&stm->srcp, 415, sevERR, "LOCATE");
+        lmlog(&stm->srcp, 415, sevERR, "LOCATE");
         break;
     default:
         SYSERR("Unexpected Where kind", where->srcp);
@@ -391,7 +391,7 @@ static void verifyMakeAttribute(Id *attributeId, Attribute *foundAttribute)
     /* Verify that a found attribute can be used in a MAKE statement. */
     if (foundAttribute != NULL) {
         if (foundAttribute->type != BOOLEAN_TYPE && foundAttribute->type != ERROR_TYPE)
-            lmLogv(&attributeId->srcp, 408, sevERR, "Attribute", "MAKE statement", "boolean", NULL);
+            lmlogv(&attributeId->srcp, 408, sevERR, "Attribute", "MAKE statement", "boolean", NULL);
         else
             attributeId->code = foundAttribute->id->code;
     }
@@ -408,7 +408,7 @@ static void analyzeMake(Statement *stm, Context *context)
     atr = resolveAttributeToExpression(wht, stm->fields.make.atr, context);
     verifyMakeAttribute(stm->fields.make.atr, atr);
     if (inheritsFrom(wht->class, literalSymbol))
-        lmLog(&stm->srcp, 406, sevERR, "");
+        lmlog(&stm->srcp, 406, sevERR, "");
 }
 
 
@@ -419,7 +419,7 @@ static void verifySetAssignment(Expression *exp, Expression *wht) {
         if (exp->kind == SET_EXPRESSION && length(exp->fields.set.members) == 0)
             ;
         else
-            lmLog(&exp->srcp, 431, sevERR, wht->class->string);
+            lmlog(&exp->srcp, 431, sevERR, wht->class->string);
     }
 }
 
@@ -433,25 +433,25 @@ static void analyzeSet(Statement *stm, Context *context)
     analyzeExpression(wht, context);
     if (wht->type != ERROR_TYPE) {
         if (wht->readonly)
-            lmLog(&wht->srcp, 436, sevERR, "");
+            lmlog(&wht->srcp, 436, sevERR, "");
         if (wht->type == BOOLEAN_TYPE)
-            lmLog(&wht->srcp, 419, sevERR, "Target for");
+            lmlog(&wht->srcp, 419, sevERR, "Target for");
     }
     if (inheritsFrom(wht->fields.atr.wht->class, literalSymbol))
-        lmLog(&stm->srcp, 406, sevERR, "");
+        lmlog(&stm->srcp, 406, sevERR, "");
 
     analyzeExpression(exp, context);
     if (exp->type != ERROR_TYPE)
         if (exp->type == BOOLEAN_TYPE)
-            lmLog(&exp->srcp, 419, sevERR, "Expression in");
+            lmlog(&exp->srcp, 419, sevERR, "Expression in");
 
     if (!equalTypes(exp->type, wht->type))
-        lmLog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
+        lmlog(&stm->srcp, 331, sevERR, "target and expression in SET statement");
     else {
         if (exp->class != NULL && wht->class != NULL) {
             if (exp->type == INSTANCE_TYPE) {
                 if (!inheritsFrom(exp->class, wht->class))
-                    lmLog(&exp->srcp, 430, sevERR, wht->class->string);
+                    lmlog(&exp->srcp, 430, sevERR, wht->class->string);
             } else if (exp->type == SET_TYPE) {
                 verifySetAssignment(exp, wht);
             }
@@ -466,14 +466,14 @@ static void analyzeIncrease(Statement *stm, Context *context)
     Expression *wht = stm->fields.incr.wht;
     analyzeExpression(wht, context);
     if (wht->readonly)
-        lmLog(&wht->srcp, 436, sevERR, "");
+        lmlog(&wht->srcp, 436, sevERR, "");
 
 
     if (stm->fields.incr.step != NULL) {
         analyzeExpression(stm->fields.incr.step, context);
         if (stm->fields.incr.step->type != INTEGER_TYPE
             && stm->fields.incr.step->type != ERROR_TYPE)
-            lmLogv(&stm->fields.incr.step->srcp, 408, sevERR, "Expression",
+            lmlogv(&stm->fields.incr.step->srcp, 408, sevERR, "Expression",
                    stm->kind==INCREASE_STATEMENT?"INCREASE statement":"DECREASE statement",
                    "integer", NULL);
     }
@@ -492,7 +492,7 @@ static void analyzeIncludeAndExclude(Statement *stm, Context *context)
     analyzeExpression(set, context);
     if (set->type != ERROR_TYPE) {
         if (set->type != SET_TYPE)
-            lmLogv(&set->srcp, 330, sevERR, "Set", message, NULL);
+            lmlogv(&set->srcp, 330, sevERR, "Set", message, NULL);
         else
             verifySetMember(set, what, message);
     }
@@ -506,7 +506,7 @@ static void analyzeSchedule(Statement *stm, Context *context)
 
     analyzeExpression(what, context);
     if (what->type != ERROR_TYPE && what->type != EVENT_TYPE)
-        lmLog(&what->srcp, 331, sevERR, "SCHEDULE statement. Event type required");
+        lmlog(&what->srcp, 331, sevERR, "SCHEDULE statement. Event type required");
 
     /* Now lookup where-clause */
     analyzeWhere(whr, context);
@@ -515,7 +515,7 @@ static void analyzeSchedule(Statement *stm, Context *context)
     switch (whr->kind) {
     case WHERE_DEFAULT:
         if (context->kind == RULE_CONTEXT)
-            lmLog(&stm->srcp, 445, sevWAR, "");
+            lmlog(&stm->srcp, 445, sevWAR, "");
         whr->kind = WHERE_HERE;
         break;
     case WHERE_HERE:
@@ -526,7 +526,7 @@ static void analyzeSchedule(Statement *stm, Context *context)
     case WHERE_IN:
     case WHERE_NEAR:
     case WHERE_NEARBY:
-        lmLog(&whr->srcp, 415, sevERR, "SCHEDULE");
+        lmlog(&whr->srcp, 415, sevERR, "SCHEDULE");
         break;
     default:
         SYSERR("Unrecognized switch", whr->srcp);
@@ -536,7 +536,7 @@ static void analyzeSchedule(Statement *stm, Context *context)
     /* Analyze the when (AFTER) expression */
     analyzeExpression(stm->fields.schedule.when, context);
     if (stm->fields.schedule.when->type != INTEGER_TYPE)
-        lmLog(&stm->fields.schedule.when->srcp, 331, sevERR, "When-clause of SCHEDULE statement");
+        lmlog(&stm->fields.schedule.when->srcp, 331, sevERR, "When-clause of SCHEDULE statement");
 
 }
 
@@ -549,7 +549,7 @@ static void analyzeCancel(Statement *stm, Context *context)
     analyzeExpression(what, context);
     if (what->type != ERROR_TYPE &&
         what->type != EVENT_TYPE)
-        lmLog(&stm->fields.cancel.what->srcp, 331, sevERR, "CANCEL statement. Event type required");
+        lmlog(&stm->fields.cancel.what->srcp, 331, sevERR, "CANCEL statement. Event type required");
 }
 
 
@@ -568,7 +568,7 @@ static void analyzeIf(Statement *stm, Context *context)
 
     analyzeExpression(exp, context);
     if (!equalTypes(exp->type, BOOLEAN_TYPE))
-        lmLogv(&exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
+        lmlogv(&exp->srcp, 330, sevERR, "boolean", "'IF'", NULL);
 
     if (is_restricting_expression(exp)) {
         Context *restricted_context = pushContext(context);
@@ -598,7 +598,7 @@ static void findScript(Symbol *symbol, Id *scriptId) {
         case PARAMETER_SYMBOL: str = "parameter"; break;
         default: SYSERR("Unexpected symbol kind", scriptId->srcp);
         }
-        lmLogv(&scriptId->srcp, 400, sevERR, scriptId->string, str, symbol->string, NULL);
+        lmlogv(&scriptId->srcp, 400, sevERR, scriptId->string, str, symbol->string, NULL);
     }
 }
 
@@ -638,7 +638,7 @@ static Symbol *analyzeUseWithActor(Statement *stm, Context *context) {
     analyzeExpression(exp, context);
     if (exp->type != ERROR_TYPE)
         if (exp->type != INSTANCE_TYPE || !inheritsFrom(exp->class, actorSymbol)) {
-            lmLogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
+            lmlogv(&exp->srcp, 351, sevERR, "USE statement", "an instance", "actor", NULL);
             return NULL;
         }
     switch (exp->kind) {
@@ -659,14 +659,14 @@ static Symbol *analyzeUseWithoutActor(Statement *stm, Context *context) {
         if (context->instance == NULL || context->instance->props == NULL)
             SYSERR("Strange context", stm->srcp);
         if (!inheritsFrom(context->instance->props->id->symbol, actorSymbol))
-            lmLog(&stm->srcp, 356, sevERR, "");
+            lmlog(&stm->srcp, 356, sevERR, "");
         else
             sym = context->instance->props->id->symbol;
     } else if (context->kind == CLASS_CONTEXT) {
         if (context->class == NULL || context->class->props == NULL)
             SYSERR("Strange context", stm->srcp);
         if (!inheritsFrom(context->class->props->id->symbol, actorSymbol))
-            lmLog(&stm->srcp, 356, sevERR, "");
+            lmlog(&stm->srcp, 356, sevERR, "");
         else
             sym = context->class->props->id->symbol;
     }
@@ -685,7 +685,7 @@ static void analyzeUse(Statement *stm, Context *context)
     Symbol *symbol = NULL;
 
     if (stm->fields.use.actorExp == NULL && context->kind != CLASS_CONTEXT && context->kind != INSTANCE_CONTEXT)
-        lmLog(&stm->srcp, 401, sevERR, "");
+        lmlog(&stm->srcp, 401, sevERR, "");
     else {
         if (stm->fields.use.actorExp != NULL)
             symbol = analyzeUseWithActor(stm, context);
@@ -714,7 +714,7 @@ static void analyzeStop(Statement *stm, Context *context)
             sym = symbolOfExpression(exp, context);
         if (sym) {
             if (!inheritsFrom(sym, actorSymbol))
-                lmLogv(&stm->fields.stop.actor->srcp, 351, sevERR, "STOP statement", "an instance", "actor", NULL);
+                lmlogv(&stm->fields.stop.actor->srcp, 351, sevERR, "STOP statement", "an instance", "actor", NULL);
         }
     }
 }
@@ -759,7 +759,7 @@ static void analyzeDepend(Statement *stm, Context *context)
         } else
             /* If this is an ELSE-case there can not be any other afterwards */
             if (cases->next != NULL)
-                lmLog(&cases->member.stm->srcp, 335, sevERR, "");
+                lmlog(&cases->member.stm->srcp, 335, sevERR, "");
 
         /* Analyze the expression and the statements */
         analyzeExpression(cases->member.stm->fields.depcase.exp, context);
@@ -804,7 +804,7 @@ static void analyzeShow(Statement *stm, Context *context)
     ResourceKind kind = stm->fields.show.resource->kind;
     analyzeResource(stm->fields.show.resource);
     if (kind != PICT_RESOURCE && kind != NULL_RESOURCE)
-        lmLog(&stm->fields.play.resource->fileName->srcp, 450, sevERR, "Show");
+        lmlog(&stm->fields.play.resource->fileName->srcp, 450, sevERR, "Show");
     adv.resources = concat(adv.resources, stm->fields.show.resource, RESOURCE_LIST);
 }
 
@@ -815,7 +815,7 @@ static void analyzePlay(Statement *stm, Context *context)
     ResourceKind kind = stm->fields.play.resource->kind;
     analyzeResource(stm->fields.play.resource);
     if (kind != SND_RESOURCE && kind != NULL_RESOURCE)
-        lmLog(&stm->fields.play.resource->fileName->srcp, 450, sevERR, "Play");
+        lmlog(&stm->fields.play.resource->fileName->srcp, 450, sevERR, "Play");
     adv.resources = concat(adv.resources, stm->fields.play.resource, RESOURCE_LIST);
 }
 
@@ -826,21 +826,21 @@ static void analyzeStrip(Statement *stm, Context *context)
     if (stm->fields.strip.count != NULL) {
         analyzeExpression(stm->fields.strip.count, context);
         if (!equalTypes(stm->fields.strip.count->type, INTEGER_TYPE))
-            lmLogv(&stm->fields.strip.count->srcp, 330, sevERR, "integer", "STRIP statement", NULL);
+            lmlogv(&stm->fields.strip.count->srcp, 330, sevERR, "integer", "STRIP statement", NULL);
     }
 
     analyzeExpression(stm->fields.strip.from, context);
     if (!equalTypes(stm->fields.strip.from->type, STRING_TYPE))
-        lmLogv(&stm->fields.strip.from->srcp, 330, sevERR, "string", "STRIP statement", NULL);
+        lmlogv(&stm->fields.strip.from->srcp, 330, sevERR, "string", "STRIP statement", NULL);
     if (stm->fields.strip.from->kind != ATTRIBUTE_EXPRESSION)
-        lmLogv(&stm->fields.strip.from->srcp, 428, sevERR, "Expression", "an attribute", NULL);
+        lmlogv(&stm->fields.strip.from->srcp, 428, sevERR, "Expression", "an attribute", NULL);
 
     if (stm->fields.strip.into != NULL) {
         analyzeExpression(stm->fields.strip.into, context);
         if (!equalTypes(stm->fields.strip.into->type, STRING_TYPE))
-            lmLogv(&stm->fields.strip.into->srcp, 330, sevERR, "string", "STRIP statement", NULL);
+            lmlogv(&stm->fields.strip.into->srcp, 330, sevERR, "string", "STRIP statement", NULL);
         if (stm->fields.strip.into->kind != ATTRIBUTE_EXPRESSION)
-            lmLogv(&stm->fields.strip.into->srcp, 428, sevERR, "Expression", "an attribute", NULL);
+            lmlogv(&stm->fields.strip.into->srcp, 428, sevERR, "Expression", "an attribute", NULL);
     }
 }
 

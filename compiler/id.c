@@ -18,7 +18,7 @@
 #include "elm.h"
 #include "str.h"
 #include "util.h"
-#include "lmList.h"
+#include "lmlog.h"
 
 
 
@@ -83,7 +83,7 @@ void symbolizeId(Id *id)
     if (id->symbol == NULL) {
         if (id->string[0] != '$')
             /* Generated identifiers start with '$', don't report errors on those */
-            lmLogv(&id->srcp, 310, sevERR, id->string, "", NULL);
+            lmlogv(&id->srcp, 310, sevERR, id->string, "", NULL);
         id->symbol = newSymbol(id, ERROR_SYMBOL);
     } else
         id->code = id->symbol->code;

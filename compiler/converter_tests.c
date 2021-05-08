@@ -7,6 +7,7 @@
 #include "lst_x.h"
 
 #include "lmList.mock"
+#include "lmlog.mock"
 #include "srcp.mock"
 
 
