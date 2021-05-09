@@ -36,7 +36,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	sym \
 	whr \
 
-# Sources which have unittests defined
+# Sources which have unittests defined using an explicit runner (xxxTests.c)
 UNITTESTED = \
 	add.c \
 	adv.c \

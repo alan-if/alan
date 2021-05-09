@@ -11,6 +11,7 @@ ifneq ($(BUILDNUMBER),)
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
+# NOTE: for unittests -DUNITTESTING is added so you can redefine system functions
 CFLAGS += -g -O0 -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 
 COMPILE = $(CC) $(CFLAGS)
@@ -106,7 +107,6 @@ endif
 
 UNITTESTS_OBJDIR = .unittests
 UNITTESTSOBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
-UNITTESTSDLLOBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTSDLLSRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
 
 # Dependencies, if they don't exist yet
 -include $(UNITTESTSOBJECTS:.o=.d)
@@ -124,7 +124,7 @@ $(UNITTESTSOBJECTS): | $(UNITTESTS_OBJDIR)
 linked_unittests_build: unittests.$(SOEXTENSION)
 
 unittests.$(SOEXTENSION): $(UNITTESTSOBJECTS)
-	$(LINK) -shared -o $@ $(UNITTESTSDLLOBJECTS) $(LDLIBS) -lcgreen
+	$(LINK) -shared -o $@ $(UNITTESTSOBJECTS) $(LDLIBS) -lcgreen
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.$(SOEXTENSION)
