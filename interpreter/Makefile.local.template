@@ -33,7 +33,7 @@ winarun: LDFLAGS = -mwindows
 #GLKTERM_ROOT = ../../glktermw
 # Requires curses and a glkterm library
 CURSESLIB = -lncursesw
-GLKTERM_LIB = -L../../glktermw/ -lglktermw
+GLKTERM_LIB = $(GLKTERM_ROOT)/libglktermw.a
 
 # Enable Gargoyle Arun:
 #GARARUN_ENABLED = true
