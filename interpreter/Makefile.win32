@@ -22,11 +22,11 @@ endif
 
 WINGLK_DEFS = -DHAVE_WINGLK
 WINGLK_INCLUDE = -I$(WINGLK_ROOT)/Include
-WINGLK_LIB = $(WINGLK_ROOT)/Glk.lib
+WINGLK_LIB = $(WINGLK_ROOT)/Glk.lib # or -L$(WINGLK_ROOT) -l:Glk.lib
 
 winarun: CFLAGS += $(WINGLK_INCLUDE) $(WINGLK_DEFS)
 winarun: EXEEXT = .exe
-winarun: LDLIBS += -liconv
+winarun: LDLIBS += -l:libiconv.a
 
 WINARUNOBJDIR = .winarun
 WINARUNOBJECTS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.o}) $(WINARUNOBJDIR)/alan.version.o
