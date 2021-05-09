@@ -206,40 +206,10 @@ int smScReader(
 {
 
 
-  static uchar utfBuffer[1000];
-  static int residueCount = 0;       /* How much residue in utfBuffer from last conversion */
-  static uchar isoBuffer[1000];
-  int toRead = smLength<sizeof(utfBuffer)?smLength:sizeof(utfBuffer);
-  int actuallyRead;
-
   if (currentCharSet == CHARSET_UTF8) {
-      /* The residue from last round might now be at the beginning of utfBuffer */
-      actuallyRead = read(smThis->fd, (char *)&utfBuffer[residueCount], toRead-residueCount);
-      if (actuallyRead == 0)
-          return 0;             /* End of File */
-      uchar *input_p = &utfBuffer[0];
-      uchar *output_p = &isoBuffer[0];
-      int convertedCount = convertUtf8ToInternal(smThis->conversionDescriptor,
-                                                 &input_p, &output_p, actuallyRead);
-      if (convertedCount == -1) {
-          if (errno == EINVAL) { /* Invalid! */
-              /* Cut off in the middle of multi-byte, input_p points
-                 after successfully converted input and output_p points
-                 after successful output */
-              convertedCount = output_p - &isoBuffer[0]; /* How many did we actually convert? */
-              residueCount = toRead - (input_p - &utfBuffer[0]); /* How much residue? */
-              memcpy(utfBuffer, input_p, residueCount); /* Copy residue to start of utfBuffer */
-          } else {
-              /* Real error */
-              SYSERR("error converting from UTF-8", ((Srcp){0,0,0}));
-          }
-      }
-
-      /* "convertedCount" bytes of ISO encoded input is now in isoBuffer */
-      memcpy(smBuffer, isoBuffer, convertedCount);
-      return convertedCount;
+      return readWithConversionFromUtf8(smThis->fd, smThis->conversionDescriptor, smBuffer, smLength);
   } else
-      return read(smThis->fd, (char *)smBuffer, toRead);
+      return read(smThis->fd, (char *)smBuffer, smLength);
 
 
 

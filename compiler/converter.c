@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <malloc.h>
+#include <unistd.h>
 
 #include "types.h"
 #include "util.h"
@@ -79,4 +80,40 @@ char *ensureExternalEncoding(char input[]) {
         return converted;
     } else
         return strdup(input);
+}
+
+
+/* Buffered reader with conversion from UTF-8 to internal, null-termination */
+int readWithConversionFromUtf8(int fd, iconv_t cd, uchar *smBuffer, int wanted_length) {
+    static uchar utfBuffer[1000];
+    static int residueCount = 0;       /* How much residue in utfBuffer from last conversion */
+    static uchar isoBuffer[1000];
+    int toRead = wanted_length<sizeof(utfBuffer)?wanted_length:sizeof(utfBuffer);
+    int actuallyRead;
+
+    /* The residue from last round might now be at the beginning of utfBuffer */
+    actuallyRead = read(fd, (char *)&utfBuffer[residueCount], toRead-residueCount);
+    if (actuallyRead == 0)
+        return 0;               /* End of file */
+
+    uchar *input_p = &utfBuffer[0];
+    uchar *output_p = &isoBuffer[0];
+    int convertedCount = convertUtf8ToInternal(cd, &input_p, &output_p, actuallyRead);
+    if (convertedCount == -1) {
+        if (errno == EINVAL) { /* Invalid! */
+            /* Cut off in the middle of multi-byte, input_p points
+               after successfully converted input and output_p points
+               after successful output */
+            convertedCount = output_p - &isoBuffer[0]; /* How many did we actually convert? */
+            residueCount = toRead - (input_p - &utfBuffer[0]); /* How much residue? */
+            memcpy(utfBuffer, input_p, residueCount); /* Copy residue to start of utfBuffer */
+        } else {
+            /* Real error */
+            SYSERR("error converting from UTF-8", ((Srcp){0,0,0}));
+        }
+    }
+
+    /* "convertedCount" bytes of ISO encoded input is now in isoBuffer */
+    memcpy(smBuffer, isoBuffer, convertedCount);
+    return convertedCount;
 }
