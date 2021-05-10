@@ -4,12 +4,35 @@
 #include <stdio.h>
 #include <errno.h>
 #include <malloc.h>
+#include <unistd.h>
 
 #include "types.h"
 #include "util.h"
 #include "charset.h"
 #include "srcp_x.h"
 
+#ifdef UNITTESTING
+#include <cgreen/mocks.h>
+
+/* If we are compiling for unittest, replace read() with a Cgreen mock */
+ssize_t mocked_read(int fd, void *buf, size_t nbytes) {
+    return mock(fd, buf, nbytes);
+}
+#define read(fd, buf, nbytes) mocked_read(fd, buf, nbytes)
+
+/* And we must be able to set errno */
+
+int getErrno(void) {
+    return mock();
+}
+
+#else
+
+int getErrno(void) {
+    return errno;
+}
+
+#endif
 
 iconv_t initUtf8Conversion() {
     // This should be called when a new file is opened for reading
@@ -36,9 +59,9 @@ int convertUtf8ToInternal(iconv_t cd, uchar **in_buf, uchar **out_buf, int in_av
         if (rc  == (size_t) -1) {
             /*
             switch(errno) {
-            case EINVAL: printf("ERROR iconv: incomplete multibyte sequence\n"); break;
-            case EILSEQ: printf("ERROR iconv: invalid multibyte sequence\n"); break;
-            case E2BIG:  printf("ERROR iconv: output buffer full\n"); break;
+            case 22 - EINVAL: printf("ERROR iconv: incomplete multibyte sequence\n"); break;
+            case 84 - EILSEQ: printf("ERROR iconv: invalid multibyte sequence\n"); break;
+            case  7 - E2BIG:  printf("ERROR iconv: output buffer full\n"); break;
             }
             */
             return -1;
@@ -79,4 +102,45 @@ char *ensureExternalEncoding(char input[]) {
         return converted;
     } else
         return strdup(input);
+}
+
+
+/* Buffered reader with conversion from UTF-8 to internal, null-termination */
+int readWithConversionFromUtf8(int fd, iconv_t cd, uchar *buffer, int wanted_length) {
+    static uchar utfBuffer[1000];
+    static int residueCount = 0; /* How much residue in utfBuffer from last conversion */
+    static uchar residue[3];    /* Can max be 3 bytes since UTF-8 is max 4 */
+    static uchar isoBuffer[1000];
+    int toRead = wanted_length<sizeof(utfBuffer)?wanted_length:sizeof(utfBuffer);
+    int actuallyRead;
+
+    /* Any residue from last round must now be copied to beginning of utfBuffer */
+    if (residueCount > 0)
+        memcpy(utfBuffer, residue, residueCount);
+
+    actuallyRead = read(fd, (char *)&utfBuffer[residueCount], toRead-residueCount);
+    if (actuallyRead == 0)
+        return 0;               /* End of file */
+
+    uchar *input_p = &utfBuffer[0];
+    uchar *output_p = &isoBuffer[0];
+    int convertedCount = convertUtf8ToInternal(cd, &input_p, &output_p, actuallyRead+residueCount);
+    if (convertedCount == -1) {
+        if (getErrno() == EINVAL) { /* Invalid! */
+            /* Cut off in the middle of multi-byte, input_p points
+               after successfully converted input and output_p points
+               after successful output */
+            convertedCount = output_p - &isoBuffer[0]; /* How many did we actually convert? */
+            residueCount = toRead - (input_p - &utfBuffer[0]); /* How much residue? */
+            memcpy(residue, input_p, residueCount);            /* Save it for next round */
+        } else {
+            /* Real error */
+            SYSERR("error converting from UTF-8", ((Srcp){0,0,0}));
+        }
+    } else
+        residueCount = 0;
+
+    /* "convertedCount" bytes of ISO encoded input is now in isoBuffer, copy it out */
+    memcpy(buffer, isoBuffer, convertedCount);
+    return convertedCount;
 }

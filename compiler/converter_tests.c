@@ -268,3 +268,50 @@ Ensure(Converter, should_convert_long_utf_text_in_chunks) {
     output[502] = '\0';
     assert_that(output, is_equal_to_string((char*)expected));
 }
+
+Ensure(Converter, can_read_and_convert_multiple_buffered) {
+    uchar first[] = "abc";    /* First read */
+    uchar second[] = "xyz";   /* Second half */
+    uchar buffer[100];
+
+    expect(mocked_read, when(fd, is_equal_to(12)),
+           will_set_contents_of_parameter(buf, first, 3),
+           will_return(3));
+
+    expect(mocked_read, when(fd, is_equal_to(12)),
+           will_set_contents_of_parameter(buf, second, 3),
+           will_return(3));
+
+    /* Read first part with half a sequence, should only convert what is complete (abc) */
+    int count = readWithConversionFromUtf8(12, cd, buffer, 3);
+    assert_that(count, is_equal_to(3));
+    assert_that(memcmp(buffer, first, 3), is_equal_to(0));
+
+    count = readWithConversionFromUtf8(12, cd, buffer, 3);
+    assert_that(count, is_equal_to(3));
+    assert_that(memcmp(buffer, second, 3), is_equal_to(0));
+}
+
+
+Ensure(Converter, can_handle_sequences_broken_across_reads) {
+    uchar first[] = "abc\xc3";    /* First read with half the sequence \xc3\x84 - 'Ä' (\xc4 in ISO) */
+    uchar second[] = "\x84xyz";   /* Second half */
+    uchar buffer[100];
+
+    expect(mocked_read, when(fd, is_equal_to(12)),
+           will_set_contents_of_parameter(buf, first, 4),
+           will_return(4));
+
+    expect(getErrno, will_return(EINVAL));
+
+    expect(mocked_read, when(fd, is_equal_to(12)),
+           will_set_contents_of_parameter(buf, second, 4),
+           will_return(4));
+
+    /* Read first part with half a sequence, should only convert what is complete (abc) */
+    int count = readWithConversionFromUtf8(12, cd, buffer, 4);
+    assert_that(count, is_equal_to(3));
+
+    count = readWithConversionFromUtf8(12, cd, buffer, 4);
+    assert_that(count, is_equal_to(4));
+}

@@ -144,7 +144,7 @@ $(UNITTESTS_OBJDIR)/%_tests.o: %_tests.c
 
 $(UNITTESTSOBJECTS): | $(UNITTESTS_OBJDIR)
 
-# Build the DLL...
+# Build one DLL with all runner tests...
 unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
 	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
 
