@@ -269,12 +269,26 @@ Ensure(Converter, should_convert_long_utf_text_in_chunks) {
     assert_that(output, is_equal_to_string((char*)expected));
 }
 
-Ensure(Converter, can_read_and_convert_zero_bytes) {
+Ensure(Converter, can_handle_sequences_broken_across_reads) {
+    uchar first[] = "abc\xc3";    /* First read with half the sequence \xc3\x84 - 'Ä' (\xc4 in ISO) */
+    uchar second[] = "\x84xyz";   /* Second half */
     uchar buffer[100];
     iconv_t cd = iconv_open("UTF-8", "ISO_8859-1");
 
     expect(mocked_read, when(fd, is_equal_to(12)),
-           will_return(1));
+           will_set_contents_of_parameter(buf, first, 4),
+           will_return(4));
 
-    int count = readWithConversionFromUtf8(12, cd, buffer, 1);
+    expect(getErrno, will_return(EINVAL));
+
+    expect(mocked_read, when(fd, is_equal_to(12)),
+           will_set_contents_of_parameter(buf, second, 4),
+           will_return(4));
+
+    /* Read first part with half a sequence, should only convert what is complete (abc) */
+    int count = readWithConversionFromUtf8(12, cd, buffer, 4);
+    assert_that(count, is_equal_to(3));
+
+    count = readWithConversionFromUtf8(12, cd, buffer, 4);
+    assert_that(count, is_equal_to(4));
 }
