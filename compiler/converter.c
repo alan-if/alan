@@ -11,6 +11,28 @@
 #include "charset.h"
 #include "srcp_x.h"
 
+#ifdef UNITTESTING
+#include <cgreen/mocks.h>
+
+/* If we are compiling for unittest, replace read() with a Cgreen mock */
+ssize_t mocked_read(int fd, void *buf, size_t nbytes) {
+    return mock(fd, buf, nbytes);
+}
+#define read(fd, buf, nbytes) mocked_read(fd, buf, nbytes)
+
+/* And we must be able to set errno */
+
+int getErrno(void) {
+    return mock();
+}
+
+#else
+
+int getErrno(void) {
+    return errno;
+}
+
+#endif
 
 iconv_t initUtf8Conversion() {
     // This should be called when a new file is opened for reading
@@ -36,7 +58,7 @@ int convertUtf8ToInternal(iconv_t cd, uchar **in_buf, uchar **out_buf, int in_av
         size_t rc = iconv(cd, (char **)in_buf, &in_left, (char **)out_buf, &out_left);
         if (rc  == (size_t) -1) {
             /*
-            switch(errno) {
+            switch(getErrno()) {
             case EINVAL: printf("ERROR iconv: incomplete multibyte sequence\n"); break;
             case EILSEQ: printf("ERROR iconv: invalid multibyte sequence\n"); break;
             case E2BIG:  printf("ERROR iconv: output buffer full\n"); break;
@@ -84,7 +106,7 @@ char *ensureExternalEncoding(char input[]) {
 
 
 /* Buffered reader with conversion from UTF-8 to internal, null-termination */
-int readWithConversionFromUtf8(int fd, iconv_t cd, uchar *smBuffer, int wanted_length) {
+int readWithConversionFromUtf8(int fd, iconv_t cd, uchar *buffer, int wanted_length) {
     static uchar utfBuffer[1000];
     static int residueCount = 0;       /* How much residue in utfBuffer from last conversion */
     static uchar isoBuffer[1000];
@@ -100,7 +122,7 @@ int readWithConversionFromUtf8(int fd, iconv_t cd, uchar *smBuffer, int wanted_l
     uchar *output_p = &isoBuffer[0];
     int convertedCount = convertUtf8ToInternal(cd, &input_p, &output_p, actuallyRead);
     if (convertedCount == -1) {
-        if (errno == EINVAL) { /* Invalid! */
+        if (getErrno() == EINVAL) { /* Invalid! */
             /* Cut off in the middle of multi-byte, input_p points
                after successfully converted input and output_p points
                after successful output */
@@ -113,7 +135,7 @@ int readWithConversionFromUtf8(int fd, iconv_t cd, uchar *smBuffer, int wanted_l
         }
     }
 
-    /* "convertedCount" bytes of ISO encoded input is now in isoBuffer */
-    memcpy(smBuffer, isoBuffer, convertedCount);
+    /* "convertedCount" bytes of ISO encoded input is now in isoBuffer, copy it out */
+    memcpy(buffer, isoBuffer, convertedCount);
     return convertedCount;
 }

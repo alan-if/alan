@@ -98,11 +98,13 @@ unit:
 	@echo "No unit tests run, cgreen not available"
 unitbuild:
 else
-.PHONY: unit
 # Two types:
 unit: linked_unittests isolated_unittests
 .PHONY: unitbuild
 unitbuild: linked_unittests_build isolated_unittests_build
+
+# Define UNITTESTING so modules can define system function calls with Cgreen mocks
+unit: CFLAGS += -DUNITTESTING
 endif
 
 UNITTESTS_OBJDIR = .unittests

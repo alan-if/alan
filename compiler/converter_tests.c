@@ -268,3 +268,13 @@ Ensure(Converter, should_convert_long_utf_text_in_chunks) {
     output[502] = '\0';
     assert_that(output, is_equal_to_string((char*)expected));
 }
+
+Ensure(Converter, can_read_and_convert_zero_bytes) {
+    uchar buffer[100];
+    iconv_t cd = iconv_open("UTF-8", "ISO_8859-1");
+
+    expect(mocked_read, when(fd, is_equal_to(12)),
+           will_return(1));
+
+    int count = readWithConversionFromUtf8(12, cd, buffer, 1);
+}
