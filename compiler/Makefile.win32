@@ -18,7 +18,7 @@ endif
 # Build with flags:
 winalan: CFLAGS += -DWINGUI #-DARGSDISPLAY
 winalan: EXEEXT = .exe
-WINALANLIBS = -lshlwapi
+winalan: LDLIBS += -lshlwapi
 
 WINALANOBJDIR = .winalan
 WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o}) $(WINALANOBJDIR)/alan.version.o
@@ -30,7 +30,7 @@ $(WINALANOBJDIR):
 	mkdir $(WINALANOBJDIR)
 
 winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res ../bin
-	$(LINK) -o $@$(EXEEXT) -mwindows $(WINALANOBJECTS) alan.res $(WINALANLIBS)
+	$(LINK) -o $@$(EXEEXT) -mwindows $(WINALANOBJECTS) alan.res $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
 
 alan.res: alan.rc alan.ico alan.version.c
