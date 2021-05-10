@@ -29,8 +29,6 @@
 /* Utility modules: */
 #include "lst_x.h"
 
-/* Ensure also private functions are available in the SUT */
-#define UNITTESTING
 #include "prop_x.h"
 
 
