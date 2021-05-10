@@ -26,12 +26,10 @@ char *ensureExternalEncoding(char input[]) {
         char *converted = (char *)malloc(out_left+1);
         char *out_p = converted;
 
-        do {
-            if (iconv(cd, &in_p, &in_left, &out_p, &out_left) == (size_t) -1) {
-                /* Internal code (ISO8859-1) to UTF should never fail */
-                syserr("Conversion of command output to UTF-8 failed");
-            }
-        } while (in_left > 0 && out_left > 0);
+        if (iconv(cd, &in_p, &in_left, &out_p, &out_left) == (size_t) -1) {
+            /* Internal code (ISO8859-1) to UTF should never fail */
+            syserr("Conversion of command output to UTF-8 failed");
+        }
         *out_p = '\0';
 
         iconv_close(cd);
@@ -55,13 +53,11 @@ char *ensureInternalEncoding(char input[]) {
         char *converted = (char *)malloc(strlen(input)+1);
         char *out_p = converted;
 
-        do {
-            if (iconv(cd, &in_p, &in_left, &out_p, &out_left) == (size_t) -1) {
-                /* TODO: We need a message for illegal characters in input */
-                printf("Conversion of command input from UTF-8 failed, are you sure about the input encoding? ('%s')\n", strerror(errno));
-                error(M_WHAT);
-            }
-        } while (in_left > 0 && out_left > 0);
+        if (iconv(cd, &in_p, &in_left, &out_p, &out_left) == (size_t) -1) {
+            /* TODO: We need a message for illegal characters in input */
+            printf("Conversion of command input from UTF-8 failed, are you sure about the input encoding? ('%s')\n", strerror(errno));
+            error(M_WHAT);
+        }
         *out_p = '\0';
 
         iconv_close(cd);

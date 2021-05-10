@@ -54,19 +54,16 @@ int convertUtf8ToInternal(iconv_t cd, uchar **in_buf, uchar **out_buf, int in_av
     size_t in_left = in_available;
     size_t out_left = in_available;
 
-    do {
-        size_t rc = iconv(cd, (char **)in_buf, &in_left, (char **)out_buf, &out_left);
-        if (rc  == (size_t) -1) {
-            /*
-            switch(errno) {
-            case 22 - EINVAL: printf("ERROR iconv: incomplete multibyte sequence\n"); break;
-            case 84 - EILSEQ: printf("ERROR iconv: invalid multibyte sequence\n"); break;
-            case  7 - E2BIG:  printf("ERROR iconv: output buffer full\n"); break;
-            }
-            */
-            return -1;
-        }
-    } while (in_left > 0 && out_left > 0);
+    if (iconv(cd, (char **)in_buf, &in_left, (char **)out_buf, &out_left)  == (size_t) -1) {
+        /*
+          switch(errno) {
+          case 22 - EINVAL: printf("ERROR iconv: incomplete multibyte sequence\n"); break;
+          case 84 - EILSEQ: printf("ERROR iconv: invalid multibyte sequence\n"); break;
+          case  7 - E2BIG:  printf("ERROR iconv: output buffer full\n"); break;
+          }
+        */
+        return -1;
+    }
 
     return in_available-out_left;   /* = out_used */
 }
@@ -90,12 +87,10 @@ char *ensureExternalEncoding(char input[]) {
         char *converted = (char *)malloc(out_left+1);
         char *out_p = converted;
 
-        do {
-            if (iconv(cd, &in_p, &in_left, &out_p, &out_left) == (size_t) -1) {
-                /* Internal code (ISO8859-1) to UTF should never fail */
-                SYSERR("Conversion of output to UTF-8 failed", nulsrcp);
-            }
-        } while (in_left > 0 && out_left > 0);
+        if (iconv(cd, &in_p, &in_left, &out_p, &out_left) == (size_t) -1) {
+            /* Internal code (ISO8859-1) to UTF should never fail */
+            SYSERR("Conversion of output to UTF-8 failed", nulsrcp);
+        }
         *out_p = '\0';
 
         iconv_close(cd);
