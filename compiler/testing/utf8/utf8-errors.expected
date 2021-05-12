@@ -1,0 +1,20 @@
+########## utf8-errors ##########
+
+
+utf8-errors.alan
+
+    2.  End The östran.
+=====>          1
+
+  *1*   200 W : Mismatched block identifier, 'östra' assumed.
+
+    4.  Start At östraste.
+=====>           1
+
+  *1*   310 E : Identifier 'östraste' not defined.
+
+
+        1 error(s).
+        1 warning(s).
+        1 informational message(s).
+
