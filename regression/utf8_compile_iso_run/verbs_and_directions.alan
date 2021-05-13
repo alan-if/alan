@@ -1,0 +1,15 @@
+The ö Isa location
+End The ö.
+
+Add To Every object
+  Verb ñ
+    Does
+      "This is the ñ verb body for" Say the object. "."
+  End Verb.
+End Add.
+
+The ål Isa object At ö
+  Name i å é a ål
+End The ål.
+
+Start At ö.
