@@ -59,31 +59,15 @@
 
 #include <stdio.h>
 
-#ifdef __STDC__
-#define __NEWC__
-#endif
 
 /* ---------------------------------------------------------------------- */
 /* Use these macros to declare functions callabel from SPA */
-#ifdef __NEWC__
 
 #define SPA_FUN(NAME) void NAME(char *prettyName, char *rawName, int on)
 typedef SPA_FUN(SpaFun);    /* C type for SPA_FUN */
 
 #define SPA_ERRFUN(NAME) void NAME(char sev, char *msg, char *add)
 typedef SPA_ERRFUN(SpaErrFun);  /* C type for SPA_ERRFUN */
-
-#else
-
-#define SPA_FUN(NAME) void NAME(prettyName, rawName, on)    \
-    char *prettyName; char *rawName; int on;
-typedef void SpaFun();
-
-#define SPA_ERRFUN(NAME) void NAME(sev, msg, add)   \
-    char sev; char *msg; char *add;
-typedef void SpaErrFun();
-
-#endif
 
 
 /* ---------------------------------------------------------------------- */

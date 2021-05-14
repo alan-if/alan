@@ -43,12 +43,8 @@ error "SPA header file version 4.2 required"
 
 #include <stdio.h>
 #include <string.h>
-#ifdef __NEWC__
 #include <stdlib.h>
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 
 typedef int boolean;
 #ifndef FALSE
@@ -156,8 +152,6 @@ PRIVATE int pArg;		/* Current arg, index in pArgV */
 PRIVATE _SPA_ITEM *pArguments;
 PRIVATE _SPA_ITEM *pOptions;
 
-#ifdef __NEWC__
-
 #define safeExecute(fun, item, raw, on)                                 \
     if (fun) (*(void (*)(char *, char *, int))fun)(item->name, raw, on)
 /*  if (fun) (*(SpaFun)fun)(item->name, raw, on) */
@@ -168,20 +162,6 @@ PRIVATE _SPA_ITEM *pOptions;
 #define OUT(T,N) T* N
 #define IS )
 #define X ,
-
-#else
-
-#define safeExecute(fun, item, raw, on)                 \
-    if (fun) (*(void (*)())fun)(item->name, raw, on)
-
-#define FUNCTION(N,A) N A
-#define PROCEDURE(N,A) void N A
-#define IN(T,N) T N;
-#define OUT(T,N) T* N;
-#define X
-#define IS
-
-#endif
 
 
 PRIVATE SpaErrFun *pErrFun;	/* Points to errorfunction */
@@ -681,11 +661,7 @@ PRIVATE SPA_DECLARE(biArguments)
      SPA_FUNCTION("", NULL, biArgTooMany)
      SPA_END
 
-#ifdef __NEWC__
-     PRIVATE SPA_FUN(biUsage);	/* Forward */
-#else
-     PRIVATE void biUsage();
-#endif
+    PRIVATE SPA_FUN(biUsage);	/* Forward */
 
      PRIVATE SPA_DECLARE(biOptions)
 #if SPA_LANG==46
@@ -764,29 +740,16 @@ IS {
   Error notification (name: sev! <fmt ...>) to user.
   Exits on severe errors.
 */
-#ifdef __NEWC__
 PUBLIC void spaAlert( /* Error notification; Exits on severe errors */
                      char sev,  /* IN - [DIWEFS] */
                      char * fmt, /* IN - printf-format for additional things */
                      ...         /* IN - additional things */
                             ){
-#else
-PUBLIC void spaAlert(va_alist)
-    va_dcl
-{
-        char sev;
-        char *fmt;
-#endif
         va_list ap;
         int lev;
 
-#ifdef __NEWC__
         va_start(ap, fmt);
-#else
-        va_start(ap);
-        sev = va_arg(ap, char);
-        fmt = va_arg(ap, char *);
-#endif
+
         lev = level(sev);
         if (lev>=level(SpaAlertLevel)) {
             if (SpaAlertName) fprintf(SpaAlertFile, "%s: ", SpaAlertName);
