@@ -161,13 +161,6 @@ extern void toIso(char copy[],        /* OUT - Mapped string */
                   char original[],    /* IN - string to convert */
                   int charset);       /* IN - The current character set */
 
-extern void fromIso(char copy[],      /* OUT - Mapped string */
-                    char original[]); /* IN - string to convert */
-
-extern void toNative(char copy[],     /* OUT - Mapped string */
-                     char original[], /* IN - string to convert */
-                     int charset);    /* IN - current character set */
-
 extern int littleEndian(void);
 
 extern char *baseNameStart(char *fullPathName);
