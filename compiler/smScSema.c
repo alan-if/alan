@@ -265,9 +265,15 @@ int smScAction(
         smToken->fpos = ftell(txtfil); /* Remember where it starts */
         smThis->smText[smThis->smLength-1] = '\0';
 
-        if (currentCharSet != CHARSET_ISO && currentCharSet != CHARSET_UTF8)
-            /* Convert string from non ISO characters if needed, unless UTF-8 because then it is done in pre-read */
+        /* Convert string from non ISO characters if needed, unless UTF-8 because then it is done in pre-read */
+        switch (currentCharSet) {
+        case CHARSET_ISO:
+        case CHARSET_UTF8:
+            break;
+        case CHARSET_DOS:
             toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1], currentCharSet);
+        }
+
         for (i = 1; i < smThis->smLength-1; i++) {
             /* Write the character */
             if (isspace(c = smThis->smText[i])) {

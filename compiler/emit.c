@@ -130,40 +130,28 @@ void emitN(void *address, int noOfWords) /* IN - Constant to emit */
 */
 void emitString(char *str)
 {
-    int i;
-    char *copy;
-
-    copy = allocate(strlen(str)+4);
-    memset(copy, 0, strlen(str)+4);
-    toIso(copy, str, charset);
-
 #ifdef WORDADDRESS
-    {
-        Aword w;
+    Aword w;
 
-        for (i = 0; i < strlen(copy) + 1; i = i+4) {
-            w =  (unsigned long)((unsigned char)copy[i])<<24;
-            w += (unsigned long)((unsigned char)copy[i+1])<<16;
-            w += (unsigned long)((unsigned char)copy[i+2])<<8;
-            w += (unsigned long)((unsigned char)copy[i+3]);
-            if (littleEndian())
-                buffer(reversed(w));
-            else
-                buffer(w);
-        }
+    for (int i = 0; i < strlen(str) + 1; i = i+4) {
+        w =  (unsigned long)((unsigned char)str[i])<<24;
+        w += (unsigned long)((unsigned char)str[i+1])<<16;
+        w += (unsigned long)((unsigned char)str[i+2])<<8;
+        w += (unsigned long)((unsigned char)str[i+3]);
+        if (littleEndian())
+            buffer(reversed(w));
+        else
+            buffer(w);
     }
 #else
-    {
-        Aword *w;
-        int len = strlen(copy) + 1;
+    Aword *w;
+    int len = strlen(str) + 1;
 
-        for (i = 0; i < len; i = i+4) {
-            w =  (Aword *)&copy[i];
-            buffer(*w);
-        }
+    for (int i = 0; i < len; i = i+4) {
+        w =  (Aword *)&str[i];
+        buffer(*w);
     }
 #endif
-    free(copy);
 }
 
 
