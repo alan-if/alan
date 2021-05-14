@@ -307,11 +307,7 @@ PRIVATE char* FUNCTION(pAName, (item))
     IS {
     switch (item->type) {
     case _SPA_Flag:
-#ifdef CMS
-        sprintf(prName, "(%s!%s)", SpaFlagKeyWords[1], SpaFlagKeyWords[0]);
-#else
         sprintf(prName, "[%s|%s]", SpaFlagKeyWords[1], SpaFlagKeyWords[0]);
-#endif
         break;
     case _SPA_Bits:
         sprintf(prName, "{%s}", item->s);
@@ -331,11 +327,7 @@ PRIVATE char* FUNCTION(pOName, (item))
     IN(_SPA_ITEM *, item)
     IS {
     static char *fmt[] = {
-#ifdef CMS
-        "-%s", "-(-)%s", "-(-)%s {%s}"
-#else
         "-%s", "-[-]%s", "-[-]%s {%s}"
-#endif
     };
     int i = 0;       /* -> fmt[0] */
 
@@ -560,21 +552,7 @@ PRIVATE PROCEDURE(execute, (item, option, on))
             break;
         case _SPA_InFile:
         case _SPA_OutFile:
-#ifdef CMS
-        {   /* We do assemble CMS 3-part file names into one string */
-            char *file, *extension, *disk;
-
-            file = pArgV[pArg];
-            if (extension = spaArgument(1)) pArg++; else { extension = ""; }
-            if (disk = spaArgument(1)) pArg++; else { disk = ""; }
-            *item->sp = (char*)malloc( 40 ); /* What is the maximum? */
-            /* strlen(file) + strlen(extension) + strlen(disk) + 3 */
-            sprintf(*item->sp,"%s %s %s", file, extension, disk);
-            pArgV[pArg] = *item->sp; /* ! This could cause trouble if a hook reads previous items */
-        }
-#else
         *item->sp = pArgV[pArg];
-#endif
         if (*item->sp && **item->sp) {
             if (*item->FP==file(item->type))
                 *item->FP = fopen(*item->sp, mode(item->type));
@@ -671,15 +649,9 @@ PRIVATE SPA_DECLARE(biOptions)
 #endif
     SPA_END
 
-#ifdef CMS
-# define oSTART " ("
-# define oALT   "!"
-# define oSTOP  ")..."
-#else
 # define oSTART " ["
 # define oALT   "|"
 # define oSTOP  "]..."
-#endif
 
     PRIVATE SPA_FUN(biUsage) {
     int i, j;
