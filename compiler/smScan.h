@@ -187,6 +187,7 @@ extern int smScan( smScContext smThis, Token *smToken );
 
 #include "sysdep.h"
 #include "types.h"
+#include "charset.h"
 
 #include "lst_x.h"
 #include "options.h"

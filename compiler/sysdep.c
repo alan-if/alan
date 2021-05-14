@@ -73,9 +73,9 @@ int compareStrings(char *str1, char *str2)
   be other than the native.
 
   */
-void toIso(char copy[], /* OUT - Mapped  string */
-           char original[],	/* IN - string to convert */
-           int charset)		/* IN - the current character set */
+void toIso(char copy[],         /* OUT - Mapped string */
+           char original[],     /* IN - string to convert */
+           CharSet charset)		/* IN - the current character set */
 {
 static unsigned char dosMap[256]
 = {

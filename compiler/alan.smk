@@ -27,6 +27,7 @@
 
 #include "sysdep.h"
 #include "types.h"
+#include "charset.h"
 
 #include "lst_x.h"
 #include "options.h"

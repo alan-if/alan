@@ -60,24 +60,7 @@
 #endif
 
 
-/**************************/
-/* Native character sets? */
-/**************************/
-
 #include "charset.h"
-
-/* Common case first */
-#define ISO 1
-
-#ifdef __dos__
-#undef ISO
-#define ISO 0
-#endif
-
-#ifdef __win__
-#undef ISO
-#define ISO 1
-#endif
 
 
 /**************/
@@ -94,7 +77,7 @@
 /* Have termio? */
 /****************/
 
-#ifdef __CYGWIN__
+#ifdef __cygwin__
 #define HAVE_TERMIO
 #endif
 
@@ -107,7 +90,7 @@
 /* Is ANSI control available?  */
 /*******************************/
 
-#ifdef __CYGWIN__
+#ifdef __cygwin__
 #define HAVE_ANSI
 #endif
 
@@ -135,9 +118,9 @@ extern char *stringUpper(char str[]);    /* INOUT - ISO string to convert */
 extern int compareStrings(char str1[], char str2[]); /* Case-insensitive compare */
 
 /* ISO string conversion functions */
-extern void toIso(char copy[],        /* OUT - Mapped string */
-                  char original[],    /* IN - string to convert */
-                  int charset);       /* IN - The current character set */
+extern void toIso(char copy[],      /* OUT - Mapped string */
+                  char original[],  /* IN - string to convert */
+                  CharSet charset); /* IN - The current character set */
 
 extern int littleEndian(void);
 
