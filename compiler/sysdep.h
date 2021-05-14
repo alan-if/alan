@@ -59,11 +59,6 @@
 #include <string.h>
 #endif
 
-#ifdef __mac__
-#include <stdlib.h>
-#include <string.h>
-#endif
-
 
 /**************************/
 /* Native character sets? */

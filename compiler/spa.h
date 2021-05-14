@@ -147,20 +147,8 @@ typedef struct _SPA_ITEM {	/* PRIVATE structure for items */
 #define SPA_END {0},{0}};
 
 
-#ifdef __mac__
-#define spaProcess(C,V,A,O,E) _spaPreProcess(&C,&V,A,O,E)
-
-extern int _spaPreProcess(	/* Wrapper to _spaProcess (which see) */
-    int *argc,			/* OUT - As to main */
-    char **argv[],		/* OUT - As to main */
-    _SPA_ITEM arguments[],	/* IN - User arguments (see _spaProcess) */
-    _SPA_ITEM options[],	/* IN - User options (see _spaProcess) */
-    SpaErrFun *errfun		/* IN - Error reciever (see _spaProcess) */
-);
-
-#else
 #define spaProcess(C,V,A,O,E) _spaProcess(C,V,A,O,E)
-#endif
+
 
 #ifdef __NEWC__
 
@@ -211,10 +199,6 @@ extern char SpaAlertLevel;	/* Alert on or above this level,
 				   one of D, I, W, E, F, S */
 extern char *SpaAlertName;	/* Program name for alerts,
 				   NULL 0 => tail argv[0] */
-#ifndef THINK_C
-extern FILE *SpaAlertFile;	/* Where to write messages,
-				   default stderr */
-#endif
 
 #endif
 

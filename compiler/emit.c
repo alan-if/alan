@@ -240,24 +240,6 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
     /* Make space for ACODE header */
     for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++)
         emit(0L);
-
-#ifdef __mac__
-    /* Add FinderInfo to point to Arun */
-    {
-        char fnm[256];
-        short vRefNuepm = 0;
-        FInfo finfo;
-        OSErr oe;
-
-        strcpy(fnm, acdfnm);
-        c2pstr(fnm);
-        oe = GetFInfo((ConstStr255Param)fnm, 0, &finfo);
-
-        strncpy((char *)&finfo.fdType, "Acod", 4);
-        strncpy((char *)&finfo.fdCreator, "Arun", 4);
-        oe = SetFInfo((ConstStr255Param)fnm, 0, &finfo);
-    }
-#endif
 }
 
 /*----------------------------------------------------------------------*/

@@ -891,25 +891,4 @@ IS {
     exit(exitCode);
 }
 
-/*======================================================================
-  Special wrapper for THINK-C/MacOs emulated argv handling.
-*/
-#ifdef __mac__
-#include <console.h>
-PUBLIC int FUNCTION(_spaPreProcess, (argc, argv, arguments, options, errfun))
-    IN(int, *argc) X
-    IN(char, **argv[]) X
-    IN(_SPA_ITEM, arguments[]) X
-    IN(_SPA_ITEM, options[]) X
-    IN(SpaErrFun, *errfun)
-IS {
-#ifdef THINK_C
-    console_options.title = CurApName;
-#endif
-    *argc = ccommand(argv);
-    return _spaProcess(*argc, *argv, arguments, options, errfun);
-}
-#endif
-
-
 /* == EoF =========================================================== */

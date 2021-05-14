@@ -53,10 +53,8 @@ static Bool find_and_open_in_path_element(smScContext this, List *ip, char fnm[]
 
     if (ip != NULL) {
         strcpy(fnmbuf, ip->member.str);
-#ifndef __mac__
         if (fnmbuf[strlen(fnmbuf)-1] != '/')
             strcat(fnmbuf, "/");
-#endif
     }
     strcat(fnmbuf, fnm);
     return (this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) > 0;
