@@ -11,8 +11,9 @@ ifneq ($(BUILDNUMBER),)
   BUILDVERSION = -$(BUILDNUMBER)
 endif
 
-# NOTE: for unittests -DUNITTESTING is added so you can redefine system functions
-CFLAGS += -g -O0 -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
+# NOTE: for unittests -DUNITTESTING is automatically added by
+# ../mk/isolated_unittests.mk so you can override system functions
+CFLAGS += -g -Og -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
