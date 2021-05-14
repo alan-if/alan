@@ -25,7 +25,8 @@
 ACodeHeader acodeHeader;
 
 
-static FILE *acdfil;
+/* Only visible in emit.h if UNITTESTING */
+FILE *acdfil;
 static Aword *emitBuffer;
 static Aword eBuffer[BLOCKLEN];
 

@@ -15,6 +15,10 @@
 
 extern ACodeHeader acodeHeader;
 
+#ifdef UNITTESTING
+extern FILE *acdfil;
+#endif
+
 
 /* FUNCTIONS */
 
@@ -37,5 +41,6 @@ extern void emit(Aword word);
 extern Aword reversed(Aword word);
 extern void finalizeEmit(void);
 extern void terminateEmit(void);
+
 
 #endif
