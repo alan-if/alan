@@ -61,19 +61,6 @@ has been advised of the possibility of such damages.
 #ifdef __STDC__
 #define __NEWC__
 #endif
-#ifdef __cplusplus
-#define __NEWC__
-#endif
-
-#ifdef CMS
-/* We only have 8 characters for external names */
-#define SpaArgument	SpaArg
-#define SpaArgumentNo	SpaArgNo
-#define SpaAlert	SpaAlrt
-#define SpaAlertLevel	SpaAlrtL
-#define SpaAlertName	SpaAlrtN
-#define SpaAlertFile	SpaAlrtF
-#endif
 
 /* ---------------------------------------------------------------------- */
 /* Use these macros to declare functions callabel from SPA */
@@ -132,17 +119,17 @@ typedef struct _SPA_ITEM {	/* PRIVATE structure for items */
 /* ---------------------------------------------------------------------- */
 #define SPA_DECLARE(N) _SPA_ITEM N[] = {
 
-#define SPA_FLAG(N,H,V,D,P)	{N,H,P,_SPA_Flag,    D,&(V)                           },
-#define SPA_INTEGER(N,H,V,D,P)	{N,H,P,_SPA_Integer, D,&(V)                           },
-#define SPA_FLOAT(N,H,V,D,P)    {N,H,P,_SPA_Float,   0,0,     0,0,   D,  &(V)         },
-#define SPA_STRING(N,H,V,D,P)	{N,H,P,_SPA_String,  0,0,     D,&(V)                  },
-#define SPA_BITS(N,H,V,S,D,P)   {N,H,P,_SPA_Bits,    (int)D,(int *)&(V),S             },
-#define SPA_KEYWORD(N,H,V,K,D,P){N,H,P,_SPA_KeyWord, (int)D,(int *)&(V),0  ,K         },
-#define SPA_INFILE(N,H,V,A,D,P) {N,H,P,_SPA_InFile,  0,0,     D,&(A),0.0,0   ,0,&(V)  },
-#define SPA_OUTFILE(N,H,V,A,D,P){N,H,P,_SPA_OutFile, 0,0,     D,&(A),0.0,0   ,0,&(V)  },
-#define SPA_FUNCTION(N,H,P)	{N,H,P,_SPA_Function                                  },
-#define SPA_COMMENT(H)		{"",H,0,_SPA_Comment                                   },
-#define SPA_HELP(N,H,I,P)	{N,H,P,_SPA_Help,    0,0,     0,0,   0.0,0   ,0,0,   I},
+#define SPA_FLAG(N,H,V,D,P)      {N, H,P,_SPA_Flag,    D, &(V)                            },
+#define SPA_INTEGER(N,H,V,D,P)   {N, H,P,_SPA_Integer, D, &(V)                            },
+#define SPA_FLOAT(N,H,V,D,P)     {N, H,P,_SPA_Float,   0, 0,     0, 0,           D, &(V)  },
+#define SPA_STRING(N,H,V,D,P)    {N, H,P,_SPA_String,  0, 0,     D, &(V)                  },
+#define SPA_BITS(N,H,V,S,D,P)    {N, H,P,_SPA_Bits,    (intptr_t)D, (int *)&(V), S        },
+#define SPA_KEYWORD(N,H,V,K,D,P) {N, H,P,_SPA_KeyWord, (intptr_t)D, (int *)&(V), 0, K     },
+#define SPA_INFILE(N,H,V,A,D,P)  {N, H,P,_SPA_InFile,  0, 0,     D, &(A), 0.0,0, 0, &(V)  },
+#define SPA_OUTFILE(N,H,V,A,D,P) {N, H,P,_SPA_OutFile, 0, 0,     D, &(A), 0.0,0  0, &(V)  },
+#define SPA_FUNCTION(N,H,P)      {N, H,P,_SPA_Function                                    },
+#define SPA_COMMENT(H)           {"",H,0,_SPA_Comment                                     },
+#define SPA_HELP(N,H,I,P)        {N, H,P,_SPA_Help,    0, 0,     0, 0,    0.0,0, 0, 0, I  },
 
 #define SPA_END {0},{0}};
 
