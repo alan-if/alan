@@ -8,6 +8,8 @@
 
 #include "lst.h"
 #include "options.h"
+#include "charset.h"
+
 
 /* Public data */
 extern int fileNo;          /* Number of last found file */

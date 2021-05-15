@@ -183,48 +183,11 @@ static void specialListing(lmSev sevs)
                 sprintf(line, "\"%s\", line %d:%d: ALAN-%s (column %d)\n",
                         fnm->member.str, srcp.line, srcp.col, err, srcp.col);
 
-#ifdef __mac__
-            lmLiPrint(line);
-#else
             printf("%s", line);
-#endif
         }
     }
 }
 
-
-#ifdef __mac__
-/*----------------------------------------------------------------------
-
-  Write listing and/or error messages to screen or file
-
-*/
-static void listing(lmSev sevs)
-{
-  char *fnm;
-
-  if (lstflg)
-    fnm = lstfnm;
-  else
-    fnm = "";
-
-  listing(fnm, lcount, ccount, fulflg?liFULL:liTINY, sevs);
-
-  if (dmpflg) {
-    lmSkipLines(0);
-    duadv(dmpflg);
-  }
-
-  if (sumflg) {
-    if (lmSeverity() < sevERR)
-      summary();
-    endtotal();			/* Stop timer */
-    prtimes();
-    stats();
-  }
-  lmLiTerminate();
-}
-#else
 
 /*----------------------------------------------------------------------*/
 static int get_terminal_columns() {
@@ -249,8 +212,6 @@ void createListingOnScreen(lmTyp listingType, lmSev severities) {
     if (columns == 0) columns = 79;
     createListingOnFile("", lines, columns, listingType, severities);
 }
-
-#endif
 
 
 static void (*handler)(char *) = NULL;

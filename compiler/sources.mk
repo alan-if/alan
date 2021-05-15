@@ -26,6 +26,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	atr \
 	context \
 	converter \
+	emit \
 	exp \
 	ext \
 	id \
@@ -44,7 +45,6 @@ UNITTESTED = \
 	cla.c \
 	description.c \
 	elm.c \
-	emit.c \
 	exp.c \
 	ext.c \
 	ifid.c \
@@ -72,6 +72,7 @@ OTHERSRCS = \
 	converter.c \
 	dump.c \
 	encode.c \
+	emit.c \
 	evt.c \
 	id.c \
 	initialize.c \

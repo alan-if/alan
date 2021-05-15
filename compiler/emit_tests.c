@@ -1,14 +1,19 @@
 /*======================================================================*\
 
-  emitTest.c
+  emit_tests.c
 
-  Unit tests for EMIT node in the Alan compiler
+  Unit tests for the Emit module in the Alan compiler
 
 \*======================================================================*/
-
-#include "emit.c"
-
 #include <cgreen/cgreen.h>
+
+#include "emit.h"
+#include "sysdep.h"
+
+#include "srcp.mock"
+#include "lmList.mock"
+#include "lmlog.mock"
+
 
 Describe(Emit);
 BeforeEach(Emit) {}
@@ -19,7 +24,7 @@ Ensure(Emit, testEmit) {
   int expectedAddress;
   Aword emitTestArray[5] = {1, 2, 3, 4, 5};
 
- initEmit("unit.a3c");
+  initEmit("unit.a3c");
 
   expectedAddress = nextEmitAddress();
 
@@ -80,43 +85,3 @@ Ensure(Emit, testEmitTextDataToAcodeFile) {
   fclose(acdfil);
   unlink(textDataFileName);
 }
-
-#ifdef EXTENDED_HEADER
-// This is the prettiest test case in Alan, and we just don't need it...
-Ensure(Emit, finalizeEmitShouldAdjustCRCWithoutChangingSize) {
-    int i;
-    Aword buffer[100];
-
-    /* Given: */
-    crc = 0;
-    acodeHeader.acdcrc = 0;
-    initEmitBuffer(buffer);
-    
-    Aword *headerAsArray = (Aword *)&acodeHeader;
-
-    int sizeDiff = ASIZE(ACodeHeader) - ASIZE(Pre3_0beta3Header);
-    for (i = ASIZE(Pre3_0beta3Header); i < ASIZE(ACodeHeader); i++)
-        headerAsArray[i] = 0x22334455;
-
-    int size = nextEmitAddress();
-
-    /* When: */
-    finalizeEmit();
-
-    /* Then: */
-    assert_true(acodeHeader.acdcrc == sizeDiff * ((Aword)0x22 + (Aword)0x33 + (Aword)0x44 + (Aword)0x55));
-    assert_true(acodeHeader.size == size);
-}
-#endif
-
-TestSuite *emitTests()
-{
-    TestSuite *suite = create_test_suite();
-
-    add_test_with_context(suite, Emit, testEmit);
-    add_test_with_context(suite, Emit, testEmitTextDataToAcodeFile);
-    //    add_test_with_context(suite, Emit, finalizeEmitShouldAdjustCRCWithoutChangingSize);
-
-    return suite;
-}
-

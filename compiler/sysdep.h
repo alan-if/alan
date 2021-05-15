@@ -59,35 +59,8 @@
 #include <string.h>
 #endif
 
-#ifdef __mac__
-#include <stdlib.h>
-#include <string.h>
-#endif
-
-
-/**************************/
-/* Native character sets? */
-/**************************/
 
 #include "charset.h"
-
-/* Common case first */
-#define ISO 1
-#define NATIVECHARSET CHARSET_ISO
-
-#ifdef __dos__
-#undef ISO
-#define ISO 0
-#undef NATIVECHARSET
-#define NATIVECHARSET CHARSET_DOS
-#endif
-
-#ifdef __win__
-#undef ISO
-#define ISO 1
-#undef NATIVECHARSET
-#define NATIVECHARSET CHARSET_ISO
-#endif
 
 
 /**************/
@@ -104,7 +77,7 @@
 /* Have termio? */
 /****************/
 
-#ifdef __CYGWIN__
+#ifdef __cygwin__
 #define HAVE_TERMIO
 #endif
 
@@ -117,7 +90,7 @@
 /* Is ANSI control available?  */
 /*******************************/
 
-#ifdef __CYGWIN__
+#ifdef __cygwin__
 #define HAVE_ANSI
 #endif
 
@@ -138,28 +111,13 @@
 #endif
 
 
-/* Native character functions */
-extern int isSpace(unsigned int c);      /* IN - Native character to test */
-extern int isLower(unsigned int c);      /* IN - Native character to test */
-extern int isUpper(unsigned int c);      /* IN - Native character to test */
-extern int isLetter(unsigned int c);     /* IN - Native character to test */
-extern int toLower(unsigned int c);      /* IN - Native character to convert */
-extern int toUpper(unsigned int c);      /* IN - Native character to convert */
-extern char *strlow(char str[]);         /* INOUT - Native string to convert */
-extern char *strupp(char str[]);         /* INOUT - Native string to convert */
-
 /* ISO character functions */
-extern int isISOLetter(int c);           /* IN - ISO character to test */
-extern char IsoToLowerCase(int c);       /* IN - ISO character to convert */
-extern char IsoToUpperCase(int c);       /* IN - ISO character to convert */
-extern char *stringLower(char str[]);    /* INOUT - ISO string to convert */
-extern char *stringUpper(char str[]);    /* INOUT - ISO string to convert */
 extern int compareStrings(char str1[], char str2[]); /* Case-insensitive compare */
 
 /* ISO string conversion functions */
-extern void toIso(char copy[],        /* OUT - Mapped string */
-                  char original[],    /* IN - string to convert */
-                  int charset);       /* IN - The current character set */
+extern void toIso(char copy[],      /* OUT - Mapped string */
+                  char original[],  /* IN - string to convert */
+                  CharSet charset); /* IN - The current character set */
 
 extern int littleEndian(void);
 

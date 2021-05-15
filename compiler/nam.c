@@ -19,14 +19,12 @@
 /*----------------------------------------------------------------------*/
 static int saveName(List *names, Id *id)
 {
-    List *nameList;
-    char *buf = NULL;
     int len = 0;
 
     if (names != NULL) {
-        for (nameList = names->member.lst; nameList != NULL; nameList = nameList->next) {
-            buf = allocate(strlen(nameList->member.id->string)+2);
-            toIso(buf, nameList->member.id->string, charset);
+        for (List *nameList = names->member.lst; nameList != NULL; nameList = nameList->next) {
+            char *buf = allocate(strlen(nameList->member.id->string)+2);
+            strcpy(buf, nameList->member.id->string);
             if (nameList->next)
                 strcat(buf, " ");
             generateText(buf);
@@ -34,13 +32,10 @@ static int saveName(List *names, Id *id)
             free(buf);
         }
     } else {
-        buf = allocate(strlen(id->string)+1);
-        toIso(buf, id->string, charset);
-        generateText(buf);
-        len = strlen(buf);
-        free(buf);
+        generateText(id->string);
+        len = strlen(id->string);
     }
-    return(len);
+    return len;
 }
 
 

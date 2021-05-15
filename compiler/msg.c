@@ -308,17 +308,10 @@ void prepareMessages(void)
         }
         stms = newPrintStatementListFromString(msgp);
         msg = newMessage(NULL, NULL, stms);
+
         /* Save the message text */
-#ifdef __mac__
-        {
-            char buf[256];
-x
-            toIso(buf, msgp);
-            getxt(buf);
-        }
-#else
         generateText(msgp);
-#endif
+
         /* Finally enter it in the list */
         msg->msgno = msgno;
         smsgs = concat(smsgs, msg, MESSAGE_LIST);
