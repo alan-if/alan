@@ -15,6 +15,7 @@
   /* For iconv conversion */
 #include <errno.h>
 #include "converter.h"
+#include "charset.h"
 
 #include "sysdep.h"
 

@@ -11,6 +11,7 @@
   /* For iconv conversion */
 #include <errno.h>
 #include "converter.h"
+#include "charset.h"
 
 #include "sysdep.h"
 
@@ -55,6 +56,7 @@ int scannedLines();
 
 
 /* PRIVATE */
+static int currentCharSet;
 static int lines = 0;		/* Updated at end of each file */
 #ifndef O_BINARY
 #define O_BINARY 0
@@ -71,6 +73,13 @@ static Bool find_and_open_in_path_element(smScContext this, List *ip, char fnm[]
 #endif
     }
     strcat(fnmbuf, fnm);
+    /* We need to convert filenames to NATIVE charset/encoding */
+    if (currentCharSet == CHARSET_UTF8) {
+        char *converted = ensureExternalEncoding(fnmbuf);
+        strcpy(fnmbuf, converted);
+        free(converted);
+    }
+
     return (this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) > 0;
 }
 
@@ -109,7 +118,6 @@ static void register_filename(smScContext this, char *prefix, char filename[]) {
     free(full_name);
 }
 
-static int currentCharSet;
 
 static void switch_scanner(smScContext this) {
     /* Remember encoding for the current file */
