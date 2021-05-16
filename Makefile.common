@@ -55,8 +55,8 @@ ci: buildnumbers all cross package
 .PHONY:
 coverage: COVERAGE=--coverage
 coverage:
-	$(MAKE) -C compiler COVERAGE=$(COVERAGE)
-	$(MAKE) -C interpreter COVERAGE=$(COVERAGE)
+	$(MAKE) -C compiler COVERAGE=$(COVERAGE) alan
+	$(MAKE) -C interpreter COVERAGE=$(COVERAGE) arun
 	-$(MAKE) -C compiler test
 	-$(MAKE) -C interpreter test
 	$(MAKE) coverage-report

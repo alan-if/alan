@@ -156,11 +156,6 @@
 #  undef USE_READLINE
 #endif
 
-/* Special cases and definition overrides */
-#ifdef __unix__
-#define MULTI
-#endif
-
 
 /* Native character functions */
 extern int isSpace(unsigned int c);      /* IN - Native character to test */
@@ -189,4 +184,4 @@ extern int littleEndian(void);
 
 extern char *baseNameStart(char *fullPathName);
 
-#endif                          /* -- sysdep.h -- */
+#endif
