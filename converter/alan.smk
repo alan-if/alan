@@ -25,6 +25,7 @@
 %%EXPORT
 
 #include "sysdep.h"
+#include "util.h"
 #include "lst_x.h"
 #include "types.h"
 
