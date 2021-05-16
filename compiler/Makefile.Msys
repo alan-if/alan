@@ -15,8 +15,8 @@ include Makefile.win32
 # Sharable libraries have .dll extension
 SOEXTENSION = dll
 
-# Flags to send to compiler
-CFLAGS += -funsigned-char
+# Flags to send to compiler and linker
+CFLAGS +=
 LDLIBS += -l:libiconv.a
 
 ###########################################################

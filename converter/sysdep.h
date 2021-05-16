@@ -9,11 +9,6 @@
   - os name (WIN32, Cygwin, MSYS2...)
   - compiler name and version (DJGPP, CYGWIN, GCC271, THINK-C, ...)
 
-  The set symbols should indicate if a feature is on or off like the GNU
-  AUTOCONFIG package does.
-
-  This is not completely done yet!
-
 \*----------------------------------------------------------------------*/
 #ifndef _SYSDEP_H_
 #define _SYSDEP_H_
@@ -21,24 +16,13 @@
 #include <stdbool.h>
 
 /* Place definitions of OS and compiler here if necessary */
-#ifndef __unix__
-#ifdef unix
-#define __unix__
-#endif
-#endif
 
-#ifdef __APPLE__
-// At least GCC 3.x does define this for Darwin
-#define __macosx__
-#define __unix__
-#endif
+/* For command line editing in "pure" (non-Glk, non-Gargoyle)
+ * interpreters, we need termio, assume it's available */
+#define HAVE_TERMIO
 
 #ifdef __MINGW32__
 #define __windows__
-#endif
-
-#ifdef __CYGWIN32__
-#define __cygwin__
 #endif
 
 #ifdef HAVE_WINGLK
@@ -124,10 +108,10 @@
 /*******************************/
 
 #ifdef HAVE_GLK
-#  undef HAVE_ANSI /* don't need ANSI */
+#  undef HAVE_ANSI_CONTROL /* don't need ANSI */
 #else
 #  ifdef __CYGWIN__
-#    define HAVE_ANSI
+#    define HAVE_ANSI_CONTROL
 #  endif
 #endif
 
@@ -147,14 +131,9 @@ extern int isUpper(unsigned int c);      /* IN - Internal character to test */
 extern int isLetter(unsigned int c);     /* IN - Internal character to test */
 extern int toLower(unsigned int c);      /* IN - Internal character to convert */
 extern int toUpper(unsigned int c);      /* IN - Internal character to convert */
-extern char *stringToLowerCase(char str[]); /* INOUT - Internal string to convert */
+extern void stringToLowerCase(char str[]); /* INOUT - Internal string to convert */
 
 extern bool equalStrings(char str1[], char str2[]); /* Case-insensitive compare */
-
-/* ISO string conversion functions */
-extern void toIso(char copy[],  /* OUT - Mapped string */
-                  char original[], /* IN - string to convert */
-                  int charset);	/* IN - The current character set */
 
 extern int littleEndian(void);
 

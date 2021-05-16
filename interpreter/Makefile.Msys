@@ -13,7 +13,7 @@ include Makefile.win32
 
 SOEXT = dll
 
-CFLAGS = -funsigned-char -g -Wall
+CFLAGS +=
 LDLIBS += -liconv
 
 ###########################################################
