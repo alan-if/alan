@@ -124,9 +124,6 @@ void print(Aword fpos, Aword len)
                 str[i] = ch;
             }
             str[i] = '\0';
-#if ISO == 0
-            fromIso(str, str);
-#endif
             output(str);
         }
 

@@ -333,32 +333,6 @@ static unsigned char dosMap[256]
   }
 }
 
-/*----------------------------------------------------------------------
-
-  fromIso
-
-  Converts a string from global Iso format to native. Only used in
-  interpreter so character set is known at compile time.
-
-  */
-void fromIso(char copy[],       /* OUT - Mapped string */
-         char original[])   /* IN - string to convert */
-{
-#if ISO == 0
-    static unsigned char map[256]
-        = {
-    };
-    unsigned char *o, *c;
-
-    for (o = (unsigned char *)original, c = (unsigned char *)copy; *o; o++, c++)
-        *c = map[*o];
-    *c = '\0';
-#else
-    if (copy != original)
-        (void)strcpy(copy, original);
-#endif
-}
-
 
 /*======================================================================*/
 int littleEndian() {
