@@ -16,18 +16,10 @@
 #include <stdbool.h>
 
 /* Place definitions of OS and compiler here if necessary */
-/* TODO: unix - what unix? Only controls command line editing in readline.c */
-#ifndef __unix__
-#ifdef unix
-#define __unix__
-#endif
-#endif
 
-#ifdef __APPLE__
-// At least GCC 3.x does define this for Darwin
-#define __macosx__
-#define __unix__
-#endif
+/* For command line editing in "pure" (non-Glk, non-Gargoyle)
+ * interpreters, we need termio, assume it's available */
+#define HAVE_TERMIO
 
 #ifdef __MINGW32__
 #define __windows__
