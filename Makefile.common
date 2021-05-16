@@ -20,6 +20,7 @@ clean:
 	-$(MAKE) -C interpreter clean
 	-$(MAKE) -C converter clean
 	-rm -f alan3*.tgz
+	-rm -rf coverage.info coverage-report
 
 .PHONY: unit
 unit:
@@ -50,6 +51,25 @@ cross:
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
 ci: buildnumbers all cross package
+
+.PHONY:
+coverage: COVERAGE=--coverage
+coverage:
+	$(MAKE) -C compiler COVERAGE=$(COVERAGE)
+	$(MAKE) -C interpreter COVERAGE=$(COVERAGE)
+	-$(MAKE) -C compiler test
+	-$(MAKE) -C interpreter test
+	$(MAKE) coverage-report
+
+coverage-report:
+	lcov -q -c -d . --exclude /usr/\* -o coverage.info
+	@# Re-create separate gcov files from total.info for Emacs cov-mode
+	@# with coverage in the fringe area and auto-update. Nice!
+	@# See https://github.com/AdamNiederer/cov
+	if command -v info2gcov > /dev/null 2>&1 ; then \
+		info2gcov -q coverage.info ; \
+	fi
+	genhtml -q -o coverage-report coverage.info
 
 ###########################################################
 # Snapshot boiler plate for non-major platforms

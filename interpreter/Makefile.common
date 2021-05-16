@@ -38,8 +38,9 @@ $(ARUNOBJDIR):
 	mkdir $(ARUNOBJDIR)
 
 arun: CFLAGS += $(COVERAGE)
+arun: LDFLAGS += $(COVERAGE)
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(LINK) $(COVERAGE) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
+	$(LINK) $(LDFLAGS) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
 	cp -f $@$(EXEEXT) ../bin/
 
 
@@ -149,7 +150,8 @@ unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) 
 	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
 
 # ... that can be run with the cgreen runner
-cgreenrunnertests: CFLAGS += $(CGREENINCLUDE)
+cgreenrunnertests: CFLAGS += $(CGREENINCLUDE) $(COVERAGE)
+cgreenrunnertests: LDFLAGS += $(COVERAGE)
 cgreenrunnertests: unittests.$(SOEXTENSION)
 	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
@@ -161,6 +163,8 @@ cgreenrunnertests: unittests.$(SOEXTENSION)
 ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep set
 
 isolated_unittests: SUITE = Interpreter
+isolated_unittests: CFLAGS += $(COVERAGE)
+isolated_unittests: LDFLAGS += $(COVERAGE)
 
 include ../mk/isolated_unittests.mk
 

@@ -21,3 +21,4 @@ gargoyle-*_tmp.iss
 *.orig
 *.a3s
 *.a3t
+*.gcov
