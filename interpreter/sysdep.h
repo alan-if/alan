@@ -33,10 +33,6 @@
 #define __windows__
 #endif
 
-#ifdef __CYGWIN32__
-#define __cygwin__
-#endif
-
 #ifdef HAVE_WINGLK
 #define HAVE_GLK
 #endif
