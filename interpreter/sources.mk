@@ -3,7 +3,10 @@ include ../mk/include_guard.mk
 #
 # Unittests are done using the excellent
 # CGreen unit test, stub and mocking framework by
-# Marcus Baker et al. (http://sourceforge.net/projects/cgreen)
+# Marcus Baker et al. (https://github.com/cgreen-devs/cgreen)
+
+# TODO: move all "old style" tests (xxxTests.c) to isolated
+# so that we can remove one type of linking and running
 
 # Either using its runner which discovers test automatically...
 # With everything mocked so they run in complete isolation...

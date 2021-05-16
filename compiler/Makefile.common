@@ -148,28 +148,24 @@ isolated_unittests: SUITE = Compiler
 include ../mk/isolated_unittests.mk
 
 ######################################################################
-#
-# coverage: Coverage
-#
-#   make coverage - rebuilds everything for coverage, runs all tests,
-#                   generates and opens report
-#   make coverage_build - builds what has changed for coverage
-#   make coverage_report - generates the report
+.PHONY: coverage
+coverage:
+	$(MAKE) clean
+	$(MAKE) COVERAGE=--coverage unit
+	$(MAKE) COVERAGE=--coverage alan
+	$(MAKE) test
+	$(MAKE) coverage-report
 
-coverage: clean coverage_build unit test coverage_report
-	open coverage/index.html
-
-coverage_build: CFLAGS += --coverage -fPIC
-coverage_build: LDFLAGS += --coverage
-
-coverage_build: alan unitbuild
-	@echo "***********************************"
-	@echo "Run your tests and then 'make coverage_report'"
-
-coverage_report:
-	lcov --capture --directory . -b . --output-file coverage_tmp.info
-	lcov --extract coverage_tmp.info '*.c' -o coverage.info
-	genhtml coverage.info --output coverage
+.PHONY: coverage-report
+coverage-report:
+	lcov -q -c -d . --exclude /usr/\* -o coverage.info
+	@# Re-create separate gcov files from total.info for Emacs cov-mode
+	@# with coverage in the fringe area and auto-update. Nice!
+	@# See https://github.com/AdamNiederer/cov
+	if command -v info2gcov > /dev/null 2>&1 ; then \
+		info2gcov -q coverage.info ; \
+	fi
+	genhtml -q -o coverage-report coverage.info
 
 #######################################################################
 #

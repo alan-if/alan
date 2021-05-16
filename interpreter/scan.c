@@ -78,7 +78,7 @@ static int lookup(char wrd[]) {
 
     // TODO: Why do we start at 0, is there a word code == 0?
     for (i = 0; !isEndOfArray(&dictionary[i]); i++) {
-        if (compareStrings(wrd, (char *) pointerTo(dictionary[i].string)) == 0) {
+        if (equalStrings(wrd, (char *) pointerTo(dictionary[i].string))) {
             return i;
         }
     }

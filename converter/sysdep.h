@@ -18,6 +18,7 @@
 #ifndef _SYSDEP_H_
 #define _SYSDEP_H_
 
+#include <stdbool.h>
 
 /* Place definitions of OS and compiler here if necessary */
 #ifndef __unix__
@@ -67,17 +68,10 @@
 
 
 #ifdef __STDC__
-#define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>
 #endif
 
-
-#ifdef __mac__
-#define _PROTOTYPES_
-#include <stdlib.h>
-#include <string.h>
-#endif
 
 /***********************/
 /* ISO character sets? */
@@ -101,14 +95,6 @@
 #define NATIVECHARSET 2
 #endif
 
-/* Old Macs uses other CHARSET, Mac OS X uses ISO */
-#ifdef __mac__
-#undef ISO
-#define ISO 0
-#undef NATIVECHARSET
-#define NATIVECHARSET 1
-#endif
-
 #endif
 
 /**************************/
@@ -116,23 +102,6 @@
 /**************************/
 #define READ_MODE "rb"
 #define WRITE_MODE "wb"
-
-
-/****************************/
-/* Allocates cleared bytes? */
-/****************************/
-
-#ifdef __CYGWIN__
-#define NOTCALLOC
-#endif
-
-#ifdef __MINGW32__
-#define NOTCALLOC
-#endif
-
-#ifdef __unix__
-#define NOTCALLOC
-#endif
 
 
 /****************/
@@ -170,44 +139,25 @@
 #  undef USE_READLINE
 #endif
 
-/* Special cases and definition overrides */
-#ifdef __unix__
-#define MULTI
-#endif
 
+/* Internal character functions */
+extern int isSpace(unsigned int c);      /* IN - Internal character to test */
+extern int isLower(unsigned int c);      /* IN - Internal character to test */
+extern int isUpper(unsigned int c);      /* IN - Internal character to test */
+extern int isLetter(unsigned int c);     /* IN - Internal character to test */
+extern int toLower(unsigned int c);      /* IN - Internal character to convert */
+extern int toUpper(unsigned int c);      /* IN - Internal character to convert */
+extern char *stringToLowerCase(char str[]); /* INOUT - Internal string to convert */
 
-/* Native character functions */
-extern int isSpace(unsigned int c);      /* IN - Native character to test */
-extern int isLower(unsigned int c);      /* IN - Native character to test */
-extern int isUpper(unsigned int c);      /* IN - Native character to test */
-extern int isLetter(unsigned int c);     /* IN - Native character to test */
-extern int toLower(unsigned int c);      /* IN - Native character to convert */
-extern int toUpper(unsigned int c);      /* IN - Native character to convert */
-extern char *strlow(char str[]); /* INOUT - Native string to convert */
-extern char *strupp(char str[]); /* INOUT - Native string to convert */
-
-/* ISO character functions */
-extern int isISOLetter(int c);  /* IN - ISO character to test */
-extern char IsoToLowerCase(int c); /* IN - ISO character to convert */
-extern char IsoToUpperCase(int c); /* IN - ISO character to convert */
-extern char *stringLower(char str[]); /* INOUT - ISO string to convert */
-extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
-extern int compareStrings(char str1[], char str2[]); /* Case-insensitive compare */
+extern bool equalStrings(char str1[], char str2[]); /* Case-insensitive compare */
 
 /* ISO string conversion functions */
 extern void toIso(char copy[],  /* OUT - Mapped string */
-          char original[], /* IN - string to convert */
-          int charset);	/* IN - The current character set */
-
-extern void fromIso(char copy[], /* OUT - Mapped string */
-            char original[]); /* IN - string to convert */
-
-extern void toNative(char copy[], /* OUT - Mapped string */
-             char original[], /* IN - string to convert */
-             int charset); /* IN - current character set */
+                  char original[], /* IN - string to convert */
+                  int charset);	/* IN - The current character set */
 
 extern int littleEndian(void);
 
 extern char *baseNameStart(char *fullPathName);
 
-#endif                          /* -- sysdep.h -- */
+#endif

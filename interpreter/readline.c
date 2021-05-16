@@ -272,7 +272,7 @@ static void delBwd(char ch);
 static void execute(KeyMap map[], unsigned char ch);
 
 #ifdef __unix__
-/* Only used on unix */
+/* Only used on unix - what unix? */
 static void escapeBracket3Hook(char ch);
 static void ignoreCh(char ch) {}
 

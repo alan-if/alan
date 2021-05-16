@@ -15,14 +15,6 @@ LDLIBS += -liconv
 SOEXTENSION = dylib
 
 
-##################################################################
-coverage: CFLAGS += --coverage
-coverage: LDFLAGS += --coverage
-.PHONY: coverage
-coverage: clean unit arun
-
-
-
 #--------------------------------------------------------------------
 #
 # GARARUN: a Gargoyle drop-in alan interpreter

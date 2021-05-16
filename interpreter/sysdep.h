@@ -18,6 +18,7 @@
 #ifndef _SYSDEP_H_
 #define _SYSDEP_H_
 
+#include <stdbool.h>
 
 /* Place definitions of OS and compiler here if necessary */
 #ifndef __unix__
@@ -67,7 +68,6 @@
 
 
 #ifdef __STDC__
-#define _PROTOTYPES_
 #include <stdlib.h>
 #include <string.h>
 #endif
@@ -102,23 +102,6 @@
 /**************************/
 #define READ_MODE "rb"
 #define WRITE_MODE "wb"
-
-
-/****************************/
-/* Allocates cleared bytes? */
-/****************************/
-
-#ifdef __CYGWIN__
-#define NOTCALLOC
-#endif
-
-#ifdef __MINGW32__
-#define NOTCALLOC
-#endif
-
-#ifdef __unix__
-#define NOTCALLOC
-#endif
 
 
 /****************/
@@ -164,9 +147,9 @@ extern int isUpper(unsigned int c);      /* IN - Internal character to test */
 extern int isLetter(unsigned int c);     /* IN - Internal character to test */
 extern int toLower(unsigned int c);      /* IN - Internal character to convert */
 extern int toUpper(unsigned int c);      /* IN - Internal character to convert */
-extern char *strlow(char str[]);         /* INOUT - Internal string to convert */
+extern char *stringToLowerCase(char str[]); /* INOUT - Internal string to convert */
 
-extern int compareStrings(char str1[], char str2[]); /* Case-insensitive compare */
+extern bool equalStrings(char str1[], char str2[]); /* Case-insensitive compare */
 
 /* ISO string conversion functions */
 extern void toIso(char copy[],  /* OUT - Mapped string */

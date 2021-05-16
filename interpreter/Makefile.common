@@ -174,9 +174,32 @@ clean:
 	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) $(GLKARUNOBJDIR) arun arun.exe glkarun winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
 
 
+##################################################################
+coverage: CFLAGS += --coverage
+coverage: LDFLAGS += --coverage
+.PHONY: coverage
+coverage:
+	$(MAKE) clean
+	$(MAKE) COVERAGE=--coverage unit
+	$(MAKE) COVERAGE=--coverage arun
+	$(MAKE) test
+	$(MAKE) coverage-report
+
+coverage-report:
+	lcov -q -c -d . --exclude /usr/\* -o coverage.info
+	@# Re-create separate gcov files from total.info for Emacs cov-mode
+	@# with coverage in the fringe area and auto-update. Nice!
+	@# See https://github.com/AdamNiederer/cov
+	if command -v info2gcov > /dev/null 2>&1 ; then \
+		info2gcov -q coverage.info ; \
+	fi
+	genhtml -q -o coverage-report coverage.info
+
+
+
 ###################################################################
 #
-# teest: Run all tests!
+# test: Run all tests!
 #
 # The interpreter is tested through the regression tests
 #

@@ -680,8 +680,8 @@ bool contains(Aptr string, Aptr substring)
 {
     bool found;
 
-    strlow((char *)fromAptr(string));
-    strlow((char *)fromAptr(substring));
+    stringToLowerCase((char *)fromAptr(string));
+    stringToLowerCase((char *)fromAptr(substring));
 
     found = (strstr((char *)fromAptr(string), (char *)fromAptr(substring)) != 0);
 
@@ -694,8 +694,8 @@ bool streq(char a[], char b[])
 {
     bool eq;
 
-    strlow(a);
-    strlow(b);
+    stringToLowerCase(a);
+    stringToLowerCase(b);
 
     eq = (strcmp(a, b) == 0);
 

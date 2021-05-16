@@ -3,12 +3,6 @@
 
   This file contains necessary system dependent routines.
 
-  Routines possibly not implemented in the current environment:
-
-  strdup()
-  strlow()
-  strupp()
-
   Notes on string handling:
 
   - Native - means the "natural" character set/encoding for the
@@ -169,7 +163,7 @@ int toUpper(unsigned int c)              /* IN - Internal character to convert *
 #endif
 }
 
-char *strlow(char str[])        /* INOUT - Internal string to convert */
+char *stringToLowerCase(char str[])        /* INOUT - Internal string to convert */
 {
   char *s;
 
@@ -180,17 +174,17 @@ char *strlow(char str[])        /* INOUT - Internal string to convert */
 
 
 /*----------------------------------------------------------------------*/
-int compareStrings(char *str1, char *str2)
+bool equalStrings(char *str1, char *str2)
 {
   char *s1 = str1, *s2 = str2;
 
   while (*s1 != '\0' && *s2 != '\0') {
-    if (toLower(*s1) < toLower(*s2)) return -1;
-    if (toLower(*s1) > toLower(*s2)) return 1;
+    if (toLower(*s1) != toLower(*s2))
+        return false;
     s1++;
     s2++;
   }
-  return toLower(*s2) - toLower(*s1);
+  return toLower(*s1) == toLower(*s2);
 }
 
 

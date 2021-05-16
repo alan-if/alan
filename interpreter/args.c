@@ -66,7 +66,7 @@ static bool isQuoted(char *argument) {
 /*----------------------------------------------------------------------*/
 static char *addAcodeExtension(char *adventureFileName) {
     if (strlen(adventureFileName) < strlen(ACODEEXTENSION)
-        || compareStrings(&adventureFileName[strlen(adventureFileName)-4], ACODEEXTENSION) != 0) {
+        || !equalStrings(&adventureFileName[strlen(adventureFileName)-4], ACODEEXTENSION)) {
         adventureFileName = realloc(adventureFileName, strlen(adventureFileName)+strlen(ACODEEXTENSION)+1);
         strcat(adventureFileName, ACODEEXTENSION);
     }
