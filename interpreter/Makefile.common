@@ -12,9 +12,10 @@ endif
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info in app and in filenames
   BUILDVERSION = -$(BUILDNUMBER)
+  CFLAGS_BUILD = -DBUILD=$(BUILDNUMBER)
 endif
 
-CFLAGS += -g -Og -Wall -MMD -funsigned-char -DBUILD=$(BUILDNUMBER)
+CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD)
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)

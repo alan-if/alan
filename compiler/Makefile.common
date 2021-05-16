@@ -9,11 +9,12 @@ include Makefile.tm
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
   BUILDVERSION = -$(BUILDNUMBER)
+  CFLAGS_BUILD = -DBUILD=$(BUILDNUMBER)
 endif
 
 # NOTE: for unittests -DUNITTESTING is automatically added by
 # ../mk/isolated_unittests.mk so you can override system functions
-CFLAGS += -g -Og -Wall -MMD -I../interpreter -DBUILD=$(BUILDNUMBER)
+CFLAGS += -g -Og -Wall -MMD -I../interpreter $(CFLAGS_BUILD)
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
