@@ -9,7 +9,7 @@ include ../mk/include_guard.mk
 # primary platform...
 VERSION := $(shell cat ../NEXTRELEASE)
 
-CFLAGS += -Wno-invalid-source-encoding -funsigned-char
+CFLAGS +=
 LDLIBS += -liconv
 
 SOEXTENSION = dylib

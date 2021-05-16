@@ -4,7 +4,7 @@ include ../mk/include_guard.mk
 # Makefile settings for compiling Alan compiler on MacOS
 #
 
-CFLAGS += -funsigned-char -Wno-invalid-source-encoding
+CFLAGS +=
 LDLIBS += -liconv
 
 # Sharable libraries extension
