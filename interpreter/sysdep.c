@@ -227,12 +227,12 @@ int compareStrings(char *str1, char *str2)
   char *s1 = str1, *s2 = str2;
 
   while (*s1 != '\0' && *s2 != '\0') {
-    if (IsoToLowerCase(*s1) < IsoToLowerCase(*s2)) return -1;
-    if (IsoToLowerCase(*s1) > IsoToLowerCase(*s2)) return 1;
+    if (toLower(*s1) < toLower(*s2)) return -1;
+    if (toLower(*s1) > toLower(*s2)) return 1;
     s1++;
     s2++;
   }
-  return IsoToLowerCase(*s2) - IsoToLowerCase(*s1);
+  return toLower(*s2) - toLower(*s1);
 }
 
 

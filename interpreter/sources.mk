@@ -17,6 +17,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	save \
 	rules \
 	stack \
+	sysdep \
 	dictionary \
 
 # ... or with a common runner (much less clean... but better than ...)
