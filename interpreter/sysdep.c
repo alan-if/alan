@@ -378,24 +378,6 @@ void fromIso(char copy[],       /* OUT - Mapped string */
 }
 
 
-/*----------------------------------------------------------------------
-  toNative
-
-  Converts the incoming string to the native character set from any of
-  the others. The original is in the current character set which in
-  the case of the compiler might be other than the native.
-
-  */
-void toNative(char copy[],      /* OUT - Mapped  string */
-              char original[],	/* IN - string to convert */
-              int charset)      /* IN - the current character set */
-{
-  toIso(copy, original, charset);
-  if (NATIVECHARSET != 0)
-    fromIso(copy, copy);
-}
-
-
 /*======================================================================*/
 int littleEndian() {
   int x = 1;
