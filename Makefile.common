@@ -64,8 +64,9 @@ coverage:
 	-$(MAKE) -C interpreter test
 	$(MAKE) coverage-report
 
+.PHONY:coverage-report
 coverage-report:
-	lcov -q -c -d . --exclude /usr/\* -o coverage.info
+	lcov -q -c -d . --exclude \*/usr/\* -o coverage.info
 	@# Re-create separate gcov files from total.info for Emacs cov-mode
 	@# with coverage in the fringe area and auto-update. Nice!
 	@# See https://github.com/AdamNiederer/cov
