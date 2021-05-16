@@ -179,48 +179,6 @@ char *strlow(char str[])        /* INOUT - Internal string to convert */
 }
 
 
-char *strupp(char str[])        /* INOUT - Internal string to convert */
-{
-  char *s;
-
-  for (s = str; *s; s++)
-    *s = toUpper(*s);
-  return(str);
-}
-
-
-/* The following work on ISO characters */
-
-int isLowerCase(unsigned int c)          /* IN - ISO character to test */
-{
-  int i;
-  for (i = 0; i < strlen(lowerCaseCharacters); i++)
-    if (((unsigned int)lowerCaseCharacters[i]) == c) return 1;
-  return 0;
-}
-
-
-int isUpperCase(unsigned int c)          /* IN - ISO character to test */
-{
-  int i;
-  for (i = 0; i < strlen(upperCaseCharacters); i++)
-    if (upperCaseCharacters[i] == c) return 1;
-  return 0;
-}
-
-
-int isISOLetter(int c)          /* IN - ISO character to test */
-{
-  return (isLowerCase(c) || isUpperCase(c));
-}
-
-
-char IsoToLowerCase(int c)         /* IN - ISO character to convert */
-{
-  return (isUpperCase(c)? c + ('a' - 'A'): c);
-}
-
-
 /*----------------------------------------------------------------------*/
 int compareStrings(char *str1, char *str2)
 {

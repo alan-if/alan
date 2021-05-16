@@ -88,7 +88,7 @@ static int lookup(char wrd[]) {
 
 /*----------------------------------------------------------------------*/
 static bool isWordCharacter(int ch) {
-    return isISOLetter(ch) || isdigit(ch) || ch == '\'' || ch == '-' || ch == '_';
+    return isLetter(ch) || isdigit(ch) || ch == '\'' || ch == '-' || ch == '_';
 }
 
 /*----------------------------------------------------------------------*/
@@ -124,7 +124,7 @@ static char *gettoken(char *buf) {
     while (*marker != '\0' && isSpace(*marker) && *marker != '\n')
         marker++;
     buf = marker;
-    if (isISOLetter(*marker))
+    if (isLetter(*marker))
         readWord(&marker);
     else if (isdigit((int)*marker))
         readNumber(&marker);
@@ -320,7 +320,7 @@ void scan(void) {
         playerWords[i].start = token;
         playerWords[i].end = strchr(token, '\0');
 
-        if (isISOLetter(token[0])) {
+        if (isLetter(token[0])) {
             i = handle_word(i);
         } else if (isdigit((int)token[0]) || token[0] == '\"') {
             i = handle_literal(i);
