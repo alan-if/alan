@@ -147,14 +147,9 @@ extern int isUpper(unsigned int c);      /* IN - Internal character to test */
 extern int isLetter(unsigned int c);     /* IN - Internal character to test */
 extern int toLower(unsigned int c);      /* IN - Internal character to convert */
 extern int toUpper(unsigned int c);      /* IN - Internal character to convert */
-extern char *stringToLowerCase(char str[]); /* INOUT - Internal string to convert */
+extern void stringToLowerCase(char str[]); /* INOUT - Internal string to convert */
 
 extern bool equalStrings(char str1[], char str2[]); /* Case-insensitive compare */
-
-/* ISO string conversion functions */
-extern void toIso(char copy[],  /* OUT - Mapped string */
-                  char original[], /* IN - string to convert */
-                  int charset);	/* IN - The current character set */
 
 extern int littleEndian(void);
 

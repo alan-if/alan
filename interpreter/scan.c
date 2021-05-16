@@ -40,8 +40,7 @@ bool continued = FALSE;
 
 
 /* PRIVATE DATA */
-static char buf[1000]; /* The input buffer */
-static char isobuf[1000]; /* The input buffer in ISO */
+static char input_buffer[1000]; /* The input buffer */
 static bool eol = TRUE; /* Looking at End of line? Yes, initially */
 static char *token = NULL;
 
@@ -162,7 +161,7 @@ static void getLine(void) {
         printPrompt();
 
 #ifdef USE_READLINE
-        if (!readline(buf))
+        if (!readline(input_buffer))
 #else
         fflush(stdout);
         if (fgets(buf, LISTLEN, stdin) == NULL)
@@ -175,7 +174,7 @@ static void getLine(void) {
         getPageSize();
         anyOutput = FALSE;
         if (commandLogOption || transcriptOption) {
-            char *converted = ensureExternalEncoding(buf);
+            char *converted = ensureExternalEncoding(input_buffer);
             if (commandLogOption) {
 #ifdef HAVE_GLK
                 glk_put_string_stream(commandLogFile, converted);
@@ -198,17 +197,12 @@ static void getLine(void) {
         }
 
         /* If the player inputs an empty command he forfeited his command */
-        if (strlen(buf) == 0) {
+        if (strlen(input_buffer) == 0) {
             clearWordList(playerWords);
             longjmp(forfeitLabel, 0);
         }
 
-#if ISO == 0
-        toIso(isobuf, buf, NATIVECHARSET);
-#else
-        strcpy(isobuf, buf);
-#endif
-        token = gettoken(isobuf);
+        token = gettoken(input_buffer);
         if (token != NULL) {
             if (strcmp("debug", token) == 0 && header->debug) {
                 debugOption = TRUE;
