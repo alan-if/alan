@@ -73,12 +73,6 @@
 #endif
 
 
-#ifdef __mac__
-#define _PROTOTYPES_
-#include <stdlib.h>
-#include <string.h>
-#endif
-
 /***********************/
 /* ISO character sets? */
 /***********************/
@@ -99,14 +93,6 @@
 #define ISO 1
 #undef NATIVECHARSET
 #define NATIVECHARSET 2
-#endif
-
-/* Old Macs uses other CHARSET, Mac OS X uses ISO */
-#ifdef __mac__
-#undef ISO
-#define ISO 0
-#undef NATIVECHARSET
-#define NATIVECHARSET 1
 #endif
 
 #endif
