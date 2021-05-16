@@ -111,10 +111,10 @@
 #endif
 
 
-/* ISO character functions */
+/* Internal (ISO) character functions */
 extern int compareStrings(char str1[], char str2[]); /* Case-insensitive compare */
 
-/* ISO string conversion functions */
+/* String conversion from some charset/encoding - Needed? */
 extern void toIso(char copy[],      /* OUT - Mapped string */
                   char original[],  /* IN - string to convert */
                   CharSet charset); /* IN - The current character set */

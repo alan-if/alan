@@ -170,9 +170,6 @@ extern char *strupp(char str[]); /* INOUT - Native string to convert */
 /* ISO character functions */
 extern int isISOLetter(int c);  /* IN - ISO character to test */
 extern char IsoToLowerCase(int c); /* IN - ISO character to convert */
-extern char IsoToUpperCase(int c); /* IN - ISO character to convert */
-extern char *stringLower(char str[]); /* INOUT - ISO string to convert */
-extern char *stringUpper(char str[]); /* INOUT - ISO string to convert */
 extern int compareStrings(char str1[], char str2[]); /* Case-insensitive compare */
 
 /* ISO string conversion functions */

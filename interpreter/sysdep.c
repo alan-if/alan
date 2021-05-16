@@ -116,11 +116,10 @@ static char upperCaseCharacters[] =
 
 #else
 
-/* These work on native (ISO8859-1) character sets */
+/* These work on internal (ISO8859-1) character sets */
 
 static unsigned char spaceCharacters[] = " \t\n";
 
-/* Use native characters */
 /*                                        "abcdefghijklmnopqrstuvwxyz   à   á   â   ã   ä   å   æ   ç   è   é   ê   ë   ì   í   î   ï   ð   ñ   ò   ó   ô   õ   ö   ø   ù   ú   û   ü   ý   þ   ÿ"; */
 static const char lowerCaseCharacters[] = "abcdefghijklmnopqrstuvwxyz\xE0\xE1\xE2\xE3\xE4\xE5\xE6\xE7\xE8\xE9\xEA\xEB\xEC\xED\xEE\xEF\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF8\xF9\xFA\xFB\xFC\xFF\xFE\xFF";
 
@@ -129,30 +128,30 @@ static const char upperCaseCharacters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\xC0\xC1\xC
 
 #endif
 
-int isSpace(unsigned int c)              /* IN - Native character to test */
+int isSpace(unsigned int c)              /* IN - Internal character to test */
 {
     return (c != '\0' && strchr((char *)spaceCharacters, c) != 0);
 }
 
 
-int isLower(unsigned int c)              /* IN - Native character to test */
+int isLower(unsigned int c)              /* IN - Internal character to test */
 {
     return (c != '\0' && strchr((char *)lowerCaseCharacters, c) != 0);
 }
 
 
-int isUpper(unsigned int c)              /* IN - Native character to test */
+int isUpper(unsigned int c)              /* IN - Internal character to test */
 {
     return (c != '\0' && strchr((char *)upperCaseCharacters, c) != 0);
 }
 
-int isLetter(unsigned int c)             /* IN - Native character to test */
+int isLetter(unsigned int c)             /* IN - Internal character to test */
 {
   return(c != '\0' && (isLower(c)? !0: isUpper(c)));
 }
 
 
-int toLower(unsigned int c)              /* IN - Native character to convert */
+int toLower(unsigned int c)              /* IN - Internal character to convert */
 {
 #ifdef HAVE_GLK
   return glk_char_to_lower(c);
@@ -161,7 +160,7 @@ int toLower(unsigned int c)              /* IN - Native character to convert */
 #endif
 }
 
-int toUpper(unsigned int c)              /* IN - Native character to convert */
+int toUpper(unsigned int c)              /* IN - Internal character to convert */
 {
 #ifdef HAVE_GLK
   return glk_char_to_upper(c);
@@ -170,7 +169,7 @@ int toUpper(unsigned int c)              /* IN - Native character to convert */
 #endif
 }
 
-char *strlow(char str[])        /* INOUT - Native string to convert */
+char *strlow(char str[])        /* INOUT - Internal string to convert */
 {
   char *s;
 
@@ -180,7 +179,7 @@ char *strlow(char str[])        /* INOUT - Native string to convert */
 }
 
 
-char *strupp(char str[])        /* INOUT - Native string to convert */
+char *strupp(char str[])        /* INOUT - Internal string to convert */
 {
   char *s;
 
@@ -221,31 +220,6 @@ char IsoToLowerCase(int c)         /* IN - ISO character to convert */
   return (isUpperCase(c)? c + ('a' - 'A'): c);
 }
 
-
-char IsoToUpperCase(int c)         /* IN - ISO character to convert */
-{
-  return (isLowerCase(c)? c - ('a' - 'A'): c);
-}
-
-
-char *stringLower(char str[])   /* INOUT - ISO string to convert */
-{
-  char *s;
-
-  for (s = str; *s; s++)
-    *s = IsoToLowerCase(*s);
-  return(str);
-}
-
-
-char *stringUpper(char str[])   /* INOUT - ISO string to convert */
-{
-  char *s;
-
-  for (s = str; *s; s++)
-    *s = IsoToUpperCase(*s);
-  return(str);
-}
 
 /*----------------------------------------------------------------------*/
 int compareStrings(char *str1, char *str2)

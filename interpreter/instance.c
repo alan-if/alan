@@ -452,7 +452,7 @@ void sayInstance(int instance)
                     /* ... and then the noun, capitalized if necessary */
                     if (header->capitalizeNouns) {
                         capitalized = strdup((char *)pointerTo(dict[wrds[params[p].lastWord]].wrd));
-                        capitalized[0] = IsoToUpperCase(capitalized[0]);
+                        capitalized[0] = toUpper(capitalized[0]);
                         output(capitalized);
                         deallocate(capitalized);
                     } else
