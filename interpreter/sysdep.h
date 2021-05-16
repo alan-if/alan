@@ -9,11 +9,6 @@
   - os name (WIN32, Cygwin, MSYS2...)
   - compiler name and version (DJGPP, CYGWIN, GCC271, THINK-C, ...)
 
-  The set symbols should indicate if a feature is on or off like the GNU
-  AUTOCONFIG package does.
-
-  This is not completely done yet!
-
 \*----------------------------------------------------------------------*/
 #ifndef _SYSDEP_H_
 #define _SYSDEP_H_
@@ -21,6 +16,7 @@
 #include <stdbool.h>
 
 /* Place definitions of OS and compiler here if necessary */
+/* TODO: unix - what unix? Only controls command line editing in readline.c */
 #ifndef __unix__
 #ifdef unix
 #define __unix__
@@ -124,10 +120,10 @@
 /*******************************/
 
 #ifdef HAVE_GLK
-#  undef HAVE_ANSI /* don't need ANSI */
+#  undef HAVE_ANSI_CONTROL /* don't need ANSI */
 #else
 #  ifdef __CYGWIN__
-#    define HAVE_ANSI
+#    define HAVE_ANSI_CONTROL
 #  endif
 #endif
 

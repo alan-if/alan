@@ -150,7 +150,7 @@ void statusline(void)
 
     glk_set_window(glkMainWin);
 #else
-#ifdef HAVE_ANSI
+#ifdef HAVE_ANSI_CONTROL
     char line[100];
     int i;
     int pcol = col;

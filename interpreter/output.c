@@ -120,7 +120,7 @@ void clear(void)
 #ifdef HAVE_GLK
     glk_window_clear(glkMainWin);
 #else
-#ifdef HAVE_ANSI
+#ifdef HAVE_ANSI_CONTROL
     if (!statusLineOption) return;
     printf("\x1b[2J");
     printf("\x1b[%d;1H", pageLength);
