@@ -101,17 +101,6 @@ endif
 test :
 	@cd ..; bin/jregr -bin bin -dir converter/testing $(JREGROUTPUT)
 
-
-#
-# Common sysdep
-#
-sysdep.c: ../interpreter/sysdep.c
-	cp -f ../interpreter/sysdep.c .
-	chmod a-w sysdep.c
-
-sysdep.h: ../interpreter/sysdep.h
-	cp -f ../interpreter/sysdep.h .
-	chmod a-w sysdep.h
 #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
