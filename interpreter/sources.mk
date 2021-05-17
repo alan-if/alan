@@ -12,16 +12,17 @@ include ../mk/include_guard.mk
 # With everything mocked so they run in complete isolation...
 MODULES_WITH_ISOLATED_UNITTESTS = \
 	compatibility \
+	dictionary \
 	exe \
 	instance \
 	lists \
 	literal \
 	memory \
-	save \
+	readline \
 	rules \
+	save \
 	stack \
 	sysdep \
-	dictionary \
 
 # ... or with a common runner (much less clean... but better than ...)
 MODULES_WITH_UNITTESTS_USING_RUNNER = \
