@@ -138,10 +138,12 @@ void analyzeExits(List *exts, Context *context)
         /* Then the directions in the other EXITs */
         for (lst = ext->next; lst != NULL; lst = lst->next) {
             for (other = lst->member.ext->directions; other != NULL; other = other->next)
-                if (other->member.id->symbol->code == dir->member.id->symbol->code) {
-                    lmlog(&other->member.id->srcp, 203, sevWAR,
-                          other->member.id->string);
-                    break;
+                if (other->member.id->symbol && dir->member.id->symbol)
+                    /* Not error symbols... */
+                    if (other->member.id->symbol->code == dir->member.id->symbol->code) {
+                        lmlog(&other->member.id->srcp, 203, sevWAR,
+                              other->member.id->string);
+                        break;
                 }
         }
     }
