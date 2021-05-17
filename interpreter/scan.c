@@ -174,6 +174,7 @@ static void getLine(void) {
         getPageSize();
         anyOutput = FALSE;
         if (commandLogOption || transcriptOption) {
+            /* Command log ("solution") needs to be in external encoding even for GLK terps */
             char *converted = ensureExternalEncoding(input_buffer);
             if (commandLogOption) {
 #ifdef HAVE_GLK

@@ -164,28 +164,23 @@ void printAndLog(char string[])
         // output here as GLK formats output for the terminal. Non-GLK
         // terps will format all output in justify().  Using 70-char
         // wide transcript lines.
+        /* The transcript file should be generated in external coding even for GLK terps */
         stringCopy = strdup(string);  /* Make sure string is modifiable */
         stringPart = stringCopy;
         while (strlen(stringPart) > 70-column) {
             int p;
             for (p = 70-column; p>0 && !isspace((int)stringPart[p]); p--);
             stringPart[p] = '\0';
-            if (encodingOption == ENCODING_UTF) {
-                char *converted = ensureExternalEncoding(stringPart);
-                glk_put_string_stream(transcriptFile, converted);
-                free(converted);
-            } else
-                glk_put_string_stream(transcriptFile, stringPart);
+            char *converted = ensureExternalEncoding(stringPart);
+            glk_put_string_stream(transcriptFile, converted);
+            free(converted);
             glk_put_string_stream(transcriptFile, "\n");
             column = 0;
             stringPart = &stringPart[p+1];
         }
-        if (encodingOption == ENCODING_UTF) {
-            char *converted = ensureExternalEncoding(stringPart);
-            glk_put_string_stream(transcriptFile, converted);
-            free(converted);
-        } else
-            glk_put_string_stream(transcriptFile, stringPart);
+        char *converted = ensureExternalEncoding(stringPart);
+        glk_put_string_stream(transcriptFile, converted);
+        free(converted);
         column = updateColumn(column, stringPart);
         free(stringCopy);
     }
