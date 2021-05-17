@@ -20,7 +20,8 @@ Describe(Readline);
 BeforeEach(Readline) {}
 AfterEach(Readline) {}
 
-Ensure(Readline, can_have_tests) {
+Ensure(Readline, can_have_tests_with_mocked_read) {
     char buffer[100];
+    expect(mocked_read);
     readline(buffer);
 }
