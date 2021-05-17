@@ -75,6 +75,20 @@ coverage-report:
 	fi
 	genhtml -q -o coverage-report coverage.info
 
+
+###########################################################
+# Regularly you should run this to ensure that story/game
+# files created on other platforms can be run on this.
+# It also creates a new such game/story file from this
+# platform that you should check in.
+.PHONY: platform-check
+platform-check:
+	bin/jregr -bin bin -dir regression/platforms
+	# Generate a new .a3c file for this platform that can be committed
+	# so that it can be tested on other platforms
+	cd regression/platforms; cp platforms.alan $(OS).alan; ../../bin/alan $(OS); rm $(OS).alan
+
+
 ###########################################################
 # Snapshot boiler plate for non-major platforms
 # specifics in Makefile.<platform>
