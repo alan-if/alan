@@ -137,12 +137,11 @@ UNITTESTS_OBJDIR = .unittests
 
 CGREENLINKLIB ?= -lcgreen
 
-LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS = ${subst readline,readline.mock,$(UNITTESTS_USING_RUNNER_SRCS)}
-UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
-UNITTESTS_ALL_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTS_ALL_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
+LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS = ${subst readline,readline.mock,$(LINKED_UNITTESTS_SRCS)}
+LINKED_UNITTESTS_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
 
 # Dependencies, if they don't exist yet
--include $(UNITTESTS_USING_RUNNER_OBJECTS:.o=.d)
+-include $(LINKED_UNITTESTS_OBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
 $(UNITTESTS_OBJDIR)/%.o: %.c
@@ -153,12 +152,11 @@ $(UNITTESTS_OBJDIR)/%_tests.o: %_tests.c
 $(UNITTESTSOBJECTS): | $(UNITTESTS_OBJDIR)
 
 # Build one DLL with all runner tests...
-unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
+unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(LINKED_UNITTESTS_OBJECTS) sources.mk
+	$(LINK) -shared -o $@ $(LINKED_UNITTESTS_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.$(SOEXTENSION)
-	echo CGREENINCLUDE=$(CGREENINCLUDE)
 	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
 #####################################################################
