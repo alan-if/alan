@@ -19,10 +19,11 @@
 
 /* For command line editing in "pure" (non-Glk, non-Gargoyle)
  * interpreters, we need termio, assume it's available */
-#define HAVE_TERMIO
+#define HAVE_TERMIOS
 
 #ifdef __MINGW32__
 #define __windows__
+#undef HAVE_TERMIOS
 #endif
 
 #ifdef HAVE_WINGLK
@@ -93,13 +94,13 @@
 /****************/
 
 #ifdef HAVE_GLK
-#  undef HAVE_TERMIO   /* don't need TERMIO */
+#  undef HAVE_TERMIOS   /* don't need TERMIO */
 #else
 #  ifdef __CYGWIN__
-#    define HAVE_TERMIO
+#    define HAVE_TERMIOS
 #  endif
 #  ifdef __unix__
-#    define HAVE_TERMIO
+#    define HAVE_TERMIOS
 #  endif
 #endif
 

@@ -9,7 +9,7 @@
 #include "sysdep.h"
 
 
-#ifdef HAVE_TERMIO
+#ifdef HAVE_TERMIOS
 
 #ifdef __linux__
 #include <sys/ioctl.h>
@@ -20,7 +20,7 @@
 #include <sys/ioctl.h>
 #endif
 
-#endif /* HAVE_TERMIO */
+#endif /* HAVE_TERMIOS */
 
 #ifdef HAVE_GLK
 #include "glkio.h"
@@ -75,7 +75,7 @@ void getPageSize(void)
     pageWidth = 0;
 
 #else
-#ifdef HAVE_TERMIO
+#ifdef HAVE_TERMIOS
 
 #include <sys/termios.h>
 

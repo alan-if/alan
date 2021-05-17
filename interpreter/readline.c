@@ -191,7 +191,7 @@ bool readline(char buffer[])
 #include <stdio.h>
 #include <ctype.h>
 
-#ifdef HAVE_TERMIO
+#ifdef HAVE_TERMIOS
 #include <termios.h>
 #endif
 
@@ -202,7 +202,7 @@ bool readline(char buffer[])
 #include "memory.h"
 
 
-#ifdef HAVE_TERMIO
+#ifdef HAVE_TERMIOS
 /*----------------------------------------------------------------------
 
   termio handling
@@ -612,7 +612,7 @@ static void insertCh(char ch) {
 /*----------------------------------------------------------------------*/
 static void echoOff()
 {
-#ifdef HAVE_TERMIO
+#ifdef HAVE_TERMIOS
     newtermio();
 #else
 #ifdef __win__
@@ -629,7 +629,7 @@ static void echoOff()
 /*----------------------------------------------------------------------*/
 static void echoOn()
 {
-#ifdef HAVE_TERMIO
+#ifdef HAVE_TERMIOS
     restoretermio();
 #else
 #ifdef __win__
