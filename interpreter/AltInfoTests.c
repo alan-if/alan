@@ -30,8 +30,8 @@ Ensure(AltInfo, canDuplicateAltInfoArray) {
   int i;
 
   for (i = 0; i < COPYSIZE; i++) {
-	  original[i].instance = i;
-	  original[i].end = FALSE;
+      original[i].instance = i;
+      original[i].end = FALSE;
   }
   original[COPYSIZE].end = TRUE;
 
@@ -118,19 +118,4 @@ Ensure(AltInfo, findVerbEntryCanMatchNegativeVerbCode) {
     /* Meta verbs have negative codes in the entry, but since EOF is -1
      * a verb with code 1 has -2 in the entry */
     assert_that(findVerbEntry(2, entries), is_equal_to(&entries[1]));
-}
-
-
-TestSuite *altInfoTests() {
-  TestSuite *suite = create_test_suite();
-
-  add_test_with_context(suite, AltInfo, canPrimeAltInfo);
-  add_test_with_context(suite, AltInfo, canDuplicateAltInfoArray);
-  add_test_with_context(suite, AltInfo, canFindLastAltInfoIndex);
-  add_test_with_context(suite, AltInfo, canFindNextFreeAltInfo);
-  add_test_with_context(suite, AltInfo, canAddGlobalAlternatives);
-  add_test_with_context(suite, AltInfo, possibleIndicatesFalseOnEmptyAlternatives);
-  add_test_with_context(suite, AltInfo, canFindExistingVerbEntriesAndReturnsNullForOthers);
-
-  return suite;
 }

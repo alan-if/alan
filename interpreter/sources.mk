@@ -30,7 +30,6 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 MODULES_WITH_LINKED_UNITTESTS = \
 	args.c \
 	AltInfo.c \
-	act.c \
 	debug.c \
 	exe.c \
 	instance.c \
@@ -52,6 +51,7 @@ MODULES_WITH_LINKED_UNITTESTS = \
 MODULES_WITHOUT_UNITTESTS = \
 	Container.c \
 	Location.c \
+	act.c \
 	actor.c \
 	attribute.c \
 	checkentry.c \
