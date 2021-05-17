@@ -137,7 +137,13 @@ UNITTESTS_OBJDIR = .unittests
 
 CGREENLINKLIB ?= -lcgreen
 
+# Here's a little tricky, we need to use different readline.o for
+# linked and isolated unittests because we need the isolated one to
+# not call the real 'read()', so we replace the references in the
+# linked unittests with the mocked version symlinked to
+# readline.mock.c (we only need the references, noone is calling it)
 LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS = ${subst readline,readline.mock,$(LINKED_UNITTESTS_SRCS)}
+
 LINKED_UNITTESTS_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
 
 # Dependencies, if they don't exist yet
