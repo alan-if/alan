@@ -153,11 +153,6 @@ void setCharacterSet(CharSet set)
     smDFAcolVal = &smIsoDFAcolVal[0];
     smDFAerrCol = &smIsoDFAerrCol[0];
     break;
-  case CHARSET_DOS:
-    smMap = &smDosMap[0];
-    smDFAcolVal = &smDosDFAcolVal[0];
-    smDFAerrCol = &smDosDFAerrCol[0];
-    break;
   }
 }
 
@@ -272,15 +267,6 @@ int smScAction(
 
         smToken->fpos = ftell(txtfil); /* Remember where it starts */
         smThis->smText[smThis->smLength-1] = '\0';
-
-        /* Convert string from non ISO characters if needed, unless UTF-8 because then it is done in pre-read */
-        switch (currentCharSet) {
-        case CHARSET_ISO:
-        case CHARSET_UTF8:
-            break;
-        case CHARSET_DOS:
-            toIso((char *)&smThis->smText[1], (char *)&smThis->smText[1], currentCharSet);
-        }
 
         for (i = 1; i < smThis->smLength-1; i++) {
             /* Write the character */

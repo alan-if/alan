@@ -66,7 +66,7 @@ static SPA_FUN(addInclude)
 }
 
 /* Index of these must match the enum values in options.h */
-static char *charsets[] = {"iso", "dos", "utf8", NULL};
+static char *charsets[] = {"iso", "utf8", NULL};
 
 
 static SPA_DECLARE(arguments)
@@ -82,7 +82,7 @@ static SPA_DECLARE(options)
      SPA_FLAG("infos", "[don't] show informational messages", infoFlag, FALSE, NULL)
      SPA_FUNCTION("include <path>", "additional directory to search after current when\nlooking for imported files (may be repeated)", addInclude)
      SPA_FUNCTION("import <path>", "additional directory to search after current when\nlooking for imported files (may be repeated)", addInclude)
-     SPA_KEYWORD("charset <set>", "which character set source is in (iso|dos|utf8)", charset, charsets, CHARSET_ISO, NULL)
+     SPA_KEYWORD("charset <set>", "which character set source is in (iso|utf8)", charset, charsets, CHARSET_ISO, NULL)
      SPA_FLAG("ide", "list messages in a format appropriate for AlanIDE\n", ideFlag, FALSE, NULL)
      SPA_FLAG("cc", "show messages on the screen in old 'cc' format\n", ccFlag, FALSE, NULL)
      SPA_FLAG("full", "full source in the list file (or on screen)", fullFlag, FALSE, NULL)

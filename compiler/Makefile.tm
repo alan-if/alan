@@ -70,6 +70,7 @@ ifneq ($(TMHOME),)
 smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan -generate tables
 	imp $(IMPQ) alan.smt
+	# Split out tables from generated smScan.c to .tbl
 	sed -e "1,/START of scanning tables/d" -e "/END of scanning tables/,$$ d" -e "/static UByte1 smMap/,/;/d" -e "/static UByte1 smDFAcolVal/,/;/d" -e "/static UByte1 smDFAerrCol/,/;/d" smScan.c > smScan.tbl
 	echo "/* ISO scanner tables */" > smScan.iso.new
 	echo "UByte1 smIsoMap[256]={" >> smScan.iso.new
@@ -84,39 +85,7 @@ smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.iso.new
 	echo ";" >> smScan.iso.new
 	echo "" >> smScan.iso.new
-	if test -f smScan.iso ; then \
-		if cmp smScan.iso smScan.iso.new ; then \
-			rm smScan.iso.new ; \
-		else \
-			mv smScan.iso.new smScan.iso ; \
-		fi ; \
-	else \
-		mv smScan.iso.new smScan.iso ; \
-	fi ;
-	smk -set PC alan -generate tables
-	imp $(IMPQ) alan.smt
-	echo "/* DOS scanner tables */" > smScan.dos.new
-	echo "UByte1 smDosMap[256]={" >> smScan.dos.new
-	sed -e "1,/static UByte1 smMap/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
-	echo ";" >> smScan.dos.new
-	echo "" >> smScan.dos.new
-	echo "UByte1 smDosDFAcolVal[256]={" >> smScan.dos.new
-	sed -e "1,/static UByte1 smDFAcolVal/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
-	echo ";" >> smScan.dos.new
-	echo "" >> smScan.dos.new
-	echo "UByte1 smDosDFAerrCol[256]={" >> smScan.dos.new
-	sed -e "1,/static UByte1 smDFAerrCol/d" -e "/;/,$$ d" smScan.c >> smScan.dos.new
-	echo ";" >> smScan.dos.new
-	echo "" >> smScan.dos.new
-	if test -f smScan.dos ; then \
-		if cmp smScan.dos smScan.dos.new ; then \
-			rm smScan.dos.new ; \
-		else \
-			mv smScan.dos.new smScan.dos ; \
-		fi ; \
-	else \
-		mv smScan.dos.new smScan.dos ; \
-	fi
+	mv smScan.iso.new smScan.iso
 	sed -e "1,/START of scanning tables/w smScan.head" -e "/END of scanning tables/,$$ w smScan.tail" smScan.c > /dev/null
 	cat smScan.head > smScanx.c
 	echo "UByte1 *smMap;" >> smScanx.c
@@ -124,7 +93,6 @@ smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	echo "UByte1 *smDFAerrCol;" >> smScanx.c
 	echo "" >> smScanx.c
 	cat smScan.iso >> smScanx.c
-	cat smScan.dos >> smScanx.c
 	cat smScan.tbl >> smScanx.c
 	cat smScan.tail >> smScanx.c
 	dos2unix smScanx.c

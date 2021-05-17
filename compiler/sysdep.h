@@ -9,33 +9,12 @@
   - os name (WIN32, Solaris2, ...)
   - compiler name and version (DJGPP, CYGWIN, GCC271, THINK-C, ...)
 
-  The set symbols should indicate if a feature is on or off like the GNU
-  AUTOCONFIG package does. This is not anywhere near completion yet!
-
 \*----------------------------------------------------------------------*/
 #ifndef _SYSDEP_H_
 #define _SYSDEP_H_
 
 
 /* Place definitions of OS and compiler here if necessary */
-#ifndef __unix__
-#ifdef unix
-#define __unix__
-#endif
-#endif
-
-#ifdef __APPLE__
-#define __macosx__
-#define __unix__
-#endif
-
-#ifdef __MINGW32__
-#define __windows__
-#endif
-
-#ifdef __CYGWIN32__
-#define __cygwin__
-#endif
 
 
 /*----------------------------------------------------------------------
@@ -70,28 +49,6 @@
 #define WRITE_MODE "wb"
 #ifndef O_TEXT
 #define O_TEXT 0
-#endif
-
-
-/****************/
-/* Have termio? */
-/****************/
-
-#ifdef __cygwin__
-#define HAVE_TERMIO
-#endif
-
-#ifdef __unix__
-#define HAVE_TERMIO
-#endif
-
-
-/*******************************/
-/* Is ANSI control available?  */
-/*******************************/
-
-#ifdef __cygwin__
-#define HAVE_ANSI
 #endif
 
 
