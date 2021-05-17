@@ -15,6 +15,8 @@ ifneq ($(BUILDNUMBER),)
   CFLAGS_BUILD = -DBUILD=$(BUILDNUMBER)
 endif
 
+# NOTE: for unittests -DUNITTESTING is automatically added
+# so you can override system functions
 CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD)
 
 COMPILE = $(CC) $(CFLAGS)
@@ -116,27 +118,40 @@ cross-clean:
 # unit: Unit testing
 #
 # CGreen unit tests of two types:
-#	- using a main program
-#	- using cgreen-runner which finds and runs all tests in shared libraries
+#	- one library for all tests (*Tests.c) linked with every module that is needed
+#	- one library per module (*_tests.c) with every thing needed mocked away
 #
+# Having both these types is just a intermediate state as all
+# "linked_unittests" are being transformed into "isolated_unittests"
 .PHONY: unit
 ifneq ($(CGREEN),yes)
 unit:
 	@echo "No unit tests run, Cgreen not available"
 else
-unit: cgreenrunnertests isolated_unittests
+unit: linked_unittests isolated_unittests
+
+# Define UNITTESTING so modules can define system function calls with Cgreen mocks
+unit: CFLAGS += -DUNITTESTING
 endif
 
 UNITTESTS_OBJDIR = .unittests
 
 CGREENLINKLIB ?= -lcgreen
 
-UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTS_USING_MAIN_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
-UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTS_USING_RUNNER_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
+LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS = ${subst readline,readline.mock,$(UNITTESTS_USING_RUNNER_SRCS)}
+UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
 UNITTESTS_ALL_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTS_ALL_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
 
+x:
+	@echo UNITTESTS_USING_RUNNER_SRCS:
+	@echo $(UNITTESTS_USING_RUNNER_SRCS)
+	@echo LINKED_UNITTEST_WITH_MOCKED_READLINE_SRCS:
+	@echo $(LINKED_UNITTEST_WITH_MOCKED_READLINE_SRCS)
+	@echo UNITTESTS_USING_RUNNER_OBJECTS:
+	@echo $(UNITTESTS_USING_RUNNER_OBJECTS)
+
 # Dependencies, if they don't exist yet
--include $(UNITTESTS_USING_MAIN_OBJECTS:.o=.d)
+-include $(UNITTESTS_USING_RUNNER_OBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
 $(UNITTESTS_OBJDIR)/%.o: %.c
@@ -151,9 +166,9 @@ unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) 
 	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
 
 # ... that can be run with the cgreen runner
-cgreenrunnertests: CFLAGS += $(CGREENINCLUDE) $(COVERAGE)
-cgreenrunnertests: LDFLAGS += $(COVERAGE)
-cgreenrunnertests: unittests.$(SOEXTENSION)
+linked_unittests: CFLAGS += $(CGREENINCLUDE) $(COVERAGE) -fPIC
+linked_unittests: LDFLAGS += $(COVERAGE)
+linked_unittests: unittests.$(SOEXTENSION)
 	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
 #####################################################################
@@ -164,7 +179,7 @@ cgreenrunnertests: unittests.$(SOEXTENSION)
 ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep set
 
 isolated_unittests: SUITE = Interpreter
-isolated_unittests: CFLAGS += $(COVERAGE)
+isolated_unittests: CFLAGS += $(COVERAGE) -fPIC
 isolated_unittests: LDFLAGS += $(COVERAGE)
 
 include ../mk/isolated_unittests.mk

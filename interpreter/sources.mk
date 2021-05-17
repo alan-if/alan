@@ -24,7 +24,7 @@ MODULES_WITH_ISOLATED_UNITTESTS = \
 	stack \
 	sysdep \
 
-# ... or with a common runner (much less clean... but better than ...)
+# ... or in one library linked with all modules (much less clean... but better than ...)
 MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	args.c \
 	AltInfo.c \
@@ -46,10 +46,6 @@ MODULES_WITH_UNITTESTS_USING_RUNNER = \
 	sysdep.c \
 	utils.c \
 	word.c \
-
-# ... using a main program which requires remembering adding every test
-# manually in a collector function, good we don't have any
-MODULES_WITH_UNITTESTS_USING_MAIN = \
 
 MODULES_WITHOUT_UNITTESTS = \
 	Container.c \
