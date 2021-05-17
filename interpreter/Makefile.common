@@ -157,7 +157,6 @@ unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) 
 	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
 
 # ... that can be run with the cgreen runner
-linked_unittests: CFLAGS += -fPIC
 linked_unittests: unittests.$(SOEXTENSION)
 	echo CGREENINCLUDE=$(CGREENINCLUDE)
 	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
@@ -170,7 +169,6 @@ linked_unittests: unittests.$(SOEXTENSION)
 ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep set
 
 isolated_unittests: SUITE = Interpreter
-isolated_unittests: CFLAGS += -fPIC
 
 include ../mk/isolated_unittests.mk
 
