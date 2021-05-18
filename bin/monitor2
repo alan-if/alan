@@ -46,7 +46,7 @@ while true ; do
             echo "Triggered by $f:" $lasttime $d0
             $command
             touch .monitor_marker2
-            lasttime=`perl -e '$mtime=(stat("marker"))[9]; print $mtime;'`
+            lasttime=`perl -e '$mtime=(stat(".monitor2_marker"))[9]; print $mtime;'`
         fi
         sleep 2
     done
