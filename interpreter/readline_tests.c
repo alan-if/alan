@@ -26,22 +26,28 @@ BeforeEach(Readline) {
 }
 AfterEach(Readline) {}
 
+
+static void expect_to_read_newline(void) {
+    static char newline = '\n';
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &newline, sizeof(char)),
+           will_return(1));
+}
+
+
 Ensure(Readline, can_read_some_ascii_characters) {
     char stubbed_char = 'a';
-    char newline = '\n';
     char buffer[100];
 
     cgreen_mocks_are(loose_mocks);
 
-    /* Expect to read 3 'a's and a newline... */
+    /* Expect to read 3 'a's ... */
     expect(mocked_read,
            will_set_contents_of_parameter(buf, &stubbed_char, sizeof(char)),
            will_return(1),
            times(3));
-    /* ... and echo them */
-    expect(mocked_read,
-           will_set_contents_of_parameter(buf, &newline, sizeof(char)),
-           will_return(1));
+
+    expect_to_read_newline();
 
     expect(ensureInternalEncoding,
            when(string, is_equal_to_string("aaa")),
@@ -131,4 +137,31 @@ Ensure(Readline, can_delete_a_ascii_character_in_the_middle) {
 
     readline(buffer);
     assert_that(buffer, is_equal_to_string("ac"));
+}
+
+
+Ensure(Readline, can_read_some_utf8_characters) {
+    uchar stubbed_char[2] = {0xC3, 0xA4}; // 'ä';
+    char buffer[100];
+
+    cgreen_mocks_are(loose_mocks);
+
+    /* Expect to read 3 'ä's, which is actually 6 bytes ... */
+    for (int i=0; i < 3; i++) {
+        expect(mocked_read,
+               will_set_contents_of_parameter(buf, &stubbed_char[0], sizeof(char)),
+               will_return(1));
+        expect(mocked_read,
+               will_set_contents_of_parameter(buf, &stubbed_char[1], sizeof(char)),
+               will_return(1));
+    }
+
+    expect_to_read_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("äää")),
+           will_return(strdup("\xE4\xE4\xE4"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+    assert_that(buffer, is_equal_to_string("\xE4\xE4\xE4"));
 }
