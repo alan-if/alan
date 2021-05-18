@@ -43,9 +43,10 @@ while true ; do
         done
         if [ $d0 -gt $lasttime ] ; then
             echo -ne '\033c'
-            echo "Triggered by $f:"
+            echo "Triggered by $f:" $lasttime $d0
             $command
-            lasttime=$d0
+            touch .monitor2_marker
+            lasttime=`perl -e '$mtime=(stat(".monitor2_marker"))[9]; print $mtime;'`
         fi
         sleep 2
     done
