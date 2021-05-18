@@ -651,7 +651,7 @@ static void stripNewline(char *buffer) {
 #ifdef UNITTESTING
 /* Transform some stdlib functions to mockable functions */
 #define read(a, b, c) mocked_read(a, b, c)
-extern ssize_t mocked_read (int __fd, void *__buf, size_t __nbytes);
+extern ssize_t mocked_read (int __fd, char *__buf, size_t __nbytes);
 #endif
 
 
