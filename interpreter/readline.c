@@ -17,6 +17,16 @@
 
 #define LINELENGTH 1000
 
+#ifdef UNITTESTING
+/* Transform some stdlib functions to mockable functions */
+#define read(fd, buf, n) mocked_read(fd, buf, n)
+extern ssize_t mocked_read (int __fd, char *__buf, size_t __nbytes);
+
+#define write(fd, buf, n) mocked_write(fd, buf, n)
+extern ssize_t write (int __fd, const void *__buf, size_t __n);
+
+#endif
+
 
 // TODO Try to split this into more obvious GLK and non-GLK modules
 #ifdef HAVE_GLK
@@ -646,13 +656,6 @@ static void stripNewline(char *buffer) {
     if (len > 0 && buffer[len-1] == '\n')
         buffer[len-1] = '\0';
 }
-
-
-#ifdef UNITTESTING
-/* Transform some stdlib functions to mockable functions */
-#define read(a, b, c) mocked_read(a, b, c)
-extern ssize_t mocked_read (int __fd, char *__buf, size_t __nbytes);
-#endif
 
 
 /*======================================================================
