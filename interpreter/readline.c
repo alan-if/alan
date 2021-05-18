@@ -320,6 +320,8 @@ static KeyMap arrowmap[] = {
 
 #else
 
+/* Not windows */
+
 static void escapeBracket3Hook(char ch);
 static void ignoreCh(char ch) {}
 
@@ -374,13 +376,20 @@ static void escapeBracket3Hook(char ch) {
 #endif
 
 
+#ifdef UNITTESTING
+#include <cgreen/mocks.h>
+static void doBeep(void)
+{
+    mock();
+}
+#else
 static void doBeep(void)
 {
     int rc;
     (void)rc;                   /* UNUSED */
     rc = write(1, "\7", 1);
 }
-
+#endif
 
 static void backspace(void)
 {
