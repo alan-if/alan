@@ -1,0 +1,13 @@
+#!/bin/bash
+echo Execnotify starting...
+terminal-notifier -group execnotify -title Execnotify -message "Starting..." -contentImage ~/Utveckling/utman/icon-start.png
+
+# Run the command
+$*
+
+status=$?
+if [ $status == 0 ] ; then
+    terminal-notifier -remove execnotify -title Execnotify -message "Passed" -contentImage ~/Utveckling/utman/icon-passed.png
+else
+    terminal-notifier -remove execnotify -title Execnotify -message "Failed" -contentImage ~/Utveckling/utman/icon-failed.png
+fi
