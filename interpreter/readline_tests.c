@@ -3,6 +3,8 @@
 
 #include "readline.h"
 
+#include "options.h"
+
 
 /* Mocked modules */
 #include "syserr.mock"
@@ -23,11 +25,12 @@ ssize_t mocked_write(int fd, char *buf, size_t nbytes) {
 Describe(Readline);
 BeforeEach(Readline) {
     never_expect(doBeep);
+    always_expect(mocked_write, will_return(1));
 }
 AfterEach(Readline) {}
 
 
-static void expect_to_read_newline(void) {
+static void expect_newline(void) {
     static char newline = '\n';
     expect(mocked_read,
            will_set_contents_of_parameter(buf, &newline, sizeof(char)),
@@ -47,7 +50,7 @@ Ensure(Readline, can_read_some_ascii_characters) {
            will_return(1),
            times(3));
 
-    expect_to_read_newline();
+    expect_newline();
 
     expect(ensureInternalEncoding,
            when(string, is_equal_to_string("aaa")),
@@ -89,6 +92,15 @@ Ensure(Readline, can_delete_last_ascii_character) {
     assert_that(buffer, is_equal_to_string("aa"));
 }
 
+
+static void expect_delBwd(void) {
+    static char delBwd = '\x08';
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &delBwd, sizeof(char)),
+           will_return(1));
+}
+
+
 Ensure(Readline, can_delete_a_ascii_character_in_the_middle) {
     char stubbed_a = 'a';
     char stubbed_b = 'b';
@@ -96,7 +108,6 @@ Ensure(Readline, can_delete_a_ascii_character_in_the_middle) {
     char escHook = '\x1b';
     char arrowHook = '\x5b';
     char leftArrow = '\x44';
-    char delBwd = '\x08';
     char newline = '\n';
     char buffer[100];
 
@@ -122,10 +133,10 @@ Ensure(Readline, can_delete_a_ascii_character_in_the_middle) {
     expect(mocked_read,
            will_set_contents_of_parameter(buf, &leftArrow, sizeof(char)),
            will_return(1));
+
     /* Now delete the b */
-    expect(mocked_read,
-           will_set_contents_of_parameter(buf, &delBwd, sizeof(char)),
-           will_return(1));
+    expect_delBwd();
+
     /* ... and newline... */
     expect(mocked_read,
            will_set_contents_of_parameter(buf, &newline, sizeof(char)),
@@ -141,27 +152,81 @@ Ensure(Readline, can_delete_a_ascii_character_in_the_middle) {
 
 
 Ensure(Readline, can_read_some_utf8_characters) {
-    uchar stubbed_char[2] = {0xC3, 0xA4}; // 'ä';
+    uchar stubbed_aring[2] = {0xC3, 0xA5}; // 'å';
+    uchar stubbed_adiaeresis[2] = {0xC3, 0xA4}; // 'ä';
+    uchar stubbed_odiaeresis[2] = {0xC3, 0xB6}; // 'ö';
     char buffer[100];
 
-    cgreen_mocks_are(loose_mocks);
+    encodingOption = ENCODING_UTF;
 
-    /* Expect to read 3 'ä's, which is actually 6 bytes ... */
-    for (int i=0; i < 3; i++) {
-        expect(mocked_read,
-               will_set_contents_of_parameter(buf, &stubbed_char[0], sizeof(char)),
-               will_return(1));
-        expect(mocked_read,
-               will_set_contents_of_parameter(buf, &stubbed_char[1], sizeof(char)),
-               will_return(1));
-    }
+    /* Expect to read 3 UTF-chars, which is actually 6 bytes ... */
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_aring[0], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_aring[1], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_adiaeresis[0], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_adiaeresis[1], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_odiaeresis[0], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_odiaeresis[1], sizeof(char)),
+           will_return(1));
 
-    expect_to_read_newline();
+    expect_newline();
 
     expect(ensureInternalEncoding,
-           when(string, is_equal_to_string("äää")),
-           will_return(strdup("\xE4\xE4\xE4"))); /* Because it should be malloc'ed */
+           when(string, is_equal_to_string("åäö")),
+           will_return(strdup("\xE5\xE4\xF6"))); /* Because it should be malloc'ed */
 
     readline(buffer);
-    assert_that(buffer, is_equal_to_string("\xE4\xE4\xE4"));
+    assert_that(buffer, is_equal_to_string("\xE5\xE4\xF6"));
+}
+
+
+Ensure(Readline, can_delete_last_utf8_character) {
+    uchar stubbed_aring[2] = {0xC3, 0xA5}; // 'å';
+    uchar stubbed_adiaeresis[2] = {0xC3, 0xA4}; // 'ä';
+    uchar stubbed_odiaeresis[2] = {0xC3, 0xB6}; // 'ö';
+    char buffer[100];
+
+    encodingOption = ENCODING_UTF;
+
+    /* Expect to read 3 UTF-chars, which is actually 6 bytes ... */
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_aring[0], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_aring[1], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_adiaeresis[0], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_adiaeresis[1], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_odiaeresis[0], sizeof(char)),
+           will_return(1));
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &stubbed_odiaeresis[1], sizeof(char)),
+           will_return(1));
+
+    /* ... and delete the last character */
+    expect_delBwd();
+
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("åä")),
+           will_return(strdup("\xE5\xE4"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+    assert_that(buffer, is_equal_to_string("\xE5\xE4"));
 }

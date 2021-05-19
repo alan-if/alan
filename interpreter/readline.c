@@ -674,6 +674,9 @@ static void stripNewline(char *buffer) {
   Read a line from the user, with history, editing and command
   reading from file
 
+  NOTE that the raw characters (and thus the maps) are in the
+  native/external encoding for the platform.
+
 */
 
 /* TODO - length of user buffer should be used */
@@ -704,6 +707,7 @@ bool readline(char usrbuf[])
         endOfInput = 0;
         while (!endOfInput) {
             if (read(0, (void *)&ch, 1) != 1) {
+                /* Not returning 1 means we did not get any character at all... */
                 echoOn();
                 return FALSE;
             }
