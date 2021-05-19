@@ -1,13 +1,37 @@
 #!/bin/bash
+#======================================================================
+# Look for settings, TODO: look upwards in the file tree
+if [ -f ~/.execnotifyrc ]; then
+    echo "Reading ~/.execnotifyrc..."
+    . ~/.execnotifyrc
+fi
+# In your settings you can set notification commands for
+# - notify_start
+# - notify_pass
+# - notify_fail
+
+# Set up notifications
+if [ "$notify_start" == "" ] ; then
+    notify_start="terminal-notifier -group execnotify -title Execnotify -message 'Starting...' -contentImage ~/Utveckling/execnotify/icon-start.png"
+fi
+if [ "$notify_pass" == "" ] ; then
+    notify_pass="terminal-notifier -remove execnotify -title Execnotify -message 'Passed' -contentImage ~/Utveckling/execnotify/icon-passed.png"
+fi
+if [ "$notify_fail" == "" ] ; then
+    notify_fail="terminal-notifier -remove execnotify -title Execnotify -message 'Failed' -contentImage ~/Utveckling/execnotify/icon-failed.png"
+fi
+
+
 echo Execnotify starting...
-terminal-notifier -group execnotify -title Execnotify -message "Starting..." -contentImage ~/Utveckling/utman/icon-start.png
+$notify_start
 
 # Run the command
 $*
 
+# Notify the result
 status=$?
 if [ $status == 0 ] ; then
-    terminal-notifier -remove execnotify -title Execnotify -message "Passed" -contentImage ~/Utveckling/utman/icon-passed.png
+    $notify_pass
 else
-    terminal-notifier -remove execnotify -title Execnotify -message "Failed" -contentImage ~/Utveckling/utman/icon-failed.png
+    $notify_fail
 fi
