@@ -510,7 +510,15 @@ static void leftArrow(char ch)
     if (bufidx == 0)
         doBeep();
     else {
-        bufidx--;
+        if (encodingOption == ENCODING_UTF) {
+            if (((uchar)buffer[bufidx-1]&0xC0) == 0x80) {
+                /* Top two bits are 10 -> UTF-8 follow-up byte, so backup till we find start */
+                while (((uchar)buffer[--bufidx]&0xC0) == 0x80)
+                    ;
+            } else
+                bufidx--;       /* For an "ASCII" char just backup the single byte */
+        } else
+            bufidx--;
         backspace();
     }
 }

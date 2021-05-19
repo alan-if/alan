@@ -24,7 +24,6 @@ ssize_t mocked_write(int fd, char *buf, size_t nbytes) {
 
 Describe(Readline);
 BeforeEach(Readline) {
-    encodingOption = ENCODING_UTF;
     never_expect(doBeep);
     always_expect(mocked_write, will_return(1));
 }
@@ -111,18 +110,10 @@ Ensure(Readline, can_delete_last_ascii_character) {
 }
 
 
-Ensure(Readline, can_delete_an_ascii_character_in_the_middle) {
-    char escHook = '\x1b';
-    char arrowHook = '\x5b';
-    char leftArrow = '\x44';
-    char buffer[100];
-
-    /* Expect to read 'a', 'b', 'c', a leftArrow, a delete and a newline... */
-    expect_a();
-    expect_b();
-    expect_c();
-
-    /* Move left */
+static void expect_leftArrow(void) {
+    static char escHook = '\x1b';
+    static char arrowHook = '\x5b';
+    static char leftArrow = '\x44';
     expect(mocked_read,
            will_set_contents_of_parameter(buf, &escHook, sizeof(char)),
            will_return(1));
@@ -132,6 +123,18 @@ Ensure(Readline, can_delete_an_ascii_character_in_the_middle) {
     expect(mocked_read,
            will_set_contents_of_parameter(buf, &leftArrow, sizeof(char)),
            will_return(1));
+}
+
+Ensure(Readline, can_delete_an_ascii_character_in_the_middle) {
+    char buffer[100];
+
+    /* Expect to read 'a', 'b', 'c' ... */
+    expect_a();
+    expect_b();
+    expect_c();
+
+    /* Move left */
+    expect_leftArrow();
 
     /* Now delete the b */
     expect_delBwd();
@@ -146,6 +149,30 @@ Ensure(Readline, can_delete_an_ascii_character_in_the_middle) {
     readline(buffer);
 
     assert_that(buffer, is_equal_to_string("ac"));
+}
+
+Ensure(Readline, can_insert_an_ascii_character_in_the_middle) {
+    char buffer[100];
+
+    /* Expect to read 'a', 'c' ... */
+    expect_a();
+    expect_c();
+
+    /* Move left */
+    expect_leftArrow();
+
+    expect_b();
+
+    /* ... and newline... */
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("abc")),
+           will_return(strdup("abc"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+
+    assert_that(buffer, is_equal_to_string("abc"));
 }
 
 static void expect_aring(void) {
@@ -182,6 +209,8 @@ static void expect_odiaeresis(void) {
 Ensure(Readline, can_read_some_utf8_characters) {
     char buffer[100];
 
+    encodingOption = ENCODING_UTF;
+
     /* Expect to read 3 UTF-chars, which is actually 6 bytes ... */
     expect_aring();
     expect_adiaeresis();
@@ -190,7 +219,7 @@ Ensure(Readline, can_read_some_utf8_characters) {
     expect_newline();
 
     expect(ensureInternalEncoding,
-           when(string, is_equal_to_string("åäö")),
+           when(string, is_equal_to_string("\xC3\xA5\xC3\xA4\xC3\xB6")),
            will_return(strdup("\xE5\xE4\xF6"))); /* Because it should be malloc'ed */
 
     readline(buffer);
@@ -202,6 +231,8 @@ Ensure(Readline, can_read_some_utf8_characters) {
 Ensure(Readline, can_delete_last_utf8_character) {
     char buffer[100];
 
+    encodingOption = ENCODING_UTF;
+
     /* Expect to read 3 UTF-chars, which is actually 6 bytes ... */
     expect_aring();
     expect_adiaeresis();
@@ -214,7 +245,7 @@ Ensure(Readline, can_delete_last_utf8_character) {
     expect_newline();
 
     expect(ensureInternalEncoding,
-           when(string, is_equal_to_string("åä")),
+           when(string, is_equal_to_string("\xC3\xA5\xC3\xA4")), /* åä */
            will_return(strdup("\xE5\xE4"))); /* Because it should be malloc'ed */
 
     readline(buffer);
@@ -223,14 +254,17 @@ Ensure(Readline, can_delete_last_utf8_character) {
 }
 
 
-xEnsure(Readline, can_delete_an_utf8_character_in_the_middle) {
+Ensure(Readline, can_delete_an_utf8_character_in_the_middle) {
     char buffer[100];
 
+    encodingOption = ENCODING_UTF;
 
     /* Expect to read 3 UTF-chars, which is actually 6 bytes ... */
     expect_aring();
     expect_adiaeresis();
     expect_odiaeresis();
+
+    expect_leftArrow();
 
     /* ... and delete the last character */
     expect_delBwd();
@@ -239,9 +273,33 @@ xEnsure(Readline, can_delete_an_utf8_character_in_the_middle) {
     expect_newline();
 
     expect(ensureInternalEncoding,
-           when(string, is_equal_to_string("å\266")),
+           when(string, is_equal_to_string("\xC3\xA5\xC3\xB6")), /* åö */
            will_return(strdup("\xE5\xF6"))); /* Because it should be malloc'ed */
 
     readline(buffer);
     assert_that(buffer, is_equal_to_string("\xE5\xF6"));
+}
+
+
+Ensure(Readline, can_insert_an_utf8_character_in_the_middle) {
+    char buffer[100];
+
+    encodingOption = ENCODING_UTF;
+
+    expect_aring();
+    expect_odiaeresis();
+
+    expect_leftArrow();
+
+    expect_adiaeresis();
+
+    /* Enter */
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("\xC3\xA5\xC3\xA4\xC3\xB6")), /* åö */
+           will_return(strdup("\xE5\xE4\xF6"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+    assert_that(buffer, is_equal_to_string("\xE5\xE4\xF6"));
 }
