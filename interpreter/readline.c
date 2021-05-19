@@ -14,6 +14,8 @@
 #include "Location.h"
 #include "converter.h"
 
+#include "options.h"
+
 
 #define LINELENGTH 1000
 
@@ -534,12 +536,25 @@ static void delBwd(char ch)
         int i;
         int rc;
         (void)rc;                   /* UNUSED */
+        int deleted_length = 1;
 
         change = TRUE;
         backspace();
-        bufidx--;
-        for (i = 0; i <= strlen((char *)&buffer[bufidx+1]); i++)
-            buffer[bufidx+i] = buffer[bufidx+1+i];
+
+        if (encodingOption == ENCODING_UTF) {
+            if (((uchar)buffer[bufidx-1]&0xC0) == 0x80) {
+                /* Top two bits are 10 -> UTF-8 follow-up byte, so backup till we find start */
+                while (((uchar)buffer[--bufidx]&0xC0) == 0x80)
+                    deleted_length++;
+            } else
+                bufidx--;       /* For an "ASCII" char just backup the single byte */
+        } else
+            bufidx--;
+
+        /* Move up any remaning characters */
+        for (i = 0; i <= strlen((char *)&buffer[bufidx+deleted_length])+1; i++)
+            buffer[bufidx+i] = buffer[bufidx+i+deleted_length];
+
         rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
         rc = write(1, " ", 1);
         for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
@@ -603,6 +618,7 @@ static void insertCh(char ch) {
     else {
         int rc;
         (void)rc;               /* UNUSED */
+
         /* If at end advance the NULL */
         if (buffer[bufidx] == '\0')
             buffer[bufidx+1] = '\0';

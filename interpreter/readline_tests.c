@@ -101,7 +101,7 @@ static void expect_delBwd(void) {
 }
 
 
-Ensure(Readline, can_delete_a_ascii_character_in_the_middle) {
+Ensure(Readline, can_delete_an_ascii_character_in_the_middle) {
     char stubbed_a = 'a';
     char stubbed_b = 'b';
     char stubbed_c = 'c';
