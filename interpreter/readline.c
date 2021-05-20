@@ -536,10 +536,11 @@ static void insertToggle(char ch)
 
 static void delBwd(char ch)
 {
+    (void)ch;                   /* UNUSED - to match other keymap functions */
+
     if (bufidx == 0)
         doBeep();
     else {
-        int i;
         int rc;
         (void)rc;                   /* UNUSED */
         int deleted_length = 1;
@@ -558,7 +559,7 @@ static void delBwd(char ch)
             bufidx--;
 
         /* Move up any remaning characters */
-        for (i = 0; i <= strlen((char *)&buffer[bufidx+deleted_length])+1; i++) {
+        for (int i = 0; i <= strlen((char *)&buffer[bufidx+deleted_length])+1; i++) {
             /* In the buffer... */
             buffer[bufidx+i] = buffer[bufidx+i+deleted_length];
         }
@@ -566,7 +567,7 @@ static void delBwd(char ch)
         /* ... and on the screen */
         rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
         rc = write(1, " ", 1);
-        for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
+        for (int i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
             backspace();
     }
 }
