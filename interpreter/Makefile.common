@@ -131,6 +131,10 @@ unit: linked_unittests isolated_unittests
 
 # Define UNITTESTING so modules can define system function calls with Cgreen mocks
 unit: CFLAGS += -DUNITTESTING
+
+unit-coverage: COVERAGE=--coverage
+unit-coverage: unit
+	$(MAKE)	cov-data
 endif
 
 UNITTESTS_OBJDIR = .unittests
@@ -191,7 +195,10 @@ coverage:
 	$(MAKE) test
 	$(MAKE) coverage-report
 
-coverage-report:
+coverage-report: cov-data
+	genhtml -q -o coverage-report coverage.info
+
+cov-data:
 	lcov -q -c -d . --exclude /usr/\* -o coverage.info
 	@# Re-create separate gcov files from total.info for Emacs cov-mode
 	@# with coverage in the fringe area and auto-update. Nice!
@@ -199,8 +206,6 @@ coverage-report:
 	if command -v info2gcov > /dev/null 2>&1 ; then \
 		info2gcov -q coverage.info ; \
 	fi
-	genhtml -q -o coverage-report coverage.info
-
 
 
 ###################################################################
