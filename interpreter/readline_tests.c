@@ -312,8 +312,19 @@ Ensure(Readline, can_insert_an_utf8_character_in_the_middle) {
 extern int ustrlen(uchar *utf_string);
 
 Ensure(Readline, can_count_utf_chars) {
+
+    encodingOption = ENCODING_ISO;
+
     uchar three_ascii[] = "abc";
     assert_that(ustrlen(three_ascii), is_equal_to(3));
+
+    uchar three_ascii_with_utf_prefix[] = "abc\xC3";
+    assert_that(ustrlen(three_ascii_with_utf_prefix), is_equal_to(4));
+
+    encodingOption = ENCODING_UTF;
+
+    uchar three_other_ascii[] = "abc";
+    assert_that(ustrlen(three_other_ascii), is_equal_to(3));
 
     uchar four_ascii[] = "abcd";
     assert_that(ustrlen(four_ascii), is_equal_to(4));

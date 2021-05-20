@@ -378,6 +378,41 @@ static void escapeBracket3Hook(char ch) {
 #endif
 
 
+
+static void stripNewline(char *buffer) {
+    int len = strlen(buffer);
+    if (len > 0 && buffer[len-1] == '\n')
+        buffer[len-1] = '\0';
+}
+
+static bool is_utf_prefix(uchar ch) {
+    return (ch&0xC0) == 0xC0;
+}
+
+static bool is_utf_follow(uchar ch) {
+    return (ch&0xC0) == 0x80;
+}
+
+int ustrlen(uchar *utf_string) {
+    int count = 0;
+
+    for (int i = 0; utf_string[i] != '\0'; i++) {
+        if (encodingOption == ENCODING_UTF && is_utf_prefix(utf_string[i])) {
+            count++;
+            i++;
+            do {
+                i++;
+            } while ((utf_string[i] != '\0') && is_utf_follow(utf_string[i]));
+            i--;
+        } else {
+            count++;
+        }
+    }
+    return count;
+}
+
+
+
 #ifdef UNITTESTING
 #include <cgreen/mocks.h>
 static void doBeep(void) { mock(); }
@@ -558,16 +593,15 @@ static void delBwd(char ch)
         } else
             bufidx--;
 
-        /* Move up any remaning characters */
+        /* Move up any remaning characters in the buffer ... */
         for (int i = 0; i <= strlen((char *)&buffer[bufidx+deleted_length])+1; i++) {
-            /* In the buffer... */
             buffer[bufidx+i] = buffer[bufidx+i+deleted_length];
         }
 
-        /* ... and on the screen */
-        rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
+        /* ... and on the screen ... */
+        rc = write(1, (void *)&buffer[bufidx], ustrlen((uchar *)&buffer[bufidx]));
         rc = write(1, " ", 1);
-        for (int i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
+        for (int i = 0; i <= ustrlen((uchar *)&buffer[bufidx]); i++)
             backspace();
     }
 }
@@ -687,37 +721,6 @@ static void echoOn()
 #endif
 }
 
-static void stripNewline(char *buffer) {
-    int len = strlen(buffer);
-    if (len > 0 && buffer[len-1] == '\n')
-        buffer[len-1] = '\0';
-}
-
-static bool is_utf_prefix(uchar ch) {
-    return (ch&0xC0) == 0xC0;
-}
-
-static bool is_utf_follow(uchar ch) {
-    return (ch&0xC0) == 0x80;
-}
-
-int ustrlen(uchar *utf_string) {
-    int count = 0;
-
-    for (int i = 0; utf_string[i] != '\0'; i++) {
-        if (is_utf_prefix(utf_string[i])) {
-            count++;
-            i++;
-            do {
-                i++;
-            } while ((utf_string[i] != '\0') && is_utf_follow(utf_string[i]));
-            i--;
-        } else {
-            count++;
-        }
-    }
-    return count;
-}
 
 /*======================================================================
 
