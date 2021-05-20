@@ -411,6 +411,11 @@ int utf8len(uchar *utf_string) {
     return count;
 }
 
+/* Number of bytes in a null-terminated array */
+static int bytelen(uchar *bytes) {
+    return strlen(bytes);
+}
+
 
 
 #ifdef UNITTESTING
@@ -608,12 +613,12 @@ static void delBwd(char ch)
             bufidx--;
 
         /* Move up any remaning characters in the buffer ... */
-        for (int i = 0; i <= strlen((char *)&buffer[bufidx+deleted_length])+1; i++) {
+        for (int i = 0; i <= bytelen((char *)&buffer[bufidx+deleted_length])+1; i++) {
             buffer[bufidx+i] = buffer[bufidx+i+deleted_length];
         }
 
         /* ... on the screen, print the rest of the string ... */
-        rc = write(1, (void *)&buffer[bufidx], strlen(&buffer[bufidx]));
+        rc = write(1, (void *)&buffer[bufidx], bytelen(&buffer[bufidx]));
         writeBlank();
 
         for (int i = 0; i <= utf8len((uchar *)&buffer[bufidx]); i++)
@@ -632,9 +637,9 @@ static void delFwd(char ch)
 
         change = TRUE;
         strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
-        rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
+        rc = write(1, (void *)&buffer[bufidx], bytelen((char *)&buffer[bufidx]));
         writeBlank();
-        for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
+        for (i = 0; i <= utf8len((char *)&buffer[bufidx]); i++)
             moveCursorLeft();
     }
 }
@@ -697,7 +702,7 @@ static void insertCh(char ch) {
             } else {
                 if (--bytes_left == 0) {
                     rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-                    for (i = utf8len((char *)&buffer[bufidx]); i > 0; i--)
+                    for (i = utf8len((uchar *)&buffer[bufidx]); i > 0; i--)
                         moveCursorLeft();
                     }
             }
