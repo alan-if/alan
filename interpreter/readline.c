@@ -380,10 +380,7 @@ static void escapeBracket3Hook(char ch) {
 
 #ifdef UNITTESTING
 #include <cgreen/mocks.h>
-static void doBeep(void)
-{
-    mock();
-}
+static void doBeep(void) { mock(); }
 #else
 static void doBeep(void)
 {
@@ -392,6 +389,7 @@ static void doBeep(void)
     rc = write(1, "\7", 1);
 }
 #endif
+
 
 static void backspace(void)
 {
@@ -547,7 +545,7 @@ static void delBwd(char ch)
         int deleted_length = 1;
 
         change = TRUE;
-        backspace();
+        backspace();            /* Move backwards over the deleted char */
 
         if (encodingOption == ENCODING_UTF) {
             if (((uchar)buffer[bufidx-1]&0xC0) == 0x80) {
@@ -560,9 +558,12 @@ static void delBwd(char ch)
             bufidx--;
 
         /* Move up any remaning characters */
-        for (i = 0; i <= strlen((char *)&buffer[bufidx+deleted_length])+1; i++)
+        for (i = 0; i <= strlen((char *)&buffer[bufidx+deleted_length])+1; i++) {
+            /* In the buffer... */
             buffer[bufidx+i] = buffer[bufidx+i+deleted_length];
+        }
 
+        /* ... and on the screen */
         rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
         rc = write(1, " ", 1);
         for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
@@ -637,7 +638,8 @@ static void insertCh(char ch) {
             for (i = strlen((char *)buffer); i >= bufidx; i--)
                 buffer[i+1] = buffer[i];
             rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-            for (i = strlen((char *)&buffer[bufidx]); i > 0; i--) backspace();
+            for (i = strlen((char *)&buffer[bufidx]); i > 0; i--)
+                backspace();
         }
         change = TRUE;
         buffer[bufidx] = ch;
@@ -690,6 +692,31 @@ static void stripNewline(char *buffer) {
         buffer[len-1] = '\0';
 }
 
+static bool is_utf_prefix(uchar ch) {
+    return (ch&0xC0) == 0xC0;
+}
+
+static bool is_utf_follow(uchar ch) {
+    return (ch&0xC0) == 0x80;
+}
+
+int ustrlen(uchar *utf_string) {
+    int count = 0;
+
+    for (int i = 0; utf_string[i] != '\0'; i++) {
+        if (is_utf_prefix(utf_string[i])) {
+            count++;
+            i++;
+            do {
+                i++;
+            } while ((utf_string[i] != '\0') && is_utf_follow(utf_string[i]));
+            i--;
+        } else {
+            count++;
+        }
+    }
+    return count;
+}
 
 /*======================================================================
 

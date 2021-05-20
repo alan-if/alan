@@ -125,6 +125,7 @@ static void expect_leftArrow(void) {
            will_return(1));
 }
 
+
 Ensure(Readline, can_delete_an_ascii_character_in_the_middle) {
     char buffer[100];
 
@@ -264,6 +265,7 @@ Ensure(Readline, can_delete_an_utf8_character_in_the_middle) {
     expect_adiaeresis();
     expect_odiaeresis();
 
+    /* backup one UTF-8 character */
     expect_leftArrow();
 
     /* ... and delete the last character */
@@ -286,20 +288,42 @@ Ensure(Readline, can_insert_an_utf8_character_in_the_middle) {
 
     encodingOption = ENCODING_UTF;
 
+    /* Type two UTF-8 characters */
     expect_aring();
     expect_odiaeresis();
 
+    /* backup one UTF-8 character */
     expect_leftArrow();
 
+    /* ... and type another UTF-8 character */
     expect_adiaeresis();
 
     /* Enter */
     expect_newline();
 
     expect(ensureInternalEncoding,
-           when(string, is_equal_to_string("\xC3\xA5\xC3\xA4\xC3\xB6")), /* åö */
+           when(string, is_equal_to_string("\xC3\xA5\xC3\xA4\xC3\xB6")), /* åäö */
            will_return(strdup("\xE5\xE4\xF6"))); /* Because it should be malloc'ed */
 
     readline(buffer);
     assert_that(buffer, is_equal_to_string("\xE5\xE4\xF6"));
+}
+
+extern int ustrlen(uchar *utf_string);
+
+Ensure(Readline, can_count_utf_chars) {
+    uchar three_ascii[] = "abc";
+    assert_that(ustrlen(three_ascii), is_equal_to(3));
+
+    uchar four_ascii[] = "abcd";
+    assert_that(ustrlen(four_ascii), is_equal_to(4));
+
+    uchar one_utf[] = "ö";
+    assert_that(ustrlen(one_utf), is_equal_to(1));
+
+    uchar two_utf[] = "öñ";
+    assert_that(ustrlen(two_utf), is_equal_to(2));
+
+    uchar mixed[] = "Aöabñ4";
+    assert_that(ustrlen(mixed), is_equal_to(6));
 }
