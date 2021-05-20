@@ -48,4 +48,4 @@ $(UNITTESTS_OBJDIR)/%.o: | $(UNITTESTS_OBJDIR)
 
 # Create directory if it doesn't exist
 $(UNITTESTS_OBJDIR):
-	@mkdir $(UNITTESTS_OBJDIR)
+	@mkdir -p $(UNITTESTS_OBJDIR)
