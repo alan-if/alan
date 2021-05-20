@@ -12,17 +12,18 @@ fi
 
 # Set up notifications
 if [ "$notify_start" == "" ] ; then
-    notify_start="terminal-notifier -group execnotify -title Execnotify -message 'Starting...' -contentImage /tmp/icon-start.png"
+    notify_start='terminal-notifier -group execnotify -title Unittests -message "Starting..." -contentImage /tmp/icon-start.png'
 fi
 if [ "$notify_pass" == "" ] ; then
-    notify_pass="terminal-notifier -remove execnotify -title Execnotify -message 'Passed' -contentImage /tmp/icon-passed.png"
+    notify_pass='terminal-notifier -remove execnotify -title Unittests -message "Passed" -contentImage /tmp/icon-passed.png'
 fi
 if [ "$notify_fail" == "" ] ; then
-    notify_fail="terminal-notifier -remove execnotify -title Execnotify -message 'Failed' -contentImage /tmp/icon-failed.png"
+    notify_fail='terminal-notifier -remove execnotify -title Unittests -message "Failed" -contentImage /tmp/icon-failed.png'
 fi
 
 # Create icons
-base64 -d > /tmp/icon-start.png <<EOF
+if ! [ -f /tmp/icon-start.png ] ; then
+    base64 -d > /tmp/icon-start.png <<EOF
 iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7O
 HOkAAAIjaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5z
 Om1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA2LjAuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0
@@ -56,8 +57,10 @@ HhcsdlYBADxmCllOIrvRMe0IM3yiFVw2h0Fh4kXIAMDJcYBO3gXetFkJPLJ1g1AclbPS/bK+IGsFr5Ji
 3yznj6vZCTDLo2RdkCRTTHP4m8gKQOBBjU76w958xYj9qyhrWoiNQloANrPfRXwPmnW8EmyBv7THp+nx
 98b/8Tnyw/oHAu5qM5NK7bQAAAAASUVORK5CYII=
 EOF
+fi
 
-base64 -d > /tmp/icon-passed.png <<EOF
+if ! [ -f /tmp/icon-passed.png ] ; then
+    base64 -d > /tmp/icon-passed.png <<EOF
 iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADlklEQVRoQ+2Zv04bMRzHv25hboYOnVrY
 ujV0rtSwVU0GX16gvEHTJyA8AfAG9AU4IyVVN4LUGcLGBmVi6EDnAr/qd5zR3eXubN85B0hYQkKKz/58
 /fvjn22BR97EI+fHkwBtwc+hbD8DPgLoAGgR0BJAm38nYCqAS9z+TW6Agx+Bmvqwfi0LfArl0nPgKwAp
@@ -76,8 +79,10 @@ t7KS2MU9dV/rIyV/UMcKVeBsvnE61POATR8tDSLcrlX0YD2L0sJm9Wr1yZQO2bHMV4uEqWtarQWc+JjT
 gK0q4JqjkgXyzBm/o3VA6Ijb56jWXbwQjvmRm/ihW2BCwMQmQG3c1JsAm8nm0edJwDxW1WXM/yo2tUBK
 jpF3AAAAAElFTkSuQmCC
 EOF
+fi
 
-base64 -d > /tmp/icon-failed.png <<EOF
+if ! [ -f /tmp/icon-failed.png ] ; then
+    base64 -d > /tmp/icon-failed.png <<EOF
 iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADNklEQVRoQ+1ZsW4TQRB9k4sDKBdhvoDk
 C5Ig2W2MLdFQYL4AKOkiIVGiCDoQUjpK4AswEimIZHNpbYmcvyDJHxhhCWLnPGhtX2Kc29vZ84XgyNt6
 du69mTc7u2PClC+acvyYEbjsDM4yEGbgV2FtOXAWNhgoEzgLIAvQ2uB39gG0GNQioOIEnb0bnn+YRvYm
@@ -94,9 +99,10 @@ Fk9JqOGuA++i5KRkQwEKkpGiuAbGo9nv0nMLlSS31djMMJqLvU7BpHlxJzbJoC8pkPqDQ9QntP4YRwBv
 SafRqRH4qzZAm9YZYTQB3k4KPLGEdJEcSCtTYKIymLMEyp6SYjQZ3AJRi5grTq/rmabOJgWkTkD6wbTt
 RH0g7Y+m6W9GIM1oJvE19Rn4A3Pb0EDhonXCAAAAAElFTkSuQmCC
 EOF
+fi
 
 
-echo Execnotify starting...
+echo Starting...
 $notify_start
 
 # Run the command
