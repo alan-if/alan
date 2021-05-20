@@ -689,31 +689,53 @@ static void insertCh(char ch) {
         /* If at end advance the NULL */
         if (buffer[bufidx] == '\0')
             buffer[bufidx+1] = '\0';
-        else if (insert) {
-            int i;
-            static int bytes_left = 0;
 
-            /* If insert mode is on, move the bytes ahead */
-            for (i = byte_length((char *)buffer); i >= bufidx; i--)
+        if (insert) {
+            static int bytes_left = 0;
+            static int utf_start;
+
+            /* Shift bytes right since we need room for at least this byte */
+            for (int i = byte_length((char *)buffer); i >= bufidx; i--)
                 buffer[i+1] = buffer[i];
 
-            if (encodingOption == ENCODING_UTF && is_utf8_prefix(ch)) {
-                /* 110xxxxx -> 1 extra byte */
-                /* 1110xxxx -> 2 extra bytes */
-                /* 11110xxx -> 3 extra bytes */
-                bytes_left = 1; /* TODO: For now... */
-            } else {
-                if (--bytes_left == 0) {
-                    rc = write(1, (void *)&buffer[bufidx], byte_length((char *)&buffer[bufidx]));
-                    for (i = utf8_length((uchar *)&buffer[bufidx]); i > 0; i--)
-                        moveCursorLeft();
+            if (encodingOption == ENCODING_UTF)  {
+                if (is_utf8_prefix(ch)) {
+                    /* 110xxxxx -> 1 extra byte */
+                    /* 1110xxxx -> 2 extra bytes */
+                    /* 11110xxx -> 3 extra bytes */
+                    bytes_left = 1; /* TODO: For now... */
+                    utf_start = bufidx;
+                } else if (bytes_left > 0) {
+                    bytes_left--;
+                    if (bytes_left == 0) {
+                        /* Finally output the string */
+                        rc = write(1, (void *)&buffer[utf_start], byte_length((char *)&buffer[utf_start]));
+                        for (int i = utf8_length((uchar *)&buffer[utf_start]); i > 0; i--)
+                            moveCursorLeft();
                     }
+                } else {
+                    rc = write(1, (void *)&buffer[bufidx], byte_length(&buffer[bufidx]));
+                    for (int i = byte_length(&buffer[bufidx]); i > 0; i--)
+                        moveCursorLeft();
+                }
+                buffer[bufidx] = ch;
+                rc = write(1, &ch, 1);
+                bufidx++;
+            } else {
+                rc = write(1, (void *)&buffer[bufidx], byte_length(&buffer[bufidx]));
+                for (int i = byte_length(&buffer[bufidx]); i > 0; i--)
+                    moveCursorLeft();
+                buffer[bufidx] = ch;
+                rc = write(1, &ch, 1);
+                bufidx++;
             }
+        } else {
+            /* TODO: we can't just overwrite, if the new char is a two byte, and the current is a one byte... */
+            buffer[bufidx] = ch;
+            rc = write(1, &ch, 1);
+            bufidx++;
         }
         change = TRUE;
-        buffer[bufidx] = ch;
-        rc = write(1, &ch, 1);
-        bufidx++;
     }
 }
 
