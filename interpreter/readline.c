@@ -385,24 +385,24 @@ static void stripNewline(char *buffer) {
         buffer[len-1] = '\0';
 }
 
-static bool is_utf_prefix(uchar ch) {
+static bool is_utf8_prefix(uchar ch) {
     return (ch&0xC0) == 0xC0;
 }
 
-static bool is_utf_follow(uchar ch) {
+static bool is_utf8_follow(uchar ch) {
     return (ch&0xC0) == 0x80;
 }
 
-int ustrlen(uchar *utf_string) {
+int utf8len(uchar *utf_string) {
     int count = 0;
 
     for (int i = 0; utf_string[i] != '\0'; i++) {
-        if (encodingOption == ENCODING_UTF && is_utf_prefix(utf_string[i])) {
+        if (encodingOption == ENCODING_UTF && is_utf8_prefix(utf_string[i])) {
             count++;
             i++;
             do {
                 i++;
-            } while ((utf_string[i] != '\0') && is_utf_follow(utf_string[i]));
+            } while ((utf_string[i] != '\0') && is_utf8_follow(utf_string[i]));
             i--;
         } else {
             count++;
@@ -425,8 +425,7 @@ static void doBeep(void)
 }
 #endif
 
-
-static void backspace(void)
+static void moveCursorLeft(void)
 {
     int rc;
     (void)rc;                   /* UNUSED */
@@ -434,17 +433,32 @@ static void backspace(void)
 }
 
 
+static void writeBlank() {
+    int rc;
+    (void)rc;               /* UNUSED */
+    rc = write(1, " ", 1);
+}
+
+
+
 static void erase()
 {
     int i;
 
-    for (i = 0; i < bufidx; i++) backspace(); /* Backup to beginning of text */
-    for (i = 0; i < strlen((char *)buffer); i++) {
-        int rc;
-        (void)rc;               /* UNUSED */
-        rc = write(1, " ", 1); /* Erase all text */
+    /* Backup to beginning of text */
+    /* TODO: This is wrong! Should not use strlen, but instead ...*/
+    /* TODO: moveCursorBackOver(n); including UTF-8 chars */
+    for (i = 0; i < utf8len((uchar *)&buffer[bufidx]); i++)
+        moveCursorLeft();
+
+    /* Overwrite with spaces */
+    for (i = 0; i < utf8len((uchar *)buffer); i++) {
+        writeBlank();
     }
-    for (i = 0; i < strlen((char *)buffer); i++) backspace(); /* Backup to beginning of text */
+
+    /* Backup to beginning of text */
+    for (i = 0; i < utf8len((uchar *)buffer); i++)
+        moveCursorLeft();
 }
 
 /*----------------------------------------------------------------------*\
@@ -544,15 +558,16 @@ static void leftArrow(char ch)
         doBeep();
     else {
         if (encodingOption == ENCODING_UTF) {
-            if (((uchar)buffer[bufidx-1]&0xC0) == 0x80) {
-                /* Top two bits are 10 -> UTF-8 follow-up byte, so backup till we find start */
-                while (((uchar)buffer[--bufidx]&0xC0) == 0x80)
+            /* This is moving backwards over UTF-8 characters */
+            if (is_utf8_follow(buffer[bufidx-1])) {
+                /* If top two bits are 10 then it's a UTF-8 follow-up byte, so backup till we find prefix */
+                while (is_utf8_follow(buffer[--bufidx]))
                     ;
             } else
                 bufidx--;       /* For an "ASCII" char just backup the single byte */
         } else
             bufidx--;
-        backspace();
+        moveCursorLeft();       /* And it's still just one character on the screen */
     }
 }
 
@@ -581,12 +596,11 @@ static void delBwd(char ch)
         int deleted_length = 1;
 
         change = TRUE;
-        backspace();            /* Move backwards over the deleted char */
+        moveCursorLeft();            /* Move backwards over the deleted char */
 
         if (encodingOption == ENCODING_UTF) {
-            if (((uchar)buffer[bufidx-1]&0xC0) == 0x80) {
-                /* Top two bits are 10 -> UTF-8 follow-up byte, so backup till we find start */
-                while (((uchar)buffer[--bufidx]&0xC0) == 0x80)
+            if (is_utf8_follow(buffer[bufidx-1])) {
+                while (is_utf8_follow(buffer[--bufidx]))
                     deleted_length++;
             } else
                 bufidx--;       /* For an "ASCII" char just backup the single byte */
@@ -598,11 +612,12 @@ static void delBwd(char ch)
             buffer[bufidx+i] = buffer[bufidx+i+deleted_length];
         }
 
-        /* ... and on the screen ... */
-        rc = write(1, (void *)&buffer[bufidx], ustrlen((uchar *)&buffer[bufidx]));
-        rc = write(1, " ", 1);
-        for (int i = 0; i <= ustrlen((uchar *)&buffer[bufidx]); i++)
-            backspace();
+        /* ... on the screen, print the rest of the string ... */
+        rc = write(1, (void *)&buffer[bufidx], strlen(&buffer[bufidx]));
+        writeBlank();
+
+        for (int i = 0; i <= utf8len((uchar *)&buffer[bufidx]); i++)
+            moveCursorLeft();
     }
 }
 
@@ -618,9 +633,9 @@ static void delFwd(char ch)
         change = TRUE;
         strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
         rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-        rc = write(1, " ", 1);
+        writeBlank();
         for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
-            backspace();
+            moveCursorLeft();
     }
 }
 
@@ -668,13 +683,24 @@ static void insertCh(char ch) {
             buffer[bufidx+1] = '\0';
         else if (insert) {
             int i;
+            static int bytes_left = 0;
 
-            /* If insert mode is on, move the characters ahead */
+            /* If insert mode is on, move the bytes ahead */
             for (i = strlen((char *)buffer); i >= bufidx; i--)
                 buffer[i+1] = buffer[i];
-            rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-            for (i = strlen((char *)&buffer[bufidx]); i > 0; i--)
-                backspace();
+
+            if (encodingOption == ENCODING_UTF && is_utf8_prefix(ch)) {
+                /* 110xxxxx -> 1 extra byte */
+                /* 1110xxxx -> 2 extra bytes */
+                /* 11110xxx -> 3 extra bytes */
+                bytes_left = 1; /* TODO: For now... */
+            } else {
+                if (--bytes_left == 0) {
+                    rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
+                    for (i = utf8len((char *)&buffer[bufidx]); i > 0; i--)
+                        moveCursorLeft();
+                    }
+            }
         }
         change = TRUE;
         buffer[bufidx] = ch;
