@@ -197,6 +197,9 @@ bool readline(char buffer[])
 }
 
 #else
+/*---------------------------------------------------------------------------------------*/
+/* Non-GLK terminal I/O using simple movements and overwrites with spaces and backspaces */
+/*---------------------------------------------------------------------------------------*/
 
 #include "sysdep.h"
 #include <stdlib.h>
@@ -393,7 +396,7 @@ static bool is_utf8_follow(uchar ch) {
     return (ch&0xC0) == 0x80;
 }
 
-int utf8len(uchar *utf_string) {
+int utf8_length(uchar *utf_string) {
     int count = 0;
 
     for (int i = 0; utf_string[i] != '\0'; i++) {
@@ -411,8 +414,8 @@ int utf8len(uchar *utf_string) {
     return count;
 }
 
-/* Number of bytes in a null-terminated array */
-static int bytelen(uchar *bytes) {
+/* Number of bytes (as opposed to UTF-characters e.g.) in a null-terminated array */
+static int byte_length(char *bytes) {
     return strlen(bytes);
 }
 
@@ -453,16 +456,16 @@ static void erase()
     /* Backup to beginning of text */
     /* TODO: This is wrong! Should not use strlen, but instead ...*/
     /* TODO: moveCursorBackOver(n); including UTF-8 chars */
-    for (i = 0; i < utf8len((uchar *)&buffer[bufidx]); i++)
+    for (i = 0; i < utf8_length((uchar *)&buffer[bufidx]); i++)
         moveCursorLeft();
 
     /* Overwrite with spaces */
-    for (i = 0; i < utf8len((uchar *)buffer); i++) {
+    for (i = 0; i < utf8_length((uchar *)buffer); i++) {
         writeBlank();
     }
 
     /* Backup to beginning of text */
-    for (i = 0; i < utf8len((uchar *)buffer); i++)
+    for (i = 0; i < utf8_length((uchar *)buffer); i++)
         moveCursorLeft();
 }
 
@@ -613,15 +616,15 @@ static void delBwd(char ch)
             bufidx--;
 
         /* Move up any remaning characters in the buffer ... */
-        for (int i = 0; i <= bytelen((char *)&buffer[bufidx+deleted_length])+1; i++) {
+        for (int i = 0; i <= byte_length((char *)&buffer[bufidx+deleted_length])+1; i++) {
             buffer[bufidx+i] = buffer[bufidx+i+deleted_length];
         }
 
         /* ... on the screen, print the rest of the string ... */
-        rc = write(1, (void *)&buffer[bufidx], bytelen(&buffer[bufidx]));
+        rc = write(1, (void *)&buffer[bufidx], byte_length(&buffer[bufidx]));
         writeBlank();
 
-        for (int i = 0; i <= utf8len((uchar *)&buffer[bufidx]); i++)
+        for (int i = 0; i <= utf8_length((uchar *)&buffer[bufidx]); i++)
             moveCursorLeft();
     }
 }
@@ -637,9 +640,9 @@ static void delFwd(char ch)
 
         change = TRUE;
         strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
-        rc = write(1, (void *)&buffer[bufidx], bytelen((char *)&buffer[bufidx]));
+        rc = write(1, (void *)&buffer[bufidx], byte_length((char *)&buffer[bufidx]));
         writeBlank();
-        for (i = 0; i <= utf8len((char *)&buffer[bufidx]); i++)
+        for (i = 0; i <= utf8_length((uchar *)&buffer[bufidx]); i++)
             moveCursorLeft();
     }
 }
@@ -691,7 +694,7 @@ static void insertCh(char ch) {
             static int bytes_left = 0;
 
             /* If insert mode is on, move the bytes ahead */
-            for (i = strlen((char *)buffer); i >= bufidx; i--)
+            for (i = byte_length((char *)buffer); i >= bufidx; i--)
                 buffer[i+1] = buffer[i];
 
             if (encodingOption == ENCODING_UTF && is_utf8_prefix(ch)) {
@@ -701,8 +704,8 @@ static void insertCh(char ch) {
                 bytes_left = 1; /* TODO: For now... */
             } else {
                 if (--bytes_left == 0) {
-                    rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-                    for (i = utf8len((uchar *)&buffer[bufidx]); i > 0; i--)
+                    rc = write(1, (void *)&buffer[bufidx], byte_length((char *)&buffer[bufidx]));
+                    for (i = utf8_length((uchar *)&buffer[bufidx]); i > 0; i--)
                         moveCursorLeft();
                     }
             }
