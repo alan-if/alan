@@ -381,7 +381,6 @@ static void escapeBracket3Hook(char ch) {
 #endif
 
 
-
 static void stripNewline(char *buffer) {
     int len = strlen(buffer);
     if (len > 0 && buffer[len-1] == '\n')
@@ -396,16 +395,17 @@ static bool is_utf8_follow(uchar ch) {
     return (ch&0xC0) == 0x80;
 }
 
-int utf8_length(uchar *utf_string) {
+/* Number of characters counting multi-byte characters as one (as opposed to bytes) in a null-terminated array */
+int character_length(uchar *string) {
     int count = 0;
 
-    for (int i = 0; utf_string[i] != '\0'; i++) {
-        if (encodingOption == ENCODING_UTF && is_utf8_prefix(utf_string[i])) {
+    for (int i = 0; string[i] != '\0'; i++) {
+        if (encodingOption == ENCODING_UTF && is_utf8_prefix(string[i])) {
             count++;
             i++;
             do {
                 i++;
-            } while ((utf_string[i] != '\0') && is_utf8_follow(utf_string[i]));
+            } while ((string[i] != '\0') && is_utf8_follow(string[i]));
             i--;
         } else {
             count++;
@@ -414,7 +414,7 @@ int utf8_length(uchar *utf_string) {
     return count;
 }
 
-/* Number of bytes (as opposed to UTF-characters e.g.) in a null-terminated array */
+/* Number of bytes (as opposed to characters e.g. UTF-8) in a null-terminated array */
 static int byte_length(char *bytes) {
     return strlen(bytes);
 }
@@ -456,16 +456,16 @@ static void erase()
     /* Backup to beginning of text */
     /* TODO: This is wrong! Should not use strlen, but instead ...*/
     /* TODO: moveCursorBackOver(n); including UTF-8 chars */
-    for (i = 0; i < utf8_length((uchar *)&buffer[bufidx]); i++)
+    for (i = 0; i < character_length((uchar *)&buffer[bufidx]); i++)
         moveCursorLeft();
 
     /* Overwrite with spaces */
-    for (i = 0; i < utf8_length((uchar *)buffer); i++) {
+    for (i = 0; i < character_length((uchar *)buffer); i++) {
         writeBlank();
     }
 
     /* Backup to beginning of text */
-    for (i = 0; i < utf8_length((uchar *)buffer); i++)
+    for (i = 0; i < character_length((uchar *)buffer); i++)
         moveCursorLeft();
 }
 
@@ -554,7 +554,17 @@ static void rightArrow(char ch)
     else {
         int rc;
         (void)rc;                   /* UNUSED */
-        rc = write(1, (void *)&buffer[bufidx], 1);
+        int count = 1;
+        if (encodingOption == ENCODING_UTF) {
+            if (is_utf8_prefix(buffer[bufidx])) {
+                bufidx++;
+                while (is_utf8_follow(buffer[bufidx])) {
+                    count++;
+                    bufidx++;
+                }
+            }
+        }
+        rc = write(1, (void *)&buffer[bufidx], count);
         bufidx++;
     }
 }
@@ -607,7 +617,7 @@ static void writeBufferFrom(int idx) {
 
 
 static void moveCursorFromEndBackTo(int idx) {
-    for (int i = 0; i <= utf8_length((uchar *)&buffer[idx]); i++)
+    for (int i = 0; i <= character_length((uchar *)&buffer[idx]); i++)
         moveCursorLeft();
 }
 
@@ -659,7 +669,7 @@ static void delFwd(char ch)
         strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
         rc = write(1, (void *)&buffer[bufidx], byte_length((char *)&buffer[bufidx]));
         writeBlank();
-        for (i = 0; i <= utf8_length((uchar *)&buffer[bufidx]); i++)
+        for (i = 0; i <= character_length((uchar *)&buffer[bufidx]); i++)
             moveCursorLeft();
     }
 }
@@ -703,7 +713,7 @@ static void shift_buffer_right_from(int idx) {
 
 
 static void moveCursorLeftTo(int idx) {
-    for (int i = utf8_length((uchar *)&buffer[idx]); i > 0; i--)
+    for (int i = character_length((uchar *)&buffer[idx]); i > 0; i--)
         moveCursorLeft();
 }
 

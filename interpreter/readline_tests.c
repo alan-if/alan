@@ -309,32 +309,32 @@ Ensure(Readline, can_insert_an_utf8_character_in_the_middle) {
     assert_that(buffer, is_equal_to_string("\xE5\xE4\xF6"));
 }
 
-extern int utf8_length(uchar *utf_string);
+extern int character_length(uchar *utf_string);
 
 Ensure(Readline, can_count_utf_chars) {
 
     encodingOption = ENCODING_ISO;
 
     uchar three_ascii[] = "abc";
-    assert_that(utf8_length(three_ascii), is_equal_to(3));
+    assert_that(character_length(three_ascii), is_equal_to(3));
 
     uchar three_ascii_with_utf_prefix[] = "abc\xC3";
-    assert_that(utf8_length(three_ascii_with_utf_prefix), is_equal_to(4));
+    assert_that(character_length(three_ascii_with_utf_prefix), is_equal_to(4));
 
     encodingOption = ENCODING_UTF;
 
     uchar three_other_ascii[] = "abc";
-    assert_that(utf8_length(three_other_ascii), is_equal_to(3));
+    assert_that(character_length(three_other_ascii), is_equal_to(3));
 
     uchar four_ascii[] = "abcd";
-    assert_that(utf8_length(four_ascii), is_equal_to(4));
+    assert_that(character_length(four_ascii), is_equal_to(4));
 
     uchar one_utf[] = "ö";
-    assert_that(utf8_length(one_utf), is_equal_to(1));
+    assert_that(character_length(one_utf), is_equal_to(1));
 
     uchar two_utf[] = "öñ";
-    assert_that(utf8_length(two_utf), is_equal_to(2));
+    assert_that(character_length(two_utf), is_equal_to(2));
 
     uchar mixed[] = "Aöabñ4";
-    assert_that(utf8_length(mixed), is_equal_to(6));
+    assert_that(character_length(mixed), is_equal_to(6));
 }
