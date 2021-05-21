@@ -555,17 +555,18 @@ static void rightArrow(char ch)
         int rc;
         (void)rc;                   /* UNUSED */
         int count = 1;
+        int startidx = bufidx;
         if (encodingOption == ENCODING_UTF) {
-            if (is_utf8_prefix(buffer[bufidx])) {
-                bufidx++;
-                while (is_utf8_follow(buffer[bufidx])) {
+            if (is_utf8_prefix((uchar)buffer[bufidx])) {
+                /* Next character is a multi-byte */
+                while (is_utf8_follow((uchar)buffer[bufidx+1])) {
                     count++;
                     bufidx++;
                 }
             }
         }
-        rc = write(1, (void *)&buffer[bufidx], count);
         bufidx++;
+        rc = write(1, (void *)&buffer[startidx], count);
     }
 }
 
