@@ -603,7 +603,7 @@ static void insertToggle(char ch)
 }
 
 
-static void shift_buffer_left_from(int idx, int offset) {
+static void shiftBufferLeftFrom(int idx, int offset) {
     for (int i = 0; i <= byte_length((char *)&buffer[idx+offset])+1; i++) {
         buffer[idx+i] = buffer[idx+i+offset];
     }
@@ -647,7 +647,7 @@ static void delBwd(char ch)
             bufidx--;       /* For a single-byte char just backup the single byte */
 
         /* Move up any remaning characters in the buffer ... */
-        shift_buffer_left_from(bufidx, deleted_length);
+        shiftBufferLeftFrom(bufidx, deleted_length);
 
         /* ... on the screen, print the rest of the string ... */
         writeBufferFrom(bufidx);
@@ -667,8 +667,16 @@ static void delFwd(char ch)
         (void)rc;                   /* UNUSED */
 
         change = TRUE;
-        strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
-        rc = write(1, (void *)&buffer[bufidx], byte_length((char *)&buffer[bufidx]));
+
+        int deleted_length = 1;
+        if (encodingOption == ENCODING_UTF && is_utf8_prefix(buffer[bufidx])) {
+            /* For multi-byte characters find the first non-follow, presumably another prefix or non-multi-byte character */
+            int idx = bufidx+1;
+            while (is_utf8_follow(buffer[idx++]))
+                deleted_length++;
+        }
+        shiftBufferLeftFrom(bufidx, deleted_length);
+        writeBufferFrom(bufidx);
         writeBlank();
         for (i = 0; i <= character_length((uchar *)&buffer[bufidx]); i++)
             moveCursorLeft();
