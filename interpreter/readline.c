@@ -547,6 +547,23 @@ static void downArrow(char ch)
 }
 
 
+static int byteLengthOfCharacterAt(int bufidx) {
+    int count = 1;
+    if (encodingOption == ENCODING_UTF) {
+        if (is_utf8_prefix((uchar)buffer[bufidx])) {
+            /* Next character is a multi-byte */
+            while (is_utf8_follow((uchar)buffer[bufidx+1])) {
+                count++;
+                bufidx++;
+            }
+        }
+    }
+
+    return count;
+}
+
+
+
 static void rightArrow(char ch)
 {
     if (bufidx > LINELENGTH || buffer[bufidx] == '\0')
@@ -554,19 +571,9 @@ static void rightArrow(char ch)
     else {
         int rc;
         (void)rc;                   /* UNUSED */
-        int count = 1;
-        int startidx = bufidx;
-        if (encodingOption == ENCODING_UTF) {
-            if (is_utf8_prefix((uchar)buffer[bufidx])) {
-                /* Next character is a multi-byte */
-                while (is_utf8_follow((uchar)buffer[bufidx+1])) {
-                    count++;
-                    bufidx++;
-                }
-            }
-        }
-        bufidx++;
-        rc = write(1, (void *)&buffer[startidx], count);
+        int count = byteLengthOfCharacterAt(bufidx);
+        rc = write(1, (void *)&buffer[bufidx], count);
+        bufidx+=count;
     }
 }
 
