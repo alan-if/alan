@@ -578,21 +578,26 @@ static void rightArrow(char ch)
 }
 
 
+static int byteLengthOfPreviousCharacter(int idx) {
+    int count = 1;
+    if (encodingOption == ENCODING_UTF) {
+        /* This is moving backwards over UTF-8 characters */
+        if (is_utf8_follow(buffer[idx-1]))
+            /* If top two bits are 10 then it's a UTF-8 follow-up byte, so backup till we find prefix */
+            while (is_utf8_follow(buffer[--idx]))
+                count++;
+    }
+    return count;
+}
+
+
+
 static void leftArrow(char ch)
 {
     if (bufidx == 0)
         doBeep();
     else {
-        if (encodingOption == ENCODING_UTF) {
-            /* This is moving backwards over UTF-8 characters */
-            if (is_utf8_follow(buffer[bufidx-1])) {
-                /* If top two bits are 10 then it's a UTF-8 follow-up byte, so backup till we find prefix */
-                while (is_utf8_follow(buffer[--bufidx]))
-                    ;
-            } else
-                bufidx--;       /* For an "ASCII" char just backup the single byte */
-        } else
-            bufidx--;
+        bufidx -= byteLengthOfPreviousCharacter(bufidx);
         moveCursorLeft();       /* And it's still just one character on the screen */
     }
 }
@@ -646,12 +651,8 @@ static void delBwd(char ch)
 
         moveCursorLeft();            /* Move backwards over the deleted char */
 
-        if (encodingOption == ENCODING_UTF && is_utf8_follow(buffer[bufidx-1])) {
-            /* For multi-byte characters find the first non-follow, presumably the prefix */
-            while (is_utf8_follow(buffer[--bufidx]))
-                deleted_length++;
-        } else
-            bufidx--;       /* For a single-byte char just backup the single byte */
+        deleted_length = byteLengthOfPreviousCharacter(bufidx);
+        bufidx -= deleted_length;
 
         /* Move up any remaning characters in the buffer ... */
         shiftBufferLeftFrom(bufidx, deleted_length);
@@ -675,13 +676,7 @@ static void delFwd(char ch)
 
         change = TRUE;
 
-        int deleted_length = 1;
-        if (encodingOption == ENCODING_UTF && is_utf8_prefix(buffer[bufidx])) {
-            /* For multi-byte characters find the first non-follow, presumably another prefix or non-multi-byte character */
-            int idx = bufidx+1;
-            while (is_utf8_follow(buffer[idx++]))
-                deleted_length++;
-        }
+        int deleted_length = byteLengthOfCharacterAt(bufidx);
         shiftBufferLeftFrom(bufidx, deleted_length);
         writeBufferFrom(bufidx);
         writeBlank();
