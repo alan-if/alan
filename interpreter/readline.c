@@ -261,7 +261,7 @@ static int histp;		/* Points to the history recalled last */
 static unsigned char ch;
 static int endOfInput = 0;
 static bool change;
-static bool insert = TRUE;
+static bool insertMode = TRUE;
 
 
 /*----------------------------------------------------------------------
@@ -274,7 +274,7 @@ typedef struct {unsigned char min, max; void (*hook)(char ch);} KeyMap;
 
 /* Forward declaration of hooks */
 static void escHook(char ch);
-static void insertCh(char ch);
+static void normalCh(char ch);
 static void arrowHook(char ch);
 static void upArrow(char ch);
 static void downArrow(char ch);
@@ -298,9 +298,9 @@ static KeyMap keymap[] = {
     {0x09, 0x09, NULL},
     {0x0a, 0x0a, newLine},
     {0x1b, 0x1b, escHook},
-    {0x1c, 0x7e, insertCh},
+    {0x1c, 0x7e, normalCh},
     {0x7f, 0x7f, delFwd},
-    {0x80, 0xff, insertCh},
+    {0x80, 0xff, normalCh},
     {0x00, 0x00, NULL}
 };
 
@@ -339,9 +339,9 @@ static KeyMap keymap[] = {
     {0x0a, 0x0a, newLine},
     {0x0d, 0x0d, ignoreCh},
     {0x1b, 0x1b, escHook},
-    {0x1c, 0x7e, insertCh},
+    {0x1c, 0x7e, normalCh},
     {0x7f, 0x7f, delBwd},
-    {0x80, 0xff, insertCh},
+    {0x80, 0xff, normalCh},
     {0x00, 0x00, NULL}
 };
 
@@ -611,7 +611,7 @@ static void insertToggle(char ch)
     if (ch != 'z')
         doBeep();
     else
-        insert = !insert;
+        insertMode = !insertMode;
 }
 
 
@@ -643,8 +643,6 @@ static void delBwd(char ch)
     if (bufidx == 0)
         doBeep();
     else {
-        int rc;
-        (void)rc;                   /* UNUSED */
         int deleted_length = 1;
 
         change = TRUE;
@@ -671,8 +669,6 @@ static void delFwd(char ch)
         doBeep();
     else {
         int i;
-        int rc;
-        (void)rc;                   /* UNUSED */
 
         change = TRUE;
 
@@ -729,12 +725,11 @@ static void moveCursorLeftTo(int idx) {
 }
 
 
-static void insertCh(char ch) {
+static void normalCh(char ch) {
     if (bufidx > LINELENGTH) {
         doBeep();
         return;
     }
-
     int rc;
     (void)rc;               /* UNUSED */
 
@@ -742,10 +737,12 @@ static void insertCh(char ch) {
     if (buffer[bufidx] == '\0')
         buffer[bufidx+1] = '\0';
 
-    if (insert) {
+    if (insertMode) {
         static int bytes_left = 0;
         static int utf_start;
+        static uchar bytes[4];  /* Saved bytes for multi-byte characters */
 
+        /* Make room for another byte @bufidx */
         shift_buffer_right_from(bufidx);
 
         if (encodingOption == ENCODING_UTF)  {
@@ -769,8 +766,7 @@ static void insertCh(char ch) {
             }
         } else {
             rc = write(1, (void *)&buffer[bufidx], byte_length(&buffer[bufidx]));
-            for (int i = byte_length(&buffer[bufidx]); i > 0; i--)
-                moveCursorLeft();
+            moveCursorLeftTo(bufidx);
             buffer[bufidx] = ch;
             rc = write(1, &ch, 1);
             bufidx++;
