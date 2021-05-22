@@ -116,17 +116,11 @@ Ensure(Readline, can_delete_last_ascii_character) {
 }
 
 static void expect_leftArrow(void) {
-    static char escHook = '\x1b';
-    static char arrowHook = '\x5b';
-    static char leftArrow = '\x44';
-    expect(mocked_read,
-           will_set_contents_of_parameter(buf, &escHook, sizeof(char)),
-           will_return(1));
-    expect(mocked_read,
-           will_set_contents_of_parameter(buf, &arrowHook, sizeof(char)),
-           will_return(1));
-    expect(mocked_read,
-           will_set_contents_of_parameter(buf, &leftArrow, sizeof(char)),
+    static uchar leftArrow []= "\x1b\x5b\x44";
+
+    for (int i=0; i<sizeof(leftArrow)-1; i++)
+        expect(mocked_read,
+           will_set_contents_of_parameter(buf, &leftArrow[i], sizeof(char)),
            will_return(1));
 }
 
@@ -337,6 +331,90 @@ Ensure(Readline, can_delete_an_utf8_character_in_the_middle) {
     assert_that(buffer, is_equal_to_string("\xE5\xF6"));
 }
 
+static void type_insert_toogle(void) {
+    static uchar insertToggle[] = "\x1b\x5b\x32z";
+
+    for (int i=0; i<sizeof(insertToggle)-1; i++)
+        expect(mocked_read,
+               will_set_contents_of_parameter(buf, &insertToggle[i], sizeof(char)),
+               will_return(1));
+}
+
+Ensure(Readline, can_overwrite_non_multibyte_character_with_non_multibyte) {
+    char buffer[100];
+
+    type_insert_toogle();
+
+    /* Expect to read 'abc' ... */
+    expect_a();
+    expect_b();
+    expect_c();
+
+    expect_leftArrow();         /* Backup ... */
+    expect_a();                 /* ... and overwrite last char with an 'a' */
+
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("aba")),
+           will_return(strdup("aba"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+
+    assert_that(buffer, is_equal_to_string("aba"));
+}
+
+xEnsure(Readline, can_overwrite_multibyte_character_with_non_multibyte) {
+    char buffer[100];
+
+    encodingOption = ENCODING_UTF;
+
+    type_insert_toogle();
+
+    /* Expect to read 'abc' ... */
+    expect_a();
+    expect_b();
+    expect_adiaeresis();
+
+    expect_leftArrow();         /* Backup ... */
+    expect_a();                 /* ... and overwrite last char with an 'a' */
+
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("aba")),
+           will_return(strdup("aba"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+
+    assert_that(buffer, is_equal_to_string("aba"));
+}
+
+xEnsure(Readline, can_overwrite_non_multibyte_character_with_multibyte) {
+    char buffer[100];
+
+    encodingOption = ENCODING_UTF;
+
+    type_insert_toogle();
+
+    /* Expect to read 'abc' ... */
+    expect_a();
+    expect_b();
+    expect_c();
+
+    expect_leftArrow();         /* Backup ... */
+    expect_adiaeresis();
+
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("ab\xC3\B6")),
+           will_return(strdup("ab\xF6"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+
+    assert_that(buffer, is_equal_to_string("ab\xF6"));
+}
 
 Ensure(Readline, can_insert_an_utf8_character_in_the_middle) {
     char buffer[100];
