@@ -260,7 +260,7 @@ static int histp;		/* Points to the history recalled last */
 
 static unsigned char ch;
 static int endOfInput = 0;
-static bool change;
+static bool commandLineChanged;
 static bool insertMode = TRUE;
 
 
@@ -645,7 +645,7 @@ static void delBwd(char ch)
     else {
         int deleted_length = 1;
 
-        change = TRUE;
+        commandLineChanged = TRUE;
 
         moveCursorLeft();            /* Move backwards over the deleted char */
 
@@ -670,7 +670,7 @@ static void delFwd(char ch)
     else {
         int i;
 
-        change = TRUE;
+        commandLineChanged = TRUE;
 
         int deleted_length = byteLengthOfCharacterAt(bufidx);
         shiftBufferLeftFrom(bufidx, deleted_length);
@@ -704,7 +704,7 @@ static void newLine(char ch)
     rc = write(1, "\n", 1);
 
     /* If the input is not the same as the previous, save it in the history */
-    if (change && strlen((char *)buffer) > 0) {
+    if (commandLineChanged && strlen((char *)buffer) > 0) {
         if (history[histidx] == NULL)
             history[histidx] = (unsigned char *)allocate(LINELENGTH+1);
         strcpy((char *)history[histidx], (char *)buffer);
@@ -804,7 +804,7 @@ static void normalCh(char ch) {
         overwriteCh(bytes, length);
     }
 
-    change = TRUE;
+    commandLineChanged = TRUE;
 }
 
 #ifdef __win__
@@ -881,7 +881,7 @@ bool readline(char usrbuf[])
         bufidx = 0;
         histp = histidx;
         buffer[0] = '\0';
-        change = TRUE;
+        commandLineChanged = TRUE;
         echoOff();
         endOfInput = 0;
         while (!endOfInput) {
