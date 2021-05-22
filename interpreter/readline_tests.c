@@ -340,7 +340,7 @@ static void type_insert_toogle(void) {
                will_return(1));
 }
 
-Ensure(Readline, can_overwrite_non_multibyte_character_with_non_multibyte) {
+Ensure(Readline, can_overwrite_singlebyte_character_with_non_multibyte) {
     char buffer[100];
 
     type_insert_toogle();
