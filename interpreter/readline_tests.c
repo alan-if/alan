@@ -340,7 +340,7 @@ static void type_insert_toogle(void) {
                will_return(1));
 }
 
-Ensure(Readline, can_overwrite_singlebyte_character_with_non_multibyte) {
+Ensure(Readline, can_overwrite_singlebyte_character_with_singlebyte) {
     char buffer[100];
 
     type_insert_toogle();
@@ -364,7 +364,7 @@ Ensure(Readline, can_overwrite_singlebyte_character_with_non_multibyte) {
     assert_that(buffer, is_equal_to_string("aba"));
 }
 
-xEnsure(Readline, can_overwrite_multibyte_character_with_non_multibyte) {
+Ensure(Readline, can_overwrite_multibyte_character_with_singlebyte) {
     char buffer[100];
 
     encodingOption = ENCODING_UTF;
@@ -390,7 +390,7 @@ xEnsure(Readline, can_overwrite_multibyte_character_with_non_multibyte) {
     assert_that(buffer, is_equal_to_string("aba"));
 }
 
-xEnsure(Readline, can_overwrite_non_multibyte_character_with_multibyte) {
+Ensure(Readline, can_overwrite_singlebyte_character_with_multibyte) {
     char buffer[100];
 
     encodingOption = ENCODING_UTF;
@@ -403,12 +403,12 @@ xEnsure(Readline, can_overwrite_non_multibyte_character_with_multibyte) {
     expect_c();
 
     expect_leftArrow();         /* Backup ... */
-    expect_adiaeresis();
+    expect_odiaeresis();
 
     expect_newline();
 
     expect(ensureInternalEncoding,
-           when(string, is_equal_to_string("ab\xC3\B6")),
+           when(string, is_equal_to_string("ab\xC3\xB6")),
            will_return(strdup("ab\xF6"))); /* Because it should be malloc'ed */
 
     readline(buffer);

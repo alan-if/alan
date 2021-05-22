@@ -713,7 +713,7 @@ static void newLine(char ch)
 }
 
 
-static void shift_buffer_right_from(int idx, int offset) {
+static void shiftBufferRightFrom(int idx, int offset) {
     for (int i = byte_length((char *)buffer); i >= idx; i--)
         buffer[i+offset] = buffer[i];
     buffer[byte_length(buffer)+1] = '\0';
@@ -731,12 +731,13 @@ static void insertCh(uchar bytes[], int length) {
     (void)rc;
 
     /* Make room for the bytes @bufidx */
-    shift_buffer_right_from(bufidx, length);
+    shiftBufferRightFrom(bufidx, length);
 
     /* Fill the buffer with the collected bytes */
     for (int i=0; i < length; i++)
         buffer[bufidx+i] = bytes[i];
     writeBufferFrom(bufidx);
+
     bufidx += length;
     moveCursorLeftTo(bufidx);
 }
@@ -747,13 +748,17 @@ static void overwriteCh(uchar bytes[], int length) {
     (void)rc;
 
     int current_length = byteLengthOfCharacterAt(bufidx);
-    /* TODO: for now assume incoming char is single-byte */
-    if (current_length > 1)
-        shiftBufferLeftFrom(bufidx, current_length-1);
 
-    buffer[bufidx] = ch;
-    rc = write(1, &ch, 1);
-    bufidx++;
+    if (length < current_length)
+        shiftBufferLeftFrom(bufidx, current_length-length);
+    else
+        shiftBufferRightFrom(bufidx, length-current_length);
+
+    /* Fill the buffer with the collected bytes */
+    for (int i=0; i < length; i++) {
+        buffer[bufidx++] = bytes[i];
+        rc = write(1, &buffer[bufidx], 1);
+    }
 }
 
 
@@ -794,11 +799,7 @@ static void normalCh(char ch) {
         bytes[0] = ch;
     }
 
-    /* If at end advance the NULL */
-    if (buffer[bufidx] == '\0')
-        buffer[bufidx+1] = '\0';
-
-    if (insertMode) {
+    if (buffer[bufidx] == '\0' || insertMode) {
         insertCh(bytes, length);
     } else {
         overwriteCh(bytes, length);
