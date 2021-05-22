@@ -454,7 +454,6 @@ static void erase()
     int i;
 
     /* Backup to beginning of text */
-    /* TODO: This is wrong! Should not use strlen, but instead ...*/
     /* TODO: moveCursorBackOver(n); including UTF-8 chars */
     for (i = 0; i < character_length((uchar *)&buffer[bufidx]); i++)
         moveCursorLeft();
@@ -744,8 +743,6 @@ static void insertCh(uchar bytes[], int length) {
 
 
 static void overwriteCh(uchar bytes[], int length) {
-    int rc;
-    (void)rc;
 
     int current_length = byteLengthOfCharacterAt(bufidx);
 
@@ -754,12 +751,30 @@ static void overwriteCh(uchar bytes[], int length) {
     else
         shiftBufferRightFrom(bufidx, length-current_length);
 
-    /* Fill the buffer with the collected bytes */
+    /* Fill the buffer with the collected bytes ... */
     for (int i=0; i < length; i++) {
         buffer[bufidx++] = bytes[i];
-        rc = write(1, &buffer[bufidx], 1);
     }
+
+    /* ... and write them */
+    int rc = write(1, bytes, length);
+    (void)rc;
 }
+
+
+static int utf8_follow_bytes(uchar ch) {
+    /* 110xxxxx -> 1 extra byte */
+    /* 1110xxxx -> 2 extra bytes */
+    /* 11110xxx -> 3 extra bytes */
+    if ((ch & 0xE0) == 0xC0)
+        return 2;
+    else if ((ch & 0xF0) == 0xE0)
+        return 3;
+    else if ((ch & 0xF8) == 0xF0)
+        return 4;
+    return -1;
+}
+
 
 
 static void normalCh(char ch) {
@@ -775,14 +790,9 @@ static void normalCh(char ch) {
 
     if (encodingOption == ENCODING_UTF)  {
         if (is_utf8_prefix(ch)) {
-            /*  Start collecting bytes in the array */
-            /* 110xxxxx -> 1 extra byte */
-            /* 1110xxxx -> 2 extra bytes */
-            /* 11110xxx -> 3 extra bytes */
-            /* TODO: For now assume 2 bytes */
-            length = 2;
-            bytes_left = 1;
-            /* Save this character */
+            /* Start collecting bytes in the array */
+            length = utf8_follow_bytes(ch);
+            bytes_left = length-1;
             bytes[0] = ch;
             return;
         } else if (bytes_left > 0) {
