@@ -86,6 +86,12 @@ static void expect_delBwd(void) {
            will_return(1));
 }
 
+static void expect_delFwd(void) {
+    static char delBwd = '\x04';
+    expect(mocked_read,
+           will_set_contents_of_parameter(buf, &delBwd, sizeof(char)),
+           will_return(1));
+}
 
 Ensure(Readline, can_delete_last_ascii_character) {
     char buffer[100];
@@ -109,7 +115,6 @@ Ensure(Readline, can_delete_last_ascii_character) {
     assert_that(buffer, is_equal_to_string("ab"));
 }
 
-
 static void expect_leftArrow(void) {
     static char escHook = '\x1b';
     static char arrowHook = '\x5b';
@@ -124,6 +129,30 @@ static void expect_leftArrow(void) {
            will_set_contents_of_parameter(buf, &leftArrow, sizeof(char)),
            will_return(1));
 }
+
+Ensure(Readline, can_delete_next_ascii_character) {
+    char buffer[100];
+
+    /* Expect to read 'abc' ... */
+    expect_a();
+    expect_b();
+    expect_c();
+
+    /* Now move left and delete next */
+    expect_leftArrow();
+    expect_delFwd();
+
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("ab")),
+           will_return(strdup("ab"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+
+    assert_that(buffer, is_equal_to_string("ab"));
+}
+
 
 
 Ensure(Readline, can_delete_an_ascii_character_in_the_middle) {
@@ -254,6 +283,32 @@ Ensure(Readline, can_delete_last_utf8_character) {
     assert_that(buffer, is_equal_to_string("\xE5\xE4"));
 }
 
+
+Ensure(Readline, can_delete_next_utf8_character) {
+    char buffer[100];
+
+    encodingOption = ENCODING_UTF;
+
+    /* Expect to read 3 UTF-chars, which is actually 6 bytes ... */
+    expect_aring();
+    expect_adiaeresis();
+    expect_odiaeresis();
+
+    expect_leftArrow();
+    /* ... and delete the next character */
+    expect_delFwd();
+
+    /* Enter */
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("\xC3\xA5\xC3\xA4")), /* åä */
+           will_return(strdup("\xE5\xE4"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+
+    assert_that(buffer, is_equal_to_string("\xE5\xE4"));
+}
 
 Ensure(Readline, can_delete_an_utf8_character_in_the_middle) {
     char buffer[100];
