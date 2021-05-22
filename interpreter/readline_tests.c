@@ -442,6 +442,32 @@ Ensure(Readline, can_insert_an_utf8_character_in_the_middle) {
     assert_that(buffer, is_equal_to_string("\xE5\xE4\xF6"));
 }
 
+Ensure(Readline, can_insert_a_singlebyte_character_in_the_middle_of_multibytes) {
+    char buffer[100];
+
+    encodingOption = ENCODING_UTF;
+
+    /* Type two UTF-8 characters */
+    expect_aring();
+    expect_odiaeresis();
+
+    /* backup one UTF-8 character */
+    expect_leftArrow();
+
+    /* ... and type another character */
+    expect_a();
+
+    /* Enter */
+    expect_newline();
+
+    expect(ensureInternalEncoding,
+           when(string, is_equal_to_string("\xC3\xA5\x61\xC3\xB6")), /* åäö */
+           will_return(strdup("\xE5\x61\xF6"))); /* Because it should be malloc'ed */
+
+    readline(buffer);
+    assert_that(buffer, is_equal_to_string("\xE5\x61\xF6"));
+}
+
 extern int character_length(uchar *utf_string);
 
 Ensure(Readline, can_count_utf_chars) {
