@@ -1,0 +1,6 @@
+#include <cgreen/cgreen.h>
+#include <cgreen/mocks.h>
+
+/* Functions: */
+char *ensureExternalEncoding(char string[]) { return (char *)mock(string); }
+char *ensureInternalEncoding(char string[]) { return (char *)mock(string); }

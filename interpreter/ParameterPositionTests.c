@@ -101,17 +101,3 @@ Ensure(ParameterPosition, parameterPositionsOfEqualLengthWithUnequalLengthParame
 
     assert_false(equalParameterPositions(parameterPosition1, parameterPosition2));
 }
-
-/*======================================================================*/
-TestSuite *parameterPositionTests(void)
-{
-    TestSuite *suite = create_test_suite();
-
-    add_test_with_context(suite, ParameterPosition, canUncheckAllParameterPositions);
-    add_test_with_context(suite, ParameterPosition, canFindMultipleParameterPosition);
-    add_test_with_context(suite, ParameterPosition, copyParameterPositionsCopyTheWholeListIncludingTheEndMarker);
-    add_test_with_context(suite, ParameterPosition, parameterPositionsOfUnequalLengthAreNotEqual);
-    add_test_with_context(suite, ParameterPosition, parameterPositionsOfEqualLengthWithUnequalLengthParametersAreNotEqual);
-
-    return suite;
-}

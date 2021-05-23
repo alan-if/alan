@@ -12,9 +12,10 @@ ifneq ($(BUILDNUMBER),)
   CFLAGS_BUILD = -DBUILD=$(BUILDNUMBER)
 endif
 
-# NOTE: for unittests -DUNITTESTING is automatically added by
-# ../mk/isolated_unittests.mk so you can override system functions
-CFLAGS += -g -Og -Wall -MMD -I../interpreter $(CFLAGS_BUILD)
+# NOTE: for unittests -DUNITTESTING is automatically added
+# so you can override system functions
+CFLAGS += -g -Og -Wall -MMD -I../interpreter $(CFLAGS_BUILD) $(COVERAGE)
+LDFLAGS += $(COVERAGE)
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
@@ -38,8 +39,6 @@ $(ALANOBJECTS): | $(ALANOBJDIR)
 $(ALANOBJDIR):
 	mkdir $(ALANOBJDIR)
 
-alan: CFLAGS += $(COVERAGE)
-alan: LDFLAGS += $(COVERAGE)
 alan: $(ALANOBJDIR) $(ALANOBJECTS)
 	$(LINK) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
@@ -100,8 +99,6 @@ unitbuild:
 else
 # Two types:
 unit: linked_unittests isolated_unittests
-unit: CFLAGS += $(COVERAGE)
-unit: LDFLAGS += $(COVERAGE)
 .PHONY: unitbuild
 unitbuild: linked_unittests_build isolated_unittests_build
 

@@ -25,7 +25,7 @@ ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTS_OBJDIR)/, $(addsuffix .o
 ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTS_OBJDIR)/, $(addsuffix .o, $(ISOLATED_UNITTESTS_EXTRA_MODULES)))
 
 
-# A test lib for a module is built from its .o and the _test.o (and some extras)
+# An isolated test lib for a module is built from <module>.o and <module>_test.o (and some extras)
 $(UNITTESTS_OBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTS_OBJDIR)/%.o $(UNITTESTS_OBJDIR)/%_tests.o $(ISOLATED_UNITTESTS_EXTRA_OBJS)
 	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDLIBS) -lcgreen
 
@@ -48,4 +48,4 @@ $(UNITTESTS_OBJDIR)/%.o: | $(UNITTESTS_OBJDIR)
 
 # Create directory if it doesn't exist
 $(UNITTESTS_OBJDIR):
-	@mkdir $(UNITTESTS_OBJDIR)
+	@mkdir -p $(UNITTESTS_OBJDIR)

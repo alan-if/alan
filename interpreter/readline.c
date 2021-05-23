@@ -14,8 +14,20 @@
 #include "Location.h"
 #include "converter.h"
 
+#include "options.h"
+
 
 #define LINELENGTH 1000
+
+#ifdef UNITTESTING
+/* Transform some stdlib functions to mockable functions */
+#define read(fd, buf, n) mocked_read(fd, buf, n)
+extern ssize_t mocked_read (int __fd, char *__buf, size_t __nbytes);
+
+#define write(fd, buf, n) mocked_write(fd, buf, n)
+extern ssize_t write (int __fd, const void *__buf, size_t __n);
+
+#endif
 
 
 // TODO Try to split this into more obvious GLK and non-GLK modules
@@ -185,6 +197,9 @@ bool readline(char buffer[])
 }
 
 #else
+/*---------------------------------------------------------------------------------------*/
+/* Non-GLK terminal I/O using simple movements and overwrites with spaces and backspaces */
+/*---------------------------------------------------------------------------------------*/
 
 #include "sysdep.h"
 #include <stdlib.h>
@@ -245,21 +260,21 @@ static int histp;		/* Points to the history recalled last */
 
 static unsigned char ch;
 static int endOfInput = 0;
-static bool change;
-static bool insert = TRUE;
+static bool commandLineChanged;
+static bool insertMode = TRUE;
 
 
-/*----------------------------------------------------------------------*\
+/*----------------------------------------------------------------------
 
   Character map types and maps
 
-  \*----------------------------------------------------------------------*/
+  ----------------------------------------------------------------------*/
 
 typedef struct {unsigned char min, max; void (*hook)(char ch);} KeyMap;
 
 /* Forward declaration of hooks */
 static void escHook(char ch);
-static void insertCh(char ch);
+static void normalCh(char ch);
 static void arrowHook(char ch);
 static void upArrow(char ch);
 static void downArrow(char ch);
@@ -283,9 +298,9 @@ static KeyMap keymap[] = {
     {0x09, 0x09, NULL},
     {0x0a, 0x0a, newLine},
     {0x1b, 0x1b, escHook},
-    {0x1c, 0x7e, insertCh},
+    {0x1c, 0x7e, normalCh},
     {0x7f, 0x7f, delFwd},
-    {0x80, 0xff, insertCh},
+    {0x80, 0xff, normalCh},
     {0x00, 0x00, NULL}
 };
 
@@ -310,6 +325,8 @@ static KeyMap arrowmap[] = {
 
 #else
 
+/* Not windows */
+
 static void escapeBracket3Hook(char ch);
 static void ignoreCh(char ch) {}
 
@@ -322,9 +339,9 @@ static KeyMap keymap[] = {
     {0x0a, 0x0a, newLine},
     {0x0d, 0x0d, ignoreCh},
     {0x1b, 0x1b, escHook},
-    {0x1c, 0x7e, insertCh},
+    {0x1c, 0x7e, normalCh},
     {0x7f, 0x7f, delBwd},
-    {0x80, 0xff, insertCh},
+    {0x80, 0xff, normalCh},
     {0x00, 0x00, NULL}
 };
 
@@ -364,15 +381,59 @@ static void escapeBracket3Hook(char ch) {
 #endif
 
 
+static void stripNewline(char *buffer) {
+    int len = strlen(buffer);
+    if (len > 0 && buffer[len-1] == '\n')
+        buffer[len-1] = '\0';
+}
+
+static bool is_utf8_prefix(uchar ch) {
+    return (ch&0xC0) == 0xC0;
+}
+
+static bool is_utf8_follow(uchar ch) {
+    return (ch&0xC0) == 0x80;
+}
+
+/* Number of characters counting multi-byte characters as one (as opposed to bytes) in a null-terminated array */
+int character_length(uchar *string) {
+    int count = 0;
+
+    for (int i = 0; string[i] != '\0'; i++) {
+        if (encodingOption == ENCODING_UTF && is_utf8_prefix(string[i])) {
+            count++;
+            i++;
+            do {
+                i++;
+            } while ((string[i] != '\0') && is_utf8_follow(string[i]));
+            i--;
+        } else {
+            count++;
+        }
+    }
+    return count;
+}
+
+/* Number of bytes (as opposed to characters e.g. UTF-8) in a null-terminated array */
+static int byte_length(char *bytes) {
+    return strlen(bytes);
+}
+
+
+
+#ifdef UNITTESTING
+#include <cgreen/mocks.h>
+static void doBeep(void) { mock(); }
+#else
 static void doBeep(void)
 {
     int rc;
     (void)rc;                   /* UNUSED */
     rc = write(1, "\7", 1);
 }
+#endif
 
-
-static void backspace(void)
+static void moveCursorLeft(void)
 {
     int rc;
     (void)rc;                   /* UNUSED */
@@ -380,17 +441,33 @@ static void backspace(void)
 }
 
 
+static void writeBlank() {
+    int rc;
+    (void)rc;               /* UNUSED */
+    rc = write(1, " ", 1);
+}
+
+
+
 static void erase()
 {
     int i;
 
-    for (i = 0; i < bufidx; i++) backspace(); /* Backup to beginning of text */
-    for (i = 0; i < strlen((char *)buffer); i++) {
-        int rc;
-        (void)rc;               /* UNUSED */
-        rc = write(1, " ", 1); /* Erase all text */
+    /* Backup to beginning of text */
+    /* TODO: moveCursorBackOver(n); including UTF-8 chars */
+    for (i = bufidx; i > 0; i--) {
+        if (encodingOption != ENCODING_UTF || !is_utf8_follow(buffer[i]))
+            moveCursorLeft();
     }
-    for (i = 0; i < strlen((char *)buffer); i++) backspace(); /* Backup to beginning of text */
+
+    /* Overwrite with spaces */
+    for (i = 0; i < character_length((uchar *)buffer); i++) {
+        writeBlank();
+    }
+
+    /* Backup to beginning of text */
+    for (i = 0; i < character_length((uchar *)buffer); i++)
+        moveCursorLeft();
 }
 
 /*----------------------------------------------------------------------*\
@@ -471,6 +548,23 @@ static void downArrow(char ch)
 }
 
 
+static int byteLengthOfCharacterAt(int bufidx) {
+    int count = 1;
+    if (encodingOption == ENCODING_UTF) {
+        if (is_utf8_prefix((uchar)buffer[bufidx])) {
+            /* Next character is a multi-byte */
+            while (is_utf8_follow((uchar)buffer[bufidx+1])) {
+                count++;
+                bufidx++;
+            }
+        }
+    }
+
+    return count;
+}
+
+
+
 static void rightArrow(char ch)
 {
     if (bufidx > LINELENGTH || buffer[bufidx] == '\0')
@@ -478,10 +572,25 @@ static void rightArrow(char ch)
     else {
         int rc;
         (void)rc;                   /* UNUSED */
-        rc = write(1, (void *)&buffer[bufidx], 1);
-        bufidx++;
+        int count = byteLengthOfCharacterAt(bufidx);
+        rc = write(1, (void *)&buffer[bufidx], count);
+        bufidx+=count;
     }
 }
+
+
+static int byteLengthOfPreviousCharacter(int idx) {
+    int count = 1;
+    if (encodingOption == ENCODING_UTF) {
+        /* This is moving backwards over UTF-8 characters */
+        if (is_utf8_follow(buffer[idx-1]))
+            /* If top two bits are 10 then it's a UTF-8 follow-up byte, so backup till we find prefix */
+            while (is_utf8_follow(buffer[--idx]))
+                count++;
+    }
+    return count;
+}
+
 
 
 static void leftArrow(char ch)
@@ -489,8 +598,8 @@ static void leftArrow(char ch)
     if (bufidx == 0)
         doBeep();
     else {
-        bufidx--;
-        backspace();
+        bufidx -= byteLengthOfPreviousCharacter(bufidx);
+        moveCursorLeft();       /* And it's still just one character on the screen */
     }
 }
 
@@ -503,28 +612,55 @@ static void insertToggle(char ch)
     if (ch != 'z')
         doBeep();
     else
-        insert = !insert;
+        insertMode = !insertMode;
 }
+
+
+static void shiftBufferLeftFrom(int idx, int offset) {
+    for (int i = 0; i <= byte_length((char *)&buffer[idx+offset])+1; i++) {
+        buffer[idx+i] = buffer[idx+i+offset];
+    }
+}
+
+
+static void writeBufferFrom(int idx) {
+    int rc;
+    (void)rc;                   /* UNUSED */
+    rc = write(1, (void *)&buffer[idx], byte_length(&buffer[idx]));
+}
+
+
+static void moveCursorFromEndBackTo(int idx) {
+    for (int i = 0; i <= character_length((uchar *)&buffer[idx]); i++)
+        moveCursorLeft();
+}
+
 
 
 static void delBwd(char ch)
 {
+    (void)ch;                   /* UNUSED - to match other keymap functions */
+
     if (bufidx == 0)
         doBeep();
     else {
-        int i;
-        int rc;
-        (void)rc;                   /* UNUSED */
+        int deleted_length = 1;
 
-        change = TRUE;
-        backspace();
-        bufidx--;
-        for (i = 0; i <= strlen((char *)&buffer[bufidx+1]); i++)
-            buffer[bufidx+i] = buffer[bufidx+1+i];
-        rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-        rc = write(1, " ", 1);
-        for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
-            backspace();
+        commandLineChanged = TRUE;
+
+        moveCursorLeft();            /* Move backwards over the deleted char */
+
+        deleted_length = byteLengthOfPreviousCharacter(bufidx);
+        bufidx -= deleted_length;
+
+        /* Move up any remaning characters in the buffer ... */
+        shiftBufferLeftFrom(bufidx, deleted_length);
+
+        /* ... on the screen, print the rest of the string ... */
+        writeBufferFrom(bufidx);
+        writeBlank();           /* And erase the character at the end still left on screen */
+
+        moveCursorFromEndBackTo(bufidx);   /* Move back to current position */
     }
 }
 
@@ -534,15 +670,15 @@ static void delFwd(char ch)
         doBeep();
     else {
         int i;
-        int rc;
-        (void)rc;                   /* UNUSED */
 
-        change = TRUE;
-        strcpy((char *)&buffer[bufidx], (char *)&buffer[bufidx+1]);
-        rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-        rc = write(1, " ", 1);
-        for (i = 0; i <= strlen((char *)&buffer[bufidx]); i++)
-            backspace();
+        commandLineChanged = TRUE;
+
+        int deleted_length = byteLengthOfCharacterAt(bufidx);
+        shiftBufferLeftFrom(bufidx, deleted_length);
+        writeBufferFrom(bufidx);
+        writeBlank();
+        for (i = 0; i <= character_length((uchar *)&buffer[bufidx]); i++)
+            moveCursorLeft();
     }
 }
 
@@ -569,7 +705,7 @@ static void newLine(char ch)
     rc = write(1, "\n", 1);
 
     /* If the input is not the same as the previous, save it in the history */
-    if (change && strlen((char *)buffer) > 0) {
+    if (commandLineChanged && strlen((char *)buffer) > 0) {
         if (history[histidx] == NULL)
             history[histidx] = (unsigned char *)allocate(LINELENGTH+1);
         strcpy((char *)history[histidx], (char *)buffer);
@@ -578,29 +714,110 @@ static void newLine(char ch)
 }
 
 
-static void insertCh(char ch) {
-    if (bufidx > LINELENGTH)
-        doBeep();
-    else {
-        int rc;
-        (void)rc;               /* UNUSED */
-        /* If at end advance the NULL */
-        if (buffer[bufidx] == '\0')
-            buffer[bufidx+1] = '\0';
-        else if (insert) {
-            int i;
+static void shiftBufferRightFrom(int idx, int offset) {
+    for (int i = byte_length((char *)buffer); i >= idx; i--)
+        buffer[i+offset] = buffer[i];
+    buffer[byte_length(buffer)+1] = '\0';
+}
 
-            /* If insert mode is on, move the characters ahead */
-            for (i = strlen((char *)buffer); i >= bufidx; i--)
-                buffer[i+1] = buffer[i];
-            rc = write(1, (void *)&buffer[bufidx], strlen((char *)&buffer[bufidx]));
-            for (i = strlen((char *)&buffer[bufidx]); i > 0; i--) backspace();
-        }
-        change = TRUE;
-        buffer[bufidx] = ch;
-        rc = write(1, &ch, 1);
-        bufidx++;
+
+static void moveCursorLeftTo(int idx) {
+    for (int i = character_length((uchar *)&buffer[idx]); i > 0; i--)
+        moveCursorLeft();
+}
+
+
+static void insertCh(uchar bytes[], int length) {
+    int rc;
+    (void)rc;
+
+    /* Make room for the bytes @bufidx */
+    shiftBufferRightFrom(bufidx, length);
+
+    /* Fill the buffer with the collected bytes */
+    for (int i=0; i < length; i++)
+        buffer[bufidx+i] = bytes[i];
+    writeBufferFrom(bufidx);
+
+    bufidx += length;
+    moveCursorLeftTo(bufidx);
+}
+
+
+static void overwriteCh(uchar bytes[], int length) {
+
+    int current_length = byteLengthOfCharacterAt(bufidx);
+
+    if (length < current_length)
+        shiftBufferLeftFrom(bufidx, current_length-length);
+    else
+        shiftBufferRightFrom(bufidx, length-current_length);
+
+    /* Fill the buffer with the collected bytes ... */
+    for (int i=0; i < length; i++) {
+        buffer[bufidx++] = bytes[i];
     }
+
+    /* ... and write them */
+    int rc = write(1, bytes, length);
+    (void)rc;
+}
+
+
+static int utf8_follow_bytes(uchar ch) {
+    /* 110xxxxx -> 1 extra byte */
+    /* 1110xxxx -> 2 extra bytes */
+    /* 11110xxx -> 3 extra bytes */
+    if ((ch & 0xE0) == 0xC0)
+        return 2;
+    else if ((ch & 0xF0) == 0xE0)
+        return 3;
+    else if ((ch & 0xF8) == 0xF0)
+        return 4;
+    return -1;
+}
+
+
+
+static void normalCh(char ch) {
+    if (bufidx > LINELENGTH) {
+        doBeep();
+        return;
+    }
+    int rc;
+    (void)rc;               /* UNUSED */
+    static uchar bytes[4];
+    static int length;
+    static int bytes_left;
+
+    if (encodingOption == ENCODING_UTF)  {
+        if (is_utf8_prefix(ch)) {
+            /* Start collecting bytes in the array */
+            length = utf8_follow_bytes(ch);
+            bytes_left = length-1;
+            bytes[0] = ch;
+            return;
+        } else if (bytes_left > 0) {
+            bytes_left--;
+            bytes[length-1 - bytes_left] = ch;
+            if (bytes_left != 0)
+                return;
+        } else {
+            length = 1;
+            bytes[0] = ch;
+        }
+    } else {
+        length = 1;
+        bytes[0] = ch;
+    }
+
+    if (buffer[bufidx] == '\0' || insertMode) {
+        insertCh(bytes, length);
+    } else {
+        overwriteCh(bytes, length);
+    }
+
+    commandLineChanged = TRUE;
 }
 
 #ifdef __win__
@@ -641,14 +858,6 @@ static void echoOn()
 #endif
 }
 
-static void stripNewline(char *buffer) {
-    int len = strlen(buffer);
-    if (len > 0 && buffer[len-1] == '\n')
-        buffer[len-1] = '\0';
-}
-
-
-
 
 /*======================================================================
 
@@ -656,6 +865,9 @@ static void stripNewline(char *buffer) {
 
   Read a line from the user, with history, editing and command
   reading from file
+
+  NOTE that the raw characters (and thus the maps) are in the
+  native/external encoding for the platform.
 
 */
 
@@ -682,11 +894,12 @@ bool readline(char usrbuf[])
         bufidx = 0;
         histp = histidx;
         buffer[0] = '\0';
-        change = TRUE;
+        commandLineChanged = TRUE;
         echoOff();
         endOfInput = 0;
         while (!endOfInput) {
             if (read(0, (void *)&ch, 1) != 1) {
+                /* Not returning 1 means we did not get any character at all... */
                 echoOn();
                 return FALSE;
             }

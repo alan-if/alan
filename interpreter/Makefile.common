@@ -15,7 +15,10 @@ ifneq ($(BUILDNUMBER),)
   CFLAGS_BUILD = -DBUILD=$(BUILDNUMBER)
 endif
 
-CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD)
+# NOTE: for unittests -DUNITTESTING is automatically added
+# so you can override system functions
+CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD) $(COVERAGE)
+LDFLAGS += $(COVERAGE)
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
@@ -38,8 +41,6 @@ $(ARUNOBJECTS): | $(ARUNOBJDIR)
 $(ARUNOBJDIR):
 	mkdir $(ARUNOBJDIR)
 
-arun: CFLAGS += $(COVERAGE)
-arun: LDFLAGS += $(COVERAGE)
 arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
 	$(LINK) $(LDFLAGS) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
 	cp -f $@$(EXEEXT) ../bin/
@@ -116,27 +117,41 @@ cross-clean:
 # unit: Unit testing
 #
 # CGreen unit tests of two types:
-#	- using a main program
-#	- using cgreen-runner which finds and runs all tests in shared libraries
+#	- one library for all tests (*Tests.c) linked with every module that is needed
+#	- one library per module (*_tests.c) with every thing needed mocked away
 #
+# Having both these types is just a intermediate state as all
+# "linked_unittests" are being transformed into "isolated_unittests"
 .PHONY: unit
 ifneq ($(CGREEN),yes)
 unit:
 	@echo "No unit tests run, Cgreen not available"
 else
-unit: cgreenrunnertests isolated_unittests
+unit: linked_unittests isolated_unittests
+
+# Define UNITTESTING so modules can define system function calls with Cgreen mocks
+unit: CFLAGS += -DUNITTESTING
+
+unit-coverage: COVERAGE=--coverage
+unit-coverage: unit
+	$(MAKE)	cov-data
 endif
 
 UNITTESTS_OBJDIR = .unittests
 
 CGREENLINKLIB ?= -lcgreen
 
-UNITTESTS_USING_MAIN_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTS_USING_MAIN_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
-UNITTESTS_USING_RUNNER_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTS_USING_RUNNER_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
-UNITTESTS_ALL_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTS_ALL_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
+# Here's a little tricky, we need to use different readline.o for
+# linked and isolated unittests because we need the isolated one to
+# not call the real 'read()', so we replace the references in the
+# linked unittests with the mocked version symlinked to
+# readline.mock.c (we only need the references, noone is calling it)
+LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS = ${subst readline,readline.mock,$(LINKED_UNITTESTS_SRCS)}
+
+LINKED_UNITTESTS_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${LINKED_UNITTESTS_WITH_MOCKED_READLINE_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
 
 # Dependencies, if they don't exist yet
--include $(UNITTESTS_USING_MAIN_OBJECTS:.o=.d)
+-include $(LINKED_UNITTESTS_OBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
 $(UNITTESTS_OBJDIR)/%.o: %.c
@@ -147,13 +162,11 @@ $(UNITTESTS_OBJDIR)/%_tests.o: %_tests.c
 $(UNITTESTSOBJECTS): | $(UNITTESTS_OBJDIR)
 
 # Build one DLL with all runner tests...
-unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(UNITTESTS_USING_RUNNER_OBJECTS) sources.mk
-	$(LINK) -shared -o $@ $(UNITTESTS_USING_RUNNER_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
+unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(LINKED_UNITTESTS_OBJECTS) sources.mk
+	$(LINK) -shared -o $@ $(LINKED_UNITTESTS_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
 
 # ... that can be run with the cgreen runner
-cgreenrunnertests: CFLAGS += $(CGREENINCLUDE) $(COVERAGE)
-cgreenrunnertests: LDFLAGS += $(COVERAGE)
-cgreenrunnertests: unittests.$(SOEXTENSION)
+linked_unittests: unittests.$(SOEXTENSION)
 	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
 #####################################################################
@@ -164,8 +177,6 @@ cgreenrunnertests: unittests.$(SOEXTENSION)
 ISOLATED_UNITTESTS_EXTRA_MODULES = memory options lists sysdep set
 
 isolated_unittests: SUITE = Interpreter
-isolated_unittests: CFLAGS += $(COVERAGE)
-isolated_unittests: LDFLAGS += $(COVERAGE)
 
 include ../mk/isolated_unittests.mk
 
@@ -176,8 +187,6 @@ clean:
 
 
 ##################################################################
-coverage: CFLAGS += --coverage
-coverage: LDFLAGS += --coverage
 .PHONY: coverage
 coverage:
 	$(MAKE) clean
@@ -186,7 +195,10 @@ coverage:
 	$(MAKE) test
 	$(MAKE) coverage-report
 
-coverage-report:
+coverage-report: cov-data
+	genhtml -q -o coverage-report coverage.info
+
+cov-data:
 	lcov -q -c -d . --exclude /usr/\* -o coverage.info
 	@# Re-create separate gcov files from total.info for Emacs cov-mode
 	@# with coverage in the fringe area and auto-update. Nice!
@@ -194,8 +206,6 @@ coverage-report:
 	if command -v info2gcov > /dev/null 2>&1 ; then \
 		info2gcov -q coverage.info ; \
 	fi
-	genhtml -q -o coverage-report coverage.info
-
 
 
 ###################################################################
