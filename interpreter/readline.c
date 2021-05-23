@@ -455,8 +455,10 @@ static void erase()
 
     /* Backup to beginning of text */
     /* TODO: moveCursorBackOver(n); including UTF-8 chars */
-    for (i = 0; i < character_length((uchar *)&buffer[bufidx]); i++)
-        moveCursorLeft();
+    for (i = bufidx; i > 0; i--) {
+        if (encodingOption != ENCODING_UTF || !is_utf8_follow(buffer[i]))
+            moveCursorLeft();
+    }
 
     /* Overwrite with spaces */
     for (i = 0; i < character_length((uchar *)buffer); i++) {
