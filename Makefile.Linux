@@ -65,7 +65,7 @@ snapshot-build:
 	$(MAKE) BUILDNUMBER=$(BUILDNUMBER) BUILDVERSION=$(BUILDVERSION) clean build $(PACKAGE)
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) gararun
 
-snapshot-upload:
+snapshot-upload: buildnumbers
 	alanupload $(PACKAGE) snapshots/$(BUILDNAME)/
 	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh snapshots/$(BUILDNAME)/
 endif

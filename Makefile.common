@@ -106,19 +106,23 @@ snapshot: buildnumbers snapshot-build snapshot-upload
 # You can call 'buildnumbers' to pick up the latest build from Jenkins, you can also
 # set a BUILDNUMBER and then call it which will set the other dependent values correctly
 
+# If there is a file with BUILDNUMBER, use that
 ifneq ($(wildcard ./BUILDNUMBER),)
-BUILDNUMBER=`cat BUILDNUMBER`
-endif
-
-ifneq ($(BUILDNUMBER),)
-  # For snapshots we use buildnumber for version info and filenames
+  BUILDNUMBER=`cat BUILDNUMBER`
   BUILDVERSION = -$(BUILDNUMBER)
-  # And BUILDNAME for directory names
   BULDNAME = Build$(BUILDNUMBER)
 endif
 
+ifneq ($(BUILDNUMBER),)
+  BUILDVERSION = -$(BUILDNUMBER)
+  BULDNAME = Build$(BUILDNUMBER)
+endif
+
+
 .PHONY: buildnumbers
 buildnumbers: buildnumber
+	$(eval BUILDVERSION := -$(BUILDNUMBER))
+	$(eval BUILDNAME := Build$(BUILDNUMBER))
 	@echo BUILDNUMBER = $(BUILDNUMBER)
 	@echo BUILDVERSION = $(BUILDVERSION)
 	@echo BUILDNAME = $(BUILDNAME)
@@ -126,7 +130,7 @@ buildnumbers: buildnumber
 
 buildnumber:
 ifeq ($(BUILDNUMBER),)
-	@echo "Getting BUILDNUMBER from Jenkins (should only happen when not building on Jenkins@thoni64)"
+	@echo "Getting BUILDNUMBER from Jenkins (should only happen when not building on Jenkins@ci.alanif.se)"
 	$(eval BUILDNUMBER := $(shell wget -q -O- 'https://ci.alanif.se/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
 else
 	@echo BUILDNUMBER=$BUILDNUMBER
