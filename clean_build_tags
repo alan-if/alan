@@ -3,7 +3,7 @@
 # First remove all tags not available on remote
 git fetch --prune origin "+refs/tags/*:refs/tags/*"
 # Then read all tags matching pattern to a file
-git tag -l --format="%(tag)" Build* | sort > BUILDTAGS
+git tag -l "Build*" | sort > BUILDTAGS
 # If more tags than we want to save
 if [[ $(wc -l <BUILDTAGS) -ge 10 ]] ; then
     # Pick oldest from that file
