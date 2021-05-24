@@ -91,7 +91,8 @@ platform-check:
 
 ###########################################################
 # Snapshot boiler plate for non-major platforms
-# specifics in Makefile.<platform>
+# specifics in Makefile.<platform> where 'snapshot-build'
+# and 'snapshot-upload' needs to be defined.
 #
 snapshot: buildnumbers snapshot-build snapshot-upload
 
@@ -112,12 +113,12 @@ endif
 ifneq ($(BUILDNUMBER),)
   # For snapshots we use buildnumber for version info and filenames
   BUILDVERSION = -$(BUILDNUMBER)
+  # And BUILDNAME for directory names
+  BULDNAME = Build$(BUILDNUMBER)
 endif
 
 .PHONY: buildnumbers
 buildnumbers: buildnumber
-	$(eval BUILDVERSION := -$(BUILDNUMBER))
-	$(eval BUILDNAME := Build$(BUILDNUMBER))
 	@echo BUILDNUMBER = $(BUILDNUMBER)
 	@echo BUILDVERSION = $(BUILDVERSION)
 	@echo BUILDNAME = $(BUILDNAME)
@@ -126,7 +127,7 @@ buildnumbers: buildnumber
 buildnumber:
 ifeq ($(BUILDNUMBER),)
 	@echo "Getting BUILDNUMBER from Jenkins (should only happen when not building on Jenkins@thoni64)"
-	$(eval BUILDNUMBER := $(shell wget -q -O- 'https://ci.alanif.se/jenkins/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
+	$(eval BUILDNUMBER := $(shell wget -q -O- 'https://ci.alanif.se/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
 else
 	@echo BUILDNUMBER=$BUILDNUMBER
 endif

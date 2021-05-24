@@ -31,7 +31,7 @@ cross-package: zip # setup
 
 # How to package cross-compiled Windows binaries
 # Location of Inno Setup Compiler, this is for WSL
-INNODIR = /mnt/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
+INNODIR = /mnt/c/Program\ Files\ \(x86\)/Inno\ Setup\ 6
 
 ###############
 # Distribution
