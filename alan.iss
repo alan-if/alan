@@ -8,7 +8,7 @@ AppPublisher=ThoNi Adventure Factories
 AppPublisherURL=http://www.alanif.se
 AppSupportURL=http://www.alanif.se
 AppUpdatesURL=http://www.alanif.se
-DefaultDirName={pf}\Alan V3 for Windows
+DefaultDirName={commonpf}\Alan V3 for Windows
 DefaultGroupName=Alan V3 for Windows
 AllowNoIcons=yes
 ChangesAssociations = yes
@@ -16,7 +16,7 @@ OutputDir=.
 OutputBaseFilename=alanVERSION.PLATFORM.setup
 WizardImageFile=setup_wizard.bmp
 WizardImageStretch=no
-SignTool=signtool /d $qAlan Installer$q $f
+;SignTool=signtool /d $qAlan Installer$q $f
 PrivilegesRequired=poweruser
 
 [Registry]
@@ -42,8 +42,8 @@ Source: "COPYING.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\winarun.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\a2a3.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "converter\a2a3.readme.txt"; DestDir: "{app}"; DestName: "a2a3.readme.txt"; Flags: ignoreversion
-Source: "c:\Users\Thomas\Utveckling\Alan\WindowsGlk-145\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "c:\Users\Thomas\Utveckling\Alan\WindowsGlk-145\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\Glk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\ScaleGfx.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.alan"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\logo.png"; DestDir: "{app}"; Flags: ignoreversion
 Source: "regression\saviour.a3c"; DestDir: "{app}"; Flags: ignoreversion

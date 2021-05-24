@@ -10,7 +10,7 @@ DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 PLATFORM = win32.i686
 
 # Location of Inno Setup Compiler
-INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
+INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 6
 
 # To get buildnumber remotely from Jenkins
 XPATH = xpath -q -e

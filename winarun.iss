@@ -8,7 +8,7 @@ AppPublisher=ThoNi Adventure Factories
 AppPublisherURL=https://www.alanif.se
 AppSupportURL=https://www.alanif.se
 AppUpdatesURL=https://www.alanif.se
-DefaultDirName={pf}\Alan Interpreter for Windows
+DefaultDirName={commonpf}\Alan Interpreter for Windows
 DefaultGroupName=Alan V3 Interpreter for Windows
 AllowNoIcons=yes
 ChangesAssociations = yes
@@ -16,7 +16,7 @@ OutputDir=.
 OutputBaseFilename=winarunVERSION.PLATFORM.setup
 WizardImageFile=setup_wizard.bmp
 WizardImageStretch=no
-SignTool=signtool /d $qWinArun Installer$q $f
+;SignTool=signtool /d $qWinArun Installer$q $f
 
 [Registry]
 Root: HKCR; Subkey: ".a3c"; ValueType: string; ValueName: ""; ValueData: "AlanV3Game"; Flags: uninsdeletevalue
