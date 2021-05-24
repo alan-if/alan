@@ -39,8 +39,8 @@ INNODIR = /mnt/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 # Make a distribution for this platform of the current (last) release
 distribution: VERSION := $(shell cat LASTRELEASE)
 distribution:
-	@if [[ -f BUILD_NUMBER ]] ; then \
-	  echo Should not upload a version with BUILD_NUMBER, remove it first ; \
+	@if [[ -f BUILDNUMBER ]] ; then \
+	  echo Should not upload a version with BUILDNUMBER, remove it first ; \
 	  exit 1 ; \
 	fi
 	$(MAKE) distribution-build distribution-upload

@@ -42,8 +42,8 @@ distribution: VERSION := $(shell cat LASTRELEASE)
 distribution: distribution-check distribution-build distribution-upload
 
 distribution-check:
-	@if [[ -f BUILD_NUMBER ]] ; then \
-	  echo Should not upload a distribution with BUILD_NUMBER, remove it first ; \
+	@if [[ -f BUILDNUMBER ]] ; then \
+	  echo Should not upload a distribution with BUILDNUMBER, remove it first ; \
 	  exit 1 ; \
 	fi
 

@@ -12,7 +12,7 @@ if [ $# != 2 ] ; then
 EOF
   exit 1
 fi
-sftp alanif.se <<EOF
+sshpass -f ~/.ssh/alanif.se.pass sftp alanif.se <<EOF
 mkdir /www/downloads/$2
 put $1 "/www/downloads/$2/`basename $1`"
 EOF

@@ -105,8 +105,8 @@ snapshot: buildnumbers snapshot-build snapshot-upload
 # You can call 'buildnumbers' to pick up the latest build from Jenkins, you can also
 # set a BUILDNUMBER and then call it which will set the other dependent values correctly
 
-ifneq ($(wildcard ./BUILD_NUMBER),)
-BUILDNUMBER=`cat BUILD_NUMBER`
+ifneq ($(wildcard ./BUILDNUMBER),)
+BUILDNUMBER=`cat BUILDNUMBER`
 endif
 
 ifneq ($(BUILDNUMBER),)
