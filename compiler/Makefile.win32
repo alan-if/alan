@@ -18,7 +18,7 @@ endif
 # Build with flags:
 winalan: CFLAGS += -DWINGUI #-DARGSDISPLAY
 winalan: EXEEXT = .exe
-winalan: LDLIBS += -lshlwapi
+winalan: LDLIBS += -lshlwapi -l:libiconv.a
 
 WINALANOBJDIR = .winalan
 WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o}) $(WINALANOBJDIR)/alan.version.o
