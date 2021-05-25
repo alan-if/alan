@@ -108,7 +108,7 @@ snapshot: buildnumbers snapshot-build snapshot-upload
 
 # If there is a file with BUILDNUMBER, use that
 ifneq ($(wildcard ./BUILDNUMBER),)
-  BUILDNUMBER=`cat BUILDNUMBER`
+  BUILDNUMBER=`cat BUILDNUMBER | tr -d '\n'`
   BUILDVERSION = -$(BUILDNUMBER)
   BULDNAME = Build$(BUILDNUMBER)
 endif
@@ -133,7 +133,7 @@ ifeq ($(BUILDNUMBER),)
 	@echo "Getting BUILDNUMBER from Jenkins (should only happen when not building on Jenkins@ci.alanif.se)"
 	$(eval BUILDNUMBER := $(shell wget -q -O- 'https://ci.alanif.se/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
 else
-	@echo Have BUILDNUMBER file ($(BUILDNUMBER)), not getting from Jenkins
+	@echo "Have BUILDNUMBER file ($(BUILDNUMBER)), not getting from Jenkins"
 endif
 
 # Need for packaging
