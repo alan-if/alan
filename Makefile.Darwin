@@ -52,9 +52,9 @@ distribution-build:
 	$(MAKE) -C interpreter gararun MacArun
 
 distribution-upload:
-	alanupload $(PACKAGE) sdks/macosx
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg interpreters/macosx
-	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip interpreters/macosx
+	bin/alanupload $(PACKAGE) sdks/macosx
+	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg interpreters/macosx
+	bin/alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip interpreters/macosx
 
 
 ######################################################################
@@ -65,6 +65,6 @@ snapshot-build:
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) gararun MacArun
 
 snapshot-upload:
-	alanupload $(PACKAGE) snapshots/$(BUILDNAME)
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg snapshots/$(BUILDNAME)
-	alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip snapshots/$(BUILDNAME)
+	bin/alanupload $(PACKAGE) snapshots/$(BUILDNAME)
+	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg snapshots/$(BUILDNAME)
+	bin/alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip snapshots/$(BUILDNAME)

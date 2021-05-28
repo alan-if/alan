@@ -50,9 +50,9 @@ distribution-build:
 	$(MAKE) -C interpreter gararun
 
 distribution-upload:
-	alanupload $(PACKAGE) sdks/linux
-	alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz interpreters/linux
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh interpreters/linux
+	bin/alanupload $(PACKAGE) sdks/linux
+	bin/alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz interpreters/linux
+	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh interpreters/linux
 
 
 ifneq ($(shell uname -n), thoni64)
@@ -66,6 +66,6 @@ snapshot-build:
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) gararun
 
 snapshot-upload: buildnumbers
-	alanupload $(PACKAGE) snapshots/$(BUILDNAME)
-	alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh snapshots/$(BUILDNAME)
+	bin/alanupload $(PACKAGE) snapshots/$(BUILDNAME)
+	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh snapshots/$(BUILDNAME)
 endif

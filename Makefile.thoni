@@ -50,19 +50,19 @@ endif
 
 .PHONY: snapshot-upload
 snapshot-upload: buildnumbers
-	alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip snapshots/$(BUILDNAME)
-	alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)
-	alanupload winarun$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)
+	bin/alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip snapshots/$(BUILDNAME)
+	bin/alanupload alan$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)
+	bin/alanupload winarun$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe snapshots/$(BUILDNAME)
 	#ssh alanif.se ls -td /www/downloads/snapshots/Build* | tail -1 | xargs ssh alanif.se rm -r
 	# Use lftp scripting instead? - lftp sftp:alanif.se
 
 .PHONY: release-upload
 release-upload:
-	alanupload alan$(VERSION).$(PLATFORM).zip sdks/windows
-	alanupload alan$(VERSION).$(PLATFORM).setup.exe sdks/windows
-	alanupload winarun$(VERSION).$(PLATFORM).setup.exe interpreters/windows
-	alanupload interpreter/gargoyle-updater-alan$(VERSION).$(PLATFORM).setup.exe interpreters/windows
-	alanupload interpreter/gargoyle-updater-alan$(VERSION).$(PLATFORM).zip interpreters/windows
+	bin/alanupload alan$(VERSION).$(PLATFORM).zip sdks/windows
+	bin/alanupload alan$(VERSION).$(PLATFORM).setup.exe sdks/windows
+	bin/alanupload winarun$(VERSION).$(PLATFORM).setup.exe interpreters/windows
+	bin/alanupload interpreter/gargoyle-updater-alan$(VERSION).$(PLATFORM).setup.exe interpreters/windows
+	bin/alanupload interpreter/gargoyle-updater-alan$(VERSION).$(PLATFORM).zip interpreters/windows
 
 
 .PHONY: releasebuild
