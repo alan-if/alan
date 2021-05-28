@@ -2,9 +2,11 @@
 #
 # a2a3 is an Alan v2 to v3 converter that works on source code.  It is
 # built using the same parser generator tools that the Alan compiler
-# is using, which are only available on ThoNi's machines. To build
-# using those use the Makefile.thoni.  This makefile instead assumes
-# all those sources are generated and only builds from the C source.
+# is using. To build using those use the Makefile.thoni.  This
+# makefile instead assumes all those sources are generated and only
+# builds from the C source.
+#
+# Note that there currently is no Windows GUI for this...
 INCLUDED = true
 
 include ../mk/common.mk

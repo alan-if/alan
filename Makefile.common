@@ -47,10 +47,29 @@ cross:
 	$(MAKE) -C interpreter cross
 	$(MAKE) -C converter cross
 
-.PHONY: ci
+# The ci target is designed to be run in Linux with everything
+# available to create command line SDK for Linux and Windows, as well
+# as WinArun, WinAlan and packages and installation scripts.  So here
+# we explicitly build necessary output by setting required variables
+# and paths for compilation as per the Docker container
+# alanif/linux-ci as specified in the dockers/linux-ci/Dockerfile.
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
-ci: buildnumbers all cross package
+.PHONY: ci
+ci: buildnumbers all cross package cross-package
+	$(MAKE) -C interpreter WINARUN_ENABLED=true WINGLK_ROOT=$(HOME)/WindowsGlk winarun
+	$(MAKE) -C compiler WINALAN_ENABLED=true winalan
+	$(MAKE) WINGLK_ROOT=$(HOME)/WindowsGlk setup
+	# TODO: We should also build gargoyle slot-in interpreter for Linux and Windows
+	# $(MAKE) -C interpreter gararun
+
+.PHONY: ci-upload
+ci-upload:
+	@echo NYI
+	#alanupload $(PACKAGE) snapshots/$(BUILDNAME)
+	#alanupload $(CROSS_PACKAGE) snapshots/$(BUILDNAME)
+	#alanupload $(WINARUN_PACKAGE) snapshots/$(BUILDNAME)
+	#alanupload $(WINALAN_PACKAGE) snapshots/$(BUILDNAME)
 
 .PHONY:
 coverage: COVERAGE=--coverage
@@ -135,6 +154,9 @@ ifeq ($(BUILDNUMBER),)
 else
 	@echo "Have BUILDNUMBER file ($(BUILDNUMBER)), not getting from Jenkins"
 endif
+
+bin/alan:
+	$(MAKE) -C compiler alan
 
 # Need for packaging
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan

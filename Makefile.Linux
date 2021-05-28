@@ -25,9 +25,8 @@ $(PACKAGE): bin/alan bin/arun alan.readme.linux alan.readme COPYING CHANGES regr
 	tar zcvf $(PACKAGE) $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
 
-# Create package of cross-compiled Windows binaries
-# Only the zip for now
-cross-package: zip # setup
+# Create package of cross-compiled Windows SDK binaries
+cross-package: zip
 
 # How to package cross-compiled Windows binaries
 # Location of Inno Setup Compiler, this is for WSL

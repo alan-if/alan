@@ -1,9 +1,9 @@
-# WinArun installed script using NSIS
+# Alan Windows installer script for NSIS
 #
 
 Unicode True
 
-OutFile "winarun<BUILD>.<PLATFORM>.setup.exe"
+OutFile "alan<BUILD>.<PLATFORM>.setup.exe"
 
 ;-------------------------------------------------------------------------------
 ; Includes
@@ -14,8 +14,8 @@ OutFile "winarun<BUILD>.<PLATFORM>.setup.exe"
 
 ;-------------------------------------------------------------------------------
 ; Constants
-!define PRODUCT_NAME "Alan Interpreter for Windows"
-!define PRODUCT_DESCRIPTION "Alan V3 Interactive Fiction Interpreter <BUILD>"
+!define PRODUCT_NAME "Alan V3 Adventure Language System"
+!define PRODUCT_DESCRIPTION "Alan V3 Adventure System <BUILD>"
 !define PRODUCT_VERSION 3.0.0.8 ; Numeric Status (https://en.wikipedia.org/wiki/Software_versioning)
 !define COMPANY "AlanIF Adventure Factories"
 
@@ -73,16 +73,22 @@ Section "install"
     SetOutPath "$INSTDIR"
 
     # Files
+    File bin\winalan.exe
+    File alan.readme.txt
     File bin\winarun.exe
     File <WINGLK_ROOT>\Glk.dll
     # File <WINGLK_ROOT>\ScaleGfx.dll -- Was removed in 1.51
+    File CHANGES.txt
     File COPYING.txt
+    File regression\saviour.alan
     File regression\saviour.a3c
     File regression\saviour.a3r
     File regression\logo.png
     File games\adventv3\adventv3.a3c
 
     WriteINIStr "$INSTDIR\alanif.url" "InternetShortcut" "URL" "https://www.alanif.se"
+    WriteINIStr "$INSTDIR\betamanual.url" "InternetShortcut" "URL" "https://alan-if.github.io/alan-docs/manual-beta/manual.html"
+    WriteINIStr "$INSTDIR\docs.url" "InternetShortcut" "URL" "https://alan-if.github.io/alan-docs/"
 
     writeUninstaller "$INSTDIR\uninstall.exe"
 
@@ -91,39 +97,60 @@ Section "install"
     WriteRegStr HKCR "AlanV3Game\DefaultIcon" "" "$INSTDIR\winarun.exe,0"
     WriteRegStr HKCR "AlanV3Game\shell\open\command" "" '"$INSTDIR\winarun.exe" "%1"'
 
+    WriteRegStr HKCR ".alan" "Alan V3 Source File" "AlanV3Source"
+    WriteRegStr HKCR "AlanV3Source" "" "Alan V3 Source File"
+    WriteRegStr HKCR "AlanV3Source\DefaultIcon" "" "$INSTDIR\winalan.exe,0"
+    WriteRegStr HKCR "AlanV3Source\shell\open\command" "" '"$INSTDIR\winalan.exe" "%1"'
+
 SectionEnd
 
 Section "startmenu"
 
     CreateDirectory "$SMPrograms\${PRODUCT_NAME}"
+    CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Alan V3 Compiler.lnk" "$INSTDIR\winalan.exe"
     CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interpreter.lnk" "$INSTDIR\winarun.exe"
-    CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interactive Fiction System on the web.lnk" "$INSTDIR\alanif.url"
+
+    CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interactive Fiction System on the Web.lnk" "$INSTDIR\alanif.url"
+    CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interactive Fiction Language Manual.lnk" "$INSTDIR\manual.url"
+    CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interactive Fiction Documentation.lnk" "$INSTDIR\docs.url"
+
     CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Saviour - a sample game.lnk" "$INSTDIR\saviour.a3c"
     CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Advent - a crude conversion of ADVENT.lnk" "$INSTDIR\adventV3.a3c"
     CreateShortCut "$SMPrograms\${PRODUCT_NAME}\COPYING.lnk" "$INSTDIR\COPYING.txt"
-    CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Uninstall Alan V3 Interpreter.lnk" "$INSTDIR\uninstall.exe"
+    CreateShortCut "$SMPrograms\${PRODUCT_NAME}\Uninstall Alan V3 Interactive Fiction System.lnk" "$INSTDIR\uninstall.exe"
 
 SectionEnd
 
 Section "uninstall"
 
-    Delete "$INSTDIR\uninstall.exe"
-    Delete $INSTDIR\winarun.exe
-    Delete $INSTDIR\Glk.dll
+    Delete "$INSTDIR\winalan.exe"
+    Delete "$INSTDIR\winarun.exe"
+    Delete "$INSTDIR\Glk.dll"
     # Delete $INSTDIR\ScaleGfx.dll # Removed in WindowsGlk 1.51
-    Delete $INSTDIR\COPYING.txt
-    Delete $INSTDIR\saviour.a3c
-    Delete $INSTDIR\saviour.a3r
-    Delete $INSTDIR\logo.png
-    Delete $INSTDIR\adventv3.a3c
+    Delete "$INSTDIR\COPYING.txt"
+    Delete "$INSTDIR\saviour.a3c"
+    Delete "$INSTDIR\saviour.a3r"
+    Delete "$INSTDIR\logo.png"
+    Delete "$INSTDIR\adventv3.a3c"
+
+    Delete "$INSTDIR\alanif.exe"
+    Delete "$INSTDIR\manual.exe"
+    Delete "$INSTDIR\docs.exe"
+
+    Delete "$INSTDIR\uninstall.exe"
+
     RMDir "$INSTDIR"
 
+    Delete "$SMPrograms\${PRODUCT_NAME}\Alan V3 Compiler.lnk"
     Delete "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interpreter.lnk"
-    Delete "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interpreter on the Web.lnk"
+    Delete "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interactive Fiction System on the Web.lnk"
+    Delete "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interactive Fiction Language Manual.lnk"
+    Delete "$SMPrograms\${PRODUCT_NAME}\Alan V3 Interactive Fiction Documentation.lnk"
+
     Delete "$SMPrograms\${PRODUCT_NAME}\Saviour - a sample game.lnk"
     Delete "$SMPrograms\${PRODUCT_NAME}\Advent - a crude conversion of ADVENT.lnk"
     Delete "$SMPrograms\${PRODUCT_NAME}\COPYING.lnk"
-    Delete "$SMPrograms\${PRODUCT_NAME}\Uninstall Alan V3 Interpreter.lnk"
+    Delete "$SMPrograms\${PRODUCT_NAME}\Uninstall Alan V3 Interactive Fiction System.lnk"
     RMDir "$SMPrograms\${PRODUCT_NAME}"
 
 SectionEnd
