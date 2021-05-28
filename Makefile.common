@@ -65,11 +65,12 @@ ci: buildnumbers all cross package cross-package
 
 .PHONY: ci-upload
 ci-upload:
-	@echo NYI
-	#alanupload $(PACKAGE) snapshots/$(BUILDNAME)
-	#alanupload $(CROSS_PACKAGE) snapshots/$(BUILDNAME)
+	alanupload $(PACKAGE) snapshots/$(BUILDNAME)
+	alanupload $(CROSS_PACKAGE) snapshots/$(BUILDNAME)
 	#alanupload $(WINARUN_PACKAGE) snapshots/$(BUILDNAME)
 	#alanupload $(WINALAN_PACKAGE) snapshots/$(BUILDNAME)
+	#alanupload $(GARARUN_PACKAGE) snapshots/$(BUILDNAME)
+	#alanupload $(GARARUN_CROSS_PACKAGE) snapshots/$(BUILDNAME)
 
 .PHONY:
 coverage: COVERAGE=--coverage

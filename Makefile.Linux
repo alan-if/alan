@@ -11,6 +11,7 @@ PLATFORM = linux.$(shell uname -m)
 
 PACKAGENAME = alan$(VERSION)$(BUILDVERSION).$(PLATFORM)
 PACKAGE = $(PACKAGENAME).tgz
+CROSS_PACKAGE = $(PACKAGENAME).zip
 
 XPATH := xpath -q -e
 
