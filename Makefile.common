@@ -56,7 +56,7 @@ cross:
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
 .PHONY: ci
-ci: buildnumbers all cross package cross-package
+ci: all cross package cross-package
 	$(MAKE) -C interpreter WINARUN_ENABLED=true WINGLK_ROOT=$(HOME)/WindowsGlk winarun
 	$(MAKE) -C compiler WINALAN_ENABLED=true winalan
 	$(MAKE) WINGLK_ROOT=$(HOME)/WindowsGlk setup
@@ -126,14 +126,16 @@ snapshot: buildnumbers snapshot-build snapshot-upload
 # You can call 'buildnumbers' to pick up the latest build from Jenkins, you can also
 # set a BUILDNUMBER and then call it which will set the other dependent values correctly
 
-# If there is a file with BUILDNUMBER, use that
-ifneq ($(wildcard ./BUILDNUMBER),)
-  BUILDNUMBER=`cat BUILDNUMBER | tr -d '\n'`
+# Jenkins sets BUILD_NUMBER so use that if available
+ifneq ($(BUILD_NUMBER),)
+  BUILDNUMBER = $(BUILD_NUMBER)
   BUILDVERSION = -$(BUILDNUMBER)
   BULDNAME = Build$(BUILDNUMBER)
 endif
 
-ifneq ($(BUILDNUMBER),)
+# If there is a file with BUILDNUMBER, use that
+ifneq ($(wildcard ./BUILDNUMBER),)
+  BUILDNUMBER=`cat BUILDNUMBER | tr -d '\n'`
   BUILDVERSION = -$(BUILDNUMBER)
   BULDNAME = Build$(BUILDNUMBER)
 endif
