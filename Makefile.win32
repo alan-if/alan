@@ -8,6 +8,7 @@
 # package to get is "win-iconv-mingw-w64-dev", have not been able to
 # find the correct one for Brew/Darwin.
 
+CROSS_PACKAGE = alan$(VERSION)$(BUILDVERSION).win32.i686.zip
 zip: PLATFORM=win32.i686
 .PHONY: zip
 zip: bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING.txt
@@ -39,8 +40,8 @@ makensis:
 # (':' instead of customary '/' because of path names in expanded variables)
 NSI_SED = -e 's:<WINGLK_ROOT>:$(WINGLK_ROOT):g' -e 's/<BUILD>/$(VERSION)$(BUILDVERSION)/g' -e 's/<PLATFORM>/$(PLATFORM)/g'
 
-WINARUN_PACKAGE = winarun$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe
-WINALAN_PACKAGE = alan$(VERSION)$(BUILDVERSION).$(PLATFORM).setup.exe
+WINARUN_PACKAGE = winarun$(VERSION)$(BUILDVERSION).win32.i686.setup.exe
+WINALAN_PACKAGE = alan$(VERSION)$(BUILDVERSION).win32.i686.setup.exe
 .PHONY: setup
 setup: PLATFORM=win32.i686
 setup: buildnumbers makensis winarun.nsi alan.nsi bin/winalan.exe bin/winarun.exe COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt
