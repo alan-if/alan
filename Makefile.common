@@ -63,12 +63,13 @@ ci: all cross package cross-package
 	# TODO: We should also build gargoyle slot-in interpreter for Linux and Windows
 	# $(MAKE) -C interpreter gararun
 
+
 .PHONY: ci-upload
 ci-upload:
 	bin/alanupload $(PACKAGE) snapshots/$(BUILDNAME)
 	bin/alanupload $(CROSS_PACKAGE) snapshots/$(BUILDNAME)
-	#bin/alanupload $(WINARUN_PACKAGE) snapshots/$(BUILDNAME)
-	#bin/alanupload $(WINALAN_PACKAGE) snapshots/$(BUILDNAME)
+	bin/alanupload $(WINARUN_PACKAGE) snapshots/$(BUILDNAME)
+	bin/alanupload $(WINALAN_PACKAGE) snapshots/$(BUILDNAME)
 	#bin/alanupload $(GARARUN_PACKAGE) snapshots/$(BUILDNAME)
 	#bin/alanupload $(GARARUN_CROSS_PACKAGE) snapshots/$(BUILDNAME)
 
@@ -130,14 +131,14 @@ snapshot: buildnumbers snapshot-build snapshot-upload
 ifneq ($(BUILD_NUMBER),)
   BUILDNUMBER := $(BUILD_NUMBER)
   BUILDVERSION := -$(BUILDNUMBER)
-  BULDNAME := Build$(BUILDNUMBER)
+  BUILDNAME := Build$(BUILDNUMBER)
 endif
 
 # If there is a file with BUILDNUMBER, use that
 ifneq ($(wildcard ./BUILDNUMBER),)
   BUILDNUMBER := `cat BUILDNUMBER | tr -d '\n'`
   BUILDVERSION := -$(BUILDNUMBER)
-  BULDNAME := Build$(BUILDNUMBER)
+  BUILDNAME := Build$(BUILDNUMBER)
 endif
 
 
