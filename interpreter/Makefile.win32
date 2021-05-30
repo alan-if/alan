@@ -32,13 +32,13 @@ WINARUNOBJDIR = .winarun
 WINARUNOBJECTS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.o}) $(WINARUNOBJDIR)/alan.version.o
 -include $(WINARUNOBJECTS:.o=.d)
 $(WINARUNOBJECTS): $(WINARUNOBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -MMD -o $@ -c $<
+	$(COMPILE) -MMD -o $@ -c $<
 
 $(WINARUNOBJDIR):
 	mkdir $(WINARUNOBJDIR)
 
 winarun: $(WINARUNOBJDIR) $(WINARUNOBJECTS) arun.res
-	$(CC) -o $@$(EXEEXT) $(LDFLAGS) $(WINARUNOBJECTS) arun.res $(WINGLK_LIB) $(LDLIBS)
+	$(LINK) -o $@$(EXEEXT) $(WINARUNOBJECTS) arun.res $(WINGLK_LIB) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin/
 	cp $(WINGLK_ROOT)/*.dll ../bin/
 

@@ -23,3 +23,4 @@ gargoyle-*_tmp.iss
 *.a3t
 *.gcov
 *.xml
+*.lis

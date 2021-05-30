@@ -43,9 +43,9 @@ test:
 .PHONY: cross
 cross: PLATFORM = win32.i686
 cross:
-	$(MAKE) -C compiler cross
-	$(MAKE) -C interpreter cross
-	$(MAKE) -C converter cross
+	$(MAKE) -C compiler BUILDNUMBER=$(BUILDNUMBER) cross
+	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) cross
+	$(MAKE) -C converter BUILDNUMBER=$(BUILDNUMBER) cross
 
 # The ci target is designed to be run in Linux with everything
 # available to create command line SDK for Linux and Windows, as well
@@ -57,9 +57,9 @@ ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
 .PHONY: ci
 ci: all cross package cross-package
-	$(MAKE) -C interpreter WINARUN_ENABLED=true WINGLK_ROOT=$(HOME)/WindowsGlk winarun
-	$(MAKE) -C compiler WINALAN_ENABLED=true winalan
-	$(MAKE) WINGLK_ROOT=$(HOME)/WindowsGlk setup
+	$(MAKE) -C interpreter WINARUN_ENABLED=true WINGLK_ROOT=$(HOME)/WindowsGlk BUILDNUMBER=$(BUILDNUMBER) winarun
+	$(MAKE) -C compiler WINALAN_ENABLED=true BUILDNUMBER=$(BUILDNUMBER) winalan
+	$(MAKE) WINGLK_ROOT=$(HOME)/WindowsGlk BUILDNUMBER=$(BUILDNUMBER) setup
 	# TODO: We should also build gargoyle slot-in interpreter for Linux and Windows
 	# $(MAKE) -C interpreter gararun
 
@@ -128,16 +128,16 @@ snapshot: buildnumbers snapshot-build snapshot-upload
 
 # Jenkins sets BUILD_NUMBER so use that if available
 ifneq ($(BUILD_NUMBER),)
-  BUILDNUMBER = $(BUILD_NUMBER)
-  BUILDVERSION = -$(BUILDNUMBER)
-  BULDNAME = Build$(BUILDNUMBER)
+  BUILDNUMBER := $(BUILD_NUMBER)
+  BUILDVERSION := -$(BUILDNUMBER)
+  BULDNAME := Build$(BUILDNUMBER)
 endif
 
 # If there is a file with BUILDNUMBER, use that
 ifneq ($(wildcard ./BUILDNUMBER),)
-  BUILDNUMBER=`cat BUILDNUMBER | tr -d '\n'`
-  BUILDVERSION = -$(BUILDNUMBER)
-  BULDNAME = Build$(BUILDNUMBER)
+  BUILDNUMBER := `cat BUILDNUMBER | tr -d '\n'`
+  BUILDVERSION := -$(BUILDNUMBER)
+  BULDNAME := Build$(BUILDNUMBER)
 endif
 
 
