@@ -13,6 +13,10 @@ include ../mk/common.mk
 
 SOEXTENSION = dll
 
+# Jenkins sets BUILD_NUMBER so use that if available
+ifneq ($(BUILD_NUMBER),)
+  BUILDNUMBER := $(BUILD_NUMBER)
+endif
 CFLAGS += -g -Wall -MMD -DBUILD=$(BUILDNUMBER)
 
 ######################################################################

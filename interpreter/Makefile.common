@@ -9,8 +9,9 @@ ifneq ($(EMACS),)
 JREGROUTPUT = -noansi
 endif
 
-ifneq ($(BUILDNUMBER),)
-  # For snapshots we use buildnumber for version info in app and in filenames
+# Jenkins sets BUILD_NUMBER so use that if available
+ifneq ($(BUILD_NUMBER),)
+  BUILDNUMBER = $(BUILD_NUMBER)
   BUILDVERSION = -$(BUILDNUMBER)
   CFLAGS_BUILD = -DBUILD=$(BUILDNUMBER)
 endif

@@ -59,9 +59,9 @@ ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
 .PHONY: ci
 ci: all cross package cross-package
-	$(MAKE) -C interpreter WINARUN_ENABLED=true WINGLK_ROOT=$(HOME)/WindowsGlk BUILDNUMBER=$(BUILDNUMBER) winarun
-	$(MAKE) -C compiler WINALAN_ENABLED=true BUILDNUMBER=$(BUILDNUMBER) winalan
-	$(MAKE) WINGLK_ROOT=$(HOME)/WindowsGlk BUILDNUMBER=$(BUILDNUMBER) setup
+	$(MAKE) -C interpreter WINARUN_ENABLED=true WINGLK_ROOT=$(HOME)/WindowsGlk winarun
+	$(MAKE) -C compiler WINALAN_ENABLED=true winalan
+	$(MAKE) WINGLK_ROOT=$(HOME)/WindowsGlk setup
 	# TODO: We should also build gargoyle slot-in interpreter for Linux and Windows
 	# $(MAKE) -C interpreter gararun
 
