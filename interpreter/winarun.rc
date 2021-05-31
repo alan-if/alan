@@ -2,6 +2,8 @@
 #include "resources.h"
 #include "winuser.h"
 
+IDR_MANIFEST RT_MANIFEST "winarun.manifest"
+
 IDR_ARUN MENU DISCARDABLE
 BEGIN
     POPUP "&Arun"
@@ -16,7 +18,7 @@ BEGIN
     END
 END
 
-IDR_ARUN	ICON	arun.ico
+IDR_ARUN	ICON	winarun.ico
 IDR_ABOUT	BITMAP	about.bmp
 
 /////////////////////////////////////////////////////////////////////////////
