@@ -14,6 +14,8 @@ VERSION := $(shell cat NEXTRELEASE)
 # PLATFORM will be part of package names
 PLATFORM ?= "Make variable PLATFORM needs to be set by platform specific Makefile"
 
+PACKAGENAME = alan$(VERSION)$(BUILDVERSION).$(PLATFORM)
+
 .PHONY: clean
 clean:
 	-$(MAKE) -C compiler clean

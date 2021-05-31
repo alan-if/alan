@@ -9,7 +9,6 @@ VERSION := $(shell cat NEXTRELEASE)
 
 PLATFORM = linux.$(shell uname -m)
 
-PACKAGENAME = alan$(VERSION)$(BUILDVERSION).$(PLATFORM)
 PACKAGE = $(PACKAGENAME).tgz
 
 XPATH := xpath -q -e
