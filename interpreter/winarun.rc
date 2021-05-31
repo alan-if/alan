@@ -47,6 +47,6 @@ BEGIN
     CONTROL         IDR_ABOUT, IDC_STATIC, "Static", SS_BITMAP, 15, 20, 0, 0, WS_EX_CLIENTEDGE
     LTEXT           "WinArun Alan interpreter version WINARUNVERSION\nAlan Adventure Language, compiler and interpreter design: Thomas Nilefalk\nWindows interpreter: Thomas Nilefalk\nOriginal GLK adaptation: Joe Mason", IDC_STATIC,95,20,165,45
     GROUPBOX        "Additional Credits",IDC_STATIC,10,90,260,50
-    LTEXT           "Initial inspiration to the Alan language: Göran Forslund (IM)\nLibrary design and author representative: Anssi Räisänen\nContinuing encuragement and bug finding: Steve Griffiths\nVisit the Alan Home Pages at http://www.alanif.se",
+    LTEXT           "Initial inspiration to the Alan language: Göran Forslund (IM)\nLibrary design and author representative: Anssi Räisänen\nContinuous encuragement and bug finding: Stephen Griffiths & Tristano Ajmone\nVisit the Alan Home Pages at https://alanif.se",
                     IDC_STATIC,15,100,190,35
 END
