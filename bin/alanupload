@@ -6,18 +6,28 @@ if [ $# != 2 ] ; then
     cat << EOF
     This script allow you to upload files to the Alan Home Pages download area
     from the command line. You need to have set up your ~/.ssh/config so that
-    you can use "ssh/sftp alanif.se" to connect to alanif.se without using a user or
-    password. One way to do that is to ssh-copy-id to set up your remote
-    ~/.ssh/authorized_keys.
+    you can use "ssh/sftp alanif.se" to connect to alanif.se without using an
+    interactive user or password. One way to do that is to ssh-copy-id to set
+    up your remote ~/.ssh/authorized_keys.
 
     Since One.com disallowed plain ssh in their cheapest plan we are now using sftp.
     Along with that change it also became impossible to use ssh-copy-id. The current
-    strategy is to use sshpass (which you need to download/install) and it will use
-    SSHPASS from the environment to login without an interactive prompt.
+    strategy is then to use sshpass (which you need to download/install) and it will
+    use SSHPASS from the environment to login without an interactive prompt.
+
+    If SSHPASS is not set, it will use sfp assuming you have set up your credentials
+    as described above.
 EOF
   exit 1
 fi
-sshpass -e sftp alanif.se@ssh.alanif.se <<EOF
+if [ "$SSHPASS" != "" ] ; then
+   sshpass -e sftp alanif.se@ssh.alanif.se <<EOF
 mkdir /www/downloads/$2
 put $1 "/www/downloads/$2/`basename $1`"
 EOF
+else
+    sftp alanif.se@ssh.alanif.se <<EOF
+mkdir /www/downloads/$2
+put $1 "/www/downloads/$2/`basename $1`"
+EOF
+fi
