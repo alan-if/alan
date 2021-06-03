@@ -24,8 +24,8 @@ WINGLK_ROOT = ../../WindowsGlk-151
 winarun: CC = i686-w64-mingw32-gcc
 winarun: WINDRES = i686-w64-mingw32-windres
 # And/or extra switches and flags:
-#winarun: CFLAGS += -mwindows
-#winarun: LDFLAGS += -mwindows
+winarun: CFLAGS += -mwindows
+winarun: LDFLAGS += -mwindows
 #
 
 # Enable glkarun:
