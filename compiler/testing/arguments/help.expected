@@ -14,7 +14,8 @@ Options:
                        looking for imported files (may be repeated)
   -import <path>    -- additional directory to search after current when
                        looking for imported files (may be repeated)
-  -charset <set>    -- which character set source is in (iso|utf8) (default: iso)
+  -encoding <set>   -- which character encoding to assume when reading source files (iso|utf8) (default: iso)
+  -charset <set>    -- backwards compatible synonym for 'encoding' option (iso|utf8) (default: iso)
   -[-]ide           -- list messages in a format appropriate for AlanIDE
                        (default: OFF)
   -[-]cc            -- show messages on the screen in old 'cc' format
