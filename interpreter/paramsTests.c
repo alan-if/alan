@@ -285,8 +285,9 @@ Ensure(ParameterArray, canCompactSparseArray)
 xEnsure(ParameterArray, freesSubordinateParameterArrays) {
     Parameter *parameter = newParameter(7);
 #ifndef __APPLE__
-    struct mallinfo mallocinfo;
-    size_t used = mallinfo().uordblks;
+    // mallinfo2 was introduced in GLIBC 2.33, we could check __GLIBC__ & __GLIBC_MAJOR__/__GLIBC_MINOR__
+    struct mallinfo2 mallocinfo;
+    size_t used = mallinfo2().uordblks;
 #endif
 
     Parameter *parameterArray = newParameterArray();
@@ -296,7 +297,7 @@ xEnsure(ParameterArray, freesSubordinateParameterArrays) {
     freeParameterArray(parameterArray);
 
 #ifndef __APPLE__
-    mallocinfo = mallinfo();
+    mallocinfo = mallinfo2();
     assert_that(mallocinfo.uordblks, is_equal_to(used));
 #endif
 }
