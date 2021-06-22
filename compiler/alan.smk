@@ -438,6 +438,7 @@ int scannedLines(void)
        srcp.line=smThis->smNextLine;
        srcp.col=1;              // Always starts in first column
 
+       /* We are reading files in binary mode so take care for CRLF:s */
        do {
           // Skip rest of line
           do {
@@ -458,8 +459,8 @@ int scannedLines(void)
                  break;
           }
 
-          // Was the last from the previous loop a slash then we had four
-          if (c == '/') {
+          // Was the last from the previous loop a slash (or a CR) then we had four
+          if (c == '/' || c == '\r') {
               // if the rest of the line was only slashes, this was the last line
               do {
                   i = smScSkip(smThis, 1);
