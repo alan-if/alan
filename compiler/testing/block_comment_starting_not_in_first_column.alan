@@ -1,0 +1,17 @@
+The l Isa location
+
+    //// a block comment starting not in first column
+but should be completely ignored anyway...
+////
+
+sadf -- error here
+
+End The l.
+
+//// asdflkjaslfkj asflj /////
+/////////////////
+
+Start At l.
+//// Unterminated...
+with some following lines...
+but none starting with four slashes and nothing but slashes!

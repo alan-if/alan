@@ -429,14 +429,16 @@ int scannedLines(void)
 
   comment = '--' [^\n\r]*;
 
-  block_comment = [\n\r]+ '////'
+  block_comment = '////'
     %%
        int i;
        int c;
        Srcp srcp = smToken->srcp;
 
        srcp.line=smThis->smNextLine;
-       srcp.col=1;              // Always starts in first column
+       srcp.col = smThis->smNextColumn-4;
+       if (smThis->smColumn != 1)
+              lmlog(&srcp, 156, sevERR, "");
 
        /* We are reading files in binary mode so take care for CRLF:s */
        do {

@@ -1,0 +1,27 @@
+########## block_comment_starting_not_in_first_column ##########
+
+
+block_comment_starting_not_in_first_column.alan
+
+    3.      //// a block comment starting not in first column
+=====>      1
+
+  *1*   156 E : Block comment must start in first column.
+
+    7.  sadf -- error here
+=====>  1
+
+  *1*   101 E : Syntax error. Inserting "at" before this token.
+  *1*   310 E : Identifier 'sadf' not defined.
+
+   15.  //// Unterminated...
+=====>  1
+
+  *1*   155 E : Unterminated block comment. Must end with a line consisting of
+                at least four slashes and nothing but slashes.
+
+
+        4 error(s).
+        No detected warnings.
+        1 informational message(s).
+
