@@ -1,0 +1,85 @@
+//// Kitchen ASCII /////////////////////////////////////////////////////////////
+A test adventure containing only ASCII characters.
+Written by Tristano Ajmone, 2021, using ALAN 3.0beta8 build 2209.
+Released into the public domain via the Unlicense: https://unlicense.org
+////////////////////////////////////////////////////////////////////////////////
+Syntax 'look' = 'look'.
+
+Verb 'look'
+  Does look.
+End verb.
+
+Syntax inventory = inventory.
+
+Verb inventory
+  Does list Hero.
+End verb.
+
+Syntax examine = examine (obj)
+  Where obj IsA thing
+    Else "You can only examine actors and objects!"
+
+Syntax take = take (obj)
+  Where obj IsA object
+    Else "You can only take objects!"
+
+Add to every thing
+  Has desc "".
+  Is takeable.
+
+  Verb examine
+    Does
+      If obj:desc = ""
+        Then "You notice nothing unusual about $+1."
+        Else say obj:desc.
+      End if.
+  End verb.
+
+  Verb take
+    Check
+      Obj is takeable
+        Else "$+1 is not something that can be taken!"
+    Does
+      Locate obj in Hero. "Taken."
+  End verb.
+End add to.
+
+
+Synonyms l = 'look'.
+         x = examine.
+         i = inventory.
+        me = hero.
+
+
+The Kitchen IsA location.
+  Description "A small and cosy house Kitchen."
+End the Kitchen.
+
+The table IsA object at Kitchen.
+  Container
+    Header "On the table you can see"
+    Else ""
+  Is not takeable.
+
+  Verb examine
+    Does only
+      "It's an old wooden table."
+      If count IsA object, in this = 0
+        Then "There's nothing on the table."
+        Else list this.
+      end if.
+  End verb.
+End the table.
+
+The cake IsA object in table.
+End the cake.
+
+The Hero IsA actor.
+  Container
+    Header "You're carrying"
+    Else "You're empty handed"
+  Has desc "Handsome as always.".
+End the.
+
+--------------------------------------------------------------------------------
+Start at Kitchen.

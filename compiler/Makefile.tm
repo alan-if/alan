@@ -67,6 +67,7 @@ smScSema.c smScan.h: smScanx.c
 
 # Is TMHOME set?
 ifneq ($(TMHOME),)
+# TODO: now with only ISO and UTF we don't need all this, remove it and be content with what smk generates...
 smScanx.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan -generate tables
 	imp $(IMPQ) alan.smt

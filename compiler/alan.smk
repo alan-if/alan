@@ -461,19 +461,27 @@ int scannedLines(void)
                  break;
           }
 
-          // Was the last from the previous loop a slash (or a CR) then we had four
-          if (c == '/' || c == '\r') {
-              // if the rest of the line was only slashes, this was the last line
+          // Was the last from the previous loop a slash then we had four of them
+          if (c == '/') {
+              // if the rest was also slashes, this was the last line of the block comment
               do {
                   i = smScSkip(smThis, 1);
                   c = smThis->smText[smThis->smLength-1];
               } while (c == '/' && i != 0);
-              if (c != '\n')
+              if (c != '\n' && c != '\r')
                   // we found something else on this line, so ...
                   continue;
-              else
+              else {
+                  if (c == '\r') { /* A CR so look for LF */
+                      i = smScSkip(smThis, 1);
+                      c = smThis->smText[smThis->smLength-1];
+                      if (c != '\n')  /* Followed by newline? */
+                          /* If not that was a spurrious CR, so ... */
+                          continue;
+                  }
                   // end-of-line and only slashes. Done!
-                  break;
+                  break;         
+              }
           } else
               continue;
        } while (1);
