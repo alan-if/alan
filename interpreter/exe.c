@@ -744,6 +744,9 @@ void startTranscript(void) {
     /* If we couldn't open file, don't do transcript */
     if (transcriptFile == NULL) {
         transcriptOption = FALSE;
+    } else if (encodingOption == ENCODING_UTF) {
+        uchar BOM[3] = {0xEF,0xBB,0xBF};
+        fwrite(BOM, sizeof(BOM), 1, transcriptFile);
     }
 }
 
@@ -764,6 +767,9 @@ void startCommandLog(void) {
     /* If we couldn't open file, don't do command logging */
     if (commandLogFile == NULL) {
         commandLogOption = FALSE;
+    } else if (encodingOption == ENCODING_UTF) {
+        uchar BOM[3] = {0xEF,0xBB,0xBF};
+        fwrite(BOM, sizeof(BOM), 1, commandLogFile);
     }
 }
 
