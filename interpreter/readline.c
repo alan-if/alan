@@ -876,13 +876,15 @@ bool readline(char usrbuf[])
 {
     static bool readingCommands = FALSE;
     static FILE *commandFile;
+    static int previousEncoding;
 
     if (readingCommands) {
         fflush(stdout);
-        /* TODO: Arbitrarily using 255 for buffer sife */
+        /* TODO: Arbitrarily using 255 for buffer size */
         if (!fgets(buffer, 255, commandFile)) {
             fclose(commandFile);
             readingCommands = FALSE;
+            encodingOption = previousEncoding;
             buffer[0] = '\0';
             goto endOfCommandFile;
         } else {
@@ -909,8 +911,14 @@ bool readline(char usrbuf[])
 
         if (buffer[0] == '@')
             if ((commandFile = fopen(&buffer[1], "r")) != NULL)
-                if (fgets(buffer, 255, commandFile)) {
+                if (fgets(buffer, 255, commandFile) != NULL) {
+                    uchar BOM[3] = {0xEF,0xBB,0xBF};
                     readingCommands = TRUE;
+                    if (memcmp(buffer, BOM, 3) == 0) {
+                        previousEncoding = encodingOption;
+                        encodingOption = ENCODING_UTF;
+                        memmove(buffer, &buffer[3], strlen(buffer)-3+1);
+                    }
                     printf("%s", buffer);
                 }
         /* Reset line counter only if we read actual player input */
