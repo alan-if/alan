@@ -86,7 +86,7 @@ static Bool findReference(Instance *ref, List *referenceList)
     for (l = referenceList; l != NULL; l = l->next)
         if (l->member.ins == ref)
             return true;
-    return FALSE;
+    return false;
 }
 
 

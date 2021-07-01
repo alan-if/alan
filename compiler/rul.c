@@ -110,7 +110,7 @@ Aaddr generateRules(void)
   adr = nextEmitAddress();
   for (lst = adv.ruls; lst != NULL; lst = lst->next) {
       RuleEntry entry;
-      entry.alreadyRun = FALSE;
+      entry.alreadyRun = false;
       entry.exp = lst->member.rul->expadr;
       entry.stms = lst->member.rul->stmadr;
       emitEntry(&entry, sizeof(entry));

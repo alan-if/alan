@@ -57,7 +57,7 @@ void addHeroContainer() {
     if (symbolIsActor(theHero)) {
         if (!symbolIsContainer(theHero))
             theHero->fields.entity.props->container = newContainer(NULL);
-        symbolizeProps(theHero->fields.entity.props, FALSE);
+        symbolizeProps(theHero->fields.entity.props, false);
     } else {
         /* Else probably error recovery error... Ensure some things are available */
         if (theHero->fields.entity.props == NULL)
@@ -145,7 +145,7 @@ Instance *newInstance(Srcp *srcp,
 /*----------------------------------------------------------------------*/
 static void symbolizeInstance(Instance *ins)
 {
-    symbolizeProps(ins->props, FALSE);
+    symbolizeProps(ins->props, false);
 }
 
 

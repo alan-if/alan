@@ -141,12 +141,12 @@ Bool isConstantWhat(What *what) {
     case WHAT_ACTOR:
     case WHAT_LOCATION:
     case WHAT_THIS:
-        return FALSE;
+        return false;
     case WHAT_ID:
         return isConstantIdentifier(what->id);
     default:
         SYSERR("Unexpected what->kind", what->srcp);
-        return FALSE;
+        return false;
     }
 }
 
@@ -157,7 +157,7 @@ Bool verifyWhatContext(What *what, Context *context) {
     case WHAT_ACTOR:
         if (context->kind == EVENT_CONTEXT) {
             lmlogv(&what->srcp, 412, sevERR, "Actor", "Events", NULL);
-            return FALSE;
+            return false;
         }
         break;
 
@@ -168,7 +168,7 @@ Bool verifyWhatContext(What *what, Context *context) {
     case WHAT_THIS:
         if (!inEntityContext(context)) {
             lmlog(&what->srcp, 421, sevERR, "");
-            return FALSE;
+            return false;
         }
         break;
 

@@ -128,7 +128,7 @@ List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
     List *list, *parameters = NULL;
     List *restrictionList;
     int parameterCount = 1;
-    Bool multiple = FALSE;
+    Bool multiple = false;
 
     if (firstElement->kind == WORD_ELEMENT) {
         firstElement->id->code = newVerbWord(firstElement->id->string, syntax);
@@ -180,8 +180,8 @@ static Bool equalElements(List *element1, List *element2)
         }
         SYSERR("Unexpected element kind", element1->member.elm->srcp);
     } else
-        return FALSE;
-    return FALSE;
+        return false;
+    return false;
 }
 
 

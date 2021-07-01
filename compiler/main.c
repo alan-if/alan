@@ -112,7 +112,7 @@ include pointer addresses\n\
 after parse (will abort after dump)\n\
 after analysis (will abort after dump)\n\
 after code generation", dumpFlags, "ypxsvciker!a123", NULL, NULL)
-     SPA_FLAG("xml", "output an XML representation of the game (experimental)", xmlFlag, FALSE, NULL)
+     SPA_FLAG("xml", "output an XML representation of the game (experimental)", xmlFlag, false, NULL)
 SPA_END
 
 /*======================================================================*\

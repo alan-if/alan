@@ -52,8 +52,8 @@ ContainerBody *newContainerBody(Srcp srcp,
     new = NEW(ContainerBody);
 
     new->srcp = srcp;
-    new->analyzed = FALSE;
-    new->generated = FALSE;
+    new->analyzed = false;
+    new->generated = false;
     new->opaque = opaque;
     if (takes != NULL)
         new->taking = takes;
@@ -74,7 +74,7 @@ ContainerBody *newContainerBody(Srcp srcp,
 
 /*----------------------------------------------------------------------*/
 static ContainerBody *newEmptyContainerBody(void) {
-    return newContainerBody(nulsrcp, FALSE, NULL, NULL, NULL, NULL, NULL, NULL);
+    return newContainerBody(nulsrcp, false, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 

@@ -36,7 +36,7 @@ BeforeEach(Adventure) {
 AfterEach(Adventure) {}
 
 Ensure(Adventure, can_analyze_start_at_here) {
-    adv.whr = newWhere(&srcp, FALSE, WHERE_HERE, NULL);
+    adv.whr = newWhere(&srcp, false, WHERE_HERE, NULL);
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Here */
     assert_that(readSev(), is_equal_to(sevERR));
@@ -44,7 +44,7 @@ Ensure(Adventure, can_analyze_start_at_here) {
 }
 
 Ensure(Adventure, can_analyze_start_at_unknown_id) {
-    adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
+    adv.whr = newWhere(&srcp, false, WHERE_AT,
                        newWhatExpression(srcp, newWhatId(srcp, unknownId)));
     symbolizeAdventure();
     assert_that(readSev(), is_equal_to(sevERR));
@@ -52,7 +52,7 @@ Ensure(Adventure, can_analyze_start_at_unknown_id) {
 }
 
 Ensure(Adventure, can_analyze_start_at_class) {
-    adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
+    adv.whr = newWhere(&srcp, false, WHERE_AT,
                        newWhatExpression(srcp, newWhatId(srcp, classId)));
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Id not an instance */
@@ -61,7 +61,7 @@ Ensure(Adventure, can_analyze_start_at_class) {
 }
 
 Ensure(Adventure, can_analyze_start_at_not_location){
-    adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
+    adv.whr = newWhere(&srcp, false, WHERE_AT,
                        newWhatExpression(srcp, newWhatId(srcp, instanceId)));
     symbolizeAdventure();
     analyzeStartAt();		/* Can not Start At Id not inheriting from location */
@@ -70,7 +70,7 @@ Ensure(Adventure, can_analyze_start_at_not_location){
 }
 
 Ensure(Adventure, can_analyze_start_at_location) {
-    adv.whr = newWhere(&srcp, FALSE, WHERE_AT,
+    adv.whr = newWhere(&srcp, false, WHERE_AT,
                        newWhatExpression(srcp, newWhatId(srcp, locationInstanceId)));
     symbolizeAdventure();
     analyzeStartAt();		/* Can Start At Id that's an instance */

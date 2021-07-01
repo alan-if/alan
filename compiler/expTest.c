@@ -28,21 +28,21 @@ Ensure(Expression, testClassOfContent) {
   initClasses();
   Id *id = newId(nulsrcp, "inCont");
   Expression *whatLocation = newWhatExpression(nulsrcp,
-						 newWhatId(nulsrcp, id));
+                         newWhatId(nulsrcp, id));
   Expression *whatId = newWhatExpression(nulsrcp,
-					 newWhatId(nulsrcp, id));
+                     newWhatId(nulsrcp, id));
   Id *takesId = newId(nulsrcp, "location");
-  ContainerBody *containerBody = newContainerBody(nulsrcp, FALSE, takesId,
-						  NULL, NULL, NULL, NULL, NULL);
+  ContainerBody *containerBody = newContainerBody(nulsrcp, false, takesId,
+                          NULL, NULL, NULL, NULL, NULL);
   Container *container = newContainer(containerBody);
   Properties *properties = newProps(NULL, NULL,
-				    nulsrcp, NULL,
-				    NULL, NULL, NULL,
-				    nulsrcp, NULL, NULL,
-				    NULL, NULL,
-				    container, NULL, 
-				    nulsrcp, NULL,
-				    NULL,NULL);
+                    nulsrcp, NULL,
+                    NULL, NULL, NULL,
+                    nulsrcp, NULL, NULL,
+                    NULL, NULL,
+                    container, NULL,
+                    nulsrcp, NULL,
+                    NULL,NULL);
 
   Instance *containerInstance = newInstance(&nulsrcp, id, NULL, properties);
 
@@ -54,7 +54,7 @@ Ensure(Expression, testClassOfContent) {
 }
 
 
-Ensure(Expression, SetMembersAreVerifiedAccordingToClass) { 
+Ensure(Expression, SetMembersAreVerifiedAccordingToClass) {
   Expression *theSet = newWhatExpression(nulsrcp, NULL);
   Expression *theMember = newWhatExpression(nulsrcp, NULL);
 
@@ -72,31 +72,31 @@ Ensure(Expression, SetMembersAreVerifiedAccordingToClass) {
   assert_that(readEcode(), is_equal_to(0));
 }
 
-Ensure(Expression, canFindClassOfExpression) { 
+Ensure(Expression, canFindClassOfExpression) {
   Context *context = newNullContext();
   initSymbols();
   assert_true(symbolOfExpression(NULL, context) == NULL);
 
   Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
-				     NULL, newEmptyProps());
+                     NULL, newEmptyProps());
   What *theWhat = newWhatId(nulsrcp, theInstance->props->id);
   Expression *theWhatExp = newWhatExpression(nulsrcp, theWhat);
   assert_true(symbolOfExpression(theWhatExp, context) != NULL);
   assert_true(symbolOfExpression(theWhatExp, context) == theInstance->props->id->symbol);
 
   Expression *theAttributeExpression = newAttributeExpression(nulsrcp,
-							      newId(nulsrcp, "atr"), FALSE,
-							      theWhatExp);
+                                  newId(nulsrcp, "atr"), false,
+                                  theWhatExp);
   assert_true(symbolOfExpression(theAttributeExpression, context) == NULL);
 }
-  
+
 
 
 Ensure(Expression, testAttributeToThis) {
   Instance *theInstance = newInstance(&nulsrcp, newId(nulsrcp, "ins"),
-				     NULL, newEmptyProps());
+                     NULL, newEmptyProps());
   Id *theAttributeId = newId(nulsrcp, "Atr");
-  Attribute *theAttribute = newBooleanAttribute(nulsrcp, theAttributeId, FALSE);
+  Attribute *theAttribute = newBooleanAttribute(nulsrcp, theAttributeId, false);
   Context *theContext = newInstanceContext(theInstance);
   What *theWhat = newWhatThis(nulsrcp);
   Expression *theWhatExp = newExpression(nulsrcp, WHAT_EXPRESSION);
@@ -130,7 +130,7 @@ Ensure(Expression, testIsConstantIdentifier) {
 }
 
 Ensure(Expression, testAnalyzeClassingFilter) {
-  Expression *btw = newBetweenExpression(nulsrcp, NULL, FALSE, newIntegerExpression(nulsrcp, 1), newIntegerExpression(nulsrcp, 2));
+  Expression *btw = newBetweenExpression(nulsrcp, NULL, false, newIntegerExpression(nulsrcp, 1), newIntegerExpression(nulsrcp, 2));
 
   analyzeClassingFilter("", NULL, btw);
   assert_true(btw->class == integerSymbol);
@@ -163,7 +163,7 @@ Ensure(Expression, testIsConstant) {
 }
 
 Ensure(Expression, testCombineFilterClasses) {
-  initSymbols();    
+  initSymbols();
   initClasses();
   symbolizeClasses();
   assert_true(combineFilterClasses(NULL, NULL, nulsrcp) == NULL);

@@ -156,7 +156,7 @@ Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statem
     for (p = fileNames; p != NULL; p = p->next) {
         if (strcmp(fnm, p->member.str) == 0) {
             lmlog(&srcp, 197, sevWAR, fnm);
-            return FALSE;
+            return false;
         }
     }
 
@@ -166,7 +166,7 @@ Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statem
     else {
         if (!(prefix = open_import(this, fnm, search))) {
             lmlog(&srcp, 199, sevFAT, fnm);
-            return FALSE;
+            return false;
         }
     }
 
@@ -270,7 +270,7 @@ int scannedLines(void)
   STRING = '"' ([^"]!'"''"')* '"'
     %%
         int len = 0;		/* The total length of the copied data */
-        Bool space = FALSE;
+        Bool space = false;
         int i, c;
 
         smToken->fpos = ftell(txtfil); /* Remember where it starts */
@@ -289,7 +289,7 @@ int scannedLines(void)
             } else {
                 putc(c, txtfil);
                 incFreq(c);
-                space = FALSE;
+                space = false;
                 len++;
                 if (c == '"') i++;	/* skip second '"' */
             }

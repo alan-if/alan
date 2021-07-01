@@ -370,7 +370,7 @@ Ensure(Symbol, testNewFrame) {
 Ensure(Symbol, testReplicateContainer) {
     Symbol *child = newSymbol(newId(nulsrcp, "child"), CLASS_SYMBOL);
     Symbol *parent = newSymbol(newId(nulsrcp, "parent"), CLASS_SYMBOL);
-    Container *container = newContainer(newContainerBody(nulsrcp, FALSE, NULL, (void *)1, (void *)2, (void *)3, (void *)4, (void *)5));
+    Container *container = newContainer(newContainerBody(nulsrcp, false, NULL, (void *)1, (void *)2, (void *)3, (void *)4, (void *)5));
 
     child->fields.entity.props = NEW(Properties);
     parent->fields.entity.props = NEW(Properties);
@@ -425,7 +425,7 @@ Ensure(Symbol, testInheritOpaqueAttribute) {
     /* Setup a child */
     List *attributes = newList(newBooleanAttribute(nulsrcp,
                                                    newId(nulsrcp, "b"),
-                                                   FALSE),
+                                                   false),
                                ATTRIBUTE_LIST);
 
     Properties *cProps = newProps(NULL, NULL,
@@ -447,8 +447,8 @@ Ensure(Symbol, testInheritOpaqueAttribute) {
 
 /*----------------------------------------------------------------------*/
 Ensure(Symbol, testMultipleSymbolKinds) {
-    assert_true(multipleSymbolKinds(0) == FALSE);
-    assert_true(multipleSymbolKinds(INSTANCE_SYMBOL) == FALSE);
+    assert_true(multipleSymbolKinds(0) == false);
+    assert_true(multipleSymbolKinds(INSTANCE_SYMBOL) == false);
     assert_true(multipleSymbolKinds(INSTANCE_SYMBOL|CLASS_SYMBOL) == true);
 }
 

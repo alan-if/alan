@@ -177,7 +177,7 @@ static void anotherSymbolKindAsString(SymbolKind kind, Bool found, char *string)
 /*----------------------------------------------------------------------*/
 static char *symbolKindsAsString(SymbolKind kinds)
 {
-    Bool found = FALSE;
+    Bool found = false;
     char *string = allocate(100);
     int i;
 
@@ -219,10 +219,10 @@ static Bool mayOverride(SymbolKind overridingKind, SymbolKind originalKind) {
         case VERB_SYMBOL:
             return true;
         default:
-            return FALSE;
+            return false;
         }
     default:
-        return FALSE;
+        return false;
     }
 }
 
@@ -254,14 +254,14 @@ Symbol *newSymbol(Id *id, SymbolKind kind)
     case CLASS_SYMBOL:
         new->code = ++classCount;
         new->fields.entity.parent = NULL;
-        new->fields.entity.attributesNumbered = FALSE;
-        new->fields.entity.replicated = FALSE;
+        new->fields.entity.attributesNumbered = false;
+        new->fields.entity.replicated = false;
         break;
     case INSTANCE_SYMBOL:
         new->code = ++instanceCount;
         new->fields.entity.parent = NULL;
-        new->fields.entity.attributesNumbered = FALSE;
-        new->fields.entity.replicated = FALSE;
+        new->fields.entity.attributesNumbered = false;
+        new->fields.entity.replicated = false;
         break;
     case DIRECTION_SYMBOL:
         new->code = ++directionCount;
@@ -622,7 +622,7 @@ Bool symbolIsContainer(Symbol *symbol) {
                 return propertiesOf(symbol)->container != NULL
                     || symbolIsContainer(symbol->fields.entity.parent);
             else
-                return FALSE;
+                return false;
         case PARAMETER_SYMBOL:
             return symbol->fields.parameter.restrictedToContainer
                 || symbolIsContainer(symbol->fields.parameter.class);
@@ -630,12 +630,12 @@ Bool symbolIsContainer(Symbol *symbol) {
             return symbolIsContainer(symbol->fields.local.class);
         case VERB_SYMBOL:
             /* Probably an error recovery or duplicate declaration error */
-            return FALSE;
+            return false;
         default:
             SYSERR("Unexpected Symbol kind", nulsrcp);
         }
     }
-    return FALSE;
+    return false;
 }
 
 
@@ -647,9 +647,9 @@ Bool symbolIsActor(Symbol *symbol) {
         case INSTANCE_SYMBOL:
             return symbol == actorSymbol || symbolIsActor(symbol->fields.entity.parent);
         default:
-            return FALSE;
+            return false;
         }
-    return FALSE;
+    return false;
 }
 
 
@@ -733,7 +733,7 @@ static Bool recurseTreeForInstanceOf(Symbol *current, Symbol *theClass) {
             return recurseTreeForInstanceOf(current->higher, theClass)
                 || recurseTreeForInstanceOf(current->lower, theClass);
     }
-    return FALSE;
+    return false;
 }
 
 
@@ -920,7 +920,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
 {
     Symbol *p;
 
-    if (child == NULL || ancestor == NULL) return FALSE;
+    if (child == NULL || ancestor == NULL) return false;
 
     if (isInstance(ancestor))
         SYSERR("Can not inherit from an instance", nulsrcp);
@@ -932,7 +932,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
         child = child->fields.parameter.class;
 
     if ((!isClass(child) && !isInstance(child)) || !isClass(ancestor))
-        return FALSE;           /* Probably spurious */
+        return false;           /* Probably spurious */
 
     p = child;                  /* To be the class itself is OK */
     while (p && p != ancestor)
@@ -962,7 +962,7 @@ Symbol *commonParent(Symbol *symbol1, Symbol *symbol2)
 /*----------------------------------------------------------------------*/
 static Bool multipleSymbolKinds(SymbolKind kind) {
     int i;
-    Bool found = FALSE;
+    Bool found = false;
 
     for (i = 1; i < MAX_SYMBOL; i=i<<1)
         if (kind&i) {
@@ -971,7 +971,7 @@ static Bool multipleSymbolKinds(SymbolKind kind) {
             else
                 found = true;
         }
-    return FALSE;
+    return false;
 }
 
 
@@ -1015,7 +1015,7 @@ static char *identifierListForParameters(Context *context) {
         } else
             strcat(identifiers, "'");
         strcat(identifiers, list->member.sym->string);
-        first = FALSE;
+        first = false;
     }
     strcat(identifiers, "'");
     return identifiers;
@@ -1460,7 +1460,7 @@ static void dumpSymbolsRecursively(Symbol *symbol)
 {
     if (symbol == NULL) return;
     dumpSymbolsRecursively(symbol->lower);
-    if (firstSymbolDumped) firstSymbolDumped = FALSE; else nl();
+    if (firstSymbolDumped) firstSymbolDumped = false; else nl();
     dumpSymbolLeaf(symbol);
     dumpSymbolsRecursively(symbol->higher);
 }

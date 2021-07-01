@@ -227,7 +227,7 @@ static int val(char str[])
 
     ! 'no' ID '.'
     %%
-        optBool(%ID.id->string, `&%ID.id->srcp, FALSE);
+        optBool(%ID.id->string, `&%ID.id->srcp, false);
     %%
 
     ! ID ID '.'
@@ -314,7 +314,7 @@ static int val(char str[])
 
     ! 'not' ID
     %%
-        %<attribute_definition>.atr = newBooleanAttribute(%ID.id->srcp, %ID.id, FALSE);
+        %<attribute_definition>.atr = newBooleanAttribute(%ID.id->srcp, %ID.id, false);
     %%
 
     ! ID <optional_minus> Integer
@@ -606,7 +606,7 @@ static int val(char str[])
 
 <optional_meta>      -- RETURNS: meta
     = 'meta' %% %<optional_meta>.isMeta = true; %%
-    !        %% %<optional_meta>.isMeta = FALSE; %%
+    !        %% %<optional_meta>.isMeta = false; %%
     ;
     
 <verb_body>
@@ -1225,14 +1225,14 @@ static int val(char str[])
 	%<article>.article = newArticle(%'article'.srcp,
 					newList(newStatement(`&%'article'.srcp, NOP_STATEMENT),
 						STATEMENT_LIST),
-					FALSE);
+					false);
     %%
 
     ! 'article' <statements>
     %%
 	 %<article>.article = newArticle(%'article'.srcp,
 					%<statements>.stms,
-					FALSE);
+					false);
     %%
     ;
 
@@ -1320,7 +1320,7 @@ static int val(char str[])
 
 <optionally_opaque>
     =
-    %% %<optionally_opaque>.opaque = FALSE; %%
+    %% %<optionally_opaque>.opaque = false; %%
     ! 'opaque'
     %% %<optionally_opaque>.opaque = true; %%
     ;
@@ -1801,7 +1801,7 @@ static int val(char str[])
     ! 'first'
     %% %<optional_first_or_last>.first = true; %%
     ! 'last'
-    %% %<optional_first_or_last>.first = FALSE; %%
+    %% %<optional_first_or_last>.first = false; %%
     ;
 
 <optional_word_or_character>
@@ -1812,9 +1812,9 @@ static int val(char str[])
     ! 'words'
     %% %<optional_word_or_character>.wordOrChar = true; %%
     ! 'character'
-    %% %<optional_word_or_character>.wordOrChar = FALSE; %%
+    %% %<optional_word_or_character>.wordOrChar = false; %%
     ! 'characters'
-    %% %<optional_word_or_character>.wordOrChar = FALSE; %%
+    %% %<optional_word_or_character>.wordOrChar = false; %%
     ;
 
 <optional_into>
@@ -1978,7 +1978,7 @@ static int val(char str[])
     %%
 	%<optional_loop_filters>.exps = newList(newBetweenExpression(%'between'.srcp,
 					     				NULL,
-					     				FALSE,
+					     				false,
 					     				%1<arithmetic>.exp,
 					     				%2<arithmetic>.exp),
 						EXPRESSION_LIST);
@@ -2083,7 +2083,7 @@ static int val(char str[])
     %% %<on_or_off>.on_or_off = true; %%
 
     ! 'off'
-    %% %<on_or_off>.on_or_off = FALSE; %%
+    %% %<on_or_off>.on_or_off = false; %%
     ;
 	
 
@@ -2106,7 +2106,7 @@ static int val(char str[])
     %%
 	%<expression>.exp = newBinaryExpression(%'or'.srcp,
 						%<expression>.exp,
-						FALSE,
+						false,
 						OR_OPERATOR,
 						%<term>.exp);
     %%
@@ -2122,7 +2122,7 @@ static int val(char str[])
     %%
 	%<term>.exp = newBinaryExpression(%'and'.srcp,
 					  %<term>.exp,
-					  FALSE,
+					  false,
 					  AND_OPERATOR,
 					  %<factor>.exp);
     %%
@@ -2179,7 +2179,7 @@ static int val(char str[])
 
     ! <primary> 'isa' ID
     %%
-	%<arithmetic>.exp = newIsaExpression(%'isa'.srcp, %<primary>.exp, FALSE, %ID.id);
+	%<arithmetic>.exp = newIsaExpression(%'isa'.srcp, %<primary>.exp, false, %ID.id);
     %%
 
     ! <primary> <is> <something>
@@ -2192,7 +2192,7 @@ static int val(char str[])
     %%
 	%<arithmetic>.exp = newBinaryExpression(%<binop>.srcp,
 						%<arithmetic>.exp,
-						FALSE,
+						false,
 						%<binop>.op,
 						%<primary>.exp);
     %%
@@ -2422,19 +2422,19 @@ static int val(char str[])
 <attribute_reference>		-- RETURNS: exp
     = ID 'of' <what>				%-(':')
     %%
-        %<attribute_reference>.exp = newAttributeExpression(%'of'.srcp, %ID.id, FALSE, %<what>.exp);
+        %<attribute_reference>.exp = newAttributeExpression(%'of'.srcp, %ID.id, false, %<what>.exp);
     %%
 
     ! <what> ':' ID
     %%
-        %<attribute_reference>.exp = newAttributeExpression(%':'.srcp, %ID.id, FALSE, %<what>.exp);
+        %<attribute_reference>.exp = newAttributeExpression(%':'.srcp, %ID.id, false, %<what>.exp);
     %%
     ;
 
 <optional_where>		-- RETURNS: whr
     =
     %%
-        %<optional_where>.whr = newWhere(`&nulsrcp, FALSE, WHERE_DEFAULT, NULL);
+        %<optional_where>.whr = newWhere(`&nulsrcp, false, WHERE_DEFAULT, NULL);
     %%
     
     ! <where>
@@ -2577,7 +2577,7 @@ static int val(char str[])
 <optional_not>
     =					%+(Identifier, 'on', 'of', 'into', 'first', 'actor', 'opaque', 'taking', 'location')
     %%
-        %<optional_not>.present = FALSE;
+        %<optional_not>.present = false;
     %%
 
     ! 'not'
@@ -2661,7 +2661,7 @@ static int val(char str[])
 <optional_minus>			-- RETURNS: minus
     =
     %%
-        %<optional_minus>.minus = FALSE;
+        %<optional_minus>.minus = false;
     %%
 
     ! '-'

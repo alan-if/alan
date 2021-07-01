@@ -10,11 +10,10 @@
 
 void testWriteBlorb()
 {
-  ASSERT(FALSE);
+  ASSERT(false);
 }
 
 
 void registerBlorbUnitTests()
 {
 }
-

@@ -46,7 +46,7 @@ Ensure(Attribute, testSingleIdentifierInMember) {
 Ensure(Attribute, testIsWhatId) {
   Expression *exp1 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
   Expression *exp2 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
-  Expression *exp3 = newBetweenExpression(nulsrcp, NULL, FALSE, NULL, NULL);
+  Expression *exp3 = newBetweenExpression(nulsrcp, NULL, false, NULL, NULL);
 
   assert_true(!isWhatId(exp1));
   assert_true(isWhatId(exp2));
@@ -64,7 +64,7 @@ Ensure(Attribute, testInferClassInSetAttribute)
   Expression *setExp = newSetExpression(nulsrcp, set);
   Attribute *atr = newSetAttribute(nulsrcp, newId(nulsrcp, "setAttribute"), setExp);
 
-  symbolizeProps(instance->props, FALSE);
+  symbolizeProps(instance->props, false);
   analyzeSetAttribute(atr, newNullContext());
   assert_true(atr->type == SET_TYPE);
   assert_true(atr->setType == INSTANCE_TYPE);
@@ -78,7 +78,7 @@ Ensure(Attribute, testInferClassInSetAttribute)
                  newWhatId(nulsrcp, newId(nulsrcp, "u"))),
            EXPRESSION_LIST);
 
-  symbolizeProps(instance->props, FALSE);
+  symbolizeProps(instance->props, false);
   analyzeSetAttribute(atr, newNullContext());
   assert_true(atr->type == SET_TYPE);
   assert_true(atr->setType == INSTANCE_TYPE);
@@ -90,8 +90,8 @@ Ensure(Attribute, testMultipleAtr)
 {
   List *attributeList;
 
-  attributeList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
-  attributeList = concat(attributeList, newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), FALSE), ATTRIBUTE_LIST);
+  attributeList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), false), ATTRIBUTE_LIST);
+  attributeList = concat(attributeList, newBooleanAttribute(nulsrcp, newId(nulsrcp, "anAttr"), false), ATTRIBUTE_LIST);
 
   readEcode();
   checkMultipleAttributes(attributeList);
@@ -103,8 +103,8 @@ Ensure(Attribute, testFindInList)
 {
   List *attributes = NULL;
   Id *id = newId(nulsrcp, "theAttribute");
-  Attribute *theAttribute = newBooleanAttribute(nulsrcp, id, FALSE);
-  Attribute *anotherAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "another"), FALSE);
+  Attribute *theAttribute = newBooleanAttribute(nulsrcp, id, false);
+  Attribute *anotherAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "another"), false);
 
   /* Test empty list */
   assert_true(findAttribute(attributes, id) == NULL);
@@ -147,8 +147,8 @@ static List *create2Attributes(char firstString[], char secondString[])
 {
   List *theList;
 
-  theList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, firstString), FALSE), ATTRIBUTE_LIST);
-  theList = concat(theList, newBooleanAttribute(nulsrcp, newId(nulsrcp, secondString), FALSE), ATTRIBUTE_LIST);
+  theList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, firstString), false), ATTRIBUTE_LIST);
+  theList = concat(theList, newBooleanAttribute(nulsrcp, newId(nulsrcp, secondString), false), ATTRIBUTE_LIST);
   return theList;
 }
 
@@ -303,7 +303,7 @@ static Bool attributesAreSorted(List *list)
 
   for (l = list; l; l = l->next) {
     if (l->member.atr->id->code <= previousCode)
-      return FALSE;
+      return false;
     previousCode = l->member.atr->id->code;
   }
   return true;
@@ -311,7 +311,7 @@ static Bool attributesAreSorted(List *list)
 
 Ensure(Attribute, testSortAttributes)
 {
-  List *attributeList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, "a"), FALSE), ATTRIBUTE_LIST);
+  List *attributeList = newList(newBooleanAttribute(nulsrcp, newId(nulsrcp, "a"), false), ATTRIBUTE_LIST);
   List *originalList = attributeList;
 
   assert_true(sortAttributes(NULL) == NULL);

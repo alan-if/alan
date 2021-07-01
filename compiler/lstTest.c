@@ -89,7 +89,7 @@ extern void setSyserrHandler(void (*f)(char *));
 
 #define TRY(code)   \
   setSyserrHandler(syserrHandler); \
-  syserrHandlerCalled = FALSE;\
+  syserrHandlerCalled = false;\
   if (setjmp(syserrLabel) == 0) { \
     code \
   } \
@@ -104,7 +104,7 @@ Ensure(List, insertingIntoANullListFails) {
 
   TRY(
     insert(NULL, aMember, ID_LIST);
-    assert_true(FALSE);
+    assert_true(false);
   )
   assert_true(syserrHandlerCalled);
 }
@@ -115,7 +115,7 @@ Ensure(List, insertingANullMemberFails) {
 
   TRY(
     insert(aList, NULL, ID_LIST);
-    assert_true(FALSE);
+    assert_true(false);
   )
   assert_true(syserrHandlerCalled);
 }
@@ -126,7 +126,7 @@ Ensure(List, insertingWrongTypeOfMemberFails) {
 
   TRY(
     insert(aList, aMember, ATTRIBUTE_LIST);
-    assert_true(FALSE);
+    assert_true(false);
   );
   assert_true(syserrHandlerCalled);
 }

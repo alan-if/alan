@@ -182,7 +182,7 @@ typedef struct Statement {      /* STATEMENT */
         struct {               /* STRIP */
             Bool first;        /* true = First (from the beginning) */
             Expression *count; /* Optional count integer expression */
-            Bool wordOrChar;   /* true = words, FALSE = characters */
+            Bool wordOrChar;   /* true = words, false = characters */
             Expression *from;
             Expression *into;
         } strip;

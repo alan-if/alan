@@ -80,5 +80,5 @@ void dumpBool(Bool b)
   if (b)
     put("true");
   else
-    put("FALSE");
+    put("false");
 }

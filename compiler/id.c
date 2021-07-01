@@ -72,7 +72,7 @@ Bool equalId(Id *id1, Id *id2)
         return (compareStrings(id1->string, id2->string) == 0);
     else
         SYSERR("ID == NULL", nulsrcp);
-    return FALSE;
+    return false;
 }
 
 

@@ -36,7 +36,7 @@ FILE *datfil;			/* File of encoded text */
 
 int fileNo = 0;			/* File number to use next */
 #ifdef WINGUI
-Bool guiMode = FALSE;		/* Using the GUI? Or console? */
+Bool guiMode = false;		/* Using the GUI? Or console? */
 #endif
 
 
@@ -254,7 +254,7 @@ static void setupCompilation() {
   lmLiInit(alan.shortHeader, srcfnm, lm_ENGLISH_Messages);
   setCharacterSet(charset);
 
-  if (!smScanEnter(nulsrcp, srcfnm, FALSE)) {
+  if (!smScanEnter(nulsrcp, srcfnm, false)) {
     /* Failed to open the source file */
       createListingOnScreen(liMSG, sevALL);
     terminate(EXIT_FAILURE);

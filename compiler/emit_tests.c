@@ -80,7 +80,7 @@ Ensure(Emit, testEmitTextDataToAcodeFile) {
   acdfil = fopen("emitTestAcode", READ_MODE);
   for (i = 0; i < strlen(textData); i ++)
     if (fgetc(acdfil) != textData[i]) {
-      assert_true(FALSE);
+      assert_true(false);
     }
   fclose(acdfil);
   unlink(textDataFileName);

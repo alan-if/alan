@@ -147,7 +147,7 @@ Bool verbIdFound(Id *targetId, List *verbs)
       if (findIdInList(targetId, theIdInList) != NULL)
     return true;
   }
-  return FALSE;
+  return false;
 }
 
 

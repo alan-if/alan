@@ -21,7 +21,7 @@ static void syserrHandler(char *handler) {
 Describe(Where);
 
 BeforeEach(Where) {
-    syserr_called = FALSE;
+    syserr_called = false;
     setSyserrHandler(syserrHandler);
 }
 

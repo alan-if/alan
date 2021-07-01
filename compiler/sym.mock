@@ -53,14 +53,14 @@ Symbol *newSymbol(Id *id, SymbolKind kind) {
     case CLASS_SYMBOL:
         new->code = ++classCount;
         new->fields.entity.parent = NULL;
-        new->fields.entity.attributesNumbered = FALSE;
-        new->fields.entity.replicated = FALSE;
+        new->fields.entity.attributesNumbered = false;
+        new->fields.entity.replicated = false;
         break;
     case INSTANCE_SYMBOL:
         new->code = ++instanceCount;
         new->fields.entity.parent = NULL;
-        new->fields.entity.attributesNumbered = FALSE;
-        new->fields.entity.replicated = FALSE;
+        new->fields.entity.attributesNumbered = false;
+        new->fields.entity.replicated = false;
         break;
     case DIRECTION_SYMBOL:
         new->code = ++directionCount;

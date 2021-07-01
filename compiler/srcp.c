@@ -55,7 +55,7 @@ Bool inSrcps(Srcp srcp) {
       && list->member.srcp->line == srcp.line)
     return true;
     }
-  return FALSE;
+  return false;
 }
 
 

@@ -254,7 +254,7 @@ static void addVerbs(AddNode *add, Symbol *originalSymbol)
     Properties *originalProps = originalSymbol->fields.entity.props;
     List *verbList;
     List *verbIdList;
-    Bool inhibitAdd = FALSE;
+    Bool inhibitAdd = false;
 
     if (add->props->verbs != NULL) {
         if (originalSymbol == entitySymbol)
@@ -280,7 +280,7 @@ static void addScripts(AddNode *add, Symbol *original)
     List *addedScripts;
     List *originalScripts;
     List *scriptsToAdd = NULL;
-    Bool doNotAdd = FALSE;
+    Bool doNotAdd = false;
 
     if (props->scripts == NULL) return;
 
@@ -290,7 +290,7 @@ static void addScripts(AddNode *add, Symbol *original)
     }
     ITERATE(addedScripts, props->scripts) {
         Script *addedScript = addedScripts->member.script;
-        Bool duplicate = FALSE;
+        Bool duplicate = false;
         ITERATE(originalScripts, originalProps->scripts) {
             Script *originalScript = originalScripts->member.script;
             if (equalId(addedScript->id, originalScript->id)) {
@@ -335,7 +335,7 @@ static void addExits(AddNode *add, Symbol *originalSymbol)
     Properties *originalProps = originalSymbol->fields.entity.props;
     List *exitList;
     List *exitIdList;
-    Bool inhibitAdd = FALSE;
+    Bool inhibitAdd = false;
 
     if (add->props->exits != NULL) {
         symbolizeExits(add->props->exits);

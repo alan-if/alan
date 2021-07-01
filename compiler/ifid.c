@@ -92,18 +92,18 @@ static Bool isValidUUID(char *uuid)
 {
   int i;
 
-  if (strlen(uuid) != 45) return FALSE;
-  if (strncmp(uuid, "UUID://", 7) != 0) return FALSE;
-  for (i = 7; i <= 14; i++) if (!isxdigit((uint)uuid[i])) return FALSE;
-  if (uuid[15] != '-') return FALSE;
-  for (i = 16; i <= 19; i++) if (!isxdigit((uint)uuid[i])) return FALSE;
-  if (uuid[20] != '-') return FALSE;
-  for (i = 21; i <= 24; i++) if (!isxdigit((uint)uuid[i])) return FALSE;
-  if (uuid[25] != '-') return FALSE;
-  for (i = 26; i <= 29; i++) if (!isxdigit((uint)uuid[i])) return FALSE;
-  if (uuid[30] != '-') return FALSE;
-  for (i = 31; i <= 42; i++) if (!isxdigit((uint)uuid[i])) return FALSE;
-  if (strcmp(&uuid[43], "//") != 0) return FALSE;
+  if (strlen(uuid) != 45) return false;
+  if (strncmp(uuid, "UUID://", 7) != 0) return false;
+  for (i = 7; i <= 14; i++) if (!isxdigit((uint)uuid[i])) return false;
+  if (uuid[15] != '-') return false;
+  for (i = 16; i <= 19; i++) if (!isxdigit((uint)uuid[i])) return false;
+  if (uuid[20] != '-') return false;
+  for (i = 21; i <= 24; i++) if (!isxdigit((uint)uuid[i])) return false;
+  if (uuid[25] != '-') return false;
+  for (i = 26; i <= 29; i++) if (!isxdigit((uint)uuid[i])) return false;
+  if (uuid[30] != '-') return false;
+  for (i = 31; i <= 42; i++) if (!isxdigit((uint)uuid[i])) return false;
+  if (strcmp(&uuid[43], "//") != 0) return false;
   return true;
 }
 

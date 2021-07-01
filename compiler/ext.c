@@ -111,7 +111,7 @@ Bool exitIdFound(Id *targetId, List *exits)
             if (findIdInList(targetId, theIdInList) != NULL)
                 return true;
     }
-    return FALSE;
+    return false;
 }
 
 
@@ -161,7 +161,7 @@ static Bool haveExit(List *ownExits, Id *direction) {
                 return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 /*----------------------------------------------------------------------*/
@@ -188,7 +188,7 @@ List *combineExits(List *ownExits, List *exitsToAdd)
     List *new = NULL;
 
     ITERATE(toAdd, exitsToAdd) {
-        Bool foundOneToAdd = FALSE;
+        Bool foundOneToAdd = false;
         /* Each exit may have multiple directions so we must traverse that
            list to see if we should copy this Exit node */
         ITERATE(direction, toAdd->member.ext->directions) {

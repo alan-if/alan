@@ -28,11 +28,11 @@ Ensure(Verb, testMultipleVerbs) {
     List *verbIds1 = newList(v1, ID_LIST);
     List *verbIds2 = concat(newList(v2, ID_LIST), v3, ID_LIST);
     List *verbIds3 = concat(newList(v1, ID_LIST), v5, ID_LIST);
-    List *verbs = concat(concat(newList(newVerb(&nulsrcp, verbIds1, NULL, FALSE),
+    List *verbs = concat(concat(newList(newVerb(&nulsrcp, verbIds1, NULL, false),
                                         VERB_LIST),
-                                newVerb(&nulsrcp, verbIds2, NULL, FALSE),
+                                newVerb(&nulsrcp, verbIds2, NULL, false),
                                 VERB_LIST),
-                         newVerb(&nulsrcp, verbIds3, NULL, FALSE),
+                         newVerb(&nulsrcp, verbIds3, NULL, false),
                          VERB_LIST);
 
     checkMultipleVerbDeclarations(verbs);
@@ -50,10 +50,9 @@ Ensure(Verb, testMultipleVerbs) {
 
 TestSuite *vrbTests()
 {
-    TestSuite *suite = create_test_suite(); 
+    TestSuite *suite = create_test_suite();
 
     add_test_with_context(suite, Verb, testMultipleVerbs);
 
     return suite;
 }
-

@@ -223,15 +223,15 @@ void setupDefaultProperties() {
   if (!entitySymbol->fields.entity.props->definite)
     entitySymbol->fields.entity.props->definite = newArticle(nulsrcp,
                                  newPrintStatementListFromString(the),
-                                 FALSE);
+                                 false);
   if (!entitySymbol->fields.entity.props->indefinite)
     entitySymbol->fields.entity.props->indefinite = newArticle(nulsrcp,
                                    newPrintStatementListFromString(an),
-                                   FALSE);
+                                   false);
   if (!entitySymbol->fields.entity.props->negative)
     entitySymbol->fields.entity.props->negative = newArticle(nulsrcp,
                                  newPrintStatementListFromString(any),
-                                 FALSE);
+                                 false);
 
   /* Add pronouns */
   if (entity->props->pronouns == NULL)

@@ -91,7 +91,7 @@ Bool verifyInitialLocation(Where *whr, Context *context)
                 instanceCheck(whr->what->fields.wht.wht->id, "Initial location using AT", "location");
             } else {
                 lmlog(&whr->srcp, 355, sevERR, "");
-                return FALSE;
+                return false;
             }
             break;
         case WHERE_IN:
@@ -99,7 +99,7 @@ Bool verifyInitialLocation(Where *whr, Context *context)
             break;
         default:
             lmlogv(&whr->srcp, 355, sevERR, "", NULL);
-            return FALSE;
+            return false;
             break;
         }
     return true;

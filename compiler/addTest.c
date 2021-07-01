@@ -20,24 +20,24 @@ AfterEach(Add) {}
 
 Ensure(Add, testMultipleAddAttribute) {
   Id *theId = newId(nulsrcp, "aClassId");
-  Attribute *theFirstAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "firstAttribute"), FALSE);
-  Attribute *theSecondAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "secondAttribute"), FALSE);
+  Attribute *theFirstAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "firstAttribute"), false);
+  Attribute *theSecondAttribute = newBooleanAttribute(nulsrcp, newId(nulsrcp, "secondAttribute"), false);
   Properties *theFirstAttributeProps = newProps(NULL, NULL,
-						nulsrcp, NULL,
-						newList(theFirstAttribute, ATTRIBUTE_LIST),
-						NULL, NULL,
-						nulsrcp, NULL, NULL, NULL, NULL,
-						NULL, NULL,
-						nulsrcp, NULL,
-						NULL, NULL);
+                        nulsrcp, NULL,
+                        newList(theFirstAttribute, ATTRIBUTE_LIST),
+                        NULL, NULL,
+                        nulsrcp, NULL, NULL, NULL, NULL,
+                        NULL, NULL,
+                        nulsrcp, NULL,
+                        NULL, NULL);
   Properties *theSecondAttributeProps = newProps(NULL, NULL,
-						 nulsrcp, NULL,
-						 newList(theSecondAttribute, ATTRIBUTE_LIST),
-						 NULL, NULL,
-						 nulsrcp, NULL, NULL, NULL, NULL,
-						 NULL, NULL,
-						 nulsrcp, NULL,
-						 NULL, NULL);
+                         nulsrcp, NULL,
+                         newList(theSecondAttribute, ATTRIBUTE_LIST),
+                         NULL, NULL,
+                         nulsrcp, NULL, NULL, NULL, NULL,
+                         NULL, NULL,
+                         nulsrcp, NULL,
+                         NULL, NULL);
   AddNode *add1 = newAdd(nulsrcp, theId, NULL, theFirstAttributeProps);
   AddNode *add2 = newAdd(nulsrcp, theId, NULL, theSecondAttributeProps);
   Symbol *aSymbol;
@@ -49,7 +49,7 @@ Ensure(Add, testMultipleAddAttribute) {
 
   addAttributes(add1, aSymbol);
   assert_true(length(aSymbol->fields.entity.props->attributes) == 1);
-  
+
   addAttributes(add2, aSymbol);
   assert_true(length(aSymbol->fields.entity.props->attributes) == 2);
 }
@@ -58,21 +58,21 @@ Ensure(Add, testMultipleAddAttribute) {
 Ensure(Add, testAddDescription) {
   Description *addedDescription = newDescription(nulsrcp, NULL, nulsrcp, NULL);
   Properties *addProps = newProps(NULL, NULL,
-				  nulsrcp, NULL,
-				  NULL, NULL, /*description*/ NULL,
-				  nulsrcp, NULL, NULL, NULL, NULL,
-				  NULL, NULL,
-				  nulsrcp, NULL,
-				  NULL, NULL);
+                  nulsrcp, NULL,
+                  NULL, NULL, /*description*/ NULL,
+                  nulsrcp, NULL, NULL, NULL, NULL,
+                  NULL, NULL,
+                  nulsrcp, NULL,
+                  NULL, NULL);
   AddNode *add = newAdd(nulsrcp, NULL, NULL, addProps);
 
   Properties *originalProps = newProps(NULL, NULL,
-				       nulsrcp, NULL,
-				       NULL, NULL, /*description*/ NULL,
-				       nulsrcp, NULL, NULL, NULL, NULL,
-				       NULL, NULL,
-				       nulsrcp, NULL,
-				       NULL, NULL);
+                       nulsrcp, NULL,
+                       NULL, NULL, /*description*/ NULL,
+                       nulsrcp, NULL, NULL, NULL, NULL,
+                       NULL, NULL,
+                       nulsrcp, NULL,
+                       NULL, NULL);
   Symbol *symbol = newClassSymbol(newId(nulsrcp, "testAddId"), originalProps, NULL);
   List list;			/* Dummy list */
 

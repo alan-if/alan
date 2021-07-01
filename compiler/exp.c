@@ -47,7 +47,7 @@ static Expression *newExpression(Srcp srcp, ExpressionKind kind)
 
     new->srcp = srcp;
     new->kind = kind;
-    new->not = FALSE;
+    new->not = false;
 
     return(new);
 }
@@ -278,10 +278,10 @@ Bool verifyContainerExpression(Expression *what, Context *context,
     if (what->type != ERROR_TYPE) {
         if (what->type != INSTANCE_TYPE) {
             lmlogv(&what->srcp, 428, sevERR, constructDescription, "an instance", NULL);
-            return FALSE;
+            return false;
         } else if (!expressionIsContainer(what, context)) {
             expressionIsNotContainer(what, context, constructDescription);
-            return FALSE;
+            return false;
         }
     }
     return true;
@@ -371,7 +371,7 @@ Bool isConstantExpression(Expression *exp)
             List *members;
             ITERATE(members, exp->fields.set.members) {
                 if (!isConstantExpression(members->member.exp))
-                    return FALSE;
+                    return false;
             }
             return true;
         }
@@ -388,9 +388,9 @@ Bool isConstantExpression(Expression *exp)
     case RANDOM_EXPRESSION:
     case RANDOM_IN_EXPRESSION:
     case SCORE_EXPRESSION:
-        return FALSE;
+        return false;
     }
-    return FALSE;
+    return false;
 }
 
 
@@ -790,10 +790,10 @@ static Bool expressionIsActualWhere(Expression *expression) {
         case WHERE_IN:
             return true; /* expression->fields.whr.whr->transitivity != DIRECTLY; */
         case WHERE_INSET:
-            return FALSE;
+            return false;
         }
     default:
-        return FALSE;
+        return false;
     }
 }
 
@@ -821,9 +821,9 @@ static Symbol *combineFilterClasses(Symbol *original, Symbol *addition, Srcp src
 Bool analyzeFilterExpressions(char *message, List *filters,
                               Context *context, Symbol **foundClass) {
     List *lst;
-    Bool foundWhere = FALSE;
-    Bool foundIsa = FALSE;
-    Bool error = FALSE;
+    Bool foundWhere = false;
+    Bool foundIsa = false;
+    Bool error = false;
     Symbol *class = NULL;
 
     /* Analyze the filters which may restrict to a class, return the class id */

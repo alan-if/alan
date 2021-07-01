@@ -34,7 +34,7 @@ AfterEach(Statement) {}
 Ensure(Statement, analyzeIf_creates_restricting_context_for_Id_Isa_expression) {
     What *what = newWhatId(nulsrcp, newId(nulsrcp, "id"));
     Expression *what_expression = newWhatExpression(nulsrcp, what);
-    Expression *isa = newIsaExpression(nulsrcp, what_expression, FALSE, NULL);
+    Expression *isa = newIsaExpression(nulsrcp, what_expression, false, NULL);
     Statement *statement = newStatement(&nulsrcp, IF_STATEMENT);
 
     isa->type = BOOLEAN_TYPE;
@@ -53,8 +53,8 @@ Ensure(Statement, analyzeIf_creates_restricting_context_for_Id_Isa_expression) {
 Ensure(Statement, analyzeIf_does_not_create_restricting_context_for_Isa_expression_with_anything_but_Id) {
     What *what = newWhatId(nulsrcp, newId(nulsrcp, "id"));
     Expression *what_expression = newWhatExpression(nulsrcp, what);
-    Expression *attribute_expression = newAttributeExpression(nulsrcp, newId(nulsrcp, "attribute"), FALSE, what_expression);
-    Expression *isa = newIsaExpression(nulsrcp, attribute_expression, FALSE, NULL);
+    Expression *attribute_expression = newAttributeExpression(nulsrcp, newId(nulsrcp, "attribute"), false, what_expression);
+    Expression *isa = newIsaExpression(nulsrcp, attribute_expression, false, NULL);
     Statement *statement = newStatement(&nulsrcp, IF_STATEMENT);
 
     isa->type = BOOLEAN_TYPE;

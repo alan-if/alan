@@ -22,36 +22,36 @@ AfterEach(Where) {}
 
 Ensure(Where, InitialLocationOfObjectIsNowhere) {
   Id *locId = newId(nulsrcp, "atLoc");
-  Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
-			newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
+  Where *whr = newWhere(&nulsrcp, false, WHERE_AT,
+            newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
   Id *id = newId(nulsrcp, "id");
   Instance *atLoc = newInstance(&nulsrcp, locId, NULL, NULL);
   Properties *properties = newProps(NULL, NULL, nulsrcp,
-				    NULL, NULL, NULL, NULL, nulsrcp,
-				    NULL, NULL, NULL, NULL, NULL,
-				    NULL, nulsrcp, NULL, NULL, NULL);
+                    NULL, NULL, NULL, NULL, nulsrcp,
+                    NULL, NULL, NULL, NULL, NULL,
+                    NULL, nulsrcp, NULL, NULL, NULL);
 
   symbolizeWhere(whr);
   properties->id = id;
 
-  symbolizeProps(properties, FALSE);
+  symbolizeProps(properties, false);
   assert_true(generateInitialLocation(properties) == 1); /* #nowhere */
 
   properties->whr = whr;
-  symbolizeProps(properties, FALSE);
+  symbolizeProps(properties, false);
   assert_true(generateInitialLocation(properties) == atLoc->props->id->symbol->code);
 }
 
 Ensure(Where, InitialLocationOfLocationIsNull) {
   Id *locId = newId(nulsrcp, "atLoc");
-  Where *whr = newWhere(&nulsrcp, FALSE, WHERE_AT,
-			newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
+  Where *whr = newWhere(&nulsrcp, false, WHERE_AT,
+            newWhatExpression(nulsrcp, newWhatId(nulsrcp, locId)));
   Instance *atLoc = newInstance(&nulsrcp, locId, NULL, NULL);
   Id *id = newId(nulsrcp, "id");
   Properties *properties = newProps(NULL, NULL, nulsrcp,
-				    NULL, NULL, NULL, NULL, nulsrcp,
-				    NULL, NULL, NULL, NULL, NULL,
-				    NULL, nulsrcp, NULL, NULL, NULL);
+                    NULL, NULL, NULL, NULL, nulsrcp,
+                    NULL, NULL, NULL, NULL, NULL,
+                    NULL, nulsrcp, NULL, NULL, NULL);
 
   initClasses();
 
@@ -60,7 +60,7 @@ Ensure(Where, InitialLocationOfLocationIsNull) {
   properties->id = id;
   properties->parentId = newId(nulsrcp, "location");
 
-  symbolizeProps(properties, FALSE);
+  symbolizeProps(properties, false);
   assert_that(generateInitialLocation(properties), is_equal_to(0));
 
   properties->whr = whr;
@@ -76,4 +76,3 @@ TestSuite *whrTests()
 
     return suite;
 }
-

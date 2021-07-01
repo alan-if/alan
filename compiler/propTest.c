@@ -43,7 +43,7 @@ Ensure(Properties, testAddOpaqueAttribute) {
 }
 
 static Where *newWhereIdString(char id[]) {
-  return newWhere(&nulsrcp, FALSE, WHERE_AT,
+  return newWhere(&nulsrcp, false, WHERE_AT,
           newWhatExpression(nulsrcp,
                     newWhatId(nulsrcp,
                           newId(nulsrcp, id))));

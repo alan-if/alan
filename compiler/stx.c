@@ -53,7 +53,7 @@ Syntax *newSyntax(Srcp srcp, Id *id, List *elements, List *restrictionList,
     new->restrictions = restrictionList;
     new->restrictionSrcp = restrictionSrcp;
 
-    new->generated = FALSE;
+    new->generated = false;
 
     return(new);
 }
@@ -80,7 +80,7 @@ Syntax *newSyntaxWithEOS(Srcp srcp, Id *id, List *restrictionList,
     this->restrictions = restrictionList;
     this->restrictionSrcp = restrictionSrcp;
 
-    this->generated = FALSE;
+    this->generated = false;
 
     return(this);
 }
@@ -130,9 +130,9 @@ Bool equalParameterLists(Syntax *stx1, Syntax *stx2)
          elm1 != NULL && elm2 != NULL;
          elm1 = elm1->next, elm2 = elm2->next) {
         if (!equalId(elm1->member.elm->id, elm2->member.elm->id))
-            return FALSE;
+            return false;
         if (elm1->member.elm->flags != elm2->member.elm->flags)
-            return FALSE;
+            return false;
     }
     return elm1 == elm2;          /* Both NULL => equal */
 }
@@ -169,7 +169,7 @@ static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
 
     ITERATE(elm1, stx1->elements) {
         if (elm1->member.elm->kind == PARAMETER_ELEMENT) {
-            found = FALSE;
+            found = false;
             ITERATE(elm2, stx2->elements) {
                 if (elm2->member.elm->kind == PARAMETER_ELEMENT)
                     if (equalId(elm1->member.elm->id, elm2->member.elm->id)){
@@ -177,7 +177,7 @@ static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
                         break;
                     }
             }
-            if (!found) return FALSE;
+            if (!found) return false;
             else foundInOther++;
         }
     }
@@ -258,11 +258,11 @@ static void connectSyntaxesForSameVerb(List *syntaxes) {
     Bool error;
 
     ITERATE(lst, syntaxes) {
-        error = FALSE;
+        error = false;
         for (other = lst->next; other != NULL; other = other->next) {
             if (equalId(other->member.stx->id, lst->member.stx->id)) {
                 lst->member.stx->nextSyntaxForSameVerb = other->member.stx;
-                other->member.stx->firstSyntax = FALSE;
+                other->member.stx->firstSyntax = false;
                 if (!compatibleParameterLists(lst->member.stx, other->member.stx)) {
                     lmlog(&other->member.stx->id->srcp, 206, sevERR,
                           lst->member.stx->id->string);
@@ -520,7 +520,7 @@ static void generateParameterMapping(Syntax *syntax)
     Aaddr parameterMappingTableAddress = nextEmitAddress();
     List *originalParameters = syntax->id->symbol->fields.verb.parameterSymbols;
     List *originalPosition;
-    Bool found = FALSE;
+    Bool found = false;
 
     ITERATE(list, syntax->parameters) {
         /* Generate a parameter mapping entry */

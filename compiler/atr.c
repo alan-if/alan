@@ -61,11 +61,11 @@ static Attribute *newAttribute(Srcp *srcp,
     new->inheritance = UNKNOWN_INHERITANCE;
     new->value = value;
     new->stringAddress = 0;
-    new->encoded = FALSE;
+    new->encoded = false;
     new->fpos = fpos;
     new->len = len;
     new->reference = reference;
-    new->initialized = FALSE;
+    new->initialized = false;
     new->set = set;
 
     return(new);
@@ -164,7 +164,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
                     thisAttribute->type = EVENT_TYPE;
                 else if (isClass(thisAttribute->reference->symbol)
                          && inClassDeclaration)
-                    thisAttribute->initialized = FALSE;
+                    thisAttribute->initialized = false;
                 else {
                     if (thisAttribute->reference->symbol->kind != ERROR_SYMBOL)
                         lmlogv(&thisAttribute->reference->srcp, 428, sevERR,
@@ -209,7 +209,7 @@ List *sortAttributes(List *attributes)
     if (attributes != NULL) {
         change = true;
         while (change) {
-            change = FALSE;
+            change = false;
             for (lstp = &sortedList; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
                 tmp1 = *lstp;
                 tmp2 = tmp1->next;
@@ -304,7 +304,7 @@ static Bool isWhatId(Expression *exp)
 /*----------------------------------------------------------------------*/
 static Bool hasSingleIdentifierMember(List *members)
 {
-    if (members == NULL) return FALSE;
+    if (members == NULL) return false;
     return length(members) == 1
         && members->kind == EXPRESSION_LIST
         && isWhatId(members->member.exp);
@@ -569,7 +569,7 @@ static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
 {
     Attribute *atr = NULL;
     Context *thisContext = context;
-    Bool contextFound = FALSE;
+    Bool contextFound = false;
 
     while (!contextFound && thisContext != NULL) {
         switch (thisContext->kind) {

@@ -22,11 +22,11 @@
 /* Exports: */
 
 OptDef opts[NOPT] = {
-  {ENUMOPT, FALSE, "language", L_ENGLISH}, /* OPTION Language */
-  {INTOPT, FALSE, "width", 75},            /* OPTION Width */
-  {INTOPT, FALSE, "length", 24},           /* OPTION Length */
-  {BOOLOPT, FALSE, "pack", false},         /* OPTION Pack */
-  {BOOLOPT, FALSE, "debug", false}         /* OPTION Debug */
+  {ENUMOPT, false, "language", L_ENGLISH}, /* OPTION Language */
+  {INTOPT, false, "width", 75},            /* OPTION Width */
+  {INTOPT, false, "length", 24},           /* OPTION Length */
+  {BOOLOPT, false, "pack", false},         /* OPTION Pack */
+  {BOOLOPT, false, "debug", false}         /* OPTION Debug */
 };
 
 
@@ -151,7 +151,7 @@ void optenum(char *id, Srcp *srcp, char *val)
   if ((opt = optcode(id)) == EOF) {
     if (compareStrings(id, "no") == 0) {
       /* This was actually a NO optBool */
-      optBool(val, srcp, FALSE);
+      optBool(val, srcp, false);
     } else
       /* Unrecognized option */
       lmlog(srcp, 601, sevWAR, id);
