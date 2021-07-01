@@ -35,7 +35,7 @@
 
 
 /* PUBLIC DATA */
-bool onStatusLine = FALSE; /* To know if where printing the status line or not */
+bool onStatusLine = false; /* To know if where printing the status line or not */
 
 
 
@@ -131,10 +131,10 @@ void statusline(void)
         glk_put_char(' ');
 #endif
 
-    onStatusLine = TRUE;
+    onStatusLine = true;
     col = 1;
     glk_window_move_cursor(glkStatusWin, 1, 0);
-    sayInstance(where(HERO, TRUE));
+    sayInstance(where(HERO, true));
 
     // TODO Add status message1  & 2 as author customizable messages
     if (header->maximumScore > 0)
@@ -143,10 +143,10 @@ void statusline(void)
         sprintf(line, "%d moves", current.tick);
     glk_window_move_cursor(glkStatusWin, glkWidth-strlen(line)-1, 0);
     glk_put_string(line);
-    needSpace = FALSE;
+    needSpace = false;
 
     col = pcol;
-    onStatusLine = FALSE;
+    onStatusLine = false;
 
     glk_set_window(glkMainWin);
 #else
@@ -160,9 +160,9 @@ void statusline(void)
     printf("\x1b[1;1H");
     printf("\x1b[7m");
 
-    onStatusLine = TRUE;
+    onStatusLine = true;
     col = 1;
-    sayInstance(where(HERO, FALSE));
+    sayInstance(where(HERO, false));
 
     if (header->maximumScore > 0)
         sprintf(line, "Score %d(%d)/%d moves", current.score, header->maximumScore, current.tick);
@@ -173,10 +173,10 @@ void statusline(void)
     printf("\x1b[m");
     printf("\x1b[%d;1H", pageLength);
 
-    needSpace = FALSE;
-    capitalize = TRUE;
+    needSpace = false;
+    capitalize = true;
 
-    onStatusLine = FALSE;
+    onStatusLine = false;
     col = pcol;
 #endif
 #endif

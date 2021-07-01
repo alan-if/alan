@@ -151,9 +151,9 @@ Ensure(ParameterArray, dontCrashOnCopyNullToNull) {
     copyParameterArray(NULL, NULL);
 }
 
-static bool syserrCalled = FALSE;
+static bool syserrCalled = false;
 static void syserrHandler(char *message) {
-    syserrCalled = TRUE;
+    syserrCalled = true;
 }
 
 /*----------------------------------------------------------------------*/

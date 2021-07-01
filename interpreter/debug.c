@@ -74,13 +74,13 @@ static void showContents(int cnt)
 {
     int i;
     char str[80];
-    Abool found = FALSE;
+    Abool found = false;
 
     output("$iContains:");
     for (i = 1; i <= header->instanceMax; i++) {
         if (isIn(i, cnt, DIRECT)) { /* Yes, it's directly in this container */
             if (!found)
-                found = TRUE;
+                found = true;
             output("$i$t");
             say(i);
             sprintf(str, "[%d] ", i);
@@ -147,13 +147,13 @@ static void listInstance(int ins) {
 static void listInstances(char *pattern)
 {
     int ins;
-    bool found = FALSE;
+    bool found = false;
 
     for (ins = 1; ins <= header->instanceMax; ins++) {
         if (pattern == NULL || (pattern != NULL && match(pattern, idOfInstance(ins)))) {
             if (!found) {
                 output("Instances:");
-                found = TRUE;
+                found = true;
             }
             listInstance(ins);
         }
@@ -183,7 +183,7 @@ static void showInstance(int ins)
     if (!isA(ins, header->locationClassId) || (isA(ins, header->locationClassId) && admin[ins].location != 0)) {
         sprintf(str, "$iLocation:");
         output(str);
-        needSpace = TRUE;
+        needSpace = true;
         sayLocationOfInstance(ins, NULL);
     }
 
@@ -430,7 +430,7 @@ static void showEvents(void)
     for (event = 1; event <= header->eventMax; event++) {
         sprintf(str, "$i%d [%s]:", event, (char *)pointerTo(events[event].id));
         output(str);
-        scheduled = FALSE;
+        scheduled = false;
         for (i = 0; i < eventQueueTop; i++)
             if ((scheduled = (eventQueue[i].event == event)))
                 break;
@@ -534,13 +534,13 @@ static int findSourceLineIndex(SourceLineEntry *entry, int file, int line) {
 /*----------------------------------------------------------------------*/
 static void listBreakpoints() {
     int i;
-    bool found = FALSE;
+    bool found = false;
 
     for (i = 0; i < BREAKPOINTMAX; i++)
         if (breakpoint[i].line != 0) {
             if (!found)
                 printf("Breakpoints set:\n");
-            found = TRUE;
+            found = true;
             printf("    %s:%d\n", sourceFileName(breakpoint[i].file), breakpoint[i].line);
         }
     if (!found)
@@ -621,12 +621,12 @@ static int loc;
 void saveInfo(void)
 {
     /* Save some important things */
-    saved_capitilize = capitalize; capitalize = FALSE;
-    saved_traceSection = traceSectionOption; traceSectionOption = FALSE;
-    saved_traceSource = traceSourceOption; traceSourceOption = FALSE;
-    saved_traceInstruction = traceInstructionOption; traceInstructionOption = FALSE;
-    saved_tracePush = tracePushOption; tracePushOption = FALSE;
-    saved_traceStack = traceStackOption; traceStackOption = FALSE;
+    saved_capitilize = capitalize; capitalize = false;
+    saved_traceSection = traceSectionOption; traceSectionOption = false;
+    saved_traceSource = traceSourceOption; traceSourceOption = false;
+    saved_traceInstruction = traceInstructionOption; traceInstructionOption = false;
+    saved_tracePush = tracePushOption; tracePushOption = false;
+    saved_traceStack = traceStackOption; traceStackOption = false;
     loc = current.location; current.location = where(HERO, DIRECT);
 }
 
@@ -778,7 +778,7 @@ static char parseDebugCommand(char *command) {
 static void readCommand(char buf[]) {
     char c;
 
-    capitalize = FALSE;
+    capitalize = false;
     if (anyOutput) newline();
     do {
         output("adbg> ");
@@ -808,7 +808,7 @@ static void displaySourceLocation(int line, int fileNumber) {
     printf("%s %s %s:%d\n", debugPrefix, cause, sourceFileName(fileNumber), line);
     showSourceLine(fileNumber, line);
     printf("\n");
-    anyOutput = FALSE;
+    anyOutput = false;
 }
 
 
@@ -942,8 +942,8 @@ static void handleDeleteCommand(bool calledFromBreakpoint, int line, int fileNum
 
 /*----------------------------------------------------------------------*/
 static void handleNextCommand(bool calledFromBreakpoint) {
-    stopAtNextLine = TRUE;
-    debugOption = FALSE;
+    stopAtNextLine = true;
+    debugOption = false;
     if (!calledFromBreakpoint)
         current.sourceLine = 0;
     restoreInfo();
@@ -1026,7 +1026,7 @@ static bool exactSameVersion() {
 /*======================================================================*/
 void debug(bool calledFromBreakpoint, int line, int fileNumber)
 {
-    static bool warned = FALSE;
+    static bool warned = false;
 
     saveInfo();
 
@@ -1042,11 +1042,11 @@ void debug(bool calledFromBreakpoint, int line, int fileNumber)
                    decodedGameVersion(header->version));
             printf("<That is not exactly the same as this interpreter (%s).>\n", alan.version.string);
             printf("<This might cause a lot of trouble. Cross your fingers...>\n");
-            warned = TRUE;
+            warned = true;
         }
     }
 
-    while (TRUE) {
+    while (true) {
 
         char commandLine[200];
         readCommand(commandLine);
@@ -1060,7 +1060,7 @@ void debug(bool calledFromBreakpoint, int line, int fileNumber)
         case CLASSES_COMMAND: handleClassesCommand(); break;
         case DELETE_COMMAND: handleDeleteCommand(calledFromBreakpoint, line, fileNumber); break;
         case EVENTS_COMMAND: showEvents(); break;
-        case EXIT_COMMAND: debugOption = FALSE; restoreInfo(); goto exit_debug;
+        case EXIT_COMMAND: debugOption = false; restoreInfo(); goto exit_debug;
         case FILES_COMMAND: listFiles(); break;
         case LINES_COMMAND: listLines(); break;
         case GO_COMMAND: restoreInfo(); goto exit_debug;
@@ -1095,13 +1095,13 @@ void debug(bool calledFromBreakpoint, int line, int fileNumber)
 void traceSay(int item)
 {
     saveInfo();
-    needSpace = FALSE;
+    needSpace = false;
     col = 1;
     if (item == 0)
         printf("$null$");
     else
         say(item);
-    needSpace = FALSE;
+    needSpace = false;
     col = 1;
     restoreInfo();
 }

@@ -8,7 +8,7 @@
     with the various Unix Glk libraries -- at least, the three I wrote.
     (I encourage anyone writing a Unix Glk library to use this interface,
     but it's not part of the Glk spec.)
-    
+
     Because Glk is *almost* perfectly portable, this interface *almost*
     doesn't have to exist. In practice, it's small.
 */
@@ -18,10 +18,10 @@
 
 /* We define our own TRUE and FALSE and NULL, because ANSI
     is a strange world. */
-#ifndef TRUE
+#ifndef true
 #define TRUE 1
 #endif
-#ifndef FALSE
+#ifndef false
 #define FALSE 0
 #endif
 #ifndef NULL
@@ -55,8 +55,7 @@ extern int glkunix_startup_code(glkunix_startup_t *data);
    to your code. Obviously, this is nonportable; so you should
    only call it from glkunix_startup_code().
 */
-extern strid_t glkunix_stream_open_pathname(char *pathname, glui32 textmode, 
+extern strid_t glkunix_stream_open_pathname(char *pathname, glui32 textmode,
   glui32 rock);
 
 #endif /* GT_START_H */
-

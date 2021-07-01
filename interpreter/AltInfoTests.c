@@ -31,9 +31,9 @@ Ensure(AltInfo, canDuplicateAltInfoArray) {
 
   for (i = 0; i < COPYSIZE; i++) {
       original[i].instance = i;
-      original[i].end = FALSE;
+      original[i].end = false;
   }
-  original[COPYSIZE].end = TRUE;
+  original[COPYSIZE].end = true;
 
   duplicate = duplicateAltInfoArray(original);
   for (i = 0; i < COPYSIZE; i++) {
@@ -52,8 +52,8 @@ Ensure(AltInfo, canFindLastAltInfoIndex) {
   int i;
 
   for (i = 0; i < SIZE; i++)
-    array[i].end = FALSE;
-  array[SIZE].end = TRUE;
+    array[i].end = false;
+  array[SIZE].end = true;
 
   assert_equal(lastAltInfoIndex(array), SIZE-1);
 }
@@ -65,8 +65,8 @@ Ensure(AltInfo, canFindNextFreeAltInfo) {
   int i;
 
   for (i = 0; i < SIZE; i++)
-    array[i].end = FALSE;
-  array[SIZE].end = TRUE;
+    array[i].end = false;
+  array[SIZE].end = true;
 
   assert_equal(nextFreeAltInfo(array), &array[SIZE]);
 }
@@ -80,7 +80,7 @@ AltEntry *finder(int verb, int parameterNumber, int theInstance, int theClass) {
 
 Ensure(AltInfo, canAddGlobalAlternatives) {
     AltInfo altInfos[10];
-    altInfos[0].end = TRUE;
+    altInfos[0].end = true;
 
     addGlobalAlternatives(altInfos, current.verb, &finder);
 

@@ -4,7 +4,7 @@
 
 
 static void syserrHandler(char *message) {
-    assert_true_with_message(FALSE, "Unexpected call to syserr()");
+    assert_true_with_message(false, "Unexpected call to syserr()");
 }
 
 static Stack theStack;

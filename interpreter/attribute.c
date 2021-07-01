@@ -33,5 +33,5 @@ void setAttribute(AttributeEntry *attributeTable, int attributeCode, Aptr newVal
   AttributeEntry *attribute = findAttribute(attributeTable, attributeCode);
 
   attribute->value = newValue;
-  gameStateChanged = TRUE;
+  gameStateChanged = true;
 }

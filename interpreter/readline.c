@@ -54,10 +54,10 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
         switch (LOWORD(wParam)) {
         case IDOK:
             EndDialog(hwndDlg, wParam);
-            return TRUE;
+            return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 #endif
@@ -76,7 +76,7 @@ BOOL CALLBACK AboutDialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM 
 bool readline(char buffer[])
 {
     event_t event;
-    static bool readingCommands = FALSE;
+    static bool readingCommands = false;
     static frefid_t commandFileRef;
     static strid_t commandFile;
 #ifdef HAVE_WINGLK
@@ -88,7 +88,7 @@ bool readline(char buffer[])
     if (readingCommands) {
         if (glk_get_line_stream(commandFile, buffer, 255) == 0) {
             glk_stream_close(commandFile, NULL);
-            readingCommands = FALSE;
+            readingCommands = false;
             goto endOfCommandFile;
         } else {
             char *converted = ensureInternalEncoding(buffer);
@@ -136,13 +136,13 @@ bool readline(char buffer[])
                     case ID_MENU_RECORD:
                         if (commandLogOption) {
                             glk_stream_close(commandLogFile, NULL);
-                            commandLogOption = FALSE;
+                            commandLogOption = false;
                         }
                         commandLogFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Write, 0);
                         if (commandLogFileRef == NULL) break;
                         commandLogFile = glk_stream_open_file(commandLogFileRef, filemode_Write, 0);
                         if (commandLogFile != NULL)
-                            commandLogOption = TRUE;
+                            commandLogOption = true;
                         break;
                     case ID_MENU_PLAYBACK:
                         commandFileRef = glk_fileref_create_by_prompt(fileusage_InputRecord+fileusage_TextMode, filemode_Read, 0);
@@ -150,21 +150,21 @@ bool readline(char buffer[])
                         commandFile = glk_stream_open_file(commandFileRef, filemode_Read, 0);
                         if (commandFile != NULL)
                             if (glk_get_line_stream(commandFile, buffer, 255) != 0) {
-                                readingCommands = TRUE;
+                                readingCommands = true;
                                 printf(buffer);
-                                return TRUE;
+                                return true;
                             }
                         break;
                     case ID_MENU_TRANSCRIPT:
                         if (transcriptOption) {
                             glk_stream_close(transcriptFile, NULL);
-                            transcriptOption = FALSE;
+                            transcriptOption = false;
                         }
                         transcriptFileRef = glk_fileref_create_by_prompt(fileusage_Transcript+fileusage_TextMode, filemode_Write, 0);
                         if (transcriptFileRef == NULL) break;
                         transcriptFile = glk_stream_open_file(transcriptFileRef, filemode_Write, 0);
                         if (transcriptFile != NULL) {
-                            transcriptOption = TRUE;
+                            transcriptOption = true;
                             glk_put_string_stream(transcriptFile, "> ");
                         }
                         break;
@@ -188,12 +188,12 @@ bool readline(char buffer[])
                     printf(converted);
                     glk_set_style(style_Normal);
                     free(converted);
-                    readingCommands = TRUE;
+                    readingCommands = true;
                 }
         } else
             buffer[event.val1] = 0;
     }
-    return TRUE;
+    return true;
 }
 
 #else
@@ -261,7 +261,7 @@ static int histp;		/* Points to the history recalled last */
 static unsigned char ch;
 static int endOfInput = 0;
 static bool commandLineChanged;
-static bool insertMode = TRUE;
+static bool insertMode = true;
 
 
 /*----------------------------------------------------------------------
@@ -646,7 +646,7 @@ static void delBwd(char ch)
     else {
         int deleted_length = 1;
 
-        commandLineChanged = TRUE;
+        commandLineChanged = true;
 
         moveCursorLeft();            /* Move backwards over the deleted char */
 
@@ -671,7 +671,7 @@ static void delFwd(char ch)
     else {
         int i;
 
-        commandLineChanged = TRUE;
+        commandLineChanged = true;
 
         int deleted_length = byteLengthOfCharacterAt(bufidx);
         shiftBufferLeftFrom(bufidx, deleted_length);
@@ -817,7 +817,7 @@ static void normalCh(char ch) {
         overwriteCh(bytes, length);
     }
 
-    commandLineChanged = TRUE;
+    commandLineChanged = true;
 }
 
 #ifdef __win__
@@ -874,10 +874,10 @@ static void echoOn()
 /* TODO - length of user buffer should be used */
 bool readline(char usrbuf[])
 {
-    static bool readingCommands = FALSE;
+    static bool readingCommands = false;
     static FILE *commandFile;
     static int previousEncoding;
-    static bool firstInput = TRUE;
+    static bool firstInput = true;
     static uchar BOM[3] = {0xEF,0xBB,0xBF};
 
     if (readingCommands) {
@@ -885,7 +885,7 @@ bool readline(char usrbuf[])
         /* TODO: Arbitrarily using 255 for buffer size */
         if (!fgets(buffer, 255, commandFile)) {
             fclose(commandFile);
-            readingCommands = FALSE;
+            readingCommands = false;
             encodingOption = previousEncoding;
             buffer[0] = '\0';
             goto endOfCommandFile;
@@ -898,14 +898,14 @@ bool readline(char usrbuf[])
         bufidx = 0;
         histp = histidx;
         buffer[0] = '\0';
-        commandLineChanged = TRUE;
+        commandLineChanged = true;
         echoOff();
         endOfInput = 0;
         while (!endOfInput) {
             if (read(0, (void *)&ch, 1) != 1) {
                 /* Not returning 1 means we did not get any character at all... */
                 echoOn();
-                return FALSE;
+                return false;
             }
             execute(keymap, ch);
         }
@@ -914,7 +914,7 @@ bool readline(char usrbuf[])
         if (buffer[0] == '@')
             if ((commandFile = fopen(&buffer[1], "r")) != NULL)
                 if (fgets(buffer, 255, commandFile) != NULL) {
-                    readingCommands = TRUE;
+                    readingCommands = true;
                     if (memcmp(buffer, BOM, 3) == 0) {
                         previousEncoding = encodingOption;
                         encodingOption = ENCODING_UTF;
@@ -927,7 +927,7 @@ bool readline(char usrbuf[])
     }
     stripNewline(buffer);
     if (firstInput) {
-        firstInput = FALSE;
+        firstInput = false;
         if (memcmp(buffer, BOM, 3) == 0) {
             encodingOption = ENCODING_UTF;
             memmove(buffer, &buffer[3], strlen(buffer)-3+1);
@@ -936,7 +936,7 @@ bool readline(char usrbuf[])
     char *converted = ensureInternalEncoding(buffer);
     strcpy(usrbuf, converted);
     free(converted);
-    return TRUE;
+    return true;
 }
 
 #endif

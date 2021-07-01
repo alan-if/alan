@@ -425,10 +425,10 @@ static void checkDebug(void)
             printf("<Sorry, '%s' is not compiled for debug! Exiting.>\n", adventureFileName);
             terminate(0);
         }
-        debugOption = FALSE;
-        traceSectionOption = FALSE;
-        traceInstructionOption = FALSE;
-        tracePushOption = FALSE;
+        debugOption = false;
+        traceSectionOption = false;
+        traceInstructionOption = false;
+        tracePushOption = false;
     }
 
     if (debugOption || regressionTestOption) /* If debugging or regression testing... */
@@ -687,7 +687,7 @@ static void init(Stack theStack)
 
     /* Start the adventure */
     if (debugOption)
-        debug(FALSE, 0, 0);
+        debug(false, 0, 0);
     else
         clear();
 
@@ -741,8 +741,8 @@ static void moveActor(int theActor)
         /* Ask him! */
         if (setjmp(forfeitLabel) == 0) {
             parse();
-            capitalize = TRUE;
-            fail = FALSE;			/* fail only aborts one actor */
+            capitalize = true;
+            fail = false;			/* fail only aborts one actor */
         }
     } else if (admin[theActor].script != 0) {
         for (scr = (ScriptEntry *) pointerTo(header->scriptTableAddress); !isEndOfArray(scr); scr++) {
@@ -785,7 +785,7 @@ static void moveActor(int theActor)
                 if (fail || (admin[theActor].step != 0 && isEndOfArray(step)))
                     /* No more steps in this script, so stop him */
                     admin[theActor].script = 0;
-                fail = FALSE;			/* fail only aborts one actor */
+                fail = false;			/* fail only aborts one actor */
                 break;			/* We have executed a script so leave loop */
             }
         }
@@ -833,9 +833,9 @@ void run(void)
     if (!ERROR_RETURNED)      /* Can happen in start section too... */
         init(theStack);               /* Initialise and start the adventure */
 
-    while (TRUE) {
+    while (true) {
         if (debugOption)
-            debug(FALSE, 0, 0);
+            debug(false, 0, 0);
 
         if (stackDepth(theStack) != 0)
             syserr("Stack is not empty in main loop");
@@ -862,7 +862,7 @@ void run(void)
 
         /* Move all characters, hero first */
         rememberGameState();
-        current.meta = FALSE;
+        current.meta = false;
         moveActor(header->theHero);
 
         if (gameStateChanged)

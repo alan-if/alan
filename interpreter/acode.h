@@ -25,13 +25,6 @@ typedef int32_t Aset;        /* Type for an ACODE Set value */
 typedef int32_t CodeValue;   /* Definition for the packing process */
 
 
-#ifndef TRUE
-#define TRUE (0==0)
-#endif
-#ifndef FALSE
-#define FALSE (!TRUE)
-#endif
-
 /* Constants for the Acode file, words/block & bytes/block */
 #define BLOCKLEN 256L
 #define BLOCKSIZE (BLOCKLEN*sizeof(Aword))

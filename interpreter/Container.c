@@ -52,8 +52,8 @@ static bool containerIsEmpty(int container)
 
     for (i = 1; i <= header->instanceMax; i++)
         if (isDescribable(i) && isIn(i, container, TRANSITIVE))
-            return FALSE;
-    return TRUE;
+            return false;
+    return true;
 }
 
 
@@ -81,16 +81,16 @@ bool passesContainerLimits(Aint theContainer, Aint theAddedInstance) {
             if (limit->atr == 1-I_COUNT) { /* TODO This is actually some encoding of the attribute number, right? */
                 if (countInContainer(theContainer) >= limit->val) {
                     interpret(limit->stms);
-                    return(FALSE);
+                    return(false);
                 }
             } else {
                 if (sumAttributeInContainer(theContainer, limit->atr) + getInstanceAttribute(theAddedInstance, limit->atr) > limit->val) {
                     interpret(limit->stms);
-                    return(FALSE);
+                    return(false);
                 }
             }
     }
-    return(TRUE);
+    return(true);
 }
 
 
@@ -159,8 +159,6 @@ void list(int container)
                 printMessageWithInstanceParameter(M_EMPTY, containers[props].owner);
         }
     }
-    needSpace = TRUE;
+    needSpace = true;
     current.instance = previousThis;
 }
-
-

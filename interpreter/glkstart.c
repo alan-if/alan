@@ -99,7 +99,7 @@ static void openResourceFile() {
 
 #ifdef HAVE_WINGLK
     resourceFileRef = winglk_fileref_create_by_name(fileusage_BinaryMode,
-                                                    resourceFileName, 0, FALSE);
+                                                    resourceFileName, 0, false);
 #else
     resourceFileRef = glk_fileref_create_by_name(fileusage_BinaryMode,
                                                  resourceFileName, 0);
@@ -150,7 +150,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
     /* Open any possible blorb resource file */
     openResourceFile();
 
-    return TRUE;
+    return true;
 }
 
 
@@ -217,6 +217,6 @@ int winglk_startup_code(const char* cmdline)
     /* Open any possible blorb resource file */
     openResourceFile();
 
-    return TRUE;
+    return true;
 }
 #endif

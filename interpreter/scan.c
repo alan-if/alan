@@ -36,12 +36,12 @@
 
 
 /* PUBLIC DATA */
-bool continued = FALSE;
+bool continued = false;
 
 
 /* PRIVATE DATA */
 static char input_buffer[1000]; /* The input buffer */
-static bool eol = TRUE; /* Looking at End of line? Yes, initially */
+static bool eol = true; /* Looking at End of line? Yes, initially */
 static char *token = NULL;
 
 
@@ -142,11 +142,11 @@ static char *gettoken(char *buf) {
 
 static void printPrompt() {
     if (header->prompt) {
-        anyOutput = FALSE;
+        anyOutput = false;
         interpret(header->prompt);
         if (anyOutput)
             printAndLog(" ");
-        needSpace = FALSE;
+        needSpace = false;
     } else
         printAndLog("> ");
 }
@@ -172,7 +172,7 @@ static void getLine(void) {
         }
 
         getPageSize();
-        anyOutput = FALSE;
+        anyOutput = false;
         if (commandLogOption || transcriptOption) {
             /* Command log ("solution") needs to be in external encoding even for GLK terps */
             char *converted = ensureExternalEncoding(input_buffer);
@@ -206,8 +206,8 @@ static void getLine(void) {
         token = gettoken(input_buffer);
         if (token != NULL) {
             if (strcmp("debug", token) == 0 && header->debug) {
-                debugOption = TRUE;
-                debug(FALSE, 0, 0);
+                debugOption = true;
+                debug(false, 0, 0);
                 token = NULL;
             } else if (strcmp("undo", token) == 0) {
                 token = gettoken(NULL);
@@ -217,7 +217,7 @@ static void getLine(void) {
             }
         }
     } while (token == NULL);
-    eol = FALSE;
+    eol = false;
 }
 
 
@@ -303,7 +303,7 @@ void scan(void) {
         token = gettoken(NULL);
         if (token == NULL) /* Or did he just finish the command with a full stop? */
             getLine();
-        continued = FALSE;
+        continued = false;
     } else
         getLine();
 
@@ -322,9 +322,9 @@ void scan(void) {
         } else if (token[0] == ',') {
             playerWords[i++].code = conjWord;
         } else if (token[0] == '.') {
-            continued = TRUE;
+            continued = true;
             setEndOfArray(&playerWords[i]);
-            eol = TRUE;
+            eol = true;
             break;
         } else
             unknown(token);
