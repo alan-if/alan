@@ -14,7 +14,7 @@ TMSRCS = \
 TMCSRCS = \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
-	smScanx.c smScSema.c\
+	smScan.c smScSema.c\
 	lmList.c
 
 # Sources for unittests:
@@ -111,7 +111,7 @@ UNITSRCS = $(UNITTESTEDSRCS) \
 	unitmock.c \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
-	smScanx.c smScSema.c
+	smScan.c smScSema.c
 
 UNITTESTSSRCS = $(UNITSRCS) $(OTHERSRCS)
 UNITTESTSDLLSRCS = $(UNITSRCS) $(OTHERSRCS)

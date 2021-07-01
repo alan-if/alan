@@ -139,34 +139,9 @@ static void switch_scanner(smScContext this) {
 }
 
 
-extern unsigned char *smMap;
-extern unsigned char *smDFAcolVal;
-extern unsigned char *smDFAerrCol;
-extern unsigned char smIsoMap[256];
-extern unsigned char smIsoDFAcolVal[256];
-extern unsigned char smIsoDFAerrCol[256];
-extern unsigned char smDosMap[256];
-extern unsigned char smDosDFAcolVal[256];
-extern unsigned char smDosDFAerrCol[256];
-
-
 void setCharacterSet(CharSet set)
 {
   currentCharSet = set;
-
-  /* Here we set the correct scanner tables, depending on character
-     set. For UTF-8 we actually convert the UTF-8 input to ISO8859-1
-     before the scanner reads it and must use ISO scanner tables.
-     See also the READER section. */
-
-  switch (set) {
-  case CHARSET_ISO:
-  case CHARSET_UTF8:
-    smMap = &smIsoMap[0];
-    smDFAcolVal = &smIsoDFAcolVal[0];
-    smDFAerrCol = &smIsoDFAerrCol[0];
-    break;
-  }
 }
 
 

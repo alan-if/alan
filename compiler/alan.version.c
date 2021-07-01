@@ -6,13 +6,13 @@ Product alan = {
   "Alan",
   "Adventure Language System",
   "Alan 3.0beta8",
-  "Alan 3.0beta8 -- Adventure Language System (2021-07-01 16:01)",
+  "Alan 3.0beta8 -- Adventure Language System (2021-07-01 17:27)",
   "2021-07-01",
-  "16:01:56",
+  "17:27:05",
   "",
   "thoni64",
   "linux",
-  {"3.0beta8", 3, 0, 8, 1625148116, "beta"}
+  {"3.0beta8", 3, 0, 8, 1625153225, "beta"}
 };
 
 char *alanId =
