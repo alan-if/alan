@@ -15,11 +15,6 @@ typedef int Bool;
 typedef unsigned int uint;
 typedef unsigned char uchar;
 
-#ifndef TRUE
-#define TRUE (0==0)
-#define FALSE (!TRUE)
-#endif
-
 #define NEW(x) ((x *) allocate(sizeof(x)))
 
 /* Size of something in Awords */
