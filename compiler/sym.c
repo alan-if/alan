@@ -58,7 +58,7 @@ Symbol *messageVerbSymbolFor3Integers;
 
 /* PRIVATE: */
 static Symbol *symbolTree = NULL;
-static Bool firstSymbolDumped = TRUE;
+static Bool firstSymbolDumped = true;
 
 typedef struct Frame {
     /* A frame defines a local scope with local variables.
@@ -185,7 +185,7 @@ static char *symbolKindsAsString(SymbolKind kinds)
     for (i = 1; i <= MAX_SYMBOL; i = i<<1) {
         if (kinds&i) {
             anotherSymbolKindAsString(kinds&i, found, string);
-            found = TRUE;
+            found = true;
         }
     }
     return string;
@@ -217,7 +217,7 @@ static Bool mayOverride(SymbolKind overridingKind, SymbolKind originalKind) {
         switch (originalKind) {
         case DIRECTION_SYMBOL:
         case VERB_SYMBOL:
-            return TRUE;
+            return true;
         default:
             return FALSE;
         }
@@ -728,7 +728,7 @@ void destroyIterator(SymbolIterator iterator) {
 static Bool recurseTreeForInstanceOf(Symbol *current, Symbol *theClass) {
     if (current) {
         if (isInstance(current) && inheritsFrom(current, theClass))
-            return TRUE;
+            return true;
         else
             return recurseTreeForInstanceOf(current->higher, theClass)
                 || recurseTreeForInstanceOf(current->lower, theClass);
@@ -812,7 +812,7 @@ static Symbol *recurseContainersForContent(Symbol *this) {
         Symbol *most_general = taken_class;
 
         /* Now, remember that we've seen this to terminate loops */
-        body->visited = TRUE;
+        body->visited = true;
         if (symbolHasContainerProperties(taken_class)) {
 #ifdef DEBUG_CONTAINER_CONTENT
             printf("%s%s - container: %s (%s)\n", prefix, this->string, taken_class->string, most_general->string);
@@ -926,7 +926,7 @@ Bool inheritsFrom(Symbol *child, Symbol *ancestor)
         SYSERR("Can not inherit from an instance", nulsrcp);
 
     if (child->kind == ERROR_SYMBOL || ancestor->kind == ERROR_SYMBOL)
-        return TRUE;
+        return true;
 
     if (child->kind == PARAMETER_SYMBOL)
         child = child->fields.parameter.class;
@@ -967,9 +967,9 @@ static Bool multipleSymbolKinds(SymbolKind kind) {
     for (i = 1; i < MAX_SYMBOL; i=i<<1)
         if (kind&i) {
             if (found)
-                return TRUE;
+                return true;
             else
-                found = TRUE;
+                found = true;
         }
     return FALSE;
 }
@@ -1001,7 +1001,7 @@ static char *identifierListForParameters(Context *context) {
     List *parameters = getParameterSymbols(context);
     char *identifiers = (char *)allocate(200);
     List *list;
-    Bool first = TRUE;
+    Bool first = true;
 
     if (parameters == NULL)
         SYSERR("NULL parameters", nulsrcp);
@@ -1203,7 +1203,7 @@ static void numberAttributes(Symbol *symbol)
     }
 
     propertiesOf(symbol)->attributes = sortAttributes(propertiesOf(symbol)->attributes);
-    symbol->fields.entity.attributesNumbered = TRUE;
+    symbol->fields.entity.attributesNumbered = true;
 }
 
 
@@ -1378,7 +1378,7 @@ static void replicateSymbol(Symbol *symbol)
         replicateSymbol(parentOf(symbol));
         replicate(symbol);
     }
-    symbol->fields.entity.replicated = TRUE;
+    symbol->fields.entity.replicated = true;
 }
 
 

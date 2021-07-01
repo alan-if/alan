@@ -163,7 +163,7 @@ Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statem
         this->conversionDescriptor = initUtf8Conversion();
     }
 
-    return TRUE;
+    return true;
 }
 
 int scannedLines(void)
@@ -250,7 +250,7 @@ int smScAction(
                     /* No, so output a space and remember */
                     putc(' ', txtfil);
                     incFreq(' ');
-                    space = TRUE;
+                    space = true;
                     len++;
                 }
             } else {
@@ -294,7 +294,7 @@ int smScAction(
             srcp.line++;
             srcp.col = 1;
 
-            if (smScanEnter(token.srcp, token.chars, TRUE)) {
+            if (smScanEnter(token.srcp, token.chars, true)) {
                 start.file = fileNo-1;
                 start.line = 0;	/* Start at beginning */
                 lmLiEnter(&srcp, &start, lexContext->fileName);
@@ -475,7 +475,7 @@ int smScAction(
 
           lmlog(&smToken->srcp, 154, sevERR, token.chars); /* INCLUDE is deprecated */
 
-          if (smScanEnter(token.srcp, token.chars, TRUE)) {
+          if (smScanEnter(token.srcp, token.chars, true)) {
               smToken->srcp.file = fileNo-1;
               start.file = fileNo-1;
               start.line = 0;	/* Start at beginning */

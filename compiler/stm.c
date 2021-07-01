@@ -957,7 +957,7 @@ static void generatePrint(Statement *stm)
 
     if (!stm->fields.print.encoded)
         encode(&stm->fields.print.fpos, &stm->fields.print.len);
-    stm->fields.print.encoded = TRUE;
+    stm->fields.print.encoded = true;
     emit2(I_PRINT, stm->fields.print.fpos, stm->fields.print.len);
 }
 

@@ -222,7 +222,7 @@ static int val(char str[])
 <option>			-- RETURNS: <nothing>
     = ID '.'
     %%
-        optBool(%ID.id->string, `&%ID.id->srcp, TRUE);
+        optBool(%ID.id->string, `&%ID.id->srcp, true);
     %%
 
     ! 'no' ID '.'
@@ -309,7 +309,7 @@ static int val(char str[])
 <attribute_definition>		-- RETURNS: atr
     = ID
     %%
-        %<attribute_definition>.atr = newBooleanAttribute(%ID.id->srcp, %ID.id, TRUE);
+        %<attribute_definition>.atr = newBooleanAttribute(%ID.id->srcp, %ID.id, true);
     %%
 
     ! 'not' ID
@@ -605,7 +605,7 @@ static int val(char str[])
     ;
 
 <optional_meta>      -- RETURNS: meta
-    = 'meta' %% %<optional_meta>.isMeta = TRUE; %%
+    = 'meta' %% %<optional_meta>.isMeta = true; %%
     !        %% %<optional_meta>.isMeta = FALSE; %%
     ;
     
@@ -1243,14 +1243,14 @@ static int val(char str[])
 					newList(newStatement(`&%'form'.srcp,
 								NOP_STATEMENT),
 						STATEMENT_LIST),
-					TRUE);
+					true);
     %%
 
     ! 'form' <statements>
     %%
 	%<form>.article = newArticle(%'form'.srcp,
 					%<statements>.stms,
-					TRUE);
+					true);
     %%
     ;
 
@@ -1322,7 +1322,7 @@ static int val(char str[])
     =
     %% %<optionally_opaque>.opaque = FALSE; %%
     ! 'opaque'
-    %% %<optionally_opaque>.opaque = TRUE; %%
+    %% %<optionally_opaque>.opaque = true; %%
     ;
 
 
@@ -1797,20 +1797,20 @@ static int val(char str[])
 
 <optional_first_or_last>	-- RETURNS: first
     =							%-('first')
-    %% %<optional_first_or_last>.first = TRUE; %%
+    %% %<optional_first_or_last>.first = true; %%
     ! 'first'
-    %% %<optional_first_or_last>.first = TRUE; %%
+    %% %<optional_first_or_last>.first = true; %%
     ! 'last'
     %% %<optional_first_or_last>.first = FALSE; %%
     ;
 
 <optional_word_or_character>
     =
-    %% %<optional_word_or_character>.wordOrChar = TRUE; %%
+    %% %<optional_word_or_character>.wordOrChar = true; %%
     ! 'word'
-    %% %<optional_word_or_character>.wordOrChar = TRUE; %%
+    %% %<optional_word_or_character>.wordOrChar = true; %%
     ! 'words'
-    %% %<optional_word_or_character>.wordOrChar = TRUE; %%
+    %% %<optional_word_or_character>.wordOrChar = true; %%
     ! 'character'
     %% %<optional_word_or_character>.wordOrChar = FALSE; %%
     ! 'characters'
@@ -2080,7 +2080,7 @@ static int val(char str[])
 
 <on_or_off>
     = 'on'
-    %% %<on_or_off>.on_or_off = TRUE; %%
+    %% %<on_or_off>.on_or_off = true; %%
 
     ! 'off'
     %% %<on_or_off>.on_or_off = FALSE; %%
@@ -2582,7 +2582,7 @@ static int val(char str[])
 
     ! 'not'
     %%
-        %<optional_not>.present = TRUE;
+        %<optional_not>.present = true;
     %%
     ;
 
@@ -2666,7 +2666,7 @@ static int val(char str[])
 
     ! '-'
     %%
-        %<optional_minus>.minus = TRUE;
+        %<optional_minus>.minus = true;
     %%
     ;
 

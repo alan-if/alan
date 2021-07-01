@@ -102,7 +102,7 @@ Bool verifyInitialLocation(Where *whr, Context *context)
             return FALSE;
             break;
         }
-    return TRUE;
+    return true;
 }
 
 

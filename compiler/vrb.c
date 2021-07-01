@@ -145,7 +145,7 @@ Bool verbIdFound(Id *targetId, List *verbs)
   for (theVerb = verbs; theVerb != NULL; theVerb = theVerb->next) {
     for (theIdInList = theVerb->member.vrb->ids; theIdInList != NULL; theIdInList = theIdInList->next)
       if (findIdInList(targetId, theIdInList) != NULL)
-    return TRUE;
+    return true;
   }
   return FALSE;
 }

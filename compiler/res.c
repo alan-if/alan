@@ -58,7 +58,7 @@ Bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax)
     ITERATE(restrictionList, syntax->restrictions)
         if (restrictionList->member.res->parameterId->symbol == parameterSymbol &&
             restrictionList->member.res->kind != CONTAINER_RESTRICTION)
-            return TRUE;
+            return true;
     return FALSE;
 }
 
@@ -100,7 +100,7 @@ static void resolveParameterClass(Restriction *res, Symbol *parameter)
         break;
 
     case CONTAINER_RESTRICTION:
-        parameter->fields.parameter.restrictedToContainer = TRUE;
+        parameter->fields.parameter.restrictedToContainer = true;
         parameter->fields.parameter.type = INSTANCE_TYPE;
         break;
 

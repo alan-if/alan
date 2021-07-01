@@ -26,17 +26,17 @@ AfterEach(Properties) {}
 
 Ensure(Properties, testAddOpaqueAttribute) {
   Properties *prop = newProps(NULL, NULL,
-			      nulsrcp, NULL,
-			      NULL, NULL, NULL,
-			      nulsrcp, NULL, NULL,
-			      NULL, NULL,
-			      NULL, NULL,
-			      nulsrcp, NULL,
-			      NULL, NULL);
+                  nulsrcp, NULL,
+                  NULL, NULL, NULL,
+                  nulsrcp, NULL, NULL,
+                  NULL, NULL,
+                  NULL, NULL,
+                  nulsrcp, NULL,
+                  NULL, NULL);
   Id *opaque = newId(nulsrcp, "opaque");
   Attribute *attribute;
 
-  addOpaqueAttribute(prop, TRUE);
+  addOpaqueAttribute(prop, true);
   assert_true((attribute = findAttribute(prop->attributes, opaque)) != NULL);
   assert_true(attribute && attribute->value);
 
@@ -44,28 +44,28 @@ Ensure(Properties, testAddOpaqueAttribute) {
 
 static Where *newWhereIdString(char id[]) {
   return newWhere(&nulsrcp, FALSE, WHERE_AT,
-		  newWhatExpression(nulsrcp,
-				    newWhatId(nulsrcp,
-					      newId(nulsrcp, id))));
+          newWhatExpression(nulsrcp,
+                    newWhatId(nulsrcp,
+                          newId(nulsrcp, id))));
 }
 
 Ensure(Properties, testCircularLocation) {
   Where *whr1 = newWhereIdString("loc2");
   Properties *props1 = newProps(NULL, NULL,
-				nulsrcp, NULL,
-				NULL, NULL, NULL,
-				nulsrcp, NULL, NULL, NULL, NULL,
-				NULL, NULL,
-				nulsrcp, NULL,
-				NULL, NULL);
+                nulsrcp, NULL,
+                NULL, NULL, NULL,
+                nulsrcp, NULL, NULL, NULL, NULL,
+                NULL, NULL,
+                nulsrcp, NULL,
+                NULL, NULL);
   Where *whr2 = newWhereIdString("loc1");
   Properties *props2 = newProps(whr2, NULL,
-				nulsrcp, NULL,
-				NULL, NULL, NULL,
-				nulsrcp, NULL, NULL, NULL, NULL,
-				NULL, NULL,
-				nulsrcp, NULL,
-				NULL, NULL);
+                nulsrcp, NULL,
+                NULL, NULL, NULL,
+                nulsrcp, NULL, NULL, NULL, NULL,
+                NULL, NULL,
+                nulsrcp, NULL,
+                NULL, NULL);
 
   initAdventure();
   (void) newInstance(&nulsrcp, newId(nulsrcp, "loc1"), NULL, props1);
@@ -104,7 +104,7 @@ Ensure(Properties, testCircularLocation) {
 
 
 TestSuite *propTests() {
-    TestSuite *suite = create_test_suite(); 
+    TestSuite *suite = create_test_suite();
 
     add_test_with_context(suite, Properties, testCircularLocation);
     add_test_with_context(suite, Properties, testAddOpaqueAttribute);

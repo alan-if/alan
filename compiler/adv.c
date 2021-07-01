@@ -190,7 +190,7 @@ void analyzeAdventure(void)
     analyzeAllWords();
     adv.resources = analyzeResources(adv.resources);
 
-    if (opts[OPTDEBUG].value == TRUE)
+    if (opts[OPTDEBUG].value == true)
         analyzeSourceFilenames();
 }
 

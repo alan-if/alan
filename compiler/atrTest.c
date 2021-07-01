@@ -47,7 +47,7 @@ Ensure(Attribute, testIsWhatId) {
   Expression *exp1 = newWhatExpression(nulsrcp, newWhatThis(nulsrcp));
   Expression *exp2 = newWhatExpression(nulsrcp, newWhatId(nulsrcp, newId(nulsrcp, "what")));
   Expression *exp3 = newBetweenExpression(nulsrcp, NULL, FALSE, NULL, NULL);
-  
+
   assert_true(!isWhatId(exp1));
   assert_true(isWhatId(exp2));
   assert_true(!isWhatId(exp3));
@@ -74,9 +74,9 @@ Ensure(Attribute, testInferClassInSetAttribute)
   classId = newId(nulsrcp, "location");
   instance = newInstance(&nulsrcp, newId(nulsrcp, "u"), classId, NULL);
   set = concat(set,
-	       newWhatExpression(nulsrcp,
-				 newWhatId(nulsrcp, newId(nulsrcp, "u"))),
-	       EXPRESSION_LIST);
+           newWhatExpression(nulsrcp,
+                 newWhatId(nulsrcp, newId(nulsrcp, "u"))),
+           EXPRESSION_LIST);
 
   symbolizeProps(instance->props, FALSE);
   analyzeSetAttribute(atr, newNullContext());
@@ -221,7 +221,7 @@ Ensure(Attribute, testAttributeListsInSymbolTable)
   assert_true(firstClassSymbol->fields.entity.props->attributes == firstClassAttributes);
   secondClassSymbol = lookup("secondClass");
   assert_true(secondClassSymbol->fields.entity.props->attributes == secondClassAttributes);
-  
+
   firstInstanceAttributes = create2Attributes("a11", "a12");
   secondInstanceAttributes = create2Attributes("a1", "a22");
 
@@ -237,7 +237,7 @@ Ensure(Attribute, testAttributeListsInSymbolTable)
   location
      !
      fC = a1 + a12 -----+
-     !                  !  
+     !                  !
      fI = a11 + a12	sC = a1 + a21
                         !
                         sI = a1 + a22
@@ -306,7 +306,7 @@ static Bool attributesAreSorted(List *list)
       return FALSE;
     previousCode = l->member.atr->id->code;
   }
-  return TRUE;
+  return true;
 }
 
 Ensure(Attribute, testSortAttributes)
@@ -352,12 +352,12 @@ Ensure(Attribute, testResolveThisAttributeForClass)
 {
   List *theAttributes = create2Attributes("x", "y");
   Properties *theProps = newProps(NULL, NULL,
-				  nulsrcp, NULL,
-				  theAttributes, NULL, NULL,
-				  nulsrcp, NULL, NULL, NULL, NULL,
-				  NULL, NULL,
-				  nulsrcp, NULL,
-				  NULL, NULL);
+                  nulsrcp, NULL,
+                  theAttributes, NULL, NULL,
+                  nulsrcp, NULL, NULL, NULL, NULL,
+                  NULL, NULL,
+                  nulsrcp, NULL,
+                  NULL, NULL);
   Class *theClass = newClass(&nulsrcp, newId(nulsrcp, "aClass"), NULL, theProps);
   Context context = {CLASS_CONTEXT, NULL, NULL, NULL, theClass, NULL};
   Attribute *theResolvedAttribute;

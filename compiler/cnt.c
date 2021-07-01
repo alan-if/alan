@@ -195,7 +195,7 @@ void analyzeContainer(Container *theContainer, Context *context)
         /* Analyze header and empty statments */
         analyzeStatements(theContainer->body->hstms, context);
         analyzeStatements(theContainer->body->estms, context);
-        theContainer->body->analyzed = TRUE;
+        theContainer->body->analyzed = true;
 
         /* Analyze the extract checks and statements */
         analyzeChecks(theContainer->body->extractChecks, context);
@@ -252,7 +252,7 @@ static void generateContainerBody(ContainerBody *body)
             emit0(I_RETURN);
         } else
             body->extractStatementsAddress = 0;
-        body->generated = TRUE;
+        body->generated = true;
     }
 }
 

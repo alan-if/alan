@@ -144,7 +144,7 @@ List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
                 if (multiple)
                     lmlog(&element->srcp, 217, sevWAR, "");
                 else
-                    multiple = TRUE;
+                    multiple = true;
             }
             parameters = concat(parameters, element, ELEMENT_LIST);
 
@@ -174,7 +174,7 @@ static Bool equalElements(List *element1, List *element2)
         switch (element1->member.elm->kind) {
         case END_OF_SYNTAX:
         case PARAMETER_ELEMENT:
-            return TRUE;
+            return true;
         case WORD_ELEMENT:
             return equalId(element1->member.elm->id, element2->member.elm->id);
         }

@@ -233,7 +233,7 @@ static Bool idIsContainer(Id *id, Context *context) {
         return symbolIsContainer(id->symbol);
     default: SYSERR("Unexpected id->symbol->kind", id->srcp);
     }
-    return TRUE;                /* Assume the best to avoid spurious errors */
+    return true;                /* Assume the best to avoid spurious errors */
 }
 
 
@@ -254,7 +254,7 @@ static Bool expressionIsContainer(Expression *exp, Context *context) {
     default:
         SYSERR("Unexpected Expression kind", exp->srcp);
     }
-    return TRUE; /* If anything is wrong assume that it is a container to get fewer spurious errors */
+    return true; /* If anything is wrong assume that it is a container to get fewer spurious errors */
 }
 
 /*----------------------------------------------------------------------*/
@@ -284,7 +284,7 @@ Bool verifyContainerExpression(Expression *what, Context *context,
             return FALSE;
         }
     }
-    return TRUE;
+    return true;
 }
 
 
@@ -355,7 +355,7 @@ Bool isConstantIdentifier(Id *id)
         return id->symbol->kind != PARAMETER_SYMBOL
             && id->symbol->kind != LOCAL_SYMBOL;
     else
-        return TRUE;
+        return true;
 }
 
 
@@ -365,7 +365,7 @@ Bool isConstantExpression(Expression *exp)
     switch (exp->kind) {
     case INTEGER_EXPRESSION:
     case STRING_EXPRESSION:
-        return TRUE;
+        return true;
     case SET_EXPRESSION:
         {
             List *members;
@@ -373,7 +373,7 @@ Bool isConstantExpression(Expression *exp)
                 if (!isConstantExpression(members->member.exp))
                     return FALSE;
             }
-            return TRUE;
+            return true;
         }
     case WHAT_EXPRESSION:
         return isConstantWhat(exp->fields.wht.wht);
@@ -788,7 +788,7 @@ static Bool expressionIsActualWhere(Expression *expression) {
         case WHERE_NEAR:
         case WHERE_AT:
         case WHERE_IN:
-            return TRUE; /* expression->fields.whr.whr->transitivity != DIRECTLY; */
+            return true; /* expression->fields.whr.whr->transitivity != DIRECTLY; */
         case WHERE_INSET:
             return FALSE;
         }
@@ -832,17 +832,17 @@ Bool analyzeFilterExpressions(char *message, List *filters,
         analyzeClassingFilter(message, context, exp);
         class = combineFilterClasses(class, exp->class, exp->srcp);
         if (exp->type == ERROR_TYPE)
-            error = TRUE;
+            error = true;
         if (exp->kind == ISA_EXPRESSION) {
             if (foundIsa)
                 lmlogv(&exp->srcp, 224, sevWAR, "Isa (class)",
                        message, NULL);
-            foundIsa = TRUE;
+            foundIsa = true;
         }
         if (expressionIsActualWhere(exp)) {
             if (foundWhere)
                 lmlogv(&exp->srcp, 224, sevERR, "Where", message, NULL);
-            foundWhere = TRUE;
+            foundWhere = true;
         }
     }
 
@@ -1566,7 +1566,7 @@ void generateExpression(Expression *exp)
     case STRING_EXPRESSION:
         if (!exp->fields.str.encoded)
             encode(&exp->fields.str.fpos, &exp->fields.str.len);
-        exp->fields.str.encoded = TRUE;
+        exp->fields.str.encoded = true;
         emit2(I_GETSTR, exp->fields.str.fpos, exp->fields.str.len);
         break;
 

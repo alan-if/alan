@@ -73,48 +73,48 @@ void initClasses()
   entity = newClass(&nulsrcp, entityId, NULL, NULL);
   adv.clas = concat(adv.clas, entity, CLASS_LIST);
   entitySymbol = entity->props->id->symbol;
-  entity->props->predefined = TRUE;
+  entity->props->predefined = true;
 
 
   location = newClass(&nulsrcp, locationId, entityId, NULL);
   adv.clas = concat(adv.clas, location, CLASS_LIST);
   locationSymbol = location->props->id->symbol;
-  location->props->predefined = TRUE;
+  location->props->predefined = true;
 
   thing = newClass(&nulsrcp, thingId, entityId, NULL);
   adv.clas = concat(adv.clas, thing, CLASS_LIST);
   thingSymbol = thing->props->id->symbol;
-  thing->props->predefined = TRUE;
+  thing->props->predefined = true;
 
   object = newClass(&nulsrcp, objectId, thingId, NULL);
   adv.clas = concat(adv.clas, object, CLASS_LIST);
   objectSymbol = object->props->id->symbol;
-  object->props->predefined = TRUE;
+  object->props->predefined = true;
 
   actor = newClass(&nulsrcp, actorId, thingId, NULL);
   adv.clas = concat(adv.clas, actor, CLASS_LIST);
   actorSymbol = actor->props->id->symbol;
-  actor->props->predefined = TRUE;
+  actor->props->predefined = true;
 
   literal = newClass(&nulsrcp, literalId, entityId, NULL);
   adv.clas = concat(adv.clas, literal, CLASS_LIST);
   literalSymbol = literal->props->id->symbol;
-  literalSymbol->fields.entity.prohibitedSubclassing = TRUE;
-  literal->props->predefined = TRUE;
+  literalSymbol->fields.entity.prohibitedSubclassing = true;
+  literal->props->predefined = true;
 
   integer = newClass(&nulsrcp, integerId, literalId, NULL);
   adv.clas = concat(adv.clas, integer, CLASS_LIST);
   integerSymbol = integer->props->id->symbol;
-  integerSymbol->fields.entity.prohibitedSubclassing = TRUE;
-  integerSymbol->fields.entity.isBasicType = TRUE;
-  integer->props->predefined = TRUE;
+  integerSymbol->fields.entity.prohibitedSubclassing = true;
+  integerSymbol->fields.entity.isBasicType = true;
+  integer->props->predefined = true;
 
   string = newClass(&nulsrcp, stringId, literalId, NULL);
   adv.clas = concat(adv.clas, string, CLASS_LIST);
   stringSymbol = string->props->id->symbol;
-  stringSymbol->fields.entity.prohibitedSubclassing = TRUE;
-  stringSymbol->fields.entity.isBasicType = TRUE;
-  string->props->predefined = TRUE;
+  stringSymbol->fields.entity.prohibitedSubclassing = true;
+  stringSymbol->fields.entity.isBasicType = true;
+  string->props->predefined = true;
 
   addPredefinedProperties();
 }
@@ -155,7 +155,7 @@ Class *newClass(Srcp *srcp,	/* IN - Source Position */
 /*----------------------------------------------------------------------*/
 static void symbolizeClass(Class *cla)
 {
-    symbolizeProps(cla->props, TRUE);
+    symbolizeProps(cla->props, true);
 
     if (cla->props->parentId != NULL) {
         if (cla->props->parentId->symbol != NULL) {
@@ -258,7 +258,7 @@ void setupDefaultProperties() {
 static void generateClassData(Class *cla)
 {
   generateCommonPropertiesData(cla->props);
-  if (opts[OPTDEBUG].value == TRUE) {
+  if (opts[OPTDEBUG].value == true) {
     cla->props->idAddress = nextEmitAddress();
     emitString(cla->props->id->string);
   }

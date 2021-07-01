@@ -78,7 +78,7 @@ void dumpPointer(void *adr)
 void dumpBool(Bool b)
 {
   if (b)
-    put("TRUE");
+    put("true");
   else
     put("FALSE");
 }

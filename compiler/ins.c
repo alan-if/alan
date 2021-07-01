@@ -97,7 +97,7 @@ void addLiteralInstance(void)
     Properties *props = newProps(NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL, NULL, NULL, NULL, nulsrcp, NULL, NULL, NULL);
     literalClassId->symbol = literalClassSymbol;
     (void) newInstance(&nulsrcp, newId(nulsrcp, "#literal"), literalClassId, props);
-    props->predefined = TRUE;
+    props->predefined = true;
 }
 
 
@@ -274,7 +274,7 @@ void generateInstances(ACodeHeader *header)
 {
     List *l;
 
-    if (opts[OPTDEBUG].value == TRUE) {
+    if (opts[OPTDEBUG].value == true) {
         /* Generate all programmer ids for all instances */
         for (l = allInstances; l; l = l->next)
             generateInstanceId(l->member.ins);
@@ -285,7 +285,7 @@ void generateInstances(ACodeHeader *header)
 
     header->instanceTableAddress = generateInstanceTable(allInstances);
 
-    if (opts[OPTDEBUG].value == TRUE)
+    if (opts[OPTDEBUG].value == true)
         /* Generate table for all programmer names here, since here we
            can calculate it without having to have a pointer stored
            anywhere */

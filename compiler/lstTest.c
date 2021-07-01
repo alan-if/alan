@@ -80,8 +80,8 @@ jmp_buf syserrLabel;
 
 
 static void syserrHandler(char *message) {
-  syserrHandlerCalled = TRUE;
-  longjmp(syserrLabel, TRUE);
+  syserrHandlerCalled = true;
+  longjmp(syserrLabel, true);
 }
 
 /* From util.c */

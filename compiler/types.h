@@ -8,6 +8,8 @@
 #ifndef _TYPES_
 #define _TYPES_
 
+#include <stdbool.h>
+
 /* TODO: use stdbool instead of Bool */
 typedef int Bool;
 typedef unsigned int uint;

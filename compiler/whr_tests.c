@@ -15,7 +15,7 @@
 static bool syserr_called;
 
 static void syserrHandler(char *handler) {
-    syserr_called = TRUE;
+    syserr_called = true;
 }
 
 Describe(Where);

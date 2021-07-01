@@ -104,7 +104,7 @@ static Bool isValidUUID(char *uuid)
   if (uuid[30] != '-') return FALSE;
   for (i = 31; i <= 42; i++) if (!isxdigit((uint)uuid[i])) return FALSE;
   if (strcmp(&uuid[43], "//") != 0) return FALSE;
-  return TRUE;
+  return true;
 }
 
 

@@ -180,9 +180,9 @@ typedef struct Statement {      /* STATEMENT */
         } each;
 
         struct {               /* STRIP */
-            Bool first;        /* TRUE = First (from the beginning) */
+            Bool first;        /* true = First (from the beginning) */
             Expression *count; /* Optional count integer expression */
-            Bool wordOrChar;   /* TRUE = words, FALSE = characters */
+            Bool wordOrChar;   /* true = words, FALSE = characters */
             Expression *from;
             Expression *into;
         } strip;

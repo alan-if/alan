@@ -38,7 +38,7 @@ static Id *given_a_class(char *className) {
     return classId;
 }
 static Attribute *given_an_attribute(Id *id) {
-    return newBooleanAttribute(nulsrcp, id, TRUE);
+    return newBooleanAttribute(nulsrcp, id, true);
 }
 static Expression *given_a_what_expression_of_class(Id *parameterName, Symbol *classSymbol) {
     What *what = newWhatId(nulsrcp, parameterName);

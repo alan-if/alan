@@ -176,7 +176,7 @@ Bool verifyWhatContext(What *what, Context *context) {
         SYSERR("Unexpected What kind", what->srcp);
         break;
     }
-    return TRUE;
+    return true;
 }
 
 

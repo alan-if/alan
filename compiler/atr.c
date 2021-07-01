@@ -157,7 +157,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
         if (thisAttribute->type == REFERENCE_TYPE) {
             symbolizeId(thisAttribute->reference);
             if (thisAttribute->reference->symbol) {
-                thisAttribute->initialized = TRUE;
+                thisAttribute->initialized = true;
                 if (isInstance(thisAttribute->reference->symbol))
                     thisAttribute->type = INSTANCE_TYPE;
                 else if (thisAttribute->reference->symbol->kind == EVENT_SYMBOL)
@@ -180,7 +180,7 @@ void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
 
 
 static Id locationIdFake = {{0,0,0}, "location", NULL, -1};
-static Attribute locationAttributeFake = {{0,0,0}, INSTANCE_TYPE, &locationIdFake, TRUE};
+static Attribute locationAttributeFake = {{0,0,0}, INSTANCE_TYPE, &locationIdFake, true};
 /*======================================================================*/
 Attribute *findAttribute(List *attributes, Id *id)
 {
@@ -207,7 +207,7 @@ List *sortAttributes(List *attributes)
     List *tmp1, *tmp2;		/* Temporary pointers */
 
     if (attributes != NULL) {
-        change = TRUE;
+        change = true;
         while (change) {
             change = FALSE;
             for (lstp = &sortedList; (*lstp)->next != NULL; lstp = &(*lstp)->next) {
@@ -221,7 +221,7 @@ List *sortAttributes(List *attributes)
                     syserr("Sorting multiple attributes with same code.", NULL);
 #endif
                 if (tmp1->member.atr->id->code > tmp2->member.atr->id->code) {
-                    change = TRUE;
+                    change = true;
                     tmp1->next = tmp2->next;
                     tmp2->next = tmp1;
                     *lstp = tmp2;
@@ -578,7 +578,7 @@ static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
                 SYSERR("Context->class == NULL", attribute->srcp);
 
             atr = findAttribute(thisContext->class->props->attributes, attribute);
-            contextFound = TRUE;
+            contextFound = true;
             break;
 
         case INSTANCE_CONTEXT:
@@ -586,7 +586,7 @@ static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
                 SYSERR("context->instance == NULL", attribute->srcp);
 
             atr = findAttribute(thisContext->instance->props->attributes, attribute);
-            contextFound = TRUE;
+            contextFound = true;
             break;
 
         default:
@@ -660,7 +660,7 @@ static void generateAttribute(Attribute *attribute, int instanceCode)
             /* We need to ensure that it is encode it first */
             if (!attribute->encoded) {
                 encode(&attribute->fpos, &attribute->len);
-                attribute->encoded = TRUE;
+                attribute->encoded = true;
             }
             new = newStringAttribute(attribute->srcp, attribute->id, attribute->fpos, attribute->len);
             adv.stringAttributes = concat(adv.stringAttributes, new, ATTRIBUTE_LIST);

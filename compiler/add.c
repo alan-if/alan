@@ -114,7 +114,7 @@ static void addAttributes(AddNode *add, Symbol *originalSymbol)
     List *l;
 
     if (addedAttributes == NULL) return;
-    symbolizeAttributes(addedAttributes, TRUE);
+    symbolizeAttributes(addedAttributes, true);
 
     ITERATE(l, addedAttributes) {
         Attribute *originalAttribute = findAttribute(originalAttributes, l->member.atr->id);
@@ -262,7 +262,7 @@ static void addVerbs(AddNode *add, Symbol *originalSymbol)
         ITERATE(verbList, add->props->verbs) {
             ITERATE(verbIdList, verbList->member.vrb->ids)
                 if (verbIdFound(verbIdList->member.id, originalProps->verbs)) {
-                    inhibitAdd = TRUE;
+                    inhibitAdd = true;
                     lmlogv(&verbIdList->member.id->srcp, 240, sevERR, "Verb", verbIdList->member.id->string, originalSymbol->string, NULL);
                 }
         }
@@ -286,7 +286,7 @@ static void addScripts(AddNode *add, Symbol *original)
 
     if (!inheritsFrom(original, actorSymbol)) {
         lmlog(&add->props->scripts->member.script->srcp, 336, sevERR, "scripts to a class which is not a subclass of the predefined class 'actor'");
-        doNotAdd = TRUE;
+        doNotAdd = true;
     }
     ITERATE(addedScripts, props->scripts) {
         Script *addedScript = addedScripts->member.script;
@@ -296,7 +296,7 @@ static void addScripts(AddNode *add, Symbol *original)
             if (equalId(addedScript->id, originalScript->id)) {
                 lmlogv(&addedScript->srcp, 240, sevERR,
                        "Script", addedScript->id->string, add->toId->string, NULL);
-                duplicate = TRUE;
+                duplicate = true;
                 break;
             }
         }
@@ -341,13 +341,13 @@ static void addExits(AddNode *add, Symbol *originalSymbol)
         symbolizeExits(add->props->exits);
         if (!inheritsFrom(originalSymbol, locationSymbol)) {
             lmlog(&add->props->exits->member.ext->srcp, 336, sevERR, "Exits to something not inheriting from the predefined class 'location'");
-            inhibitAdd = TRUE;
+            inhibitAdd = true;
         }
 
         ITERATE(exitList, add->props->exits) {
             ITERATE(exitIdList, exitList->member.ext->directions)
                 if (exitIdFound(exitIdList->member.id, originalProps->exits)) {
-                    inhibitAdd = TRUE;
+                    inhibitAdd = true;
                     lmlogv(&exitIdList->member.id->srcp, 240, sevERR, "Exit", exitIdList->member.id->string, originalSymbol->string, NULL);
                 }
         }

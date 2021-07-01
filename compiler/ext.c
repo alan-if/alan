@@ -109,7 +109,7 @@ Bool exitIdFound(Id *targetId, List *exits)
     for (theExit = exits; theExit != NULL; theExit = theExit->next) {
         for (theIdInList = theExit->member.ext->directions; theIdInList != NULL; theIdInList = theIdInList->next)
             if (findIdInList(targetId, theIdInList) != NULL)
-                return TRUE;
+                return true;
     }
     return FALSE;
 }
@@ -158,7 +158,7 @@ static Bool haveExit(List *ownExits, Id *direction) {
     ITERATE(exits, ownExits) {
         ITERATE(directions, exits->member.ext->directions) {
             if (equalId(directions->member.id, direction))
-                return TRUE;
+                return true;
         }
     }
     return FALSE;
@@ -193,7 +193,7 @@ List *combineExits(List *ownExits, List *exitsToAdd)
            list to see if we should copy this Exit node */
         ITERATE(direction, toAdd->member.ext->directions) {
             if (!haveExit(ownExits, direction->member.id)) {
-                foundOneToAdd = TRUE;
+                foundOneToAdd = true;
                 break;
             }
         }

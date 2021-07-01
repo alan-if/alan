@@ -113,7 +113,7 @@ Ensure(Symbol, testVerbSymbols) {
   setParameters(v1Symbol, parameters);
   assert_that(v1Symbol->fields.verb.parameterSymbols, is_non_null);
   for (l = v1Symbol->fields.verb.parameterSymbols,
-	 p = parameters;
+     p = parameters;
        l && p;
        l = l->next, p = p->next)
     assert_true(l->member.sym->fields.parameter.element == p->member.elm);
@@ -126,7 +126,7 @@ Ensure(Symbol, testVerbSymbols) {
   foundSymbol = lookupInContext("p1", &context);
   assert_true(foundSymbol == v1Symbol->fields.verb.parameterSymbols->member.sym);
 
-  
+
 }
 
 
@@ -148,7 +148,7 @@ Ensure(Symbol, testBuildSymbolHigher) {
 
     Symbol *sym1 = newSymbol(symbolId2, CLASS_SYMBOL);
     Symbol *sym2 = lookup(symbolName2);
-  
+
     assert_true(sym1 == sym2);
     assert_true(strcmp(sym2->string, symbolName2) == 0);
     assert_true(sym2->kind == CLASS_SYMBOL);
@@ -218,7 +218,7 @@ Ensure(Symbol, testSymbolTableInit) {
     Symbol *objectSymbol;
     Symbol *actorSymbol;
     Symbol *locationSymbol;
-    
+
     initUnitTestSymbols();
 
     initAdventure();
@@ -240,7 +240,7 @@ Ensure(Symbol, testSymbolTableInit) {
     assert_true(object->props->id->symbol == objectSymbol);
     assert_true(location->props->id->symbol == locationSymbol);
     assert_true(actor->props->id->symbol == actorSymbol);
-  
+
     assert_true(inheritsFrom(thingSymbol, entitySymbol));
     assert_true(inheritsFrom(thingSymbol, thingSymbol));
     assert_true(inheritsFrom(locationSymbol, entitySymbol));
@@ -408,7 +408,7 @@ Ensure(Symbol, testCreateMessageVerbs) {
 
 Ensure(Symbol, testInheritOpaqueAttribute) {
     /* Set up a parent class with container properties */
-    Bool opaqueState = TRUE;
+    Bool opaqueState = true;
     ContainerBody *pBody = newContainerBody(nulsrcp, opaqueState, NULL, NULL,
                                             NULL, NULL, NULL, NULL);
     Container *pCont = newContainer(pBody);
@@ -427,7 +427,7 @@ Ensure(Symbol, testInheritOpaqueAttribute) {
                                                    newId(nulsrcp, "b"),
                                                    FALSE),
                                ATTRIBUTE_LIST);
-						      
+
     Properties *cProps = newProps(NULL, NULL,
                                   nulsrcp, NULL,
                                   attributes, NULL, NULL,
@@ -449,7 +449,7 @@ Ensure(Symbol, testInheritOpaqueAttribute) {
 Ensure(Symbol, testMultipleSymbolKinds) {
     assert_true(multipleSymbolKinds(0) == FALSE);
     assert_true(multipleSymbolKinds(INSTANCE_SYMBOL) == FALSE);
-    assert_true(multipleSymbolKinds(INSTANCE_SYMBOL|CLASS_SYMBOL) == TRUE);
+    assert_true(multipleSymbolKinds(INSTANCE_SYMBOL|CLASS_SYMBOL) == true);
 }
 
 
@@ -539,7 +539,7 @@ Ensure(Symbol, testCanListParametersFromVerbContext) {
 
 TestSuite *symTests()
 {
-    TestSuite *suite = create_test_suite(); 
+    TestSuite *suite = create_test_suite();
 
     add_test_with_context(suite, Symbol, testMultipleSymbolKinds);
     add_test_with_context(suite, Symbol, testSymCheck);
@@ -564,4 +564,3 @@ TestSuite *symTests()
 
     return suite;
 }
-

@@ -25,8 +25,8 @@ OptDef opts[NOPT] = {
   {ENUMOPT, FALSE, "language", L_ENGLISH}, /* OPTION Language */
   {INTOPT, FALSE, "width", 75},            /* OPTION Width */
   {INTOPT, FALSE, "length", 24},           /* OPTION Length */
-  {BOOLOPT, FALSE, "pack", FALSE},	   /* OPTION Pack */
-  {BOOLOPT, FALSE, "debug", FALSE}         /* OPTION Debug */
+  {BOOLOPT, FALSE, "pack", false},         /* OPTION Pack */
+  {BOOLOPT, FALSE, "debug", false}         /* OPTION Debug */
 };
 
 
@@ -132,7 +132,7 @@ void optint(char *id, Srcp *srcp, int val)
     return;
   }
 
-  opts[opt].used = TRUE;
+  opts[opt].used = true;
   opts[opt].value = val;
 }
 
@@ -169,7 +169,7 @@ void optenum(char *id, Srcp *srcp, char *val)
     return;
   }
 
-  opts[opt].used = TRUE;
+  opts[opt].used = true;
   opts[opt].value = code;
 }
 
@@ -200,7 +200,7 @@ void optBool(char *id, Srcp *srcp, int val)
     return;
   }
 
-  opts[opt].used = TRUE;
+  opts[opt].used = true;
   opts[opt].value = val;
 }
 

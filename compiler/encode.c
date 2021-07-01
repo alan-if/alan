@@ -95,7 +95,7 @@ static void doneOutputingBits(void)
 /* Current state of the coding */
 static CodeValue low, high;	/* Ends of the current region */
 static int bitsToFollow;	/* Number of bits to output */
-				/* after next bit */
+                /* after next bit */
 
 
 static void bitPlusFollow(int bit) /* IN - the bit to output */
@@ -200,7 +200,7 @@ void initEncoding(char *textFileName, char *dataFileName)
                 if (chFreq[i] > 1)
                     chFreq[i] >>= 1;
         } else
-            ok = TRUE;
+            ok = true;
     }
 
 }
@@ -217,7 +217,7 @@ void initEncoding(char *textFileName, char *dataFileName)
 
 */
 void encode(long int *fpos,	/* INOUT - The file position */
-	    long int *length)	/* INOUT - Data length */
+        long int *length)	/* INOUT - Data length */
 {
     int len;
     int ch;

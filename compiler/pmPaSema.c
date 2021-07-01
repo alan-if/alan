@@ -206,7 +206,7 @@ int rule			/* IN production number */
     case 8: { /* <option> = ID '.'; */
 #line 224 "alan.pmk"
 
-        optBool(pmSeSt[pmStkP+1].id->string, &pmSeSt[pmStkP+1].id->srcp, TRUE);
+        optBool(pmSeSt[pmStkP+1].id->string, &pmSeSt[pmStkP+1].id->srcp, true);
     	break;}
     case 9: { /* <option> = 'no' ID '.'; */
 #line 229 "alan.pmk"
@@ -276,7 +276,7 @@ int rule			/* IN production number */
     case 28: { /* <attribute_definition> = ID; */
 #line 311 "alan.pmk"
 
-        pmSeSt[pmStkP+1].atr = newBooleanAttribute(pmSeSt[pmStkP+1].id->srcp, pmSeSt[pmStkP+1].id, TRUE);
+        pmSeSt[pmStkP+1].atr = newBooleanAttribute(pmSeSt[pmStkP+1].id->srcp, pmSeSt[pmStkP+1].id, true);
     	break;}
     case 29: { /* <attribute_definition> = 'not' ID; */
 #line 316 "alan.pmk"
@@ -515,7 +515,7 @@ int rule			/* IN production number */
     	break;}
     case 71: { /* <optional_meta> = 'meta'; */
 #line 608 "alan.pmk"
- pmSeSt[pmStkP+1].isMeta = TRUE; 	break;}
+ pmSeSt[pmStkP+1].isMeta = true; 	break;}
     case 70: { /* <optional_meta> =; */
 #line 609 "alan.pmk"
  pmSeSt[pmStkP+1].isMeta = FALSE; 	break;}
@@ -1078,14 +1078,14 @@ int rule			/* IN production number */
 					newList(newStatement(&pmSySt[pmStkP+1].srcp,
 								NOP_STATEMENT),
 						STATEMENT_LIST),
-					TRUE);
+					true);
     	break;}
     case 146: { /* <form> = 'form' <statements>; */
 #line 1250 "alan.pmk"
 
 	pmSeSt[pmStkP+1].article = newArticle(pmSySt[pmStkP+1].srcp,
 					pmSeSt[pmStkP+2].stms,
-					TRUE);
+					true);
     	break;}
     case 147: { /* <entered> = 'entered' <statements>; */
 #line 1260 "alan.pmk"
@@ -1133,7 +1133,7 @@ int rule			/* IN production number */
  pmSeSt[pmStkP+1].opaque = FALSE; 	break;}
     case 158: { /* <optionally_opaque> = 'opaque'; */
 #line 1325 "alan.pmk"
- pmSeSt[pmStkP+1].opaque = TRUE; 	break;}
+ pmSeSt[pmStkP+1].opaque = true; 	break;}
     case 159: { /* <container_body> = <optional_taking> <optional_limits> <optional_header> <optional_empty> <optional_extract>; */
 #line 1331 "alan.pmk"
 
@@ -1534,22 +1534,22 @@ int rule			/* IN production number */
     	break;}
     case 239: { /* <optional_first_or_last> =; */
 #line 1800 "alan.pmk"
- pmSeSt[pmStkP+1].first = TRUE; 	break;}
+ pmSeSt[pmStkP+1].first = true; 	break;}
     case 240: { /* <optional_first_or_last> = 'first'; */
 #line 1802 "alan.pmk"
- pmSeSt[pmStkP+1].first = TRUE; 	break;}
+ pmSeSt[pmStkP+1].first = true; 	break;}
     case 241: { /* <optional_first_or_last> = 'last'; */
 #line 1804 "alan.pmk"
  pmSeSt[pmStkP+1].first = FALSE; 	break;}
     case 242: { /* <optional_word_or_character> =; */
 #line 1809 "alan.pmk"
- pmSeSt[pmStkP+1].wordOrChar = TRUE; 	break;}
+ pmSeSt[pmStkP+1].wordOrChar = true; 	break;}
     case 243: { /* <optional_word_or_character> = 'word'; */
 #line 1811 "alan.pmk"
- pmSeSt[pmStkP+1].wordOrChar = TRUE; 	break;}
+ pmSeSt[pmStkP+1].wordOrChar = true; 	break;}
     case 244: { /* <optional_word_or_character> = 'words'; */
 #line 1813 "alan.pmk"
- pmSeSt[pmStkP+1].wordOrChar = TRUE; 	break;}
+ pmSeSt[pmStkP+1].wordOrChar = true; 	break;}
     case 245: { /* <optional_word_or_character> = 'character'; */
 #line 1815 "alan.pmk"
  pmSeSt[pmStkP+1].wordOrChar = FALSE; 	break;}
@@ -1786,7 +1786,7 @@ int rule			/* IN production number */
     	break;}
     case 287: { /* <on_or_off> = 'on'; */
 #line 2083 "alan.pmk"
- pmSeSt[pmStkP+1].on_or_off = TRUE; 	break;}
+ pmSeSt[pmStkP+1].on_or_off = true; 	break;}
     case 288: { /* <on_or_off> = 'off'; */
 #line 2086 "alan.pmk"
  pmSeSt[pmStkP+1].on_or_off = FALSE; 	break;}
@@ -2220,7 +2220,7 @@ int rule			/* IN production number */
     case 359: { /* <optional_not> = 'not'; */
 #line 2584 "alan.pmk"
 
-        pmSeSt[pmStkP+1].present = TRUE;
+        pmSeSt[pmStkP+1].present = true;
     	break;}
     case 360: { /* <optional_transitivity> =; */
 #line 2591 "alan.pmk"
@@ -2292,7 +2292,7 @@ int rule			/* IN production number */
     case 373: { /* <optional_minus> = '-'; */
 #line 2668 "alan.pmk"
 
-        pmSeSt[pmStkP+1].minus = TRUE;
+        pmSeSt[pmStkP+1].minus = true;
     	break;}
     case 374: { /* ID = Identifier; */
 #line 2675 "alan.pmk"

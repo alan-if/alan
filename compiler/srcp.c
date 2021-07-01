@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-				SRCP.C
-			 Source Position Type
+                SRCP.C
+             Source Position Type
 
 \*----------------------------------------------------------------------*/
 
@@ -52,8 +52,8 @@ Bool inSrcps(Srcp srcp) {
   if (srcp.line != 0)
     ITERATE(list, srcps) {
       if (list->member.srcp->file == srcp.file
-	  && list->member.srcp->line == srcp.line)
-	return TRUE;
+      && list->member.srcp->line == srcp.line)
+    return true;
     }
   return FALSE;
 }
