@@ -877,6 +877,8 @@ bool readline(char usrbuf[])
     static bool readingCommands = FALSE;
     static FILE *commandFile;
     static int previousEncoding;
+    static bool firstInput = TRUE;
+    static uchar BOM[3] = {0xEF,0xBB,0xBF};
 
     if (readingCommands) {
         fflush(stdout);
@@ -912,7 +914,6 @@ bool readline(char usrbuf[])
         if (buffer[0] == '@')
             if ((commandFile = fopen(&buffer[1], "r")) != NULL)
                 if (fgets(buffer, 255, commandFile) != NULL) {
-                    uchar BOM[3] = {0xEF,0xBB,0xBF};
                     readingCommands = TRUE;
                     if (memcmp(buffer, BOM, 3) == 0) {
                         previousEncoding = encodingOption;
@@ -925,6 +926,13 @@ bool readline(char usrbuf[])
         lin = 1;
     }
     stripNewline(buffer);
+    if (firstInput) {
+        firstInput = FALSE;
+        if (memcmp(buffer, BOM, 3) == 0) {
+            encodingOption = ENCODING_UTF;
+            memmove(buffer, &buffer[3], strlen(buffer)-3+1);
+        }
+    }
     char *converted = ensureInternalEncoding(buffer);
     strcpy(usrbuf, converted);
     free(converted);
