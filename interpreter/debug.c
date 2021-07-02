@@ -265,7 +265,7 @@ static void showContainer(int cnt)
     if (containers[cnt].owner != 0) {
         cnt = containers[cnt].owner;
         say(cnt);
-        sprintf(str, "$iLocation: %d", where(cnt, TRUE));
+        sprintf(str, "$iLocation: %d", where(cnt, true));
         output(str);
     }
     showContents(cnt);

@@ -13,17 +13,9 @@
     doesn't have to exist. In practice, it's small.
 */
 
-#ifndef GT_START_H
-#define GT_START_H
+#ifndef GLK_START_H
+#define GLK_START_H
 
-/* We define our own TRUE and FALSE and NULL, because ANSI
-    is a strange world. */
-#ifndef true
-#define TRUE 1
-#endif
-#ifndef false
-#define FALSE 0
-#endif
 #ifndef NULL
 #define NULL 0
 #endif
@@ -58,4 +50,4 @@ extern int glkunix_startup_code(glkunix_startup_t *data);
 extern strid_t glkunix_stream_open_pathname(char *pathname, glui32 textmode,
   glui32 rock);
 
-#endif /* GT_START_H */
+#endif
