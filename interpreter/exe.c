@@ -746,7 +746,7 @@ void startTranscript(void) {
         transcriptOption = false;
     } else if (encodingOption == ENCODING_UTF) {
         uchar BOM[3] = {0xEF,0xBB,0xBF};
-        fwrite(BOM, sizeof(BOM), 1, transcriptFile);
+        fwrite((char *)BOM, sizeof(BOM), 1, transcriptFile);
     }
 }
 
@@ -769,7 +769,7 @@ void startCommandLog(void) {
         commandLogOption = false;
     } else if (encodingOption == ENCODING_UTF) {
         uchar BOM[3] = {0xEF,0xBB,0xBF};
-        fwrite(BOM, sizeof(BOM), 1, commandLogFile);
+        fwrite((char *)BOM, sizeof(BOM), 1, commandLogFile);
     }
 }
 
