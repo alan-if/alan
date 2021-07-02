@@ -70,7 +70,7 @@ static void generateEventData(Event *evt)	/* IN - The event to generate */
 {
     progressCounter();
 
-    if ((Bool) opts[OPTDEBUG].value) {
+    if ((bool) opts[OPTDEBUG].value) {
         evt->nameAddress = nextEmitAddress();
         emitString(evt->id->string);
     } else

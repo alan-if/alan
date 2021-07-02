@@ -2,8 +2,8 @@
 #define _DUMP_X_H
 /*----------------------------------------------------------------------*\
 
-				DUMP_X.H
-			     Dump Support
+                DUMP_X.H
+                 Dump Support
 
 \*----------------------------------------------------------------------*/
 
@@ -22,7 +22,7 @@ extern void dumpString(char s[]);
 extern void dumpAddress(int adr);
 extern void dumpPointer(void *adr);
 extern void dumpInt(int i);
-extern void dumpBool(Bool b);
+extern void dumpBool(bool b);
 
 
 #endif

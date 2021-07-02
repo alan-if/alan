@@ -32,7 +32,7 @@ static Srcp *newSrcp(int file, int line) {
 }
 
 /*======================================================================*/
-Bool equalSrcp(Srcp srcp1, Srcp srcp2)
+bool equalSrcp(Srcp srcp1, Srcp srcp2)
 {
   return (srcp1.col == srcp2.col && srcp1.file == srcp2.file && srcp1.line == srcp2.line);
 }
@@ -46,7 +46,7 @@ static void addSrcp(Srcp srcp) {
 
 
 /*----------------------------------------------------------------------*/
-Bool inSrcps(Srcp srcp) {
+bool inSrcps(Srcp srcp) {
   List *list;
 
   if (srcp.line != 0)
@@ -64,7 +64,7 @@ void generateSrcp(Srcp srcp) {
   static int previousFile = 0;
   static int previousLine = 0;
 
-  if (!(Bool)opts[OPTDEBUG].value) return;
+  if (!(bool)opts[OPTDEBUG].value) return;
 
   if (srcp.file == previousFile && srcp.line == previousLine) return;
   previousFile = srcp.file;

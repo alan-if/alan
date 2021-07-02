@@ -58,7 +58,7 @@ Symbol *messageVerbSymbolFor3Integers;
 
 /* PRIVATE: */
 static Symbol *symbolTree = NULL;
-static Bool firstSymbolDumped = true;
+static bool firstSymbolDumped = true;
 
 typedef struct Frame {
     /* A frame defines a local scope with local variables.
@@ -155,7 +155,7 @@ static void addLocal(Symbol *new)
 
 
 /*----------------------------------------------------------------------*/
-static void anotherSymbolKindAsString(SymbolKind kind, Bool found, char *string)
+static void anotherSymbolKindAsString(SymbolKind kind, bool found, char *string)
 {
     if (found) strcat(string, " or ");
     switch(kind) {
@@ -177,7 +177,7 @@ static void anotherSymbolKindAsString(SymbolKind kind, Bool found, char *string)
 /*----------------------------------------------------------------------*/
 static char *symbolKindsAsString(SymbolKind kinds)
 {
-    Bool found = false;
+    bool found = false;
     char *string = allocate(100);
     int i;
 
@@ -211,7 +211,7 @@ Symbol *newParameterSymbol(Element *element)
 
 
 /*----------------------------------------------------------------------*/
-static Bool mayOverride(SymbolKind overridingKind, SymbolKind originalKind) {
+static bool mayOverride(SymbolKind overridingKind, SymbolKind originalKind) {
     switch (overridingKind) {
     case LOCAL_SYMBOL:
         switch (originalKind) {
@@ -525,12 +525,12 @@ static Symbol *lookupInContext(char *idString, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Bool isEntity(Symbol *s){
+static bool isEntity(Symbol *s){
     return s->kind == CLASS_SYMBOL || s->kind == INSTANCE_SYMBOL;
 }
 
 /*----------------------------------------------------------------------*/
-static Bool hasParent(Symbol *s) {
+static bool hasParent(Symbol *s) {
     if (!isEntity(s)) SYSERR("Wrong kind of symbol", nulsrcp);
     return s->fields.entity.parent != NULL;
 }
@@ -591,13 +591,13 @@ Symbol *classOfSymbol(Symbol *symbol) {
 
 
 /*======================================================================*/
-Bool isClass(Symbol *symbol) {
+bool isClass(Symbol *symbol) {
     return symbol->kind == CLASS_SYMBOL;
 }
 
 
 /*======================================================================*/
-Bool isInstance(Symbol *symbol) {
+bool isInstance(Symbol *symbol) {
     return symbol->kind == INSTANCE_SYMBOL;
 }
 
@@ -613,7 +613,7 @@ TypeKind classToType(Symbol* symbol) {
 
 
 /*======================================================================*/
-Bool symbolIsContainer(Symbol *symbol) {
+bool symbolIsContainer(Symbol *symbol) {
     if (symbol != NULL) {
         switch (symbol->kind) {
         case CLASS_SYMBOL:
@@ -640,7 +640,7 @@ Bool symbolIsContainer(Symbol *symbol) {
 
 
 /*======================================================================*/
-Bool symbolIsActor(Symbol *symbol) {
+bool symbolIsActor(Symbol *symbol) {
     if (symbol != NULL)
         switch(symbol->kind) {
         case CLASS_SYMBOL:
@@ -725,7 +725,7 @@ void destroyIterator(SymbolIterator iterator) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool recurseTreeForInstanceOf(Symbol *current, Symbol *theClass) {
+static bool recurseTreeForInstanceOf(Symbol *current, Symbol *theClass) {
     if (current) {
         if (isInstance(current) && inheritsFrom(current, theClass))
             return true;
@@ -739,7 +739,7 @@ static Bool recurseTreeForInstanceOf(Symbol *current, Symbol *theClass) {
 
 
 /*======================================================================*/
-Bool instancesExist(Symbol *theClass) {
+bool instancesExist(Symbol *theClass) {
     return recurseTreeForInstanceOf(symbolTree, theClass);
 }
 
@@ -790,7 +790,7 @@ Symbol *containerSymbolTakes(Symbol *symbol) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool symbolHasContainerProperties(Symbol *this) {
+static bool symbolHasContainerProperties(Symbol *this) {
     Properties *props = propertiesOf(this);
     return props && props->container && props->container->body;
 }
@@ -916,7 +916,7 @@ Symbol *parentOf(Symbol *child)
 
 
 /*======================================================================*/
-Bool inheritsFrom(Symbol *child, Symbol *ancestor)
+bool inheritsFrom(Symbol *child, Symbol *ancestor)
 {
     Symbol *p;
 
@@ -960,9 +960,9 @@ Symbol *commonParent(Symbol *symbol1, Symbol *symbol2)
 
 
 /*----------------------------------------------------------------------*/
-static Bool multipleSymbolKinds(SymbolKind kind) {
+static bool multipleSymbolKinds(SymbolKind kind) {
     int i;
-    Bool found = false;
+    bool found = false;
 
     for (i = 1; i < MAX_SYMBOL; i=i<<1)
         if (kind&i) {
@@ -1001,7 +1001,7 @@ static char *identifierListForParameters(Context *context) {
     List *parameters = getParameterSymbols(context);
     char *identifiers = (char *)allocate(200);
     List *list;
-    Bool first = true;
+    bool first = true;
 
     if (parameters == NULL)
         SYSERR("NULL parameters", nulsrcp);

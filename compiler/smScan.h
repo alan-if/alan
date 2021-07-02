@@ -198,7 +198,7 @@ extern smScContext lexContext;
 /* List of file names */
 extern List *fileNames;
 
-extern Bool smScanEnter(Srcp srcp, char fnm[], Bool search);
+extern bool smScanEnter(Srcp srcp, char fnm[], bool search);
 extern int scannedLines(void);
 extern void setCharacterSet(CharSet charset);
 

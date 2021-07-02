@@ -74,7 +74,7 @@ Ensure(List, insertingShouldIncreaseLength) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool syserrHandlerCalled;
+static bool syserrHandlerCalled;
 
 jmp_buf syserrLabel;
 

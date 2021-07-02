@@ -13,7 +13,7 @@
 /* FUNCTIONS: */
 
 /* Mocked */
-ContainerBody *newContainerBody(Srcp srcp, Bool opaque, Id *takes, List *lims, List *hstms, List *estms, List *extractChecks, List *extractStatements) { ContainerBody *cnt = NEW(ContainerBody); cnt->srcp = srcp; cnt->taking = takes; cnt->limits = lims; cnt->hstms = hstms; cnt->estms = estms; cnt->extractChecks = extractChecks; cnt->extractStatements = extractStatements; return cnt; }
+ContainerBody *newContainerBody(Srcp srcp, bool opaque, Id *takes, List *lims, List *hstms, List *estms, List *extractChecks, List *extractStatements) { ContainerBody *cnt = NEW(ContainerBody); cnt->srcp = srcp; cnt->taking = takes; cnt->limits = lims; cnt->hstms = hstms; cnt->estms = estms; cnt->extractChecks = extractChecks; cnt->extractStatements = extractStatements; return cnt; }
 Container *newEmptyContainer(void) { return NEW(Container); }
 Container *newContainer(ContainerBody *info) { return (Container*)mock(info); }
 void symbolizeContainer(Container *cnt) { mock(cnt); }

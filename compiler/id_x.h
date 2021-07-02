@@ -2,8 +2,8 @@
 #define _ID_X_H_
 /*----------------------------------------------------------------------*\
 
-				ID_X.H
-		       Identifier Nodes Export
+                ID_X.H
+               Identifier Nodes Export
 
 \*----------------------------------------------------------------------*/
 
@@ -19,10 +19,10 @@
 
 /* METHODS: */
 extern char *generateIdName(void);
-extern Bool isGeneratedId(Id *id);
+extern bool isGeneratedId(Id *id);
 extern Id *newId(Srcp srcp, char str[]);
 extern List *newIdList(List *list, char *str);
-extern Bool equalId(Id *id1, Id *id2);
+extern bool equalId(Id *id1, Id *id2);
 extern void symbolizeId(Id *id);
 extern Id *findIdInList(Id *theId, List *theList);
 extern void generateId(Id *id, TypeKind type);

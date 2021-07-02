@@ -408,7 +408,7 @@ Ensure(Symbol, testCreateMessageVerbs) {
 
 Ensure(Symbol, testInheritOpaqueAttribute) {
     /* Set up a parent class with container properties */
-    Bool opaqueState = true;
+    bool opaqueState = true;
     ContainerBody *pBody = newContainerBody(nulsrcp, opaqueState, NULL, NULL,
                                             NULL, NULL, NULL, NULL);
     Container *pCont = newContainer(pBody);

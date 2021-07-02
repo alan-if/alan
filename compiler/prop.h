@@ -55,7 +55,7 @@ typedef enum {
 typedef struct Properties {
     Id *id;                     /* Identifier */
     InspectionState circularInspection;
-    Bool predefined;
+    bool predefined;
     Aaddr idAddress;
     Id *parentId;               /* The instances parent */
     Where *whr;                 /* Where is it initially? */

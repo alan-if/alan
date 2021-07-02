@@ -51,7 +51,7 @@ Restriction *newRestriction(Srcp srcp, Id *parameterId,
 
 
 /*======================================================================*/
-Bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax)
+bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax)
 {
     List *restrictionList;
 

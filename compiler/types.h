@@ -10,7 +10,7 @@
 
 #include <stdbool.h>
 
-/* TODO: use stdbool instead of Bool */
+/* TODO: use stdbool instead of bool */
 typedef int Bool;
 typedef unsigned int uint;
 typedef unsigned char uchar;

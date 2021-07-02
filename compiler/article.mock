@@ -3,7 +3,7 @@
 
 #include "context.h"
 
-Article *newArticle(Srcp srcp, List *statements, Bool isForm) {
+Article *newArticle(Srcp srcp, List *statements, bool isForm) {
     Article *article = NEW(Article);
     article->srcp = srcp;
     article->statements = statements;

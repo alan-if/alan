@@ -2,9 +2,9 @@
 #define _STX_X_H_
 /*----------------------------------------------------------------------*\
 
-				STX.H
-			      Syntax Nodes
-                                                                     
+                STX.H
+                  Syntax Nodes
+
 \*----------------------------------------------------------------------*/
 
 #include "stx.h"
@@ -20,9 +20,9 @@
 /* FUNCTIONS: */
 
 extern Syntax *newSyntax(Srcp srcp, Id *verb, List *elements,
-			 List *restrictions, Srcp restrictionSrcp);
+             List *restrictions, Srcp restrictionSrcp);
 extern Syntax *newSyntaxWithEOS(Srcp srcp, Id *id, List *restrictionList,
-				Srcp restrictionSrcp);
+                Srcp restrictionSrcp);
 
 extern void addElement(Syntax *syntax, Element *element);
 
@@ -31,8 +31,8 @@ extern Syntax *defaultSyntax0(char vrbstr[]);
 extern Syntax *defaultSyntax1(Id *verb, Context *context);
 
 /* Compare parameter lists of two syntaxes */
-extern Bool equalParameterLists(Syntax *stx1,
-		     Syntax *stx2);
+extern bool equalParameterLists(Syntax *stx1,
+             Syntax *stx2);
 
 extern void analyzeSyntaxes(void);
 extern Aaddr generateParseTable(void);

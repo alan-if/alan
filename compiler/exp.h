@@ -66,11 +66,11 @@ typedef enum AggregateKind {
 typedef struct Expression {
     Srcp srcp;                 /* Source position of the expression */
     ExpressionKind kind;       /* What kind of expression */
-	Bool readonly;			   /* Was the expression a readonly expression? */
+    bool readonly;			   /* Was the expression a readonly expression? */
     TypeKind type;             /* Type of the expression */
     Symbol *class;             /* For instance types, the class,
                                   For Set types, the member class */
-    Bool not;				   /* Was there a NOT ? */
+    bool not;				   /* Was there a NOT ? */
     union {
 
         struct {                    /* for WHERE */
@@ -95,7 +95,7 @@ typedef struct Expression {
         } val;
 
         struct {				/* For STRING */
-            Bool encoded;
+            bool encoded;
             long fpos;
             long len;
         } str;

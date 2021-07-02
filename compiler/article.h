@@ -2,8 +2,8 @@
 #define _ARTICLE_H_
 /*----------------------------------------------------------------------*\
 
-			      ARTICLE.H
-			Article Structure
+                  ARTICLE.H
+            Article Structure
 
 \*----------------------------------------------------------------------*/
 
@@ -26,7 +26,7 @@ typedef enum FormKind {
 typedef struct Article {
   Srcp srcp;
   FormKind kind;
-  Bool isForm;
+  bool isForm;
   List *statements;
   Aaddr address;
 } Article;

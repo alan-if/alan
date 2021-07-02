@@ -166,7 +166,7 @@ static void numberTheAttributes(List *aList, int n1, int n2)
 }
 
 
-static Bool equalLists(List *list1, List *list2)
+static bool equalLists(List *list1, List *list2)
 {
   List *t1 = list1;
   List *t2 = list2;
@@ -296,7 +296,7 @@ static void numberAttributes231(List *l)
   l->next->next->member.atr->id->code = 1;
 }
 
-static Bool attributesAreSorted(List *list)
+static bool attributesAreSorted(List *list)
 {
   List *l;
   int previousCode = 0;

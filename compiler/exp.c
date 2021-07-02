@@ -62,7 +62,7 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
 
 
 /*======================================================================*/
-Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not, Where *where) {
+Expression *newWhereExpression(Srcp srcp, Expression *what, bool not, Where *where) {
     Expression *exp = newExpression(srcp, WHERE_EXPRESSION);
     exp->fields.whr.wht = what;
     exp->not = not;
@@ -104,7 +104,7 @@ Expression *newIntegerExpression(Srcp srcp, int value)
 }
 
 /*======================================================================*/
-Expression *newAttributeExpression(Srcp srcp, Id *attribute, Bool not,
+Expression *newAttributeExpression(Srcp srcp, Id *attribute, bool not,
                                    Expression *ofWhat) {
     Expression *exp = newExpression(srcp, ATTRIBUTE_EXPRESSION);
     exp->fields.atr.id = attribute;
@@ -114,7 +114,7 @@ Expression *newAttributeExpression(Srcp srcp, Id *attribute, Bool not,
 }
 
 /*======================================================================*/
-Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
+Expression *newIsaExpression(Srcp srcp, Expression *what, bool not,
                              Id *class) {
     Expression *exp = newExpression(srcp, ISA_EXPRESSION);
     exp->fields.isa.what = what;
@@ -136,7 +136,7 @@ Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
 }
 
 /*======================================================================*/
-Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
+Expression *newBinaryExpression(Srcp srcp, Expression *left, bool not,
                                 OperatorKind kind, Expression *right) {
     Expression *exp = newExpression(srcp, BINARY_EXPRESSION);
     exp->fields.bin.left = left;
@@ -148,7 +148,7 @@ Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
 
 
 /*======================================================================*/
-Expression *newBetweenExpression(Srcp srcp, Expression *expression, Bool not,
+Expression *newBetweenExpression(Srcp srcp, Expression *expression, bool not,
                                  Expression *low, Expression *high) {
     Expression *exp = newExpression(srcp, BETWEEN_EXPRESSION);
     exp->fields.btw.exp = expression;
@@ -223,7 +223,7 @@ void symbolizeExpression(Expression *exp) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool idIsContainer(Id *id, Context *context) {
+static bool idIsContainer(Id *id, Context *context) {
     switch (id->symbol->kind) {
     case PARAMETER_SYMBOL:
         return id->symbol->fields.parameter.restrictedToContainer || symbolIsContainer(classOfIdInContext(context, id));
@@ -238,7 +238,7 @@ static Bool idIsContainer(Id *id, Context *context) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool expressionIsContainer(Expression *exp, Context *context) {
+static bool expressionIsContainer(Expression *exp, Context *context) {
     switch (exp->kind) {
     case WHAT_EXPRESSION:
         switch (exp->fields.wht.wht->kind) {
@@ -272,7 +272,7 @@ static void expressionIsNotContainer(Expression *exp, Context *context,
 }
 
 /*======================================================================*/
-Bool verifyContainerExpression(Expression *what, Context *context,
+bool verifyContainerExpression(Expression *what, Context *context,
                                char constructDescription[]) {
 
     if (what->type != ERROR_TYPE) {
@@ -349,7 +349,7 @@ static char *aggregateToString(AggregateKind agr)
 
 
 /*======================================================================*/
-Bool isConstantIdentifier(Id *id)
+bool isConstantIdentifier(Id *id)
 {
     if (id->symbol)
         return id->symbol->kind != PARAMETER_SYMBOL
@@ -360,7 +360,7 @@ Bool isConstantIdentifier(Id *id)
 
 
 /*======================================================================*/
-Bool isConstantExpression(Expression *exp)
+bool isConstantExpression(Expression *exp)
 {
     switch (exp->kind) {
     case INTEGER_EXPRESSION:
@@ -761,7 +761,7 @@ static void analyzeNonClassingFilter(char *message,
                                      Context *context,
                                      Expression *theFilter,
                                      Symbol *classSymbol,
-                                     Bool *foundWhere)
+                                     bool *foundWhere)
 {
     switch (theFilter->kind) {
     case ATTRIBUTE_EXPRESSION:
@@ -778,7 +778,7 @@ static void analyzeNonClassingFilter(char *message,
 
 
 /*----------------------------------------------------------------------*/
-static Bool expressionIsActualWhere(Expression *expression) {
+static bool expressionIsActualWhere(Expression *expression) {
     switch (expression->kind) {
     case WHERE_EXPRESSION:
         switch (expression->fields.whr.whr->kind) {
@@ -818,12 +818,12 @@ static Symbol *combineFilterClasses(Symbol *original, Symbol *addition, Srcp src
 
 
 /*======================================================================*/
-Bool analyzeFilterExpressions(char *message, List *filters,
+bool analyzeFilterExpressions(char *message, List *filters,
                               Context *context, Symbol **foundClass) {
     List *lst;
-    Bool foundWhere = false;
-    Bool foundIsa = false;
-    Bool error = false;
+    bool foundWhere = false;
+    bool foundIsa = false;
+    bool error = false;
     Symbol *class = NULL;
 
     /* Analyze the filters which may restrict to a class, return the class id */
@@ -1542,7 +1542,7 @@ void generateExpression(Expression *exp)
         return;
     }
 
-    if ((Bool)opts[OPTDEBUG].value)
+    if ((bool)opts[OPTDEBUG].value)
         generateSrcp(exp->srcp);
 
     switch (exp->kind) {

@@ -11,7 +11,7 @@
 /* FUNCTIONS: */
 
 Expression *newAttributeExpression(Srcp srcp, Id *attributeId,
-                                   Bool not, Expression *ofWhat) {
+                                   bool not, Expression *ofWhat) {
     Expression *expression = (Expression*)NEW(Expression);
     expression->kind = ATTRIBUTE_EXPRESSION;
     expression->srcp = srcp;
@@ -20,17 +20,17 @@ Expression *newAttributeExpression(Srcp srcp, Id *attributeId,
     expression->not = not;
     return expression;
 }
-Expression *newBinaryExpression(Srcp srcp, Expression *left, Bool not,
+Expression *newBinaryExpression(Srcp srcp, Expression *left, bool not,
                                 OperatorKind operator,
                                 Expression *right) {return (Expression*)mock();}
-Expression *newBetweenExpression(Srcp srcp, Expression *exp, Bool not,
+Expression *newBetweenExpression(Srcp srcp, Expression *exp, bool not,
                                  Expression *low, Expression *high) {return (Expression*)mock();}
 Expression *newStringExpression(Srcp srcp, long fpos, int len) {return (Expression*)mock();}
 Expression *newSetExpression(Srcp srcp, List *set) {return (Expression*)mock();}
 Expression *newScoreExpression(Srcp srcp);
 Expression *newIntegerExpression(Srcp srcp, int value) {return (Expression*)mock();}
 
-Expression *newIsaExpression(Srcp srcp, Expression *what, Bool not,
+Expression *newIsaExpression(Srcp srcp, Expression *what, bool not,
                              Id *class) {
     Expression *exp = NEW(Expression);
     exp->kind = ISA_EXPRESSION;
@@ -47,7 +47,7 @@ Expression *newWhatExpression(Srcp srcp, What *what) {
     return exp;
 }
 
-Expression *newWhereExpression(Srcp srcp, Expression *what, Bool not, Where *where) {return (Expression*)mock();}
+Expression *newWhereExpression(Srcp srcp, Expression *what, bool not, Where *where) {return (Expression*)mock();}
 Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
                                    Id *attribute, List *filters) {return (Expression*)mock();}
 Expression *newRandomRangeExpression(Srcp srcp, Expression *from,
@@ -56,13 +56,13 @@ Expression *newRandomInExpression(Srcp srcp, Expression *what, Transitivity tran
 
 void symbolizeExpression(Expression *exp) {mock();}
 void analyzeExpression(Expression *exp, Context *context) {mock();}
-Bool analyzeFilterExpressions(char *message, List *filters,
-                              Context *context, Symbol **foundClass) {return (Bool)mock();}
-Bool isConstantIdentifier(Id *id) {return (Bool)mock();}
-Bool isConstantExpression(Expression *exp) {return (Bool)mock();}
+bool analyzeFilterExpressions(char *message, List *filters,
+                              Context *context, Symbol **foundClass) {return (bool)mock();}
+bool isConstantIdentifier(Id *id) {return (bool)mock();}
+bool isConstantExpression(Expression *exp) {return (bool)mock();}
 Symbol *containerContent(Expression *what, Transitivity transitivity, Context *context) {return (Symbol*)mock();}
-Bool verifyContainerExpression(Expression *what, Context *context,
-                               char referer[]) {return (Bool)mock();}
+bool verifyContainerExpression(Expression *what, Context *context,
+                               char referer[]) {return (bool)mock();}
 Symbol *symbolOfExpression(Expression *exp, Context *context) {return (Symbol*)mock();}
 void generateExpression(Expression *exp) {mock();}
 void generateFilter(Expression *exp) {mock();}

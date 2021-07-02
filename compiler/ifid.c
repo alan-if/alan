@@ -88,7 +88,7 @@ static char *randomUUID(void)
 
 
 /*======================================================================*/
-static Bool isValidUUID(char *uuid)
+static bool isValidUUID(char *uuid)
 {
   int i;
 

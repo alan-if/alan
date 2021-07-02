@@ -130,14 +130,14 @@ Context *pushContext(Context *previous)
 
 
 /*======================================================================*/
-Bool inEntityContext(Context *context)
+bool inEntityContext(Context *context)
 {
     return (context->instance != NULL || context->class != NULL);
 }
 
 
 /*======================================================================*/
-Bool inLocationContext(Context *context)
+bool inLocationContext(Context *context)
 {
     return (context->instance != NULL
             && inheritsFrom(context->instance->props->id->symbol, locationSymbol))

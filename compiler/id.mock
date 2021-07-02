@@ -8,10 +8,10 @@
 
 
 char *generateIdName(void) {return (char *)mock();}
-Bool isGeneratedId(Id *id) {return (Bool)mock(id);}
+bool isGeneratedId(Id *id) {return (bool)mock(id);}
 Id *newId(Srcp srcp, char str[]) { Id *id = NEW(Id); id->string = strdup(str); return id;}
 List *newIdList(List *list, char *str) {return (List *)mock(list, str);}
-Bool equalId(Id *id1, Id *id2) {
+bool equalId(Id *id1, Id *id2) {
     if (id1 && id2)
         return (compareStrings(id1->string, id2->string) == 0);
     else

@@ -2,9 +2,9 @@
 #define _VRB_H_
 /*----------------------------------------------------------------------*\
 
-				VRB.H
-			      Verb Nodes
-                                                                     
+                VRB.H
+                  Verb Nodes
+
 \*----------------------------------------------------------------------*/
 
 
@@ -21,7 +21,7 @@ typedef struct Verb {
     Srcp srcp;           /* Source position */
     List *ids;           /* List of verb IDs to perform this action */
     List *alternatives;  /* Alternative bodies */
-    Bool meta;
+    bool meta;
     Symbol *symbol;
     Aaddr altAddress;    /* AN - Address to alt-table */
     Syntax *stx;         /* AN - Which syntax defines this verb */

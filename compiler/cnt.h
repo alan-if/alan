@@ -2,8 +2,8 @@
 #define _CNT_H_
 /*----------------------------------------------------------------------*\
 
-				CNT.H
-			   Container Nodes
+                CNT.H
+               Container Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -17,11 +17,11 @@
 /* Types: */
 typedef struct ContainerBody {
     Srcp srcp;            /* Source position */
-    Bool analyzed;        /* Is this container definition analyzed? */
-    Bool generated;       /* And generated? */
-    Bool opaque;          /* An opaque container? */
+    bool analyzed;        /* Is this container definition analyzed? */
+    bool generated;       /* And generated? */
+    bool opaque;          /* An opaque container? */
     Id *taking;           /* Which class does it take? */
-    Bool visited;         /* Recursing flag for containment calculation to terminate */
+    bool visited;         /* Recursing flag for containment calculation to terminate */
     Symbol *mayContain;   /* Which class may it contain transitively? */
     List *limits;         /* Limits */
     Aaddr limadr;         /* ACODE address to limit table */

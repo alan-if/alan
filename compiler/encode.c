@@ -171,7 +171,7 @@ static void doneEncoding(void)
 void initEncoding(char *textFileName, char *dataFileName)
 {
     int i;
-    Bool ok = false;		/* Model is ok? */
+    bool ok = false;		/* Model is ok? */
 
     /* Open the temporary text and data files (file of encoded or plain text) */
     txtfil = fopen(textFileName, READ_MODE);

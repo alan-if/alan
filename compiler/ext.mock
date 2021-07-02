@@ -20,6 +20,6 @@ void symbolizeExits(List *exts) { mock(exts); }
 void analyzeExit(Exit *ext, Context *context) { mock(ext, context); }
 void analyzeExits(List *exts, Context *context) { mock(exts, context); }
 List *combineExits(List *ownExits, List *exitsToAdd) { return (List*)mock(ownExits, exitsToAdd); }
-Bool exitIdFound(Id *targetId, List *exits) { return (Bool)mock(targetId, exits); }
+bool exitIdFound(Id *targetId, List *exits) { return (bool)mock(targetId, exits); }
 Aaddr generateExits(List *exts) { return (Aaddr)mock(exts); }
 void dumpExit(Exit *ext) { mock(ext); }

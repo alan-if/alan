@@ -35,7 +35,7 @@ typedef enum OptTyp {
 /* The Option Definitions */
 typedef struct OptDef {
     OptTyp type;
-    Bool used;
+    bool used;
     char *name;
     short value;
 } OptDef;

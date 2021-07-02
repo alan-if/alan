@@ -73,7 +73,7 @@ static Attribute *newAttribute(Srcp *srcp,
 
 
 /*======================================================================*/
-Attribute *newBooleanAttribute(Srcp srcp, Id *id, Bool value)
+Attribute *newBooleanAttribute(Srcp srcp, Id *id, bool value)
 {
     Attribute *new;			/* The newly allocated area */
 
@@ -146,7 +146,7 @@ static void checkMultipleAttributes(List *atrs)
 
 
 /*======================================================================*/
-void symbolizeAttributes(List *atrs, Bool inClassDeclaration)
+void symbolizeAttributes(List *atrs, bool inClassDeclaration)
 {
     List *al;
 
@@ -202,7 +202,7 @@ Attribute *findAttribute(List *attributes, Id *id)
 List *sortAttributes(List *attributes)
 {
     List *sortedList = attributes;
-    Bool change;			/* Change during sorting */
+    bool change;			/* Change during sorting */
     List **lstp;			/* Pointer to a list pointer */
     List *tmp1, *tmp2;		/* Temporary pointers */
 
@@ -295,14 +295,14 @@ List *combineAttributes(List *ownAttributes, List *attributesToAdd)
 }
 
 /*----------------------------------------------------------------------*/
-static Bool isWhatId(Expression *exp)
+static bool isWhatId(Expression *exp)
 {
     return exp->kind == WHAT_EXPRESSION
         && exp->fields.wht.wht->kind == WHAT_ID;
 }
 
 /*----------------------------------------------------------------------*/
-static Bool hasSingleIdentifierMember(List *members)
+static bool hasSingleIdentifierMember(List *members)
 {
     if (members == NULL) return false;
     return length(members) == 1
@@ -569,7 +569,7 @@ static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
 {
     Attribute *atr = NULL;
     Context *thisContext = context;
-    Bool contextFound = false;
+    bool contextFound = false;
 
     while (!contextFound && thisContext != NULL) {
         switch (thisContext->kind) {

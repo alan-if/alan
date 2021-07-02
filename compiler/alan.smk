@@ -39,7 +39,7 @@ extern smScContext lexContext;
 /* List of file names */
 extern List *fileNames;
 
-extern Bool smScanEnter(Srcp srcp, char fnm[], Bool search);
+extern bool smScanEnter(Srcp srcp, char fnm[], bool search);
 extern int scannedLines(void);
 extern void setCharacterSet(CharSet charset);
 
@@ -63,7 +63,7 @@ static int lines = 0;		/* Updated at end of each file */
 #define O_BINARY 0
 #endif
 
-static Bool find_and_open_in_path_element(smScContext this, List *ip, char fnm[]) {
+static bool find_and_open_in_path_element(smScContext this, List *ip, char fnm[]) {
     char fnmbuf[PATH_MAX] = "";
 
     if (ip != NULL) {
@@ -82,7 +82,7 @@ static Bool find_and_open_in_path_element(smScContext this, List *ip, char fnm[]
     return (this->fd = open(fnmbuf, O_RDONLY|O_BINARY)) > 0;
 }
 
-static char *open_import(smScContext this, char fnm[], Bool search) {
+static char *open_import(smScContext this, char fnm[], bool search) {
     List *ip;
 
     if (search) {
@@ -145,9 +145,9 @@ void setCharacterSet(CharSet set)
 }
 
 
-Bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statement */
+bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statement */
                  char fnm[],	/* IN - Name of file to open */
-                 Bool search	/* IN - Search the import paths? */
+                 bool search	/* IN - Search the import paths? */
 ){
     smScContext this;
     List *p;
@@ -270,7 +270,7 @@ int scannedLines(void)
   STRING = '"' ([^"]!'"''"')* '"'
     %%
         int len = 0;		/* The total length of the copied data */
-        Bool space = false;
+        bool space = false;
         int i, c;
 
         smToken->fpos = ftell(txtfil); /* Remember where it starts */

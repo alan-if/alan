@@ -4,7 +4,7 @@
 
   WHR.H
   Where Nodes Export
-                                                                     
+
 \*----------------------------------------------------------------------*/
 
 #include "whr.h"
@@ -21,7 +21,7 @@
 
 extern Where *newWhere(Srcp *srcp, Transitivity transitivity, WhereKind kind, struct Expression *what);
 extern void symbolizeWhere(Where *whr);
-extern Bool verifyInitialLocation(Where *whr, Context *context);
+extern bool verifyInitialLocation(Where *whr, Context *context);
 extern void analyzeWhere(Where *whr, Context *context);
 extern Aword generateInitialLocation(Properties *props);
 extern void generateTransitivity(Transitivity transitivity);

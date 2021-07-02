@@ -65,7 +65,7 @@ typedef struct Statement {      /* STATEMENT */
     union {                     /* Class dependent fields */
 
         struct {                /* for PRINT */
-            Bool encoded;
+            bool encoded;
             long fpos;          /* Position in the text file */
             long len;			/* and length */
         } print;
@@ -117,7 +117,7 @@ typedef struct Statement {      /* STATEMENT */
 
         struct {                /* for MAKE */
             Expression *wht;    /* What? */
-            Bool not;			/* Was there a NOT ? */
+            bool not;			/* Was there a NOT ? */
             Id *atr;            /* Id of the attribute */
         } make;
 
@@ -180,9 +180,9 @@ typedef struct Statement {      /* STATEMENT */
         } each;
 
         struct {               /* STRIP */
-            Bool first;        /* true = First (from the beginning) */
+            bool first;        /* true = First (from the beginning) */
             Expression *count; /* Optional count integer expression */
-            Bool wordOrChar;   /* true = words, false = characters */
+            bool wordOrChar;   /* true = words, false = characters */
             Expression *from;
             Expression *into;
         } strip;
@@ -192,7 +192,7 @@ typedef struct Statement {      /* STATEMENT */
         } style;
 
         struct {
-            Bool on_or_off;
+            bool on_or_off;
         } transcript;
 
     } fields;

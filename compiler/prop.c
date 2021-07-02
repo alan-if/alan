@@ -107,7 +107,7 @@ static void symbolizeParent(Properties *props)
 
 
 /*======================================================================*/
-void addOpaqueAttribute(Properties *props, Bool opaque)
+void addOpaqueAttribute(Properties *props, bool opaque)
 {
     Id *opaqueId = newId(nulsrcp, "opaque");
     Attribute *attribute = newBooleanAttribute(nulsrcp, opaqueId, opaque);
@@ -133,7 +133,7 @@ void addVisitsAttribute(Properties *props)
 }
 
 /*======================================================================*/
-void symbolizeProps(Properties *props, Bool inClassDeclaration)
+void symbolizeProps(Properties *props, bool inClassDeclaration)
 {
     symbolizeContainer(props->container);
     symbolizeParent(props);

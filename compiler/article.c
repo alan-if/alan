@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-			       article.c
-			   Article Handling
+                   article.c
+               Article Handling
 
 \*----------------------------------------------------------------------*/
 
@@ -23,7 +23,7 @@
 
 
 /*======================================================================*/
-Article *newArticle(Srcp srcp, List *statements, Bool isForm) {
+Article *newArticle(Srcp srcp, List *statements, bool isForm) {
   Article *new = NEW(Article);
 
   new->srcp = srcp;
@@ -85,5 +85,5 @@ void dumpArticle(Article *article) {
   put("kind: "); dumpFormKind(article->kind); nl();
   put("isForm: "); dumpBool(article->isForm); nl();
   put("statements: "); dumpList(article->statements, STATEMENT_LIST);
-  out();  
+  out();
 }

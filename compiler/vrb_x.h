@@ -2,9 +2,9 @@
 #define _VRB_X_H_
 /*----------------------------------------------------------------------*\
 
-				VRB_X.H
-			  Verb Nodes Export
-                                                                     
+                VRB_X.H
+              Verb Nodes Export
+
 \*----------------------------------------------------------------------*/
 
 #include "vrb.h"
@@ -19,9 +19,9 @@
 
 /* FUNCTIONS: */
 
-extern Verb *newVerb(Srcp *srcp, List *ids, List *alts, Bool meta);
+extern Verb *newVerb(Srcp *srcp, List *ids, List *alts, bool meta);
 extern void analyzeVerbs(List *vrbs, Context *context);
-extern Bool verbIdFound(Id *verbId, List *verbList);
+extern bool verbIdFound(Id *verbId, List *verbList);
 extern Aaddr generateVerbs(List *vrbs);
 extern void dumpVerb(Verb *vrb);
 

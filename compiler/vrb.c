@@ -31,7 +31,7 @@
 
 
 /*======================================================================*/
-Verb *newVerb(Srcp *srcp, List *ids, List *alts, Bool meta)
+Verb *newVerb(Srcp *srcp, List *ids, List *alts, bool meta)
 {
     Verb *new;			/* The newly allocated area */
     Symbol *sym;
@@ -137,7 +137,7 @@ static void analyzeVerb(Verb *theVerb, Context *previousContext)
 
 
 /*======================================================================*/
-Bool verbIdFound(Id *targetId, List *verbs)
+bool verbIdFound(Id *targetId, List *verbs)
 {
   List *theVerb;
   List *theIdInList;
@@ -205,7 +205,7 @@ static int metaVerbCode(int code) {
 
 
 /*----------------------------------------------------------------------*/
-static void emitVerbCode(Bool meta, int code) {
+static void emitVerbCode(bool meta, int code) {
     if (meta)
         emit(metaVerbCode(code));
     else

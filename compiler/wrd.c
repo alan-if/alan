@@ -79,7 +79,7 @@ static void insertWord(Word *new) {
 
 
 /*----------------------------------------------------------------------*/
-static Bool findReference(Instance *ref, List *referenceList)
+static bool findReference(Instance *ref, List *referenceList)
 {
     List *l;
 

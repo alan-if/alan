@@ -13,7 +13,7 @@
 
 /* FUNCTIONS: */
 
-extern Article *newArticle(Srcp srcp, List *statements, Bool isForm);
+extern Article *newArticle(Srcp srcp, List *statements, bool isForm);
 extern void analyzeArticle(Article *article, Context *context);
 extern void generateArticle(Article *article);
 extern void generateArticleEntry(Article *article, ArticleEntry *entry);

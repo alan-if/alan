@@ -2,9 +2,9 @@
 #define _EXT_X_H_
 /*----------------------------------------------------------------------*\
 
-				EXT.H
-			  Exit Nodes Export
-                                                                     
+                EXT.H
+              Exit Nodes Export
+
 \*----------------------------------------------------------------------*/
 
 #include "ext.h"
@@ -27,7 +27,7 @@ extern void symbolizeExits(List *exts);
 extern void analyzeExit(Exit *ext, Context *context);
 extern void analyzeExits(List *exts, Context *context);
 extern List *combineExits(List *ownExits, List *exitsToAdd);
-extern Bool exitIdFound(Id *targetId, List *exits);
+extern bool exitIdFound(Id *targetId, List *exits);
 extern Aaddr generateExits(List *exts);
 extern void dumpExit(Exit *ext);
 

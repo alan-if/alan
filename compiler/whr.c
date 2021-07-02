@@ -71,7 +71,7 @@ void symbolizeWhere(Where *whr)
 
 
 /*======================================================================*/
-Bool verifyInitialLocation(Where *whr, Context *context)
+bool verifyInitialLocation(Where *whr, Context *context)
 {
     if (whr->transitivity != DEFAULT_TRANSITIVITY) {
         if (whr->transitivity == DIRECTLY)

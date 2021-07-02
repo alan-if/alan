@@ -2,9 +2,9 @@
 #define _WHT_X_H_
 /*----------------------------------------------------------------------*\
 
-				WHT_X.H
-			  What Nodes Export
-                                                                     
+                WHT_X.H
+              What Nodes Export
+
 \*----------------------------------------------------------------------*/
 
 #include "wht.h"
@@ -24,8 +24,8 @@ extern What *newWhatId(Srcp srcp, Id *id);
 extern void symbolizeWhat(What *wht);
 extern void whatIsNotContainer(What *wht, Context *context, char construct[]);
 extern Symbol *symbolOfWhat(What *what, Context *context);
-extern Bool isConstantWhat(What *what);
-extern Bool verifyWhatContext(What *what, Context *context);
+extern bool isConstantWhat(What *what);
+extern bool verifyWhatContext(What *what, Context *context);
 extern void generateWhat(What *wht, TypeKind type);
 extern void dumpWhat(What *wht);
 

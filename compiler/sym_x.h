@@ -2,8 +2,8 @@
 #define _SYM_X_H_
 /*----------------------------------------------------------------------*\
 
-				SYM.H
-			  Symbol Table Nodes
+                SYM.H
+              Symbol Table Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -64,10 +64,10 @@ extern Symbol *lookup(char idString[]);
 extern Script *lookupScript(Symbol *aSymbol, Id *scriptName);
 extern Symbol *lookupParameter(Id *parameterId, List *parameterSymbols);
 extern void instanceCheck(Id *id, char *what, char className[]);
-extern Bool isClass(Symbol *symbol);
-extern Bool isInstance(Symbol *symbol);
-extern Bool symbolIsContainer(Symbol *symbol);
-extern Bool symbolIsActor(Symbol *symbol);
+extern bool isClass(Symbol *symbol);
+extern bool isInstance(Symbol *symbol);
+extern bool symbolIsContainer(Symbol *symbol);
+extern bool symbolIsActor(Symbol *symbol);
 extern Symbol *containerSymbolTakes(Symbol *symbol);
 
 extern void newFrame(void);
@@ -81,14 +81,14 @@ extern TypeKind typeOfSymbol(Symbol *symbol);
 /* Inheritance of a class */
 extern void setParent(Symbol *child, Symbol *parent);
 extern Symbol *parentOf(Symbol *child);
-extern Bool inheritsFrom(Symbol *child, Symbol *ancestor);
+extern bool inheritsFrom(Symbol *child, Symbol *ancestor);
 extern void inheritCheck(Id *id, char *what, char classOrInstance[], char className[]);
 extern Symbol *commonParent(Symbol *sym1, Symbol *sym2);
 
 extern TypeKind classToType(Symbol *symbol);
 extern Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id);
 
-extern Bool instancesExist(Symbol *someClass);
+extern bool instancesExist(Symbol *someClass);
 extern SymbolIterator createSymbolIterator(void);
 extern Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent);
 

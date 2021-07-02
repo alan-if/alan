@@ -36,7 +36,7 @@ char *generateIdName(void) {
 
 
 /*======================================================================*/
-Bool isGeneratedId(Id *id) {
+bool isGeneratedId(Id *id) {
   return id->string[0] == GENERATED_ID_PREFIX;
 }
 
@@ -66,7 +66,7 @@ List *newIdList(List *list, char *str) {
 
 
 /*======================================================================*/
-Bool equalId(Id *id1, Id *id2)
+bool equalId(Id *id1, Id *id2)
 {
     if (id1 && id2)
         return (compareStrings(id1->string, id2->string) == 0);

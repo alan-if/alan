@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
                                 TYPE.C
-			     Type Handling
+                 Type Handling
 
 \*----------------------------------------------------------------------*/
 
@@ -13,7 +13,7 @@
 
 
 /*======================================================================*/
-Bool isComplexType(TypeKind type) {
+bool isComplexType(TypeKind type) {
   return type == SET_TYPE || type == INSTANCE_TYPE;
 }
 
@@ -36,7 +36,7 @@ char *typeToString(TypeKind type)
 
 
 /*======================================================================*/
-Bool equalTypes(TypeKind typ1, TypeKind typ2)
+bool equalTypes(TypeKind typ1, TypeKind typ2)
 {
     if (typ1 == UNINITIALIZED_TYPE || typ2 == UNINITIALIZED_TYPE)
         SYSERR("Unintialised type", nulsrcp);
@@ -51,5 +51,3 @@ void dumpType(TypeKind type)
 {
   put(typeToString(type));
 }
-
-

@@ -76,7 +76,7 @@ typedef unsigned int UByte4;
 /* %%ATTRIBUTES */
 /* The semantic attributes for grammar symbols */
 typedef struct pmGrammar {
-    Bool wordOrChar;
+    bool wordOrChar;
     What *wht;
     Where *whr;
     List *vrbs;
@@ -109,22 +109,22 @@ typedef struct pmGrammar {
     Srcp pronounsSrcp;
     List *pronouns;
     List *prompt;
-    Bool present;
-    Bool opaque;
+    bool present;
+    bool opaque;
     OperatorKind op;
-    Bool on_or_off;
+    bool on_or_off;
     Article *negative;
     List *nams;
     List *nam;
     List *msgs;
     Message *msg;
-    Bool minus;
-    Bool isMeta;
+    bool minus;
+    bool isMeta;
     Srcp mentionedSrcp;
     List *mentioned;
     List *lims;
     LimNod *lim;
-    Bool isForm;
+    bool isForm;
     List *inss;
     Instance *ins;
     Article *indefinite;
@@ -132,7 +132,7 @@ typedef struct pmGrammar {
     List *idList;
     Id *id;
     List *form;
-    Bool first;
+    bool first;
     List *exts;
     Exit *ext;
     List *exps;
@@ -150,7 +150,7 @@ typedef struct pmGrammar {
     Srcp descriptionCheckSrcp;
     Description *description;
     Srcp definiteSrcp;
-    Bool definiteIsForm;
+    bool definiteIsForm;
     Article *definite;
     List *cnts;
     Container *cnt;

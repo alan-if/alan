@@ -91,10 +91,10 @@ Symbol *lookup(char idString[]) { return (Symbol *)mock(idString); }
 Script *lookupScript(Symbol *aSymbol, Id *scriptName) { return (Script *)mock(aSymbol, scriptName); }
 Symbol *lookupParameter(Id *parameterId, List *parameterSymbols) { return (Symbol *)mock(parameterId, parameterSymbols); }
 void instanceCheck(Id *id, char *what, char className[]) { mock(id, what, className); }
-Bool isClass(Symbol *symbol) { return (Bool)mock(symbol); }
-Bool isInstance(Symbol *symbol) { return (Bool)mock(symbol); }
-Bool symbolIsContainer(Symbol *symbol) { return (Bool)mock(symbol); }
-Bool symbolIsActor(Symbol *symbol) { return (Bool)mock(symbol); }
+bool isClass(Symbol *symbol) { return (bool)mock(symbol); }
+bool isInstance(Symbol *symbol) { return (bool)mock(symbol); }
+bool symbolIsContainer(Symbol *symbol) { return (bool)mock(symbol); }
+bool symbolIsActor(Symbol *symbol) { return (bool)mock(symbol); }
 Symbol *containerSymbolTakes(Symbol *symbol) { return (Symbol *)mock(symbol); }
 Symbol *containerMightContain(Symbol *symbol) { return (Symbol *)mock(symbol); }
 void newFrame(void) {}
@@ -108,7 +108,7 @@ TypeKind typeOfSymbol(Symbol *symbol) { return (TypeKind)mock(symbol); }
 /* Inheritance of a class */
 void setParent(Symbol *child, Symbol *parent) { mock(child, parent); }
 Symbol *parentOf(Symbol *child) { return (Symbol *)mock(child); }
-Bool inheritsFrom(Symbol *child, Symbol *ancestor) { return (Bool)mock(child, ancestor); }
+bool inheritsFrom(Symbol *child, Symbol *ancestor) { return (bool)mock(child, ancestor); }
 void inheritCheck(Id *id, char *what, char classOrInstance[], char className[]) { mock(id, what, classOrInstance, className); }
 
 void setParameters(Symbol *verb, List *parameters) { mock(verb, parameters); }

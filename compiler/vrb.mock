@@ -11,7 +11,7 @@
 
 /* FUNCTIONS: */
 
-Verb *newVerb(Srcp *srcp, List *ids, List *alts, Bool meta) {
+Verb *newVerb(Srcp *srcp, List *ids, List *alts, bool meta) {
     Verb *verb = NEW(Verb);
     verb->srcp = *srcp;
     verb->ids = ids;
@@ -24,8 +24,8 @@ void analyzeVerbs(List *vrbs, Context *context) {
     mock(vrbs, context);
 }
 
-Bool verbIdFound(Id *verbId, List *verbList) {
-    return (Bool) mock(verbId, verbList);
+bool verbIdFound(Id *verbId, List *verbList) {
+    return (bool) mock(verbId, verbList);
 }
 
 Aaddr generateVerbs(List *vrbs) {

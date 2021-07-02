@@ -18,7 +18,7 @@ extern FILE *datfil;        /* File for encoded text */
 extern CharSet charset;		/* Which character set the source is in */
 extern List *importPaths;   /* The list of include paths to check */
 #ifdef WINGUI
-extern Bool guiMode;        /* Using the GUI? Or console? */
+extern bool guiMode;        /* Using the GUI? Or console? */
 #endif
 
 /* Common procedures */

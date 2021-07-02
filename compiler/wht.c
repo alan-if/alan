@@ -136,7 +136,7 @@ void whatIsNotContainer(What *wht, Context *context, char construct[])
 
 
 /*======================================================================*/
-Bool isConstantWhat(What *what) {
+bool isConstantWhat(What *what) {
     switch (what->kind) {
     case WHAT_ACTOR:
     case WHAT_LOCATION:
@@ -151,7 +151,7 @@ Bool isConstantWhat(What *what) {
 }
 
 /*======================================================================*/
-Bool verifyWhatContext(What *what, Context *context) {
+bool verifyWhatContext(What *what, Context *context) {
     switch (what->kind) {
 
     case WHAT_ACTOR:

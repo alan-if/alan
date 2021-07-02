@@ -554,7 +554,7 @@ static void analyzeCancel(Statement *stm, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Bool is_restricting_expression(Expression *exp) {
+static bool is_restricting_expression(Expression *exp) {
     return exp->kind == ISA_EXPRESSION
         && exp->fields.isa.what->kind == WHAT_EXPRESSION
         && exp->fields.isa.what->fields.wht.wht->kind == WHAT_ID;
@@ -1418,7 +1418,7 @@ static void generateTranscript(Statement *stm)
 /*----------------------------------------------------------------------*/
 static void generateStatement(Statement *stm)
 {
-    if ((Bool)opts[OPTDEBUG].value)
+    if ((bool)opts[OPTDEBUG].value)
         generateSrcp(stm->srcp);
 
     switch (stm->kind) {

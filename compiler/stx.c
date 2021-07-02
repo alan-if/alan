@@ -118,7 +118,7 @@ static void setDefaultRestriction(List *parameters)
 
 
 /*======================================================================*/
-Bool equalParameterLists(Syntax *stx1, Syntax *stx2)
+bool equalParameterLists(Syntax *stx1, Syntax *stx2)
 {
     /*
       Compare two syntax nodes and return true if their parameter lists
@@ -156,7 +156,7 @@ static int countParameters(List *elms)
 
 
 /*----------------------------------------------------------------------*/
-static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
+static bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
 {
     /*
       Compare two syntax nodes and return true if their parameter lists
@@ -165,7 +165,7 @@ static Bool compatibleParameterLists(Syntax *stx1, Syntax *stx2)
 
     List *elm1, *elm2;
     int foundInOther = 0;
-    Bool found;
+    bool found;
 
     ITERATE(elm1, stx1->elements) {
         if (elm1->member.elm->kind == PARAMETER_ELEMENT) {
@@ -255,7 +255,7 @@ static void analyzeSyntax(Syntax *stx)
 /*----------------------------------------------------------------------*/
 static void connectSyntaxesForSameVerb(List *syntaxes) {
     List *lst, *other;
-    Bool error;
+    bool error;
 
     ITERATE(lst, syntaxes) {
         error = false;
@@ -520,7 +520,7 @@ static void generateParameterMapping(Syntax *syntax)
     Aaddr parameterMappingTableAddress = nextEmitAddress();
     List *originalParameters = syntax->id->symbol->fields.verb.parameterSymbols;
     List *originalPosition;
-    Bool found = false;
+    bool found = false;
 
     ITERATE(list, syntax->parameters) {
         /* Generate a parameter mapping entry */

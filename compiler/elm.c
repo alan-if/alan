@@ -128,7 +128,7 @@ List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
     List *list, *parameters = NULL;
     List *restrictionList;
     int parameterCount = 1;
-    Bool multiple = false;
+    bool multiple = false;
 
     if (firstElement->kind == WORD_ELEMENT) {
         firstElement->id->code = newVerbWord(firstElement->id->string, syntax);
@@ -166,7 +166,7 @@ List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
 
 
 /*----------------------------------------------------------------------*/
-static Bool equalElements(List *element1, List *element2)
+static bool equalElements(List *element1, List *element2)
 {
     if (element1 == NULL || element2 == NULL)
         return element2 == element1;

@@ -36,7 +36,7 @@ FILE *datfil;			/* File of encoded text */
 
 int fileNo = 0;			/* File number to use next */
 #ifdef WINGUI
-Bool guiMode = false;		/* Using the GUI? Or console? */
+bool guiMode = false;		/* Using the GUI? Or console? */
 #endif
 
 

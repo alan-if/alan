@@ -2,9 +2,9 @@
 #define _RES_X_H_
 /*----------------------------------------------------------------------*\
 
-				RES_X.H
-		Syntax Element Class Restriction Nodes Export
-                                                                     
+                RES_X.H
+        Syntax Element Class Restriction Nodes Export
+
 \*----------------------------------------------------------------------*/
 
 #include "res.h"
@@ -22,9 +22,9 @@
 /* FUNCTIONS: */
 
 extern Restriction *newRestriction(Srcp srcp, Id *parameterId,
-			      RestrictionKind kind, Id *classId,
-			      List *stms);
-extern Bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax);
+                  RestrictionKind kind, Id *classId,
+                  List *stms);
+extern bool hasRestriction(Symbol *parameterSymbol, Syntax *syntax);
 extern void symbolizeRestrictions(List *restrictions, Symbol *theVerb);
 extern void analyzeRestrictions(List *restrictions, Symbol *theVerb);
 extern Aaddr generateRestrictions(List *restrictions, Syntax *stx);

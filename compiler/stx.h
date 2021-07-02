@@ -2,8 +2,8 @@
 #define _STX_H_
 /*----------------------------------------------------------------------*\
 
-				STX.H
-			      Syntax Nodes
+                STX.H
+                  Syntax Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -27,8 +27,8 @@ typedef struct Syntax {
     Srcp restrictionSrcp;
     List *parameters;
     Aaddr parameterNameTable;
-    Bool generated;
-    Bool firstSyntax;
+    bool generated;
+    bool firstSyntax;
     struct Syntax *nextSyntaxForSameVerb;
     Aaddr elementsAddress;      /* GE - Address to element table for
                                    all stxs with the same first word */

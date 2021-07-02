@@ -41,15 +41,15 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
 
         struct {
             struct Symbol *parent;
-            Bool attributesNumbered;
-            Bool replicated;
+            bool attributesNumbered;
+            bool replicated;
             struct Properties *props;
-            Bool prohibitedSubclassing;
-            Bool isBasicType;
+            bool prohibitedSubclassing;
+            bool isBasicType;
         } entity;
 
         struct {
-            Bool meta;
+            bool meta;
             List *parameterSymbols;
             struct Syntax *firstSyntax;
         } verb;
@@ -57,7 +57,7 @@ typedef struct Symbol {		/* SYMBOL TABLE ENTRY */
         struct {
             struct Element *element;
             struct Symbol *class;
-            Bool restrictedToContainer;
+            bool restrictedToContainer;
             TypeKind type;
         } parameter;
 

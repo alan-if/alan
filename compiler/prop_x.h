@@ -39,9 +39,9 @@ extern Properties *newProps(Where *whr,
                 List *exts,
                 List *scrs);
 
-extern void symbolizeProps(Properties *props, Bool inClassDeclaration);
+extern void symbolizeProps(Properties *props, bool inClassDeclaration);
 extern void analyzeProps(Properties *props, Context *context);
-extern void addOpaqueAttribute(Properties *props, Bool opaque);
+extern void addOpaqueAttribute(Properties *props, bool opaque);
 extern void generateCommonPropertiesData(Properties *props);
 extern void generateInstancePropertiesData(Properties *props);
 extern void generatePropertiesEntry(InstanceEntry *entry, Properties *props);

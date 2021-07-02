@@ -101,7 +101,7 @@ void analyzeExit(Exit *ext, Context *context)
 
 
 /*======================================================================*/
-Bool exitIdFound(Id *targetId, List *exits)
+bool exitIdFound(Id *targetId, List *exits)
 {
     List *theExit;
     List *theIdInList;
@@ -151,7 +151,7 @@ void analyzeExits(List *exts, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Bool haveExit(List *ownExits, Id *direction) {
+static bool haveExit(List *ownExits, Id *direction) {
     List *exits;
     List *directions;
 
@@ -188,7 +188,7 @@ List *combineExits(List *ownExits, List *exitsToAdd)
     List *new = NULL;
 
     ITERATE(toAdd, exitsToAdd) {
-        Bool foundOneToAdd = false;
+        bool foundOneToAdd = false;
         /* Each exit may have multiple directions so we must traverse that
            list to see if we should copy this Exit node */
         ITERATE(direction, toAdd->member.ext->directions) {

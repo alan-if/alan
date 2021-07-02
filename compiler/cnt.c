@@ -39,7 +39,7 @@ int containerCount = 0;
 
 /*======================================================================*/
 ContainerBody *newContainerBody(Srcp srcp,
-                                Bool opaque,
+                                bool opaque,
                                 Id *takes,
                                 List *lims,
                                 List *hstms,

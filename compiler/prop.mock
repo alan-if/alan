@@ -50,9 +50,9 @@ Properties *newProps(Where *whr,
     return props;
 }
 
-void symbolizeProps(Properties *props, Bool inClassDeclaration) { mock(props, inClassDeclaration); }
+void symbolizeProps(Properties *props, bool inClassDeclaration) { mock(props, inClassDeclaration); }
 void analyzeProps(Properties *props, Context *context) { mock(props, context); }
-void addOpaqueAttribute(Properties *props, Bool opaque) { mock(props, opaque); }
+void addOpaqueAttribute(Properties *props, bool opaque) { mock(props, opaque); }
 void generateCommonPropertiesData(Properties *props) { mock(props); }
 void generateInstancePropertiesData(Properties *props) { mock(props); }
 void generatePropertiesEntry(InstanceEntry *entry, Properties *props) { mock(entry, props); }

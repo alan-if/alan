@@ -110,7 +110,7 @@ static int val(char str[])
   cnt %% Container *%1%%,
   cnts %% List *%1%%,
   definite %% Article *%1%%,
-  definiteIsForm %% Bool %1%%,
+  definiteIsForm %% bool %1%%,
   definiteSrcp %% Srcp %1%%,
   description %% Description *%1%%,
   descriptionCheckSrcp %% Srcp %1%%,
@@ -128,7 +128,7 @@ static int val(char str[])
   exps %% List *%1%%,
   ext %% Exit *%1%%,
   exts %% List *%1%%,
-  first %% Bool %1%%,
+  first %% bool %1%%,
   form %% List *%1%%,
   id %% Id *%1%%,
   idList %% List *%1%%,
@@ -136,22 +136,22 @@ static int val(char str[])
   indefinite %% Article *%1%%,
   ins %% Instance *%1%%,                -- Instance
   inss %% List *%1%%,                   -- of Instances
-  isForm %% Bool %1%%,
+  isForm %% bool %1%%,
   lim %% LimNod *%1%%,
   lims %% List *%1%%,
   mentioned %% List *%1%%,              -- of Statement: mentioned-clause,
   mentionedSrcp %% Srcp %1%%,
-  isMeta %% Bool %1%%,
-  minus %% Bool %1%%,
+  isMeta %% bool %1%%,
+  minus %% bool %1%%,
   msg %% Message *%1%%,
   msgs %% List *%1%%,
   nam %% List *%1%%,                    -- of NamNod: name-clause
   nams %% List *%1%%,                   -- of NamNods: name-clause list (list of lists)
   negative %% Article *%1%%,
-  on_or_off %% Bool %1%%,
+  on_or_off %% bool %1%%,
   op %% OperatorKind %1%%,
-  opaque %% Bool %1%%,
-  present %% Bool %1%%,                 -- an optional marker was present
+  opaque %% bool %1%%,
+  present %% bool %1%%,                 -- an optional marker was present
   prompt %% List *%1%%,
   pronouns %% List *%1%%,
   pronounsSrcp %% Srcp %1%%,
@@ -184,7 +184,7 @@ static int val(char str[])
   vrbs %% List *%1%%,
   whr %% Where *%1%%,
   wht %% What *%1%%,
-  wordOrChar %% Bool %1%%;
+  wordOrChar %% bool %1%%;
 
 %%TERMINALS
 
