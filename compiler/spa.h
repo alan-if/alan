@@ -105,7 +105,6 @@ typedef struct _SPA_ITEM {  /* PRIVATE structure for items */
 /* ---------------------------------------------------------------------- */
 #define SPA_DECLARE(N) _SPA_ITEM N[] = {
 
-/*                                                            name  help  postFun  type          b     bp          i          ip                  s         sp          f     fp         F  FP           hFun */
 #define SPA_FLAG(n,h,variable,data,p)             {.name=n, .help=h, .postFun=p, .type=_SPA_Flag, .b=data, .bp=&(variable) },
 #define SPA_INTEGER(n,h,variable,data,p)          {.name=n, .help=h, .postFun=p, .type=_SPA_Integer, .i=data, .ip=&(variable) },
 #define SPA_STRING(n,h,variable,data,p)           {.name=n, .help=h, .postFun=p, .type=_SPA_String, .s=data, .sp=&(variable) },
