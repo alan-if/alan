@@ -70,8 +70,8 @@ static char *charsets[] = {"iso", "utf8", NULL};
 
 
 static SPA_DECLARE(arguments)
-     SPA_STRING("adventure", "file name, default extension '.alan'", srcptr, NULL, NULL)
-     SPA_FUNCTION("", "extra argument", extraArg)
+    SPA_STRING("adventure", "file name, default extension '.alan'", srcptr, NULL, NULL)
+    SPA_FUNCTION("", "extra argument", extraArg)
 SPA_END
 
 static SPA_DECLARE(options)
@@ -111,7 +111,7 @@ everything\n\
 include pointer addresses\n\
 after parse (will abort after dump)\n\
 after analysis (will abort after dump)\n\
-after code generation", dumpFlags, "ypxsvciker!a123", NULL, NULL)
+after code generation", dumpFlags, "ypxsvciker!a123", 0, NULL)
      SPA_FLAG("xml", "output an XML representation of the game (experimental)", xmlFlag, false, NULL)
 SPA_END
 

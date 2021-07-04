@@ -552,15 +552,15 @@ PRIVATE PROCEDURE(execute, (item, option, on))
             break;
         case _SPA_InFile:
         case _SPA_OutFile:
-        *item->sp = pArgV[pArg];
-        if (*item->sp && **item->sp) {
-            if (*item->FP==file(item->type))
-                *item->FP = fopen(*item->sp, mode(item->type));
-            else
-                *item->FP =
-                    freopen(*item->sp, mode(item->type), *item->FP);
-        } else *item->FP = file(item->type);
-        assertFile(item);
+            *item->sp = pArgV[pArg];
+            if (*item->sp && **item->sp) {
+                if (*item->FP==file(item->type))
+                    *item->FP = fopen(*item->sp, mode(item->type));
+                else
+                    *item->FP =
+                        freopen(*item->sp, mode(item->type), *item->FP);
+            } else *item->FP = file(item->type);
+            assertFile(item);
         break;
         case _SPA_Help:
             safeExecute(item->hFun, item, pArgV[pArg], on);
