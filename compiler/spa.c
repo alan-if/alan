@@ -46,25 +46,17 @@ error "SPA header file version 4.2 required"
 #include <stdlib.h>
 #include <stdarg.h>
 
-typedef int boolean;
-#ifndef FALSE
-#define FALSE 0
-#endif
-#ifndef TRUE
-#define TRUE 1
-#endif
-
 #define PRIVATE static
 #define PUBLIC
 
 #ifndef SPA_IGNORE_CASE
-#define SPA_IGNORE_CASE TRUE    /* Unsensitive to the case of options */
+#define SPA_IGNORE_CASE true    /* Unsensitive to the case of options */
 #endif
 #ifndef SPA_MATCH_PREFIX
-#define SPA_MATCH_PREFIX TRUE   /* Unique prefix is matching options */
+#define SPA_MATCH_PREFIX true   /* Unique prefix is matching options */
 #endif
 #ifndef SPA_PRINT_DEFAULT
-#define SPA_PRINT_DEFAULT TRUE  /* Spa tries to report default in help */
+#define SPA_PRINT_DEFAULT true  /* Spa tries to report default in help */
 #endif
 #ifndef SPA_PRINT_ITEM_SZ
 #define SPA_PRINT_ITEM_SZ 17    /* The item width in help printing */
@@ -187,7 +179,7 @@ PRIVATE struct {                /* Code reduction data structure */
 #define lwr(C) C
 #endif
 
-#define _SPA_EXACT (-TRUE)
+#define _SPA_EXACT (-1)
 
 
 /*----------------------------------------------------------------------
@@ -200,7 +192,7 @@ PRIVATE int FUNCTION(match, (p, s))
     IN(char, *s)       /* SPA_ITEM string */
     IS {
     while (*p) {
-        if (*s==' ' || lwr((int)*s)!=lwr((int)*p)) return FALSE;
+        if (*s==' ' || lwr((int)*s)!=lwr((int)*p)) return false;
         s++; p++;
     }
     return (*s!=' '? SPA_MATCH_PREFIX: _SPA_EXACT);
@@ -224,7 +216,7 @@ PRIVATE int FUNCTION(find, (ai, kws, kwSz, kwO, found))
     *found = -1;
     for (o=kwO, i=0; *(char **)(&kws[o]); i++, o += kwSz) {
         c= match(ai, *(char **)(&kws[o]));
-        if (c!=FALSE) {
+        if (c!=0) {
             if (*found==-1) *found = i;
             if (c==_SPA_EXACT) { hits = 1; break; }
             else hits++;
@@ -269,7 +261,7 @@ PRIVATE PROCEDURE(printItem, (name, help, def, set, kws))
     IN(char *, set) X           /* Points to set string (or is NULL) */
     IN(char **,kws)             /* Points to keyword array (or is NULL) */
     IS {
-    boolean nl = FALSE;
+    bool nl = false;
 
     printf("  %-*s ", SPA_PRINT_ITEM_SZ, name);
     if (strlen(name)>SPA_PRINT_ITEM_SZ)
@@ -278,7 +270,7 @@ PRIVATE PROCEDURE(printItem, (name, help, def, set, kws))
         printf("-- ");
         for (;;) {
             for (;*help; help++) {
-                if (*help=='\n') { help++; nl = TRUE; break; }
+                if (*help=='\n') { help++; nl = true; break; }
                 putchar(*help);
             }
             if (!*help) break;
@@ -367,7 +359,7 @@ PRIVATE PROCEDURE(reportItem, (item, name))
 #if SPA_PRINT_DEFAULT
     switch (item->type) {
     case _SPA_Flag:
-        strcpy(def, item->i? SpaFlagKeyWords[1]: SpaFlagKeyWords[0]);
+        strcpy(def, item->b? SpaFlagKeyWords[1]: SpaFlagKeyWords[0]);
         break;
     case _SPA_Integer:
         sprintf(def, "%d", item->i);
@@ -442,6 +434,8 @@ PRIVATE PROCEDURE(setDefault, (item))
     IS {
     switch (item->type) {
     case _SPA_Flag:
+        *item->bp = item->b;
+        break;
     case _SPA_Integer:
     case _SPA_KeyWord:
     case _SPA_Bits:
@@ -479,8 +473,8 @@ PRIVATE PROCEDURE(setDefault, (item))
 */
 PRIVATE PROCEDURE(execute, (item, option, on))
     IN(_SPA_ITEM, *item) X
-    IN(boolean, option) X       /* True if argv was an option */
-    IN(boolean, on)             /* True if argv was an on-option */
+    IN(bool, option) X       /* True if argv was an option */
+    IN(bool, on)             /* True if argv was an on-option */
     IS {
     if (item) {
 
@@ -504,14 +498,14 @@ PRIVATE PROCEDURE(execute, (item, option, on))
 
         switch (item->type) {
         case _SPA_Flag:
-            if (option) *item->ip = on;
+            if (option) *item->bp = on;
             else {      /* Parse the argument */
-                *item->ip = findKeyWord(pArgV[pArg], SpaFlagKeyWords, item->i)&1 ;
+                *item->bp = findKeyWord(pArgV[pArg], SpaFlagKeyWords, item->b) != 0;
             }
             break;
         case _SPA_Bits: {
             char *arg, *bp;
-            boolean bon = on;
+            bool bon = on;
 
             for (arg= pArgV[pArg]; *arg; arg++) { /* Go thru argument */
                 if (*arg=='-') { bon = !bon; continue; }
@@ -585,7 +579,7 @@ PRIVATE PROCEDURE(execute, (item, option, on))
 /*----------------------------------------------------------------------
   Detect if current argv-item is an option, if so do as specified.
 */
-PRIVATE boolean FUNCTION(option, (options))
+PRIVATE bool FUNCTION(option, (options))
     IN(_SPA_ITEM, options[])        /* Possible options */
     IS {
     int found;
@@ -605,16 +599,16 @@ PRIVATE boolean FUNCTION(option, (options))
                 spaErr(SpaStrURO, argvItem, 'E');
                 break;
             case 1:
-                execute(&options[found], TRUE, start==1);
+                execute(&options[found], true, start==1);
                 break;
             default:
                 spaErr(SpaStrAMO, argvItem, 'E');
                 break;
             }
-            return TRUE;
+            return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 
@@ -809,7 +803,7 @@ PUBLIC int FUNCTION(_spaProcess, (argc, argv, arguments, options, errfun))
         if (!option(pOptions)) {
             n++;
             if (pArguments[a].name) {
-                execute(&pArguments[a], FALSE, TRUE);
+                execute(&pArguments[a], false, true);
                 if (pArguments[a+1].name) a++;
             }
         }

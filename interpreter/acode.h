@@ -14,6 +14,8 @@ typedef uint32_t Aptr;       /* Type for an ACODE pointer used in the structures
    used to store a *real* pointer value, which on 64-bit machines are
    64bits. So for now we'll compile for 32bits to achieve complete
    cross-platform compatibility of game files.
+
+   WTF? Isn't this fixed with the pointer tables in the interpreter?!?!?
  */
 
 typedef uint32_t Aword;      /* Type for an ACODE word */

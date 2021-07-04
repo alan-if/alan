@@ -12,18 +12,18 @@
 #include "lst.h"
 
 char *srcptr;                   /* Pointer to adventure name */
-Bool verboseFlag;               /* Verbose mode */
-Bool warningFlag;               /* Show warnings */
-Bool infoFlag;                  /* Show informational messages */
-Bool fullFlag;                  /* Full source listing */
-Bool listingFlag;               /* Create listing file */
-Bool ccFlag;                    /* Show messages as old 'cc' */
-Bool ideFlag;                   /* Format messages for AlanIDE */
+bool verboseFlag;               /* Verbose mode */
+bool warningFlag;               /* Show warnings */
+bool infoFlag;                  /* Show informational messages */
+bool fullFlag;                  /* Full source listing */
+bool listingFlag;               /* Create listing file */
+bool ideFlag;                   /* Format messages for AlanIDE */
+bool ccFlag;                    /* Show messages as old 'cc' */
 int lcount;                     /* Number of lines per page */
 int ccount;                     /* -"-    columns */
 DmpKind dumpFlags = DUMP_NOTHING; /* Dump internal form flags */
-Bool xmlFlag = 0;               /* XML output option flag */
-Bool debugFlag = 0;             /* Debug option flag, only valid until after parsing */
-Bool packFlag = 0;              /* Pack option flag, d:o */
-Bool summaryFlag;               /* Print a summary flag */
+bool xmlFlag = 0;               /* XML output option flag */
+bool debugFlag = 0;             /* Debug option flag, only valid until after parsing */
+bool packFlag = 0;              /* Pack option flag, d:o */
+bool summaryFlag;               /* Print a summary flag */
 List *importPaths = NULL;      /* List of additional import directories */

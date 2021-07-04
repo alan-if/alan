@@ -13,20 +13,20 @@
 #include "dump.h"
 
 extern char *srcptr;            /* Pointer to adventure name */
-extern Bool verboseFlag;        /* Verbose mode */
-extern Bool warningFlag;        /* Show warnings */
-extern Bool infoFlag;           /* Show informational messages */
-extern Bool fullFlag;           /* Full source listing */
-extern Bool listingFlag;        /* Create listing file */
-extern Bool ccFlag;             /* Show messages as old 'cc' */
-extern Bool ideFlag;            /* Format messages for AlanIDE */
+extern bool verboseFlag;        /* Verbose mode */
+extern bool warningFlag;        /* Show warnings */
+extern bool infoFlag;           /* Show informational messages */
+extern bool fullFlag;           /* Full source listing */
+extern bool listingFlag;        /* Create listing file */
+extern bool ideFlag;            /* Format messages for AlanIDE */
+extern bool ccFlag;             /* Show messages as old 'cc' */
 extern int lcount;              /* Number of lines per page */
 extern int ccount;              /* -"-    columns */
 extern DmpKind dumpFlags;       /* Dump internal form flags */
-extern Bool xmlFlag;            /* Output XML option flag */
-extern Bool debugFlag;          /* Debug option flag */
-extern Bool packFlag;           /* Pack option flag */
-extern Bool summaryFlag;        /* Print a summary */
+extern bool xmlFlag;            /* Output XML option flag */
+extern bool debugFlag;          /* Debug option flag */
+extern bool packFlag;           /* Pack option flag */
+extern bool summaryFlag;        /* Print a summary */
 extern List *importPaths;       /* List of additional include paths */
 
 #endif

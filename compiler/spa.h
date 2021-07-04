@@ -58,7 +58,7 @@
    \* ---------------------------------------------------------------------- */
 
 #include <stdio.h>
-
+#include <stdbool.h>
 
 /* ---------------------------------------------------------------------- */
 /* Use these macros to declare functions callabel from SPA */
@@ -93,29 +93,30 @@ typedef struct _SPA_ITEM {  /* PRIVATE structure for items */
     char *help;         /*  2    Simple help-string */
     SpaFun *postFun;    /*  3    Function called after match */
     _SPA_TYPE type;     /*  4    Item type */
-    int i, *ip;         /*  5    Flag, Bits, Integer, KeyWord(IX) */
-    char *s, **sp;      /*  7    String (** keywords, filename) */
-    float f, *fp;       /*  9    Float */
-    FILE *F, **FP;      /* 11    In/out-file */
-    SpaFun *hFun;       /* 13    Function called before help */
+    bool b, *bp;        /*  5    Flag */
+    int i, *ip;         /*  7    Bits, Integer, KeyWord(IX) */
+    char *s, **sp;      /*  9    String (** keywords, filename) */
+    float f, *fp;       /* 11    Float */
+    FILE *F, **FP;      /* 13    In/out-file */
+    SpaFun *hFun;       /* 15    Function called before help */
 } _SPA_ITEM;
 
 
 /* ---------------------------------------------------------------------- */
 #define SPA_DECLARE(N) _SPA_ITEM N[] = {
 
-/*                                                            name  help  postFun  type          i          ip                  s         sp          f     fp         F  FP           hFun */
-#define SPA_FLAG(name,help,variable,data,postFun)            {name, help, postFun, _SPA_Flag,    (int)data, (int*)&(variable)                                                                },
-#define SPA_INTEGER(name,help,variable,data,postFun)         {name, help, postFun, _SPA_Integer, data,      &(variable)                                                                      },
-#define SPA_STRING(name,help,variable,data,postFun)          {name, help, postFun, _SPA_String,  0,         0,                  data,     &(variable)                                        },
-#define SPA_FLOAT(name,help,variable,data,postFun)           {name, help, postFun, _SPA_Float,   0,         0,                  0,        0,          data, &(variable)                      },
-#define SPA_BITS(name,help,variable,flagChars,data,postFun)  {name, help, postFun, _SPA_Bits,    (int)data, (int *)&(variable), flagChars                                                    },
-#define SPA_KEYWORD(name,help,variable,keyword,data,postFun) {name, help, postFun, _SPA_KeyWord, (int)data, (int *)&(variable), 0,        keyword                                            },
-#define SPA_INFILE(name,help,variable,filename,postFun)      {name, help, postFun, _SPA_InFile,  0,         0,                  filename, NULL,       0.0,  NULL,       0, &(variable)       },
-#define SPA_OUTFILE(name,help,variable,filename,postFun)     {name, help, postFun, _SPA_OutFile, 0,         0,                  filename, NULL,       0.0,  NULL,       0, &(variable)       },
-#define SPA_FUNCTION(name,help,postFun)                      {name, help, postFun, _SPA_Function                                                                                             },
-#define SPA_COMMENT(help)                                    {"",   help, NULL,    _SPA_Comment                                                                                              },
-#define SPA_HELP(name,help,preFun,postFun)                   {name, help, postFun, _SPA_Help,    0,         0,                  0,        0,          0.0,  NULL,       0, 0,          preFun},
+/*                                                            name  help  postFun  type          b     bp          i          ip                  s         sp          f     fp         F  FP           hFun */
+#define SPA_FLAG(n,h,variable,data,p)             {.name=n, .help=h, .postFun=p, .type=_SPA_Flag, .b=data, .bp=&(variable) },
+#define SPA_INTEGER(n,h,variable,data,p)          {.name=n, .help=h, .postFun=p, .type=_SPA_Integer, .i=data, .ip=&(variable) },
+#define SPA_STRING(n,h,variable,data,p)           {.name=n, .help=h, .postFun=p, .type=_SPA_String, .s=data, .sp=&(variable) },
+#define SPA_FLOAT(n,h,variable,data,p)            {.name=n, .help=h, .postFun=p, .type=_SPA_Float, .f=data, .fp=&(variable) },
+#define SPA_INFILE(n,h,variable,filename,p)       {.name=n, .help=h, .postFun=p, .type=_SPA_InFile, .s=filename, .F=NULL, .FP=&(variable) },
+#define SPA_OUTFILE(n,h,variable,filename,p)      {.name=n, .help=h, .postFun=p, .type=_SPA_OutFile, .s=filename, .F=NULL, .FP, &(variable) },
+#define SPA_BITS(n,h,variable,flagChars,data,p)   {.name=n, .help=h, .postFun=p, .type=_SPA_Bits, .i=(int)data, .ip=(int *)&(variable), .s=flagChars },
+#define SPA_KEYWORD(n,h,variable,keywords,data,p) {.name=n, .help=h, .postFun=p, .type=_SPA_KeyWord, .i=(int)data, .ip=(int *)&(variable), .sp=keywords },
+#define SPA_FUNCTION(n,h,p)                       {.name=n, .help=h, .postFun=p, .type=_SPA_Function },
+#define SPA_COMMENT(h)                            {.help=h, .type=_SPA_Comment },
+#define SPA_HELP(n,h,f,p)                         {.name=n, .help=h, .postFun=p, .type=_SPA_Help, .hFun=f },
 
 #define SPA_END {0},{0}};
 
