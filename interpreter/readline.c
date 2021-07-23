@@ -880,6 +880,8 @@ bool readline(char usrbuf[])
     static bool firstInput = true;
     static uchar BOM[3] = {0xEF,0xBB,0xBF};
 
+    printf("firstInput = %s\n", firstInput?"true":"false");
+
     if (readingCommands) {
         fflush(stdout);
         /* TODO: Arbitrarily using 255 for buffer size */
