@@ -931,6 +931,7 @@ bool readline(char usrbuf[])
     if (firstInput) {
         printf("%s\n", buffer);
         firstInput = false;
+        printf("0x%x, 0x%x, 0x%x\n", buffer[0], buffer[1], buffer[2]);
         if (memcmp(buffer, BOM, 3) == 0) {
             printf("Have BOM\n");
             encodingOption = ENCODING_UTF;
