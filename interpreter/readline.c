@@ -929,17 +929,18 @@ bool readline(char usrbuf[])
     }
     stripNewline(buffer);
     if (firstInput) {
-        printf("%s\n", buffer);
+        printf("buffer: '%s'\n", buffer);
         firstInput = false;
-        printf("0x%x, 0x%x, 0x%x\n", buffer[0], buffer[1], buffer[2]);
+        printf("buffer[0-2]: 0x%x, 0x%x, 0x%x\n", buffer[0], buffer[1], buffer[2]);
         if (memcmp(buffer, BOM, 3) == 0) {
             printf("Have BOM\n");
             encodingOption = ENCODING_UTF;
             memmove(buffer, &buffer[3], strlen(buffer)-3+1);
         }
-        printf("%s\n", buffer);
     }
+    printf("buffer: '%s'\n", buffer);
     char *converted = ensureInternalEncoding(buffer);
+    printf("converted: '%s'\n", converted);
     strcpy(usrbuf, converted);
     free(converted);
     return true;
