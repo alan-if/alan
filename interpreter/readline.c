@@ -880,6 +880,7 @@ bool readline(char usrbuf[])
     static bool firstInput = true;
     static uchar BOM[3] = {0xEF,0xBB,0xBF};
 
+    echoOff();
     printf("firstInput = %s\n", firstInput?"true":"false");
 
     if (readingCommands) {
@@ -901,7 +902,6 @@ bool readline(char usrbuf[])
         histp = histidx;
         buffer[0] = '\0';
         commandLineChanged = true;
-        echoOff();
         endOfInput = 0;
         while (!endOfInput) {
             if (read(0, (void *)&ch, 1) != 1) {
@@ -911,7 +911,6 @@ bool readline(char usrbuf[])
             }
             execute(keymap, ch);
         }
-        echoOn();
 
         if (buffer[0] == '@')
             if ((commandFile = fopen(&buffer[1], "r")) != NULL)
@@ -943,6 +942,7 @@ bool readline(char usrbuf[])
     printf("converted: '%s'\n", converted);
     strcpy(usrbuf, converted);
     free(converted);
+    echoOn();
     return true;
 }
 
