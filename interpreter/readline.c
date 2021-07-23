@@ -929,11 +929,14 @@ bool readline(char usrbuf[])
     }
     stripNewline(buffer);
     if (firstInput) {
+        printf("%s\n", buffer);
         firstInput = false;
         if (memcmp(buffer, BOM, 3) == 0) {
+            printf("Have BOM\n");
             encodingOption = ENCODING_UTF;
             memmove(buffer, &buffer[3], strlen(buffer)-3+1);
         }
+        printf("%s\n", buffer);
     }
     char *converted = ensureInternalEncoding(buffer);
     strcpy(usrbuf, converted);
