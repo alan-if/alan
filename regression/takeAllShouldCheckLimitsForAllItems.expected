@@ -1,0 +1,21 @@
+########## takeAllShouldCheckLimitsForAllItems ##########
+
+        No warnings or errors detected.
+
+
+
+Bedroom
+There is a ball, a bottle, a letter and a pie here.
+
+> take all
+(ball) You pick up the ball.
+
+(bottle) You pick up the bottle.
+
+(letter) You pick up the letter. You can't carry more than two items!
+
+(pie) You pick up the pie. You can't carry more than two items!
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

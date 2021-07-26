@@ -1,0 +1,36 @@
+The hero IsA actor
+  Container
+    Limits Count 2
+      then "You can't carry more than two items!"
+End the hero.
+
+
+The Bedroom IsA location
+End the Bedroom.
+
+The ball IsA object at Bedroom.
+End the.
+
+The bottle IsA object at Bedroom.
+End the.
+
+The letter IsA object at Bedroom.
+End the.
+
+The pie IsA object at Bedroom.
+End the.
+
+
+Syntax take = take (obj)*
+  Where obj IsA object
+    else "You can only handle objects."
+
+Add to every object
+  Verb take
+    Does
+      "You pick up $+1."
+      Locate obj in hero.
+  End verb.
+End add to.
+
+Start at Bedroom.
