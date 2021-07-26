@@ -23,7 +23,7 @@ static int countInContainer(int containerIndex)	/* IN - the container to count i
         if (isIn(instanceIndex, containerIndex, DIRECT))
             /* Then it's in this container also */
             j++;
-    return(j);
+    return j;
 }
 
 
@@ -41,7 +41,7 @@ static int sumAttributeInContainer(
                 sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
             sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
         }
-    return(sum);
+    return sum;
 }
 
 
@@ -81,16 +81,16 @@ bool passesContainerLimits(Aint theContainer, Aint theAddedInstance) {
             if (limit->atr == 1-I_COUNT) { /* TODO This is actually some encoding of the attribute number, right? */
                 if (countInContainer(theContainer) >= limit->val) {
                     interpret(limit->stms);
-                    return(false);
+                    return false;
                 }
             } else {
                 if (sumAttributeInContainer(theContainer, limit->atr) + getInstanceAttribute(theAddedInstance, limit->atr) > limit->val) {
                     interpret(limit->stms);
-                    return(false);
+                    return false;
                 }
             }
     }
-    return(true);
+    return true;
 }
 
 
@@ -103,7 +103,7 @@ int containerSize(int container, ATrans trans) {
         if (isIn(i, container, trans))
             count++;
     }
-    return(count);
+    return count;
 }
 
 /*======================================================================*/
