@@ -153,7 +153,7 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
          "Gib den Dateinamen an, um zu speichern"},
         {M_SAVEOVERWRITE, "save_overwrite",
          "That file already exists, overwrite (RETURN confirms) ? ",
-         "Filen fanns redan, skriva \xF6ver (RETURN f\xF6r ja) ? ",
+         "Filen fanns redan, skriva \xF6ver (tryck RETUR f\xF6r ja) ? ",
          "Die Datei existiert bereits, überschreiben (ENTER, best\xE4tigt)? "},
         {M_SAVEFAILED, "save_failed",
          "Sorry, save failed.",
@@ -181,7 +181,7 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
          "Diese gespeicherte Datei geh\xF6rt nicht zu diesem Spiel."},
         {M_REALLY, "really",
          "Are you sure (RETURN confirms) ? ",
-         "\xC4r du s\xE4ker (RETURN f\xF6r ja) ? ",
+         "\xC4r du s\xE4ker (tryck RETUR f\xF6r ja) ? ",
          "Bist Du sicher (ENTER best\xE4tigt) ? "},
         {M_QUITACTION, "quit_action",
          "Do you want to UNDO, RESTART, RESTORE or QUIT ? ",
@@ -256,7 +256,7 @@ Message *newMessage(Srcp *srcp, Id *id, List *stms)
     msg->id = id;
     msg->stms = stms;
 
-    return(msg);
+    return msg;
 }
 
 
@@ -473,5 +473,5 @@ Aaddr gemsgs(void)
     for (lst = adv.msgs; lst; lst = lst->next)
         emit(lst->member.msg->stmadr);
     emit(EOF);
-    return(adr);
+    return adr;
 }
