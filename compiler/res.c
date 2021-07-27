@@ -117,8 +117,7 @@ void symbolizeRestrictions(List *restrictions, Symbol *theVerb) {
     Symbol *parameter;
 
     ITERATE(lst, restrictions) {
-        parameter = lookupParameter(lst->member.res->parameterId,
-                                    theVerb->fields.verb.parameterSymbols);
+        parameter = lookupParameter(lst->member.res->parameterId, theVerb);
         lst->member.res->parameterId->symbol = parameter;
     }
 }
@@ -138,8 +137,7 @@ static void analyzeRestriction(Restriction *res, Symbol *theVerb) {
     analyzeStatements(res->stms, context);
 
     /* Analyze this restriction and set the new class of the parameter */
-    parameter = lookupParameter(res->parameterId,
-                                theVerb->fields.verb.parameterSymbols);
+    parameter = lookupParameter(res->parameterId, theVerb);
     if (parameter == NULL)
         lmlog(&res->parameterId->srcp, 222, sevERR, res->parameterId->string);
     else

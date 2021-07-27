@@ -62,7 +62,7 @@ static void analyzeAlternative(Alternative *alt,
 
     if (alt->id != NULL) {
         /* Alternatives given, find out for which parameter this one is */
-        parameter = lookupParameter(alt->id, context->verb->fields.verb.parameterSymbols);
+        parameter = lookupParameter(alt->id, context->verb);
         if (parameter == NULL)
             lmlogv(&alt->id->srcp, 214, sevERR, alt->id->string, context->verb->string, verbHasParametersOrNoneMessage(context), NULL);
         else {

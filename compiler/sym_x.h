@@ -62,7 +62,7 @@ extern Symbol *symcheck(Id *id, SymbolKind kind, Context *context);
 /* Lookup a symbol */
 extern Symbol *lookup(char idString[]);
 extern Script *lookupScript(Symbol *aSymbol, Id *scriptName);
-extern Symbol *lookupParameter(Id *parameterId, List *parameterSymbols);
+extern Symbol *lookupParameter(Id *parameterId, Symbol *verb);
 extern void instanceCheck(Id *id, char *what, char className[]);
 extern bool isClass(Symbol *symbol);
 extern bool isInstance(Symbol *symbol);

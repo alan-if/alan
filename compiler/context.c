@@ -11,6 +11,7 @@
 #include "sym_x.h"
 #include "srcp_x.h"
 #include "id_x.h"
+#include "lst_x.h"
 
 
 /*----------------------------------------------------------------------*/

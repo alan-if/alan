@@ -436,11 +436,12 @@ static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
 
 
 /*======================================================================*/
-Symbol *lookupParameter(Id *parameterId, List *parameterSymbols)
+Symbol *lookupParameter(Id *parameterId, Symbol *verb)
 {
-    List *p;
+    if (verb->kind != VERB_SYMBOL)
+        SYSERR("Not a verb in lookupParameter()", parameterId->srcp);
 
-    for (p = parameterSymbols; p != NULL; p = p->next) {
+    for (List *p = verb->fields.verb.parameterSymbols; p != NULL; p = p->next) {
         if (p->member.sym->kind == PARAMETER_SYMBOL)
             if (equalId(parameterId, p->member.sym->fields.parameter.element->id))
                 return p->member.sym;
