@@ -45,7 +45,7 @@ Event *newEvent(Srcp *srcp, Id *id, List *stms)
 
     new->id->symbol = newSymbol(id, EVENT_SYMBOL);
 
-    return(new);
+    return new;
 }
 
 
@@ -53,10 +53,9 @@ Event *newEvent(Srcp *srcp, Id *id, List *stms)
 /*======================================================================*/
 void analyzeEvents(void)
 {
-    List *evts;		/* Traversal pointer */
     Context *context = newEventContext();
 
-    for (evts = adv.evts; evts != NULL; evts = evts->next) {
+    for (List *evts = adv.evts; evts != NULL; evts = evts->next) {
         progressCounter();
         context->event = evts->member.evt;
         analyzeStatements(evts->member.evt->stms, context);
@@ -83,38 +82,30 @@ static void generateEventData(Event *evt)	/* IN - The event to generate */
 
 /*======================================================================*/
 static Aaddr generateEventTable(void) {
-    List *lst;
     Aaddr adr;
     EventEntry entry;
 
     adr = nextEmitAddress();		/* Save address of event table */
-    for (lst = adv.evts; lst != NULL; lst = lst->next) {
+    for (List *lst = adv.evts; lst != NULL; lst = lst->next) {
         entry.id = lst->member.evt->nameAddress;
         entry.code = lst->member.evt->stmadr;
         emitEntry(&entry, sizeof(entry));
     }
     emit(EOF);
-    return(adr);
+    return adr;
 }
 
 
 /*======================================================================*/
 Aaddr generateEvents(ACodeHeader *header)
 {
-    List *lst;	/* Traversal pointer */
-    Aaddr adr;
-
     /* First all the events */
-    for (lst = adv.evts; lst != NULL; lst = lst->next)
+    for (List *lst = adv.evts; lst != NULL; lst = lst->next)
         generateEventData(lst->member.evt);
 
-    adr = generateEventTable();
-
     header->eventMax = eventCount;
-
-    return(adr);
+    return generateEventTable();
 }
-
 
 
 /*======================================================================*/

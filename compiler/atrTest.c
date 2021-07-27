@@ -298,10 +298,9 @@ static void numberAttributes231(List *l)
 
 static bool attributesAreSorted(List *list)
 {
-  List *l;
   int previousCode = 0;
 
-  for (l = list; l; l = l->next) {
+  for (List *l = list; l; l = l->next) {
     if (l->member.atr->id->code <= previousCode)
       return false;
     previousCode = l->member.atr->id->code;

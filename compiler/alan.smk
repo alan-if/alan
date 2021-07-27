@@ -150,10 +150,9 @@ bool smScanEnter(Srcp srcp,     /* IN - The source position of the import statem
                  bool search	/* IN - Search the import paths? */
 ){
     smScContext this;
-    List *p;
     char *prefix = "";
 
-    for (p = fileNames; p != NULL; p = p->next) {
+    for (List *p = fileNames; p != NULL; p = p->next) {
         if (strcmp(fnm, p->member.str) == 0) {
             lmlog(&srcp, 197, sevWAR, fnm);
             return false;
@@ -252,15 +251,13 @@ int scannedLines(void)
 
   IDENTIFIER = '\'' ([^\'\n]!'\'''\'')* ('\'' ! '\n')		-- quoted id
     %%{
-    char *c;
-
     /* If terminated by \n illegal! */
     if (smThis->smText[smThis->smLength-1] == '\n')
       lmlog(&smToken->srcp, 152, sevERR, "");
 
     smToken->chars[smScCopy(smThis, (unsigned char *)smToken->chars, 1, COPYMAX-1)] = '\0';
     /* Replace any doubled quotes by single */
-    for (c = strchr(smToken->chars, '\''); c; c = strchr(c, '\'')) {
+    for (char *c = strchr(smToken->chars, '\''); c; c = strchr(c, '\'')) {
         strmov(c, &c[1]);
         c++;
     }
@@ -271,25 +268,26 @@ int scannedLines(void)
     %%
         int len = 0;		/* The total length of the copied data */
         bool space = false;
-        int i, c;
 
         smToken->fpos = ftell(txtfil); /* Remember where it starts */
         smThis->smText[smThis->smLength-1] = '\0';
 
-        for (i = 1; i < smThis->smLength-1; i++) {
+        for (int i = 1; i < smThis->smLength-1; i++) {
+            int c = smThis->smText[i];
+
             /* Write the character */
-            if (isspace(c = smThis->smText[i])) {
+            if (isspace(c)) {
                 if (!space) {		/* Are we looking at spaces? */
+                    space = true;
                     /* No, so output a space and remember */
                     putc(' ', txtfil);
                     incFreq(' ');
-                    space = true;
                     len++;
                 }
             } else {
+                space = false;
                 putc(c, txtfil);
                 incFreq(c);
-                space = false;
                 len++;
                 if (c == '"') i++;	/* skip second '"' */
             }

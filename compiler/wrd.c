@@ -81,9 +81,7 @@ static void insertWord(Word *new) {
 /*----------------------------------------------------------------------*/
 static bool findReference(Instance *ref, List *referenceList)
 {
-    List *l;
-
-    for (l = referenceList; l != NULL; l = l->next)
+    for (List *l = referenceList; l != NULL; l = l->next)
         if (l->member.ins == ref)
             return true;
     return false;
@@ -293,11 +291,9 @@ void analyzeAllWords(void)
 
 /*----------------------------------------------------------------------*/
 static void generateWordReference(Word *wrd) {
-    List *lst;
-
     if (wrd->classbits&NOUN_BIT) {
         wrd->nounRefAddress = nextEmitAddress();
-        for (lst = wrd->ref[NOUN_WORD]; lst != NULL; lst = lst->next)
+        for (List *lst = wrd->ref[NOUN_WORD]; lst != NULL; lst = lst->next)
             generateId(lst->member.ins->props->id, 0);
         emit(EOF);
     } else
@@ -305,7 +301,7 @@ static void generateWordReference(Word *wrd) {
 
     if (wrd->classbits&ADJECTIVE_BIT) {
         wrd->adjectiveRefAddress = nextEmitAddress();
-        for (lst = wrd->ref[ADJECTIVE_WORD]; lst != NULL; lst = lst->next)
+        for (List *lst = wrd->ref[ADJECTIVE_WORD]; lst != NULL; lst = lst->next)
             generateId(lst->member.ins->props->id, 0);
         emit(EOF);
     } else
@@ -313,7 +309,7 @@ static void generateWordReference(Word *wrd) {
 
     if (wrd->classbits&PRONOUN_BIT) {
         wrd->pronounRefAddress = nextEmitAddress();
-        for (lst = wrd->ref[PRONOUN_WORD]; lst != NULL; lst = lst->next)
+        for (List *lst = wrd->ref[PRONOUN_WORD]; lst != NULL; lst = lst->next)
             generateId(lst->member.ins->props->id, 0);
         emit(EOF);
     } else

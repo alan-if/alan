@@ -134,18 +134,19 @@ static int test_severity(char *err, lmSev sevs)
 char *fileName(int fileNo) {
     static List nofile;
     List *fnm;
-    int j;
 
     nofile.member.str = "<no file>";
 
     /* Advance to the correct file name */
     if (fileNo == -1)
         fnm = &nofile;
-    else
-        for (fnm = fileNames, j = 0; j<fileNo; j++)
+    else {
+        fnm = fileNames;
+        for (int j = 0; j<fileNo; j++)
             if (fnm != NULL) {
                 fnm = fnm->next;
             }
+    }
     if (fnm == NULL)
         fnm = &nofile;
     return fnm->member.str;
@@ -155,22 +156,23 @@ char *fileName(int fileNo) {
 /*----------------------------------------------------------------------*/
 static void specialListing(lmSev sevs)
 {
-    int i,j;
     char err[1024], line[2000];
     Srcp srcp;
     List *fnm;
     List nofile;
 
     nofile.member.str = "<no file>";
-    for (i = 1; lmMsg(i, &srcp, err); i++) {
+    for (int i = 1; lmMsg(i, &srcp, err); i++) {
         if (test_severity(err, sevs)) {
             /* Advance to the correct file name */
             if (srcp.file == -1)
                 fnm = &nofile;
-            else
-                for (fnm = fileNames, j = 0; j < srcp.file; j++)
+            else {
+                fnm = fileNames;
+                for (int j = 0; j < srcp.file; j++)
                     if (fnm != NULL)
                         fnm = fnm->next;
+            }
             if (fnm == NULL)
                 fnm = &nofile;
             if (ccFlag)

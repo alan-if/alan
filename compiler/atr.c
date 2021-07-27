@@ -249,9 +249,8 @@ static Attribute *copyAttribute(Attribute *theOriginal)
 static List *copyAttributeList(List *theOriginal)
 {
     List *theCopy = NULL;
-    List *traversal;
 
-    for (traversal = theOriginal; traversal != NULL; traversal = traversal->next)
+    for (List *traversal = theOriginal; traversal != NULL; traversal = traversal->next)
         theCopy = concat(theCopy, copyAttribute(traversal->member.atr),
                          ATTRIBUTE_LIST);
     return theCopy;
@@ -683,9 +682,8 @@ static void generateAttribute(Attribute *attribute, int instanceCode)
 
 /*======================================================================*/
 static void generateAttributeNames(List *atrs) {
-    List *lst;
     if (opts[OPTDEBUG].value) {
-        for (lst = atrs; lst != NULL; lst = lst->next) {
+        for (List *lst = atrs; lst != NULL; lst = lst->next) {
             lst->member.atr->stringAddress = nextEmitAddress();
             emitString(lst->member.atr->id->string);
         }
@@ -695,8 +693,7 @@ static void generateAttributeNames(List *atrs) {
 
 /*======================================================================*/
 static void generateAttributeEntries(List *atrs, int instanceCode) {
-    List *lst;
-    for (lst = atrs; lst != NULL; lst = lst->next) {
+    for (List *lst = atrs; lst != NULL; lst = lst->next) {
         if (instanceCode == 0) printf("instance == 0\n");
         generateAttribute(lst->member.atr, instanceCode);
         attributeAreaSize += AwordSizeOf(AttributeEntry);
@@ -727,12 +724,10 @@ Aword generateAttributes(List *atrs, int instanceCode) /* IN - List of attribute
 Aaddr generateStringInit(void)
 {
     /* Generate initialisation value table for string attributes. */
-
-    List *atrs;
     StringInitEntry entry;
     Aaddr adr = nextEmitAddress();
 
-    for (atrs = adv.stringAttributes; atrs != NULL; atrs = atrs->next) {
+    for (List *atrs = adv.stringAttributes; atrs != NULL; atrs = atrs->next) {
         entry.fpos = atrs->member.atr->fpos;
         entry.len = atrs->member.atr->len;
         entry.instanceCode = atrs->member.atr->instanceCode;

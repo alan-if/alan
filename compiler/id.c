@@ -55,7 +55,7 @@ Id *newId(Srcp srcp,	/* IN - Source Position */
     new->string  = newString(str);
     new->symbol = NULL;
 
-    return(new);
+    return new;
 }
 
 
@@ -92,9 +92,8 @@ void symbolizeId(Id *id)
 
 /*======================================================================*/
 Id *findIdInList(Id *theId, List *theList) {
-    List *here;
 
-    for (here = theList; here != NULL; here = here->next)
+    for (List *here = theList; here != NULL; here = here->next)
         if (equalId(here->member.id, theId))
             return here->member.id;
     return NULL;

@@ -1,11 +1,11 @@
-/*----------------------------------------------------------------------*\
+/*----------------------------------------------------------------------
 
-                   article.c
-               Article Handling
+  article.c
+  Article Handling
 
-\*----------------------------------------------------------------------*/
+  ----------------------------------------------------------------------*/
 
-/* Own */
+/* Own exports */
 #include "article_x.h"
 
 /* Imports: */
@@ -24,66 +24,68 @@
 
 /*======================================================================*/
 Article *newArticle(Srcp srcp, List *statements, bool isForm) {
-  Article *new = NEW(Article);
+    Article *new = NEW(Article);
 
-  new->srcp = srcp;
-  new->statements = statements;
-  new->isForm = isForm;
+    new->srcp = srcp;
+    new->statements = statements;
+    new->isForm = isForm;
 
-  return new;
+    return new;
 }
 
 
 /*======================================================================*/
 void analyzeArticle(Article *article, Context *context) {
-  if (article != NULL)
-    analyzeStatements(article->statements, context);
+    if (article != NULL)
+        analyzeStatements(article->statements, context);
 }
 
 
 /*======================================================================*/
 void generateArticle(Article *article) {
 
-  if (article != NULL) {
-    article->address = nextEmitAddress();
-    generateStatements(article->statements);
-    emit0(I_RETURN);
-  }
+    if (article != NULL) {
+        article->address = nextEmitAddress();
+        generateStatements(article->statements);
+        emit0(I_RETURN);
+    }
 }
 
 
 /*======================================================================*/
 void generateArticleEntry(Article *article, ArticleEntry *entry) {
-  if (article) {
-    entry->address = article->address;
-    entry->isForm = article->isForm;
-  } else
-    entry->address = 0;
+    if (article) {
+        entry->address = article->address;
+        entry->isForm = article->isForm;
+    } else {
+        entry->address = 0;
+        entry->isForm = false;
+    }
 }
 
 
 /*----------------------------------------------------------------------*/
 static void dumpFormKind(FormKind kind) {
-  switch (kind) {
-  case FORM: put("FORM"); break;
-  case ARTICLE: put("ARTICLE"); break;
-  }
+    switch (kind) {
+    case FORM: put("FORM"); break;
+    case ARTICLE: put("ARTICLE"); break;
+    }
 }
 
 
 /*======================================================================*/
 void dumpArticle(Article *article) {
 
-  if (article == NULL) {
-    put("NULL");
-    return;
-  }
+    if (article == NULL) {
+        put("NULL");
+        return;
+    }
 
-  put("ARTICLE: ");
-  indent();
-  put("srcp: "); dumpSrcp(article->srcp); nl();
-  put("kind: "); dumpFormKind(article->kind); nl();
-  put("isForm: "); dumpBool(article->isForm); nl();
-  put("statements: "); dumpList(article->statements, STATEMENT_LIST);
-  out();
+    put("ARTICLE: ");
+    indent();
+    put("srcp: "); dumpSrcp(article->srcp); nl();
+    put("kind: "); dumpFormKind(article->kind); nl();
+    put("isForm: "); dumpBool(article->isForm); nl();
+    put("statements: "); dumpList(article->statements, STATEMENT_LIST);
+    out();
 }

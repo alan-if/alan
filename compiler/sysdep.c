@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------*\
+/*----------------------------------------------------------------------
   sysdep.c
 
   This file contains necessary system dependent routines.
@@ -14,13 +14,13 @@
   it does currently. TODO!
 
   - Current - the compiler (currently) has options for different
-  charsets, if that is used all input files are considered to be in
-  that encoding, which might be different from the native encoding.
-  It (will) also auto-detect an UTF BOM and enforce UTF-8 for that
-  single file, which again might be different from native or the one
-  given using the -charset option.
+  encodings, if used, all input files are considered to be in that
+  encoding, which might be different from the native encoding.  It
+  (will) also auto-detect an UTF BOM and enforce UTF-8 for that single
+  file, which again might be different from native or the one given
+  using the -charset option.
 
-  \*----------------------------------------------------------------------*/
+  ----------------------------------------------------------------------*/
 
 #include "sysdep.h"
 
@@ -99,7 +99,7 @@ static int isUpperCase(unsigned int c)          /* IN - ISO character to test */
 
 static char toLowerCase(int c)         /* IN - ISO character to convert */
 {
-    return (isUpperCase(c)? c + ('a' - 'A'): c);
+    return isUpperCase(c)? c + ('a' - 'A'): c;
 }
 
 
@@ -121,17 +121,16 @@ int compareStrings(char *str1, char *str2)
 /*======================================================================*/
 int littleEndian() {
     int x = 1;
-    return (*(char *)&x == 1);
+    return *(char *)&x == 1;
 }
 
 
 /*======================================================================*/
 char *baseNameStart(char *fullPathName) {
     static char *delimiters = "\\>]/:";
-    int i;
 
-    for (i = strlen(fullPathName)-1; i > 0; i--)
+    for (int i = strlen(fullPathName)-1; i > 0; i--)
         if (strchr(delimiters, fullPathName[i]) != NULL)
             return &fullPathName[i+1];
-    return(fullPathName);
+    return fullPathName;
 }

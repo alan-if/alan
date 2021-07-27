@@ -459,9 +459,7 @@ static void addAddition(AddNode *add)
 /*======================================================================*/
 void addAdditions(void)
 {
-    List *l;
-
-    for (l = adv.adds; l != NULL; l = l->next)
+    for (List *l = adv.adds; l != NULL; l = l->next)
         addAddition(l->member.add);
 }
 

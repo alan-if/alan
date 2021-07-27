@@ -24,6 +24,7 @@ extern void (*xmlNodeTable[])(void *, FILE *);
 
 // TODO Define iterator functions?
 
+// TODO: Add "List *"
 #define ITERATE(loopVariable,initExpression) \
     for (loopVariable = initExpression; loopVariable != NULL; loopVariable = loopVariable->next)
 

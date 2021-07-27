@@ -53,12 +53,11 @@ Aword reversed(Aword w)		/* IN - The ACODE word to swap bytes in */
 {
     Aword s;			/* The swapped ACODE word */
     char *wp, *sp;
-    int i;
 
     wp = (char *) &w;
     sp = (char *) &s;
 
-    for (i = 0; i < sizeof(Aword); i++)
+    for (int i = 0; i < sizeof(Aword); i++)
         sp[sizeof(Aword)-1 - i] = wp[i];
 
     return (s);
@@ -83,7 +82,6 @@ void emit(Aword c)		/* IN - Constant to emit */
 /*======================================================================*/
 void emitEntry(void *entry, int noOfBytes)
 {
-    int i;
     Aword *words = entry;
 
     /* Should never start an entry with an EOF word since the reversal process
@@ -92,7 +90,7 @@ void emitEntry(void *entry, int noOfBytes)
 
     if (noOfBytes%sizeof(Aword) != 0) SYSERR("Emitting unaligned data", nulsrcp);
 
-    for (i = 0; i < noOfBytes/sizeof(Aword); i++)
+    for (int i = 0; i < noOfBytes/sizeof(Aword); i++)
         if (littleEndian())
             buffer(reversed(words[i]));
         else
@@ -103,10 +101,9 @@ void emitEntry(void *entry, int noOfBytes)
 /*======================================================================*/
 void emitN(void *address, int noOfWords) /* IN - Constant to emit */
 {
-    int i;
     Aword *words = address;
 
-    for (i = 0; i < noOfWords; i++)
+    for (int i = 0; i < noOfWords; i++)
         if (littleEndian())
             buffer(reversed(words[i]));
         else
@@ -214,10 +211,7 @@ void initEmitBuffer(Aword *bufferToUse) {
 /*======================================================================*/
 void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
 {
-    int i;
-
     initEmitBuffer(eBuffer);
-
 
     acdfil = fopen(acdfnm, WRITE_MODE);
     if (!acdfil) {
@@ -227,7 +221,7 @@ void initEmit(char *acdfnm)	/* IN - File name for ACODE instructions */
     }
 
     /* Make space for ACODE header */
-    for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++)
+    for (int i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++)
         emit(0L);
 }
 
@@ -290,8 +284,7 @@ void finalizeEmit()
        crc, we just don't want to write them to the code file, not
        that it matters I think... */
     Aword *headerAsArray = (Aword *)&acodeHeader;
-    int i;
-    for (i = ASIZE(Pre3_0beta3Header); i < ASIZE(ACodeHeader); i++)
+    for (int i = ASIZE(Pre3_0beta3Header); i < ASIZE(ACodeHeader); i++)
         emit(headerAsArray[i]);
 #endif
 
@@ -315,15 +308,13 @@ void copyTextDataToAcodeFile(char dataFileName[])
 void writeHeader(ACodeHeader *acodeHeader)
 {
     Aword *hp;			/* Pointer to header as words */
-    int i;
-
 
     prepareHeader(acodeHeader);
 
     pc = 0;
 
     hp = (Aword *) acodeHeader;		/* Point to header */
-    for (i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++) /* Emit header */
+    for (int i = 0; i < (sizeof(ACodeHeader)/sizeof(Aword)); i++) /* Emit header */
         emit(*hp++);
     (void) rewind(acdfil);
     fwrite(emitBuffer, sizeof(ACodeHeader), 1, acdfil); /* Flush header out */

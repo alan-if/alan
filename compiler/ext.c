@@ -38,7 +38,6 @@ Exit *newExit(Srcp *srcp, List *dirs, Id *target, List *chks, List *stms)
 {
     Exit *new;			/* The newly created node */
     Symbol *sym;
-    List *lst;			/* Traversal pointer */
 
     progressCounter();
 
@@ -50,7 +49,7 @@ Exit *newExit(Srcp *srcp, List *dirs, Id *target, List *chks, List *stms)
     new->chks = chks;
     new->stms = stms;
 
-    for (lst = dirs; lst != NULL; lst = lst->next) {
+    for (List *lst = dirs; lst != NULL; lst = lst->next) {
         sym = lookup(lst->member.id->string); /* Find any earlier definition */
         if (sym == NULL) {
             lst->member.id->symbol = newSymbol(lst->member.id, DIRECTION_SYMBOL);
@@ -82,9 +81,7 @@ static void symbolizeExit(Exit *theExit)
 /*======================================================================*/
 void symbolizeExits(List *theExitList)
 {
-    List *lst;
-
-    for (lst = theExitList; lst != NULL; lst = lst->next)
+    for (List *lst = theExitList; lst != NULL; lst = lst->next)
         symbolizeExit(lst->member.ext);
 }
 
@@ -103,11 +100,8 @@ void analyzeExit(Exit *ext, Context *context)
 /*======================================================================*/
 bool exitIdFound(Id *targetId, List *exits)
 {
-    List *theExit;
-    List *theIdInList;
-
-    for (theExit = exits; theExit != NULL; theExit = theExit->next) {
-        for (theIdInList = theExit->member.ext->directions; theIdInList != NULL; theIdInList = theIdInList->next)
+    for (List *theExit = exits; theExit != NULL; theExit = theExit->next) {
+        for (List *theIdInList = theExit->member.ext->directions; theIdInList != NULL; theIdInList = theIdInList->next)
             if (findIdInList(targetId, theIdInList) != NULL)
                 return true;
     }
@@ -118,16 +112,14 @@ bool exitIdFound(Id *targetId, List *exits)
 /*======================================================================*/
 void analyzeExits(List *exts, Context *context)
 {
-    List *ext, *dir, *lst, *other;
-
-    for (lst = exts; lst != NULL; lst = lst->next)
+    for (List *lst = exts; lst != NULL; lst = lst->next)
         analyzeExit(lst->member.ext, context);
 
     /* Check for multiple definitions of a direction */
-    for (ext = exts; ext != NULL; ext = ext->next) {
-        dir = ext->member.ext->directions;
+    for (List *ext = exts; ext != NULL; ext = ext->next) {
+        List *dir = ext->member.ext->directions;
         /* First check other directions in this EXIT */
-        for (other = dir->next; other != NULL; other = other->next) {
+        for (List *other = dir->next; other != NULL; other = other->next) {
             if (other->member.id->symbol != NULL && dir->member.id->symbol != NULL)
                 if (other->member.id->symbol->code == dir->member.id->symbol->code) {
                     lmlog(&other->member.id->srcp, 202, sevWAR,
@@ -136,8 +128,8 @@ void analyzeExits(List *exts, Context *context)
                 }
         }
         /* Then the directions in the other EXITs */
-        for (lst = ext->next; lst != NULL; lst = lst->next) {
-            for (other = lst->member.ext->directions; other != NULL; other = other->next)
+        for (List *lst = ext->next; lst != NULL; lst = lst->next) {
+            for (List *other = lst->member.ext->directions; other != NULL; other = other->next)
                 if (other->member.id->symbol && dir->member.id->symbol)
                     /* Not error symbols... */
                     if (other->member.id->symbol->code == dir->member.id->symbol->code) {
@@ -228,10 +220,9 @@ static Aaddr generateExitStatements(Exit *ext)
 */
 static void generateExitEntry(Exit *ext) /* IN - The exit to generate */
 {
-    List *dir;
     ExitEntry entry;
 
-    for (dir = ext->directions; dir != NULL; dir = dir->next) {
+    for (List *dir = ext->directions; dir != NULL; dir = dir->next) {
         entry.code = dir->member.id->symbol->code;
         entry.checks = ext->chks? ext->chkadr : 0;
         entry.action = ext->stms? ext->stmadr : 0;
@@ -245,21 +236,20 @@ static void generateExitEntry(Exit *ext) /* IN - The exit to generate */
 /*======================================================================*/
 Aaddr generateExits(List *exits)
 {
-    List *lst;                  /* Traversal pointer */
     Aaddr extadr;               /* The adress where the exits start */
 
     if (exits == NULL)
         return(0);
 
-    for (lst = exits; lst != NULL; lst = lst->next) {
-        lst->member.ext->chkadr = generateChecks(lst->member.ext->chks);
-        lst->member.ext->stmadr = generateExitStatements(lst->member.ext);
+    for (List *l = exits; l != NULL; l = l->next) {
+        l->member.ext->chkadr = generateChecks(l->member.ext->chks);
+        l->member.ext->stmadr = generateExitStatements(l->member.ext);
         emit0(I_RETURN);
     }
 
     extadr = nextEmitAddress();
-    for (lst = exits; lst != NULL; lst = lst->next)
-        generateExitEntry(lst->member.ext);
+    for (List *l = exits; l != NULL; l = l->next)
+        generateExitEntry(l->member.ext);
     emit(EOF);
     return(extadr);
 }

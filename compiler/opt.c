@@ -71,36 +71,33 @@ static char **enumtbl[NOPT] = {
   */
 static int optcode(char *id)
 {
-  int opt;
-
-  for (opt = 0; opt <= NOPT-1; opt++)
+  for (int opt = 0; opt <= NOPT-1; opt++)
     if (compareStrings(opts[opt].name, id) == 0)
-      return(opt);
+      return opt;
 
-  return(EOF);
+  return EOF;
 }
 
 
 /*----------------------------------------------------------------------
 
-  enumcode()
+  enum2code()
 
   Convert an option enum name to a code.
 
   */
-static int enumcode(int opt, char *id)
+static int enum2code(int opt, char *id)
 {
   char **names;
-  int i;
 
   if ((names = enumtbl[opt]) == NULL)
-    return(EOF);
+    return EOF;
 
-  for (i = 0; names[i] != NULL; i++)
+  for (int i = 0; names[i] != NULL; i++)
     if (compareStrings(names[i], id) == 0)
-      return(i);
+      return i;
 
-  return(EOF);
+  return EOF;
 }
 
 
@@ -159,7 +156,7 @@ void optenum(char *id, Srcp *srcp, char *val)
   }
 
   if (opts[opt].type != ENUMOPT
-      || (code = enumcode(opt, val)) == EOF) {
+      || (code = enum2code(opt, val)) == EOF) {
     lmlog(srcp, 602, sevWAR, id);
     return;
     }

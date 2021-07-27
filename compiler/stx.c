@@ -254,12 +254,12 @@ static void analyzeSyntax(Syntax *stx)
 
 /*----------------------------------------------------------------------*/
 static void connectSyntaxesForSameVerb(List *syntaxes) {
-    List *lst, *other;
+    List *lst;
     bool error;
 
     ITERATE(lst, syntaxes) {
         error = false;
-        for (other = lst->next; other != NULL; other = other->next) {
+        for (List *other = lst->next; other != NULL; other = other->next) {
             if (equalId(other->member.stx->id, lst->member.stx->id)) {
                 lst->member.stx->nextSyntaxForSameVerb = other->member.stx;
                 other->member.stx->firstSyntax = false;
@@ -289,13 +289,11 @@ static void connectSyntaxesForSameVerb(List *syntaxes) {
 /*======================================================================*/
 void analyzeSyntaxes(void)
 {
-  List *lst;
-
-  /* Check and connect definitions for multiple syntax for a verb */
-  connectSyntaxesForSameVerb(adv.stxs);
-  /* Now do the analysis */
-  for (lst = adv.stxs; lst != NULL; lst = lst->next)
-    analyzeSyntax(lst->member.stx);
+    /* Check and connect definitions for multiple syntax for a verb */
+    connectSyntaxesForSameVerb(adv.stxs);
+    /* Now do the analysis */
+    for (List *lst = adv.stxs; lst != NULL; lst = lst->next)
+        analyzeSyntax(lst->member.stx);
 }
 
 
@@ -441,10 +439,9 @@ static void generateRestrictionTable(void) {
     /* Generate all syntax parameter restriction checks */
     ITERATE(lst, adv.stxs) {
         Syntax *stx = lst->member.stx;
-        Syntax *nextSyntax;
         if (stx->firstSyntax) {
             stx->restrictionsAddress = generateRestrictions(stx->restrictions, stx);
-            for (nextSyntax = stx->nextSyntaxForSameVerb; nextSyntax;
+            for (Syntax *nextSyntax = stx->nextSyntaxForSameVerb; nextSyntax;
                  nextSyntax = nextSyntax->nextSyntaxForSameVerb)
                 nextSyntax->restrictionsAddress = stx->restrictionsAddress;
         }

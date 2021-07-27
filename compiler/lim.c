@@ -1,9 +1,9 @@
-/*----------------------------------------------------------------------*\
+/*----------------------------------------------------------------------
 
-                LIM.C
-                 Limit Nodes
+  LIM.C
+  Limit Nodes
 
-\*----------------------------------------------------------------------*/
+  ----------------------------------------------------------------------*/
 
 #include "alan.h"
 #include "util.h"
@@ -32,31 +32,28 @@
 #include "acode.h"
 
 
-
-
-
 /*======================================================================
 
   newlim()
 
   Allocates and initialises a limnod.
 
-  */
+*/
 LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
-           Attribute *atr,	/* IN - The attribute */
-           List *stms)	/* IN - Statments */
+               Attribute *atr,	/* IN - The attribute */
+               List *stms)	/* IN - Statments */
 {
-  LimNod *new;			/* The newly allocated area */
+    LimNod *new;			/* The newly allocated area */
 
-  progressCounter();
+    progressCounter();
 
-  new = NEW(LimNod);
+    new = NEW(LimNod);
 
-  new->srcp = *srcp;
-  new->atr = atr;
-  new->stms = stms;
+    new->srcp = *srcp;
+    new->atr = atr;
+    new->stms = stms;
 
-  return(new);
+    return new;
 }
 
 
@@ -64,32 +61,32 @@ LimNod *newlim(Srcp *srcp,	/* IN - Source Position */
 /*======================================================================*/
 void analyzeLimit(LimNod *lim, Symbol *classSymbol, Context *context)
 {
-  /* Analyze one limit. The attributes that defines the limits must be
-     attributes for all instances the container accepts because we
-     must be able to check them at run-time.  The predefined attribute
-     COUNT is also allowed.
-  */
+    /* Analyze one limit. The attributes that defines the limits must be
+       attributes for all instances the container accepts because we
+       must be able to check them at run-time.  The predefined attribute
+       COUNT is also allowed.
+    */
 
-  Attribute *attribute, *foundAttribute;
+    Attribute *attribute, *foundAttribute;
 
-  progressCounter();
+    progressCounter();
 
-  /* Analyze the attribute */
-  attribute = lim->atr;
-  if (compareStrings(attribute->id->string, "count") == 0)
-    attribute->id->code = 1-I_COUNT;	/* Use instruction code for COUNT meta attribute */
-  else if (classSymbol != NULL) {
-    foundAttribute = findAttribute(classSymbol->fields.entity.props->attributes, attribute->id);
-    if (foundAttribute == NULL)
-      lmlog(&attribute->srcp, 407, sevERR, classSymbol->string);
-    else if (attribute->type != INTEGER_TYPE)
-      unimpl(attribute->srcp, "Analyzer");
-    else
-      attribute->id->code = foundAttribute->id->code;
-  }
+    /* Analyze the attribute */
+    attribute = lim->atr;
+    if (compareStrings(attribute->id->string, "count") == 0)
+        attribute->id->code = 1-I_COUNT;	/* Use instruction code for COUNT meta attribute */
+    else if (classSymbol != NULL) {
+        foundAttribute = findAttribute(classSymbol->fields.entity.props->attributes, attribute->id);
+        if (foundAttribute == NULL)
+            lmlog(&attribute->srcp, 407, sevERR, classSymbol->string);
+        else if (attribute->type != INTEGER_TYPE)
+            unimpl(attribute->srcp, "Analyzer");
+        else
+            attribute->id->code = foundAttribute->id->code;
+    }
 
-  /* Analyze statments */
-  analyzeStatements(lim->stms, context);
+    /* Analyze statments */
+    analyzeStatements(lim->stms, context);
 }
 
 
@@ -97,12 +94,12 @@ void analyzeLimit(LimNod *lim, Symbol *classSymbol, Context *context)
 /*----------------------------------------------------------------------*/
 static void generateLimit(LimNod *lim)
 {
-  progressCounter();
+    progressCounter();
 
-  /* Generate statements */
-  lim->stmadr = nextEmitAddress();	/* Save ACODE address to statements */
-  generateStatements(lim->stms);
-  emit0(I_RETURN);
+    /* Generate statements */
+    lim->stmadr = nextEmitAddress();	/* Save ACODE address to statements */
+    generateStatements(lim->stms);
+    emit0(I_RETURN);
 }
 
 
@@ -110,30 +107,29 @@ static void generateLimit(LimNod *lim)
 /*----------------------------------------------------------------------*/
 static void generateLimitEntry(LimNod *lim)
 {
-  emit(lim->atr->id->code);
-  emit(lim->atr->value);
-  emit(lim->stmadr);
+    emit(lim->atr->id->code);
+    emit(lim->atr->value);
+    emit(lim->stmadr);
 }
 
 
 /*======================================================================*/
 Aword generateLimits(ContainerBody *info)
 {
-  List *lst;		/* List of limits */
-  Aword limadr;
+    Aword limadr;
 
-  if (info->limits == NULL)
-    return(0);
+    if (info->limits == NULL)
+        return 0;
 
-  /* First code for all limits */
-  for (lst = info->limits; lst != NULL; lst = lst->next)
-    generateLimit(lst->member.lim);
+    /* First code for all limits */
+    for (List *l = info->limits; l != NULL; l = l->next)
+        generateLimit(l->member.lim);
 
-  limadr = nextEmitAddress();		/* Save ACODE address to limit table */
-  for (lst = info->limits; lst != NULL; lst = lst->next)
-    generateLimitEntry(lst->member.lim);
-  emit(EOF);
-  return(limadr);
+    limadr = nextEmitAddress();		/* Save ACODE address to limit table */
+    for (List *l = info->limits; l != NULL; l = l->next)
+        generateLimitEntry(l->member.lim);
+    emit(EOF);
+    return limadr;
 }
 
 
@@ -141,7 +137,7 @@ Aword generateLimits(ContainerBody *info)
 /*======================================================================*/
 void dumpLimit(LimNod *lim)
 {
-  put("LIM: "); dumpSrcp(lim->srcp); indent();
-  put("atr: "); dumpAttribute(lim->atr); nl();
-  put("stms: "); dumpList(lim->stms, STATEMENT_LIST); out();
+    put("LIM: "); dumpSrcp(lim->srcp); indent();
+    put("atr: "); dumpAttribute(lim->atr); nl();
+    put("stms: "); dumpList(lim->stms, STATEMENT_LIST); out();
 }

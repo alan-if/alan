@@ -137,7 +137,7 @@ Instance *newInstance(Srcp *srcp,
 
     allInstances = concat(allInstances, new, INSTANCE_LIST);
 
-    return(new);
+    return new;
 }
 
 
@@ -152,9 +152,7 @@ static void symbolizeInstance(Instance *ins)
 /*======================================================================*/
 void symbolizeInstances(void)
 {
-    List *l;
-
-    for (l = allInstances; l; l = l->next)
+    for (List *l = allInstances; l; l = l->next)
         symbolizeInstance(l->member.ins);
 }
 
@@ -172,13 +170,13 @@ void analyzeAllInstanceAttributes() {
 /*----------------------------------------------------------------------*/
 static void analyzeNameWords(Instance *instance)
 {
-    List *nameList, *list;
-
     /* Note names as words in the dictionary */
     if (instance->props->names == NULL) /* No name, use identifier as a noun */
         newNounWord(instance->props->id->string, instance->props->id->code, instance);
     else {
-        for (nameList = instance->props->names; nameList != NULL; nameList = nameList->next) {
+        for (List *nameList = instance->props->names; nameList != NULL; nameList = nameList->next) {
+            List *list;
+            /* For all but the last... */
             for (list = nameList->member.lst; list->next != NULL; list = list->next)
                 newAdjectiveWord(list->member.id->string, instance);
             newNounWord(list->member.id->string, list->member.id->code, instance);
@@ -212,9 +210,7 @@ static void analyzeInstance(Instance *instance)
 /*======================================================================*/
 void analyzeInstances(void)
 {
-    List *l;
-
-    for (l = allInstances; l; l = l->next)
+    for (List *l = allInstances; l; l = l->next)
         analyzeInstance(l->member.ins);
 }
 
@@ -240,9 +236,8 @@ static void generateInstanceEntry(Instance *ins)
 static Aaddr generateInstanceTable(List *instances)
 {
     Aaddr address = nextEmitAddress();
-    List *l;
 
-    for (l = instances; l; l = l->next)
+    for (List *l = instances; l; l = l->next)
         generateInstanceEntry(l->member.ins);
     emit(EOF);
     return address;
@@ -260,9 +255,7 @@ void generateInstanceId(Instance *ins)
 /*----------------------------------------------------------------------*/
 void generateInstanceIdTable(List *instances)
 {
-    List *l;
-
-    for (l = instances; l; l = l->next) {
+    for (List *l = instances; l; l = l->next) {
         emit(l->member.ins->props->id->stringAddress);
     }
     emit(EOF);
@@ -272,15 +265,13 @@ void generateInstanceIdTable(List *instances)
 /*======================================================================*/
 void generateInstances(ACodeHeader *header)
 {
-    List *l;
-
     if (opts[OPTDEBUG].value == true) {
         /* Generate all programmer ids for all instances */
-        for (l = allInstances; l; l = l->next)
+        for (List *l = allInstances; l; l = l->next)
             generateInstanceId(l->member.ins);
     }
 
-    for (l = allInstances; l; l = l->next)
+    for (List *l = allInstances; l; l = l->next)
         generateInstanceData(l->member.ins);
 
     header->instanceTableAddress = generateInstanceTable(allInstances);

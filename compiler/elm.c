@@ -51,7 +51,7 @@ static Element *newElement(Srcp *srcp,
     new->res = NULL;
     new->stx = NULL;
 
-    return(new);
+    return new;
 }
 
 
@@ -108,14 +108,12 @@ static void analyzeElement(Element *elm)
 
 /*----------------------------------------------------------------------*/
 static void checkForDuplicatedParameterNames(List *parameters) {
-    List *elements, *list;
-
-    for (list = parameters; list != NULL; list = list->next) {
-        Element *outerElement = list->member.elm;
-        for (elements = list->next; elements != NULL; elements = elements->next) {
-            Element *innerElement = elements->member.elm;
-            if (equalId(outerElement->id, innerElement->id))
-                lmlog(&innerElement->id->srcp, 216, sevERR, innerElement->id->string);
+    for (List *head = parameters; head != NULL; head = head->next) {
+        Element *e1 = head->member.elm;
+        for (List *tail = head->next; tail != NULL; tail = tail->next) {
+            Element *e2 = tail->member.elm;
+            if (equalId(e1->id, e2->id))
+                lmlog(&e2->id->srcp, 216, sevERR, e2->id->string);
         }
     }
 }
@@ -125,8 +123,7 @@ static void checkForDuplicatedParameterNames(List *parameters) {
 List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
 {
     Element *firstElement = elements->member.elm; /* Set to be the first (yes, there is always at least one!) */
-    List *list, *parameters = NULL;
-    List *restrictionList;
+    List *parameters = NULL;
     int parameterCount = 1;
     bool multiple = false;
 
@@ -136,7 +133,7 @@ List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
     }
 
     /* Analyze the elements, number parameters and find the restriction */
-    for (list = elements; list != NULL; list = list->next) {
+    for (List *list = elements; list != NULL; list = list->next) {
         Element *element = list->member.elm;
         if (element->kind == PARAMETER_ELEMENT) {
             element->id->code = parameterCount++;
@@ -149,7 +146,7 @@ List *analyzeElements(List *elements, List *restrictions, Syntax *syntax)
             parameters = concat(parameters, element, ELEMENT_LIST);
 
             /* Find first class restrictions */
-            for (restrictionList = restrictions; restrictionList; restrictionList = restrictionList->next) {
+            for (List *restrictionList = restrictions; restrictionList; restrictionList = restrictionList->next) {
                 if (equalId(restrictionList->member.res->parameterId, element->id)) {
                     element->res = restrictionList->member.res;
                     restrictionList->member.res->parameterId->code = element->id->code;
@@ -190,10 +187,9 @@ static bool equalElements(List *element1, List *element2)
   to their next elm, which it returns.  */
 static List *advance(List *elmsList) /* IN - The list to advance */
 {
-    List *list;
     List *copy = copyList(elmsList);
 
-    for (list = copy; list != NULL; list = list->next) {
+    for (List *list = copy; list != NULL; list = list->next) {
         list->member.lst = list->member.lst->next;
     }
     return copy;
@@ -220,7 +216,7 @@ static List *partitionElements(List **elmsListP) /* INOUT - Address to pointer t
       list.
     */
 
-    List *part, *rest, *elms, *this, *p;
+    List *part, *rest, *elms, *this;
 
     if (*elmsListP == NULL)
         return NULL;
@@ -237,6 +233,9 @@ static List *partitionElements(List **elmsListP) /* INOUT - Address to pointer t
             if (rest == this)
                 rest = elms;
             else {
+                List *p;
+                /* TODO: lst-function to advance to list node before a particular one */
+                /* p = listNodeBefore(this); */
                 for (p = rest; p->next != this; p = p->next)
                     ;
                 p->next = elms;
@@ -257,7 +256,7 @@ static ElementEntry *newEntryForPartition(List **entries) {
     entry = NEW(ElementEntry);
     entry->flags = 0;
     *entries = concat(*entries, entry, ELEMENT_ENTRIES_LIST);
-    return(entry);
+    return entry;
 }
 
 
@@ -269,10 +268,9 @@ static Aaddr restrictionTableAddress(List *partition) {
 
 /*----------------------------------------------------------------------*/
 static void entryForEOS(ElementEntry *entry, List *partition) {
-    List *lst;
     if (partition->next != NULL) { /* More than one element in this partition? */
         /* That means that two syntax's are the same */
-        for (lst = partition; lst != NULL; lst = lst->next)
+        for (List *lst = partition; lst != NULL; lst = lst->next)
             lmlog(&lst->member.lst->member.elm->stx->srcp, 334, sevWAR, "");
     }
     entry->code = EOS;        /* End Of Syntax */
@@ -309,13 +307,12 @@ static void entryForWord(ElementEntry *entry, Syntax *stx, List *partition) {
 
 /*----------------------------------------------------------------------*/
 static Aaddr generateEntries(List *entries, ElementEntry *entry) {
-    List *lst;
     Aaddr elmadr;
     elmadr = nextEmitAddress();
-    for (lst = entries; lst; lst = lst->next)
-        emitEntry(lst->member.eent, sizeof(*entry));
+    for (List *l = entries; l; l = l->next)
+        emitEntry(l->member.eent, sizeof(*entry));
     emit(EOF);
-    return(elmadr);
+    return elmadr;
 }
 
 
@@ -346,7 +343,6 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
 
     */
     List *elms = elementLists;
-    List *partition;            /* The current partion */
     Aaddr elmadr;
     List *entries = NULL;       /* List of next level entries */
     ElementEntry *entry = NULL; /* One entry in the list */
@@ -357,7 +353,7 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
     progressCounter();
 
     level++;
-    for (partition = partitionElements(&elms); partition != NULL; partition = partitionElements(&elms)) {
+    for (List *partition = partitionElements(&elms); partition != NULL; partition = partitionElements(&elms)) {
         /* Make one entry for this partition */
         entry = newEntryForPartition(&entries);
 
@@ -381,7 +377,7 @@ Aaddr generateElements(List *elementLists, Syntax *stx)
     elmadr = generateEntries(entries, entry);
 
     level--;
-    return(elmadr);
+    return elmadr;
 }
 
 

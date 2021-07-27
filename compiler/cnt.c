@@ -68,7 +68,7 @@ ContainerBody *newContainerBody(Srcp srcp,
     new->extractChecks = extractChecks;
     new->extractStatements = extractStatements;
 
-    return(new);
+    return new;
 }
 
 
@@ -94,7 +94,7 @@ Container *newContainer(ContainerBody *body)
 
     adv.cnts = concat(adv.cnts, new, CONTAINER_LIST);
 
-    return(new);
+    return new;
 }
 
 
@@ -170,9 +170,9 @@ void verifyContainerForInitialLocation(What *wht, Context *context, char *constr
 /*======================================================================*/
 void analyzeContainer(Container *theContainer, Context *context)
 {
-    List *lims;			/* List of limits */
 
-    if (theContainer == NULL) return;
+    if (theContainer == NULL)
+        return;
 
     progressCounter();
 
@@ -189,8 +189,8 @@ void analyzeContainer(Container *theContainer, Context *context)
             lmlogv(&id->srcp, 402, sevERR, "A Location", NULL);
 
         /* Analyze the limits */
-        for (lims = theContainer->body->limits; lims != NULL; lims = lims->next)
-            analyzeLimit(lims->member.lim, id->symbol, context);
+        for (List *l = theContainer->body->limits; l != NULL; l = l->next)
+            analyzeLimit(l->member.lim, id->symbol, context);
 
         /* Analyze header and empty statments */
         analyzeStatements(theContainer->body->hstms, context);
@@ -208,14 +208,12 @@ void analyzeContainer(Container *theContainer, Context *context)
 /*======================================================================*/
 void numberContainers(void)
 {
-    List *lst;			/* The list of containers */
-
     /* We must number the containers in the order that they have in the
        adv-list since that is the order the container bodies will be
        generated into the ContainerEntry table */
-    for (lst = adv.cnts; lst != NULL; lst = lst->next)
-        if (lst->member.cnt->ownerProperties != NULL)
-            lst->member.cnt->code = ++containerCount;
+    for (List *l = adv.cnts; l != NULL; l = l->next)
+        if (l->member.cnt->ownerProperties != NULL)
+            l->member.cnt->code = ++containerCount;
 }
 
 
@@ -277,28 +275,27 @@ static void generateContainerEntry(Container *cnt)
 /*======================================================================*/
 Aaddr generateContainers(ACodeHeader *header)
 {
-    List *lst;			/* The list of containers */
     Aaddr adr;
 
     if (adv.cnts == NULL)		/* Any containers at all? */
         adr = nextEmitAddress();
     else {
         /* Limits, header and empty statements for the container */
-        for (lst = adv.cnts; lst != NULL; lst = lst->next)
-            if (lst->member.cnt->ownerProperties != NULL)
-                generateContainerBody(lst->member.cnt->body);
+        for (List *l = adv.cnts; l != NULL; l = l->next)
+            if (l->member.cnt->ownerProperties != NULL)
+                generateContainerBody(l->member.cnt->body);
 
         adr = nextEmitAddress();	/* Save ACODE address to container list */
         /* Container list */
-        for (lst = adv.cnts; lst != NULL; lst = lst->next)
-            if (lst->member.cnt->ownerProperties != NULL)
-                generateContainerEntry(lst->member.cnt);
+        for (List *l = adv.cnts; l != NULL; l = l->next)
+            if (l->member.cnt->ownerProperties != NULL)
+                generateContainerEntry(l->member.cnt);
     }
     emit(EOF);
 
     header->containerMax = containerCount;
 
-    return(adr);
+    return adr;
 }
 
 

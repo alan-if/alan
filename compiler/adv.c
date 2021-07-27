@@ -197,14 +197,12 @@ void analyzeAdventure(void)
 
 /*----------------------------------------------------------------------*/
 static Aaddr generateSourceFileTable() {
-    int count = 0;
     Aaddr adr = nextEmitAddress();
 
     if (opts[OPTDEBUG].value)
-        for (count = 0; count < length(fileNames); count++) {
-            long fpos, len;
-            fpos = sourceFileEntries[count].fpos;
-            len = sourceFileEntries[count].len;
+        for (int count = 0; count < length(fileNames); count++) {
+            long fpos = sourceFileEntries[count].fpos;
+            long len = sourceFileEntries[count].len;
             encode(&fpos, &len);
             sourceFileEntries[count].fpos = (Aint)fpos;
             sourceFileEntries[count].len = (Aint)len;

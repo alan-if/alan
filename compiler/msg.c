@@ -235,9 +235,7 @@ static struct {int messageCode; char *id; char *english; char *swedish; char *ge
 */
 void generateText(char *txt)		/* IN - The text to output */
 {
-    int i;
-
-    for (i = 0; txt[i]; i++)
+    for (int i = 0; txt[i]; i++)
         incFreq(txt[i]);
     fprintf(txtfil, "%s", txt);
 }
@@ -425,10 +423,8 @@ Context *contextFor(MsgKind messageNo) {
 /*======================================================================*/
 void analyzeMessages(void)
 {
-    List *lst;
-
     /* Nothing to do except to analyze the statements */
-    for (lst = adv.msgs; lst; lst = lst->next) {
+    for (List *lst = adv.msgs; lst; lst = lst->next) {
         Message *msg = lst->member.msg;
         progressCounter();
         analyzeStatements(msg->stms, contextFor(msg->msgno));
@@ -461,16 +457,15 @@ static void gemsgent(Message *msg)
 Aaddr gemsgs(void)
 {
     Aaddr adr;
-    List *lst;
 
     /* First generate the statements for each message */
-    for (lst = adv.msgs; lst; lst = lst->next) {
+    for (List *lst = adv.msgs; lst; lst = lst->next) {
         progressCounter();
         gemsgent(lst->member.msg);
     }
 
     adr = nextEmitAddress();		/* Save address to messages table */
-    for (lst = adv.msgs; lst; lst = lst->next)
+    for (List *lst = adv.msgs; lst; lst = lst->next)
         emit(lst->member.msg->stmadr);
     emit(EOF);
     return adr;

@@ -170,7 +170,6 @@ static void doneEncoding(void)
 */
 void initEncoding(char *textFileName, char *dataFileName)
 {
-    int i;
     bool ok = false;		/* Model is ok? */
 
     /* Open the temporary text and data files (file of encoded or plain text) */
@@ -183,7 +182,7 @@ void initEncoding(char *textFileName, char *dataFileName)
     }
 
     /* Make sure there is at least one character of each in frequency table */
-    for (i = 0; i <= EOFChar; i++)
+    for (int i = 0; i <= EOFChar; i++)
         if (chFreq[i] == 0)
             chFreq[i] = 1;
 
@@ -191,12 +190,12 @@ void initEncoding(char *textFileName, char *dataFileName)
     while (!ok) {
         /* Set up cumulative frequency counts */
         cumFreq[NOOFSYMBOLS] = 0;
-        for (i = NOOFSYMBOLS; i; i--)
+        for (int i = NOOFSYMBOLS; i; i--)
             cumFreq[i-1] = cumFreq[i] + chFreq[i-1];
         if (cumFreq[0] > MAXFREQ) {
             /* Change the character frequencies by dividing them by 2 */
             /* Remember to keep the 1's */
-            for (i = NOOFSYMBOLS-1; i>1; i--)
+            for (int i = NOOFSYMBOLS-1; i>1; i--)
                 if (chFreq[i] > 1)
                     chFreq[i] >>= 1;
         } else
@@ -219,7 +218,6 @@ void initEncoding(char *textFileName, char *dataFileName)
 void encode(long int *fpos,	/* INOUT - The file position */
         long int *length)	/* INOUT - Data length */
 {
-    int len;
     int ch;
 
     fseek(txtfil, *fpos, 0);
@@ -229,7 +227,7 @@ void encode(long int *fpos,	/* INOUT - The file position */
         /* Use arithmetic packing model */
         startOutputingBits();
         startEncoding();
-        for (len = *length; len; len--) {
+        for (int len = *length; len; len--) {
             ch = getc(txtfil);
             encodeChar(ch);
         }
@@ -238,7 +236,7 @@ void encode(long int *fpos,	/* INOUT - The file position */
         doneOutputingBits();
     } else {
         /* use straight text */
-        for (len = *length; len; len--)
+        for (int len = *length; len; len--)
             putc(getc(txtfil), datfil);
         txtlen += *length;
     }
@@ -255,18 +253,17 @@ void encode(long int *fpos,	/* INOUT - The file position */
 */
 Aaddr gefreq(void)
 {
-    int i;
     Aaddr adr = nextEmitAddress();
 
     if (!opts[OPTPACK].value)
         return 0;
     else {
-        for (i = 0; i < NOOFSYMBOLS+1; i++) {
+        for (int i = 0; i < NOOFSYMBOLS+1; i++) {
             progressCounter();
             emit(cumFreq[i]);
         }
         emit(EOF);
-        return(adr);
+        return adr;
     }
 }
 

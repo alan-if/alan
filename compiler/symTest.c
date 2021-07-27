@@ -4,7 +4,7 @@
 
   A unit test module for SYM nodes in the Alan compiler
 
-\*======================================================================*/
+  \*======================================================================*/
 
 #include "sym.c"
 
@@ -55,27 +55,27 @@ static void initUnitTestSymbols() {
 
 Ensure(Symbol, testSymCheck)
 {
-  Srcp srcp = {14, 12, 333};
-  Id *unknownId = newId(srcp, "unknownId");
-  Id *aClassId = newId(srcp, "aClassId");
-  Symbol *aClassSymbol = newSymbol(aClassId, CLASS_SYMBOL);
-  Id *anInstanceId = newId(srcp, "anInstanceId");
-  Symbol *anInstanceSymbol = newSymbol(anInstanceId, INSTANCE_SYMBOL);
-  Symbol *foundSymbol;
+    Srcp srcp = {14, 12, 333};
+    Id *unknownId = newId(srcp, "unknownId");
+    Id *aClassId = newId(srcp, "aClassId");
+    Symbol *aClassSymbol = newSymbol(aClassId, CLASS_SYMBOL);
+    Id *anInstanceId = newId(srcp, "anInstanceId");
+    Symbol *anInstanceSymbol = newSymbol(anInstanceId, INSTANCE_SYMBOL);
+    Symbol *foundSymbol;
 
 
-  foundSymbol = symcheck(unknownId, CLASS_SYMBOL, NULL);
-  assert_true(foundSymbol == NULL);
-  assert_true(readEcode() == 310 && readSev() == sevERR);
+    foundSymbol = symcheck(unknownId, CLASS_SYMBOL, NULL);
+    assert_true(foundSymbol == NULL);
+    assert_true(readEcode() == 310 && readSev() == sevERR);
 
-  foundSymbol = symcheck(aClassId, CLASS_SYMBOL, NULL);
-  assert_true(foundSymbol == aClassSymbol);
+    foundSymbol = symcheck(aClassId, CLASS_SYMBOL, NULL);
+    assert_true(foundSymbol == aClassSymbol);
 
-  foundSymbol = symcheck(aClassId, INSTANCE_SYMBOL, NULL);
-  assert_true(readEcode() == 319 && readSev() == sevERR);
+    foundSymbol = symcheck(aClassId, INSTANCE_SYMBOL, NULL);
+    assert_true(readEcode() == 319 && readSev() == sevERR);
 
-  foundSymbol = symcheck(anInstanceId, INSTANCE_SYMBOL, NULL);
-  assert_true(foundSymbol == anInstanceSymbol);
+    foundSymbol = symcheck(anInstanceId, INSTANCE_SYMBOL, NULL);
+    assert_true(foundSymbol == anInstanceSymbol);
 }
 
 
@@ -87,44 +87,44 @@ static List *createOneParameter(char *id)
 static List *createThreeParameters(char *id1, char *id2, char *id3)
 {
     return concat(
-                  concat(
-                         newList(newParameterElement(nulsrcp,
-                                                     newId(nulsrcp, id1), 0),
-                                 ELEMENT_LIST),
-                         newParameterElement(nulsrcp,
-                                             newId(nulsrcp, id2), 0),
-                         ELEMENT_LIST),
-                  newParameterElement(nulsrcp,
-                                      newId(nulsrcp, id3), 0),
-                  ELEMENT_LIST);
+        concat(
+            newList(newParameterElement(nulsrcp,
+                                        newId(nulsrcp, id1), 0),
+                    ELEMENT_LIST),
+            newParameterElement(nulsrcp,
+                                newId(nulsrcp, id2), 0),
+            ELEMENT_LIST),
+        newParameterElement(nulsrcp,
+                            newId(nulsrcp, id3), 0),
+        ELEMENT_LIST);
 }
 
 Ensure(Symbol, testVerbSymbols) {
-  Id *v1Id = newId(nulsrcp, "v1");
-  Symbol *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
-  Symbol *foundSymbol;
-  List *parameters, *l, *p;
-  Context context;
+    Id *v1Id = newId(nulsrcp, "v1");
+    Symbol *v1Symbol = newSymbol(v1Id, VERB_SYMBOL);
+    Symbol *foundSymbol;
+    List *parameters, *l, *p;
+    Context context;
 
-  foundSymbol = lookup("v1");
-  assert_true(foundSymbol == v1Symbol);
+    foundSymbol = lookup("v1");
+    assert_true(foundSymbol == v1Symbol);
 
-  parameters = createOneParameter("p1");
-  setParameters(v1Symbol, parameters);
-  assert_that(v1Symbol->fields.verb.parameterSymbols, is_non_null);
-  for (l = v1Symbol->fields.verb.parameterSymbols,
-     p = parameters;
-       l && p;
-       l = l->next, p = p->next)
-    assert_true(l->member.sym->fields.parameter.element == p->member.elm);
+    parameters = createOneParameter("p1");
+    setParameters(v1Symbol, parameters);
+    assert_that(v1Symbol->fields.verb.parameterSymbols, is_non_null);
+    for (l = v1Symbol->fields.verb.parameterSymbols,
+             p = parameters;
+         l && p;
+         l = l->next, p = p->next)
+        assert_true(l->member.sym->fields.parameter.element == p->member.elm);
 
-  foundSymbol = lookupInParameterList("p1", v1Symbol->fields.verb.parameterSymbols);
-  assert_true(foundSymbol == v1Symbol->fields.verb.parameterSymbols->member.sym);
+    foundSymbol = lookupInParameterList("p1", v1Symbol->fields.verb.parameterSymbols);
+    assert_true(foundSymbol == v1Symbol->fields.verb.parameterSymbols->member.sym);
 
-  context.kind = VERB_CONTEXT;
-  context.verb = v1Symbol;
-  foundSymbol = lookupInContext("p1", &context);
-  assert_true(foundSymbol == v1Symbol->fields.verb.parameterSymbols->member.sym);
+    context.kind = VERB_CONTEXT;
+    context.verb = v1Symbol;
+    foundSymbol = lookupInContext("p1", &context);
+    assert_true(foundSymbol == v1Symbol->fields.verb.parameterSymbols->member.sym);
 
 
 }

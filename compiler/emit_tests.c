@@ -71,14 +71,13 @@ static void generateTextDataFile(char textDataFileName[], char textData[])
 Ensure(Emit, testEmitTextDataToAcodeFile) {
   char textDataFileName[] = "emitTestData";
   char textData[] = "asfasjfalsfhwerouwr87340183482jlasfls";
-  int i;
 
   generateTextDataFile(textDataFileName, textData);
   acdfil = fopen("emitTestAcode", WRITE_MODE);
   copyTextDataToAcodeFile(textDataFileName);
   fclose(acdfil);
   acdfil = fopen("emitTestAcode", READ_MODE);
-  for (i = 0; i < strlen(textData); i ++)
+  for (int i = 0; i < strlen(textData); i ++)
     if (fgetc(acdfil) != textData[i]) {
       assert_true(false);
     }

@@ -82,9 +82,7 @@ static void analyzeRule(RulNod *rul)
   */
 void analyzeRules(void)
 {
-  List *rul;		/* Traversal pointer */
-
-  for (rul = adv.ruls; rul != NULL; rul = rul->next)
+  for (List *rul = adv.ruls; rul != NULL; rul = rul->next)
     analyzeRule(rul->member.rul);
 }
 
@@ -94,10 +92,9 @@ void analyzeRules(void)
 /*======================================================================*/
 Aaddr generateRules(void)
 {
-  List *lst;
   Aaddr adr;
 
-  for (lst = adv.ruls; lst != NULL; lst = lst->next) {
+  for (List *lst = adv.ruls; lst != NULL; lst = lst->next) {
     progressCounter();
     lst->member.rul->expadr = nextEmitAddress();
     generateExpression(lst->member.rul->exp);
@@ -108,7 +105,7 @@ Aaddr generateRules(void)
   }
 
   adr = nextEmitAddress();
-  for (lst = adv.ruls; lst != NULL; lst = lst->next) {
+  for (List *lst = adv.ruls; lst != NULL; lst = lst->next) {
       RuleEntry entry;
       entry.alreadyRun = false;
       entry.exp = lst->member.rul->expadr;

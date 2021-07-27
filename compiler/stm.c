@@ -38,8 +38,6 @@
 
 
 
-
-
 /*======================================================================*/
 Statement *newStatement(Srcp *srcp, StmKind class)
 {
@@ -52,7 +50,7 @@ Statement *newStatement(Srcp *srcp, StmKind class)
     new->srcp = *srcp;
     new->kind = class;
 
-    return(new);
+    return new;
 }
 
 /*======================================================================*/
@@ -60,9 +58,8 @@ Statement *newDescribeStatement(Srcp srcp, Expression *what)
 {
     Statement *new = newStatement(&srcp, DESCRIBE_STATEMENT);
     new->fields.describe.what = what;
-    return(new);
+    return new;
 }
-
 
 
 /*======================================================================*/
@@ -71,9 +68,8 @@ Statement *newUseStatement(Srcp srcp, Id *script, Expression *actor)
     Statement *new = newStatement(&srcp, USE_STATEMENT);
     new->fields.use.script = script;
     new->fields.use.actorExp = actor;
-    return(new);
+    return new;
 }
-
 
 
 /*======================================================================*/
@@ -82,7 +78,7 @@ Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where)
     Statement *new = newStatement(&srcp, LOCATE_STATEMENT);
     new->fields.locate.what = what;
     new->fields.locate.where = where;
-    return(new);
+    return new;
 }
 
 
@@ -92,7 +88,7 @@ Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where)
     Statement *new = newStatement(&srcp, EMPTY_STATEMENT);
     new->fields.empty.what = what;
     new->fields.empty.where = where;
-    return(new);
+    return new;
 }
 
 
@@ -102,7 +98,7 @@ Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set)
     Statement *new = newStatement(&srcp, INCLUDE_STATEMENT);
     new->fields.include.what = what;
     new->fields.include.set = set;
-    return(new);
+    return new;
 }
 
 
@@ -112,9 +108,8 @@ Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set)
     Statement *new = newStatement(&srcp, EXCLUDE_STATEMENT);
     new->fields.include.what = what;
     new->fields.include.set = set;
-    return(new);
+    return new;
 }
-
 
 
 /*======================================================================*/
@@ -124,7 +119,7 @@ Statement *newEachStatement(Srcp srcp, Id *loopId, List *filters, List *statemen
     new->fields.each.loopId = loopId;
     new->fields.each.filters = filters;
     new->fields.each.stms = statements;
-    return(new);
+    return new;
 }
 
 
@@ -147,7 +142,7 @@ Statement *newStyleStatement(Srcp srcp, Id *style)
         lmlog(&style->srcp, 550, sevWAR, "'normal', 'emphasized', 'preformatted', 'alert' or 'quote'");
 
     new->fields.style.style = style->code;
-    return(new);
+    return new;
 }
 
 
@@ -158,7 +153,7 @@ Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expre
     new->fields.schedule.what = what;
     new->fields.schedule.whr = where;
     new->fields.schedule.when = when;
-    return(new);
+    return new;
 }
 
 /*======================================================================*/
@@ -166,7 +161,7 @@ Statement *newCancelStatement(Srcp srcp, Expression *what)
 {
     Statement *new = newStatement(&srcp, CANCEL_STATEMENT);
     new->fields.cancel.what = what;
-    return(new);
+    return new;
 }
 
 /*======================================================================*/
@@ -174,7 +169,7 @@ Statement *newShowStatement(Srcp srcp, Resource *resource)
 {
     Statement *new = newStatement(&srcp, SHOW_STATEMENT);
     new->fields.show.resource = resource;
-    return(new);
+    return new;
 }
 
 /*======================================================================*/
@@ -182,7 +177,7 @@ Statement *newPlayStatement(Srcp srcp, Resource *resource)
 {
     Statement *new = newStatement(&srcp, PLAY_STATEMENT);
     new->fields.show.resource = resource;
-    return(new);
+    return new;
 }
 
 /*======================================================================*/
@@ -190,7 +185,7 @@ Statement *newListStatement(Srcp srcp, Expression *what)
 {
     Statement *new = newStatement(&srcp, LIST_STATEMENT);
     new->fields.list.wht = what;
-    return(new);
+    return new;
 }
 
 /*----------------------------------------------------------------------*/
@@ -207,7 +202,7 @@ Statement *newPrintStatement(Srcp srcp, int fpos, int length) {
     stm = newStatement(&nulsrcp, PRINT_STATEMENT);
     stm->fields.print.fpos = fpos;
     stm->fields.print.len = length;
-    return(stm);
+    return stm;
 }
 
 
@@ -231,7 +226,6 @@ List *newPrintStatementListFromString(char *string) {
 /*----------------------------------------------------------------------*/
 static void analyzePrint(Statement *stm, Context *context)
 {
-    int i;
     int parameter;
     char *buffer = allocate(stm->fields.print.len+1);
 
@@ -242,7 +236,7 @@ static void analyzePrint(Statement *stm, Context *context)
     (void)!fread(buffer, 1, stm->fields.print.len, txtfil);
     fseek(txtfil, 0, SEEK_END);
 
-    for (i = 0; i < stm->fields.print.len-1; i++) {
+    for (int i = 0; i < stm->fields.print.len-1; i++) {
         if (buffer[i] == '$') {
             parameter = 0;
             i++;
@@ -730,9 +724,7 @@ static void analyzeDepend(Statement *stm, Context *context)
        analyzed as a complete expression, relying on binary expression
        logic to avoid analyzing the left hand side multiple times. */
 
-    List *cases;
-
-    for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
+    for (List *cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
         if (cases->member.stm->fields.depcase.exp != NULL) {
             Expression *exp = cases->member.stm->fields.depcase.exp;
             /* Unless it is an ELSE clause, set left hand of case expression
@@ -1232,12 +1224,10 @@ static void generateDepend(Statement *stm)
 
     */
 
-    List *cases;
-
     emit0(I_DEPEND);
     generateExpression(stm->fields.depend.exp);
     /* For each case: */
-    for (cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
+    for (List *cases = stm->fields.depend.cases; cases != NULL; cases = cases->next) {
         /* If it is not the ELSE clause ... */
         if (cases->member.stm->fields.depcase.exp != NULL) {
             /* Generate a DEPCASE (if not first case) and a DUP */
@@ -1559,10 +1549,8 @@ static void generateStatement(Statement *stm)
 /*======================================================================*/
 void generateStatements(List *stms)
 {
-    List *current = stms;
-
-    for (current = stms; current != NULL; current = current->next) {
-        generateStatement(current->member.stm);
+    for (List *l = stms; l != NULL; l = l->next) {
+        generateStatement(l->member.stm);
     }
 }
 

@@ -65,7 +65,6 @@ void analyzeChecks(List *chks,
 /*======================================================================*/
 Aword generateChecks(List *chks)
 {
-    List *lst;			/* Traversal pointer */
     Aword tbladr;			/* Save ACODE address to check table */
 
     if (chks == NULL) return 0;
@@ -77,20 +76,20 @@ Aword generateChecks(List *chks)
         generateStatements(chks->member.chk->stms);
         emit0(I_RETURN);
     } else
-        for (lst = chks; lst != NULL; lst = lst->next) {
-            lst->member.chk->expadr = nextEmitAddress();
-            generateExpression(lst->member.chk->exp);
+        for (List *l = chks; l != NULL; l = l->next) {
+            l->member.chk->expadr = nextEmitAddress();
+            generateExpression(l->member.chk->exp);
             emit0(I_RETURN);
-            lst->member.chk->stmadr = nextEmitAddress();
-            generateStatements(lst->member.chk->stms);
+            l->member.chk->stmadr = nextEmitAddress();
+            generateStatements(l->member.chk->stms);
             emit0(I_RETURN);
         }
 
     /* Then generate a check table */
     tbladr = nextEmitAddress();
-    for (lst = chks; lst != NULL; lst = lst->next) {
-        emit(lst->member.chk->expadr);
-        emit(lst->member.chk->stmadr);
+    for (List *l = chks; l != NULL; l = l->next) {
+        emit(l->member.chk->expadr);
+        emit(l->member.chk->stmadr);
     }
     emit(EOF);
 

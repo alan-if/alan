@@ -171,9 +171,7 @@ static void symbolizeClass(Class *cla)
 /*======================================================================*/
 void symbolizeClasses(void)
 {
-    List *l;
-
-    for (l = allClasses; l; l = l->next)
+    for (List *l = allClasses; l; l = l->next)
         symbolizeClass(l->member.cla);
 }
 
@@ -200,9 +198,7 @@ void analyzeAllClassAttributes() {
 /*======================================================================*/
 void analyzeClasses(void)
 {
-  List *l;
-
-  for (l = allClasses; l; l = l->next)
+  for (List *l = allClasses; l; l = l->next)
     analyzeClass(l->member.cla);
 }
 
@@ -311,7 +307,6 @@ static void generateClassEntry(Class *cla)
 /*======================================================================*/
 Aaddr generateClasses(void)
 {
-  List *l;
   Aaddr adr;
 
   acodeHeader.entityClassId = entitySymbol->code;
@@ -324,11 +319,11 @@ Aaddr generateClasses(void)
   acodeHeader.stringClassId = stringSymbol->code;
   acodeHeader.classMax = classCount;
 
-  for (l = allClasses; l; l = l->next)
+  for (List *l = allClasses; l; l = l->next)
     generateClassData(l->member.cla);
 
   adr = nextEmitAddress();
-  for (l = allClasses; l; l = l->next)
+  for (List *l = allClasses; l; l = l->next)
     generateClassEntry(l->member.cla);
   emit(EOF);
 

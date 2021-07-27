@@ -179,10 +179,9 @@ static char *symbolKindsAsString(SymbolKind kinds)
 {
     bool found = false;
     char *string = allocate(100);
-    int i;
 
     string[0] = '\0';
-    for (i = 1; i <= MAX_SYMBOL; i = i<<1) {
+    for (int i = 1; i <= MAX_SYMBOL; i = i<<1) {
         if (kinds&i) {
             anotherSymbolKindAsString(kinds&i, found, string);
             found = true;
@@ -330,9 +329,8 @@ TypeKind typeOfSymbol(Symbol *symbol) {
 /*----------------------------------------------------------------------*/
 static void setParameterClass(Symbol *s, int parameter, Symbol *class) {
     List *pl = s->fields.verb.parameterSymbols;
-    int p;
 
-    for (p = 1; p < parameter; p++)
+    for (int p = 1; p < parameter; p++)
         pl = pl->next;
 
     pl->member.sym->fields.parameter.class = class;
@@ -344,14 +342,13 @@ static void setParameterClass(Symbol *s, int parameter, Symbol *class) {
 static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
     Symbol *symbol;
     char name[50];
-    int p;
     Id *id;
     List *parameterList = NULL;
 
     sprintf(name, "$message%d%s$", parameterCount, typeSymbol->string);
     symbol = newVerbSymbol(newId(nulsrcp, name));
 
-    for (p = 1; p <= parameterCount; p++) {
+    for (int p = 1; p <= parameterCount; p++) {
         sprintf(name, "parameter%d", p);
         id = newId(nulsrcp, name);
         parameterList = concat(parameterList,
@@ -362,7 +359,7 @@ static Symbol *createMessageVerb(int parameterCount, Symbol *typeSymbol) {
 
     setParameters(symbol, parameterList);
 
-    for (p = 1; p <= parameterCount; p++)
+    for (int p = 1; p <= parameterCount; p++)
         setParameterClass(symbol, p, typeSymbol);
     return(symbol);
 }
@@ -411,9 +408,9 @@ void newFrame(void)
 void deleteFrame(void)
 {
     Frame *outerFrame = currentFrame->outerFrame;
-    List *locals, *next;
+    List *next;
 
-    for (locals = currentFrame->localSymbols; locals != NULL; locals = next) {
+    for (List *locals = currentFrame->localSymbols; locals != NULL; locals = next) {
         next = locals->next;
         free(locals);
     }
@@ -426,9 +423,7 @@ void deleteFrame(void)
 /*----------------------------------------------------------------------*/
 static Symbol *lookupInParameterList(char *idString, List *parameterSymbols)
 {
-    List *l;
-
-    for (l = parameterSymbols; l != NULL; l = l->next)
+    for (List *l = parameterSymbols; l != NULL; l = l->next)
         if (compareStrings(idString, l->member.sym->fields.parameter.element->id->string) == 0)
             return l->member.sym;
     return NULL;
@@ -478,10 +473,9 @@ Symbol *lookup(char *idString)
 static Symbol *lookupInFrames(char *idString)
 {
     Frame *thisFrame = currentFrame;
-    List *localSymbolList;
 
     while (thisFrame != NULL) {
-        for (localSymbolList = thisFrame->localSymbols; localSymbolList != NULL; localSymbolList = localSymbolList->next) {
+        for (List *localSymbolList = thisFrame->localSymbols; localSymbolList != NULL; localSymbolList = localSymbolList->next) {
             if (compareStrings(idString, localSymbolList->member.sym->string) == 0)
                 return localSymbolList->member.sym;
         }
@@ -962,10 +956,9 @@ Symbol *commonParent(Symbol *symbol1, Symbol *symbol2)
 
 /*----------------------------------------------------------------------*/
 static bool multipleSymbolKinds(SymbolKind kind) {
-    int i;
     bool found = false;
 
-    for (i = 1; i < MAX_SYMBOL; i=i<<1)
+    for (int i = 1; i < MAX_SYMBOL; i=i<<1)
         if (kind&i) {
             if (found)
                 return true;
@@ -1185,12 +1178,11 @@ Attribute *findInheritedAttribute(Symbol *symbol, Id *id)
 /*----------------------------------------------------------------------*/
 static void numberAttributes(Symbol *symbol)
 {
-    List *theList;
     Attribute *inheritedAttribute;
 
     if (symbol->fields.entity.attributesNumbered) return;
 
-    for (theList = propertiesOf(symbol)->attributes; theList != NULL;
+    for (List *theList = propertiesOf(symbol)->attributes; theList != NULL;
          theList = theList->next){
         Attribute *thisAttribute = theList->member.atr;
         inheritedAttribute = findInheritedAttribute(symbol, thisAttribute->id);

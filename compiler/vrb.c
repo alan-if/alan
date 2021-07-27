@@ -1,9 +1,9 @@
-/*----------------------------------------------------------------------*\
+/*----------------------------------------------------------------------
 
-                VRB.C
-                  Verb Nodes
+  VRB.C
+  Verb Nodes
 
-\*----------------------------------------------------------------------*/
+  ----------------------------------------------------------------------*/
 
 #include "vrb_x.h"
 
@@ -35,7 +35,6 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts, bool meta)
 {
     Verb *new;			/* The newly allocated area */
     Symbol *sym;
-    List *lst;			/* Traversal pointer */
 
     progressCounter();
 
@@ -46,8 +45,8 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts, bool meta)
     new->meta = meta;
     new->alternatives = alts;
 
-    for (lst = ids; lst != NULL; lst = lst->next) {
-        Id *id = lst->member.id;
+    for (List *l = ids; l != NULL; l = l->next) {
+        Id *id = l->member.id;
         sym = lookup(id->string); /* Find earlier definition */
         if (sym == NULL) {
             id->symbol = newVerbSymbol(id);
@@ -64,111 +63,106 @@ Verb *newVerb(Srcp *srcp, List *ids, List *alts, bool meta)
     /* Use first verb symbol as context symbol */
     new->symbol = ids->member.id->symbol;
 
-    return(new);
+    return new;
 }
 
 
 /*----------------------------------------------------------------------*/
 static void analyzeVerb(Verb *theVerb, Context *previousContext)
 {
-  List *lst, *ids, *syntaxLists = NULL;
-  Syntax *stx;
-  Context *context = pushContext(previousContext);
+    List *syntaxLists = NULL;
+    Syntax *stx;
+    Context *context = pushContext(previousContext);
 
-  progressCounter();
+    progressCounter();
 
-  /* First find the syntax definitions for all verbs */
-  for (ids = theVerb->ids; ids; ids = ids->next) {
-    stx = NULL;
-    for (lst = adv.stxs; lst; lst = lst->next) {
-      if (lst->member.stx->id->symbol != NULL && ids->member.id->symbol != NULL)
-    if (lst->member.stx->id->symbol->code == ids->member.id->symbol->code) {
-      stx = lst->member.stx;
-      break;
+    /* First find the syntax definitions for all verbs */
+    for (List *ids = theVerb->ids; ids; ids = ids->next) {
+        stx = NULL;
+        for (List *lst = adv.stxs; lst; lst = lst->next) {
+            if (lst->member.stx->id->symbol != NULL && ids->member.id->symbol != NULL)
+                if (lst->member.stx->id->symbol->code == ids->member.id->symbol->code) {
+                    stx = lst->member.stx;
+                    break;
+                }
+        }
+        if (stx == NULL) {
+            /* Define a default syntax for the verb */
+            if (!inEntityContext(context)) {
+                /* A global, no parameter, verb */
+                lmlog(&ids->member.id->srcp, 230, sevINF, ids->member.id->string);
+                stx = defaultSyntax0(ids->member.id->string);
+            } else {
+                Id *className = classIdInContext(context);
+                if (className == NULL)
+                    className = newId(nulsrcp, "object");
+                lmlogv(&ids->member.id->srcp, 231, sevINF, ids->member.id->string,
+                       className->string, NULL);
+                stx = defaultSyntax1(ids->member.id, context);
+            }
+        }
+        syntaxLists = concat(syntaxLists, stx, SYNTAX_LIST);
     }
+    stx = syntaxLists->member.stx;	/* Use first syntax */
+    theVerb->stx = stx;
+
+    /* Check compatible parameter lists for all the verbs? */
+    List *ids = theVerb->ids->next;
+    for (List *lst = syntaxLists->next; lst != NULL; lst = lst->next) {
+        if (!equalParameterLists(stx, lst->member.stx))
+            lmlog(&ids->member.id->srcp, 215, sevERR,
+                  theVerb->ids->member.id->string);
+        ids = ids->next;
     }
-    if (stx == NULL) {
-      /* Define a default syntax for the verb */
-      if (!inEntityContext(context)) {
-    /* A global, no parameter, verb */
-    lmlog(&ids->member.id->srcp, 230, sevINF, ids->member.id->string);
-    stx = defaultSyntax0(ids->member.id->string);
-      } else {
-    Id *className = classIdInContext(context);
-    if (className == NULL)
-      className = newId(nulsrcp, "object");
-    lmlogv(&ids->member.id->srcp, 231, sevINF, ids->member.id->string,
-           className->string, NULL);
-    stx = defaultSyntax1(ids->member.id, context);
-      }
+
+    if (!inEntityContext(context)) {
+        /* No alternatives allowed in global verb definition */
+        if (theVerb->alternatives->member.alt->id != NULL)
+            lmlog(&theVerb->alternatives->member.alt->srcp, 213, sevERR, "");
+        /* No parameters allowed in global verb definition */
+        if (syntaxLists->member.stx->parameters != NULL)
+            lmlog(&theVerb->srcp, 219, sevERR, "");
     }
-    syntaxLists = concat(syntaxLists, stx, SYNTAX_LIST);
-  }
-  stx = syntaxLists->member.stx;	/* Use first syntax */
-  theVerb->stx = stx;
 
-  /* Check compatible parameter lists for all the verbs? */
-  ids = theVerb->ids->next;
-  for (lst = syntaxLists->next; lst != NULL; lst = lst->next) {
-    if (!equalParameterLists(stx, lst->member.stx))
-      lmlog(&ids->member.id->srcp, 215, sevERR,
-        theVerb->ids->member.id->string);
-    ids = ids->next;
-  }
+    /* TODO - Warn if no ALT for every parameter in the defined syntax */
 
-  if (!inEntityContext(context)) {
-    /* No alternatives allowed in global verb definition */
-    if (theVerb->alternatives->member.alt->id != NULL)
-      lmlog(&theVerb->alternatives->member.alt->srcp, 213, sevERR, "");
-    /* No parameters allowed in global verb definition */
-    if (syntaxLists->member.stx->parameters != NULL)
-      lmlog(&theVerb->srcp, 219, sevERR, "");
-  }
-
-  /* TODO - Warn if no ALT for every parameter in the defined syntax */
-
-  context->kind = VERB_CONTEXT;
-  if (stx != NULL) {
-    context->verb = theVerb->symbol;
-    analyzeAlternatives(theVerb->alternatives, context);
-  } else
-    analyzeAlternatives(theVerb->alternatives, context);
+    context->kind = VERB_CONTEXT;
+    if (stx != NULL) {
+        context->verb = theVerb->symbol;
+        analyzeAlternatives(theVerb->alternatives, context);
+    } else
+        analyzeAlternatives(theVerb->alternatives, context);
 }
 
 
 /*======================================================================*/
 bool verbIdFound(Id *targetId, List *verbs)
 {
-  List *theVerb;
-  List *theIdInList;
-
-  for (theVerb = verbs; theVerb != NULL; theVerb = theVerb->next) {
-    for (theIdInList = theVerb->member.vrb->ids; theIdInList != NULL; theIdInList = theIdInList->next)
-      if (findIdInList(targetId, theIdInList) != NULL)
-    return true;
-  }
-  return false;
+    for (List *theVerb = verbs; theVerb != NULL; theVerb = theVerb->next) {
+        for (List *theIdInList = theVerb->member.vrb->ids; theIdInList != NULL; theIdInList = theIdInList->next)
+            if (findIdInList(targetId, theIdInList) != NULL)
+                return true;
+    }
+    return false;
 }
 
 
 /*----------------------------------------------------------------------*/
 static void checkMultipleVerbDeclarations(List *verbs)
 {
-  List *thisVerbDeclaration, *otherVerbs;
-  List *firstId;
-  Id *foundId;
+    Id *foundId;
 
-  for (thisVerbDeclaration = verbs; thisVerbDeclaration != NULL; thisVerbDeclaration = thisVerbDeclaration->next) {
-    for (firstId = thisVerbDeclaration->member.vrb->ids; firstId != NULL; firstId = firstId->next) {
-      if ((foundId = findIdInList(firstId->member.id, firstId->next)) != NULL)
-    lmlogv(&foundId->srcp, 201, sevWAR, "verb", foundId->string, "in this VERB declaration", NULL);
-      /* Then the names in the other VERBs */
-      for (otherVerbs = thisVerbDeclaration->next; otherVerbs != NULL; otherVerbs = otherVerbs->next) {
-    if ((foundId = findIdInList(firstId->member.id, otherVerbs->member.vrb->ids)) != NULL)
-      lmlogv(&foundId->srcp, 201, sevWAR, "verb", foundId->string, "in this class/instance. Duplicate in a previous VERB clause", NULL);
-      }
+    for (List *thisVerbDeclaration = verbs; thisVerbDeclaration != NULL; thisVerbDeclaration = thisVerbDeclaration->next) {
+        for (List *firstId = thisVerbDeclaration->member.vrb->ids; firstId != NULL; firstId = firstId->next) {
+            if ((foundId = findIdInList(firstId->member.id, firstId->next)) != NULL)
+                lmlogv(&foundId->srcp, 201, sevWAR, "verb", foundId->string, "in this VERB declaration", NULL);
+            /* Then the names in the other VERBs */
+            for (List *otherVerbs = thisVerbDeclaration->next; otherVerbs != NULL; otherVerbs = otherVerbs->next) {
+                if ((foundId = findIdInList(firstId->member.id, otherVerbs->member.vrb->ids)) != NULL)
+                    lmlogv(&foundId->srcp, 201, sevWAR, "verb", foundId->string, "in this class/instance. Duplicate in a previous VERB clause", NULL);
+            }
+        }
     }
-  }
 }
 
 
@@ -176,12 +170,10 @@ static void checkMultipleVerbDeclarations(List *verbs)
 /*======================================================================  */
 void analyzeVerbs(List *verbs, Context *context)
 {
-  List *verb;
+    for (List *verb = verbs; verb != NULL; verb = verb->next)
+        analyzeVerb(verb->member.vrb, context);
 
-  for (verb = verbs; verb != NULL; verb = verb->next)
-    analyzeVerb(verb->member.vrb, context);
-
-  checkMultipleVerbDeclarations(verbs);
+    checkMultipleVerbDeclarations(verbs);
 }
 
 
@@ -189,12 +181,12 @@ void analyzeVerbs(List *verbs, Context *context)
 /*----------------------------------------------------------------------*/
 static void generateVerb(Verb *vrb)
 {
-  progressCounter();
+    progressCounter();
 
-  if (vrb->alternatives == NULL)
-    vrb->altAddress = 0;
-  else
-    vrb->altAddress = generateAlternatives(vrb->alternatives);
+    if (vrb->alternatives == NULL)
+        vrb->altAddress = 0;
+    else
+        vrb->altAddress = generateAlternatives(vrb->alternatives);
 }
 
 
@@ -215,9 +207,7 @@ static void emitVerbCode(bool meta, int code) {
 /*----------------------------------------------------------------------*/
 static void generateVerbEntry(Verb *vrb)
 {
-    List *ids;
-
-    for (ids = vrb->ids; ids != NULL; ids = ids->next) {
+    for (List *ids = vrb->ids; ids != NULL; ids = ids->next) {
         emitVerbCode(vrb->symbol->fields.verb.meta, ids->member.id->code);
         emit(vrb->altAddress);
     }
@@ -227,23 +217,22 @@ static void generateVerbEntry(Verb *vrb)
 /*======================================================================*/
 Aaddr generateVerbs(List *vrbs)
 {
-  List *lst;			/* Save the list of verbs */
-  Aaddr vrbadr;			/* Address to alt-table */
+    Aaddr vrbadr;			/* Address to alt-table */
 
-  if (vrbs == NULL)
-    return 0;
+    if (vrbs == NULL)
+        return 0;
 
-  /* First generate action procedures for all verbs */
-  for (lst = vrbs; lst != NULL; lst = lst->next)
-    generateVerb(lst->member.vrb);
+    /* First generate action procedures for all verbs */
+    for (List *lst = vrbs; lst != NULL; lst = lst->next)
+        generateVerb(lst->member.vrb);
 
-  /* and then the verb table */
-  vrbadr = nextEmitAddress();
-  for (lst = vrbs; lst != NULL; lst = lst->next)
-    generateVerbEntry(lst->member.vrb);
-  emit(EOF);
+    /* and then the verb table */
+    vrbadr = nextEmitAddress();
+    for (List *lst = vrbs; lst != NULL; lst = lst->next)
+        generateVerbEntry(lst->member.vrb);
+    emit(EOF);
 
-  return(vrbadr);
+    return vrbadr;
 }
 
 
@@ -251,14 +240,14 @@ Aaddr generateVerbs(List *vrbs)
 /*======================================================================*/
 void dumpVerb (Verb *vrb)
 {
-  if (vrb == NULL) {
-    put("NULL");
-    return;
-  }
+    if (vrb == NULL) {
+        put("NULL");
+        return;
+    }
 
-  put("VRB: "); dumpSrcp(vrb->srcp); indent();
-  put("meta: "); dumpBool(vrb->meta); nl();
-  put("ids: "); dumpList(vrb->ids, ID_LIST); nl();
-  put("altadr: "); dumpAddress(vrb->altAddress); nl();
-  put("alts: "); dumpList(vrb->alternatives, ALTERNATIVE_LIST); out();
+    put("VRB: "); dumpSrcp(vrb->srcp); indent();
+    put("meta: "); dumpBool(vrb->meta); nl();
+    put("ids: "); dumpList(vrb->ids, ID_LIST); nl();
+    put("altadr: "); dumpAddress(vrb->altAddress); nl();
+    put("alts: "); dumpList(vrb->alternatives, ALTERNATIVE_LIST); out();
 }

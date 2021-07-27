@@ -23,12 +23,10 @@ void put(char *str)
 
 void nl(void)
 {
-  int i;
-
   lmLiPrint(strbuf);
   strbuf[0] = '\0';
 
-  for (i=1 ; i<=indentLevel; i++)
+  for (int i=1 ; i<=indentLevel; i++)
     put(".  ") ;
 }
 

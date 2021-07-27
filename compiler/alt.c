@@ -58,7 +58,6 @@ static void analyzeAlternative(Alternative *alt,
 {
     Symbol *parameter;
     int matchedParameters = 0;
-    List *parameters;
 
     if (alt->id != NULL) {
         /* Alternatives given, find out for which parameter this one is */
@@ -75,7 +74,7 @@ static void analyzeAlternative(Alternative *alt,
         else if (context->verb != NULL) {
             if (context->verb->fields.verb.parameterSymbols != NULL)
                 alt->parameterNumber = 0;
-            for (parameters = context->verb->fields.verb.parameterSymbols;
+            for (List *parameters = context->verb->fields.verb.parameterSymbols;
                  parameters != NULL;
                  parameters = parameters->next) {
                 if (alt->stms != NULL) {
@@ -110,9 +109,7 @@ static void analyzeAlternative(Alternative *alt,
 void analyzeAlternatives(List *alts,
                          Context *context)
 {
-    List *lst;
-
-    for (lst = alts; lst != NULL; lst = lst->next)
+    for (List *lst = alts; lst != NULL; lst = lst->next)
         analyzeAlternative(lst->member.alt, context);
 }
 
@@ -171,14 +168,13 @@ static void generateAlternative(Alternative *alt)
 /*======================================================================*/
 Aaddr generateAlternatives(List *alts)
 {
-    List *lst;
     Aaddr altadr;
 
-    for (lst = alts; lst != NULL; lst = lst->next)
+    for (List *lst = alts; lst != NULL; lst = lst->next)
         generateAlternative(lst->member.alt);
 
     altadr = nextEmitAddress();
-    for (lst = alts; lst != NULL; lst = lst->next)
+    for (List *lst = alts; lst != NULL; lst = lst->next)
         generateAlternativeEntry(lst->member.alt);
     emit(EOF);
 

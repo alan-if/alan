@@ -16,8 +16,6 @@
 #include "acode.h"
 
 
-
-
 /* PUBLIC: */
 
 int scoreCount = 0;
@@ -28,22 +26,20 @@ int totalScore = 0;
 /*======================================================================*/
 void prepareScores(void)
 {
-  adv.scores = (int *) allocate((scoreCount+1)*sizeof(int));
+    adv.scores = (int *) allocate((scoreCount+1)*sizeof(int));
 }
 
 
 /*======================================================================*/
 void generateScores(ACodeHeader *header)
 {
-  int i;
+    header->scores = nextEmitAddress();
+    if (scoreCount != 0) {
+        for (int i = 1; i <= scoreCount; i++)
+            emit(adv.scores[i]);
+    }
+    emit(EOF);
 
-  header->scores = nextEmitAddress();
-  if (scoreCount != 0) {
-    for (i = 1; i <= scoreCount; i++)
-      emit(adv.scores[i]);
-  }
-  emit(EOF);
-
-  header->maximumScore = totalScore;
-  header->scoreCount = scoreCount;
+    header->maximumScore = totalScore;
+    header->scoreCount = scoreCount;
 }
