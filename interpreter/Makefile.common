@@ -190,7 +190,6 @@ clean:
 ##################################################################
 .PHONY: coverage
 coverage:
-	$(MAKE) clean
 	$(MAKE) COVERAGE=--coverage unit
 	$(MAKE) COVERAGE=--coverage arun
 	$(MAKE) test

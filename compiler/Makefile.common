@@ -146,7 +146,6 @@ include ../mk/isolated_unittests.mk
 ######################################################################
 .PHONY: coverage
 coverage:
-	$(MAKE) clean
 	$(MAKE) COVERAGE=--coverage unit
 	$(MAKE) COVERAGE=--coverage alan
 	$(MAKE) test
