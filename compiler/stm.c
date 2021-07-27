@@ -257,7 +257,7 @@ static void analyzePrint(Statement *stm, Context *context)
                 parameter = buffer[i] - '0';
             if (parameter != 0)
                 if (context == NULL || context->kind != VERB_CONTEXT
-                    || parameter > length(context->verb->fields.verb.parameterSymbols))
+                    || parameter > parameterCountInContext(context, &stm->srcp))
                     lmlog(&stm->srcp, 551, sevERR, "");
         }
     }

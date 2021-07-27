@@ -196,3 +196,10 @@ void addRestrictionInContext(Context *context, Expression *exp) {
         SYSERR("Wrong kind of expression in context restriction", exp->srcp);
     context->classRestriction = exp;
 }
+
+/*======================================================================*/
+int parameterCountInContext(Context *context, Srcp *srcp) {
+    if (context->kind != VERB_CONTEXT)
+        SYSERR("Context is not VERB", *srcp);
+    return length(context->verb->fields.verb.parameterSymbols);
+}

@@ -2,8 +2,8 @@
 #define _CONTEXT_H_
 /*----------------------------------------------------------------------*\
 
-				CONTEXT.H
-		     Execution Context Structure
+                CONTEXT.H
+             Execution Context Structure
 
 \*----------------------------------------------------------------------*/
 

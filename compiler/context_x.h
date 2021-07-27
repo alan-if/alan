@@ -32,4 +32,5 @@ extern Id *classIdInContext(Context *context);
 extern Symbol *classOfIdInContext(Context *context, Id *id);
 extern void addRestrictionInContext(Context *context, Expression *isa);
 extern Symbol *contextRestrictsIdTo(Context *context, Id *id);
+extern int parameterCountInContext(Context *context, Srcp *srcp);
 #endif

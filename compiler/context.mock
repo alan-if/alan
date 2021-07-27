@@ -27,6 +27,7 @@ Symbol *symbolOfContext(Context *context) {return (Symbol*)mock(context);}
 bool inEntityContext(Context *context) {return (bool)mock(context);}
 bool inLocationContext(Context *context) {return (bool)mock(context);}
 Id *classIdInContext(Context *context) {return (Id*)mock(context);}
-Symbol *classOfIdInContext(Context *context, Id *id) { return (Symbol *)mock(context, id); }
+Symbol *classOfIdInContext(Context *context, Id *id) {return (Symbol *)mock(context, id); }
 void addRestrictionInContext(Context *context, Expression *isa) {mock(context, isa);}
 Symbol *contextRestrictsIdTo(Context *context, Id *id) {return (Symbol*)mock(context, id);}
+int parameterCountInContext(Context *context, Srcp *srcp) {return mock(context, srcp);}
