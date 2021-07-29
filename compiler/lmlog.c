@@ -13,7 +13,7 @@
 
 
 void lmlog(Srcp *pos, int ecode, lmSev sev, char *insert_strings) {
-    /* TODO: SYSERR of insert_strings contains lmSEPARATOR, should only be used if ONE insert string */
+    /* TODO: SYSERR if insert_strings contains lmSEPARATOR, should only be used if ONE insert string */
     char *recoded = ensureExternalEncoding(insert_strings);
     lmLog(pos, ecode, sev, recoded);
     free(recoded);
@@ -35,7 +35,7 @@ void lmlogv(Srcp *pos, int ecode, lmSev sev, ...) {
             insertstrings[len+1] = '\0';
         }
         char *argument = ensureExternalEncoding(arg);
-        if (len + strlen(argument) >= allocated) {
+        if (len + strlen(argument)+2 >= allocated) {
             int extension = strlen(argument)+2; /* lmSeparator + null */
             allocated += extension;
             insertstrings = (char *)realloc(insertstrings, allocated);
