@@ -15,7 +15,7 @@ endif
 
 # NOTE: for unittests -DUNITTESTING is automatically added
 # so you can override system functions
-CFLAGS += -g -Og -Wall -MMD -I../interpreter $(CFLAGS_BUILD) $(COVERAGE)
+CFLAGS += -g -O0 -Wall -MMD -I../interpreter $(CFLAGS_BUILD) $(COVERAGE)
 LDFLAGS += $(COVERAGE)
 
 COMPILE = $(CC) $(CFLAGS)
