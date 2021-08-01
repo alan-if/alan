@@ -1,0 +1,11 @@
+take stone1
+take stone2
+put stone1 in bag
+put stone2 in bag
+take bag
+drop stone1
+drop stone2
+drop bag
+take bag
+put stone1 in bag
+put stone2 in bag

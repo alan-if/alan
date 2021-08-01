@@ -1,0 +1,61 @@
+The l Isa location
+End The l.
+
+The hero Isa actor
+    Container
+        Limits
+            weight 10
+                Else "That weighs too much."
+End The hero.
+
+The bag Isa object At l
+    Container
+End The bag.
+
+
+Syntax take = take (o).
+
+Syntax put_in = put (o) 'in' (c)
+    Where c Isa Container
+        Else "You can only put things in containers."
+
+Syntax drop = drop (o).
+
+
+Add To Every object
+    Has
+        weight 7.
+
+    Verb take
+        Does
+            Locate o In hero.
+            List hero.
+            List bag.
+    End Verb.
+
+    Verb put_in
+        When o
+            Does
+                Locate o in c.
+                List c.
+                List hero.
+    End Verb.
+
+    Verb drop
+        Does
+            Locate o here.
+            List hero.
+            List bag.
+            Look.
+    End Verb.
+    
+End Add.
+
+The stone1 Isa object At l.
+End The stone1.
+
+The stone2 Isa object At l.
+End The stone2.
+
+
+Start At l.
