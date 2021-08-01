@@ -9,10 +9,10 @@
 /* %%IMPORT */
 
 
-  /* For open, read & close */
+/* For open, read & close */
 #include <fcntl.h>
 
-  /* For iconv conversion */
+/* For iconv conversion */
 #include <errno.h>
 #include "converter.h"
 #include "charset.h"

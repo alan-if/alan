@@ -5,10 +5,10 @@
 
 %%IMPORT
 
-  /* For open, read & close */
+/* For open, read & close */
 #include <fcntl.h>
 
-  /* For iconv conversion */
+/* For iconv conversion */
 #include <errno.h>
 #include "converter.h"
 #include "charset.h"
@@ -45,6 +45,8 @@ extern void setCharacterSet(CharSet charset);
 
 %%DECLARATIONS
 
+#include <limits.h>
+
 #include "str.h"
 
 #define COPYMAX (smThis->smLength>256?256:smThis->smLength)
@@ -64,7 +66,7 @@ static int lines = 0;		/* Updated at end of each file */
 #endif
 
 static bool find_and_open_in_path_element(smScContext this, List *ip, char fnm[]) {
-    char fnmbuf[PATH_MAX] = "";
+    char fnmbuf[PATH_MAX+1] = "";
 
     if (ip != NULL) {
         strcpy(fnmbuf, ip->member.str);
