@@ -6,5 +6,6 @@
 /* DATA */
 
 /* FUNCTIONS */
-Aptr getAttribute(AttributeEntry *attributeTable, int attributeCode) { return (Aptr)mock(); }
+bool attributeExists(AttributeEntry *attributeTable, int attributeCode) { return (bool)mock(); }
+Aword getAttribute(AttributeEntry *attributeTable, int attributeCode) { return (Aword)mock(); }
 void setAttribute(AttributeEntry *attributeTable, int attributeCode, Aptr newValue) { mock(); }

@@ -1,0 +1,70 @@
+The l Isa location
+End The l.
+
+The hero Isa actor
+    Container Taking object.
+        Limits
+            weight 10
+                Else "That weighs too much."
+End The hero.
+
+The bag Isa object At l
+    Container Taking potion.
+End The bag.
+
+Every potion Isa thing
+End Every potion.
+
+Syntax take = take (o).
+
+Syntax put_in = put (o) 'in' (c)
+    Where c Isa Container
+        Else "You can only put things in containers."
+    And o Isa thing
+        Else "It must at least be a meta-physical object to do that."
+
+Syntax drop = drop (o).
+
+
+Add To Every object
+    Has
+        weight 7.
+End Add.
+
+Add To Every thing
+    Verb take
+        Does
+            Locate o In hero.
+            List hero.
+            List bag.
+    End Verb.
+
+    Verb put_in
+        When o
+            Does
+                Locate o in c.
+                List c.
+                List hero.
+    End Verb.
+
+    Verb drop
+        Does
+            Locate o here.
+            List hero.
+            List bag.
+            Look.
+    End Verb.
+End Add.
+
+The potion1 Isa potion At l.
+End The potion1.
+
+The potion2 Isa potion At l.
+End The potion2.
+
+
+Start At l.
+
+  "The heros limit on weight is 10. Every object weighs 7. The bag
+   takes potions that are not objects so they do not have the weight
+   attribute. Put potions in the bag and take it."

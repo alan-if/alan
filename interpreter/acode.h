@@ -4,7 +4,6 @@
 #define ACODEEXTENSION ".a3c"
 
 /* Basic types */
-#include <limits.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -21,9 +20,9 @@ typedef uint32_t Aptr;       /* Type for an ACODE pointer used in the structures
 typedef uint32_t Aword;      /* Type for an ACODE word */
 typedef uint32_t Aaddr;      /* Type for an ACODE address in Amemory */
 typedef uint32_t Aid;        /* Type for an ACODE Instance Id value */
-typedef int32_t Abool;       /* Type for an ACODE Boolean value */
+typedef uint32_t Abool;       /* Type for an ACODE Boolean value */
+typedef uint32_t Aset;        /* Type for an ACODE Set value */
 typedef int32_t Aint;        /* Type for an ACODE Integer value */
-typedef int32_t Aset;        /* Type for an ACODE Set value */
 typedef int32_t CodeValue;   /* Definition for the packing process */
 
 

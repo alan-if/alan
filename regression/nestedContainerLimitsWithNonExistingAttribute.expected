@@ -1,0 +1,22 @@
+########## nestedContainerLimitsWithNonExistingAttribute ##########
+
+        No warnings or errors detected.
+
+
+The heros limit on weight is 10. Every object weighs 7. The bag takes
+potions that are not objects so they do not have the weight attribute.
+Put potions in the bag and take it.
+
+
+L
+There is a bag here.
+
+> put potion1 in bag
+The bag is empty. The hero is empty-handed.
+
+> take bag
+The hero carries a bag. The bag is empty.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

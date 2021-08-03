@@ -15,11 +15,11 @@ ContainerEntry *containers;  /* Container table pointer */
 
 
 /*----------------------------------------------------------------------*/
-static int countInContainer(int containerIndex)	/* IN - the container to count in */
+static int countInContainer(Aid containerIndex)	/* IN - the container to count in */
 {
-    int instanceIndex, j = 0;
+    int j = 0;
 
-    for (instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
+    for (int instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
         if (isIn(instanceIndex, containerIndex, DIRECT))
             /* Then it's in this container also */
             j++;
@@ -29,8 +29,8 @@ static int countInContainer(int containerIndex)	/* IN - the container to count i
 
 /*----------------------------------------------------------------------*/
 static int sumAttributeInContainer(
-    Aint containerIndex,        /* IN - the container to sum */
-    Aint attributeIndex			/* IN - the attribute to sum over */
+    Aid containerIndex,        /* IN - the container to sum */
+    Aid attributeIndex			/* IN - the attribute to sum over */
 ) {
     int sum = 0;
 
@@ -38,7 +38,8 @@ static int sumAttributeInContainer(
         if (isIn(instanceIndex, containerIndex, DIRECT)) {	/* Then it's directly in this cont */
             if (instances[instanceIndex].container != 0)	/* This is also a container! */
                 sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
-            sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
+            if (hasAttribute(instanceIndex, attributeIndex))
+                sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
         }
     return sum;
 }

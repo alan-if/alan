@@ -20,7 +20,8 @@ bool isLiteral(int instance) { return(bool)mock(instance); }
 bool isANumeric(int instance) { return(bool)mock(instance); }
 bool isAString(int instance) { return(bool)mock(instance); }
 
-Aptr getInstanceAttribute(int instance, int attribute) { return (Aptr)mock(instance, attribute); }
+bool attributeExists(Aid instance, int attribute) { return (bool)mock(instance, attribute); }
+Aword getInstanceAttribute(int instance, int attribute) { return (Aptr)mock(instance, attribute); }
 char *getInstanceStringAttribute(int instance, int attribute) { return (char *)mock(instance, attribute); }
 Set *getInstanceSetAttribute(int instance, int attribute) { return (Set *)mock(instance, attribute); }
 

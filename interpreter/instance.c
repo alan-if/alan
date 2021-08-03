@@ -125,7 +125,7 @@ void setInstanceSetAttribute(int instance, int attribute, Aptr set)
 
 
 /*----------------------------------------------------------------------*/
-static Aptr literalAttribute(int literal, int attribute)
+static Aword getLiteralAttribute(int literal, int attribute)
 {
     if (isPreBeta3(header->version)) {
         if (attribute == 1)
@@ -143,12 +143,12 @@ static Aptr literalAttribute(int literal, int attribute)
 
 
 /*======================================================================*/
-Aptr getInstanceAttribute(int instance, int attribute)
+Aword getInstanceAttribute(int instance, int attribute)
 {
     char str[80];
 
     if (isLiteral(instance))
-        return literalAttribute(instance, attribute);
+        return getLiteralAttribute(instance, attribute);
     else {
         if (instance > 0 && instance <= header->instanceMax) {
             if (attribute == -1)
@@ -156,11 +156,18 @@ Aptr getInstanceAttribute(int instance, int attribute)
             else
                 return getAttribute(admin[instance].attributes, attribute);
         } else {
-            sprintf(str, "Can't ATTRIBUTE item (%d).", instance);
+            sprintf(str, "Can't ATTRIBUTE instance %d.", instance);
             syserr(str);
+            // No return from syserr()
+            return EOF;
         }
     }
-    return(EOF);
+}
+
+
+/*======================================================================*/
+bool hasAttribute(Aid instance, Aid attribute) {
+    return attributeExists(admin[instance].attributes, attribute);
 }
 
 
