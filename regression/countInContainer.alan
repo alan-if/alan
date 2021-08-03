@@ -1,0 +1,17 @@
+The l Isa location
+End The l.
+
+The bag Isa object In hero
+  Container
+End The bag.
+
+The stone Isa object In bag
+End The stone.
+
+The hero Isa actor
+  Container
+End The hero.
+
+Start At l.
+  Say Count In hero.
+  

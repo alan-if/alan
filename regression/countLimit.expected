@@ -1,0 +1,21 @@
+########## countLimit ##########
+
+        No warnings or errors detected.
+
+
+The heros count limit is 1. The bag contains two stones, but you should
+still be able to take it. The hero is empty-handed.
+
+
+L
+There is a bag here. The bag contains a blue_stone and a red_stone.
+
+> take bag
+The hero carries a bag.
+
+> take red_stone
+You can only carry one thing.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

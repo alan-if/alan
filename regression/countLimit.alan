@@ -1,0 +1,33 @@
+The l Isa location
+End The l.
+
+The bag Isa object At l
+  Container
+End The bag.
+
+The red_stone Isa object In bag
+End The red_stone.
+
+The blue_stone Isa object In bag
+End The blue_stone.
+
+The hero Isa actor
+  Container
+    Limits
+      count 1 Else "You can only carry one thing."
+End The hero.
+
+Syntax take = take (o).
+
+Add To Every object
+  Verb take
+    Does
+      Locate o In hero.
+      List hero.
+  End Verb.
+End Add.
+
+Start At l.
+  "The heros count limit is 1. The bag contains two stones, but you should still be able to take it."
+  List hero.
+  
