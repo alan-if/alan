@@ -21,7 +21,7 @@ WINGLK_ROOT = ../../WindowsGlk-151
 # If required you can set particular compiler and linker for an extra target
 # like so (most likely we need to cross compile...):
 # On Msys Mingw-variants you should just use gcc/windres
-winarun: CC = i686-w64-mingw32-gcc
+gararun winarun: CC = i686-w64-mingw32-gcc
 winarun: WINDRES = i686-w64-mingw32-windres
 # And/or extra switches and flags:
 winarun: CFLAGS += -mwindows

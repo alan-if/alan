@@ -10,6 +10,8 @@ include ../mk/include_guard.mk
 # of EXTRA_TARGETS.
 #
 
+INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
+
 #######################################################################
 # WinArun - Windows GLK interpreter
 #
@@ -48,9 +50,15 @@ winarun.res: winarun.rc winarun.ico resources.h alan.version.c
 
 
 #######################################################################
-# Gargoyle for Windows GLK variant (using garglk's jam build)
+# Gargoyle for Windows GLK variant
 #
-# Requires: GARGOYLE_ROOT - root of directory for Gargoyle sources
+# Requires:
+#	GARGOYLE_ROOT - Make variable
+#       - set to the root of directory for Gargoyle sources
+#   libgarglk.dll - file
+#       - a garglk link library which is in this repo, which will work as
+#         long as the interface does not change. Then it need to be rebuilt
+#         from the Gargoyle sources
 #
 ifdef GARARUN_ENABLED
 EXTRA_TARGETS += gargoyle
@@ -58,14 +66,24 @@ else
 $(info NOT ENABLED: gararun - Gargoyle Arun for Windows)
 endif
 
+GARARUNOBJDIR = .gararun
+GARARUNOBJECTS = $(addprefix $(GARARUNOBJDIR)/,${GARARUNSRCS:.c=.o}) $(GARARUNOBJDIR)/alan.version.o
+-include $(GARARUNOBJECTS:.o=.d)
+
+$(GARARUNOBJECTS): $(GARARUNOBJDIR)/%.o: %.c
+	$(COMPILE) -MMD -o $@ -c $<
+
+$(GARARUNOBJDIR):
+	mkdir $(GARARUNOBJDIR)
+
+gararun: CFLAGS += -DHAVE_GARGLK -I$(GARGOYLE_ROOT)/garglk
 gararun: build-gararun gararun-package gargoyle-updater
 
 .PHONY: build-gararun
 build-gararun: alan3.exe
 
-alan3.exe: $(GARARUNSRCS)
-	cd $(GARGOYLE_ROOT); BUILDNUMBER=$(BUILDNUMBER) OS=CYGWIN jam alan3
-	cp ../../garglk-current-alan3/build/cygwin.release/alan3/alan3.exe .
+alan3.exe: $(GARARUNOBJDIR) $(GARARUNOBJECTS)
+	$(LINK) -o $@ $(GARARUNOBJECTS) libgarglk.dll
 
 .PHONY: gararun-package
 gararun-package: build-gararun gargoyle-updater-alan3.readme

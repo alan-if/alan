@@ -184,7 +184,7 @@ include ../mk/isolated_unittests.mk
 #######################################################################
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) $(GLKARUNOBJDIR) arun arun.exe glkarun winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
+	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) $(GLKARUNOBJDIR) $(GARARUNOBJDIR) arun arun.exe glkarun alan3.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
 
 
 ##################################################################
@@ -247,16 +247,3 @@ dumpacd: $(DUMPACDOBJDIR) $(DUMPACDOBJECTS)
 	$(CC) $(LDFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
 
-# Extra dependencies for WinGLK case, really needed? How to make them work in subdirs?
-readline.o : resources.h
-glkstart.o: glkstart.c args.h types.h sysdep.h acode.h main.h \
-  glkstart.h glkio.h resources.h utils.h
-glkio.o: glkio.c glkio.h
-
-#######################################################################
-#
-# Check to see if we are running on ThoNi's machine, if so include
-# special rules
-ifeq ($(shell uname -n), thoni64)
-	include Makefile.thoni
-endif
