@@ -1,3 +1,15 @@
+Changes in V3.0beta8:
+- FEATURE: To extend support for non-English languages UTF-8 encoding is now supported for  source, solution and transcript files. The new compiler option `-encoding` will make the compiler assume that the source code is encoded with UTF-8. In addition, import files that have a UTF-8 BOM marker will always be read using UTF-8 encoding, irrespective of any options. The interpreter switch `-u` will indicate that input and output in the terminal, command logs, transcript files and solution files, is performed using UTF-8 encoding (which is the default on Linux and becoming more common). See Appendix C in The Alan Language Manual for details.
+- FEATURE (language): Block comments. See chapter 4, Lexical Definitions in the Alan Language Manual
+- FEATURE (interpreters): Make it possible to generate transcript and command logs simultaneously from a single game run
+- FEATURE (misc): Ensure Alan complies with the Babel Treaty (a convention to make it possible to identify and catalog *all* works of Interactive Fiction
+- FEATURE (interpreter): Add separate option for not paging output ("<More>")
+- BUGFIX: When an item was located in a container and that item itself was a container the limit was not checked for its content. This might change behaviour of existing games, please check.
+- BUGFIX: Random spacing issues fixed
+- BUGIFX: Dynamic variable `$v` gave wrong output if used in Exits
+- BUGFIX: Dynamic variable `$o` crashed the interpreter if used in an Exit
+- BUGFIX: Option section did not allow you to use 'no' before a boolean option.
+
 Changes in V3.0beta7:
 - FEATURE: ellision/contraction marked by apostrophe (such as "l'aqua" in italian) is now handled so that it is first looked up as a complete word, but failing that will fallback and look for the two parts separated by the apostrophe as single words.
 - FEATURE: allow double conjunctions between player sentences, to allow such as "take the stone and then drop it". ("and" and "then" are both conjunctions).
