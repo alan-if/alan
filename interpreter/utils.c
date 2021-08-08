@@ -47,6 +47,10 @@ void printVersion(int buildNumber) {
     printf("Arun - Adventure Language Interpreter version %s", alan.version.string);
     if (buildNumber != 0) printf("-%d", buildNumber);
     printf(" (%s %s)", alan.date, alan.time);
+#ifdef GIT_VERSION
+    printf("\nBuilt from git %s", GIT_VERSION);
+#endif
+
 }
 
 /*======================================================================*/

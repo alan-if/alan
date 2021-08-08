@@ -18,7 +18,7 @@ endif
 
 # NOTE: for unittests -DUNITTESTING is automatically added
 # so you can override system functions
-CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD) $(COVERAGE)
+CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD) $(COVERAGE) -DGIT_VERSION=\"$(GIT_VERSION)\"
 LDFLAGS += $(COVERAGE)
 
 COMPILE = $(CC) $(CFLAGS)
@@ -247,3 +247,4 @@ dumpacd: $(DUMPACDOBJDIR) $(DUMPACDOBJECTS)
 	$(CC) $(LDFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
 
+GIT_VERSION := "$(shell git describe --abbrev=4 --dirty --always --tags)"
