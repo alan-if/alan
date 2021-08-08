@@ -54,11 +54,17 @@ winarun.res: winarun.rc winarun.ico resources.h alan.version.c
 #
 # Requires:
 #	GARGOYLE_ROOT - Make variable
-#       - set to the root of directory for Gargoyle sources
+#       - set to the root of directory for Gargoyle sources (for includes)
 #   libgarglk.dll - file
-#       - a garglk link library which is in this repo, which will work as
-#         long as the interface does not change. Then it need to be rebuilt
-#         from the Gargoyle sources
+#   libgarglkmain.a - file
+#   icons.o - compiled version of Gargoyle icons
+#       - these are in the subdirectory "garglk", which we can use as
+#         long as the interface or icons of Gargoyle does not change.
+#         Then it need to be rebuilt from the Gargoyle sources
+
+#
+# Test by copying alan3.exe into the Gargoyle directory (over existing
+# alan3.exe) and run an Alan v3 game using Gargoyle.
 #
 ifdef GARARUN_ENABLED
 EXTRA_TARGETS += gargoyle
@@ -78,12 +84,14 @@ $(GARARUNOBJDIR):
 
 gararun: CFLAGS += -DHAVE_GARGLK -I$(GARGOYLE_ROOT)/garglk
 gararun: build-gararun gararun-package gargoyle-updater
+gararun: GARARUNLIBS = garglk/libgarglkmain.a garglk/libgarglk.dll garglk/icons.o
+gararun: LDFLAGS := -lcomdlg32 -lgdi32 -lwinmm -mwindows
 
 .PHONY: build-gararun
 build-gararun: alan3.exe
 
 alan3.exe: $(GARARUNOBJDIR) $(GARARUNOBJECTS)
-	$(LINK) -o $@ $(GARARUNOBJECTS) libgarglk.dll
+	$(LINK) -o $@ $(GARARUNOBJECTS) $(GARARUNLIBS)
 
 .PHONY: gararun-package
 gararun-package: build-gararun gargoyle-updater-alan3.readme

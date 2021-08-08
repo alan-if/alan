@@ -6,6 +6,7 @@
 #include "syserr.h"
 #include "msg.h"
 
+#ifndef HAVE_GARGLK
 
 /* Cross-building sets iconv args to const using WINICONV_CONST, so
  * nullify that to remove warnings... */
@@ -65,3 +66,17 @@ char *ensureInternalEncoding(char input[]) {
     } else
         return strdup(input);
 }
+
+#else
+
+/* For Gargoyle/GARGLK we just return the original string to avoid extra dependency on iconv */
+
+char *ensureExternalEncoding(char input[]) {
+    return strdup(input);
+}
+
+char *ensureInternalEncoding(char input[]) {
+    return strdup(input);
+}
+
+#endif
