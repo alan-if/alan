@@ -25,7 +25,9 @@ package: alan.readme.macosx $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
 	mkdir -p $(PACKAGENAME)
-	cp bin/alan bin/arun alan.readme.macosx alan.readme COPYING CHANGES regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan $(PACKAGENAME)
+	cp bin/alan bin/arun alan.readme.macosx alan.readme COPYING CHANGES games/adventv3/adventV3.alan $(PACKAGENAME)
+	mkdir $(PACKAGENAME)/games/saviour
+	cp regression/saviour.alan regression/logo.png $(PACKAGENAME)/games/saviour
 	tar zcvf $(PACKAGE) $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
 
