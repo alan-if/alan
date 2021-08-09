@@ -5,7 +5,7 @@ include ../mk/include_guard.mk
 
 include ../mk/venum.mk
 
-ifneq ($(EMACS),)
+ifneq ($(INSIDE_EMACS),)
 JREGROUTPUT = -noansi
 endif
 

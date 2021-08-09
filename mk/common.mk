@@ -26,7 +26,7 @@ COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
 
 # Running inside Emacs? Ensure pretty output
-ifneq ($(EMACS),)
+ifneq ($(INSIDE_EMACS),)
   JREGROUTPUT = -noansi
 else
   UNITOUTPUT ?= -c

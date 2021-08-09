@@ -1,7 +1,7 @@
 # Main common targets: clean build unit test
 # "package" must be defined in platform dependent makefiles
 
-ifneq ($(EMACS),)
+ifneq ($(INSIDE_EMACS),)
 JREGROUTPUT = -noansi
 else
 UNITOUTPUT ?= -c

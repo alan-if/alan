@@ -6,6 +6,10 @@ include ../mk/include_guard.mk
 include ../mk/venum.mk
 include Makefile.tm
 
+ifneq ($(INSIDE_EMACS),)
+JREGROUTPUT = -noansi
+endif
+
 # Jenkins sets BUILD_NUMBER so use that if available
 ifneq ($(BUILD_NUMBER),)
   BUILDNUMBER = $(BUILD_NUMBER)
