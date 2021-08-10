@@ -1,0 +1,20 @@
+########## grandparents_container_limits ##########
+
+        No warnings or errors detected.
+
+
+The hero carries a bag1. The bag1 contains a bag2. The bag2 is empty.
+
+
+L
+There is a stone1 and a stone2 here.
+
+> put stone1 in bag1
+The bag1 contains a stone1 and a bag2. The hero carries a bag1.
+
+> put stone2 in bag2
+That weighs too much.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

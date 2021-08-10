@@ -35,9 +35,8 @@ static int sumAttributeInContainer(
     int sum = 0;
 
     for (int instanceIndex = 1; instanceIndex <= header->instanceMax; instanceIndex++)
-        if (isIn(instanceIndex, containerIndex, DIRECT)) {	/* Then it's directly in this cont */
-            if (instances[instanceIndex].container != 0)	/* This is also a container! */
-                sum = sum + sumAttributeInContainer(instanceIndex, attributeIndex);
+        if (isIn(instanceIndex, containerIndex, TRANSITIVE)) {
+            /* We might find surprises in nested containers... */
             if (hasAttribute(instanceIndex, attributeIndex))
                 sum = sum + getInstanceAttribute(instanceIndex, attributeIndex);
         }
@@ -48,9 +47,7 @@ static int sumAttributeInContainer(
 /*----------------------------------------------------------------------*/
 static bool containerIsEmpty(int container)
 {
-    int i;
-
-    for (i = 1; i <= header->instanceMax; i++)
+    for (int i = 1; i <= header->instanceMax; i++)
         if (isDescribable(i) && isIn(i, container, TRANSITIVE))
             return false;
     return true;
@@ -66,24 +63,25 @@ void describeContainer(int container)
 
 
 /*======================================================================*/
-bool passesContainerLimits(Aint theInstance, Aint theAddedInstance) {
+bool passesContainerLimits(Aint theContainerInstance, Aint theAddedInstance) {
     Aint containerProps;
 
-    if (!isAContainer(theInstance))
+    if (!isAContainer(theContainerInstance))
         syserr("Checking limits for a non-container.");
 
     /* Find the container properties */
-    containerProps = instances[theInstance].container;
+    containerProps = instances[theContainerInstance].container;
 
     if (containers[containerProps].limits != 0) { /* Any limits at all? */
         for (LimitEntry *limit = (LimitEntry *) pointerTo(containers[containerProps].limits); !isEndOfArray(limit); limit++)
             if (limit->atr == 1-I_COUNT) { /* TODO This is actually some encoding of the attribute number, right? */
-                if (countInContainer(theInstance) >= limit->val) {
+                if (countInContainer(theContainerInstance) >= limit->val) {
                     interpret(limit->stms);
                     return false;
                 }
             } else {
-                int currentSum = sumAttributeInContainer(theInstance, limit->atr);
+                /* First check nested containers... */
+                int currentSum = sumAttributeInContainer(theContainerInstance, limit->atr);
                 int addedSum = getInstanceAttribute(theAddedInstance, limit->atr);
                 if (isAContainer(theAddedInstance))
                     addedSum += sumAttributeInContainer(theAddedInstance, limit->atr);
@@ -93,16 +91,19 @@ bool passesContainerLimits(Aint theInstance, Aint theAddedInstance) {
                 }
             }
     }
+    /* Then check any possible containing containers upwards using recursion... */
+    Aid location = where(theContainerInstance, DIRECT);
+    if (isAContainer(location))
+        return passesContainerLimits(location, theAddedInstance);
     return true;
 }
 
 
 /*======================================================================*/
 int containerSize(int container, ATrans trans) {
-    Aint i;
     Aint count = 0;
 
-    for (i = 1; i <= header->instanceMax; i++) {
+    for (Aid i = 1; i <= header->instanceMax; i++) {
         if (isIn(i, container, trans))
             count++;
     }
@@ -112,7 +113,6 @@ int containerSize(int container, ATrans trans) {
 /*======================================================================*/
 void list(int container)
 {
-    int i;
     Aword containerProps;
     Aword foundInstance[2] = {0,0};
     int found = 0;
@@ -124,7 +124,7 @@ void list(int container)
     containerProps = instances[container].container;
     if (containerProps == 0) syserr("Trying to list something not a container.");
 
-    for (i = 1; i <= header->instanceMax; i++) {
+    for (Aid i = 1; i <= header->instanceMax; i++) {
         if (isDescribable(i)) {
             /* We can only see objects and actors directly in this container... */
             if (admin[i].location == container) { /* Yes, it's in this container */

@@ -8,11 +8,16 @@ The hero Isa actor
                 Else "That weighs too much."
 End The hero.
 
-The bag Isa object In hero
+Every bag Isa object
     Has weight 0.
     Container
-End The bag.
+End Every bag.
 
+The bag1 Isa bag In hero
+End The bag1.
+
+The bag2 Isa bag In bag1
+End The bag2.
 
 Syntax put_in = put (o) 'in' (c)
     Where c Isa Container
@@ -40,3 +45,6 @@ End The stone2.
 
 
 Start At l.
+    List hero.
+    List bag1.
+    List bag2.

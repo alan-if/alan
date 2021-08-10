@@ -5,10 +5,7 @@
 
 
 L
-There is a bag, a stone1 and a stone2 here.
-
-> take bag
-The hero carries a bag. The bag is empty.
+There is a stone1 and a stone2 here.
 
 > put stone1 in bag
 The bag contains a stone1. The hero carries a bag.
