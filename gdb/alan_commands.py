@@ -48,8 +48,8 @@ def select_fields(self, field_name, fields):
     for field in self.val.type.fields():
         kids.append(select_field(self, field_name, field, fields))
     return kids
-    
-    
+
+
 class SymbolPrinter(object):
     "Print an Alan Compiler Symbol Node"
 
@@ -67,10 +67,9 @@ class SymbolPrinter(object):
             'PARAMETER_SYMBOL':'parameter',
             'LOCAL_SYMBOL':'local'
         }
-        
         return select_fields(self, 'fields', symbol_fields)
 
-    
+
 class ExpressionPrinter(object):
     "Print an Alan Compiler Expression Node"
 
@@ -95,10 +94,9 @@ class ExpressionPrinter(object):
             'BETWEEN_EXRESSION':'btw',
             'ISA_EXRESSION':'isa'
         }
-        
         return select_fields(self, 'fields', expression_fields)
 
-    
+
 class StatementPrinter(object):
     "Print an Alan Compiler Statement Node"
 
@@ -139,9 +137,8 @@ class StatementPrinter(object):
             'STRIP_STATEMENT':'strip',
             'TRANSCRIPT_STATEMENT':'transcript'
         }
-
         return select_fields(self, 'fields', statement_fields)
-        
+
 
 class ListPrinter(object):
     "Print an Alan Compiler List Node"
@@ -188,9 +185,8 @@ class ListPrinter(object):
             'WORD_LIST':'word',
             'IFID_LIST':'ifid'
         }
-
         return select_fields(self, 'member', list_fields)
-        
+
 class SrcpPrinter(object):
     "Print an Alan Compiler Srcp struct"
 
@@ -200,7 +196,7 @@ class SrcpPrinter(object):
     def to_string(self):
         return "{%d:%d:%d %d-%d}" % (self.val['file'], self.val['line'], self.val['col'], self.val['startpos'], self.val['endpos'])
 
-    
+
 import gdb.printing
 
 def build_pretty_printers():
