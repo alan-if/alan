@@ -1,5 +1,3 @@
-take stone1
-take stone2
+take bag
 put stone1 in bag
 put stone2 in bag
-take bag

@@ -1,0 +1,21 @@
+########## parent_container_limits ##########
+
+        No warnings or errors detected.
+
+
+
+L
+There is a bag, a stone1 and a stone2 here.
+
+> take bag
+The hero carries a bag. The bag is empty.
+
+> put stone1 in bag
+The bag contains a stone1. The hero carries a bag.
+
+> put stone2 in bag
+That weighs too much.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

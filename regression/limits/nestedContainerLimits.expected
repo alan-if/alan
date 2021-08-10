@@ -22,33 +22,6 @@ The bag contains a stone2 and a stone1. The hero is empty-handed.
 > take bag
 That weighs too much.
 
-> drop stone1
-The hero is empty-handed. The bag contains a stone2.
-
-L
-There is a bag here. The bag contains a stone2. There is a stone1 here.
-
-> drop stone2
-The hero is empty-handed. The bag is empty.
-
-L
-There is a bag, a stone1 and a stone2 here.
-
-> drop bag
-The hero is empty-handed. The bag is empty.
-
-L
-There is a bag, a stone1 and a stone2 here.
-
-> take bag
-The hero carries a bag. The bag is empty.
-
-> put stone1 in bag
-The bag contains a stone1. The hero carries a bag.
-
-> put stone2 in bag
-The bag contains a stone2 and a stone1. The hero carries a bag.
-
 > 
 
 Do you want to UNDO, RESTART, RESTORE or QUIT ? 
