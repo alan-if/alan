@@ -17,12 +17,13 @@ ifneq ($(BUILD_NUMBER),)
 endif
 
 # NOTE: for unittests -DUNITTESTING is automatically added
-# so you can override system functions
-CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD) $(COVERAGE) -DGIT_VERSION=\"$(GIT_VERSION)\"
+# so you can override system functions and other hacks
+CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD) $(COVERAGE)
 LDFLAGS += $(COVERAGE)
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
+
 
 #######################################################################
 #
@@ -247,4 +248,15 @@ dumpacd: $(DUMPACDOBJDIR) $(DUMPACDOBJECTS)
 	$(CC) $(LDFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
 
+#######################################################################
+# GIT VERSION marking
 GIT_VERSION := "$(shell git describe --abbrev=4 --dirty --always --tags)"
+.arun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+.arun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+.winarun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+.winarun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+.gararun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+.gararun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+.glkarun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+.glkarun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+
