@@ -2,9 +2,9 @@ Changes in V3.0beta8:
 - FEATURE: To extend support for non-English languages UTF-8 encoding is now supported for  source, solution and transcript files. The new compiler option `-encoding` will make the compiler assume that the source code is encoded with UTF-8. In addition, import files that have a UTF-8 BOM marker will always be read using UTF-8 encoding, irrespective of any options. The interpreter switch `-u` will indicate that input and output in the terminal, command logs, transcript files and solution files, is performed using UTF-8 encoding (which is the default on Linux and becoming more common). See Appendix C in The Alan Language Manual for details.
 - FEATURE (language): Block comments. See chapter 4, Lexical Definitions in the Alan Language Manual
 - FEATURE (interpreters): Make it possible to generate transcript and command logs simultaneously from a single game run
-- FEATURE (misc): Ensure Alan complies with the Babel Treaty (a convention to make it possible to identify and catalog *all* works of Interactive Fiction
+- FEATURE (misc): Ensure Alan complies with the Babel Treaty (a convention to make it possible to identify and catalog *all* works of Interactive Fiction)
 - FEATURE (interpreter): Add separate option for not paging output ("<More>")
-- BUGFIX: When an item was located in a container and that item itself was a container the limit was not checked for its content. This might change behaviour of existing games, please check.
+- BUGFIX: When an item is located in a container the limits now considers content in possible contained items recursively. Furthermore if the container in itself is contained in a limited container those limits are now also checked. This might change behaviour of existing games, please check.
 - BUGFIX: Random spacing issues fixed
 - BUGIFX: Dynamic variable `$v` gave wrong output if used in Exits
 - BUGFIX: Dynamic variable `$o` crashed the interpreter if used in an Exit
