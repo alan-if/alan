@@ -212,8 +212,6 @@ bool readline(char buffer[])
 
 #include <unistd.h>
 
-#include "readline.h"
-
 #include "memory.h"
 
 
@@ -228,18 +226,21 @@ static struct termios term;
 
 static void newtermio()
 {
-    struct termios newterm;
-    tcgetattr(0, &term);
-    newterm=term;
-    newterm.c_lflag&=~(ECHO|ICANON);
-    newterm.c_cc[VMIN]=1;
-    newterm.c_cc[VTIME]=0;
-    tcsetattr(0, TCSANOW, &newterm);
+    if (isatty(STDIN_FILENO)) {
+        struct termios newterm;
+        tcgetattr(STDIN_FILENO, &term);
+        newterm=term;
+        newterm.c_lflag&=~(ECHO|ICANON);
+        newterm.c_cc[VMIN]=1;
+        newterm.c_cc[VTIME]=0;
+        tcsetattr(STDIN_FILENO, TCSANOW, &newterm);
+    }
 }
 
 static void restoretermio()
 {
-    tcsetattr(0, TCSANOW, &term);
+    if (isatty(STDIN_FILENO))
+        tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 #endif
@@ -259,7 +260,7 @@ static int histidx;		/* Index where to store next history */
 static int histp;		/* Points to the history recalled last */
 
 static unsigned char ch;
-static int endOfInput = 0;
+static bool endOfInput;
 static bool commandLineChanged;
 static bool insertMode = true;
 
@@ -374,7 +375,7 @@ static KeyMap escapeBracket3map[] = {
 static void escapeBracket3Hook(char ch) {
     int rc;
     (void)rc;                   /* UNUSED */
-    rc = read(0, &ch, 1);
+    rc = read(STDIN_FILENO, &ch, 1);
     execute(escapeBracket3map, ch);
 }
 
@@ -608,7 +609,7 @@ static void insertToggle(char ch)
 {
     int rc;
     (void)rc;                   /* UNUSED */
-    rc = read(0, &ch, 1);
+    rc = read(STDIN_FILENO, &ch, 1);
     if (ch != 'z')
         doBeep();
     else
@@ -685,14 +686,14 @@ static void delFwd(char ch)
 static void escHook(char ch) {
     int rc;
     (void)rc;                   /* UNUSED */
-    rc = read(0, &ch, 1);
+    rc = read(STDIN_FILENO, &ch, 1);
     execute(escmap, ch);
 }
 
 static void arrowHook(char ch) {
     int rc;
     (void)rc;                   /* UNUSED */
-    rc = read(0, &ch, 1);
+    rc = read(STDIN_FILENO, &ch, 1);
     execute(arrowmap, ch);
 }
 
@@ -701,7 +702,7 @@ static void newLine(char ch)
     int rc;
     (void)rc;                   /* UNUSED */
 
-    endOfInput = 1;
+    endOfInput = true;
     rc = write(1, "\n", 1);
 
     /* If the input is not the same as the previous, save it in the history */
@@ -858,6 +859,7 @@ static void echoOn()
 #endif
 }
 
+#include <errno.h>
 
 /*======================================================================
 
@@ -900,10 +902,12 @@ bool readline(char usrbuf[])
         buffer[0] = '\0';
         commandLineChanged = true;
         echoOff();
-        endOfInput = 0;
+        //printf("ERROR = %s\n", strerror(errno));
+        endOfInput = false;
         while (!endOfInput) {
-            if (read(0, (void *)&ch, 1) != 1) {
-                /* Not returning 1 means we did not get any character at all... */
+            int count = read(STDIN_FILENO, (void *)&ch, 1);
+            if (count == 0) {
+                /* We did not get any character at all? EOF? */
                 echoOn();
                 return false;
             }

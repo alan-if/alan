@@ -75,8 +75,8 @@ void newline(void)
 #ifndef HAVE_GLK
     char buf[256];
 
+    printAndLog("\n");
     if ((!nopagingOption && !regressionTestOption) && lin == pageLength - 1) {
-        printAndLog("\n");
         needSpace = false;
         col = 0;
         lin = 0;
@@ -86,8 +86,7 @@ void newline(void)
         if (fgets(buf, 256, stdin) == 0)
             /* ignore error */;
         getPageSize();
-    } else
-        printAndLog("\n");
+    }
 
     lin++;
 #else
