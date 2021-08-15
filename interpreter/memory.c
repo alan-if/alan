@@ -15,7 +15,7 @@
 Aword *memory = NULL;
 static ACodeHeader dummyHeader; /* Dummy to use until memory allocated */
 ACodeHeader *header = &dummyHeader;
-int memTop = 0;         /* Top of load memory */
+int memTop = 0;                 /* Top of load memory */
 
 /* Private data */
 typedef struct {

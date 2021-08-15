@@ -8,13 +8,10 @@
 #include <stdint.h>
 
 typedef uint32_t Aptr;       /* Type for an ACODE pointer used in the structures */
-/* TODO: Here's the major 32->64bit problem: Aptrs are 32 bit to fit
-   into the 32-bit structure of the Amachine, but sometimes this is
-   used to store a *real* pointer value, which on 64-bit machines are
-   64bits. So for now we'll compile for 32bits to achieve complete
-   cross-platform compatibility of game files.
-
-   WTF? Isn't this fixed with the pointer tables in the interpreter?!?!?
+/* Aptrs are 32 bit to fit into the 32-bit structure of the Amachine,
+   but represents a *real* pointer value, which on 64-bit machines are
+   64bits. So an Aptr is a symbolic value for the actual address and
+   has to be translated through fromAptr() in memory.c
  */
 
 typedef uint32_t Aword;      /* Type for an ACODE word */
