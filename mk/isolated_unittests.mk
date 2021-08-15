@@ -16,8 +16,6 @@ CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
 
 .SECONDARY:
 
-ISOLATED_UNITTESTS_EXTRA_OBJS = $(addprefix $(UNITTESTS_OBJDIR)/, $(addsuffix .o, $(ISOLATED_UNITTESTS_EXTRA_MODULES)))
-
 # Include depencency information for modules and their tests
 -include $(addprefix $(UNITTESTS_OBJDIR)/,$(patsubst %,%.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
 -include $(addprefix $(UNITTESTS_OBJDIR)/,$(patsubst %,%_tests.d,$(MODULES_WITH_ISOLATED_UNITTESTS)))
