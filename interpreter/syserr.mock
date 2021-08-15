@@ -9,8 +9,7 @@
 /* DATA: */
 
 /* FUNCTIONS: */
-void syserr(char *msg) { printf("SYSERR: %s\n", msg); mock(msg); }
+void syserr(char *msg) { mock(msg); }
 void apperr(char *msg) { mock(msg); }
 void playererr(char *msg) { mock(msg); }
 void setSyserrHandler(void (*handler)(char *)) { mock(handler); }
-
