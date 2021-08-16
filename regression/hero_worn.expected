@@ -1,0 +1,21 @@
+########## hero_worn ##########
+
+        No warnings or errors detected.
+        1 informational message(s).
+
+
+
+L
+There is a shirt here.
+
+> i
+You are not carrying anything.
+
+> wear shirt
+
+> i
+You are not carrying anything. You are wearing a shirt.
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

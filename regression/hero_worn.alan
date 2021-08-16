@@ -1,0 +1,49 @@
+Every wearing_actor Isa actor
+    Container Taking thing.    -- To allow for invisible auxillary containers
+    Has worn hero_worn.        -- The link from the actor to its worn container
+                               -- Need to be set in actual instance, hero_worn used
+                               -- for setting the class of the attribute
+End Every wearing_actor.
+
+The hero Isa wearing_actor
+    Name you
+    Container Taking thing.
+        Header "You are carrying"
+        Else "You are not carrying anything."
+    Has worn hero_worn.
+End The hero.
+
+Every worn_container Isa thing
+    Container
+End Every worn_container.
+
+The hero_worn Isa worn_container In hero
+    Container
+        Header "You are wearing"
+        Else ""
+End The hero_worn.
+
+Syntax wear = wear (o)
+    Where o Isa clothing
+        Else "You've got nothing to wear but clothes..."
+
+Every clothing Isa object
+   Verb wear
+       Does
+           Locate o In worn Of hero.
+   End Verb.
+End Every clothing.
+
+The shirt Isa clothing At l
+End The shirt.
+
+The l Isa location
+End The l.
+
+Verb i
+    Does
+        List hero.
+        List worn Of hero.
+End Verb.
+
+Start At l.
