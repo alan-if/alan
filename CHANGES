@@ -5,10 +5,11 @@ Changes in V3.0beta8:
 - FEATURE (misc): Ensure Alan complies with the Babel Treaty (a convention to make it possible to identify and catalog *all* works of Interactive Fiction)
 - FEATURE (interpreter): Add separate option for not paging output ("<More>")
 - BUGFIX: When an item is located in a container the limits now considers content in possible contained items recursively. Furthermore if the container in itself is contained in a limited container those limits are now also checked. This might change behaviour of existing games, please check.
+- BUGFIX: Large games with many string or set manipulations could sometimes exhibit significant slowdowns over time
 - BUGFIX: Random spacing issues fixed
 - BUGIFX: Dynamic variable `$v` gave wrong output if used in Exits
 - BUGFIX: Dynamic variable `$o` crashed the interpreter if used in an Exit
-- BUGFIX: Option section did not allow you to use 'no' before a boolean option.
+- BUGFIX: Option section did not allow you to use 'no' before a boolean option
 
 Changes in V3.0beta7:
 - FEATURE: ellision/contraction marked by apostrophe (such as "l'aqua" in italian) is now handled so that it is first looked up as a complete word, but failing that will fallback and look for the two parts separated by the apostrophe as single words.
