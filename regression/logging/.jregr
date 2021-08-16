@@ -1,0 +1,3 @@
+.alan : alan $1
+.a3c : arun -r $1 < $1.input
+.a3t : cat $1.a3t

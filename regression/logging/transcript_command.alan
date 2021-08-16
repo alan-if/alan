@@ -1,0 +1,18 @@
+Verb 'transcript'
+  Does
+    "Transcript on."
+    Transcript On.
+End Verb.
+
+Verb 'look'
+  Does
+    Look.
+End Verb.
+
+The l Isa location
+End The l.
+
+The rock Isa object At l
+End The rock.
+
+Start At l.

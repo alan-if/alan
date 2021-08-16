@@ -6,6 +6,7 @@ Changes in V3.0beta8:
 - FEATURE (interpreter): Add separate option for not paging output ("<More>")
 - BUGFIX: When an item is located in a container the limits now considers content in possible contained items recursively. Furthermore if the container in itself is contained in a limited container those limits are now also checked. This might change behaviour of existing games, please check.
 - BUGFIX: Large games with many string or set manipulations could sometimes exhibit significant slowdowns over time
+- BUGFIX: Transcript was always empty when started from code using "Transcript On."
 - BUGFIX: Random spacing issues fixed
 - BUGIFX: Dynamic variable `$v` gave wrong output if used in Exits
 - BUGFIX: Dynamic variable `$o` crashed the interpreter if used in an Exit

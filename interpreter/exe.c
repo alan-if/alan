@@ -744,9 +744,12 @@ void startTranscript(void) {
     /* If we couldn't open file, don't do transcript */
     if (transcriptFile == NULL) {
         transcriptOption = false;
-    } else if (encodingOption == ENCODING_UTF) {
-        uchar BOM[3] = {0xEF,0xBB,0xBF};
-        fwrite((char *)BOM, sizeof(BOM), 1, transcriptFile);
+    } else {
+        transcriptOption = true;
+        if (encodingOption == ENCODING_UTF) {
+            uchar BOM[3] = {0xEF,0xBB,0xBF};
+            fwrite((char *)BOM, sizeof(BOM), 1, transcriptFile);
+        }
     }
 }
 
