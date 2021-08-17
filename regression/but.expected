@@ -9,10 +9,10 @@ L
 There is a x here.
 
 > take all but
-You must give at least one object after 'but'.
+I was expecting at least one object after 'but'.
 
 > take all except
-You must give at least one object after 'except'.
+I was expecting at least one object after 'except'.
 
 > take x but
 You can only use 'but' after 'all'.

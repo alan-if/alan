@@ -115,8 +115,8 @@ adbg> g
  da8: PUSH             0                         
  da9: LINE             0,      0                 
  daa: PUSH             6                         
- dab: PUSH          2139                         
- dac: PRINT         2139,      6                            "Stairs"
+ dab: PUSH          2140                         
+ dac: PRINT         2140,      6                            "Stairs"
  dad: RETURN                                     
 --------------------------------------------------
 
@@ -127,8 +127,8 @@ adbg> g
  db0: LINE             0,    447                 
 <00447>:         "You are at the landing of an old staircase. It seem steady
  db1: PUSH           260                         
- db2: PUSH          2145                         
- db3: PRINT         2145,    260                            "You are at the landing of an old
+ db2: PUSH          2146                         
+ db3: PRINT         2146,    260                            "You are at the landing of an old
 staircase. It seem steady enough to walk in, but be careful if you are
 going to use it. There is a passage leading up, and another leading down
 into a dark cellar. To the east is the hallway. A strange smell emerges 
@@ -164,8 +164,8 @@ adbg> g
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++
 1fc3: PUSH             7                         
-1fc4: PUSH         10235                         
-1fc5: PRINT        10235,      7                            " (again)"
+1fc4: PUSH         10250                         
+1fc5: PRINT        10250,      7                            " (again)"
 1fc6: RETURN                                     
 --------------------------------------------------
 
@@ -219,16 +219,16 @@ adbg> g
  da8: PUSH             0                                    [0 0 ]
  da9: LINE             0,      0                            []
  daa: PUSH             6                                    [6 ]
- dab: PUSH          2139                                    [6 2139 ]
- dac: PRINT         2139,      6                            "Stairs"
+ dab: PUSH          2140                                    [6 2140 ]
+ dac: PRINT         2140,      6                            "Stairs"
                                                             []
  dad: RETURN                                     
 --------------------------------------------------
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++
 1fc3: PUSH             7                                    [7 ]
-1fc4: PUSH         10235                                    [7 10235 ]
-1fc5: PRINT        10235,      7                            " (again)"
+1fc4: PUSH         10250                                    [7 10250 ]
+1fc5: PRINT        10250,      7                            " (again)"
                                                             []
 1fc6: RETURN                                     
 --------------------------------------------------
@@ -253,8 +253,8 @@ adbg> g
  dce: PUSH             0                                    [0 0 ]
  dcf: LINE             0,      0                            []
  dd0: PUSH             6                                    [6 ]
- dd1: PUSH          2287                                    [6 2287 ]
- dd2: PRINT         2287,      6                            "Cellar"
+ dd1: PUSH          2288                                    [6 2288 ]
+ dd2: PRINT         2288,      6                            "Cellar"
                                                             []
  dd3: RETURN                                     
 --------------------------------------------------
@@ -266,8 +266,8 @@ adbg> g
  dd6: LINE             0,    461                            []
 <00461>:         "In front of you is a dark cellar. To the west is a doorway
  dd7: PUSH           158                                    [158 ]
- dd8: PUSH          2293                                    [158 2293 ]
- dd9: PRINT         2293,    158                            "In front of you is a dark cellar.
+ dd8: PUSH          2294                                    [158 2294 ]
+ dd9: PRINT         2294,    158                            "In front of you is a dark cellar.
 To the west is a doorway into a dark room. The stairs lead up. A thin
 beam of light has found its way all the way down here."
                                                             []
@@ -280,8 +280,8 @@ beam of light has found its way all the way down here."
  e2e: LINE             0,    483                            []
 <00483>:         "In the light from the sun some rats can be seen."
  e2f: PUSH            48                                    [48 ]
- e30: PUSH          2498                                    [48 2498 ]
- e31: PRINT         2498,     48                            " In the light from the sun some
+ e30: PUSH          2499                                    [48 2499 ]
+ e31: PRINT         2499,     48                            " In the light from the sun some
 rats can be seen."
                                                             []
  e32: PUSH             0                                    [0 ]

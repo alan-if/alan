@@ -556,6 +556,7 @@ void showImage(int image, int align)
         (glk_gestalt(gestalt_DrawImage, wintype_TextBuffer) == 1)) {
         glk_window_flow_break(glkMainWin);
         printf("\n");
+        /* align will always be 0 as Alan don't have image align, so use margin left */
         ecode = glk_image_draw(glkMainWin, image, imagealign_MarginLeft, 0);
         (void)ecode;
     }

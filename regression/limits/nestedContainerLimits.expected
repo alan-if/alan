@@ -14,10 +14,10 @@ The hero carries a stone1. The bag is empty.
 That weighs too much.
 
 > put stone1 in bag
-The bag contains a stone1. The hero is empty-handed.
+The bag contains a stone1. The hero is not carrying anything.
 
 > put stone2 in bag
-The bag contains a stone2 and a stone1. The hero is empty-handed.
+The bag contains a stone2 and a stone1. The hero is not carrying anything.
 
 > take bag
 That weighs too much.
