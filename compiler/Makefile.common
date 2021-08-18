@@ -88,7 +88,7 @@ standard_tests: alan
 # Clean
 .PHONY: clean
 clean:
-	-rm -rf $(OBJDIRS) *.$(SOEXTENSION) alan alan.exe winalan.exe ../bin/alan ../bin/alan.exe ../bin/winalan.exe alan.res
+	-rm -rf $(OBJDIRS) *.$(SOEXTENSION) alan alan.exe winalan.exe alan.res
 
 #################################################################
 #

@@ -11,6 +11,7 @@
 CROSS_PACKAGE = alan$(VERSION)$(BUILDVERSION).win32.i686.zip
 zip: PLATFORM=win32.i686
 .PHONY: zip
+# TODO: The checks for cygwin1.dll should only be done on Cygwin
 zip: bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.txt games/adventv3/adventV3.a3c regression/saviour.alan regression/logo.png COPYING.txt
 	@if ldd bin/alan.exe | grep -q cygwin1.dll ; then \
 		echo ERROR packaging - alan.exe is dependent on cygwin1.dll ; \
@@ -25,8 +26,6 @@ zip: bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.t
 	cp $^ $(PACKAGENAME)
 	zip -r alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
-
-bin/alan.exe bin/arun.exe : cross
 
 bin/winalan.exe bin/winarun.exe :
 	$(error You must first enable or explicitly build winalan.exe and winarun.exe)

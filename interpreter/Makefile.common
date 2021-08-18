@@ -184,7 +184,7 @@ include ../mk/isolated_unittests.mk
 #######################################################################
 .PHONY: clean
 clean:
-	-rm -rf $(OBJDIRS) arun arun.exe glkarun alan3.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res unittests.{so,dll,dylib}
+	-rm -rf $(OBJDIRS) arun arun.exe glkarun alan3.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res unittests.{so,dll,dylib}
 
 
 ##################################################################

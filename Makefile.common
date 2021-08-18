@@ -160,11 +160,8 @@ else
 	@echo "Have BUILDNUMBER file ($(BUILDNUMBER)), not getting from Jenkins"
 endif
 
-bin/alan:
-	$(MAKE) -C compiler alan
-
 # Need for packaging
-games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan
+games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
 	cd games/adventv3; ../../bin/alan adventV3
 
 #######################################################################
