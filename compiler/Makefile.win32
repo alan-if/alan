@@ -20,7 +20,7 @@ winalan: CFLAGS += -DWINGUI #-DARGSDISPLAY
 winalan: EXEEXT = .exe
 winalan: LDLIBS += -lshlwapi -l:libiconv.a
 
-WINALANOBJDIR = .winalan
+WINALAN_OBJDIR = .winalan
 OBJDIRS += $(WINALAN_OBJDIR)
 
 WINALANOBJECTS = $(addprefix $(WINALAN_OBJDIR)/,${ALAN_SRCS:.c=.o}) $(WINALAN_OBJDIR)/alan.version.o
