@@ -68,7 +68,7 @@ cross-build: build $(EXTRA_CROSS_TARGETS)
 # but are not by default
 .PHONY: cross-clean
 cross-clean:
-	-rm -f $(ALAN_OBJDIR)/*.o
+	-rm -f $(ALAN_OBJDIR)/*.o alan
 
 #######################################################################
 #

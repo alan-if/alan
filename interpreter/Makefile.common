@@ -110,7 +110,7 @@ cross-build: build $(EXTRA_CROSS_TARGETS)
 # but are not by default
 .PHONY: cross-clean
 cross-clean:
-	-rm -f $(ARUN_OBJDIR)/*.o
+	-rm -f $(ARUN_OBJDIR)/*.o arun
 
 
 #######################################################################
