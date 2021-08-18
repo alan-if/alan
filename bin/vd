@@ -5,10 +5,11 @@ case $os in
     "Linux")
         diff=meld ;;
     "CYGWIN_NT-10.0")
-        #diff=meld ;;
         diff="/cygdrive/c/Program Files (x86)/Winmerge/WinMergeU" ;;
     "MINGW64_NT-10.0-17763")
         diff="/c/Program Files (x86)/Winmerge/WinMergeU" ;;
+    "Darwin")
+        diff=meld ;;
     *)
         echo "No visual diff defined for" $os
         exit ;;

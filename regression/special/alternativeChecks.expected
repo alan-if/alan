@@ -18,9 +18,9 @@ There is a obj1, a obj2 and a obj3 here.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=loc[5], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=loc[5], CHECK:>
 
-<VERB 1, in parameter p2(#2)=loc[5], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=loc[5], CHECK:>
 You can't do that.
 
 > v loc obj1      ; loc as p1
@@ -29,7 +29,7 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=loc[5], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=loc[5], CHECK:>
 You can't do that.
 
 > v loc obj2      ; loc as p1
@@ -38,9 +38,9 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=loc[5], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=loc[5], CHECK:>
 
-<VERB 1, in parameter p2(#2)=obj2[3], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=obj2[3], CHECK:>
 You can't do that.
 
 > v loc obj3      ; loc as p1
@@ -49,9 +49,9 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=loc[5], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=loc[5], CHECK:>
 
-<VERB 1, in parameter p2(#2)=obj3[4], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=obj3[4], CHECK:>
 You can't do that.
 
 > v obj1 loc      ; obj1 as p1
@@ -60,9 +60,9 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=obj1[2], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=obj1[2], CHECK:>
 
-<VERB 1, in parameter p2(#2)=loc[5], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=loc[5], CHECK:>
 You can't do that.
 
 > v obj1 obj1     ; obj1 as p1
@@ -71,7 +71,7 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=obj1[2], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=obj1[2], CHECK:>
 You can't do that.
 
 > v obj1 obj2     ; obj1 as p1
@@ -80,9 +80,9 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=obj1[2], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=obj1[2], CHECK:>
 
-<VERB 1, in parameter p2(#2)=obj2[3], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=obj2[3], CHECK:>
 You can't do that.
 
 > v obj1 obj3     ; obj1 as p1
@@ -91,9 +91,9 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=obj1[2], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=obj1[2], CHECK:>
 
-<VERB 1, in parameter p2(#2)=obj3[4], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=obj3[4], CHECK:>
 You can't do that.
 
 > v obj2 loc      ; loc as p2
@@ -102,7 +102,7 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p2(#2)=loc[5], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=loc[5], CHECK:>
 You can't do that.
 
 > v obj2 obj1     ; run body
@@ -118,7 +118,7 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p2(#2)=obj2[3], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=obj2[3], CHECK:>
 You can't do that.
 
 > v obj2 obj3     ; obj3 as p2
@@ -127,7 +127,7 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p2(#2)=obj3[4], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=obj3[4], CHECK:>
 You can't do that.
 
 > v obj3 loc      ; obj3 as p1
@@ -136,9 +136,9 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=obj3[4], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=obj3[4], CHECK:>
 
-<VERB 1, in parameter p2(#2)=loc[5], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=loc[5], CHECK:>
 You can't do that.
 
 > v obj3 obj1     ; obj3 as p1
@@ -147,7 +147,7 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=obj3[4], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=obj3[4], CHECK:>
 You can't do that.
 
 > v obj3 obj2     ; obj3 as p1
@@ -156,9 +156,9 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=obj3[4], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=obj3[4], CHECK:>
 
-<VERB 1, in parameter p2(#2)=obj2[3], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=obj2[3], CHECK:>
 You can't do that.
 
 > v obj3 obj3     ; obj3 as p1
@@ -167,9 +167,9 @@ You can't do that.
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa entity[1], PASSED>
 
-<VERB 1, in parameter p1(#1)=obj3[4], CHECK:>
+<VERB 1, in parameter 'p1'(#1)=obj3[4], CHECK:>
 
-<VERB 1, in parameter p2(#2)=obj3[4], CHECK:>
+<VERB 1, in parameter 'p2'(#2)=obj3[4], CHECK:>
 You can't do that.
 
 > 

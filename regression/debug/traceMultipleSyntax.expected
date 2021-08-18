@@ -24,7 +24,7 @@ adbg> g
 
 <SYNTAX RESTRICTION WHERE parameter p2(#2) Isa object[4], PASSED>
 
-<VERB 2, in parameter p1(#1)=o[2], inherited from object[4], DOES:>
+<VERB 2, in parameter 'p1'(#1)=o[2], inherited from object[4], DOES:>
 
 adbg> 
 

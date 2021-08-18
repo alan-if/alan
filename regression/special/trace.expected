@@ -4,7 +4,7 @@
 trace.alan
 
   826.          Does
-=====>         1
+=====>          1
 
   *1*   223 W : This Verb body might be executed for every matching parameter
                 in the syntax for 'insert_into', depending on the parameter
@@ -16,6 +16,9 @@ trace.alan
         1 warning(s).
         9 informational message(s).
 
+
+
+<INITIALIZE:>
 
 <START:>
 
@@ -36,7 +39,7 @@ Pages at:
 
 http://welcome.to/alan-if
 
-
+<CURRENT LOCATION:>
 Outside the tall building
 To the north is a tall ancient building with a large entrance. On the top
 there is a clock tower. Most of the windows in the building are broken,
@@ -56,9 +59,15 @@ You are empty-handed.
 
 > north
 
-<EXIT north(1) from Outside the tall building(3), Executing:>
+<EXIT north[1] from Outside the tall building[4], Executing:>
 
-<EXIT north(1) from Outside the tall building(3), Moving:>
+<EXIT north[1] from Outside the tall building[4], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance hall[5] is empty>
 
 Hall
 Inside the entrance is a hallway full of dust and pieces of the ceiling
@@ -67,7 +76,13 @@ is the exit. To the east is a folding door. It is closed.
 
 > west
 
-<EXIT west(3) from hall(4), Moving:>
+<EXIT west[3] from hall[5], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance stairs[7] is empty>
 
 Stairs
 You are at the landing of an old staircase. It seem steady enough to walk
@@ -77,7 +92,13 @@ hallway. A strange smell emerges from below.
 
 > up
 
-<EXIT up(5) from stairs(6), Moving:>
+<EXIT up[5] from stairs[7], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance First Floor[12] is empty>
 
 First Floor
 The landing on the first floor is as dirty as all the others. Meters and
@@ -88,22 +109,28 @@ completely covered by dust, there is an old book laying on the floor here.
 
 > take all
 (old book)
-<VERB 21, in parameter #1 (old book), inherited from class #4 (object), CHECK:>
+<VERB 21, in parameter 'str'(#1)=old book[13], inherited from object[4], CHECK:>
 
-<VERB 21, in parameter #1 (old book), inherited from class #4 (object), DOES:>
+<VERB 21, in parameter 'str'(#1)=old book[13], inherited from object[4], DOES:>
 Taken.
 
 > read the book
 
-<VERB 5, in parameter #1 (old book), inherited from class #4 (object), CHECK:>
+<VERB 5, in parameter 'object'(#1)=old book[13], inherited from object[4], CHECK:>
 
-<VERB 5, in parameter #1 (old book), DOES:>
+<VERB 5, in parameter 'object'(#1)=old book[13], DOES:>
 As you carefully try to open the book it falls apart into dust and falls
 to the floor through your fingers.
 
 > east
 
-<EXIT east(2) from First Floor(11), Moving:>
+<EXIT east[2] from First Floor[12], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance office[14] is empty>
 
 Office
 In front of you is a deserted office area. Desks and chairs are piled up
@@ -116,23 +143,35 @@ the floor here.
 
 > take ladder
 
-<VERB 21, in parameter #1 (3 metre long ladder), inherited from class #4 (object), CHECK:>
+<VERB 21, in parameter 'str'(#1)=3 metre long ladder[15], inherited from object[4], CHECK:>
 
-<VERB 21, in parameter #1 (3 metre long ladder), CHECK:>
+<VERB 21, in parameter 'str'(#1)=3 metre long ladder[15], CHECK:>
 
-<VERB 21, in parameter #1 (3 metre long ladder), inherited from class #4 (object), DOES:>
+<VERB 21, in parameter 'str'(#1)=3 metre long ladder[15], inherited from object[4], DOES:>
 Taken.
-<VERB 21, in parameter #1 (3 metre long ladder), DOES:>
+<VERB 21, in parameter 'str'(#1)=3 metre long ladder[15], DOES:>
 
 > west
 
-<EXIT west(3) from office(13), Moving:>
+<EXIT west[3] from office[14], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance First Floor[12] is empty>
 
 First Floor (again)
 
 > up
 
-<EXIT up(5) from First Floor(11), Moving:>
+<EXIT up[5] from First Floor[12], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Second Floor[16] is empty>
 
 Second Floor
 The second landing of the stairs is well kept through the ages. Some rust
@@ -143,7 +182,13 @@ east.
 
 > east
 
-<EXIT east(2) from Second Floor(15), Moving:>
+<EXIT east[2] from Second Floor[16], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Terminal Room[17] is empty>
 
 Terminal Room
 This must be the old terminal room. Old and dusty, most of them cracked
@@ -154,29 +199,41 @@ seems in much better shape than the others.
 
 > take terminal
 
-<VERB 21, in parameter #1 (rather heavy computer terminal), inherited from class #4 (object), CHECK:>
+<VERB 21, in parameter 'str'(#1)=rather heavy computer terminal[18], inherited from object[4], CHECK:>
 
-<VERB 21, in parameter #1 (rather heavy computer terminal), inherited from class #4 (object), DOES:>
+<VERB 21, in parameter 'str'(#1)=rather heavy computer terminal[18], inherited from object[4], DOES:>
 Taken.
-<VERB 21, in parameter #1 (rather heavy computer terminal), DOES:>
+<VERB 21, in parameter 'str'(#1)=rather heavy computer terminal[18], DOES:>
 OH! There was a coin under it!
 
 > take coin
 
-<VERB 21, in parameter #1 (small coin), inherited from class #4 (object), CHECK:>
+<VERB 21, in parameter 'str'(#1)=small coin[19], inherited from object[4], CHECK:>
 
-<VERB 21, in parameter #1 (small coin), inherited from class #4 (object), DOES:>
+<VERB 21, in parameter 'str'(#1)=small coin[19], inherited from object[4], DOES:>
 Taken.
 
 > west
 
-<EXIT west(3) from Terminal Room(16), Moving:>
+<EXIT west[3] from Terminal Room[17], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Second Floor[16] is empty>
 
 Second Floor (again)
 
 > up
 
-<EXIT up(5) from Second Floor(15), Moving:>
+<EXIT up[5] from Second Floor[16], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Third Floor[20] is empty>
 
 Third Floor
 On the wall here it says 'THIRD FLOOR'. The fence around the stairs is
@@ -188,7 +245,13 @@ now totally blocked.
 
 > up
 
-<EXIT up(5) from Third Floor(19), Moving:>
+<EXIT up[5] from Third Floor[20], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Fourth Floor[21] is empty>
 
 Fourth Floor
 Even this high up the stairs are intact but the fence and railings are
@@ -198,7 +261,13 @@ east and to the north.
 
 > east
 
-<EXIT east(2) from Fourth Floor(20), Moving:>
+<EXIT east[2] from Fourth Floor[21], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Computer Room[34] is empty>
 
 Computer Room
 A room of old computers, cables, disk drives, tape stations and floppy
@@ -213,35 +282,53 @@ metre long ladder.
 
 > connect terminal
 
-<VERB 28, in parameter #1 (rather heavy computer terminal), DOES:>
+<SYNTAX RESTRICTION WHERE parameter object(#1) Isa object[4], PASSED>
+
+<VERB 28, in parameter 'object'(#1)=rather heavy computer terminal[18], DOES:>
 The terminal is now connected to the nearby computer.
 
 > kick computer
 
-<VERB 24, in parameter #1 (computer), DOES:>
+<SYNTAX RESTRICTION WHERE parameter object(#1) Isa object[4], PASSED>
+
+<VERB 24, in parameter 'object'(#1)=computer[35], DOES:>
 Surprisingly, the old computer starts to whirr, the front panel lights
 begins to twinkle frantically, and the computer starts up. The connected
 terminal displays the message 'Please login. Enter USERID:'
 
 > type "nilgu"
 
-<VERB 22, in parameter #1 (nilgu), inherited from class #8 (string), CHECK:>
+<SYNTAX RESTRICTION WHERE parameter str(#1) Isa string[8], PASSED>
 
-<VERB 22, in parameter #1 (nilgu), inherited from class #8 (string), DOES:>
+<VERB 22, in parameter 'str'(#1)=nilgu[41], inherited from string[8], CHECK:>
 
-<EVENT 1 (at Computer Room):>
+<VERB 22, in parameter 'str'(#1)=nilgu[41], inherited from string[8], DOES:>
+
+<EVENT terminal_response[1] (at Computer Room [34]):>
 'ERROR: Wrong USERID.
 Please login. Enter USERID:'
 
 > west
 
-<EXIT west(3) from Computer Room(33), Moving:>
+<EXIT west[3] from Computer Room[34], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Fourth Floor[21] is empty>
 
 Fourth Floor (again)
 
 > north
 
-<EXIT north(1) from Fourth Floor(20), Moving:>
+<EXIT north[1] from Fourth Floor[21], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Windy Room[22] is empty>
 
 Windy Room
 In the middle of the room is a light spot on the floor. The light is
@@ -252,15 +339,24 @@ scared them off.
 
 > raise ladder
 
-<VERB 26, in parameter #1 (3 metre long ladder), DOES:>
+<SYNTAX RESTRICTION WHERE parameter object(#1) Isa object[4], PASSED>
+
+<VERB 26, in parameter 'object'(#1)=3 metre long ladder[15], DOES:>
 The ladder is just long enough to reach up through the hole in the
 ceiling, where it now is standing.
 
 > climb it
 
-<VERB 27, in parameter #1 (3 metre long ladder), DOES:>
+<SYNTAX RESTRICTION WHERE parameter object(#1) Isa object[4], PASSED>
+
+<VERB 27, in parameter 'object'(#1)=3 metre long ladder[15], DOES:>
 The steps of the ladder feels a bit weak, some more than others, but you
 manage to climb all the way without falling down.
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Walless Room[23] is empty>
 
 Walless Room
 Through the hole in the floor the end of a ladder is extending. Three of
@@ -271,24 +367,30 @@ remains of one of the walls, a crow has built it's nest.
 
 > examine nest
 
-<VERB 4, in parameter #1 (birds nest), inherited from class #4 (object), CHECK:>
+<VERB 4, in parameter 'object'(#1)=birds nest[24], inherited from object[4], CHECK:>
 
-<VERB 4, in parameter #1 (birds nest), DOES:>
+<VERB 4, in parameter 'object'(#1)=birds nest[24], DOES:>
 As you turn the nest over for examination, a set of keys falls out.
 Otherwise there is nothing special about the nest.
 
 > take keys
 
-<VERB 21, in parameter #1 (set of rusty keys), inherited from class #4 (object), CHECK:>
+<VERB 21, in parameter 'str'(#1)=set of rusty keys[25], inherited from object[4], CHECK:>
 
-<VERB 21, in parameter #1 (set of rusty keys), inherited from class #4 (object), DOES:>
+<VERB 21, in parameter 'str'(#1)=set of rusty keys[25], inherited from object[4], DOES:>
 Taken.
 
 > down
 
-<EXIT down(6) from Walless Room(22), Executing:>
+<EXIT down[6] from Walless Room[23], Executing:>
 
-<EXIT down(6) from Walless Room(22), Moving:>
+<EXIT down[6] from Walless Room[23], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Windy Room[22] is empty>
 
 Windy Room
 In the middle of the room is a light spot on the floor. The light is
@@ -300,13 +402,25 @@ through the hole in the ceiling.
 
 > south
 
-<EXIT south(4) from Windy Room(21), Moving:>
+<EXIT south[4] from Windy Room[22], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Fourth Floor[21] is empty>
 
 Fourth Floor (again)
 
 > up
 
-<EXIT up(5) from Fourth Floor(20), Moving:>
+<EXIT up[5] from Fourth Floor[21], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Fifth Floor[26] is empty>
 
 Fifth Floor
 This must be the top of the top landing of the staircase. With a pounding
@@ -315,7 +429,13 @@ south, and to the east a long corridor.
 
 > south
 
-<EXIT south(4) from Fifth Floor(25), Moving:>
+<EXIT south[4] from Fifth Floor[26], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Clock Room[27] is empty>
 
 Clock Room
 The room is so small and low that you can't stand straight. In one of the
@@ -324,19 +444,33 @@ seems.
 
 > wind clock
 
-<VERB 30, in parameter #1 (clock), DOES:>
+<SYNTAX RESTRICTION WHERE parameter object(#1) Isa object[4], PASSED>
+
+<VERB 30, in parameter 'object'(#1)=clock[28], DOES:>
 With a deafening BING BANG the clock begins to chime. From the corridor
 in the south a loud flapping of wings is heard.
 
 > north
 
-<EXIT north(1) from Clock Room(26), Moving:>
+<EXIT north[1] from Clock Room[27], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Fifth Floor[26] is empty>
 
 Fifth Floor (again)
 
 > east
 
-<EXIT east(2) from Fifth Floor(25), Moving:>
+<EXIT east[2] from Fifth Floor[26], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Corridor[29] is empty>
 
 Corridor
 A long east-west corridor extends in both directions. There are exits in
@@ -345,9 +479,15 @@ the floor is covered with litter from bats.
 
 > east
 
-<EXIT 2(east) from Corridor(28), Checking:>
+<EXIT east[2] from Corridor[29], Checking:>
 
-<EXIT east(2) from Corridor(28), Moving:>
+<EXIT east[2] from Corridor[29], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Small Office[30] is empty>
 
 Small Office
 This looks like a small office. Near the window there is a large desk. 
@@ -359,39 +499,39 @@ possible to get out there anymore.
 
 > examine desk
 
-<VERB 4, in parameter #1 (desk), inherited from class #4 (object), CHECK:>
+<VERB 4, in parameter 'object'(#1)=desk[32], inherited from object[4], CHECK:>
 
-<VERB 4, in parameter #1 (desk), DOES:>
+<VERB 4, in parameter 'object'(#1)=desk[32], DOES:>
 It is an old desk, made from oak. The top is completely covered by dust 
 where your fingers leave markings. The desk has one remaining drawer.
 
 > examine desk
 
-<VERB 4, in parameter #1 (desk), inherited from class #4 (object), CHECK:>
+<VERB 4, in parameter 'object'(#1)=desk[32], inherited from object[4], CHECK:>
 
-<VERB 4, in parameter #1 (desk), DOES:>
+<VERB 4, in parameter 'object'(#1)=desk[32], DOES:>
 It is an old desk, made from oak. The top is completely covered by dust 
 that shows markings from fingers. The desk has one remaining drawer.
 
 > open drawer
 
-<VERB 9, in parameter #1 (drawer), inherited from class #4 (object), CHECK:>
+<VERB 9, in parameter 'object'(#1)=drawer[31], inherited from object[4], CHECK:>
 
-<VERB 9, in parameter #1 (drawer), DOES:>
+<VERB 9, in parameter 'object'(#1)=drawer[31], DOES:>
 Pulling out the drawer a manual falls to the floor.
 
 > take manual
 
-<VERB 21, in parameter #1 (dirty manual), inherited from class #4 (object), CHECK:>
+<VERB 21, in parameter 'str'(#1)=dirty manual[33], inherited from object[4], CHECK:>
 
-<VERB 21, in parameter #1 (dirty manual), inherited from class #4 (object), DOES:>
+<VERB 21, in parameter 'str'(#1)=dirty manual[33], inherited from object[4], DOES:>
 Taken.
 
 > read it
 
-<VERB 5, in parameter #1 (dirty manual), inherited from class #4 (object), CHECK:>
+<VERB 5, in parameter 'object'(#1)=dirty manual[33], inherited from object[4], CHECK:>
 
-<VERB 5, in parameter #1 (dirty manual), DOES:>
+<VERB 5, in parameter 'object'(#1)=dirty manual[33], DOES:>
 The text inside the manual reads:
     'You login by typing your Userid, and...'
     '... command is executed by typing it's name.' and
@@ -403,19 +543,37 @@ OOH! There is a hand written remark in the margin here, it says 'OscSv'.
 
 > west
 
-<EXIT west(3) from Small Office(29), Moving:>
+<EXIT west[3] from Small Office[30], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Corridor[29] is empty>
 
 Corridor (again)
 
 > west
 
-<EXIT west(3) from Corridor(28), Moving:>
+<EXIT west[3] from Corridor[29], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Fifth Floor[26] is empty>
 
 Fifth Floor (again)
 
 > down
 
-<EXIT down(6) from Fifth Floor(25), Moving:>
+<EXIT down[6] from Fifth Floor[26], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Fourth Floor[21] is empty>
 
 Fourth Floor
 Even this high up the stairs are intact but the fence and railings are
@@ -425,55 +583,91 @@ east and to the north.
 
 > down
 
-<EXIT down(6) from Fourth Floor(20), Moving:>
+<EXIT down[6] from Fourth Floor[21], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Third Floor[20] is empty>
 
 Third Floor (again)
 
 > down
 
-<EXIT down(6) from Third Floor(19), Moving:>
+<EXIT down[6] from Third Floor[20], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance Second Floor[16] is empty>
 
 Second Floor (again)
 
 > down
 
-<EXIT down(6) from Second Floor(15), Moving:>
+<EXIT down[6] from Second Floor[16], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance First Floor[12] is empty>
 
 First Floor (again)
 
 > down
 
-<EXIT down(6) from First Floor(11), Moving:>
+<EXIT down[6] from First Floor[12], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance stairs[7] is empty>
 
 Stairs (again)
 
 > east
 
-<EXIT east(2) from stairs(6), Moving:>
+<EXIT east[2] from stairs[7], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance hall[5] is empty>
 
 Hall (again)
 To the east is a folding door. It is closed.
 
 > unlock the door with the keys then open the door
 
-<VERB 8, in parameter #1 (door), inherited from class #4 (object), CHECK:>
+<VERB 8, in parameter 'o'(#1)=door[6], inherited from object[4], CHECK:>
 
-<VERB 8, in parameter #2 (set of rusty keys), inherited from class #4 (object), CHECK:>
+<VERB 8, in parameter 'k'(#2)=set of rusty keys[25], inherited from object[4], CHECK:>
 
-<VERB 8, in parameter #1 (door), DOES:>
+<VERB 8, in parameter 'o'(#1)=door[6], DOES:>
 The key clicks in the lock as the door unlocks.
 
 
-<VERB 9, in parameter #1 (door), inherited from class #4 (object), CHECK:>
+<VERB 9, in parameter 'object'(#1)=door[6], inherited from object[4], CHECK:>
 
-<VERB 9, in parameter #1 (door), DOES:>
+<VERB 9, in parameter 'object'(#1)=door[6], DOES:>
 The door opens, revealing the entrance to a dusty old cafeteria.
 
 > east
 
-<EXIT 2(east) from hall(4), Checking:>
+<EXIT east[2] from hall[5], Checking:>
 
-<EXIT east(2) from hall(4), Moving:>
+<EXIT east[2] from hall[5], Moving:>
+
+<ENTERED in class entity[1] is empty>
+
+<ENTERED in class location[2] is empty>
+
+<ENTERED in instance cafe[36] is empty>
 
 Cafe
 This is the entrance to the old cafeteria. The kitchen and all the
