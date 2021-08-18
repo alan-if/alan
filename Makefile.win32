@@ -26,6 +26,8 @@ zip: bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.t
 	zip -r alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
 
+bin/alan.exe bin/arun.exe : cross
+
 bin/winalan.exe bin/winarun.exe :
 	$(error You must first enable or explicitly build winalan.exe and winarun.exe)
 
