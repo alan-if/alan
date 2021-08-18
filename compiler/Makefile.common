@@ -42,7 +42,7 @@ ALAN_OBJECTS = $(addprefix $(ALAN_OBJDIR)/,${ALAN_SRCS:.c=.o}) $(ALAN_OBJDIR)/al
 $(ALAN_OBJECTS): $(ALAN_OBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
-alan: $(ALAN_OBJECTS)
+alan$(EXEEXT): $(ALAN_OBJECTS)
 	$(LINK) -o $@$(EXEEXT) $(ALAN_OBJECTS) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
 

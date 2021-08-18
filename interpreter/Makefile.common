@@ -41,7 +41,7 @@ ARUN_OBJECTS = $(addprefix $(ARUN_OBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUN_OBJDIR)/ala
 $(ARUN_OBJECTS): $(ARUN_OBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
-arun: $(ARUN_OBJECTS)
+arun$(EXEEXT): $(ARUN_OBJECTS)
 	$(LINK) $(LDFLAGS) -o $@$(EXEEXT) $(ARUN_OBJECTS) $(LDLIBS)
 	cp -f $@$(EXEEXT) ../bin/
 
