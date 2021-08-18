@@ -164,7 +164,7 @@ bin/alan:
 	$(MAKE) -C compiler alan
 
 # Need for packaging
-games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan
+games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan
 	cd games/adventv3; ../../bin/alan adventV3
 
 #######################################################################
