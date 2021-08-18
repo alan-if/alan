@@ -30,9 +30,6 @@ endif
 
 -include Makefile.$(OS)
 
-# Do we have Cgreen available?
-CGREEN:=$(if $(shell which cgreen-runner 2> /dev/null),yes,no)
-
 # Include common build rules
 include Makefile.common
 

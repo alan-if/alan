@@ -6,6 +6,10 @@
 # TODO: Msys have three variants - MSYS, MINGW64, MINGW64
 # And we need both -o and -s to figure out which...
 
+# Do we have Cgreen available?
+# Do we even have Cgreen available?
+CGREEN:=$(shell which cgreen-runner)
+
 # Discover OS and ARCH
 UNAME_O_WORKS=$(shell uname -o &>/dev/null; echo $$?)
 ifeq ($(UNAME_O_WORKS),0)

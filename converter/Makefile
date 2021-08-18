@@ -48,7 +48,7 @@ build: a2a3$(EXEEXT)
 release: a2a3
 
 clean:
-	-rm -rf $(A2A3_OBJDIR) $(UNITTESTS_OBJDIR) a2a3$(EXEEXT) ../bin/a2a3$(EXEEXT)
+	-rm -rf $(OBJDIRS) a2a3$(EXEEXT) ../bin/a2a3$(EXEEXT)
 
 ######################################################################
 #
@@ -57,18 +57,18 @@ clean:
 A2A3_SRCS = $(TMSRCS) $(BUILDSRCS)
 
 A2A3_OBJDIR = .a2a3
+OBJDIRS += $(A2A3_OBJDIR)
+
 A2A3_OBJECTS = $(addprefix $(A2A3_OBJDIR)/,${A2A3_SRCS:.c=.o}) $(A2A3_OBJDIR)/a2a3.version.o
+
 -include $(A2A3_OBJECTS:.o=.d)
+
 $(A2A3_OBJECTS): $(A2A3_OBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
 a2a3: ../bin $(A2A3_OBJECTS)
 	$(LINK) -o $@$(EXEEXT) $(A2A3_OBJECTS)
 	cp $@$(EXEEXT) ../bin
-
-$(A2A3_OBJECTS): | $(A2A3_OBJDIR)
-$(A2A3_OBJDIR):
-	@mkdir $(A2A3_OBJDIR)
 
 ../bin:
 	-mkdir ../bin
@@ -79,7 +79,10 @@ $(A2A3_OBJDIR):
 #
 # Here we try to build a runnable DLL for each module where it can be
 # tested in total isolation (with everything else mocked away if required)
+
 UNITTESTS_OBJDIR = .unittests
+OBJDIRS += $(UNITTESTS_OBJDIR)
+
 MODULES_WITH_ISOLATED_UNITTESTS = util
 SUITE = Converter
 
@@ -90,7 +93,7 @@ isolated_unittests: LDLIBS = -L/usr/local/lib
 unittests: isolated_unittests
 
 .PHONY: unit
-ifneq ($(CGREEN),yes)
+ifeq ($(CGREEN),)
 unit:
 	echo "No unit tests run, cgreen not available"
 else
@@ -138,3 +141,6 @@ cross-build: build
 .PHONY: cross_clean
 cross_clean:
 	-rm -f $(A2A3_OBJDIR)/*.o a2a3$(EXEEXT)
+
+# Create all objdirs if necessary (at parse time)
+$(info $(shell mkdir -p $(OBJDIRS)))

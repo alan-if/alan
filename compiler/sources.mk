@@ -98,23 +98,22 @@ OTHERSRCS = \
 
 
 # Sources required for Alan program build, except the version files
-ALANSRCS = \
+ALAN_SRCS = \
 	main.c \
 	$(TMCSRCS) \
 	$(UNITTESTED) \
 	$(OTHERSRCS)
 
-# Sources for the tests
-UNITTESTEDSRCS = ${UNITTESTED:.c=Test.c}
-UNITSRCS = $(UNITTESTEDSRCS) \
+# Sources for the linked tests
+UNITTESTED_SRCS = ${UNITTESTED:.c=Test.c}
+UNITSRCS = $(UNITTESTED_SRCS) \
 	unitList.c \
 	unitmock.c \
 	pmParse.c pmPaSema.c \
 	pmErr.c \
 	smScan.c smScSema.c
 
-UNITTESTSSRCS = $(UNITSRCS) $(OTHERSRCS)
-UNITTESTSDLLSRCS = $(UNITSRCS) $(OTHERSRCS)
+UNITTESTS_SRCS = $(UNITSRCS) $(OTHERSRCS)
 
 # Version timestamp dependencies
-VERSIONSRCS = $(ALANSRCS) $(TMSRCS)
+VERSIONSRCS = $(ALAN_SRCS) $(TMSRCS)

@@ -21,15 +21,14 @@ winalan: EXEEXT = .exe
 winalan: LDLIBS += -lshlwapi -l:libiconv.a
 
 WINALANOBJDIR = .winalan
-WINALANOBJECTS = $(addprefix $(WINALANOBJDIR)/,${ALANSRCS:.c=.o}) $(WINALANOBJDIR)/alan.version.o
+OBJDIRS += $(WINALAN_OBJDIR)
+
+WINALANOBJECTS = $(addprefix $(WINALAN_OBJDIR)/,${ALAN_SRCS:.c=.o}) $(WINALAN_OBJDIR)/alan.version.o
 -include $(WINALANOBJECTS:.o=.d)
-$(WINALANOBJECTS): $(WINALANOBJDIR)/%.o: %.c
+$(WINALANOBJECTS): $(WINALAN_OBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
-$(WINALANOBJDIR):
-	mkdir $(WINALANOBJDIR)
-
-winalan: $(WINALANOBJDIR) $(WINALANOBJECTS) alan.res ../bin
+winalan: $(WINALANOBJECTS) alan.res ../bin
 	$(LINK) -o $@$(EXEEXT) -mwindows $(WINALANOBJECTS) alan.res $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
 

@@ -29,22 +29,20 @@ LINK = $(CC) $(LDFLAGS)
 #
 # arun: Arun command line interpreter - native or cross
 #
-ARUNOBJDIR = .arun
-ARUNOBJECTS = $(addprefix $(ARUNOBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUNOBJDIR)/alan.version.o
+ARUN_OBJDIR = .arun
+OBJDIRS += $(ARUN_OBJDIR)
+
+ARUN_OBJECTS = $(addprefix $(ARUN_OBJDIR)/,${ARUNSRCS:.c=.o}) $(ARUN_OBJDIR)/alan.version.o
 
 # Dependencies
--include $(ARUNOBJECTS:.o=.d)
+-include $(ARUN_OBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
-$(ARUNOBJECTS): $(ARUNOBJDIR)/%.o: %.c
+$(ARUN_OBJECTS): $(ARUN_OBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
-$(ARUNOBJECTS): | $(ARUNOBJDIR)
-$(ARUNOBJDIR):
-	mkdir $(ARUNOBJDIR)
-
-arun: $(ARUNOBJDIR) $(ARUNOBJECTS)
-	$(LINK) $(LDFLAGS) -o $@$(EXEEXT) $(ARUNOBJECTS) $(LDLIBS)
+arun: $(ARUN_OBJECTS)
+	$(LINK) $(LDFLAGS) -o $@$(EXEEXT) $(ARUN_OBJECTS) $(LDLIBS)
 	cp -f $@$(EXEEXT) ../bin/
 
 
@@ -75,17 +73,18 @@ GLKTERM_LIB ?= -L$(GLKTERM_LIBDIR) -lglktermw
 glkarun: CFLAGS += $(GLKTERM_INCLUDE) $(GLKTERM_DEFS)
 glkarun: LDLIBS += $(GLKTERM_LIB) $(CURSESLIB)
 
-GLKARUNOBJDIR = .glkarun
-GLKARUNOBJECTS = $(addprefix $(GLKARUNOBJDIR)/,${GLKARUNSRCS:.c=.o}) $(GLKARUNOBJDIR)/alan.version.o
--include $(GLKARUNOBJECTS:.o=.d)
-$(GLKARUNOBJECTS): $(GLKARUNOBJDIR)/%.o: %.c
+GLKARUN_OBJDIR = .glkarun
+OBJDIRS += $(GLKARUN_OBJDIR)
+
+GLKARUN_OBJECTS = $(addprefix $(GLKARUN_OBJDIR)/,${GLKARUNSRCS:.c=.o}) $(GLKARUN_OBJDIR)/alan.version.o
+
+-include $(GLKARUN_OBJECTS:.o=.d)
+
+$(GLKARUN_OBJECTS): $(GLKARUN_OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(GLKARUNOBJDIR):
-	mkdir $(GLKARUNOBJDIR)
-
-glkarun: $(GLKARUNOBJDIR) $(GLKARUNOBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $(GLKARUNOBJECTS) $(LDLIBS)
+glkarun: $(GLKARUN_OBJECTS)
+	$(CC) $(LDFLAGS) -o $@ $(GLKARUN_OBJECTS) $(LDLIBS)
 	cp -f $@ ../bin/
 
 
@@ -111,7 +110,7 @@ cross-build: build $(EXTRA_CROSS_TARGETS)
 # but are not by default
 .PHONY: cross-clean
 cross-clean:
-	-rm -f $(ARUNOBJDIR)/*.o
+	-rm -f $(ARUN_OBJDIR)/*.o
 
 
 #######################################################################
@@ -124,15 +123,16 @@ cross-clean:
 #
 # Having both these types is just a intermediate state as all
 # "linked_unittests" are being transformed into "isolated_unittests"
+
+# Define UNITTESTING so modules can mock system function calls and other tricks
+unit: CFLAGS += -DUNITTESTING
+
 .PHONY: unit
-ifneq ($(CGREEN),yes)
+ifeq ($(CGREEN),)
 unit:
 	@echo "No unit tests run, Cgreen not available"
 else
 unit: linked_unittests isolated_unittests
-
-# Define UNITTESTING so modules can define system function calls with Cgreen mocks
-unit: CFLAGS += -DUNITTESTING
 
 unit-coverage: COVERAGE=--coverage
 unit-coverage: unit
@@ -140,6 +140,7 @@ unit-coverage: unit
 endif
 
 UNITTESTS_OBJDIR = .unittests
+OBJDIRS += $(UNITTESTS_OBJDIR)
 
 CGREENLINKLIB ?= -lcgreen
 
@@ -161,10 +162,8 @@ $(UNITTESTS_OBJDIR)/%.o: %.c
 $(UNITTESTS_OBJDIR)/%_tests.o: %_tests.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(UNITTESTSOBJECTS): | $(UNITTESTS_OBJDIR)
-
-# Build one DLL with all runner tests...
-unittests.$(SOEXTENSION): $(UNITTESTS_OBJDIR) $(LINKED_UNITTESTS_OBJECTS) sources.mk
+# Build one library with all linked tests...
+unittests.$(SOEXTENSION): $(LINKED_UNITTESTS_OBJECTS)
 	$(LINK) -shared -o $@ $(LINKED_UNITTESTS_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)
 
 # ... that can be run with the cgreen runner
@@ -185,7 +184,7 @@ include ../mk/isolated_unittests.mk
 #######################################################################
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ARUNOBJDIR) $(WINARUNOBJDIR) $(GLKARUNOBJDIR) $(GARARUNOBJDIR) arun arun.exe glkarun alan3.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res *.so
+	-rm -rf $(OBJDIRS) arun arun.exe glkarun alan3.exe winarun.exe MacArun*.zip gargoyle*.tgz gargoyle*.pkg ../bin/arun ../bin/arun.exe ../bin/winarun.exe ../bin/dumpacd$(EXEEXT) ../bin/glkarun$(EXEEXT) arun.res unittests.{so,dll,dylib}
 
 
 ##################################################################
@@ -231,25 +230,25 @@ test:
 #
 -include .dumpacd/*.d
 
-DUMPACDSRCS = dumpacd.c reverse.c lists.c sysdep.c compatibility.c types.c alan.version.o
+DUMPACD_SRCS = dumpacd.c reverse.c lists.c sysdep.c compatibility.c types.c alan.version.o
 
-DUMPACDOBJDIR = .dumpacd
-$(DUMPACDOBJDIR):
-	mkdir $(DUMPACDOBJDIR)
+DUMPACD_OBJDIR = .dumpacd
+OBJDIRS += $(DUMPACDOBJDOR)
 
-DUMPACDOBJECTS = $(addprefix $(DUMPACDOBJDIR)/,${DUMPACDSRCS:.c=.o}) $(DUMPACDOBJDIR)/spa.o
-$(DUMPACDOBJDIR)/%.o: %.c
+DUMPACDOBJECTS = $(addprefix $(DUMPACD_OBJDIR)/,${DUMPACD_SRCS:.c=.o}) $(DUMPACD_OBJDIR)/spa.o
+
+$(DUMPACD_OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(DUMPACDOBJDIR)/spa.o: ../compiler/spa.c
+$(DUMPACD_OBJDIR)/spa.o: ../compiler/spa.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-dumpacd: $(DUMPACDOBJDIR) $(DUMPACDOBJECTS)
+dumpacd: $(DUMPACD_OBJDIR) $(DUMPACDOBJECTS)
 	$(CC) $(LDFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
 
 #######################################################################
-# GIT VERSION marking
+# GIT VERSION marking, only for modules that need them
 GIT_VERSION := "$(shell git describe --abbrev=4 --dirty --always --tags)"
 .arun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
 .arun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
@@ -260,3 +259,6 @@ GIT_VERSION := "$(shell git describe --abbrev=4 --dirty --always --tags)"
 .glkarun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
 .glkarun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
 
+
+# Create all objdirs if necessary (at parse time)
+$(info $(shell mkdir -p $(OBJDIRS)))

@@ -30,22 +30,20 @@ LINK = $(CC) $(LDFLAGS)
 #
 # alan: Alan command line compiler - native or cross
 #
-ALANOBJDIR = .alan
-ALANOBJECTS = $(addprefix $(ALANOBJDIR)/,${ALANSRCS:.c=.o}) $(ALANOBJDIR)/alan.version.o
+ALAN_OBJDIR = .alan
+OBJDIRS += $(ALAN_OBJDIR)
+
+ALAN_OBJECTS = $(addprefix $(ALAN_OBJDIR)/,${ALAN_SRCS:.c=.o}) $(ALAN_OBJDIR)/alan.version.o
 
 # Dependencies
--include $(ALANOBJECTS:.o=.d)
+-include $(ALAN_OBJECTS:.o=.d)
 
 # Rule to compile objects to subdirectory
-$(ALANOBJECTS): $(ALANOBJDIR)/%.o: %.c
+$(ALAN_OBJECTS): $(ALAN_OBJDIR)/%.o: %.c
 	$(COMPILE) -o $@ -c $<
 
-$(ALANOBJECTS): | $(ALANOBJDIR)
-$(ALANOBJDIR):
-	mkdir $(ALANOBJDIR)
-
-alan: $(ALANOBJDIR) $(ALANOBJECTS)
-	$(LINK) -o $@$(EXEEXT) $(ALANOBJECTS) $(LDLIBS)
+alan: $(ALAN_OBJECTS)
+	$(LINK) -o $@$(EXEEXT) $(ALAN_OBJECTS) $(LDLIBS)
 	cp $@$(EXEEXT) ../bin
 
 
@@ -70,7 +68,7 @@ cross-build: build $(EXTRA_CROSS_TARGETS)
 # but are not by default
 .PHONY: cross-clean
 cross-clean:
-	-rm -f $(ALANOBJDIR)/*.o
+	-rm -f $(ALAN_OBJDIR)/*.o
 
 #######################################################################
 #
@@ -90,56 +88,55 @@ standard_tests: alan
 # Clean
 .PHONY: clean
 clean:
-	-rm -rf $(UNITTESTS_OBJDIR) $(ALANOBJDIR) $(WINALANOBJDIR) *.$(SOEXTENSION) alan alan.exe winalan.exe ../bin/alan ../bin/alan.exe ../bin/winalan.exe alan.res
+	-rm -rf $(OBJDIRS) *.$(SOEXTENSION) alan alan.exe winalan.exe ../bin/alan ../bin/alan.exe ../bin/winalan.exe alan.res
 
 #################################################################
 #
 # unit: Unit testing
 #
-.PHONY: unit
-ifneq ($(CGREEN),yes)
-unit:
-	@echo "No unit tests run, cgreen not available"
-unitbuild:
-else
-# Two types:
-unit: linked_unittests isolated_unittests
-.PHONY: unitbuild
-unitbuild: linked_unittests_build isolated_unittests_build
+# CGreen unit tests of two types:
+#	- one library for all tests (*Tests.c) linked with every module that is needed
+#	- one library per module (*_tests.c) with every thing needed mocked away
+#
+# Having both these types is just a intermediate state as all
+# "linked_unittests" are being transformed into "isolated_unittests"
 
 # Define UNITTESTING so modules can define system function calls with Cgreen mocks
 unit: CFLAGS += -DUNITTESTING
+
+.PHONY: unit
+ifeq ($(CGREEN),)
+unit:
+	@echo "No unit tests run, Cgreen not available"
+else
+# Two types:
+unit: linked_unittests isolated_unittests
 endif
 
+UNITTESTS_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTS_SRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
 UNITTESTS_OBJDIR = .unittests
-UNITTESTSOBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${UNITTESTSSRCS:.c=.o}) $(UNITTESTS_OBJDIR)/alan.version.o
+OBJDIRS += $(UNITTESTS_OBJDIR)
 
 # Dependencies, if they don't exist yet
--include $(UNITTESTSOBJECTS:.o=.d)
-
-# Rule to compile unittest objects to subdirectory
-$(UNITTESTS_OBJDIR)/%.o: %.c
-	$(COMPILE) -o $@ -c $<
-$(UNITTESTS_OBJDIR)/%_tests.o: %_tests.c
-	$(COMPILE) -o $@ -c $<
-
-$(UNITTESTSOBJECTS): | $(UNITTESTS_OBJDIR)
+-include $(UNITTESTS_OBJECTS:.o=.d)
 
 ###################################################################
-# Build a DLL of all unittests in a separate dir that should exist...
-linked_unittests_build: unittests.$(SOEXTENSION)
+# Build a single library of all non-isolated unittests...
+# until we have migrated them to isolated tests
 
-unittests.$(SOEXTENSION): $(UNITTESTSOBJECTS)
-	$(LINK) -shared -o $@ $(UNITTESTSOBJECTS) $(LDLIBS) -lcgreen
+unittests.$(SOEXTENSION): $(UNITTESTS_OBJECTS)
+	$(LINK) -shared -o $@ $(UNITTESTS_OBJECTS) $(LDLIBS) -lcgreen
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.$(SOEXTENSION)
-	cgreen-runner ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
+	$(CGREEN) ./$^ --suite compiler_unit_tests $(UNITOUTPUT)
 
 #####################################################################
 # Build isolated unittests in shared libs for each module where it can
 # be tested in total isolation (with everything else mocked away,
 # except some extra objects)
+#
+# MODULES_WITH_ISOLATED_UNITTESTS is defined in sources.mk
 
 ISOLATED_UNITTESTS_EXTRA_MODULES = util options sysdep lst dump opt charset type alan.version
 
@@ -170,6 +167,9 @@ coverage-report:
 #
 # Check to see if we are running on ThoNi's machine, if so include
 # special rules
-ifeq ($(shell uname -n), thoni64)
-  include Makefile.thoni
-endif
+#ifeq ($(shell uname -n), thoni64)
+#  include Makefile.thoni
+#endif
+
+# Create all objdirs if necessary (at parse time)
+$(info $(shell mkdir -p $(OBJDIRS)))
