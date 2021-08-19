@@ -65,6 +65,10 @@ ci: all package cross cross-package
 	# TODO: We should also build gargoyle slot-in interpreter for Linux and Windows
 	# $(MAKE) -C interpreter gararun
 
+package: all					# Ensure everything native is built before packaging
+cross: all						# Let native builds finish before cross-compiling
+cross-package: cross			# Ensure the cross-build is done before packaging
+
 
 .PHONY: ci-upload
 ci-upload:
