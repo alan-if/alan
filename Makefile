@@ -21,3 +21,5 @@ INCLUDED = true
 include Makefile.common
 
 everything: unit build test $(EXTRA_TARGETS)
+
+test: build				# Ensure everything is built before testing
