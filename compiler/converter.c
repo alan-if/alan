@@ -106,7 +106,7 @@ int readWithConversionFromUtf8(int fd, iconv_t cd, uchar *buffer, int wanted_len
     static int residueCount = 0; /* How much residue in utfBuffer from last conversion */
     static uchar residue[3];    /* Can max be 3 bytes since UTF-8 is max 4 */
     static uchar isoBuffer[1000];
-    int toRead = wanted_length<sizeof(utfBuffer)?wanted_length:sizeof(utfBuffer);
+    int toRead = wanted_length<(int)sizeof(utfBuffer)?wanted_length:sizeof(utfBuffer);
     int actuallyRead;
 
     /* Any residue from last round must now be copied to beginning of utfBuffer */
@@ -130,7 +130,7 @@ int readWithConversionFromUtf8(int fd, iconv_t cd, uchar *buffer, int wanted_len
             memcpy(residue, input_p, residueCount);            /* Save it for next round */
         } else {
             /* Real error */
-            SYSERR("error converting from UTF-8", ((Srcp){0,0,0}));
+            SYSERR("error converting from UTF-8", nulsrcp);
         }
     } else
         residueCount = 0;
