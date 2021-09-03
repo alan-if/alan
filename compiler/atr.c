@@ -1,9 +1,9 @@
-/*----------------------------------------------------------------------*\
-
+/*----------------------------------------------------------------------
+  
   ATR.C
   Attribute Nodes
-
-  \*----------------------------------------------------------------------*/
+  
+  ----------------------------------------------------------------------*/
 
 #include "atr_x.h"
 
@@ -540,7 +540,7 @@ static Attribute *resolveAttributeOfId(Id *id, Id *attribute, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfCurrentActor(Id *attribute, Context *context)
+static Attribute *resolveAttributeOfCurrentActor(Id *attribute)
 {
     Attribute *atr = NULL;
 
@@ -552,7 +552,7 @@ static Attribute *resolveAttributeOfCurrentActor(Id *attribute, Context *context
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeOfCurrentLocation(Id *attribute, Context *context)
+static Attribute *resolveAttributeOfCurrentLocation(Id *attribute)
 {
     Attribute *atr = NULL;
 
@@ -601,7 +601,7 @@ static Attribute *resolveAttributeOfThis(Id *attribute, Context *context)
 
 
 /*----------------------------------------------------------------------*/
-static Attribute *resolveAttributeToClass(Symbol *class, Id *attribute, Context *context) {
+static Attribute *resolveAttributeToClass(Symbol *class, Id *attribute) {
     Attribute *atr = NULL;
 
     if (class != NULL) {
@@ -622,8 +622,8 @@ static Attribute *resolveAttributeToWhat(What *what, Id *attribute, Context *con
 
     switch (what->kind) {
     case WHAT_ID: return resolveAttributeOfId(what->id, attribute, context); break;
-    case WHAT_ACTOR: return resolveAttributeOfCurrentActor(attribute, context); break;
-    case WHAT_LOCATION: return resolveAttributeOfCurrentLocation(attribute, context); break;
+    case WHAT_ACTOR: return resolveAttributeOfCurrentActor(attribute); break;
+    case WHAT_LOCATION: return resolveAttributeOfCurrentLocation(attribute); break;
     case WHAT_THIS: return resolveAttributeOfThis(attribute, context); break;
     default: SYSERR("Unexpected what->kind in switch", what->srcp);
     }
@@ -637,7 +637,7 @@ Attribute *resolveAttributeToExpression(Expression *exp, Id *attributeId, Contex
     case WHAT_EXPRESSION:
         return resolveAttributeToWhat(exp->fields.wht.wht, attributeId, context);
     case ATTRIBUTE_EXPRESSION:
-        return resolveAttributeToClass(exp->class, attributeId, context);
+        return resolveAttributeToClass(exp->class, attributeId);
     default:
         lmlog(&exp->srcp, 442, sevERR, "");
     }
