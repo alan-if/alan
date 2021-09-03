@@ -38,9 +38,9 @@ build:
 
 .PHONY: test
 test:
-	$(MAKE) -C compiler JREGROUTPUT=$(JREGROUTPUT) test
-	$(MAKE) -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
-	$(MAKE) -C converter JREGROUTPUT=$(JREGROUTPUT) test
+	$(MAKE) -e -C compiler JREGROUTPUT=$(JREGROUTPUT) test
+	$(MAKE) -e -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
+	$(MAKE) -e -C converter JREGROUTPUT=$(JREGROUTPUT) test
 
 .PHONY: cross
 cross: PLATFORM = win32.i686
@@ -55,11 +55,12 @@ cross:
 # we explicitly build necessary output by setting required variables
 # and paths for compilation as per the Docker container
 # alanif/linux-ci as specified in the dockers/linux-ci/Dockerfile.
+export JREGROUTPUT UNITOUTPUT
 ci: JREGROUTPUT = -xml
 ci: UNITOUTPUT = --xml TEST
 .PHONY: ci
 ci:
-	$(MAKE) all
+	$(MAKE) -e all
 	$(MAKE) package
 	$(MAKE) cross
 	$(MAKE) cross-package
