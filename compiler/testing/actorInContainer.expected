@@ -11,15 +11,17 @@ actorInContainer.alan
     5.    Container Taking actor.
 =====>                     1
 
-  *1*   402 E : An Actor cannot be inside a Container.
+  *1*   437 W : Locating an Actor in a container is not fully supported and
+                might have strange side-effects.
 
    12.    Locate a In c.
 =====>           1
 
-  *1*   402 E : An Actor cannot be inside a Container.
+  *1*   437 W : Locating an Actor in a container is not fully supported and
+                might have strange side-effects.
 
 
-        3 error(s).
-        No detected warnings.
+        1 error(s).
+        2 warning(s).
         1 informational message(s).
 
