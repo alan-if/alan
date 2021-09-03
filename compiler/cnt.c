@@ -184,7 +184,7 @@ void analyzeContainer(Container *theContainer, Context *context)
         Id *id = theContainer->body->taking;
         id->symbol = symcheck(id, CLASS_SYMBOL, context);
         if (id->symbol == actorSymbol)
-            lmlogv(&id->srcp, 402, sevERR, "An Actor", NULL);
+            lmlogv(&id->srcp, 437, sevWAR, "an Actor", NULL);
         if (id->symbol == locationSymbol)
             lmlogv(&id->srcp, 402, sevERR, "A Location", NULL);
 

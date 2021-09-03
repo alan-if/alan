@@ -222,6 +222,7 @@ static lmMsgs msg[] = {
     { "434   ", "%1 can only be applied to instance valued expressions." },
     { "435   ", "Only SETs and CONTAINERs have content." },
     { "436   ", "Cannot modify readonly attribute." },
+    { "437   ", "Locating %1 in a container is not fully supported and might have strange side-effects." },
     { "440   ", "%1 filters can currently only accept boolean attributes." },
     { "441   ", "Incompatible filter. All filters must enumerate instances or values which are compatible, such as subclasses or compatible types." },
     { "442   ", "Only instances have attributes." },
@@ -251,7 +252,7 @@ typedef struct MSect {
 } MSect;
 
 static MSect msects[] = {
-    {0, 171}
+    {0, 172}
 };
 static lmMessages currMsect = (lmMessages)0;
 
