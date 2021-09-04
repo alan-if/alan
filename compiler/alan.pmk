@@ -148,6 +148,7 @@ static int val(char str[])
   nam %% List *%1%%,                    -- of NamNod: name-clause
   nams %% List *%1%%,                   -- of NamNods: name-clause list (list of lists)
   negative %% Article *%1%%,
+  not %% bool %1%%,                     -- contained a 'not'
   on_or_off %% bool %1%%,
   op %% OperatorKind %1%%,
   opaque %% bool %1%%,
@@ -1747,7 +1748,7 @@ static int val(char str[])
     %%
 	%<assignment_statement>.stm = newStatement(`&%'make'.srcp, MAKE_STATEMENT);
 	%<assignment_statement>.stm->fields.make.wht = %<primary>.exp;
-	%<assignment_statement>.stm->fields.make.not = %<something>.present;
+	%<assignment_statement>.stm->fields.make.not = %<something>.not;
 	%<assignment_statement>.stm->fields.make.atr = %<something>.id;
     %%
 
@@ -2185,7 +2186,7 @@ static int val(char str[])
     ! <primary> <is> <something>
     %%
 	%<arithmetic>.exp = newAttributeExpression(%<is>.srcp, %<something>.id,
-					 %<something>.present, %<primary>.exp);
+					 %<something>.not, %<primary>.exp);
     %%
 
     ! <arithmetic> <binop> <primary>
@@ -2250,7 +2251,7 @@ static int val(char str[])
     %%
 	%<filter>.exp = newAttributeExpression(%<is>.srcp,
 						%<something>.id,
-						%<something>.present, NULL);
+						%<something>.not, NULL);
     %%
     ;
 
@@ -2373,9 +2374,10 @@ static int val(char str[])
 
 ---> MISCELLANEOUS
 <something>		-- RETURNS: not, id
+
     = <optional_not> ID
     %%
-        %<something>.present = %<optional_not>.present;
+        %<something>.not = %<optional_not>.present;
         %<something>.id = %ID.id;
     %%
     ;

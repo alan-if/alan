@@ -117,6 +117,7 @@ typedef struct pmGrammar {
     bool opaque;
     OperatorKind op;
     bool on_or_off;
+    bool not;
     Article *negative;
     List *nams;
     List *nam;
