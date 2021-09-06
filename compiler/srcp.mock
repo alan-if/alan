@@ -7,7 +7,7 @@ Srcp nulsrcp;
 
 
 /* FUNCTIONS: */
-bool equalSrcp(Srcp srcp1, Srcp srcp2) {return (bool)mock(&srcp1, &srcp2);}
-void generateSrcp(Srcp srcp) {}
-Aaddr generateSrcps(void) {return (Aaddr)mock();}
-void dumpSrcp(Srcp srcp) {}
+bool equalSrcp(Srcp srcp1, Srcp srcp2) { return (bool)mock(&srcp1, &srcp2); }
+void generateSrcp(Srcp srcp) { mock(&srcp); }
+Aaddr generateSrcps(void) { return (Aaddr)mock(); }
+void dumpSrcp(Srcp srcp) { mock(&srcp); }

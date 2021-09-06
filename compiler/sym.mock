@@ -113,7 +113,7 @@ void inheritCheck(Id *id, char *what, char classOrInstance[], char className[]) 
 
 void setParameters(Symbol *verb, List *parameters) { mock(verb, parameters); }
 
-TypeKind classToType(Symbol *symbol) { return mock(); }
+TypeKind classToType(Symbol *symbol) { return mock(symbol); }
 Symbol *definingSymbolOfAttribute(Symbol *symbol, Id *id) { return (Symbol *)mock(symbol, id); }
 Attribute *findInheritedAttribute(Symbol *symbol, Id *id) { return (Attribute *)mock(symbol, id); }
 void numberAllAttributes(void) {}

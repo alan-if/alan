@@ -2,59 +2,59 @@
 #include <cgreen/mocks.h>
 
 Statement *newStatement(Srcp *srcp, StmKind class) {
-  return (Statement *) mock(class);
+    return (Statement *) mock(srcp, class);
 }
 
 Statement *newUseStatement(Srcp srcp, Id *script, Expression *actor) {
-  return (Statement *) mock(script, actor);
+  return (Statement *) mock(&srcp, script, actor);
 }
 
 Statement *newDescribeStatement(Srcp srcp, Expression *what) {
-  return (Statement *) mock(what);
+  return (Statement *) mock(&srcp, what);
 }
 
 Statement *newLocateStatement(Srcp srcp, Expression *what, Where *where) {
-  return (Statement *) mock(what, where);
+  return (Statement *) mock(&srcp, what, where);
 }
 
 Statement *newEmptyStatement(Srcp srcp, Expression *what, Where *where) {
-  return (Statement *) mock(what, where);
+  return (Statement *) mock(&srcp, what, where);
 }
 
 Statement *newIncludeStatement(Srcp srcp, Expression *what, Expression *set) {
-  return (Statement *) mock(what, set);
+  return (Statement *) mock(&srcp, what, set);
 }
 
 Statement *newExcludeStatement(Srcp srcp, Expression *what, Expression *set) {
-  return (Statement *) mock(what, set);
+  return (Statement *) mock(&srcp, what, set);
 }
 
 Statement *newEachStatement(Srcp srcp, Id *loopId, List *filters, List *statements) {
-  return (Statement *) mock(loopId, filters, statements);
+  return (Statement *) mock(&srcp, loopId, filters, statements);
 }
 
 Statement *newScheduleStatement(Srcp srcp, Expression *what, Where *where, Expression *when) {
-  return (Statement *) mock(what, where, when);
+  return (Statement *) mock(&srcp, what, where, when);
 }
 
 Statement *newCancelStatement(Srcp srcp, Expression *what) {
-  return (Statement *) mock(what);
+  return (Statement *) mock(&srcp, what);
 }
 
 Statement *newListStatement(Srcp srcp, Expression *what) {
-  return (Statement *) mock(what);
+  return (Statement *) mock(&srcp, what);
 }
 
 Statement *newStyleStatement(Srcp srcp, Id *style) {
-  return (Statement *) mock(style);
+    return (Statement *) mock(&srcp, style);
 }
 
 Statement *newShowStatement(Srcp srcp, Resource *resource) {
-  return (Statement *) mock(resource);
+  return (Statement *) mock(&srcp, resource);
 }
 
 Statement *newPlayStatement(Srcp srcp, Resource *resource) {
-  return (Statement *) mock(resource);
+  return (Statement *) mock(&srcp, resource);
 }
 
 List *newPrintStatementListFromString(char *string) {

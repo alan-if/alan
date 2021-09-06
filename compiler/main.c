@@ -257,11 +257,11 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
 
 #else
 
-    int main(int argc,		/* IN - argument count */
+    int main(int argc,          /* IN - argument count */
              char **argv		/* IN - program arguments */
         )
     {
-        int nArgs;			/* Number of supplied args */
+        int nArgs;              /* Number of supplied args */
 
         /* Pick up any locale settings */
         setlocale(LC_ALL, "");

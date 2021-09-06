@@ -20,19 +20,11 @@ Expression *newAttributeExpression(Srcp srcp, Id *attributeId,
     expression->not = not;
     return expression;
 }
-Expression *newBinaryExpression(Srcp srcp, Expression *left, bool not,
-                                OperatorKind operator,
-                                Expression *right) {return (Expression*)mock();}
-Expression *newBetweenExpression(Srcp srcp, Expression *exp, bool not,
-                                 Expression *low, Expression *high) {return (Expression*)mock();}
-Expression *newStringExpression(Srcp srcp, long fpos, int len) {return (Expression*)mock();}
-Expression *newSetExpression(Srcp srcp, List *set) {return (Expression*)mock();}
-Expression *newScoreExpression(Srcp srcp);
-Expression *newIntegerExpression(Srcp srcp, int value) {return (Expression*)mock();}
 
 Expression *newIsaExpression(Srcp srcp, Expression *what, bool not,
                              Id *class) {
     Expression *exp = NEW(Expression);
+    exp->srcp = srcp;
     exp->kind = ISA_EXPRESSION;
     exp->fields.isa.what = what;
     exp->fields.isa.class = class;
@@ -43,32 +35,95 @@ Expression *newIsaExpression(Srcp srcp, Expression *what, bool not,
 Expression *newWhatExpression(Srcp srcp, What *what) {
     Expression *exp = NEW(Expression);
     exp->kind = WHAT_EXPRESSION;
+    exp->srcp = srcp;
     exp->fields.wht.wht = what;
     return exp;
 }
 
-Expression *newWhereExpression(Srcp srcp, Expression *what, bool not, Where *where) {return (Expression*)mock();}
-Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
-                                   Id *attribute, List *filters) {return (Expression*)mock();}
-Expression *newRandomRangeExpression(Srcp srcp, Expression *from,
-                                     Expression *to) {return (Expression*)mock();}
-Expression *newRandomInExpression(Srcp srcp, Expression *what, Transitivity transitivity);
+Expression *newBinaryExpression(Srcp srcp, Expression *left, bool not,
+                                OperatorKind operator,
+                                Expression *right) {
+    return (Expression*)mock(&srcp, left, not, operator, right);
+}
+Expression *newBetweenExpression(Srcp srcp, Expression *exp, bool not,
+                                 Expression *low, Expression *high) {
+    return (Expression*)mock(&srcp, exp, not, low, high);
+}
+Expression *newStringExpression(Srcp srcp, long fpos, int len) {
+    return (Expression*)mock(&srcp, fpos, len);
+}
+Expression *newSetExpression(Srcp srcp, List *set) {
+    return (Expression*)mock(&srcp, set);
+}
+Expression *newScoreExpression(Srcp srcp) {
+    return (Expression*)mock(&srcp);
+}
+Expression *newIntegerExpression(Srcp srcp, int value) {
+    return (Expression*)mock(&srcp, value);
+}
 
-void symbolizeExpression(Expression *exp) {mock();}
-void analyzeExpression(Expression *exp, Context *context) {mock();}
+Expression *newWhereExpression(Srcp srcp, Expression *what, bool not, Where *where) {
+    return (Expression*)mock(&srcp, what, not, where);
+}
+Expression *newAggregateExpression(Srcp srcp, AggregateKind kind,
+                                   Id *attribute, List *filters) {
+    return (Expression*)mock(&srcp, kind, attribute, filters);
+}
+Expression *newRandomRangeExpression(Srcp srcp, Expression *from,
+                                     Expression *to) {
+    return (Expression*)mock(&srcp, from, to);
+}
+Expression *newRandomInExpression(Srcp srcp, Expression *what, Transitivity transitivity) {
+    return (Expression*)mock(&srcp, what, transitivity);
+}
+
+void symbolizeExpression(Expression *exp) {
+    mock(exp);
+}
+void analyzeExpression(Expression *exp, Context *context) {
+    mock(exp, context);
+}
 bool analyzeFilterExpressions(char *message, List *filters,
-                              Context *context, Symbol **foundClass) {return (bool)mock();}
-bool isConstantIdentifier(Id *id) {return (bool)mock();}
-bool isConstantExpression(Expression *exp) {return (bool)mock();}
-Symbol *containerContent(Expression *what, Transitivity transitivity, Context *context) {return (Symbol*)mock();}
+                              Context *context, Symbol **foundClass) {
+    return (bool)mock(message, filters, context, foundClass);
+}
+bool isConstantIdentifier(Id *id) {
+    return (bool)mock(id);
+}
+bool isConstantExpression(Expression *exp) {
+    return (bool)mock(exp);
+}
+Symbol *containerContent(Expression *what, Transitivity transitivity, Context *context) {
+    return (Symbol*)mock(what, transitivity, context);
+}
 bool verifyContainerExpression(Expression *what, Context *context,
-                               char referer[]) {return (bool)mock();}
-Symbol *symbolOfExpression(Expression *exp, Context *context) {return (Symbol*)mock();}
-void generateExpression(Expression *exp) {mock();}
-void generateFilter(Expression *exp) {mock();}
-void generateBinaryOperator(Expression *exp) {mock();}
-void generateLvalue(Expression *exp) {mock();}
-void generateAttributeReference(Expression *exp) {mock();}
-void generateAttributeAccess(Expression *exp) {mock();}
-void generateBetweenCheck(Expression *exp) {mock();}
-void dumpExpression(Expression *exp) {mock();}
+                               char referer[]) {
+    return (bool)mock(what, context, referer);
+}
+Symbol *symbolOfExpression(Expression *exp, Context *context) {
+    return (Symbol*)mock(exp, context);
+}
+void generateExpression(Expression *exp) {
+    mock(exp);
+}
+void generateFilter(Expression *exp) {
+    mock(exp);
+}
+void generateBinaryOperator(Expression *exp) {
+    mock(exp);
+}
+void generateLvalue(Expression *exp) {
+    mock(exp);
+}
+void generateAttributeReference(Expression *exp) {
+    mock(exp);
+}
+void generateAttributeAccess(Expression *exp) {
+    mock(exp);
+}
+void generateBetweenCheck(Expression *exp) {
+    mock(exp);
+}
+void dumpExpression(Expression *exp) {
+    mock(exp);
+}

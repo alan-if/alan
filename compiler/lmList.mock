@@ -56,7 +56,7 @@ void lmList(char ofnm[],
 /* Return the i'th formatted message, return 0 if not found */
 int lmMsg(int i,
           Srcp *pos,
-          char *msg) {return (int)mock(i, pos);}
+          char *msg) {return (int)mock(i, pos, msg);}
 
 /* Print a string on a line in the output file */
 void lmLiPrint(char str[]) {puts(str);}
