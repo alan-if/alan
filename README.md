@@ -81,7 +81,7 @@ something you want included here.
 [jenkins badge]: https://jenkins.responsive.se/job/Alan/badge/icon "Jenkins CI build status"
 [jenkins link]: https://jenkins.responsive.se/job/Alan/
 [travis badge]: https://travis-ci.com/alan-if/alan.svg?branch=master "Travis CI build status"
-[travis link]: https://travis-ci.com/alan-if/alan
+[travis link]: https://app.travis-ci.com/github/alan-if/alan
 [coveralls badge]: https://coveralls.io/repos/github/alan-if/alan/badge.svg?branch=master "Coveralls status"
 [coveralls link]: https://coveralls.io/github/alan-if/alan?branch=master
 [license badge]: https://img.shields.io/badge/license-Artistic%20License%202.0-blue
