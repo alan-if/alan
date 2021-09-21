@@ -4,12 +4,12 @@ Changes in V3.0beta8:
 - FEATURE (interpreters): Make it possible to generate transcript and command logs simultaneously from a single game run
 - FEATURE (misc): Ensure Alan complies with the Babel Treaty (a convention to make it possible to identify and catalog *all* works of Interactive Fiction)
 - FEATURE (interpreter): Add separate option for not paging output ("<More>")
-- WARNING: warn for actors in containers as the behaviour is somewhat dubious
+- WARNING: warn for actors in containers as the behaviour is not completely well-defined
 - BUGFIX: When an item is located in a container the limits now considers content in possibly contained items recursively. Furthermore, if the container in itself is inside a container with limits those limits are also checked. This might change behaviour of existing games, please check by running your tests.
 - BUGFIX: Large games with many string or set manipulations could sometimes exhibit significant slowdowns over time
 - BUGFIX: Transcript was always empty when started from code using "Transcript On."
 - BUGFIX: Random spacing issues fixed
-- BUGIFX: Dynamic variable `$v` gave wrong output if used in Exits
+- BUGFIX: Dynamic variable `$v` gave wrong output if used in Exits
 - BUGFIX: Dynamic variable `$o` crashed the interpreter if used in an Exit
 - BUGFIX: Option section did not allow you to use 'no' before a boolean option
 
