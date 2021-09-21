@@ -2,9 +2,9 @@
 AppName=Alan v3.0 Gargoyle slot-in for Windows
 AppVerName=Alan interpreter slot-in for Gargoyle vVERSION
 AppPublisher=ThoNi Adventure Factories
-AppPublisherURL=http://www.alanif.se
-AppSupportURL=http://www.alanif.se
-AppUpdatesURL=http://www.alanif.se
+AppPublisherURL=https://alanif.se
+AppSupportURL=https://alanif.se
+AppUpdatesURL=https://alanif.se
 AllowNoIcons=yes
 ChangesAssociations = yes
 OutputDir=.
