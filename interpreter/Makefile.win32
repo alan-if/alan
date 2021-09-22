@@ -98,8 +98,8 @@ gararun-package: build-gararun gargoyle-updater-alan3.readme
 	zip -j gargoyle-updater-alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip alan3.exe gargoyle-updater-alan3.readme
 
 .PHONY: gargoyle-updater
-gargoyle-updater: build-gararun gargoyle-updater-alan3.iss
+gargoyle-updater: build-gararun gargoyle-updater-alan3.nsi
 	-rm gargoyle-updater-alan3*setup.exe
-	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ gargoyle-updater-alan3.iss > gargoyle-updater-alan3_tmp.iss
-	$(INNODIR)/iscc gargoyle-updater-alan3_tmp.iss
-	rm gargoyle-updater-alan3_tmp.iss
+	sed -e s/VERSION/$(VERSION)$(BUILDVERSION)/ gargoyle-updater-alan3.nsi > gargoyle-updater-alan3_tmp.nsi
+	makensis gargoyle-updater-alan3_tmp.nsi
+	rm gargoyle-updater-alan3_tmp.nsi
