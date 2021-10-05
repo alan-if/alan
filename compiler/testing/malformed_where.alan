@@ -1,0 +1,17 @@
+Syntax makewear = makewear (act) (obj)
+  Where act IsA actor
+    else "This verb can only be used on actors!"
+  And obj IsA object
+    else "You can only make actor wear object!"
+  And obj is wearable
+    else "$+2 is not a wearable item!"
+
+Add to every thing
+  Verb makewear
+    Does
+      Locate obj in act.
+      Make obj puesto.
+      Set portador of obj to act.
+      "Done, now $+1 is wearing $+2."
+  End verb.
+End add to.

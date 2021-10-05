@@ -983,7 +983,7 @@ static void analyzeWhatExpression(Expression *exp, Context *context)
             case LOCAL_SYMBOL:
                 exp->type = typeOfSymbol(symbol);
                 exp->class = classOfIdInContext(context, exp->fields.wht.wht->id);
-                if (exp->class->fields.entity.isBasicType)
+                if (exp->class && exp->class->fields.entity.isBasicType)
                     exp->type = basicTypeFromClassSymbol(exp->class);
                 break;
             case INSTANCE_SYMBOL:

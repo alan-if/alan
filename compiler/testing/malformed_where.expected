@@ -1,0 +1,30 @@
+########## malformed_where ##########
+
+
+malformed_where.alan
+
+    6.    And obj is wearable
+=====>            1  2
+
+  *1*   103 E : Syntax error. Replacing "is" with "isa".
+  *2*   323 E : Cannot restrict a parameter to something not a class.
+
+   12.        Locate obj in act.
+=====>                      1
+
+  *1*   312 E : Parameter 'act' is not guaranteed to be a Container, because it
+                is not restricted to Container, or to a class which has the
+                Container property in the Syntax or using surrounding If
+                statements.
+
+   18.  
+=====>  1
+
+  *1*   101 E : Syntax error. Inserting "start here ." before this token.
+  *1*   211 E : Adventure must start at an instance inheriting from 'location'.
+
+
+        5 error(s).
+        No detected warnings.
+        1 informational message(s).
+
