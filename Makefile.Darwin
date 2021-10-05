@@ -24,10 +24,12 @@ XPATH = xpath
 package: alan.readme.macosx $(PACKAGE)
 
 $(PACKAGE): bin/alan bin/arun
-	mkdir -p $(PACKAGENAME)
-	cp bin/alan bin/arun alan.readme.macosx alan.readme COPYING CHANGES games/adventv3/adventV3.alan $(PACKAGENAME)
-	mkdir -p $(PACKAGENAME)/games/saviour
-	cp regression/saviour.alan regression/logo.png $(PACKAGENAME)/games/saviour
+	mkdir -p $(PACKAGENAME)/bin
+	cp alan.readme.macosx alan.readme COPYING CHANGES $(PACKAGENAME)
+	cp bin/alan bin/arun $(PACKAGENAME)/bin
+	mkdir -p $(PACKAGENAME)/games
+	cp regression/saviour.alan regression/logo.png $(PACKAGENAME)/games
+	cp games/adventv3/adventV3.alan $(PACKAGENAME)/games
 	tar zcvf $(PACKAGE) $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
 
