@@ -1,0 +1,20 @@
+The l Isa location
+End The l.
+
+Syntax
+  poner_sobre = poner (obj1) sobre (obj2).
+  poner_sobre = poner (obj1) sobre de (obj2).
+
+Add To Every object
+
+  Verb poner_sobre
+  When obj1 Does
+    "poner" Say The obj1. "sobre" Say The obj2. "."
+  End Verb.
+  
+End Add.
+
+The obj Isa object At l
+End the obj.
+
+Start At l.
