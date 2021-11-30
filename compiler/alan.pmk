@@ -2436,7 +2436,7 @@ static int val(char str[])
 <optional_where>		-- RETURNS: whr
     =
     %%
-        %<optional_where>.whr = newWhere(`&nulsrcp, false, WHERE_DEFAULT, NULL);
+        %<optional_where>.whr = newWhere(`&nulsrcp, DEFAULT_TRANSITIVITY, WHERE_DEFAULT, NULL);
     %%
     
     ! <where>

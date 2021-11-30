@@ -2087,7 +2087,7 @@ int rule			/* IN production number */
     case 336: { /* <optional_where> =; */
 #line 2438 "alan.pmk"
 
-        pmSeSt[pmStkP+1].whr = newWhere(&nulsrcp, false, WHERE_DEFAULT, NULL);
+        pmSeSt[pmStkP+1].whr = newWhere(&nulsrcp, DEFAULT_TRANSITIVITY, WHERE_DEFAULT, NULL);
     	break;}
     case 337: { /* <optional_where> = <where>; */
 #line 2443 "alan.pmk"
