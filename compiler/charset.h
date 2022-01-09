@@ -12,6 +12,6 @@ typedef enum {
     CHARSET_UTF8 = 1
 } CharSet;
 
-extern CharSet charset;			/* Which charset to read source in */
+extern CharSet input_encoding;			/* Which charset to read source in */
 
 #endif

@@ -75,7 +75,7 @@ void finishUtf8Conversion(iconv_t cd) {
 
 /* Outgoing - will always return an alloc'd string that needs to be freed */
 char *ensureExternalEncoding(char input[]) {
-    if (charset == CHARSET_UTF8) {
+    if (input_encoding == CHARSET_UTF8) {
         iconv_t cd = iconv_open("UTF-8", "ISO_8859-1");
         if (cd == (iconv_t) -1)
             SYSERR("iconv_open() failed!", nulsrcp);

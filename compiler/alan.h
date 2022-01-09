@@ -15,7 +15,7 @@
 extern int fileNo;          /* Number of last found file */
 extern FILE *txtfil;        /* File for collected text */
 extern FILE *datfil;        /* File for encoded text */
-extern CharSet charset;		/* Which character set the source is in */
+extern CharSet input_encoding;		/* Which character set the source is in */
 extern List *importPaths;   /* The list of include paths to check */
 #ifdef WINGUI
 extern bool guiMode;        /* Using the GUI? Or console? */

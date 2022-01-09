@@ -252,7 +252,7 @@ static void bookmarkHeap() {
 /*----------------------------------------------------------------------*/
 static void setupCompilation() {
   lmLiInit(alan.shortHeader, srcfnm, lm_ENGLISH_Messages);
-  setCharacterSet(charset);
+  setCharacterSet(input_encoding);
 
   if (!smScanEnter(nulsrcp, srcfnm, false)) {
     /* Failed to open the source file */

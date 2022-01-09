@@ -6,4 +6,4 @@
 
 #include "charset.h"
 
-CharSet charset;                /* Which charset to read source in */
+CharSet input_encoding;                /* Which charset to read source in */
