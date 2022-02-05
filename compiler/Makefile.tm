@@ -46,10 +46,12 @@ TMLIB	= $(TMHOME)/lib/ansi-c
 lmList.c lmList.h alanCommon.h : lmk.intermediate
 .INTERMEDIATE: lmk.intermediate
 
-lmk.intermediate : alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 ifneq ($(TMHOME),)
+lmk.intermediate : alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk alan
 else
+#No dependencies to files in TMLIB if TMHOME not set
+lmk.intermediate : alan.lmk alan.tmk
 	@echo "WARNING! ToolMaker (lmk) not available, not re-generating, using current lmList.c"
 endif
 
@@ -59,11 +61,13 @@ endif
 pmParse.c pmParse.h pmPaSema.c pmErr.c pmErr.h alan.voc alan.pml alanCommon.h : pmk.intermediate
 .INTERMEDIATE: pmk.intermediate
 
-pmk.intermediate : alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 ifneq ($(TMHOME),)
+pmk.intermediate : alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	pmk alan
 	sed -f prod.sed alan.pml > alan.prod
 else
+#No dependencies to files in TMLIB if TMHOME not set
+pmk.intermediate : alan.pmk alan.tmk
 	@echo "WARNING! ToolMaker (pmk) not available, not re-generating, using current pmParse.c, pmPaSema.c pmErr.c"
 endif
 
@@ -84,10 +88,12 @@ alan.g : antlr.sed antlr.header alan.prod
 smScan.c smScan.h smScSema.c alanCommon.h : smk.intermediate
 .INTERMEDIATE: smk.intermediate
 
-smk.intermediate : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 ifneq ($(TMHOME),)
+smk.intermediate : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan
 else
+#No dependencies to files in TMLIB if TMHOME not set
+smk.intermediate : alan.smk alan.tmk alan.voc
 	@echo "WARNING! ToolMaker (smk) not available, not re-generating, using current smScan.c and smScSema.c"
 endif
 
