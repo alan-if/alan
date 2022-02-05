@@ -196,18 +196,21 @@ void pmDSym(
 /*-----------------------------------------------------------------------------
  * pmMess - An error message should be output, symbol indicates point of error.
  *-----------------------------------------------------------------------------
- * Method:	1 = Symbol(s) insertion        Message:	% inserted
+ * Method:                              Message:
+ *      1 = Symbol(s) insertion         % inserted
  *		2 = Symbol(s) deletion			% deleted
  *		3 = Symbol(s) replacement		% replaced by %
- *          4 = Stack backup			Malformed phrase
- *		5 = Halted				%. System halted
+ *      4 = Stack backup                Malformed phrase
+ *		5 = Halted                      %. System halted
  *
- * Code:	1 = Unknown token (error token from scanner)
+ * Code:
+ *      1 = Unknown token (error token from scanner)
  *		2 = Syntax error
  *		3 = Parse stack overflow
  *		4 = Table error
  *
- * Severity:	1 = Warning
+ * Severity:
+ *      1 = Warning
  *		2 = Error (repairable)
  *		3 = Fatal error
  *		4 = System error & Limit error

@@ -32,35 +32,38 @@
 # manually in the actual grammar(s) used in the AlanIDE. Then parsers
 # need to be generated from that using CoCo/R. And, once that is done,
 # the used grammar should be saved as 'alanide.used.atg'.
-
+#
+# NOTE this Makefile uses a trick from https://stackoverflow.com/a/10609434/204658
+# using intermediate files to ensure that multiple output files from
+# a recipe is handled correctly even in parallel runs
 
 # TMHOME	= $(HOME)/Utveckling/ToolMaker
 TMLIB	= $(TMHOME)/lib/ansi-c
 
 
 # Make all LMK output files dependent on lmList.c
-lmList.h: lmList.c
 
-# Is TMHOME set?
+lmList.c lmList.h alanCommon.h : lmk.intermediate
+.INTERMEDIATE: lmk.intermediate
+
+lmk.intermediate : alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 ifneq ($(TMHOME),)
-lmList.c: alan.lmk alan.tmk $(TMLIB)/List.imp $(TMLIB)/Common.imp
 	lmk alan
 else
-lmList.c: alan.lmk alan.tmk
 	@echo "WARNING! ToolMaker (lmk) not available, not re-generating, using current lmList.c"
 endif
 
 
-# Make all PMK output files dependent on pmParse.c
-pmParse.h pmPaSema.c pmErr.c pmErr.h alan.voc alan.pml: pmParse.c
+# Make all PMK output
 
-# Is TMHOME set?
+pmParse.c pmParse.h pmPaSema.c pmErr.c pmErr.h alan.voc alan.pml alanCommon.h : pmk.intermediate
+.INTERMEDIATE: pmk.intermediate
+
+pmk.intermediate : alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 ifneq ($(TMHOME),)
-pmParse.c: alan.pmk alan.tmk $(TMLIB)/Parse.imp $(TMLIB)/Err.imp $(TMLIB)/Common.imp
 	pmk alan
 	sed -f prod.sed alan.pml > alan.prod
 else
-pmParse.c: alan.pmk alan.tmk
 	@echo "WARNING! ToolMaker (pmk) not available, not re-generating, using current pmParse.c, pmPaSema.c pmErr.c"
 endif
 
@@ -75,22 +78,16 @@ alan.g : antlr.sed antlr.header alan.prod
 	cp antlr.header alan.g
 	sed -f antlr.sed alan.prod >> alan.g
 
-######################################################################
-#
-# Scanner - complex scripting to create a scanner that can use different
-#           character sets
-#
 
 # Make all SMK output files dependent on smScanx.c
-smScSema.c smScan.h: smScanx.c
 
-# Is TMHOME set?
+smScan.c smScan.h smScSema.c alanCommon.h : smk.intermediate
+.INTERMEDIATE: smk.intermediate
+
+smk.intermediate : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 ifneq ($(TMHOME),)
-# TODO: now with only ISO and UTF we don't need all this, remove it and be content with what smk generates...
-smScan.c : alan.smk alan.tmk alan.voc $(TMLIB)/Scan.imp $(TMLIB)/Common.imp
 	smk alan
 else
-smScan.c : alan.smk alan.tmk alan.voc
 	@echo "WARNING! ToolMaker (smk) not available, not re-generating, using current smScan.c and smScSema.c"
 endif
 
