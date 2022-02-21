@@ -182,7 +182,7 @@ void getxt(char *txt)		/* IN - The text to output */
 
   for (i = 0; txt[i]; i++)
     incFreq(txt[i]);
-  fprintf(txtfil, txt);
+  fprintf(txtfil, "%s", txt);
 }
 
 
@@ -245,7 +245,7 @@ void prepmsgs(void)
   /* For all messages in the pointed to table */
   for (msgno = 0; defmsg[msgno].id; msgno++) {
     MsgNod *msg;
-    char *msgp;
+    char *msgp = "";
 
     /* Create a message node */
     switch (opts[OPTLANG].value) {

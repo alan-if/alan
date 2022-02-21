@@ -9,7 +9,7 @@
 #include "sysdep.h"
 #include "types.h"
 
-#ifdef __sun__
+#ifdef __unix__
 #include <unistd.h>
 #endif
 
@@ -263,7 +263,7 @@ static void stats(void)
     lmLiPrint("");
   }
   
-  (void)sprintf(str,   "        Estimated dynamic memory usage = %d bytes.",
+  (void)sprintf(str,   "        Estimated dynamic memory usage = %ld bytes.",
 	  (char *)malloc(10000)-(char *)heap);
   lmLiPrint(str);
   (void)sprintf(str,   "        Calculated       - \"\" -        = %ld bytes.",

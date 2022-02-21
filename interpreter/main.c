@@ -326,9 +326,9 @@ void statusline(void)
  */
 void logprint(char str[])
 {
-  printf(str);
+  printf("%s", str);
   if (logflg)
-    fprintf(logfil, str);
+    fprintf(logfil, "%s", str);
 }
 
 
