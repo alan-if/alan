@@ -88,25 +88,6 @@ checkTarget:
 	fi
 
 
-#
-# Version number generation
-#
-# Just remove these on machines that don't have it
-#
-alan.version.h :
-	cd ..; venum -write always -all alan
-	cp -p ../alan.version.h .
-
-version.h :
-	cd ..; venum -write always -all alan
-	cp -p ../version.h .
-
-../alan.version: $(VERSIONSRCS) 
-	cd ..; venum alan time
-
-alan.version.c:  ../alan.version
-	cp -p ../alan.version.c .
-
 
 dumpacd: dumpacd.o reverse.o spa.o
 	gcc -o dumpacd -g dumpacd.o spa.o reverse.o

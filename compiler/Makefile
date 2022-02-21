@@ -86,22 +86,4 @@ spa.o: spa.c spa.h
 smScanx.o: smScanx.c
 
 #
-# Version number generation
-#
-# Just remove these to compile on a machine without it
-#
-alan.version.h :
-	cd ..; venum -write always -all alan
-	cp ../alan.version.h .
-
-version.h :
-	cd ..; venum -write always -all alan
-	cp ../version.h .
-
-.PHONY: ../alan.version
-alan.version.c: $(VERSIONOBJECTS) ../alan.version
-	cd ..; venum alan time
-	cp ../alan.version.c .
-
-#
 include dependencies.mk
