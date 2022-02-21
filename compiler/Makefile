@@ -73,7 +73,7 @@ OBJECTS = $(VERSIONOBJECTS) alan.version.o
 all alan alan.exe : $(OBJECTS) Makefile
 	gcc -o alan $(OBJECTS) $(LDFLAGS)	
 	-mkdir ../bin
-	cp alan.exe ../bin
+	-cp alan.exe ../bin
 
 .PHONY:release
 release:

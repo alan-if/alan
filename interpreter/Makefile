@@ -58,7 +58,7 @@ all: checkTarget arun
 arun : $(ARUNOBJECTS) Makefile dependencies.mk
 	gcc -o arun $(OPTIMIZE) $(ARUNOBJECTS) $(LDFLAGS) $(LIB)
 	-@if test -f ../bin; then :; else mkdir ../bin 2> /dev/null ; fi
-	cp arun.exe ../bin
+	-cp arun.exe ../bin
 
 release:
 	$(MAKE) "OPTIMIZE=-O4" arun
