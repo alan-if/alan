@@ -132,7 +132,7 @@ extern unsigned char *smDosMap;
 extern unsigned char *smDosDFAcolVal;
 extern unsigned char *smDosDFAerrCol;
 
-static int charset;
+int charset;
 
 void setCharacterSet(int set)
 {

@@ -31,6 +31,8 @@
 
 #define LISTLEN 100
 
+#define getline getline_ /* Avoid conflict with <stdio.h> */
+
 
 /* PUBLIC DATA */
 

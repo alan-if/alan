@@ -33,8 +33,7 @@ void getPageSize()
 #ifdef HAVE_TERMIO
 
 #include <sys/termios.h>
-
-  extern int ioctl();
+#include <sys/ioctl.h>
 
   struct winsize win;
   int ecode;
