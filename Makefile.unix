@@ -22,13 +22,13 @@ LASTRELEASE	= `cat LASTRELEASE`
 TMPSRC	= /tmp/alansrc
 
 all:
-	-cd compiler; $(MAKE) -k
-	-cd interpreter; $(MAKE) -k
+	cd compiler; $(MAKE) -k
+	cd interpreter; $(MAKE) -k
 
 arch:
 	@echo Building for `arch`
-	-cd compiler; $(MAKE) -k `arch`
-	-cd interpreter; $(MAKE) -k `arch`
+	cd compiler; $(MAKE) -k `arch`
+	cd interpreter; $(MAKE) -k `arch`
 
 src: version
 	cd compiler; $(MAKE) src
