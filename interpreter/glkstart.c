@@ -14,6 +14,8 @@
     *not* be compiled into the Glk library itself.
 */
 
+#include <stdio.h>
+
 #include "glk.h"
 #include "glkstart.h"
 #include "glkio.h"
