@@ -6,6 +6,8 @@
 
 \*----------------------------------------------------------------------*/
 
+#include "sysdep.h"
+
 #ifdef __amiga__
 
 #include <libraries/dosextens.h>
