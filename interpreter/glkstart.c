@@ -23,6 +23,7 @@
 winid_t glkMainWin;
 winid_t glkStatusWin;
 
+#if defined(UNIXGLK)
 glkunix_argumentlist_t glkunix_arguments[] = {
   { "-v", glkunix_arg_NoValue, "-v: verbose mode" },
   { "-l", glkunix_arg_NoValue, "-l: log player command and game output" },
@@ -53,7 +54,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
   return TRUE;
 }
 
-#ifdef WINGLK
+#elif defined(WINGLK)
 #include "WinGlk.h"
 #include <windows.h>
 int winglk_startup_code(const char* cmdline)
