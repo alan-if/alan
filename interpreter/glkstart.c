@@ -20,6 +20,9 @@
 #include "args.h"
 #include "resources.h"
 
+winid_t glkMainWin;
+winid_t glkStatusWin;
+
 glkunix_argumentlist_t glkunix_arguments[] = {
   { "-v", glkunix_arg_NoValue, "-v: verbose mode" },
   { "-l", glkunix_arg_NoValue, "-l: log player command and game output" },
