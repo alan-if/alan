@@ -77,7 +77,7 @@ int winglk_startup_code(const char* cmdline)
   /* now process the command line arguments */
   argumentVector[0] = "";
   argumentVector[1] = (char *)cmdline;
-  args(2, &argumentVector);
+  args(2, argumentVector);
 
   glkStatusWin = glk_window_open(glkMainWin, winmethod_Above |
     winmethod_Fixed, 1, wintype_TextGrid, 0);
