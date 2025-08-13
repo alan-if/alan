@@ -22,12 +22,14 @@ EOF
 fi
 if [ "$SSHPASS" != "" ] ; then
    sshpass -e sftp alanif.se@ssh.alanif.se <<EOF
-mkdir /www/downloads/$2
-put $1 "/www/downloads/$2/`basename $1`"
+pwd
+mkdir downloads/$2
+put $1 "downloads/$2/`basename $1`"
 EOF
 else
     sftp alanif.se@ssh.alanif.se <<EOF
-mkdir /www/downloads/$2
-put $1 "/www/downloads/$2/`basename $1`"
+pwd
+mkdir downloads/$2
+put $1 "downloads/$2/`basename $1`"
 EOF
 fi
