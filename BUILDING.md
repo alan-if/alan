@@ -103,7 +103,7 @@ line versions of the compiler and the interpreter. And, if enabled,
 also WinAlan and WinArun.
 
 Obviously you need to install the cross-compilation suite for your
-platform (usually something like `i686-w64-mingw32-gcc`).
+platform (usually something like `x86_64-w64-mingw32-gcc`).
 
 ## Release Process
 

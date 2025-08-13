@@ -14,8 +14,8 @@ include ../mk/include_guard.mk
 #
 # release
 #
-release: CC=i686-w64-mingw32-gcc
-release: WINDRES=i686-w64-mingw32-windres
+release: CC=x86_64-w64-mingw32-gcc
+release: WINDRES=x86_64-w64-mingw32-windres
 .PHONY: release
 release: clean build
 	@if ldd alan | grep -q cygwin1.dll ; then \

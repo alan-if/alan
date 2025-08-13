@@ -61,16 +61,16 @@ looks like this:
     APPS += $(GARGLKPRE)alan3 ;
 ```
 
-Introduce a section for CYGWIN in the switch for `$(OS)`, it is mostly the same as for MINGW with the addition of compilers being `i686-w64-mingw32` versions:
+Introduce a section for CYGWIN in the switch for `$(OS)`, it is mostly the same as for MINGW with the addition of compilers being `x86_64-w64-mingw32` versions:
 
 ```
     case CYGWIN :
         Echo "OS is CYGWIN (win32) $(CROSS)" ;
         SUFDLL  = .dll ;
-        CC = i686-w64-mingw32-gcc ;
-        C++ = i686-w64-mingw32-gcc ;
-        CXX = i686-w64-mingw32-gcc ;
-        LINK = i686-w64-mingw32-gcc -mwindows ;
+        CC = x86_64-w64-mingw32-gcc ;
+        C++ = x86_64-w64-mingw32-gcc ;
+        CXX = x86_64-w64-mingw32-gcc ;
+        LINK = x86_64-w64-mingw32-gcc -mwindows ;
         LINKLIBS = -lcomdlg32 -lgdi32 -lwinmm ; # -lm ;
         SHRLINKLIBS = -lcomdlg32 -lgdi32 -lwinmm ; # -lm ;
         SHRLINKLIBS += $(TOP)/support/freetype/freetype6.dll ;

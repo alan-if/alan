@@ -132,7 +132,7 @@ a2a3.version: $(A2A3_SRCS)
 cross: cross_clean
 	$(MAKE) cross-build
 
-cross-build: CC=i686-w64-mingw32-gcc
+cross-build: CC=x86_64-w64-mingw32-gcc
 cross-build: EXEEXT=.exe
 cross-build: build
 

@@ -15,9 +15,9 @@ SOEXTENSION = dll
 ###########################################################
 # On cygwin you can try to build without cygwin1.dll using
 # the mingw compiler and linker, but it makes it harder to
-# debug since there is no i686-w64-mingw32-gdb
-#CC = i686-w64-mingw32-gcc
-#WINDRES = i686-w64-mingw32-windres
+# debug since there is no x86_64-w64-mingw32-gdb
+#CC =x86_64-w64-mingw32-gcc
+#WINDRES = x86_64-w64-mingw32-windres
 WINDRES = windres
 
 ###############################

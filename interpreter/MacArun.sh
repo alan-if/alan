@@ -1,7 +1,10 @@
 #!/bin/sh
+SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+ARUN_DIR=$SCRIPT_DIR/../Resources
+echo $ARUN_DIR
 cat > $TMPDIR/arun.command <<EOF
 #!/bin/sh
-arun $1
+$ARUN_DIR/arun $1
 if [ \$? -ne 0 ]
 then
     echo
