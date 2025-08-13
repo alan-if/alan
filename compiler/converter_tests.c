@@ -132,15 +132,15 @@ Ensure(Converter, should_convert_long_utf_text) {
                         0x70, 0xe5, 0x20,
                         0x68, 0x75, 0x72, 0x20,
                         0x73, 0x6B, 0x79, 0x64, 0x64, 0x73, 0x65, 0x66, 0x66, 0x65, 0x6B, 0x74, 0x65, 0x6E, 0x20,
-                        0x62, 0x6C, 0x69, 0x72, 0x2E};
+                        0x62, 0x6C, 0x69, 0x72, 0x2E, 0};
     uchar *input_p = &input[0];
     uchar *output_p = &output[0];
 
     assert_that(convertUtf8ToInternal(cd, &input_p, &output_p, strlen((char *)input)), is_equal_to(502));
+
     for (int i=0; i<strlen((char*)output); i++)
         if (output[i] != expected[i])
-            printf("mismatch in position %d\n", i);
-    output[502] = '\0';
+          printf("mismatch in position %d\n", i);
     assert_that(output, is_equal_to_string((char*)expected));
 }
 
@@ -225,7 +225,7 @@ Ensure(Converter, should_convert_long_utf_text_in_chunks) {
                         0x70, 0xe5, 0x20,
                         0x68, 0x75, 0x72, 0x20,
                         0x73, 0x6B, 0x79, 0x64, 0x64, 0x73, 0x65, 0x66, 0x66, 0x65, 0x6B, 0x74, 0x65, 0x6E, 0x20,
-                        0x62, 0x6C, 0x69, 0x72, 0x2E};
+                        0x62, 0x6C, 0x69, 0x72, 0x2E, 0};
 
 #define CHUNK_SIZE 9
 
@@ -265,7 +265,6 @@ Ensure(Converter, should_convert_long_utf_text_in_chunks) {
     for (int i=0; i<strlen((char*)output); i++)
         if (output[i] != expected[i])
             printf("mismatch in position %d\n", i);
-    output[502] = '\0';
     assert_that(output, is_equal_to_string((char*)expected));
 }
 
