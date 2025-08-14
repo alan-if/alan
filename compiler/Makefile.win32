@@ -18,7 +18,7 @@ endif
 # Build with flags:
 winalan: CFLAGS += -DWINGUI #-DARGSDISPLAY
 winalan: EXEEXT = .exe
-winalan: LDLIBS += -lshlwapi -l:libiconv.a
+winalan: LDLIBS += -lshlwapi -liconv
 
 WINALAN_OBJDIR = .winalan
 OBJDIRS += $(WINALAN_OBJDIR)

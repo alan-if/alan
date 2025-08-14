@@ -60,6 +60,7 @@ alan$(EXEEXT): $(ALAN_OBJECTS)
 cross: cross-clean
 	$(MAKE) cross-build
 cross-build: CC= x86_64-w64-mingw32-gcc
+cross-build: LDLIBS += -liconv
 cross-build: EXEEXT=.exe
 cross-build: build $(EXTRA_CROSS_TARGETS)
 

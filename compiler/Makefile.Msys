@@ -17,7 +17,7 @@ SOEXTENSION = dll
 
 # Flags to send to compiler and linker
 CFLAGS +=
-LDLIBS += -l:libiconv.a
+LDLIBS += -liconv
 
 ###########################################################
 # Set relevant compilers and tools
