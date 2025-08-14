@@ -61,6 +61,7 @@ cross: cross-clean
 	$(MAKE) cross-build
 cross-build: CC= x86_64-w64-mingw32-gcc
 cross-build: CFLAGS += -I$(ICONV_ROOT)/include
+cross-build: LDLIBS += -L$(ICONV_ROOT) -liconv
 cross-build: EXEEXT=.exe
 cross-build: build $(EXTRA_CROSS_TARGETS)
 
