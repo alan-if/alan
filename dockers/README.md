@@ -9,12 +9,12 @@ The `alanif/linux-ci` docker image should be available from dockerhub.io, but if
 
     $ make
 
-Tweak the Dockerfiles in the subdirectories as required.
+Tweak the Dockerfile(s) in the subdirectories as required.
 
 ## Your personal Docker cloud in Jenkins
 
 In Jenkins, go to Manage Jenkins->Manage Nodes->Configure Clouds and add a new Docker cloud.
-Depending on how you have your Docker service setup on the host fill out the Docker Host URI in the Docker Cloud settings.
+Depending on how you have your Docker service setup on the host, fill out the Docker Host URI in the Docker Cloud settings.
 Add a Docker template that has a label that you also use in the Jenkins job to restrict where the build can be run.
 The template should use the image `alanif/linux-ci` and the Remote File System Root should be `/home/jenkins`.
 
