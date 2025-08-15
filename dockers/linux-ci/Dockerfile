@@ -18,7 +18,7 @@ RUN apt-get update && apt-get -y upgrade && \
       ca-certificates curl wget unzip xz-utils \
       openjdk-17-jre-headless \
       git openssh-client \
-      build-essential make cmake pkg-config gcc g++ \
+      build-essential make cmake pkg-config gcc g++ cgreen1 \
       gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 binutils-mingw-w64-x86-64 \
       mingw-w64 mingw-w64-tools cgreen1 libcgreen1-dev \
       nsis zip dos2unix && \
