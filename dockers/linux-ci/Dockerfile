@@ -42,14 +42,14 @@ RUN update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32
 # Prefix for iconv
 #ENV ICONV_ROOT=/usr/local/x86_64-w64-mingw32
 
-RUN \
+RUN cd /tmp && \
     git clone https://github.com/win-iconv/win-iconv.git && \
     cd win-iconv && \
     x86_64-w64-mingw32-gcc -O2 -Wall -c win_iconv.c -o win_iconv.o && \
     ar rcs libwiniconv.a win_iconv.o && \
     x86_64-w64-mingw32-gcc -shared -o winiconv.dll win_iconv.o -Wl,--out-implib,libwiniconv.dll.a
 
-ENV WINICONV_ROOT=/home/jenkins/win-iconv
+ENV WINICONV_ROOT=/tmp/win-iconv
 
 # Jenkins-user .ssh-directory
 RUN useradd -m -d /home/jenkins -s /bin/bash jenkins && \
