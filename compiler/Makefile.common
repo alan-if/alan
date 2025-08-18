@@ -21,7 +21,6 @@ endif
 # so you can override system functions
 CFLAGS += -g -O0 -Wall -MMD -I../interpreter $(CFLAGS_BUILD) $(COVERAGE)
 LDFLAGS += $(COVERAGE)
-LDLIBS += -liconv
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)

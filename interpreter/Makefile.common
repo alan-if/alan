@@ -20,7 +20,6 @@ endif
 # so you can override system functions and other hacks
 CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD) $(COVERAGE)
 LDFLAGS += $(COVERAGE)
-LDLIBS += -liconv
 
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
