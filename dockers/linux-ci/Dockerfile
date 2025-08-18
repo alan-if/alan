@@ -49,7 +49,7 @@ RUN \
     ar rcs libwiniconv.a win_iconv.o && \
     x86_64-w64-mingw32-gcc -shared -o winiconv.dll win_iconv.o -Wl,--out-implib,libwiniconv.dll.a
 
-ENV WINICONV_ROOT = /home/jenkins/win-iconv
+ENV WINICONV_ROOT=/home/jenkins/win-iconv
 
 # Jenkins-user .ssh-directory
 RUN useradd -m -d /home/jenkins -s /bin/bash jenkins && \
