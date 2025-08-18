@@ -10,7 +10,7 @@ include ../mk/include_guard.mk
 VERSION := $(shell cat ../NEXTRELEASE)
 
 CFLAGS +=
-LDLIBS += -L$(ICONV_ROOT)/lib -liconv
+LDLIBS += -liconv
 
 SOEXTENSION = dylib
 

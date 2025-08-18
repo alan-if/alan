@@ -5,7 +5,7 @@ include ../mk/include_guard.mk
 #
 
 CFLAGS +=
-LDLIBS += -L$(ICONV_ROOT)/lib -liconv
+LDLIBS += -liconv
 
 # Sharable libraries extension
 SOEXTENSION = dylib
