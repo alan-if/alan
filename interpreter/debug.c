@@ -53,18 +53,13 @@ Breakpoint breakpoint[BREAKPOINTMAX];
 /*----------------------------------------------------------------------*/
 static void showAttributes(AttributeEntry *attributes)
 {
-    AttributeEntry *at;
-    int i;
-    char str[80];
-
     if (attributes == 0)
         return;
 
-    i = 1;
-    for (at = attributes; !isEndOfArray(at); at++) {
+    for (AttributeEntry *at = attributes; !isEndOfArray(at); at++) {
+        char str[80];
         sprintf(str, "$i$t%s[%d] = %d", (char *) pointerTo(at->id), at->code, (int)at->value);
         output(str);
-        i++;
     }
 }
 

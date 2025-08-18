@@ -82,7 +82,7 @@ void getPageSize(void)
 #ifdef __linux__
     extern int ioctl (int __fd, unsigned long int __request, ...) __THROW;
 #else
-    extern int ioctl();
+    extern int ioctl (int __fd, unsigned long int __request, ...);
 #endif
     struct winsize win;
     int ecode;
