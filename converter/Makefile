@@ -133,6 +133,7 @@ cross: cross_clean
 	$(MAKE) cross-build
 
 cross-build: CC=x86_64-w64-mingw32-gcc
+cross-build: LDLIBS= -L$(WINICONV_ROOT)/libs -liconv
 cross-build: EXEEXT=.exe
 cross-build: build
 
