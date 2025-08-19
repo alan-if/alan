@@ -45,6 +45,10 @@ test:
 .PHONY: cross
 cross: PLATFORM = win32.i686
 cross:
+	@if [ -z "$(WINICONV_ROOT)" ]; then \
+	    echo "Error: WINICONV_ROOT is not set"; \
+	    exit 1; \
+	fi
 	$(MAKE) -C compiler BUILDNUMBER=$(BUILDNUMBER) cross
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) cross
 	$(MAKE) -C converter BUILDNUMBER=$(BUILDNUMBER) cross
