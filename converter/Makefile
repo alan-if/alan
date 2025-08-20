@@ -134,7 +134,7 @@ cross: cross_clean
 
 cross-build: CC=x86_64-w64-mingw32-gcc
 cross-build: CFLAGS += -I$(WINICONV_ROOT)
-cross-build: LDLIBS= -L$(WINICONV_ROOT)/libs -liconv
+cross-build: LDLIBS= -L$(WINICONV_ROOT) -l:libwiniconv.a
 cross-build: EXEEXT=.exe
 cross-build: build
 
