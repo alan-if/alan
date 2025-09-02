@@ -68,9 +68,9 @@ ci:
 	$(MAKE) package
 	$(MAKE) cross
 	$(MAKE) cross-package
-	$(MAKE) -C interpreter WINARUN_ENABLED=true WINGLK_ROOT=$(HOME)/WindowsGlk winarun
+	$(MAKE) -C interpreter WINARUN_ENABLED=true winarun
 	$(MAKE) -C compiler WINALAN_ENABLED=true winalan
-	$(MAKE) WINGLK_ROOT=$(HOME)/WindowsGlk setup
+	$(MAKE) setup
 	# TODO: We should also build gargoyle slot-in interpreter for Linux and Windows
 	# $(MAKE) -C interpreter gararun
 
