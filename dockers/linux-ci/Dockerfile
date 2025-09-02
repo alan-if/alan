@@ -51,6 +51,14 @@ RUN cd /tmp && \
 
 ENV WINICONV_ROOT=/tmp/win-iconv
 
+RUN cd /tmp && \
+    mkdir WindowsGlk && cd WindowsGlk && \
+    wget https://github.com/DavidKinder/Windows-Glk/releases/download/1.54/WindowsGlk-154.zip && \
+    unzip WindowsGlk*
+
+ENV WINGLK_ROOT=/tmp/WindowsGlk    
+    
+
 # Jenkins-user .ssh-directory
 RUN useradd -m -d /home/jenkins -s /bin/bash jenkins && \
     install -d -m 700 -o jenkins -g jenkins /home/jenkins/.ssh
