@@ -28,9 +28,6 @@ include sources.mk
 # Read possible local dependencies and EXTRA_TARGETS to enable
 ifneq ($(wildcard Makefile.local),)
 	include Makefile.local
-else
-# Read the standard template for local settings
-	include Makefile.local.template
 endif
 
 -include Makefile.$(OS)
