@@ -16,7 +16,7 @@ include ../mk/include_guard.mk
 #     http://www.ifarchive.org/indexes/if-archiveXprogrammingXglkXimplementations.html
 #
 # Point the linker to the Windows GLK library
-WINGLK_ROOT = ../../WindowsGlk-151
+WINGLK_ROOT ?= ../../WindowsGlk-151
 #
 # If required you can set particular compiler and linker for an extra target
 # like so (most likely we need to cross compile...):
