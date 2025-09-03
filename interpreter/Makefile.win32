@@ -28,7 +28,6 @@ WINGLK_LIB = $(WINGLK_ROOT)/Glk.lib # or -L$(WINGLK_ROOT) -l:Glk.lib
 
 winarun: CFLAGS += $(WINGLK_INCLUDE) $(WINGLK_DEFS)
 winarun: EXEEXT = .exe
-winarun: LDLIBS += -l:libiconv.a
 
 WINARUNOBJDIR = .winarun
 WINARUNOBJECTS = $(addprefix $(WINARUNOBJDIR)/,${WINARUNSRCS:.c=.o}) $(WINARUNOBJDIR)/alan.version.o
