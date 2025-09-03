@@ -24,8 +24,9 @@ WINGLK_ROOT ?= ../../WindowsGlk-151
 gararun winarun: CC = x86_64-w64-mingw32-gcc
 winarun: WINDRES = x86_64-w64-mingw32-windres
 # And/or extra switches and flags:
-winarun: CFLAGS += -mwindows
+winarun: CFLAGS += -mwindows -I$(WINICONV_ROOT)
 winarun: LDFLAGS += -mwindows
+winarun: LDLIBS += -L$(WINICONV_ROOT) -l:libwiniconv.a
 #
 
 # Enable glkarun:
