@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # TZ
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ >/etc/timezone
 
-# Base: Java 17, git/ssh, buildchain, MinGW-w64 64-bit, NSIS, Cgreen, tools for libiconv-build
+# Base: Java 17, git/ssh, buildchain, MinGW-w64 64-bit + dev, NSIS, Cgreen, tools for libiconv-build
 RUN apt-get update && apt-get -y upgrade && \
     apt-get install -y --no-install-recommends \
       ca-certificates curl wget unzip xz-utils \
@@ -20,7 +20,8 @@ RUN apt-get update && apt-get -y upgrade && \
       git openssh-client \
       build-essential make cmake pkg-config gcc g++ cgreen1 \
       gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 binutils-mingw-w64-x86-64 \
-      mingw-w64 mingw-w64-tools cgreen1 libcgreen1-dev \
+      mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev \
+      cgreen1 libcgreen1-dev \
       nsis zip dos2unix && \
     rm -rf /var/lib/apt/lists/*
 
