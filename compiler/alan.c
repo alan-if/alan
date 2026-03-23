@@ -6,24 +6,21 @@
 
 \*----------------------------------------------------------------------*/
 
-#include "sysdep.h"
-#include "types.h"
-#include "util.h"
 
 #include "alan.h"
 
 /* IMPORTS */
+#include "adv_x.h"
 #include "alan.version.h"
-#include "opt.h"
 #include "dump_x.h"
 #include "lmList.h"
 #include "lmlog.h"
+#include "opt.h"
+#include "options.h"
 #include "pmParse.h"
 #include "smScan.h"
-#include "options.h"
-
 #include "srcp_x.h"
-#include "adv_x.h"
+#include "util.h"
 
 #ifdef WINGUI
 #include <windows.h>

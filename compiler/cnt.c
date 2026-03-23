@@ -1,33 +1,27 @@
 /*----------------------------------------------------------------------*\
 
-  CNT.C
-  Container Nodes
+                                CNT.C
+                           Container Nodes
 
 \*----------------------------------------------------------------------*/
 
 #include "cnt_x.h"
 
 /* IMPORTS: */
-#include "alan.h"
 
-#include "srcp_x.h"
-#include "adv_x.h"
-#include "sym_x.h"
-#include "lst_x.h"
-#include "stm_x.h"
-#include "chk_x.h"
-#include "id_x.h"
-#include "context_x.h"
-#include "dump_x.h"
-
-#include "util.h"
-#include "stm.h"
-#include "elm.h"
-#include "lim.h"
-
-#include "lmlog.h"
 #include "acode.h"
+#include "adv_x.h"
+#include "chk_x.h"
+#include "dump_x.h"
 #include "emit.h"
+#include "id_x.h"
+#include "lim.h"
+#include "lmlog.h"
+#include "lst_x.h"
+#include "srcp_x.h"
+#include "stm_x.h"
+#include "sym_x.h"
+#include "util.h"
 
 
 

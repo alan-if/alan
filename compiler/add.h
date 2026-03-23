@@ -9,7 +9,6 @@
 
 
 /* USE: */
-#include "types.h"
 #include "id.h"
 #include "prop.h"
 

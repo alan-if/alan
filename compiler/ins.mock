@@ -22,7 +22,7 @@ void addHero(void) {}
 void addLiteralInstance(void) {}
 void addNowhere(void) {}
 void symbolizeInstances(void) {}
-void analyzeAllInstanceAttributes() {}
+void analyzeAllInstanceAttributes(void) {}
 void analyzeInstances(void) {}
 void generateInstances(ACodeHeader *header) { mock(header); }
 void dumpInstance(Instance *ins) { mock(ins); }

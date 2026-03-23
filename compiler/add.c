@@ -9,23 +9,21 @@
 
 /* IMPORT: */
 #include "adv_x.h"
-#include "prop_x.h"
-#include "sym_x.h"
-#include "id_x.h"
-#include "srcp_x.h"
 #include "atr_x.h"
-#include "lst_x.h"
-#include "vrb_x.h"
-#include "ext_x.h"
-#include "whr_x.h"
-#include "dump_x.h"
 #include "description_x.h"
-#include "context_x.h"
-
-#include "scr.h"
+#include "dump_x.h"
 #include "ext.h"
-#include "util.h"
+#include "ext_x.h"
+#include "id_x.h"
 #include "lmlog.h"
+#include "lst_x.h"
+#include "prop_x.h"
+#include "scr.h"
+#include "srcp_x.h"
+#include "sym_x.h"
+#include "util.h"
+#include "vrb_x.h"
+#include "whr_x.h"
 
 
 /*======================================================================*/

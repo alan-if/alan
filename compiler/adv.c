@@ -36,14 +36,12 @@
 #include "dump_x.h"
 
 
-#include "ext.h"		/* EXT-nodes */
 #include "evt.h"		/* EVT-nodes */
 #include "syn.h"		/* SYN-nodes */
 #include "msg.h"		/* MSG-nodes */
 
 #include "sco.h"		/* SCORES */
 #include "opt.h"		/* OPTIONS */
-#include "options.h"		/* OPTIONS */
 
 #include "emit.h"
 #include "encode.h"
@@ -71,7 +69,7 @@ void initAdventure(void)
 
 
 /*======================================================================*/
-void symbolizeAdventure()
+void symbolizeAdventure(void)
 {
     symbolizeClasses();
     symbolizeInstances();
@@ -114,7 +112,7 @@ static void analyzePrompt(void)
 
 
 /*----------------------------------------------------------------------*/
-static void analyzeSourceFilenames() {
+static void analyzeSourceFilenames(void) {
     List *currentFile;
     int count = 0;
 
@@ -196,7 +194,7 @@ void analyzeAdventure(void)
 
 
 /*----------------------------------------------------------------------*/
-static Aaddr generateSourceFileTable() {
+static Aaddr generateSourceFileTable(void) {
     Aaddr adr = nextEmitAddress();
 
     if (opts[OPTDEBUG].value)

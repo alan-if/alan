@@ -190,7 +190,7 @@ Aaddr generateAlternatives(List *alts)
   Dump a verb qualifier.
 
 */
-static void duqual (QualKind qual)
+static void dumpQual (QualKind qual)
 {
     switch (qual) {
     case QUAL_AFTER:   put("AFTER"); break;
@@ -211,7 +211,7 @@ void dumpAlternative(Alternative *alt)
         return;
     }
 
-    put("ALT: "); dumpSrcp(alt->srcp); put(" qual: "); duqual(alt->qual); indent();
+    put("ALT: "); dumpSrcp(alt->srcp); put(" qual: "); dumpQual(alt->qual); indent();
     put("id: "); dumpId(alt->id); nl();
     put("chks: "); dumpList(alt->chks, CHECK_LIST); nl();
     put("stms: "); dumpList(alt->stms, STATEMENT_LIST); out();

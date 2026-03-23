@@ -10,6 +10,7 @@
 
 #include "unitmock.h"
 #include "unitList.h"
+#include "description_x.h"
 
 #include "adv_x.h"
 

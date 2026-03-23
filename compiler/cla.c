@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------*\
 
-                CLA.C
-                 Class Nodes
+                                CLA.C
+                             Class Nodes
 
 \*----------------------------------------------------------------------*/
 
@@ -9,27 +9,24 @@
 
 /* IMPORT */
 #include <stdio.h>
-#include "types.h"
-#include "opt.h"
 
-#include "ext.h"
-#include "srcp_x.h"
-#include "id_x.h"
-#include "sym_x.h"
-#include "stm_x.h"
 #include "adv_x.h"
-#include "atr_x.h"
-#include "prop_x.h"
-#include "lst_x.h"
-#include "description_x.h"
 #include "article_x.h"
+#include "atr_x.h"
 #include "context_x.h"
+#include "description_x.h"
 #include "dump_x.h"
-
 #include "emit.h"
-#include "util.h"
-#include "options.h"
+#include "id_x.h"
 #include "lmlog.h"
+#include "lst_x.h"
+#include "opt.h"
+#include "prop_x.h"
+#include "srcp_x.h"
+#include "stm_x.h"
+#include "sym_x.h"
+#include "types.h"
+#include "util.h"
 
 
 /* PUBLIC DATA */
@@ -51,13 +48,12 @@ Class *entity,
 static List *allClasses = NULL;
 
 /*----------------------------------------------------------------------*/
-static void addPredefinedProperties() {
-
+static void addPredefinedProperties(void) {
 }
 
 
 /*======================================================================*/
-void initClasses()
+void initClasses(void)
 {
   Id *entityId = newId(nulsrcp, "entity");
   Id *literalId = newId(nulsrcp, "literal");
@@ -186,7 +182,7 @@ static void analyzeClass(Class *class)
 
 
 /*======================================================================*/
-void analyzeAllClassAttributes() {
+void analyzeAllClassAttributes(void) {
   List *l;
   ITERATE(l, allClasses) {
     Properties *props = l->member.cla->props;
@@ -204,7 +200,7 @@ void analyzeClasses(void)
 
 
 /*======================================================================*/
-void setupDefaultProperties() {
+void setupDefaultProperties(void) {
   char *the = "the";
   char *an = "a";
   char *any = "any";

@@ -7,17 +7,13 @@
 
 #include "ins_x.h"
 
-#include "options.h"
-#include "sysdep.h"
 #include "util.h"
 #include "emit.h"
 #include "adv.h"
 #include "opt.h"
 
-#include "description_x.h"
 #include "id_x.h"
 #include "lst_x.h"
-#include "scr_x.h"
 #include "prop_x.h"
 #include "srcp_x.h"
 #include "sym_x.h"
@@ -32,7 +28,7 @@ static List *allInstances = NULL;
 
 
 /*======================================================================*/
-void initInstances()
+void initInstances(void)
 {
     allInstances = NULL;
     addNowhere();
@@ -53,7 +49,7 @@ static void ensureHeroInheritsFromActor(Symbol *hero) {
 
 
 /*----------------------------------------------------------------------*/
-void addHeroContainer() {
+void addHeroContainer(void) {
     if (symbolIsActor(theHero)) {
         if (!symbolIsContainer(theHero))
             theHero->fields.entity.props->container = newContainer(NULL);
@@ -158,7 +154,7 @@ void symbolizeInstances(void)
 
 
 /*======================================================================*/
-void analyzeAllInstanceAttributes() {
+void analyzeAllInstanceAttributes(void) {
     List *l;
     ITERATE(l, allInstances) {
         Properties *props = l->member.ins->props;
