@@ -213,9 +213,103 @@ def parse(toks, diag):
     return rules
 
 
+# ------------------------------------------------- emission: .prod (verify)
+
+def emit_prod(rules):
+    """Re-emit the parsed grammar in ParserMaker's `.prod` listing format.
+
+    VERIFICATION ONLY. This desugars inline groups and optionals into
+    __genSym#N helper rules, exactly as ParserMaker does, so the output can be
+    diffed against a real alan.prod. The Rule model is NOT mutated -- the
+    genSym expansion is local to this function and thrown away, so the Xtext
+    emitter still sees, and keeps, the original sugar.
+
+    Layout, reverse-engineered from alan.prod:
+      * production number right-aligned in 3 columns then ". " (width 5)
+      * '=', '!' and the closing ';' align one space past the rule head
+      * each production line carries a single trailing space
+      * genSym definitions follow the *complete* rule that uses them,
+        numbered in order of first use
+    """
+    out = []
+    n = [0]                     # production counter
+    gs = [0]                    # next genSym id
+
+    def render(items):
+        """Render one alternative, hoisting sugar out into genSym rules.
+        Returns (text, [(gsname, alts), ...])."""
+        parts, hoisted = [], []
+        i = 0
+        while i < len(items):
+            t = items[i]
+            if t.kind in ("lbrack", "lparen"):
+                close = "rbrack" if t.kind == "lbrack" else "rparen"
+                depth, j = 1, i + 1
+                while j < len(items) and depth:
+                    if items[j].kind == t.kind:
+                        depth += 1
+                    elif items[j].kind == close:
+                        depth -= 1
+                    j += 1
+                inner = items[i + 1:j - 1]
+                name = f"__genSym#{gs[0]}"
+                gs[0] += 1
+                if t.kind == "lbrack":
+                    alts = [[], inner]                 # [x]   -> empty ! x
+                else:
+                    alts, cur = [], []                 # (a|b) -> a ! b
+                    for it in inner:
+                        if it.kind == "bar":
+                            alts.append(cur)
+                            cur = []
+                        else:
+                            cur.append(it)
+                    alts.append(cur)
+                parts.append(name)
+                hoisted.append((name, alts))
+                i = j
+                continue
+            if t.kind == "literal":
+                parts.append(t.text)
+            elif t.kind == "nonterm":
+                parts.append(f"<{t.text}>")
+            elif t.kind == "ident":
+                parts.append(t.text)
+            elif t.kind == "comma":
+                parts.append("','")
+            i += 1
+        return " ".join(parts), hoisted
+
+    def emit_one(head, alts):
+        col = 5 + len(head) + 1        # column of '=' / '!' / ';'
+        hoisted_all = []
+        for k, alt in enumerate(alts):
+            n[0] += 1
+            text, hoisted = render(alt)
+            hoisted_all += hoisted
+            num = f"{n[0]:3d}. "
+            if k == 0:
+                line = num + head + " = " + text
+            else:
+                line = num + " " * (col - len(num)) + "! " + text
+            out.append(line.rstrip() + " ")
+        out.append(" " * col + ";")
+        return hoisted_all
+
+    for r in rules:
+        head = r.name if r.name in TERMINAL_LIKE_HEADS else f"<{r.name}>"
+        hoisted = emit_one(head, r.alts)
+        while hoisted:                  # genSym defs follow the whole rule
+            name, alts = hoisted.pop(0)
+            hoisted += emit_one(name, alts)
+
+    return "\n".join(out)
+
+
 # ---------------------------------------------------------------- emission
 
 TOKEN_CLASSES = {"ID", "Identifier", "Integer", "STRING"}
+TERMINAL_LIKE_HEADS = {"ID"}        # rule heads written without <angle brackets>
 
 
 def camel(name):
@@ -440,6 +534,10 @@ def main():
     p.add_argument("-o", "--out", default=None, help="write Xtext draft here")
     p.add_argument("--report", default=None, help="write markdown report here")
     p.add_argument("--lang", default="se.alanif.alan.Alan", help="Xtext grammar name")
+    p.add_argument("--emit", choices=("xtext", "prod"), default="xtext",
+                   help="xtext (default) keeps inline groups; "
+                        "prod desugars them to __genSym#N for round-trip "
+                        "verification against a real alan.prod")
     a = p.parse_args()
 
     src = open(a.pmk, encoding="utf-8", errors="replace").read()
@@ -447,7 +545,7 @@ def main():
     toks = lx.tokens()
     rules = parse(toks, lx.diag)
 
-    xt = emit(rules, lx.diag, a.lang)
+    xt = emit_prod(rules) if a.emit == "prod" else emit(rules, lx.diag, a.lang)
     rp = report(rules, lx.diag, toks)
 
     if a.out:
