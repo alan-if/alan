@@ -1,0 +1,51 @@
+module se.alanif.alan.GenerateAlan
+
+import org.eclipse.xtext.xtext.generator.*
+import org.eclipse.xtext.xtext.generator.model.project.*
+
+// rootPath is resolved relative to the working directory of the MWE2 run,
+// which under exec-maven-plugin is this module's basedir (tools/xtext-check).
+// So ".." is tools/, and baseName below names this module's own directory.
+var rootPath = ".."
+
+Workflow {
+
+	component = XtextGenerator {
+		configuration = {
+			project = StandardProjectConfig {
+				baseName = "xtext-check"
+				rootPath = rootPath
+				// Headless validity check only: no IDE, UI, web, or test
+				// projects, and no Eclipse .project/.classpath metadata.
+				runtimeTest = {
+					enabled = false
+				}
+				genericIde = {
+					enabled = false
+				}
+				eclipsePlugin = {
+					enabled = false
+				}
+				createEclipseMetaData = false
+			}
+			code = {
+				encoding = "UTF-8"
+				lineDelimiter = "\n"
+				preferXtendStubs = false
+			}
+		}
+		language = StandardLanguage {
+			name = "se.alanif.alan.Alan"
+			fileExtensions = "alan"
+
+			// We only care whether the grammar generates a parser. Turn off
+			// everything that would pull in the Xtend compiler or need stubs.
+			serializer = {
+				generateStub = false
+			}
+			generator = {
+				generateXtendStub = false
+			}
+		}
+	}
+}
