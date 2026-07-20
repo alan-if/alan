@@ -361,6 +361,80 @@ def left_recursive(rule):
     return False
 
 
+# Structural overrides: rules whose Xtext body cannot be mechanically derived from
+# alan.pmk (indirect left recursion now; the expression precedence cascade later).
+# Each is HAND-AUTHORED from alan.pmk (the compiler grammar is the source of truth)
+# and must be audited against compiler behaviour -- NOT copied from
+# alanModelBuilder.atg, whose expression/attribute handling diverges on associativity.
+# Keyed by the .pmk rule name; the value is the final Xtext body.
+STRUCTURAL_OVERRIDES = {
+    # What <-> AttributeReference is a mutual (indirect) left recursion:
+    #   What               = SimpleWhat | AttributeReference
+    #   AttributeReference = Id 'of' What | What ':' Id
+    # Inline AttributeReference into What, then eliminate the now-direct recursion:
+    #   What = SimpleWhat | Id 'of' What | What ':' Id
+    #        -> (SimpleWhat | Id 'of' What) (':' Id)*
+    # Faithful to alan.pmk: ':' is a left-associative suffix, 'of' stays right-nested.
+    # AttributeReference keeps its own definition (used standalone in assignments);
+    # breaking the cycle here leaves it non-recursive.
+    "what": "(SimpleWhat | Id 'of' What) (':' Id)*",
+}
+
+
+def render_alt(alt):
+    """Render a whole alternative (list of tokens) to an Xtext fragment."""
+    return " ".join(emit_items(alt)[0])
+
+
+def derecurse_body(rule):
+    """Eliminate DIRECT left recursion by the classic transform.
+
+    A rule  A = A a1 | A a2 | ... | b1 | b2 | ...  (ai = tails after the leading A,
+    bj = non-left-recursive alternatives) is rewritten to  A = (b...) (a...)* .
+
+    This is purely SYNTACTIC: it removes left recursion and accepts the same token
+    language, but flattens the parse tree. For the list rules that is exactly right;
+    for the operator rules (or/and) and especially Factor/Arithmetic it discards
+    associativity/precedence, which is deferred to the model tier (hand-authored
+    assignments/actions against the compiler's expression test corpus).
+
+    Returns the body string, or None if the rule is not directly left recursive.
+    """
+    rec_tails, bases = [], []
+    for a in rule.alts:
+        if a and a[0].kind == "nonterm" and a[0].text == rule.name:
+            rec_tails.append(a[1:])          # drop the leading self-reference
+        else:
+            bases.append(a)
+    if not rec_tails:
+        return None
+
+    nonempty_bases = [render_alt(b) for b in bases if b]
+    has_empty_base = any(not b for b in bases)
+    tails = [render_alt(t) for t in rec_tails]
+
+    def loop(items, op):
+        if len(items) == 1:
+            t = items[0]
+            return f"{t}{op}" if " " not in t else f"({t}){op}"
+        return "(" + " | ".join(items) + ")" + op
+
+    # Pure list: a single tail equal to the (single/absent) base  ->  X+  or  X*
+    if len(tails) == 1 and len(nonempty_bases) <= 1 and \
+       (not nonempty_bases or (not has_empty_base and nonempty_bases[0] == tails[0])):
+        return loop(tails, "+" if nonempty_bases else "*")
+
+    # General:  base (tails)*
+    if nonempty_bases:
+        if len(nonempty_bases) == 1 and not has_empty_base:
+            base = nonempty_bases[0]
+        else:
+            base = "(" + " | ".join(nonempty_bases) + ")" + ("?" if has_empty_base else "")
+    else:
+        base = ""                            # only an empty base; the trailing * covers it
+    return (base + " " + loop(tails, "*")).strip()
+
+
 def first_symbol(alt):
     if not alt:
         return None
@@ -390,38 +464,47 @@ def emit(rules, diag, langname):
         notes = []
         if r.name in diag["returns"]:
             notes.append(f"RETURNS: {diag['returns'][r.name]}")
-        if left_recursive(r):
-            notes.append("TODO(left-recursion)")
+        override = STRUCTURAL_OVERRIDES.get(r.name)
+        lr_body = derecurse_body(r)
+        if override is not None:
+            notes.append("STRUCTURAL OVERRIDE (hand-authored from alan.pmk; "
+                         "breaks indirect left recursion) -- audit me")
+        elif lr_body is not None:
+            notes.append("de-left-recursed: A -> b (a)*  "
+                         "(flattens tree; associativity/precedence deferred)")
         if r.directives:
             for sign, syms, ln in r.directives:
                 notes.append(f"TODO(predicate) %{sign}({','.join(syms)}) @pmk:{ln}")
-        # common-prefix detection
+        # common-prefix detection (still relevant after de-recursion)
         firsts = [first_symbol(a) for a in r.alts if a]
         dupes = [s for s, c in Counter(firsts).items() if c > 1 and s]
         if dupes:
             notes.append("TODO(left-factor): " +
                          ", ".join(t for _, t in dupes))
-        if any(not a for a in r.alts):
+        if lr_body is None and any(not a for a in r.alts):
             notes.append("has empty alternative -> optional at use site")
 
         for nt in notes:
             ap(f"// {nt}")
 
-        nonempty = [" ".join(emit_items(a)[0]) for a in r.alts if a]
         head = camel(r.name)
         ap(f"{head}:")
-        if len(nonempty) < len(r.alts):
-            # The rule has an empty alternative, i.e. it is nullable. Xtext has no
-            # bare empty alternative (a `/* */` there is lexed as whitespace, leaving
-            # a body that starts or ends with '|'), so make the whole thing optional.
-            if nonempty:
-                inner = " | ".join(nonempty)
-                ap(f"      ({inner})?")
-            else:
-                # A rule that matches only the empty string; keep it parseable.
-                ap("      /* nullable: matches empty */ ")
+        if override is not None:
+            ap("      " + override)
+        elif lr_body is not None:
+            ap("      " + lr_body)
         else:
-            ap("      " + "\n    | ".join(nonempty))
+            nonempty = [" ".join(emit_items(a)[0]) for a in r.alts if a]
+            if len(nonempty) < len(r.alts):
+                # Nullable rule: Xtext has no bare empty alternative (a `/* */` there
+                # is lexed as whitespace, leaving a body that starts/ends with '|'),
+                # so make the whole thing optional.
+                if nonempty:
+                    ap("      (" + " | ".join(nonempty) + ")?")
+                else:
+                    ap("      /* nullable: matches empty */ ")
+            else:
+                ap("      " + "\n    | ".join(nonempty))
         ap(";")
         ap("")
     return "\n".join(L)

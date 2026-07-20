@@ -21,10 +21,9 @@ OptionalOptions:
 ;
 
 // RETURNS: <nothing>
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Options:
-      Option
-    | Options Option
+      Option+
 ;
 
 // RETURNS: <nothing>
@@ -36,10 +35,9 @@ Option:
     | Id INT '.'
 ;
 
-// TODO(left-recursion)
-// has empty alternative -> optional at use site
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Declarations:
-      (Declarations Declaration)?
+      Declaration*
 ;
 
 Declaration:
@@ -61,10 +59,9 @@ Prompt:
 ;
 
 // RETURNS: atrs
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Attributes:
-      AttributeDefinition '.'
-    | Attributes AttributeDefinition '.'
+      (AttributeDefinition '.')+
 ;
 
 // RETURNS: atr
@@ -84,10 +81,9 @@ OptionalMembers:
 ;
 
 // RETURNS: set
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 SetMembers:
-      SetMember
-    | SetMembers ',' SetMember
+      SetMember (',' SetMember)*
 ;
 
 SetMember:
@@ -102,10 +98,9 @@ Synonyms:
 ;
 
 // RETURNS: syns
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 SynonymList:
-      SynonymDeclaration
-    | SynonymList SynonymDeclaration
+      SynonymDeclaration+
 ;
 
 // RETURNS: syn
@@ -119,10 +114,9 @@ Messages:
 ;
 
 // RETURNS: msgs
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 MessageList:
-      Message
-    | MessageList Message
+      Message+
 ;
 
 // RETURNS: msg
@@ -135,20 +129,18 @@ Syntax:
       'syntax' SyntaxList
 ;
 
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 SyntaxList:
-      SyntaxItem
-    | SyntaxList SyntaxItem
+      SyntaxItem+
 ;
 
 SyntaxItem:
       Id '=' SyntaxElements OptionalSyntaxRestrictions
 ;
 
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 SyntaxElements:
-      SyntaxElement
-    | SyntaxElements SyntaxElement
+      SyntaxElement+
 ;
 
 SyntaxElement:
@@ -156,10 +148,9 @@ SyntaxElement:
     | '(' Id ')' OptionalIndicators
 ;
 
-// TODO(left-recursion)
-// has empty alternative -> optional at use site
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 OptionalIndicators:
-      (OptionalIndicators Indicator)?
+      Indicator*
 ;
 
 Indicator:
@@ -167,10 +158,9 @@ Indicator:
     | '!'
 ;
 
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 SyntaxRestrictionClauses:
-      SyntaxRestriction
-    | SyntaxRestrictionClauses 'and' SyntaxRestriction
+      SyntaxRestriction ('and' SyntaxRestriction)*
 ;
 
 // TODO(predicate) %+('visits') @pmk:545
@@ -210,10 +200,9 @@ VerbBody:
     | VerbAlternatives
 ;
 
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 VerbAlternatives:
-      VerbAlternative
-    | VerbAlternatives VerbAlternative
+      VerbAlternative+
 ;
 
 VerbAlternative:
@@ -238,10 +227,9 @@ OptionalChecks:
 ;
 
 // RETURNS: chks
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 CheckList:
-      Check
-    | CheckList 'and' Check
+      Check ('and' Check)*
 ;
 
 // RETURNS: chk
@@ -301,10 +289,9 @@ Heritage:
 ;
 
 // RETURNS: all!
-// TODO(left-recursion)
-// has empty alternative -> optional at use site
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Properties:
-      (Properties Property)?
+      Property*
 ;
 
 // TODO(predicate) %+('opaque') @pmk:1016
@@ -438,10 +425,9 @@ OptionalLimits:
 ;
 
 // RETURNS: lims
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Limits:
-      Limit
-    | Limits Limit
+      Limit+
 ;
 
 // RETURNS: lim
@@ -502,10 +488,9 @@ Script:
 ;
 
 // RETURNS: stps
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 StepList:
-      Step
-    | StepList Step
+      Step+
 ;
 
 // RETURNS: stp
@@ -542,10 +527,9 @@ OptionalStatements:
 ;
 
 // RETURNS: stms
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Statements:
-      Statement
-    | Statements Statement
+      Statement+
 ;
 
 // RETURNS: stm
@@ -639,10 +623,9 @@ OptionalElsifList:
 ;
 
 // RETURNS: stms
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 ElsifList:
-      'elsif' Expression 'then' Statements
-    | ElsifList 'elsif' Expression 'then' Statements
+      ('elsif' Expression 'then' Statements)+
 ;
 
 // RETURNS: stms
@@ -656,10 +639,9 @@ DependingStatement:
 ;
 
 // RETURNS: cases
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 DependCases:
-      DependCase
-    | DependCases DependCase
+      DependCase+
 ;
 
 // RETURNS: stm
@@ -724,45 +706,34 @@ OptionalExpression:
 ;
 
 // RETURNS: exp
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Expression:
-      Term
-    | Expression 'or' Term
+      Term ('or' Term)*
 ;
 
 // RETURNS: exp
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Term:
-      Factor
-    | Term 'and' Factor
+      Factor ('and' Factor)*
 ;
 
 // RETURNS: exp
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 // TODO(left-factor): factor
 Factor:
-      Arithmetic
-    | Factor OptionalNot Relop Arithmetic
-    | Factor OptionalNot Where
-    | Factor OptionalNot 'between' Arithmetic 'and' Arithmetic
-    | Factor OptionalNot 'contains' Arithmetic
+      Arithmetic (OptionalNot Relop Arithmetic | OptionalNot Where | OptionalNot 'between' Arithmetic 'and' Arithmetic | OptionalNot 'contains' Arithmetic)*
 ;
 
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 // TODO(left-factor): primary
 Arithmetic:
-      Primary
-    | Primary 'isa' Id
-    | Primary Is Something
-    | Arithmetic Binop Primary
-    | Aggregate Filters
+      (Primary | Primary 'isa' Id | Primary Is Something | Aggregate Filters) (Binop Primary)*
 ;
 
 // RETURNS: exps
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Filters:
-      Filter
-    | Filters ',' Filter
+      Filter (',' Filter)*
 ;
 
 // RETURNS: exp
@@ -813,9 +784,9 @@ Something:
 ;
 
 // RETURNS: exp
+// STRUCTURAL OVERRIDE (hand-authored from alan.pmk; breaks indirect left recursion) -- audit me
 What:
-      SimpleWhat
-    | AttributeReference
+      (SimpleWhat | Id 'of' What) (':' Id)*
 ;
 
 // RETURNS: srcp, wht
@@ -893,17 +864,15 @@ OptionalId:
 ;
 
 // RETURNS: idList
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Ids:
-      Id
-    | Ids Id
+      Id+
 ;
 
 // RETURNS: str, idList
-// TODO(left-recursion)
+// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 IdList:
-      Id
-    | IdList ',' Id
+      Id (',' Id)*
 ;
 
 // RETURNS: str
