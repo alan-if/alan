@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>se.alanif</groupId>
+  <artifactId>xtext-check</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <!--
+    Headless harness that runs the Xtext generator over src/se/alanif/alan/Alan.xtext.
+    Its purpose is DIAGNOSTIC, not to build anything: running the generator IS the
+    grammar-validity check. On an invalid grammar you get two tiers of errors -
+    Xtext's own (left recursion, unresolved references, feature/type problems, with
+    grammar-level locations) and, if those pass, raw ANTLR3 LL(*) errors.
+
+    Run:   mvn -q generate-sources
+    Xtext:   2.43.0  (requires Java 21)
+    This is a plain Maven-Central build - no Tycho, no Eclipse target platform.
+  -->
+
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <xtext.version>2.43.0</xtext.version>
+  </properties>
+
+  <!--
+    Import Xtext's own BOM so the whole Xtext + MWE2 + EMF stack is version-aligned.
+    Hand-pinning MWE2 to 2.15.0 was the bug: that version's POM omits its dependency
+    on the JVM-types model (org.eclipse.xtext.common.types), so DefaultCommonTypesRuntimeModule
+    never reached the classpath. The BOM pins MWE2 to 2.26.0 for Xtext 2.43, whose POMs
+    are complete. Let the BOM decide versions; do not pin MWE2 by hand.
+  -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.eclipse.xtext</groupId>
+        <artifactId>xtext-dev-bom</artifactId>
+        <version>${xtext.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+  </repositories>
+
+  <!--
+    Declared at PROJECT level (not under the plugin) so Maven resolves full
+    transitive trees. The MWE2 launcher parses GenerateAlan.mwe2 with the MWE2
+    *language* bundle (org.eclipse.emf.mwe2.language, which holds
+    Mwe2RuntimeModule); relying on the plugin's includePluginDependencies did
+    not put that transitive on the classpath, hence the earlier
+    NoClassDefFoundError. exec:java below uses classpathScope=compile, so these
+    are what it runs against.
+  -->
+  <dependencies>
+    <!-- The MWE2 launcher (main class). Version comes from the BOM (2.26.0). -->
+    <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.mwe2.launch</artifactId>
+    </dependency>
+    <!-- The Xtext language generator. -->
+    <dependency>
+      <groupId>org.eclipse.xtext</groupId>
+      <artifactId>org.eclipse.xtext.xtext.generator</artifactId>
+      <version>${xtext.version}</version>
+    </dependency>
+    <!--
+      Required to PARSE the .mwe2 workflow: it is itself an Xbase language built on
+      the JVM-types model. The mwe2.language POM under-declares (lists only
+      mwe2.runtime), so these two do not arrive transitively and must be explicit.
+      Without them: NoClassDefFoundError on DefaultCommonTypesRuntimeModule.
+    -->
+    <dependency>
+      <groupId>org.eclipse.xtext</groupId>
+      <artifactId>org.eclipse.xtext.common.types</artifactId>
+      <version>${xtext.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.xtext</groupId>
+      <artifactId>org.eclipse.xtext.xbase</artifactId>
+      <version>${xtext.version}</version>
+    </dependency>
+    <!--
+      On the classpath so the generator finds the ANTLR3 tool and skips the
+      interactive "agree to download ANTLR? (y/n)" prompt that hangs headless runs.
+      Not managed by the BOM, so pin the range explicitly.
+    -->
+    <dependency>
+      <groupId>org.eclipse.xtext</groupId>
+      <artifactId>xtext-antlr-generator</artifactId>
+      <version>[2.1.1,3)</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <!--
+          Pinned to the 1.x line ON PURPOSE. exec-maven-plugin 3.x runs the main
+          class in an isolated URLClassLoader (ExecJavaClassLoader) that breaks
+          MWE2's Guice-based reflective class loading: Mwe2StandaloneSetup loads,
+          but Guice's createInjector then cannot resolve Mwe2RuntimeModule by name
+          -> NoClassDefFoundError, even though both are in the same jar on the
+          classpath. Xtext's own CI docs pin exec to 1.x for exactly this reason.
+        -->
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <id>run-mwe2</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
+          <arguments>
+            <argument>src/se/alanif/alan/GenerateAlan.mwe2</argument>
+          </arguments>
+          <classpathScope>compile</classpathScope>
+          <!-- Do not swallow a nonzero MWE2 exit: let grammar errors fail the build. -->
+          <cleanupDaemonThreads>false</cleanupDaemonThreads>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

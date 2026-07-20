@@ -308,7 +308,11 @@ def emit_prod(rules):
 
 # ---------------------------------------------------------------- emission
 
-TOKEN_CLASSES = {"ID", "Identifier", "Integer", "STRING"}
+# Alan's raw lexer terminals -> the rules provided by org.eclipse.xtext.common.Terminals.
+# Note: Alan's *nonterminal* ID (the soft-keyword rule `ID = Identifier | 'location' | ...`)
+# is NOT here; it is emitted as the ordinary rule `Id`, so a reference to it resolves to
+# our rule rather than to the built-in ID terminal.
+TERMINAL_MAP = {"Identifier": "ID", "Integer": "INT", "STRING": "STRING"}
 TERMINAL_LIKE_HEADS = {"ID"}        # rule heads written without <angle brackets>
 
 
@@ -329,7 +333,7 @@ def emit_items(items, i=0, stop=None):
         elif k == "nonterm":
             out.append(camel(t.text))
         elif k == "ident":
-            out.append(t.text if t.text in TOKEN_CLASSES else camel(t.text))
+            out.append(TERMINAL_MAP.get(t.text, camel(t.text)))
         elif k == "lbrack":
             inner, i = emit_items(items, i + 1, "rbrack")
             out.append("(" + " ".join(inner) + ")?")
@@ -403,16 +407,21 @@ def emit(rules, diag, langname):
         for nt in notes:
             ap(f"// {nt}")
 
-        body = []
-        for a in r.alts:
-            if not a:
-                body.append("/* empty */")
-            else:
-                items, _ = emit_items(a)
-                body.append(" ".join(items))
+        nonempty = [" ".join(emit_items(a)[0]) for a in r.alts if a]
         head = camel(r.name)
         ap(f"{head}:")
-        ap("      " + "\n    | ".join(body))
+        if len(nonempty) < len(r.alts):
+            # The rule has an empty alternative, i.e. it is nullable. Xtext has no
+            # bare empty alternative (a `/* */` there is lexed as whitespace, leaving
+            # a body that starts or ends with '|'), so make the whole thing optional.
+            if nonempty:
+                inner = " | ".join(nonempty)
+                ap(f"      ({inner})?")
+            else:
+                # A rule that matches only the empty string; keep it parseable.
+                ap("      /* nullable: matches empty */ ")
+        else:
+            ap("      " + "\n    | ".join(nonempty))
         ap(";")
         ap("")
     return "\n".join(L)

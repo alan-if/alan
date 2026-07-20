@@ -60,9 +60,34 @@ That should generate cleanly. Once it does, the toolchain is proven; restore the
 real grammar with `git checkout src/se/alanif/alan/Alan.xtext` and the remaining
 errors are all grammar.
 
-## Note
+## Plain-java fallback (bypasses exec-maven-plugin)
 
-This harness was assembled from Xtext's documented headless (Maven Central)
-build plus a known-good reference `.mwe2`, but it has **not** been executed here
-(no Maven on the build machine at authoring time). The first real run may need a
-small config adjustment; keep that separate from the grammar errors above.
+If `mvn generate-sources` fails inside exec-maven-plugin's classloader rather
+than in the grammar, run the MWE2 launcher directly:
+
+```sh
+mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
+java -cp "$(cat cp.txt)" \
+     org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher \
+     src/se/alanif/alan/GenerateAlan.mwe2 < /dev/null
+```
+
+Identical result, no exec plugin in the loop. `cp.txt` is git-ignored.
+
+## Dependency notes (learned the hard way)
+
+- exec-maven-plugin is pinned to **1.x**; 3.x's isolated classloader breaks
+  MWE2's Guice reflection.
+- MWE2 versions come from the imported `xtext-dev-bom` (2.26.0 for Xtext 2.43);
+  do **not** hand-pin them — 2.15.0's POM is incomplete.
+- `org.eclipse.xtext.common.types` and `org.eclipse.xtext.xbase` are declared
+  explicitly because the `mwe2.language` POM under-declares them (it lists only
+  `mwe2.runtime`), yet the `.mwe2` language needs them to parse the workflow.
+
+## Status
+
+Executed end-to-end. The toolchain initialises, parses `Alan.xtext`, and reaches
+Xtext's grammar validation. As of the transliterator's terminal/empty-alternative
+fixes, the first real diagnostic is left recursion (`The rule 'Declarations' is
+left recursive.`) — i.e. the mechanical setup is done and what remains is the
+grammar port itself (left-recursion elimination, then the expression cascade).

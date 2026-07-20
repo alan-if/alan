@@ -17,8 +17,7 @@ Adventure:
 // RETURNS: <nothing>
 // has empty alternative -> optional at use site
 OptionalOptions:
-      /* empty */
-    | ('options' | 'option') Options
+      (('options' | 'option') Options)?
 ;
 
 // RETURNS: <nothing>
@@ -31,17 +30,16 @@ Options:
 // RETURNS: <nothing>
 // TODO(left-factor): ID
 Option:
-      ID '.'
-    | 'no' ID '.'
-    | ID ID '.'
-    | ID Integer '.'
+      Id '.'
+    | 'no' Id '.'
+    | Id Id '.'
+    | Id INT '.'
 ;
 
 // TODO(left-recursion)
 // has empty alternative -> optional at use site
 Declarations:
-      /* empty */
-    | Declarations Declaration
+      (Declarations Declaration)?
 ;
 
 Declaration:
@@ -72,18 +70,17 @@ Attributes:
 // RETURNS: atr
 // TODO(left-factor): ID
 AttributeDefinition:
-      ID
-    | 'not' ID
-    | ID OptionalMinus Integer
-    | ID STRING
-    | ID ID
-    | ID '{' OptionalMembers '}'
+      Id
+    | 'not' Id
+    | Id OptionalMinus INT
+    | Id STRING
+    | Id Id
+    | Id '{' OptionalMembers '}'
 ;
 
 // has empty alternative -> optional at use site
 OptionalMembers:
-      /* empty */
-    | SetMembers
+      (SetMembers)?
 ;
 
 // RETURNS: set
@@ -95,7 +92,7 @@ SetMembers:
 
 SetMember:
       What
-    | OptionalMinus Integer
+    | OptionalMinus INT
     | STRING
 ;
 
@@ -113,7 +110,7 @@ SynonymList:
 
 // RETURNS: syn
 SynonymDeclaration:
-      IdList '=' ID '.'
+      IdList '=' Id '.'
 ;
 
 // RETURNS: msgs
@@ -131,7 +128,7 @@ MessageList:
 // RETURNS: msg
 // TODO(predicate) %+('visits') @pmk:430
 Message:
-      ID ':' Statements
+      Id ':' Statements
 ;
 
 Syntax:
@@ -145,7 +142,7 @@ SyntaxList:
 ;
 
 SyntaxItem:
-      ID '=' SyntaxElements OptionalSyntaxRestrictions
+      Id '=' SyntaxElements OptionalSyntaxRestrictions
 ;
 
 // TODO(left-recursion)
@@ -155,15 +152,14 @@ SyntaxElements:
 ;
 
 SyntaxElement:
-      ID
-    | '(' ID ')' OptionalIndicators
+      Id
+    | '(' Id ')' OptionalIndicators
 ;
 
 // TODO(left-recursion)
 // has empty alternative -> optional at use site
 OptionalIndicators:
-      /* empty */
-    | OptionalIndicators Indicator
+      (OptionalIndicators Indicator)?
 ;
 
 Indicator:
@@ -179,12 +175,12 @@ SyntaxRestrictionClauses:
 
 // TODO(predicate) %+('visits') @pmk:545
 SyntaxRestriction:
-      ID 'isa' RestrictionClass 'else' Statements
+      Id 'isa' RestrictionClass 'else' Statements
 ;
 
 // RETURNS: id, restrictionKind
 RestrictionClass:
-      ID
+      Id
     | 'container'
 ;
 
@@ -206,8 +202,7 @@ VerbHeader:
 // RETURNS: meta
 // has empty alternative -> optional at use site
 OptionalMeta:
-      'meta'
-    | /* empty */
+      ('meta')?
 ;
 
 VerbBody:
@@ -222,7 +217,7 @@ VerbAlternatives:
 ;
 
 VerbAlternative:
-      'when' ID SimpleVerbBody
+      'when' Id SimpleVerbBody
 ;
 
 // RETURNS: srcp, chks, stms, qual
@@ -239,9 +234,7 @@ VerbTail:
 // TODO(left-factor): 'check'
 // has empty alternative -> optional at use site
 OptionalChecks:
-      /* empty */
-    | 'check' Statements
-    | 'check' CheckList
+      ('check' Statements | 'check' CheckList)?
 ;
 
 // RETURNS: chks
@@ -259,8 +252,7 @@ Check:
 // RETURNS: qual, srcp, stms
 // has empty alternative -> optional at use site
 OptionalDoes:
-      /* empty */
-    | Does
+      (Does)?
 ;
 
 Does:
@@ -269,7 +261,7 @@ Does:
 
 // RETURNS: cla
 Class:
-      'every' ID OptionalHeritage Properties ClassTail
+      'every' Id OptionalHeritage Properties ClassTail
 ;
 
 // RETURNS: id
@@ -279,7 +271,7 @@ ClassTail:
 
 // RETURNS: cla
 Addition:
-      'add' 'to' ('every')? ID OptionalHeritage Properties AddTail
+      'add' 'to' ('every')? Id OptionalHeritage Properties AddTail
 ;
 
 // RETURNS: id
@@ -289,7 +281,7 @@ AddTail:
 
 // RETURNS: ins
 Instance:
-      'the' ID OptionalHeritage Properties InstanceTail
+      'the' Id OptionalHeritage Properties InstanceTail
 ;
 
 // RETURNS: id
@@ -300,21 +292,19 @@ InstanceTail:
 // RETURNS: id
 // has empty alternative -> optional at use site
 OptionalHeritage:
-      /* empty */
-    | Heritage
+      (Heritage)?
 ;
 
 // RETURNS: id
 Heritage:
-      'isa' ID ('.')?
+      'isa' Id ('.')?
 ;
 
 // RETURNS: all!
 // TODO(left-recursion)
 // has empty alternative -> optional at use site
 Properties:
-      /* empty */
-    | Properties Property
+      (Properties Property)?
 ;
 
 // TODO(predicate) %+('opaque') @pmk:1016
@@ -338,14 +328,13 @@ Property:
 
 // RETURNS: ext
 Exit:
-      'exit' IdList 'to' ID OptionalExitBody '.'
+      'exit' IdList 'to' Id OptionalExitBody '.'
 ;
 
 // RETURNS: chks, stms, id
 // has empty alternative -> optional at use site
 OptionalExitBody:
-      /* empty */
-    | OptionalChecks OptionalDoes 'end' 'exit' OptionalId
+      (OptionalChecks OptionalDoes 'end' 'exit' OptionalId)?
 ;
 
 // RETURNS: srcp
@@ -359,8 +348,7 @@ Is:
 // RETURNS: description
 // has empty alternative -> optional at use site
 OptionalDescription:
-      /* empty */
-    | Description
+      (Description)?
 ;
 
 // RETURNS: description
@@ -417,8 +405,7 @@ Pronoun:
 // TODO(predicate) %+('opaque') @pmk:1301
 // has empty alternative -> optional at use site
 OptionalFullStop:
-      /* empty */
-    | '.'
+      ('.')?
 ;
 
 // RETURNS: cnt, srcp
@@ -428,8 +415,7 @@ ContainerProperties:
 
 // has empty alternative -> optional at use site
 OptionallyOpaque:
-      /* empty */
-    | 'opaque'
+      ('opaque')?
 ;
 
 // RETURNS: lims, stms, stms2
@@ -441,16 +427,14 @@ ContainerBody:
 // RETURNS: id
 // has empty alternative -> optional at use site
 OptionalTaking:
-      /* empty */
-    | 'taking' ID '.'
+      ('taking' Id '.')?
 ;
 
 // RETURNS: lims
 // TODO(predicate) %+('opaque') @pmk:1371
 // has empty alternative -> optional at use site
 OptionalLimits:
-      /* empty */
-    | 'limits' Limits
+      ('limits' Limits)?
 ;
 
 // RETURNS: lims
@@ -475,30 +459,26 @@ ElseOrThen:
 // RETURNS: atr
 LimitAttribute:
       AttributeDefinition
-    | 'count' Integer
+    | 'count' INT
 ;
 
 // RETURNS: stms
 // has empty alternative -> optional at use site
 OptionalHeader:
-      /* empty */
-    | 'header' Statements
+      ('header' Statements)?
 ;
 
 // RETURNS: stms
 // has empty alternative -> optional at use site
 OptionalEmpty:
-      /* empty */
-    | 'else' Statements
+      ('else' Statements)?
 ;
 
 // RETURNS: chks, stms
 // TODO(left-factor): 'extract'
 // has empty alternative -> optional at use site
 OptionalExtract:
-      /* empty */
-    | 'extract' OptionalChecks OptionalDoes
-    | 'extract' Statements
+      ('extract' OptionalChecks OptionalDoes | 'extract' Statements)?
 ;
 
 // RETURNS: evt
@@ -508,7 +488,7 @@ Event:
 
 // RETURNS: srcp, id
 EventHeader:
-      'event' ID
+      'event' Id
 ;
 
 // RETURNS: id
@@ -518,7 +498,7 @@ EventTail:
 
 // RETURNS: scr
 Script:
-      'script' ID ('.')? OptionalDescription StepList
+      'script' Id ('.')? OptionalDescription StepList
 ;
 
 // RETURNS: stps
@@ -548,8 +528,7 @@ Then:
 
 // has empty alternative -> optional at use site
 OptionalEndWhen:
-      /* empty */
-    | 'end' 'when' ('.')?
+      ('end' 'when' ('.')?)?
 ;
 
 Start:
@@ -559,8 +538,7 @@ Start:
 // RETURNS: stms
 // has empty alternative -> optional at use site
 OptionalStatements:
-      /* empty */
-    | Statements
+      (Statements)?
 ;
 
 // RETURNS: stms
@@ -589,19 +567,15 @@ OutputStatement:
     | 'describe' What '.'
     | 'say' SayForm Expression '.'
     | 'list' Primary '.'
-    | 'show' ID '.'
-    | 'play' ID '.'
-    | 'style' ID '.'
+    | 'show' Id '.'
+    | 'play' Id '.'
+    | 'style' Id '.'
 ;
 
 // TODO(predicate) %-('it') @pmk:1683
 // has empty alternative -> optional at use site
 SayForm:
-      /* empty */
-    | 'the'
-    | 'an'
-    | 'it'
-    | 'no'
+      ('the' | 'an' | 'it' | 'no')?
 ;
 
 // RETURNS: stm
@@ -629,32 +603,24 @@ AssignmentStatement:
 
 // has empty alternative -> optional at use site
 OptionalByClause:
-      /* empty */
-    | 'by' Expression
+      ('by' Expression)?
 ;
 
 // RETURNS: first
 // TODO(predicate) %-('first') @pmk:1800
 // has empty alternative -> optional at use site
 OptionalFirstOrLast:
-      /* empty */
-    | 'first'
-    | 'last'
+      ('first' | 'last')?
 ;
 
 // has empty alternative -> optional at use site
 OptionalWordOrCharacter:
-      /* empty */
-    | 'word'
-    | 'words'
-    | 'character'
-    | 'characters'
+      ('word' | 'words' | 'character' | 'characters')?
 ;
 
 // has empty alternative -> optional at use site
 OptionalInto:
-      /* empty */
-    | 'into' Expression
+      ('into' Expression)?
 ;
 
 ConditionalStatement:
@@ -669,8 +635,7 @@ IfStatement:
 
 // has empty alternative -> optional at use site
 OptionalElsifList:
-      /* empty */
-    | ElsifList
+      (ElsifList)?
 ;
 
 // RETURNS: stms
@@ -683,8 +648,7 @@ ElsifList:
 // RETURNS: stms
 // has empty alternative -> optional at use site
 OptionalElsePart:
-      /* empty */
-    | 'else' Statements
+      ('else' Statements)?
 ;
 
 DependingStatement:
@@ -706,15 +670,13 @@ DependCase:
 
 // RETURNS: stm
 RepetitionStatement:
-      ForEach ID OptionalLoopFilters 'do' Statements 'end' ForEach ('.')?
+      ForEach Id OptionalLoopFilters 'do' Statements 'end' ForEach ('.')?
 ;
 
 // RETURNS: ID
 // has empty alternative -> optional at use site
 OptionalLoopFilters:
-      /* empty */
-    | Filters
-    | 'between' Arithmetic 'and' Arithmetic
+      (Filters | 'between' Arithmetic 'and' Arithmetic)?
 ;
 
 // TODO(predicate) %-('each') @pmk:1990
@@ -727,15 +689,14 @@ ForEach:
 
 // RETURNS: stm
 ActorStatement:
-      'use' 'script' ID OptionalForActor '.'
+      'use' 'script' Id OptionalForActor '.'
     | 'stop' What '.'
 ;
 
 // RETURNS: exp
 // has empty alternative -> optional at use site
 OptionalForActor:
-      /* empty */
-    | 'for' What
+      ('for' What)?
 ;
 
 // RETURNS: stm
@@ -746,7 +707,7 @@ SpecialStatement:
     | 'restore' '.'
     | 'restart' '.'
     | 'score' OptionalInteger '.'
-    | 'visits' Integer '.'
+    | 'visits' INT '.'
     | 'transcript' OnOrOff '.'
     | 'system' STRING '.'
 ;
@@ -759,8 +720,7 @@ OnOrOff:
 // RETURNS: exp
 // has empty alternative -> optional at use site
 OptionalExpression:
-      /* empty */
-    | Expression
+      (Expression)?
 ;
 
 // RETURNS: exp
@@ -792,7 +752,7 @@ Factor:
 // TODO(left-factor): primary
 Arithmetic:
       Primary
-    | Primary 'isa' ID
+    | Primary 'isa' Id
     | Primary Is Something
     | Arithmetic Binop Primary
     | Aggregate Filters
@@ -809,7 +769,7 @@ Filters:
 // TODO(left-factor): optional_not
 Filter:
       OptionalNot Where
-    | OptionalNot 'isa' ID
+    | OptionalNot 'isa' Id
     | Is Something
 ;
 
@@ -826,7 +786,7 @@ RightHandSide:
 // TODO(left-factor): 'random'
 Primary:
       '(' Expression ')'
-    | OptionalMinus Integer
+    | OptionalMinus INT
     | STRING
     | What
     | 'random' Primary 'to' Primary
@@ -837,7 +797,7 @@ Primary:
 
 // RETURNS: srcp, agr, id
 Aggregate:
-      Aggregator 'of' ID
+      Aggregator 'of' Id
     | 'count'
 ;
 
@@ -849,7 +809,7 @@ Aggregator:
 
 // RETURNS: not, id
 Something:
-      OptionalNot ID
+      OptionalNot Id
 ;
 
 // RETURNS: exp
@@ -862,7 +822,7 @@ What:
 // TODO(predicate) %-('of') @pmk:2398
 // TODO(left-factor): 'current'
 SimpleWhat:
-      ID
+      Id
     | 'current' 'actor'
     | 'current' 'location'
     | 'this'
@@ -871,15 +831,14 @@ SimpleWhat:
 // RETURNS: exp
 // TODO(predicate) %-(':') @pmk:2425
 AttributeReference:
-      ID 'of' What
-    | What ':' ID
+      Id 'of' What
+    | What ':' Id
 ;
 
 // RETURNS: whr
 // has empty alternative -> optional at use site
 OptionalWhere:
-      /* empty */
-    | Where
+      (Where)?
 ;
 
 // RETURNS: srcp, whr
@@ -914,63 +873,53 @@ Relop:
 // RETURNS: qual, srcp
 // has empty alternative -> optional at use site
 OptionalQual:
-      /* empty */
-    | 'before'
-    | 'after'
-    | 'only'
+      ('before' | 'after' | 'only')?
 ;
 
 // TODO(predicate) %+(Identifier,'on','of','into','first','actor','opaque','taking','location') @pmk:2580
 // has empty alternative -> optional at use site
 OptionalNot:
-      /* empty */
-    | 'not'
+      ('not')?
 ;
 
 // has empty alternative -> optional at use site
 OptionalTransitivity:
-      /* empty */
-    | 'transitively'
-    | 'directly'
-    | 'indirectly'
+      ('transitively' | 'directly' | 'indirectly')?
 ;
 
 // has empty alternative -> optional at use site
 OptionalId:
-      /* empty */
-    | ID
+      (Id)?
 ;
 
 // RETURNS: idList
 // TODO(left-recursion)
 Ids:
-      ID
-    | Ids ID
+      Id
+    | Ids Id
 ;
 
 // RETURNS: str, idList
 // TODO(left-recursion)
 IdList:
-      ID
-    | IdList ',' ID
+      Id
+    | IdList ',' Id
 ;
 
 // RETURNS: str
 // has empty alternative -> optional at use site
 OptionalInteger:
-      /* empty */
-    | Integer
+      (INT)?
 ;
 
 // RETURNS: minus
 // has empty alternative -> optional at use site
 OptionalMinus:
-      /* empty */
-    | '-'
+      ('-')?
 ;
 
 Id:
-      Identifier
+      ID
     | 'location'
     | 'actor'
     | 'opaque'
