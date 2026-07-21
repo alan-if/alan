@@ -10,8 +10,14 @@ generate alan "http://www.alanif.se/Alan"
 //   * no cross-references ([Rule|ID]) have been inferred
 // ==========================================================================
 
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Adventure:
-      OptionalOptions Declarations Start
+      OptionalOptions
+      ( classes+=Class | instances+=Instance | additions+=Addition
+      | synonyms+=Synonyms | messages+=Messages | syntaxes+=Syntax
+      | events+=Event | rules+=Rule | prompts+=Prompt
+      | Verb | 'import' )*
+      Start
 ;
 
 // RETURNS: <nothing>
@@ -35,27 +41,9 @@ Option:
     | AlanId INT '.'
 ;
 
-// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
-Declarations:
-      Declaration*
-;
-
-Declaration:
-      Synonyms
-    | Messages
-    | Syntax
-    | Verb
-    | Class
-    | Addition
-    | Instance
-    | Event
-    | Rule
-    | Prompt
-    | 'import'
-;
-
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Prompt:
-      'prompt' Statements
+      {Prompt} 'prompt' Statements
 ;
 
 // RETURNS: atrs
@@ -93,8 +81,9 @@ SetMember:
 ;
 
 // RETURNS: syns
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Synonyms:
-      'synonyms' SynonymList
+      {Synonyms} 'synonyms' SynonymList
 ;
 
 // RETURNS: syns
@@ -109,8 +98,9 @@ SynonymDeclaration:
 ;
 
 // RETURNS: msgs
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Messages:
-      'message' MessageList
+      {Messages} 'message' MessageList
 ;
 
 // RETURNS: msgs
@@ -125,8 +115,9 @@ Message:
       AlanId ':' Statements
 ;
 
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Syntax:
-      'syntax' SyntaxList
+      {Syntax} 'syntax' SyntaxList
 ;
 
 // de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
@@ -248,8 +239,9 @@ Does:
 ;
 
 // RETURNS: cla
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Class:
-      'every' AlanId OptionalHeritage Properties ClassTail
+      'every' name=AlanId OptionalHeritage Properties ClassTail
 ;
 
 // RETURNS: id
@@ -258,8 +250,9 @@ ClassTail:
 ;
 
 // RETURNS: cla
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Addition:
-      'add' 'to' ('every')? AlanId OptionalHeritage Properties AddTail
+      'add' 'to' ('every')? name=AlanId OptionalHeritage Properties AddTail
 ;
 
 // RETURNS: id
@@ -268,8 +261,9 @@ AddTail:
 ;
 
 // RETURNS: ins
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Instance:
-      'the' AlanId OptionalHeritage Properties InstanceTail
+      'the' name=AlanId OptionalHeritage Properties InstanceTail
 ;
 
 // RETURNS: id
@@ -468,8 +462,9 @@ OptionalExtract:
 ;
 
 // RETURNS: evt
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Event:
-      EventHeader Statements EventTail
+      {Event} EventHeader Statements EventTail
 ;
 
 // RETURNS: srcp, id
@@ -502,8 +497,9 @@ Step:
 ;
 
 // RETURNS: rul
+// SHALLOW MODEL (Era-1 seed; outline node) -- audit me
 Rule:
-      'when' Expression Then Statements OptionalEndWhen
+      {Rule} 'when' Expression Then Statements OptionalEndWhen
 ;
 
 Then:

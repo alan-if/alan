@@ -388,6 +388,53 @@ STRUCTURAL_OVERRIDES = {
     "what": "(SimpleWhat | AlanId 'of' What) (':' AlanId)*",
 }
 
+# ---------------------------------------------------------------------------
+# SHALLOW OUTLINE MODEL (Era-1 seed). See the docstrings below for the WHY.
+#
+# The full outline model is Era-2 hand-authoring because Xtext typing cascades:
+# a rule's alternatives must be all-EClass or all-datatype, and `Verb` appears in
+# BOTH `Declaration` (top level) and `Property` (class bodies). Making Verb an
+# outline node therefore drags the whole property/statement/expression subtree
+# into the model. So this seed deliberately does NOT model verbs; it keeps Verb
+# (and everything it reuses) as a datatype rule, and captures only the
+# non-cascading top-level declarations as typed containment on Adventure.
+#
+# Result: a green generation whose model is a named, nested outline tree --
+# essentially the current model/ package, minus top-level verbs. Those, plus
+# nested attributes and cross-references, are the first Era-2 tasks.
+
+# Rules bypassed entirely: the Declaration/Declarations spine is replaced by
+# typed containment directly on Adventure (see MODEL_OVERRIDES['adventure']).
+# Emitting them would reintroduce the mixed EClass/datatype union error.
+MODEL_SKIP = {"declaration", "declarations"}
+
+# Hand-authored shallow-model bodies, keyed by .pmk rule name. `name=` where the
+# declaration has an identifier; a bare `{Type}` action where it does not (still
+# an EClass, so it shows in the outline). Everything else is consumed unassigned.
+MODEL_OVERRIDES = {
+    # Adventure owns typed lists of the non-cascading declarations. Verb and
+    # 'import' are consumed (Verb stays datatype to avoid the cascade); options
+    # and start are consumed too.
+    "adventure":
+        "OptionalOptions\n"
+        "      ( classes+=Class | instances+=Instance | additions+=Addition\n"
+        "      | synonyms+=Synonyms | messages+=Messages | syntaxes+=Syntax\n"
+        "      | events+=Event | rules+=Rule | prompts+=Prompt\n"
+        "      | Verb | 'import' )*\n"
+        "      Start",
+    # Named declarations: capture the name, consume the rest.
+    "class":    "'every' name=AlanId OptionalHeritage Properties ClassTail",
+    "instance": "'the' name=AlanId OptionalHeritage Properties InstanceTail",
+    "addition": "'add' 'to' ('every')? name=AlanId OptionalHeritage Properties AddTail",
+    # Unnamed declarations: a bare action makes the EClass; body consumed.
+    "synonyms": "{Synonyms} 'synonyms' SynonymList",
+    "messages": "{Messages} 'message' MessageList",
+    "syntax":   "{Syntax} 'syntax' SyntaxList",
+    "event":    "{Event} EventHeader Statements EventTail",
+    "rule":     "{Rule} 'when' Expression Then Statements OptionalEndWhen",
+    "prompt":   "{Prompt} 'prompt' Statements",
+}
+
 
 def render_alt(alt):
     """Render a whole alternative (list of tokens) to an Xtext fragment."""
@@ -469,12 +516,17 @@ def emit(rules, diag, langname):
 
     by_name = {r.name: r for r in rules}
     for r in rules:
+        if r.name in MODEL_SKIP:
+            continue
         notes = []
         if r.name in diag["returns"]:
             notes.append(f"RETURNS: {diag['returns'][r.name]}")
-        override = STRUCTURAL_OVERRIDES.get(r.name)
+        model = MODEL_OVERRIDES.get(r.name)
+        override = STRUCTURAL_OVERRIDES.get(r.name) or model
         lr_body = derecurse_body(r)
-        if override is not None:
+        if model is not None:
+            notes.append("SHALLOW MODEL (Era-1 seed; outline node) -- audit me")
+        elif override is not None:
             notes.append("STRUCTURAL OVERRIDE (hand-authored from alan.pmk; "
                          "breaks indirect left recursion) -- audit me")
         elif lr_body is not None:
