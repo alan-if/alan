@@ -33,14 +33,16 @@ minutes, once).
 ## Expectation on the first grammar run
 
 `Alan.xtext` is a *mechanical transliteration*. It is expected to FAIL Xtext
-validation until the known hand-work is done — left recursion, left-factoring,
-and (separately, not needed just to parse) assignments and cross-references.
-That failure is the point: the generator becomes the worklist. Fix the top
-error, re-run, repeat, until it emits a parser.
+validation until the remaining hand-work is done. The generator is the worklist:
+fix the top error, re-run, repeat. The tiers, in the order Xtext surfaces them:
 
-The classes of error to expect map onto the `pmk2xtext.py` report:
-`factor`, `arithmetic` and the infix-operator rules will report left recursion
-first.
+1. **Syntax + terminals** — DONE (converter maps `Identifier`→`ID`,
+   `Integer`→`INT`, and renders empty alternatives as `(...)?`).
+2. **Left recursion** — DONE (see below).
+3. **Model** — CURRENT wall: the grammar has no assignments/actions, so no EMF
+   metamodel is inferred (`Generated package 'alan' may not be empty`).
+4. Not yet reached: left-factoring, then ANTLR3 LL(*) decisions (the `%+`/`%-`
+   predicate sites), then cross-references and the expression precedence design.
 
 ## Isolating toolchain problems from grammar problems
 
@@ -86,8 +88,36 @@ Identical result, no exec plugin in the loop. `cp.txt` is git-ignored.
 
 ## Status
 
-Executed end-to-end. The toolchain initialises, parses `Alan.xtext`, and reaches
-Xtext's grammar validation. As of the transliterator's terminal/empty-alternative
-fixes, the first real diagnostic is left recursion (`The rule 'Declarations' is
-left recursive.`) — i.e. the mechanical setup is done and what remains is the
-grammar port itself (left-recursion elimination, then the expression cascade).
+Executed end-to-end (via `mvn generate-sources` and the plain-java fallback).
+The toolchain initialises, parses `Alan.xtext`, and runs Xtext's grammar
+validation.
+
+**Left recursion is fully eliminated by the converter.** `pmk2xtext.py` applies
+the classic transform `A = A a | b  ->  A = b (a)*` to all 25 directly
+left-recursive rules, producing clean EBNF:
+
+    Options: Option | Options Option          ->  Option+
+    Declarations: | Declarations Declaration  ->  Declaration*
+    IdList: Id | IdList ',' Id                ->  Id (',' Id)*
+    Attributes: AttrDef '.' | ...             ->  (AttrDef '.')+
+    Expression: Term | Expression 'or' Term   ->  Term ('or' Term)*
+    Factor / Arithmetic (the cascade)         ->  b (a1 | a2 | ...)*
+
+The transform is purely syntactic — it flattens the parse tree. For lists that
+is exactly right; for the operator rules and especially `Factor`/`Arithmetic` it
+discards associativity/precedence, which is restored later at the model tier via
+rewrite actions (`{Binary.left=current}`), against the compiler's expression
+test corpus.
+
+The one INDIRECT (mutual) recursion the transform cannot reach —
+`What <-> AttributeReference` — is handled by the `STRUCTURAL_OVERRIDES` table in
+`pmk2xtext.py`: hand-authored-from-`alan.pmk` rule bodies, audit-flagged in the
+generated grammar. `What` becomes `(SimpleWhat | Id 'of' What) (':' Id)*`,
+faithful to compiler associativity (`':'` left-associative suffix, `'of'`
+right-nested) rather than to `alanModelBuilder.atg`.
+
+With all left recursion cleared, Xtext now advances to the **model tier**:
+`Generated package 'alan' may not be empty` — the grammar recognises the
+language but builds no EMF model, because the converter emits unassigned rule
+calls. The next phase is adding assignments/actions (guided by the preserved
+`-- RETURNS:` annotations), then the scoping/validation code.
