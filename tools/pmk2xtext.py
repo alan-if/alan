@@ -309,15 +309,23 @@ def emit_prod(rules):
 # ---------------------------------------------------------------- emission
 
 # Alan's raw lexer terminals -> the rules provided by org.eclipse.xtext.common.Terminals.
-# Note: Alan's *nonterminal* ID (the soft-keyword rule `ID = Identifier | 'location' | ...`)
-# is NOT here; it is emitted as the ordinary rule `Id`, so a reference to it resolves to
-# our rule rather than to the built-in ID terminal.
 TERMINAL_MAP = {"Identifier": "ID", "Integer": "INT", "STRING": "STRING"}
 TERMINAL_LIKE_HEADS = {"ID"}        # rule heads written without <angle brackets>
+
+# Xtext rule names must be unique even case-insensitively, so Alan's *nonterminal*
+# ID (the soft-keyword rule `ID = Identifier | 'location' | ...`) cannot be emitted
+# as `Id` -- it would collide with the built-in ID terminal from common.Terminals.
+# Rename it to AlanId; references resolve to our rule, not the terminal.
+RULE_RENAMES = {"ID": "AlanId"}
 
 
 def camel(name):
     return "".join(p.capitalize() for p in re.split(r"[_\s]+", name) if p)
+
+
+def xtext_name(pmk_name):
+    """Xtext rule name for a .pmk nonterminal, applying case-collision renames."""
+    return RULE_RENAMES.get(pmk_name, camel(pmk_name))
 
 
 def emit_items(items, i=0, stop=None):
@@ -331,9 +339,9 @@ def emit_items(items, i=0, stop=None):
         if k == "literal":
             out.append("'" + t.text[1:-1].replace("''", "'") + "'")
         elif k == "nonterm":
-            out.append(camel(t.text))
+            out.append(xtext_name(t.text))
         elif k == "ident":
-            out.append(TERMINAL_MAP.get(t.text, camel(t.text)))
+            out.append(TERMINAL_MAP.get(t.text, xtext_name(t.text)))
         elif k == "lbrack":
             inner, i = emit_items(items, i + 1, "rbrack")
             out.append("(" + " ".join(inner) + ")?")
@@ -377,7 +385,7 @@ STRUCTURAL_OVERRIDES = {
     # Faithful to alan.pmk: ':' is a left-associative suffix, 'of' stays right-nested.
     # AttributeReference keeps its own definition (used standalone in assignments);
     # breaking the cycle here leaves it non-recursive.
-    "what": "(SimpleWhat | Id 'of' What) (':' Id)*",
+    "what": "(SimpleWhat | AlanId 'of' What) (':' AlanId)*",
 }
 
 
@@ -487,7 +495,7 @@ def emit(rules, diag, langname):
         for nt in notes:
             ap(f"// {nt}")
 
-        head = camel(r.name)
+        head = xtext_name(r.name)
         ap(f"{head}:")
         if override is not None:
             ap("      " + override)

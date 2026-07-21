@@ -29,10 +29,10 @@ Options:
 // RETURNS: <nothing>
 // TODO(left-factor): ID
 Option:
-      Id '.'
-    | 'no' Id '.'
-    | Id Id '.'
-    | Id INT '.'
+      AlanId '.'
+    | 'no' AlanId '.'
+    | AlanId AlanId '.'
+    | AlanId INT '.'
 ;
 
 // de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
@@ -67,12 +67,12 @@ Attributes:
 // RETURNS: atr
 // TODO(left-factor): ID
 AttributeDefinition:
-      Id
-    | 'not' Id
-    | Id OptionalMinus INT
-    | Id STRING
-    | Id Id
-    | Id '{' OptionalMembers '}'
+      AlanId
+    | 'not' AlanId
+    | AlanId OptionalMinus INT
+    | AlanId STRING
+    | AlanId AlanId
+    | AlanId '{' OptionalMembers '}'
 ;
 
 // has empty alternative -> optional at use site
@@ -105,7 +105,7 @@ SynonymList:
 
 // RETURNS: syn
 SynonymDeclaration:
-      IdList '=' Id '.'
+      IdList '=' AlanId '.'
 ;
 
 // RETURNS: msgs
@@ -122,7 +122,7 @@ MessageList:
 // RETURNS: msg
 // TODO(predicate) %+('visits') @pmk:430
 Message:
-      Id ':' Statements
+      AlanId ':' Statements
 ;
 
 Syntax:
@@ -135,7 +135,7 @@ SyntaxList:
 ;
 
 SyntaxItem:
-      Id '=' SyntaxElements OptionalSyntaxRestrictions
+      AlanId '=' SyntaxElements OptionalSyntaxRestrictions
 ;
 
 // de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
@@ -144,8 +144,8 @@ SyntaxElements:
 ;
 
 SyntaxElement:
-      Id
-    | '(' Id ')' OptionalIndicators
+      AlanId
+    | '(' AlanId ')' OptionalIndicators
 ;
 
 // de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
@@ -165,12 +165,12 @@ SyntaxRestrictionClauses:
 
 // TODO(predicate) %+('visits') @pmk:545
 SyntaxRestriction:
-      Id 'isa' RestrictionClass 'else' Statements
+      AlanId 'isa' RestrictionClass 'else' Statements
 ;
 
 // RETURNS: id, restrictionKind
 RestrictionClass:
-      Id
+      AlanId
     | 'container'
 ;
 
@@ -206,7 +206,7 @@ VerbAlternatives:
 ;
 
 VerbAlternative:
-      'when' Id SimpleVerbBody
+      'when' AlanId SimpleVerbBody
 ;
 
 // RETURNS: srcp, chks, stms, qual
@@ -249,7 +249,7 @@ Does:
 
 // RETURNS: cla
 Class:
-      'every' Id OptionalHeritage Properties ClassTail
+      'every' AlanId OptionalHeritage Properties ClassTail
 ;
 
 // RETURNS: id
@@ -259,7 +259,7 @@ ClassTail:
 
 // RETURNS: cla
 Addition:
-      'add' 'to' ('every')? Id OptionalHeritage Properties AddTail
+      'add' 'to' ('every')? AlanId OptionalHeritage Properties AddTail
 ;
 
 // RETURNS: id
@@ -269,7 +269,7 @@ AddTail:
 
 // RETURNS: ins
 Instance:
-      'the' Id OptionalHeritage Properties InstanceTail
+      'the' AlanId OptionalHeritage Properties InstanceTail
 ;
 
 // RETURNS: id
@@ -285,7 +285,7 @@ OptionalHeritage:
 
 // RETURNS: id
 Heritage:
-      'isa' Id ('.')?
+      'isa' AlanId ('.')?
 ;
 
 // RETURNS: all!
@@ -315,7 +315,7 @@ Property:
 
 // RETURNS: ext
 Exit:
-      'exit' IdList 'to' Id OptionalExitBody '.'
+      'exit' IdList 'to' AlanId OptionalExitBody '.'
 ;
 
 // RETURNS: chks, stms, id
@@ -414,7 +414,7 @@ ContainerBody:
 // RETURNS: id
 // has empty alternative -> optional at use site
 OptionalTaking:
-      ('taking' Id '.')?
+      ('taking' AlanId '.')?
 ;
 
 // RETURNS: lims
@@ -474,7 +474,7 @@ Event:
 
 // RETURNS: srcp, id
 EventHeader:
-      'event' Id
+      'event' AlanId
 ;
 
 // RETURNS: id
@@ -484,7 +484,7 @@ EventTail:
 
 // RETURNS: scr
 Script:
-      'script' Id ('.')? OptionalDescription StepList
+      'script' AlanId ('.')? OptionalDescription StepList
 ;
 
 // RETURNS: stps
@@ -551,9 +551,9 @@ OutputStatement:
     | 'describe' What '.'
     | 'say' SayForm Expression '.'
     | 'list' Primary '.'
-    | 'show' Id '.'
-    | 'play' Id '.'
-    | 'style' Id '.'
+    | 'show' AlanId '.'
+    | 'play' AlanId '.'
+    | 'style' AlanId '.'
 ;
 
 // TODO(predicate) %-('it') @pmk:1683
@@ -652,7 +652,7 @@ DependCase:
 
 // RETURNS: stm
 RepetitionStatement:
-      ForEach Id OptionalLoopFilters 'do' Statements 'end' ForEach ('.')?
+      ForEach AlanId OptionalLoopFilters 'do' Statements 'end' ForEach ('.')?
 ;
 
 // RETURNS: ID
@@ -671,7 +671,7 @@ ForEach:
 
 // RETURNS: stm
 ActorStatement:
-      'use' 'script' Id OptionalForActor '.'
+      'use' 'script' AlanId OptionalForActor '.'
     | 'stop' What '.'
 ;
 
@@ -727,7 +727,7 @@ Factor:
 // de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 // TODO(left-factor): primary
 Arithmetic:
-      (Primary | Primary 'isa' Id | Primary Is Something | Aggregate Filters) (Binop Primary)*
+      (Primary | Primary 'isa' AlanId | Primary Is Something | Aggregate Filters) (Binop Primary)*
 ;
 
 // RETURNS: exps
@@ -740,7 +740,7 @@ Filters:
 // TODO(left-factor): optional_not
 Filter:
       OptionalNot Where
-    | OptionalNot 'isa' Id
+    | OptionalNot 'isa' AlanId
     | Is Something
 ;
 
@@ -768,7 +768,7 @@ Primary:
 
 // RETURNS: srcp, agr, id
 Aggregate:
-      Aggregator 'of' Id
+      Aggregator 'of' AlanId
     | 'count'
 ;
 
@@ -780,20 +780,20 @@ Aggregator:
 
 // RETURNS: not, id
 Something:
-      OptionalNot Id
+      OptionalNot AlanId
 ;
 
 // RETURNS: exp
 // STRUCTURAL OVERRIDE (hand-authored from alan.pmk; breaks indirect left recursion) -- audit me
 What:
-      (SimpleWhat | Id 'of' What) (':' Id)*
+      (SimpleWhat | AlanId 'of' What) (':' AlanId)*
 ;
 
 // RETURNS: srcp, wht
 // TODO(predicate) %-('of') @pmk:2398
 // TODO(left-factor): 'current'
 SimpleWhat:
-      Id
+      AlanId
     | 'current' 'actor'
     | 'current' 'location'
     | 'this'
@@ -802,8 +802,8 @@ SimpleWhat:
 // RETURNS: exp
 // TODO(predicate) %-(':') @pmk:2425
 AttributeReference:
-      Id 'of' What
-    | What ':' Id
+      AlanId 'of' What
+    | What ':' AlanId
 ;
 
 // RETURNS: whr
@@ -860,19 +860,19 @@ OptionalTransitivity:
 
 // has empty alternative -> optional at use site
 OptionalId:
-      (Id)?
+      (AlanId)?
 ;
 
 // RETURNS: idList
 // de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 Ids:
-      Id+
+      AlanId+
 ;
 
 // RETURNS: str, idList
 // de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
 IdList:
-      Id (',' Id)*
+      AlanId (',' AlanId)*
 ;
 
 // RETURNS: str
@@ -887,7 +887,7 @@ OptionalMinus:
       ('-')?
 ;
 
-Id:
+AlanId:
       ID
     | 'location'
     | 'actor'
