@@ -10,7 +10,15 @@ cp.txt
 src-gen/
 emf-gen/
 xtend-gen/
-model/generated/
+model/
+# On a green generation, StandardLanguage also writes language stubs INTO src/.
+# The only hand-written sources here are the grammar and the .mwe2; ignore the rest.
+src/se/alanif/alan/*.java
+src/se/alanif/alan/generator/
+src/se/alanif/alan/scoping/
+src/se/alanif/alan/validation/
+src/se/alanif/alan/serializer/
+src/se/alanif/alan/parser/
 
 # ANTLR3 generator jar, if it ever gets downloaded despite the classpath dep
 .antlr-generator*.jar
