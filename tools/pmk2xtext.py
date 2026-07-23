@@ -435,6 +435,27 @@ MODEL_OVERRIDES = {
     "prompt":   "{Prompt} 'prompt' Statements",
 }
 
+# LL(*) fixes: Xtext runs ANTLR3 (LL(*)), which the LALR compiler's %+/%- directives
+# do not translate to. These hand-authored bodies left-factor common prefixes or add
+# Xtext syntactic predicates (=>) so ANTLR3 can decide. Faithful to alan.pmk's language.
+LLSTAR_OVERRIDES = {
+    # 'for' shadowed 'for' 'each' (dead alt). Factor the optional 'each'.
+    "for_each": "'for' 'each'? | 'each'",
+    # Three base alternatives shared the prefix Primary; left-factor it.
+    "arithmetic": "(Primary ('isa' AlanId | Is Something)? | Aggregate Filters) "
+                  "(Binop Primary)*",
+    # Both check-forms start 'check'; factor it, and predicate the else-bearing CheckList.
+    "optional_checks": "('check' (=>CheckList | Statements))?",
+    # AlanId 'of' What | What ':' AlanId both start with AlanId. What already absorbs
+    # both the 'of' and ':' forms, so delegate (over-accepts a bare SimpleWhat --
+    # harmless for a recogniser; the semantic validator is Era-2).
+    "attribute_reference": "What",
+    # `say it ...`: 'it' is both an article here and a soft-keyword AlanId that can
+    # start the Expression. alan.pmk's %-('it') on the empty alt resolves it greedily
+    # (bind 'it' to the article); a syntactic predicate makes ANTLR3 do the same.
+    "say_form": "(=> ('the' | 'an' | 'it' | 'no'))?",
+}
+
 
 def render_alt(alt):
     """Render a whole alternative (list of tokens) to an Xtext fragment."""
@@ -522,10 +543,14 @@ def emit(rules, diag, langname):
         if r.name in diag["returns"]:
             notes.append(f"RETURNS: {diag['returns'][r.name]}")
         model = MODEL_OVERRIDES.get(r.name)
-        override = STRUCTURAL_OVERRIDES.get(r.name) or model
+        llstar = LLSTAR_OVERRIDES.get(r.name)
+        override = STRUCTURAL_OVERRIDES.get(r.name) or model or llstar
         lr_body = derecurse_body(r)
         if model is not None:
             notes.append("SHALLOW MODEL (Era-1 seed; outline node) -- audit me")
+        elif llstar is not None:
+            notes.append("LL(*) FIX (left-factor / syntactic predicate for ANTLR3) "
+                         "-- audit me")
         elif override is not None:
             notes.append("STRUCTURAL OVERRIDE (hand-authored from alan.pmk; "
                          "breaks indirect left recursion) -- audit me")

@@ -211,10 +211,11 @@ VerbTail:
 ;
 
 // RETURNS: srcp, chks
+// LL(*) FIX (left-factor / syntactic predicate for ANTLR3) -- audit me
 // TODO(left-factor): 'check'
 // has empty alternative -> optional at use site
 OptionalChecks:
-      ('check' Statements | 'check' CheckList)?
+      ('check' (=>CheckList | Statements))?
 ;
 
 // RETURNS: chks
@@ -552,10 +553,11 @@ OutputStatement:
     | 'style' AlanId '.'
 ;
 
+// LL(*) FIX (left-factor / syntactic predicate for ANTLR3) -- audit me
 // TODO(predicate) %-('it') @pmk:1683
 // has empty alternative -> optional at use site
 SayForm:
-      ('the' | 'an' | 'it' | 'no')?
+      (=> ('the' | 'an' | 'it' | 'no'))?
 ;
 
 // RETURNS: stm
@@ -657,12 +659,11 @@ OptionalLoopFilters:
       (Filters | 'between' Arithmetic 'and' Arithmetic)?
 ;
 
+// LL(*) FIX (left-factor / syntactic predicate for ANTLR3) -- audit me
 // TODO(predicate) %-('each') @pmk:1990
 // TODO(left-factor): 'for'
 ForEach:
-      'for'
-    | 'each'
-    | 'for' 'each'
+      'for' 'each'? | 'each'
 ;
 
 // RETURNS: stm
@@ -720,10 +721,10 @@ Factor:
       Arithmetic (OptionalNot Relop Arithmetic | OptionalNot Where | OptionalNot 'between' Arithmetic 'and' Arithmetic | OptionalNot 'contains' Arithmetic)*
 ;
 
-// de-left-recursed: A -> b (a)*  (flattens tree; associativity/precedence deferred)
+// LL(*) FIX (left-factor / syntactic predicate for ANTLR3) -- audit me
 // TODO(left-factor): primary
 Arithmetic:
-      (Primary | Primary 'isa' AlanId | Primary Is Something | Aggregate Filters) (Binop Primary)*
+      (Primary ('isa' AlanId | Is Something)? | Aggregate Filters) (Binop Primary)*
 ;
 
 // RETURNS: exps
@@ -796,10 +797,10 @@ SimpleWhat:
 ;
 
 // RETURNS: exp
+// LL(*) FIX (left-factor / syntactic predicate for ANTLR3) -- audit me
 // TODO(predicate) %-(':') @pmk:2425
 AttributeReference:
-      AlanId 'of' What
-    | What ':' AlanId
+      What
 ;
 
 // RETURNS: whr
