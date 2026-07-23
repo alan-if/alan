@@ -3,11 +3,9 @@ grammar se.alanif.alan.Alan with org.eclipse.xtext.common.Terminals
 generate alan "http://www.alanif.se/Alan"
 
 // ==========================================================================
-// DRAFT -- mechanically transliterated from ParserMaker .pmk
-// This grammar does NOT compile as-is. See the accompanying report.
-//   * left-recursive rules are marked  TODO(left-recursion)
-//   * conflict sites are marked        TODO(predicate)
-//   * no cross-references ([Rule|ID]) have been inferred
+// Seed grammar transliterated from ParserMaker alan.pmk by pmk2xtext.py.
+// Generates green (parser + shallow outline model). Hand-authored rules are
+// marked '-- audit me' (STRUCTURAL/SHALLOW MODEL/LL(*) overrides).
 // ==========================================================================
 
 // SHALLOW MODEL (Era-1 seed; outline node) -- audit me
@@ -899,3 +897,7 @@ AlanId:
     | 'taking'
     | 'off'
 ;
+
+// --------------------------------------------------------------------------
+terminal SL_COMMENT: '--' !('\n' | '\r')* ('\r'? '\n')?;
+terminal ML_COMMENT: '////' -> '////';

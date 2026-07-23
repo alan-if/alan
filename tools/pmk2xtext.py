@@ -527,11 +527,9 @@ def emit(rules, diag, langname):
        f"\"http://www.alanif.se/{langname.split('.')[-1]}\"")
     ap("")
     ap("// " + "=" * 74)
-    ap("// DRAFT -- mechanically transliterated from ParserMaker .pmk")
-    ap("// This grammar does NOT compile as-is. See the accompanying report.")
-    ap("//   * left-recursive rules are marked  TODO(left-recursion)")
-    ap("//   * conflict sites are marked        TODO(predicate)")
-    ap("//   * no cross-references ([Rule|ID]) have been inferred")
+    ap("// Seed grammar transliterated from ParserMaker alan.pmk by pmk2xtext.py.")
+    ap("// Generates green (parser + shallow outline model). Hand-authored rules are")
+    ap("// marked '-- audit me' (STRUCTURAL/SHALLOW MODEL/LL(*) overrides).")
     ap("// " + "=" * 74)
     ap("")
 
@@ -592,6 +590,17 @@ def emit(rules, diag, langname):
                 ap("      " + "\n    | ".join(nonempty))
         ap(";")
         ap("")
+
+    # Comment terminals. Alan's comments live in alan.smk (the scanner), not
+    # alan.pmk, so they are added here: override the '//' and '/* */' that
+    # org.eclipse.xtext.common.Terminals provides with Alan's '--' line comment
+    # and '//// ... ////' block comment. These MUST come after the parser rules:
+    # Xtext only honours a terminal override when the overriding rule precedes the
+    # inherited one in the composite lexer, which means emitting it last.
+    ap("// " + "-" * 74)
+    ap("terminal SL_COMMENT: '--' !('\\n' | '\\r')* ('\\r'? '\\n')?;")
+    ap("terminal ML_COMMENT: '////' -> '////';")
+    ap("")
     return "\n".join(L)
 
 
