@@ -38,6 +38,15 @@ Workflow {
 			name = "se.alanif.alan.Alan"
 			fileExtensions = "alan"
 
+			// Alan is case-insensitive (alan.smk folds input to lowercase via %%MAP);
+			// Xtext keywords are case-sensitive by default, so match keywords
+			// regardless of case (Every / EVERY / every all match 'every').
+			parserGenerator = {
+				options = {
+					ignoreCase = true
+				}
+			}
+
 			// We only care whether the grammar generates a parser. Turn off
 			// everything that would pull in the Xtend compiler or need stubs.
 			serializer = {

@@ -23,3 +23,7 @@ src/se/alanif/alan/parser/
 # ANTLR3 generator jar, if it ever gets downloaded despite the classpath dep
 .antlr-generator*.jar
 antlr-generator*.jar
+
+# demo build output
+demo/bin/
+bin/
