@@ -15,7 +15,7 @@ Adventure:
       | synonyms+=Synonyms | messages+=Messages | syntaxes+=Syntax
       | events+=Event | rules+=Rule | prompts+=Prompt
       | Verb | 'import' )*
-      Start
+      Start?
 ;
 
 // RETURNS: <nothing>

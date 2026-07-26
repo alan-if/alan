@@ -415,13 +415,22 @@ MODEL_OVERRIDES = {
     # Adventure owns typed lists of the non-cascading declarations. Verb and
     # 'import' are consumed (Verb stays datatype to avoid the cascade); options
     # and start are consumed too.
+    #
+    # Start is OPTIONAL on purpose. In alan.pmk it is mandatory, but a mandatory
+    # trailing rule after this declaration closure makes ANTLR3 error-recovery
+    # loop forever on input that ends before 'start' (any declaration + EOF):
+    # it mispredicts into the Verb alternative, match('verb') fails, recovers by
+    # token insertion without consuming, and spins (26 min CPU on malformed_where
+    # .alan). A lenient recogniser must not choke on incomplete input -- an IDE is
+    # always mid-edit with no Start yet -- so "an adventure needs a Start" belongs
+    # in the Era-2 validator, not the grammar.
     "adventure":
         "OptionalOptions\n"
         "      ( classes+=Class | instances+=Instance | additions+=Addition\n"
         "      | synonyms+=Synonyms | messages+=Messages | syntaxes+=Syntax\n"
         "      | events+=Event | rules+=Rule | prompts+=Prompt\n"
         "      | Verb | 'import' )*\n"
-        "      Start",
+        "      Start?",
     # Named declarations: capture the name, consume the rest.
     "class":    "'every' name=AlanId OptionalHeritage Properties ClassTail",
     "instance": "'the' name=AlanId OptionalHeritage Properties InstanceTail",
