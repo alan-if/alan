@@ -884,6 +884,7 @@ OptionalMinus:
 
 AlanId:
       ID
+    | QUOTED_ID
     | 'location'
     | 'actor'
     | 'opaque'
@@ -899,5 +900,10 @@ AlanId:
 ;
 
 // --------------------------------------------------------------------------
+terminal fragment LETTER:
+    'a'..'z' | 'A'..'Z' | '\u00C0'..'\u00D6' | '\u00D8'..'\u00F6' | '\u00F8'..'\u00FF';
+terminal ID: LETTER (LETTER | '0'..'9' | '_')*;
+terminal QUOTED_ID: "'" ( "''" | !("'") )* "'";
+terminal STRING: '"' ( '""' | !('"') )* '"';
 terminal SL_COMMENT: '--' !('\n' | '\r')* ('\r'? '\n')?;
 terminal ML_COMMENT: '////' -> '////';

@@ -318,6 +318,11 @@ TERMINAL_LIKE_HEADS = {"ID"}        # rule heads written without <angle brackets
 # Rename it to AlanId; references resolve to our rule, not the terminal.
 RULE_RENAMES = {"ID": "AlanId"}
 
+# Extra alternatives injected into a rule for the alan.smk lexer supplement.
+# AlanId (the ID nonterminal) must also accept a quoted identifier terminal,
+# which is not in alan.pmk. Injected after the first alternative.
+EXTRA_ALTS = {"ID": ["QUOTED_ID"]}
+
 
 def camel(name):
     return "".join(p.capitalize() for p in re.split(r"[_\s]+", name) if p)
@@ -587,6 +592,11 @@ def emit(rules, diag, langname):
             ap("      " + lr_body)
         else:
             nonempty = [" ".join(emit_items(a)[0]) for a in r.alts if a]
+            # Inject extra alternatives for the lexer supplement: Alan's ID
+            # nonterminal (-> AlanId) must also accept a quoted identifier, which
+            # is not in alan.pmk (it is an alan.smk terminal, added below).
+            if r.name in EXTRA_ALTS:
+                nonempty[1:1] = EXTRA_ALTS[r.name]
             if len(nonempty) < len(r.alts):
                 # Nullable rule: Xtext has no bare empty alternative (a `/* */` there
                 # is lexed as whitespace, leaving a body that starts/ends with '|'),
@@ -600,13 +610,26 @@ def emit(rules, diag, langname):
         ap(";")
         ap("")
 
-    # Comment terminals. Alan's comments live in alan.smk (the scanner), not
-    # alan.pmk, so they are added here: override the '//' and '/* */' that
-    # org.eclipse.xtext.common.Terminals provides with Alan's '--' line comment
-    # and '//// ... ////' block comment. These MUST come after the parser rules:
+    # Lexer supplement. Alan's LEXICAL grammar lives in alan.smk (the scanner),
+    # which this tool does not read (it converts the PARSER grammar, alan.pmk), so
+    # the alan.smk terminals are added here by hand -- overriding / supplementing
+    # org.eclipse.xtext.common.Terminals. They MUST come after the parser rules:
     # Xtext only honours a terminal override when the overriding rule precedes the
     # inherited one in the composite lexer, which means emitting it last.
+    #
+    # NOTE: only GRAMMAR-level lexical features belong here. The matching value
+    # converters (strip quotes from a quoted id, collapse "" in a string) are Java
+    # service code and live in the IDE repo, not in this seed.
     ap("// " + "-" * 74)
+    # National (Latin-1) letters in ids: Alan is Swedish-origin (letter class
+    # includes a-z + Latin-1), but common.Terminals' ID is ASCII-only.
+    ap("terminal fragment LETTER:")
+    ap("    'a'..'z' | 'A'..'Z' | '\\u00C0'..'\\u00D6' | '\\u00D8'..'\\u00F6' | '\\u00F8'..'\\u00FF';")
+    ap("terminal ID: LETTER (LETTER | '0'..'9' | '_')*;")
+    # A quoted word used as an identifier: 'restore', 'foo''s'. '' escapes a quote.
+    ap("terminal QUOTED_ID: \"'\" ( \"''\" | !(\"'\") )* \"'\";")
+    # Alan strings escape a quote by DOUBLING it (\"\"), backslash is literal.
+    ap("terminal STRING: '\"' ( '\"\"' | !('\"') )* '\"';")
     ap("terminal SL_COMMENT: '--' !('\\n' | '\\r')* ('\\r'? '\\n')?;")
     ap("terminal ML_COMMENT: '////' -> '////';")
     ap("")
