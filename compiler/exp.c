@@ -907,7 +907,7 @@ static Attribute *findAttributeInContainerContent(Expression *exp,
        every class that might turn up in there, which easily collapses to
        something much more general than what the author aggregates over.
        Generated code only aggregates over instances of the class defining
-       the attribute (see generateAttributeExistanceFilter()), so it is
+       the attribute (see generateAttributeExistenceFilter()), so it is
        enough that a single one of the possible content classes defines it,
        as long as that class is within the class the filters allow. */
 
@@ -979,7 +979,7 @@ static void analyzeAggregate(Expression *exp, Context *context)
     /* The attribute filters must be analyzed last, since resolving the
        aggregated attribute above may have narrowed the class to one of the
        possible contents of a container. For arithmetic aggregates the
-       generated existance filter has then already skipped every instance
+       generated existence filter has then already skipped every instance
        that is not of that class before any filter is applied, so attributes
        of that class are available to the filters too. COUNT has no such
        filter generated, but it does not narrow the class either. */
@@ -1468,7 +1468,7 @@ static void generateLoopStart() {
     emit0(I_LOOP);
 }
 
-static void generateAttributeExistanceFilter(Expression *exp) {
+static void generateAttributeExistenceFilter(Expression *exp) {
     generateLoopValue(exp);
     generateSymbol(definingSymbolOfAttribute(exp->fields.agr.class, exp->fields.agr.attribute));
     emit0(I_ISA);
@@ -1521,7 +1521,7 @@ static void generateAggregateExpression(Expression *exp)
     generateLoopLimit(exp);
     generateLoopStart();
     if (exp->fields.agr.kind != COUNT_AGGREGATE)
-        generateAttributeExistanceFilter(exp);
+        generateAttributeExistenceFilter(exp);
     generateAllFilters(exp);
     if (exp->fields.agr.kind != COUNT_AGGREGATE)
         generateAttributeRetrieval(exp);

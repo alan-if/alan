@@ -2,7 +2,7 @@
 --
 -- 'closet' takes garment, and a garment is a bare container, so the classes
 -- that might transitively be in the closet are 'garment' and 'object'. The
--- aggregate resolves 'cover' from 'garment', and the generated existance
+-- aggregate resolves 'cover' from 'garment', and the generated existence
 -- filter must skip the wallet, which is in the shirt but has no 'cover'.
 --
 -- 3 + 5 = 8, and the wallet must neither contribute nor be read.

@@ -945,7 +945,7 @@ Symbol *definingSymbolInContainerContent(Symbol *symbol, Id *attributeId) {
        containerMightContain() only gives the most general of those classes,
        which is too blunt for attribute lookup. Generated code for arithmetic
        aggregates skips every instance that is not of the class defining the
-       attribute (see generateAttributeExistanceFilter()), so it is enough
+       attribute (see generateAttributeExistenceFilter()), so it is enough
        that one single content class defines it.
 
        Returns NULL if no content class has the attribute, or if several

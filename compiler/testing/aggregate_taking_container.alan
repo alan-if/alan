@@ -43,7 +43,7 @@ Verb probe
   Does
     Set total Of hero To Sum Of cover In closet.
     -- The attribute filters may use attributes of the same class, since the
-    -- generated existance filter has already skipped everything that is not
+    -- generated existence filter has already skipped everything that is not
     -- a garment before any filter is applied.
     Set total Of hero To Sum Of cover Is washed, In closet.
 End verb.
