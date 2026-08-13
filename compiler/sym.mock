@@ -97,6 +97,7 @@ bool symbolIsContainer(Symbol *symbol) { return (bool)mock(symbol); }
 bool symbolIsActor(Symbol *symbol) { return (bool)mock(symbol); }
 Symbol *containerSymbolTakes(Symbol *symbol) { return (Symbol *)mock(symbol); }
 Symbol *containerMightContain(Symbol *symbol) { return (Symbol *)mock(symbol); }
+Symbol *definingSymbolInContainerContent(Symbol *symbol, Id *attributeId) { return (Symbol *)mock(symbol, attributeId); }
 void newFrame(void) {}
 void deleteFrame(void) {}
 char *verbHasParametersMessage(Context *context) { return (char *)mock(context); }

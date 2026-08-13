@@ -94,6 +94,7 @@ extern Symbol *getNextInstanceOf(SymbolIterator iterator, Symbol *parent);
 
 extern void calculateTransitiveContainerContents(void);
 extern Symbol *containerMightContain(Symbol *symbol);
+extern Symbol *definingSymbolInContainerContent(Symbol *symbol, Id *attributeId);
 
 extern void setParameters(Symbol *verb, List *parameters);
 

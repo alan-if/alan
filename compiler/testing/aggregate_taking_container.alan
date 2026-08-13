@@ -1,25 +1,22 @@
--- KNOWN COMPILER BUG (found with Alan 3.0beta8, filed 2026-08-12).
+-- Regression test for a bug found with Alan 3.0beta8 (filed 2026-08-12).
 --
--- This case is committed deliberately WITHOUT a .expected/.ifid so the suite
--- fails on it -- a standing reminder until the bug is fixed. When fixed, this
--- program should compile cleanly; then capture its output with `ok` to turn it
--- into a normal passing test.
---
--- THE BUG: an aggregate (SUM/MAX/MIN OF <attr> IN <container>) loses the
--- container's TAKING class when that taking class is ITSELF a container declared
--- with a bare CONTAINER (no Taking -> defaults to 'thing'). The compiler then
--- takes the guaranteed member class to be the JOIN of the two taking classes,
--- which collapses to 'thing', and rejects an attribute defined on the real
--- taking class:
+-- An aggregate (SUM/MAX/MIN OF <attr> IN <container>) used to be rejected when
+-- the container's TAKING class was ITSELF a container declared with a bare
+-- CONTAINER (no Taking -> defaults to 'thing'). Aggregating transitively means
+-- that anything in the nested container might turn up too, so the class that
+-- can be guaranteed for all of them is the JOIN of the taking classes, which
+-- collapses to 'thing', and an attribute defined on the real taking class was
+-- rejected with:
 --
 --   316 E : Attribute 'cover' is not defined for instances aggregated over
 --           using 'SUM' since the class it is guaranteed to be in this
 --           context ('thing') does not have it.
 --
--- Below, 'closet' TAKES garment and 'cover' is defined on garment, so
--- 'SUM OF cover IN closet' is valid and SHOULD compile. Removing garment's bare
--- CONTAINER (or narrowing it to 'Taking garment') makes it compile -- which
--- proves the TAKING narrowing is exactly what is being dropped.
+-- The generated code only aggregates over instances of the class defining the
+-- attribute, so a single class among the possible contents defining it is
+-- enough. Below, 'closet' TAKES garment and 'cover' is defined on garment, so
+-- 'SUM OF cover IN closet' is valid and must compile. See
+-- aggregate_taking_container_ambiguous for the case that must still be an error.
 --
 -- Found while play-testing the Wyldkynd game: EVERY clothing had a bare CONTAINER
 -- ("to allow a wallet in a jacket"), which broke the library's
@@ -38,12 +35,17 @@ End the.
 
 Every garment Isa thing
   Is cover 0.
+  Is washed.
   Container            -- bare container (defaults to Taking thing): the trigger
 End every.
 
 Verb probe
   Does
     Set total Of hero To Sum Of cover In closet.
+    -- The attribute filters may use attributes of the same class, since the
+    -- generated existance filter has already skipped everything that is not
+    -- a garment before any filter is applied.
+    Set total Of hero To Sum Of cover Is washed, In closet.
 End verb.
 
 Start At room.

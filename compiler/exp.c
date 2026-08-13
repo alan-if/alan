@@ -760,8 +760,7 @@ static void analyzeAttributeFilter(Expression *theFilterExpression,
 static void analyzeNonClassingFilter(char *message,
                                      Context *context,
                                      Expression *theFilter,
-                                     Symbol *classSymbol,
-                                     bool *foundWhere)
+                                     Symbol *classSymbol)
 {
     switch (theFilter->kind) {
     case ATTRIBUTE_EXPRESSION:
@@ -817,9 +816,9 @@ static Symbol *combineFilterClasses(Symbol *original, Symbol *addition, Srcp src
 }
 
 
-/*======================================================================*/
-bool analyzeFilterExpressions(char *message, List *filters,
-                              Context *context, Symbol **foundClass) {
+/*----------------------------------------------------------------------*/
+static bool analyzeClassingFilters(char *message, List *filters,
+                                   Context *context, Symbol **foundClass) {
     List *lst;
     bool foundWhere = false;
     bool foundIsa = false;
@@ -846,13 +845,83 @@ bool analyzeFilterExpressions(char *message, List *filters,
         }
     }
 
-    ITERATE(lst, filters) {
-        analyzeNonClassingFilter(message,  context, lst->member.exp,
-                                 class, &foundWhere);
-    }
-
     *foundClass = class;
     return !error;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void analyzeNonClassingFilters(char *message, List *filters,
+                                      Context *context, Symbol *class) {
+    List *lst;
+
+    ITERATE(lst, filters) {
+        analyzeNonClassingFilter(message, context, lst->member.exp, class);
+    }
+}
+
+
+/*======================================================================*/
+bool analyzeFilterExpressions(char *message, List *filters,
+                              Context *context, Symbol **foundClass) {
+    bool ok = analyzeClassingFilters(message, filters, context, foundClass);
+
+    analyzeNonClassingFilters(message, filters, context, *foundClass);
+    return ok;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Symbol *transitivelyContainingSymbol(List *filters, Context *context)
+{
+    /* Find the container symbol of a non-Directly 'In' filter, if any */
+    List *lst;
+
+    ITERATE(lst, filters) {
+        Expression *filter = lst->member.exp;
+        Where *where;
+
+        if (filter->kind != WHERE_EXPRESSION)
+            continue;
+        where = filter->fields.whr.whr;
+        if (where->kind != WHERE_IN || where->transitivity == DIRECTLY)
+            continue;
+        if (where->what == NULL || where->what->type == ERROR_TYPE)
+            continue;
+        if (where->what->kind != WHAT_EXPRESSION
+            && where->what->kind != ATTRIBUTE_EXPRESSION)
+            continue;
+        return symbolOfExpression(where->what, context);
+    }
+    return NULL;
+}
+
+
+/*----------------------------------------------------------------------*/
+static Attribute *findAttributeInContainerContent(Expression *exp,
+                                                  Symbol *class,
+                                                  Context *context)
+{
+    /* The class the filters guarantee did not have the attribute. When
+       aggregating transitively over a container that class is the join of
+       every class that might turn up in there, which easily collapses to
+       something much more general than what the author aggregates over.
+       Generated code only aggregates over instances of the class defining
+       the attribute (see generateAttributeExistanceFilter()), so it is
+       enough that a single one of the possible content classes defines it,
+       as long as that class is within the class the filters allow. */
+
+    Symbol *container = transitivelyContainingSymbol(exp->fields.agr.filters,
+                                                     context);
+    Symbol *definingSymbol =
+        definingSymbolInContainerContent(container, exp->fields.agr.attribute);
+
+    if (definingSymbol == NULL || !inheritsFrom(definingSymbol, class))
+        return NULL;
+
+    exp->fields.agr.class = definingSymbol;
+    return findAttribute(definingSymbol->fields.entity.props->attributes,
+                         exp->fields.agr.attribute);
 }
 
 
@@ -867,8 +936,8 @@ static void analyzeAggregate(Expression *exp, Context *context)
     strcat(message, aggregateToString(exp->fields.agr.kind));
     strcat(message, " Aggregation");
 
-    if (!analyzeFilterExpressions(message, exp->fields.agr.filters, context,
-                                  &class))
+    if (!analyzeClassingFilters(message, exp->fields.agr.filters, context,
+                                &class))
         exp->type = ERROR_TYPE;
     else if (class == integerSymbol)
         exp->fields.agr.type = INTEGER_TYPE;
@@ -888,6 +957,9 @@ static void analyzeAggregate(Expression *exp, Context *context)
             /* Only do this if there was a classing filter found */
             atr = findAttribute(class->fields.entity.props->attributes,
                                 exp->fields.agr.attribute);
+            if (atr == NULL)
+                atr = findAttributeInContainerContent(exp, class, context);
+
             if (atr == NULL) {
                 lmlogv(&exp->fields.agr.attribute->srcp, 316, sevERR,
                        exp->fields.agr.attribute->string,
@@ -903,6 +975,16 @@ static void analyzeAggregate(Expression *exp, Context *context)
         /* Also for COUNT we want to warn for counting the universe, which
            is probably not what he wanted */
         lmlog(&exp->srcp, 225, sevWAR, aggregateToString(exp->fields.agr.kind));
+
+    /* The attribute filters must be analyzed last, since resolving the
+       aggregated attribute above may have narrowed the class to one of the
+       possible contents of a container. For arithmetic aggregates the
+       generated existance filter has then already skipped every instance
+       that is not of that class before any filter is applied, so attributes
+       of that class are available to the filters too. COUNT has no such
+       filter generated, but it does not narrow the class either. */
+    analyzeNonClassingFilters(message, exp->fields.agr.filters, context,
+                              exp->fields.agr.class);
 }
 
 

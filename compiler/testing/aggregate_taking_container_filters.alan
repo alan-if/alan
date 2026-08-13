@@ -1,0 +1,42 @@
+-- Companion to aggregate_taking_container, guarding the limits of when the
+-- attribute filters of an aggregate may use attributes that only some of the
+-- possible contents of a container have.
+--
+-- The relaxation rests entirely on the existance filter that is generated
+-- before the filters for arithmetic aggregates, so it only holds where that
+-- filter is generated, and only for the class it tests for. Both aggregates
+-- below must therefore still be reported as error 316.
+
+The room Isa location
+End the.
+
+The hero Isa actor At room
+  Is total 0.
+End the.
+
+The closet Isa entity
+  Container Taking garment.
+End the.
+
+Every garment Isa thing
+  Is cover 0.
+  Is washed.
+  Container Taking gadget.
+End every.
+
+Every gadget Isa thing
+  Is charged.
+End every.
+
+Verb probe
+  Does
+    -- COUNT has no attribute to aggregate over, so no existance filter is
+    -- generated and nothing has been skipped when the filters are applied.
+    Set total Of hero To Count Is washed, In closet.
+
+    -- Here the existance filter skips everything that is not a garment, so
+    -- 'charged', which only the gadgets have, is still not available.
+    Set total Of hero To Sum Of cover Is charged, In closet.
+End verb.
+
+Start At room.

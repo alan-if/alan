@@ -892,6 +892,108 @@ Symbol *containerMightContain(Symbol *symbol) {
 }
 
 
+/*----------------------------------------------------------------------*/
+static bool symbolIsInList(List *list, Symbol *symbol) {
+    List *lst;
+    ITERATE(lst, list)
+        if (lst->member.sym == symbol)
+            return true;
+    return false;
+}
+
+
+/*----------------------------------------------------------------------*/
+static void collectContainedClasses(Symbol *this, List **visited,
+                                    List **classes) {
+    /* Walk the containers exactly like recurseContainersForContent() does,
+       but keep every class that might turn up in there instead of joining
+       them to the single most general one. */
+
+    if (!symbolHasContainerProperties(this))
+        return;
+    if (symbolIsInList(*visited, this))
+        return;
+    *visited = concat(*visited, this, SYMBOL_LIST);
+
+    Symbol *taken_class = containerSymbolTakes(this);
+    if (taken_class == NULL)
+        return;
+    if (!symbolIsInList(*classes, taken_class))
+        *classes = concat(*classes, taken_class, SYMBOL_LIST);
+
+    if (symbolHasContainerProperties(taken_class))
+        collectContainedClasses(taken_class, visited, classes);
+
+    if (instancesExist(taken_class)) {
+        SymbolIterator iterator = createSymbolIterator();
+        Symbol *instance = getNextInstanceOf(iterator, taken_class);
+        while (instance) {
+            if (instance != this)
+                collectContainedClasses(instance, visited, classes);
+            instance = getNextInstanceOf(iterator, taken_class);
+        }
+        destroyIterator(iterator);
+    }
+}
+
+
+/*======================================================================*/
+Symbol *definingSymbolInContainerContent(Symbol *symbol, Id *attributeId) {
+    /* Find the class defining an attribute among the classes that might be
+       contained, transitively, in the container 'symbol'.
+
+       containerMightContain() only gives the most general of those classes,
+       which is too blunt for attribute lookup. Generated code for arithmetic
+       aggregates skips every instance that is not of the class defining the
+       attribute (see generateAttributeExistanceFilter()), so it is enough
+       that one single content class defines it.
+
+       Returns NULL if no content class has the attribute, or if several
+       unrelated ones define it, since then no single class can be used to
+       select the instances to aggregate over. */
+
+    List *visited = NULL;
+    List *classes = NULL;
+    List *lst;
+    Symbol *found = NULL;
+
+    if (symbol == NULL)
+        return NULL;
+
+    switch (symbol->kind) {
+    case PARAMETER_SYMBOL:
+        symbol = symbol->fields.parameter.class;
+        break;
+    case LOCAL_SYMBOL:
+        symbol = symbol->fields.local.class;
+        break;
+    default:
+        break;
+    }
+
+    if (!isClass(symbol) && !isInstance(symbol))
+        return NULL;
+
+    /* The container property may be inherited */
+    while (symbol != NULL && !symbolHasContainerProperties(symbol))
+        symbol = hasParent(symbol) ? parentOf(symbol) : NULL;
+
+    collectContainedClasses(symbol, &visited, &classes);
+
+    ITERATE(lst, classes) {
+        Symbol *definingSymbol = definingSymbolOfAttribute(lst->member.sym,
+                                                           attributeId);
+        if (definingSymbol == NULL)
+            continue;
+        else if (found == NULL)
+            found = definingSymbol;
+        else if (found != definingSymbol)
+            return NULL;
+    }
+    return found;
+}
+
+
 /*======================================================================*/
 void setParent(Symbol *child, Symbol *parent)
 {

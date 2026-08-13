@@ -1,0 +1,38 @@
+-- Runtime companion to the compiler test case aggregate_taking_container.
+--
+-- 'closet' takes garment, and a garment is a bare container, so the classes
+-- that might transitively be in the closet are 'garment' and 'object'. The
+-- aggregate resolves 'cover' from 'garment', and the generated existance
+-- filter must skip the wallet, which is in the shirt but has no 'cover'.
+--
+-- 3 + 5 = 8, and the wallet must neither contribute nor be read.
+
+The l Isa location
+End The l.
+
+The closet Isa object At l
+  Container Taking garment.
+End The closet.
+
+Every garment Isa object
+  Has cover 0.
+  Is washed.
+  Container
+End Every garment.
+
+The shirt Isa garment In closet
+  Has cover 3.
+  Is washed.
+End The shirt.
+
+The coat Isa garment In closet
+  Has cover 5.
+  Is Not washed.
+End The coat.
+
+The wallet Isa object In shirt
+End The wallet.
+
+Start At l.
+  If Sum Of cover In closet = 8 Then "Ok" Else "not ok" End If.
+  If Sum Of cover Is washed, In closet = 3 Then "Ok" Else "not ok" End If.

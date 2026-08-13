@@ -1,0 +1,24 @@
+########## aggregate_taking_container_filters ##########
+
+
+aggregate_taking_container_filters.alan
+
+   35.      Set total Of hero To Count Is washed, In closet.
+=====>                                    1
+
+  *1*   316 E : Attribute 'washed' is not defined for instances iterated over
+                using 'COUNT Aggregation' since the class it is guaranteed to
+                be in this context ('thing') does not have it.
+
+   39.      Set total Of hero To Sum Of cover Is charged, In closet.
+=====>                                           1
+
+  *1*   316 E : Attribute 'charged' is not defined for instances iterated over
+                using 'SUM Aggregation' since the class it is guaranteed to be
+                in this context ('garment') does not have it.
+
+
+        2 error(s).
+        No detected warnings.
+        2 informational message(s).
+
