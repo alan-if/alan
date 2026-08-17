@@ -46,7 +46,7 @@ test:
 	$(MAKE) -e -C converter JREGROUTPUT=$(JREGROUTPUT) test
 
 .PHONY: cross
-cross: PLATFORM = win32-i686
+cross: PLATFORM = windows-x86_64
 cross:
 	@if [ -z "$(WINICONV_ROOT)" ]; then \
 	    echo "Error: WINICONV_ROOT is not set"; \

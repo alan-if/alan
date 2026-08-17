@@ -8,8 +8,8 @@
 # package to get is "win-iconv-mingw-w64-dev", have not been able to
 # find the correct one for Brew/Darwin.
 
-CROSS_PACKAGE = alan$(VERSION)$(BUILDVERSION).win32.i686.zip
-zip: PLATFORM = win32-i686
+CROSS_PACKAGE = alan-$(VERSION)$(BUILDVERSION)-windows-x86_64.zip
+zip: PLATFORM = windows-x86_64
 .PHONY: zip
 # TODO: The checks for cygwin1.dll should only be done on Cygwin
 # TODO: When building for release we dont' want the dash in BUILDVERSION
@@ -27,7 +27,7 @@ zip: bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.t
 	cp -p bin/alan.exe bin/arun.exe $(PACKAGENAME)/bin
 	cp -p regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan games/adventv3/adventV3.a3c $(PACKAGENAME)/games
 	cp alan.readme.txt CHANGES.txt alan.readme.windows.txt COPYING.txt $(PACKAGENAME)
-	zip -r alan$(VERSION)$(BUILDVERSION).$(PLATFORM).zip $(PACKAGENAME)
+	zip -r $(PACKAGENAME).zip $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
 
 bin/winalan.exe bin/winarun.exe :
@@ -44,10 +44,10 @@ makensis:
 # (':' instead of customary '/' because of path names in expanded variables)
 NSI_SED = -e 's:<WINGLK_ROOT>:$(WINGLK_ROOT):g' -e 's/<BUILD>/$(VERSION)$(BUILDVERSION)/g' -e 's/<PLATFORM>/$(PLATFORM)/g'
 
-WINARUN_PACKAGE = winarun$(VERSION)$(BUILDVERSION).win32.i686.setup.exe
-WINALAN_PACKAGE = alan$(VERSION)$(BUILDVERSION).win32.i686.setup.exe
+WINARUN_PACKAGE = winarun-$(VERSION)$(BUILDVERSION)-windows-x86_64.setup.exe
+WINALAN_PACKAGE = alan-$(VERSION)$(BUILDVERSION)-windows-x86_64.setup.exe
 .PHONY: setup
-setup: PLATFORM = win32-i686
+setup: PLATFORM = windows-x86_64
 setup: buildnumbers makensis winarun.nsi alan.nsi bin/winalan.exe bin/winarun.exe COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt
 	sed $(NSI_SED) winarun.nsi > winarun.tmp
 	makensis winarun.tmp

@@ -5,7 +5,7 @@ DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
 # Since we only distribute windows 32-bit exe's
 # TODO: Do/will we?
-PLATFORM = win32-i686
+PLATFORM = windows-x86_64
 
 # Location of Inno Setup Compiler
 INNODIR = /c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
