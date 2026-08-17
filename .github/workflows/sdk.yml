@@ -13,10 +13,15 @@ name: SDK
 
 on:
   push:
-    branches: [master]
+    # ci/** so that branches working on CI itself get exercised before they
+    # reach master -- otherwise the workflow cannot run until it has already
+    # been merged, which is the wrong way round.
+    branches: [master, 'ci/**']
   pull_request:
     branches: [master]
-  workflow_dispatch:   # "Run workflow" button in the Actions tab
+  # Note: the "Run workflow" button only appears once this file exists on the
+  # default branch, so it is of no help before the first merge.
+  workflow_dispatch:
 
 jobs:
   sdk:
