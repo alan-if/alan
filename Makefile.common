@@ -14,14 +14,17 @@ VERSION := $(shell cat NEXTRELEASE)
 # PLATFORM will be part of package names
 PLATFORM ?= "Make variable PLATFORM needs to be set by platform specific Makefile"
 
-PACKAGENAME = alan$(VERSION)$(BUILDVERSION).$(PLATFORM)
+# Fields are separated by '-' so package names can be split programmatically:
+# the version itself contains dots (3.0beta8), so a '.' separator leaves
+# version/os/arch ambiguous.
+PACKAGENAME = alan-$(VERSION)$(BUILDVERSION)-$(PLATFORM)
 
 .PHONY: clean
 clean:
 	-$(MAKE) -C compiler clean
 	-$(MAKE) -C interpreter clean
 	-$(MAKE) -C converter clean
-	-rm -f alan3*.tgz
+	-rm -f alan-*.tgz alan3*.tgz
 	-rm -rf coverage.info coverage-report
 
 .PHONY: unit
@@ -43,7 +46,7 @@ test:
 	$(MAKE) -e -C converter JREGROUTPUT=$(JREGROUTPUT) test
 
 .PHONY: cross
-cross: PLATFORM = win32.i686
+cross: PLATFORM = win32-i686
 cross:
 	@if [ -z "$(WINICONV_ROOT)" ]; then \
 	    echo "Error: WINICONV_ROOT is not set"; \

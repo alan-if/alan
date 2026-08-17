@@ -5,7 +5,10 @@
 # Possible cross-compilation to Windows
 include Makefile.win32
 
-PLATFORM = macos
+# The architecture MUST be part of the platform name: without it an Apple
+# Silicon build and an Intel build produce identically named packages, so a
+# machine quietly changing architecture is invisible downstream.
+PLATFORM = macos-$(shell uname -m)
 
 VERSION := $(shell cat NEXTRELEASE)
 

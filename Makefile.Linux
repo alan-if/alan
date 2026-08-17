@@ -7,7 +7,7 @@ include Makefile.win32
 
 VERSION := $(shell cat NEXTRELEASE)
 
-PLATFORM = linux.$(shell uname -m)
+PLATFORM = linux-$(shell uname -m)
 
 PACKAGE = $(PACKAGENAME).tgz
 
@@ -18,9 +18,14 @@ XPATH := xpath -q -e
 .PHONY: package
 package: alan.readme.linux $(PACKAGE)
 
-$(PACKAGE): bin/alan bin/arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan games/adventv3/adventV3.alan
-	mkdir -p $(PACKAGENAME)
-	cp $^ $(PACKAGENAME)
+# Same interior layout as the Darwin and win32 packages (bin/ and games/), so
+# that "where is the alan binary after unpacking" has one answer everywhere.
+$(PACKAGE): bin/alan bin/arun alan.readme.linux alan.readme COPYING CHANGES regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan
+	mkdir -p $(PACKAGENAME)/bin $(PACKAGENAME)/games
+	cp alan.readme.linux alan.readme COPYING CHANGES $(PACKAGENAME)
+	cp bin/alan bin/arun $(PACKAGENAME)/bin
+	cp regression/saviour.alan regression/logo.png $(PACKAGENAME)/games
+	cp games/adventv3/adventV3.alan $(PACKAGENAME)/games
 	tar zcvf $(PACKAGE) $(PACKAGENAME)
 	-rm -r $(PACKAGENAME)
 

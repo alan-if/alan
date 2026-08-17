@@ -1,0 +1,61 @@
+name: SDK
+
+# Builds the command-line SDK (alan + arun) and packages it.
+#
+# Deliberately scoped to the SDK only. The graphical/GLK interpreters
+# (gararun, glkarun, winarun) have dependencies that are not resolved here and
+# are what currently breaks the Jenkins job -- they stay where they are. This
+# workflow runs alongside Travis and Jenkins; it replaces nothing yet.
+#
+# Note the build works out of the box on a runner because Makefile.common only
+# includes Makefile.thoni when `uname -n` is thoni64, and Makefile.local is
+# untracked. So a plain `make` here is the SDK build.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:   # "Run workflow" button in the Actions tab
+
+jobs:
+  sdk:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux-x86_64
+            runs-on: ubuntu-latest
+          # macos-latest is Apple Silicon. This is the arm64 build that has
+          # been produced locally for years without ever being published.
+          - name: macos-arm64
+            runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # The regression suite runs through bin/jregr (jregr.jar), so a JDK is
+      # required even though nothing in the SDK itself is Java.
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # The default target builds *and* runs the full test suite. Tests that are
+      # marked suspended do not fail it.
+      - name: Build and test
+        run: make
+
+      - name: Package
+        run: make package
+
+      # Name is alan-<version>-<os>-<arch>.tgz, e.g.
+      # alan-3.0beta8-linux-x86_64.tgz
+      - name: Upload SDK package
+        uses: actions/upload-artifact@v5
+        with:
+          name: alan-sdk-${{ matrix.name }}
+          path: alan-*.tgz
+          if-no-files-found: error
