@@ -29,6 +29,10 @@ package: alan.readme.macosx $(PACKAGE)
 $(PACKAGE): bin/alan bin/arun
 	mkdir -p $(PACKAGENAME)/bin
 	cp alan.readme.macosx alan.readme COPYING CHANGES $(PACKAGENAME)
+	# Deliberately NOT stripped. clang leaves debug info in the .o files rather
+	# than the executable, so there is little to gain -- and these binaries carry
+	# a code signature that stripping would invalidate, which on Apple Silicon
+	# means the result is killed on sight rather than merely unsigned.
 	cp bin/alan bin/arun $(PACKAGENAME)/bin
 	mkdir -p $(PACKAGENAME)/games
 	cp regression/saviour.alan regression/logo.png $(PACKAGENAME)/games

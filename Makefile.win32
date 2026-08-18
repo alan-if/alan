@@ -8,6 +8,8 @@
 # package to get is "win-iconv-mingw-w64-dev", have not been able to
 # find the correct one for Brew/Darwin.
 
+WIN_STRIP ?= x86_64-w64-mingw32-strip
+
 CROSS_PACKAGE = alan-$(VERSION)$(BUILDVERSION)-windows-x86_64.zip
 zip: PLATFORM = windows-x86_64
 .PHONY: zip
@@ -25,6 +27,10 @@ zip: bin/alan.exe bin/arun.exe alan.readme.txt CHANGES.txt alan.readme.windows.t
 	-rm alan*.zip
 	mkdir -p $(PACKAGENAME)/bin $(PACKAGENAME)/games
 	cp -p bin/alan.exe bin/arun.exe $(PACKAGENAME)/bin
+	# As on Linux: strip only the packaged copies. Prefixed with '-' because a
+	# native Msys/Cygwin build has no cross-strip, and this is a size
+	# optimisation, not a correctness requirement.
+	-$(WIN_STRIP) $(PACKAGENAME)/bin/alan.exe $(PACKAGENAME)/bin/arun.exe
 	cp -p regression/saviour.alan regression/logo.png games/adventv3/adventV3.alan games/adventv3/adventV3.a3c $(PACKAGENAME)/games
 	cp alan.readme.txt CHANGES.txt alan.readme.windows.txt COPYING.txt $(PACKAGENAME)
 	zip -r $(PACKAGENAME).zip $(PACKAGENAME)

@@ -24,6 +24,9 @@ $(PACKAGE): bin/alan bin/arun alan.readme.linux alan.readme COPYING CHANGES regr
 	mkdir -p $(PACKAGENAME)/bin $(PACKAGENAME)/games
 	cp alan.readme.linux alan.readme COPYING CHANGES $(PACKAGENAME)
 	cp bin/alan bin/arun $(PACKAGENAME)/bin
+	# Strip the packaged copies only: bin/ keeps its symbols for local debugging,
+	# while what users download does not carry DWARF they will never read.
+	strip $(PACKAGENAME)/bin/alan $(PACKAGENAME)/bin/arun
 	cp regression/saviour.alan regression/logo.png $(PACKAGENAME)/games
 	cp games/adventv3/adventV3.alan $(PACKAGENAME)/games
 	tar zcvf $(PACKAGE) $(PACKAGENAME)
