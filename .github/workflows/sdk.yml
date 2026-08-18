@@ -27,6 +27,9 @@ jobs:
   sdk:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runs-on }}
+    # These normally finish in about a minute; anything near this is a hang,
+    # and the default job timeout is six hours.
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -72,6 +75,7 @@ jobs:
   windows:
     name: windows-x86_64
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
 
@@ -82,6 +86,8 @@ jobs:
           java-version: '21'
 
       - name: Install MinGW-w64 cross toolchain
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
