@@ -3,7 +3,7 @@
 
 Unicode True
 
-OutFile "alan<BUILD>.<PLATFORM>.setup.exe"
+OutFile "alan-<BUILD>-<PLATFORM>.setup.exe"
 
 ;-------------------------------------------------------------------------------
 ; Includes

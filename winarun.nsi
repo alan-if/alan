@@ -3,7 +3,7 @@
 
 Unicode True
 
-OutFile "winarun<BUILD>.<PLATFORM>.setup.exe"
+OutFile "winarun-<BUILD>-<PLATFORM>.setup.exe"
 
 ;-------------------------------------------------------------------------------
 ; Includes

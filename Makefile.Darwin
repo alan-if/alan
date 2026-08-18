@@ -59,7 +59,7 @@ distribution-build:
 
 distribution-upload:
 	bin/alanupload $(PACKAGE) sdks/macosx
-	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg interpreters/macosx
+	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macos.pkg interpreters/macosx
 	bin/alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip interpreters/macosx
 
 
@@ -72,5 +72,5 @@ snapshot-build:
 
 snapshot-upload:
 	bin/alanupload $(PACKAGE) snapshots/$(BUILDNAME)
-	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).pkg snapshots/$(BUILDNAME)
+	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).macos.pkg snapshots/$(BUILDNAME)
 	bin/alanupload interpreter/MacArun$(VERSION)$(BUILDVERSION).zip snapshots/$(BUILDNAME)

@@ -54,8 +54,8 @@ distribution-build:
 
 distribution-upload:
 	bin/alanupload $(PACKAGE) sdks/linux
-	bin/alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).tgz interpreters/linux
-	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh interpreters/linux
+	bin/alanupload interpreter/gargoyle-alan3-$(VERSION)$(BUILDVERSION).linux.tgz interpreters/linux
+	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh interpreters/linux
 
 
 ifneq ($(shell uname -n), thoni64)
@@ -70,5 +70,5 @@ snapshot-build:
 
 snapshot-upload: buildnumbers
 	bin/alanupload $(PACKAGE) snapshots/$(BUILDNAME)
-	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).$(PLATFORM).sh snapshots/$(BUILDNAME)
+	bin/alanupload interpreter/gargoyle-updater-alan3-$(VERSION)$(BUILDVERSION).linux.sh snapshots/$(BUILDNAME)
 endif
