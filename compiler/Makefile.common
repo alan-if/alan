@@ -105,6 +105,11 @@ clean:
 # Define UNITTESTING so modules can define system function calls with Cgreen mocks
 unit: CFLAGS += -DUNITTESTING
 
+# How to link against Cgreen. Platform Makefiles (e.g. Makefile.Cygwin,
+# Makefile.Msys) override this to add -L for a non-standard install location
+# such as /usr/local/lib; otherwise a bare -lcgreen is used.
+CGREENLINKLIB ?= -lcgreen
+
 .PHONY: unit
 ifeq ($(CGREEN),)
 unit:
@@ -126,7 +131,7 @@ OBJDIRS += $(UNITTESTS_OBJDIR)
 # until we have migrated them to isolated tests
 
 unittests.$(SOEXTENSION): $(UNITTESTS_OBJECTS)
-	$(LINK) -shared -o $@ $(UNITTESTS_OBJECTS) $(LDLIBS) -lcgreen
+	$(LINK) -shared -o $@ $(UNITTESTS_OBJECTS) $(LDLIBS) $(CGREENLINKLIB)
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.$(SOEXTENSION)

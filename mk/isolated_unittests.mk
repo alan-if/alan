@@ -23,7 +23,7 @@ ISOLATED_UNITTESTS_LIBS = $(addprefix $(UNITTESTS_OBJDIR)/,$(patsubst %,%_tests.
 
 # An isolated test lib for a module is built from <module>.o and <module>_test.o (and some extras)
 $(UNITTESTS_OBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTS_OBJDIR)/%.o $(UNITTESTS_OBJDIR)/%_tests.o $(ISOLATED_UNITTESTS_EXTRA_OBJS)
-	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDLIBS) -lcgreen
+	$(LINK) -shared -o $@ $(sort $(ISOLATED_UNITTESTS_EXTRA_OBJS) $^) $(LDLIBS) $(CGREENLINKLIB)
 
 # Then run all _tests.$(SOEXTENSION)'s with the cgreen-runner
 # Clients need to prevent running this if Cgreen is not available ("ifeq ($(CGREEN),)")
