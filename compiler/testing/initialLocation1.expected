@@ -6,7 +6,8 @@ initialLocation1.alan
     7.    At o.
 =====>    1  2
 
-  *1*   802 E : The inital location of Instance 'o' forms a circular reference.
+  *1*   802 E : The initial location of Instance 'o' forms a circular
+                reference.
   *2*   351 E : Initial location using AT must refer to an instance inheriting
                 from 'location'.
 
