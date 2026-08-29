@@ -716,7 +716,10 @@ static void createLogfileName(char *createdFileName, const char extension[]) {
     struct timeval tv;
     struct tm *tm;
     gettimeofday(&tv, NULL);
-    tm = localtime(&tv.tv_sec);
+    /* localtime() wants a time_t*; tv_sec is not time_t on every platform
+       (e.g. 32-bit long on mingw-w64 vs 64-bit time_t), so copy it first. */
+    time_t seconds = tv.tv_sec;
+    tm = localtime(&seconds);
 
     if (!regressionTestOption)
         sprintf(createdFileName, "%s%d%02d%02d%02d%02d%02d%04d%s",
