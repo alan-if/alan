@@ -45,10 +45,25 @@ makensis:
 		exit 1 ; \
 	fi
 
+# NSIS wants VIProductVersion as four numbers, X.X.X.X, and rejects
+# anything else, so "beta" cannot go in as text. Encode it in the third
+# position instead, the "numeric status" scheme that
+# https://en.wikipedia.org/wiki/Software_versioning describes, giving
+# 3.0.1.8 for 3.0beta8. Unknown states are an error rather than a wrong
+# number quietly shipped in an installer nobody reads closely.
+ALAN_STATE_NUMBER = $(if $(filter alpha,$(strip $(ALAN_STATE))),0,\
+                    $(if $(filter beta,$(strip $(ALAN_STATE))),1,\
+                    $(if $(filter rc,$(strip $(ALAN_STATE))),2,\
+                    $(if $(strip $(ALAN_STATE)),\
+                        $(error Unknown ALAN_STATE '$(ALAN_STATE)', add it to ALAN_STATE_NUMBER in Makefile.win32),\
+                        3))))
+
+NSI_PRODUCT_VERSION = $(strip $(ALAN_VERSION)).$(strip $(ALAN_REVISION)).$(strip $(ALAN_STATE_NUMBER)).$(strip $(ALAN_CORRECTION))
+
 # Create setup installers for SDK and WinArun using NullSoft Installer NSIS
 # Script to replace "variables" in the .nsi files with actual values:
 # (':' instead of customary '/' because of path names in expanded variables)
-NSI_SED = -e 's:<WINGLK_ROOT>:$(WINGLK_ROOT):g' -e 's/<BUILD>/$(VERSION)$(BUILDVERSION)/g' -e 's/<PLATFORM>/$(PLATFORM)/g'
+NSI_SED = -e 's:<WINGLK_ROOT>:$(WINGLK_ROOT):g' -e 's/<BUILD>/$(VERSION)$(BUILDVERSION)/g' -e 's/<PLATFORM>/$(PLATFORM)/g' -e 's/<PRODUCT_VERSION>/$(NSI_PRODUCT_VERSION)/g'
 
 WINARUN_PACKAGE = winarun-$(VERSION)$(BUILDVERSION)-windows-x86_64.setup.exe
 WINALAN_PACKAGE = alan-$(VERSION)$(BUILDVERSION)-windows-x86_64.setup.exe

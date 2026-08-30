@@ -16,8 +16,20 @@ OutFile "winarun-<BUILD>-<PLATFORM>.setup.exe"
 ; Constants
 !define PRODUCT_NAME "Alan Interpreter for Windows"
 !define PRODUCT_DESCRIPTION "Alan V3 Interactive Fiction Interpreter <BUILD>"
-!define PRODUCT_VERSION 3.0.0.8 ; Numeric Status (https://en.wikipedia.org/wiki/Software_versioning)
 !define COMPANY "AlanIF Adventure Factories"
+
+; Everything below is substituted by NSI_SED in Makefile.win32, from the
+; top level VERSION file. Do not edit the values here.
+;
+; Windows wants four numbers, and rejects anything else, so the release
+; state cannot appear as text. It is encoded in the third position
+; instead -- "Numeric Status",
+; https://en.wikipedia.org/wiki/Software_versioning -- so 3.0beta8
+; becomes 3.0.1.8. This is only shown on the Properties/Details tab.
+!define PRODUCT_VERSION <PRODUCT_VERSION>
+; The readable version, e.g. 3.0beta8-2275, as used everywhere else
+!define SETUP_VERSION "<BUILD>"
+!define COPYRIGHT "Copyright (c) ${COMPANY}"
 
 ;-------------------------------------------------------------------------------
 ; Attributes
