@@ -7,11 +7,21 @@
 \*----------------------------------------------------------------------*/
 
 #include <stdio.h>
+#include <string.h>
 #include "a2a3.h"
 
+#include "a2a3.version.h"
+#include "git_revision.h"
 #include "lmList.h"
 #include "smScan.h"
 #include "pmParse.h"
+
+
+/*======================================================================*/
+static void version(void) {
+  printf("%s\n", a2a3.version.string);
+  printf("Built from git %s\n", GIT_REVISION);
+}
 
 
 /* PUBLIC */
@@ -166,6 +176,16 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
 #else
 
 int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    printf("Usage: a2a3 <adventure> | -version\n");
+    exit(-1);
+  }
+
+  if (strcmp(argv[1], "-version") == 0) {
+    version();
+    exit(0);
+  }
+
   strcpy(inFileName, argv[1]);
   outFile = stdout;
   lmLiInit("", "", lm_ENGLISH_Messages);

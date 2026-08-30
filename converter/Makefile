@@ -10,6 +10,7 @@
 INCLUDED = true
 
 include ../mk/common.mk
+include ../mk/git_revision.mk
 
 SOEXTENSION = dll
 
