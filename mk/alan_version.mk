@@ -23,13 +23,13 @@ ALAN_VERSION_HEADER := $(shell sh ../mk/alan-version.sh alan_version.h \
 	$(strip $(ALAN_CORRECTION)) "$(strip $(ALAN_STATE))" $(VERSION))
 
 # The Product struct and its declaration are shared, but compilation
-# happens here, so keep local copies up to date. They are generated,
-# see .gitignore.
-alan.version.c: ../alan.version.c
-	cp $< $@
-
-alan.version.h: ../alan.version.h
-	cp $< $@
-
-version.h: ../version.h
-	cp $< $@
+# happens here, so keep local copies. They are generated, see .gitignore.
+#
+# At parse time, and not as rules, for the same reason the headers above
+# are generated at parse time: nothing lists these as prerequisites, so
+# rules would not fire before the first compile of a fresh checkout, and
+# the -MMD dependencies that would list them do not exist yet either.
+# Copied only when the contents differ, so mtimes stay put and an
+# unchanged file does not force a rebuild.
+ALAN_VERSION_SOURCES := $(shell for f in alan.version.c alan.version.h version.h ; do \
+	cmp -s ../$$f $$f || cp ../$$f $$f ; done)
