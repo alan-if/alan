@@ -18,10 +18,19 @@ if [ -z "$output" ] ; then
     exit 1
 fi
 
-# --tags     also consider lightweight tags, not just annotated ones
+# Release tags are dotted, as in v3.0beta8. Matching only those keeps the
+# Jenkins Build<n> tags, the older underscored v3_0* spelling, the whole v2
+# range and structural markers such as v3_base out of the running, so the
+# revision is always anchored to an actual release.
+#
+# --tags     also consider lightweight tags, not just annotated ones. Release
+#            tags here are lightweight, so without this the recent ones are
+#            invisible and describe silently reaches back to an ancient
+#            annotated tag instead.
 # --dirty    mark builds made from a modified working tree
-# --always   fall back to a bare commit hash if there is no tag
-revision=`git describe --abbrev=8 --dirty --always --tags 2>/dev/null` || revision=""
+# --always   fall back to a bare commit hash when no tag matches, which is
+#            what happens before the first dotted tag, v3.0beta6
+revision=`git describe --abbrev=8 --dirty --always --tags --match 'v[0-9]*.[0-9]*' 2>/dev/null` || revision=""
 
 if [ -z "$revision" ] ; then
     # No git, or not a git working tree, e.g. building from a source
