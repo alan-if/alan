@@ -71,11 +71,23 @@ releasebuild:
 	$(MAKE) -C interpreter release
 	$(MAKE) -C converter release
 
+# Tag the release. The tag is what makes a release build identifiable:
+# with it 'git describe' yields a bare v$(VERSION), while without it
+# builds keep counting from the previous release tag. So it has to be
+# pushed, or CI and the other platforms cannot produce a release
+# marking at all. The per-OS branch stays local.
+#
+# Deliberately not forced. If the push is rejected because the tag is
+# already on the remote then the release was published, and moving it
+# is a considered 'git push --force origin v$(VERSION)', not something
+# this target should do quietly.
 .PHONY: tags
 tags: last-release
 	git tag -f v$(VERSION)
 	git branch -f v$(VERSION)_$(OS)
-	@echo "If you are satisfied, bump ALAN_CORRECTION in VERSION and commit"
+	git push origin v$(VERSION)
+	@echo "Tagged and pushed v$(VERSION)."
+	@echo "Now bump ALAN_CORRECTION in VERSION and commit, to open the next cycle."
 
 .PHONY: last-release
 last-release:
