@@ -7,7 +7,6 @@ include ../mk/include_guard.mk
 
 # We use last release until there is a new one, so always one behind
 # primary platform...
-VERSION := $(shell cat ../NEXTRELEASE)
 
 CFLAGS +=
 LDLIBS += -liconv

@@ -39,23 +39,25 @@ be created at the same commit.
 Then all packages for the primary platform is uploaded to the Alan
 website.
 
-The file LASTRELEASE will be updated to contain the venum of the last
+The file LASTRELEASE will be updated to contain the version of the last
 released version on the current branch.
 
-Once this job has been run successfully the venum should be upgraded,
-using `venum` if available, at least to:
+Once this job has been run successfully the version should be stepped,
+at least to:
 
     vX.Y.(Z+1)
-    
-Using `venum` that is
 
-    venum alan correction
-    
-The files `alan.version*` should then be comitted.
+by editing the top level `VERSION` file, normally bumping
+`ALAN_CORRECTION`, and committing it. `VERSION` is the only place the
+version is written down; both the makefiles and the C sources derive
+everything from it.
 
-On the next compile that upcoming version is written to the file
-NEXTRELEASE so that other platforms can use that as version (versions
-should only be updated on the main development machine).
+Note that `ALAN_STATE` is not cosmetic. Its first character is written
+into the `.a3c` header and compared by the interpreter's compatibility
+check, so changing it changes which story files this system will run.
+
+Builds also carry the commit they were made from, from `git describe`,
+which needs no maintenance -- see `mk/git-revision.sh`.
 
 ## Secondary platforms
 
@@ -68,8 +70,8 @@ This should build all binaries, run all tests, and if succesful
 package them, and upload them to the web site. The distribution build
 should use LASTRELEASE as the version marking.
 
-Normal builds on secondary platforms should use NEXTBUILD (since the
-primary platform will).
+Normal builds on secondary platforms take their version from `VERSION`
+like everywhere else.
 
 ## Non-standard binaries
 

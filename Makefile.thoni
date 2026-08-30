@@ -67,7 +67,6 @@ release-upload:
 
 .PHONY: releasebuild
 releasebuild:
-	touch alan.version.h */alan.version.c
 	$(MAKE) -C compiler release
 	$(MAKE) -C interpreter release
 	$(MAKE) -C converter release
@@ -76,16 +75,11 @@ releasebuild:
 tags: last-release
 	git tag -f v$(VERSION)
 	git branch -f v$(VERSION)_$(OS)
-	@echo "If you are satisfied, do a 'venum alan correction' (at least), and commit"
+	@echo "If you are satisfied, bump ALAN_CORRECTION in VERSION and commit"
 
 .PHONY: last-release
 last-release:
 	echo -n $(VERSION) > LASTRELEASE
-
-.PHONY: newVersion
-newVersion:
-	venum alan
-	cvs commit -m 'New Version' alan.version
 
 #################################################################################
 

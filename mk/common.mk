@@ -3,6 +3,17 @@
 # Some common definitions for the Alan Makefiles
 #
 
+# Where the top of the tree is, relative to whoever included us. This
+# file is included from the root and from each component directory, so
+# work it out from our own path rather than assuming either.
+ALAN_ROOT := $(dir $(lastword $(MAKEFILE_LIST)))..
+
+# The version components, and the release string composed from them.
+# The file holds the components; the VERSION variable is the string,
+# e.g. "3.0beta8". See VERSION for the composition rule.
+include $(ALAN_ROOT)/VERSION
+VERSION := $(strip $(ALAN_VERSION)).$(strip $(ALAN_REVISION))$(or $(strip $(ALAN_STATE)),.)$(strip $(ALAN_CORRECTION))
+
 # TODO: Msys have three variants - MSYS, MINGW64, MINGW64
 # And we need both -o and -s to figure out which...
 

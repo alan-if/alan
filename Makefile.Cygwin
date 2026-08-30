@@ -3,7 +3,6 @@ include mk/include_guard.mk
 # Cross-compilation to Windows
 include Makefile.win32
 
-VERSION	:= `venum alan -print '$$v.$$r{s$$s|_}$$c' | tr -d '\n\r'`
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
 # Since we only distribute windows 32-bit exe's

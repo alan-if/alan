@@ -6,7 +6,6 @@ include ../mk/include_guard.mk
 # Makefile.common
 
 # We are compiling for the same version as on Master version system
-VERSION := $(shell cat ../NEXTRELEASE)
 
 # It should be possible to build win32 binaries so include those targets
 include Makefile.win32

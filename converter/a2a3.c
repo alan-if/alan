@@ -10,7 +10,7 @@
 #include <string.h>
 #include "a2a3.h"
 
-#include "a2a3.version.h"
+#include "alan_version.h"
 #include "git_revision.h"
 #include "lmList.h"
 #include "smScan.h"
@@ -19,7 +19,7 @@
 
 /*======================================================================*/
 static void version(void) {
-  printf("%s\n", a2a3.version.string);
+  printf("%s\n", ALAN_VERSION_STRING);
   printf("Built from git %s\n", GIT_REVISION);
 }
 

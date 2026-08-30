@@ -124,17 +124,4 @@ depend:
 	mv dependencies.new dependencies.mk
 
 #
-# Version number generation
-#
-a2a3.version.h a2a3.version.c:
-	venum -write always -all a2a3
-
-version.h :
-	venum -write always -all a2a3
-
-a2a3.version: $(VERSIONSRCS) 
-	venum alan time
-
-
-#
 include dependencies.mk

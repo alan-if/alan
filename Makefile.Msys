@@ -1,6 +1,5 @@
 include mk/include_guard.mk
 
-VERSION := $(shell cat NEXTRELEASE)
 DISTDIR	:= ~/Utveckling/Alan/alanweb/downloads
 
 # Since we only distribute windows 32-bit exe's

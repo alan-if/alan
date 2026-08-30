@@ -11,6 +11,7 @@ INCLUDED = true
 
 include ../mk/common.mk
 include ../mk/git_revision.mk
+include ../mk/alan_version.mk
 
 SOEXTENSION = dll
 
@@ -60,7 +61,7 @@ A2A3_SRCS = $(TMSRCS) $(BUILDSRCS)
 A2A3_OBJDIR = .a2a3
 OBJDIRS += $(A2A3_OBJDIR)
 
-A2A3_OBJECTS = $(addprefix $(A2A3_OBJDIR)/,${A2A3_SRCS:.c=.o}) $(A2A3_OBJDIR)/a2a3.version.o
+A2A3_OBJECTS = $(addprefix $(A2A3_OBJDIR)/,${A2A3_SRCS:.c=.o})
 
 -include $(A2A3_OBJECTS:.o=.d)
 
@@ -117,18 +118,6 @@ test :
 
 spa.o: spa.c spa.h
 	$(COMPILE) -DSTDIONONCONST -c spa.c -o spa.o
-
-#
-# Version number generation
-#
-a2a3.version.h a2a3.version.c:
-	venum -write always -all a2a3
-
-version.h:
-	venum -write always -all a2a3
-
-a2a3.version: $(A2A3_SRCS)
-	venum alan time
 
 cross: cross_clean
 	$(MAKE) cross-build

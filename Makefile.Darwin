@@ -10,7 +10,6 @@ include Makefile.win32
 # machine quietly changing architecture is invisible downstream.
 PLATFORM = macos-$(shell uname -m)
 
-VERSION := $(shell cat NEXTRELEASE)
 
 PACKAGE = $(PACKAGENAME).tgz
 

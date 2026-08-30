@@ -1,0 +1,24 @@
+#######################################################################
+#
+# The Alan version. This is the one place it is written down.
+#
+# Bump it when releasing, see RELEASE.md. It is make syntax because
+# both the makefiles and, via mk/alan-version.sh, the C sources read
+# it -- keep it to plain assignments.
+#
+# The release string is composed as
+#
+#     ALAN_VERSION "." ALAN_REVISION (ALAN_STATE or ".") ALAN_CORRECTION
+#
+# so these values give "3.0beta8", and "3.0.8" once ALAN_STATE is
+# emptied for a final release.
+#
+# ALAN_STATE is not merely cosmetic: its first character goes into the
+# .a3c header (compiler/emit.c) and is compared by the interpreter's
+# compatibility check (interpreter/debug.c), so changing it changes
+# which story files this system will run.
+#
+ALAN_VERSION = 3
+ALAN_REVISION = 0
+ALAN_CORRECTION = 8
+ALAN_STATE = beta

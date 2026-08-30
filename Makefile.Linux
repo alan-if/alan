@@ -5,8 +5,6 @@
 # Possible cross-compilation to Windows
 include Makefile.win32
 
-VERSION := $(shell cat NEXTRELEASE)
-
 PLATFORM = linux-$(shell uname -m)
 
 PACKAGE = $(PACKAGENAME).tgz

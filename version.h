@@ -1,27 +1,20 @@
 #ifndef _version_h_
 #define _version_h_ 3
 
-#include <time.h>
-
 typedef struct {
-  char*  string;
+  char*  string;                /* e.g. "3.0beta8" */
   int    version;
   int    revision;
   int    correction;
-  time_t time;
-  char*  state;
+  char*  state;                 /* e.g. "beta", first character goes
+                                   into the .a3c header */
 } Version;
 
 typedef struct {
-  char*   name;
-  char*   slogan;
   char*   shortHeader;
   char*   longHeader;
-  char*   date;
+  char*   date;                 /* of the commit, not of the build */
   char*   time;
-  char*   user;
-  char*   host;
-  char*   ostype;
   Version version;
 } Product;
 
