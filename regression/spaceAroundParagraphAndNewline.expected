@@ -1,0 +1,105 @@
+########## spaceAroundParagraphAndNewline ##########
+
+        No warnings or errors detected.
+
+
+P-A abc.
+
+Def
+
+P-B abc.
+
+Def
+
+P-C abc.
+
+ Def
+
+P-D abc.
+
+ Def
+
+P-E abc.
+
+Def
+
+P-F abc.
+
+Def
+
+P-G abc.
+
+ Def
+
+P-H abc.
+
+Def
+
+P-I abc.
+
+Def
+
+N-A abc.
+def
+
+N-B abc.
+def
+
+N-C abc.
+ def
+
+N-D abc.
+ def
+
+N-E abc.
+def
+
+N-F abc.
+def
+
+N-G abc.
+ def
+
+N-H abc.
+def
+
+N-I abc.
+def
+
+X-A abc.
+
+
+Def
+
+X-B abc.
+
+
+Def
+
+X-C abc.
+
+def
+
+X-D abc.
+
+def
+
+X-E abc.
+
+Def
+
+D-A You walk to the west up to the big wooden door.
+
+And when you open the door...
+
+D-B You walk to the west up to the big wooden door.
+
+And when you open the door...
+
+
+
+L
+
+> 
+
+Do you want to UNDO, RESTART, RESTORE or QUIT ? 

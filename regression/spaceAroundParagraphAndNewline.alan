@@ -1,0 +1,76 @@
+-- Pins what a space next to the $p (new paragraph) and $n (new line)
+-- output markers does to the game output.
+--
+-- The author's question, in short: is
+--
+--     "You walk up to the big wooden door. $pAnd when you open it..."
+--
+-- different from
+--
+--     "You walk up to the big wooden door.$pAnd when you open it..."
+--
+-- Short answer, as pinned below: a space *before* the marker is
+-- swallowed and makes no difference, while a space *after* the marker
+-- survives and indents the following line. A newline in the source text
+-- counts as a space, so a marker sitting at the end of a source line is
+-- the same as writing a space after it.
+--
+-- Each case below is one output statement. It starts with a tag so the
+-- cases can be told apart in the output, and it is prefixed with $$ to
+-- suppress the space Alan would otherwise insert between two strings,
+-- so that the tag lands flush left and any leading space in the output
+-- belongs to the case itself.
+--
+-- Note that only the *leading* space is visible in a diff -b comparison,
+-- which is what the shell 'regr' script uses. 'make test' runs jregr,
+-- which compares literally.
+
+The l Isa location
+End The l.
+
+Start At l.
+
+
+-- $p, the new paragraph marker
+
+"P-A abc.$pdef$p"                 -- no space at all, the reference case
+"$$P-B abc. $pdef$p"              -- space before the marker
+"$$P-C abc.$p def$p"              -- space after the marker
+"$$P-D abc. $p def$p"             -- space on both sides
+"$$P-E abc.  $pdef$p"             -- two spaces before the marker
+"$$P-F abc.
+   $pdef$p"                       -- marker first on the next source line
+"$$P-G abc.$p
+   def$p"                         -- marker last on a source line
+"$$P-H abc.$p" "def$p"            -- marker last in the string
+"$$P-I abc. $p" "def$p"           -- ditto, with a space before it
+
+
+-- $n, the new line marker
+
+"$$N-A abc.$ndef$p"               -- no space at all, the reference case
+"$$N-B abc. $ndef$p"              -- space before the marker
+"$$N-C abc.$n def$p"              -- space after the marker
+"$$N-D abc. $n def$p"             -- space on both sides
+"$$N-E abc.  $ndef$p"             -- two spaces before the marker
+"$$N-F abc.
+   $ndef$p"                       -- marker first on the next source line
+"$$N-G abc.$n
+   def$p"                         -- marker last on a source line
+"$$N-H abc.$n" "def$p"            -- marker last in the string
+"$$N-I abc. $n" "def$p"           -- ditto, with a space before it
+
+
+-- A space between two consecutive markers
+
+"$$X-A abc.$p$pdef$p"             -- reference case
+"$$X-B abc.$p $pdef$p"            -- space between the two markers
+"$$X-C abc.$n$ndef$p"             -- reference case
+"$$X-D abc.$n $ndef$p"            -- space between the two markers
+"$$X-E abc.$n $pdef$p"            -- space between markers of both kinds
+
+
+-- The author's original example, spelled out
+
+"$$D-A You walk to the west up to the big wooden door. $pAnd when you open the door...$p"
+"$$D-B You walk to the west up to the big wooden door.$pAnd when you open the door...$p"
