@@ -11,8 +11,6 @@ include ../mk/include_guard.mk
 # It should be possible to build win32 binaries, so include those targets
 include Makefile.win32
 
-SOEXT = dll
-
 CFLAGS +=
 LDLIBS += -liconv
 
@@ -21,12 +19,3 @@ LDLIBS += -liconv
 #
 CC = gcc
 WINDRES = windres
-
-###############################
-# Cgreen settings
-CGREENROOT    = /usr/local
-CGREENINCLUDE =
-CGREENLIBDIR  = $(CGREENROOT)/lib/
-CGREENBINDIR  =
-CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
-CGREENLDPATH  =

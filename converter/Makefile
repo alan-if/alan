@@ -13,8 +13,6 @@ include ../mk/common.mk
 include ../mk/git_revision.mk
 include ../mk/alan_version.mk
 
-SOEXTENSION = dll
-
 # Jenkins sets BUILD_NUMBER so use that if available
 ifneq ($(BUILD_NUMBER),)
   BUILDNUMBER := $(BUILD_NUMBER)
@@ -90,8 +88,6 @@ SUITE = Converter
 
 include ../mk/isolated_unittests.mk
 
-# We might need to locate -lcgreen
-isolated_unittests: LDLIBS = -L/usr/local/lib
 unittests: isolated_unittests
 
 .PHONY: unit
@@ -100,12 +96,6 @@ unit:
 	echo "No unit tests run, cgreen not available"
 else
 unit: unittests
-endif
-
-# We also need to add -fPIC if not compiling for DLL-platforms
-# More to be added here...
-ifneq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-unit: CFLAGS += -fPIC
 endif
 
 ######################################################################

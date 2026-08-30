@@ -144,8 +144,6 @@ endif
 UNITTESTS_OBJDIR = .unittests
 OBJDIRS += $(UNITTESTS_OBJDIR)
 
-CGREENLINKLIB ?= -lcgreen
-
 # Here's a little tricky, we need to use different readline.o for
 # linked and isolated unittests because we need the isolated one to
 # not call the real 'read()', so we replace the references in the
@@ -170,7 +168,7 @@ unittests.$(SOEXTENSION): $(LINKED_UNITTESTS_OBJECTS)
 
 # ... that can be run with the cgreen runner
 linked_unittests: unittests.$(SOEXTENSION)
-	cgreen-runner ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
+	$(CGREEN) ./$^ --suite interpreter_unit_tests $(UNITOUTPUT)
 
 #####################################################################
 # Build isolated unittests in shared libs for each module where it can

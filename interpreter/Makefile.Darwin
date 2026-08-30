@@ -11,8 +11,6 @@ include ../mk/include_guard.mk
 CFLAGS +=
 LDLIBS += -liconv
 
-SOEXTENSION = dylib
-
 
 #--------------------------------------------------------------------
 #

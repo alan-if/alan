@@ -6,6 +6,3 @@ include ../mk/include_guard.mk
 
 CFLAGS +=
 LDLIBS += -liconv
-
-# Sharable libraries extension
-SOEXTENSION = dylib

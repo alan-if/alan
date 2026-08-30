@@ -17,10 +17,6 @@ VERSION := $(strip $(ALAN_VERSION)).$(strip $(ALAN_REVISION))$(or $(strip $(ALAN
 # TODO: Msys have three variants - MSYS, MINGW64, MINGW64
 # And we need both -o and -s to figure out which...
 
-# Do we have Cgreen available?
-# Do we even have Cgreen available?
-CGREEN:=$(shell which cgreen-runner)
-
 # Discover OS and ARCH
 UNAME_O_WORKS=$(shell uname -o &>/dev/null; echo $$?)
 ifeq ($(UNAME_O_WORKS),0)
@@ -35,6 +31,44 @@ ARCH = $(shell uname -m)
 ifdef TRACE
   $(info OS=$(OS), ARCH=$(ARCH))
 endif
+
+# Extension for shared libraries on this platform. Mainly used for the
+# Cgreen unit test libraries, which are loaded by the cgreen-runner.
+ifeq ($(OS),Darwin)
+  SOEXTENSION ?= dylib
+else ifneq ($(filter Cygwin Msys,$(OS)),)
+  SOEXTENSION ?= dll
+else
+  SOEXTENSION ?= so
+endif
+
+# Unit tests are built as shared libraries, which need position
+# independent code everywhere except on the DLL platforms, where it is
+# the default and the flag is ignored anyway.
+ifeq ($(filter Cygwin Msys,$(OS)),)
+unit: CFLAGS += -fPIC
+unit: LDFLAGS += -fPIC
+endif
+
+######################################################################
+#
+# Cgreen
+#
+# Do we even have Cgreen available?
+CGREEN := $(shell which cgreen-runner)
+
+# How to link a unit test library against Cgreen. A hand built Cgreen
+# ends up under /usr/local by default; point CGREENROOT at yours if it
+# lives somewhere else, or override CGREENLINKLIB outright (from a
+# platform Makefile, Makefile.local or the command line).
+#
+# Note that this has to name the library, not just add its directory:
+# on Cygwin and MinGW every symbol of a DLL must resolve at link time,
+# so a missing -lcgreen breaks the build there even though ELF
+# platforms happily leave those symbols for the runner to supply.
+CGREENROOT ?= /usr/local
+CGREENLIBDIR ?= $(CGREENROOT)/lib
+CGREENLINKLIB ?= -L$(CGREENLIBDIR) -lcgreen -lm
 
 # Shorthands
 COMPILE = $(CC) $(CFLAGS)

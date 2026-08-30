@@ -10,8 +10,6 @@ include Makefile.win32
 CFLAGS = -funsigned-char -g -Wall
 LDLIBS += -liconv
 
-SOEXTENSION = dll
-
 ###########################################################
 # On cygwin you can try to build without cygwin1.dll using
 # the mingw compiler and linker, but it makes it harder to
@@ -19,12 +17,3 @@ SOEXTENSION = dll
 #CC =x86_64-w64-mingw32-gcc
 #WINDRES = x86_64-w64-mingw32-windres
 WINDRES = windres
-
-###############################
-# Cgreen settings
-CGREENROOT    = /usr/local
-CGREENINCLUDE =
-CGREENLIBDIR  = $(CGREENROOT)/lib/
-CGREENBINDIR  =
-CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
-CGREENLDPATH  =

@@ -10,24 +10,7 @@ include ../mk/include_guard.mk
 # It should be possible to build win32 binaries so include those targets
 include Makefile.win32
 
-unit: CFLAGS += -fPIC
-unit: LDFLAGS += -fPIC
-
 LIBS = $(GLKLIB) $(LINKLIBS)
-
-# Shareable libraries extension
-SOEXTENSION = so
-
-# If Cgreen is installed correctly and completely theses things should just work
-# Otherwise you can try to set them to something that does work
-###############################
-# Cgreen settings
-CGREENROOT    = /usr/local
-CGREENINCLUDE =
-CGREENLIBDIR  = $(CGREENROOT)/lib/
-CGREENBINDIR  =
-CGREENLINKLIB = -L$(CGREENLIBDIR) -lcgreen -lm
-CGREENLDPATH  =
 
 
 #############################################################

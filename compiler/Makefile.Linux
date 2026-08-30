@@ -7,15 +7,4 @@ include ../mk/include_guard.mk
 # We can potentially build for Windows
 include Makefile.win32
 
-unit: CFLAGS += -fPIC
-unit: LDFLAGS += -fPIC
-
-# Sharable libraries extension
-SOEXTENSION = so
-
 release: EXTRA_COMPILER_FLAGS = -O4
-
-# If Cgreen is installed correctly and completely theses things should just work
-# Otherwise you can try to set them to something that does work
-#CGREENROOT = /usr/local
-#CGREENINCLUDE = -I$(CGREENROOT)/include
