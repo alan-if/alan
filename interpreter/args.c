@@ -17,6 +17,7 @@
 #include "utils.h"
 
 #include "alan.version.h"
+#include "git_revision.h"
 
 #ifdef HAVE_GLK
 #include "glk.h"
@@ -81,6 +82,7 @@ static void version(void) {
 #else
     printf("%s", alan.version.string);
 #endif
+    printf("\nBuilt from git %s", GIT_REVISION);
 }
 
 

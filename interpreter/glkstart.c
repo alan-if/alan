@@ -33,6 +33,7 @@
 
 #ifdef HAVE_GARGLK
 #include "alan.version.h"
+#include "git_revision.h"
 #endif
 
 glkunix_argumentlist_t glkunix_arguments[] = {
@@ -134,11 +135,7 @@ int glkunix_startup_code(glkunix_startup_t *data)
     garglk_set_program_name(alan.shortHeader);
 #endif
     char info[200];
-#ifdef GIT_VERSION
-    sprintf(info, "%s Interpreter by Thomas Nilefalk\nFrom git %s\n", alan.shortHeader, GIT_VERSION);
-#else
-    sprintf(info, "%s Interpreter by Thomas Nilefalk\n", alan.shortHeader);
-#endif
+    sprintf(info, "%s Interpreter by Thomas Nilefalk\nFrom git %s\n", alan.shortHeader, GIT_REVISION);
     garglk_set_program_info(info);
 #endif
 

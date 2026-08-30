@@ -4,6 +4,7 @@ include ../mk/include_guard.mk
 # Common rules for building Alan Interpreters
 
 include ../mk/venum.mk
+include ../mk/git_revision.mk
 
 ifneq ($(INSIDE_EMACS),)
 JREGROUTPUT = -noansi
@@ -247,19 +248,6 @@ $(DUMPACD_OBJDIR)/spa.o: ../compiler/spa.c
 dumpacd: $(DUMPACD_OBJDIR) $(DUMPACDOBJECTS)
 	$(CC) $(LDFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
 	cp $@ ../bin/
-
-#######################################################################
-# GIT VERSION marking, only for modules that need them
-GIT_VERSION := "$(shell git describe --abbrev=4 --dirty --always --tags)"
-.arun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-.arun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-.winarun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-.winarun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-.gararun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-.gararun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-.glkarun/glkstart.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-.glkarun/utils.o: CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
-
 
 # Create all objdirs if necessary (at parse time)
 $(info $(shell mkdir -p $(OBJDIRS)))

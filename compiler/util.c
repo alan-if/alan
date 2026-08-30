@@ -12,6 +12,7 @@
 /* IMPORTS */
 #include "alan.h"
 #include "alan.version.h"
+#include "git_revision.h"
 #include "sysdep.h"
 #include "lmlog.h"
 #include "smScan.h"
@@ -36,10 +37,11 @@ List *fileNames = NULL;
 
 /*======================================================================*/
 const char *version_string(int buildNumber) {
-    static char buf[100];
+    static char buf[200];
     sprintf(buf, "Alan - Adventure Language Compiler, version %s", alan.version.string);
     if (buildNumber != 0) sprintf(&buf[strlen(buf)], "-%d", buildNumber);
     sprintf(&buf[strlen(buf)], " (%s %s)", alan.date, alan.time);
+    sprintf(&buf[strlen(buf)], "\nBuilt from git %s", GIT_REVISION);
     return buf;
 }
 

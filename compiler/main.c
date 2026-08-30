@@ -13,6 +13,7 @@
 #include "spa.h"
 #include "options.h"
 #include "alan.version.h"
+#include "git_revision.h"
 #include "lst_x.h"
 
 
@@ -31,6 +32,7 @@ static SPA_FUN(version)
 #else
     printf("%s\n", alan.version.string);
 #endif
+    printf("Built from git %s\n", GIT_REVISION);
     terminate(EXIT_SUCCESS);
 }
 

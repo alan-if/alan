@@ -4,6 +4,7 @@ include ../mk/include_guard.mk
 # Common rules for alan compiler and variants
 
 include ../mk/venum.mk
+include ../mk/git_revision.mk
 include Makefile.tm
 
 ifneq ($(INSIDE_EMACS),)
