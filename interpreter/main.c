@@ -7,6 +7,8 @@
   \*----------------------------------------------------------------------*/
 #include "main.h"
 
+#include <time.h>
+
 /* Imports: */
 #include "state.h"
 #include "lists.h"
