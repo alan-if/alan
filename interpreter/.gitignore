@@ -7,7 +7,7 @@ alan3
 *.res
 glkarun
 dumpacd
-arun.rc2
+*.rc2
 .cgreen-gdb-commands
 *.d
 *.pkg

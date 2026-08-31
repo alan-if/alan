@@ -29,4 +29,5 @@ coverage*.info
 .alan64
 unittests.so
 winalan
+*.d
 Makefile.local

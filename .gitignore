@@ -33,6 +33,9 @@ alan_version.h
 compiler/alan.version.c
 compiler/alan.version.h
 compiler/version.h
+converter/alan.version.c
+converter/alan.version.h
+converter/version.h
 interpreter/alan.version.c
 interpreter/alan.version.h
 interpreter/version.h
