@@ -12,21 +12,25 @@ Unix capabilities and easy cross-compilation to Windows), but that is
 changing now that WSL (Windows Subsystem for Linux) exists.
 
 In essence a release will have a semver version marking. Any
-development build before the release will have the same version
-marking but with a build number (added in the Jenkins jobs). Once the
-release is created all subsequent builds will have the next release
-version as its marking.
+development build before the release carries that same marking with a
+`-dev<count>` suffix, where the count is how many commits it is past
+the previous release tag. Once the release is created all subsequent
+builds will have the next release version as its marking.
 
 ## Two markings, and why both are needed
 
 Every binary reports two things, and a release needs both to be right:
 
     $ alan -version
-    3.0beta8                             <- what it calls itself
-    Built from git v3.0beta8             <- what it was built from
+    3.0beta9                             <- what it calls itself
+    Built from git v3.0beta8-98-g7142db50 <- what it was built from
 
 The first comes from the `VERSION` file. It is also what names the
 packages and what goes into the `.a3c` header.
+
+Note that the two disagree above, and that this is correct: `VERSION`
+names the release being worked *towards*, the tag names the last one
+actually made. They coincide only on the release commit itself.
 
 The second comes from `git describe`, anchored on the release tags.
 It needs no maintenance, but it does need the tag to exist:
@@ -39,22 +43,45 @@ So the bare form is the signature of an actual release, and it is only
 obtainable by tagging the commit and pushing the tag. A bug report
 quoting a suffixed form is someone's own build, not something shipped.
 
+## Naming a development build
+
+The commit count is also what names development packages, as
+`BUILDVERSION` in `mk/common.mk`:
+
+    alan-3.0beta9-dev98-linux-x86_64.tgz   98 commits into the beta9 cycle
+    alan-3.0beta9-linux-x86_64.tgz         the beta9 release itself
+
+The count is monotonic within a cycle because master is linear - one
+commit, one increment - and it restarts at each release, being a
+distance from a known point rather than a global serial. It replaces
+the Jenkins `BUILD_NUMBER`, which no longer exists.
+
+Deriving it needs the release tags, so a build from a checkout without
+them cannot tell a release from a development build. Rather than
+quietly naming such a build as if it were a release, it is named
+`-devunknown`, matching the `unknown` that `mk/git-revision.sh` emits
+in the same situation. If a CI job produces that, its checkout is
+shallow and needs `fetch-depth: 0`.
+
 ## Order of operations
 
 The two markings are bumped at different moments, and the order
 matters, because `make tags` tags whatever `VERSION` currently says:
 
-1. `VERSION` still holds the version being released, e.g. 3.0beta8.
-   Build, test, package, upload.
-2. `make tags`. Writes LASTRELEASE, tags `v3.0beta8`, pushes the tag,
+1. `VERSION` still holds the version being released, e.g. 3.0beta9.
+   Build, test, package, upload. `BUILDVERSION` is empty at this point
+   only if you are standing on the release commit with the tag already
+   made; the packages uploaded by `distribution` refuse to be built
+   otherwise.
+2. `make tags`. Writes LASTRELEASE, tags `v3.0beta9`, pushes the tag,
    and creates a local per-OS branch.
 3. *Then* bump `ALAN_CORRECTION` in `VERSION` and commit, opening the
-   next cycle as 3.0beta9.
+   next cycle as 3.0beta10.
 
 Bumping before tagging puts the new number on the old commit. Between
 steps 3 and the next release the two markings deliberately disagree,
-which reads correctly as "3.0beta9 in development, so many commits
-past the v3.0beta8 tag".
+which reads correctly as "3.0beta10 in development, so many commits
+past the v3.0beta9 tag".
 
 Release tags are lightweight and use the dotted spelling, `v3.0beta8`.
 Both matter: `mk/git-revision.sh` matches `v[0-9]*.[0-9]*`, so the

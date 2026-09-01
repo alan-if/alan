@@ -125,49 +125,16 @@ platform-check:
 # specifics in Makefile.<platform> where 'snapshot-build'
 # and 'snapshot-upload' needs to be defined.
 #
-snapshot: buildnumbers snapshot-build snapshot-upload
+snapshot: snapshot-build snapshot-upload
 
 
 ##################################################
-# Build designations:
-#   BUILDNUMBER is just the number
-#   BUILDVERSION includes a dash, if no-empty, so can be used with $(VERSION)$(BUILDVERSION)
-#   BUILDNAME is "Build"$(BUILDNUMBER), e.g. "Build1667"
+# Build designations
 #
-# You can call 'buildnumbers' to pick up the latest build from Jenkins, you can also
-# set a BUILDNUMBER and then call it which will set the other dependent values correctly
-
-# Jenkins sets BUILD_NUMBER so use that if available
-ifneq ($(BUILD_NUMBER),)
-  BUILDNUMBER := $(BUILD_NUMBER)
-  BUILDVERSION := -$(BUILDNUMBER)
-  BUILDNAME := Build$(BUILDNUMBER)
-endif
-
-# If there is a file with BUILDNUMBER, use that
-ifneq ($(wildcard ./BUILDNUMBER),)
-  BUILDNUMBER := `cat BUILDNUMBER | tr -d '\n'`
-  BUILDVERSION := -$(BUILDNUMBER)
-  BUILDNAME := Build$(BUILDNUMBER)
-endif
-
-
-.PHONY: buildnumbers
-buildnumbers: buildnumber
-	$(eval BUILDVERSION := -$(BUILDNUMBER))
-	$(eval BUILDNAME := Build$(BUILDNUMBER))
-	@echo BUILDNUMBER = $(BUILDNUMBER)
-	@echo BUILDVERSION = $(BUILDVERSION)
-	@echo BUILDNAME = $(BUILDNAME)
-
-
-buildnumber:
-ifeq ($(BUILDNUMBER),)
-	@echo "Getting BUILDNUMBER from Jenkins (should only happen when not building on Jenkins@ci.alanif.se)"
-	$(eval BUILDNUMBER := $(shell wget -q -O- 'https://ci.alanif.se/job/Alan/api/xml?xpath=*/lastSuccessfulBuild/number' | $(XPATH) 'number/text()'))
-else
-	@echo "Have BUILDNUMBER file ($(BUILDNUMBER)), not getting from Jenkins"
-endif
+# BUILDNUMBER, BUILDVERSION and BUILDNAME are derived from 'git
+# describe' in mk/common.mk - see the comment there. They used to be
+# fetched from the Jenkins job at ci.alanif.se, or read from a hand
+# written BUILDNUMBER file; both are gone.
 
 # Need for packaging
 games/adventv3/adventV3.a3c: games/adventv3/adventV3.alan bin/alan

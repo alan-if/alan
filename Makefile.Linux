@@ -43,8 +43,9 @@ INNODIR = /mnt/c/Program\ Files\ \(x86\)/Inno\ Setup\ 6
 # Make a distribution for this platform of the current (last) release
 distribution: VERSION := $(shell cat LASTRELEASE)
 distribution:
-	@if [[ -f BUILDNUMBER ]] ; then \
-	  echo Should not upload a version with BUILDNUMBER, remove it first ; \
+	@if [ -n "$(BUILDVERSION)" ] ; then \
+	  echo "Refusing to upload $(VERSION)$(BUILDVERSION): not a release build." ; \
+	  echo "A distribution must be built from a release tag, see RELEASE.md." ; \
 	  exit 1 ; \
 	fi
 	$(MAKE) distribution-build distribution-upload

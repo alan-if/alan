@@ -10,13 +10,6 @@ ifneq ($(INSIDE_EMACS),)
 JREGROUTPUT = -noansi
 endif
 
-# Jenkins sets BUILD_NUMBER so use that if available
-ifneq ($(BUILD_NUMBER),)
-  BUILDNUMBER = $(BUILD_NUMBER)
-  BUILDVERSION = -$(BUILDNUMBER)
-  CFLAGS_BUILD = -DBUILD=$(BUILDNUMBER)
-endif
-
 # NOTE: for unittests -DUNITTESTING is automatically added
 # so you can override system functions and other hacks
 CFLAGS += -g -Og -Wall -MMD -funsigned-char $(CFLAGS_BUILD) $(COVERAGE)

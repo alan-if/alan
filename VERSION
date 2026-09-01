@@ -10,7 +10,7 @@
 #
 #     ALAN_VERSION "." ALAN_REVISION (ALAN_STATE or ".") ALAN_CORRECTION
 #
-# so these values give "3.0beta8", and "3.0.8" once ALAN_STATE is
+# so these values give "3.0beta9", and "3.0.9" once ALAN_STATE is
 # emptied for a final release.
 #
 # ALAN_STATE is not merely cosmetic: its first character goes into the
@@ -20,5 +20,5 @@
 #
 ALAN_VERSION = 3
 ALAN_REVISION = 0
-ALAN_CORRECTION = 8
+ALAN_CORRECTION = 9
 ALAN_STATE = beta

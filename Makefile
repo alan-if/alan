@@ -4,10 +4,10 @@
 # it is running and will include specific Makefiles to build on that
 # particular host
 #
-# If you are running this in a CI environment that should create
-# distributions, set BUILDNUMBER to the build number as in
-#
-#   make BUILDNUMBER=$BUILD_NUMBER <target>
+# Development builds identify themselves as <release>-dev<count>, where
+# the count comes from 'git describe' - see mk/common.mk. Nothing needs
+# to be set for that, but the release tags do have to be fetched, so a
+# CI checkout must not be shallow.
 #
 include mk/common.mk
 

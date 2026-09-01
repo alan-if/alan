@@ -10,9 +10,60 @@ ALAN_ROOT := $(dir $(lastword $(MAKEFILE_LIST)))..
 
 # The version components, and the release string composed from them.
 # The file holds the components; the VERSION variable is the string,
-# e.g. "3.0beta8". See VERSION for the composition rule.
+# e.g. "3.0beta9". See VERSION for the composition rule.
 include $(ALAN_ROOT)/VERSION
 VERSION := $(strip $(ALAN_VERSION)).$(strip $(ALAN_REVISION))$(or $(strip $(ALAN_STATE)),.)$(strip $(ALAN_CORRECTION))
+
+######################################################################
+#
+# Build designation - identifying a development build
+#
+# A development build names the release it is working *towards*, plus
+# how far past the last release tag it has come:
+#
+#     3.0beta9-dev98
+#      |        |
+#      |        `- commits since the v3.0beta8 tag
+#      `- VERSION, bumped to the next release right after tagging
+#
+# So between releases VERSION and the nearest tag deliberately disagree,
+# and that disagreement is the whole mechanism. See RELEASE.md.
+#
+# The count is monotonic because master is linear: one commit, one
+# increment. It restarts at each release, which is what makes it
+# readable - it is a distance from a known point, not a global serial
+# like the Jenkins BUILD_NUMBER it replaces. Nothing compares build
+# numbers across releases, so the restart costs us nothing.
+#
+#   BUILDNUMBER   the count alone, empty on a release tag
+#   BUILDVERSION  "-dev<count>", so it appends to $(VERSION)
+#   BUILDNAME     "dev<count>", for naming snapshot directories
+#
+# On the release commit itself there is no count, all three are empty,
+# and packages are named plainly: alan-3.0beta9-linux.
+#
+# This needs the release tags to be present. A shallow checkout has
+# none, so CI must fetch them - the workflows pass fetch-depth: 0.
+GIT_DESCRIBE := $(shell git -C $(ALAN_ROOT) describe --tags --match 'v[0-9]*.[0-9]*' 2>/dev/null)
+
+ifeq ($(GIT_DESCRIBE),)
+  # No git, no tags, or a shallow checkout - building from a source
+  # package, most likely. We cannot tell a release from a development
+  # build, so say so, rather than quietly naming this as if it were a
+  # release. Matches the "unknown" that mk/git-revision.sh emits.
+  BUILDVERSION := -devunknown
+  BUILDNAME := devunknown
+else
+  # 'v3.0beta8-98-g7142db50' -> '98', and nothing at all when describe
+  # returned the bare tag, which is precisely the release case. The
+  # leading .* is greedy, so this still picks the right field if a tag
+  # ever contains a dash itself.
+  BUILDNUMBER := $(shell echo '$(GIT_DESCRIBE)' | sed -n 's/.*-\([0-9][0-9]*\)-g[0-9a-f]*$$/\1/p')
+  ifneq ($(BUILDNUMBER),)
+    BUILDVERSION := -dev$(BUILDNUMBER)
+    BUILDNAME := dev$(BUILDNUMBER)
+  endif
+endif
 
 # TODO: Msys have three variants - MSYS, MINGW64, MINGW64
 # And we need both -o and -s to figure out which...

@@ -51,8 +51,9 @@ distribution: VERSION := $(shell cat LASTRELEASE)
 distribution: distribution-check distribution-build distribution-upload
 
 distribution-check:
-	@if [[ -f BUILDNUMBER ]] ; then \
-	  echo Should not upload a distribution with BUILDNUMBER, remove it first ; \
+	@if [ -n "$(BUILDVERSION)" ] ; then \
+	  echo "Refusing to upload $(VERSION)$(BUILDVERSION): not a release build." ; \
+	  echo "A distribution must be built from a release tag, see RELEASE.md." ; \
 	  exit 1 ; \
 	fi
 
