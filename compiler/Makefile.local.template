@@ -11,9 +11,9 @@ include ../mk/include_guard.mk
 #WINALAN_ENABLED = true
 #EXTRA_CROSS_TARGETS += winalan
 
-# Assume cross compilation, if not you can simplify...
-winalan: CC=x86_64-w64-mingw32-gcc # or possibly just "gcc"
-winalan: WINDRES=x86_64-w64-mingw32-windres # or possibly just "windres"
+# winalan's cross compiler now comes from Makefile.win32, so a clean
+# checkout builds it without this file. Override MINGW64_PREFIX here if
+# yours is named differently; on Msys Mingw-variants it is just gcc/windres.
 
 # We might need to locate -lcgreen
 linked_unittests isolated_unittests: LDLIBS += -L/usr/local/lib

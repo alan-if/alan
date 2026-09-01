@@ -20,6 +20,7 @@ RUN apt-get update && apt-get -y upgrade && \
       git openssh-client \
       build-essential make cmake pkg-config gcc g++ cgreen1 \
       gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 binutils-mingw-w64-x86-64 \
+      gcc-mingw-w64-i686 binutils-mingw-w64-i686 mingw-w64-i686-dev \
       mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev \
       cgreen1 libcgreen1-dev \
       nsis zip dos2unix && \
@@ -43,14 +44,25 @@ RUN update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32
 # Prefix for iconv
 #ENV ICONV_ROOT=/usr/local/x86_64-w64-mingw32
 
+# win-iconv, once per architecture. Two builds are needed because both
+# produce a libwiniconv.a and the makefiles ask for it by name, so they
+# cannot share a directory. The 64-bit one serves the SDK cross build;
+# the 32-bit one serves winarun, which is 32-bit because WindowsGlk is.
+# Each directory keeps its headers, since -I<root> is how iconv.h is found.
 RUN cd /tmp && \
     git clone https://github.com/win-iconv/win-iconv.git && \
-    cd win-iconv && \
+    cp -r win-iconv win-iconv-i686 && \
+    cd /tmp/win-iconv && \
     x86_64-w64-mingw32-gcc -O2 -Wall -c win_iconv.c -o win_iconv.o && \
-    ar rcs libwiniconv.a win_iconv.o && \
-    x86_64-w64-mingw32-gcc -shared -o winiconv.dll win_iconv.o -Wl,--out-implib,libwiniconv.dll.a
+    x86_64-w64-mingw32-ar rcs libwiniconv.a win_iconv.o && \
+    x86_64-w64-mingw32-gcc -shared -o winiconv.dll win_iconv.o -Wl,--out-implib,libwiniconv.dll.a && \
+    cd /tmp/win-iconv-i686 && \
+    i686-w64-mingw32-gcc -O2 -Wall -c win_iconv.c -o win_iconv.o && \
+    i686-w64-mingw32-ar rcs libwiniconv.a win_iconv.o && \
+    i686-w64-mingw32-gcc -shared -o winiconv.dll win_iconv.o -Wl,--out-implib,libwiniconv.dll.a
 
 ENV WINICONV_ROOT=/tmp/win-iconv
+ENV WINICONV32_ROOT=/tmp/win-iconv-i686
 
 RUN cd /tmp && \
     mkdir WindowsGlk && cd WindowsGlk && \

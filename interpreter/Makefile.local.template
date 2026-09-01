@@ -18,15 +18,13 @@ include ../mk/include_guard.mk
 # Point the linker to the Windows GLK library
 WINGLK_ROOT ?= ../../WindowsGlk-151
 #
-# If required you can set particular compiler and linker for an extra target
-# like so (most likely we need to cross compile...):
-# On Msys Mingw-variants you should just use gcc/windres
-gararun winarun: CC = x86_64-w64-mingw32-gcc
-winarun: WINDRES = x86_64-w64-mingw32-windres
-# And/or extra switches and flags:
-winarun: CFLAGS += -mwindows -I$(WINICONV_ROOT)
-winarun: LDFLAGS += -mwindows
-winarun: LDLIBS += -L$(WINICONV_ROOT) -l:libwiniconv.a
+# winarun's compiler, flags and iconv now come from Makefile.win32 --
+# WindowsGlk is 32-bit, so the toolchain is forced, not chosen. Override
+# MINGW32_PREFIX or WINICONV32_ROOT here if yours are named differently.
+#
+# If required you can set a particular compiler for an extra target like
+# so. On Msys Mingw-variants you should just use gcc/windres.
+gararun: CC = $(MINGW64_PREFIX)-gcc
 #
 
 # Enable glkarun:

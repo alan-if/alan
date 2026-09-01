@@ -65,6 +65,28 @@ else
   endif
 endif
 
+######################################################################
+#
+# MinGW-w64 cross toolchains
+#
+# Two are needed, not one. The SDK (alan, arun, a2a3) and winalan are
+# 64-bit. winarun is not, and cannot be: it links against David
+# Kinder's WindowsGlk, which is built for Win32 only -- its
+# GlkDll/Glk.vcxproj carries no x64 configuration, and the Glk.lib in
+# every release including 1.55 is an i386 import library exporting
+# _glk_* with the 32-bit cdecl underscore. Linking it with the 64-bit
+# toolchain fails with an undefined reference for every glk_ symbol.
+#
+# Override either from the environment or the command line if your
+# toolchain is named differently.
+MINGW64_PREFIX ?= x86_64-w64-mingw32
+MINGW32_PREFIX ?= i686-w64-mingw32
+
+# win-iconv, one build per architecture, since both would otherwise be
+# called libwiniconv.a. WINICONV_ROOT is the 64-bit one and is what the
+# SDK cross build uses; WINICONV32_ROOT is winarun's.
+WINICONV32_ROOT ?= $(WINICONV_ROOT)-i686
+
 # TODO: Msys have three variants - MSYS, MINGW64, MINGW64
 # And we need both -o and -s to figure out which...
 

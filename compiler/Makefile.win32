@@ -16,9 +16,26 @@ $(info NOT ENABLED: winalan - Alan compiler with Windows GUI)
 endif
 
 # Build with flags:
+# The cross toolchain, here rather than in Makefile.local for the same
+# reason as winarun's in interpreter/Makefile.win32: a Windows GUI binary
+# cannot be built by the host compiler, so this is not a local choice.
+# Without it a clean checkout compiles main.c with cc and fails on
+# <windows.h>. winalan is 64-bit -- unlike winarun it needs no Glk.
+winalan: CC = $(MINGW64_PREFIX)-gcc
+winalan: WINDRES = $(MINGW64_PREFIX)-windres
 winalan: CFLAGS += -DWINGUI #-DARGSDISPLAY
 winalan: EXEEXT = .exe
-winalan: LDLIBS += -lshlwapi -liconv
+winalan: LDLIBS += -lshlwapi
+
+# iconv: a cross build has no system libiconv for the target, so use the
+# same win-iconv the SDK cross build uses. A native Msys/Cygwin build has
+# a real one, so keep -liconv there.
+ifneq ($(WINICONV_ROOT),)
+winalan: CFLAGS += -I$(WINICONV_ROOT)
+winalan: LDLIBS += -L$(WINICONV_ROOT) -l:libwiniconv.a
+else
+winalan: LDLIBS += -liconv
+endif
 
 WINALAN_OBJDIR = .winalan
 OBJDIRS += $(WINALAN_OBJDIR)

@@ -26,7 +26,17 @@ WINGLK_DEFS = -DHAVE_WINGLK
 WINGLK_INCLUDE = -I$(WINGLK_ROOT)/Include
 WINGLK_LIB = $(WINGLK_ROOT)/Glk.lib # or -L$(WINGLK_ROOT) -l:Glk.lib
 
-winarun: CFLAGS += $(WINGLK_INCLUDE) $(WINGLK_DEFS)
+# WindowsGlk is a 32-bit library -- see the note on MINGW32_PREFIX in
+# mk/common.mk -- so winarun is the one Windows target we build with the
+# 32-bit toolchain. This lives here rather than in Makefile.local because
+# it is not a local choice: there is no 64-bit Glk.lib to link against.
+# Target-specific variables reach the prerequisites too, so the objects
+# and winarun.res are built with the same compiler and windres.
+winarun: CC = $(MINGW32_PREFIX)-gcc
+winarun: WINDRES = $(MINGW32_PREFIX)-windres
+winarun: CFLAGS += $(WINGLK_INCLUDE) $(WINGLK_DEFS) -mwindows -I$(WINICONV32_ROOT)
+winarun: LDFLAGS += -mwindows
+winarun: LDLIBS += -L$(WINICONV32_ROOT) -l:libwiniconv.a
 winarun: EXEEXT = .exe
 
 WINARUNOBJDIR = .winarun
