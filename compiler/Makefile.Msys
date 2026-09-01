@@ -20,3 +20,7 @@ LDLIBS += -liconv
 # Set relevant compilers and tools
 #CC = gcc
 WINDRES = windres
+
+# Native MinGW: no cross prefix. See the note in interpreter/Makefile.Msys.
+WINALAN_CC = gcc
+WINALAN_WINDRES = windres

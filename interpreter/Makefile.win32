@@ -28,12 +28,22 @@ WINGLK_LIB = $(WINGLK_ROOT)/Glk.lib # or -L$(WINGLK_ROOT) -l:Glk.lib
 
 # WindowsGlk is a 32-bit library -- see the note on MINGW32_PREFIX in
 # mk/common.mk -- so winarun is the one Windows target we build with the
-# 32-bit toolchain. This lives here rather than in Makefile.local because
-# it is not a local choice: there is no 64-bit Glk.lib to link against.
+# 32-bit toolchain. Defaulting it here rather than in Makefile.local means
+# a clean checkout can build it at all; Makefile.local stays the place to
+# say whether it *should* be built, and to override any of this.
+#
+# Note the indirection. We are included after Makefile.local, so a
+# target-specific 'winarun: CC =' here would silently beat anything set
+# there -- and beat Makefile.Msys's plain 'CC = gcc' too, where the native
+# MinGW compiler has no prefix at all. Going through an ordinary '?='
+# variable keeps the override working from both.
+WINARUN_CC ?= $(MINGW32_PREFIX)-gcc
+WINARUN_WINDRES ?= $(MINGW32_PREFIX)-windres
+
 # Target-specific variables reach the prerequisites too, so the objects
 # and winarun.res are built with the same compiler and windres.
-winarun: CC = $(MINGW32_PREFIX)-gcc
-winarun: WINDRES = $(MINGW32_PREFIX)-windres
+winarun: CC = $(WINARUN_CC)
+winarun: WINDRES = $(WINARUN_WINDRES)
 winarun: CFLAGS += $(WINGLK_INCLUDE) $(WINGLK_DEFS) -mwindows -I$(WINICONV32_ROOT)
 winarun: LDFLAGS += -mwindows
 winarun: LDLIBS += -L$(WINICONV32_ROOT) -l:libwiniconv.a

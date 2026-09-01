@@ -19,3 +19,9 @@ LDLIBS += -liconv
 #
 CC = gcc
 WINDRES = windres
+
+# Native MinGW: no cross prefix, so winarun uses the same compiler as
+# everything else here. Must be these variables rather than 'winarun: CC',
+# which Makefile.win32 would override.
+WINARUN_CC = gcc
+WINARUN_WINDRES = windres
