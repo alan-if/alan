@@ -56,8 +56,20 @@ commit, one increment - and it restarts at each release, being a
 distance from a known point rather than a global serial. It replaces
 the Jenkins `BUILD_NUMBER`, which no longer exists.
 
-Deriving it needs the release tags, so a build from a checkout without
-them cannot tell a release from a development build. Rather than
+That restart is why `BUILDNAME`, which names the upload directory
+(`snapshots/$(BUILDNAME)`), carries the version and not just the count:
+
+    snapshots/3.0beta9-dev98        not  snapshots/dev98
+
+`Build<n>` was a global serial and could never repeat. `dev98` can, and
+would overwrite the previous cycle's. `BUILDNAME` is also defined
+unconditionally, so a build made on a release tag is
+`snapshots/3.0beta9` rather than the bare `snapshots/`.
+
+Deriving it needs the release tags. **A CI job must therefore fetch
+them** - Jenkins' git plugin does by default, but a shallow clone does
+not, and `actions/checkout` needs `fetch-depth: 0`. Without them a
+build cannot tell a release from a development build. Rather than
 quietly naming such a build as if it were a release, it is named
 `-devunknown`, matching the `unknown` that `mk/git-revision.sh` emits
 in the same situation. If a CI job produces that, its checkout is

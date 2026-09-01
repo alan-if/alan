@@ -37,7 +37,12 @@ VERSION := $(strip $(ALAN_VERSION)).$(strip $(ALAN_REVISION))$(or $(strip $(ALAN
 #
 #   BUILDNUMBER   the count alone, empty on a release tag
 #   BUILDVERSION  "-dev<count>", so it appends to $(VERSION)
-#   BUILDNAME     "dev<count>", for naming snapshot directories
+#   BUILDNAME     the full "3.0beta9-dev<count>", for naming snapshot
+#                 directories. It carries the version because the count
+#                 alone is unique only within a cycle -- once beta9 ships
+#                 the count restarts, and snapshots/dev5 of the next cycle
+#                 would land on top of this one's. The Jenkins Build<n> it
+#                 replaced was a global serial and had no such problem.
 #
 # On the release commit itself there is no count, all three are empty,
 # and packages are named plainly: alan-3.0beta9-linux.
@@ -52,7 +57,6 @@ ifeq ($(GIT_DESCRIBE),)
   # build, so say so, rather than quietly naming this as if it were a
   # release. Matches the "unknown" that mk/git-revision.sh emits.
   BUILDVERSION := -devunknown
-  BUILDNAME := devunknown
 else
   # 'v3.0beta8-98-g7142db50' -> '98', and nothing at all when describe
   # returned the bare tag, which is precisely the release case. The
@@ -61,9 +65,12 @@ else
   BUILDNUMBER := $(shell echo '$(GIT_DESCRIBE)' | sed -n 's/.*-\([0-9][0-9]*\)-g[0-9a-f]*$$/\1/p')
   ifneq ($(BUILDNUMBER),)
     BUILDVERSION := -dev$(BUILDNUMBER)
-    BUILDNAME := dev$(BUILDNUMBER)
   endif
 endif
+
+# Always non-empty, unlike BUILDNUMBER and BUILDVERSION, so that an upload
+# to snapshots/$(BUILDNAME) never lands in the snapshots root.
+BUILDNAME := $(VERSION)$(BUILDVERSION)
 
 ######################################################################
 #
