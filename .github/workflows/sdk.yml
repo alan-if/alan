@@ -64,8 +64,11 @@ jobs:
       - name: Package
         run: make package
 
-      # Name is alan-<version>-<os>-<arch>.tgz, e.g.
-      # alan-3.0beta8-linux-x86_64.tgz
+      # Name is alan-<version>[-dev<count>]-<os>-<arch>.tgz, e.g.
+      # alan-3.0beta9-dev98-linux-x86_64.tgz for a development build, and
+      # alan-3.0beta9-linux-x86_64.tgz when built from a release tag. The
+      # count needs the tags, which is what fetch-depth: 0 above is for --
+      # without them these would come out as "-devunknown".
       - name: Upload SDK package
         uses: actions/upload-artifact@v5
         with:
