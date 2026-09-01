@@ -75,8 +75,24 @@ ci:
 	# $(MAKE) -C interpreter gararun
 
 
+# A build whose tags were not fetched cannot tell a release from a
+# development build, and names itself "devunknown". Publishing that is
+# worse than not publishing: every such build overwrites the same
+# directory, and nothing in the package says which commit it came from.
+# Fail here instead, where the cause is one line away.
+.PHONY: upload-check
+upload-check:
+	@if echo "$(BUILDVERSION)" | grep -q devunknown ; then \
+	  echo "Refusing to upload $(VERSION)$(BUILDVERSION)." ; \
+	  echo "'git describe' found no release tag, so this build cannot be" ; \
+	  echo "identified. The checkout needs the tags: a shallow clone has" ; \
+	  echo "none, and Jenkins' 'Fetch tags' must be on -- it passes" ; \
+	  echo "--no-tags when off. See RELEASE.md." ; \
+	  exit 1 ; \
+	fi
+
 .PHONY: ci-upload
-ci-upload:
+ci-upload: upload-check
 	bin/alanupload $(PACKAGE) snapshots/$(BUILDNAME)
 	bin/alanupload $(CROSS_PACKAGE) snapshots/$(BUILDNAME)
 	bin/alanupload $(WINARUN_PACKAGE) snapshots/$(BUILDNAME)
