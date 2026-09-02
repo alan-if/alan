@@ -42,7 +42,14 @@ fi
 # past a failed put and reports success, so a misdirected upload leaves a green
 # build and no files -- which is how the webroots/www move went unnoticed. The
 # '-' on mkdir keeps an already-existing directory from tripping that.
-"${SFTP[@]}" -b - "alanif.se@ssh.alanif.se:$ALANIF_ROOT" <<EOF
+#
+# BatchMode has to be turned back off. '-b' makes sftp append '-obatchmode yes'
+# to its ssh arguments, which stops ssh ever prompting for a password -- and
+# sshpass works precisely by answering that prompt, so with SSHPASS set the
+# connection fails outright with "Permission denied (password,publickey)".
+# ssh uses the first value it is given for an option, and sftp appends its own
+# after ours, so this wins.
+"${SFTP[@]}" -o BatchMode=no -b - "alanif.se@ssh.alanif.se:$ALANIF_ROOT" <<EOF
 pwd
 -mkdir downloads/$2
 put "$1" "downloads/$2/$(basename "$1")"
