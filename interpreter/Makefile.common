@@ -37,7 +37,7 @@ $(ARUN_OBJECTS): $(ARUN_OBJDIR)/%.o: %.c
 
 arun$(EXEEXT): $(ARUN_OBJECTS)
 	$(LINK) $(LDFLAGS) -o $@$(EXEEXT) $(ARUN_OBJECTS) $(LDLIBS)
-	cp -f $@$(EXEEXT) ../bin/
+	$(INSTALL) $@$(EXEEXT) ../bin/
 
 
 #######################################################################
@@ -79,7 +79,7 @@ $(GLKARUN_OBJECTS): $(GLKARUN_OBJDIR)/%.o: %.c
 
 glkarun: $(GLKARUN_OBJECTS)
 	$(CC) $(LDFLAGS) -o $@ $(GLKARUN_OBJECTS) $(LDLIBS)
-	cp -f $@ ../bin/
+	$(INSTALL) $@ ../bin/
 
 
 #######################################################################
@@ -238,7 +238,7 @@ $(DUMPACD_OBJDIR)/spa.o: ../compiler/spa.c
 
 dumpacd: $(DUMPACD_OBJDIR) $(DUMPACDOBJECTS)
 	$(CC) $(LDFLAGS) -o dumpacd -ggdb $(DUMPACDOBJECTS)
-	cp $@ ../bin/
+	$(INSTALL) $@ ../bin/
 
 # Create all objdirs if necessary (at parse time)
 $(info $(shell mkdir -p $(OBJDIRS)))

@@ -64,7 +64,7 @@ $(A2A3_OBJECTS): $(A2A3_OBJDIR)/%.o: %.c
 
 a2a3: ../bin $(A2A3_OBJECTS)
 	$(LINK) -o $@$(EXEEXT) $(A2A3_OBJECTS)
-	cp $@$(EXEEXT) ../bin
+	$(INSTALL) $@$(EXEEXT) ../bin
 
 ../bin:
 	-mkdir ../bin

@@ -38,7 +38,7 @@ $(ALAN_OBJECTS): $(ALAN_OBJDIR)/%.o: %.c
 
 alan$(EXEEXT): $(ALAN_OBJECTS)
 	$(LINK) -o $@$(EXEEXT) $(ALAN_OBJECTS) $(LDLIBS)
-	cp $@$(EXEEXT) ../bin
+	$(INSTALL) $@$(EXEEXT) ../bin
 
 
 #######################################################################

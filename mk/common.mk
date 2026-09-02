@@ -154,6 +154,28 @@ CGREENLINKLIB ?= -L$(CGREENLIBDIR) -lcgreen -lm
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)
 
+# How to put a freshly linked binary into bin/. It has to unlink the
+# destination first, which is why this is not a plain 'cp'. On macOS the
+# kernel caches a binary's code signature per vnode, and 'cp' truncates
+# and rewrites in place, keeping the inode. The cached cs_mtime then
+# disagrees with the file's mtime, every page fault against the new
+# contents is rejected, and the copy in bin/ dies with SIGKILL the
+# moment it is run:
+#
+#   kernel: CODE SIGNING: process 62392[cmp]: rejecting invalid page at
+#   address 0x10541c000 from offset 0x0 in file ".../alan/bin/alan"
+#   (cs_mtime:1788270419.171389975 != mtime:1788351839.351350616)
+#
+# even though bin/alan is byte for byte the binary that just built and
+# runs fine in its own directory. That divergence is invisible until
+# something execs the copy, so it surfaces as the regression suites
+# failing wholesale with empty output. 'install' removes the
+# destination and creates a new file, so the new contents land on a new
+# inode carrying a signature the kernel has not cached. The linker
+# applies ad hoc signatures on Apple Silicon, so this affects every
+# native build there.
+INSTALL ?= install -c
+
 # Running inside Emacs? Ensure pretty output
 ifneq ($(INSIDE_EMACS),)
   JREGROUTPUT = -noansi
