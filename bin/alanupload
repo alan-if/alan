@@ -17,19 +17,33 @@ if [ $# != 2 ] ; then
 
     If SSHPASS is not set, it will use sfp assuming you have set up your credentials
     as described above.
+
+    ALANIF_ROOT overrides where the website lives relative to the sftp login
+    directory. See below.
 EOF
   exit 1
 fi
+
+# One.com's 2026 hosting restructuring moved sites down into webroots/www, so
+# the login directory is no longer the website root -- uploads went on
+# succeeding at connect and then failing at "dest open ... No such file or
+# directory". Connecting straight into the site root keeps every path below
+# relative to the website, matching what the download URLs look like.
+: "${ALANIF_ROOT:=webroots/www}"
+
 if [ "$SSHPASS" != "" ] ; then
-   sshpass -e sftp alanif.se@ssh.alanif.se <<EOF
-pwd
-mkdir downloads/$2
-put $1 "downloads/$2/`basename $1`"
-EOF
+    SFTP=(sshpass -e sftp)
 else
-    sftp alanif.se@ssh.alanif.se <<EOF
-pwd
-mkdir downloads/$2
-put $1 "downloads/$2/`basename $1`"
-EOF
+    SFTP=(sftp)
 fi
+
+# '-b -' reads these commands from stdin the way the old heredoc did, but also
+# aborts on a failed command and exits non-zero. Without it sftp walks straight
+# past a failed put and reports success, so a misdirected upload leaves a green
+# build and no files -- which is how the webroots/www move went unnoticed. The
+# '-' on mkdir keeps an already-existing directory from tripping that.
+"${SFTP[@]}" -b - "alanif.se@ssh.alanif.se:$ALANIF_ROOT" <<EOF
+pwd
+-mkdir downloads/$2
+put "$1" "downloads/$2/$(basename "$1")"
+EOF
