@@ -1,4 +1,4 @@
-# Jenkins Docker "Attach" agent — Ubuntu 24.04 + Java 17 + x86_64 MinGW-w64 + GNU libiconv
+# Jenkins Docker "Attach" agent — Ubuntu 24.04 + Java 21 + x86_64 MinGW-w64 + GNU libiconv
 FROM ubuntu:24.04
 
 LABEL maintainer="Thomas Nilefalk <thomas@alanif.se>"
@@ -12,12 +12,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # TZ
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ >/etc/timezone
 
-# Base: Java 17, git/ssh, buildchain, MinGW-w64 64/32-bit + dev, NSIS, Cgreen,
+# Base: Java 21, git/ssh, buildchain, MinGW-w64 64/32-bit + dev, NSIS, Cgreen,
 # sshpass (bin/alanupload uses it when SSHPASS is set), tools for libiconv-build
 RUN apt-get update && apt-get -y upgrade && \
     apt-get install -y --no-install-recommends \
       ca-certificates curl wget unzip xz-utils \
-      openjdk-17-jre-headless \
+      openjdk-21-jre-headless \
       git openssh-client \
       build-essential make cmake pkg-config gcc g++ cgreen1 \
       gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 binutils-mingw-w64-x86-64 \
@@ -31,25 +31,13 @@ RUN apt-get update && apt-get -y upgrade && \
 RUN update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix && \
     update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
 
-# Build and install GNU libiconv 1.18 for x86_64-w64-mingw32
-#RUN set -eux; \
-#    mkdir -p /tmp/libiconv && cd /tmp/libiconv && \
-#    wget -q https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.18.tar.gz && \
-#    tar xf libiconv-1.18.tar.gz && cd libiconv-1.18 && \
-#    CC=x86_64-w64-mingw32-gcc AR=x86_64-w64-mingw32-ar RANLIB=x86_64-w64-mingw32-ranlib \
-#      ./configure --host=x86_64-w64-mingw32 --build="$(gcc -dumpmachine)" \
-#                  --prefix=/usr/local/x86_64-w64-mingw32 && \
-#    make -j"$(nproc)" && make install && \
-#    cd / && rm -rf /tmp/libiconv
-
-# Prefix for iconv
-#ENV ICONV_ROOT=/usr/local/x86_64-w64-mingw32
-
 # win-iconv, once per architecture. Two builds are needed because both
 # produce a libwiniconv.a and the makefiles ask for it by name, so they
 # cannot share a directory. The 64-bit one serves the SDK cross build;
 # the 32-bit one serves winarun, which is 32-bit because WindowsGlk is.
 # Each directory keeps its headers, since -I<root> is how iconv.h is found.
+#
+# Could possibly be replaced by win-iconv-mingw-w64/32-dev...
 RUN cd /tmp && \
     git clone https://github.com/win-iconv/win-iconv.git && \
     cp -r win-iconv win-iconv-i686 && \
