@@ -20,9 +20,11 @@ if [ -z "$output" ] ; then
 fi
 
 # Release tags are dotted, as in v3.0beta8. Matching only those keeps the
-# Jenkins Build<n> tags, the older underscored v3_0* spelling, the whole v2
-# range and structural markers such as v3_base out of the running, so the
-# revision is always anchored to an actual release.
+# older underscored v3_0* spelling, the whole v2 range and structural
+# markers such as v3_base out of the running, so the revision is always
+# anchored to an actual release. (The Jenkins Build<n> tags were the other
+# reason for this; they were deleted in 2026-09, but the legacy release
+# tags remain and still need excluding.)
 #
 # --tags     also consider lightweight tags, not just annotated ones. Release
 #            tags here are lightweight, so without this the recent ones are

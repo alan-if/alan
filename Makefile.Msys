@@ -9,5 +9,3 @@ PLATFORM = windows-x86_64
 # Location of Inno Setup Compiler
 INNODIR = /c/Program\ Files\ \(x86\)/Inno\ Setup\ 5
 
-# To get buildnumber remotely from Jenkins
-XPATH = xpath -q -e

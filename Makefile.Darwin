@@ -16,7 +16,6 @@ PACKAGE = $(PACKAGENAME).tgz
 
 # There is no libxml-xpath-perl on Darwin so we need to use XML::XPath
 # which does not allow switches (-q -e)
-XPATH = xpath
 
 
 ######################################################################

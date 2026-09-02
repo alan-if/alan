@@ -96,10 +96,10 @@ which reads correctly as "3.0beta10 in development, so many commits
 past the v3.0beta9 tag".
 
 Release tags are lightweight and use the dotted spelling, `v3.0beta8`.
-Both matter: `mk/git-revision.sh` matches `v[0-9]*.[0-9]*`, so the
-older underscored spelling and the Jenkins `Build<n>` tags are not
-candidates, and it passes `--tags`, without which lightweight tags are
-invisible to `git describe`.
+Both matter: `mk/git-revision.sh` matches `v[0-9]*.[0-9]*`, so the older
+underscored spelling and the rest of the legacy tags -- `v2_base`,
+`v261`, `v3_start` -- are not candidates, and it passes `--tags`,
+without which lightweight tags are invisible to `git describe`.
 
 ## The Alan Release job
 

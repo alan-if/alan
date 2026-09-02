@@ -11,8 +11,6 @@ PLATFORM = windows-x86_64
 # Location of Inno Setup Compiler
 INNODIR = /cygdrive/c/Program\ Files\ \(x86\)/Inno\ Setup\ 6
 
-# To get buildnumber remotely from Jenkins
-XPATH = xpath -q -e
 
 # Also build documentation
 EXTRA_TARGET += documentation

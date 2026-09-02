@@ -9,7 +9,6 @@ PLATFORM = linux-$(shell uname -m)
 
 PACKAGE = $(PACKAGENAME).tgz
 
-XPATH := xpath -q -e
 
 
 # We need to define how to package on Linux
