@@ -41,7 +41,7 @@ IfidNode *newIfid(Srcp srcp, char *name, char *value)
 
 
 /*======================================================================*/
-static void fillRandomBytes(char buffer[], int nbytes)
+static void fillRandomBytes(unsigned char buffer[], int nbytes)
 {
     static int initted = 0;
     struct timeval times;
@@ -64,7 +64,20 @@ static void fillRandomBytes(char buffer[], int nbytes)
 /*======================================================================*/
 static char *randomUUID(void)
 {
-    char buffer[16];
+    /* Unsigned matters. The compiler is built without -funsigned-char, so a
+       plain char here is signed, and every random byte from 0x80 up became
+       negative. "%2.2x" then promoted it to int and printed eight digits --
+       "ffffff80" instead of "80" -- while s advanced by only two, so each
+       high byte overwrote its successors and left a string whose length
+       depended on how many bytes happened to be >= 0x80.
+
+       That is the "one byte offset" in the debug/trace regression: the IFID
+       goes into the acode string table, so a shorter or longer one moved
+       every instruction address after it, and the recorded trace no longer
+       matched. It looked flaky because it depended on rand(), and it looked
+       fixed by re-running because readOrCreateIFID keeps the first *valid*
+       UUID in the .ifid file and reuses it from then on. */
+    unsigned char buffer[16];
     int b, s;
     static char string[100];	/* 32 hexdigits, 4 dashes, 9 "UUID:////"
                                    00112233-4455-6677-8899-aabbccddeeff */
