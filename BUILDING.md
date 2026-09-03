@@ -52,6 +52,35 @@ will normally detect this and first build and run all unittests.
 As a last step a large number of tests are run, which requires a working
 Java RTE.
 
+## Running The Test Suites By Hand
+
+The suites are driven by `jregr`, which reads a `.jregr` file in each
+directory to find out what a test case is and how to run it. In
+`regression` that file says
+
+    .alan : alan $1
+    .a3c : arun -r -n $1 < $1.input
+
+Note that `alan` and `arun` are unqualified. `jregr` does not search the
+directory it is testing, so it has to be told where the executables are
+with `-bin`, which is what the Makefiles do:
+
+    bin/jregr -bin bin -dir regression          # interpreter suite
+    cd compiler; ../bin/jregr -bin . -dir testing   # compiler suite
+
+Running a bare `jregr` inside `regression` cannot work. Without `-bin`
+the commands are not found, every case is reported `Fatal`, and the
+`.output` files are left holding nothing but their header line - `jregr`
+does not say which command it failed to run. The alternative is to put
+`bin` on your `PATH`.
+
+A single case can be run by naming it:
+
+    bin/jregr -bin bin -dir regression 99bottles.alan
+
+`jregr` itself is a Java program; the jar is committed as `bin/jregr.jar`
+and is not built as part of this tree. Its sources live separately.
+
 ## Enabling Extra Targets
 
 On some platforms/OSes you can enable extra targets. Extra targets are
