@@ -6,6 +6,14 @@
 #
 # Also this version explicitly set encoding to iso-8859-1, YMVV
 #
+# This is a copy of the wrapper published with Jregr itself
+# (github.com/thoni56/jregr, shipped as the 'jregr' asset of a release),
+# with two additions belonging to this repository rather than to Jregr:
+# the java check just below, so that 'make' on a machine without java
+# warns and skips the suites instead of failing, and the jar fetch further
+# down. Everything else is upstream's, so diff against the released
+# wrapper before changing it - the two have drifted apart before.
+#
 if ! command -v java &> /dev/null
 then
     echo "WARNING! No java found. Cannot run regression tests."
@@ -53,5 +61,5 @@ if [[ "$uname" == *[Cc]ygwin* ]]; then
 else
   d=$d/;
 fi
-java -jar -Dfile.encoding=iso-8859-1 "$d"jregr.jar $@
+java -jar -Dfile.encoding=iso-8859-1 "$d"jregr.jar "$@"
 exit
