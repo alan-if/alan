@@ -78,8 +78,11 @@ A single case can be run by naming it:
 
     bin/jregr -bin bin -dir regression 99bottles.alan
 
-`jregr` itself is a Java program; the jar is committed as `bin/jregr.jar`
-and is not built as part of this tree. Its sources live separately.
+`jregr` itself is a Java program and is not built as part of this tree;
+its sources live separately. The jar is not in this repository either -
+the first time `bin/jregr` is run without a `bin/jregr.jar` next to it,
+it downloads one from the Jregr releases and keeps it. Delete
+`bin/jregr.jar` to make it fetch again.
 
 ## Enabling Extra Targets
 

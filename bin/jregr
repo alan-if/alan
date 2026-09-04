@@ -21,6 +21,32 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 d="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+# The jar is not kept in this repository. It is a release artefact of the
+# separate Jregr project, so fetch it on first use and leave it there. A
+# missing jar is treated like a missing java above: warn and skip rather
+# than fail, since a machine that cannot reach GitHub could not have run
+# the suites anyway.
+if [ ! -f "$d/jregr.jar" ]; then
+  url=https://github.com/thoni56/jregr/releases/latest/download/jregr.jar
+  echo "No jregr.jar in $d, fetching the latest release from $url"
+  # Downloaded to a temporary name first so that an interrupted or failed
+  # transfer cannot leave a truncated jar that later runs would trust.
+  fetched=no
+  if command -v curl &> /dev/null; then
+    curl -fsSL -o "$d/jregr.jar.tmp" "$url" && fetched=yes
+  elif command -v wget &> /dev/null; then
+    wget -q -O "$d/jregr.jar.tmp" "$url" && fetched=yes
+  else
+    echo "WARNING! Neither curl nor wget found, so jregr.jar cannot be fetched."
+  fi
+  if [ $fetched != yes ]; then
+    rm -f "$d/jregr.jar.tmp"
+    echo "WARNING! No jregr.jar. Cannot run regression tests."
+    exit
+  fi
+  mv "$d/jregr.jar.tmp" "$d/jregr.jar"
+fi
+
 uname=`uname -a`
 if [[ "$uname" == *[Cc]ygwin* ]]; then
   d=`cygpath -d "$d"`\\;
