@@ -9,15 +9,16 @@
 # This is a copy of the wrapper published with Jregr itself
 # (github.com/thoni56/jregr, shipped as the 'jregr' asset of a release),
 # with two additions belonging to this repository rather than to Jregr:
-# the java check just below, so that 'make' on a machine without java
-# warns and skips the suites instead of failing, and the jar fetch further
-# down. Everything else is upstream's, so diff against the released
-# wrapper before changing it - the two have drifted apart before.
+# the java check just below and the jar fetch further down. Both fail
+# rather than skip; see the comment on the fetch. Everything else is
+# upstream's, so diff against the released wrapper before changing it -
+# the two have drifted apart before.
 #
 if ! command -v java &> /dev/null
 then
-    echo "WARNING! No java found. Cannot run regression tests."
-    exit
+    echo "ERROR! No java found, so no regression tests were run." >&2
+    echo "       Use 'make build' to build without running any tests." >&2
+    exit 1
 fi
 
 # Get path to the script since that is where the jar should also be
@@ -32,13 +33,12 @@ d="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 # The jar is not kept in this repository. It is a release artefact of the
 # separate Jregr project, so fetch it on first use and leave it there.
 #
-# A jar that cannot be fetched is an error, not a skip like the missing java
-# above. That check is about a machine that was never going to run the
-# suites; this one is about a machine that should have, and did not. The
-# makefiles run this script as a plain recipe line, so exiting 0 here would
-# make 'make test' and 'make ci' report success for a run in which not one
-# case executed - the same silent green a network hiccup on a CI runner
-# would produce.
+# A jar that cannot be fetched is an error, like the missing java above.
+# The makefiles run this script as a plain recipe line, so exiting 0 here
+# would make 'make test' and 'make ci' report success for a run in which
+# not one case executed - which is what a network hiccup on a CI runner
+# would otherwise produce. Nobody needs any of this to build: that is
+# what 'make build' is for.
 if [ ! -f "$d/jregr.jar" ]; then
   url=https://github.com/thoni56/jregr/releases/latest/download/jregr.jar
   echo "No jregr.jar in $d, fetching the latest release from $url"
@@ -55,8 +55,9 @@ if [ ! -f "$d/jregr.jar" ]; then
   if [ $fetched != yes ]; then
     rm -f "$d/jregr.jar.tmp"
     echo "ERROR! No jregr.jar in $d and it could not be fetched, so no" >&2
-    echo "regression tests were run. Put a jregr.jar there by hand to" >&2
-    echo "run them without network access." >&2
+    echo "       regression tests were run. Use 'make build' to build" >&2
+    echo "       without running any tests, or put a jregr.jar there by" >&2
+    echo "       hand to run them without network access." >&2
     exit 1
   fi
   mv "$d/jregr.jar.tmp" "$d/jregr.jar"

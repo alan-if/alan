@@ -89,7 +89,7 @@ unittests: isolated_unittests
 .PHONY: unit
 ifeq ($(CGREEN),)
 unit:
-	echo "No unit tests run, cgreen not available"
+	@$(call NO_TEST_TOOL,Cgreen,unit tests)
 else
 unit: unittests
 endif

@@ -30,8 +30,10 @@ just clone and 'make' on the following platform:
 - Linux, most flavours including WSL (Windows Subsystem for Linux)
 - MacOS/Darwin, both native and with Homebrew GCC
 
-To run unittests you need Cgreen, and to run all the regression tests
-you need a Java runtime.
+A plain 'make' also runs every test, so it needs Cgreen for the unit
+tests and a Java runtime for the regression suites, and it stops with an
+error if either is missing rather than skipping the tests silently. If
+you only want the binaries, 'make build' builds them and needs neither.
 
 ## What's in the box?
 

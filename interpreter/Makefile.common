@@ -125,7 +125,7 @@ unit: CFLAGS += -DUNITTESTING
 .PHONY: unit
 ifeq ($(CGREEN),)
 unit:
-	@echo "No unit tests run, Cgreen not available"
+	@$(call NO_TEST_TOOL,Cgreen,unit tests)
 else
 unit: linked_unittests isolated_unittests
 

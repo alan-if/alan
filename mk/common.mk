@@ -150,6 +150,21 @@ CGREENROOT ?= /usr/local
 CGREENLIBDIR ?= $(CGREENROOT)/lib
 CGREENLINKLIB ?= -L$(CGREENLIBDIR) -lcgreen -lm
 
+# What to say when a tool the tests need is not installed. It is an error,
+# not a skip. 'make', 'make test' and 'make ci' all run the suites, so
+# keeping quiet here reports success for a run in which nothing was tested,
+# and the person who sees "all tests passed" is the one least able to tell
+# that none of them ran.
+#
+# Nobody has to install anything to get the binaries: that is what
+# 'make build' is for, and the message says so, so the way out is learned
+# from the error rather than from reading a makefile.
+#
+# $(1) names the missing tool, $(2) what did not run because of it.
+NO_TEST_TOOL = echo "ERROR! $(1) is not available, so no $(2) were run." >&2; \
+	       echo "       Use 'make build' to build without running any tests." >&2; \
+	       exit 1
+
 # Shorthands
 COMPILE = $(CC) $(CFLAGS)
 LINK = $(CC) $(LDFLAGS)

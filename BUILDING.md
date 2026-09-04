@@ -43,14 +43,31 @@ By just doing
     make
 
 you should see a successful build of commmand line versions of the
-compiler and interpreter.
+compiler and interpreter, followed by all unit tests and then a large
+number of regression tests.
 
-If you have the unittest framework Cgreen
-[Cgreen](https://github.com/cgreen-devs/cgreen) installed, the Makefiles
-will normally detect this and first build and run all unittests.
+That full build needs three things over and above a C compiler: the unit
+test framework [Cgreen](https://github.com/cgreen-devs/cgreen), a working
+Java RTE to run `jregr`, and - the first time only - network access, to
+fetch `jregr.jar`. If one of them is missing the build stops and names it.
+It does not quietly skip the tests it cannot run: a build that reports
+success without having tested anything is worse than one that fails,
+because the person who most needs to know is the one least able to tell.
 
-As a last step a large number of tests are run, which requires a working
-Java RTE.
+## Building Without The Test Tooling
+
+If you only want the binaries, none of that is required:
+
+    make build
+
+builds the compiler, the interpreter and the converter, and does nothing
+else. It needs a C compiler and `make`, and neither Cgreen, Java nor a
+network. The same works one directory down, so
+
+    make -C interpreter build
+
+builds just the interpreter. This is also what the error messages above
+point you at.
 
 ## Running The Test Suites By Hand
 
@@ -84,10 +101,10 @@ the first time `bin/jregr` is run without a `bin/jregr.jar` next to it,
 it downloads one from the Jregr releases and keeps it. Delete
 `bin/jregr.jar` to make it fetch again.
 
-So the first build in a fresh checkout needs network. If the jar cannot
-be fetched `jregr` fails rather than skipping, so that a build without
-network cannot report success for tests that never ran. To run the
-suites offline, put a `jregr.jar` in `bin/` by hand first.
+So the first build in a fresh checkout needs network, and a failed fetch
+is an error rather than a skip, for the reason given above. To run the
+suites offline, put a `jregr.jar` in `bin/` by hand first, or build with
+`make build` and leave the tests for later.
 
 ## Enabling Extra Targets
 
