@@ -84,6 +84,11 @@ the first time `bin/jregr` is run without a `bin/jregr.jar` next to it,
 it downloads one from the Jregr releases and keeps it. Delete
 `bin/jregr.jar` to make it fetch again.
 
+So the first build in a fresh checkout needs network. If the jar cannot
+be fetched `jregr` fails rather than skipping, so that a build without
+network cannot report success for tests that never ran. To run the
+suites offline, put a `jregr.jar` in `bin/` by hand first.
+
 ## Enabling Extra Targets
 
 On some platforms/OSes you can enable extra targets. Extra targets are
