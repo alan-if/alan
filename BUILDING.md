@@ -103,6 +103,14 @@ the first time `bin/jregr` is run without a `bin/jregr.jar` next to it,
 it downloads one from the Jregr releases and keeps it. Delete
 `bin/jregr.jar` to make it fetch again.
 
+**Jregr 0.2.8 or later is required.** From that release it states its own
+character encoding, which is why the wrapper no longer passes
+`-Dfile.encoding`. An older jar left over next to `bin/jregr` will fail
+the handful of cases with accented characters in them - `accented-e`,
+`isochars`, `germanletters` and friends - which reads as a compiler fault
+and is not one. Nothing checks the version, so if those cases fail, delete
+`bin/jregr.jar` and let it fetch a current one.
+
 So the first build in a fresh checkout needs network, and a failed fetch
 is an error rather than a skip, for the reason given above. To run the
 suites offline, put a `jregr.jar` in `bin/` by hand first, or build with

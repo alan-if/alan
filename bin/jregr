@@ -4,8 +4,6 @@
 # arguments depending on platform. It assumes that the jar is in the
 # same directory as this file
 #
-# Also this version explicitly set encoding to iso-8859-1, YMVV
-#
 # This is a copy of the wrapper published with Jregr itself
 # (github.com/thoni56/jregr, shipped as the 'jregr' asset of a release),
 # with two additions belonging to this repository rather than to Jregr:
@@ -69,5 +67,5 @@ if [[ "$uname" == *[Cc]ygwin* ]]; then
 else
   d=$d/;
 fi
-java -jar -Dfile.encoding=iso-8859-1 "$d"jregr.jar "$@"
+java -jar "$d"jregr.jar "$@"
 exit
