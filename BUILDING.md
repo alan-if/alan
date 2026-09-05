@@ -86,10 +86,12 @@ with `-bin`, which is what the Makefiles do:
     cd compiler; ../bin/jregr -bin . -dir testing   # compiler suite
 
 Running a bare `jregr` inside `regression` cannot work. Without `-bin`
-the commands are not found, every case is reported `Fatal`, and the
-`.output` files are left holding nothing but their header line - `jregr`
-does not say which command it failed to run. The alternative is to put
-`bin` on your `PATH`.
+the commands are not found and every case is reported `Fatal`, but the
+`.output` file of each says why, naming the command it could not run:
+
+    Cannot run program "alan" (in directory "."): Exec failed, error: 2 (No such file or directory)
+
+The alternative is to put `bin` on your `PATH`.
 
 A single case can be run by naming it:
 
