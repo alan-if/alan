@@ -585,8 +585,13 @@ static LMBOOL getsrc(
     /* Don't tell about the EOF yet! */
     tmpeof = (fgets(oline, SRCWIDTH, src[srclev].file) == 0);
       } while (!tmpeof && oline[strlen(oline)-1] != '\n');
-    else
+    else {
       sline[strlen(sline)-1] = '\0';
+      /* A source read in binary mode, or on a system where fopen() does not
+         translate line endings, leaves the CR of a CRLF behind */
+      if (sline[0] != '\0' && sline[strlen(sline)-1] == '\r')
+        sline[strlen(sline)-1] = '\0';
+    }
   } else
     sline[0] = '\0';        /* No more input */
   return(eof);
