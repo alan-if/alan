@@ -517,4 +517,4 @@ int scannedLines(void)
 
 %%SKIP
 
-  blanks = [ \n\t]+;
+  blanks = [ \r\n\t\x0d]+;
