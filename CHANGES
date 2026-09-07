@@ -1,3 +1,8 @@
+Changes in V3.0beta9:
+- BUGFIX: A blank line, or any line shorter than four characters, just before the terminating line of a block comment made that line invisible, so the comment ran on to the end of the file. A block comment terminated on the last line of a file with no final newline was also reported as unterminated.
+- BUGFIX: In a source with CRLF line endings an 'import' with its file name on the following line failed with "File name missing for import or $INCLUDE directive". The same source with LF line endings compiled without complaint.
+- BUGFIX: Source lines echoed in compiler listings of a source with CRLF line endings kept a stray carriage return at the end of the line.
+
 Changes in V3.0beta8:
 - FEATURE: UTF-8 encoding is now supported for source, solution and transcript files. This extends support for non-English languages. The new compiler option `-encoding` will make the compiler assume that the source code is encoded with UTF-8. In addition, import files that have a UTF-8 BOM marker will always be read using UTF-8 encoding, irrespective of any options. The interpreter switch `-u` will indicate that input and output in the terminal, command logs, transcript files and solution files, is performed using UTF-8 encoding (which is the default on Linux and becoming more common). See Appendix C in The Alan Language Manual for details.
 - FEATURE (language): Block comments. See chapter 4, Lexical Definitions in the Alan Language Manual
