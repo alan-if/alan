@@ -408,6 +408,7 @@ int scannedLines(void)
     %%
        int i;
        int c;
+       bool terminated = false;
        Srcp srcp = smToken->srcp;
 
        srcp.line=smThis->smNextLine;
@@ -416,50 +417,50 @@ int scannedLines(void)
               lmlog(&srcp, 156, sevERR, "");
 
        /* We are reading files in binary mode so take care for CRLF:s */
+
+       /* The rest of the line starting the comment is ignored, skip it */
        do {
-          // Skip rest of line
+           i = smScSkip(smThis, 1);
+           c = smThis->smText[smThis->smLength-1];
+       } while (i > 0 && c != '\n'); // not end-of-file (actually read a character = 1) and not newline
+
+       /* Then look at each following line to see if it ends the comment */
+       while (!terminated && i > 0) {
+          int slashes = 0;
+
+          // Count the slashes starting this line
           do {
               i = smScSkip(smThis, 1);
               c = smThis->smText[smThis->smLength-1];
-          } while (c != '\n' && i != 0); // not newline and not end-of-file (actually read a character = 1)
-          if (i == 0) {
-              // end-of-file!
-              lmlog(&srcp, 155, sevERR, "");
-              break;
-          }
+              if (i > 0 && c == '/')
+                  slashes++;
+          } while (i > 0 && c == '/');
 
-          // Did next line start with four forward slashes
-          for (int n=0; n<4; n++) {
-              i = smScSkip(smThis, 1);
-              c = smThis->smText[smThis->smLength-1];
-              if (c != '/')
-                 break;
-          }
-
-          // Was the last from the previous loop a slash then we had four of them
-          if (c == '/') {
-              // if the rest was also slashes, this was the last line of the block comment
-              do {
-                  i = smScSkip(smThis, 1);
-                  c = smThis->smText[smThis->smLength-1];
-              } while (c == '/' && i != 0);
-              if (c != '\n' && c != '\r')
-                  // we found something else on this line, so ...
-                  continue;
+          // Four or more slashes and nothing else on the line ends the comment
+          if (slashes >= 4) {
+              if (i == 0)
+                  // End-of-file directly after the slashes, that's a line too
+                  terminated = true;
               else {
                   if (c == '\r') { /* A CR so look for LF */
                       i = smScSkip(smThis, 1);
                       c = smThis->smText[smThis->smLength-1];
-                      if (c != '\n')  /* Followed by newline? */
-                          /* If not that was a spurrious CR, so ... */
-                          continue;
                   }
-                  // end-of-line and only slashes. Done!
-                  break;         
+                  if (c == '\n')
+                      // End-of-line and only slashes. Done!
+                      terminated = true;
               }
-          } else
-              continue;
-       } while (1);
+          }
+
+          // If it wasn't, skip the rest of the line, unless we are already at its end
+          while (!terminated && i > 0 && c != '\n') {
+              i = smScSkip(smThis, 1);
+              c = smThis->smText[smThis->smLength-1];
+          }
+       }
+
+       if (!terminated)
+          lmlog(&srcp, 155, sevERR, "");
     %%;
 
   include = '$include'
