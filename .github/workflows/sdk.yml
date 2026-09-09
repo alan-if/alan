@@ -87,6 +87,17 @@ jobs:
       - name: Build and test
         run: make
 
+      # Jregr writes every case's actual output to <case>.output and deletes it
+      # again when the case passes, so what is left is exactly what failed. No
+      # .output file is tracked, so anything found here belongs to this run.
+      - name: Show what the failing cases produced
+        if: failure()
+        run: |
+          find . -name '*.output' | while read -r out; do
+            echo "=== $out"
+            diff "${out%.output}.expected" "$out" || true
+          done
+
       - name: Package
         run: make package
 
