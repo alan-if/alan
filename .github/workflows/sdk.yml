@@ -56,6 +56,26 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      # The unit tests need Cgreen, and a missing one is an error rather than a
+      # skip, so without this the default target below fails outright.
+      - name: Install Cgreen
+        if: runner.os == 'Linux'
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends cgreen1 libcgreen1-dev
+
+      # Homebrew is under /opt/homebrew on Apple Silicon, so neither the
+      # default CGREENROOT nor the default header search path finds it.
+      - name: Install Cgreen
+        if: runner.os == 'macOS'
+        run: |
+          brew install cgreen
+          prefix="$(brew --prefix)"
+          echo "CGREENROOT=$prefix" >> "$GITHUB_ENV"
+          echo "CPATH=$prefix/include" >> "$GITHUB_ENV"
+
       # The default target builds *and* runs the full test suite. Tests that are
       # marked suspended do not fail it.
       - name: Build and test
