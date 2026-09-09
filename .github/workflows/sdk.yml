@@ -67,7 +67,9 @@ jobs:
           sudo apt-get install -y --no-install-recommends cgreen1 libcgreen1-dev
 
       # There is no Cgreen formula in Homebrew, so build it. It takes about
-      # half a minute, and /usr/local is where CGREENROOT looks by default.
+      # half a minute, and /usr/local is where CGREENROOT looks for the library
+      # by default. CPATH is needed on top of that: clang on macOS does not
+      # search /usr/local/include, and only the library path is a make variable.
       - name: Install Cgreen
         if: runner.os == 'macOS'
         run: |
@@ -76,6 +78,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
           cmake --build /tmp/cgreen/build --parallel
           sudo cmake --install /tmp/cgreen/build
+          echo "CPATH=/usr/local/include" >> "$GITHUB_ENV"
 
       # The default target builds *and* runs the full test suite. Tests that are
       # marked suspended do not fail it.
