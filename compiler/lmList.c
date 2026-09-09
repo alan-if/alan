@@ -1446,7 +1446,7 @@ void lmLiInit(
 
    lmLog()
 
-   Log an error message, insert strings separatated using %(lmkPrefix)separator
+   Log an error message, insert strings separated using %(lmkPrefix)separator
 
  */
 void lmLog(
@@ -1801,7 +1801,7 @@ void lmList(
 
   lmLiPrint()
 
-  Print one supplimentary line in the output file.
+  Print one supplementary line in the output file.
 
   */
 void lmLiPrint(

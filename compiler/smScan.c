@@ -982,7 +982,7 @@ static void smRewindSourcePosition(
 /*
  * int smReadBuffer(SMContext smThis)
  *
- * SmThis function reads charcters using the reader into the buffer in a
+ * SmThis function reads characters using the reader into the buffer in a
  * context. The buffer is enlarged if the current buffer is full
  * (smEnd-smText==smSize) or reduced if current buffer is larger than
  * the standard buffer size and the token may fit the standard buffer

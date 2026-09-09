@@ -3277,7 +3277,7 @@ UByte2 *newstat		/* OUT state after recovery */
  * - insertion
  * - deletion
  * - replacement
- * is concidered. The cost of the repair is the sum of the ADAPTION cost and
+ * is considered. The cost of the repair is the sum of the ADAPTION cost and
  * the MODIFICATION cost. The adaption cost indicates how well a correction
  * fits in the context. The modification cost is based on the
  * insertion/deletion cost given in the input. A correction is applied if
@@ -3472,7 +3472,7 @@ short *choice			/* OUT best choice so far */
 
 
 /*----------------------------------------------------------------------------
- * tryRep - Tries to replace currrent symbol with a new terminal:
+ * tryRep - Tries to replace current symbol with a new terminal:
  *      x t y  => x s y, where s becomes current symbol
  *----------------------------------------------------------------------------
  */
@@ -3488,7 +3488,7 @@ short *choice			/* OUT best choice so far */
     short i;
     short mod_cost;		/* Modification cost */
     short ad_cost;		/* Adaption cost */
-    short tot_cost;		/* Total replacment cost */
+    short tot_cost;		/* Total replacement cost */
 
     for (i = 1; i <= Terms; i++) {
     /* For all legal symbols
