@@ -66,19 +66,21 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends cgreen1 libcgreen1-dev
 
-      # There is no Cgreen formula in Homebrew, so build it. It takes about
-      # half a minute, and /usr/local is where CGREENROOT looks for the library
-      # by default. CPATH is needed on top of that: clang on macOS does not
-      # search /usr/local/include, and only the library path is a make variable.
+      # There is no Cgreen formula in Homebrew, so build it; it takes about half
+      # a minute. Where it lands is Cgreen's decision, not ours: its CMakeLists
+      # overrides CMAKE_INSTALL_PREFIX with `brew --prefix` whenever Homebrew is
+      # present, which on Apple Silicon is /opt/homebrew. Hence CGREENROOT for
+      # the library, and CPATH because clang searches neither prefix for headers.
       - name: Install Cgreen
         if: runner.os == 'macOS'
         run: |
           git clone --depth 1 --branch 1.7.0 https://github.com/cgreen-devs/cgreen /tmp/cgreen
-          cmake -S /tmp/cgreen -B /tmp/cgreen/build \
-            -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
+          cmake -S /tmp/cgreen -B /tmp/cgreen/build -DCMAKE_BUILD_TYPE=Release
           cmake --build /tmp/cgreen/build --parallel
           sudo cmake --install /tmp/cgreen/build
-          echo "CPATH=/usr/local/include" >> "$GITHUB_ENV"
+          prefix="$(brew --prefix)"
+          echo "CGREENROOT=$prefix" >> "$GITHUB_ENV"
+          echo "CPATH=$prefix/include" >> "$GITHUB_ENV"
 
       # The default target builds *and* runs the full test suite. Tests that are
       # marked suspended do not fail it.
