@@ -63,16 +63,24 @@ NSI_PRODUCT_VERSION = $(strip $(ALAN_VERSION)).$(strip $(ALAN_REVISION)).$(strip
 # Create setup installers for SDK and WinArun using NullSoft Installer NSIS
 # Script to replace "variables" in the .nsi files with actual values:
 # (':' instead of customary '/' because of path names in expanded variables)
-NSI_SED = -e 's:<WINGLK_ROOT>:$(WINGLK_ROOT):g' -e 's/<BUILD>/$(VERSION)$(BUILDVERSION)/g' -e 's/<PLATFORM>/$(PLATFORM)/g' -e 's/<PRODUCT_VERSION>/$(NSI_PRODUCT_VERSION)/g'
+NSI_SED = -e 's:<WINGLK_ROOT>:$(WINGLK_ROOT):g' -e 's/<BUILD>/$(VERSION)$(BUILDVERSION)/g' -e 's/<PRODUCT_VERSION>/$(NSI_PRODUCT_VERSION)/g'
 
-WINARUN_PACKAGE = winarun-$(VERSION)$(BUILDVERSION)-windows-x86_64.setup.exe
-WINALAN_PACKAGE = alan-$(VERSION)$(BUILDVERSION)-windows-x86_64.setup.exe
+# The two installers are not for the same architecture, so <PLATFORM> is
+# substituted per installer rather than once for both. WindowsGlk is i386
+# only, so winarun.exe is built with the 32-bit toolchain and an installer
+# carrying nothing else cannot call itself x86_64. The system installer keeps
+# that name: winalan.exe is 64-bit, and the 32-bit winarun.exe it also carries
+# runs there too.
+WINARUN_PLATFORM = windows-x86
+WINALAN_PLATFORM = windows-x86_64
+
+WINARUN_PACKAGE = winarun-$(VERSION)$(BUILDVERSION)-$(WINARUN_PLATFORM).setup.exe
+WINALAN_PACKAGE = alan-$(VERSION)$(BUILDVERSION)-$(WINALAN_PLATFORM).setup.exe
 .PHONY: setup
-setup: PLATFORM = windows-x86_64
 setup: makensis winarun.nsi alan.nsi bin/winalan.exe bin/winarun.exe COPYING.txt CHANGES.txt alan.readme.txt alan.readme.windows.txt
-	sed $(NSI_SED) winarun.nsi > winarun.tmp
+	sed $(NSI_SED) -e 's/<PLATFORM>/$(WINARUN_PLATFORM)/g' winarun.nsi > winarun.tmp
 	makensis winarun.tmp
-	sed $(NSI_SED) alan.nsi > alan.tmp
+	sed $(NSI_SED) -e 's/<PLATFORM>/$(WINALAN_PLATFORM)/g' alan.nsi > alan.tmp
 	makensis alan.tmp
 
 COPYING.txt: COPYING
