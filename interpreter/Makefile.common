@@ -146,12 +146,6 @@ LINKED_UNITTESTS_OBJECTS = $(addprefix $(UNITTESTS_OBJDIR)/,${LINKED_UNITTESTS_W
 # Dependencies, if they don't exist yet
 -include $(LINKED_UNITTESTS_OBJECTS:.o=.d)
 
-# Rule to compile objects to subdirectory
-$(UNITTESTS_OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -o $@ -c $<
-$(UNITTESTS_OBJDIR)/%_tests.o: %_tests.c
-	$(CC) $(CFLAGS) -o $@ -c $<
-
 # Build one library with all linked tests...
 unittests.$(SOEXTENSION): $(LINKED_UNITTESTS_OBJECTS)
 	$(LINK) -shared -o $@ $(LINKED_UNITTESTS_OBJECTS) $(CGREENLINKLIB) $(LDLIBS)

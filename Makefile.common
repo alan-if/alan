@@ -107,7 +107,7 @@ ci-upload: upload-check
 	#bin/alanupload $(GARARUN_PACKAGE) snapshots/$(BUILDNAME)
 	#bin/alanupload $(GARARUN_CROSS_PACKAGE) snapshots/$(BUILDNAME)
 
-.PHONY:
+.PHONY: coverage
 coverage: COVERAGE=--coverage
 coverage:
 	$(MAKE) -C compiler COVERAGE=$(COVERAGE) unit
