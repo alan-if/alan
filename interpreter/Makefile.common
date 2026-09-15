@@ -174,7 +174,7 @@ clean:
 ##################################################################
 .PHONY: coverage
 coverage:
-	$(MAKE) COVERAGE=--coverage unit
+	$(MAKE) unit
 	$(MAKE) COVERAGE=--coverage arun
 	$(MAKE) test
 	$(MAKE) coverage-report
