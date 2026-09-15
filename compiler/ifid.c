@@ -61,76 +61,46 @@ static void fillRandomBytes(unsigned char buffer[], int nbytes)
 
 
 
+/* An IFID is a UUID in this format, where each 'x' is a hex digit */
+static const char uuidFormat[] = "UUID://xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx//";
+
+
+/*======================================================================*/
+static char randomHexDigit(void)
+{
+    unsigned char byte;
+
+    fillRandomBytes(&byte, 1);
+    return "0123456789abcdef"[byte & 0xF];
+}
+
+
 /*======================================================================*/
 static char *randomUUID(void)
 {
-    /* Unsigned matters. The compiler is built without -funsigned-char, so a
-       plain char here is signed, and every random byte from 0x80 up became
-       negative. "%2.2x" then promoted it to int and printed eight digits --
-       "ffffff80" instead of "80" -- while s advanced by only two, so each
-       high byte overwrote its successors and left a string whose length
-       depended on how many bytes happened to be >= 0x80.
+    /* The IFID goes into the acode string table, so a UUID of the wrong
+       length moves every instruction address after it. That is what made
+       the debug/trace regression fail at random before 65ae39f4, when bytes
+       from 0x80 up were printed as eight hex digits instead of two. It
+       looked fixed by re-running because readOrCreateIFID keeps the first
+       *valid* UUID in the .ifid file and reuses it from then on. Filling in
+       uuidFormat always gives the right length. */
+    static char uuid[sizeof(uuidFormat)];
 
-       That is the "one byte offset" in the debug/trace regression: the IFID
-       goes into the acode string table, so a shorter or longer one moved
-       every instruction address after it, and the recorded trace no longer
-       matched. It looked flaky because it depended on rand(), and it looked
-       fixed by re-running because readOrCreateIFID keeps the first *valid*
-       UUID in the .ifid file and reuses it from then on. */
-    unsigned char buffer[16];
-    int b, s;
-    static char string[100];	/* 32 hexdigits, 4 dashes, 9 "UUID:////"
-                                   00112233-4455-6677-8899-aabbccddeeff */
-    fillRandomBytes(buffer, 16); b = 0;
-    sprintf(string, "UUID://"); s = 7;
-    for (int i = 0; i < 4; i++, s+=2, b++)
-        sprintf(&string[s], "%2.2x", buffer[b]);
-    strcat(string, "-"); s++;
-    for (int j = 0; j < 3; j++) {
-        for (int i = 0; i < 2; i++, s+=2, b++)
-            sprintf(&string[s], "%2.2x", buffer[b]);
-        strcat(string, "-"); s++;
-    }
-    for (int i = 0; i < 6; i++, s+=2, b++)
-        sprintf(&string[s], "%2.2x", buffer[b]);
-    strcat(string, "//");
-    return string;
+    for (int i = 0; uuidFormat[i] != '\0'; i++)
+        uuid[i] = uuidFormat[i] == 'x' ? randomHexDigit() : uuidFormat[i];
+    return uuid;
 }
 
-static bool areHexDigits(char *uuid, int start, int end) {
-    for (int i = start; i <= end; i++)
-        if (!isxdigit((uint)uuid[i]))
-            return false;
-    return true;
-}
 
 /*======================================================================*/
 static bool isValidUUID(char *uuid)
 {
-    if (strlen(uuid) != 45)
-         return false;
-    if (strncmp(uuid, "UUID://", 7) != 0)
-         return false;
-    if (!areHexDigits(uuid, 7, 14))
-         return false;
-    if (uuid[15] != '-')
-         return false;
-    if (!areHexDigits(uuid, 16, 19))
-         return false;
-    if (uuid[20] != '-')
-         return false;
-    if (!areHexDigits(uuid, 21, 24))
-         return false;
-    if (uuid[25] != '-')
-         return false;
-    if (!areHexDigits(uuid, 26, 29))
-         return false;
-    if (uuid[30] != '-')
-         return false;
-    if (!areHexDigits(uuid, 31, 42))
-         return false;
-    if (strcmp(&uuid[43], "//") != 0)
-         return false;
+    if (strlen(uuid) != strlen(uuidFormat))
+        return false;
+    for (int i = 0; uuidFormat[i] != '\0'; i++)
+        if (uuidFormat[i] == 'x' ? !isxdigit((unsigned char)uuid[i]) : uuid[i] != uuidFormat[i])
+            return false;
     return true;
 }
 
@@ -140,7 +110,7 @@ static char *readOrCreateIFID(void)
 {
     char ifidfnm[255] = "";
     FILE *ifidFile;
-    static char buffer[100];	/* 32 hexdigits, 4 dashes, 9 "UUID:////" */
+    static char buffer[sizeof(uuidFormat)];
 
     /* -- create IFID file name -- */
     if (adv.name)
@@ -148,13 +118,13 @@ static char *readOrCreateIFID(void)
     strcat(ifidfnm, ".ifid");
 
     if ((ifidFile = fopen(ifidfnm, "r")) != NULL)
-        (void)!fread(buffer, 45, 1, ifidFile);
+        (void)!fread(buffer, strlen(uuidFormat), 1, ifidFile);
     else
         buffer[0] = '\0';
     if (!isValidUUID(buffer)) {
         strcpy(buffer, randomUUID());
         if ((ifidFile = fopen(ifidfnm, "w")) != NULL)
-            fwrite(buffer, 45, 1, ifidFile);
+            fwrite(buffer, strlen(uuidFormat), 1, ifidFile);
     }
 
     return buffer;
