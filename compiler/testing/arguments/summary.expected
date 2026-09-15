@@ -26,6 +26,5 @@
 
  <number> lines/CPUminute.
 
-        Estimated dynamic memory usage = <number> bytes.
-        Calculated       - "" -        = <number> bytes.
+        Calculated dynamic memory usage = <number> bytes.
 

@@ -39,8 +39,6 @@ bool guiMode = false;		/* Using the GUI? Or console? */
 
 /* PRIVATE */
 
-static void *heap;		/* Address to first free heap area - before */
-
 
 /* Timing */
 #include "timing.h"
@@ -172,10 +170,7 @@ static void statistics(void)
   lmLiPrint(str);
   lmLiPrint("");
 
-  (void)sprintf(str,   "        Estimated dynamic memory usage = %ld bytes.",
-                (long int)((char *)malloc(10000)-(char *)heap));
-  lmLiPrint(str);
-  (void)sprintf(str,   "        Calculated       - \"\" -        = %ld bytes.",
+  (void)sprintf(str,   "        Calculated dynamic memory usage = %ld bytes.",
       allocated);
   lmLiPrint(str);
   lmLiPrint("");
@@ -236,13 +231,6 @@ static void prepareFileNames(void)
   /* -- create ACODE file name -- */
   strcpy(acdfnm, adv.name);
   strcat(acdfnm, ".a3c");
-}
-
-
-/*----------------------------------------------------------------------*/
-static void bookmarkHeap() {
-  heap = malloc((size_t)10000);		/* Remember where heap starts */
-  free(heap);
 }
 
 
@@ -447,7 +435,6 @@ void compile(void) {
     startTotalTiming();
     prepareFileNames();
 
-    bookmarkHeap();
     setupCompilation();
     parse();
     dumpAndExitAfterPhase(DUMP_AFTER_PARSE);
