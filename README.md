@@ -80,7 +80,7 @@ something you want included here.
 
 <!-- badges -->
 
-[jenkins badge]: https://ci.responsive.se/job/Alan/badge/icon "Jenkins CI build status"
+[jenkins badge]: https://ci.responsive.se/buildStatus/icon?job=Alan "Jenkins CI build status"
 [jenkins link]: https://ci.responsive.se/job/Alan/
 [travis badge]: https://app.travis-ci.com/alan-if/alan.svg?token=3qJ2cLpEpe6KaXZ5PipE&branch=master "Travis CI build status"
 [travis link]: https://app.travis-ci.com/github/alan-if/alan
