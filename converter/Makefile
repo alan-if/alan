@@ -92,6 +92,7 @@ unit:
 	@$(call NO_TEST_TOOL,Cgreen,unit tests)
 else
 unit: unittests
+	@$(GCOV_FILES)
 endif
 
 ######################################################################

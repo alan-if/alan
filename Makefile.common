@@ -120,13 +120,7 @@ coverage:
 
 .PHONY:coverage-report
 coverage-report:
-	lcov -q -c -d . --exclude \*/usr/\* -o coverage.info
-	@# Re-create separate gcov files from total.info for Emacs cov-mode
-	@# with coverage in the fringe area and auto-update. Nice!
-	@# See https://github.com/AdamNiederer/cov
-	if command -v info2gcov > /dev/null 2>&1 ; then \
-		info2gcov -q coverage.info ; \
-	fi
+	@$(GCOV_FILES)
 	genhtml -q -o coverage-report coverage.info
 
 

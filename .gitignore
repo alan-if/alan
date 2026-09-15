@@ -22,6 +22,8 @@ gargoyle-*_tmp.iss
 *.a3s
 *.a3t
 *.gcov
+coverage*.info
+coverage-report
 *.xml
 *.lis
 

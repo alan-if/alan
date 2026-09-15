@@ -130,6 +130,27 @@ unit: CFLAGS += -fPIC
 unit: LDFLAGS += -fPIC
 endif
 
+# Unit tests are always built with coverage. Their objects never leave
+# the machine, and every run refreshes the fringe in Emacs cov-mode.
+# What gets packaged (alan, arun, a2a3) is built without it, since an
+# instrumented binary writes .gcda files into the build tree's paths
+# wherever it runs.
+unit: CFLAGS += --coverage
+unit: LDFLAGS += --coverage
+
+# Re-create separate gcov files from coverage.info for Emacs cov-mode
+# with coverage in the fringe area and auto-update. Nice!
+# See https://github.com/AdamNiederer/cov
+#
+# Needs lcov and info2gcov (https://github.com/thoni56/info2gcov).
+# Without them there is no fringe, but no test goes unrun, so it is
+# not an error.
+GCOV_FILES = if command -v lcov >/dev/null 2>&1 && command -v info2gcov >/dev/null 2>&1 ; then \
+	       lcov -q -c -d . --no-external -o coverage.info && info2gcov -q coverage.info ; \
+	     else \
+	       echo "No lcov or info2gcov, so no coverage for Emacs cov-mode." ; \
+	     fi
+
 ######################################################################
 #
 # Cgreen
