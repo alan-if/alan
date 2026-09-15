@@ -30,10 +30,14 @@ $(UNITTESTS_OBJDIR)/%_tests.$(SOEXTENSION): $(UNITTESTS_OBJDIR)/%.o $(UNITTESTS_
 isolated_unittests: $(ISOLATED_UNITTESTS_LIBS)
 	$(CGREEN) --suite $(SUITE) $(UNITOUTPUT) $(ISOLATED_UNITTESTS_LIBS)
 
-# Rules to compile objects to subdirectory
+# Rules to compile objects to subdirectory. Coverage counts left by the
+# old object make libgcov print a "profiling error" when it replaces
+# them, so remove them first.
 $(UNITTESTS_OBJDIR)/%.o: %.c
+	@rm -f $(@:.o=.gcda)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(UNITTESTS_OBJDIR)/%_tests.o: %_tests.c
+	@rm -f $(@:.o=.gcda)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
