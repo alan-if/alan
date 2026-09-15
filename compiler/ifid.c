@@ -97,22 +97,40 @@ static char *randomUUID(void)
     return string;
 }
 
+static bool areHexDigits(char *uuid, int start, int end) {
+    for (int i = start; i <= end; i++)
+        if (!isxdigit((uint)uuid[i]))
+            return false;
+    return true;
+}
 
 /*======================================================================*/
 static bool isValidUUID(char *uuid)
 {
-    if (strlen(uuid) != 45) return false;
-    if (strncmp(uuid, "UUID://", 7) != 0) return false;
-    for (int i = 7; i <= 14; i++) if (!isxdigit((uint)uuid[i])) return false;
-    if (uuid[15] != '-') return false;
-    for (int i = 16; i <= 19; i++) if (!isxdigit((uint)uuid[i])) return false;
-    if (uuid[20] != '-') return false;
-    for (int i = 21; i <= 24; i++) if (!isxdigit((uint)uuid[i])) return false;
-    if (uuid[25] != '-') return false;
-    for (int i = 26; i <= 29; i++) if (!isxdigit((uint)uuid[i])) return false;
-    if (uuid[30] != '-') return false;
-    for (int i = 31; i <= 42; i++) if (!isxdigit((uint)uuid[i])) return false;
-    if (strcmp(&uuid[43], "//") != 0) return false;
+    if (strlen(uuid) != 45)
+         return false;
+    if (strncmp(uuid, "UUID://", 7) != 0)
+         return false;
+    if (!areHexDigits(uuid, 7, 14))
+         return false;
+    if (uuid[15] != '-')
+         return false;
+    if (!areHexDigits(uuid, 16, 19))
+         return false;
+    if (uuid[20] != '-')
+         return false;
+    if (!areHexDigits(uuid, 21, 24))
+         return false;
+    if (uuid[25] != '-')
+         return false;
+    if (!areHexDigits(uuid, 26, 29))
+         return false;
+    if (uuid[30] != '-')
+         return false;
+    if (!areHexDigits(uuid, 31, 42))
+         return false;
+    if (strcmp(&uuid[43], "//") != 0)
+         return false;
     return true;
 }
 
