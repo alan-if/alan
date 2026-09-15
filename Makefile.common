@@ -36,8 +36,15 @@ build:
 	$(MAKE) -C interpreter BUILDNUMBER=$(BUILDNUMBER) build
 	$(MAKE) -C converter BUILDNUMBER=$(BUILDNUMBER) build
 
+# Tests of the scripts in bin/. Plain shell, needing neither a build nor
+# any of the test tooling, which is the point of them: the wrapper they
+# test is what reports that tooling missing or wrong.
+.PHONY: script-tests
+script-tests:
+	bin/tests/jregr.sh
+
 .PHONY: test
-test:
+test: script-tests
 	$(MAKE) -e -C compiler JREGROUTPUT=$(JREGROUTPUT) test
 	$(MAKE) -e -C interpreter JREGROUTPUT=$(JREGROUTPUT) test
 	$(MAKE) -e -C converter JREGROUTPUT=$(JREGROUTPUT) test

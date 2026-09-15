@@ -6,11 +6,11 @@
 #
 # This is a copy of the wrapper published with Jregr itself
 # (github.com/thoni56/jregr, shipped as the 'jregr' asset of a release),
-# with two additions belonging to this repository rather than to Jregr:
-# the java check just below and the jar fetch further down. Both fail
-# rather than skip; see the comment on the fetch. Everything else is
-# upstream's, so diff against the released wrapper before changing it -
-# the two have drifted apart before.
+# with three additions belonging to this repository rather than to Jregr:
+# the java check just below, the jar fetch further down, and the version
+# check after it. They all fail rather than skip; see the comment on the
+# fetch. Everything else is upstream's, so diff against the released
+# wrapper before changing it - the two have drifted apart before.
 #
 if ! command -v java &> /dev/null
 then
@@ -67,5 +67,19 @@ if [[ "$uname" == *[Cc]ygwin* ]]; then
 else
   d=$d/;
 fi
+# A jar compiled for a newer Java than the one found here dies with a
+# LinkageError and a pair of class file version numbers, which says
+# nothing about what to do next. Ask the jar what version it is first, so
+# that the run of the suites is not what discovers this.
+if ! probe=$(java -jar "$d"jregr.jar -version 2>&1) &&
+   [[ "$probe" == *UnsupportedClassVersionError* ]]; then
+  echo "ERROR! The java found is too old for jregr.jar, so no regression" >&2
+  echo "       tests were run. Java said:" >&2
+  printf '%s\n' "$probe" | sed 's/^/       /' >&2
+  echo "       Use a newer java, or 'make build' to build without running" >&2
+  echo "       any tests." >&2
+  exit 1
+fi
+
 java -jar "$d"jregr.jar "$@"
 exit

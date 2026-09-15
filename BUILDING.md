@@ -48,8 +48,9 @@ number of regression tests.
 
 That full build needs three things over and above a C compiler: the unit
 test framework [Cgreen](https://github.com/cgreen-devs/cgreen), a working
-Java RTE to run `jregr`, and - the first time only - network access, to
-fetch `jregr.jar`. If one of them is missing the build stops and names it.
+Java RTE to run `jregr`, version 11 or later, and - the first time only -
+network access, to fetch `jregr.jar`. If one of them is missing, or the
+Java is too old, the build stops and names it.
 It does not quietly skip the tests it cannot run: a build that reports
 success without having tested anything is worse than one that fails,
 because the person who most needs to know is the one least able to tell.
